@@ -959,19 +959,9 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         global $DIC;
 
-        $ilMainMenu = $DIC["ilMainMenu"];
         $ilLocator = $DIC["ilLocator"];
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-
-        // blog/portfolio
-        if ($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED
-            || $ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY
-        ) {
-            $this->setVariable("LOCATOR", "");
-
-            return;
-        }
 
         $html = "";
         if (is_object($ilPluginAdmin)) {

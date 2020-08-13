@@ -14,17 +14,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     protected $help;
 
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
     protected $user_id; // [int]
     protected $additional = array();
     protected $perma_link; // [string]
     protected $page_id; // [int]
     protected $page_mode; // [string] preview|edit
-    
+
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
@@ -35,31 +30,30 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->settings = $DIC->settings();
         $this->tree = $DIC->repositoryTree();
         $this->help = $DIC["ilHelp"];
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->tpl = $DIC["tpl"];
         $ilUser = $DIC->user();
         $this->ui = $DIC->ui();
-        
+
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->user_id = $ilUser->getId();
-        
+
         $this->lng->loadLanguageModule("prtf");
         $this->lng->loadLanguageModule("user");
         $this->lng->loadLanguageModule("obj");
     }
-    
+
     protected function addLocatorItems()
     {
         $ilLocator = $this->locator;
-        
+
         if ($this->object) {
             $ilLocator->addItem(
                 strip_tags($this->object->getTitle()),
                 $this->ctrl->getLinkTarget($this, "view")
             );
         }
-                
+
         if ($this->page_id) {
             $page = $this->getPageInstance($this->page_id);
             $title = $page->getTitle();
@@ -73,7 +67,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             );
         }
     }
-    
+
     protected function determinePageCall()
     {
         // edit
@@ -81,7 +75,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             if (!$this->checkPermissionBool("write")) {
                 $this->ctrl->redirect($this, "view");
             }
-            
+
             $this->page_id = $_REQUEST["ppage"];
             $this->page_mode = "edit";
             $this->ctrl->setParameter($this, "ppage", $this->page_id);
@@ -95,7 +89,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             return false;
         }
     }
-    
+
     protected function handlePageCall($a_cmd)
     {
         $this->tabs_gui->clearTargets();
@@ -103,19 +97,19 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "view")
         );
-        
+
         if (!$this->page_id) {
             $this->ctrl->redirect($this, "view");
         }
 
         $page_gui = $this->getPageGUIInstance($this->page_id);
-        
+
         // needed for editor
         $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
             $this->object->getStyleSheetId(),
             $this->getType()
         ));
-        
+
         $ret = $this->ctrl->forwardCommand($page_gui);
 
         if ($ret != "" && $ret !== true) {
@@ -138,7 +132,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             }
         }
     }
-    
+
     /**
     * Set Additonal Information (used in public profile?)
     *
@@ -158,7 +152,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         return $this->additional;
     }
-        
+
     /**
      * Set custom perma link (used in public profile?)
      *
@@ -169,37 +163,37 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         $this->perma_link = array("obj_id" => $a_obj_id, "type" => $a_type);
     }
-        
-    
+
+
     //
     // CREATE/EDIT
     //
-    
+
     protected function setSettingsSubTabs($a_active)
     {
         // #17455
         $this->lng->loadLanguageModule($this->getType());
-        
+
         // general properties
         $this->tabs_gui->addSubTab(
             "properties",
             $this->lng->txt($this->getType() . "_properties"),
             $this->ctrl->getLinkTarget($this, 'edit')
         );
-        
+
         $this->tabs_gui->addSubTab(
             "style",
             $this->lng->txt("obj_sty"),
             $this->ctrl->getLinkTarget($this, 'editStyleProperties')
         );
-        
+
         $this->tabs_gui->activateSubTab($a_active);
     }
-        
+
     protected function initEditCustomForm(ilPropertyFormGUI $a_form)
     {
         $this->setSettingsSubTabs("properties");
-        
+
 
         // profile picture
         $ppic = new ilCheckboxInputGUI($this->lng->txt("prtf_profile_picture"), "ppic");
@@ -238,7 +232,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_form->addItem($font_color);
         */
     }
-    
+
     protected function getEditFormCustomValues(array &$a_values)
     {
         $a_values["comments"] = $this->object->hasPublicComments();
@@ -248,7 +242,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_values["font_color"] = $this->object->getFontColor();
         */
     }
-    
+
     public function updateCustom(ilPropertyFormGUI $a_form)
     {
         $this->object->setPublicComments($a_form->getInput("comments"));
@@ -257,7 +251,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->object->setBackgroundColor($a_form->getInput("bg_color"));
         $this->object->setFontcolor($a_form->getInput("font_color"));
         */
-        
+
         $prfa_set = new ilSetting("prfa");
 
         if ($_FILES["banner"]["tmp_name"]) {
@@ -266,18 +260,18 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->object->deleteImage();
         }
     }
-    
-    
+
+
     //
     // PAGES
     //
-    
+
     abstract protected function getPageInstance($a_page_id = null, $a_portfolio_id = null);
-    
+
     abstract protected function getPageGUIInstance($a_page_id);
-    
+
     abstract public function getPageGUIClassName();
-        
+
     /**
      * Show list of portfolio pages
      */
@@ -286,13 +280,13 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $ilToolbar = $this->toolbar;
         $ilSetting = $this->settings;
         $tree = $this->tree;
-        
+
         if (!$this->checkPermissionBool("write")) {
             $this->ctrl->redirect($this, "infoScreen");
         }
-        
+
         $this->tabs_gui->activateTab("pages");
-        
+
 
         $button = ilLinkButton::getInstance();
         $button->setCaption("prtf_add_page");
@@ -321,13 +315,13 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $button->setUrl($this->ctrl->getLinkTarget($this, "exportPDFSelection"));
             $ilToolbar->addButtonInstance($button);
         }
-        
+
         $table = new ilPortfolioPageTableGUI($this, "view");
-        
+
 
         $this->tpl->setContent($message . $table->getHTML());
     }
-    
+
     /**
      * Show portfolio page creation form
      */
@@ -384,7 +378,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                     $use_template->addOption($opt);
                 }
             }
-            
+
             $form->setTitle($this->lng->txt("prtf_add_page") . ": " .
                 $this->object->getTitle());
             $form->addCommandButton("savePage", $this->lng->txt("save"));
@@ -396,10 +390,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $form->addCommandButton("view", $this->lng->txt("cancel"));
             */
         }
-        
+
         return $form;
     }
-        
+
     /**
      * Create new portfolio page
      */
@@ -410,14 +404,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $page = $this->getPageInstance();
             $page->setType(ilPortfolioPage::TYPE_PAGE);
             $page->setTitle($form->getInput("title"));
-            
+
             // use template as basis
             $layout_id = $form->getInput("tmpl");
             if ($layout_id) {
                 $layout_obj = new ilPageLayout($layout_id);
                 $page->setXMLContent($layout_obj->getXMLContent());
             }
-            
+
             $page->create();
 
             ilUtil::sendSuccess($this->lng->txt("prtf_page_created"), true);
@@ -433,7 +427,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHtml());
     }
-    
+
     /**
      * Show portfolio blog page creation form
      */
@@ -453,11 +447,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $form = $this->initBlogForm();
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     abstract protected function initBlogForm();
-    
+
     abstract protected function saveBlog();
-    
+
     /**
      * Save ordering of portfolio pages
      */
@@ -503,7 +497,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "view");
         } else {
             $this->tabs_gui->activateTab("pages");
-            
+
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($this->ctrl->getFormAction($this));
             $cgui->setHeaderText($this->lng->txt("prtf_sure_delete_portfolio_pages"));
@@ -545,7 +539,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_page_deleted"), true);
         $this->ctrl->redirect($this, "view");
     }
-    
+
     /**
      * Show user page
      */
@@ -553,15 +547,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         $ilSetting = $this->settings;
         $ilUser = $this->user;
-        
+
         $portfolio_id = $this->object->getId();
         $user_id = $this->object->getOwner();
-        
+
         $this->tabs_gui->clearTargets();
-            
+
         $pages = ilPortfolioPage::getAllPortfolioPages($portfolio_id);
         $current_page = (int) $_GET["user_page"];
-        
+
         // validate current page
         if ($pages && $current_page) {
             $found = false;
@@ -582,15 +576,15 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $current_page = array_shift($current_page);
             $current_page = $current_page["id"];
         }
-        
+
         // #13788 - keep page after login
         if ($this->user_id == ANONYMOUS_USER_ID &&
             $this->getType() == "prtf") {
             $this->tpl->setLoginTargetPar("prtf_" . $this->object->getId() . "_" . $current_page);
         }
-        
+
         $back_caption = "";
-                        
+
         // public profile
         if ($_REQUEST["back_url"]) {
             $back = $_REQUEST["back_url"];
@@ -623,14 +617,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 }
             }
         }
-        
-        $ilMainMenu = $this->main_menu;
-        $ilMainMenu->setMode(ilMainMenuGUI::MODE_TOPBAR_ONLY);
-        if ($back) {
-            // might already be set in ilPublicUserProfileGUI
-            $ilMainMenu->setTopBarBack($back, $back_caption);
-        }
-        
+
         // render tabs
         $current_blog = null;
         if (count($pages) > 1) {
@@ -642,7 +629,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                     }
                     $p["title"] = ilObjBlog::_lookupTitle($p["title"]);
                 }
-                
+
                 $this->ctrl->setParameter($this, "user_page", $p["id"]);
                 $this->tabs_gui->addTab(
                     "user_page_" . $p["id"],
@@ -650,12 +637,12 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                     $this->ctrl->getLinkTarget($this, "preview")
                 );
             }
-            
+
             $this->tabs_gui->activateTab("user_page_" . $current_page);
         }
-        
+
         $this->ctrl->setParameter($this, "user_page", $current_page);
-        
+
         if (!$a_content) {
             // #18291
             if ($current_page) {
@@ -668,11 +655,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         } else {
             $content = $a_content;
         }
-        
+
         if ($a_return && $this->checkPermissionBool("write")) {
             return $content;
         }
-                        
+
         // blog posting comments are handled within the blog
         $notes = "";
         if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
@@ -680,10 +667,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $note_gui->setRepositoryMode(false);
             $note_gui->enablePublicNotes(true);
             $note_gui->enablePrivateNotes(false);
-            
+
             $note_gui->enablePublicNotesDeletion(($this->user_id == $user_id) &&
                 $ilSetting->get("comments_del_tutor", 1));
-                        
+
             $next_class = $this->ctrl->getNextClass($this);
             if ($next_class == "ilnotegui") {
                 $notes = $this->ctrl->forwardCommand($note_gui);
@@ -691,7 +678,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $notes = $note_gui->getNotesHTML();
             }
         }
-            
+
         if ($this->perma_link === null) {
             if ($this->getType() == "prtf") {
                 $this->tpl->setPermanentLink($this->getType(), $this->object->getId(), "_" . $current_page);
@@ -701,26 +688,26 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         } else {
             $this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
         }
-        
+
         // #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
         if ($this->getType() == "prtt" && !$this->checkPermissionBool("write")) {
             $user_id = $ilUser->getId();
         }
-        
+
         self::renderFullscreenHeader($this->object, $this->tpl, $user_id);
-        
+
         // #13564
         $this->ctrl->setParameter($this, "user_page", "");
         //$this->tpl->setTitleUrl($this->ctrl->getLinkTarget($this, "preview"));
         $this->ctrl->setParameter($this, "user_page", $this->page_id);
-        
+
         // blog pages do their own (page) style handling
         if (!$current_blog) {
             $content = '<div id="ilCOPageContent" class="ilc_page_cont_PageContainer">' .
                 '<div class="ilc_page_Page">' .
                     $content .
                 '</div></div>';
-                                        
+
             $this->setContentStyleSheet($this->tpl);
         }
 
@@ -774,7 +761,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         if (!$a_export) {
             ilChangeEvent::_recordReadEvent(
                 $a_portfolio->getType(),
@@ -785,10 +772,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilUser->getId()
             );
         }
-        
+
         $name = ilObjUser::_lookupName($a_user_id);
         $name = $name["lastname"] . ", " . ($t = $name["title"] ? $t . " " : "") . $name["firstname"];
-        
+
         // show banner?
         $banner = $banner_width = $banner_height = false;
         $prfa_set = new ilSetting("prfa");
@@ -800,7 +787,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $banner = basename($banner);
             }
         }
-        
+
         // profile picture
         $ppic = null;
         if ($a_portfolio->hasProfilePicture()) {
@@ -809,7 +796,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ppic = basename($ppic);
             }
         }
-        
+
         $a_tpl->resetHeaderBlock(false);
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
@@ -818,14 +805,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());
         $a_tpl->setDescription($name);
-        
+
         // to get rid of locator in portfolio template preview
         $a_tpl->setVariable("LOCATOR", "");
-        
+
         // :TODO: obsolete?
         // $a_tpl->setBodyClass("std ilExternal ilPortfolio");
     }
-            
+
     public function export()
     {
         $port_export = new \ILIAS\Portfolio\Export\PortfolioHtmlExport($this);
@@ -833,8 +820,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         ilUtil::deliverFile($zip, $this->object->getTitle() . ".zip", '', false, true);
     }
-    
-    
+
+
     /**
      * Select target portfolio for page(s) copy
      */
@@ -847,21 +834,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "view");
         } else {
             $this->tabs_gui->activateTab("pages");
-            
+
             if (!$a_form) {
                 $a_form = $this->initCopyPageForm();
             }
-        
+
             foreach ($prtf_pages as $page_id) {
                 $item = new ilHiddenInputGUI("prtf_pages[]");
                 $item->setValue((int) $page_id);
                 $a_form->addItem($item);
             }
-            
+
             $this->tpl->setContent($a_form->getHTML());
         }
     }
-    
+
     public function copyPage()
     {
         $form = $this->initCopyPageForm();
@@ -877,7 +864,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $portfolio->create();
                 $portfolio_id = $portfolio->getId();
             }
-            
+
             // copy page(s)
             foreach ($_POST["prtf_pages"] as $page_id) {
                 $source = $this->getPageInstance($page_id);
@@ -887,36 +874,36 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $target->setTitle($source->getTitle());
                 $target->create();
             }
-                
+
             ilUtil::sendSuccess($this->lng->txt("prtf_pages_copied"), true);
             $this->ctrl->redirect($this, "view");
         }
-        
+
         $form->setValuesByPost();
         $this->copyPageForm($form);
     }
-    
+
     abstract protected function initCopyPageFormOptions(ilPropertyFormGUI $a_form);
-    
+
     public function initCopyPageForm()
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("prtf_copy_page"));
-        
+
         $this->initCopyPageFormOptions($form);
 
         $form->addCommandButton("copyPage", $this->lng->txt("save"));
         $form->addCommandButton("view", $this->lng->txt("cancel"));
-        
+
         return $form;
     }
-    
-    
+
+
     ////
     //// Style related functions
     ////
-    
+
     public function setContentStyleSheet($a_tpl = null)
     {
         $tpl = $this->tpl;
@@ -934,26 +921,26 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         );
         $ctpl->parseCurrentBlock();
     }
-    
+
     public function editStyleProperties()
     {
         $this->checkPermission("write");
-        
+
         $this->tabs_gui->activateTab("settings");
         $this->setSettingsSubTabs("style");
-        
+
         $form = $this->initStylePropertiesForm();
         $this->tpl->setContent($form->getHTML());
     }
-    
+
     public function initStylePropertiesForm()
     {
         $ilSetting = $this->settings;
-                        
+
         $this->lng->loadLanguageModule("style");
 
         $form = new ilPropertyFormGUI();
-        
+
         $fixed_style = $ilSetting->get("fixed_content_style_id");
         $style_id = $this->object->getStyleSheetId();
 
@@ -998,10 +985,10 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $form->addCommandButton("createStyle", $this->lng->txt("sty_create_ind_style"));
             }
         }
-        
+
         $form->setTitle($this->lng->txt($this->getType() . "_style"));
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         return $form;
     }
 
@@ -1009,7 +996,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "create");
     }
-        
+
     public function editStyle()
     {
         $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
@@ -1023,13 +1010,13 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     public function saveStyleSettings()
     {
         $ilSetting = $this->settings;
-    
+
         if ($ilSetting->get("fixed_content_style_id") <= 0 &&
             (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
             || $this->object->getStyleSheetId() == 0)) {
             $this->object->setStyleSheetId(ilUtil::stripSlashes($_POST["style_id"]));
             $this->object->update();
-            
+
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
         }
         $this->ctrl->redirect($this, "editStyleProperties");

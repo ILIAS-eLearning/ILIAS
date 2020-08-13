@@ -43,11 +43,6 @@ class ilPersonalWorkspaceGUI
     protected $tpl;
 
     /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
      * @var ilObjUser
      */
     protected $user;
@@ -69,7 +64,7 @@ class ilPersonalWorkspaceGUI
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
     protected $tool_context;
-    
+
     /**
      * constructor
      */
@@ -82,7 +77,6 @@ class ilPersonalWorkspaceGUI
         $this->help = $DIC["ilHelp"];
         $this->obj_definition = $DIC["objDefinition"];
         $this->tpl = $DIC["tpl"];
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
         $this->locator = $DIC["ilLocator"];
@@ -102,7 +96,7 @@ class ilPersonalWorkspaceGUI
         }
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
-    
+
     /**
      * execute command
      */
@@ -111,7 +105,6 @@ class ilPersonalWorkspaceGUI
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
         $tpl = $this->tpl;
-        $ilMainMenu = $this->main_menu;
 
         $ilCtrl->setReturn($this, "render");
         $cmd = $ilCtrl->getCmd();
@@ -140,10 +133,10 @@ class ilPersonalWorkspaceGUI
             $next_class = "ilObj" . $objDefinition->getClassName($node["type"]) . "GUI";
             $ilCtrl->setCmdClass($next_class);
         }
-        
+
         //  if we do this here the object can still change the breadcrumb
         $this->renderLocator();
-        
+
         // current node
         $class_path = $ilCtrl->lookupClassPath($next_class);
         include_once($class_path);
@@ -155,11 +148,7 @@ class ilPersonalWorkspaceGUI
             $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);
         }
         $ilCtrl->forwardCommand($gui);
-        
-        if ($ilMainMenu->getMode() == ilMainMenuGUI::MODE_FULL) {
-            $this->renderBack();
-        }
-        
+
         $tpl->setLocator();
     }
 
@@ -185,7 +174,7 @@ class ilPersonalWorkspaceGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        
+
         $root = $this->tree->getNodeData($this->node_id);
         if ($root["type"] != "wfld" && $root["type"] != "wsrt") {
             // do not override existing back targets, e.g. public user profile gui
@@ -219,7 +208,7 @@ class ilPersonalWorkspaceGUI
             }
         }
     }
-    
+
     /**
      * Build locator for current node
      */
@@ -232,7 +221,7 @@ class ilPersonalWorkspaceGUI
         $objDefinition = $this->obj_definition;
 
         $ilLocator->clearItems();
-        
+
         // we have no path if shared item
         $path = $this->tree->getPathFull($this->node_id);
         if ($path) {

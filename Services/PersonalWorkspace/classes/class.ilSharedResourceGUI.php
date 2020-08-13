@@ -26,11 +26,6 @@ class ilSharedResourceGUI
     protected $tpl;
 
     /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
      * @var ilLocatorGUI
      */
     protected $locator;
@@ -70,7 +65,6 @@ class ilSharedResourceGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
@@ -78,30 +72,26 @@ class ilSharedResourceGUI
         $this->tabs = $DIC->tabs();
         $this->db = $DIC->database();
         $ilCtrl = $DIC->ctrl();
-        
+
         $ilCtrl->saveParameter($this, "wsp_id");
         $ilCtrl->saveParameter($this, "prt_id");
         $this->node_id = (int) $_GET["wsp_id"];
         $this->portfolio_id = (int) $_GET["prt_id"];
     }
-    
+
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $ilMainMenu = $this->main_menu;
         $ilLocator = $this->locator;
         $ilUser = $this->user;
         $lng = $this->lng;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-        
+
         $tpl->loadStandardTemplate();
-        
-        // #8509
-        $ilMainMenu->setActive("desktop");
-        
+
         // #12096
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             $next_class &&
@@ -112,7 +102,7 @@ class ilSharedResourceGUI
             $access_handler = new ilWorkspaceAccessHandler($tree);
             $owner_id = $tree->lookupOwner($this->node_id);
             $obj_id = $tree->lookupObjectId($this->node_id);
-            
+
             $lng->loadLanguageModule("wsp");
 
             // see ilPersonalWorkspaceGUI
@@ -127,61 +117,61 @@ class ilSharedResourceGUI
                 $link = $ilCtrl->getLinkTargetByClass("ildashboardgui", "jumptoworkspace");
                 $ilLocator->addItem($lng->txt("wsp_tab_personal"), $link);
             }
-            
+
             $link = $access_handler->getGotoLink($this->node_id, $obj_id);
             $ilLocator->addItem(ilObject::_lookupTitle($obj_id), $link);
             $tpl->setLocator($ilLocator);
         }
-        
+
         switch ($next_class) {
             case "ilobjbloggui":
                 $bgui = new ilObjBlogGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($bgui);
                 break;
-            
+
             case "ilobjfilegui":
                 $fgui = new ilObjFileGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($fgui);
                 break;
-            
+
             case "ilobjtestverificationgui":
                 $tgui = new ilObjTestVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($tgui);
                 break;
-            
+
             case "ilobjexerciseverificationgui":
                 $egui = new ilObjExerciseVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($egui);
                 break;
-            
+
             case "ilobjlinkresourcegui":
                 include_once "Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
                 $lgui = new ilObjLinkResourceGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($lgui);
                 break;
-            
+
             case "ilobjportfoliogui":
                 include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
                 $pgui = new ilObjPortfolioGUI($this->portfolio_id, ilObject2GUI::PORTFOLIO_OBJECT_ID);
                 $ilCtrl->forwardCommand($pgui);
                 break;
-            
+
             default:
                 if (!$cmd) {
                     $cmd = "process";
                 }
                 $this->$cmd();
         }
-        
+
         $tpl->printToStdout();
     }
-    
+
     protected function process()
     {
         if (!$this->node_id && !$this->portfolio_id) {
             exit("invalid call");
         }
-            
+
         // if already logged in, we need to re-check for public password
         if ($this->node_id) {
             if (!self::hasAccess($this->node_id)) {
@@ -195,14 +185,14 @@ class ilSharedResourceGUI
             $this->redirectToResource($this->portfolio_id, true);
         }
     }
-    
+
     public static function hasAccess($a_node_id, $a_is_portfolio = false)
     {
         global $DIC;
 
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
-    
+
         // if we have current user - check with normal access handler
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             if (!$a_is_portfolio) {
@@ -218,10 +208,10 @@ class ilSharedResourceGUI
                 return true;
             }
         }
-        
+
         // not logged in yet or no read access
         include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-            
+
         if (!$a_is_portfolio) {
             include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $shared = ilWorkspaceAccessHandler::_getPermissions($a_node_id);
@@ -230,18 +220,18 @@ class ilSharedResourceGUI
             if (!$ilSetting->get('user_portfolios')) {
                 return false;
             }
-            
+
             // #12039
             include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
             $prtf = new ilObjPortfolio($a_node_id, false);
             if (!$prtf->isOnline()) {
                 return false;
             }
-                        
+
             include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
             $shared = ilPortfolioAccessHandler::_getPermissions($a_node_id);
         }
-        
+
         // object is "public"
         if (in_array(ilWorkspaceAccessGUI::PERMISSION_ALL, $shared)) {
             return true;
@@ -255,15 +245,15 @@ class ilSharedResourceGUI
                 ilUtil::redirect("ilias.php?baseClass=ilSharedResourceGUI&cmd=passwordForm&prt_id=" . $a_node_id);
             }
         }
-        
+
         return false;
     }
-    
+
     protected function redirectToResource($a_node_id, $a_is_portfolio = false)
     {
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
-                
+
         if (!$a_is_portfolio) {
             include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($a_node_id);
@@ -277,17 +267,17 @@ class ilSharedResourceGUI
             $object_data["obj_id"] = $a_node_id;
             $object_data["type"] = "prtf";
         }
-        
+
         $class = $objDefinition->getClassName($object_data["type"]);
         $gui = "ilobj" . $class . "gui";
-        
+
         switch ($object_data["type"]) {
             case "blog":
                 $ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
                 $ilCtrl->setParameterByClass($gui, "gtp", (int) $_GET["gtp"]);
                 $ilCtrl->setParameterByClass($gui, "edt", $_GET["edt"]);
                 $ilCtrl->redirectByClass($gui, "preview");
-                
+
                 // no break
             case "tstv":
             case "excv":
@@ -297,13 +287,13 @@ class ilSharedResourceGUI
             case "ltiv":
                 $ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
                 $ilCtrl->redirectByClass($gui, "deliver");
-                
+
                 // no break
             case "file":
             case "webr":
                 $ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
                 $ilCtrl->redirectByClass($gui);
-                
+
                 // no break
             case "prtf":
                 $ilCtrl->setParameterByClass($gui, "prt_id", $a_node_id);
@@ -312,69 +302,69 @@ class ilSharedResourceGUI
                     $ilCtrl->setParameterByClass($gui, "back_url", rawurlencode($_GET["back_url"]));
                 }
                 $ilCtrl->redirectByClass($gui, "preview");
-                
+
                 // no break
             default:
                 exit("invalid object type");
         }
     }
-    
+
     protected function passwordForm($form = null)
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("wsp");
-        
+
         $tpl->setTitle($lng->txt("wsp_password_protected_resource"));
         $tpl->setDescription($lng->txt("wsp_password_protected_resource_info"));
-        
+
         if (!$form) {
             $form = $this->initPasswordForm();
         }
-    
+
         $tpl->setContent($form->getHTML());
     }
-    
+
     protected function initPasswordForm()
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilUser = $this->user;
         $ilTabs = $this->tabs;
-        
+
         if ($this->node_id) {
             include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($this->node_id);
         } else {
             $object_data["title"] = ilObject::_lookupTitle($this->portfolio_id);
         }
-        
+
         include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
         $form->setTitle($lng->txt("wsp_password_for") . ": " . $object_data["title"]);
-        
+
         $password = new ilPasswordInputGUI($lng->txt("password"), "password");
         $password->setRetype(false);
         $password->setRequired(true);
         $password->setSkipSyntaxCheck(true); // #17757
         $form->addItem($password);
-        
+
         $form->addCommandButton("checkPassword", $lng->txt("submit"));
-        
+
         if ($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
             $ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, "cancelPassword"));
             $form->addCommandButton("cancelPassword", $lng->txt("cancel"));
         }
-        
+
         return $form;
     }
-    
+
     protected function cancelPassword()
     {
         $ilUser = $this->user;
-        
+
         if ($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
             if ($this->node_id) {
                 include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
@@ -390,14 +380,14 @@ class ilSharedResourceGUI
             }
         }
     }
-    
+
     protected function checkPassword()
     {
         $ilDB = $this->db;
         $lng = $this->lng;
-        
+
         $lng->loadLanguageModule("wsp");
-         
+
         $form = $this->initPasswordForm();
         if ($form->checkInput()) {
             $input = md5($form->getInput("password"));
@@ -422,7 +412,7 @@ class ilSharedResourceGUI
                 ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             }
         }
-        
+
         $form->setValuesByPost();
         $this->passwordForm($form);
     }

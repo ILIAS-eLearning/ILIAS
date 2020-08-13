@@ -67,7 +67,7 @@ class ilInitialisation
             )
         );
     }
-    
+
     /**
      * get common include code files
      */
@@ -77,17 +77,17 @@ class ilInitialisation
         if (ilContext::usesTemplate()) {
             require_once "./Services/UICore/classes/class.ilTemplate.php";
         }
-                
+
         // really always required?
         require_once "./Services/Utilities/classes/class.ilUtil.php";
         require_once "./Services/Calendar/classes/class.ilDatePresentation.php";
         require_once "include/inc.ilias_version.php";
-        
+
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        
+
         self::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
     }
-    
+
     /**
      * This is a hack for  authentication.
      *
@@ -1713,12 +1713,6 @@ class ilInitialisation
         );
 
         if (ilContext::hasUser()) {
-            include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-            $ilMainMenu = new ilMainMenuGUI("_top");
-
-            self::initGlobal("ilMainMenu", $ilMainMenu);
-            unset($ilMainMenu);
-
             // :TODO: tableGUI related
 
             // set hits per page for all lists using table module

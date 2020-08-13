@@ -48,11 +48,6 @@ class ilAdministrationGUI
     protected $objDefinition;
 
     /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
      * @var ilHelpGUI
      */
     protected $help;
@@ -89,7 +84,6 @@ class ilAdministrationGUI
     {
         global $DIC;
 
-        $this->main_menu = $DIC["ilMainMenu"];
         $this->help = $DIC["ilHelp"];
         $this->error = $DIC["ilErr"];
         $this->db = $DIC->database();
@@ -115,13 +109,13 @@ class ilAdministrationGUI
         $context->claim()->administration();
 
         $ilMainMenu->setActive("administration");
-        
+
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
-        
+
         if ($_GET["admin_mode"] != "repository") {
             $_GET["admin_mode"] = "settings";
         }
-        
+
         if (!ilUtil::isAPICall()) {
             $this->ctrl->setReturn($this, "");
         }
@@ -138,7 +132,7 @@ class ilAdministrationGUI
         }
     }
 
-    
+
     /**
     * execute command
     */
@@ -149,7 +143,7 @@ class ilAdministrationGUI
         $ilHelp = $this->help;
         $ilErr = $this->error;
         $ilDB = $this->db;
-        
+
         // permission checks
         if (!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
                 !$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID)) {
@@ -194,7 +188,7 @@ class ilAdministrationGUI
         //echo "<br>cmd:$cmd:nextclass:$next_class:-".$_GET["cmdClass"]."-".$_GET["cmd"]."-";
         switch ($next_class) {
             default:
-            
+
                 // forward all other classes to gui commands
                 if ($next_class != "" && $next_class != "iladministrationgui") {
                     // check db update
@@ -204,7 +198,7 @@ class ilAdministrationGUI
                     } elseif ($dbupdate->hotfixAvailable()) {
                         ilUtil::sendFailure($this->lng->txt("db_need_hotfix"));
                     }
-                    
+
                     $class_path = $this->ctrl->lookupClassPath($next_class);
                     // get gui class instance
                     $class_name = $this->ctrl->getClassForClasspath($class_path);
@@ -232,7 +226,7 @@ class ilAdministrationGUI
                     $tabs_out = true;
                     $ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id, true));
                     $this->showTree();
-                        
+
                     $this->ctrl->setReturn($this, "return");
                     $ret = $this->ctrl->forwardCommand($this->gui_obj);
                     $html = $this->gui_obj->getHTML();
@@ -255,7 +249,7 @@ class ilAdministrationGUI
     public function forward()
     {
         $ilErr = $this->error;
-        
+
         if ($_GET["admin_mode"] != "repository") {	// settings
             if ($_GET["ref_id"] == USER_FOLDER_ID) {
                 $this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
@@ -280,7 +274,7 @@ class ilAdministrationGUI
                     if ($url_parts['http'] || $url_parts['host']) {
                         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
                     }
-                    
+
                     $fs_gui->setMainFrameSource(
                         base64_decode(rawurldecode($_GET['fr']))
                     );
@@ -315,18 +309,18 @@ class ilAdministrationGUI
         $exp = new ilAdministrationExplorerGUI($this, "showTree");
         $exp->handleCommand();
     }
-    
+
     /**
      * Special jump to plugin slot after ilCtrl has been reloaded
      */
     public function jumpToPluginSlot()
     {
         $ilCtrl = $this->ctrl;
-        
+
         $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "ctype", $_GET["ctype"]);
         $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "cname", $_GET["cname"]);
         $ilCtrl->setParameterByClass("ilobjcomponentsettingsgui", "slot_id", $_GET["slot_id"]);
-        
+
         if ($_GET["plugin_id"]) {
             $ilCtrl->setParameter($this, "plugin_id", $_GET["plugin_id"]);
             $ilCtrl->redirectByClass("ilobjcomponentsettingsgui", "showPlugin");
