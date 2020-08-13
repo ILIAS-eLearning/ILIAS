@@ -302,7 +302,16 @@ if (!$ilDB->tableExists('frm_thread_tree_mig')) {
 <#5453>
 <?php
 $setting = new ilSetting();
-$alreadyMigrated = (bool) $setting->get('ilfrmtreemigr', false);
+
+$alreadyMigrated = false;
+$last54Hotfix = $setting->get('db_hotfixes_5_4', null);
+if (is_numeric($last54Hotfix) && $last54Hotfix >= 26) {
+    $alreadyMigrated = true;
+}
+if (!$alreadyMigrated) {
+    $alreadyMigrated = (bool) $setting->get('ilfrmtreemigr', false);
+}
+
 if (!$alreadyMigrated) {
     $query = "
         SELECT frmpt.thr_fk
