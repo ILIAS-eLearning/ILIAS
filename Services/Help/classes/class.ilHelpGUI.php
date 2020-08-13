@@ -260,7 +260,7 @@ class ilHelpGUI
                 $grp_list = new ilGroupedListGUI();
                 foreach ($pages as $pg) {
                     $grp_list->addEntry(
-                        $this->replaceMenuItemTags(ilLMObject::_lookupTitle($pg["child"])),
+                        $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($pg["child"])),
                         "#",
                         "",
                         "return il.Help.showPage(" . $pg["child"] . ");"
@@ -325,7 +325,7 @@ class ilHelpGUI
         
         $h_tpl->setVariable(
             "HEAD",
-            $this->replaceMenuItemTags(ilLMObject::_lookupTitle($page_id))
+            $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($page_id))
         );
         
         include_once("./Services/COPage/classes/class.ilPageUtil.php");
@@ -355,7 +355,7 @@ class ilHelpGUI
         //echo htmlentities($link_xml);
         $page_gui->setLinkXML($link_xml);
         
-        $ret = $this->replaceMenuItemTags($page_gui->showPage());
+        $ret = $this->replaceMenuItemTags((string) $page_gui->showPage());
 
         $h_tpl->setVariable("CONTENT", $ret);
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
