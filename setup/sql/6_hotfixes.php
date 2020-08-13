@@ -519,10 +519,10 @@ $GLOBALS['ilLog']->info(sprintf(
 <#32>
 <?php
 $setting = new ilSetting();
-$skippedIlias6MigrTs = $setting->get('ilfrmtreemigr_6_skip', null);
+$migrationExecutionTsAfterBugfix = $setting->get('ilfrmtreemigr_6_af', null);
 $hotfixstep = 32;
 
-if (!is_numeric($skippedIlias6MigrTs)) {
+if (!is_numeric($migrationExecutionTsAfterBugfix)) {
     /* Determine threads which cannot be migrated because they are not valid (just to make the script robust) */
     $GLOBALS['ilLog']->info(sprintf(
         "Started migration of forum thread trees to remove the (potentially) wrong root node (Hotfix Step: %s)",

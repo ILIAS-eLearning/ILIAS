@@ -450,6 +450,7 @@ if (!$alreadyMigrated) {
 } else {
     $setting->set('ilfrmtreemigr_6_skip', time());
 }
+$setting->set('ilfrmtreemigr_6_af', time());
 ?>
 <#5454>
 <?php
