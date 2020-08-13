@@ -8,11 +8,16 @@ PLR Meeting, 13 Aug 2020: We currently would like to focus on the following elem
 
 ### Checklist (ilChecklistGUI)
 
+- Should be easy to remove with ILIAS 7 setup refactorings.
+
 **Usages**
 
 - setup: Checklist in setup, seems to be obsolete/dead code. -> RK
 
 ### Glyph (ilGlyphGUI)
+
+- Missing in KS: Filter, Drag
+- Other usages should be replaced by KS glyphs.
 
 **Usages**
 
@@ -45,7 +50,7 @@ PLR Meeting, 13 Aug 2020: We currently would like to focus on the following elem
 
 ### GroupedList (ilGroupedListGUI)
 
-Most prominent use is the "Add New Item" Dropdown. Grouped lists are lists with subheadings and a possible multi-column layout.
+- KS replacement needed. Most prominent use is the "Add New Item Dropdown". Grouped lists are lists with subheadings and a possible multi-column layout.
 
 **Usages**
 
@@ -57,13 +62,15 @@ Most prominent use is the "Add New Item" Dropdown. Grouped lists are lists with 
 
 ### Lightbox (ilLightboxGUI)
 
+- Should be replaced with KS element. Missing: ilLightboxGUI does not only support special content types, but any media object. Maybe this is not a necessary requirement in the mediacast with ILIAS 7 anymore.
+
 **Usages**
 
 - **Services/MediaObjects**: Used for lightbox in media casts. -> AK
 
 ### Modal (ilModalGUI)
 
-These might not all be easily transferrable to the KS elements. Sometimes the JS API is being used by consumers.
+- These might not all be easily transferrable to the KS elements. Sometimes the JS API is being used by consumers, e.g. in the chatroom.
 
 **Usages**
 
