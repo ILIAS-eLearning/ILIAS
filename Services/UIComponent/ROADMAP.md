@@ -4,7 +4,7 @@
 
 The priorities for deprecation and removing the components are discussed frequently in the Page Layout Revision meetings.
 
-PLR Meeting, 13 Aug 2020: We would like to focus on the following elements to be removed completely: Checklist, Glyph, GroupedList, Lightbox, Modal
+PLR Meeting, 13 Aug 2020: We currently would like to focus on the following elements to be removed completely: Checklist, Glyph, GroupedList, Lightbox, Modal.
 
 ### Checklist (ilChecklistGUI)
 
