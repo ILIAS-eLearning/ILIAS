@@ -19,6 +19,13 @@ interface Tree extends Component
     public function withEnvironment($environment) : Tree;
 
     /**
+     * Get the (aria-)label
+     *
+     * @return string
+     */
+    public function getLabel() : string;
+
+    /**
      * Apply data to the Tree.
      */
     public function withData($data) : Tree;

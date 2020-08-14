@@ -5592,6 +5592,7 @@ forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderato
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_moderators#:#Moderators
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
+forum#:#frm_posts#:#Forum Posts
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
