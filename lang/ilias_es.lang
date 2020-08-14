@@ -15124,3 +15124,5 @@ awrn#:#awrn_user_show#:#Mostrar tu cuenta en"¿Quién está conectado?"
 form#:#form_date_aria_desc#:#Debe utilizarse el siguiente formato de entrada:
 feed#:#feed_no_local_url#:#La URL no puede verificarse. Por favor, introduzca la URL válida de un Feed externo.
 common#:#logo#:#Logo ILIAS
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###14 08 2020 new variable
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###14 08 2020 new variable
