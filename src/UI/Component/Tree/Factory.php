@@ -70,11 +70,15 @@ interface Factory
      *        object and its properties as individual nodes.
      *   accessibility:
      *     1: Expandable Trees MUST bear the ARIA role "tree".
+     *     2: > The "aria-label" attribute MUST be set for Expandable Trees,
+     *          which MUST be language-dependant.
+     *
      *
      * ---
+     * @param string $label
      * @param TreeRecursion $recursion
      *
      * @return \ILIAS\UI\Component\Tree\Expandable
      */
-    public function expandable(TreeRecursion $recursion) : Expandable;
+    public function expandable(string $label, TreeRecursion $recursion) : Expandable;
 }
