@@ -16175,3 +16175,8 @@ common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
 rbac#:#prgr_copy#:#O usuário pode copiar links para programas de estudo###10 07 2020 new variable
+auth#:#auth_account_migration_keep#:#Migrate Existing User Account###14 08 2020 new variable
+common#:#pathes#:#Paths###14 08 2020 new variable
+common#:#tabs#:#Tabs###14 08 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable

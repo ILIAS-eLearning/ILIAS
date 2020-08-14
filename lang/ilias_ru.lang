@@ -16178,3 +16178,5 @@ style#:#style#:#Style###10 07 2020 new variable
 content#:#cont_Link#:#Link###10 07 2020 new variable
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###10 07 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable

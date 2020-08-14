@@ -16000,7 +16000,6 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
-prg#:#prg_formatted_peri nbod#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16180,3 +16179,4 @@ rbac#:#prgr_write#:#A felhasználó módosíthatja a képzési programokra mutat
 rbac#:#rbac_create_prgr#:#Képzési programra mutató link létrehozása
 ui#:#ui_error_in_group#:#Ebben a részben van néhány hiba.
 feed#:#feed_no_local_url#:#Az URL nem ellenőrizhető. Kérem, valós külső hírforrás URL-t adjon meg.
+prg#:#prg_formatted_period#:#%d days###14 08 2020 new variable
