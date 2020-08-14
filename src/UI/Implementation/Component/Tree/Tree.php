@@ -26,6 +26,11 @@ abstract class Tree implements ITree\Tree
     protected $data;
 
     /**
+     * @var string
+     */
+    protected $label;
+
+    /**
      * @var TreeRecursion
      */
     protected $recursion;
@@ -36,9 +41,18 @@ abstract class Tree implements ITree\Tree
     protected $highlight_nodes_on_click = false;
 
 
-    public function __construct(ITree\TreeRecursion $recursion)
+    public function __construct(string $label, ITree\TreeRecursion $recursion)
     {
+        $this->label = $label;
         $this->recursion = $recursion;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
     }
 
     /**
