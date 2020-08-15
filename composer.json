@@ -12,16 +12,16 @@
 			"php setup/cli.php build-artifacts --yes"
 		],
 		"post-install-cmd": [
-		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
+			"php libs/composer/rmdirs.php"
 		],
 		"post-update-cmd": [
-		  "rm -rf libs/composer/vendor/geshi/geshi/contrib"
+			"php libs/composer/rmdirs.php"
 		],
 		"test-php-all": [
-		  "./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
+			"./libs/composer/vendor/bin/phpunit -c ./Services/PHPUnit/config/PhpUnitConfig.xml --colors=always --disallow-todo-tests"
 		],
 		"test-php": [
-		  "./CI/PHPUnit/run_tests.sh"
+			"./CI/PHPUnit/run_tests.sh"
 		]
 	},
 	"require": {
