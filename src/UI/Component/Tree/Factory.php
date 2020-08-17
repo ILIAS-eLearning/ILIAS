@@ -58,7 +58,6 @@ interface Factory
      *   effect: >
      *     When clicking a Node, it will expand or collapse, thus showing or hiding
      *     its sub-Nodes.
-     *
      * rules:
      *   usage:
      *     1: >
@@ -70,14 +69,16 @@ interface Factory
      *        object and its properties as individual nodes.
      *   accessibility:
      *     1: Expandable Trees MUST bear the ARIA role "tree".
-     *     2: > The "aria-label" attribute MUST be set for Expandable Trees,
-     *          which MUST be language-dependant.
-     *
-     *
+     *     2: The "aria-label" attribute MUST be set for Expandable Trees.
+     *     3: The "aria-label" attribute MUST be language-dependant.
+     *     4: >
+     *        The "aria-label" attribute MUST describe the content of the Tree as
+     *        precisely as possible. "Tree" MUST NOT be set as label, labels like
+     *        "Forum Posts" or "Mail Folders" are much more helpful.
+     *        (Note that "Tree" is already set by the ARIA role attribute.)
      * ---
      * @param string $label
      * @param TreeRecursion $recursion
-     *
      * @return \ILIAS\UI\Component\Tree\Expandable
      */
     public function expandable(string $label, TreeRecursion $recursion) : Expandable;
