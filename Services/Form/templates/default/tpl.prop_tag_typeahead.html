@@ -50,14 +50,19 @@
 
 		pub.Init = function() {
 			$.each(pub.ids, function(key, element){
-			    console.log(key, element);
+				let terms = pub.terms;
+
+				if (!Array.isArray(terms) || !terms.every(x => typeof x === 'string')) {
+					terms = pub.terms[key];
+				}
+
 				$(element).tagsinput({
 					typeaheadjs: [{
 						minLength: parseInt({MIN_LENGTH}, 10),
 						highlight: {HIGHLIGHT}
 					},{
 						limit: parseInt({LIMIT}, 10),
-						source: pri.substringMatcher(pub.terms[key], key)
+						source: pri.substringMatcher(terms, key)
 
 					}],
 					freeInput : false,
