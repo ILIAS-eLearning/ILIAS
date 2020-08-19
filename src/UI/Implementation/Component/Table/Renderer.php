@@ -308,29 +308,16 @@ class Renderer extends AbstractComponentRenderer
         array $actions,
         RendererInterface $default_renderer
     ) : string {
-        if (count($actions) < 1) {
-            return '';
-        }
-
         $f = $this->getUIFactory();
-        if (count($actions) === 1) { //TODO: do we actually want that switch or stick with the DD for conformity?
-            $act = array_shift($actions);
-            $triggerer = $f->button()->standard(
+        $buttons = [];
+        foreach ($actions as $act) {
+            $buttons[] = $f->button()->shy(
                 $act->getLabel(),
                 $this->amendParameters($act, $row_id)
             );
         }
-        if (count($actions) > 1) {
-            $buttons = [];
-            foreach ($actions as $act) {
-                $buttons[] = $f->button()->shy(
-                    $act->getLabel(),
-                    $this->amendParameters($act, $row_id)
-                );
-            }
-            $triggerer = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
-        }
-        return $default_renderer->render($triggerer);
+        $dropdown = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
+        return $default_renderer->render($dropdown);
     }
 
     protected function amendParameters(Action\Action $action, string $row_id)

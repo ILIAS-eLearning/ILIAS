@@ -37,9 +37,9 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function data(string $title, ?int $page_size = 50) : T\Data
+    public function data(string $title, ?int $number_of_rows = 50) : T\Data
     {
-        return new Data($this->signal_generator, $title, $page_size);
+        return new Data($this->signal_generator, $title, $number_of_rows);
     }
 
     /**

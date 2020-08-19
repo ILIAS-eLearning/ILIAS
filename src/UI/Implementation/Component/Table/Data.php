@@ -45,9 +45,9 @@ class Data extends Table implements T\Data, JSBindable
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         string $title,
-        int $page_size
+        int $number_of_rows
     ) {
-        $this->number_of_rows = $page_size;
+        $this->number_of_rows = $number_of_rows;
         $this->multi_action_signal = $signal_generator->create();
         parent::__construct($title);
     }

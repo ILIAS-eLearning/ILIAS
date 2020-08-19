@@ -19,11 +19,6 @@ class Date extends Column implements C\Date
         parent::__construct($title);
     }
 
-    public function getType() : string
-    {
-        return self::COLUMN_TYPE_DATE;
-    }
-
     public function getFormat() : \ILIAS\Data\DateFormat
     {
         return $this->format;

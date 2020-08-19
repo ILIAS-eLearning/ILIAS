@@ -8,10 +8,6 @@ use ILIAS\UI\Component\Table\Column as C;
 
 abstract class Column implements C\Column
 {
-    const COLUMN_TYPE_TEXT = 'text';
-    const COLUMN_TYPE_NUMBER = 'number';
-    const COLUMN_TYPE_DATE = 'date';
-
     /**
      * @var string
      */
@@ -48,7 +44,10 @@ abstract class Column implements C\Column
         return $this->title;
     }
 
-    abstract public function getType() : string;
+    public function getType() : string
+    {
+        return array_pop(explode('\\', static::class));
+    }
 
     public function withIsSortable(bool $flag) : C\Column
     {

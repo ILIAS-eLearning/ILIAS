@@ -13,11 +13,6 @@ class Number extends Column implements C\Number
      */
     protected $decimals = 0;
 
-    public function getType() : string
-    {
-        return self::COLUMN_TYPE_NUMBER;
-    }
-
     public function withDecimals(int $number_of_decimals) : C\Number
     {
         $clone = clone $this;

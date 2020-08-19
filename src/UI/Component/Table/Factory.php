@@ -163,10 +163,10 @@ interface Factory
      *
      * ---
      * @param string     $title
-     * @param int     $page_size
+     * @param int     $number_of_rows
      * @return \ILIAS\UI\Component\Table\Data
      */
-    public function data(string $title, ?int $page_size = 50) : Data;
+    public function data(string $title, ?int $number_of_rows = 50) : Data;
 
     /**
      * ---
@@ -198,7 +198,7 @@ interface Factory
      *         "aria-sort" attribute ('ascending'|'descending'|'none', if sortable but not applied).
      *       3: >
      *         Every Column MUST have the attribute "aria-colindex" with it's position
-     *         in all available - not visible - columns of the table.
+     *         in all available ("available" as opposed to visible!) columns of the table.
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Factory
      */

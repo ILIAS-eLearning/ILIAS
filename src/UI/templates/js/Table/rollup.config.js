@@ -4,5 +4,4 @@ export default {
     file: './dist/table.js',
     format: 'es'
   }
-  //,treeshake: false //do not check for unused code
 };
