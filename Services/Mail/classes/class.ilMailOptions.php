@@ -124,21 +124,21 @@ class ilMailOptions
             $this->mail_address_option = (int) $row->mail_address_option;
 
             if (
-                !filter_var(
+                filter_var(
                     $this->incoming_type,
                     FILTER_VALIDATE_INT,
                     ['options' => ['min_range' => self::INCOMING_LOCAL, 'max_range' => self::INCOMING_BOTH]]
-                )
+                ) === false
             ) {
                 $this->incoming_type = self::INCOMING_LOCAL;
             }
 
             if (
-                !filter_var(
+                filter_var(
                     $this->mail_address_option,
                     FILTER_VALIDATE_INT,
                     ['options' => ['min_range' => self::FIRST_EMAIL, 'max_range' => self::BOTH_EMAIL]]
-                )
+                ) === false
             ) {
                 $this->mail_address_option = self::FIRST_EMAIL;
             }
