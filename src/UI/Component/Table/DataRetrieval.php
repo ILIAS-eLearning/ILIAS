@@ -18,5 +18,4 @@ interface DataRetrieval
         array $visible_column_ids,
         array $additional_parameters
     ) : \Generator;
-
 }

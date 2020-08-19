@@ -12,10 +12,12 @@ class Factory implements I\Factory
     {
         return new Standard($label, $parameter_name, $target);
     }
+
     public function single(string $label, string $parameter_name, $target) : I\Single
     {
         return new Single($label, $parameter_name, $target);
     }
+
     public function multi(string $label, string $parameter_name, $target) : I\Multi
     {
         return new Multi($label, $parameter_name, $target);
