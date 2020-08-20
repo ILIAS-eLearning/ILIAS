@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ilTemplateWrapper as Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -142,70 +143,99 @@ class Renderer extends AbstractComponentRenderer
     {
         $f = $this->getUIFactory();
         $df = new \ILIAS\Data\Factory();
-        //TODO: fix/implement the following
+        //TODO: fix/implement the following (and move it to the component....)
         $range = $df->range(0, 10);
         $order = $df->order('f1', \ILIAS\Data\Order::ASC);
         $visible_col_ids = [];
-        $sortation = 'none';
         $additional_parameters = [];
 
-        $columns = $component->getColumns();
-        $visible_col_ids = array_keys($columns);
-        $filtered_columns = array_filter(
-            $columns,
-            function ($col_id) use ($visible_col_ids) {
-                return in_array($col_id, $visible_col_ids);
-            },
-            ARRAY_FILTER_USE_KEY
-        );
+        $row_factory = $component->getRowFactory();
+        $data_retrieval = $component->getData();
+        $columns = $component->getFilteredColumns();
 
-        $component = $this->registerActionsForTable($component);
-        $multi_actions_dropdown = $this->getMultiActionDropdown($component);
-
-        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-        $tpl->setVariable('TITLE', $component->getTitle());
-        $tpl->setVariable('COL_COUNT', count($columns)); //TODO: or filtered?!
-        if ($multi_actions_dropdown) {
-            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
-        }
-        $tpl->setVariable('ID', $this->bindJavaScript($component));
-
-        foreach ($columns as $col_id => $col) {
-            $tpl->setCurrentBlock('header_cell');
-            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
-            $tpl->setVariable('COL_SORTATION', $sortation);
-            $tpl->setVariable('COL_TITLE', $col->getTitle());
-            $tpl->parseCurrentBlock();
-        }
-
-        $row_factory = new RowFactory($filtered_columns, $component->getActions());
-        $alternate = 'odd';
-        foreach ($component->getData()->getRows(
+        $rows = $data_retrieval->getRows(
             $row_factory,
             $range,
             $order,
-            array_keys($filtered_columns),
+            array_keys($columns),
             $additional_parameters
-        ) as $row) {
-            $tpl->setCurrentBlock('row');
-            $tpl->setVariable('ALTERNATION', $alternate);
-            $tpl->setVariable('CELLS', $default_renderer->render($row));
-            $tpl->parseCurrentBlock();
-            $alternate = ($alternate === 'odd') ? 'even' : 'odd';
+        );
+
+        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
+
+        $component = $this->registerActionsForTable($component);
+        $id = $this->bindJavaScript($component);
+
+        $tpl->setVariable('ID', $id);
+        $tpl->setVariable('TITLE', $title);
+        $tpl->setVariable('COL_COUNT', (string) $overall_column_count);
+
+        $this->renderTableHeader($tpl, $columns);
+        $this->appendTableRows($tpl, $rows, $default_renderer);
+
+        $multi_actions_dropdown = $this->getMultiActionsDropdown(
+            $component->getMultiActions(),
+            $component->getActionSignal()
+        );
+        if ($multi_actions_dropdown) {
+            $tpl->setVariable('MULTI_ACTION_TRIGGERER', $default_renderer->render($multi_actions_dropdown));
         }
 
         return $tpl->get();
     }
 
 
-    protected function getFilteredActions(array $actions, string $exclude) : array
+    protected function getMultiActionsDropdown(
+        array $actions,
+        Component\Signal $action_signal
+    ) : ?\ILIAS\UI\Component\dropdown\Dropdown {
+        if (count($actions) < 1) {
+            return null;
+        }
+        $f = $this->getUIFactory();
+        $buttons = [];
+
+        foreach ($actions as $action_id => $act) {
+            $signal = clone $action_signal;
+            $signal->addOption('action', $action_id);
+            $buttons[] = $f->button()->shy($act->getLabel(), $signal);
+        }
+        $dropdown = $f->dropdown()->standard($buttons);
+        return $dropdown;
+    }
+
+    /**
+     * @param Column\Column[]
+     */
+    protected function renderTableHeader(Template $tpl, array $columns)
     {
-        return array_filter(
-            $actions,
-            function ($action) use ($exclude) {
-                return !is_a($action, $exclude);
-            }
-        );
+        foreach ($columns as $col_id => $col) {
+            $sortation = 'none';
+            $tpl->setCurrentBlock('header_cell');
+            $tpl->setVariable('COL_INDEX', (string) $col->getIndex());
+            $tpl->setVariable('COL_SORTATION', $sortation);
+            $tpl->setVariable('COL_TITLE', $col->getTitle());
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    /**
+     * @param Row[] $rows
+     */
+    protected function appendTableRows(
+        Template $tpl,
+        \Generator $rows,
+        RendererInterface $default_renderer
+    ) {
+        $alternate = 'even';
+        foreach ($rows as $row) {
+            $row_contents = $default_renderer->render($row);
+            $alternate = ($alternate === 'odd') ? 'even' : 'odd';
+            $tpl->setCurrentBlock('row');
+            $tpl->setVariable('ALTERNATION', $alternate);
+            $tpl->setVariable('CELLS', $row_contents);
+            $tpl->parseCurrentBlock();
+        }
     }
 
     protected function registerActionsForTable(Component\Table\Data $component) : Component\Table\Data
@@ -224,13 +254,9 @@ class Renderer extends AbstractComponentRenderer
         $actions = $component->getActions();
         foreach ($actions as $action_id => $act) {
             $parameter_name = $act->getParameterName();
-            $target = $act->getTarget();
+            $target = $act->getTargetForButton();
+            $type = 'URL';
 
-            if ($target instanceof \ILIAS\Data\URI) {
-                $type = 'URL';
-                parse_str($target->getQuery(), $params);
-                $target = $target->getBaseURI() . '?' . http_build_query($params);
-            }
             if ($target instanceof Component\Signal) {
                 $type = 'SIGNAL';
                 $target = json_encode([
@@ -245,36 +271,15 @@ class Renderer extends AbstractComponentRenderer
                 ";
             });
         }
-
         return $component;
     }
 
-    protected function getMultiActionDropdown(Component\Table\Data $component) : ?Component\Dropdown\Dropdown
-    {
-        $f = $this->getUIFactory();
-        $actions = $component->getActions();
-        $multi_actions = $this->getFilteredActions(
-            $actions,
-            Component\Table\Action\Single::class
-        );
-        if (count($multi_actions) == 0) {
-            return null;
-        }
-        $buttons = [];
-        foreach ($multi_actions as $action_id => $act) {
-            $buttons[] = $f->button()->shy(
-                $act->getLabel(),
-                $component->getActionSignal($action_id)
-            );
-        }
-        $multi_actions_dropdown = $f->dropdown()->standard($buttons); //TODO ->withLabel("Actions")
-        return $multi_actions_dropdown;
-    }
 
     public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer)
     {
         $cell_tpl = $this->getTemplate("tpl.datacell.html", true, true);
         $cols = $component->getColumns();
+
         foreach ($cols as $col_id => $column) {
             $cell_tpl->setCurrentBlock('cell');
             $cell_tpl->setVariable('COL_TYPE', $column->getType());
@@ -283,21 +288,16 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->parseCurrentBlock();
         }
 
-        $actions = $component->getActions();
-
-        $multi_actions = $this->getFilteredActions($actions, Component\Table\Action\Single::class);
-        $has_multi_actions = count($multi_actions) > 0;
-        if ($has_multi_actions) {
+        if ($component->isSelectable()) {
             $cell_tpl->setVariable('ROW_ID', $component->getId());
         }
 
-        $single_actions = $this->getFilteredActions($actions, Component\Table\Action\Multi::class);
-        $single_actions_html = $this->renderSingleActionsForRow(
+        $row_actions_html = $this->renderSingleActionsForRow(
             $component->getId(),
-            array_values($single_actions),
+            $component->getActions(),
             $default_renderer
         );
-        $cell_tpl->setVariable('ACTION_CONTENT', $single_actions_html);
+        $cell_tpl->setVariable('ACTION_CONTENT', $row_actions_html);
 
         return $cell_tpl->get();
     }
@@ -310,29 +310,15 @@ class Renderer extends AbstractComponentRenderer
     ) : string {
         $f = $this->getUIFactory();
         $buttons = [];
-        foreach ($actions as $act) {
+        foreach ($actions as $act_id => $act) {
+            $act = $act->withRowId($row_id);
             $buttons[] = $f->button()->shy(
                 $act->getLabel(),
-                $this->amendParameters($act, $row_id)
+                $act->getTargetForButton()
             );
         }
         $dropdown = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
         return $default_renderer->render($dropdown);
-    }
-
-    protected function amendParameters(Action\Action $action, string $row_id)
-    {
-        $target = $action->getTarget();
-        $param = $action->getParameterName();
-        if ($target instanceof Component\Signal) {
-            $target->addOption($param, $row_id);
-            return $target;
-        }
-        if ($target instanceof \ILIAS\Data\URI) {
-            parse_str($target->getQuery(), $params);
-            $params[$param] = $row_id;
-            return $target->getBaseURI() . '?' . http_build_query($params);
-        }
     }
 
     /**

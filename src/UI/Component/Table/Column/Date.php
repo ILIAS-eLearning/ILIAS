@@ -6,5 +6,5 @@ namespace ILIAS\UI\Component\Table\Column;
 
 interface Date extends Column
 {
-    public function getFormat() : \ILIAS\Data\DateFormat;
+    public function getFormat() : \ILIAS\Data\DateFormat\DateFormat;
 }

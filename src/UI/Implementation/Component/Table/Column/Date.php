@@ -13,13 +13,13 @@ class Date extends Column implements C\Date
      */
     protected $format;
 
-    public function __construct(string $title, \ILIAS\Data\DateFormat $format)
+    public function __construct(string $title, \ILIAS\Data\DateFormat\DateFormat $format)
     {
         $this->format = $format;
         parent::__construct($title);
     }
 
-    public function getFormat() : \ILIAS\Data\DateFormat
+    public function getFormat() : \ILIAS\Data\DateFormat\DateFormat
     {
         return $this->format;
     }

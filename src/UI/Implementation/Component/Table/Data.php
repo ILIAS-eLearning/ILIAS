@@ -134,11 +134,62 @@ class Data extends Table implements T\Data, JSBindable
 
     public function getActionSignal(string $id = null) : Signal
     {
-        $sig = $this->multi_action_signal;
-        if ($id) {
-            $sig = clone $sig;
-            $sig->addOption('action', $id);
+        return $this->multi_action_signal;
+    }
+
+    /**
+     * Get all Actions on this table BUT the given one.
+     * @param string $exclude the actions' class-name to _not_ return
+     */
+    protected function getFilteredActions(string $exclude) : array
+    {
+        return array_filter(
+            $this->getActions(),
+            function ($action) use ($exclude) {
+                return !is_a($action, $exclude);
+            }
+        );
+    }
+
+    public function getMultiActions() : array
+    {
+        return $this->getFilteredActions(T\Action\Single::class);
+    }
+
+    public function getSingleActions() : array
+    {
+        return $this->getFilteredActions(T\Action\Multi::class);
+    }
+
+    /**
+     * @return <string, Column\Column>
+     */
+    public function getFilteredColumns() : array
+    {
+        $visible_column_ids = []; //get this from table's view-control
+        $columns = $this->getColumns();
+        if (count($visible_column_ids) < 1) {
+            return $columns;
         }
-        return $sig;
+        return  array_filter(
+            $columns,
+            function ($col_id) use ($visible_column_ids) {
+                return in_array($col_id, $visible_column_ids);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
+    }
+
+    public function getColumnCount() : int
+    {
+        return count($this->columns);
+    }
+
+    public function getRowFactory() : RowFactory
+    {
+        return new RowFactory(
+            $this->getFilteredColumns(),
+            $this->getSingleActions()
+        );
     }
 }

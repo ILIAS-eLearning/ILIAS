@@ -16,21 +16,28 @@ class RowFactory implements T\RowFactory
     /**
      * @var <string, Column>
      */
-    protected $actions;
+    protected $row_actions;
+
+    /**
+     * @var bool
+     */
+    protected $rows_selectable;
 
     /**
      * @param <string, Column> $columns
-     * @param <string, Action> $actions
+     * @param <string, Action> $single_actions
      */
-    public function __construct(array $columns, array $actions)
+    public function __construct(array $columns, array $row_actions, bool $rows_selectable = true)
     {
         $this->columns = $columns;
-        $this->actions = $actions;
+        $this->row_actions = $row_actions;
+        $this->rows_selectable = $rows_selectable;
     }
 
     public function standard(string $id, array $record) : T\Row
     {
-        $row = new StandardRow($this->columns, $this->actions, $id, $record);
+        $row = new StandardRow($this->columns, $this->row_actions, $id, $record);
+        $row = $row->withIsSelectable($this->rows_selectable);
         return $row;
     }
 }

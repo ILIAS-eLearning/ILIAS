@@ -18,7 +18,7 @@ class Factory implements I\Factory
         return new Number($title);
     }
 
-    public function date(string $title, \ILIAS\Data\DateFormat $format) : I\Date
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format) : I\Date
     {
         return new Date($title, $format);
     }

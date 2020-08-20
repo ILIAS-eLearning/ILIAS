@@ -4,10 +4,13 @@
 
 namespace ILIAS\UI\Implementation\Component\Table\Column;
 
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Column as C;
 
 abstract class Column implements C\Column
 {
+    use ComponentHelper;
+
     /**
      * @var string
      */
@@ -46,7 +49,9 @@ abstract class Column implements C\Column
 
     public function getType() : string
     {
-        return array_pop(explode('\\', static::class));
+        $class = explode('\\', get_class($this));
+        $class = array_pop($class);
+        return $class;
     }
 
     public function withIsSortable(bool $flag) : C\Column

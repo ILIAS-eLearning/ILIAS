@@ -4,6 +4,8 @@ namespace ILIAS\UI\Implementation\Component\Table\Action;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Table\Action as I;
+use ILIAS\UI\Component\Signal;
+use ILIAS\Data\URI;
 
 abstract class Action implements I\Action
 {
@@ -22,7 +24,8 @@ abstract class Action implements I\Action
         $this->parameter_name = $parameter_name;
 
         $check = [$target];
-        $this->checkArgListElements("target", $check, self::VALID_TARGET_CLASSES, "target class");
+        $valid = [Signal::class, URI::class];
+        $this->checkArgListElements("target", $check, $valid, "target class");
         $this->target = $target;
     }
 
@@ -42,5 +45,38 @@ abstract class Action implements I\Action
     public function getTarget()
     {
         return $this->target;
+    }
+
+    public function withRowId(string $value) : I\Action
+    {
+        $clone = clone $this;
+
+        $target = $clone->getTarget();
+        $param = $clone->getParameterName();
+
+        if ($target instanceof Signal) {
+            $target->addOption($param, $value);
+        }
+        if ($target instanceof URI) {
+            if ($target->getQuery()) {
+                parse_str($target->getQuery(), $params);
+            } else {
+                $params = [];
+            }
+            $params[$param] = $value;
+            $target = $target->withQuery(http_build_query($params));
+        }
+        $clone->target = $target;
+        return $clone;
+    }
+
+    public function getTargetForButton()
+    {
+        $target = $this->getTarget();
+        if ($target instanceof Signal) {
+            return $target;
+        }
+        parse_str($target->getQuery(), $params);
+        return $target->getBaseURI() . '?' . http_build_query($params);
     }
 }

@@ -37,5 +37,5 @@ interface Factory
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Date
      */
-    public function date(string $title, \ILIAS\Data\DateFormat $format) : Date;
+    public function date(string $title, \ILIAS\Data\DateFormat\DateFormat $format) : Date;
 }
