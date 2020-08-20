@@ -19,6 +19,7 @@
 		<event type="raise" id="deleteUser" />
 		<event type="raise" id="afterCreate" />
 		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/TermsOfService" />
 	</events>
 	<crons>
 		<cron id="user_inactive" class="ilCronDeleteInactiveUserAccounts" />

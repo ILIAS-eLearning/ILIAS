@@ -16,5 +16,9 @@ class ilUserAppEventListener implements ilAppEventListener
                 \ilStartingPoint::onRoleDeleted($a_parameter['object']);
             }
         }
+
+        if ('Services/TermsOfService' === $a_component && ilTermsOfServiceEventWithdrawn::class === $a_event) {
+            // Mark the account as deleted
+        }
     }
 }
