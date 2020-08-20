@@ -364,6 +364,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         $rbacreview = $DIC['rbacreview'];
         $rbacsystem = $DIC['rbacsystem'];
+        $access = $DIC->access();
         $tree = $DIC['tree'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
@@ -399,7 +400,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
             default:
                 $conflict_rule = IL_FAIL_ON_CONFLICT;
         }
-
+        if ($folder_id == 0) {
+            if (!$access->checkAccess('create_usr', '', USER_FOLDER_ID)) {
+                return $this->__raiseError('Missing permission for creating/modifying users accounts' . USER_FOLDER_ID . ' ' . $ilUser->getId(), 'Server');
+            }
+        }
 
         // folder id 0, means to check permission on user basis!
         // must have create user right in time_limit_owner property (which is ref_id of container)
@@ -428,8 +433,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         // first verify
-
-
         $importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
         $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
         $importParser->setXMLContent($usr_xml);
