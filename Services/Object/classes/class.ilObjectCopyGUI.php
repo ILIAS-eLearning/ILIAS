@@ -434,13 +434,27 @@ class ilObjectCopyGUI
         $t = new ilToolbarGUI();
         $t->setFormAction($ilCtrl->getFormAction($this, "saveTarget"));
         if ($objDefinition->isContainer($this->getType())) {
-            $t->addFormButton($lng->txt("btn_next"), "saveTarget");
+            $btn = ilSubmitButton::getInstance();
+            $btn->setCaption('btn_next');
+            $btn->setCommand('saveTarget');
+            $btn->setPrimary(true);
+            $t->addButtonInstance($btn);
         } else {
-            $t->addFormButton($lng->txt("paste"), "saveTarget");
+            $btn = ilSubmitButton::getInstance();
+            $btn->setCaption('paste');
+            $btn->setCommand('saveTarget');
+            $btn->setPrimary(true);
+            $t->addButtonInstance($btn);
         }
         $t->addSeparator();
-        $t->addFormButton($lng->txt("obj_insert_into_clipboard"), "keepObjectsInClipboard");
-        $t->addFormButton($lng->txt("cancel"), "cancel");
+        $clipboard_btn = ilSubmitButton::getInstance();
+        $clipboard_btn->setCaption('obj_insert_into_clipboard');
+        $clipboard_btn->setCommand('keepObjectsInClipboard');
+        $t->addButtonInstance($clipboard_btn);
+        $cancel_btn = ilSubmitButton::getInstance();
+        $cancel_btn->setCaption('cancel');
+        $cancel_btn->setCommand('cancel');
+        $t->addButtonInstance($cancel_btn);
         $t->setCloseFormTag(false);
         $t->setLeadingImage(ilUtil::getImagePath("arrow_upright.svg"), " ");
         $output = $t->getHTML() . $output;
