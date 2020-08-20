@@ -351,7 +351,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         include_once './Services/User/classes/class.ilUserImportParser.php';
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
         include_once './Services/Object/classes/class.ilObjectFactory.php';
-        global $rbacreview, $rbacsystem, $tree, $lng,$ilUser,$ilLog;
+        global $rbacreview, $rbacsystem, $tree, $lng,$ilUser,$ilLog,$ilAccess;
 
         // this takes time but is nescessary
         $error = false;
@@ -383,7 +383,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
             default:
                 $conflict_rule = IL_FAIL_ON_CONFLICT;
         }
-
+        if ($folder_id == 0) {
+            if (!$ilAccess->checkAccess('create_usr', '', USER_FOLDER_ID)) {
+                return $this->__raiseError('Missing permission for creating/modifying users accounts' . USER_FOLDER_ID . ' ' . $ilUser->getId(), 'Server');
+            }
+        }
 
         // folder id 0, means to check permission on user basis!
         // must have create user right in time_limit_owner property (which is ref_id of container)
@@ -412,8 +416,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         // first verify
-
-
         $importParser = new ilUserImportParser("", IL_VERIFY, $conflict_rule);
         $importParser->setUserMappingMode(IL_USER_MAPPING_ID);
         $importParser->setXMLContent($usr_xml);
