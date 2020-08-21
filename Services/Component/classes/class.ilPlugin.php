@@ -1028,8 +1028,7 @@ abstract class ilPlugin
                 " AND name = " . $ilDB->quote($this->getPluginName(), "text");
             $ilDB->manipulate($q);
 
-            $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
-            $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
+            $this->purgeControlStructureEntries();
 
             $this->afterUninstall();
 
@@ -1041,6 +1040,17 @@ abstract class ilPlugin
         return false;
     }
 
+    /**
+     * Remove plugin-entries from the control-structure tables.
+     */
+    private function purgeControlStructureEntries()
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
+        $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
+    }
 
     /**
      * This is Plugin-Specific and is triggered after the uninstall command of a plugin
@@ -1073,6 +1083,8 @@ abstract class ilPlugin
         if ($result === true) {
             $result = $this->updateDatabase();
         }
+
+        $this->purgeControlStructureEntries();
 
         // load control structure
         $structure_reader = new ilCtrlStructureReader();
@@ -1190,7 +1202,7 @@ abstract class ilPlugin
 
             return $plugin;
         }
-        throw new ilPluginException("File : ".$file. " . does not Exist for plugin: ".$a_pname. " Check if your 
+        throw new ilPluginException("File : " . $file . " . does not Exist for plugin: " . $a_pname . " Check if your 
             plugin is still marked as active in the DB Table 'il_plugin' but not installed anymore.");
     }
 
