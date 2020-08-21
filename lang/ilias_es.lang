@@ -14281,3 +14281,4 @@ awrn#:#user_awrn_default#:#Por defecto
 awrn#:#user_awrn_hide#:#Ocultar mi estado
 awrn#:#user_awrn_show#:#Mostrar mi estado
 awrn#:#awrn_user_show#:#Mostrar tu cuenta en "¿Quién está conectado?"
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###21 08 2020 new variable

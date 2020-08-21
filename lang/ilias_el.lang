@@ -14280,3 +14280,4 @@ awrn#:#user_awrn_default#:#Default###26 06 2020 new variable
 awrn#:#user_awrn_hide#:#Hide my status###26 06 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###26 06 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###26 06 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###21 08 2020 new variable
