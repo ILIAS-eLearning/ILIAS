@@ -128,4 +128,12 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     {
         return !is_null($a_node['parameter']);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function isNodeHighlighted($a_node)
+    {
+        return $a_node['current'];
+    }
 }
