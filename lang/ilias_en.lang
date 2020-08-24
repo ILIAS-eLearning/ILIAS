@@ -16181,12 +16181,10 @@ awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
 ui#:#ui_error_in_group#:#There is some error in this part.
-<<<<<<< HEAD
 survey#:#survey_calculate_sum_score#:#Calculate Sum Score
 survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.
 survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
-feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#mainbar_more_label#:#More
