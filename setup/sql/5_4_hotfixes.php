@@ -442,11 +442,11 @@ while ($row = $ilDB->fetchAssoc($res)) {
 			WHERE thr_fk = %s AND fpt_pk = %s
 		",
         ['integer', 'integer', 'integer'],
-        [$nextId, $row['thr_fk'], $row['fpt_pk']]
+        [$postId, $row['thr_fk'], $row['fpt_pk']]
     );
     $GLOBALS['ilLog']->info(sprintf(
         "Set parent to %s for posting with id %s in thread with id %s in database hotfix step %s",
-        $nextId,
+        $postId,
         $row['fpt_pk'],
         $row['thr_fk'],
         $step
@@ -1359,4 +1359,9 @@ $ilCtrlStructureReader->getStructure();
     // remove magpie cache dir
     $mcdir = CLIENT_WEB_DIR."/magpie_cache";
     ilUtil::delDir($mcdir);
+?>
+<#94>
+<?php
+$setting = new ilSetting();
+$setting->set('ilfrmtreemigr', 1);
 ?>
