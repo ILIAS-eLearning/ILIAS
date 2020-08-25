@@ -74,7 +74,7 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
 
         $reader = $this->ctrl_reader->withDB($db);
         $reader->executed = false;
-        $reader->readStructure(true, ".");
+        $reader->readStructure(true);
         return $environment;
     }
 }
