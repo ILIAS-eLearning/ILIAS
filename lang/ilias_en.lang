@@ -12493,6 +12493,7 @@ sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can p
 sess#:#sess_reg_waiting_list#:#Waiting List
 wiki#:#wiki_page_exists#:#Existing Page
 sess#:#sess_section_reg#:#Registration Settings
+sess#:#sess_setting_header_presentation#:#Presentation
 assessment#:#save_and_next#:#Save and Continue
 sess#:#sess_users_added#:#Registered selected users for the session.
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.
