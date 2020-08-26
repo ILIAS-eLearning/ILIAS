@@ -682,6 +682,14 @@ class ilECSSettingsGUI
     {
         global $DIC;
 
+        $gtpl = $DIC->ui()->mainTemplate();
+        $tpl = new \ilTemplate(
+            'tpl.ecs_communities.html',
+            true,
+            true,
+            'Services/WebServices/ECS'
+        );
+
         $ilAccess = $DIC['ilAccess'];
         // add toolbar to refresh communities
         if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
@@ -694,15 +702,13 @@ class ilECSSettingsGUI
         
         $this->tabs_gui->setSubTabActive('ecs_communities');
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.ecs_communities.html', 'Services/WebServices/ECS');
-        
-        $this->tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'updateCommunities'));
+        $tpl->setVariable('FORMACTION', $this->ctrl->getFormAction($this, 'updateCommunities'));
 
         if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
-            $this->tpl->setCurrentBlock("submit_buttons");
-            $this->tpl->setVariable('TXT_SAVE', $this->lng->txt('save'));
-            $this->tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("submit_buttons");
+            $tpl->setVariable('TXT_SAVE', $this->lng->txt('save'));
+            $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
+            $tpl->parseCurrentBlock();
         }
         
         include_once('Services/WebServices/ECS/classes/class.ilECSCommunityReader.php');
@@ -717,12 +723,12 @@ class ilECSSettingsGUI
             try {
                 $reader = ilECSCommunityReader::getInstanceByServerId($server->getServerId());
                 foreach ($reader->getCommunities() as $community) {
-                    $this->tpl->setCurrentBlock('table_community');
+                    $tpl->setCurrentBlock('table_community');
                     $table_gui = new ilECSCommunityTableGUI($server, $this, 'communities', $community->getId());
                     $table_gui->setTitle($community->getTitle() . ' (' . $community->getDescription() . ')');
                     $table_gui->parse($community->getParticipants());
-                    $this->tpl->setVariable('TABLE_COMM', $table_gui->getHTML());
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable('TABLE_COMM', $table_gui->getHTML());
+                    $tpl->parseCurrentBlock();
                 }
             } catch (ilECSConnectorException $exc) {
                 // Maybe server is not fully configured
@@ -730,10 +736,14 @@ class ilECSSettingsGUI
             }
 
             // Show section for each server
-            $this->tpl->setCurrentBlock('server');
-            $this->tpl->setVariable('TXT_SERVER_NAME', $server->getTitle());
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock('server');
+            $tpl->setVariable('TXT_SERVER_NAME', $server->getTitle());
+            $tpl->parseCurrentBlock();
         }
+
+        $gtpl->setContent($tpl->get());
+
+
     }
 
     /**
