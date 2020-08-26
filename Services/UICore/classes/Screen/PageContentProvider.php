@@ -188,10 +188,11 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
                 $helper = new \ilTermsOfServiceHelper();
                 $entity = $helper->getCurrentAcceptanceForUser($this->dic->user());
                 if ($entity->getId()) {
+                    $tos_gui = new \ilObjTermsOfServiceGUI();
                     $footer = $footer->withAdditionalModalAndTrigger(
                         $f->modal()->roundtrip(
                             $entity->getTitle(),
-                            $f->legacy($entity->getText()) // TODO: Append text and button for 'Withdrawl'
+                            $f->legacy( $entity->getText() . $tos_gui->getWithdrawalSectionForModal()->get() ),
                         ),
                         $f->button()->shy($this->dic->language()->txt('usr_agreement'), '#')
                     );
