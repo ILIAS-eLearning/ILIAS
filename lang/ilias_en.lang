@@ -14288,7 +14288,7 @@ common#:#pdfg_visible#:#PDF Generation is visible
 common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#pdfg_edit_permission#:#User can change permission settings
 pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#path#:#Path to wkhtmltopdf
+pdfgen#:#path#:#Path to binary
 pdfgen#:#wkhtml_config#:#Configuration for WKHTML
 pdfgen#:#overwrite_font#:#Overwrite default font
 pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw.
@@ -14324,7 +14324,7 @@ pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
 pdfgen#:#page_settings#:#Page Settings
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_size#:#Pagesize
-pdfgen#:#margin#:#Margin 345
+pdfgen#:#margin#:#Margin
 pdfgen#:#header_type#:#Header
 pdfgen#:#text#:#Text
 pdfgen#:#footer_type#:#Footer
