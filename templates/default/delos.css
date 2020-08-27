@@ -19027,6 +19027,9 @@ span.ilProfileBadge .modal .img-responsive {
   margin-bottom: 10px;
   background-color: #e0e0e0;
 }
+.ilLSOKioskModeNavigation .navbar-form {
+  line-height: 25px;
+}
 .ilLSOKioskTopBarControls {
   float: left;
   display: block;
