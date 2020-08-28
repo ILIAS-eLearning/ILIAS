@@ -302,16 +302,7 @@ class ilExSubmissionGUI
         $ilCtrl = $this->ctrl;
 
         $state = ilExcAssMemberState::getInstanceByIds($this->assignment->getId(), $this->user_id);
-
-        $needs_dl = ($this->assignment->getFeedbackDate() == ilExAssignment::FEEDBACK_DATE_DEADLINE);
         
-        if (!$this->assignment ||
-            !$this->assignment->getFeedbackFile() ||
-            ($needs_dl && !$this->assignment->afterDeadlineStrict()) ||
-            (!$needs_dl && !$this->submission->hasSubmitted())) {
-            $ilCtrl->redirect($this, "returnToParent");
-        }
-
         // fix bug 28466, this code should be streamlined with the if above and
         // the presentation of the download link in the ilExAssignmentGUI->addSubmission
         if (!$state->isGlobalFeedbackFileAccessible($this->submission)) {
