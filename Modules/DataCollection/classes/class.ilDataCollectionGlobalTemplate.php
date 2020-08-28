@@ -775,7 +775,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      *
      * Will override the header_page_title.
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title, $hidden = false)
     {
         $this->title = $a_title;
         $this->header_page_title = $a_title;

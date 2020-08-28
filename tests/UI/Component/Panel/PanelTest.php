@@ -182,7 +182,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">Title</h3>
+		<h2 class="ilHeader">Title</h2>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -214,7 +214,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader clearfix">
-		<h4>Title</h4>
+		<h3>Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -229,7 +229,7 @@ EOT;
 				<div class="il-card thumbnail">
 					<div class="card-no-highlight"></div>
 					<div class="caption">
-						<h5 class="card-title">Card Title</h5>
+						<div class="card-title">Card Title</div>
 					</div>
 				</div>
 			</div>
@@ -261,12 +261,12 @@ EOT;
                 "
              <div class=\"panel panel-sub panel-flex\">" .
                 "           <div class=\"panel-heading ilBlockHeader clearfix\">" .
-                "               <h4>Title</h4>" .
+                "               <h3>Title</h3>" .
                 "           </div>" .
                 "           <div class=\"panel-body\"><div class=\"row\">" .
                 "               <div class=\"col-sm-8\"></div>" .
                 "               <div class=\"col-sm-4\">" .
-                "                   <div class=\"il-card thumbnail\"><div class=\"card-no-highlight\"></div><div class=\"caption\"><h5 class=\"card-title\">Card Title</h5></div></div>" .
+                "                   <div class=\"il-card thumbnail\"><div class=\"card-no-highlight\"></div><div class=\"caption\"><div class=\"card-title\">Card Title</div></div></div>" .
                 "               </div>" .
                 "           </div></div>" .
                 "       </div>" .
@@ -312,7 +312,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">Title</h3> 
+		<h2 class="ilHeader">Title</h2> 
 		<div class="il-viewcontrol-sortation" id="">
 <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
@@ -350,7 +350,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
-		<h3 class="ilHeader">Title</h3> 
+		<h2 class="ilHeader">Title</h2> 
 		<div class="il-viewcontrol-pagination">
 <span class="browse previous"><a class="glyph" href="http://ilias.de?page=0" aria-label="back">
 <span class="glyphicon
