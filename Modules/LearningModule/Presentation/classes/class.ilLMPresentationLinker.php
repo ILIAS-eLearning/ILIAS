@@ -418,8 +418,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
                         if ($obj_type == "usr") {
-                            $back = $this->ctrl->getLinkTarget(
-                                $this,
+                            $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
+                            $back = $this->ctrl->getLinkTargetByClass(
+                                self::TARGET_GUI,
                                 "layout",
                                 "",
                                 false,
