@@ -164,7 +164,7 @@ class ilCtrlStructureReader
 
     private function normalizePath(string $path) : string
     {
-        return str_replace(['//'], ['/'], $path);
+        return realpath(str_replace(['//'], ['/'], $path));
     }
 
     const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
@@ -248,7 +248,7 @@ class ilCtrlStructureReader
                 $ilDB->quote($file, "text"),
                 $ilDB->quote($this->comp_prefix, "text"),
                 $ilDB->quote($this->plugin_path, "text")
-                ));
+            ));
         }
         //$this->class_childs[$parent][] = $child;
         foreach ($ctrl_structure->getClassChildren() as $parent => $children) {
@@ -278,7 +278,7 @@ class ilCtrlStructureReader
         $ilDB->manipulate(
             "UPDATE ctrl_classfile SET " .
             " cid = " . $ilDB->quote("", "text")
-            );
+        );
         $set = $ilDB->query("SELECT * FROM ctrl_classfile ");
         $cnt = 1;
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -287,7 +287,7 @@ class ilCtrlStructureReader
                 "UPDATE ctrl_classfile SET " .
                 " cid = " . $ilDB->quote($cid, "text") .
                 " WHERE class = " . $ilDB->quote($rec["class"], "text")
-                );
+            );
             $cnt++;
         }
     }
