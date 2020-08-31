@@ -12672,7 +12672,7 @@ div.il_ContainerItemCommands2 {
 div.il_ContainerItemCommands {
   padding: 2px 0;
 }
-h4.il_ContainerItemTitle {
+h3.il_ContainerItemTitle {
   padding: 0;
   margin: 0;
   font-weight: normal;
@@ -12771,7 +12771,7 @@ h1.ilHeader {
   }
 }
 h2.ilHeader {
-  font-weight: 600;
+  font-weight: normal;
   padding: 0;
   margin: 0;
   display: inline;
