@@ -181,7 +181,7 @@ class ilCourseObjectiveMaterials
                     include_once './Modules/Course/classes/class.ilCourseObjectiveMaterials.php';
                     $type = ilLOTestAssignments::getInstance($container_obj_id)->getTypeByTest($material['child']);
                     if ($type != ilLOSettings::TYPE_TEST_UNDEFINED) {
-                        continue 2;
+                        break;
                     } else {
                         $assignable[] = $material;
                     }
@@ -190,8 +190,8 @@ class ilCourseObjectiveMaterials
                 case 'crs':
                 case 'rolf':
                 case 'itgr':
-                    continue 2;
-                
+                    break;
+
                 default:
                     $assignable[] = $material;
                     break;
