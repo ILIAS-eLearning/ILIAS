@@ -1263,8 +1263,19 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
+
+        $withdrawal_appendage_text = '';
+        if(isset($_GET['withdrawal_relogin_content'])) {
+            if($_GET['withdrawal_relogin_content'] == 'internal') {
+                $withdrawal_appendage_text = "INTERNAL; MAKE LANG VAR, YOU FOOL!";
+            } else {
+                $withdrawal_appendage_text = "EXTERNAL; MAKE LANG VAR, YOU FOOL!";
+            }
+        }
+
+        $withdrawal_appendage_text = '';
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
-        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
+        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text").$withdrawal_appendage_text);
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
@@ -1295,6 +1306,17 @@ class ilStartUpGUI
         );
 
         $user_language = $user->getLanguage();
+
+
+        if(isset($_GET['withdraw_consent'])) {
+            //handling withdrawal of consent request to be able to catch it on relog
+            $user->writePref('consent_withdrawal_requested', 1);
+            if(ilSession::get('used_external_auth')) {
+                $this->ctrl->setParameter($this, 'withdrawal_relogin_content', 'external');
+            } else {
+                $this->ctrl->setParameter($this, 'withdrawal_relogin_content', 'internal');
+            }
+        }
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -1515,6 +1537,49 @@ class ilStartUpGUI
     protected function getAcceptance()
     {
         $this->showTermsOfService();
+    }
+
+    // Show terms of service and modal to confirm withdrawal
+    protected function confirmWithdrawal()
+    {
+        if (!$this->user->getId()) {
+            $this->user->setId(ANONYMOUS_USER_ID);
+        }
+        $back_to_login = false;
+        if($this->user->getPref('consent_withdrawal_requested') != 1) {
+            $back_to_login = true;
+        }
+        $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
+
+        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+        if ($handleDocument) {
+            $document = $this->termsOfServiceEvaluation->document();
+            if ('confirmWithdrawal' == $this->ctrl->getCmd()) {
+                if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
+                    $helper = new \ilTermsOfServiceHelper();
+                    $helper->deleteAcceptanceHistoryByUser($this->user);
+                        ilUtil::redirect('logout.php');
+                    }
+                }
+
+                $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+                $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+                $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+                $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+
+                $tpl->setPermanentLink('usr', null, 'agreement');
+                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+        } else {
+            $tpl->setVariable(
+                'TERMS_OF_SERVICE_CONTENT',
+                sprintf(
+                    $this->lng->txt('no_agreement_description'),
+                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                )
+            );
+        }
+
+        self::printToGlobalTemplate($tpl);
     }
 
     /**
