@@ -133,7 +133,7 @@ class ilVirusScanner
 
         $this->ilias = $ilias;
         $this->lng = $lng;
-        $this->log = $log;
+        $this->log = ilLoggerFactory::getLogger('vira');
 
         $this->scanCommand = $a_scancommand;
         $this->cleanCommand = $a_cleancommand;

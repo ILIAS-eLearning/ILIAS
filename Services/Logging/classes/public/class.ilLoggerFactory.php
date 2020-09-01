@@ -173,10 +173,13 @@ class ilLoggerFactory
 						TRUE
 				);
 				$clamd_handler->setLevel($this->getSettings()->getLevelByComponent($a_component_id));
-				include_once("./Services/Logging/classes/extensions/class.ilLineFormatter.php");
 				$line_formatter = new ilLineFormatter(static::DEFAULT_FORMAT, 'Y-m-d H:i:s.u',TRUE,TRUE);
 				$clamd_handler->setFormatter($line_formatter);
 				$logger->pushHandler($clamd_handler);
+
+                $status_file = fopen($this->getSettings()->getLogDir().'/clamd_status_'.$this->getSettings()->getLogFile(), "w");
+                fwrite($status_file, 1);
+                fclose($status_file);
 				break;
 				
             default:
