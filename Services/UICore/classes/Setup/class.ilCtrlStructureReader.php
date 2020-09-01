@@ -162,7 +162,7 @@ class ilCtrlStructureReader
         return $dir != $customizing_dir && $dir != $data_dir;
     }
 
-    private function normalizePath(string $path) : string
+    protected function normalizePath(string $path) : string
     {
         return realpath(str_replace(['//'], ['/'], $path));
     }

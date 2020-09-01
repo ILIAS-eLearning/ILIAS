@@ -45,6 +45,10 @@ class ilCtrlStructureReaderTest extends TestCase
             {
                 return $this->readDirTo($a_cdir, $cs ?? new \ilCtrlStructure());
             }
+            protected function normalizePath(string $path) : string
+            {
+                return $path;
+            }
         })
             ->withDB($this->db);
     }
