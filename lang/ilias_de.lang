@@ -12449,6 +12449,7 @@ sess#:#sess_reg_max_members#:#Maximale Anzahl
 sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
 sess#:#sess_reg_waiting_list#:#Warteliste
 sess#:#sess_section_reg#:#Anmeldung durch Benutzer
+sess#:#sess_setting_header_presentation#:#Darstellung
 assessment#:#save_and_next#:#Speichern und weiter
 sess#:#sess_users_added#:#Die Benutzer wurden für die Sitzung angemeldet.
 sess#:#sess_users_already_assigned#:#Die Benutzer sind bereits für die Sitzung angemeldet.

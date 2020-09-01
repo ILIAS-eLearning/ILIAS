@@ -698,12 +698,12 @@ class ilAdvancedSelectionListGUI
                         if ($item["prevent_background_click"]) {
                             $tpl->setVariable("ONCLICK_ITEM", '');
                         } else {
-                            if ($item["onclick"] == "") {
+                            if ($item["onclick"] == "" && $item["frame"] != "") {       // see #28730
                                 $tpl->setVariable(
                                     "ONCLICK_ITEM",
                                     'onclick="' . "return il.AdvancedSelectionList.openTarget('" . $item["link"] . "','" . $item["frame"] . "');" . '"'
                                 );
-                            } else {
+                            } elseif ($item["onclick"] != "") {
                                 $tpl->setVariable(
                                     "ONCLICK_ITEM",
                                     'onclick="' . "return " . $item["onclick"] . ";" . '"'
