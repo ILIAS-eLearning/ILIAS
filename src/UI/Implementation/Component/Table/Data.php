@@ -185,6 +185,13 @@ class Data extends Table implements T\Data, JSBindable
         return count($this->columns);
     }
 
+    /**
+     * This is an anti-pattern and should not be copied!
+     * The RowFactory should be injected (or constructed as anon class).
+     * However, it merely transports columns- and action-information,
+     * and I don't see a reason (yet) for having another/different RowFactory
+     * in the table.
+     */
     public function getRowFactory() : RowFactory
     {
         return new RowFactory(

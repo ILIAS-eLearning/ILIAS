@@ -1,5 +1,5 @@
 
-var data = function($) {
+var data = function(params, $) {
     var
     actions_registry = {},
     /**
@@ -29,11 +29,11 @@ var data = function($) {
             target;
 
         if(action.type === 'URL') {
-            target = amendParameterToUrl(action.target, action.param, row_ids);
+            target = params.amendParameterToUrl(action.target, action.param, row_ids);
             window.location.href = target;
         }
         if(action.type === 'SIGNAL') {
-            target = amendParameterToSignal(action.target, action.param, row_ids);
+            target = params.amendParameterToSignal(action.target, action.param, row_ids);
             $('#' + table_id).trigger(
                 target.id,
                 target.options
@@ -52,36 +52,6 @@ var data = function($) {
                 }
             }
             return ret;
-    },
-
-    amendParameterToSignal = function(target, parameter_name, values) {
-        target = JSON.parse(target);
-        target.options[parameter_name] = values;
-        return target;
-    },
-
-    amendParameterToUrl = function(target, parameter_name, values) {
-
-        var base = target.split('?')[0],
-            params = getParametersFromUrl(decodeURI(target)),
-            search = '', k;
-
-        params[parameter_name] = encodeURI(JSON.stringify(values));
-
-        for(k in params) {
-            search = search + '&' + k + '=' + params[k];
-        }
-
-        target = base + '?' + search;
-        return target;
-    },
-
-    getParametersFromUrl = function (url) {
-        var params = {},
-            parts = url.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-                params[key] = value;
-            });
-        return params;
     },
 
     public_interface = {
