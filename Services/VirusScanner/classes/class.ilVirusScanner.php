@@ -133,7 +133,9 @@ class ilVirusScanner
 
         $this->ilias = $ilias;
         $this->lng = $lng;
+        //begin-patch skyguide
         $this->log = ilLoggerFactory::getLogger('vira');
+        //end-patch skyguide
 
         $this->scanCommand = $a_scancommand;
         $this->cleanCommand = $a_cleancommand;
@@ -282,8 +284,9 @@ class ilVirusScanner
             $mess .= " (File " . $this->scanFileOrigName . ")";
         }
         $mess .= ": " . preg_replace('/[\r\n]+/', "; ", $this->scanResult);
-
-		$this->log->info($mess);
+        //begin-patch skyguide
+        $this->log->info($mess);
+        //end-patch skyguide
     }
 
     /**
@@ -297,8 +300,9 @@ class ilVirusScanner
             $mess .= " (File " . $this->cleanFileOrigName . ")";
         }
         $mess .= ": " . preg_replace('/[\r\n]+/', "; ", $this->cleanResult);
-
-		$this->log->info($mess);
+        //begin-patch skyguide
+        $this->log->info($mess);
+        //end-patch skyguide
     }
 
     /**

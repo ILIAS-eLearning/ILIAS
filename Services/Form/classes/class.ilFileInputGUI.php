@@ -340,9 +340,10 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         if ($_FILES[$this->getPostVar()]["tmp_name"] != "") {
             $vir = ilUtil::virusHandling($temp_name, $filename);
 
-			if ($vir[0] == false)
-			{
-				$this->setAlert($lng->txt("form_msg_file_virus_found"));
+            if ($vir[0] == false) {
+                //begin-patch skyguide
+                $this->setAlert($lng->txt("form_msg_file_virus_found"));
+                //end-patch skyguide
                 return false;
             }
         }
