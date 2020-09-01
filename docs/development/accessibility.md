@@ -776,76 +776,52 @@ Target group: developer
 
 In content implemented using markup languages, status messages MUST be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
 
-# Cheat Sheet
-This list is prepared to inform developers what accessibility means for their daily work. This list was prepared by the SIG accessibility to their best knowledge. Still it may contain some errors. 
-Thus, we suggest to use compliance testing as a yardstick for quality: Compliance testing is more important than these phrases, we will adapt these phrases via the jour fixe if compliance testing indicates they are erroneous or lacking information.  
-We still hope the following list is helpful in everyday work.
-
-## Structure 
-Check how your suggested element fits into our semantic structures. 
-1.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1)
-2.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).  
-3.	Users must be able to skip ‘repeated content of second rank’ i.e. Secondary Panels (2.4.1). Use aria landmark role ‘complementary’ to make elements skippable. 
-4.	Make the DOM order matche the visual order (1.3.2). When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. If this will not work use tabindex 0. 
-5.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
-## Headings and Labels and Language
-6.	Our headings and labels have to be clear and descriptive (2.4.6). 
-7.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
-	* Provide text instructions describing the necessary input in a by-line to the field.
-	* Use aria-describedby property to provide information about a user interface element. 
-8.	Always use the language attribute on the HTML element. Screen readers change pronunciation automatically. (3.1.1)
-9.	Indicate the language for each chunk of text (3.1.2). Using the language attribute on the HTML element. Screen readers change pronunciation automatically. 
-10.	Functional and informative components, i.e. labels and icons, must have consistent labels, aria-labels and alt-texts. 
-## Alt-Texts and aria labels
-11.	All non-text elements (icons, glyphs, images, graphs and the like) must have alt-texts (1.1.1). Do they? For all their statuses? 
-12.	The aria-label for an element must contain the text the element presents (2.5.3). This is really important for speech input. 
-13.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
-14.	If drag & drop is used one has to make sure dropping can be cancel and that accessible names can be matched to visible labels. (2.5.2)
-## Colour and Contrast
-Please check your suggested element for colour and contrast issues. 
-
-15.	Use of colour as a visual cue is only ok if it is accompanied by text or shape with alt-text 1.4.1.
-16.	Text must have a contrast ratio of at least 4,5:1 to background for normal text and at least 3:1 for text bigger than 18 points in size (1.4.3). 
-17.	Controls and states must have a contrast ratio of at least 3:1 against adjacent colours. Same applies for charts (result presentation) because they convey meaning (1.4.11). 
-## Resize and Reflow
-18.	ILIAS can be resized by up to 200 percent without loss of content or functionality (1.4.4).
-19.	All Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions for: Vertical scrolling content at a width equivalent to 320 CSS pixels; Horizontal scrolling content at a height equivalent to 256 CSS pixels. 320 CSS pixels is equivalent to a starting viewport width of 1280 CSS pixels at 400% zoom. For web content which is designed to scroll horizontally (e.g., with vertical text), 256 CSS pixels is equivalent to a starting viewport height of 1024 CSS pixels at 400% zoom. (1.4.10)
-## Forms
-20.	Standard HTML controls meet accessibility requirements when used according to specification. If we prepare our own controls name and role MUST be determinable programmatically; states, properties, and values that can be set by the user MUST be programmatically settable; and notification of changes to these items MUST be available to user agents, including assistive technologies. (4.1.2)
-21.	All input fields gathering information about the user have a label clearly stating the purpose of this field (1.3.5).
-22.	Use an onchange event on a select element to update other elements i.e. in a form without causing a change of context. (3.2.2)
-## Messages 
-23.	Make users aware that an error has occurred and help them to determine what is wrong i.e. by indicating form fields in the error message.  Make failure messages as specific as possible.  (3.3.1)
-	* Use aria-required property to identify required fields.
-	* Use role aria-invalid on required fields that have no input. 
-	* Use aria role alertdialog for the Failure message.  
-24.	We must have confirmation dialogues before an action is taken that has serious consequences and / or cannot be reversed i.e. deleting objects. (3.3.4)
-25.	Use the aria role status for status messages. (4.1.3)
-## Extra Content 
-26.	If an element like a tab gets keyboard focus or receives the pointer hover and then additional content i.e.  a tool tip or a popover is displayed. We have to make sure the additional content does not interfere with the usage of the rest of the page: The additional content must be dismissable for example by clicking Esc or X. The additional content must be hoverable itself and must not disappear once the trigger is left. (1.4.13)
+# Accessibility Checklist 
+This list is prepared to be worked thorugh by developers implementing specific projects. Results from external compliance testing may lead to adapting these phrases. Changes will be subjected to the jour fixe if compliance testing indicates they are erroneous or lacking information. We still hope the following list is helpful in everyday work, please let us know if this is not the case. 
+1. Tastaturnutzbarkeit
+2. Fokusverfolgung
+3. HTML Elemente Überschriftenstruktur
+4. Kontraste
+5. Alt-Texte
 ## Tabbing and Focus
-27.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
-28.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
-29.	Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) 
-30.	Tabbing order must be sensible and predictable. The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
-31.	If an element gains focus it must not
+Please manually check your project for tabbing and focus quaility: 
+
+1.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
+2.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
+3.	Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) 
+4.	Tabbing order must be sensible and predictable. The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
+5.	If an element gains focus it must not
 	* transfer users to a different context automatically and without warning i.e. open a new window. 
 	* Carry out an action automatically i.e. submit a form after a save-button received focus. 
-Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
-Give users a submit-button to initiate change of context. 
-## Access Keys
-32.	Important new functionality should get Access Keys. 
-33.	Access Keys can be remapped to non-prinatble characters i.e.Ctrl to avoid being carried out accidentally (2.1.4). This is important for users using speech input, which could become a nuisance.  
-Moving information
-34.	Any moving, blinking, scrolling, or auto-updating information that starts automatically and goes on must offer an option for users to pause, stop or hide it (2.2.2)
-35.	Consult https://www.w3.org/TR/wai-aria-practices-1.2/ to obtain guidance for your respective suggestion. 
-## Manipulation by gestures
-36.	People must be able to operate ILIAS with a single pointer (finger or mouse) and low accuracy (2.5.1). Making people use two fingers to enlarge something is not OK. Making people grab something and accurately put it first to point A to progress to point B is not OK.
-## Requirements we meet and do not have to work on 
+6.      Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
+7.      Give users a submit-button to initiate change of context. 
+## Structure 
+Check how your project complies to our semantic structures: 
 
-* ILIAS deals equally well with landscape and portrait orientation. To use show/hide controls for different orientations is fine. (1.3.4)
-* We do not use images of text except for the logo (1.4.5)
-* Every ILIAS Installation has a title. (2.4.2)
-* Colour is never used as the only way to convey information (1.4.1)
-* We provide different ways to allow locating content: Search, trees, breadcrumb (2.4.5)
-* In some games tilting your phone will make the car turn. We do not use shaking, tilting or the like to operate ILIAS. (2.5.4)
+8.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1). Use [validator](https://validator.w3.org/) to verfiy, [this test case](https://testrail.ilias.de/index.php?/tests/view/44245) may be helpful.  
+9.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).  @Thomas: Ich brauche hier eine Sprungstelle auf das md zu den Roles.  @Michael: Ich brauche hier eine Sprungstelle zu den Headlines. 
+10.	Make the DOM order match the visual order (1.3.2). The screen reader will the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually on the top.
+11.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
+## Headings and Labels and Language (Überschrift ist unpassend) 
+12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not neccessarily concern developers and can be handled by language manintainer or editorial team. 
+14.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
+	* Provide text instructions describing the necessary input in a by-line to the field.
+	* Use aria-describedby property to provide information about a user interface element. 
+15.	Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
+## Colour and Contrast
+Please check your project for colour and contrast issues: 
+
+16.	Use of colour as a visual cue is only ok if it is accompanied by text or shape with alt-text (1.4.1.)
+17.	Ensure contrast requirements are met. Use Wave or Lighthouse to verify. 
+## Alt-Texts and aria labels
+Please check if your project labels the GUI for all target groups:
+
+18.	Non-text elements like icons, images, graphs and the like must have alt-texts (1.1.1). 
+19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
+20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
+21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
+
+
+
+
+
