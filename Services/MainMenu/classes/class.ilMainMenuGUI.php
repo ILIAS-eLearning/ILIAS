@@ -768,8 +768,8 @@ class ilMainMenuGUI
                 $element_id,
                 ilHelp::getMainMenuTooltip($help_id),
                 "",
-                "top center",
-                "bottom center",
+                "top right",
+                "top left",
                 false
             );
         }
