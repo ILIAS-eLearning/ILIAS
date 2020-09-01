@@ -562,9 +562,14 @@ footer {
 			header,
 			.il-maincontrols,
 			.breadcrumbs,
-			footer {
-				display: none;
+			footer,
+			.ilFileDropTargetOverlay {
+				display: none !important;
 			}
+		}
+		.il-layout-page-content,
+		.il-layout-page-content div	{
+			display: block;
 		}
 	}
 }
