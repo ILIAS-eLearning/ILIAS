@@ -3,11 +3,11 @@
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Competence profiles of a container
+ * Global competence profiles of a container
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilContainerProfiles
+class ilContainerGlobalProfiles
 {
     /**
      * @var ilDBInterface
@@ -97,7 +97,7 @@ class ilContainerProfiles
      *
      * @return array
      */
-    public function getProfiles()
+    public function getProfiles() : array
     {
         return $this->profiles;
     }
@@ -110,8 +110,11 @@ class ilContainerProfiles
         $db = $this->db;
 
         $this->profiles = array();
-        $set = $db->query("SELECT * FROM skl_profile_role " .
-            " WHERE role_id  = " . $db->quote($this->getId(), "integer"));
+        $set = $db->query("SELECT spr.profile_id, spr.role_id FROM skl_profile_role spr INNER JOIN skl_profile sp " .
+            " ON spr.profile_id = sp.id " .
+            " WHERE sp.ref_id = 0 " .
+            " AND role_id  = " . $db->quote($this->getId(), "integer")
+        );
         while ($rec = $db->fetchAssoc($set)) {
             $this->profiles[$rec["profile_id"]] = $rec;
         }
@@ -124,8 +127,11 @@ class ilContainerProfiles
     {
         $db = $this->db;
 
-        $db->manipulate("DELETE FROM skl_profile_role WHERE " .
-            " role_id = " . $db->quote($this->getId(), "integer"));
+        $db->manipulate("DELETE spr FROM skl_profile_role spr INNER JOIN skl_profile sp " .
+            " ON spr.profile_id = sp.id " .
+            " WHERE sp.ref_id = 0 " .
+            " AND role_id = " . $db->quote($this->getId(), "integer")
+        );
     }
 
     /**

@@ -34,14 +34,19 @@ class ilContSkillTableGUI extends ilTable2GUI
     protected $container_skills;
 
     /**
-     * @var ilContainerProfiles
+     * @var ilContainerGlobalProfiles
      */
-    protected $container_profiles;
+    protected $container_global_profiles;
+
+    /**
+     * @var ilContainerLocalProfiles
+     */
+    protected $container_local_profiles;
 
     /**
      * @var ilContSkillCollector
      */
-    protected $cont_skill_collector;
+    protected $container_skill_collector;
 
     /**
      * Constructor
@@ -50,7 +55,8 @@ class ilContSkillTableGUI extends ilTable2GUI
         $a_parent_obj,
         $a_parent_cmd,
         ilContainerSkills $a_cont_skills,
-        ilContainerProfiles $a_cont_profiles
+        ilContainerGlobalProfiles $a_cont_glb_profiles,
+        ilContainerLocalProfiles $a_cont_lcl_profiles
     ) {
         global $DIC;
 
@@ -61,9 +67,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->skill_tree = new ilSkillTree();
 
         $this->container_skills = $a_cont_skills;
-        $this->container_profiles = $a_cont_profiles;
+        $this->container_global_profiles = $a_cont_glb_profiles;
+        $this->container_local_profiles = $a_cont_lcl_profiles;
 
-        $this->cont_skill_collector = new ilContSkillCollector($this->container_skills, $this->container_profiles);
+        $this->container_skill_collector = new ilContSkillCollector(
+            $this->container_skills,
+            $this->container_global_profiles,
+            $this->container_local_profiles
+        );
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getSkills());
@@ -90,7 +101,7 @@ class ilContSkillTableGUI extends ilTable2GUI
      */
     public function getSkills()
     {
-        $skills = $this->cont_skill_collector->getSkillsForTableGUI();
+        $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }

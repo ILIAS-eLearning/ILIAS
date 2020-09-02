@@ -22,23 +22,38 @@ class ilContSkillCollector
     /**
      * @var ilContainerSkills
      */
-    protected $cont_skills;
+    protected $container_skills;
 
     /**
-     * @var ilContainerProfiles
+     * @var ilContainerGlobalProfiles
      */
-    protected $cont_profiles;
+    protected $container_global_profiles;
+
+    /**
+     * @var ilContainerLocalProfiles
+     */
+    protected $container_local_profiles;
+
+    /**
+     * @var ilSkillManagementSettings
+     */
+    protected $skmg_settings;
 
     /**
      * Constructor
-     *
-     * @param ilContainerSkills   $a_cont_skills
-     * @param ilContainerProfiles $a_cont_profiles
+     * @param ilContainerSkills         $a_cont_skills
+     * @param ilContainerGlobalProfiles $a_cont_glb_profiles
+     * @param ilContainerLocalProfiles  $a_cont_lcl_profiles
      */
-    public function __construct(ilContainerSkills $a_cont_skills, ilContainerProfiles $a_cont_profiles)
-    {
+    public function __construct(
+        ilContainerSkills $a_cont_skills,
+        ilContainerGlobalProfiles $a_cont_glb_profiles,
+        ilContainerLocalProfiles $a_cont_lcl_profiles
+    ) {
         $this->container_skills = $a_cont_skills;
-        $this->container_profiles = $a_cont_profiles;
+        $this->container_global_profiles = $a_cont_glb_profiles;
+        $this->container_local_profiles = $a_cont_lcl_profiles;
+        $this->skmg_settings = new ilSkillManagementSettings();
     }
 
     /**
@@ -112,16 +127,35 @@ class ilContSkillCollector
     protected function getProfileSkills() : array
     {
         $p_skills = array();
-        foreach ($this->container_profiles->getProfiles() as $p) {
-            $profile = new ilSkillProfile($p["profile_id"]);
-            $sklvs = $profile->getSkillLevels();
-            foreach ($sklvs as $s) {
-                $p_skills[] = array(
-                    "base_skill_id" => $s["base_skill_id"],
-                    "tref_id" => $s["tref_id"],
-                    "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
-                    "profile" => $profile->getTitle()
-                );
+        // Global skills
+        if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
+            foreach ($this->container_global_profiles->getProfiles() as $gp) {
+                $profile = new ilSkillProfile($gp["profile_id"]);
+                $sklvs = $profile->getSkillLevels();
+                foreach ($sklvs as $s) {
+                    $p_skills[] = array(
+                        "base_skill_id" => $s["base_skill_id"],
+                        "tref_id" => $s["tref_id"],
+                        "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
+                        "profile" => $profile->getTitle()
+                    );
+                }
+            }
+        }
+
+        // Local skills
+        if ($this->skmg_settings->getAllowLocalProfiles()) {
+            foreach ($this->container_local_profiles->getProfiles() as $lp) {
+                $profile = new ilSkillProfile($lp["profile_id"]);
+                $sklvs = $profile->getSkillLevels();
+                foreach ($sklvs as $s) {
+                    $p_skills[] = array(
+                        "base_skill_id" => $s["base_skill_id"],
+                        "tref_id" => $s["tref_id"],
+                        "title" => ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]),
+                        "profile" => $profile->getTitle()
+                    );
+                }
             }
         }
 

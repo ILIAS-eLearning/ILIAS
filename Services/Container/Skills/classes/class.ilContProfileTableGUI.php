@@ -27,22 +27,50 @@ class ilContProfileTableGUI extends ilTable2GUI
     protected $tpl;
 
     /**
-     * @var ilContainerProfiles
+     * @var \ILIAS\UI\Factory
      */
-    protected $container_profiles;
+    protected $ui_factory;
+
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $ui_renderer;
+
+    /**
+     * @var ilContainerGlobalProfiles
+     */
+    protected $container_global_profiles;
+
+    /**
+     * @var ilContainerLocalProfiles
+     */
+    protected $container_local_profiles;
+
+    /**
+     * @var ilSkillManagementSettings
+     */
+    protected $skmg_settings;
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilContainerProfiles $a_cont_profiles)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        ilContainerGlobalProfiles $a_cont_glb_profiles,
+        ilContainerLocalProfiles $a_cont_lcl_profiles
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
 
-        $this->container_profiles = $a_cont_profiles;
+        $this->container_global_profiles = $a_cont_glb_profiles;
+        $this->container_local_profiles = $a_cont_lcl_profiles;
+        $this->skmg_settings = new ilSkillManagementSettings();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getProfiles());
@@ -50,13 +78,19 @@ class ilContProfileTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
+        $this->addColumn($this->lng->txt("context"), "", "1");
         $this->addColumn($this->lng->txt("actions"), "", "1");
 
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_profile_row.html", "Services/Container/Skills");
         $this->setSelectAllCheckbox("id");
 
-        $this->addMultiCommand("confirmRemoveSelectedProfile", $this->lng->txt("remove"));
+        if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
+            $this->addMultiCommand("confirmRemoveSelectedGlobalProfiles", $this->lng->txt("remove"));
+        }
+        if ($this->skmg_settings->getAllowLocalProfiles()) {
+            $this->addMultiCommand("confirmDeleteSelectedLocalProfiles", $this->lng->txt("delete"));
+        }
     }
 
     /**
@@ -67,12 +101,23 @@ class ilContProfileTableGUI extends ilTable2GUI
     public function getProfiles()
     {
         $profiles = array();
-        foreach ($this->container_profiles->getProfiles() as $p) {
-            $profiles[] = array(
-                "profile_id" => $p["profile_id"],
-                "title" => ilSkillProfile::lookupTitle($p["profile_id"])
-            );
+        if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
+            foreach ($this->container_global_profiles->getProfiles() as $gp) {
+                $profiles[$gp["profile_id"]] = array(
+                    "profile_id" => $gp["profile_id"],
+                    "title" => ilSkillProfile::lookupTitle($gp["profile_id"])
+                );
+            }
         }
+        if ($this->skmg_settings->getAllowLocalProfiles()) {
+            foreach ($this->container_local_profiles->getProfiles() as $lp) {
+                $profiles[$lp["profile_id"]] = array(
+                    "profile_id" => $lp["profile_id"],
+                    "title" => ilSkillProfile::lookupTitle($lp["profile_id"])
+                );
+            }
+        }
+        ksort($profiles);
 
         return $profiles;
     }
@@ -85,11 +130,45 @@ class ilContProfileTableGUI extends ilTable2GUI
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;
         $lng = $this->lng;
+        $ui_factory = $this->ui_factory;
+        $ui_renderer = $this->ui_renderer;
 
         $tpl->setVariable("TITLE", $a_set["title"]);
         $tpl->setVariable("ID", $a_set["profile_id"]);
-        $tpl->setVariable("CMD", $lng->txt("cont_skill_remove_profile"));
+
+        if (ilSkillProfile::lookupRefId($a_set["profile_id"]) > 0) {
+            $tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_local"));
+        }
+        else {
+            $tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_global"));
+        }
+
         $ctrl->setParameter($this->parent_obj, "profile_id", $a_set["profile_id"]);
-        $tpl->setVariable("CMD_HREF", $ctrl->getLinkTarget($this->parent_obj, "confirmRemoveSingleProfile"));
+        $ctrl->setParameterByClass("ilskillprofilegui", "sprof_id", $a_set["profile_id"]);
+        $ctrl->setParameterByClass("ilskillprofilegui", "local_context", true);
+
+        if (ilSkillProfile::lookupRefId($a_set["profile_id"]) > 0) {
+            $items = array(
+                $ui_factory->link()->standard(
+                    $lng->txt("edit"),
+                    $ctrl->getLinkTargetByClass("ilskillprofilegui", "showLevelsWithLocalContext")
+                ),
+                $ui_factory->link()->standard(
+                    $lng->txt("delete"),
+                    $ctrl->getLinkTarget($this->parent_obj, "confirmDeleteSingleLocalProfile")
+                )
+            );
+        }
+        else {
+            $items = array(
+                $ui_factory->link()->standard(
+                    $lng->txt("remove"),
+                    $ctrl->getLinkTarget($this->parent_obj, "confirmRemoveSingleGlobalProfile")
+                )
+            );
+        }
+
+        $dropdown = $this->ui_factory->dropdown()->standard($items)->withLabel($lng->txt("actions"));
+        $tpl->setVariable("ACTIONS", $ui_renderer->render($dropdown));
     }
 }

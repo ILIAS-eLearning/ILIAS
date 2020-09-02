@@ -138,7 +138,8 @@ class ilContainerSkillGUI
                 $ctrl->getLinkTargetByClass("ilContSkillAdminGUI", "listCompetences")
             );
 
-            if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
+            if ($this->skmg_settings->getLocalAssignmentOfProfiles()
+                || $this->skmg_settings->getAllowLocalProfiles()) {
                 $tabs->addSubTab(
                     "profiles",
                     $lng->txt("cont_skill_assigned_profiles"),

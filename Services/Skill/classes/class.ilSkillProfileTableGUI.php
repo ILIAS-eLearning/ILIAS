@@ -44,6 +44,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 
         $this->addColumn("", "", "1px", true);
         $this->addColumn($this->lng->txt("title"), "title");
+        $this->addColumn($this->lng->txt("context"));
         $this->addColumn($this->lng->txt("users"));
         $this->addColumn($this->lng->txt("roles"));
         $this->addColumn($this->lng->txt("actions"));
@@ -87,6 +88,19 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TITLE", $a_set["title"]);
+
+        $profile_ref_id = ilSkillProfile::lookupRefId($a_set["id"]);
+        $profile_obj_id = ilContainerReference::_lookupObjectId($profile_ref_id);
+        $profile_obj_title = ilObject::_lookupTitle($profile_obj_id);
+        if ($profile_ref_id > 0) {
+            $this->tpl->setVariable(
+                "CONTEXT",
+                $lng->txt("cont_skill_context_local") . " (" . $profile_obj_title . ")");
+        }
+        else {
+            $this->tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_global"));
+        }
+
         $this->tpl->setVariable("NUM_USERS", ilSkillProfile::countUsers($a_set["id"]));
         $this->tpl->setVariable("NUM_ROLES", ilSkillProfile::countRoles($a_set["id"]));
     }
