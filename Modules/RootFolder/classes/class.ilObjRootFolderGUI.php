@@ -4,18 +4,15 @@
 
 
 /**
-* Class ilObjRootFolderGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$Id: class.ilObjRootFolderGUI.php,v 1.13 2006/03/10 09:22:58 akill Exp $
-*
-* @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI,
-* @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * Class ilObjRootFolderGUI
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilRepUtilGUI
-*
-* @extends ilObjectGUI
-*/
+ */
 class ilObjRootFolderGUI extends ilContainerGUI
 {
     /**

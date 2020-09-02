@@ -411,11 +411,11 @@ class ilCtrl
         // otherwise certain problem will be extremely hard to track down...
 
         error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ")");
+            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ")");
             
         include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ").");
+            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ").");
     }
 
     /**
@@ -1741,6 +1741,15 @@ class ilCtrl
     {
         $class_ids = explode(":", $a_node);
         return $class_ids[count($class_ids) - 2];
+    }
+
+    /**
+     * Get last class id of node
+     */
+    private function getCidOfNode($a_node)
+    {
+        $class_ids = explode(":", $a_node);
+        return $class_ids[count($class_ids) - 1];
     }
 
     /**
