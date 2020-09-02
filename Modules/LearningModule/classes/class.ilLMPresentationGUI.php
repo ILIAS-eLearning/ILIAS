@@ -1608,8 +1608,8 @@ class ilLMPresentationGUI
             );
 
             // track access
-            if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offlineMode()) {
-                $this->getTracker()->trackAccess($page_id);
+            if ($page_id != 0 && !$this->offlineMode()) {
+                $this->getTracker()->trackAccess($page_id, $ilUser->getId());
             }
         } else {
             $page_object_gui->setEnabledPageFocus(false);
