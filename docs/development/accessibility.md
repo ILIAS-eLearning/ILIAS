@@ -789,7 +789,40 @@ Check how your suggested element fits into our semantic structures.
 4.	Make the DOM order matche the visual order (1.3.2). When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. If this will not work use tabindex 0. 
 5.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
 ## Headings and Labels and Language
-6.	Our headings and labels have to be clear and descriptive (2.4.6). 
+6.	Our headings and labels have to be clear and descriptive (2.4.6).  
+  **Rules**
+    The headings SHOULD allow for overview and not create noise. 
+    If it is a visually-whole section is not a control then it MUST have a heading to act as a label. 
+    
+    * There MUST be exactly one single h1 level per page. This is not neccessarily the first element. 
+    * There can be more than one H1 level per page. 
+    * Nesting MUST not have holes in it like h3 following h1 or h5 following h3 . 
+    * The Breadcrumb does no longer bearing a h2 and thus h2 is freed up for use. 
+    * Same UI-Elements MUST have the same headline level throughout ILIAS.
+  **Headlines for specific UI-Elements**
+    - H1 
+        - Title of Container, if inside the object
+        - Title of object if inside the object
+    - H2 
+        - Standard Panels
+        - Item Group in the List GUI 
+        - Headlines Info-tab and in Forms
+        - Question title in Test 
+        - Glossary Terms
+        - Year Titles in Blogs
+        - Headlines in Forms
+        - Accordion titles 
+    - H3
+        - Primary Sub-Panels
+        - Question List in Test 
+        - Entries in List GI and Tile Lists
+    - H4 or ARIA Role Complementary 
+        - Headlines of Side Panels 
+    - H5 and H6
+        - no longer needed
+    - No longer headlines / Not headlines
+        - Comments are no longer headlines
+        - Metabar and Mainbar are not headlines
 7.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
 	* Provide text instructions describing the necessary input in a by-line to the field.
 	* Use aria-describedby property to provide information about a user interface element. 
