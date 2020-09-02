@@ -368,7 +368,7 @@ class URI
     }
 
     /**
-     * Get a well-formed URI consisting only out of
+     * Get a well-formed URI consisting only of
      * schema, authority and port.
      *
      * @return	string
@@ -380,5 +380,57 @@ class URI
             return $this->getSchema() . '://' . $this->getAuthority();
         }
         return $this->getSchema() . '://' . $this->getAuthority() . '/' . $path;
+    }
+
+    public function __toString() : string
+    {
+        $uri = $this->getBaseURI() . '?' . $this->getQuery();
+        if ($this->fragment) {
+            $uri .= '#' . $this->getFragment();
+        }
+        return $uri;
+    }
+
+    /**
+     * Get all parameters as associative array
+     */
+    public function getParameters() : array
+    {
+        $params = [];
+        parse_str($this->getQuery(), $params);
+        return $params;
+    }
+
+    /**
+     * Get the value of the given parameter (or null)
+     * @return  mixed|null
+     */
+    public function getParameter(string $param)
+    {
+        $params = $this->getParameters();
+        if (!array_key_exists($param, $params)) {
+            return null;
+        }
+        return $params[$param];
+    }
+
+    /**
+     * Get URI with modified parameters
+     */
+    public function withParameters(array $parameters) : URI
+    {
+        return $this->withQuery(
+            http_build_query($parameters)
+        );
+    }
+
+    /**
+     * Get URI with modified parameters
+     */
+    public function withParameter(string $key, $value) : URI
+    {
+        $params = $this->getParameters();
+        $params[$key] = $value;
+        return $this->withParameters($params);
     }
 }

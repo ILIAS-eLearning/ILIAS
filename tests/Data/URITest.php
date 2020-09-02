@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class URITest extends TestCase
 {
-    const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+    const URI_COMPLETE = 'g+it://github.com:8080/someaccount/somerepo/somerepo.git?query_par_1=val_1&query_par_2=val_2#fragment';
 
     const URI_COMPLETE_IPV4 = 'g+it://10.0.0.86:8080/someaccount/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
 
@@ -49,6 +49,12 @@ class URITest extends TestCase
     const URI_HOST_ALPHADIG_START_3 = 'http://.';
     const URI_HOST_ALPHADIG_START_4 = 'http://../';
     const URI_HOST_ALPHADIG_START_5 = 'http://-error-.invalid/';
+
+    const URI_BASE = 'git://github.com:8080/someaccount/somerepo/somerepo.git';
+    const PARAMS = [
+        'par_1' => 'val_1',
+        'par_2' => 'val_2'
+    ];
 
 
     /**
@@ -846,5 +852,99 @@ class URITest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
         $uri->withFragment('script>');
+    }
+
+    public function testToString()
+    {
+        $uri = new ILIAS\Data\URI(self::URI_COMPLETE);
+        $this->assertEquals(
+            self::URI_COMPLETE,
+            $uri
+        );
+    }
+
+    public function testGetParameters() : ILIAS\Data\URI
+    {
+        $url = self::URI_BASE . '?' . http_build_query(self::PARAMS);
+        $uri = new ILIAS\Data\URI($url);
+        $this->assertEquals(
+            self::PARAMS,
+            $uri->getParameters()
+        );
+        return $uri;
+    }
+
+    /**
+     * @depends testGetParameters
+     */
+    public function testGetParameter(ILIAS\Data\URI $uri)
+    {
+        $k = array_keys(self::PARAMS)[0];
+        $this->assertEquals(
+            self::PARAMS[$k],
+            $uri->getParameter($k)
+        );
+    }
+
+    /**
+     * @depends testGetParameters
+     */
+    public function testWithParameters(ILIAS\Data\URI $uri) : ILIAS\Data\URI
+    {
+        $params = ['x' => 1, 'y' => 2];
+        $uri = $uri->withParameters($params);
+        $this->assertEquals(
+            $params,
+            $uri->getParameters()
+        );
+        return $uri;
+    }
+
+    /**
+     * @depends testWithParameters
+     */
+    public function testSubstituteParameter(ILIAS\Data\URI $uri)
+    {
+        $uri = $uri->withParameter('x', 5);
+        $this->assertEquals(
+            5,
+            $uri->getParameter('x')
+        );
+    }
+    /**
+     * @depends testWithParameters
+     */
+    public function testAppendParameter(ILIAS\Data\URI $uri)
+    {
+        $params = [
+            'x' => 1, 'y' => 2,
+            'z' => 5
+        ];
+        $uri = $uri->withParameter('z', 5);
+        $this->assertEquals(
+            $params,
+            $uri->getParameters()
+        );
+    }
+
+    /**
+     * @depends testGetParameters
+     */
+    public function testWithArrayParameters(ILIAS\Data\URI $uri)
+    {
+        $params = ['x' => 1, 'y' => [10, 11, 12]];
+        $uri = $uri->withParameters($params);
+        $this->assertEquals(
+            $params,
+            $uri->getParameters()
+        );
+        $this->assertEquals(
+            'git://github.com:8080/someaccount/somerepo/somerepo.git?x=1&y%5B0%5D=10&y%5B1%5D=11&y%5B2%5D=12',
+            $uri
+        );
+        $this->assertEquals(
+            $params['y'],
+            $uri->getParameter('y')
+        );
     }
 }
