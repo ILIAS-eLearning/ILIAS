@@ -1273,7 +1273,6 @@ class ilStartUpGUI
             }
         }
 
-        $withdrawal_appendage_text = '';
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
         $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text").$withdrawal_appendage_text);
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));

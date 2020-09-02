@@ -527,7 +527,21 @@ class ilPersonalProfileGUI
         $this->tpl->setPermanentLink('usr', null, 'agreement');
         $this->tpl->printToStdout();
     }
-    
+
+    protected function showConsentWithdrawalConfirmation()
+    {
+        $this->tabs->clearTargets();
+        $this->tabs->clearSubTabs();
+
+        $tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+
+        $this->tpl->setTitle($this->lng->txt('usr_agreement'));
+
+        $this->tpl->setContent($tpl->get());
+        $this->tpl->setPermanentLink('usr', null, 'agreement');
+        $this->tpl->printToStdout();
+    }
+
     /**
      * Add location fields to form if activated
      *

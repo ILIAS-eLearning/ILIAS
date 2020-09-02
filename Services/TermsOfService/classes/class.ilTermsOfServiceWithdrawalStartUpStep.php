@@ -36,8 +36,11 @@ class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
     public function isInFulfillment() : bool
     {
         return (
-            strtolower($this->dic->ctrl()->getCmdClass()) === 'ilstartupgui' &&
-            strtolower($this->dic->ctrl()->getCmd()) === 'confirmWithdrawal'
+            strtolower($this->dic->ctrl()->getCmdClass()) === 'ilpersonalprofilegui' && (
+                strtolower($this->dic->ctrl()->getCmd()) === 'showuseragreement'  ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'confirmwithdrawal'  ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'rejectwithdrawal'
+            )
         );
     }
 
@@ -50,21 +53,8 @@ class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
             return false;
         }
 
-        if (!$this->dic->user()->hasToAcceptTermsOfServiceInSession()) {
-            return false;
-        }
-
-        if ($this->dic->user()->checkTimeLimit()) {
-            if ($this->dic->user()->hasToAcceptTermsOfService()) {
-                return true;
-            }
-
-            /** @var ilTermsOfServiceHelper $tosService */
-            $tosService = $this->dic['tos.service'];
-            if ($tosService->hasToResignAcceptance($this->dic->user(), $this->dic->logger()->tos())) {
-                $tosService->resetAcceptance($this->dic->user());
-                return true;
-            }
+        if ($this->dic->user()->getPref('consent_withdrawal_requested')) {
+            return true;
         }
 
         return false;
@@ -75,6 +65,9 @@ class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
      */
     public function execute() : void
     {
-        $this->dic->ctrl()->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=confirmWithdrawal');
+        $this->dic->ctrl()->redirectByClass(
+            [ilDashboardGUI::class, ilPersonalProfileGUI::class],
+            'showConsentWithdrawalConfirmation'
+        );
     }
 }
