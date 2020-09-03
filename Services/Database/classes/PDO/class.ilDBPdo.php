@@ -883,7 +883,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function addFulltextIndex($a_table, $a_fields, $a_name = "in")
     {
         $i_name = $this->constraintName($a_table, $a_name) . "_idx";
-        $f_str = implode($a_fields, ",");
+        $f_str = implode(",", $a_fields);
         $q = "ALTER TABLE $a_table ADD FULLTEXT $i_name ($f_str)";
         $this->query($q);
     }
