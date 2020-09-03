@@ -1298,7 +1298,7 @@ class ilObjSurvey extends ilObject
                 }
             }
         }
-        return join($author, ",");
+        return join(",", $author);
     }
 
     /**
@@ -3199,7 +3199,7 @@ class ilObjSurvey extends ilObject
                         "questionblock_id" => $row["questionblock_id"],
                         "title" => $row["title"],
                         "svy" => $surveytitles[$row["obj_fi"]],
-                        "contains" => join($questions_array, ", "),
+                        "contains" => join(", ", $questions_array),
                         "owner" => $row["owner_fi"]
                     );
                 }

@@ -74,7 +74,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $this->mailmessage->setRequired(true);
         $this->mailmessage->setCols(80);
         $this->mailmessage->setRows(10);
-        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
+        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
         $this->addItem($this->mailmessage);
 
         // save message

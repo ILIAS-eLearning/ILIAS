@@ -333,10 +333,10 @@ class ilFlashFileInputGUI extends ilFileInputGUI
                     $index++;
                 }
                 $template->setCurrentBlock("applet_parameter");
-                $template->setVariable("PARAM_VALUE", join($params, "&"));
+                $template->setVariable("PARAM_VALUE", join("&", $params));
                 $template->parseCurrentBlock();
                 $template->setCurrentBlock("flash_vars");
-                $template->setVariable("PARAM_VALUE", join($params, "&"));
+                $template->setVariable("PARAM_VALUE", join("&", $params));
                 $template->parseCurrentBlock();
             }
             $template->setCurrentBlock("applet");

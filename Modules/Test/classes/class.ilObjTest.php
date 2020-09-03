@@ -1487,7 +1487,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         array_push($changed_fields, "$key: " . $oldrow[$key] . " => " . $newrow[$key]);
                     }
                 }
-                $changes = join($changed_fields, ", ");
+                $changes = join(", ", $changed_fields);
                 if (count($changed_fields) > 0) {
                     $this->logAction($this->lng->txtlng("assessment", "log_modified_test", ilObjAssessmentFolder::_getLogLanguage()) . " [" . $changes . "]");
                 }
@@ -7041,7 +7041,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 }
             }
         }
-        return join($author, ",");
+        return join(",", $author);
     }
 
     /**
@@ -7070,7 +7070,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 }
             }
         }
-        return join($author, ",");
+        return join(",", $author);
     }
 
     /**

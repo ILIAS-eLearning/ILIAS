@@ -164,7 +164,7 @@ class ASS_MarkSchema
                         }
                     }
                     if (count($difffields)) {
-                        $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join($difffields, ", "));
+                        $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_changed", ilObjAssessmentFolder::_getLogLanguage()) . ": " . join(", ", $difffields));
                     }
                 } else {
                     $this->logAction($test_id, $lng->txtlng("assessment", "log_mark_removed", ilObjAssessmentFolder::_getLogLanguage()) . ": " .
