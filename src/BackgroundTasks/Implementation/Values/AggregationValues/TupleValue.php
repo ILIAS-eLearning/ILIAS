@@ -134,7 +134,7 @@ class TupleValue extends AbstractValue
      */
     private function constructType($list)
     {
-        return "(" + implode(",", $list->getType()) + ")";
+        return "(" . implode(",", $list->getType()) . ")";
     }
 
 
