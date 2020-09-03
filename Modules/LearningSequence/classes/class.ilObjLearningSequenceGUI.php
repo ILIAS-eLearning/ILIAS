@@ -156,6 +156,19 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 
         //exit real early for LP-checking.
         if ($cmd === LSControlBuilder::CMD_CHECK_CURRENT_ITEM_LP) {
+            if (isset($_GET[LSControlBuilder::PARAM_LP_CURRENT_ITEM_OBJID])) {
+                $current_obj_obj_id = (int) $_GET[LSControlBuilder::PARAM_LP_CURRENT_ITEM_OBJID];
+
+                print (int) ilLPStatus::_lookupStatus(
+                    $current_obj_obj_id,
+                    $this->user->getId(),
+                    true
+                );
+                exit;
+            }
+
+            //this is the previous way (before #28840)
+            //with iteration over learner items.
             print $this->getCurrentItemLearningProgress();
             exit;
         }

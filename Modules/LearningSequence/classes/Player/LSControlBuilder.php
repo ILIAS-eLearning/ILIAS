@@ -16,7 +16,8 @@ class LSControlBuilder implements ControlBuilder
 {
     const CMD_START_OBJECT = 'start_legacy_obj';
     const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
-    const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
+    const PARAM_LP_CURRENT_ITEM_OBJID = 'ccilpobjid';
+    const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 4000;
 
 
     /**
@@ -290,14 +291,18 @@ class LSControlBuilder implements ControlBuilder
         if ($this->start) {
             throw new \LogicException("Only one start-control per view...", 1);
         }
-        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, $parameter);
+
+        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, 0);
         $lp_cmd = str_replace(
             '&cmd=view&',
             '&cmd=' . self::CMD_CHECK_CURRENT_ITEM_LP . '&',
             $this_cmd
         );
-        $signal = $this->getStartSignal();
 
+        $current_obj_id = $parameter;
+        $lp_cmd .= '&' . self::PARAM_LP_CURRENT_ITEM_OBJID . '=' . $current_obj_id;
+
+        $signal = $this->getStartSignal();
         $this->setListenerJS($signal->getId(), $url, $lp_cmd, $this_cmd);
 
         $this->start = $this->ui_factory->button()
