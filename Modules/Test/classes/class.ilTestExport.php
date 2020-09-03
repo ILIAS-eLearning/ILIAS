@@ -307,7 +307,7 @@ abstract class ilTestExport
         $separator = ";";
         foreach ($rows as $evalrow) {
             $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
-            $csv .= join($csvrow, $separator) . "\n";
+            $csv .= join($separator, $csvrow) . "\n";
         }
         if ($deliver) {
             ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_aggregated.csv"));
@@ -923,7 +923,7 @@ abstract class ilTestExport
         $separator = ";";
         foreach ($rows as $evalrow) {
             $csvrow = &$this->test_obj->processCSVRow($evalrow, true, $separator);
-            $csv .= join($csvrow, $separator) . "\n";
+            $csv .= join($separator, $csvrow) . "\n";
         }
         if ($deliver) {
             ilUtil::deliverData($csv, ilUtil::getASCIIFilename($this->test_obj->getTitle() . "_results.csv"));
