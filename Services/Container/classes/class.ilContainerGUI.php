@@ -1601,7 +1601,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $_POST["id"][0]);
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         } else {
-            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($_POST["id"], "_"));
+            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $_POST["id"]));
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
 
@@ -2288,7 +2288,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             } else {
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($ref_ids, "_"));
+                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
 
