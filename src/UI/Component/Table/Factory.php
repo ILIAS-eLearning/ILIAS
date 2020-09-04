@@ -148,18 +148,19 @@ interface Factory
      *         The HTML tag enclosing the actual tabular presentation MUST have the
      *         role-attribute "grid".
      *       2: >
-     *         The HTML tag enclosing one record MUST have the role-attribute "row".
+     *         The HTML tag enclosing the actual tabular presentation MUST have an
+     *         attribute "aria-colcount" with the value set to the amount of
+     *         available cols (as opposed to visible cols!)
      *       3: >
-     *         A single cell MUST be marked with the role-attribute "gridcell".
-     *       4: >
-     *         Every single cell (including headers) MUST have a tabindex-attibute
-     *         initially set to "-1". When focused, this changes to "0".
-     *       5: >
      *         The row with the columns' headers and the area with the actual data
      *         MUST each be enclosed by a tag bearing the role-attribute "rowgroup".
+     *       4: >
+     *         The HTML tag enclosing one record MUST have the role-attribute "row".
+     *       5: >
+     *         A single cell MUST be marked with the role-attribute "gridcell".
      *       6: >
-     *         All (possible) columns of the Table MUST be counted; the result MUST
-     *         show in an attribute "aria-colcount" of the tag having the 'role="grid"'.
+     *         Every single cell (including headers) MUST have a tabindex-attibute
+     *         initially set to "-1". When focused, this changes to "0".
      *
      * ---
      * @param string     $title
@@ -199,6 +200,7 @@ interface Factory
      *       3: >
      *         Every Column MUST have the attribute "aria-colindex" with it's position
      *         in all available ("available" as opposed to visible!) columns of the table.
+     *         Numbering starts at 1, not 0.
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Factory
      */
