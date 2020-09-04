@@ -15123,3 +15123,4 @@ awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new v
 form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
 common#:#logo#:#ILIAS Logo###31 07 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
