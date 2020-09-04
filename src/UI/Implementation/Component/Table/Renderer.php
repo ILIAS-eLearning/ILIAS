@@ -254,7 +254,7 @@ class Renderer extends AbstractComponentRenderer
         $actions = $component->getActions();
         foreach ($actions as $action_id => $act) {
             $parameter_name = $act->getParameterName();
-            $target = $act->getTargetForButton();
+            $target = $act->getTarget();
             $type = 'URL';
 
             if ($target instanceof Component\Signal) {

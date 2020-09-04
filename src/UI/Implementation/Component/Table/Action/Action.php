@@ -58,25 +58,9 @@ abstract class Action implements I\Action
             $target->addOption($param, $value);
         }
         if ($target instanceof URI) {
-            if ($target->getQuery()) {
-                parse_str($target->getQuery(), $params);
-            } else {
-                $params = [];
-            }
-            $params[$param] = $value;
-            $target = $target->withQuery(http_build_query($params));
+            $target = $target->withParameter($param, $value);
         }
         $clone->target = $target;
         return $clone;
-    }
-
-    public function getTargetForButton()
-    {
-        $target = $this->getTarget();
-        if ($target instanceof Signal) {
-            return $target;
-        }
-        parse_str($target->getQuery(), $params);
-        return $target->getBaseURI() . '?' . http_build_query($params);
     }
 }
