@@ -8,7 +8,7 @@ use \ILIAS\UI\Implementation\Component as I;
 use \ILIAS\Data;
 
 /**
- * Tests for the Renderer of Tables.
+ * Tests for the Data Table.
  */
 class DataTest extends ILIAS_UI_TestBase
 {
@@ -86,9 +86,7 @@ class DataTest extends ILIAS_UI_TestBase
                 array $visible_column_ids,
                 array $additional_parameters
             ) : \Generator {
-                foreach ($this->records as $row_id => $record) {
-                    yield $row_factory->standard($row_id, $record);
-                }
+                yield 'x';
             }
         };
 

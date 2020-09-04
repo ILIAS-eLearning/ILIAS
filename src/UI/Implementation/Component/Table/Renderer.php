@@ -8,7 +8,7 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ilTemplateWrapper as Template;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -161,10 +161,10 @@ class Renderer extends AbstractComponentRenderer
             $additional_parameters
         );
 
-        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
-
-        $component = $this->registerActionsForTable($component);
+        $component = $this->registerActionsJS($component);
         $id = $this->bindJavaScript($component);
+
+        $tpl = $this->getTemplate("tpl.datatable.html", true, true);
 
         $tpl->setVariable('ID', $id);
         $tpl->setVariable('TITLE', $title);
@@ -184,24 +184,18 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
-    protected function getMultiActionsDropdown(
-        array $actions,
-        Component\Signal $action_signal
-    ) : ?\ILIAS\UI\Component\dropdown\Dropdown {
-        if (count($actions) < 1) {
-            return null;
+    protected function registerActionsJS(Component\Table\Data $component) : Component\Table\Data
+    {
+        $component = $component->withAdditionalOnLoadCode(
+            $this->getMultiActionHandler($component->getActionSignal())
+        );
+        $actions = $component->getActions();
+        foreach ($actions as $action_id => $action) {
+            $component = $component->withAdditionalOnLoadCode(
+                $this->getActionRegistration($action_id, $action)
+            );
         }
-        $f = $this->getUIFactory();
-        $buttons = [];
-
-        foreach ($actions as $action_id => $act) {
-            $signal = clone $action_signal;
-            $signal->addOption('action', $action_id);
-            $buttons[] = $f->button()->shy($act->getLabel(), $signal);
-        }
-        $dropdown = $f->dropdown()->standard($buttons);
-        return $dropdown;
+        return $component;
     }
 
     /**
@@ -238,42 +232,58 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function registerActionsForTable(Component\Table\Data $component) : Component\Table\Data
+    protected function getMultiActionsDropdown(
+        array $actions,
+        Component\Signal $action_signal
+    ) : ?\ILIAS\UI\Component\dropdown\Dropdown {
+        if (count($actions) < 1) {
+            return null;
+        }
+        $f = $this->getUIFactory();
+        $buttons = [];
+
+        foreach ($actions as $action_id => $act) {
+            $signal = clone $action_signal;
+            $signal->addOption('action', $action_id);
+            $buttons[] = $f->button()->shy($act->getLabel(), $signal);
+        }
+        $dropdown = $f->dropdown()->standard($buttons);
+        return $dropdown;
+    }
+
+    protected function getMultiActionHandler(Component\Signal $action_signal) : \Closure
     {
-        //register handler
-        $action_signal = $component->getActionSignal();
-        $component = $component->withAdditionalOnLoadCode(function ($id) use ($action_signal) {
+        return function ($id) use ($action_signal) {
             return "
                 $(document).on('{$action_signal}', function(event, signal_data) {
                     il.UI.table.data.doAction('{$id}', signal_data, il.UI.table.data.collectSelectedRowIds('{$id}'));
                     return false;
                 });";
-        });
-
-        //register actions
-        $actions = $component->getActions();
-        foreach ($actions as $action_id => $act) {
-            $parameter_name = $act->getParameterName();
-            $target = $act->getTarget();
-            $type = 'URL';
-
-            if ($target instanceof Component\Signal) {
-                $type = 'SIGNAL';
-                $target = json_encode([
-                    'id' => $target->getId(),
-                    'options' => $target->getOptions()
-                ]);
-            }
-
-            $component = $component->withAdditionalOnLoadCode(function ($id) use ($action_id, $type, $target, $parameter_name) {
-                return "
-                    il.UI.table.data.registerAction('{$id}', '{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
-                ";
-            });
-        }
-        return $component;
+        };
     }
 
+    protected function getActionRegistration(
+        string $action_id,
+        Component\Table\Action\Action $action
+    ) : \Closure {
+        $parameter_name = $action->getParameterName();
+        $target = $action->getTarget();
+        $type = 'URL';
+
+        if ($target instanceof Component\Signal) {
+            $type = 'SIGNAL';
+            $target = json_encode([
+                'id' => $target->getId(),
+                'options' => $target->getOptions()
+            ]);
+        }
+
+        return function ($id) use ($action_id, $type, $target, $parameter_name) {
+            return "
+                il.UI.table.data.registerAction('{$id}', '{$action_id}', '{$type}', '{$target}', '{$parameter_name}');
+            ";
+        };
+    }
 
     public function renderStandardRow(Component\Table\Row $component, RendererInterface $default_renderer)
     {
@@ -288,37 +298,32 @@ class Renderer extends AbstractComponentRenderer
             $cell_tpl->parseCurrentBlock();
         }
 
-        if ($component->isSelectable()) {
-            $cell_tpl->setVariable('ROW_ID', $component->getId());
-        }
+        $cell_tpl->setVariable('ROW_ID', $component->getId());
 
-        $row_actions_html = $this->renderSingleActionsForRow(
+        $row_actions_dropdown = $this->getSingleActionsForRow(
             $component->getId(),
-            $component->getActions(),
-            $default_renderer
+            $component->getActions()
         );
-        $cell_tpl->setVariable('ACTION_CONTENT', $row_actions_html);
+        $cell_tpl->setVariable('ACTION_CONTENT', $default_renderer->render($row_actions_dropdown));
 
         return $cell_tpl->get();
     }
 
 
-    protected function renderSingleActionsForRow(
-        string $row_id,
-        array $actions,
-        RendererInterface $default_renderer
-    ) : string {
+    protected function getSingleActionsForRow(string $row_id, array $actions) : ?\ILIAS\UI\Component\Dropdown\Dropdown
+    {
         $f = $this->getUIFactory();
         $buttons = [];
         foreach ($actions as $act_id => $act) {
             $act = $act->withRowId($row_id);
-            $buttons[] = $f->button()->shy(
-                $act->getLabel(),
-                $act->getTargetForButton()
-            );
+            $target = $act->getTarget();
+            if (!$target instanceof Component\Signal) {
+                $target = (string) $target;
+            }
+            $buttons[] = $f->button()->shy($act->getLabel(), $target);
         }
         $dropdown = $f->dropdown()->standard($buttons); //TODO (maybe?) ->withLabel("Actions")
-        return $default_renderer->render($dropdown);
+        return $dropdown;
     }
 
     /**
