@@ -22,7 +22,7 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface
      */
     public function supportsFulltext()
     {
-        return false;
+        return true;
     }
 
 
@@ -33,16 +33,5 @@ class ilDBPdoMySQLInnoDB extends ilDBPdoMySQL implements ilDBInterface
     {
         return false;
     }
-
-
-    /**
-     * @param $table_name
-     * @param $afields
-     * @param string $a_name
-     * @return bool
-     */
-    public function addFulltextIndex($table_name, $afields, $a_name = 'in')
-    {
-        return false; // NOT SUPPORTED
-    }
+    
 }
