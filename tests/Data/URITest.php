@@ -947,4 +947,20 @@ class URITest extends TestCase
             $uri->getParameter('y')
         );
     }
+
+    public function testWithOutParameters()
+    {
+        $uri = new ILIAS\Data\URI(self::URI_NO_QUERY_2);
+        $this->assertEquals(
+            [],
+            $uri->getParameters()
+        );
+
+        $this->assertNull($uri->getParameter('y'));
+
+        $this->assertEquals(
+            self::URI_NO_QUERY_2,
+            (string) $uri
+        );
+    }
 }

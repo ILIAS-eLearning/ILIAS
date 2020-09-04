@@ -384,9 +384,14 @@ class URI
 
     public function __toString() : string
     {
-        $uri = $this->getBaseURI() . '?' . $this->getQuery();
-        if ($this->fragment) {
-            $uri .= '#' . $this->getFragment();
+        $uri = $this->getBaseURI();
+        $query = $this->getQuery();
+        if ($query) {
+            $uri .= '?' . $query;
+        }
+        $fragment = $this->getFragment();
+        if ($fragment) {
+            $uri .= '#' . $fragment;
         }
         return $uri;
     }
@@ -397,7 +402,10 @@ class URI
     public function getParameters() : array
     {
         $params = [];
-        parse_str($this->getQuery(), $params);
+        $query = $this->getQuery();
+        if (!is_null($query)) {
+            parse_str($query, $params);
+        }
         return $params;
     }
 
