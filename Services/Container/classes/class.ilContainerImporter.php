@@ -49,6 +49,7 @@ class ilContainerImporter extends ilXmlImporter
         // pages
         include_once('./Services/COPage/classes/class.ilPageObject.php');
         $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
+        var_dump($page_map);
         foreach ($page_map as $old_pg_id => $new_pg_id) {
             $parts = explode(':', $old_pg_id);
             $pg_type = $parts[0];
@@ -67,6 +68,7 @@ class ilContainerImporter extends ilXmlImporter
         // style
         include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
+        var_dump($sty_map);
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
             if (is_array(ilContainerXmlParser::$style_map[$old_sty_id])) {
                 foreach (ilContainerXmlParser::$style_map[$old_sty_id] as $obj_id) {
@@ -74,5 +76,12 @@ class ilContainerImporter extends ilXmlImporter
                 }
             }
         }
+
+        // skills
+        $skl_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_prof'); // skll ??
+        //var_dump($skl_prof_map); exit;
+        //foreach ($skl_prof_map as $old_skl_prof_id => $new_skl_prof_id) {
+
+        //}
     }
 }

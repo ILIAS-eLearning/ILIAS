@@ -201,7 +201,9 @@ class ilSkillDataSet extends ilDataSet
                     return array(
                             "Id" => "integer",
                             "Title" => "text",
-                            "Description" => "text"
+                            "Description" => "text",
+                            "RefId" => "integer"
+                            //obj id auch
                     );
             }
         }
@@ -341,6 +343,7 @@ class ilSkillDataSet extends ilDataSet
                     $this->getDirectDataFromQuery("SELECT id, title, description" .
                             " FROM skl_profile WHERE " .
                             $ilDB->in("id", $a_ids, false, "integer"));
+                    $this->data["RefId"] = 0;
                     break;
 
             }
@@ -558,6 +561,7 @@ class ilSkillDataSet extends ilDataSet
                 $prof = new ilSkillProfile();
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);
+                $prof->setRefId($a_rec["RefId"]);
                 $prof->create();
                 $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
                 break;
