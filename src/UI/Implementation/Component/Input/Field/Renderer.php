@@ -55,6 +55,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\SwitchableGroup):
                 return $this->renderSwitchableGroup($component, $default_renderer);
 
+            case ($component instanceof F\Section):
+                return $this->renderSection($component, $default_renderer);
+
             case ($component instanceof F\Group):
                 return $default_renderer->render($component->getInputs());
 
@@ -90,9 +93,6 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Duration):
                 return $this->renderDurationField($component, $default_renderer);
-
-            case ($component instanceof F\Section):
-                return $this->renderSection($component, $default_renderer);
 
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
@@ -593,7 +593,7 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderSection(F\Section $section, RendererInterface $default_renderer) : string
     {
-        $tpl = $this->getTemplate("tpl.section.html", true, true);
+        $section_tpl = $this->getTemplate("tpl.section.html", true, true);
         $inputs_html = "";
         foreach ($section->getInputs() as $input) {
             $inputs_html .= $default_renderer->render($input);
