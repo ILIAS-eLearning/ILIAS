@@ -245,6 +245,9 @@ a < div > element is used. This level seems redundant and not giving any advanta
 over just starting with < body >. We should remove the < div > element, but must
 keep the functionalities, which are coupled to the "class"-attribute of the element.
 
+### Complete rendering-tests for Inputs (beginner):
+The UI Inputs do not all have a rendering test.
+Add, where missing, and refine existing.
 
 ## Long Term
 
