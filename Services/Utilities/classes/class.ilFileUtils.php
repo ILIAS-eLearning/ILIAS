@@ -61,7 +61,6 @@ class ilFileUtils
 
     public static function processZipFile($a_directory, $a_file, $structure, $ref_id = null, $containerType = null, $tree = null, $access_handler = null)
     {
-
         global $DIC;
 
         $lng = $DIC->language();
@@ -125,8 +124,10 @@ class ilFileUtils
                 }
             }
             if (isset($doublettes)) {
-                throw new ilFileUtilsException($lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes,
-                    ilFileUtilsException::$DOUBLETTES_FOUND);
+                throw new ilFileUtilsException(
+                    $lng->txt("exc_upload_error") . "<br />" . $lng->txt("zip_structure_error") . $doublettes,
+                    ilFileUtilsException::$DOUBLETTES_FOUND
+                );
             }
         } else {
             $mac_dir = $a_directory . "/__MACOSX";
@@ -411,7 +412,7 @@ class ilFileUtils
      *
      * @return string base decoded content
      */
-    function fastBase64Encode($filein, $fileout)
+    public function fastBase64Encode($filein, $fileout)
     {
         $fh = fopen($filein, 'rb');
         $fh2 = fopen($fileout, 'wb');
@@ -881,7 +882,7 @@ class ilFileUtils
         $pi = pathinfo($a_target);
         if (!in_array(strtolower($pi["extension"]), self::getValidExtensions())) {
             include_once("./Services/Utilities/classes/class.ilFileUtilsException.php");
-            throw new ilFileUtilsException("Invalid target file " . $pi["basename"] . ".");
+            throw new ilFileUtilsException("Invalid target file");
         }
 
         return rename($a_source, $a_target);

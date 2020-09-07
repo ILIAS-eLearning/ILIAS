@@ -5,15 +5,14 @@ class ilServicesUserSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesUserSuite();
-		
-		include_once("./Services/User/test/ilObjUserTest.php");
-		$suite->addTestSuite("ilObjUserTest");
+        $suite = new ilServicesUserSuite();
+        
+        include_once("./Services/User/test/ilObjUserTest.php");
+        $suite->addTestSuite("ilObjUserTest");
 
-		require_once dirname(__FILE__) . '/ilObjUserPasswordTest.php';
-		$suite->addTestSuite('ilObjUserPasswordTest');
+        require_once dirname(__FILE__) . '/ilObjUserPasswordTest.php';
+        $suite->addTestSuite('ilObjUserPasswordTest');
 
-		return $suite;
+        return $suite;
     }
 }
-?>

@@ -9,7 +9,7 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 		var oldestTimestamp = oldestMessageTimestamp;
 		var socket = this;
 
-		if(conversation.isParticipant(this.participant))
+		if(conversation !== null && conversation.isParticipant(this.participant))
 		{
 			function onConversationResult(row){
 				if(oldestTimestamp === null || oldestTimestamp > row.timestamp) {

@@ -13,41 +13,40 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
  */
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
-	/**
-	 * @param array $config
-	 */
-	public function __construct(array $config = array())
-	{
-	}
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config = array())
+    {
+    }
 
-	/**
-	 * {@inheritdoc}
-	 * @throws ilPasswordException
-	 */
-	public function encodePassword($raw, $salt)
-	{
-		if($this->isPasswordTooLong($raw))
-		{
-			require_once 'Services/Password/exceptions/class.ilPasswordException.php';
-			throw new ilPasswordException('Invalid password.');
-		}
+    /**
+     * {@inheritdoc}
+     * @throws ilPasswordException
+     */
+    public function encodePassword($raw, $salt)
+    {
+        if ($this->isPasswordTooLong($raw)) {
+            require_once 'Services/Password/exceptions/class.ilPasswordException.php';
+            throw new ilPasswordException('Invalid password.');
+        }
 
-		return md5($raw);
-	}
+        return md5($raw);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isPasswordValid($encoded, $raw, $salt)
-	{
-		return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function isPasswordValid($encoded, $raw, $salt)
+    {
+        return !$this->isPasswordTooLong($raw) && $this->comparePasswords($encoded, $this->encodePassword($raw, $salt));
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getName()
-	{
-		return 'md5';
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return 'md5';
+    }
 }

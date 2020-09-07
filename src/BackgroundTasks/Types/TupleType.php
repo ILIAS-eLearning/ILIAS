@@ -30,7 +30,7 @@ class TupleType implements Type
     /**
      * @inheritdoc
      */
-    function __toString()
+    public function __toString()
     {
         return "(" . implode(", ", $this->types) . ")";
     }
@@ -44,7 +44,7 @@ class TupleType implements Type
      *
      * @return bool
      */
-    function isExtensionOf(Type $type)
+    public function isExtensionOf(Type $type)
     {
         if (!$type instanceof TupleType) {
             return false;
@@ -70,7 +70,7 @@ class TupleType implements Type
     /**
      * @inheritdoc
      */
-    function equals(Type $otherTuple)
+    public function equals(Type $otherTuple)
     {
         if (!$otherTuple instanceof TupleType) {
             return false;

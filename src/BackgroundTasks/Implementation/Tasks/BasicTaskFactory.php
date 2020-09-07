@@ -11,7 +11,6 @@ use ILIAS\BackgroundTasks\Value;
 
 class BasicTaskFactory implements TaskFactory
 {
-
     use BasicScalarValueFactory;
     /**
      * @var Injector
@@ -30,6 +29,10 @@ class BasicTaskFactory implements TaskFactory
      */
     public function createTask($class_name, $input = null)
     {
+        if(!class_exists($class_name)) {
+            require_once('./src/BackgroundTasks/Implementation/Tasks/NotFoundUserInteraction.php');
+            return new NotFoundUserInteraction();
+        }
         /** @var Task $task */
         $task = $this->injector->createInstance($class_name);
         if (!$task instanceof Task) {

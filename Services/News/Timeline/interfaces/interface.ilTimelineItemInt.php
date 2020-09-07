@@ -7,24 +7,21 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup
  */
 interface ilTimelineItemInt
 {
-	/**
-	 * Render item
-	 *
-	 * @return string html
-	 */
-	public function render();
+    /**
+     * Render item
+     *
+     * @return string html
+     */
+    public function render();
 
-	/**
-	 * Get datetime
-	 *
-	 * @return ilDateTime timestamp
-	 */
-	public function getDateTime();
-
+    /**
+     * Get datetime
+     *
+     * @return ilDateTime timestamp
+     */
+    public function getDateTime();
 }
-
-?>

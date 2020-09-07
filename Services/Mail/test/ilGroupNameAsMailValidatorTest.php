@@ -8,27 +8,27 @@
  */
 class ilGroupNameAsMailValidatorTest extends \ilMailBaseTest
 {
-	/**
-	 * 
-	 */
-	public function testGroupIsDetectedIfGroupNameExists()
-	{
-		$validator = new \ilGroupNameAsMailValidator('someHost', function(string $groupName) {
-			return true;
-		});
+    /**
+     *
+     */
+    public function testGroupIsDetectedIfGroupNameExists()
+    {
+        $validator = new \ilGroupNameAsMailValidator('someHost', function (string $groupName) {
+            return true;
+        });
 
-		$this->assertTrue($validator->validate(new ilMailAddress('phpunit', 'someHost')));
-	}
+        $this->assertTrue($validator->validate(new ilMailAddress('phpunit', 'someHost')));
+    }
 
-	/**
-	 *
-	 */
-	public function testGroupIsNotDetectedIfGroupNameDoesNotExists()
-	{
-		$validator = new \ilGroupNameAsMailValidator('someHost', function(string $groupName) {
-			return false;
-		});
+    /**
+     *
+     */
+    public function testGroupIsNotDetectedIfGroupNameDoesNotExists()
+    {
+        $validator = new \ilGroupNameAsMailValidator('someHost', function (string $groupName) {
+            return false;
+        });
 
-		$this->assertFalse($validator->validate(new ilMailAddress('someHost', 'someHost')));
-	}
+        $this->assertFalse($validator->validate(new ilMailAddress('someHost', 'someHost')));
+    }
 }

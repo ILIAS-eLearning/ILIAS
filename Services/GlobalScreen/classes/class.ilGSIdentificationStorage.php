@@ -50,9 +50,9 @@ class ilGSIdentificationStorage extends CachedActiveRecord
         if ($gsi === null) {
             $gsi = new ilGSIdentificationStorage();
             $gsi->setIdentification($identification->serialize());
+            $gsi->setProviderClass(get_class($provider));
             $gsi->create();
         }
-        $gsi->setProviderClass(get_class($provider));
         $gsi->update();
     }
 
@@ -62,7 +62,7 @@ class ilGSIdentificationStorage extends CachedActiveRecord
      */
     public function getCache() : ilGlobalCache
     {
-       return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
+        return ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
     }
 
 

@@ -4,7 +4,7 @@ include_once("./Services/Component/classes/class.ilService.php");
 
 /**
  * ilAdvancedMetaDataService Service definition
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id$
  */
@@ -15,7 +15,6 @@ class ilAdvancedMetaDataService extends ilService
      */
     public function getVersion()
     {
-        
     }
     
     /**
@@ -25,5 +24,4 @@ class ilAdvancedMetaDataService extends ilService
     {
         return true;
     }
-	
 }

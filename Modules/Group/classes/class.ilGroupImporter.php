@@ -14,57 +14,47 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilGroupImporter extends ilXmlImporter
 {
-	private $group = null;
-	
+    private $group = null;
+    
 
-	public function init()
-	{
-	}
-	
-	/**
-	 * Import XML
-	 *
-	 * @param
-	 * @return
-	 */
-	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{
-		include_once './Modules/Group/classes/class.ilObjGroup.php';
-		if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_id))
-		{
-			$refs = ilObject::_getAllReferences($new_id);
-			$this->group = ilObjectFactory::getInstanceByRefId(end($refs),false);
-			#$this->group = ilObjectFactory::getInstanceByObjId($new_id,false);
-		}
-		// Mapping for containers without subitems
-		elseif($new_id = $a_mapping->getMapping('Services/Container','refs',0))
-		{
-			$this->group = ilObjectFactory::getInstanceByRefId($new_id,false);
-		}
-		elseif(!$this->group instanceof ilObjGroup)
-		{
-			$this->group = new ilObjGroup();
-			$this->group->create(true);
-		}
+    public function init()
+    {
+    }
+    
+    /**
+     * Import XML
+     *
+     * @param
+     * @return
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        include_once './Modules/Group/classes/class.ilObjGroup.php';
+        if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+            $refs = ilObject::_getAllReferences($new_id);
+            $this->group = ilObjectFactory::getInstanceByRefId(end($refs), false);
+        #$this->group = ilObjectFactory::getInstanceByObjId($new_id,false);
+        }
+        // Mapping for containers without subitems
+        elseif ($new_id = $a_mapping->getMapping('Services/Container', 'refs', 0)) {
+            $this->group = ilObjectFactory::getInstanceByRefId($new_id, false);
+        } elseif (!$this->group instanceof ilObjGroup) {
+            $this->group = new ilObjGroup();
+            $this->group->create(true);
+        }
 
-		include_once './Modules/Group/classes/class.ilGroupXMLParser.php';
-		#$GLOBALS['DIC']['ilLog']->write($a_xml);
+        include_once './Modules/Group/classes/class.ilGroupXMLParser.php';
+        #$GLOBALS['DIC']['ilLog']->write($a_xml);
 
-		try 
-		{
-			$parser = new ilGroupXMLParser($this->group,$a_xml, 0);
-			$parser->setMode(ilGroupXMLParser::$UPDATE);
-			$parser->startParsing();
-			$a_mapping->addMapping('Modules/Group','grp',$a_id,$this->group->getId());
-		}
-		catch(ilSaxParserException $e)
-		{
-			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
-		}
-		catch(ilWebLinkXMLParserException $e)
-		{
-			$GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "'.$e->getMessage().'".');
-		}
-	}
+        try {
+            $parser = new ilGroupXMLParser($this->group, $a_xml, 0);
+            $parser->setMode(ilGroupXMLParser::$UPDATE);
+            $parser->startParsing();
+            $a_mapping->addMapping('Modules/Group', 'grp', $a_id, $this->group->getId());
+        } catch (ilSaxParserException $e) {
+            $GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "' . $e->getMessage() . '".');
+        } catch (ilWebLinkXMLParserException $e) {
+            $GLOBALS['DIC']->logger()->grp()->warning('Parsing failed with message, "' . $e->getMessage() . '".');
+        }
+    }
 }
-?>

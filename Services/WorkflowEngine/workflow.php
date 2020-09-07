@@ -3,23 +3,22 @@
 
 /**
  * workflow.php is part of the petri net based workflow engine.
- * 
- * This commandline tool is used to run tutorial workflows and 
+ *
+ * This commandline tool is used to run tutorial workflows and
  * diagnostic workflows.
- * 
+ *
  * Usage:
  * (from Ilias root directory)
  * workflow.php username password client
- * 
+ *
  * @author Maximilian Becker <mbecker@databay.de>
- * 
+ *
  * @version $Id$
  *
  * @ingroup Services/WorkflowEngine
  */
-if($_SERVER['argc'] < 4)
-{
-	die("Usage: workflow.php username password client\r\n");
+if ($_SERVER['argc'] < 4) {
+    die("Usage: workflow.php username password client\r\n");
 }
 
 chdir(dirname(__FILE__));
@@ -98,12 +97,12 @@ $a_context_type = 'tst';
 $a_context_id = 5803;
 
 $engine->processEvent(
-	$a_type, 
-	$a_content, 
-	$a_subject_type, 
-	$a_subject_id, 
-	$a_context_type, 
-	$a_context_id
+    $a_type,
+    $a_content,
+    $a_subject_type,
+    $a_subject_id,
+    $a_context_type,
+    $a_context_id
 );
 
 echo "\r\n\r\n\r\n\r\n\r\n";

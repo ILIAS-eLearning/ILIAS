@@ -13,34 +13,33 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesObjectExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('object');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('object');
 
-		switch($event)
-		{
-			case 'create':
-			case 'update':
-				$this->extractObject($parameters);
-				break;
-		}
+        switch ($event) {
+            case 'create':
+            case 'update':
+                $this->extractObject($parameters);
+                break;
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 
-	/**
-	 * @param array $parameters
-	 */
-	protected function extractObject($parameters)
-	{
-		$this->ilExtractedParams->setSubjectId($parameters['obj_id']);
-		$this->ilExtractedParams->setContextType($parameters['obj_type']);
-		$this->ilExtractedParams->setContextId(0);
-	}
+    /**
+     * @param array $parameters
+     */
+    protected function extractObject($parameters)
+    {
+        $this->ilExtractedParams->setSubjectId($parameters['obj_id']);
+        $this->ilExtractedParams->setContextType($parameters['obj_type']);
+        $this->ilExtractedParams->setContextId(0);
+    }
 }

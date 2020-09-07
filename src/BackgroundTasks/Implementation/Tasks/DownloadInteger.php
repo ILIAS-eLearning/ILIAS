@@ -29,7 +29,7 @@ class DownloadInteger extends AbstractUserInteraction
      *
      * @return Option[] Options are buttons the user can press on this interaction.
      */
-    public function getOptions(Array $input)
+    public function getOptions(array $input)
     {
         return [
             new UserInteractionOption("download", "download"),
@@ -44,7 +44,7 @@ class DownloadInteger extends AbstractUserInteraction
      *
      * @return Value
      */
-    public function interaction(Array $input, Option $user_selected_option, Bucket $bucket)
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
     {
         /** @var IntegerValue $a */
         $integerValue = $input[0];

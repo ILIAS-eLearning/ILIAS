@@ -7,14 +7,13 @@
  */
 class ilUserBaseTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
+    /**
+     * @param string $exception_class
+     */
+    protected function assertException($exception_class)
+    {
+        if (version_compare(PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->setExpectedException($exception_class);
+        }
+    }
 }

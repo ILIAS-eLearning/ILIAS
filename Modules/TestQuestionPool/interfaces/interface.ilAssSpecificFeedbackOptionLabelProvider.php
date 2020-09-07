@@ -9,5 +9,5 @@
  */
 interface ilAssSpecificFeedbackOptionLabelProvider
 {
-	public function getSpecificFeedbackAllCorrectOptionLabel();
+    public function getSpecificFeedbackAllCorrectOptionLabel();
 }

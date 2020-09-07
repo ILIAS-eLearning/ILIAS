@@ -71,7 +71,7 @@ class Radio extends Input implements C\Input\Field\Radio, C\JavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withOption(string $value, string $label, string $byline=null, $dependant_fields=null) : C\Input\Field\Radio
+    public function withOption(string $value, string $label, string $byline = null, $dependant_fields = null) : C\Input\Field\Radio
     {
         $clone = clone $this;
         $clone->options[$value] = $label;

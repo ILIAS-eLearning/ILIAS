@@ -13,6 +13,6 @@ namespace ILIAS\FileUpload\Collection\Exception;
  *
  * @public
  */
-class ElementAlreadyExistsException extends \Exception {
-
+class ElementAlreadyExistsException extends \Exception
+{
 }

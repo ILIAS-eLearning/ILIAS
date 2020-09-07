@@ -11,20 +11,17 @@
  */
 abstract class ilUserActionContext
 {
-	/**
-	 * Get compoment id of context as defined in service.xml/module.xml
-	 *
-	 * @return string
-	 */
-	abstract function getComponentId();
+    /**
+     * Get compoment id of context as defined in service.xml/module.xml
+     *
+     * @return string
+     */
+    abstract public function getComponentId();
 
-	/**
-	 * Get id for context. Should be unique within the component
-	 *
-	 * @return string
-	 */
-	abstract function getContextId();
-
+    /**
+     * Get id for context. Should be unique within the component
+     *
+     * @return string
+     */
+    abstract public function getContextId();
 }
-
-?>

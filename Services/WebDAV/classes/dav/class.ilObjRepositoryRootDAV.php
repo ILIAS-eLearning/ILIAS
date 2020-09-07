@@ -13,7 +13,7 @@ include_once 'Modules/RootFolder/classes/class.ilObjRootFolder.php';
  * $Id$
  */
 class ilObjRepositoryRootDAV extends ilObjContainerDAV implements Sabre\DAV\ICollection
-{   
+{
     /** @var $repository_root_name string */
     protected $repository_root_name;
 
@@ -46,7 +46,7 @@ class ilObjRepositoryRootDAV extends ilObjContainerDAV implements Sabre\DAV\ICol
     }
 
     public function getChildCollectionType()
-    { 
+    {
         return 'cat';
     }
 }

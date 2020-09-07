@@ -8,13 +8,13 @@ declare(strict_types=1);
  */
 class ilServicesAuthApacheSuite extends \PHPUnit_Framework_TestSuite
 {
-	public static function suite()
-	{
-		$suite = new self();
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
-		$suite->addTestSuite('ilWhiteListUrlValidatorTest');
+        require_once './Services/AuthApache/test/ilWhiteListUrlValidatorTest.php';
+        $suite->addTestSuite('ilWhiteListUrlValidatorTest');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

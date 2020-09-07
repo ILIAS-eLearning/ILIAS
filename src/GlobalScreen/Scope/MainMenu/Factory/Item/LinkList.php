@@ -15,7 +15,7 @@ class LinkList extends AbstractChildItem implements hasTitle
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
     /**
      * @var Link[]
      */

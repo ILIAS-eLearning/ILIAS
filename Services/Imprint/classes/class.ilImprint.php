@@ -12,20 +12,18 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 */
 class ilImprint extends ilPageObject
 {
-	/**
-	 * Get parent type
-	 *
-	 * @return string parent type
-	 */
-	function getParentType()
-	{
-		return "impr";
-	}	
+    /**
+     * Get parent type
+     *
+     * @return string parent type
+     */
+    public function getParentType()
+    {
+        return "impr";
+    }
 
-	public static function isActive()
-	{
-		return self::_lookupActive(1, "impr");
-	}
+    public static function isActive()
+    {
+        return self::_lookupActive(1, "impr");
+    }
 }
-
-?>

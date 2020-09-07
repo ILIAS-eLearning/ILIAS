@@ -31,7 +31,7 @@ abstract class AbstractStaticPluginMainMenuProvider extends AbstractStaticMainMe
     /**
      * @return string
      */
-    public final function getProviderNameForPresentation() : string
+    final public function getProviderNameForPresentation() : string
     {
         return $this->plugin->getPluginName();
     }

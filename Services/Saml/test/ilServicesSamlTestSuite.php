@@ -8,16 +8,16 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesSamlTestSuite extends \PHPUnit_Framework_TestSuite
 {
-	/**
-	 * @return self
-	 */
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return self
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once 'Services/Saml/test/ilSamlMappedUserAttributeValueParserTest.php';
-		$suite->addTestSuite(ilSamlMappedUserAttributeValueParserTest::class);
+        require_once 'Services/Saml/test/ilSamlMappedUserAttributeValueParserTest.php';
+        $suite->addTestSuite(ilSamlMappedUserAttributeValueParserTest::class);
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

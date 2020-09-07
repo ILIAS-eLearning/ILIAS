@@ -14,51 +14,47 @@ include_once("./Services/Bookmarks/classes/class.ilBookmarkExplorerGUI.php");
 class ilBookmarkMoveExplorerGUI extends ilBookmarkExplorerGUI
 {
 
-	/**
-	 * Constructor
-	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = 0)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_user_id = 0)
+    {
+        global $DIC;
 
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_user_id);
-		$this->ctrl = $DIC->ctrl();
-	}
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_user_id);
+        $this->ctrl = $DIC->ctrl();
+    }
 
 
-	/**
-	 * Is node highlighted?
-	 *
-	 * @param mixed $a_node node object/array
-	 * @return boolean node visible true/false
-	 */
-	function isNodeHighlighted($a_node)
-	{
-		return false;
-	}	
-	
-	/**
-	 * Get href for node
-	 *
-	 * @param mixed $a_node node object/array
-	 * @return string href attribute
-	 */
-	function getNodeHref($a_node)
-	{
-		$ilCtrl = $this->ctrl;
-		
-		switch($a_node["type"])
-		{
-			// bookmark folder
-			case "bmf":
-				$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmfmv_id", $a_node["child"]);
-				$ret = $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "confirmedMove");
-				$ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmfmv_id", "");
-				return $ret;
-				break;
-		}
-	}
-
+    /**
+     * Is node highlighted?
+     *
+     * @param mixed $a_node node object/array
+     * @return boolean node visible true/false
+     */
+    public function isNodeHighlighted($a_node)
+    {
+        return false;
+    }
+    
+    /**
+     * Get href for node
+     *
+     * @param mixed $a_node node object/array
+     * @return string href attribute
+     */
+    public function getNodeHref($a_node)
+    {
+        $ilCtrl = $this->ctrl;
+        
+        switch ($a_node["type"]) {
+            // bookmark folder
+            case "bmf":
+                $ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmfmv_id", $a_node["child"]);
+                $ret = $ilCtrl->getLinkTargetByClass("ilbookmarkadministrationgui", "confirmedMove");
+                $ilCtrl->setParameterByClass("ilbookmarkadministrationgui", "bmfmv_id", "");
+                return $ret;
+                break;
+        }
+    }
 }
-
-?>

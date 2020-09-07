@@ -54,7 +54,10 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
     {
         return new class($mocked_obj, $mocked_repo_helper, $mocked_dav_helper) extends ilObjContainerDAV {
             // Dummy implementation
-            public function getChildCollectionType()  { return null; }
+            public function getChildCollectionType()
+            {
+                return null;
+            }
         };
     }
 
@@ -69,8 +72,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_davable_children = $number_of_children;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -101,8 +103,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_davable_children = 0;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -127,8 +128,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_davable_children = 0;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -154,8 +154,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_davable_children = 1;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -183,8 +182,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $number_of_children = 5;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -209,8 +207,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $searched_title = 'dummy';
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -238,8 +235,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $searched_title = 'dummy';
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -268,8 +264,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $dummy_obj_dav = new ilObjDummyDAV();
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -298,8 +293,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $exception_thrown = false;
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -307,11 +301,9 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_dav_helper->shouldReceive('isDAVableObject')->andReturn(false);
 
         // Act
-        try
-        {
+        try {
             $this->container_dav->getChild($searched_title);
-        } catch(\Sabre\DAV\Exception\NotFound $e)
-        {
+        } catch (\Sabre\DAV\Exception\NotFound $e) {
             $exception_thrown = true;
         }
 
@@ -331,8 +323,7 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $dummy_obj_dav = new ilObjDummyDAV();
 
         $children_ref_ids = array();
-        for($i = 101; $i < $number_of_children + 101; $i++)
-        {
+        for ($i = 101; $i < $number_of_children + 101; $i++) {
             $children_ref_ids[] = $i;
         }
 
@@ -341,11 +332,9 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_repo_helper->shouldReceive('getObjectTitleFromRefId')->andReturn('1', '2', '3', '4', '5');
 
         // Act
-        try
-        {
+        try {
             $this->container_dav->getChild($searched_title);
-        } catch(\Sabre\DAV\Exception\NotFound $e)
-        {
+        } catch (\Sabre\DAV\Exception\NotFound $e) {
             $exception_thrown = true;
         }
 
@@ -365,13 +354,10 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_repo_helper->shouldReceive('checkCreateAccessForType')->andReturn(false);
 
         // Act
-        try
-        {
+        try {
             $this->container_dav->createFile($file_title);
-        } catch(\Sabre\DAV\Exception\Forbidden $e)
-        {
-            if($e->getMessage() == 'No write access')
-            {
+        } catch (\Sabre\DAV\Exception\Forbidden $e) {
+            if ($e->getMessage() == 'No write access') {
                 $exception_thrown = true;
             }
         }
@@ -393,13 +379,10 @@ class ilObjContainerDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_dav_helper->shouldReceive('isValidFileNameWithValidFileExtension')->andReturn(false);
 
         // Act
-        try
-        {
+        try {
             $this->container_dav->createFile($file_title);
-        } catch(\Sabre\DAV\Exception\Forbidden $e)
-        {
-            if($e->getMessage() == 'Invalid file extension')
-            {
+        } catch (\Sabre\DAV\Exception\Forbidden $e) {
+            if ($e->getMessage() == 'Invalid file extension') {
                 $exception_thrown = true;
             }
         }

@@ -9,28 +9,28 @@ require_once __DIR__ . '/../interfaces/interface.ilHtmlToPdfTransformer.php';
  */
 abstract class ilAbstractHtmlToPdfTransformer implements ilHtmlToPdfTransformer
 {
-	/**
-	 * @return string
-	 */
-	public function getPdfTempName()
-	{
-		return $this->getTempFileName('pdf');
-	}
+    /**
+     * @return string
+     */
+    public function getPdfTempName()
+    {
+        return $this->getTempFileName('pdf');
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHtmlTempName()
-	{
-		return $this->getTempFileName('html');
-	}
+    /**
+     * @return string
+     */
+    public function getHtmlTempName()
+    {
+        return $this->getTempFileName('html');
+    }
 
-	/**
-	 * @param $file_type
-	 * @return string
-	 */
-	protected function getTempFileName($file_type)
-	{
-		return ilUtil::ilTempnam() . '.' . $file_type;
-	}
+    /**
+     * @param $file_type
+     * @return string
+     */
+    protected function getTempFileName($file_type)
+    {
+        return ilUtil::ilTempnam() . '.' . $file_type;
+    }
 }

@@ -7,8 +7,8 @@
  */
 interface ilMailRecipientParser
 {
-	/**
-	 * @return ilMailAddress[]
-	 */
-	public function parse(): array;
+    /**
+     * @return ilMailAddress[]
+     */
+    public function parse() : array;
 }

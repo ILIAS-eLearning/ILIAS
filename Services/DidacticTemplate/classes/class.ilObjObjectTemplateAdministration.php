@@ -3,7 +3,7 @@
 
 /**
 * Class ilObjObjectTemplateAdministration
-* 
+*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id:$
 *
@@ -14,18 +14,17 @@ require_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjObjectTemplateAdministration extends ilObject
 {
-	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	public function __construct($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "otpl";
-		parent::__construct($a_id,$a_call_by_reference);
+    /**
+    * Constructor
+    * @access	public
+    * @param	integer	reference_id or object_id
+    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = "otpl";
+        parent::__construct($a_id, $a_call_by_reference);
 
-		$this->lng->loadLanguageModule("didactic");
-	}
-} 
-?>
+        $this->lng->loadLanguageModule("didactic");
+    }
+}

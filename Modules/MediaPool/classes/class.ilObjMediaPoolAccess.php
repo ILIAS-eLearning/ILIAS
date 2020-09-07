@@ -16,53 +16,48 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 class ilObjMediaPoolAccess extends ilObjectAccess
 {
 
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	static function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "", "lang_var" => "show",
-				"default" => true),
-			array("permission" => "write", "cmd" => "", "lang_var" => "edit_content",
-				"default" => false),
-			array("permission" => "write", "cmd" => "edit", "lang_var" => "settings",
-				"default" => false)
-		);
-		
-		return $commands;
-	}
+    /**
+     * get commands
+     *
+     * this method returns an array of all possible commands/permission combinations
+     *
+     * example:
+     * $commands = array
+     *	(
+     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+     *	);
+     */
+    public static function _getCommands()
+    {
+        $commands = array(
+            array("permission" => "read", "cmd" => "", "lang_var" => "show",
+                "default" => true),
+            array("permission" => "write", "cmd" => "", "lang_var" => "edit_content",
+                "default" => false),
+            array("permission" => "write", "cmd" => "edit", "lang_var" => "settings",
+                "default" => false)
+        );
+        
+        return $commands;
+    }
 
 
-	/**
-	 * check whether goto script will succeed
-	 */
-	static function _checkGoto($a_target)
-	{
-		global $DIC;
+    /**
+     * check whether goto script will succeed
+     */
+    public static function _checkGoto($a_target)
+    {
+        global $DIC;
 
-		$ilAccess = $DIC->access();
+        $ilAccess = $DIC->access();
 
-		$t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $a_target);
 
-		if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-			$ilAccess->checkAccess("visible", "", $t_arr[1]))
-		{
-			return true;
-		}
-		return false;
-	}
-
+        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
+            return true;
+        }
+        return false;
+    }
 }
-
-?>

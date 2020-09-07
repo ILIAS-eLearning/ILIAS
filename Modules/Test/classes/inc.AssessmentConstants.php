@@ -3,7 +3,7 @@
 
 /**
 * Assessment constants
-* 
+*
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version $Id$
 *
@@ -59,8 +59,8 @@ define("TEXTGAP_RATING_LEVENSHTEIN5", "l5");
 /**
 * Matching question constants
 */
-define ("MT_TERMS_PICTURES", 0);
-define ("MT_TERMS_DEFINITIONS", 1);
+define("MT_TERMS_PICTURES", 0);
+define("MT_TERMS_DEFINITIONS", 1);
 
 /**
 * Multiple choice question constants
@@ -74,10 +74,10 @@ define("OUTPUT_RANDOM", "1");
 /**
 * Ordering question constants
 */
-define ("OQ_PICTURES", 0);
-define ("OQ_TERMS", 1);
-define ("OQ_NESTED_PICTURES", 2);
-define ("OQ_NESTED_TERMS", 3);
+define("OQ_PICTURES", 0);
+define("OQ_TERMS", 1);
+define("OQ_NESTED_PICTURES", 2);
+define("OQ_NESTED_TERMS", 3);
 
 /**
 * Test constants
@@ -90,8 +90,8 @@ define("TYPE_SELF_ASSESSMENT", "2");
 define("TYPE_ONLINE_TEST", "4");
 define("TYPE_VARYING_RANDOMTEST", "5");
 
-define("INVITATION_OFF",0);
-define("INVITATION_ON",1);
+define("INVITATION_OFF", 0);
+define("INVITATION_ON", 1);
 
 define("COUNT_PARTIAL_SOLUTIONS", 0);
 define("COUNT_CORRECT_SOLUTIONS", 1);
@@ -108,17 +108,17 @@ define("SCORE_BEST_PASS", 1);
 /**
 * Test evaluation constants
 */
-define ("TYPE_XLS_PC", "latin1");
-define ("TYPE_SPSS", "csv");
-define ("EXCEL_BACKGROUND_COLOR","C0C0C0");
+define("TYPE_XLS_PC", "latin1");
+define("TYPE_SPSS", "csv");
+define("EXCEL_BACKGROUND_COLOR", "C0C0C0");
 
-/** 
+/**
  * Redirect after finishing test constants
  */
-define ("REDIRECT_NONE", 0);
-define ("REDIRECT_ALWAYS", 1);
-define ("REDIRECT_KIOSK", 2);
-define ("REDIRECT_SEB", 3);
+define("REDIRECT_NONE", 0);
+define("REDIRECT_ALWAYS", 1);
+define("REDIRECT_KIOSK", 2);
+define("REDIRECT_SEB", 3);
 
 /**
  * PDF Purposes

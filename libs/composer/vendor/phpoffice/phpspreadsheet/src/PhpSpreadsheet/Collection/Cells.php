@@ -153,6 +153,8 @@ class Cells
     {
         $sortKeys = [];
         foreach ($this->getCoordinates() as $coord) {
+            $column = '';
+            $row = 0;
             sscanf($coord, '%[A-Z]%d', $column, $row);
             $sortKeys[sprintf('%09d%3s', $row, $column)] = $coord;
         }
@@ -172,15 +174,16 @@ class Cells
         $col = ['A' => '1A'];
         $row = [1];
         foreach ($this->getCoordinates() as $coord) {
+            $c = '';
+            $r = 0;
             sscanf($coord, '%[A-Z]%d', $c, $r);
             $row[$r] = $r;
             $col[$c] = strlen($c) . $c;
         }
-        if (!empty($row)) {
-            // Determine highest column and row
-            $highestRow = max($row);
-            $highestColumn = substr(max($col), 1);
-        }
+
+        // Determine highest column and row
+        $highestRow = max($row);
+        $highestColumn = substr(max($col), 1);
 
         return [
             'row' => $highestRow,
@@ -205,6 +208,9 @@ class Cells
      */
     public function getCurrentColumn()
     {
+        $column = '';
+        $row = 0;
+
         sscanf($this->currentCoordinate, '%[A-Z]%d', $column, $row);
 
         return $column;
@@ -217,6 +223,9 @@ class Cells
      */
     public function getCurrentRow()
     {
+        $column = '';
+        $row = 0;
+
         sscanf($this->currentCoordinate, '%[A-Z]%d', $column, $row);
 
         return (int) $row;
@@ -232,7 +241,7 @@ class Cells
      */
     public function getHighestColumn($row = null)
     {
-        if ($row == null) {
+        if ($row === null) {
             $colRow = $this->getHighestRowAndColumn();
 
             return $colRow['column'];
@@ -240,6 +249,9 @@ class Cells
 
         $columnList = [1];
         foreach ($this->getCoordinates() as $coord) {
+            $c = '';
+            $r = 0;
+
             sscanf($coord, '%[A-Z]%d', $c, $r);
             if ($r != $row) {
                 continue;
@@ -247,7 +259,7 @@ class Cells
             $columnList[] = Coordinate::columnIndexFromString($c);
         }
 
-        return Coordinate::stringFromColumnIndex(max($columnList) + 1);
+        return Coordinate::stringFromColumnIndex(max($columnList));
     }
 
     /**
@@ -260,7 +272,7 @@ class Cells
      */
     public function getHighestRow($column = null)
     {
-        if ($column == null) {
+        if ($column === null) {
             $colRow = $this->getHighestRowAndColumn();
 
             return $colRow['row'];
@@ -268,6 +280,9 @@ class Cells
 
         $rowList = [0];
         foreach ($this->getCoordinates() as $coord) {
+            $c = '';
+            $r = 0;
+
             sscanf($coord, '%[A-Z]%d', $c, $r);
             if ($c != $column) {
                 continue;
@@ -336,6 +351,9 @@ class Cells
     public function removeRow($row)
     {
         foreach ($this->getCoordinates() as $coord) {
+            $c = '';
+            $r = 0;
+
             sscanf($coord, '%[A-Z]%d', $c, $r);
             if ($r == $row) {
                 $this->delete($coord);
@@ -351,6 +369,9 @@ class Cells
     public function removeColumn($column)
     {
         foreach ($this->getCoordinates() as $coord) {
+            $c = '';
+            $r = 0;
+
             sscanf($coord, '%[A-Z]%d', $c, $r);
             if ($c == $column) {
                 $this->delete($coord);
@@ -474,15 +495,12 @@ class Cells
     /**
      * Returns all known cache keys.
      *
-     * @return string[]
+     * @return \Generator|string[]
      */
     private function getAllCacheKeys()
     {
-        $keys = [];
         foreach ($this->getCoordinates() as $coordinate) {
-            $keys[] = $this->cachePrefix . $coordinate;
+            yield $this->cachePrefix . $coordinate;
         }
-
-        return $keys;
     }
 }

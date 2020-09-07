@@ -8,115 +8,126 @@ require_once(dirname(__FILE__) . '/../class.ActiveRecord.php');
  *
  * @version 2.0.7
  */
-abstract class arStorage extends ActiveRecord {
+abstract class arStorage extends ActiveRecord
+{
 
-	/**
-	 * @var arTestRecord
-	 */
-	protected $external_model_for_storage;
-
-
-	/**
-	 * @param $model
-	 *
-	 * @return \arStorage
-	 */
-	public static function getInstance(&$model) {
-		/**
-		 * @var $storage arStorage
-		 */
-
-		arFieldCache::storeFromStorage(get_called_class(), $model);
-		$storage = self::getCalledClass();
-		$method = self::_toCamelCase('get_' . $storage->getArFieldList()->getPrimaryFieldName());
-		$storage->setExternalModelForStorage($model);
-		$storage->{$storage->getArFieldList()->getPrimaryFieldName()} = $model->{$method}();
-		if ($storage->{$storage->getArFieldList()->getPrimaryFieldName()}) {
-			$storage->read();
-		}
-		$storage->mapFromActiveRecord();
-
-		return $storage;
-	}
+    /**
+     * @var arTestRecord
+     */
+    protected $external_model_for_storage;
 
 
-	public function create() {
-		$this->mapToActiveRecord();
-		parent::create();
-	}
+    /**
+     * @param $model
+     *
+     * @return \arStorage
+     */
+    public static function getInstance(&$model)
+    {
+        /**
+         * @var $storage arStorage
+         */
+
+        arFieldCache::storeFromStorage(get_called_class(), $model);
+        $storage = self::getCalledClass();
+        $method = self::_toCamelCase('get_' . $storage->getArFieldList()->getPrimaryFieldName());
+        $storage->setExternalModelForStorage($model);
+        $storage->{$storage->getArFieldList()->getPrimaryFieldName()} = $model->{$method}();
+        if ($storage->{$storage->getArFieldList()->getPrimaryFieldName()}) {
+            $storage->read();
+        }
+        $storage->mapFromActiveRecord();
+
+        return $storage;
+    }
 
 
-	public function update() {
-		$this->mapToActiveRecord();
-		parent::update();
-	}
+    public function create()
+    {
+        $this->mapToActiveRecord();
+        parent::create();
+    }
 
 
-	public function read() {
-		parent::read();
-		$this->mapFromActiveRecord();
-	}
+    public function update()
+    {
+        $this->mapToActiveRecord();
+        parent::update();
+    }
 
 
-	protected function mapToActiveRecord() {
-		foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
-			$this->{$key} = $this->getValueForStorage($key);
-		}
-	}
+    public function read()
+    {
+        parent::read();
+        $this->mapFromActiveRecord();
+    }
 
 
-	protected function mapFromActiveRecord() {
-		foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
-			$this->setValueToModel($key, $this->{$key});
-		}
-	}
+    protected function mapToActiveRecord()
+    {
+        foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
+            $this->{$key} = $this->getValueForStorage($key);
+        }
+    }
 
 
-	/**
-	 * @param $key
-	 *
-	 * @return mixed
-	 */
-	public function getValueForStorage($key) {
-		$method = self::_toCamelCase('get_' . $key);
-
-		return $this->getExternalModelForStorage()->{$method}();
-	}
+    protected function mapFromActiveRecord()
+    {
+        foreach (array_keys($this->getArFieldList()->getArrayForConnector()) as $key) {
+            $this->setValueToModel($key, $this->{$key});
+        }
+    }
 
 
-	/**
-	 * @param $key
-	 * @param $value
-	 *
-	 * @return mixed
-	 */
-	public function setValueToModel($key, $value) {
-		$method = self::_toCamelCase('set_' . $key);
+    /**
+     * @param $key
+     *
+     * @return mixed
+     */
+    public function getValueForStorage($key)
+    {
+        $method = self::_toCamelCase('get_' . $key);
 
-		return $this->getExternalModelForStorage()->{$method}($value);
-	}
-
-
+        return $this->getExternalModelForStorage()->{$method}();
+    }
 
 
-	//
-	// Setter & Getter
-	//
+    /**
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     */
+    public function setValueToModel($key, $value)
+    {
+        $method = self::_toCamelCase('set_' . $key);
 
-	/**
-	 * @param arTestRecord $model
-	 */
-	public function setExternalModelForStorage($model) {
-		$this->external_model_for_storage = $model;
-	}
+        return $this->getExternalModelForStorage()->{$method}($value);
+    }
 
 
-	/**
-	 * @return arTestRecord
-	 */
-	public function getExternalModelForStorage() {
-		return $this->external_model_for_storage;
-	}
+
+
+    //
+    // Setter & Getter
+    //
+
+    /**
+     * @param arTestRecord $model
+     */
+    public function setExternalModelForStorage($model)
+    {
+        $this->external_model_for_storage = $model;
+    }
+
+
+    /**
+     * @return arTestRecord
+     */
+    public function getExternalModelForStorage()
+    {
+        return $this->external_model_for_storage;
+    }
 }
 
 ?>

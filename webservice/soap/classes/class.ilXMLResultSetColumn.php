@@ -32,25 +32,24 @@
    *
    * @package ilias
    */
-class ilXMLResultSetColumn {
-	var $name;
-	var $index;
+class ilXMLResultSetColumn
+{
+    public $name;
+    public $index;
 
-	function __construct($index, $name)
-	{
-		$this->name = $name;
-		$this->index = $index;
-	}
+    public function __construct($index, $name)
+    {
+        $this->name = $name;
+        $this->index = $index;
+    }
 
-	function getName ()
-	{
-		return $this->name;
-	}
+    public function getName()
+    {
+        return $this->name;
+    }
 
-	function getIndex ()
-	{
-		return $this->index;
-	}
+    public function getIndex()
+    {
+        return $this->index;
+    }
 }
-
-?>

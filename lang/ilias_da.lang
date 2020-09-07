@@ -1,4 +1,4 @@
-﻿/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+﻿/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1719,7 +1719,7 @@ common#:#usrimport_action_replaced#:#Erstattede '%1$s'-handlingen med '%2$s'-han
 common#:#usrimport_cant_delete#:#Kunne ikke udføre "Delete", da brugeren ikke findes i databasen.
 common#:#usrimport_cant_insert#:#Kunne ikke udføre "Insert", da brugeren findes i forvejen.
 common#:#usrimport_cant_update#:#Kunne ikke udføre "Update", da brugeren ikke findes i forvejen.
-common#:#usrimport_conflict_handling_info#:#Når "ignorer ved konflikt" er valgt springer ILIAS blot over handlinger der ikke kan udføres, f.eks. hvis en bruger findes i databasen i forvejen i forbindelse med indsætning.\nNær "Opdater ved konflikt" er valgt vil ILIAS i stedet opdatere databasen med de nye informationer.
+common#:#usrimport_conflict_handling_info#:#Når "ignorer ved konflikt" er valgt springer ILIAS blot over handlinger der ikke kan udføres, f.eks. hvis en bruger findes i databasen i forvejen i forbindelse med indsætning. Nær "Opdater ved konflikt" er valgt vil ILIAS i stedet opdatere databasen med de nye informationer.
 common#:#usrimport_global_role_for_action_required#:#Mindst en global rolle skal angives for "%1$s" handlingen.
 common#:#usrimport_ignore_role#:#Ignorer rolle
 common#:#usrimport_login_is_not_unique#:#Login er ikke unikt
@@ -3201,8 +3201,8 @@ jscalendar#:#time#:#Tid
 jscalendar#:#close#:#Luk
 jscalendar#:#today#:#I dag
 jscalendar#:#about_calendar#:#Om kalenderen
-jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector\n(c) dynarch.com 2002-2003\nFor seneste versions besøg: http://dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.\n\nDate selection:\\n- Use the ., / knapper for at
-jscalendar#:#about_time#:#\\n\\nTime selection:\\n- Klik på en vilkårlig del for at øge den\\n- eller shift-klik for at mindske den\\n- eller klik og træk for at vælge hurtigere.
+jscalendar#:#about_calendar_long#:#DHTML Dato/Tid Selector (c) dynarch.com 2002-2003 For seneste versions besøg: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  Se http://gnu.org/licenses/lgpl.html for details.  Date selection:\ - Use the ., / knapper for at
+jscalendar#:#about_time#:#\ \ Time selection:\ - Klik på en vilkårlig del for at øge den\ - eller shift-klik for at mindske den\ - eller klik og træk for at vælge hurtigere.
 jscalendar#:#day_first#:#Vis %s først
 jscalendar#:#def_date_format#:#%d-%m-%y
 jscalendar#:#drag_to_move#:#Træk til
@@ -3895,13 +3895,13 @@ pwassist#:#password_assistance#:#Password Hjælp
 pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på <b>udfør</b>. ILIAS sender en email til adressen med den/de registrerede brugernavne som er tilknyttet. Vælg derefter det ønskede brugernavn og brug <i>password service</i> til at få et nyt password. Hvis du ikke modtager en mail, så kontakt venligst din kursusadministrator eller %1$s.
 pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilknyttede e-mail adresse i felterne nedenfor.<br/><br/>ILIAS sender herefter en besked til mailadressen som indeholder et link til en side hvor du kan angive nyt kodeord for din konto.
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
-pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn.\nDet brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
-pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto:\n\t%1$s\n\nDenne besked er lavet automatisk af ILIAS serveren på %2$s\n\nDu (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.\n\nHvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst \n%1$s\ni din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.\n\nPå websiden skal du herefter vælge dit nye password til din konto.\n\nBemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
+pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn. Det brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
+pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto: \t%1$s  Denne besked er lavet automatisk af ILIAS serveren på %2$s  Du (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.  Hvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst  %1$s i din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.  På websiden skal du herefter vælge dit nye password til din konto.  Bemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre.
 pwassist#:#pwassist_mail_subject#:#ILIAS password hjælp
 pwassist#:#pwassist_password_assigned#:#Password sat for brugerkontoen "%1$s".
-pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\\nDin passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
-pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.\n\nDenne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.\n\n\t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den.\n\t- Har du aldrig bedt om denne mail, så kontakt %s.\n\t-Har du bedt om denne mail, så fortsæt med følgende:\n1. Start din browser\n2. Indtast følgende url:\n\t%s\n\nBemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram.\n3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
+pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\ Din passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
+pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.  Denne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.  \t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den. \t- Har du aldrig bedt om denne mail, så kontakt %s. \t-Har du bedt om denne mail, så fortsæt med følgende: 1. Start din browser 2. Indtast følgende url: \t%s  Bemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram. 3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
 rbac#:#edit_learning_progress#:#Rediger læringsfremskridt
 rbac#:#filter_all_roles#:#Vis alle roller i nuværende kontekst
 rbac#:#filter_global_roles#:#Vis kun globale roller
@@ -6515,7 +6515,7 @@ mail#:#mail_salutation_n#:#Hej
 crs#:#crs_notification_explanation_admin#:#Du modtager denne besked fordi du er kursusadministrator/totor med advisering aktiveret.
 crs#:#crs_new_status#:#Din nye status er:
 crs#:#crs_access#:#Adgang
-crs#:#crs_cancel_subscription_body2#:#Der er muligvis andre deltagere på ventelisten til kurset.\nDu bør kontrollere ventelisten nu.\nFor at se kursusdeltagerne kan du klikke her:
+crs#:#crs_cancel_subscription_body2#:#Der er muligvis andre deltagere på ventelisten til kurset. Du bør kontrollere ventelisten nu. For at se kursusdeltagerne kan du klikke her:
 crs#:#crs_unsubscribe_member#:#Afmeldt som deltager i kurset "%s"
 crs#:#crs_unsubscribe_member_body#:#Det bekræftes hermed at du er ophørt som deltager i kurset "%s". Vi håber du har mulighed for at deltage i et andet kursus.
 crs#:#crs_subscribe_member#:#Din tilmelding til kursus "%s"
@@ -6526,7 +6526,7 @@ wiki#:#wiki_general_settings#:#Generelle indstillinger
 style#:#style_current_style#:#Nuværende stilark
 style#:#style_edit_style#:#Ret stilark
 style#:#style_delete_style#:#Slet stilark
-crs#:#crs_subscribe_wl_body#:#Du er sat på venteliste til kurset "%s".\nYou are assigned to position %s on the list.\n\n You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
+crs#:#crs_subscribe_wl_body#:#Du er sat på venteliste til kurset "%s". You are assigned to position %s on the list.   You will receive a message from a course administrator when your request has been approved or rejected.###21 09 2009 new variable
 grp#:#grp_mail_permanent_link#:#Tryk på nedenstående link for at få mere information om gruppen:
 grp#:#grp_mail_admission_new_sub#:#Din anmodning til gruppen "%s"
 grp#:#grp_mail_admission_new_bod#:#Vi bekræfter hermed at din anmodning om medlemsskab af gruppen "%s".
@@ -6536,10 +6536,10 @@ grp#:#grp_mail_notification_reg_sub#:#Bruger har tilmeldt sig gruppe "%s"
 grp#:#grp_mail_notification_reg_bod#:#%s har tilmeldt sig gruppe "%s".
 grp#:#grp_notification_explanation_admin#:#Du modtager denne besked fordi du er gruppeadministrator med advisering slået til.
 grp#:#grp_mail_unsubscribe_member_sub#:#Dit ophør af medlemsskab af gruppen "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#Dit medlemsskab er gruppen %s er hermed ophørt.\n.
+grp#:#grp_mail_unsubscribe_member_bod#:#Dit medlemsskab er gruppen %s er hermed ophørt. .
 grp#:#grp_mail_notification_unsub_sub#:#Bruger forlod gruppen "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s har ophørt sit medlemsskab af gruppen "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:###21 09 2009 new variable
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:###21 09 2009 new variable
 grp#:#grp_mail_subscribe_member_sub#:#Din tilmelding til gruppen "%s"
 grp#:#grp_mail_subscribe_member_bod#:#Det glæder os at bekræfte din indmeldelse i gruppe "%s".
 grp#:#grp_mail_notification_reg_req_sub#:#Anmodning om at tilmelde gruppe "%s"
@@ -6550,7 +6550,7 @@ grp#:#grp_mail_sub_dec_bod#:#Din anmodning om medlemsskab af gruppen "%s" er bek
 grp#:#grp_mail_sub_acc_sub#:#Tilmelding til "%s" bekræftet
 grp#:#grp_mail_sub_acc_bod#:#Vi bekræfter hermed din tilmelding til gruppen "%s".
 grp#:#grp_mail_wl_sub#:#Din anmodning om medlemsskab i gruppen "%s".
-grp#:#grp_mail_wl_bod#:#Du er blevet sat på ventelisten i gruppen "%s".\nDu står nummer %s på listen.\n\n Du vil senere få en besked fra gruppeadministrator når din anmodning er godkendt eller afvist.
+grp#:#grp_mail_wl_bod#:#Du er blevet sat på ventelisten i gruppen "%s". Du står nummer %s på listen.   Du vil senere få en besked fra gruppeadministrator når din anmodning er godkendt eller afvist.
 grp#:#grp_mail_status_sub#:#Ændret status i gruppe "%s"
 grp#:#grp_mail_status_bod#:#Din status i gruppe "%s" er blevet ændret.
 grp#:#grp_new_status#:#Din nye status er:
@@ -7978,7 +7978,7 @@ chatroom#:#chat_to_mainroom#:#To main room###06 08 2011 new variable
 chatroom#:#chat_create_private_room_button#:#Create private room###06 08 2011 new variable
 chatroom#:#chatroom_smiley_keyword#:#Keyword###06 08 2011 new variable
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name#####06 08 2011 new variable
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.###06 08 2011 new variable
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.###06 08 2011 new variable
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.###06 08 2011 new variable
 chatroom#:#settings_title#:#Settings###06 08 2011 new variable
 chatroom#:#history_byday_title#:#History by day###06 08 2011 new variable
@@ -9309,7 +9309,7 @@ forum#:#sort_by_date#:#Sorter efter dato
 forum#:#error_reading_file#:#Filen kunne ikke læses
 assessment#:#edit_page#:#Ret side
 assessment#:#edit_question#:#Ret spørgsmål
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.###28 11 2012 new variable
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.###28 11 2012 new variable
 common#:#obj_dcl_duplicate#:#Kopier datasamling
 dcl#:#dcl_no_search_results_found_for#:#Der kunne ikke findes moduler til
 dcl#:#dcl_notimage_exception#:#Filen skal være en billedfil
@@ -14233,7 +14233,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14828,10 +14828,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14842,7 +14842,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
@@ -15065,3 +15065,61 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
+common#:#logo#:#ILIAS Logo###31 07 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable

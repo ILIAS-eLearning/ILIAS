@@ -6,24 +6,22 @@ require_once "./Services/Object/classes/class.ilObject2.php";
 
 /**
  * Wiki settings application class
- * 
- * @author Alex Killing <alex.killing@gmx.de> 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
  * @ingroup ModulesWiki
  */
 class ilObjWikiSettings extends ilObject2
 {
-	/**
-	 * Get type
-	 *
-	 * @param
-	 * @return
-	 */
-	function initType()
-	{
-		$this->type = "wiks";
-	}
-	
+    /**
+     * Get type
+     *
+     * @param
+     * @return
+     */
+    public function initType()
+    {
+        $this->type = "wiks";
+    }
 }
-?>

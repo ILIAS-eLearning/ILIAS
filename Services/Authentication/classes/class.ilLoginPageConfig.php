@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Login page configuration 
+ * Login page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -13,17 +13,14 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilLoginPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		$this->setEnablePCType("LoginPageElement", true);
-		$this->setEnablePCType("FileList", false);
-		$this->setEnablePCType("Map", false);
-		$this->setEnableInternalLinks(true);
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->setEnablePCType("LoginPageElement", true);
+        $this->setEnablePCType("FileList", false);
+        $this->setEnablePCType("Map", false);
+        $this->setEnableInternalLinks(true);
+    }
 }
-
-?>

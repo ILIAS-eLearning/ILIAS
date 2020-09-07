@@ -10,25 +10,26 @@ namespace ILIAS\Transformation;
  * It MUST NOT perform any sideeffects, i.e. it must be morally impossible to observe
  * how often the transformation was actually performed. It MUST NOT touch the provided
  * value, i.e. it is allowed to create new values but not to modify existing values.i
- * This would be an observable sideeffect.  
+ * This would be an observable sideeffect.
  */
-interface Transformation {
-	/**
-	 * Perform the transformation.
-	 * Please use this for transformations. It's more performant than calling invoke.
-	 *
-	 * @throws \InvalidArgumentException  if the argument could not be transformed
-	 * @param  mixed  $from
-	 * @return mixed
-	 */
-	public function transform($from);
+interface Transformation
+{
+    /**
+     * Perform the transformation.
+     * Please use this for transformations. It's more performant than calling invoke.
+     *
+     * @throws \InvalidArgumentException  if the argument could not be transformed
+     * @param  mixed  $from
+     * @return mixed
+     */
+    public function transform($from);
 
-	/**
-	 * Transformations should be callable. This MUST do the same as transform.
-	 *
-	 * @throws \InvalidArgumentException  if the argument could not be transformed
-	 * @param  mixed  $from
-	 * @return mixed
-	 */
-	public function __invoke($from);
+    /**
+     * Transformations should be callable. This MUST do the same as transform.
+     *
+     * @throws \InvalidArgumentException  if the argument could not be transformed
+     * @param  mixed  $from
+     * @return mixed
+     */
+    public function __invoke($from);
 }

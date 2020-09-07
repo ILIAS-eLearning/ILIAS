@@ -41,7 +41,7 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     public function addEntry(ComponentEntry $entry)
     {
         $this->assert()->isNotIndex($entry->getId(), $this->id_to_entry_map);
-        if (count($this)==0) {
+        if (count($this) == 0) {
             $this->setRootEntryId($entry->getId());
         }
         $this->id_to_entry_map[$entry->getId()] = $entry;

@@ -32,32 +32,30 @@ include_once('./webservice/soap/classes/class.ilSoapAdministration.php');
  */
 class ilSoapBackgroundTaskAdministration extends ilSoapAdministration
 {
-	/**
-	 * Process task
-	 * 
-	 * @param int $a_task_id
-	 * @return boolean
-	 */
-	public function processBackgroundTask($a_sid, $a_task_id)
-	{
-		$this->initAuth($a_sid);
-		$this->initIlias();
+    /**
+     * Process task
+     *
+     * @param int $a_task_id
+     * @return boolean
+     */
+    public function processBackgroundTask($a_sid, $a_task_id)
+    {
+        $this->initAuth($a_sid);
+        $this->initIlias();
 
-		if(!$this->__checkSession($a_sid))
-		{
-			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-		}
-		
-		include_once "Services/BackgroundTask/classes/class.ilBackgroundTask.php";
-		$task = new ilBackgroundTask($a_task_id);
-		if($task->exists())
-		{
-			$handler = $task->getHandlerInstance();
-			$handler->process();
+        if (!$this->__checkSession($a_sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+        
+        include_once "Services/BackgroundTask/classes/class.ilBackgroundTask.php";
+        $task = new ilBackgroundTask($a_task_id);
+        if ($task->exists()) {
+            $handler = $task->getHandlerInstance();
+            $handler->process();
 
-			return true;
-		}
-	
-		return false;
-	}	
+            return true;
+        }
+    
+        return false;
+    }
 }

@@ -11,28 +11,28 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
 {
-	public function setUp()
-	{
-		chdir( dirname( __FILE__ ) );
-		chdir( '../../../../../' );
+    public function setUp()
+    {
+        chdir(dirname(__FILE__));
+        chdir('../../../../../');
 
-		parent::setUp();
+        parent::setUp();
 
-		require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
-	}
+        require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
+    }
 
-	public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets()
-	{
-		$xml = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1.bpmn2');
-		$parser = new ilBPMN2Parser();
-		$parse_result = $parser->parseBPMN2XML($xml);
-		
-		$goldsample = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_goldsample.php');
-		$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
+    public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets()
+    {
+        $xml = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1.bpmn2');
+        $parser = new ilBPMN2Parser();
+        $parse_result = $parser->parseBPMN2XML($xml);
+        
+        $goldsample = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_goldsample.php');
+        $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
-		file_put_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php', $parse_result);
-		$return = exec('php -l ./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
-		$this->assertTrue(substr($return,0,25) == 'No syntax errors detected', 'Lint of output code failed.');
-		unlink('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
-	}
+        file_put_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php', $parse_result);
+        $return = exec('php -l ./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
+        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        unlink('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
+    }
 }

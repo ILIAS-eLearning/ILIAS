@@ -15,30 +15,30 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilWorkflowEngineSettingsForm
 {
-	/** @var ilPropertyFormGUI $form */
-	protected $form;
+    /** @var ilPropertyFormGUI $form */
+    protected $form;
 
-	/** @var \ilLanguage $lng */
-	protected $lng;
+    /** @var \ilLanguage $lng */
+    protected $lng;
 
-	public function __construct()
-	{
-		global $DIC;
-		$this->lng = $DIC['lng'];
-	}
+    public function __construct()
+    {
+        global $DIC;
+        $this->lng = $DIC['lng'];
+    }
 
-	public function getForm($action)
-	{
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($action);
-		$this->form->setTitle($this->lng->txt('settings'));
+    public function getForm($action)
+    {
+        $this->form = new ilPropertyFormGUI();
+        $this->form->setFormAction($action);
+        $this->form->setTitle($this->lng->txt('settings'));
 
-		$activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
-		$this->form->addItem($activation_checkbox);
+        $activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
+        $this->form->addItem($activation_checkbox);
 
-		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+        $this->form->addCommandButton('save', $this->lng->txt('save'));
+        $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
-		return $this->form;
-	}
+        return $this->form;
+    }
 }

@@ -10,7 +10,8 @@ namespace ILIAS\WebAccessChecker;
  * @since 5.3
  * @version 1.0
  */
-interface PathType {
-	const FILE = 1;
-	const FOLDER = 2;
+interface PathType
+{
+    const FILE = 1;
+    const FOLDER = 2;
 }

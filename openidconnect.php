@@ -10,5 +10,3 @@ $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doOpenIdConnectAuthentication');
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
-
-?>

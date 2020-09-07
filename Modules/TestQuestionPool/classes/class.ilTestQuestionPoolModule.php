@@ -13,31 +13,29 @@ include_once("./Services/Component/classes/class.ilModule.php");
 */
 class ilTestQuestionPoolModule extends ilModule
 {
-	
-	/**
-	* Constructor: read information on component
-	*/
-	function __construct()
-	{
-		parent::__construct();
-	}
-	
-	/**
-	* Core modules vs. plugged in modules
-	*/
-	function isCore()
-	{
-		return true;
-	}
+    
+    /**
+    * Constructor: read information on component
+    */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
+    /**
+    * Core modules vs. plugged in modules
+    */
+    public function isCore()
+    {
+        return true;
+    }
 
-	/**
-	* Get version of module. This is especially important for
-	* non-core modules.
-	*/
-	function getVersion()
-	{
-		return "-";
-	}
-
+    /**
+    * Get version of module. This is especially important for
+    * non-core modules.
+    */
+    public function getVersion()
+    {
+        return "-";
+    }
 }
-?>

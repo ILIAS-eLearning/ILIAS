@@ -18,64 +18,69 @@ use ILIAS\HTTP\GlobalHttpState;
  *
  * @Internal
  */
-final class FileDeliveryTypeFactory {
+final class FileDeliveryTypeFactory
+{
 
-	/**
-	 * @var ilFileDeliveryType[]
-	 */
-	private static $instances = array();
-	/**
-	 * @var GlobalHttpState $http
-	 */
-	private $http;
-
-
-	/**
-	 * FileDeliveryTypeFactory constructor.
-	 *
-	 * @param GlobalHttpState $http
-	 */
-	public function __construct(GlobalHttpState $http) { $this->http = $http; }
+    /**
+     * @var ilFileDeliveryType[]
+     */
+    private static $instances = array();
+    /**
+     * @var GlobalHttpState $http
+     */
+    private $http;
 
 
-	/**
-	 * Creates a new instance of the requested file delivery type.
-	 *
-	 * Please check the DeliveryMethod interface for the possible options.
-	 *
-	 * @param string $type
-	 *
-	 * @return ilFileDeliveryType
-	 * @throws \ilException If the file delivery type is unknown.
-	 *
-	 * @see DeliveryMethod
-	 */
-	public function getInstance($type) {
-		assert(is_string($type));
-		if (isset(self::$instances[$type])) {
-			return self::$instances[$type];
-		}
-		switch ($type) {
-			case DeliveryMethod::PHP:
-				require_once('PHP.php');
-				self::$instances[$type] = new PHP($this->http);
-				break;
-			case DeliveryMethod::XSENDFILE:
-				require_once('XSendfile.php');
-				self::$instances[$type] = new XSendfile($this->http);
-				break;
-			case DeliveryMethod::XACCEL:
-				require_once('XAccel.php');
-				self::$instances[$type] = new XAccel($this->http);
-				break;
-			case DeliveryMethod::PHP_CHUNKED:
-				require_once('PHPChunked.php');
-				self::$instances[$type] = new PHPChunked($this->http);
-				break;
-			default:
-				throw new \ilException("Unknown file delivery type \"$type\"");
-		}
+    /**
+     * FileDeliveryTypeFactory constructor.
+     *
+     * @param GlobalHttpState $http
+     */
+    public function __construct(GlobalHttpState $http)
+    {
+        $this->http = $http;
+    }
 
-		return self::$instances[$type];
-	}
+
+    /**
+     * Creates a new instance of the requested file delivery type.
+     *
+     * Please check the DeliveryMethod interface for the possible options.
+     *
+     * @param string $type
+     *
+     * @return ilFileDeliveryType
+     * @throws \ilException If the file delivery type is unknown.
+     *
+     * @see DeliveryMethod
+     */
+    public function getInstance($type)
+    {
+        assert(is_string($type));
+        if (isset(self::$instances[$type])) {
+            return self::$instances[$type];
+        }
+        switch ($type) {
+            case DeliveryMethod::PHP:
+                require_once('PHP.php');
+                self::$instances[$type] = new PHP($this->http);
+                break;
+            case DeliveryMethod::XSENDFILE:
+                require_once('XSendfile.php');
+                self::$instances[$type] = new XSendfile($this->http);
+                break;
+            case DeliveryMethod::XACCEL:
+                require_once('XAccel.php');
+                self::$instances[$type] = new XAccel($this->http);
+                break;
+            case DeliveryMethod::PHP_CHUNKED:
+                require_once('PHPChunked.php');
+                self::$instances[$type] = new PHPChunked($this->http);
+                break;
+            default:
+                throw new \ilException("Unknown file delivery type \"$type\"");
+        }
+
+        return self::$instances[$type];
+    }
 }

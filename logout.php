@@ -19,4 +19,3 @@ $ilCtrl->callBaseClass();
 $ilBench->save();
 
 exit;
-?>

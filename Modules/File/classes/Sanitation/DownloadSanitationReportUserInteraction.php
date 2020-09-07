@@ -18,7 +18,6 @@ use ilObjFile;
  */
 class DownloadSanitationReportUserInteraction extends AbstractUserInteraction
 {
-
     const OPTION_DOWNLOAD = "download";
     const OPTION_SANITIZE = "sanitize";
 

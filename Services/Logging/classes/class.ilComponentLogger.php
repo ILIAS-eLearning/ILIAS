@@ -11,11 +11,8 @@ include_once './Services/Logging/classes/class.ilLogger.php';
  *
  * @author Stefan Meyer
  * @version $Id$
- * 
+ *
  */
 class ilComponentLogger extends ilLogger
 {
-	
-	
 }
-?>

@@ -13,5 +13,3 @@ include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php
 class assAnswerMatchingDefinition extends assAnswerMatchingTerm
 {
 }
-
-?>

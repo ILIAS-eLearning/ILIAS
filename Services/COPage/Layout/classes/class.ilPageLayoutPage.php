@@ -5,22 +5,21 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 /**
  * Page layout page object
- * 
- * @author Alex Killing <alex.killing@gmx.de> 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
  * @ingroup ServicesStyle
  */
 class ilPageLayoutPage extends ilPageObject
 {
-	/**
-	 * Get parent type
-	 *
-	 * @return string parent type
-	 */
-	function getParentType()
-	{
-		return "stys";
-	}
+    /**
+     * Get parent type
+     *
+     * @return string parent type
+     */
+    public function getParentType()
+    {
+        return "stys";
+    }
 }
-?>

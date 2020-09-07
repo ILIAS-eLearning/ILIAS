@@ -11,18 +11,21 @@ require_once("ilSystemStyleLoggerMock.php");
 /**
  * Class ilLanguageMock
  */
-class ilSystemStyleDICMock extends ILIAS\DI\Container {
-	/**
-	 * @return	ilLanguageMock
-	 */
-	public function language() {
-		return new ilSystemStyleLanguageMock();
-	}
+class ilSystemStyleDICMock extends ILIAS\DI\Container
+{
+    /**
+     * @return	ilLanguageMock
+     */
+    public function language()
+    {
+        return new ilSystemStyleLanguageMock();
+    }
 
-	/**
-	 * @return	ilLanguageMock
-	 */
-	public function logger() {
-		return new ilSystemStyleLoggerMock();
-	}
+    /**
+     * @return	ilLanguageMock
+     */
+    public function logger()
+    {
+        return new ilSystemStyleLoggerMock();
+    }
 }

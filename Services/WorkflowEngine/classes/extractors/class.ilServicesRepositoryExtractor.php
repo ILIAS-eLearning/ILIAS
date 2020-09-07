@@ -13,25 +13,24 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesRepositoryExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('repository');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('repository');
 
-		switch($event)
-		{
-			case 'toTrash':
-			case 'delete':
-			case 'undelete':
-				$this->extractWithoutUser($parameters);
-				break;
-		}
+        switch ($event) {
+            case 'toTrash':
+            case 'delete':
+            case 'undelete':
+                $this->extractWithoutUser($parameters);
+                break;
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 }

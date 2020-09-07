@@ -12,6 +12,4 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  */
 class ilWikiException extends ilException
 {
-
 }
-?>

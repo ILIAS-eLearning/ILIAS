@@ -1,9 +1,8 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-if($_SERVER['argc'] < 5)
-{
-	die("Usage:  ". basename(__FILE__) . " username password client infile [outfile]\n");
+if ($_SERVER['argc'] < 5) {
+    die("Usage:  " . basename(__FILE__) . " username password client infile [outfile]\n");
 }
 
 chdir(dirname(__FILE__));
@@ -13,8 +12,8 @@ include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_CRON);
 
 $_COOKIE['ilClientId'] = $_SERVER['argv'][3];
-$_POST['username']     = $_SERVER['argv'][1];
-$_POST['password']     = $_SERVER['argv'][2];
+$_POST['username'] = $_SERVER['argv'][1];
+$_POST['password'] = $_SERVER['argv'][2];
 
 include_once './include/inc.header.php';
 
@@ -25,11 +24,10 @@ $parser = new ilBPMN2Parser();
 $infile_contents = file_get_contents($_SERVER['argv'][4]);
 $parse_result = $parser->parseBPMN2XML($infile_contents);
 
-if ($_SERVER['argv'][5])
-{
-	file_put_contents($_SERVER['argv'][5], $parse_result);
+if ($_SERVER['argv'][5]) {
+    file_put_contents($_SERVER['argv'][5], $parse_result);
 } else {
-	echo $parse_result;
+    echo $parse_result;
 }
 echo "\r\n[Finished Parsing]\r\n";
 // -----------------------------------------------------------------------------

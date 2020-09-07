@@ -16,6 +16,6 @@ namespace ILIAS\Filesystem\Exception;
  * @since 5.3
  * @version 1.0
  */
-class IllegalStateException extends \RuntimeException {
-
+class IllegalStateException extends \RuntimeException
+{
 }

@@ -13,22 +13,19 @@ include_once("./Services/User/Actions/Contexts/classes/class.ilUserActionContext
  */
 class ilAwarenessUserActionContext extends ilUserActionContext
 {
-	/**
-	 * @inheritdoc
-	 */
-	function getComponentId()
-	{
-		return "awrn";
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getComponentId()
+    {
+        return "awrn";
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	function getContextId()
-	{
-		return "toplist";
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function getContextId()
+    {
+        return "toplist";
+    }
 }
-
-?>

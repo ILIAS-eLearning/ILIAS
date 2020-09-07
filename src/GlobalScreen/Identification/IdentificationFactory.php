@@ -53,7 +53,7 @@ class IdentificationFactory
      *
      * @param ProviderFactoryInterface $provider_factory
      */
-    public final function __construct(ProviderFactoryInterface $provider_factory)
+    final public function __construct(ProviderFactoryInterface $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
         $this->map = new IdentificationMap();
@@ -69,7 +69,7 @@ class IdentificationFactory
      *
      * @return IdentificationProviderInterface
      */
-    public final function core(\ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
+    final public function core(\ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
     {
         return new CoreIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
     }
@@ -86,7 +86,7 @@ class IdentificationFactory
      *
      * @return IdentificationProviderInterface
      */
-    public final function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
+    final public function plugin(\ilPlugin $plugin, \ILIAS\GlobalScreen\Provider\Provider $provider) : IdentificationProviderInterface
     {
         return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin(), $this->map);
     }
@@ -97,7 +97,7 @@ class IdentificationFactory
      *
      * @return IdentificationInterface
      */
-    public final function fromSerializedIdentification($serialized_string) : IdentificationInterface
+    final public function fromSerializedIdentification($serialized_string) : IdentificationInterface
     {
         if ($serialized_string === null || $serialized_string === "") {
             return new NullIdentification();
@@ -109,4 +109,3 @@ class IdentificationFactory
         return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map, $this->provider_factory);
     }
 }
-

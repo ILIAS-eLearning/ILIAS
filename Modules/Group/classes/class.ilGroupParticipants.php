@@ -24,7 +24,7 @@
 include_once('./Services/Membership/classes/class.ilParticipants.php');
 
 /**
-* 
+*
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
@@ -35,244 +35,236 @@ include_once('./Services/Membership/classes/class.ilParticipants.php');
 
 class ilGroupParticipants extends ilParticipants
 {
-	const COMPONENT_NAME = 'Modules/Group';
-	
-	protected static $instances = array();
+    const COMPONENT_NAME = 'Modules/Group';
+    
+    protected static $instances = array();
 
-	/**
-	 * Constructor
-	 *
-	 * @access protected
-	 * @param int obj_id of container
-	 */
-	public function __construct($a_obj_id)
-	{
-		// ref based constructor
-		$refs = ilObject::_getAllReferences($a_obj_id);
-		parent::__construct(self::COMPONENT_NAME,  array_pop($refs));
-	}
-	
-	/**
-	 * Get singleton instance
-	 *
-	 * @access public
-	 * @static
-	 *
-	 * @param int obj_id
-	 * @return ilGroupParticipants
-	 */
-	public static function _getInstanceByObjId($a_obj_id)
-	{
-		if(isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id])
-		{
-			return self::$instances[$a_obj_id];
-		}
-		return self::$instances[$a_obj_id] = new ilGroupParticipants($a_obj_id);
-	}
-	
-	/**
-	 * Get member roles (not auto generated)
-	 * @param int $a_ref_id
-	 */
-	public static function getMemberRoles($a_ref_id)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     *
+     * @access protected
+     * @param int obj_id of container
+     */
+    public function __construct($a_obj_id)
+    {
+        // ref based constructor
+        $refs = ilObject::_getAllReferences($a_obj_id);
+        parent::__construct(self::COMPONENT_NAME, array_pop($refs));
+    }
+    
+    /**
+     * Get singleton instance
+     *
+     * @access public
+     * @static
+     *
+     * @param int obj_id
+     * @return ilGroupParticipants
+     */
+    public static function _getInstanceByObjId($a_obj_id)
+    {
+        if (isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id]) {
+            return self::$instances[$a_obj_id];
+        }
+        return self::$instances[$a_obj_id] = new ilGroupParticipants($a_obj_id);
+    }
+    
+    /**
+     * Get member roles (not auto generated)
+     * @param int $a_ref_id
+     */
+    public static function getMemberRoles($a_ref_id)
+    {
+        global $DIC;
 
-		$rbacreview = $DIC['rbacreview'];
+        $rbacreview = $DIC['rbacreview'];
 
-		$lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
+        $lrol = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
 
-		$roles = array();
-		foreach($lrol as $role)
-		{
-			$title = ilObject::_lookupTitle($role);
-			switch(substr($title,0,8))
-			{
-				case 'il_grp_a':
-				case 'il_grp_m':
-					continue 2;
+        $roles = array();
+        foreach ($lrol as $role) {
+            $title = ilObject::_lookupTitle($role);
+            switch (substr($title, 0, 8)) {
+                case 'il_grp_a':
+                case 'il_grp_m':
+                    continue 2;
 
-				default:
-					$roles[$role] = $role;
-			}
-		}
-		return $roles;
-	}
-	
-	/**
-	 * Add user to role 
-	 * @param int $a_usr_id
-	 * @param int $a_role
-	 * @return boolean
-	 */
-	public function add($a_usr_id, $a_role)
-	{
-		if(parent::add($a_usr_id, $a_role))
-		{
-			$this->addDesktopItem($a_usr_id);
-			return true;
-		}
-		return false;
-	}
-	
-	public function addSubscriber($a_usr_id)
-	{
-		global $DIC;
+                default:
+                    $roles[$role] = $role;
+            }
+        }
+        return $roles;
+    }
+    
+    /**
+     * Add user to role
+     * @param int $a_usr_id
+     * @param int $a_role
+     * @return boolean
+     */
+    public function add($a_usr_id, $a_role)
+    {
+        if (parent::add($a_usr_id, $a_role)) {
+            $this->addDesktopItem($a_usr_id);
+            return true;
+        }
+        return false;
+    }
+    
+    public function addSubscriber($a_usr_id)
+    {
+        global $DIC;
 
-		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		$ilLog = $DIC['ilLog'];
-		
-		parent::addSubscriber($a_usr_id);
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $ilLog = $DIC['ilLog'];
+        
+        parent::addSubscriber($a_usr_id);
 
-		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addSubscriber.');
-		$ilAppEventHandler->raise(
-				"Modules/Group", 
-				'addSubscriber', 
-				array(
-					'obj_id' => $this->getObjId(),
-					'usr_id' => $a_usr_id
-				)
-			);
-	}
-	
-		
-	
-	/**
-	 * Static function to check if a user is a participant of the container object
-	 *
-	 * @access public
-	 * @param int ref_id
-	 * @param int user id
-	 * @static
-	 */
-	public static function _isParticipant($a_ref_id,$a_usr_id)
-	{
-		global $DIC;
+        $GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addSubscriber.');
+        $ilAppEventHandler->raise(
+            "Modules/Group",
+            'addSubscriber',
+            array(
+                    'obj_id' => $this->getObjId(),
+                    'usr_id' => $a_usr_id
+                )
+        );
+    }
+    
+        
+    
+    /**
+     * Static function to check if a user is a participant of the container object
+     *
+     * @access public
+     * @param int ref_id
+     * @param int user id
+     * @static
+     */
+    public static function _isParticipant($a_ref_id, $a_usr_id)
+    {
+        global $DIC;
 
-		$rbacreview = $DIC['rbacreview'];
-		$ilObjDataCache = $DIC['ilObjDataCache'];
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+        $rbacreview = $DIC['rbacreview'];
+        $ilObjDataCache = $DIC['ilObjDataCache'];
+        $ilDB = $DIC['ilDB'];
+        $ilLog = $DIC['ilLog'];
 
-		$local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id,false);
+        $local_roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
         return $rbacreview->isAssignedToAtLeastOneGivenRole($a_usr_id, $local_roles);
-	}
-	
-	/**
-	 * Send notification mail
-	 * @param int $a_type
-	 * @param int $a_usr_id
-	 * @return 
-	 */
-	public function sendNotification($a_type,$a_usr_id, $a_force_sending_mail = false)
-	{
-		include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
-		$mail = new ilGroupMembershipMailNotification();
-		$mail->forceSendingMail($a_force_sending_mail);
-		
-		switch($a_type)
-		{
-			case ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER:
+    }
+    
+    /**
+     * Send notification mail
+     * @param int $a_type
+     * @param int $a_usr_id
+     * @return
+     */
+    public function sendNotification($a_type, $a_usr_id, $a_force_sending_mail = false)
+    {
+        include_once './Modules/Group/classes/class.ilGroupMembershipMailNotification.php';
+        $mail = new ilGroupMembershipMailNotification();
+        $mail->forceSendingMail($a_force_sending_mail);
+        
+        switch ($a_type) {
+            case ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER:
 
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();
-				break;
-			
-			case ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER:
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_ADMISSION_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+            
+            case ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER:
 
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION:
-				
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
-				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients($this->getNotificationRecipients());
-				$mail->send();
-				break;		
-				
-			case ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER:
-				
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();				
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE:
-					
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
-				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients($this->getNotificationRecipients());
-				$mail->send();
-				break;
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_DISMISS_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION:
+                
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION);
+                $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients($this->getNotificationRecipients());
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER:
+                
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE:
+                    
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE);
+                $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients($this->getNotificationRecipients());
+                $mail->send();
+                break;
 
-			case ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER:
-				
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();				
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
+            case ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER:
+                
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST:
 
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
-				$mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients($this->getNotificationRecipients());
-				$mail->send();
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_NOTIFICATION_REGISTRATION_REQUEST);
+                $mail->setAdditionalInformation(array('usr_id' => $a_usr_id));
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients($this->getNotificationRecipients());
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
 
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();				
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
-				
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();				
-				break;	
-			
-			case ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER:
-				
-				include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
-				$wl = new ilGroupWaitingList($this->obj_id);
-				$pos = $wl->getPosition($a_usr_id);
-					
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->setAdditionalInformation(array('position' => $pos));
-				$mail->send();
-				break;
-				
-			case ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED:
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
+                
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
+            
+            case ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER:
+                
+                include_once('./Modules/Group/classes/class.ilGroupWaitingList.php');
+                $wl = new ilGroupWaitingList($this->obj_id);
+                $pos = $wl->getPosition($a_usr_id);
+                    
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_WAITING_LIST_MEMBER);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->setAdditionalInformation(array('position' => $pos));
+                $mail->send();
+                break;
+                
+            case ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED:
 
-				$mail->setType(ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED);	
-				$mail->setRefId($this->ref_id);
-				$mail->setRecipients(array($a_usr_id));
-				$mail->send();				
-				break;
+                $mail->setType(ilGroupMembershipMailNotification::TYPE_STATUS_CHANGED);
+                $mail->setRefId($this->ref_id);
+                $mail->setRecipients(array($a_usr_id));
+                $mail->send();
+                break;
 
-			
-		}
-		return true;
-	}
-	
-	
+            
+        }
+        return true;
+    }
 }
-?>

@@ -6,68 +6,68 @@
  */
 class ilMailTemplateServiceTest extends \ilMailBaseTest
 {
-	/**
-	 *
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        parent::setUp();
+    }
 
-	/**
-	 *
-	 */
-	public function testDefaultTemplateCanBeSetByContext()
-	{
-		$repo = $this->getMockbuilder(\ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
+    /**
+     *
+     */
+    public function testDefaultTemplateCanBeSetByContext()
+    {
+        $repo = $this->getMockbuilder(\ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 
-		$template = new \ilMailTemplate();
-		$template->setTplId(1);
-		$template->setAsDefault(false);
-		$template->setContext('phpunit');
+        $template = new \ilMailTemplate();
+        $template->setTplId(1);
+        $template->setAsDefault(false);
+        $template->setContext('phpunit');
 
-		$otherTemplate = clone $template;
-		$otherTemplate->setTplId(2);
-		$otherTemplate->setAsDefault(false);
+        $otherTemplate = clone $template;
+        $otherTemplate->setTplId(2);
+        $otherTemplate->setAsDefault(false);
 
-		$yetAnotherTemplate = clone $template;
-		$yetAnotherTemplate->setTplId(3);
-		$yetAnotherTemplate->setAsDefault(true);
+        $yetAnotherTemplate = clone $template;
+        $yetAnotherTemplate->setTplId(3);
+        $yetAnotherTemplate->setAsDefault(true);
 
-		$all = [
-			$template,
-			$otherTemplate,
-			$yetAnotherTemplate,
-		];
+        $all = [
+            $template,
+            $otherTemplate,
+            $yetAnotherTemplate,
+        ];
 
-		$repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
-		$repo->expects($this->exactly(count($all)))->method('store');
-		$service = new \ilMailTemplateService($repo);
+        $repo->expects($this->once())->method('findByContextId')->with($template->getContext())->willReturn($all);
+        $repo->expects($this->exactly(count($all)))->method('store');
+        $service = new \ilMailTemplateService($repo);
 
-		$service->setAsContextDefault($template);
+        $service->setAsContextDefault($template);
 
-		$this->assertTrue($template->isDefault());
-		$this->assertFalse($otherTemplate->isDefault());
-		$this->assertFalse($yetAnotherTemplate->isDefault());
-	}
+        $this->assertTrue($template->isDefault());
+        $this->assertFalse($otherTemplate->isDefault());
+        $this->assertFalse($yetAnotherTemplate->isDefault());
+    }
 
-	/**
-	 *
-	 */
-	public function testDefaultTemplateForContextCanBeUnset()
-	{
-		$repo = $this->getMockbuilder(\ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
+    /**
+     *
+     */
+    public function testDefaultTemplateForContextCanBeUnset()
+    {
+        $repo = $this->getMockbuilder(\ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 
-		$template = new \ilMailTemplate();
-		$template->setTplId(1);
-		$template->setAsDefault(true);
-		$template->setContext('phpunit');
+        $template = new \ilMailTemplate();
+        $template->setTplId(1);
+        $template->setAsDefault(true);
+        $template->setContext('phpunit');
 
-		$repo->expects($this->once())->method('store')->with($template);
-		$service = new \ilMailTemplateService($repo);
+        $repo->expects($this->once())->method('store')->with($template);
+        $service = new \ilMailTemplateService($repo);
 
-		$service->unsetAsContextDefault($template);
+        $service->unsetAsContextDefault($template);
 
-		$this->assertFalse($template->isDefault());
-	}
+        $this->assertFalse($template->isDefault());
+    }
 }

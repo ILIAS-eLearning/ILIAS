@@ -16,13 +16,14 @@ use Mockery\Adapter\Phpunit\MockeryTestCase;
 
 require_once("libs/composer/vendor/autoload.php");
 
-class BasicObserverTest extends MockeryTestCase {
+class BasicObserverTest extends MockeryTestCase
+{
+    public function testCheckIntegrity()
+    {
+        $this->expectException(Exception::class);
 
-	public function testCheckIntegrity() {
-		$this->expectException(Exception::class);
-
-		$observer = new BasicBucket();
-		$observer->setTask(new DownloadInteger());
-		BasicPersistence::instance()->saveBucketAndItsTasks($observer);
-	}
+        $observer = new BasicBucket();
+        $observer->setTask(new DownloadInteger());
+        BasicPersistence::instance()->saveBucketAndItsTasks($observer);
+    }
 }

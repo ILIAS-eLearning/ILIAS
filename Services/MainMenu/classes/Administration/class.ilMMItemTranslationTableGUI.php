@@ -7,7 +7,6 @@
  */
 class ilMMItemTranslationTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var ilMMItemFacadeInterface
@@ -42,11 +41,13 @@ class ilMMItemTranslationTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule("meta");
 
         $this->addCommandButton(
-            ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS, $this->lng()
+            ilMMItemTranslationGUI::CMD_SAVE_TRANSLATIONS,
+            $this->lng()
             ->txt("save")
         );
         $this->addMultiCommand(
-            ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS, $this->lng()
+            ilBiblTranslationGUI::CMD_DELETE_TRANSLATIONS,
+            $this->lng()
             ->txt("delete")
         );
 

@@ -7,147 +7,147 @@
  */
 class ilTermsOfServiceDocumentCriterionAssignment extends \ActiveRecord implements \ilTermsOfServiceEvaluableCriterion, \ilTermsOfServiceEquatable
 {
-	const TABLE_NAME = 'tos_criterion_to_doc';
+    const TABLE_NAME = 'tos_criterion_to_doc';
 
-	/**
-	 * @var string
-	 * @db_has_field        true
-	 * @db_fieldtype        integer
-	 * @db_length           4
-	 * @db_is_primary       true
-	 * @con_sequence        true
-	 */
-	protected $id;
+    /**
+     * @var string
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           4
+     * @db_is_primary       true
+     * @con_sequence        true
+     */
+    protected $id;
 
-	/**
-	 * @var int
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 */
-	protected $assigned_ts = 0;
+    /**
+     * @var int
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      4
+     */
+    protected $assigned_ts = 0;
 
-	/**
-	 * @var int
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 */
-	protected $modification_ts = 0;
+    /**
+     * @var int
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      4
+     */
+    protected $modification_ts = 0;
 
-	/**
-	 * @var int
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 */
-	protected $doc_id = 0;
+    /**
+     * @var int
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      4
+     */
+    protected $doc_id = 0;
 
-	/**
-	 * @var string
-	 * @db_has_field        true
-	 * @db_fieldtype        text
-	 * @db_length           255
-	 * @con_is_notnull      true
-	 */
-	protected $criterion_id = '';
+    /**
+     * @var string
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           255
+     * @con_is_notnull      true
+     */
+    protected $criterion_id = '';
 
-	/**
-	 * @var string
-	 * @db_has_field        true
-	 * @db_fieldtype        text
-	 * @db_length           255
-	 */
-	protected $criterion_value = '';
+    /**
+     * @var string
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           255
+     */
+    protected $criterion_value = '';
 
-	/**
-	 * @var int
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 */
-	protected $owner_usr_id = 0;
+    /**
+     * @var int
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      4
+     */
+    protected $owner_usr_id = 0;
 
-	/**
-	 * @var int
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
-	 */
-	protected $last_modified_usr_id = '';
+    /**
+     * @var int
+     * @con_has_field   true
+     * @con_fieldtype   integer
+     * @con_length      4
+     */
+    protected $last_modified_usr_id = '';
 
-	/**
-	 * @inheritdoc
-	 */
-	static function returnDbTableName()
-	{
-		return self::TABLE_NAME;
-	}
+    /**
+     * @inheritdoc
+     */
+    public static function returnDbTableName()
+    {
+        return self::TABLE_NAME;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function create()
-	{
-		$this->setAssignedTs(time());
+    /**
+     * @inheritdoc
+     */
+    public function create()
+    {
+        $this->setAssignedTs(time());
 
-		parent::create();
-	}
+        parent::create();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function update()
-	{
-		$this->setModificationTs(time());
+    /**
+     * @inheritdoc
+     */
+    public function update()
+    {
+        $this->setModificationTs(time());
 
-		parent::update();
-	}
+        parent::update();
+    }
 
-	/**
-	 * @param \ilTermsOfServiceCriterionConfig $config
-	 */
-	public function setCriterionValue(\ilTermsOfServiceCriterionConfig $config)
-	{
-		$this->criterion_value = $config->toJson();
-	}
+    /**
+     * @param \ilTermsOfServiceCriterionConfig $config
+     */
+    public function setCriterionValue(\ilTermsOfServiceCriterionConfig $config)
+    {
+        $this->criterion_value = $config->toJson();
+    }
 
-	/**
-	 * @return \ilTermsOfServiceCriterionConfig
-	 */
-	public function getCriterionValue(): \ilTermsOfServiceCriterionConfig
-	{
-		return new \ilTermsOfServiceCriterionConfig($this->criterion_value);
-	}
+    /**
+     * @return \ilTermsOfServiceCriterionConfig
+     */
+    public function getCriterionValue() : \ilTermsOfServiceCriterionConfig
+    {
+        return new \ilTermsOfServiceCriterionConfig($this->criterion_value);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getCriterionId(): string
-	{
-		return $this->criterion_id;
-	}
+    /**
+     * @return string
+     */
+    public function getCriterionId() : string
+    {
+        return $this->criterion_id;
+    }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function equals($other): bool
-	{
-		if (!($other instanceof static)) {
-			return false;
-		}
+    /**
+     * @inheritDoc
+     */
+    public function equals($other) : bool
+    {
+        if (!($other instanceof static)) {
+            return false;
+        }
 
-		$criterionIdCurrent = $this->getCriterionId();
-		$criterionIdNew = $other->getCriterionId();
+        $criterionIdCurrent = $this->getCriterionId();
+        $criterionIdNew = $other->getCriterionId();
 
-		$valueCurrent = $this->getCriterionValue();
-		$valueNew = $other->getCriterionValue();
+        $valueCurrent = $this->getCriterionValue();
+        $valueNew = $other->getCriterionValue();
 
-		$equals = (
-			$criterionIdCurrent == $criterionIdNew &&
-			$valueCurrent == $valueNew
-		);
+        $equals = (
+            $criterionIdCurrent == $criterionIdNew &&
+            $valueCurrent == $valueNew
+        );
 
-		return $equals;
-	}
+        return $equals;
+    }
 }

@@ -5,51 +5,52 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-interface ilBiblDataInterface {
-	/**
-	 * @return integer
-	 */
-	public function getId();
+interface ilBiblDataInterface
+{
+    /**
+     * @return integer
+     */
+    public function getId();
 
 
-	/**
-	 * @param integer $id
-	 */
-	public function setId($id);
+    /**
+     * @param integer $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @return string
-	 */
-	public function getFilename();
+    /**
+     * @return string
+     */
+    public function getFilename();
 
 
-	/**
-	 * @param string $filename
-	 */
-	public function setFilename($filename);
+    /**
+     * @param string $filename
+     */
+    public function setFilename($filename);
 
 
-	/**
-	 * @return integer
-	 */
-	public function getIsOnline();
+    /**
+     * @return integer
+     */
+    public function getIsOnline();
 
 
-	/**
-	 * @param integer $is_online
-	 */
-	public function setIsOnline($is_online);
+    /**
+     * @param integer $is_online
+     */
+    public function setIsOnline($is_online);
 
 
-	/**
-	 * @return integer
-	 */
-	public function getFileType();
+    /**
+     * @return integer
+     */
+    public function getFileType();
 
 
-	/**
-	 * @param integer $file_type
-	 */
-	public function setFileType($file_type);
+    /**
+     * @param integer $file_type
+     */
+    public function setFileType($file_type);
 }

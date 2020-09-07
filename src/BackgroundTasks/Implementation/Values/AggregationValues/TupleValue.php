@@ -142,7 +142,7 @@ class TupleValue extends AbstractValue
      * @param $values
      *
      */
-    function setValue($values)
+    public function setValue($values)
     {
         $wrapperFactory = \PrimitiveValueWrapperFactory::getInstance();
         foreach ($values as $value) {

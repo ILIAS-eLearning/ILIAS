@@ -280,16 +280,16 @@
 //** Text color of the standard button (most button instances)
 @il-btn-standard-color:           white;
 //** Background color of the standard button (most button instances)
-@il-btn-standard-bg:              lighten(@brand-primary, 15%);
+@il-btn-standard-bg:              @brand-primary;
 //** Border color of the standard button (most button instances)
-@il-btn-standard-border:          lighten(@brand-primary, 15%);
+@il-btn-standard-border:          @brand-primary;
 
 //** Text color of the primary button (most important button on the screen)
 @il-btn-primary-color:           white;
 //** Background color of the primary button (most important button on the screen)
-@il-btn-primary-bg:              @brand-secondary;
+@il-btn-primary-bg:              darken(@brand-secondary, 10%);
 //** Border color of the primary button (most important button on the screen)
-@il-btn-primary-border:          @brand-secondary;
+@il-btn-primary-border:          darken(@brand-secondary, 10%);
 
 //** Text color of inactive buttons
 @il-disabled-btn-color:          white;
@@ -408,7 +408,7 @@
 //** Textcolor used in the labels (identifiers) of the input fields of a form
 @il-standard-form-label-color:   darken(@il-standard-form-color, 20%);
 //** Background color used in the
-@il-standard-form-bg:    #fdfdfd;
+@il-standard-form-bg: @il-primary-container-bg;
 //** Textsize used in the forms body
 @il-standard-form-font-size: @font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form

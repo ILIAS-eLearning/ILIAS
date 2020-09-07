@@ -14,17 +14,16 @@ include_once("./Services/Cache/classes/class.ilCache.php");
  */
 class ilExampleCache extends ilCache
 {
-	/**
-	 * Constructor
-	 *
-	 * @param
-	 * @return
-	 */
-	function __construct()
-	{
-		parent::__construct("ServicesCache", "Example", false);
-		$this->setExpiresAfter(5);		// only five seconds to make a hit
-		// usually you would this value from some setting
-	}
+    /**
+     * Constructor
+     *
+     * @param
+     * @return
+     */
+    public function __construct()
+    {
+        parent::__construct("ServicesCache", "Example", false);
+        $this->setExpiresAfter(5);		// only five seconds to make a hit
+        // usually you would this value from some setting
+    }
 }
-?>

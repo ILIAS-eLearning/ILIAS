@@ -27,17 +27,17 @@ class Renderer extends AbstractComponentRenderer
         /** @var Component\Popover\Popover $popover */
 
         $replacement = array(
-            '"'=> '\"',
-            "\n"=>"",
-            "\t"=>"",
-            "\r"=>"",
+            '"' => '\"',
+            "\n" => "",
+            "\t" => "",
+            "\r" => "",
         );
 
         $options = array(
-            'title'     => $this->escape($popover->getTitle()),
+            'title' => $this->escape($popover->getTitle()),
             'placement' => $popover->getPosition(),
-            'multi'     => true,
-            'template'  => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
+            'multi' => true,
+            'template' => str_replace(array_keys($replacement), array_values($replacement), $tpl->get()),
         );
 
         if ($popover->isFixedPosition()) {

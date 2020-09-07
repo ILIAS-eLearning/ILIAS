@@ -12,175 +12,167 @@ require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
  */
 class ilTestResultsToolbarGUI extends ilToolbarGUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	public $ctrl = null;
+    /**
+     * @var ilCtrl
+     */
+    public $ctrl = null;
 
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl = null;
+    /**
+     * @var ilTemplate
+     */
+    public $tpl = null;
 
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng = null;
+    /**
+     * @var ilLanguage
+     */
+    public $lng = null;
 
-	/**
-	 * @var string
-	 */
-	private $pdfExportLinkTarget = null;
+    /**
+     * @var string
+     */
+    private $pdfExportLinkTarget = null;
 
-	/**
-	 * @var string
-	 */
-	private $certificateLinkTarget = null;
+    /**
+     * @var string
+     */
+    private $certificateLinkTarget = null;
 
-	/**
-	 * @var string
-	 */
-	private $showBestSolutionsLinkTarget = null;
+    /**
+     * @var string
+     */
+    private $showBestSolutionsLinkTarget = null;
 
-	/**
-	 * @var string
-	 */
-	private $hideBestSolutionsLinkTarget = null;
+    /**
+     * @var string
+     */
+    private $hideBestSolutionsLinkTarget = null;
 
-	/**
-	 * @var array
-	 */
-	private $participantSelectorOptions = array();
+    /**
+     * @var array
+     */
+    private $participantSelectorOptions = array();
 
-	public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng)
-	{
-		$this->ctrl = $ctrl;
-		$this->tpl = $tpl;
-		$this->lng = $lng;
+    public function __construct(ilCtrl $ctrl, ilTemplate $tpl, ilLanguage $lng)
+    {
+        $this->ctrl = $ctrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
 
-		parent::__construct();
-	}
-	
-	public function build()
-	{
-		$this->setId('tst_results_toolbar');
-		
-		$this->addButton($this->lng->txt('print'), 'javascript:window.print();');
+        parent::__construct();
+    }
+    
+    public function build()
+    {
+        $this->setId('tst_results_toolbar');
+        
+        $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
-		if( strlen($this->getPdfExportLinkTarget()) )
-		{
-			require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-			$link = ilLinkButton::getInstance(); // always returns a new instance
-			$link->setUrl($this->getPdfExportLinkTarget());
-			$link->setCaption($this->getPdfExportLabel(), false);
-			$link->setOmitPreventDoubleSubmission(true);
-			$this->addButtonInstance($link);
-		}
+        if (strlen($this->getPdfExportLinkTarget())) {
+            require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
+            $link = ilLinkButton::getInstance(); // always returns a new instance
+            $link->setUrl($this->getPdfExportLinkTarget());
+            $link->setCaption($this->getPdfExportLabel(), false);
+            $link->setOmitPreventDoubleSubmission(true);
+            $this->addButtonInstance($link);
+        }
 
-		if( strlen($this->getCertificateLinkTarget()) )
-		{
-			$this->addButton( $this->lng->txt('certificate'), $this->getCertificateLinkTarget() );
-		}
+        if (strlen($this->getCertificateLinkTarget())) {
+            $this->addButton($this->lng->txt('certificate'), $this->getCertificateLinkTarget());
+        }
 
-		if( strlen($this->getShowBestSolutionsLinkTarget()) )
-		{
-			$this->addSeparator();
-			$this->addButton( $this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget() );
-		}
-		elseif( strlen($this->getHideBestSolutionsLinkTarget()) )
-		{
-			$this->addSeparator();
-			$this->addButton( $this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget() );
-		}
-		
-		if( count($this->getParticipantSelectorOptions()) )
-		{
-			$this->addSeparator();
+        if (strlen($this->getShowBestSolutionsLinkTarget())) {
+            $this->addSeparator();
+            $this->addButton($this->lng->txt('tst_btn_show_best_solutions'), $this->getShowBestSolutionsLinkTarget());
+        } elseif (strlen($this->getHideBestSolutionsLinkTarget())) {
+            $this->addSeparator();
+            $this->addButton($this->lng->txt('tst_btn_hide_best_solutions'), $this->getHideBestSolutionsLinkTarget());
+        }
+        
+        if (count($this->getParticipantSelectorOptions())) {
+            $this->addSeparator();
 
-			require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-			$sel = new ilSelectInputGUI('', 'active_id');
-			$sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
-			$this->addInputItem($sel);
-			
-			$link = ilLinkButton::getInstance(); // always returns a new instance
-			$link->setUrl('#');
-			$link->setId('ilTestResultParticipantJumper');
-			$link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
-			$this->addButtonInstance($link);
-			
-			$this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
-		}
-	}
+            require_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+            $sel = new ilSelectInputGUI('', 'active_id');
+            $sel->setOptions($this->getParticipantSelectorOptionsWithHintOption());
+            $this->addInputItem($sel);
+            
+            $link = ilLinkButton::getInstance(); // always returns a new instance
+            $link->setUrl('#');
+            $link->setId('ilTestResultParticipantJumper');
+            $link->setCaption($this->lng->txt('tst_res_jump_to_participant_btn'), false);
+            $this->addButtonInstance($link);
+            
+            $this->tpl->addJavaScript('Modules/Test/js/ilTestResultParticipantSelector.js');
+        }
+    }
 
-	private function getPdfExportLabel()
-	{
-		return $this->lng->txt('pdf_export');
-	}
+    private function getPdfExportLabel()
+    {
+        return $this->lng->txt('pdf_export');
+    }
 
-	public function setPdfExportLinkTarget($pdfExportLinkTarget)
-	{
-		$this->pdfExportLinkTarget = $pdfExportLinkTarget;
-	}
+    public function setPdfExportLinkTarget($pdfExportLinkTarget)
+    {
+        $this->pdfExportLinkTarget = $pdfExportLinkTarget;
+    }
 
-	public function getPdfExportLinkTarget()
-	{
-		return $this->pdfExportLinkTarget;
-	}
+    public function getPdfExportLinkTarget()
+    {
+        return $this->pdfExportLinkTarget;
+    }
 
-	public function setCertificateLinkTarget($certificateLinkTarget)
-	{
-		$this->certificateLinkTarget = $certificateLinkTarget;
-	}
+    public function setCertificateLinkTarget($certificateLinkTarget)
+    {
+        $this->certificateLinkTarget = $certificateLinkTarget;
+    }
 
-	public function getCertificateLinkTarget()
-	{
-		return $this->certificateLinkTarget;
-	}
+    public function getCertificateLinkTarget()
+    {
+        return $this->certificateLinkTarget;
+    }
 
-	public function setShowBestSolutionsLinkTarget($showBestSolutionsLinkTarget)
-	{
-		$this->showBestSolutionsLinkTarget = $showBestSolutionsLinkTarget;
-	}
+    public function setShowBestSolutionsLinkTarget($showBestSolutionsLinkTarget)
+    {
+        $this->showBestSolutionsLinkTarget = $showBestSolutionsLinkTarget;
+    }
 
-	public function getShowBestSolutionsLinkTarget()
-	{
-		return $this->showBestSolutionsLinkTarget;
-	}
+    public function getShowBestSolutionsLinkTarget()
+    {
+        return $this->showBestSolutionsLinkTarget;
+    }
 
-	public function setHideBestSolutionsLinkTarget($hideBestSolutionsLinkTarget)
-	{
-		$this->hideBestSolutionsLinkTarget = $hideBestSolutionsLinkTarget;
-	}
+    public function setHideBestSolutionsLinkTarget($hideBestSolutionsLinkTarget)
+    {
+        $this->hideBestSolutionsLinkTarget = $hideBestSolutionsLinkTarget;
+    }
 
-	public function getHideBestSolutionsLinkTarget()
-	{
-		return $this->hideBestSolutionsLinkTarget;
-	}
+    public function getHideBestSolutionsLinkTarget()
+    {
+        return $this->hideBestSolutionsLinkTarget;
+    }
 
-	public function setParticipantSelectorOptions($participantSelectorOptions)
-	{
-		$this->participantSelectorOptions = $participantSelectorOptions;
-	}
+    public function setParticipantSelectorOptions($participantSelectorOptions)
+    {
+        $this->participantSelectorOptions = $participantSelectorOptions;
+    }
 
-	public function getParticipantSelectorOptions()
-	{
-		return $this->participantSelectorOptions;
-	}
-	
-	public function getParticipantSelectorOptionsWithHintOption()
-	{
-		$options = array($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
-		
-		if( function_exists('array_replace') )
-		{
-			return array_replace($options, $this->getParticipantSelectorOptions());
-		}
-		
-		foreach($this->getParticipantSelectorOptions() as $key => $val)
-		{
-			$options[$key] = $val;
-		}
+    public function getParticipantSelectorOptions()
+    {
+        return $this->participantSelectorOptions;
+    }
+    
+    public function getParticipantSelectorOptionsWithHintOption()
+    {
+        $options = array($this->lng->txt('tst_res_jump_to_participant_hint_opt'));
+        
+        if (function_exists('array_replace')) {
+            return array_replace($options, $this->getParticipantSelectorOptions());
+        }
+        
+        foreach ($this->getParticipantSelectorOptions() as $key => $val) {
+            $options[$key] = $val;
+        }
 
-		return $options;
-	}
+        return $options;
+    }
 }

@@ -6,13 +6,13 @@
  */
 interface ilObjectCustomIconPresenter
 {
-	/**
-	 * @return bool
-	 */
-	public function exists(): bool;
+    /**
+     * @return bool
+     */
+    public function exists() : bool;
 
-	/**
-	 * @return string
-	 */
-	public function getFullPath(): string;
+    /**
+     * @return string
+     */
+    public function getFullPath() : string;
 }

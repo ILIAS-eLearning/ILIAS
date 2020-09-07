@@ -31,6 +31,11 @@ Responsibilities of a component maintainer:
 - Component maintainers must agree to coordinate the development of their component with the product manager.
 - Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically by the [Issue-Tracker](http://mantis.ilias.de).
 
+## Becoming a Maintainer
+
+Applications for maintainerships can be handed in to the product manager. The product manager together with the technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In addition the company the maintainer is working for can be listed, too. In this second case the company can suggest a new maintainer to the product manager, if the employee leaves the company.
+
+## Current Maintainerships
 
 The code base is deviced in several components:
 <!-- REMOVE -->

@@ -9,5 +9,4 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  */
 class BucketNotFoundException extends Exception
 {
-
 }

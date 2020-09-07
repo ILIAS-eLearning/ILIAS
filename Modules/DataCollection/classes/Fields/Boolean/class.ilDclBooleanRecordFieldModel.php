@@ -10,21 +10,23 @@
  * @version $Id:
  *
  */
-class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel {
+class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
+{
+    public function parseValue($value)
+    {
+        return $value ? 1 : 0;
+    }
 
-	public function parseValue($value) {
-		return $value ? 1 : 0;
-	}
 
-
-	/**
-	 * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-	 *
-	 * @param mixed $value
-	 *
-	 * @return mixed
-	 */
-	public function parseExportValue($value) {
-		return $value ? 1 : 0;
-	}
+    /**
+     * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
+     *
+     * @param mixed $value
+     *
+     * @return mixed
+     */
+    public function parseExportValue($value)
+    {
+        return $value ? 1 : 0;
+    }
 }

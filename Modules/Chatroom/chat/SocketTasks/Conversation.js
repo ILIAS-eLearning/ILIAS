@@ -12,7 +12,17 @@ module.exports = function(participants) {
 	var conversation = conversations.getForParticipants(participants);
 	var socket = this;
 
-	if(conversation == null) {
+	for (let key in participants) {
+		if (!(typeof participants[key] === "object")) {
+			Container.getLogger().warn(
+				'Cannot initiate conversation, non object passed: %s',
+				JSON.stringify(participants)
+			);
+			return;
+		}
+	}
+
+	if (conversation == null) {
 		Container.getLogger().info('No Conversation found. Creating new one');
 		conversation = new Conversation(UUID.v4());
 		conversations.add(conversation);
@@ -20,7 +30,7 @@ module.exports = function(participants) {
 		namespace.getDatabase().persistConversation(conversation);
 	}
 
-	for(var key in participants) {
+	for (let key in participants) {
 		var participant = namespace.getSubscriberWithOfflines(participants[key].id, participants[key].name);
 		conversation.addParticipant(participant);
 		participant.join(conversation.id);

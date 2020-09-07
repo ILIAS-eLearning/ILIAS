@@ -11,10 +11,10 @@
  */
 interface ilBadgeProvider
 {
-	/**
-	 * Get available badge types from component
-	 * 
-	 * @return ilBadgeType[]
-	 */
-	public function getBadgeTypes();		
+    /**
+     * Get available badge types from component
+     *
+     * @return ilBadgeType[]
+     */
+    public function getBadgeTypes();
 }

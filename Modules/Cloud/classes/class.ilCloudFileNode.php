@@ -113,7 +113,7 @@ class ilCloudFileNode
      */
     public function setPath($path = "/")
     {
-        $this->path = ilCloudUtil::normalizePath($path,$this->is_dir);
+        $this->path = ilCloudUtil::normalizePath($path, $this->is_dir);
     }
 
     /**
@@ -129,11 +129,9 @@ class ilCloudFileNode
      */
     public function addChild($path)
     {
-        if (!isset($this->children[$path]))
-        {
+        if (!isset($this->children[$path])) {
             $this->children[$path] = $path;
         }
-
     }
 
     /**
@@ -141,11 +139,9 @@ class ilCloudFileNode
      */
     public function removeChild($path)
     {
-        if (isset($this->children[$path]))
-        {
+        if (isset($this->children[$path])) {
             unset($this->children[$path]);
         }
-
     }
 
     /**
@@ -153,12 +149,10 @@ class ilCloudFileNode
      */
     public function getChildrenPathes()
     {
-        if ($this->hasChildren())
-        {
+        if ($this->hasChildren()) {
             return $this->children;
         }
         return null;
-
     }
 
     /**
@@ -272,17 +266,15 @@ class ilCloudFileNode
      */
     public function getJSONEncode()
     {
-        $node                     = array();
-        $node["id"]               = $this->getId();
-        $node["is_dir"]           = $this->getIsDir();
-        $node["path"]             = $this->getPath();
-        $node["parent_id"]        = $this->getParentId();
+        $node = array();
+        $node["id"] = $this->getId();
+        $node["is_dir"] = $this->getIsDir();
+        $node["path"] = $this->getPath();
+        $node["parent_id"] = $this->getParentId();
         $node["loading_complete"] = $this->getLoadingComplete();
-        $node["children"]         = $this->getChildrenPathes();
-        $node["size"]             = $this->getSize();
+        $node["children"] = $this->getChildrenPathes();
+        $node["size"] = $this->getSize();
 
         return $node;
     }
 }
-
-?>

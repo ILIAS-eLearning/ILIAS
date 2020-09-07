@@ -11,18 +11,18 @@ use ILIAS\UI;
  * The entries of the locator are understood to be given from general to specific,
  * e.g. Chapter 1 > Section 1.1 > Paragraph 1.1.a ...
  */
-interface LocatorBuilder {
-	/**
-	 * Finish building the locator.
-	 */
-	//public function end(): ControlBuilder;
-	public function end();
+interface LocatorBuilder
+{
+    /**
+     * Finish building the locator.
+     */
+    //public function end(): ControlBuilder;
+    public function end();
 
-	/**
-	 * Build an entry in the locator.
-	 *
-	 * The parameter will be appended to the command when updating state.
-	 */
-	public function item(string $label, int $parameter): LocatorBuilder;
+    /**
+     * Build an entry in the locator.
+     *
+     * The parameter will be appended to the command when updating state.
+     */
+    public function item(string $label, int $parameter) : LocatorBuilder;
 }
-

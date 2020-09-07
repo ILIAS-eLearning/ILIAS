@@ -5,33 +5,42 @@
 /**
  * Class ilSystemStyleLoggerMock
  */
-class ilSystemStyleLoggerMock {
+class ilSystemStyleLoggerMock
+{
 
-	/**
-	 * ilSystemStyleLoggerMock constructor.
-	 */
-	public function __construct() {}
+    /**
+     * ilSystemStyleLoggerMock constructor.
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function root() {
-		return new ilSystemStyleRootLoggerMock();
-	}
+    /**
+     * @return mixed
+     */
+    public function root()
+    {
+        return new ilSystemStyleRootLoggerMock();
+    }
 }
 
 /**
  * Class ilSystemStyleLoggerMock
  */
-class ilSystemStyleRootLoggerMock {
+class ilSystemStyleRootLoggerMock
+{
 
-	/**
-	 * ilSystemStyleLoggerMock constructor.
-	 */
-	public function __construct() {}
+    /**
+     * ilSystemStyleLoggerMock constructor.
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function debug($message) {}
+    /**
+     * @return mixed
+     */
+    public function debug($message)
+    {
+    }
 }

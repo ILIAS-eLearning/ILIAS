@@ -11,28 +11,27 @@ require_once 'Modules/Test/classes/class.ilTestExport.php';
  */
 class ilTestExportFixedQuestionSet extends ilTestExport
 {
-	protected function initXmlExport()
-	{
-	}
+    protected function initXmlExport()
+    {
+    }
 
-	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
-	{
-	}
-	
-	protected function getQuestionsQtiXml()
-	{
-		$questionQtiXml = '';
+    protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+    {
+    }
+    
+    protected function getQuestionsQtiXml()
+    {
+        $questionQtiXml = '';
 
-		foreach ($this->test_obj->questions as $questionId)
-		{
-			$questionQtiXml .= $this->getQuestionQtiXml($questionId);
-		}
+        foreach ($this->test_obj->questions as $questionId) {
+            $questionQtiXml .= $this->getQuestionQtiXml($questionId);
+        }
 
-		return $questionQtiXml;
-	}
-	
-	protected function getQuestionIds()
-	{
-		return $this->test_obj->questions;
-	}
+        return $questionQtiXml;
+    }
+    
+    protected function getQuestionIds()
+    {
+        return $this->test_obj->questions;
+    }
 }

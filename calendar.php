@@ -5,6 +5,3 @@ include_once './Services/Calendar/classes/class.ilCalendarRemoteAccessHandler.ph
 $cal_remote = new ilCalendarRemoteAccessHandler();
 $cal_remote->parseRequest();
 $cal_remote->handleRequest();
-
-
-?>

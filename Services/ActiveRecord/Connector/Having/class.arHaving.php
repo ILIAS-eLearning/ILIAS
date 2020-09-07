@@ -7,148 +7,160 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
-class arHaving extends arStatement {
+class arHaving extends arStatement
+{
 
-	/**
-	 * @var string
-	 */
-	protected $table_name = '';
-	/**
-	 * @var string
-	 */
-	protected $fieldname = '';
-	/**
-	 * @var
-	 */
-	protected $value;
-	/**
-	 * @var string
-	 */
-	protected $operator = '=';
-	/**
-	 * @var string
-	 */
-	protected $statement = '';
-	/**
-	 * @var string
-	 */
-	protected $glue = 'AND';
-
-
-	/**
-	 * @description Build WHERE Statement
-	 *
-	 * @param ActiveRecord $ar
-	 *
-	 * @throws arException
-	 * @return string
-	 */
-	public function asSQLStatement(ActiveRecord $ar) {
-		$statement = '';
-		if ($this->getTableName()) {
-			$statement .= $this->getTableName() . '.';
-		}
-		$statement .= $this->getFieldname() . ' ' . $this->getOperator() . ' "' . $this->getValue().'"';
-		$this->setStatement($statement);
-
-		return $this->getStatement();
-	}
+    /**
+     * @var string
+     */
+    protected $table_name = '';
+    /**
+     * @var string
+     */
+    protected $fieldname = '';
+    /**
+     * @var
+     */
+    protected $value;
+    /**
+     * @var string
+     */
+    protected $operator = '=';
+    /**
+     * @var string
+     */
+    protected $statement = '';
+    /**
+     * @var string
+     */
+    protected $glue = 'AND';
 
 
-	/**
-	 * @return string
-	 */
-	public function getFieldname() {
-		return $this->fieldname;
-	}
+    /**
+     * @description Build WHERE Statement
+     *
+     * @param ActiveRecord $ar
+     *
+     * @throws arException
+     * @return string
+     */
+    public function asSQLStatement(ActiveRecord $ar)
+    {
+        $statement = '';
+        if ($this->getTableName()) {
+            $statement .= $this->getTableName() . '.';
+        }
+        $statement .= $this->getFieldname() . ' ' . $this->getOperator() . ' "' . $this->getValue() . '"';
+        $this->setStatement($statement);
+
+        return $this->getStatement();
+    }
 
 
-	/**
-	 * @param string $fieldname
-	 */
-	public function setFieldname($fieldname) {
-		$this->fieldname = $fieldname;
-	}
+    /**
+     * @return string
+     */
+    public function getFieldname()
+    {
+        return $this->fieldname;
+    }
 
 
-	/**
-	 * @return mixed
-	 */
-	public function getValue() {
-		return $this->value;
-	}
+    /**
+     * @param string $fieldname
+     */
+    public function setFieldname($fieldname)
+    {
+        $this->fieldname = $fieldname;
+    }
 
 
-	/**
-	 * @param mixed $value
-	 */
-	public function setValue($value) {
-		$this->value = $value;
-	}
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getOperator() {
-		return $this->operator;
-	}
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
 
 
-	/**
-	 * @param string $operator
-	 */
-	public function setOperator($operator) {
-		$this->operator = $operator;
-	}
+    /**
+     * @return string
+     */
+    public function getOperator()
+    {
+        return $this->operator;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getStatement() {
-		return $this->statement;
-	}
+    /**
+     * @param string $operator
+     */
+    public function setOperator($operator)
+    {
+        $this->operator = $operator;
+    }
 
 
-	/**
-	 * @param string $statement
-	 */
-	public function setStatement($statement) {
-		$this->statement = $statement;
-	}
+    /**
+     * @return string
+     */
+    public function getStatement()
+    {
+        return $this->statement;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getGlue() {
-		return $this->glue;
-	}
+    /**
+     * @param string $statement
+     */
+    public function setStatement($statement)
+    {
+        $this->statement = $statement;
+    }
 
 
-	/**
-	 * @param string $glue
-	 */
-	public function setGlue($glue) {
-		$this->glue = $glue;
-	}
+    /**
+     * @return string
+     */
+    public function getGlue()
+    {
+        return $this->glue;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getTableName() {
-		return $this->table_name;
-	}
+    /**
+     * @param string $glue
+     */
+    public function setGlue($glue)
+    {
+        $this->glue = $glue;
+    }
 
 
-	/**
-	 * @param string $table_name
-	 */
-	public function setTableName($table_name) {
-		$this->table_name = $table_name;
-	}
+    /**
+     * @return string
+     */
+    public function getTableName()
+    {
+        return $this->table_name;
+    }
+
+
+    /**
+     * @param string $table_name
+     */
+    public function setTableName($table_name)
+    {
+        $this->table_name = $table_name;
+    }
 }
-
-?>

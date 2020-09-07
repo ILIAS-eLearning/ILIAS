@@ -7,7 +7,7 @@ use Exception;
 /**
  * xmlseclibs.php
  *
- * Copyright (c) 2007-2017, Robert Richards <rrichards@cdatazone.org>.
+ * Copyright (c) 2007-2019, Robert Richards <rrichards@cdatazone.org>.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,7 @@ use Exception;
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @author    Robert Richards <rrichards@cdatazone.org>
- * @copyright 2007-2017 Robert Richards <rrichards@cdatazone.org>
+ * @copyright 2007-2019 Robert Richards <rrichards@cdatazone.org>
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  */
 
@@ -448,7 +448,7 @@ class XMLSecurityKey
     private function decryptPublic($data)
     {
         if (! openssl_public_decrypt($data, $decrypted, $this->key, $this->cryptParams['padding'])) {
-            throw new Exception('Failure decrypting Data (openssl public) - ' . openssl_error_string);
+            throw new Exception('Failure decrypting Data (openssl public) - ' . openssl_error_string());
         }
         return $decrypted;
     }
@@ -585,6 +585,16 @@ class XMLSecurityKey
 
     /**
      * Verifies the data (string) against the given signature using the extension assigned to the type in the constructor.
+     *
+     * Returns in case of openSSL:
+     *  1 on succesful signature verification,
+     *  0 when signature verification failed,
+     *  -1 if an error occurred during processing.
+     *
+     * NOTE: be very careful when checking the return value, because in PHP,
+     * -1 will be cast to True when in boolean context. So always check the
+     * return value in a strictly typed way, e.g. "$obj->verify(...) === 1".
+     *
      * @param string $data
      * @param string $signature
      * @return bool|int

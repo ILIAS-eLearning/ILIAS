@@ -6,49 +6,50 @@
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilDBStatement {
+interface ilDBStatement
+{
 
-	/**
-	 * @param $fetch_mode int Is either ilDBConstants::FETCHMODE_ASSOC OR ilDBConstants::FETCHMODE_OBJECT
-	 * @return mixed Returns an array in fetchmode assoc and an object in fetchmode object.
-	 */
-	public function fetchRow($fetch_mode);
-
-
-	/**
-	 * @param int $fetch_mode
-	 * @return mixed
-	 */
-	public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
+    /**
+     * @param $fetch_mode int Is either ilDBConstants::FETCHMODE_ASSOC OR ilDBConstants::FETCHMODE_OBJECT
+     * @return mixed Returns an array in fetchmode assoc and an object in fetchmode object.
+     */
+    public function fetchRow($fetch_mode);
 
 
-	/**
-	 * @return int
-	 */
-	public function rowCount();
+    /**
+     * @param int $fetch_mode
+     * @return mixed
+     */
+    public function fetch($fetch_mode = ilDBConstants::FETCHMODE_ASSOC);
 
 
-	/**
-	 * @return int
-	 */
-	public function numRows();
+    /**
+     * @return int
+     */
+    public function rowCount();
 
 
-	/**
-	 * @return stdClass
-	 */
-	public function fetchObject();
+    /**
+     * @return int
+     */
+    public function numRows();
 
 
-	/**
-	 * @return array
-	 */
-	public function fetchAssoc();
+    /**
+     * @return stdClass
+     */
+    public function fetchObject();
 
 
-	/**
-	 * @param array $a_data
-	 * @return \ilPDOStatement
-	 */
-	public function execute($a_data = null);
+    /**
+     * @return array
+     */
+    public function fetchAssoc();
+
+
+    /**
+     * @param array $a_data
+     * @return \ilPDOStatement
+     */
+    public function execute($a_data = null);
 }

@@ -10,11 +10,11 @@ require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButto
  */
 class ilSplitButtonItemDivider implements ilSplitButtonSeparatorMenuItem
 {
-	/**
-	 * @return string
-	 */
-	public function getContent()
-	{
-		return '';
-	}
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return '';
+    }
 }

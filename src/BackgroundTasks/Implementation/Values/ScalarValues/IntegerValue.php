@@ -6,7 +6,6 @@ use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
 
 class IntegerValue extends ScalarValue
 {
-
     public function setValue($integer)
     {
         if (!is_integer($integer)) {

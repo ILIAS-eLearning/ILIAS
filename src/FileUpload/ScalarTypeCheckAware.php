@@ -16,38 +16,41 @@ namespace ILIAS\FileUpload;
  *
  * @Internal
  */
-trait ScalarTypeCheckAware {
+trait ScalarTypeCheckAware
+{
 
-	/**
-	 * Type check for string variables.
-	 *
-	 * @param string $variable The variable which should be tested.
-	 * @param string $name     The name of the variable which is tested.
-	 *
-	 * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
-	 * @since 5.3
-	 */
-	private function stringTypeCheck($variable, $name) {
-		if (!is_string($variable)) {
-			$varType = gettype($variable);
-			throw new \InvalidArgumentException("The $name must be of type string but $varType was given.");
-		}
-	}
+    /**
+     * Type check for string variables.
+     *
+     * @param string $variable The variable which should be tested.
+     * @param string $name     The name of the variable which is tested.
+     *
+     * @throws \InvalidArgumentException Thrown if the variable is not of the type string.
+     * @since 5.3
+     */
+    private function stringTypeCheck($variable, $name)
+    {
+        if (!is_string($variable)) {
+            $varType = gettype($variable);
+            throw new \InvalidArgumentException("The $name must be of type string but $varType was given.");
+        }
+    }
 
 
-	/**
-	 * Type check for int variables.
-	 *
-	 * @param string $variable The variable which should be tested.
-	 * @param string $name     The name of the variable which is tested.
-	 *
-	 * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
-	 * @since 5.3
-	 */
-	private function intTypeCheck($variable, $name) {
-		if (!is_int($variable)) {
-			$varType = gettype($variable);
-			throw new \InvalidArgumentException("The $name must be of type integer but $varType was given.");
-		}
-	}
+    /**
+     * Type check for int variables.
+     *
+     * @param string $variable The variable which should be tested.
+     * @param string $name     The name of the variable which is tested.
+     *
+     * @throws \InvalidArgumentException Thrown if the variable is not of the type int.
+     * @since 5.3
+     */
+    private function intTypeCheck($variable, $name)
+    {
+        if (!is_int($variable)) {
+            $varType = gettype($variable);
+            throw new \InvalidArgumentException("The $name must be of type integer but $varType was given.");
+        }
+    }
 }

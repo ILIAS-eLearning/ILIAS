@@ -24,7 +24,7 @@ function numeric_inputs()
 
     //Step 4, implement some form data processing.
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+            && $request->getQueryParams()['example_name'] == 'numeric_inputs') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

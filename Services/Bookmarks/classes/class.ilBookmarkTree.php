@@ -5,25 +5,22 @@
 include_once("./Services/Tree/classes/class.ilTree.php");
 
 /**
- * Bookmark tree 
+ * Bookmark tree
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup
  */
 class ilBookmarkTree extends ilTree
 {
-	/**
-	 * Constructor
-	 *
-	 * @param int $a_user_id user id
-	 */
-	function __construct($a_user_id)
-	{
-		parent::__construct($a_user_id);
-		$this->setTableNames('bookmark_tree','bookmark_data');
-	}
-	
+    /**
+     * Constructor
+     *
+     * @param int $a_user_id user id
+     */
+    public function __construct($a_user_id)
+    {
+        parent::__construct($a_user_id);
+        $this->setTableNames('bookmark_tree', 'bookmark_data');
+    }
 }
-
-?>

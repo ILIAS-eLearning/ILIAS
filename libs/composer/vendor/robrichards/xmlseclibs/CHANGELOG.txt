@@ -1,5 +1,34 @@
 xmlseclibs.php
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+06, Nov 2019, 3.0.4
+Security Improvements:
+- Insure only a single SignedInfo element exists within a signature during 
+  verification. Refs CVE-2019-3465.
+Bug Fixes:
+- Fix variable casing.
+
+15, Nov 2018, 3.0.3
+Bug Fixes:
+- Fix casing of class name. (Willem Stuursma-Ruwen)
+- Fix Xpath casing. (Tim van Dijen)
+
+Improvements:
+- Make PCRE2 compliant. (Stefan Winter)
+- Add PHP 7.3 support. (Stefan Winter)
+
+27, Sep 2018, 3.0.2
+Security Improvements:
+- OpenSSL is now a requirement rather than suggestion. (Slaven Bacelic)
+- Filter input to avoid XPath injection. (Jaime Pérez)
+
+Bug Fixes:
+- Fix missing parentheses (Tim van Dijen)
+
+Improvements:
+- Use strict comparison operator to compare digest values. (Jaime Pérez)
+- Remove call to file_get_contents that doesn't even work. (Jaime Pérez)
+- Document potentially dangerous return value behaviour. (Thijs Kinkhorst)
+
 31, Aug 2017, 3.0.1
 Bug Fixes:
 - Fixed missing () in function call. (Dennis Væversted)

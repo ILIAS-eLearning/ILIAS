@@ -6,13 +6,13 @@
  */
 interface ilUsersGalleryCollectionProvider
 {
-	/**
-	 * @return ilUsersGalleryUserCollection[]
-	 */
-	public function getGroupedCollections();
+    /**
+     * @return ilUsersGalleryUserCollection[]
+     */
+    public function getGroupedCollections();
 
-	/**
-	 * @return boolean
-	 */
-	public function hasRemovableUsers();
+    /**
+     * @return boolean
+     */
+    public function hasRemovableUsers();
 }

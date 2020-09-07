@@ -9,54 +9,53 @@
  */
 interface ilExAssignmentTypeInterface
 {
-	/**
-	 * Is assignment type active?
-	 *
-	 * @return bool
-	 */
-	function isActive();
+    /**
+     * Is assignment type active?
+     *
+     * @return bool
+     */
+    public function isActive();
 
-	/**
-	 * Uses teams
-	 *
-	 * @return bool
-	 */
-	function usesTeams();
+    /**
+     * Uses teams
+     *
+     * @return bool
+     */
+    public function usesTeams();
 
-	/**
-	 * Uses file upload
-	 *
-	 * @return bool
-	 */
-	function usesFileUpload();
+    /**
+     * Uses file upload
+     *
+     * @return bool
+     */
+    public function usesFileUpload();
 
-	/**
-	 * Get title of type
-	 *
-	 * @return string
-	 */
-	public function getTitle();
+    /**
+     * Get title of type
+     *
+     * @return string
+     */
+    public function getTitle();
 
-	/**
-	 * Get submission type
-	 *
-	 * @return string
-	 */
-	public function getSubmissionType();
+    /**
+     * Get submission type
+     *
+     * @return string
+     */
+    public function getSubmissionType();
 
-	/**
-	 * Get submission type
-	 *
-	 * @return string
-	 */
-	public function isSubmissionAssignedToTeam();
+    /**
+     * Get submission type
+     *
+     * @return string
+     */
+    public function isSubmissionAssignedToTeam();
 
-	/**
-	 * Clone type specific properties of an assignment
-	 *
-	 * @param ilExAssignment $source
-	 * @param ilExAssignment $target
-	 */
-	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target);
-
+    /**
+     * Clone type specific properties of an assignment
+     *
+     * @param ilExAssignment $source
+     * @param ilExAssignment $target
+     */
+    public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target);
 }

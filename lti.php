@@ -16,4 +16,3 @@ $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doLTIAuthentication');
 $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->callBaseClass();
-

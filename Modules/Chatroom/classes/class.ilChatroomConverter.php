@@ -9,46 +9,43 @@
  */
 class ilChatroomConverter
 {
-	public function backupHistoryToXML()
-	{
-		global $DIC;
+    public function backupHistoryToXML()
+    {
+        global $DIC;
 
-		$res = $DIC->database()->query("
+        $res = $DIC->database()->query("
 			SELECT		chat_id, room_id
 			FROM		chat_room_messages
 			GROUP BY	chat_id, room_id
 		");
 
-		$chat_room_id_comb = array();
+        $chat_room_id_comb = array();
 
-		while($row = $DIC->database()->fetchAssoc($res))
-		{
-			$chat_room_id_comb[] = array($row['chat_id'], $row['room_id']);
-		}
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $chat_room_id_comb[] = array($row['chat_id'], $row['room_id']);
+        }
 
-		foreach($chat_room_id_comb as $combination)
-		{
-			$res = $DIC->database()->queryF("
+        foreach ($chat_room_id_comb as $combination) {
+            $res = $DIC->database()->queryF(
+                "
 				SELECT		*
 				FROM		chat_room_messages
 				WHERE		chat_id = %s
 				AND			room_id = %s",
+                array('integer', 'integer'),
+                array($combination[0], $combination[1])
+            );
 
-				array('integer', 'integer'),
-				array($combination[0], $combination[1])
-			);
+            $xml = new SimpleXMLElement('<entries />');
+            $xml->addAttribute('chat_id', $combination[0]);
+            $xml->addAttribute('room_id', $combination[1]);
 
-			$xml = new SimpleXMLElement('<entries />');
-			$xml->addAttribute('chat_id', $combination[0]);
-			$xml->addAttribute('room_id', $combination[1]);
+            while ($row = $DIC->database()->fetchAssoc($res)) {
+                $child = $xml->addChild('entry', $row['message']);
+                $child->addAttribute('timestamp', $row['commit_timestamp']);
+            }
 
-			while($row = $DIC->database()->fetchAssoc($res))
-			{
-				$child = $xml->addChild('entry', $row['message']);
-				$child->addAttribute('timestamp', $row['commit_timestamp']);
-			}
-
-			$xml->asXML();
-		}
-	}
+            $xml->asXML();
+        }
+    }
 }

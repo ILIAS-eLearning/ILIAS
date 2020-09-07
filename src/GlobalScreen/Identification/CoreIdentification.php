@@ -12,5 +12,4 @@
  */
 class CoreIdentification extends AbstractIdentification implements IdentificationInterface
 {
-
 }

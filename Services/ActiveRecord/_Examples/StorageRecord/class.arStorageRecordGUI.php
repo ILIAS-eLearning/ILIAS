@@ -11,50 +11,56 @@ require_once('./Services/ActiveRecord/Views/Index/class.arIndexTableGUI.php');
  *
  * @version 2.0.7
  */
-class arStorageRecordGUI {
+class arStorageRecordGUI
+{
 
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var ilTemplate
-	 */
-	protected $tpl;
-
-
-	public function __construct() {
-		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
-		$tpl = $DIC['tpl'];
-		$this->ctrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->object = new arStorageRecord();
-	}
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    /**
+     * @var ilTemplate
+     */
+    protected $tpl;
 
 
-	public function executeCommand() {
-		$cmd = $_GET['cmd'] ? $_GET['cmd'] : 'index';
-		$this->{$cmd}();
-	}
+    public function __construct()
+    {
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
+        $tpl = $DIC['tpl'];
+        $this->ctrl = $ilCtrl;
+        $this->tpl = $tpl;
+        $this->object = new arStorageRecord();
+    }
 
 
-	public function index() {
-		$table = new arIndexTableGUI(new ilPersonalDesktopGUI(), 'index', arStorageRecordStorage::getCollection());
-		$this->tpl->setContent($table->getHTML());
-	}
+    public function executeCommand()
+    {
+        $cmd = $_GET['cmd'] ? $_GET['cmd'] : 'index';
+        $this->{$cmd}();
+    }
 
 
-	public function edit() {
-		$editGUI = new arEditGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
-		$this->tpl->setContent($editGUI->getHTML());
-	}
+    public function index()
+    {
+        $table = new arIndexTableGUI(new ilPersonalDesktopGUI(), 'index', arStorageRecordStorage::getCollection());
+        $this->tpl->setContent($table->getHTML());
+    }
 
 
-	public function view() {
-		//		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
-		//		$this->tpl->setContent($editGUI->getHTML());
-	}
+    public function edit()
+    {
+        $editGUI = new arEditGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
+        $this->tpl->setContent($editGUI->getHTML());
+    }
+
+
+    public function view()
+    {
+        //		$editGUI = new ActiveRecordViewGUI(new ilPersonalDesktopGUI(), $this->object->getStorage());
+        //		$this->tpl->setContent($editGUI->getHTML());
+    }
 }
 
 ?>

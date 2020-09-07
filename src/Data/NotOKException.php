@@ -6,5 +6,6 @@ namespace ILIAS\Data;
 /**
  * Signals that a result contains no value.
  */
-class NotOKException extends \Exception{
+class NotOKException extends \Exception
+{
 }

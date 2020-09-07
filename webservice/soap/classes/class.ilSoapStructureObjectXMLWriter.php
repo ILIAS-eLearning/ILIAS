@@ -18,74 +18,70 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
 */
 class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 {
-	var $ilias;
-	var $xml;
-	var $structureObject;
-	var $user_id = 0;
+    public $ilias;
+    public $xml;
+    public $structureObject;
+    public $user_id = 0;
 
-	/**
-	* constructor
-	* @param	string	xml version
-	* @param	string	output encoding
-	* @param	string	input encoding
-	* @access	public
-	*/
-	function __construct()
-	{
-		global $DIC;
+    /**
+    * constructor
+    * @param	string	xml version
+    * @param	string	output encoding
+    * @param	string	input encoding
+    * @access	public
+    */
+    public function __construct()
+    {
+        global $DIC;
 
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
+        $ilias = $DIC['ilias'];
+        $ilUser = $DIC['ilUser'];
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->ilias =& $ilias;
-		$this->user_id = $ilUser->getId();
-	}
-
-
-	function setStructureObject(&  $structureObject)
-	{
-		$this->structureObject = & $structureObject;
-	}
+        $this->ilias =&$ilias;
+        $this->user_id = $ilUser->getId();
+    }
 
 
-	function start()
-	{
-		if (!is_object($this->structureObject))
-			return false;
-
-		$this->__buildHeader();
-
-		$this->structureObject->exportXML ($this);
-
-		$this->__buildFooter();
-
-		return true;
-	}
-
-	function getXML()
-	{
-		return $this->xmlDumpMem(FALSE);
-	}
+    public function setStructureObject(&$structureObject)
+    {
+        $this->structureObject = &$structureObject;
+    }
 
 
-	function __buildHeader()
-	{
-		$this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"".ILIAS_HTTP_PATH."/xml/ilias_soap_structure_object_3_7.dtd\">");
-		$this->xmlSetGenCmt("Internal Structure Information of Repository Object");
-		$this->xmlHeader();
+    public function start()
+    {
+        if (!is_object($this->structureObject)) {
+            return false;
+        }
+
+        $this->__buildHeader();
+
+        $this->structureObject->exportXML($this);
+
+        $this->__buildFooter();
+
+        return true;
+    }
+
+    public function getXML()
+    {
+        return $this->xmlDumpMem(false);
+    }
 
 
-		return true;
-	}
+    public function __buildHeader()
+    {
+        $this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_soap_structure_object_3_7.dtd\">");
+        $this->xmlSetGenCmt("Internal Structure Information of Repository Object");
+        $this->xmlHeader();
 
-	function __buildFooter()
-	{
 
-	}
+        return true;
+    }
 
+    public function __buildFooter()
+    {
+    }
 }
-
-
-?>

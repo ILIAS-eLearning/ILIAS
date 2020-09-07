@@ -6,11 +6,11 @@
  * @author Michael Jansen <mjansen@databay.de>
  * @ingroup Services/Language
  */
-interface ilLanguageDetector 
+interface ilLanguageDetector
 {
-	/**
-	 * Returns the detected ISO2 language code
-	 * @return string
-	 */
-	public function getIso2LanguageCode();
+    /**
+     * Returns the detected ISO2 language code
+     * @return string
+     */
+    public function getIso2LanguageCode();
 }

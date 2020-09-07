@@ -5,7 +5,8 @@
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
+class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilOrgUnitType
@@ -33,7 +34,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilOrgUnitType $type) {
+    public function __construct($parent_gui, ilOrgUnitType $type)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -53,7 +55,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
+    public function saveObject()
+    {
         if (!$this->fillObject()) {
             return false;
         }
@@ -69,7 +72,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $title = $this->type->getId() ? $this->lng->txt('orgu_type_edit') : $this->lng->txt('orgu_type_add');
         $this->setTitle($title);
@@ -100,7 +104,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject()
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return false;
@@ -127,7 +132,8 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
      *
      * @param $a_lang_code
      */
-    protected function addTranslationInputs($a_lang_code) {
+    protected function addTranslationInputs($a_lang_code)
+    {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt("meta_l_{$a_lang_code}"));
         $this->addItem($section);
@@ -138,6 +144,4 @@ class ilOrgUnitTypeFormGUI extends ilPropertyFormGUI {
         $item->setValue($this->type->getDescription($a_lang_code));
         $this->addItem($item);
     }
-
-
 }

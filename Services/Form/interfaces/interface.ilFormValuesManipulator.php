@@ -9,15 +9,15 @@
  */
 interface ilFormValuesManipulator
 {
-	/**
-	 * @param array $inputValues
-	 * @return array $inputValues
-	 */
-	public function manipulateFormInputValues($inputValues);
-	
-	/**
-	 * @param array $submitValues
-	 * @return array $submitValues
-	 */
-	public function manipulateFormSubmitValues($submitValues);
+    /**
+     * @param array $inputValues
+     * @return array $inputValues
+     */
+    public function manipulateFormInputValues($inputValues);
+    
+    /**
+     * @param array $submitValues
+     * @return array $submitValues
+     */
+    public function manipulateFormSubmitValues($submitValues);
 }

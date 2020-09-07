@@ -13,7 +13,6 @@ use ILIAS\UI\Renderer;
  */
 class ilMMSubitemFormGUI
 {
-
     use Hasher;
     const F_TITLE = "title";
     const F_TYPE = "type";
@@ -78,8 +77,12 @@ class ilMMSubitemFormGUI
     private function initForm()
     {
         // TITLE
-        $txt = function ($id) : string { return $this->lng->txt($id); };
-        $f = function () : InputFactory { return $this->ui_fa->input(); };
+        $txt = function ($id) : string {
+            return $this->lng->txt($id);
+        };
+        $f = function () : InputFactory {
+            return $this->ui_fa->input();
+        };
 
         $title = $f()->field()->text($txt('sub_title_default'), $txt('sub_title_default_byline'));
         if (!$this->item_facade->isEmpty()) {

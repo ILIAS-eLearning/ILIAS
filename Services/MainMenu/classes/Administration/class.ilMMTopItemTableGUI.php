@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMTopItemTableGUI extends ilTable2GUI
 {
-
     use Hasher;
     /**
      * @var ilMMCustomProvider

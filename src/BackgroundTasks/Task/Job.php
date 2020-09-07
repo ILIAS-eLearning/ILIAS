@@ -25,7 +25,7 @@ interface Job extends Task
      * @return Value                            The returned Value must be of the type hinted by
      *                                          getOutputType.
      */
-    public function run(Array $input, Observer $observer);
+    public function run(array $input, Observer $observer);
 
 
     /**

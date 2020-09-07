@@ -8,5 +8,5 @@
  */
 interface ilAppointmentFileHandler
 {
-	public function getFiles();
+    public function getFiles();
 }

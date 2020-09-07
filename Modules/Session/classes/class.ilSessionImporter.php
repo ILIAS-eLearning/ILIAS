@@ -13,29 +13,32 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 class ilSessionImporter extends ilXmlImporter
 {
 
-	/**
-	 * Initialisation
-	 */
-	function init()
-	{
-		include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
-		$this->ds = new ilSessionDataSet();
-		$this->ds->setDSPrefix("ds");
-	}
+    /**
+     * Initialisation
+     */
+    public function init()
+    {
+        include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
+        $this->ds = new ilSessionDataSet();
+        $this->ds->setDSPrefix("ds");
+    }
 
 
-	/**
-	 * Import XML
-	 *
-	 * @param
-	 * @return
-	 */
-	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{
-		$this->ds->setTargetId($a_mapping->getTargetId());
-		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
-			$a_xml, $this->ds, $a_mapping);
-	}
+    /**
+     * Import XML
+     *
+     * @param
+     * @return
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        $this->ds->setTargetId($a_mapping->getTargetId());
+        $parser = new ilDataSetImportParser(
+            $a_entity,
+            $this->getSchemaVersion(),
+            $a_xml,
+            $this->ds,
+            $a_mapping
+        );
+    }
 }
-
-?>

@@ -8,58 +8,62 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
  *
  * @version 2.0.7
  */
-class arOrder extends arStatement {
+class arOrder extends arStatement
+{
 
-	/**
-	 * @var string
-	 */
-	protected $fieldname = '';
-	/**
-	 * @var string
-	 */
-	protected $direction = 'ASC';
-
-
-	/**
-	 * @param ActiveRecord $ar
-	 *
-	 * @return string
-	 */
-	public function asSQLStatement(ActiveRecord $ar) {
-		return ' ' . $this->getFieldname() . ' ' . strtoupper($this->getDirection());
-	}
+    /**
+     * @var string
+     */
+    protected $fieldname = '';
+    /**
+     * @var string
+     */
+    protected $direction = 'ASC';
 
 
-	/**
-	 * @param string $direction
-	 */
-	public function setDirection($direction) {
-		$this->direction = $direction;
-	}
+    /**
+     * @param ActiveRecord $ar
+     *
+     * @return string
+     */
+    public function asSQLStatement(ActiveRecord $ar)
+    {
+        return ' ' . $this->getFieldname() . ' ' . strtoupper($this->getDirection());
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getDirection() {
-		return $this->direction;
-	}
+    /**
+     * @param string $direction
+     */
+    public function setDirection($direction)
+    {
+        $this->direction = $direction;
+    }
 
 
-	/**
-	 * @param string $fieldname
-	 */
-	public function setFieldname($fieldname) {
-		$this->fieldname = $fieldname;
-	}
+    /**
+     * @return string
+     */
+    public function getDirection()
+    {
+        return $this->direction;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getFieldname() {
-		return $this->fieldname;
-	}
+    /**
+     * @param string $fieldname
+     */
+    public function setFieldname($fieldname)
+    {
+        $this->fieldname = $fieldname;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFieldname()
+    {
+        return $this->fieldname;
+    }
 }
-
-?>

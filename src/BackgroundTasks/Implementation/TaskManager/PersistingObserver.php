@@ -16,7 +16,6 @@ use ILIAS\BackgroundTasks\Task;
  */
 class PersistingObserver implements Observer
 {
-
     protected $bucket;
     protected $persistence;
 

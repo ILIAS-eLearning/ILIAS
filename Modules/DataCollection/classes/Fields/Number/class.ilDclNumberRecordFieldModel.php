@@ -10,9 +10,10 @@
  * @version $Id:
  *
  */
-class ilDclNumberRecordFieldModel extends ilDclBaseRecordFieldModel {
-
-	public function parseValue($value) {
-		return ($value == '') ? null : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
-	}
+class ilDclNumberRecordFieldModel extends ilDclBaseRecordFieldModel
+{
+    public function parseValue($value)
+    {
+        return ($value == '') ? null : $value; //SW, Ilias Mantis #0011799: Return null otherwise '' is casted to 0 in DB
+    }
 }

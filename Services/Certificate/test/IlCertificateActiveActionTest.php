@@ -6,40 +6,40 @@
  */
 class IlCertificateActiveActionTest extends \PHPUnit_Framework_TestCase
 {
-	public function testCertificateIsActive()
-	{
-		$databaseMock = $this->getMockBuilder('ilDBInterface')
-			->getMock();
+    public function testCertificateIsActive()
+    {
+        $databaseMock = $this->getMockBuilder('ilDBInterface')
+            ->getMock();
 
-		$databaseMock->expects($this->atLeastOnce())
-			->method('query');
+        $databaseMock->expects($this->atLeastOnce())
+            ->method('query');
 
-		$databaseMock->expects($this->atLeastOnce())
-			->method('fetchAssoc')
-			->willReturn(array(1, 2, 3));
+        $databaseMock->expects($this->atLeastOnce())
+            ->method('fetchAssoc')
+            ->willReturn(array(1, 2, 3));
 
-		$activateAction = new ilCertificateActiveAction($databaseMock);
-		$result = $activateAction->isObjectActive(10);
+        $activateAction = new ilCertificateActiveAction($databaseMock);
+        $result = $activateAction->isObjectActive(10);
 
-		$this->assertTrue($result);
-	}
+        $this->assertTrue($result);
+    }
 
-	public function testCertificateIsNotActive()
-	{
-		$databaseMock = $this->getMockBuilder('ilDBInterface')
-			->getMock();
+    public function testCertificateIsNotActive()
+    {
+        $databaseMock = $this->getMockBuilder('ilDBInterface')
+            ->getMock();
 
 
-		$databaseMock->expects($this->atLeastOnce())
-			->method('query');
+        $databaseMock->expects($this->atLeastOnce())
+            ->method('query');
 
-		$databaseMock->expects($this->atLeastOnce())
-			->method('fetchAssoc')
-			->willReturn(array());
+        $databaseMock->expects($this->atLeastOnce())
+            ->method('fetchAssoc')
+            ->willReturn(array());
 
-		$activateAction = new ilCertificateActiveAction($databaseMock);
-		$result = $activateAction->isObjectActive(10);
+        $activateAction = new ilCertificateActiveAction($databaseMock);
+        $result = $activateAction->isObjectActive(10);
 
-		$this->assertFalse($result);
-	}
+        $this->assertFalse($result);
+    }
 }

@@ -16,7 +16,6 @@ use ilObjFile;
  */
 class SanitationReportJob extends AbstractJob
 {
-
     public function run(array $input, Observer $observer)
     {
         global $DIC;

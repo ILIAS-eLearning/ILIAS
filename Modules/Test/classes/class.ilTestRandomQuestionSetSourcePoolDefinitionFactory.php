@@ -11,66 +11,66 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefini
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionFactory
 {
-	/**
-	 * @var ilDBInterface
-	 */
-	private $db = null;
-	
-	/**
-	 * @var ilObjTest
-	 */
-	private $testOBJ = null;
-	
-	/**
-	 * @param ilDBInterface $db
-	 * @param ilObjTest $testOBJ
-	 */
-	public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
-	{
-		$this->db = $db;
-		$this->testOBJ = $testOBJ;
-	}
-	
-	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinition
-	 */
-	public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData)
-	{
-		$sourcePoolDefinition = $this->buildDefinitionInstance();
+    /**
+     * @var ilDBInterface
+     */
+    private $db = null;
+    
+    /**
+     * @var ilObjTest
+     */
+    private $testOBJ = null;
+    
+    /**
+     * @param ilDBInterface $db
+     * @param ilObjTest $testOBJ
+     */
+    public function __construct(ilDBInterface $db, ilObjTest $testOBJ)
+    {
+        $this->db = $db;
+        $this->testOBJ = $testOBJ;
+    }
+    
+    /**
+     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     */
+    public function getSourcePoolDefinitionByOriginalPoolData($originalPoolData)
+    {
+        $sourcePoolDefinition = $this->buildDefinitionInstance();
 
-		$sourcePoolDefinition->setPoolId( $originalPoolData['qpl_id'] );
-		$sourcePoolDefinition->setPoolTitle( $originalPoolData['qpl_title'] );
-		$sourcePoolDefinition->setPoolPath( $originalPoolData['qpl_path'] );
-		$sourcePoolDefinition->setPoolQuestionCount( $originalPoolData['count'] );
+        $sourcePoolDefinition->setPoolId($originalPoolData['qpl_id']);
+        $sourcePoolDefinition->setPoolTitle($originalPoolData['qpl_title']);
+        $sourcePoolDefinition->setPoolPath($originalPoolData['qpl_path']);
+        $sourcePoolDefinition->setPoolQuestionCount($originalPoolData['count']);
 
-		return $sourcePoolDefinition;
-	}
+        return $sourcePoolDefinition;
+    }
 
-	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinition
-	 */
-	public function getSourcePoolDefinitionByDefinitionId($definitionId)
-	{
-		$sourcePoolDefinition = $this->buildDefinitionInstance();
+    /**
+     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     */
+    public function getSourcePoolDefinitionByDefinitionId($definitionId)
+    {
+        $sourcePoolDefinition = $this->buildDefinitionInstance();
 
-		$sourcePoolDefinition->loadFromDb($definitionId);
+        $sourcePoolDefinition->loadFromDb($definitionId);
 
-		return $sourcePoolDefinition;
-	}
+        return $sourcePoolDefinition;
+    }
 
-	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinition
-	 */
-	public function getEmptySourcePoolDefinition()
-	{
-		return $this->buildDefinitionInstance();
-	}
+    /**
+     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     */
+    public function getEmptySourcePoolDefinition()
+    {
+        return $this->buildDefinitionInstance();
+    }
 
-	/**
-	 * @return ilTestRandomQuestionSetSourcePoolDefinition
-	 */
-	private function buildDefinitionInstance()
-	{
-		return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->testOBJ);
-	}
+    /**
+     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     */
+    private function buildDefinitionInstance()
+    {
+        return new ilTestRandomQuestionSetSourcePoolDefinition($this->db, $this->testOBJ);
+    }
 }

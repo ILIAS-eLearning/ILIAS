@@ -14,6 +14,8 @@ class DefaultValueBinder implements IValueBinder
      * @param Cell $cell Cell to bind value to
      * @param mixed $value Value to bind in cell
      *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
      * @return bool
      */
     public function bindValue(Cell $cell, $value)
@@ -31,7 +33,7 @@ class DefaultValueBinder implements IValueBinder
         }
 
         // Set value explicit
-        $cell->setValueExplicit($value, self::dataTypeForValue($value));
+        $cell->setValueExplicit($value, static::dataTypeForValue($value));
 
         // Done!
         return true;

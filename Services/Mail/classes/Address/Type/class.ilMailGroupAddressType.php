@@ -7,45 +7,48 @@
  */
 class ilMailGroupAddressType extends \ilBaseMailAddressType
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function isValid(int $senderId): bool
-	{
-		return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isValid(int $senderId) : bool
+    {
+        return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function resolve(): array
-	{
-		$usrIds = [];
+    /**
+     * @inheritdoc
+     */
+    public function resolve() : array
+    {
+        $usrIds = [];
 
-		$possibleGroupTitle = substr($this->address->getMailbox(), 1);
-		$possibleGroupObjId = $this->typeHelper->getGroupObjIdByTitle($possibleGroupTitle);
+        $possibleGroupTitle = substr($this->address->getMailbox(), 1);
+        $possibleGroupObjId = $this->typeHelper->getGroupObjIdByTitle($possibleGroupTitle);
 
-		$group = null;
-		foreach ($this->typeHelper->getAllRefIdsForObjId($possibleGroupObjId) as $refId) {
-			$group = $this->typeHelper->getInstanceByRefId($refId);
-			break;
-		}
+        $group = null;
+        foreach ($this->typeHelper->getAllRefIdsForObjId($possibleGroupObjId) as $refId) {
+            $group = $this->typeHelper->getInstanceByRefId($refId);
+            break;
+        }
 
-		if ($group instanceof \ilObjGroup) {
-			foreach ($group->getGroupMemberIds() as $usr_id) {
-				$usrIds[] = $usr_id;
-			}
+        if ($group instanceof \ilObjGroup) {
+            foreach ($group->getGroupMemberIds() as $usr_id) {
+                $usrIds[] = $usr_id;
+            }
 
-			$this->logger->debug(sprintf(
-				"Found the following group member user ids for address (object title) '%s' and obj_id %s: %s",
-				$possibleGroupTitle, $possibleGroupObjId, implode(', ', array_unique($usrIds))
-			));
-		} else {
-			$this->logger->debug(sprintf(
-				"Did not find any group object for address (object title) '%s'", $possibleGroupTitle
-			));
-		}
+            $this->logger->debug(sprintf(
+                "Found the following group member user ids for address (object title) '%s' and obj_id %s: %s",
+                $possibleGroupTitle,
+                $possibleGroupObjId,
+                implode(', ', array_unique($usrIds))
+            ));
+        } else {
+            $this->logger->debug(sprintf(
+                "Did not find any group object for address (object title) '%s'",
+                $possibleGroupTitle
+            ));
+        }
 
-		return array_unique($usrIds);
-	}
+        return array_unique($usrIds);
+    }
 }

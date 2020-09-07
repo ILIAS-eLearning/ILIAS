@@ -12,101 +12,107 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
 /**
  * @author Jesús López <lopez@leifos.com>
  */
-class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction {
+class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
+{
+    const OPTION_DOWNLOAD = 'download';
+    const OPTION_CANCEL = 'cancel';
 
-	const OPTION_DOWNLOAD = 'download';
-	const OPTION_CANCEL = 'cancel';
-
-	/**
-	 * @var \Monolog\Logger
-	 */
-	private $logger = null;
-
-
-	public function __construct() {
-		$this->logger = $GLOBALS['DIC']->logger()->exc();
-	}
+    /**
+     * @var \Monolog\Logger
+     */
+    private $logger = null;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInputTypes() {
-		return [
-			new SingleType(StringValue::class),
-			new SingleType(StringValue::class),
-		];
-	}
+    public function __construct()
+    {
+        $this->logger = $GLOBALS['DIC']->logger()->exc();
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getRemoveOption() {
-		return new UserInteractionOption('remove', self::OPTION_CANCEL);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInputTypes()
+    {
+        return [
+            new SingleType(StringValue::class),
+            new SingleType(StringValue::class),
+        ];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOutputType() {
-		return new SingleType(StringValue::class);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getRemoveOption()
+    {
+        return new UserInteractionOption('remove', self::OPTION_CANCEL);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOptions(array $input) {
-		return [
-			new UserInteractionOption('download', self::OPTION_DOWNLOAD),
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getOutputType()
+    {
+        return new SingleType(StringValue::class);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function interaction(array $input, Option $user_selected_option, Bucket $bucket) {
-		global $DIC;
-		$download_name = $input[0]; //directory name.
-		$zip_name = $input[1]; // zip job
-
-		$this->logger->debug("Interaction -> input[0] download name MUST BE FULL PATH=> ".$download_name->getValue());
-		$this->logger->debug("Interaction -> input[1] zip name MUST BE THE NAME WITHOUT EXTENSION. => ".$zip_name->getValue());
-
-		if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
-			$this->logger->info('Download canceled');
-			// delete zip file
-			$filesystem = $DIC->filesystem()->temp();
-			try {
-				$path = LegacyPathHelper::createRelativePath($zip_name->getValue());
-			} catch (InvalidArgumentException $e) {
-				$path = null;
-			}
-			if (!is_null($path) && $filesystem->has($path)) {
-				$filesystem->deleteDir(dirname($path));
-			}
-
-			return $input;
-		}
-
-		$this->logger->info("Delivering File.");
+    /**
+     * @inheritDoc
+     */
+    public function getOptions(array $input)
+    {
+        return [
+            new UserInteractionOption('download', self::OPTION_DOWNLOAD),
+        ];
+    }
 
 
-		$zip_name = $zip_name->getValue();
+    /**
+     * @inheritDoc
+     */
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
+    {
+        global $DIC;
+        $download_name = $input[0]; //directory name.
+        $zip_name = $input[1]; // zip job
 
-		$ending = substr($zip_name, -4);
-		if($ending != ".zip"){
-			$zip_name .= ".zip";
-			$this->logger->info("Add .zip extension");
-		}
+        $this->logger->debug("Interaction -> input[0] download name MUST BE FULL PATH=> " . $download_name->getValue());
+        $this->logger->debug("Interaction -> input[1] zip name MUST BE THE NAME WITHOUT EXTENSION. => " . $zip_name->getValue());
 
-		//Download_name->getValue should return the complete path to the file
-		//Zip name is just an string
-		ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
+        if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
+            $this->logger->info('Download canceled');
+            // delete zip file
+            $filesystem = $DIC->filesystem()->temp();
+            try {
+                $path = LegacyPathHelper::createRelativePath($zip_name->getValue());
+            } catch (InvalidArgumentException $e) {
+                $path = null;
+            }
+            if (!is_null($path) && $filesystem->has($path)) {
+                $filesystem->deleteDir(dirname($path));
+            }
 
-		return $input;
-	}
+            return $input;
+        }
+
+        $this->logger->info("Delivering File.");
+
+
+        $zip_name = $zip_name->getValue();
+
+        $ending = substr($zip_name, -4);
+        if ($ending != ".zip") {
+            $zip_name .= ".zip";
+            $this->logger->info("Add .zip extension");
+        }
+
+        //Download_name->getValue should return the complete path to the file
+        //Zip name is just an string
+        ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
+
+        return $input;
+    }
 }

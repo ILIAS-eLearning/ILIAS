@@ -10,25 +10,25 @@ require_once("Modules/IndividualAssessment/classes/class.ilIndividualAssessmentD
  */
 class ilIndividualAssessmentImporter extends ilXmlImporter
 {
-	/**
-	 * Init
-	 */
-	public function init()
-	{
-		$this->ds = new ilIndividualAssessmentDataSet();
-		$this->ds->setImportDirectory($this->getImportDirectory());
-	}
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->ds = new ilIndividualAssessmentDataSet();
+        $this->ds->setImportDirectory($this->getImportDirectory());
+    }
 
-	/**
-	 * Import xml representation
-	 *
-	 * @param	string		entity
-	 * @param	string		target release
-	 * @param	string		id
-	 * @return	string		xml string
-	 */
-	public function importXmlRepresentation($entity, $id, $xml, $mapping)
-	{
-		$parser = new ilDataSetImportParser($entity, $this->getSchemaVersion(), $xml, $this->ds, $mapping);
-	}
+    /**
+     * Import xml representation
+     *
+     * @param	string		entity
+     * @param	string		target release
+     * @param	string		id
+     * @return	string		xml string
+     */
+    public function importXmlRepresentation($entity, $id, $xml, $mapping)
+    {
+        $parser = new ilDataSetImportParser($entity, $this->getSchemaVersion(), $xml, $this->ds, $mapping);
+    }
 }

@@ -6,5 +6,5 @@
  */
 interface ilCertificateFilename
 {
-	public function createFileName(ilUserCertificatePresentation $presentation);
+    public function createFileName(ilUserCertificatePresentation $presentation);
 }

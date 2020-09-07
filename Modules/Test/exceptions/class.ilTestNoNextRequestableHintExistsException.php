@@ -11,5 +11,4 @@ require_once 'Modules/Test/exceptions/class.ilTestException.php';
  */
 class ilTestNoNextRequestableHintExistsException extends ilTestException
 {
-
 }

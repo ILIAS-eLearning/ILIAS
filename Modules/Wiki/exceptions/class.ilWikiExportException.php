@@ -12,6 +12,4 @@ require_once 'Modules/Wiki/exceptions/class.ilWikiException.php';
  */
 class ilWikiExportException extends ilWikiException
 {
-
 }
-?>

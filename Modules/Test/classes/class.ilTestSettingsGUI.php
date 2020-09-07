@@ -12,99 +12,88 @@
  */
 abstract class ilTestSettingsGUI
 {
-	/**
-	 * @var ilObjTest $testOBJ
-	 */
-	protected $testOBJ = null;
+    /**
+     * @var ilObjTest $testOBJ
+     */
+    protected $testOBJ = null;
 
-	/**
-	 * object instance for currently active settings template
-	 *
-	 * @var $settingsTemplate ilSettingsTemplate
-	 */
-	protected $settingsTemplate = null;
+    /**
+     * object instance for currently active settings template
+     *
+     * @var $settingsTemplate ilSettingsTemplate
+     */
+    protected $settingsTemplate = null;
 
-	public function __construct(ilObjTest $testOBJ)
-	{
-		$this->testOBJ = $testOBJ;
+    public function __construct(ilObjTest $testOBJ)
+    {
+        $this->testOBJ = $testOBJ;
 
-		$templateId = $this->testOBJ->getTemplate();
+        $templateId = $this->testOBJ->getTemplate();
 
-		if( $templateId )
-		{
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
-			$this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
-		}
-	}
+        if ($templateId) {
+            include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
+            $this->settingsTemplate = new ilSettingsTemplate($templateId, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
+        }
+    }
 
-	protected function getTemplateSettingValue($settingName)
-	{
-		if( !$this->settingsTemplate )
-		{
-			return null;
-		}
+    protected function getTemplateSettingValue($settingName)
+    {
+        if (!$this->settingsTemplate) {
+            return null;
+        }
 
-		$templateSettings = $this->settingsTemplate->getSettings();
+        $templateSettings = $this->settingsTemplate->getSettings();
 
-		if( !isset($templateSettings[$settingName]) )
-		{
-			return false;
-		}
+        if (!isset($templateSettings[$settingName])) {
+            return false;
+        }
 
-		return $templateSettings[$settingName]['value'];
-	}
+        return $templateSettings[$settingName]['value'];
+    }
 
-	protected function isHiddenFormItem($formFieldId)
-	{
-		if( !$this->settingsTemplate )
-		{
-			return false;
-		}
+    protected function isHiddenFormItem($formFieldId)
+    {
+        if (!$this->settingsTemplate) {
+            return false;
+        }
 
-		$settings = $this->settingsTemplate->getSettings();
+        $settings = $this->settingsTemplate->getSettings();
 
-		if( !isset($settings[$formFieldId]) )
-		{
-			return false;
-		}
+        if (!isset($settings[$formFieldId])) {
+            return false;
+        }
 
-		if( !$settings[$formFieldId]['hide'] )
-		{
-			return false;
-		}
+        if (!$settings[$formFieldId]['hide']) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	protected function isSectionHeaderRequired($fields)
-	{
-		foreach($fields as $field)
-		{
-			if( !$this->isHiddenFormItem($field) )
-			{
-				return true;
-			}
-		}
+    protected function isSectionHeaderRequired($fields)
+    {
+        foreach ($fields as $field) {
+            if (!$this->isHiddenFormItem($field)) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
-	{
-		return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
-	}
+    protected function formPropertyExists(ilPropertyFormGUI $form, $propertyId)
+    {
+        return $form->getItemByPostVar($propertyId) instanceof ilFormPropertyGUI;
+    }
 
-	protected function removeHiddenItems(ilPropertyFormGUI $form)
-	{
-		if( $this->settingsTemplate )
-		{
-			foreach ($this->settingsTemplate->getSettings() as $id => $item)
-			{
-				if ($item["hide"])
-				{
-					$form->removeItemByPostVar($id);
-				}
-			}
-		}
-	}
+    protected function removeHiddenItems(ilPropertyFormGUI $form)
+    {
+        if ($this->settingsTemplate) {
+            foreach ($this->settingsTemplate->getSettings() as $id => $item) {
+                if ($item["hide"]) {
+                    $form->removeItemByPostVar($id);
+                }
+            }
+        }
+    }
 }

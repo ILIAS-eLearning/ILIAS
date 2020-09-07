@@ -11,17 +11,17 @@
  */
 class ilTextAnnotationElement extends ilBaseElement
 {
-	/** @var string $element_varname */
-	public $element_varname;
+    /** @var string $element_varname */
+    public $element_varname;
 
-	/**
-	 * @param                     $element
-	 * @param \ilWorkflowScaffold $class_object
-	 *
-	 * @return string
-	 */
-	public function getPHP($element, ilWorkflowScaffold $class_object)
-	{
-		return '';
-	}
+    /**
+     * @param                     $element
+     * @param \ilWorkflowScaffold $class_object
+     *
+     * @return string
+     */
+    public function getPHP($element, ilWorkflowScaffold $class_object)
+    {
+        return '';
+    }
 }

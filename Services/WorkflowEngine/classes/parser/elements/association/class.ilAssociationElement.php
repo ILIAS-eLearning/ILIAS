@@ -11,27 +11,27 @@
  */
 class ilAssociationElement extends ilBaseElement
 {
-	/** @var string $element_varname */
-	public $element_varname;
+    /** @var string $element_varname */
+    public $element_varname;
 
-	/**
-	 * @param                     $element
-	 * @param \ilWorkflowScaffold $class_object
-	 *
-	 * @return string
-	 */
-	public function getPHP($element, ilWorkflowScaffold $class_object)
-	{
-		$code = "";
-		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
-		$this->element_varname = '$_v_'.$element_id;
+    /**
+     * @param                     $element
+     * @param \ilWorkflowScaffold $class_object
+     *
+     * @return string
+     */
+    public function getPHP($element, ilWorkflowScaffold $class_object)
+    {
+        $code = "";
+        $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
+        $this->element_varname = '$_v_' . $element_id;
 
-		$event_definition = null;
-		// TODO: Implement.
-		$class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
-		$code .= '
+        $event_definition = null;
+        // TODO: Implement.
+        $class_object->registerRequire('./Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php');
+        $code .= '
 			// association_missing
 		';
-		return $code;
-	}
+        return $code;
+    }
 }

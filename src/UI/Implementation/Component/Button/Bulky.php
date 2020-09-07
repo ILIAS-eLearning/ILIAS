@@ -48,7 +48,7 @@ class Bulky extends Button implements C\Button\Bulky
     {
         $this->checkBoolArg("state", $state);
         $clone = clone $this;
-        $clone->engaged =$state;
+        $clone->engaged = $state;
         return $clone;
     }
 

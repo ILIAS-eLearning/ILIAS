@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Media pool page configuration 
+ * Media pool page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -13,16 +13,13 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilMediaPoolPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		$this->setEnableInternalLinks(false);
-		$this->setPreventHTMLUnmasking(false);
-		$this->setMultiLangSupport(true);
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->setEnableInternalLinks(false);
+        $this->setPreventHTMLUnmasking(false);
+        $this->setMultiLangSupport(true);
+    }
 }
-
-?>

@@ -23,7 +23,6 @@ use ILIAS\BackgroundTasks\ValueType;
  */
 class ListValue extends AbstractValue
 {
-
     use BasicScalarValueFactory;
     /**
      * @var array The values of the list are saved in an array.
@@ -253,7 +252,7 @@ class ListValue extends AbstractValue
      * @param $list
      *
      */
-    function setValue($list)
+    public function setValue($list)
     {
         $this->type = $this->deriveType($list);
     }

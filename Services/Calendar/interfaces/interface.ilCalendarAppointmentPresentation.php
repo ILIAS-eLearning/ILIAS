@@ -8,8 +8,7 @@
  */
 interface ilCalendarAppointmentPresentation
 {
-	public function getToolbar();
+    public function getToolbar();
 
-	public function getInfoScreen();
-
+    public function getInfoScreen();
 }

@@ -11,47 +11,47 @@ require_once 'Services/Contact/BuddySystem/interfaces/interface.ilBuddySystemRel
  */
 abstract class ilAbstractBuddySystemRelationState implements ilBuddySystemRelationState
 {
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function isInitial()
-	{
-		return false;
-	}
+    /**
+     *  {@inheritDoc}
+     */
+    public function isInitial()
+    {
+        return false;
+    }
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 * @throws ilBuddySystemRelationStateException
-	 */
-	public function request(ilBuddySystemRelation $relation)
-	{
-		throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     * @throws ilBuddySystemRelationStateException
+     */
+    public function request(ilBuddySystemRelation $relation)
+    {
+        throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
+    }
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 * @throws ilBuddySystemRelationStateException
-	 */
-	public function ignore(ilBuddySystemRelation $relation)
-	{
-		throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     * @throws ilBuddySystemRelationStateException
+     */
+    public function ignore(ilBuddySystemRelation $relation)
+    {
+        throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
+    }
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 * @throws ilBuddySystemRelationStateException
-	 */
-	public function link(ilBuddySystemRelation $relation)
-	{
-		throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     * @throws ilBuddySystemRelationStateException
+     */
+    public function link(ilBuddySystemRelation $relation)
+    {
+        throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
+    }
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 * @throws ilBuddySystemRelationStateException
-	 */
-	public function unlink(ilBuddySystemRelation $relation)
-	{
-		throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
-	}
+    /**
+     * @param ilBuddySystemRelation $relation
+     * @throws ilBuddySystemRelationStateException
+     */
+    public function unlink(ilBuddySystemRelation $relation)
+    {
+        throw new ilBuddySystemRelationStateException('Invalid state transition: ' . __FUNCTION__);
+    }
 }

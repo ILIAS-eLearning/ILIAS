@@ -3,9 +3,9 @@ function included_data1()
 {
     return  array(
         array(
-            'type'=>'Single Choice Frage',
-            'question_title'=>'Belastbarkeit',
-            'question_txt'=>'Wie ausgeprägt ist die Belastbarkeit des / der Auszubildenden?',
+            'type' => 'Single Choice Frage',
+            'question_title' => 'Belastbarkeit',
+            'question_txt' => 'Wie ausgeprägt ist die Belastbarkeit des / der Auszubildenden?',
             'answers' => array(
                 array('title' => 'weniger ausgeprägt', 'amount' => 2,	'proportion' => 20),
                 array('title' => 'teilweise ausgeprägt', 'amount' => 0,	'proportion' => 0),
@@ -25,9 +25,9 @@ function included_data1()
         ),
 
         array(
-            'type'=>'Single Choice Frage',
-            'question_title'=>'Dialogfähigkeit, Kundenorientierung, Beratungsfähigkeit',
-            'question_txt'=>'Wie ausgeprägt ist die Dialogfähigkeit, Kundenorientierung und Beratungsfähigkeit des / der Auszubildenden?',
+            'type' => 'Single Choice Frage',
+            'question_title' => 'Dialogfähigkeit, Kundenorientierung, Beratungsfähigkeit',
+            'question_txt' => 'Wie ausgeprägt ist die Dialogfähigkeit, Kundenorientierung und Beratungsfähigkeit des / der Auszubildenden?',
             'answers' => array(
                 array('title' => 'weniger ausgeprägt', 'amount' => 0,	'proportion' => 0),
                 array('title' => 'teilweise ausgeprägt', 'amount' => 1,	'proportion' => 100),

@@ -9,5 +9,5 @@
  */
 interface ilTestRandomQuestionSequence
 {
-	public function getResponsibleSourcePoolDefinitionId($questionId);
+    public function getResponsibleSourcePoolDefinitionId($questionId);
 }

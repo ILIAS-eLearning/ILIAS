@@ -6,66 +6,66 @@
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 
-interface ilBiblFieldFilterInterface {
-
-	const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
-	const FILTER_TYPE_SELECT_INPUT = 2;
-	const FILTER_TYPE_TEXT_INPUT = 1;
-
-
-	/**
-	 * @return int
-	 */
-	public function getId();
+interface ilBiblFieldFilterInterface
+{
+    const FILTER_TYPE_MULTI_SELECT_INPUT = 3;
+    const FILTER_TYPE_SELECT_INPUT = 2;
+    const FILTER_TYPE_TEXT_INPUT = 1;
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id);
+    /**
+     * @return int
+     */
+    public function getId();
 
 
-	/**
-	 * @return int
-	 */
-	public function getFieldId();
+    /**
+     * @param int $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @param int $field_id
-	 */
-	public function setFieldId($field_id);
+    /**
+     * @return int
+     */
+    public function getFieldId();
 
 
-	/**
-	 * @return int
-	 */
-	public function getObjectId();
+    /**
+     * @param int $field_id
+     */
+    public function setFieldId($field_id);
 
 
-	/**
-	 * @param int $object_id
-	 */
-	public function setObjectId($object_id);
+    /**
+     * @return int
+     */
+    public function getObjectId();
 
 
-	/**
-	 * @return int
-	 */
-	public function getFilterType();
+    /**
+     * @param int $object_id
+     */
+    public function setObjectId($object_id);
 
 
-	/**
-	 * @param int $filter_type
-	 */
-	public function setFilterType($filter_type);
+    /**
+     * @return int
+     */
+    public function getFilterType();
 
 
-	public function create();
+    /**
+     * @param int $filter_type
+     */
+    public function setFilterType($filter_type);
 
 
-	public function update();
+    public function create();
 
 
-	public function delete();
+    public function update();
+
+
+    public function delete();
 }

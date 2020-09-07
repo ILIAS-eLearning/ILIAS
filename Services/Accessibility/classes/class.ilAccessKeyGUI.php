@@ -11,21 +11,20 @@ include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
  */
 class ilAccessKeyGUI
 {
-	/**
-	 * Get accesskey HTML attribute
-	 * @static
-	 * @param int $a_func_id
-	 * @return string
-	 */
-	public static function getAttribute($a_func_id)
-	{
-		$key = ilAccessKey::getKey($a_func_id);
+    /**
+     * Get accesskey HTML attribute
+     * @static
+     * @param int $a_func_id
+     * @return string
+     */
+    public static function getAttribute($a_func_id)
+    {
+        $key = ilAccessKey::getKey($a_func_id);
 
-		if($key != "")
-		{
-			return 'accesskey="' . $key . '"';
-		}
+        if ($key != "") {
+            return 'accesskey="' . $key . '"';
+        }
 
-		return "";
-	}
+        return "";
+    }
 }

@@ -8,7 +8,6 @@ use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionRe
 
 class AsyncTaskManager extends BasicTaskManager
 {
-
     const CMD_START_WORKER = 'startBackgroundTaskWorker';
 
 

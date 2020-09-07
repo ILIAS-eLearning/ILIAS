@@ -20,53 +20,53 @@ use Psr\Http\Message\ResponseInterface;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class XSendfileTest extends TestCase {
+class XSendfileTest extends TestCase
+{
+    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
-	/**
-	 * @var \Mockery\MockInterface | GlobalHttpState
-	 */
-	private $httpServiceMock;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->httpServiceMock = Mockery::mock(HTTPServices::class);
-		$this->httpServiceMock->shouldIgnoreMissing();
-
-		//set remote address to localhost
-		//$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
-		require_once './Services/FileDelivery/classes/FileDeliveryTypes/XSendfile.php';
-	}
+    /**
+     * @var \Mockery\MockInterface | GlobalHttpState
+     */
+    private $httpServiceMock;
 
 
-	/**
-	 * @Test
-	 */
-	public function testSendFileWithXSendHeaderWhichShouldSucceed()
-	{
-		$expectedHeader = 'X-Sendfile';
-		$filePath = __FILE__;
+    /**
+     * @inheritDoc
+     */
+    protected function setUp()
+    {
+        parent::setUp();
 
-		$response = Mockery::mock(ResponseInterface::class);
-		$response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
-		         ->withArgs([ $expectedHeader, $filePath ])->andReturnSelf();
+        $this->httpServiceMock = Mockery::mock(HTTPServices::class);
+        $this->httpServiceMock->shouldIgnoreMissing();
 
-		$this->httpServiceMock->shouldReceive("response")->times(1)->withNoArgs()
-		                      ->andReturn($response)->getMock()->shouldReceive("saveResponse")
-		                      ->times(1)->withArgs([ $response ])->getMock()
-		                      ->shouldReceive("sendResponse")->times(1)->withNoArgs();
+        //set remote address to localhost
+        //$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
-		$fileDeliveryType = new XSendfile($this->httpServiceMock);
-		$fileDeliveryOk = $fileDeliveryType->deliver($filePath, false);
+        require_once './Services/FileDelivery/classes/FileDeliveryTypes/XSendfile.php';
+    }
 
-		$this->assertTrue($fileDeliveryOk);
-	}
+
+    /**
+     * @Test
+     */
+    public function testSendFileWithXSendHeaderWhichShouldSucceed()
+    {
+        $expectedHeader = 'X-Sendfile';
+        $filePath = __FILE__;
+
+        $response = Mockery::mock(ResponseInterface::class);
+        $response->shouldIgnoreMissing()->shouldReceive("withHeader")->times(1)
+                 ->withArgs([ $expectedHeader, $filePath ])->andReturnSelf();
+
+        $this->httpServiceMock->shouldReceive("response")->times(1)->withNoArgs()
+                              ->andReturn($response)->getMock()->shouldReceive("saveResponse")
+                              ->times(1)->withArgs([ $response ])->getMock()
+                              ->shouldReceive("sendResponse")->times(1)->withNoArgs();
+
+        $fileDeliveryType = new XSendfile($this->httpServiceMock);
+        $fileDeliveryOk = $fileDeliveryType->deliver($filePath, false);
+
+        $this->assertTrue($fileDeliveryOk);
+    }
 }

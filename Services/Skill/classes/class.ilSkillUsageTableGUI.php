@@ -14,74 +14,71 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
-	/**
-	 * @var ilAccessHandler
-	 */
-	protected $access;
+    /**
+     * @var ilAccessHandler
+     */
+    protected $access;
 
 
-	/**
-	 * Constructor
-	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id, $a_usage)
+    {
+        global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->access = $DIC->access();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
-		$lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
 
-		$id_parts = explode(":", $a_cskill_id);
-		$this->skill_id = $id_parts[0];
-		$this->tref_id = $id_parts[1];
+        $id_parts = explode(":", $a_cskill_id);
+        $this->skill_id = $id_parts[0];
+        $this->tref_id = $id_parts[1];
 
-		$data = array();
-		foreach ($a_usage as $k => $v)
-		{
-			$data[] = array("type" => $k, "usages" => $v);
-		}
+        $data = array();
+        foreach ($a_usage as $k => $v) {
+            $data[] = array("type" => $k, "usages" => $v);
+        }
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData($data);
-		$this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->setData($data);
+        $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
 
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$tree = new ilSkillTree();
-		$path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
-		$this->setDescription($path);
+        include_once("./Services/Skill/classes/class.ilSkillTree.php");
+        $tree = new ilSkillTree();
+        $path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
+        $this->setDescription($path);
 
-		$this->addColumn($this->lng->txt("skmg_type"), "", "50%");
-		$this->addColumn($this->lng->txt("skmg_number"), "", "50%");
+        $this->addColumn($this->lng->txt("skmg_type"), "", "50%");
+        $this->addColumn($this->lng->txt("skmg_number"), "", "50%");
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.skill_usage_row.html", "Services/Skill");
-		$this->setEnableNumInfo(false);
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setRowTemplate("tpl.skill_usage_row.html", "Services/Skill");
+        $this->setEnableNumInfo(false);
 
-//		$this->addMultiCommand("", $lng->txt(""));
+        //		$this->addMultiCommand("", $lng->txt(""));
 //		$this->addCommandButton("", $lng->txt(""));
-	}
+    }
 
 
-	/**
-	 * Fill table row
-	 */
-	protected function fillRow($a_set)
-	{
-		$lng = $this->lng;
-//var_dump($a_set);
-		$this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));
-		$this->tpl->setVariable("NUMBER", count($a_set["usages"]));
-		$this->tpl->setVariable("OBJ_TYPE", ilSkillUsage::getObjTypeString($a_set["type"]));
-	}
-
+    /**
+     * Fill table row
+     */
+    protected function fillRow($a_set)
+    {
+        $lng = $this->lng;
+        //var_dump($a_set);
+        $this->tpl->setVariable("TYPE_INFO", ilSkillUsage::getTypeInfoString($a_set["type"]));
+        $this->tpl->setVariable("NUMBER", count($a_set["usages"]));
+        $this->tpl->setVariable("OBJ_TYPE", ilSkillUsage::getObjTypeString($a_set["type"]));
+    }
 }
-?>

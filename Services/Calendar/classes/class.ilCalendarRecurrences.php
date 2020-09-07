@@ -33,48 +33,44 @@ include_once('Services/Calendar/classes/class.ilCalendarRecurrence.php');
 
 class ilCalendarRecurrences
 {
-	/**
-	 * get all recurrences of an appointment
-	 *
-	 * @access public
-	 * @param int cal_id
-	 * @return array array of ilCalendarRecurrence
-	 * @static
-	 */
-	public static function _getRecurrences($a_cal_id)
-	{
-		global $DIC;
+    /**
+     * get all recurrences of an appointment
+     *
+     * @access public
+     * @param int cal_id
+     * @return array array of ilCalendarRecurrence
+     * @static
+     */
+    public static function _getRecurrences($a_cal_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
-		$query = "SELECT rule_id FROM cal_recurrence_rules ".
-			"WHERE cal_id = ".$ilDB->quote($a_cal_id ,'integer')." ";
-		$res = $ilDB->query($query);
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$recurrences[] = new ilCalendarRecurrence($row->rule_id);
-		}
-		return $recurrences ? $recurrences : array();
-	}
-	
-	/**
-	 * get first recurrence
-	 *
-	 * @access public
-	 * @param int cal id
-	 * @return
-	 * @static
-	 */
-	public static function _getFirstRecurrence($a_cal_id)
-	{
-		if($recs = self::_getRecurrences($a_cal_id))
-		{
-			return $recs[0];
-		}
-		$new_rec = new ilCalendarRecurrence();
-		$new_rec->setEntryId($a_cal_id);
-		return $new_rec;
-	}
-
+        $ilDB = $DIC['ilDB'];
+        
+        $query = "SELECT rule_id FROM cal_recurrence_rules " .
+            "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $recurrences[] = new ilCalendarRecurrence($row->rule_id);
+        }
+        return $recurrences ? $recurrences : array();
+    }
+    
+    /**
+     * get first recurrence
+     *
+     * @access public
+     * @param int cal id
+     * @return
+     * @static
+     */
+    public static function _getFirstRecurrence($a_cal_id)
+    {
+        if ($recs = self::_getRecurrences($a_cal_id)) {
+            return $recs[0];
+        }
+        $new_rec = new ilCalendarRecurrence();
+        $new_rec->setEntryId($a_cal_id);
+        return $new_rec;
+    }
 }
-?>

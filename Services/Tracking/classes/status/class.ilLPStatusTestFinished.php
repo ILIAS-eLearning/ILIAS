@@ -14,26 +14,25 @@ include_once './Services/Tracking/classes/class.ilLPStatus.php';
 */
 class ilLPStatusTestFinished extends ilLPStatus
 {
+    public function __construct($a_obj_id)
+    {
+        global $DIC;
 
-	function __construct($a_obj_id)
-	{
-		global $DIC;
+        $ilDB = $DIC['ilDB'];
 
-		$ilDB = $DIC['ilDB'];
+        parent::__construct($a_obj_id);
+        $this->db = $ilDB;
+    }
 
-		parent::__construct($a_obj_id);
-		$this->db = $ilDB;
-	}
+    public static function _getInProgress($a_obj_id)
+    {
+        global $DIC;
 
-	static function _getInProgress($a_obj_id)
-	{
-		global $DIC;
+        $ilDB = $DIC['ilDB'];
 
-		$ilDB = $DIC['ilDB'];
+        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
-
-		$query = "
+        $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
 			LEFT JOIN tst_sequence
@@ -44,28 +43,27 @@ class ilLPStatusTestFinished extends ilLPStatus
 			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
 		";
 
-		$res = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
-		$user_ids = array();
+        $user_ids = array();
 
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$user_ids[$row->user_fi] = $row->user_fi;
-		}
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $user_ids[$row->user_fi] = $row->user_fi;
+        }
 
-		return array_values($user_ids);
-	}
+        return array_values($user_ids);
+    }
 
 
-	static function _getCompleted($a_obj_id)
-	{
-		global $DIC;
+    public static function _getCompleted($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+        $ilDB = $DIC['ilDB'];
 
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$query = "
+        $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
 			LEFT JOIN tst_sequence
@@ -76,27 +74,26 @@ class ilLPStatusTestFinished extends ilLPStatus
 			HAVING COUNT(tst_sequence.active_fi) > {$ilDB->quote(0, "integer")}
 		";
 
-		$res = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
-		$user_ids = array();
+        $user_ids = array();
 
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$user_ids[$row->user_fi] = $row->user_fi;
-		}
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $user_ids[$row->user_fi] = $row->user_fi;
+        }
 
-		return array_values($user_ids);
-	}
+        return array_values($user_ids);
+    }
 
-	static function _getNotAttempted($a_obj_id)
-	{
-		global $DIC;
+    public static function _getNotAttempted($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+        $ilDB = $DIC['ilDB'];
 
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$query = "
+        $query = "
 			SELECT active_id, user_fi, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
 			LEFT JOIN tst_sequence
@@ -106,61 +103,59 @@ class ilLPStatusTestFinished extends ilLPStatus
 			HAVING COUNT(tst_sequence.active_fi) = {$ilDB->quote(0, "integer")}
 		";
 
-		$res = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
-		$user_ids = array();
+        $user_ids = array();
 
-		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$user_ids[$row->user_fi] = $row->user_fi;
-		}
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $user_ids[$row->user_fi] = $row->user_fi;
+        }
 
-		return array_values($user_ids);
-	}
+        return array_values($user_ids);
+    }
 
-	/**
-	 * Get participants
-	 *
-	 * @param
-	 * @return
-	 */
-	static function getParticipants($a_obj_id)
-	{
-		global $DIC;
+    /**
+     * Get participants
+     *
+     * @param
+     * @return
+     */
+    public static function getParticipants($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+        $ilDB = $DIC['ilDB'];
 
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active".
-			" WHERE test_fi = ".$ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
-		$user_ids = array();
+        $res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active" .
+            " WHERE test_fi = " . $ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+        $user_ids = array();
 
-		while($rec = $ilDB->fetchAssoc($res))
-		{
-			$user_ids[] = $rec["user_fi"];
-		}
-		return $user_ids;
-	}
+        while ($rec = $ilDB->fetchAssoc($res)) {
+            $user_ids[] = $rec["user_fi"];
+        }
+        return $user_ids;
+    }
 
-	
-	/**
-	 * Determine status
-	 *
-	 * @param	integer		object id
-	 * @param	integer		user id
-	 * @param	object		object (optional depends on object type)
-	 * @return	integer		status
-	 */
-	function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
-	{
-		global $DIC;
+    
+    /**
+     * Determine status
+     *
+     * @param	integer		object id
+     * @param	integer		user id
+     * @param	object		object (optional depends on object type)
+     * @return	integer		status
+     */
+    public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
+    {
+        global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
-		include_once './Modules/Test/classes/class.ilObjTestAccess.php';
+        $ilDB = $DIC['ilDB'];
+        
+        include_once './Modules/Test/classes/class.ilObjTestAccess.php';
 
-		$res = $ilDB->query("
+        $res = $ilDB->query("
 			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
 			LEFT JOIN tst_sequence
@@ -170,23 +165,18 @@ class ilLPStatusTestFinished extends ilLPStatus
 			GROUP BY active_id, user_fi, tries
 		");
 
-		$status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
+        $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
-		if ($rec = $ilDB->fetchAssoc($res))
-		{
-			if ($rec['sequences'] > 0)
-			{
-				$status = self::LP_STATUS_IN_PROGRESS_NUM;
-				
-				if ($rec['tries'] > 0)
-				{
-					$status = self::LP_STATUS_COMPLETED_NUM;
-				}
-			}
-		}
+        if ($rec = $ilDB->fetchAssoc($res)) {
+            if ($rec['sequences'] > 0) {
+                $status = self::LP_STATUS_IN_PROGRESS_NUM;
+                
+                if ($rec['tries'] > 0) {
+                    $status = self::LP_STATUS_COMPLETED_NUM;
+                }
+            }
+        }
 
-		return $status;		
-	}
-
-}	
-?>
+        return $status;
+    }
+}

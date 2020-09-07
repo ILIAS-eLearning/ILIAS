@@ -3,50 +3,48 @@
 
 /**
  * Class ilBadgeHandler
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
- * @ilCtrl_Calls ilBadgeHandlerGUI: 
+ * @ilCtrl_Calls ilBadgeHandlerGUI:
  * @package ServicesBadge
  */
 class ilBadgeHandlerGUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-	}
+        $this->ctrl = $DIC->ctrl();
+    }
 
-	public function executeCommand()
-	{
-		$ilCtrl = $this->ctrl;
-		
-		if($ilCtrl->isAsynch())
-		{
-			$cmd = $ilCtrl->getCmd();
-			echo $this->$cmd();
-			exit();
-		}		
-	}
-	
-	protected function render()
-	{		
-		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
-		$rnd = ilBadgeRenderer::initFromId(trim($_GET["id"]));
-		if($rnd)
-		{
-			return $rnd->renderModal();			
-		}				
-	}
+    public function executeCommand()
+    {
+        $ilCtrl = $this->ctrl;
+        
+        if ($ilCtrl->isAsynch()) {
+            $cmd = $ilCtrl->getCmd();
+            echo $this->$cmd();
+            exit();
+        }
+    }
+    
+    protected function render()
+    {
+        include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
+        $rnd = ilBadgeRenderer::initFromId(trim($_GET["id"]));
+        if ($rnd) {
+            return $rnd->renderModal();
+        }
+    }
 }

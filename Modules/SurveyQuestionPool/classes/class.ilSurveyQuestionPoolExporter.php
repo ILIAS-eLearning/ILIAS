@@ -12,38 +12,38 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  */
 class ilSurveyQuestionPoolExporter extends ilXmlExporter
 {
-	private $ds;
+    private $ds;
 
-	/**
-	 * Initialisation
-	 */
-	function init()
-	{
-	}
+    /**
+     * Initialisation
+     */
+    public function init()
+    {
+    }
 
 
-	/**
-	 * Get xml representation
-	 *
-	 * @param	string		entity
-	 * @param	string		target release
-	 * @param	string		id
-	 * @return	string		xml string
-	 */
-	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
-	{
-		$refs = ilObject::_getAllReferences($a_id);
-		$sql_ref_id = current($refs);
-		
-		include_once './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php';
-		$spl = new ilObjSurveyQuestionPool($a_id,false);
-		$spl->loadFromDb();
-		
-		include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
-		$spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
-		$zip = $spl_exp->buildExportFile();
-		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);
-	}
+    /**
+     * Get xml representation
+     *
+     * @param	string		entity
+     * @param	string		target release
+     * @param	string		id
+     * @return	string		xml string
+     */
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    {
+        $refs = ilObject::_getAllReferences($a_id);
+        $sql_ref_id = current($refs);
+        
+        include_once './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php';
+        $spl = new ilObjSurveyQuestionPool($a_id, false);
+        $spl->loadFromDb();
+        
+        include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
+        $spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
+        $zip = $spl_exp->buildExportFile();
+        $GLOBALS['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
+    }
 
     /**
      * Get tail dependencies
@@ -53,7 +53,7 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
         $deps = [];
 
@@ -69,23 +69,21 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
 
 
     /**
-	 * Returns schema versions that the component can export to.
-	 * ILIAS chooses the first one, that has min/max constraints which
-	 * fit to the target release. Please put the newest on top.
-	 *
-	 * @return
-	 */
-	function getValidSchemaVersions($a_entity)
-	{
-		return array (
-			"4.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/SurveyQuestionPool/htlm/4_1",
-				"xsd_file" => "ilias_spl_4_1.xsd",
-				"uses_dataset" => false,
-				"min" => "4.1.0",
-				"max" => "")
-		);
-	}
+     * Returns schema versions that the component can export to.
+     * ILIAS chooses the first one, that has min/max constraints which
+     * fit to the target release. Please put the newest on top.
+     *
+     * @return
+     */
+    public function getValidSchemaVersions($a_entity)
+    {
+        return array(
+            "4.1.0" => array(
+                "namespace" => "http://www.ilias.de/Modules/SurveyQuestionPool/htlm/4_1",
+                "xsd_file" => "ilias_spl_4_1.xsd",
+                "uses_dataset" => false,
+                "min" => "4.1.0",
+                "max" => "")
+        );
+    }
 }
-
-?>

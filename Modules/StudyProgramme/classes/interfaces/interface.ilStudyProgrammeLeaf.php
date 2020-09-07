@@ -13,33 +13,32 @@
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  */
 
-interface ilStudyProgrammeLeaf {
-	/**
-	 * Get the ILIAS object id of the leaf.
-	 *
-	 * @return int
-	 */
-	public function getId();
+interface ilStudyProgrammeLeaf
+{
+    /**
+     * Get the ILIAS object id of the leaf.
+     *
+     * @return int
+     */
+    public function getId();
 
-	/**
-	 * Get the ILIAS reference id of the leaf.
-	 *
-	 * @return int | null
-	 */
-	public function getRefId();
-	
-	/**
-	 * Create a reference id for this object.
-	 */
-	public function createReference();
-	
-	/**
-	 * Put the leaf object in the repository tree under object identified by
-	 * $a_ref_id.
-	 * 
-	 * @param int	$a_ref_id
-	 */
-	public function putInTree($a_ref_id);
+    /**
+     * Get the ILIAS reference id of the leaf.
+     *
+     * @return int | null
+     */
+    public function getRefId();
+    
+    /**
+     * Create a reference id for this object.
+     */
+    public function createReference();
+    
+    /**
+     * Put the leaf object in the repository tree under object identified by
+     * $a_ref_id.
+     *
+     * @param int	$a_ref_id
+     */
+    public function putInTree($a_ref_id);
 }
-
-?>

@@ -35,15 +35,10 @@
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
 
-class ilSoapLMPageStructureObject extends ilSoapStructureObject{
-
-
-
-	function getInternalLink () {
-		return "[iln page=\"".$this->getObjId()."\"]".$this->getTitle()."[/iln]";
-	}
-
-
+class ilSoapLMPageStructureObject extends ilSoapStructureObject
+{
+    public function getInternalLink()
+    {
+        return "[iln page=\"" . $this->getObjId() . "\"]" . $this->getTitle() . "[/iln]";
+    }
 }
-
-?>

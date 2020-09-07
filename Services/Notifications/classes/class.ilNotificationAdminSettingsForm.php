@@ -5,9 +5,10 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 /**
  * Methods for building the administration forms
  */
-class ilNotificationAdminSettingsForm {
-
-    public static function getTypeForm($types) {
+class ilNotificationAdminSettingsForm
+{
+    public static function getTypeForm($types)
+    {
         global $DIC;
 
         $lng = $DIC->language();
@@ -32,7 +33,8 @@ class ilNotificationAdminSettingsForm {
         return $form;
     }
 
-    public static function getChannelForm($types) {
+    public static function getChannelForm($types)
+    {
         global $DIC;
         $lng = $DIC->language();
 
@@ -54,7 +56,8 @@ class ilNotificationAdminSettingsForm {
         return $form;
     }
 
-    public static function getGeneralSettingsForm() {
+    public static function getGeneralSettingsForm()
+    {
         global $DIC;
         $lng = $DIC->language();
 
@@ -75,7 +78,6 @@ class ilNotificationAdminSettingsForm {
         $form->restored_values = array();
         $store_values = array();
         foreach ($channels as $channel) {
-
             $chb = new ilCheckboxInputGUI($lng->txt('enable_' . $channel['name']), 'enable_' . $channel['name']);
 
             $store_values[] = 'enable_' . $channel['name'];
@@ -90,9 +92,9 @@ class ilNotificationAdminSettingsForm {
              */
             $form->restored_values['notifications[' . $channel['name'] . ']'] = $channel['config_type'];
             require_once $channel['include'];
-			
-			// let the channel display their own settings below the "enable channel"
-			// checkbox
+            
+            // let the channel display their own settings below the "enable channel"
+            // checkbox
             $result = call_user_func(array($channel['handler'], 'showSettings'), $chb);
             if ($result) {
                 $store_values = array_merge($result, $store_values);
@@ -109,7 +111,4 @@ class ilNotificationAdminSettingsForm {
 
         return $form;
     }
-
 }
-
-?>

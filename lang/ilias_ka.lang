@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1248,7 +1248,7 @@ chatroom#:#chat_connection_established#:#
 chatroom#:#chat_create_private_room_button#:#პირადი ოთახის შექმნა
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#მოწვევა საიდან
-chatroom#:#chat_invitation_long#:# ##room_name##\nInvited by
+chatroom#:#chat_invitation_long#:# ##room_name## Invited by
 chatroom#:#chat_invitation_short#:#გთხოვთ დააკლიკოთ დასახელების ლინკს ჩატის ოთახში შესასვლელად
 chatroom#:#chat_invite#:#მოწვევა
 chatroom#:#chat_join#:#გაწევრიანება
@@ -3158,7 +3158,7 @@ common#:#session_max_idle_info#:#განსაზღვრავს მომ�
 common#:#session_min_idle#:#სესიის მინიმალური უმოქმედობის დრო (წუთებში)
 common#:#session_min_idle_info#:#როდესაც მომხმარებელი უმოქმედოთაა დროის ამ პერიოდში სესია შესაძლოა გაუქმდეს თუ სხვა სესიის გახსნაა საჭირო სხვა მომხმარებლისთვის და არსებული სესიების მაქსიმალური რაოდენობა მიღწეულია
 common#:#session_reminder#:#სესიის შეხსენება
-common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!\n\nChoose OK to continue your session.\nIf you click Cancel you will not be reminded during the current browser session anymore.\n\nInstallation: %3$s.
+common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
 common#:#session_reminder_info#:#თუ გააქტიურებულია, თქვენ მიიღებთ შეხსენებას სანამ თქვენი ბრაუზერის  ონლაინ სესია ამოიწურება
 common#:#session_reminder_lead_time#:#წამყვანი დრო
 common#:#session_reminder_lead_time_info#:#გთხოვთ დააზუსტოთ შეხსენების დრო წუთებში.  შეხსენაბა გამოიტანს გაფრთხილებას მხოლოდ მაშინ როდესაც მოკლე დრო იქნება დარჩენილი სესიის ამოწურვამდე. ღეკომენდებული ღირებულებაა 5 ( წუთი) <br/> მიმდინარე ხანგრძლივობა მომხმარებლის სესიისა არის %s
@@ -5826,7 +5826,7 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#კალენდარის შესახებ
-jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl\nDistributed under GNU LGPL.  See http
+jscalendar#:#about_calendar_long#:#//dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL.  See http
 jscalendar#:#about_time#:#
 jscalendar#:#close#:#დახურვა
 jscalendar#:#day_first#:#ჩვენება %s პირველ რიგში
@@ -7114,12 +7114,12 @@ pwassist#:#pwassist_enter_email#:#გთხოვთ შეიყვანოთ
 pwassist#:#pwassist_enter_username_and_email#:#შეიყვანეთ ამ ემაილთან დაკავშირებული მომხმარებლის სახელი ქვემოთ მოცემულ ველში. ნილიასი გააგზავნის შეტყობინებას ამ ემაილის მისამართზე. შეტყობინება შეიცავს ვებ გვერდის მისამართს სადაც თქვენ შეძლებთ თქვენი პაროლის აღდგენას. \ნ იმ შემთხვევაში თუ თქვენ ვერ შეძლებთ ამ ფორმიტ პაროლი აღდგენას დაუკავშირდით თქვენი კურსის ადმინისტრატორს ან გააგზავნეთ ემაილი %s1$
 pwassist#:#pwassist_enter_username_and_new_password#:#შეიყვანეთ მომხმარებლის სახელი და ახალი პაროლი ქვემოტ მოცემულ ველში
 pwassist#:#pwassist_login_not_match#:#გთხოვთ შეიყვანოთ მომხმარებლის სახელი. \ნ მომხმარებლის სახელი რომელიც თქვენ შეიყვანეთ არ შეესატყვისება იმ მომხმარებლის სახელს რომლისთვისაც თქვენ პაროლის აღდგენა მოითხოვეთ.
-pwassist#:#pwassist_mail_body#:#\n\n- If you have used the password assistance form on the ILIAS server by accident
+pwassist#:#pwassist_mail_body#:#  - If you have used the password assistance form on the ILIAS server by accident
 pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზავნილია %s1$. \ნ გთხოვთ შეამოწმოთ თქვენი შეტყობინების ყუთი
 pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
 pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
 pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:#\n\t%s\n\nYou (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.\n\nPlease check the following and act as suggested
+pwassist#:#pwassist_username_mail_body#:# \t%s  You (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.  Please check the following and act as suggested
 rating#:#rat_not_rated_yet#:#არ არის შეფასებული ჯერ
 rating#:#rat_nr_ratings#:#%s რეიტინგები
 rating#:#rat_one_rating#:#ერთი რეიტინგი
@@ -14233,7 +14233,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14828,10 +14828,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14842,7 +14842,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
@@ -15065,3 +15065,61 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
+common#:#logo#:#ILIAS Logo###31 07 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable

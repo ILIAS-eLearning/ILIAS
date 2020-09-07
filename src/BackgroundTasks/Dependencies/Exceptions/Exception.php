@@ -15,5 +15,4 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
  */
 class Exception extends \ilException
 {
-
 }

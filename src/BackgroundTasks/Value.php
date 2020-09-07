@@ -62,5 +62,5 @@ interface Value extends \Serializable
      *
      * @return
      */
-    function setValue($value);
+    public function setValue($value);
 }

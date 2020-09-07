@@ -6,155 +6,158 @@
  */
 class ilCertificateMigrationValidatorTest extends PHPUnit_Framework_TestCase
 {
-	public function testCertificatesAreNotGloballyAvailableWillResultInFalse()
-	{
-		$settings = $this->getMockBuilder('ilSetting')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testCertificatesAreNotGloballyAvailableWillResultInFalse()
+    {
+        $settings = $this->getMockBuilder('ilSetting')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$settings->method('get')
-			->willReturn(0);
+        $settings->method('get')
+            ->willReturn(0);
 
-		$validator = new ilCertificateMigrationValidator($settings);
+        $validator = new ilCertificateMigrationValidator($settings);
 
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationHelper = $this->getMockBuilder('ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationHelper = $this->getMockBuilder('ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$result = $validator->isMigrationAvailable($user, $migrationHelper);
+        $result = $validator->isMigrationAvailable($user, $migrationHelper);
 
-		$this->assertFalse($result);
-	}
+        $this->assertFalse($result);
+    }
 
-	public function testCertificatesAlreadyMigratedWillResultInFalse()
-	{
-		$settings = $this->getMockBuilder('ilSetting')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testCertificatesAlreadyMigratedWillResultInFalse()
+    {
+        $settings = $this->getMockBuilder('ilSetting')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$settings->method('get')
-			->willReturn(1);
+        $settings->method('get')
+            ->willReturn(1);
 
-		$validator = new ilCertificateMigrationValidator($settings);
+        $validator = new ilCertificateMigrationValidator($settings);
 
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$user->method('getPref')
-			->with('cert_migr_finished')
-			->willReturn('1');
+        $user->method('getPref')
+            ->with('cert_migr_finished')
+            ->willReturn('1');
 
-		$migrationHelper = $this->getMockBuilder('ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationHelper = $this->getMockBuilder('ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$result = $validator->isMigrationAvailable($user, $migrationHelper);
+        $result = $validator->isMigrationAvailable($user, $migrationHelper);
 
-		$this->assertFalse($result);	}
+        $this->assertFalse($result);
+    }
 
-	public function testMigrationTaskIsAlreadyRunningWillResultInFalse()
-	{
-		$settings = $this->getMockBuilder('ilSetting')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testMigrationTaskIsAlreadyRunningWillResultInFalse()
+    {
+        $settings = $this->getMockBuilder('ilSetting')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$settings->method('get')
-			->willReturn(1);
+        $settings->method('get')
+            ->willReturn(1);
 
-		$validator = new ilCertificateMigrationValidator($settings);
+        $validator = new ilCertificateMigrationValidator($settings);
 
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$user->method('getPref')
-			->with('cert_migr_finished')
-			->willReturn('0');
+        $user->method('getPref')
+            ->with('cert_migr_finished')
+            ->willReturn('0');
 
-		$migrationHelper = $this->getMockBuilder('ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationHelper = $this->getMockBuilder('ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationHelper->method('isTaskRunning')
-			->willReturn(true);
+        $migrationHelper->method('isTaskRunning')
+            ->willReturn(true);
 
-		$result = $validator->isMigrationAvailable($user, $migrationHelper);
+        $result = $validator->isMigrationAvailable($user, $migrationHelper);
 
-		$this->assertFalse($result);	}
+        $this->assertFalse($result);
+    }
 
-	public function testMigrationTaskIsAlreadyFinishedResultInFalse()
-	{
-		$settings = $this->getMockBuilder('ilSetting')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testMigrationTaskIsAlreadyFinishedResultInFalse()
+    {
+        $settings = $this->getMockBuilder('ilSetting')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$settings->method('get')
-			->willReturn(1);
+        $settings->method('get')
+            ->willReturn(1);
 
-		$validator = new ilCertificateMigrationValidator($settings);
+        $validator = new ilCertificateMigrationValidator($settings);
 
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$user->method('getPref')
-			->with('cert_migr_finished')
-			->willReturn('0');
+        $user->method('getPref')
+            ->with('cert_migr_finished')
+            ->willReturn('0');
 
-		$migrationHelper = $this->getMockBuilder('ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationHelper = $this->getMockBuilder('ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationHelper->method('isTaskRunning')
-			->willReturn(false);
+        $migrationHelper->method('isTaskRunning')
+            ->willReturn(false);
 
-		$migrationHelper->method('isTaskFinished')
-			->willReturn(true);
+        $migrationHelper->method('isTaskFinished')
+            ->willReturn(true);
 
-		$result = $validator->isMigrationAvailable($user, $migrationHelper);
+        $result = $validator->isMigrationAvailable($user, $migrationHelper);
 
-		$this->assertFalse($result);	}
+        $this->assertFalse($result);
+    }
 
-	public function testMigrationIsAvailable()
-	{
-		$settings = $this->getMockBuilder('ilSetting')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testMigrationIsAvailable()
+    {
+        $settings = $this->getMockBuilder('ilSetting')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$settings->method('get')
-			->withConsecutive(array('active'), array('persisting_cers_introduced_ts'))
-			->willReturnOnConsecutiveCalls(1, 970000000);
+        $settings->method('get')
+            ->withConsecutive(array('active'), array('persisting_cers_introduced_ts'))
+            ->willReturnOnConsecutiveCalls(1, 970000000);
 
-		$validator = new ilCertificateMigrationValidator($settings);
+        $validator = new ilCertificateMigrationValidator($settings);
 
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$user->method('getPref')
-			->with('cert_migr_finished')
-			->willReturn('0');
+        $user->method('getPref')
+            ->with('cert_migr_finished')
+            ->willReturn('0');
 
-		$user->method('getCreateDate')
-			->willReturn('10 September 2000');
+        $user->method('getCreateDate')
+            ->willReturn('10 September 2000');
 
-		$migrationHelper = $this->getMockBuilder('ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationHelper = $this->getMockBuilder('ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationHelper->method('isTaskRunning')
-			->willReturn(false);
+        $migrationHelper->method('isTaskRunning')
+            ->willReturn(false);
 
-		$migrationHelper->method('isTaskFinished')
-			->willReturn(false);
+        $migrationHelper->method('isTaskFinished')
+            ->willReturn(false);
 
-		$result = $validator->isMigrationAvailable($user, $migrationHelper);
+        $result = $validator->isMigrationAvailable($user, $migrationHelper);
 
-		$this->assertTrue($result);
-	}
+        $this->assertTrue($result);
+    }
 }

@@ -10,12 +10,9 @@
  */
 class ilChatroomPollGUI extends ilChatroomGUIHandler
 {
-
-	public function executeDefault($method)
-	{
-		echo "{success: true}";
-		exit;
-	}
+    public function executeDefault($method)
+    {
+        echo "{success: true}";
+        exit;
+    }
 }
-
-?>

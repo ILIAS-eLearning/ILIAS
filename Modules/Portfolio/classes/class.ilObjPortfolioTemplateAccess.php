@@ -11,135 +11,122 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
-{		
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+{
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
+    /**
+     * @var ilRbacSystem
+     */
+    protected $rbacsystem;
 
-	/**
-	 * @var ilAccessHandler
-	 */
-	protected $access;
+    /**
+     * @var ilAccessHandler
+     */
+    protected $access;
 
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->user = $DIC->user();
-		$this->lng = $DIC->language();
-		$this->rbacsystem = $DIC->rbac()->system();
-		$this->access = $DIC->access();
-	}
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->access = $DIC->access();
+    }
 
-	public static function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "preview", "lang_var" => "preview", "default" => true),
-			array("permission" => "write", "cmd" => "view", "lang_var" => "edit"),
-			array("permission" => "read", "cmd" => "createfromtemplate", "lang_var" => "prtf_create_portfolio_from_template"),
-			// array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
-		);
-		
-		return $commands;
-	}	
-	
-	public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
-	{
-		$ilUser = $this->user;
-		$lng = $this->lng;
-		$rbacsystem = $this->rbacsystem;
-		$ilAccess = $this->access;
+    public static function _getCommands()
+    {
+        $commands = array(
+            array("permission" => "read", "cmd" => "preview", "lang_var" => "preview", "default" => true),
+            array("permission" => "write", "cmd" => "view", "lang_var" => "edit"),
+            array("permission" => "read", "cmd" => "createfromtemplate", "lang_var" => "prtf_create_portfolio_from_template"),
+            // array("permission" => "write", "cmd" => "export", "lang_var" => "export_html")
+        );
+        
+        return $commands;
+    }
+    
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    {
+        $ilUser = $this->user;
+        $lng = $this->lng;
+        $rbacsystem = $this->rbacsystem;
+        $ilAccess = $this->access;
 
-		  if ($a_user_id == "")
-		  {
-			   $a_user_id = $ilUser->getId();
-		  }
+        if ($a_user_id == "") {
+            $a_user_id = $ilUser->getId();
+        }
 
-		  switch ($a_cmd)
-		  {
-			   case "view":
-					if(!self::_lookupOnline($a_obj_id)
-						 && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
-					{
-						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-						 return false;
-					}
-					break;
-					
-			   // for permission query feature
-			   case "infoScreen":
-					if(!self::_lookupOnline($a_obj_id))
-					{
-						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-					}
-					else
-					{
-						 $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
-					}
-					break;
+        switch ($a_cmd) {
+               case "view":
+                    if (!self::_lookupOnline($a_obj_id)
+                         && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
+                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                        return false;
+                    }
+                    break;
+                    
+               // for permission query feature
+               case "infoScreen":
+                    if (!self::_lookupOnline($a_obj_id)) {
+                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                    } else {
+                        $ilAccess->addInfoItem(IL_STATUS_MESSAGE, $lng->txt("online"));
+                    }
+                    break;
 
-		  }
-		  
-		  switch($a_permission)
-		  {
-			   case "read":
-			   case "visible":
-					if (!self::_lookupOnline($a_obj_id) &&
-						 (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)))
-					{
-						 $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-						 return false;
-					}
-					break;
-		  }
+          }
+          
+        switch ($a_permission) {
+               case "read":
+               case "visible":
+                    if (!self::_lookupOnline($a_obj_id) &&
+                         (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))) {
+                        $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
+                        return false;
+                    }
+                    break;
+          }
 
-		  return true;
-	 }
-	
-	public static function _lookupOnline($a_id)
-	{
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
-		return ilObjPortfolioTemplate::lookupOnline($a_id);
-	}
-	
-	/**
-	* check whether goto script will succeed
-	*/
-	public static function _checkGoto($a_target)
-	{		
-		global $DIC;
+        return true;
+    }
+    
+    public static function _lookupOnline($a_id)
+    {
+        include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
+        return ilObjPortfolioTemplate::lookupOnline($a_id);
+    }
+    
+    /**
+    * check whether goto script will succeed
+    */
+    public static function _checkGoto($a_target)
+    {
+        global $DIC;
 
-		$ilAccess = $DIC->access();
-		
-		$t_arr = explode("_", $a_target);		
-		
-		if ($t_arr[0] != "prtt" || ((int) $t_arr[1]) <= 0)
-		{
-			return false;
-		}
-		
-		if ($ilAccess->checkAccess("read", "", $t_arr[1]))
-		{
-			return true;
-		}
-		return false;	
-	}
+        $ilAccess = $DIC->access();
+        
+        $t_arr = explode("_", $a_target);
+        
+        if ($t_arr[0] != "prtt" || ((int) $t_arr[1]) <= 0) {
+            return false;
+        }
+        
+        if ($ilAccess->checkAccess("read", "", $t_arr[1])) {
+            return true;
+        }
+        return false;
+    }
 }
-
-?>

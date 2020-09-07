@@ -7,14 +7,14 @@
  */
 class ilExternalAuthUserUpdateAttributeMappingFilter extends FilterIterator
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function accept()
-	{
-		/** @var $current ilExternalAuthUserAttributeMappingRule */
-		$current = parent::current();
+    /**
+     * {@inheritdoc}
+     */
+    public function accept()
+    {
+        /** @var $current ilExternalAuthUserAttributeMappingRule */
+        $current = parent::current();
 
-		return $current->isAutomaticallyUpdated();
-	}
+        return $current->isAutomaticallyUpdated();
+    }
 }

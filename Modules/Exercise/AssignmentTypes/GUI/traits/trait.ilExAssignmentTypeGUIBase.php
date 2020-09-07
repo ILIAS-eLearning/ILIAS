@@ -10,53 +10,53 @@
  */
 trait ilExAssignmentTypeGUIBase
 {
-	/**
-	 * @var ilExSubmission
-	 */
-	protected $submission;
+    /**
+     * @var ilExSubmission
+     */
+    protected $submission;
 
-	/**
-	 * @var ilObjExercise
-	 */
-	protected $exercise;
+    /**
+     * @var ilObjExercise
+     */
+    protected $exercise;
 
-	/**
-	 * Set submission
-	 *
-	 * @param ilExSubmission $a_val submission
-	 */
-	function setSubmission(ilExSubmission $a_val)
-	{
-		$this->submission = $a_val;
-	}
+    /**
+     * Set submission
+     *
+     * @param ilExSubmission $a_val submission
+     */
+    public function setSubmission(ilExSubmission $a_val)
+    {
+        $this->submission = $a_val;
+    }
 
-	/**
-	 * Get submission
-	 *
-	 * @return ilExSubmission submission
-	 */
-	function getSubmission()
-	{
-		return $this->submission;
-	}
+    /**
+     * Get submission
+     *
+     * @return ilExSubmission submission
+     */
+    public function getSubmission()
+    {
+        return $this->submission;
+    }
 
-	/**
-	 * Set exercise
-	 *
-	 * @param ilObjExercise $a_val exercise
-	 */
-	function setExercise(ilObjExercise $a_val)
-	{
-		$this->exercise = $a_val;
-	}
+    /**
+     * Set exercise
+     *
+     * @param ilObjExercise $a_val exercise
+     */
+    public function setExercise(ilObjExercise $a_val)
+    {
+        $this->exercise = $a_val;
+    }
 
-	/**
-	 * Get exercise
-	 *
-	 * @return ilObjExercise exercise
-	 */
-	function getExercise()
-	{
-		return $this->exercise;
-	}
+    /**
+     * Get exercise
+     *
+     * @return ilObjExercise exercise
+     */
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
 }

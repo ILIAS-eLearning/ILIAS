@@ -7,11 +7,9 @@ include_once './Services/Exceptions/classes/class.ilException.php';
 /**
  * Standard cron exception
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 class ilCronException extends ilException
 {
-	
 }
-?>

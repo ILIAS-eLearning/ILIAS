@@ -6,92 +6,93 @@
  */
 class ilCertificateSettingsExerciseRepository implements ilCertificateFormRepository
 {
-	/**
-	 * @var ilLanguage
-	 */
-	private $language;
+    /**
+     * @var ilLanguage
+     */
+    private $language;
 
-	/**
-	 * @var ilCertificateSettingsFormRepository
-	 */
-	private $settingsFromFactory;
+    /**
+     * @var ilCertificateSettingsFormRepository
+     */
+    private $settingsFromFactory;
 
-	/**
-	 * @var ilObject
-	 */
-	private $object;
+    /**
+     * @var ilObject
+     */
+    private $object;
 
-	/**
-	 * @param ilObject $object
-	 * @param string $certificatePath
-	 * @param ilLanguage $language
-	 * @param ilTemplate $template
-	 * @param ilCtrl $controller
-	 * @param ilAccess $access
-	 * @param ilToolbarGUI $toolbar
-	 * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-	 * @param ilCertificateSettingsFormRepository|null $settingsFormFactory
-	 */
-	public function __construct(
-		ilObject $object,
-		string $certificatePath,
-		ilLanguage $language,
-		ilTemplate $template,
-		ilCtrl $controller,
-		ilAccess $access,
-		ilToolbarGUI $toolbar,
-		ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-		ilCertificateSettingsFormRepository $settingsFormFactory = null
-	) {
-		$this->object = $object;
-		$this->language = $language;
+    /**
+     * @param ilObject $object
+     * @param string $certificatePath
+     * @param ilLanguage $language
+     * @param ilTemplate $template
+     * @param ilCtrl $controller
+     * @param ilAccess $access
+     * @param ilToolbarGUI $toolbar
+     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
+     * @param ilCertificateSettingsFormRepository|null $settingsFormFactory
+     */
+    public function __construct(
+        ilObject $object,
+        string $certificatePath,
+        ilLanguage $language,
+        ilTemplate $template,
+        ilCtrl $controller,
+        ilAccess $access,
+        ilToolbarGUI $toolbar,
+        ilCertificatePlaceholderDescription $placeholderDescriptionObject,
+        ilCertificateSettingsFormRepository $settingsFormFactory = null
+    ) {
+        $this->object = $object;
+        $this->language = $language;
 
-		if (null === $settingsFormFactory) {
-			$settingsFormFactory = new ilCertificateSettingsFormRepository(
-				$object->getId(),
-				$certificatePath,
-				$language,
-				$template,
-				$controller,
-				$access,
-				$toolbar,
-				$placeholderDescriptionObject
-			);
-		}
+        if (null === $settingsFormFactory) {
+            $settingsFormFactory = new ilCertificateSettingsFormRepository(
+                $object->getId(),
+                $certificatePath,
+                $language,
+                $template,
+                $controller,
+                $access,
+                $toolbar,
+                $placeholderDescriptionObject
+            );
+        }
 
-		$this->settingsFromFactory = $settingsFormFactory;
-	}
+        $this->settingsFromFactory = $settingsFormFactory;
+    }
 
-	/**
-	 * @param ilCertificateGUI $certificateGUI
-	 * @param ilCertificate $certificateObject
-	 *
-	 * @return ilPropertyFormGUI
-	 *
-	 * @throws ilException
-	 * @throws ilWACException
-	 */
-	public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
-	{
-		$form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
+    /**
+     * @param ilCertificateGUI $certificateGUI
+     * @param ilCertificate $certificateObject
+     *
+     * @return ilPropertyFormGUI
+     *
+     * @throws ilException
+     * @throws ilWACException
+     */
+    public function createForm(ilCertificateGUI $certificateGUI, ilCertificate $certificateObject)
+    {
+        $form = $this->settingsFromFactory->createForm($certificateGUI, $certificateObject);
 
-		return $form;
-	}
+        return $form;
+    }
 
-	/**
-	 * @param array $formFields
-	 */
-	public function save(array $formFields)
-	{}
+    /**
+     * @param array $formFields
+     */
+    public function save(array $formFields)
+    {
+    }
 
-	/**
-	 * @param $content
-	 * @return array|mixed
-	 */
-	public function fetchFormFieldData(string $content)
-	{
-		$formFields = $this->settingsFromFactory->fetchFormFieldData($content);
+    /**
+     * @param $content
+     * @return array|mixed
+     */
+    public function fetchFormFieldData(string $content)
+    {
+        $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
-		return $formFields;
-	}
+        return $formFields;
+    }
 }

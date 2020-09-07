@@ -17,6 +17,11 @@ $reportId = (string) $_REQUEST['reportId'];
 $email = (string) $_REQUEST['email'];
 $text = htmlspecialchars((string) $_REQUEST['text']);
 
+// ilias-patch: begin
+if (!preg_match('/^[0-9a-f]{8}$/', $reportId)) {
+    throw new SimpleSAML_Error_Exception('Invalid reportID');
+}
+// ilias-patch: end
 $data = null;
 try {
     $session = SimpleSAML_Session::getSessionFromRequest();

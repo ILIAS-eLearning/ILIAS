@@ -16,57 +16,63 @@ use Psr\Http\Message\StreamInterface;
  * @since   5.3
  * @version 1.0.0
  */
-final class WhitelistExtensionPreProcessor implements PreProcessor {
+final class WhitelistExtensionPreProcessor implements PreProcessor
+{
 
-	/**
-	 * @var string[]
-	 */
-	private $whitelist;
-
-
-	/**
-	 * WhitelistExtensionPreProcessor constructor.
-	 *
-	 * Example:
-	 * ['jpg', 'svg', 'png']
-	 *
-	 * Matches:
-	 * example.jpg
-	 * example.svg
-	 * example.png
-	 *
-	 * No Match:
-	 * example.apng
-	 * example.png.exe
-	 * ...
-	 *
-	 * @param \string[] $whitelist The file extensions which should be whitelisted.
-	 */
-	public function __construct(array $whitelist) { $this->whitelist = $whitelist; }
+    /**
+     * @var string[]
+     */
+    private $whitelist;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		if ($this->isWhitelisted($metadata->getFilename())) {
-			return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
-		}
+    /**
+     * WhitelistExtensionPreProcessor constructor.
+     *
+     * Example:
+     * ['jpg', 'svg', 'png']
+     *
+     * Matches:
+     * example.jpg
+     * example.svg
+     * example.png
+     *
+     * No Match:
+     * example.apng
+     * example.png.exe
+     * ...
+     *
+     * @param \string[] $whitelist The file extensions which should be whitelisted.
+     */
+    public function __construct(array $whitelist)
+    {
+        $this->whitelist = $whitelist;
+    }
 
-		return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension don\'t complies with whitelist.');
-	}
+
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        if ($this->isWhitelisted($metadata->getFilename())) {
+            return new ProcessingStatus(ProcessingStatus::OK, 'Extension complies with whitelist.');
+        }
+
+        return new ProcessingStatus(ProcessingStatus::REJECTED, 'Extension don\'t complies with whitelist.');
+    }
 
 
-	private function isWhitelisted($filename) {
-		$extensions = explode('.', $filename);
-		$extension = null;
+    private function isWhitelisted($filename)
+    {
+        $extensions = explode('.', $filename);
+        $extension = null;
 
-		if (count($extensions) === 1) {
-			$extension = '';
-		} else {
-			$extension = end($extensions);
-		}
+        if (count($extensions) === 1) {
+            $extension = '';
+        } else {
+            $extension = end($extensions);
+        }
 
-		return in_array(strtolower($extension), $this->whitelist);
-	}
+        return in_array(strtolower($extension), $this->whitelist);
+    }
 }

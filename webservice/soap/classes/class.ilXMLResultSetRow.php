@@ -33,55 +33,56 @@
    * @package ilias
    */
 
-class ilXMLResultSetRow {
-	private $columns = array();
+class ilXMLResultSetRow
+{
+    private $columns = array();
 
-	/**
-	 * set column value
-	 *
-	 * @param mixed $index
-	 * @param String $value
-	 */
-	function setValue ($index, $value)
-	{
-		$this->columns[$index] = $value;
-	}
+    /**
+     * set column value
+     *
+     * @param mixed $index
+     * @param String $value
+     */
+    public function setValue($index, $value)
+    {
+        $this->columns[$index] = $value;
+    }
 
 
-	/**
-	 * get column array
-	 *
-	 * @return array
-	 */
-	function getColumns ()
-	{
-		return $this->columns;
-	}
+    /**
+     * get column array
+     *
+     * @return array
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
 
-	/**
-	 * add values from array
-	 *
-	 * @param array $values
-	 */
-	function setValues ($values)
-	{
-	    $i = 0;
-	    foreach ($values as $value) {
+    /**
+     * add values from array
+     *
+     * @param array $values
+     */
+    public function setValues($values)
+    {
+        $i = 0;
+        foreach ($values as $value) {
             $this->setValue($i++, $value);
-		}
-	}
+        }
+    }
 
-	/**
-	 * return value for column with specified index
-	 *
-	 * @param int $idx
-	 * @return string
-	 */
-	function getValue ($idx) {
-		if ($idx < 0 || $idx >= count($this->columns))
-			throw new Exception ("Index too small or too large");
-		return $this->columns[$idx];
-	}
+    /**
+     * return value for column with specified index
+     *
+     * @param int $idx
+     * @return string
+     */
+    public function getValue($idx)
+    {
+        if ($idx < 0 || $idx >= count($this->columns)) {
+            throw new Exception("Index too small or too large");
+        }
+        return $this->columns[$idx];
+    }
 }
-
-?>

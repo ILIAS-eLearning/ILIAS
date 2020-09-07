@@ -26,7 +26,8 @@ class ilGSProviderFactory extends ProviderFactory
         $this->dic = $dic;
 
         parent::__construct(
-            [], new ilMMItemInformation()
+            [],
+            new ilMMItemInformation()
         );
     }
 

@@ -8,48 +8,47 @@
  */
 class ilUserAvatarFactory
 {
-	/**
-	 * @var \ILIAS\DI\Container
-	 */
-	protected $dic;
+    /**
+     * @var \ILIAS\DI\Container
+     */
+    protected $dic;
 
-	/**
-	 * ilUserAvatarFactory constructor.
-	 * @param \ILIAS\DI\Container $dic
-	 */
-	public function __construct(\ILIAS\DI\Container $dic)
-	{
-		$this->dic = $dic;
-	}
+    /**
+     * ilUserAvatarFactory constructor.
+     * @param \ILIAS\DI\Container $dic
+     */
+    public function __construct(\ILIAS\DI\Container $dic)
+    {
+        $this->dic = $dic;
+    }
 
-	/**
-	 * @param string $size
-	 * @return ilUserAvatar
-	 */
-	public function avatar($size)
-	{
-		if((int)$this->dic->settings()->get('letter_avatars'))
-		{
-			return $this->letter();
-		}
+    /**
+     * @param string $size
+     * @return ilUserAvatar
+     */
+    public function avatar($size)
+    {
+        if ((int) $this->dic->settings()->get('letter_avatars')) {
+            return $this->letter();
+        }
 
-		return $this->file($size);
-	}
+        return $this->file($size);
+    }
 
-	/**
-	 * @return ilUserAvatarLetter
-	 */
-	public function letter()
-	{
-		return new ilUserAvatarLetter();
-	}
+    /**
+     * @return ilUserAvatarLetter
+     */
+    public function letter()
+    {
+        return new ilUserAvatarLetter();
+    }
 
-	/**
-	 * @param string $size
-	 * @return ilUserAvatarFile
-	 */
-	public function file($size)
-	{
-		return new ilUserAvatarFile($size);
-	}
+    /**
+     * @param string $size
+     * @return ilUserAvatarFile
+     */
+    public function file($size)
+    {
+        return new ilUserAvatarFile($size);
+    }
 }

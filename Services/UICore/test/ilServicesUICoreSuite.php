@@ -3,24 +3,21 @@
 
 class ilServicesUICoreSuite extends PHPUnit_Framework_TestSuite
 {
-	public static function suite()
-	{
-		if (defined('ILIAS_PHPUNIT_CONTEXT'))
-		{
-			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
-		}
-		else
-		{
-			chdir( dirname( __FILE__ ) );
-			chdir('../../../');
-		}
+    public static function suite()
+    {
+        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
+            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+            ilUnitUtil::performInitialisation();
+        } else {
+            chdir(dirname(__FILE__));
+            chdir('../../../');
+        }
 
-		$suite = new ilServicesUICoreSuite();
-	
-		include_once("./Services/UICore/test/ilTemplateTest.php");
-		$suite->addTestSuite("ilTemplateTest");
+        $suite = new ilServicesUICoreSuite();
+    
+        include_once("./Services/UICore/test/ilTemplateTest.php");
+        $suite->addTestSuite("ilTemplateTest");
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

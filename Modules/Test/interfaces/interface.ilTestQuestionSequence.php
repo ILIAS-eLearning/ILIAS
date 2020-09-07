@@ -9,5 +9,5 @@
  */
 interface ilTestQuestionSequence
 {
-	public function getQuestionIds();
+    public function getQuestionIds();
 }

@@ -30,10 +30,25 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable
     public function getLabel();
 
     /**
+     * Get the aria-label of the Dropdown.
+     *
+     * @return	string
+     */
+    public function getAriaLabel();
+
+    /**
      * Get a Dropdown like this, but with an additional/replaced label.
      *
      * @param	string	$label
      * @return	Dropdown
      */
     public function withLabel($label);
+
+    /**
+     * Get a Dropdown like this, but with an additional/replaced aria-label.
+     *
+     * @param	string	$label
+     * @return	Dropdown
+     */
+    public function withAriaLabel($label);
 }

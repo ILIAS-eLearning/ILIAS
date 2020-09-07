@@ -4,7 +4,6 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueToTaskContainer extends \ActiveRecord
 {
-
     public static function returnDbTableName()
     {
         return "il_bt_value_to_task";

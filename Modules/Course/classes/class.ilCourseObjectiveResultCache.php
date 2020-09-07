@@ -33,58 +33,55 @@ include_once('./Modules/Course/classes/class.ilCourseObjectiveResult.php');
 */
 class ilCourseObjectiveResultCache
 {
-	private static $suggested = null;
-	private static $status = null;
-	
-	
-	/**
-	 * check if objective is suggested
-	 *
-	 * @access public
-	 * @param int usr_id
-	 * @param int course_id
-	 * @return bool
-	 * @static
-	 */
-	public static function isSuggested($a_usr_id,$a_crs_id,$a_objective_id)
-	{
-		if(!is_array(self::$suggested[$a_usr_id][$a_crs_id]))
-		{
-			self::$suggested[$a_usr_id][$a_crs_id] = self::readSuggested($a_usr_id,$a_crs_id);
-		}
-		return in_array($a_objective_id,self::$suggested[$a_usr_id][$a_crs_id]) ? true : false;
-	}
-	
-	/**
-	 * get status of user
-	 *
-	 * @access public
-	 * @param int usr_id
-	 * @param int crs_id
-	 * @return
-	 * @static
-	 */
-	public static function getStatus($a_usr_id,$a_crs_id)
-	{
-		if(isset(self::$status[$a_usr_id][$a_crs_id]))
-		{
-			return self::$status[$a_usr_id][$a_crs_id];
-		}
-		$tmp_res = new ilCourseObjectiveResult($a_usr_id);
-		return self::$status[$a_usr_id][$a_crs_id] = $tmp_res->getStatus($a_crs_id);
-	}
-	
-	
-	/**
-	 * read suggested objectives
-	 *
-	 * @access protected
-	 * @param
-	 * @return
-	 */
-	protected function readSuggested($a_usr_id,$a_crs_id)
-	{
-		return ilCourseObjectiveResult::_getSuggested($a_usr_id,$a_crs_id,self::getStatus($a_usr_id,$a_crs_id));
-	}
+    private static $suggested = null;
+    private static $status = null;
+    
+    
+    /**
+     * check if objective is suggested
+     *
+     * @access public
+     * @param int usr_id
+     * @param int course_id
+     * @return bool
+     * @static
+     */
+    public static function isSuggested($a_usr_id, $a_crs_id, $a_objective_id)
+    {
+        if (!is_array(self::$suggested[$a_usr_id][$a_crs_id])) {
+            self::$suggested[$a_usr_id][$a_crs_id] = self::readSuggested($a_usr_id, $a_crs_id);
+        }
+        return in_array($a_objective_id, self::$suggested[$a_usr_id][$a_crs_id]) ? true : false;
+    }
+    
+    /**
+     * get status of user
+     *
+     * @access public
+     * @param int usr_id
+     * @param int crs_id
+     * @return
+     * @static
+     */
+    public static function getStatus($a_usr_id, $a_crs_id)
+    {
+        if (isset(self::$status[$a_usr_id][$a_crs_id])) {
+            return self::$status[$a_usr_id][$a_crs_id];
+        }
+        $tmp_res = new ilCourseObjectiveResult($a_usr_id);
+        return self::$status[$a_usr_id][$a_crs_id] = $tmp_res->getStatus($a_crs_id);
+    }
+    
+    
+    /**
+     * read suggested objectives
+     *
+     * @access protected
+     * @param
+     * @return
+     */
+    protected function readSuggested($a_usr_id, $a_crs_id)
+    {
+        return ilCourseObjectiveResult::_getSuggested($a_usr_id, $a_crs_id, self::getStatus($a_usr_id, $a_crs_id));
+    }
 }
-?>

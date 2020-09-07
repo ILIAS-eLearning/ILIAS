@@ -10,19 +10,19 @@
  */
 interface ilConditionObjectAdapterInterface
 {
-	/**
-	 * Get object id for reference id
-	 *
-	 * @param int $a_ref_id
-	 * @return int
-	 */
-	public function getObjIdForRefId($a_ref_id);
+    /**
+     * Get object id for reference id
+     *
+     * @param int $a_ref_id
+     * @return int
+     */
+    public function getObjIdForRefId($a_ref_id);
 
-	/**
-	 * Get object type for object id
-	 *
-	 * @param int $a_obj_id
-	 * @return string
-	 */
-	public function getTypeForObjId($a_obj_id);
+    /**
+     * Get object type for object id
+     *
+     * @param int $a_obj_id
+     * @return string
+     */
+    public function getTypeForObjId($a_obj_id);
 }

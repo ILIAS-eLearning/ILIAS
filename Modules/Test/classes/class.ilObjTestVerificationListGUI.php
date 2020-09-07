@@ -14,35 +14,33 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 class ilObjTestVerificationListGUI extends ilObjectListGUI
 {
-	/**
-	* initialisation
-	*/
-	function init()
-	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->copy_enabled = true;
-		$this->subscribe_enabled = false;
-		$this->link_enabled = false;
-		$this->info_screen_enabled = false;
-		$this->type = "tstv";
-		$this->gui_class_name = "ilobjtestverificationgui";
+    /**
+    * initialisation
+    */
+    public function init()
+    {
+        $this->delete_enabled = true;
+        $this->cut_enabled = true;
+        $this->copy_enabled = true;
+        $this->subscribe_enabled = false;
+        $this->link_enabled = false;
+        $this->info_screen_enabled = false;
+        $this->type = "tstv";
+        $this->gui_class_name = "ilobjtestverificationgui";
 
-		// general commands array
-		include_once('./Modules/Test/classes/class.ilObjTestVerificationAccess.php');
-		$this->commands = ilObjTestVerificationAccess::_getCommands();
-	}
-	
-	function getProperties()
-	{
-		global $DIC;
-		$lng = $DIC['lng'];
-		
-		return array(
-			array("alert" => false, "property" => $lng->txt("type"),
-				"value" => $lng->txt("wsp_list_tstv"))			
-		);
-	}
-	
+        // general commands array
+        include_once('./Modules/Test/classes/class.ilObjTestVerificationAccess.php');
+        $this->commands = ilObjTestVerificationAccess::_getCommands();
+    }
+    
+    public function getProperties()
+    {
+        global $DIC;
+        $lng = $DIC['lng'];
+        
+        return array(
+            array("alert" => false, "property" => $lng->txt("type"),
+                "value" => $lng->txt("wsp_list_tstv"))
+        );
+    }
 } // END class.ilObjTestVerificationListGUI
-?>

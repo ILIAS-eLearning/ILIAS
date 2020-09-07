@@ -5,12 +5,11 @@ class ilServicesCacheSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesCacheSuite();
-		
-		include_once("./Services/Cache/test/ilCacheTest.php");
-		$suite->addTestSuite("ilCacheTest");
+        $suite = new ilServicesCacheSuite();
+        
+        include_once("./Services/Cache/test/ilCacheTest.php");
+        $suite->addTestSuite("ilCacheTest");
 
-		return $suite;
+        return $suite;
     }
 }
-?>

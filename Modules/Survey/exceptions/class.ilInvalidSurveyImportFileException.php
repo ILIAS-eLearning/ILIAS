@@ -11,5 +11,4 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  */
 class ilInvalidSurveyImportFileException extends ilException
 {
-
 }

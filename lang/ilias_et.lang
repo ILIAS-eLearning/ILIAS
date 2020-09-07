@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2015 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -1857,7 +1857,7 @@ chatroom#:#chat_connection_established#:#Connection established
 chatroom#:#chat_create_private_room_button#:#Create private room
 chatroom#:#chat_enable_autoscroll#:#Enable Autoscroll
 chatroom#:#chat_invitation#:#Invitation from ##inviter_name## to chatroom ##room_name
-chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.\n\nClick on this link ##link## to directly join this chatroom.
+chatroom#:#chat_invitation_long#:#You have been invited from ##inviter_name## to chatroom ##room_name##.  Click on this link ##link## to directly join this chatroom.
 chatroom#:#chat_invitation_short#:#Please click the title link to enter the chatroom.
 chatroom#:#chat_invite#:#Kutsu
 chatroom#:#chat_join#:#Join
@@ -4265,7 +4265,7 @@ common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
 common#:#usrimport_cant_delete#:#Kustutamine pole võimalik. Kasutaja andmebaasist puudub
 common#:#usrimport_cant_insert#:#Kuna kasutaja on juba andmebaasis, ei saa lisada.
 common#:#usrimport_cant_update#:#Uuendada ei saa. Andmebaasis pole sellist kasutajat.
-common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.)\nWhen "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
+common#:#usrimport_conflict_handling_info#:#When "Ignore on conflict" is selected, ILIAS ignores an action, if it can not be performed (e. g. an "Insert" action is not done, if there is already a user with the same login in the database.) When "Update on conflict" is selected, ILIAS updates the database if an action can not be performed. (e. g. an "Insert" action is replaced by an "Update" action, if a user with the same login exists in the database).
 common#:#usrimport_global_role_for_action_required#:#At least one global role must be specified for "%1$s" action.
 common#:#usrimport_ignore_role#:#Ignore role
 common#:#usrimport_login_is_not_unique#:#Login is not unique.
@@ -5391,7 +5391,7 @@ crs#:#crs_blocked_member_body#:#Sinu liikmelisus kursusel "%s" on blokeeritud.
 crs#:#crs_cancel_subscr_request#:#Kustuta liikmelisuse taotlus
 crs#:#crs_cancel_subscription#:#Loobumine kursusest "%s"
 crs#:#crs_cancel_subscription_body#:#Liige loobus kursusest "%s".
-crs#:#crs_cancel_subscription_body2#:#Sinu kursuse ootejärjekorras võib olla teisi liikmeid.\nPeaksid ootejärjekorda praegu kontrollima.\nOma kursuse liikmete vaatamiseks klikka siia:
+crs#:#crs_cancel_subscription_body2#:#Sinu kursuse ootejärjekorras võib olla teisi liikmeid. Peaksid ootejärjekorda praegu kontrollima. Oma kursuse liikmete vaatamiseks klikka siia:
 crs#:#crs_cdf_edit_member#:#Edit Course Relevant User Data
 crs#:#crs_cdf_tbl_last_edit#:#Last Update (Course-specific Data)
 crs#:#crs_contact#:#Kontakt
@@ -5688,7 +5688,7 @@ crs#:#crs_subject_course_group_notification#:#Daily Mail for %s
 crs#:#crs_subscribe_member#:#Sinu registreerumine kursusele "%s"
 crs#:#crs_subscribe_member_body#:#meil on hea meel kinnitada teie registreerumine kursusele "%s".
 crs#:#crs_subscribe_wl#:#Sinu registreerumine kursusele "%s".
-crs#:#crs_subscribe_wl_body#:#olete määratud kursuse "%s" ootejärjekorda.\n Olete ootejärjekorras %s -s.\n\nSaate kirja kursuse haldurilt kui taotlus on vastuvõetud või tagasi lükatud.
+crs#:#crs_subscribe_wl_body#:#olete määratud kursuse "%s" ootejärjekorda.  Olete ootejärjekorras %s -s.  Saate kirja kursuse haldurilt kui taotlus on vastuvõetud või tagasi lükatud.
 crs#:#crs_subscriber#:#Tellija
 crs#:#crs_subscribers_deleted#:#Kustuta kasutaja(d)
 crs#:#crs_subscription#:#Tellimus
@@ -7086,7 +7086,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Registreerimise kinnituseks mine:
 grp#:#grp_mail_notification_reg_req_sub#:#Soov liituda grupiga "%s"
 grp#:#grp_mail_notification_reg_sub#:#Kasutaja registreerus gruppi "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s on tühistanud oma liikmelisuse grupis "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group.\nYou should check for the waiting list now.\nTo view the members of your group, click here:
+grp#:#grp_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your group. You should check for the waiting list now. To view the members of your group, click here:
 grp#:#grp_mail_notification_unsub_sub#:#Kasutaja lahkus grupist "%s"
 grp#:#grp_mail_permanent_link#:#Klikka järgneval lingil, et näha kogu vajalikku infot, mis puudutab gruppi:
 grp#:#grp_mail_status_bod#:#Teie staatus grupis "%s" on muudetud.
@@ -7100,9 +7100,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Sinu registreerimine gruppi "%s"
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_tutors_only_info#:#Only administrators can use the feature "Mail to Members" in the "Members" tab.
 grp#:#grp_mail_type#:#Mail to Members
-grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s.\nWe hope that you find an opportunity to participate in another group.
+grp#:#grp_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in group %s. We hope that you find an opportunity to participate in another group.
 grp#:#grp_mail_unsubscribe_member_sub#:#Teie liikmelisuse tühistamine grupis "%s"
-grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a group administrator when your request has been approved or rejected.
+grp#:#grp_mail_wl_bod#:#you have been assigned to the waiting list of group "%s". You are assigned to position %s on the list.  You will receive a message from a group administrator when your request has been approved or rejected.
 grp#:#grp_mail_wl_sub#:#Sinu registreerimine gruppi "%s".
 grp#:#grp_map_location#:#Võimalda grupi kaart
 grp#:#grp_map_settings#:#Kaardi seaded
@@ -7196,8 +7196,8 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_materials#:#Materials
 jscalendar#:#about_calendar#:#Kalendrist
-jscalendar#:#about_calendar_long#:#DHTML Kuupäeva/aja valmisvahend\n(c) dynarch.com 2002-2003\nViimast versiooni vt: http://dynarch.com/mishoo/calendar.epl\nLevitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.\n\nKuupäeva valik:\n- Kasuta aasta valimiseks nuppe <<, >> \n- Kasuta kuu valimiseks nuppe <, > \n- Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid. \n- Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval.
-jscalendar#:#about_time#:#\n\nAja valik:\n- Kliki suurendamiseks ükskõik millisel osal \n- or Shift-klikk vähendamiseks\n- või lohista kiiremini valiku tegemiseks.
+jscalendar#:#about_calendar_long#:#DHTML Kuupäeva/aja valmisvahend (c) dynarch.com 2002-2003 Viimast versiooni vt: http://dynarch.com/mishoo/calendar.epl Levitatakse GNU LGPL litsensti all. Vaata rohkem http://gnu.org/licenses/lgpl.html.  Kuupäeva valik: - Kasuta aasta valimiseks nuppe <<, >>  - Kasuta kuu valimiseks nuppe <, >  - Hoides all hiire klahvi eelpool mainitud nuppudel, avaneb rippmenüü, kust saab teha rohkem valikuid.  - Kiiremaks valikuks tehke hiireklõps vastaval kuupäeval.
+jscalendar#:#about_time#:#  Aja valik: - Kliki suurendamiseks ükskõik millisel osal  - or Shift-klikk vähendamiseks - või lohista kiiremini valiku tegemiseks.
 jscalendar#:#close#:#Sule
 jscalendar#:#day_first#:#Kuva %s esimesena
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -8733,16 +8733,16 @@ ps#:#rbac_log_info#:#Võimalda objekti õigustes kõikide muudatuste logi
 ps#:#show_privacy#:#Privaatsus
 ps#:#show_security#:#Turva
 pwassist#:#password_assistance#:#Salasõna abi
-pwassist#:#pwassist_enter_email#:#Palun sisesta e-posti aadress.\nILIAS saadab sellele aadressile e-kirja. E-kiri sisaldab kõiki kasutajanimesid, mis on selle e-posti aadressiga loodud.\nVali sobiv kasutajanimi ja kasuta vajaduse korral ka salasõna abi uue salasõna saamiseks. Kui sa ei saa kinnituseks ühtegi e-kirja, kontakteeru administraatoriga või %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Sisesta oma kasutajanimi ja e-posti aadress allpool olevatele väljadele.\nILIAS saadab sellele e-posti aadressile e-kirja. E-kiri sisaldab veebilehe aadressi, millel saad oma konto jaoks uue salasõna sisestada.\nJuhul, kui uue salasõna loomine ei õnnestu, võta ühendust administraatoriga või saada e-kiri aadressil %1$s.
+pwassist#:#pwassist_enter_email#:#Palun sisesta e-posti aadress. ILIAS saadab sellele aadressile e-kirja. E-kiri sisaldab kõiki kasutajanimesid, mis on selle e-posti aadressiga loodud. Vali sobiv kasutajanimi ja kasuta vajaduse korral ka salasõna abi uue salasõna saamiseks. Kui sa ei saa kinnituseks ühtegi e-kirja, kontakteeru administraatoriga või %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Sisesta oma kasutajanimi ja e-posti aadress allpool olevatele väljadele. ILIAS saadab sellele e-posti aadressile e-kirja. E-kiri sisaldab veebilehe aadressi, millel saad oma konto jaoks uue salasõna sisestada. Juhul, kui uue salasõna loomine ei õnnestu, võta ühendust administraatoriga või saada e-kiri aadressil %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:# Sisesta kasutajanimi ja uus salasõna alltoodud väljadele.
-pwassist#:#pwassist_login_not_match#:#Palun sisesta teine kasutajanimi.\nSinu sisestatud kasutajanimi ei kattu kasutajanimega, millele salasõna abi palusid.
-pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe server\n\t%2$s\n\nSina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".\n\nPalun loe järgnev tähelepanelikult läbi ja toimi vastavalt:\n\n- Kui palusid salasõna abi kogemata:\nkstuta see e-kiri.\n\n- Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud:\npalun kontakteeru %5$s.\n\n- Kui palusid salasõna abi, toimi järgnevalt:\n\n1. Ava oma brauser..\n\n2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse:\n\t%1$s\n\nTähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.\n\n3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.\n\nPane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
-pwassist#:#pwassist_mail_sent#:#Kiri on saadetud  %1$s.\nPalun kontrolli oma postkasti.
+pwassist#:#pwassist_login_not_match#:#Palun sisesta teine kasutajanimi. Sinu sisestatud kasutajanimi ei kattu kasutajanimega, millele salasõna abi palusid.
+pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe server \t%2$s  Sina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".  Palun loe järgnev tähelepanelikult läbi ja toimi vastavalt:  - Kui palusid salasõna abi kogemata: kstuta see e-kiri.  - Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud: palun kontakteeru %5$s.  - Kui palusid salasõna abi, toimi järgnevalt:  1. Ava oma brauser..  2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse: \t%1$s  Tähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.  3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.  Pane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
+pwassist#:#pwassist_mail_sent#:#Kiri on saadetud  %1$s. Palun kontrolli oma postkasti.
 pwassist#:#pwassist_mail_subject#:#ILIASe abi
 pwassist#:#pwassist_password_assigned#:#Uue salasõna loomine kasutajale "%1$s" õnnestus!
-pwassist#:#pwassist_session_expired#:#Palun täida väljad uuesti.\nSinu salasõna abi sessioon on aegunud. See võib olla tingitud asjaolust, et püüdsid kasutada e-kirjaga saadetud linki rohkem kui ühe korra, või on lingi saatmisest möödunud liiga palju aega.
-pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed:\n%s\n\nSee automaatsõnum on loodud järgmise ILIASe serveri poolt:\n\t%s\n\nSina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'\n seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:\n\n-Sa lasid selle e-kirja enesele kogemata saata:\nkustuta see e-kiri.\n\n-Oled kindel, et pole kunagi seda e-kirja lasknud saata:\npalun kontakteeru %s.\n\n- Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:\n\n1. Käivita oma Interneti brauser.\n\n2. Sisesta järgmine url:\n\t%s\n\nTähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.\n\n3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
+pwassist#:#pwassist_session_expired#:#Palun täida väljad uuesti. Sinu salasõna abi sessioon on aegunud. See võib olla tingitud asjaolust, et püüdsid kasutada e-kirjaga saadetud linki rohkem kui ühe korra, või on lingi saatmisest möödunud liiga palju aega.
+pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed: %s  See automaatsõnum on loodud järgmise ILIASe serveri poolt: \t%s  Sina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'  seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:  -Sa lasid selle e-kirja enesele kogemata saata: kustuta see e-kiri.  -Oled kindel, et pole kunagi seda e-kirja lasknud saata: palun kontakteeru %s.  - Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:  1. Käivita oma Interneti brauser.  2. Sisesta järgmine url: \t%s  Tähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.  3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
 rating#:#rat_not_rated_yet#:#Pole veel hääletatud
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#Üks hääletus
@@ -14233,7 +14233,7 @@ content#:#cont_resource_size_info#:#Without size declaration the size can be con
 forum#:#frm_moderator_n#:#Moderation###10 11 2018 new variable
 mail#:#mail_error_reading_attachment#:#Could not determine any attachment.###10 11 2018 new variable
 mail#:#mail_tbl_head_attachments#:#Attachment###10 11 2018 new variable
-pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS.\nPlease check your mail box.###10 11 2018 new variable
+pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.###10 11 2018 new variable
 mail#:#mail_system_usr_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client. The e-mail address of the user sending an e-mail via ILIAS will be automatically put in the 'Reply-To' header.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 mail#:#mail_system_sys_from_addr_info#:#Please enter the e-mail address to be put in the 'FROM' header. The 'FROM' header is used to display the sender in the recipient e-mail client.<br /><br />Examples: <span style="font-style: italic">info@institution.de</span> or <span style="font-style: italic">no-reply@institution.de</span>###10 11 2018 new variable
 rbac#:#rbac_log_operation_rmv#:#Removed Operation for "%s"###10 11 2018 new variable
@@ -14828,10 +14828,10 @@ lso#:#lso_notify_off#:#Notification about new registrations disabled###10 11 201
 lso#:#lso_new_status#:#Your new status is:###10 11 2018 new variable
 lso#:#lso_notification_explanation_admin#:#You receive mail from ILIAS because you are learning sequence administrator with notification enabled.###10 11 2018 new variable
 lso#:#lso_mail_unsubscribe_member_sub#:#Your cancellation of membership in learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s.\nWe hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
+lso#:#lso_mail_unsubscribe_member_bod#:#we confirm your cancellation of membership in learning sequence %s. We hope that you find an opportunity to participate in another learning sequence.###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_sub#:#User left learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_notification_unsub_bod#:#%s has cancelled his/her membership for the learning sequence "%s".###10 11 2018 new variable
-lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence.\nYou should check for the waiting list now.\nTo view the members of your learning sequence, click here:###10 11 2018 new variable
+lso#:#lso_mail_notification_unsub_bod2#:#There might be other members on a waiting list of your learning sequence. You should check for the waiting list now. To view the members of your learning sequence, click here:###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_subscribe_member_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_notification_reg_req_sub#:#Request to join learning sequence "%s"###10 11 2018 new variable
@@ -14842,7 +14842,7 @@ lso#:#lso_mail_sub_dec_bod#:#we regret to say that your registration has been re
 lso#:#lso_mail_sub_acc_sub#:#Registration confirmed for "%s"###10 11 2018 new variable
 lso#:#lso_mail_sub_acc_bod#:#we are pleased to confirm your registration for the learning sequence "%s".###10 11 2018 new variable
 lso#:#lso_mail_wl_sub#:#Your registration for learning sequence "%s"###10 11 2018 new variable
-lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s".\nYou are assigned to position %s on the list.\n\nYou will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
+lso#:#lso_mail_wl_bod#:#you have been assigned to the waiting list of learning sequence "%s". You are assigned to position %s on the list.  You will receive a message from a learning sequence administrator when your request has been approved or rejected.###10 11 2018 new variable
 lso#:#lso_mail_status_sub#:#Changed status in learning sequence "%s"###10 11 2018 new variable
 lso#:#lso_mail_status_bod#:#your status in learning sequence "%s" has been changed.###10 11 2018 new variable
 lso#:#first_access#:#First Access###10 11 2018 new variable
@@ -15065,3 +15065,61 @@ assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
 logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
 exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.###24 01 2020 new variable
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.###24 01 2020 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
+exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###04 03 2020 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###04 03 2020 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###04 03 2020 new variable
+copa#:#copa_page_type_copa#:#Content Page###04 03 2020 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###04 03 2020 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###04 03 2020 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###04 03 2020 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###04 03 2020 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###04 03 2020 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###04 03 2020 new variable
+lm#:#lm_page_type_lm#:#LM Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qht#:#Hint###04 03 2020 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###04 03 2020 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###04 03 2020 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###04 03 2020 new variable
+copg#:#copg_page_type_stys#:#Layout Page###04 03 2020 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###04 03 2020 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###04 03 2020 new variable
+auth#:#auth_page_type_auth#:#Login Page###04 03 2020 new variable
+impr#:#impr_page_type_impr#:#Imprint###04 03 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###24 04 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###24 04 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###29 05 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###29 05 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###29 05 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###29 05 2020 new variable
+awrn#:#user_awrn_default#:#Default###29 05 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###29 05 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###29 05 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
+common#:#logo#:#ILIAS Logo###31 07 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable

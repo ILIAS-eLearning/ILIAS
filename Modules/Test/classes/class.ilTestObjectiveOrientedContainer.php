@@ -10,59 +10,59 @@
  */
 class ilTestObjectiveOrientedContainer
 {
-	/**
-	 * @var integer
-	 */
-	private $objId;
-	
-	/**
-	 * @var integer
-	 */
-	private $refId;
+    /**
+     * @var integer
+     */
+    private $objId;
+    
+    /**
+     * @var integer
+     */
+    private $refId;
 
-	public function __construct()
-	{
-		$this->objId = null;
-		$this->refId = null;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getObjId()
-	{
-		return $this->objId;
-	}
+    public function __construct()
+    {
+        $this->objId = null;
+        $this->refId = null;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getObjId()
+    {
+        return $this->objId;
+    }
 
-	/**
-	 * @param int $objId
-	 */
-	public function setObjId($objId)
-	{
-		$this->objId = $objId;
-	}
+    /**
+     * @param int $objId
+     */
+    public function setObjId($objId)
+    {
+        $this->objId = $objId;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getRefId()
-	{
-		return $this->refId;
-	}
+    /**
+     * @return int
+     */
+    public function getRefId()
+    {
+        return $this->refId;
+    }
 
-	/**
-	 * @param int $refId
-	 */
-	public function setRefId($refId)
-	{
-		$this->refId = $refId;
-	}
+    /**
+     * @param int $refId
+     */
+    public function setRefId($refId)
+    {
+        $this->refId = $refId;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isObjectiveOrientedPresentationRequired()
-	{
-		return (bool)$this->getObjId();
-	}
+    /**
+     * @return bool
+     */
+    public function isObjectiveOrientedPresentationRequired()
+    {
+        return (bool) $this->getObjId();
+    }
 }

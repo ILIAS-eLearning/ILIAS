@@ -396,7 +396,7 @@ class ilCtrl
             $n_class = $mc_rec['lower_class'];
 
             if ($n_class == "") {
-                $mc_rec =  $module_class->lookupServiceClass($class);
+                $mc_rec = $module_class->lookupServiceClass($class);
                 $n_class = $mc_rec['lower_class'];
             }
             
@@ -816,7 +816,7 @@ class ilCtrl
             $a_source_node = "";
         }
         if (substr($a_target_node, 0, strlen($a_source_node)) != $a_source_node) {
-            $failure =  "ERROR: Path not found. Source:" . $a_source_node .
+            $failure = "ERROR: Path not found. Source:" . $a_source_node .
                 ", Target:" . $a_target_node;
             if (DEVMODE == 1) {
                 include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
@@ -839,9 +839,9 @@ class ilCtrl
         $diff_arr = explode(":", $diff);
         foreach ($diff_arr as $cid) {
             if ($temp_node != "") {
-                $temp_node.= ":";
+                $temp_node .= ":";
             }
-            $temp_node.= $cid;
+            $temp_node .= $cid;
             $path[] = $temp_node;
         }
         return $path;
@@ -1011,7 +1011,7 @@ class ilCtrl
         $a_asynch = false,
         $xml_style = true
     ) {
-        $script =  $this->getFormActionByClass(
+        $script = $this->getFormActionByClass(
             strtolower(get_class($a_gui_obj)),
             $a_fallback_cmd,
             $a_anchor,
@@ -1105,10 +1105,12 @@ class ilCtrl
                     $this->rtoken = $rec["token"];
                     return $rec["token"];
                 }
-                $this->rtoken = md5(uniqid(rand(), true));
+                //echo "new rtoken, new entry for :".$ilUser->getId().":".session_id().":"; exit;
+                $random = new \ilRandom();
+                $this->rtoken = md5(uniqid($random->int(), true));
                 
                 // delete entries older than one and a half days
-                if (rand(1, 200) == 2) {
+                if ($random->int(1, 200) == 2) {
                     $dt = new ilDateTime(time(), IL_CAL_UNIX);
                     $dt->increment(IL_CAL_DAY, -1);
                     $dt->increment(IL_CAL_HOUR, -12);
@@ -1273,8 +1275,8 @@ class ilCtrl
         switch ($http->request()->getHeaderLine('Accept')) {
             case 'application/json':
                 $stream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
-                    'success'      => true,
-                    'message'      => 'Called redirect after async fileupload request',
+                    'success' => true,
+                    'message' => 'Called redirect after async fileupload request',
                     "redirect_url" => $a_script,
                 ]));
                 $http->saveResponse($http->response()->withBody($stream));
@@ -1360,7 +1362,7 @@ class ilCtrl
      */
     public function getLinkTargetByClass(
         $a_class,
-        $a_cmd  = "",
+        $a_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
         $xml_style = true
@@ -1374,7 +1376,7 @@ class ilCtrl
 
         if ($a_asynch) {
             $amp = "&";
-            $script.= $amp . "cmdMode=asynch";
+            $script .= $amp . "cmdMode=asynch";
         }
         
         if ($a_anchor != "") {
@@ -1484,7 +1486,7 @@ class ilCtrl
         $node = $this->getNodeIdForTargetClass($this->current_node, $a_class);
         $node = $node["node_id"];
         $n_arr = explode(":", $node);
-        for ($i = count($n_arr)-2; $i>=0; $i--) {
+        for ($i = count($n_arr) - 2; $i >= 0; $i--) {
             if ($this->return[$this->getClassForCid($n_arr[$i])] != "") {
                 return $this->getClassForCid($n_arr[$i]);
             }
@@ -1547,7 +1549,7 @@ class ilCtrl
         }
 
         $nr = $this->current_node;
-        $new_baseclass= "";
+        $new_baseclass = "";
         foreach ($a_class as $class) {
             $class = strtolower($class);
             $nr = $this->getNodeIdForTargetClass($nr, $class);
@@ -1781,7 +1783,7 @@ class ilCtrl
             " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
             " child = " . $ilDB->quote($a_child, "text") . " AND " .
             " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return;
         }

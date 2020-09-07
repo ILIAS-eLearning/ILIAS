@@ -7,31 +7,26 @@
  */
 class ilDBUpdate3004
 {
-	static function createPathFromId($a_container_id,$a_name)
-	{
-		$max_exponent = 3;
-		$st_factor = 100;
-		
-		$path = array();
-		$found = false;
-		$num = $a_container_id;
-		for($i = $max_exponent; $i > 0;$i--)
-		{
-			$factor = pow($st_factor, $i);
-			if(($tmp = (int) ($num / $factor)) or $found)
-			{
-				$path[] = $tmp;
-				$num = $num % $factor;
-				$found = true;
-			}	
-		}
+    public static function createPathFromId($a_container_id, $a_name)
+    {
+        $max_exponent = 3;
+        $st_factor = 100;
+        
+        $path = array();
+        $found = false;
+        $num = $a_container_id;
+        for ($i = $max_exponent; $i > 0;$i--) {
+            $factor = pow($st_factor, $i);
+            if (($tmp = (int) ($num / $factor)) or $found) {
+                $path[] = $tmp;
+                $num = $num % $factor;
+                $found = true;
+            }
+        }
 
-		if(count($path))
-		{
-			$path_string = (implode('/',$path).'/');
-		}
-		return $path_string.$a_name.'_'.$a_container_id;
-	}
-
+        if (count($path)) {
+            $path_string = (implode('/', $path) . '/');
+        }
+        return $path_string . $a_name . '_' . $a_container_id;
+    }
 }
-?>

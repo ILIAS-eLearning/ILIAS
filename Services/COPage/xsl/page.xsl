@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0"
-								xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-								xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <!-- removed xmlns:str="http://exslt.org/strings" -->
 
 <xsl:output method="xml" omit-xml-declaration="yes" />
@@ -922,7 +920,8 @@
 		<xsl:when test="@Characteristic = 'Headline1'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h1>
+		<xsl:comment>ilPageTocH1<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h1><xsl:attribute name="id">ilPageTocA1<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h1>
@@ -930,7 +929,8 @@
 		<xsl:when test="@Characteristic = 'Headline2'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h2>
+		<xsl:comment>ilPageTocH2<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h2><xsl:attribute name="id">ilPageTocA2<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h2>
@@ -938,7 +938,8 @@
 		<xsl:when test="@Characteristic = 'Headline3'">
 		<!-- Label -->
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_par']/@value"/> (<xsl:value-of select="@Characteristic"/>)</xsl:with-param></xsl:call-template>
-		<a><xsl:attribute name="name">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute><xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment></a><h3>
+		<xsl:comment>ilPageTocH3<xsl:number count="Paragraph" level="any"/></xsl:comment>
+		<h3><xsl:attribute name="id">ilPageTocA3<xsl:number count="Paragraph" level="any"/></xsl:attribute>
 			<xsl:call-template name="ShowParagraph"/>
 			<xsl:comment>Break</xsl:comment>
 		</h3>
@@ -1777,6 +1778,22 @@
 	
 	<xsl:call-template name="EditMenuItem"><xsl:with-param name="command">delete</xsl:with-param>
 	<xsl:with-param name="langvar">ed_delete</xsl:with-param></xsl:call-template>
+
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">copy</xsl:with-param>
+		<xsl:with-param name="langvar">ed_copy</xsl:with-param>
+	</xsl:call-template>
+	<xsl:call-template name="EditMenuItem">
+		<xsl:with-param name="command">cut</xsl:with-param>
+		<xsl:with-param name="langvar">ed_cut</xsl:with-param>
+	</xsl:call-template>
+
+	<xsl:if test = "$javascript = 'enable'">
+		<xsl:call-template name="EditMenuItem">
+			<xsl:with-param name="command">deactivate</xsl:with-param>
+			<xsl:with-param name="langvar">de_activate</xsl:with-param>
+		</xsl:call-template>
+	</xsl:if>
 
 	<!-- move menu items -->
 	<xsl:call-template name="MoveMenuItems"/>

@@ -5,7 +5,7 @@ include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
 
 /**
 * Class for cloze question select gaps
-* 
+*
 * assClozeSelectGap is a class for the abstraction of cloze select gaps. It represents a
 * select gap.
 *
@@ -16,5 +16,4 @@ include_once "./Modules/TestQuestionPool/classes/class.assClozeGap.php";
 
 class assClozeSelectGap extends assClozeGap
 {
-
 }

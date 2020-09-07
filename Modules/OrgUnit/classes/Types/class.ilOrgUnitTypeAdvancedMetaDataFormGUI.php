@@ -5,7 +5,8 @@
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
+class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilOrgUnitType
@@ -33,7 +34,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilOrgUnitType $type) {
+    public function __construct($parent_gui, ilOrgUnitType $type)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -53,7 +55,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
+    public function saveObject()
+    {
         if (!$this->fillObject()) {
             return false;
         }
@@ -63,7 +66,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_type_assign_amd_sets'));
         $options = array();
@@ -89,7 +93,8 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject()
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return false;
@@ -112,5 +117,4 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
             return false;
         }
     }
-
 }

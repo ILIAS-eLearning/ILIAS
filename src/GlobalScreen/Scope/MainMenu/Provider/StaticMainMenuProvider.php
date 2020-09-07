@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
  */
 interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface
 {
-
     const PURPOSE_MAINBAR = 'mainmenu';
 
 

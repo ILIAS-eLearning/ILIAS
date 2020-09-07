@@ -6,11 +6,10 @@ include_once './Services/Exceptions/classes/class.ilException.php';
 /**
 * Class ilLOInvalidConfigurationException
 *
-* @author Stefan Meyer <smeyer.ilias@gmx.de> 
+* @author Stefan Meyer <smeyer.ilias@gmx.de>
 * $Id$
 *
 */
 class ilLOInvalidConfigurationException extends ilException
 {
-	
 }

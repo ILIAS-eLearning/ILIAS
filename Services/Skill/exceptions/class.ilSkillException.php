@@ -13,6 +13,4 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  */
 class ilSkillException extends ilException
 {
-	
 }
-?>

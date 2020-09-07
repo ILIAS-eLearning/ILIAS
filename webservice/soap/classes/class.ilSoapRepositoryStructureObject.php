@@ -35,64 +35,64 @@
 
 include_once "./webservice/soap/classes/class.ilSoapStructureObject.php";
 
-class ilSoapRepositoryStructureObject extends ilSoapStructureObject 
+class ilSoapRepositoryStructureObject extends ilSoapStructureObject
 {
-	protected $ref_id;
+    protected $ref_id;
 
-	/**
-	 * Constructor
-	 * @param type $objId
-	 * @param type $type
-	 * @param type $title
-	 * @param type $description
-	 * @param type $refId
-	 */
-	public function __construct ($objId, $type, $title, $description, $refId) 
-	{
-		parent::__construct($objId, $type, $title, $description);
-		$this->setRefId ($refId);
-	}
+    /**
+     * Constructor
+     * @param type $objId
+     * @param type $type
+     * @param type $title
+     * @param type $description
+     * @param type $refId
+     */
+    public function __construct($objId, $type, $title, $description, $refId)
+    {
+        parent::__construct($objId, $type, $title, $description);
+        $this->setRefId($refId);
+    }
 
-		/**
-	*	set current refId
-	*
-	*/
-	function setRefId ($value) {
-		$this->ref_id= $value;
-	}
-
-
-	/**
-	*	return current ref id
-	*
-	*/
-	function getRefId()
-	{
-		return $this->ref_id;
-	}
-
-	function getInternalLink () {
-		return "[iln ".$this->getType()."=\"".$this->getRefId()."\"]".$this->getTitle()."[/iln]";
-	}
-
-	function getGotoLink (){
-	    return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getRefId()."&client_id=".CLIENT_ID;
-	}
-
-	function _getXMLAttributes () {
-		$attrs = array(	'type' => $this->getType(),
-				'obj_id' => $this->getObjId(),
-				'ref_id' => $this->getRefId());
-
-		return $attrs;
-
-	}
-
-	function _getTagName () {
-		return "RepositoryObject";
-	}
+    /**
+    *	set current refId
+    *
+    */
+    public function setRefId($value)
+    {
+        $this->ref_id= $value;
+    }
 
 
+    /**
+    *	return current ref id
+    *
+    */
+    public function getRefId()
+    {
+        return $this->ref_id;
+    }
+
+    public function getInternalLink()
+    {
+        return "[iln " . $this->getType() . "=\"" . $this->getRefId() . "\"]" . $this->getTitle() . "[/iln]";
+    }
+
+    public function getGotoLink()
+    {
+        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getRefId() . "&client_id=" . CLIENT_ID;
+    }
+
+    public function _getXMLAttributes()
+    {
+        $attrs = array(	'type' => $this->getType(),
+                'obj_id' => $this->getObjId(),
+                'ref_id' => $this->getRefId());
+
+        return $attrs;
+    }
+
+    public function _getTagName()
+    {
+        return "RepositoryObject";
+    }
 }
-
-?>

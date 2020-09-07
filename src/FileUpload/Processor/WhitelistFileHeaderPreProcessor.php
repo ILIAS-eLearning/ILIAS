@@ -17,41 +17,44 @@ use Psr\Http\Message\StreamInterface;
  * @since 5.3
  * @version 1.0.0
  */
-final class WhitelistFileHeaderPreProcessor implements PreProcessor {
+final class WhitelistFileHeaderPreProcessor implements PreProcessor
+{
+    use ScalarTypeCheckAware;
 
-	use ScalarTypeCheckAware;
-
-	/**
-	 * @var string $fileHeader
-	 */
-	private $fileHeader;
-	/**
-	 * @var int $fileHeaderLength
-	 */
-	private $fileHeaderLength;
-
-
-	/**
-	 * WhitelistFileHeaderPreProcessor constructor.
-	 *
-	 * @param string $fileHeader
-	 */
-	public function __construct($fileHeader) {
-		$this->stringTypeCheck($fileHeader, 'fileHeader');
-
-		$this->fileHeaderLength = strlen($fileHeader);
-		$this->fileHeader = $fileHeader;
-	}
+    /**
+     * @var string $fileHeader
+     */
+    private $fileHeader;
+    /**
+     * @var int $fileHeaderLength
+     */
+    private $fileHeaderLength;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		$header = $stream->read($this->fileHeaderLength);
-		if(strcmp($this->fileHeader, $header) === 0)
-			return new ProcessingStatus(ProcessingStatus::OK, 'File header complies with whitelist.');
+    /**
+     * WhitelistFileHeaderPreProcessor constructor.
+     *
+     * @param string $fileHeader
+     */
+    public function __construct($fileHeader)
+    {
+        $this->stringTypeCheck($fileHeader, 'fileHeader');
 
-		return new ProcessingStatus(ProcessingStatus::REJECTED, 'File header don\'t complies with whitelist.');
-	}
+        $this->fileHeaderLength = strlen($fileHeader);
+        $this->fileHeader = $fileHeader;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        $header = $stream->read($this->fileHeaderLength);
+        if (strcmp($this->fileHeader, $header) === 0) {
+            return new ProcessingStatus(ProcessingStatus::OK, 'File header complies with whitelist.');
+        }
+
+        return new ProcessingStatus(ProcessingStatus::REJECTED, 'File header don\'t complies with whitelist.');
+    }
 }

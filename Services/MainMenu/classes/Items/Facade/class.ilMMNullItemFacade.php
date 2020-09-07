@@ -138,4 +138,3 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
         return $this->identification->getProviderNameForPresentation();
     }
 }
-

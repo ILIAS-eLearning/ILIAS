@@ -27,25 +27,25 @@
  */
 class ilCertificateMigrationJobDefinitions
 {
-	// table name for ilCertificateMigrationJob
-	const CERT_MIGRATION_JOB_TABLE = 'il_cert_bgtask_migr';
-	// task was not started yet
-	const CERT_MIGRATION_STATE_INIT = 'not started';
-	// task was started but is not running yet, maybe this will never be seen
-	const CERT_MIGRATION_STATE_STARTED = 'started';
-	// task is currently running
-	const CERT_MIGRATION_STATE_RUNNING = 'running';
-	// task was stopped manually or by timeout
-	const CERT_MIGRATION_STATE_STOPPED = 'stopped';
-	// task has finished
-	const CERT_MIGRATION_STATE_FINISHED = 'finished';
-	// task has stopped because something failed
-	const CERT_MIGRATION_STATE_FAILED = 'failed';
+    // table name for ilCertificateMigrationJob
+    const CERT_MIGRATION_JOB_TABLE = 'il_cert_bgtask_migr';
+    // task was not started yet
+    const CERT_MIGRATION_STATE_INIT = 'not started';
+    // task was started but is not running yet, maybe this will never be seen
+    const CERT_MIGRATION_STATE_STARTED = 'started';
+    // task is currently running
+    const CERT_MIGRATION_STATE_RUNNING = 'running';
+    // task was stopped manually or by timeout
+    const CERT_MIGRATION_STATE_STOPPED = 'stopped';
+    // task has finished
+    const CERT_MIGRATION_STATE_FINISHED = 'finished';
+    // task has stopped because something failed
+    const CERT_MIGRATION_STATE_FAILED = 'failed';
 
-	// job has run successful
-	const CERT_MIGRATION_RETURN_SUCCESS = 200;
-	// job execution was stopped because it is already running
-	const CERT_MIGRATION_RETURN_ALREADY_RUNNING = 201;
-	// job execution was stopped because it is locked
-	const CERT_MIGRATION_RETURN_LOCKED = 202;
+    // job has run successful
+    const CERT_MIGRATION_RETURN_SUCCESS = 200;
+    // job execution was stopped because it is already running
+    const CERT_MIGRATION_RETURN_ALREADY_RUNNING = 201;
+    // job execution was stopped because it is locked
+    const CERT_MIGRATION_RETURN_LOCKED = 202;
 }

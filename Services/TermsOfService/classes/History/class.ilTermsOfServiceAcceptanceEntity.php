@@ -7,195 +7,195 @@
  */
 class ilTermsOfServiceAcceptanceEntity
 {
-	/** @var int */
-	protected $id = 0;
+    /** @var int */
+    protected $id = 0;
 
-	/** @var int */
-	protected $user_id = 0;
+    /** @var int */
+    protected $user_id = 0;
 
-	/** @var string */
-	protected $text = '';
+    /** @var string */
+    protected $text = '';
 
-	/** @var int */
-	protected $timestamp = 0;
+    /** @var int */
+    protected $timestamp = 0;
 
-	/** @var string */
-	protected $hash = '';
+    /** @var string */
+    protected $hash = '';
 
-	/** @var string */
-	protected $title = '';
+    /** @var string */
+    protected $title = '';
 
-	/** @var int */
-	protected $document_id = 0;
+    /** @var int */
+    protected $document_id = 0;
 
-	/** @var string */
-	protected $criteria = '';
+    /** @var string */
+    protected $criteria = '';
 
-	/**
-	 * @return string
-	 */
-	public function getHash(): string
-	{
-		return $this->hash;
-	}
+    /**
+     * @return string
+     */
+    public function getHash() : string
+    {
+        return $this->hash;
+    }
 
-	/**
-	 * @param string $hash
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withHash(string $hash): self
-	{
-		$clone = clone $this;
+    /**
+     * @param string $hash
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withHash(string $hash) : self
+    {
+        $clone = clone $this;
 
-		$clone->hash = $hash;
+        $clone->hash = $hash;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getText(): string
-	{
-		return $this->text;
-	}
+    /**
+     * @return string
+     */
+    public function getText() : string
+    {
+        return $this->text;
+    }
 
-	/**
-	 * @param string $text
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withText(string $text): self
-	{
-		$clone = clone $this;
+    /**
+     * @param string $text
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withText(string $text) : self
+    {
+        $clone = clone $this;
 
-		$clone->text = $text;
+        $clone->text = $text;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getTimestamp(): int
-	{
-		return $this->timestamp;
-	}
+    /**
+     * @return int
+     */
+    public function getTimestamp() : int
+    {
+        return $this->timestamp;
+    }
 
-	/**
-	 * @param int $timestamp
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withTimestamp(int $timestamp): self
-	{
-		$clone = clone $this;
+    /**
+     * @param int $timestamp
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withTimestamp(int $timestamp) : self
+    {
+        $clone = clone $this;
 
-		$clone->timestamp = $timestamp;
+        $clone->timestamp = $timestamp;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getUserId(): int
-	{
-		return $this->user_id;
-	}
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->user_id;
+    }
 
-	/**
-	 * @param int $user_id
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withUserId(int $user_id): self
-	{
-		$clone = clone $this;
+    /**
+     * @param int $user_id
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withUserId(int $user_id) : self
+    {
+        $clone = clone $this;
 
-		$clone->user_id = $user_id;
+        $clone->user_id = $user_id;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getId(): int
-	{
-		return $this->id;
-	}
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * @param $id
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withId(int $id): self
-	{
-		$clone = clone $this;
+    /**
+     * @param $id
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withId(int $id) : self
+    {
+        $clone = clone $this;
 
-		$clone->id = $id;
+        $clone->id = $id;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string
-	{
-		return $this->title;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @param string $title
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withTitle(string $title): self
-	{
-		$clone = clone $this;
+    /**
+     * @param string $title
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withTitle(string $title) : self
+    {
+        $clone = clone $this;
 
-		$clone->title = $title;
+        $clone->title = $title;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getDocumentId(): int
-	{
-		return $this->document_id;
-	}
+    /**
+     * @return int
+     */
+    public function getDocumentId() : int
+    {
+        return $this->document_id;
+    }
 
-	/**
-	 * @param int $document_id
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withDocumentId(int $document_id): self
-	{
-		$clone = clone $this;
+    /**
+     * @param int $document_id
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withDocumentId(int $document_id) : self
+    {
+        $clone = clone $this;
 
-		$clone->document_id = $document_id;
+        $clone->document_id = $document_id;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getSerializedCriteria(): string 
-	{
-		return $this->criteria;
-	}
+    /**
+     * @return string
+     */
+    public function getSerializedCriteria() : string
+    {
+        return $this->criteria;
+    }
 
-	/**
-	 * @param string $criteria
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 */
-	public function withSerializedCriteria(string $criteria): self
-	{
-		$clone = clone $this;
+    /**
+     * @param string $criteria
+     * @return \ilTermsOfServiceAcceptanceEntity
+     */
+    public function withSerializedCriteria(string $criteria) : self
+    {
+        $clone = clone $this;
 
-		$clone->criteria = $criteria;
+        $clone->criteria = $criteria;
 
-		return $clone;
-	}
+        return $clone;
+    }
 }

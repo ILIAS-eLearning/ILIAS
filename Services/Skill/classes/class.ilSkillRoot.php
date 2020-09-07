@@ -14,42 +14,40 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilSkillRoot extends ilSkillTreeNode
 {
-	var $id;
+    public $id;
 
-	/**
-	 * Constructor
-	 * @access	public
-	 */
-	function __construct($a_id = 0)
-	{
-		parent::__construct($a_id);
-		$this->setType("skrt");
-	}
+    /**
+     * Constructor
+     * @access	public
+     */
+    public function __construct($a_id = 0)
+    {
+        parent::__construct($a_id);
+        $this->setType("skrt");
+    }
 
-	/**
-	 * Read data from database
-	 */
-	function read()
-	{
-		parent::read();
-	}
+    /**
+     * Read data from database
+     */
+    public function read()
+    {
+        parent::read();
+    }
 
-	/**
-	 * Create skill
-	 *
-	 */
-	function create()
-	{
-		parent::create();
-	}
+    /**
+     * Create skill
+     *
+     */
+    public function create()
+    {
+        parent::create();
+    }
 
-	/**
-	 * Delete skill
-	 */
-	function delete()
-	{
-		parent::delete();
-	}
-
+    /**
+     * Delete skill
+     */
+    public function delete()
+    {
+        parent::delete();
+    }
 }
-?>

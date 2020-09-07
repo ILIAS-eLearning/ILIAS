@@ -10,13 +10,14 @@
  *
  * @ingroup ServicesRouter
  */
-class ilLTIRouterGUI 
+class ilLTIRouterGUI
 {
 
     /** @var  ilCtrl */
     protected $ilCtrl;
 
-    function __construct() {
+    public function __construct()
+    {
         global $ilCtrl;
         $this->ilCtrl = $ilCtrl;
     }
@@ -24,7 +25,8 @@ class ilLTIRouterGUI
     /**
      * The only thing this execute Command does is forward the command in the command chain.
      */
-    function executeCommand() {
+    public function executeCommand()
+    {
         $next_class = $this->ilCtrl->getNextClass($this);
         $class_file = $this->ilCtrl->lookupClassPath($next_class);
         
@@ -33,7 +35,7 @@ class ilLTIRouterGUI
             $gui = $next_class::getInstance(); // Singleton!
             $this->ilCtrl->forwardCommand($gui);
         } else {
-            ilUtil::sendFailure('GUI-Class not found! ('.$next_class.')');
+            ilUtil::sendFailure('GUI-Class not found! (' . $next_class . ')');
         }
     }
 }

@@ -29,7 +29,7 @@
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
-				SELECT title, lm_id, obj_id, 'st' AS metaType
+				SELECT title, lm_id, obj_id, 'lm' AS metaType
 				FROM lm_data
 				WHERE type = 'st'
 				AND lm_id IN (?)

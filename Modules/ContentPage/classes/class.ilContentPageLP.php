@@ -6,23 +6,23 @@
  */
 class ilContentPageLP extends \ilObjectLP
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function getDefaultMode()
-	{
-		return \ilLPObjSettings::LP_MODE_MANUAL;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getDefaultMode()
+    {
+        return \ilLPObjSettings::LP_MODE_MANUAL;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getValidModes()
-	{
-		return [
-			ilLPObjSettings::LP_MODE_DEACTIVATED,
-			ilLPObjSettings::LP_MODE_MANUAL,
-			ilLPObjSettings::LP_MODE_CONTENT_VISITED,
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getValidModes()
+    {
+        return [
+            ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ilLPObjSettings::LP_MODE_MANUAL,
+            ilLPObjSettings::LP_MODE_CONTENT_VISITED,
+        ];
+    }
 }

@@ -12,52 +12,51 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 abstract class ilPersonalDesktopHookPlugin extends ilPlugin
 {
-        /**
-        * Get Component Type
-        *
-        * @return        string        Component Type
-        */
-        final function getComponentType()
-        {
-                return IL_COMP_SERVICE;
-        }
+    /**
+    * Get Component Type
+    *
+    * @return        string        Component Type
+    */
+    final public function getComponentType()
+    {
+        return IL_COMP_SERVICE;
+    }
 
-        /**
-        * Get Component Name.
-        *
-        * @return        string        Component Name
-        */
-        final function getComponentName()
-        {
-                return "PersonalDesktop";
-        }
+    /**
+    * Get Component Name.
+    *
+    * @return        string        Component Name
+    */
+    final public function getComponentName()
+    {
+        return "PersonalDesktop";
+    }
 
-        /**
-        * Get Slot Name.
-        *
-        * @return        string        Slot Name
-        */
-        final function getSlot()
-        {
-                return "PersonalDesktopHook";
-        }
+    /**
+    * Get Slot Name.
+    *
+    * @return        string        Slot Name
+    */
+    final public function getSlot()
+    {
+        return "PersonalDesktopHook";
+    }
 
-        /**
-        * Get Slot ID.
-        *
-        * @return        string        Slot Id
-        */
-        final function getSlotId()
-        {
-                return "pdhk";
-        }
+    /**
+    * Get Slot ID.
+    *
+    * @return        string        Slot Id
+    */
+    final public function getSlotId()
+    {
+        return "pdhk";
+    }
 
-        /**
-        * Object initialization done by slot.
-        */
-        protected final function slotInit()
-        {
-                // nothing to do here
-        }
+    /**
+    * Object initialization done by slot.
+    */
+    final protected function slotInit()
+    {
+        // nothing to do here
+    }
 }
-?>

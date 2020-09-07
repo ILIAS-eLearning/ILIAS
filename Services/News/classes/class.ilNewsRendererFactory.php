@@ -11,45 +11,39 @@
  */
 class ilNewsRendererFactory
 {
-	/**
-	 * @var array of ilNewsRendererGUIs
-	 */
-	static protected $renderer = array();
+    /**
+     * @var array of ilNewsRendererGUIs
+     */
+    protected static $renderer = array();
 
-	/**
-	 * Get renderer
-	 *
-	 * @param
-	 * @return ilNewsRendererGUI
-	 */
-	static function getRenderer($a_context_obj_type)
-	{
-		global $DIC;
+    /**
+     * Get renderer
+     *
+     * @param
+     * @return ilNewsRendererGUI
+     */
+    public static function getRenderer($a_context_obj_type)
+    {
+        global $DIC;
 
-		if (!isset(self::$renderer[$a_context_obj_type]))
-		{
-			$obj_def = $DIC["objDefinition"];
+        if (!isset(self::$renderer[$a_context_obj_type])) {
+            $obj_def = $DIC["objDefinition"];
 
-			$comp = $obj_def->getComponentForType($a_context_obj_type);
-			$class = $obj_def->getClassName($a_context_obj_type);
+            $comp = $obj_def->getComponentForType($a_context_obj_type);
+            $class = $obj_def->getClassName($a_context_obj_type);
 
-			$class = "il" . $class . "NewsRendererGUI";
-			$type_renderer_path = "./" . $comp . "/classes/class." . $class . ".php";
-			if (is_file($type_renderer_path))
-			{
-				include_once($type_renderer_path);
-				$rend = new $class();
-			}
-			else
-			{
-				include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
-				$rend = new ilNewsDefaultRendererGUI();
-			}
-			self::$renderer[$a_context_obj_type] = $rend;
-		}
+            $class = "il" . $class . "NewsRendererGUI";
+            $type_renderer_path = "./" . $comp . "/classes/class." . $class . ".php";
+            if (is_file($type_renderer_path)) {
+                include_once($type_renderer_path);
+                $rend = new $class();
+            } else {
+                include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
+                $rend = new ilNewsDefaultRendererGUI();
+            }
+            self::$renderer[$a_context_obj_type] = $rend;
+        }
 
-		return self::$renderer[$a_context_obj_type];
-	}
+        return self::$renderer[$a_context_obj_type];
+    }
 }
-
-?>

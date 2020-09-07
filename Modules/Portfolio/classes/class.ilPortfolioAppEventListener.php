@@ -9,34 +9,32 @@
  */
 class ilPortfolioAppEventListener
 {
-	public static function handleEvent($component, $event, $parameter)
-	{
-		switch ($component) {
-			case "Services/Object":
-				switch ($event) {
-					case "beforeDeletion":
-						self::beforeDeletion($parameter);
-						break;
-				}
-				break;
-		}
-	}
+    public static function handleEvent($component, $event, $parameter)
+    {
+        switch ($component) {
+            case "Services/Object":
+                switch ($event) {
+                    case "beforeDeletion":
+                        self::beforeDeletion($parameter);
+                        break;
+                }
+                break;
+        }
+    }
 
-	/**
-	 * @param array $parameter
-	 */
-	protected static function beforeDeletion($parameter)
-	{
-		if (is_object($parameter["object"]))
-		{
-			/** @var ilObject $obj */
-			$obj = $parameter["object"];
-			if (get_class($obj) == "ilObjBlog")
-			{
-				$blog_id = $obj->getId();
-				$action = new ilPortfolioPageAction();
-				$action->deletePagesOfBlog($blog_id);
-			}
-		}
-	}
+    /**
+     * @param array $parameter
+     */
+    protected static function beforeDeletion($parameter)
+    {
+        if (is_object($parameter["object"])) {
+            /** @var ilObject $obj */
+            $obj = $parameter["object"];
+            if (get_class($obj) == "ilObjBlog") {
+                $blog_id = $obj->getId();
+                $action = new ilPortfolioPageAction();
+                $action->deletePagesOfBlog($blog_id);
+            }
+        }
+    }
 }

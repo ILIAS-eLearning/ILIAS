@@ -11,38 +11,34 @@
  */
 class ilUserActionContextFactory
 {
-	protected static $contexts = array(
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserActionContext"
-		),
-		array (
-			"component" => "Services/User/Gallery",
-			"class" => "ilGalleryUserActionContext"
-		)
-	);
+    protected static $contexts = array(
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserActionContext"
+        ),
+        array(
+            "component" => "Services/User/Gallery",
+            "class" => "ilGalleryUserActionContext"
+        )
+    );
 
-	/**
-	 * Get all action contexts
-	 *
-	 * @return array[ilUserActionContext] all providers
-	 */
-	static function getAllActionContexts()
-	{
-		$contexts = array();
+    /**
+     * Get all action contexts
+     *
+     * @return array[ilUserActionContext] all providers
+     */
+    public static function getAllActionContexts()
+    {
+        $contexts = array();
 
-		foreach (self::$contexts as $p)
-		{
-			$dir = (isset($p["dir"]))
-				? $p["dir"]
-				: "classes";
-			include_once("./".$p["component"]."/".$dir."/class.".$p["class"].".php");
-			$contexts[] = new $p["class"]();
-		}
+        foreach (self::$contexts as $p) {
+            $dir = (isset($p["dir"]))
+                ? $p["dir"]
+                : "classes";
+            include_once("./" . $p["component"] . "/" . $dir . "/class." . $p["class"] . ".php");
+            $contexts[] = new $p["class"]();
+        }
 
-		return $contexts;
-	}
-
+        return $contexts;
+    }
 }
-
-?>

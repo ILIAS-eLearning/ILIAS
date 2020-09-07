@@ -15,24 +15,22 @@ include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 class ilObjWorkspaceFolderListGUI extends ilObjectListGUI
 {
-	/**
-	* initialisation
-	*/
-	function init()
-	{
-		$this->delete_enabled = true;
-		$this->cut_enabled = true;
-		$this->copy_enabled = true;
-		$this->subscribe_enabled = false;
-		$this->link_enabled = false;
-		$this->info_screen_enabled = false;
-		$this->type = "wfld";
-		$this->gui_class_name = "ilobjworkspacefoldergui";
+    /**
+    * initialisation
+    */
+    public function init()
+    {
+        $this->delete_enabled = true;
+        $this->cut_enabled = true;
+        $this->copy_enabled = true;
+        $this->subscribe_enabled = false;
+        $this->link_enabled = false;
+        $this->info_screen_enabled = false;
+        $this->type = "wfld";
+        $this->gui_class_name = "ilobjworkspacefoldergui";
 
-		// general commands array
-		include_once('./Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderAccess.php');
-		$this->commands = ilObjWorkspaceFolderAccess::_getCommands();
-	}
-	
+        // general commands array
+        include_once('./Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderAccess.php');
+        $this->commands = ilObjWorkspaceFolderAccess::_getCommands();
+    }
 } // END class.ilObjFolderListGUI
-?>

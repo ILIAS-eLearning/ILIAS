@@ -27,154 +27,154 @@
  */
 class ilCertificateMigrationInformationObject
 {
-	/** @var int */
-	private $id;
+    /** @var int */
+    private $id;
 
-	/** @var int */
-	private $usr_id;
+    /** @var int */
+    private $usr_id;
 
-	/** @var bool */
-	private $lock;
+    /** @var bool */
+    private $lock;
 
-	/** @var int */
-	private $found_items;
+    /** @var int */
+    private $found_items;
 
-	/** @var int */
-	private $processed_items;
+    /** @var int */
+    private $processed_items;
 
-	/** @var int */
-	private $progress;
+    /** @var int */
+    private $progress;
 
-	/** @var string */
-	private $state;
+    /** @var string */
+    private $state;
 
-	/** @var int */
-	private $starting_time;
+    /** @var int */
+    private $starting_time;
 
-	/** @var int */
-	private $finished_time;
+    /** @var int */
+    private $finished_time;
 
-	/**
-	 * ilCertificateMigrationInformationObject constructor.
-	 * @param array $data
-	 */
-	public function __construct(array $data)
-	{
-		$this->setDataByArray($data);
-	}
+    /**
+     * ilCertificateMigrationInformationObject constructor.
+     * @param array $data
+     */
+    public function __construct(array $data)
+    {
+        $this->setDataByArray($data);
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getId(): int
-	{
-		return isset($this->id) ? $this->id : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getId() : int
+    {
+        return isset($this->id) ? $this->id : 0;
+    }
 
-	/**
-	 * @return int|null
-	 */
-	public function getUserId()
-	{
-		return $this->usr_id;
-	}
+    /**
+     * @return int|null
+     */
+    public function getUserId()
+    {
+        return $this->usr_id;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function getLock(): bool
-	{
-		return isset($this->lock) ? $this->lock : false;
-	}
+    /**
+     * @return bool
+     */
+    public function getLock() : bool
+    {
+        return isset($this->lock) ? $this->lock : false;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getProgressedItems(): int
-	{
-		return isset($this->processed_items) ? $this->processed_items : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getProgressedItems() : int
+    {
+        return isset($this->processed_items) ? $this->processed_items : 0;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getFoundItems(): int
-	{
-		return isset($this->found_items) ? $this->found_items : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getFoundItems() : int
+    {
+        return isset($this->found_items) ? $this->found_items : 0;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getProgress(): int
-	{
-		return isset($this->progress) ? $this->progress : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getProgress() : int
+    {
+        return isset($this->progress) ? $this->progress : 0;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getState(): string
-	{
-		return isset($this->state) ? $this->state : '';
-	}
+    /**
+     * @return string
+     */
+    public function getState() : string
+    {
+        return isset($this->state) ? $this->state : '';
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getStartingTime(): int
-	{
-		return isset($this->starting_time) ? $this->starting_time : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getStartingTime() : int
+    {
+        return isset($this->starting_time) ? $this->starting_time : 0;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getFinishedTime(): int
-	{
-		return isset($this->finished_time) ? $this->finished_time : 0;
-	}
+    /**
+     * @return int
+     */
+    public function getFinishedTime() : int
+    {
+        return isset($this->finished_time) ? $this->finished_time : 0;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getProcessingTime(): int
-	{
-		return $this->getFinishedTime() - $this->getStartingTime();
-	}
+    /**
+     * @return int
+     */
+    public function getProcessingTime() : int
+    {
+        return $this->getFinishedTime() - $this->getStartingTime();
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getDataAsArray(): array
-	{
-		return [
-			'id' => $this->getId(),
-			'usr_id' => $this->getUserId(),
-			'lock' => (int)$this->getLock(),
-			'found_items' => $this->getFoundItems(),
-			'processed_items' => $this->getProgressedItems(),
-			'progress' => $this->getProgress(),
-			'state' => $this->getState(),
-			'started_ts' => $this->getStartingTime(),
-			'finished_ts' => $this->getFinishedTime(),
-		];
-	}
+    /**
+     * @return array
+     */
+    public function getDataAsArray() : array
+    {
+        return [
+            'id' => $this->getId(),
+            'usr_id' => $this->getUserId(),
+            'lock' => (int) $this->getLock(),
+            'found_items' => $this->getFoundItems(),
+            'processed_items' => $this->getProgressedItems(),
+            'progress' => $this->getProgress(),
+            'state' => $this->getState(),
+            'started_ts' => $this->getStartingTime(),
+            'finished_ts' => $this->getFinishedTime(),
+        ];
+    }
 
-	/**
-	 * @param array $data
-	 * @return void
-	 */
-	private function setDataByArray(array $data)
-	{
-		$this->id = $data['id'];
-		$this->usr_id = $data['usr_id'];
-		$this->lock = ($data['lock'] === true || $data['lock'] === 1);
-		$this->found_items = $data['found_items'];
-		$this->processed_items = $data['processed_items'];
-		$this->progress = $data['progress'];
-		$this->state = $data['state'];
-		$this->starting_time = $data['started_ts'];
-		$this->finished_time = $data['finished_ts'];
-	}
+    /**
+     * @param array $data
+     * @return void
+     */
+    private function setDataByArray(array $data)
+    {
+        $this->id = $data['id'];
+        $this->usr_id = $data['usr_id'];
+        $this->lock = ($data['lock'] === true || $data['lock'] === 1);
+        $this->found_items = $data['found_items'];
+        $this->processed_items = $data['processed_items'];
+        $this->progress = $data['progress'];
+        $this->state = $data['state'];
+        $this->starting_time = $data['started_ts'];
+        $this->finished_time = $data['finished_ts'];
+    }
 }

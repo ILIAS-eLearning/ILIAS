@@ -7,8 +7,8 @@
  */
 interface ilTermsOfServiceControllerEnabled
 {
-	/**
-	 * The implemented class should be \ilCtrl enabled and execute or forward the given command 
-	 */
-	public function executeCommand();
+    /**
+     * The implemented class should be \ilCtrl enabled and execute or forward the given command
+     */
+    public function executeCommand();
 }

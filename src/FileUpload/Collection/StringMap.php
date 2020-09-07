@@ -14,20 +14,21 @@ namespace ILIAS\FileUpload\Collection;
  *
  * @public
  */
-interface StringMap extends ImmutableStringMap {
+interface StringMap extends ImmutableStringMap
+{
 
-	/**
-	 * Puts a new key value pair into the string array.
-	 *
-	 * @param string $key   The key which should be put into the map.
-	 * @param string $value The value which should be associated with the given key.
-	 *
-	 * @return void
-	 *
-	 * @throws \InvalidArgumentException         Thrown if the key or value is not of the type
-	 *                                          string.
-	 *
-	 * @since 5.3
-	 */
-	public function put($key, $value);
+    /**
+     * Puts a new key value pair into the string array.
+     *
+     * @param string $key   The key which should be put into the map.
+     * @param string $value The value which should be associated with the given key.
+     *
+     * @return void
+     *
+     * @throws \InvalidArgumentException         Thrown if the key or value is not of the type
+     *                                          string.
+     *
+     * @since 5.3
+     */
+    public function put($key, $value);
 }

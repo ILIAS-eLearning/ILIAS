@@ -59,23 +59,20 @@ class ilCloudPlugin
         $this->setObjId($obj_id);
 
         $this->plugin_hook_object = ilCloudConnector::getPluginHookClass($service_name);
-        if (!is_object($this->plugin_hook_object))
-        {
+        if (!is_object($this->plugin_hook_object)) {
             throw new ilCloudException(ilCloudException::PLUGIN_HOOK_COULD_NOT_BE_INSTANTIATED);
         }
         $this->admin_config_object = new ilCloudPluginConfig($this->plugin_hook_object->getPluginConfigTableName());
-        if (!$this->read())
-        {
+        if (!$this->read()) {
             $this->create();
         }
 
-        if(!$cloud_modul_object)
-        {
-	        // in the context of deleting, it's possible that the ilObjCloud with this obj_id is already pushing up the daisies
-	        // so instantiating it would lead to an error
+        if (!$cloud_modul_object) {
+            // in the context of deleting, it's possible that the ilObjCloud with this obj_id is already pushing up the daisies
+            // so instantiating it would lead to an error
             if ($obj_id == 0 || ilObjCloud::_exists($obj_id, false, 'cld')) {
-		        $cloud_modul_object = new ilObjCloud($obj_id, false);
-	        }
+                $cloud_modul_object = new ilObjCloud($obj_id, false);
+            }
         }
         $this->setCloudModulObject($cloud_modul_object);
     }
@@ -187,13 +184,19 @@ class ilCloudPlugin
         return $cloud_object->getOwnerId();
     }
 
-    public function read(){}
+    public function read()
+    {
+    }
 
-    public function create(){}
+    public function create()
+    {
+    }
 
-    public function doUpdate(){}
+    public function doUpdate()
+    {
+    }
 
-    public function doDelete(){}
+    public function doDelete()
+    {
+    }
 }
-
-?>

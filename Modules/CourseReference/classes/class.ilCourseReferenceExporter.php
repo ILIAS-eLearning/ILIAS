@@ -6,22 +6,21 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceEx
 
 /**
  * Class for category export
- * 
+ *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * $Id$
  */
 class ilCourseReferenceExporter extends ilContainerReferenceExporter
 {
 
-	/**
-	 * Init xml writer
-	 * @param ilContainerReference $ref
-	 * @return ilCategoryXmlWriter 
-	 */
-	protected function initWriter(ilContainerReference $ref)
-	{
-		include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
-		return new ilCourseReferenceXmlWriter($ref);
-	}
+    /**
+     * Init xml writer
+     * @param ilContainerReference $ref
+     * @return ilCategoryXmlWriter
+     */
+    protected function initWriter(ilContainerReference $ref)
+    {
+        include_once './Modules/CourseReference/classes/class.ilCourseReferenceXmlWriter.php';
+        return new ilCourseReferenceXmlWriter($ref);
+    }
 }
-?>

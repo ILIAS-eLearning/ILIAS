@@ -20,7 +20,6 @@ require_once('Modules/File/classes/class.ilFSStorageFile.php');
  */
 class ilObjFile extends ilObject2
 {
-
     const MODE_FILELIST = "filelist";
     const MODE_OBJECT = "object";
     /**
@@ -135,7 +134,7 @@ class ilObjFile extends ilObject2
      * This method has been put into a separate operation, to allow a WebDAV Null resource
      * (class.ilObjNull.php) to become a file object.
      */
-    function createProperties($a_upload = false)
+    public function createProperties($a_upload = false)
     {
         global $DIC;
 
@@ -169,10 +168,10 @@ class ilObjFile extends ilObject2
         //add metadata to database
         $metadata = [
             'meta_lifecycle_id' => ['integer', $DIC->database()->nextId('il_meta_lifecycle')],
-            'rbac_id'           => ['integer', $this->getId()],
-            'obj_id'            => ['integer', $this->getId()],
-            'obj_type'          => ['text', "file"],
-            'meta_version'      => ['integer', (int) $this->getVersion()],
+            'rbac_id' => ['integer', $this->getId()],
+            'obj_id' => ['integer', $this->getId()],
+            'obj_type' => ['text', "file"],
+            'meta_version' => ['integer', (int) $this->getVersion()],
         ];
         $DIC->database()->insert('il_meta_lifecycle', $metadata);
 
@@ -291,13 +290,13 @@ class ilObjFile extends ilObject2
     }
 
 
-    function createDirectory()
+    public function createDirectory()
     {
         ilUtil::makeDirParents($this->getDirectory());
     }
 
 
-    function raiseUploadError($a_raise = true)
+    public function raiseUploadError($a_raise = true)
     {
         $this->raise_upload_error = $a_raise;
     }
@@ -338,19 +337,21 @@ class ilObjFile extends ilObject2
 
                 // bugfix mantis 26236:
                 // ensure that version and max_version are correct to prevent the upload file from being versioned incorrectly
-                $file_hist_entries = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
-                $highest_version = 0;
-                foreach ($file_hist_entries as $file_hist_entry) {
-                    $version = $this->parseInfoParams($file_hist_entry)['version'];
-                    if($version > $highest_version) {
-                        $highest_version = $version;
+                if ($this->getVersion() > 0) {
+                    $file_hist_entries = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
+                    $highest_version = 0;
+                    foreach ($file_hist_entries as $file_hist_entry) {
+                        $version = $this->parseInfoParams($file_hist_entry)['version'];
+                        if ($version > $highest_version) {
+                            $highest_version = $version;
+                        }
                     }
-                }
-                if($this->getVersion() < $highest_version) {
-                    $this->setVersion($highest_version);
-                }
-                if($this->getVersion() > $this->getMaxVersion()) {
-                    $this->setMaxVersion($this->getVersion());
+                    if ($this->getVersion() < $highest_version) {
+                        $this->setVersion($highest_version);
+                    }
+                    if ($this->getVersion() > $this->getMaxVersion()) {
+                        $this->setMaxVersion($this->getVersion());
+                    }
                 }
 
                 $this->setVersion($this->getMaxVersion() + 1);
@@ -427,7 +428,7 @@ class ilObjFile extends ilObject2
     /**
      * copy file
      */
-    function copy($a_source, $a_destination)
+    public function copy($a_source, $a_destination)
     {
         return copy($a_source, $this->getDirectory() . "/" . $a_destination);
     }
@@ -436,7 +437,7 @@ class ilObjFile extends ilObject2
     /**
      * clear data directory
      */
-    function clearDataDirectory()
+    public function clearDataDirectory()
     {
         ilUtil::delDir($this->getDirectory());
         $this->createDirectory();
@@ -450,7 +451,6 @@ class ilObjFile extends ilObject2
      */
     public function deleteVersions($a_hist_entry_ids = null)
     {
-
         if ($a_hist_entry_ids == null || count($a_hist_entry_ids) < 1) {
             $this->clearDataDirectory();
 
@@ -634,43 +634,43 @@ class ilObjFile extends ilObject2
     }
 
 
-    function getFileSize()
+    public function getFileSize()
     {
         return $this->filesize;
     }
 
 
-    function setAction($a_action)
+    public function setAction($a_action)
     {
         $this->action = $a_action;
     }
 
 
-    function getAction()
+    public function getAction()
     {
         return $this->action;
     }
 
 
-    function setRollbackVersion($a_rollback_version)
+    public function setRollbackVersion($a_rollback_version)
     {
         $this->rollback_version = $a_rollback_version;
     }
 
 
-    function getRollbackVersion()
+    public function getRollbackVersion()
     {
         return $this->rollback_version;
     }
 
 
-    function setRollbackUserId($a_rollback_user_id)
+    public function setRollbackUserId($a_rollback_user_id)
     {
         $this->rollback_user_id = $a_rollback_user_id;
     }
 
 
-    function getRollbackUserId()
+    public function getRollbackUserId()
     {
         return $this->rollback_user_id;
     }
@@ -682,7 +682,7 @@ class ilObjFile extends ilObject2
      * @access    public
      * @return    integer        the disk usage in bytes
      */
-    function getDiskUsage()
+    public function getDiskUsage()
     {
         require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
@@ -691,7 +691,7 @@ class ilObjFile extends ilObject2
 
 
     // END PATCH WebDAV Encapsulate file access in ilObjFile class.
-    function getFile($a_hist_entry_id = null)
+    public function getFile($a_hist_entry_id = null)
     {
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName();
@@ -713,25 +713,25 @@ class ilObjFile extends ilObject2
 
     // END PATCH WebDAV Encapsulate file access in ilObjFile class.
 
-    function setVersion($a_version)
+    public function setVersion($a_version)
     {
         $this->version = $a_version;
     }
 
 
-    function getVersion()
+    public function getVersion()
     {
         return $this->version;
     }
 
 
-    function setMaxVersion($a_max_version)
+    public function setMaxVersion($a_max_version)
     {
         $this->max_version = $a_max_version;
     }
 
 
-    function getMaxVersion()
+    public function getMaxVersion()
     {
         return $this->max_version;
     }
@@ -742,7 +742,7 @@ class ilObjFile extends ilObject2
      *
      * @param string $a_mode mode
      */
-    function setMode($a_mode)
+    public function setMode($a_mode)
     {
         $this->mode = $a_mode;
     }
@@ -753,13 +753,13 @@ class ilObjFile extends ilObject2
      *
      * @return    string        mode
      */
-    function getMode()
+    public function getMode()
     {
         return $this->mode;
     }
 
 
-    static function _writeFileType($a_id, $a_format)
+    public static function _writeFileType($a_id, $a_format)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -792,7 +792,7 @@ class ilObjFile extends ilObject2
 
 
     /** Lookups the file size of the file in bytes. */
-    static function _lookupFileSize($a_id)
+    public static function _lookupFileSize($a_id)
     {
         require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
@@ -803,7 +803,7 @@ class ilObjFile extends ilObject2
     /**
      * lookup version
      */
-    static function _lookupVersion($a_id)
+    public static function _lookupVersion($a_id)
     {
         require_once("./Modules/File/classes/class.ilObjFileAccess.php");
 
@@ -814,7 +814,7 @@ class ilObjFile extends ilObject2
     /**
      * Determine File Size
      */
-    function determineFileSize($a_hist_entry_id = null)
+    public function determineFileSize($a_hist_entry_id = null)
     {
         if (is_null($a_hist_entry_id)) {
             $file = $this->getDirectory($this->getVersion()) . "/" . $this->getFileName();
@@ -853,6 +853,7 @@ class ilObjFile extends ilObject2
             $data = $this->parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
+
 
         if ($this->file_storage->fileExists($file)) {
             global $DIC;
@@ -896,7 +897,7 @@ class ilObjFile extends ilObject2
      * Returns the extension of the file name converted to lower-case.
      * e.g. returns 'pdf' for 'document.pdf'.
      */
-    function getFileExtension()
+    public function getFileExtension()
     {
         require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 
@@ -909,7 +910,7 @@ class ilObjFile extends ilObject2
      * window. This is especially useful for PDF documents, HTML pages,
      * and for images which are directly supported by the browser.
      */
-    function isInline()
+    public function isInline()
     {
         require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 
@@ -920,7 +921,7 @@ class ilObjFile extends ilObject2
     /**
      * Returns true, if this file should be hidden in the repository view.
      */
-    function isHidden()
+    public function isHidden()
     {
         require_once 'Modules/File/classes/class.ilObjFileAccess.php';
 
@@ -935,9 +936,8 @@ class ilObjFile extends ilObject2
      * If getFileType() returns 'application/octet-stream', the file extension is
      * used to guess a more accurate file type.
      */
-    function guessFileType($a_file = "")
+    public function guessFileType($a_file = "")
     {
-
         $path = pathinfo($a_file);
         if ($path["extension"] != "") {
             $filename = $path["basename"];
@@ -1049,7 +1049,7 @@ class ilObjFile extends ilObject2
      *
      * @param string $a_target_dir target directory
      */
-    function export($a_target_dir)
+    public function export($a_target_dir)
     {
         $subdir = "il_" . IL_INST_ID . "_file_" . $this->getId();
         ilUtil::makeDir($a_target_dir . "/objects/" . $subdir);
@@ -1067,7 +1067,7 @@ class ilObjFile extends ilObject2
     /**
      * static delete all usages of
      */
-    static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _deleteAllUsages($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1099,7 +1099,7 @@ class ilObjFile extends ilObject2
     /**
      * save usage
      */
-    static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _saveUsage($a_file_id, $a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1110,11 +1110,11 @@ class ilObjFile extends ilObject2
         }
         // #15143
         $ilDB->replace("file_usage", array(
-            "id"            => array("integer", (int) $a_file_id),
-            "usage_type"    => array("text", (string) $a_type),
-            "usage_id"      => array("integer", (int) $a_id),
+            "id" => array("integer", (int) $a_file_id),
+            "usage_type" => array("text", (string) $a_type),
+            "usage_id" => array("integer", (int) $a_id),
             "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr),
-            "usage_lang"    => array("text", $a_usage_lang),
+            "usage_lang" => array("text", $a_usage_lang),
         ), array());
 
         self::handleQuotaUpdate(new self($a_file_id, false));
@@ -1124,7 +1124,7 @@ class ilObjFile extends ilObject2
     /**
      * get all usages of file object
      */
-    function getUsages()
+    public function getUsages()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1135,9 +1135,9 @@ class ilObjFile extends ilObject2
         $ret = array();
         while ($us_rec = $ilDB->fetchAssoc($us_set)) {
             $ret[] = array(
-                "type"    => $us_rec["usage_type"],
-                "id"      => $us_rec["usage_id"],
-                "lang"    => $us_rec["usage_lang"],
+                "type" => $us_rec["usage_type"],
+                "id" => $us_rec["usage_id"],
+                "lang" => $us_rec["usage_lang"],
                 "hist_nr" => $us_rec["usage_hist_nr"],
             );
         }
@@ -1154,7 +1154,7 @@ class ilObjFile extends ilObject2
      *
      * @return    array        array of file ids
      */
-    static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
+    public static function _getFilesOfObject($a_type, $a_id, $a_usage_hist_nr = 0, $a_usage_lang = "-")
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1179,7 +1179,7 @@ class ilObjFile extends ilObject2
 
 
     // TODO: What is this function good for??
-    function getXMLZip()
+    public function getXMLZip()
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -1193,7 +1193,7 @@ class ilObjFile extends ilObject2
     }
 
 
-    function addNewsNotification($a_lang_var)
+    public function addNewsNotification($a_lang_var)
     {
         // BEGIN WebDAV Suppress news notification for hidden files
         if ($this->isHidden()) {
@@ -1244,7 +1244,7 @@ class ilObjFile extends ilObject2
      * @param string $a_filename
      */
 
-    function storeUnzipedFile($a_upload_file, $a_filename)
+    public function storeUnzipedFile($a_upload_file, $a_filename)
     {
         $this->setVersion($this->getVersion() + 1);
 
@@ -1253,6 +1253,8 @@ class ilObjFile extends ilObject2
         }
 
         $file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
+
+        $file = ilFileUtils::getValidFilename($file);
 
         ilFileUtils::rename($a_upload_file, $file);
 
@@ -1326,7 +1328,6 @@ class ilObjFile extends ilObject2
      */
     public function getVersions($version_ids = null) : array
     {
-
         $versions = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
 
         if ($version_ids != null && count($version_ids) > 0) {
@@ -1481,7 +1482,7 @@ class ilObjFile extends ilObject2
      *             argument is considered to be respectively less than, equal to, or greater than
      *             the second.
      */
-    function compareVersions($v1, $v2)
+    public function compareVersions($v1, $v2)
     {
         // v2 - v1 because version should be descending
         return (int) $v2["version"] - (int) $v1["version"];
@@ -1510,10 +1511,23 @@ class ilObjFile extends ilObject2
             $data[2] = "1";
         }
 
+// BEGIN bugfix #27391
+        if (sizeof($data) > 3)
+        {
+          $last = sizeof($data) - 1;
+          for ($n = 1; $n < $last - 1; $n++)
+          {
+            $data[0] .= "," . $data[$n];
+          }
+          $data[1] = $data[$last - 1];
+          $data[2] = $data[$last];
+        }
+// END bugfix #27391
+
         $result = array(
-            "filename"         => $data[0],
-            "version"          => $data[1],
-            "max_version"      => $data[2],
+            "filename" => $data[0],
+            "version" => $data[1],
+            "max_version" => $data[2],
             "rollback_version" => "",
             "rollback_user_id" => "",
         );
@@ -1634,19 +1648,19 @@ class ilObjFile extends ilObject2
      */
     private function getArrayForDatabase($file_id = 0)
     {
-        if($file_id == 0) {
+        if ($file_id == 0) {
             $file_id = $this->getId();
         }
         return [
-            'file_id'     => ['integer', $file_id],
-            'file_name'   => ['text', $this->getFileName()],
-            'file_type'   => ['text', $this->getFileType()],
-            'file_size'   => ['integer', (int) $this->getFileSize()],
-            'version'     => ['integer', (int) $this->getVersion()],
+            'file_id' => ['integer', $file_id],
+            'file_name' => ['text', $this->getFileName()],
+            'file_type' => ['text', $this->getFileType()],
+            'file_size' => ['integer', (int) $this->getFileSize()],
+            'version' => ['integer', (int) $this->getVersion()],
             'max_version' => ['integer', (int) $this->getMaxVersion()],
-            'f_mode'      => ['text', $this->getMode()],
-            'page_count'  => ['text', $this->getPageCount()],
-            'rating'      => ['integer', $this->hasRating()],
+            'f_mode' => ['text', $this->getMode()],
+            'page_count' => ['text', $this->getPageCount()],
+            'rating' => ['integer', $this->hasRating()],
         ];
     }
 }

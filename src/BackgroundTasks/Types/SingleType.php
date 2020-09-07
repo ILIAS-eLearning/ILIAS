@@ -23,7 +23,7 @@ class SingleType implements Type, Ancestors
     /**
      * @inheritdoc
      */
-    function __toString()
+    public function __toString()
     {
         return $this->type->getName();
     }
@@ -32,7 +32,7 @@ class SingleType implements Type, Ancestors
     /**
      * @inheritdoc
      */
-    function isExtensionOf(Type $type)
+    public function isExtensionOf(Type $type)
     {
         if (!$type instanceof SingleType) {
             return false;
@@ -61,7 +61,7 @@ class SingleType implements Type, Ancestors
     /**
      * @inheritdoc
      */
-    function equals(Type $otherType)
+    public function equals(Type $otherType)
     {
         if (!$otherType instanceof SingleType) {
             return false;

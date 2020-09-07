@@ -9,11 +9,11 @@ require_once 'Services/Object/classes/class.ilObject2.php';
  */
 class ilObjPDFGeneration extends ilObject2
 {
-	/**
-	 *
-	 */
-	protected function initType()
-	{
-		$this->type = 'pdfg';
-	}
+    /**
+     *
+     */
+    protected function initType()
+    {
+        $this->type = 'pdfg';
+    }
 }

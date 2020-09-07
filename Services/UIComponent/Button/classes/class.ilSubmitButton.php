@@ -12,52 +12,52 @@ require_once "Services/UIComponent/Button/classes/class.ilButtonBase.php";
  */
 class ilSubmitButton extends ilButtonBase
 {
-	protected $cmd; // [string]
-	
-	public static function getInstance()
-	{
-		return new self(self::TYPE_SUBMIT);
-	}
-	
-	
-	//
-	// properties
-	//
-	
-	/**
-	 * Set submit command
-	 * 
-	 * @param string $a_value
-	 */
-	public function setCommand($a_value)
-	{
-		$this->cmd = trim($a_value);
-	}
-	
-	/**
-	 * Get submit command
-	 * 
-	 * @param string $a_value
-	 */
-	public function getCommand()
-	{
-		return $this->cmd;
-	}
-	
-	
-	//
-	// render
-	//		
-		
-	public function render()
-	{
-		$this->prepareRender();
-		
-		$attr = array();
-		$attr["type"] = "submit";
-		$attr["name"] = "cmd[".$this->getCommand()."]";
-		$attr["value"] = $this->getCaption();
-		
-		return '<input'.$this->renderAttributes($attr).' />';
-	}	
+    protected $cmd; // [string]
+    
+    public static function getInstance()
+    {
+        return new self(self::TYPE_SUBMIT);
+    }
+    
+    
+    //
+    // properties
+    //
+    
+    /**
+     * Set submit command
+     *
+     * @param string $a_value
+     */
+    public function setCommand($a_value)
+    {
+        $this->cmd = trim($a_value);
+    }
+    
+    /**
+     * Get submit command
+     *
+     * @param string $a_value
+     */
+    public function getCommand()
+    {
+        return $this->cmd;
+    }
+    
+    
+    //
+    // render
+    //
+        
+    public function render()
+    {
+        $this->prepareRender();
+        
+        $attr = array();
+        $attr["type"] = "submit";
+        $attr["name"] = "cmd[" . $this->getCommand() . "]";
+        $attr["value"] = $this->getCaption();
+        
+        return '<input' . $this->renderAttributes($attr) . ' />';
+    }
 }

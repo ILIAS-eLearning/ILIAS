@@ -13,17 +13,14 @@ include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFil
  */
 class ilAppointmentDummyFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
-	/**
-	 * Get files (for appointment)
-	 *
-	 * @param
-	 * @return
-	 */
-	function getFiles()
-	{
-		return array();
-	}
-
+    /**
+     * Get files (for appointment)
+     *
+     * @param
+     * @return
+     */
+    public function getFiles()
+    {
+        return array();
+    }
 }
-
-?>

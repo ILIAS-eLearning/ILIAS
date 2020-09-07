@@ -13,22 +13,19 @@ include_once("./Services/User/Actions/Contexts/classes/class.ilUserActionContext
  */
 class ilGalleryUserActionContext extends ilUserActionContext
 {
-	/**
-	 * @inheritdoc
-	 */
-	function getComponentId()
-	{
-		return "user";
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getComponentId()
+    {
+        return "user";
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	function getContextId()
-	{
-		return "gallery";
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function getContextId()
+    {
+        return "gallery";
+    }
 }
-
-?>

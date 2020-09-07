@@ -13,86 +13,81 @@ include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
  */
 class ilCalendarCache extends ilCache
 {
-	private static $instance = null;
-	
-	/**
-	 * Singleton constructor
-	 * @return 
-	 */
-	public function __construct()
-	{
-		parent::__construct('ServicesCalendar','Calendar',true);
-		$this->setExpiresAfter(60 * ilCalendarSettings::_getInstance()->getCacheMinutes());
-	}
-	
-	/**
-	 * get singleton instance
-	 * @return object ilCalendarCache
-	 */
-	public static function getInstance()
-	{
-		if(isset(self::$instance) and self::$instance)
-		{
-			return self::$instance;
-		}
-		return self::$instance = new ilCalendarCache();
-	}
-	
-	/**
-	 * Get cahed entry if cache is active
-	 * @param object $a_entry_id
-	 * @return 
-	 */
-	public function readEntry($a_entry_id)
-	{
-		if(!ilCalendarSettings::_getInstance()->isCacheUsed())
-		{
-			return null;
-		}
-		return parent::readEntry($a_entry_id);
-	}
-	
-	/**
-	 * Store an entry
-	 * @param object $a_entry_id
-	 * @param object $a_value
-	 * @return 
-	 */
-	public function storeEntry($a_entry_id,$a_value,$a_key1 = 0,$a_key2 = 0,$a_key3 = '',$a_key4 = '')
-	{
-		if(!ilCalendarSettings::_getInstance()->isCacheUsed())
-		{
-			return null;
-		}
-		parent::storeEntry($a_entry_id, $a_value, $a_key1, $a_key2, $a_key3, $a_key4);
-	}
-	
-	/**
-	 * Store an entry without an expired time
-	 * @param object $a_entry_id
-	 * @param object $a_value
-	 * @return 
-	 */
-	public function storeUnlimitedEntry($a_entry_id,$a_value,$a_key1 = 0,$a_key2 = 0,$a_key3 = '',$a_key4 = '')
-	{
-		if(!ilCalendarSettings::_getInstance()->isCacheUsed())
-		{
-			return null;
-		}
-		// Unlimited is a year
-		$this->setExpiresAfter(60 * 60 * 24 * 365);
-		parent::storeEntry($a_entry_id,$a_value, $a_key1, $a_key2, $a_key3, $a_key4);
-		$this->setExpiresAfter(ilCalendarSettings::_getInstance()->getCacheMinutes());
-		return true;
-	}
-	
-	/**
-	 * Delete user entries in cache
-	 * @param type $a_user_id
-	 */
-	public function deleteUserEntries($a_user_id)
-	{
-		return $this->deleteByAdditionalKeys($a_user_id);
-	}
+    private static $instance = null;
+    
+    /**
+     * Singleton constructor
+     * @return
+     */
+    public function __construct()
+    {
+        parent::__construct('ServicesCalendar', 'Calendar', true);
+        $this->setExpiresAfter(60 * ilCalendarSettings::_getInstance()->getCacheMinutes());
+    }
+    
+    /**
+     * get singleton instance
+     * @return object ilCalendarCache
+     */
+    public static function getInstance()
+    {
+        if (isset(self::$instance) and self::$instance) {
+            return self::$instance;
+        }
+        return self::$instance = new ilCalendarCache();
+    }
+    
+    /**
+     * Get cahed entry if cache is active
+     * @param object $a_entry_id
+     * @return
+     */
+    public function readEntry($a_entry_id)
+    {
+        if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
+            return null;
+        }
+        return parent::readEntry($a_entry_id);
+    }
+    
+    /**
+     * Store an entry
+     * @param object $a_entry_id
+     * @param object $a_value
+     * @return
+     */
+    public function storeEntry($a_entry_id, $a_value, $a_key1 = 0, $a_key2 = 0, $a_key3 = '', $a_key4 = '')
+    {
+        if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
+            return null;
+        }
+        parent::storeEntry($a_entry_id, $a_value, $a_key1, $a_key2, $a_key3, $a_key4);
+    }
+    
+    /**
+     * Store an entry without an expired time
+     * @param object $a_entry_id
+     * @param object $a_value
+     * @return
+     */
+    public function storeUnlimitedEntry($a_entry_id, $a_value, $a_key1 = 0, $a_key2 = 0, $a_key3 = '', $a_key4 = '')
+    {
+        if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
+            return null;
+        }
+        // Unlimited is a year
+        $this->setExpiresAfter(60 * 60 * 24 * 365);
+        parent::storeEntry($a_entry_id, $a_value, $a_key1, $a_key2, $a_key3, $a_key4);
+        $this->setExpiresAfter(ilCalendarSettings::_getInstance()->getCacheMinutes());
+        return true;
+    }
+    
+    /**
+     * Delete user entries in cache
+     * @param type $a_user_id
+     */
+    public function deleteUserEntries($a_user_id)
+    {
+        return $this->deleteByAdditionalKeys($a_user_id);
+    }
 }
-?>

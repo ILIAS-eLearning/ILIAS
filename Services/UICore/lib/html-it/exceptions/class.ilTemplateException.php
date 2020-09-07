@@ -8,9 +8,6 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  *
  * @author Alex Killing <killing@leifos.de>
  */
-class  ilTemplateException extends ilException
+class ilTemplateException extends ilException
 {
-
-	
 }
-?>

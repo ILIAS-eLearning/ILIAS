@@ -28,11 +28,9 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ServicesTracking 
+* @ingroup ServicesTracking
 */
 
 class ilObjUserTrackingAccess extends ilObjectAccess
 {
-	
 }
-?>

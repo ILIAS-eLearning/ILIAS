@@ -33,7 +33,7 @@ class ilObjMainMenu extends ilObject
     /**
      * @inheritDoc
      */
-    function getLongDescription()
+    public function getLongDescription()
     {
         return $this->lng->txt("add_remove_edit_entries_of_main_menu");
     }

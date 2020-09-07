@@ -10,60 +10,60 @@ use ILIAS\Data;
  */
 class ClientIdTest extends PHPUnit_Framework_TestCase
 {
-	/** @var Data\Factory */
-	private $f;
+    /** @var Data\Factory */
+    private $f;
 
-	/**
-	 *
-	 */
-	protected function setUp()
-	{
-		$this->f = new Data\Factory();
-	}
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        $this->f = new Data\Factory();
+    }
 
-	/**
-	 * @return array[]
-	 */
-	public function clientIdProvider(): array 
-	{
-		return [
-			['default'],
-			['default_with_underscore'],
-			['ilias_with_12345'],
-		];
-	}
+    /**
+     * @return array[]
+     */
+    public function clientIdProvider() : array
+    {
+        return [
+            ['default'],
+            ['default_with_underscore'],
+            ['ilias_with_12345'],
+        ];
+    }
 
-	/**
-	 * @return array[]
-	 */
-	public function invalidClientIdProvider(): array
-	{
-		return [
-			['../../some/obscure/path'],
-		];
-	}
+    /**
+     * @return array[]
+     */
+    public function invalidClientIdProvider() : array
+    {
+        return [
+            ['../../some/obscure/path'],
+        ];
+    }
 
-	/**
-	 * @param string $value
-	 * @dataProvider clientIdProvider
-	 */
-	public function testValidArguments(string $value)
-	{
-		$clientId = $this->f->clientId($value);
-		$this->assertEquals($value, $clientId->toString());
-	}
+    /**
+     * @param string $value
+     * @dataProvider clientIdProvider
+     */
+    public function testValidArguments(string $value)
+    {
+        $clientId = $this->f->clientId($value);
+        $this->assertEquals($value, $clientId->toString());
+    }
 
-	/**
-	 * @param string $value
-	 * @dataProvider invalidClientIdProvider
-	 */
-	public function tesInvalidArguments(string $value)
-	{
-		try {
-			$clientId = $this->f->clientId($value);
-			$this->fail('This should not happen');
-		} catch (\InvalidArgumentException $e) {
-			$this->assertTrue(true);
-		}
-	}
+    /**
+     * @param string $value
+     * @dataProvider invalidClientIdProvider
+     */
+    public function tesInvalidArguments(string $value)
+    {
+        try {
+            $clientId = $this->f->clientId($value);
+            $this->fail('This should not happen');
+        } catch (\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
 }

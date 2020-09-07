@@ -8,7 +8,8 @@ require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilStudyProgrammeType
@@ -36,7 +37,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilStudyProgrammeType $type) {
+    public function __construct($parent_gui, ilStudyProgrammeType $type)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -56,7 +58,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
+    public function saveObject()
+    {
         if (!$this->fillObject()) {
             return false;
         }
@@ -66,7 +69,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('prg_type_assign_amd_sets'));
         $options = array();
@@ -92,7 +96,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject()
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return false;
@@ -115,5 +120,4 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
             return false;
         }
     }
-
 }

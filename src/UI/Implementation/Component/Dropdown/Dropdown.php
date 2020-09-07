@@ -25,6 +25,11 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     protected $label;
 
     /**
+     * @var string
+     */
+    protected $aria_label;
+
+    /**
      * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
      */
     protected $items;
@@ -49,6 +54,14 @@ abstract class Dropdown implements C\Dropdown\Dropdown
     /**
      * @inheritdoc
      */
+    public function getAriaLabel()
+    {
+        return $this->aria_label;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getItems()
     {
         return $this->items;
@@ -62,6 +75,17 @@ abstract class Dropdown implements C\Dropdown\Dropdown
         $this->checkStringArg("label", $label);
         $clone = clone $this;
         $clone->label = $label;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAriaLabel($label)
+    {
+        $this->checkStringArg("label", $label);
+        $clone = clone $this;
+        $clone->aria_label = $label;
         return $clone;
     }
 

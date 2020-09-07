@@ -58,7 +58,7 @@ class DefaultRendererFactory implements RendererFactory
     {
         $class = get_class($component);
         $parts = explode("\\", $class);
-        $parts[count($parts)-1] = "Renderer";
+        $parts[count($parts) - 1] = "Renderer";
         $base = implode("\\", $parts);
         return $base;
     }

@@ -8,25 +8,25 @@ require_once 'Services/PersonalDesktop/ItemsBlock/interfaces/interface.ilPDSelec
  */
 class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
 {
-	/**
-	 * @var ilObjUser
-	 */
-	protected $actor;
+    /**
+     * @var ilObjUser
+     */
+    protected $actor;
 
-	/**
-	 * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
-	 * @param ilObjUser $actor
-	 */
-	public function __construct(ilObjUser $actor)
-	{
-		$this->actor = $actor;
-	}
+    /**
+     * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
+     * @param ilObjUser $actor
+     */
+    public function __construct(ilObjUser $actor)
+    {
+        $this->actor = $actor;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getItems($object_type_white_list = array())
-	{
-		return $this->actor->getDesktopItems(count($object_type_white_list) > 0 ? $object_type_white_list : '');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getItems($object_type_white_list = array())
+    {
+        return $this->actor->getDesktopItems(count($object_type_white_list) > 0 ? $object_type_white_list : '');
+    }
 }

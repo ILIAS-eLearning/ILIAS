@@ -12,5 +12,4 @@ namespace ILIAS\BackgroundTasks\Types\Exceptions;
  */
 class InvalidArgumentException extends Exception
 {
-
 }

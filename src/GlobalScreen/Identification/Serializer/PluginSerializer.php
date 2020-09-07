@@ -14,7 +14,6 @@ use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
  */
 class PluginSerializer implements SerializerInterface
 {
-
     const DIVIDER = '|';
 
 
@@ -43,7 +42,7 @@ class PluginSerializer implements SerializerInterface
      */
     public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactoryInterface $provider_factory) : IdentificationInterface
     {
-        list ($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
+        list($plugin_id, $class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
         if (!$provider_factory->isInstanceCreationPossible($class_name) || !$provider_factory->isRegistered($class_name)) {
             return new NullPluginIdentification($plugin_id, $serialized_string, $internal_identifier);

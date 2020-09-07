@@ -7,8 +7,8 @@
  */
 interface ilTermsOfServiceJsonDeserialization
 {
-	/**
-	 * @param string $json
-	 */
-	public function fromJson(string $json);
+    /**
+     * @param string $json
+     */
+    public function fromJson(string $json);
 }

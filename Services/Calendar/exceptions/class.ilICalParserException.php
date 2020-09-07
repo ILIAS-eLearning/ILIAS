@@ -11,6 +11,4 @@
  */
 class ilICalParserException extends ilException
 {
-	
 }
-?>

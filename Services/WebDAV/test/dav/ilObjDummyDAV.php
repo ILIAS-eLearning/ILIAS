@@ -12,7 +12,8 @@ class ilObjDummyDAV extends ilObjectDAV
     {
     }
 
-    public function getId(){
+    public function getId()
+    {
         return $this->id;
     }
 }

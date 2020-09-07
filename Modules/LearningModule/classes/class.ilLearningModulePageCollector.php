@@ -12,21 +12,19 @@ include_once("./Services/COPage/interfaces/interface.ilCOPageCollectorInterface.
  */
 class ilLearningModulePageCollector implements ilCOPageCollectorInterface
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function getAllPageIds($obj_id)
-	{
-		$pages = [];
-		foreach (ilPageObject::getAllPages("lm", $obj_id) as $p)
-		{
-			$pages[] = [
-				"parent_type" => "lm",
-				"id" => $p["id"],
-				"lang" => $p["lang"]
-			];
-		}
-		return $pages;
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function getAllPageIds($obj_id)
+    {
+        $pages = [];
+        foreach (ilPageObject::getAllPages("lm", $obj_id) as $p) {
+            $pages[] = [
+                "parent_type" => "lm",
+                "id" => $p["id"],
+                "lang" => $p["lang"]
+            ];
+        }
+        return $pages;
+    }
 }

@@ -13,5 +13,4 @@ namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
  */
 class NoSuchServiceException extends Exception
 {
-
 }

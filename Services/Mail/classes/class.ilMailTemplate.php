@@ -7,168 +7,168 @@
  */
 class ilMailTemplate
 {
-	/** @var int */
-	protected $templateId = 0;
+    /** @var int */
+    protected $templateId = 0;
 
-	/** @var string */
-	protected $title = '';
+    /** @var string */
+    protected $title = '';
 
-	/*** @var string */
-	protected $context = '';
+    /*** @var string */
+    protected $context = '';
 
-	/** @var string */
-	protected $lang = '';
+    /** @var string */
+    protected $lang = '';
 
-	/** @var string  */
-	protected $subject = '';
+    /** @var string  */
+    protected $subject = '';
 
-	/** @var string */
-	protected $message = '';
+    /** @var string */
+    protected $message = '';
 
-	/** @var bool */
-	protected $isDefault = false;
+    /** @var bool */
+    protected $isDefault = false;
 
-	/**
-	 * @param array $data
-	 */
-	public function __construct(array $data = null)
-	{
-		if (is_array($data)) {
-			$this->setTplId((int)$data['tpl_id']);
-			$this->setTitle((string)$data['title']);
-			$this->setContext((string)$data['context']);
-			$this->setLang((string)$data['lang']);
-			$this->setSubject((string)$data['m_subject']);
-			$this->setMessage((string)$data['m_message']);
-			$this->setAsDefault((bool)$data['is_default']);
-		}
-	}
+    /**
+     * @param array $data
+     */
+    public function __construct(array $data = null)
+    {
+        if (is_array($data)) {
+            $this->setTplId((int) $data['tpl_id']);
+            $this->setTitle((string) $data['title']);
+            $this->setContext((string) $data['context']);
+            $this->setLang((string) $data['lang']);
+            $this->setSubject((string) $data['m_subject']);
+            $this->setMessage((string) $data['m_message']);
+            $this->setAsDefault((bool) $data['is_default']);
+        }
+    }
 
-	/**
-	 * @return array
-	 */
-	public function toArray(): array 
-	{
-		return [
-			'tpl_id' => $this->getTplId(),
-			'title' => $this->getTitle(),
-			'context' => $this->getContext(),
-			'lang' => $this->getLang(),
-			'm_subject' => $this->getSubject(),
-			'm_message' => $this->getMessage(),
-			'is_default' => $this->isDefault(),
-		];
-	}
+    /**
+     * @return array
+     */
+    public function toArray() : array
+    {
+        return [
+            'tpl_id' => $this->getTplId(),
+            'title' => $this->getTitle(),
+            'context' => $this->getContext(),
+            'lang' => $this->getLang(),
+            'm_subject' => $this->getSubject(),
+            'm_message' => $this->getMessage(),
+            'is_default' => $this->isDefault(),
+        ];
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getTplId(): int
-	{
-		return $this->templateId;
-	}
+    /**
+     * @return int
+     */
+    public function getTplId() : int
+    {
+        return $this->templateId;
+    }
 
-	/**
-	 * @param int $templateId
-	 */
-	public function setTplId(int $templateId)
-	{
-		$this->templateId = $templateId;
-	}
+    /**
+     * @param int $templateId
+     */
+    public function setTplId(int $templateId)
+    {
+        $this->templateId = $templateId;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getTitle(): string 
-	{
-		return $this->title;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle(string $title)
-	{
-		$this->title = $title;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)
+    {
+        $this->title = $title;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getContext(): string 
-	{
-		return $this->context;
-	}
+    /**
+     * @return string
+     */
+    public function getContext() : string
+    {
+        return $this->context;
+    }
 
-	/**
-	 * @param string $context
-	 */
-	public function setContext(string $context)
-	{
-		$this->context = $context;
-	}
+    /**
+     * @param string $context
+     */
+    public function setContext(string $context)
+    {
+        $this->context = $context;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getLang(): string 
-	{
-		return $this->lang;
-	}
+    /**
+     * @return string
+     */
+    public function getLang() : string
+    {
+        return $this->lang;
+    }
 
-	/**
-	 * @param string $lang
-	 */
-	public function setLang(string $lang)
-	{
-		$this->lang = $lang;
-	}
+    /**
+     * @param string $lang
+     */
+    public function setLang(string $lang)
+    {
+        $this->lang = $lang;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getSubject(): string 
-	{
-		return $this->subject;
-	}
+    /**
+     * @return string
+     */
+    public function getSubject() : string
+    {
+        return $this->subject;
+    }
 
-	/**
-	 * @param string $subject
-	 */
-	public function setSubject(string $subject)
-	{
-		$this->subject = $subject;
-	}
+    /**
+     * @param string $subject
+     */
+    public function setSubject(string $subject)
+    {
+        $this->subject = $subject;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getMessage(): string 
-	{
-		return $this->message;
-	}
+    /**
+     * @return string
+     */
+    public function getMessage() : string
+    {
+        return $this->message;
+    }
 
-	/**
-	 * @param string $message
-	 */
-	public function setMessage(string $message)
-	{
-		$this->message = $message;
-	}
+    /**
+     * @param string $message
+     */
+    public function setMessage(string $message)
+    {
+        $this->message = $message;
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isDefault(): bool
-	{
-		return $this->isDefault;
-	}
+    /**
+     * @return bool
+     */
+    public function isDefault() : bool
+    {
+        return $this->isDefault;
+    }
 
-	/**
-	 * @param bool $isDefault
-	 */
-	public function setAsDefault(bool $isDefault)
-	{
-		$this->isDefault = $isDefault;
-	}
+    /**
+     * @param bool $isDefault
+     */
+    public function setAsDefault(bool $isDefault)
+    {
+        $this->isDefault = $isDefault;
+    }
 }

@@ -14,31 +14,29 @@ include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
  */
 class ilSkillTemplateCategory extends ilSkillTreeNode
 {
-	var $id;
+    public $id;
 
-	/**
-	 * Constructor
-	 * @access	public
-	 */
-	function __construct($a_id = 0)
-	{
-		parent::__construct($a_id);
-		$this->setType("sctp");
-	}
+    /**
+     * Constructor
+     * @access	public
+     */
+    public function __construct($a_id = 0)
+    {
+        parent::__construct($a_id);
+        $this->setType("sctp");
+    }
 
-	/**
-	 * Copy skill category
-	 */
-	function copy()
-	{
-		$sctp = new ilSkillTemplateCategory();
-		$sctp->setTitle($this->getTitle());
-		$sctp->setType($this->getType());
-		$sctp->setOrderNr($this->getOrderNr());
-		$sctp->create();
+    /**
+     * Copy skill category
+     */
+    public function copy()
+    {
+        $sctp = new ilSkillTemplateCategory();
+        $sctp->setTitle($this->getTitle());
+        $sctp->setType($this->getType());
+        $sctp->setOrderNr($this->getOrderNr());
+        $sctp->create();
 
-		return $sctp;
-	}
-
+        return $sctp;
+    }
 }
-?>

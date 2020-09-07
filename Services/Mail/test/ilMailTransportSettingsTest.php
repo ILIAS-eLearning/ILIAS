@@ -7,107 +7,107 @@
  */
 class ilMailTransportSettingsTest extends \ilMailBaseTest
 {
-	/**
-	 * 
-	 */
-	public function testSystemAsIncomingTypeWontUpdate()
-	{
-		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
-			->disableOriginalConstructor()
-			->setMethods(array('updateOptions'))
-			->getMock();
+    /**
+     *
+     */
+    public function testSystemAsIncomingTypeWontUpdate()
+    {
+        $mailOptions = $this->getMockBuilder(\ilMailOptions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('updateOptions'))
+            ->getMock();
 
-		$mailOptions->setIncomingType(0);
-		$mailOptions->setMailAddressOption(3);
+        $mailOptions->setIncomingType(0);
+        $mailOptions->setMailAddressOption(3);
 
-		$setting = new ilMailTransportSettings($mailOptions);
-		$setting->adjust('test@ilias-test.de', 'someone@php-test.net');
-
-
-		$this->assertEquals(0, $mailOptions->getIncomingType());
-		$this->assertEquals(3, $mailOptions->getMailAddressOption());
-	}
-
-	/**
-	 * 
-	 */
-	public function testOnlyFirstMailWillResultInUpdateProcess()
-	{
-		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
-			->disableOriginalConstructor()
-			->setMethods(array('updateOptions'))
-			->getMock();
-
-		$mailOptions->expects($this->once())->method('updateOptions');
-		$mailOptions->setIncomingType(2);
-		$mailOptions->setMailAddressOption(4);
-
-		$setting = new ilMailTransportSettings($mailOptions);
-		$setting->adjust('test@ilias-test.de', '');
+        $setting = new ilMailTransportSettings($mailOptions);
+        $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
 
 
-		$this->assertEquals(3, $mailOptions->getMailAddressOption());
-	}
+        $this->assertEquals(0, $mailOptions->getIncomingType());
+        $this->assertEquals(3, $mailOptions->getMailAddressOption());
+    }
 
-	/**
-	 * 
-	 */
-	public function testOnlySecondMailWillResultInUpdateProcess()
-	{
-		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
-			->disableOriginalConstructor()
-			->setMethods(array('updateOptions'))
-			->getMock();
+    /**
+     *
+     */
+    public function testOnlyFirstMailWillResultInUpdateProcess()
+    {
+        $mailOptions = $this->getMockBuilder(\ilMailOptions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('updateOptions'))
+            ->getMock();
 
-		$mailOptions->expects($this->once())->method('updateOptions');
-		$mailOptions->setIncomingType(2);
-		$mailOptions->setMailAddressOption(3);
+        $mailOptions->expects($this->once())->method('updateOptions');
+        $mailOptions->setIncomingType(2);
+        $mailOptions->setMailAddressOption(4);
 
-		$setting = new ilMailTransportSettings($mailOptions);
-		$setting->adjust('', 'test@ilias-test.de');
+        $setting = new ilMailTransportSettings($mailOptions);
+        $setting->adjust('test@ilias-test.de', '');
 
 
-		$this->assertEquals(4, $mailOptions->getMailAddressOption());
-	}
+        $this->assertEquals(3, $mailOptions->getMailAddressOption());
+    }
 
-	/**
-	 * 
-	 */
-	public function testNoMailWillResultInUpdateProcess()
-	{
-		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
-			->disableOriginalConstructor()
-			->setMethods(array('updateOptions'))
-			->getMock();
+    /**
+     *
+     */
+    public function testOnlySecondMailWillResultInUpdateProcess()
+    {
+        $mailOptions = $this->getMockBuilder(\ilMailOptions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('updateOptions'))
+            ->getMock();
 
-		$mailOptions->expects($this->once())->method('updateOptions');
-		$mailOptions->setIncomingType(2);
-		$mailOptions->setMailAddressOption(3);
+        $mailOptions->expects($this->once())->method('updateOptions');
+        $mailOptions->setIncomingType(2);
+        $mailOptions->setMailAddressOption(3);
 
-		$setting = new ilMailTransportSettings($mailOptions);
-		$setting->adjust('', '');
+        $setting = new ilMailTransportSettings($mailOptions);
+        $setting->adjust('', 'test@ilias-test.de');
 
-		$this->assertEquals(0, $mailOptions->getIncomingType());
-	}
 
-	/**
-	 * 
-	 */
-	public function testNothingWillBeAdjusted()
-	{
-		$mailOptions = $this->getMockBuilder(\ilMailOptions::class)
-			->disableOriginalConstructor()
-			->setMethods(array('updateOptions'))
-			->getMock();
+        $this->assertEquals(4, $mailOptions->getMailAddressOption());
+    }
 
-		$mailOptions->expects($this->never())->method('updateOptions');
-		$mailOptions->setIncomingType(2);
-		$mailOptions->setMailAddressOption(5);
+    /**
+     *
+     */
+    public function testNoMailWillResultInUpdateProcess()
+    {
+        $mailOptions = $this->getMockBuilder(\ilMailOptions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('updateOptions'))
+            ->getMock();
 
-		$setting = new ilMailTransportSettings($mailOptions);
-		$setting->adjust('test@ilias-test.de', 'someone@php-test.net');
+        $mailOptions->expects($this->once())->method('updateOptions');
+        $mailOptions->setIncomingType(2);
+        $mailOptions->setMailAddressOption(3);
 
-		$this->assertEquals(2, $mailOptions->getIncomingType());
-		$this->assertEquals(5, $mailOptions->getMailAddressOption());
-	}
+        $setting = new ilMailTransportSettings($mailOptions);
+        $setting->adjust('', '');
+
+        $this->assertEquals(0, $mailOptions->getIncomingType());
+    }
+
+    /**
+     *
+     */
+    public function testNothingWillBeAdjusted()
+    {
+        $mailOptions = $this->getMockBuilder(\ilMailOptions::class)
+            ->disableOriginalConstructor()
+            ->setMethods(array('updateOptions'))
+            ->getMock();
+
+        $mailOptions->expects($this->never())->method('updateOptions');
+        $mailOptions->setIncomingType(2);
+        $mailOptions->setMailAddressOption(5);
+
+        $setting = new ilMailTransportSettings($mailOptions);
+        $setting->adjust('test@ilias-test.de', 'someone@php-test.net');
+
+        $this->assertEquals(2, $mailOptions->getIncomingType());
+        $this->assertEquals(5, $mailOptions->getMailAddressOption());
+    }
 }

@@ -11,9 +11,8 @@ include_once 'Modules/Test/exceptions/class.ilTestException.php';
  */
 class ilTestQuestionPoolNotAvailableAsSourcePoolException extends ilTestException
 {
-	public function __construct()
-	{
-		parent::__construct('', 0);
-	}
+    public function __construct()
+    {
+        parent::__construct('', 0);
+    }
 }
-

@@ -7,5 +7,6 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
  * Exception is thrown when a progress for some programme node and assignment is
  * missing.
  */
-class ilStudyProgrammeNoProgressForAssignmentException extends ilException {
+class ilStudyProgrammeNoProgressForAssignmentException extends ilException
+{
 }

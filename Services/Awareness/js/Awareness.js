@@ -126,6 +126,7 @@ il.Awareness = {
 		{
 			t.content = o.html;
 			$('#awareness-content').replaceWith(o.html);
+			$('#il_awareness_filter').val(o.filter_val);
 			t.afterListUpdate();
 
 			cnt = o.cnt.split(":");

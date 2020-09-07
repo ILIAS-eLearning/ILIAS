@@ -57,7 +57,7 @@ function CAS_autoload($class)
     $e = new Exception(
         'Class ' . $class . ' could not be loaded from ' .
         $file_path . ', file does not exist (Path="'
-        . implode(':', $include_path) .'") [CAS_autoload]'
+        . implode(':', $include_path) . '") [CAS_autoload]'
     );
     $trace = $e->getTrace();
     if (isset($trace[2]) && isset($trace[2]['function'])
@@ -70,7 +70,7 @@ function CAS_autoload($class)
     ) {
         return false;
     }
-    die ((string) $e);
+    die((string) $e);
 }
 
 // set up __autoload
@@ -101,5 +101,3 @@ if (function_exists('spl_autoload_register')) {
         return CAS_autoload($class);
     }
 }
-
-?>

@@ -8,7 +8,7 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSingleOptionQ
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- * 
+ *
  * @package		Modules/TestQuestionPool
  */
 class ilAssFlashQuestionFeedback extends ilAssSingleOptionQuestionFeedback

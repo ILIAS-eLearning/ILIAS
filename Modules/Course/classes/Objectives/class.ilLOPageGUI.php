@@ -7,7 +7,7 @@ include_once("./Modules/Course/classes/Objectives/class.ilLOPageGUI.php");
 
 /**
  * (Course) learning objective page GUI class
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilLOPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
@@ -18,13 +18,11 @@ include_once("./Modules/Course/classes/Objectives/class.ilLOPageGUI.php");
  */
 class ilLOPageGUI extends ilPageObjectGUI
 {
-	/**
-	* Constructor
-	*/
-	function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
-	{
-		parent::__construct("lobj", $a_id, $a_old_nr, false, $a_lang);
-	}
-	
-} 
-?>
+    /**
+    * Constructor
+    */
+    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
+    {
+        parent::__construct("lobj", $a_id, $a_old_nr, false, $a_lang);
+    }
+}

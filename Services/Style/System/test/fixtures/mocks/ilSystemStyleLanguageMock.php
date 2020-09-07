@@ -6,20 +6,24 @@
 /**
  * Class ilSystemStylesLanguageMock
  */
-class ilSystemStyleLanguageMock {
-	public $requested = array();
+class ilSystemStyleLanguageMock
+{
+    public $requested = array();
 
-	/**
-	 * ilLanguageMock constructor.
-	 */
-	public function __construct() {}
+    /**
+     * ilLanguageMock constructor.
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * @param $a_topic
-	 * @return mixed
-	 */
-	public function txt($a_topic) {
-		$this->requested[] = $a_topic;
-		return $a_topic;
-	}
+    /**
+     * @param $a_topic
+     * @return mixed
+     */
+    public function txt($a_topic)
+    {
+        $this->requested[] = $a_topic;
+        return $a_topic;
+    }
 }

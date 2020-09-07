@@ -13,18 +13,17 @@ require_once 'class.ilCloudException.php';
  */
 class ilCloudPluginConfigException extends ilCloudException
 {
-    const TABLE_DOES_NOT_EXIST                  = 100001;
-    const ENTRY_DOES_NOT_EXIST                  = 100002;
-    const NO_VALID_GET_OR_SET_FUNCTION          = 100003;
-    const PLUGIN_NOT_PROPERLY_CONFIGURED        = 100004;
+    const TABLE_DOES_NOT_EXIST = 100001;
+    const ENTRY_DOES_NOT_EXIST = 100002;
+    const NO_VALID_GET_OR_SET_FUNCTION = 100003;
+    const PLUGIN_NOT_PROPERLY_CONFIGURED = 100004;
 
 
     protected function assignMessageToCode()
     {
         global $DIC;
         $lng = $DIC['lng'];
-        switch ($this->code)
-        {
+        switch ($this->code) {
             case self::TABLE_DOES_NOT_EXIST:
                 $this->message = $lng->txt("cld_config_table_does_not_exist") . " " . $this->add_info;
                 break;

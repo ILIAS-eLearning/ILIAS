@@ -5,12 +5,13 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-interface ilBiblOverviewModelFactoryInterface {
+interface ilBiblOverviewModelFactoryInterface
+{
 
-	/**
-	 * @param ilBiblTypeInterface $type
-	 *
-	 * @return ilBiblOverviewModelInterface
-	 */
-	public function getAllOverviewModelsByType(ilBiblTypeInterface $type);
+    /**
+     * @param ilBiblTypeInterface $type
+     *
+     * @return ilBiblOverviewModelInterface
+     */
+    public function getAllOverviewModelsByType(ilBiblTypeInterface $type);
 }

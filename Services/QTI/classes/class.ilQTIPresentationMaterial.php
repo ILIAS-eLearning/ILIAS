@@ -9,29 +9,28 @@ require_once 'Services/QTI/interfaces/interface.ilQTIFlowMatAware.php';
  */
 class ilQTIPresentationMaterial implements ilQTIFlowMatAware
 {
-	/**
-	 * @var ilQTIFlowMat[]
-	 */
-	protected $flow_mat = array();
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function addFlowMat(ilQTIFlowMat $flow_mat)
-	{
-		$this->flow_mat[] = $flow_mat;
-	}
+    /**
+     * @var ilQTIFlowMat[]
+     */
+    protected $flow_mat = array();
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function addFlowMat(ilQTIFlowMat $flow_mat)
+    {
+        $this->flow_mat[] = $flow_mat;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getFlowMat($index)
-	{
-		if(isset($this->flow_mat[$index]))
-		{
-			return $this->flow_mat[$index];
-		}
+    /**
+     * {@inheritdoc}
+     */
+    public function getFlowMat($index)
+    {
+        if (isset($this->flow_mat[$index])) {
+            return $this->flow_mat[$index];
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

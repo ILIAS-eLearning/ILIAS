@@ -11,8 +11,4 @@
  */
 abstract class ilImportConfig
 {
-
-
 }
-
-?>

@@ -15,7 +15,7 @@ include_once("./Services/Skill/classes/class.ilSkillProfile.php");
  */
 class ilSkillEval
 {
-	const TYPE_APPRAISAL = 1;
-	const TYPE_MEASUREMENT = 2;
-	const TYPE_SELF_EVAL = 3;
+    const TYPE_APPRAISAL = 1;
+    const TYPE_MEASUREMENT = 2;
+    const TYPE_SELF_EVAL = 3;
 }

@@ -64,7 +64,7 @@ class ilWebDAVRequestHandler
     
     /**
      * Set server plugins
-     */    
+     */
     protected function setPlugins($server)
     {
         global $DIC;
@@ -83,14 +83,13 @@ class ilWebDAVRequestHandler
 
         /* Set Browser Plugin
          * This plugin is used to redirect GET-Requests from browsers on collections to the mount instruction page */
-        $browser_plugin =  new ilWebDAVSabreBrowserPlugin($DIC->ctrl());
+        $browser_plugin = new ilWebDAVSabreBrowserPlugin($DIC->ctrl());
         $server->addPlugin($browser_plugin);
-         
     }
     
     /**
      * Return the first object to mount on WebDAV
-     * 
+     *
      * @return ilMountPointDAV
      */
     protected function getRootDir()

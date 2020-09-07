@@ -13,15 +13,11 @@ include_once './include/inc.header.php';
 
 include_once './Services/WebServices/Rest/classes/class.ilRestServer.php';
 $server = new ilRestServer(
-	[
-		'settings' => [
-			'displayErrorDetails' => true
-		]
-	]
+    [
+        'settings' => [
+            'displayErrorDetails' => true
+        ]
+    ]
 );
 $server->init();
 $server->run();
-
-
-
-?>

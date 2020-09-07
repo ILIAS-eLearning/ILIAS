@@ -6,10 +6,9 @@
  */
 global $DIC;
 
-if(!file_exists(getcwd() . '/ilias.ini.php'))
-{
-	header('Location: ./setup/setup.php');
-	exit();
+if (!file_exists(getcwd() . '/ilias.ini.php')) {
+    header('Location: ./setup/setup.php');
+    exit();
 }
 
 require_once 'Services/Context/classes/class.ilContext.php';

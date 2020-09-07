@@ -14,36 +14,41 @@ use Dflydev\FigCookies\SetCookie;
  * @since   5.3
  * @version 1.0.0
  */
-class CookieFactoryImpl implements CookieFactory {
+class CookieFactoryImpl implements CookieFactory
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function create($name, $value = NULL) {
-		return new CookieWrapper(SetCookie::create($name, $value));
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	public function createRememberedForLongTime($name, $value = NULL) {
-		return new CookieWrapper(SetCookie::createRememberedForever($name, $value));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function create($name, $value = null)
+    {
+        return new CookieWrapper(SetCookie::create($name, $value));
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function createExpired($name) {
-		return new CookieWrapper(SetCookie::createExpired($name));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function createRememberedForLongTime($name, $value = null)
+    {
+        return new CookieWrapper(SetCookie::createRememberedForever($name, $value));
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fromSetCookieString($string) {
-		return new CookieWrapper(SetCookie::fromSetCookieString($string));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function createExpired($name)
+    {
+        return new CookieWrapper(SetCookie::createExpired($name));
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function fromSetCookieString($string)
+    {
+        return new CookieWrapper(SetCookie::fromSetCookieString($string));
+    }
 }

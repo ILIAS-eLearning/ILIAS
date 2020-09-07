@@ -26,7 +26,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class IdentificationTest extends TestCase
 {
-
     use MockeryPHPUnitIntegration;
     const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**

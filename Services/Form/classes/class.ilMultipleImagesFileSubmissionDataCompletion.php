@@ -11,41 +11,41 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilMultipleImagesFileSubmissionDataCompletion implements ilFormValuesManipulator
 {
-	protected $postVar;
-	
-	public function getPostVar()
-	{
-		return $this->postVar;
-	}
-	
-	public function setPostVar($postVar)
-	{
-		$this->postVar = $postVar;
-	}
-	
-	public function manipulateFormInputValues($inputValues)
-	{
-		return $inputValues;
-	}
-	
-	public function manipulateFormSubmitValues($submitValues)
-	{
-		$_REQUEST[$this->getPostVar()] = $this->populateStoredFileCustomUploadProperty(
-			$_REQUEST[$this->getPostVar()], $submitValues
-		);
+    protected $postVar;
+    
+    public function getPostVar()
+    {
+        return $this->postVar;
+    }
+    
+    public function setPostVar($postVar)
+    {
+        $this->postVar = $postVar;
+    }
+    
+    public function manipulateFormInputValues($inputValues)
+    {
+        return $inputValues;
+    }
+    
+    public function manipulateFormSubmitValues($submitValues)
+    {
+        $_REQUEST[$this->getPostVar()] = $this->populateStoredFileCustomUploadProperty(
+            $_REQUEST[$this->getPostVar()],
+            $submitValues
+        );
 
-		return $submitValues;
-	}
-	
-	protected function populateStoredFileCustomUploadProperty($submitFiles, $submitValues)
-	{
-		$submitFiles['dodging_file'] = array();
-		
-		foreach($submitValues as $identifier => $storedFilename)
-		{
-			$submitFiles['dodging_file'][$identifier] = $storedFilename;
-		}
-		
-		return $submitFiles;
-	}
+        return $submitValues;
+    }
+    
+    protected function populateStoredFileCustomUploadProperty($submitFiles, $submitValues)
+    {
+        $submitFiles['dodging_file'] = array();
+        
+        foreach ($submitValues as $identifier => $storedFilename) {
+            $submitFiles['dodging_file'][$identifier] = $storedFilename;
+        }
+        
+        return $submitFiles;
+    }
 }

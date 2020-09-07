@@ -42,7 +42,7 @@ class ListType implements Type, Ancestors
     /**
      * @inheritdoc
      */
-    function __toString()
+    public function __toString()
     {
         return "[" . $this->type . "]";
     }

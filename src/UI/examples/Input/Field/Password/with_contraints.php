@@ -37,12 +37,12 @@ function with_contraints()
         'password'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['pwd'=>$pwd_input, 'pwd2'=>$pwd_input2]);
+    $form = $ui->input()->container()->form()->standard($form_action, ['pwd' => $pwd_input, 'pwd2' => $pwd_input2]);
 
     //Step 3: Define some data processing.
     $result = '';
     if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example'] =='password') {
+            && $request->getQueryParams()['example'] == 'password') {
         $form = $form->withRequest($request);
         $result = $form->getData();
     }

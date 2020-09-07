@@ -13,10 +13,9 @@
 
 
 // jump to setup if ILIAS3 is not installed
-if (!file_exists(getcwd()."/ilias.ini.php"))
-{
+if (!file_exists(getcwd() . "/ilias.ini.php")) {
     header("Location: ./setup/setup.php");
-	exit();
+    exit();
 }
 
 require_once("Services/Init/classes/class.ilInitialisation.php");
@@ -28,4 +27,3 @@ $ilCtrl->callBaseClass();
 $ilBench->save();
 
 exit;
-?>

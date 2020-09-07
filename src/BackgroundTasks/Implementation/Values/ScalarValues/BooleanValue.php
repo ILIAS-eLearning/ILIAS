@@ -4,7 +4,6 @@ namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 class BooleanValue extends ScalarValue
 {
-
     public function setValue($boolean)
     {
         if (!is_bool($boolean)) {

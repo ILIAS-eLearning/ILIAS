@@ -13,166 +13,167 @@ require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
  */
 class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 {
-	/**
-	 * returns the fact wether a useable question set config exists or not
-	 * 
-	 * @return boolean
-	 */
-	public function isQuestionSetConfigured()
-	{
-		if( count($this->testOBJ->questions) )
-		{
-			return true;
-		}
+    /**
+     * returns the fact wether a useable question set config exists or not
+     *
+     * @return boolean
+     */
+    public function isQuestionSetConfigured()
+    {
+        if (count($this->testOBJ->questions)) {
+            return true;
+        }
 
-		return false;
-	}
-	
-	/**
-	 * returns the fact wether a useable question set config exists or not
-	 * 
-	 * @return boolean
-	 */
-	public function doesQuestionSetRelatedDataExist()
-	{
-		return $this->isQuestionSetConfigured();
-	}
-	
-	/**
-	 * removes all question set config related data
-	 */
-	public function removeQuestionSetRelatedData()
-	{
-		$res = $this->db->queryF(
-			"SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
-		);
+        return false;
+    }
+    
+    /**
+     * returns the fact wether a useable question set config exists or not
+     *
+     * @return boolean
+     */
+    public function doesQuestionSetRelatedDataExist()
+    {
+        return $this->isQuestionSetConfigured();
+    }
+    
+    /**
+     * removes all question set config related data
+     */
+    public function removeQuestionSetRelatedData()
+    {
+        $res = $this->db->queryF(
+            "SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
+            array('integer'),
+            array($this->testOBJ->getTestId())
+        );
 
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$this->testOBJ->removeQuestion($row["question_fi"]);
-		}
+        while ($row = $this->db->fetchAssoc($res)) {
+            $this->testOBJ->removeQuestion($row["question_fi"]);
+        }
 
-		$this->db->manipulateF(
-			"DELETE FROM tst_test_question WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
-		);
+        $this->db->manipulateF(
+            "DELETE FROM tst_test_question WHERE test_fi = %s",
+            array('integer'),
+            array($this->testOBJ->getTestId())
+        );
 
-		$this->testOBJ->questions = array();
+        $this->testOBJ->questions = array();
 
-		$this->testOBJ->saveCompleteStatus($this);
-	}
+        $this->testOBJ->saveCompleteStatus($this);
+    }
 
-	public function resetQuestionSetRelatedTestSettings()
-	{
-		// nothing to do
-	}
+    public function resetQuestionSetRelatedTestSettings()
+    {
+        // nothing to do
+    }
 
-	/**
-	 * removes all question set config related data for cloned/copied test
-	 *
-	 * @param ilObjTest $cloneTestOBJ
-	 */
-	public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
-	{
-		global $DIC;
-		$ilLog = $DIC['ilLog'];
+    /**
+     * removes all question set config related data for cloned/copied test
+     *
+     * @param ilObjTest $cloneTestOBJ
+     */
+    public function cloneQuestionSetRelatedData(ilObjTest $cloneTestOBJ)
+    {
+        global $DIC;
+        $ilLog = $DIC['ilLog'];
 
-		require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
-		require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+        require_once 'Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
+        require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
 
-		$cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
+        $cwo = ilCopyWizardOptions::_getInstance($cloneTestOBJ->getTmpCopyWizardCopyId());
 
-		foreach( $this->testOBJ->questions as $key => $question_id )
-		{
-			$question = assQuestion::_instanciateQuestion($question_id);
-			$cloneTestOBJ->questions[$key] = $question->duplicate(true, null, null, null, $cloneTestOBJ->getId());
+        foreach ($this->testOBJ->questions as $key => $question_id) {
+            $question = assQuestion::_instanciateQuestion($question_id);
+            $cloneTestOBJ->questions[$key] = $question->duplicate(true, null, null, null, $cloneTestOBJ->getId());
 
-			$original_id = assQuestion::_getOriginalId($question_id);
+            $original_id = assQuestion::_getOriginalId($question_id);
 
-			$question = assQuestion::_instanciateQuestion($cloneTestOBJ->questions[$key]);
-			$question->saveToDb($original_id);
+            $question = assQuestion::_instanciateQuestion($cloneTestOBJ->questions[$key]);
+            $question->saveToDb($original_id);
 
-			// Save the mapping of old question id <-> new question id
-			// This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
-			$originalKey = $this->testOBJ->getRefId().'_question_'.$question_id;
-			$mappedKey = $cloneTestOBJ->getRefId().'_question_'.$cloneTestOBJ->questions[$key];
-			$cwo->appendMapping($originalKey, $mappedKey);
-			$ilLog->write(__METHOD__.": Added question id mapping $originalKey <-> $mappedKey");
-		}
-	}
+            // Save the mapping of old question id <-> new question id
+            // This will be used in class.ilObjCourse::cloneDependencies to copy learning objectives
+            $originalKey = $this->testOBJ->getRefId() . '_question_' . $question_id;
+            $mappedKey = $cloneTestOBJ->getRefId() . '_question_' . $cloneTestOBJ->questions[$key];
+            $cwo->appendMapping($originalKey, $mappedKey);
+            $ilLog->write(__METHOD__ . ": Added question id mapping $originalKey <-> $mappedKey");
+        }
+    }
 
-	/**
-	 * loads the question set config for current test from the database
-	 */
-	public function loadFromDb()
-	{
-		// TODO: Implement loadFromDb() method.
-	}
+    /**
+     * loads the question set config for current test from the database
+     */
+    public function loadFromDb()
+    {
+        // TODO: Implement loadFromDb() method.
+    }
 
-	/**
-	 * saves the question set config for current test to the database
-	 */
-	public function saveToDb()
-	{
-		// TODO: Implement saveToDb() method.
-	}
-	
-	/**
-	 * @return ilTestReindexedSequencePositionMap
-	 */
-	public function reindexQuestionOrdering()
-	{
-		$query = "
+    /**
+     * saves the question set config for current test to the database
+     */
+    public function saveToDb()
+    {
+        // TODO: Implement saveToDb() method.
+    }
+    
+    /**
+     * @return ilTestReindexedSequencePositionMap
+     */
+    public function reindexQuestionOrdering()
+    {
+        $query = "
 			SELECT question_fi, sequence FROM tst_test_question
 			WHERE test_fi = %s
 			ORDER BY sequence ASC
 		";
-		
-		$res = $this->db->queryF(
-			$query, array('integer'), array($this->testOBJ->getTestId())
-		);
-		
-		$sequenceIndex = 0;
-		
-		require_once 'Modules/Test/classes/class.ilTestReindexedSequencePositionMap.php';
-		$reindexedSequencePositionMap = new ilTestReindexedSequencePositionMap();
-		
-		while($row = $this->db->fetchAssoc($res))
-		{
-			$sequenceIndex++; // start with 1
-			
-			$reindexedSequencePositionMap->addPositionMapping($row['sequence'], $sequenceIndex);
-			
-			$this->db->update('tst_test_question',
-				array('sequence' => array('integer', $sequenceIndex)),
-				array('question_fi' => array('integer', $row['question_fi']))
-			);
-		}
-		
-		return $reindexedSequencePositionMap;
-	}
+        
+        $res = $this->db->queryF(
+            $query,
+            array('integer'),
+            array($this->testOBJ->getTestId())
+        );
+        
+        $sequenceIndex = 0;
+        
+        require_once 'Modules/Test/classes/class.ilTestReindexedSequencePositionMap.php';
+        $reindexedSequencePositionMap = new ilTestReindexedSequencePositionMap();
+        
+        while ($row = $this->db->fetchAssoc($res)) {
+            $sequenceIndex++; // start with 1
+            
+            $reindexedSequencePositionMap->addPositionMapping($row['sequence'], $sequenceIndex);
+            
+            $this->db->update(
+                'tst_test_question',
+                array('sequence' => array('integer', $sequenceIndex)),
+                array('question_fi' => array('integer', $row['question_fi']))
+            );
+        }
+        
+        return $reindexedSequencePositionMap;
+    }
 
-	/**
-	 * saves the question set config for test with given id to the database
-	 *
-	 * @param $testId
-	 */
-	public function cloneToDbForTestId($testId)
-	{
-		// TODO: Implement saveToDbByTestId() method.
-	}
+    /**
+     * saves the question set config for test with given id to the database
+     *
+     * @param $testId
+     */
+    public function cloneToDbForTestId($testId)
+    {
+        // TODO: Implement saveToDbByTestId() method.
+    }
 
-	/**
-	 * deletes the question set config for current test from the database
-	 */
-	public function deleteFromDb()
-	{
-		// TODO: Implement deleteFromDb() method.
-	}
+    /**
+     * deletes the question set config for current test from the database
+     */
+    public function deleteFromDb()
+    {
+        // TODO: Implement deleteFromDb() method.
+    }
 
-	public function isResultTaxonomyFilterSupported()
-	{
-		return false;
-	}
+    public function isResultTaxonomyFilterSupported()
+    {
+        return false;
+    }
 }

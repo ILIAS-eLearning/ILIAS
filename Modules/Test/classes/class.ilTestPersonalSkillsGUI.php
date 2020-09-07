@@ -11,100 +11,99 @@ require_once 'Services/Skill/classes/class.ilPersonalSkillsGUI.php';
  */
 class ilTestPersonalSkillsGUI
 {
-	/**
-	 * @var ilLanguage
-	 */
-	private $lng;
+    /**
+     * @var ilLanguage
+     */
+    private $lng;
 
-	private $availableSkills;
+    private $availableSkills;
 
-	private $selectedSkillProfile;
+    private $selectedSkillProfile;
 
-	private $reachedSkillLevels;
+    private $reachedSkillLevels;
 
-	private $usrId;
+    private $usrId;
 
-	/**
-	 * @var int
-	 */
-	private $testId;
+    /**
+     * @var int
+     */
+    private $testId;
 
-	/**
-	 * @param ilLanguage $lng
-	 * @param int        $testId
-	 */
-	public function __construct(ilLanguage $lng, $testId)
-	{
-		$this->lng = $lng;
-		$this->testId = $testId;
-	}
+    /**
+     * @param ilLanguage $lng
+     * @param int        $testId
+     */
+    public function __construct(ilLanguage $lng, $testId)
+    {
+        $this->lng = $lng;
+        $this->testId = $testId;
+    }
 
-	public function getHTML()
-	{
-		$gui = new ilPersonalSkillsGUI();
+    public function getHTML()
+    {
+        $gui = new ilPersonalSkillsGUI();
 
-		$gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
+        $gui->setGapAnalysisActualStatusModePerObject($this->getTestId(), $this->lng->txt('tst_test_result'));
 
-		$gui->setTriggerObjectsFilter(array($this->getTestId()));
-		$gui->setHistoryView(true); // NOT IMPLEMENTED YET
+        $gui->setTriggerObjectsFilter(array($this->getTestId()));
+        $gui->setHistoryView(true); // NOT IMPLEMENTED YET
 
-		// this is not required, we have no self evals in the test context,
-		// getReachedSkillLevel is a "test evaluation"
-		//$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
+        // this is not required, we have no self evals in the test context,
+        // getReachedSkillLevel is a "test evaluation"
+        //$gui->setGapAnalysisSelfEvalLevels($this->getReachedSkillLevels());
 
-		$gui->setProfileId($this->getSelectedSkillProfile());
+        $gui->setProfileId($this->getSelectedSkillProfile());
 
-		$html = $gui->getGapAnalysisHTML($this->getUsrId(), $this->getAvailableSkills());
+        $html = $gui->getGapAnalysisHTML($this->getUsrId(), $this->getAvailableSkills());
 
-		return $html;
-	}
+        return $html;
+    }
 
-	public function setAvailableSkills($availableSkills)
-	{
-		$this->availableSkills = $availableSkills;
-	}
+    public function setAvailableSkills($availableSkills)
+    {
+        $this->availableSkills = $availableSkills;
+    }
 
-	public function getAvailableSkills()
-	{
-		return $this->availableSkills;
-	}
+    public function getAvailableSkills()
+    {
+        return $this->availableSkills;
+    }
 
-	public function setSelectedSkillProfile($selectedSkillProfile)
-	{
-		$this->selectedSkillProfile = $selectedSkillProfile;
-	}
+    public function setSelectedSkillProfile($selectedSkillProfile)
+    {
+        $this->selectedSkillProfile = $selectedSkillProfile;
+    }
 
-	public function getSelectedSkillProfile()
-	{
-		return $this->selectedSkillProfile;
-	}
+    public function getSelectedSkillProfile()
+    {
+        return $this->selectedSkillProfile;
+    }
 
-	public function setReachedSkillLevels($reachedSkillLevels)
-	{
-		$this->reachedSkillLevels = $reachedSkillLevels;
-	}
+    public function setReachedSkillLevels($reachedSkillLevels)
+    {
+        $this->reachedSkillLevels = $reachedSkillLevels;
+    }
 
-	public function getReachedSkillLevels()
-	{
-		return $this->reachedSkillLevels;
-	}
+    public function getReachedSkillLevels()
+    {
+        return $this->reachedSkillLevels;
+    }
 
-	public function setUsrId($usrId)
-	{
-		$this->usrId = $usrId;
-	}
+    public function setUsrId($usrId)
+    {
+        $this->usrId = $usrId;
+    }
 
-	public function getUsrId()
-	{
-		return $this->usrId;
-	}
+    public function getUsrId()
+    {
+        return $this->usrId;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getTestId()
-	{
-		return $this->testId;
-	}
-
-} 
+    /**
+     * @return int
+     */
+    public function getTestId()
+    {
+        return $this->testId;
+    }
+}

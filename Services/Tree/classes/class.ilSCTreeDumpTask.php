@@ -7,18 +7,18 @@
 class ilSCTreeDumpTask extends ilSCTask
 {
 
-	/**
-	 * Check if task is active
-	 * @return bool
-	 */
-	public function isActive()
-	{
-		global $DIC;
+    /**
+     * Check if task is active
+     * @return bool
+     */
+    public function isActive()
+    {
+        global $DIC;
 
-		$tree = $DIC->repositoryTree();
-		if($tree->getTreeImplementation() instanceof \ilMaterializedPathTree) {
-			return false;
-		}
-		return true;
-	}
+        $tree = $DIC->repositoryTree();
+        if ($tree->getTreeImplementation() instanceof \ilMaterializedPathTree) {
+            return false;
+        }
+        return true;
+    }
 }

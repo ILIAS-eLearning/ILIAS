@@ -13,26 +13,25 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilModulesExerciseExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('exercise');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('exercise');
 
-		switch($event)
-		{
-			case 'createAssignment':
-			case 'updateAssignment':
-			case 'deleteAssignment':
-			case 'delete':
-				$this->extractWithoutUser($parameters);
-				break;
-		}
+        switch ($event) {
+            case 'createAssignment':
+            case 'updateAssignment':
+            case 'deleteAssignment':
+            case 'delete':
+                $this->extractWithoutUser($parameters);
+                break;
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 }

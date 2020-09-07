@@ -143,7 +143,7 @@ class ItemTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 			<h5>Item Title</h5>
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
 </li>
@@ -156,28 +156,28 @@ class ItemTest extends ILIAS_UI_TestBase
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name">Origin</div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">Course Title 1</div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name">Origin</div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Course Title 1</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name">Last Update</div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">24.11.2011</div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name">Last Update</div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">24.11.2011</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name">Location</div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">Room 123, Main Street 44, 3012 Bern</div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name">Location</div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">Room 123, Main Street 44, 3012 Bern</div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name"></div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"></div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
 					</div>
 				</div>
 			</div>
@@ -286,14 +286,14 @@ EOT;
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name">test</div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_1"  >GitHub</button></div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name">test</div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_1">GitHub</button></div>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="row">
-						<div class="col-sm-5 il-item-property-name"></div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"></div>
+						<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
 					</div>
 				</div>
 			</div>

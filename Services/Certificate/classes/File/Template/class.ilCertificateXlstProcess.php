@@ -6,27 +6,27 @@
  */
 class ilCertificateXlstProcess
 {
-	/**
-	 * @param array $args
-	 * @param array $params
-	 * @return string
-	 */
-	public function process(array $args, array $params) : string
-	{
-		$xh = xslt_create();
+    /**
+     * @param array $args
+     * @param array $params
+     * @return string
+     */
+    public function process(array $args, array $params) : string
+    {
+        $xh = xslt_create();
 
-		$output = xslt_process(
-			$xh,
-			"arg:/_xml",
-			"arg:/_xsl",
-			NULL,
-			$args,
-			$params
-		);
+        $output = xslt_process(
+            $xh,
+            "arg:/_xml",
+            "arg:/_xsl",
+            null,
+            $args,
+            $params
+        );
 
-		xslt_error($xh);
-		xslt_free($xh);
+        xslt_error($xh);
+        xslt_free($xh);
 
-		return $output;
-	}
+        return $output;
+    }
 }

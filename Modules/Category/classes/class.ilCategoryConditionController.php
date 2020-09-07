@@ -12,33 +12,31 @@ include_once("./Services/Conditions/interfaces/interface.ilConditionControllerIn
  */
 class ilCategoryConditionController implements ilConditionControllerInterface
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function isContainerConditionController($container_ref_id): bool
-	{
-		return false;
-		return true;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isContainerConditionController($container_ref_id) : bool
+    {
+        return false;
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getConditionSetForRepositoryObject($ref_id): ilConditionSet
-	{
-		global $DIC;
+    /**
+     * @inheritdoc
+     */
+    public function getConditionSetForRepositoryObject($ref_id) : ilConditionSet
+    {
+        global $DIC;
 
-		$f = $DIC->conditions()->factory();
+        $f = $DIC->conditions()->factory();
 
-		$conditions = array();
-		if ($ref_id == 72)
-		{
-//			$conditions[] = $f->condition($f->repositoryTrigger(73), $f->operator()->passed());
-		}
-
+        $conditions = array();
+        if ($ref_id == 72) {
+            //			$conditions[] = $f->condition($f->repositoryTrigger(73), $f->operator()->passed());
+        }
 
 
-		return $f->set($conditions);
-	}
 
+        return $f->set($conditions);
+    }
 }

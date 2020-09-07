@@ -11,60 +11,59 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  */
 class ilQuestionPoolExportTableGUI extends ilExportTableGUI
 {
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
-	{
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
+    {
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
 
-		// NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
-		// KEEP CODE, JF OPINIONS / ROOT FIXINGS CAN CHANGE
-		//$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
-	}
+        // NOT REQUIRED ANYMORE, PROBLEM NOW FIXED IN THE ROOT
+        // KEEP CODE, JF OPINIONS / ROOT FIXINGS CAN CHANGE
+        //$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
+    }
 
-	/**
-	 * @param string $type
-	 * @param string $filename
-	 */
-	protected function formatActionsList($type, $filename)
-	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
+    /**
+     * @param string $type
+     * @param string $filename
+     */
+    protected function formatActionsList($type, $filename)
+    {
+        /**
+         * @var $ilCtrl ilCtrl
+         */
+        global $DIC;
+        $ilCtrl = $DIC['ilCtrl'];
 
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setListTitle($this->lng->txt('actions'));
-		$ilCtrl->setParameter($this->getParentObject(), 'file',  $type.':'.$filename);
-		$list->addItem($this->lng->txt('download'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
-		$ilCtrl->setParameter($this->getParentObject(), 'file', '');
-		return $list->getHTML();
-	}
+        $list = new ilAdvancedSelectionListGUI();
+        $list->setListTitle($this->lng->txt('actions'));
+        $ilCtrl->setParameter($this->getParentObject(), 'file', $type . ':' . $filename);
+        $list->addItem($this->lng->txt('download'), '', $ilCtrl->getLinkTarget($this->getParentObject(), 'download'));
+        $ilCtrl->setParameter($this->getParentObject(), 'file', '');
+        return $list->getHTML();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function numericOrdering($a_field)
-	{
-		if(in_array($a_field, array('size', 'date')))
-		{
-			return true;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function numericOrdering($a_field)
+    {
+        if (in_array($a_field, array('size', 'date'))) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/***
-	 * 
-	 */
-	protected function initMultiCommands()
-	{
-		$this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
-	}
-} 
+    /***
+     *
+     */
+    protected function initMultiCommands()
+    {
+        $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
+    }
+}

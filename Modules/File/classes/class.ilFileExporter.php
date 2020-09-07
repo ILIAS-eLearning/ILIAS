@@ -16,7 +16,7 @@ class ilFileExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    function init()
+    public function init()
     {
     }
 
@@ -40,8 +40,8 @@ class ilFileExporter extends ilXmlExporter
         return array(
             array(
                 "component" => "Services/MetaData",
-                "entity"    => "md",
-                "ids"       => $md_ids,
+                "entity" => "md",
+                "ids" => $md_ids,
             ),
         );
     }
@@ -58,7 +58,6 @@ class ilFileExporter extends ilXmlExporter
      */
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
-
         include_once("./Modules/File/classes/class.ilObjFile.php");
         include_once("./Modules/File/classes/class.ilFileXMLWriter.php");
         if (ilObject::_lookupType($a_id) == "file") {
@@ -68,8 +67,10 @@ class ilFileExporter extends ilXmlExporter
             $writer->setOmitHeader(true);
             $writer->setAttachFileContents(ilFileXMLWriter::$CONTENT_ATTACH_COPY);
             ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
-            $writer->setFileTargetDirectories($this->getRelativeExportDirectory(),
-                $this->getAbsoluteExportDirectory());
+            $writer->setFileTargetDirectories(
+                $this->getRelativeExportDirectory(),
+                $this->getAbsoluteExportDirectory()
+            );
             $writer->start();
             $xml .= $writer->getXml();
         }
@@ -85,14 +86,14 @@ class ilFileExporter extends ilXmlExporter
      *
      * @return
      */
-    function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions($a_entity)
     {
         return array(
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Modules/File/file/4_1",
-                "xsd_file"  => "ilias_file_4_1.xsd",
-                "min"       => "4.1.0",
-                "max"       => "",
+                "xsd_file" => "ilias_file_4_1.xsd",
+                "min" => "4.1.0",
+                "max" => "",
             ),
         );
     }

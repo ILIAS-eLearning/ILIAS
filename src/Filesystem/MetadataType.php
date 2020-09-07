@@ -15,13 +15,14 @@ use ILIAS\Filesystem\DTO\Metadata;
  *
  * @see Metadata
  */
-interface MetadataType {
-	/**
-	 * The subject is file.
-	 */
-	const FILE = 'file';
-	/**
-	 * The subject is a directory.
-	 */
-	const DIRECTORY = 'dir';
+interface MetadataType
+{
+    /**
+     * The subject is file.
+     */
+    const FILE = 'file';
+    /**
+     * The subject is a directory.
+     */
+    const DIRECTORY = 'dir';
 }

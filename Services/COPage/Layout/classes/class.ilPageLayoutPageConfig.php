@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Page layout page configuration 
+ * Page layout page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -13,28 +13,25 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilPageLayoutPageConfig extends ilPageConfig
 {
-	/**
-	 * @var ilSetting
-	 */
-	protected $settings;
+    /**
+     * @var ilSetting
+     */
+    protected $settings;
 
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		global $DIC;
+    /**
+     * Init
+     */
+    public function init()
+    {
+        global $DIC;
 
-		$this->settings = $DIC->settings();
+        $this->settings = $DIC->settings();
 
-		$this->setPreventHTMLUnmasking(false);
-		$this->setEnableInternalLinks(false);
-		$this->setEnablePCType("Question", false);
-		$this->setEnablePCType("Map", false);
-		$this->setEnablePCType("FileList", false);
-		$this->setEnablePCType("PlaceHolder", true);
-	}
-	
+        $this->setPreventHTMLUnmasking(false);
+        $this->setEnableInternalLinks(false);
+        $this->setEnablePCType("Question", false);
+        $this->setEnablePCType("Map", false);
+        $this->setEnablePCType("FileList", false);
+        $this->setEnablePCType("PlaceHolder", true);
+    }
 }
-
-?>

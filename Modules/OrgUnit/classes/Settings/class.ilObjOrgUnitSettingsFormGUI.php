@@ -5,7 +5,8 @@
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
+class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilObjOrgUnit
@@ -38,7 +39,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilObjOrgUnit $obj_orgu) {
+    public function __construct($parent_gui, ilObjOrgUnit $obj_orgu)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -59,7 +61,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
+    public function saveObject()
+    {
         if (!$this->fillObject()) {
             return false;
         }
@@ -71,7 +74,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_settings'));
 
@@ -115,7 +119,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject()
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return false;
@@ -130,7 +135,8 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
     /**
      * Update title and description for the default language of translation
      */
-    protected function updateTranslation() {
+    protected function updateTranslation()
+    {
         $translations = $this->obj_orgu->getTranslations();
         $lang_code_default = '';
         $lang_codes = array();
@@ -143,5 +149,4 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI {
         $lang_code = (in_array($this->user->getLanguage(), $lang_codes)) ? $this->user->getLanguage() : $lang_code_default;
         $this->obj_orgu->updateTranslation($this->getInput('title'), $this->getInput('description'), $lang_code, 0);
     }
-
 }

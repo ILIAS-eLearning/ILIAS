@@ -594,8 +594,8 @@ class ilRepositorySearchGUI
 
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         
-        $this->form =  new ilPropertyFormGUI();
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'search'));
+        $this->form = new ilPropertyFormGUI();
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'showSearch'));
         $this->form->setTitle($this->getTitle());
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
@@ -630,12 +630,12 @@ class ilRepositorySearchGUI
                         $ul->setDataSourceSubmitOnSelection(true);
                         $ul->setDataSourceSubmitUrl(
                             $this->ctrl->getLinkTarget(
-                                    $this,
-                                    'showSearchSelected',
-                                    '',
-                                    false,
-                                    false
-                                )
+                                $this,
+                                'showSearchSelected',
+                                '',
+                                false,
+                                false
+                            )
                         );
                         $ul->setDataSource($ilCtrl->getLinkTarget(
                             $this,
@@ -851,7 +851,7 @@ class ilRepositorySearchGUI
 
                     // no break
                 case FIELD_TYPE_TEXT:
-                    $user_search =&ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+                    $user_search = &ilObjectSearchFactory::_getUserSearchInstance($query_parser);
                     $user_search->setFields(array($name));
                     $result_obj = $user_search->performSearch();
 

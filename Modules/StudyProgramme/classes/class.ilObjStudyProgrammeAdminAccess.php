@@ -6,8 +6,6 @@ require_once("./Services/Object/classes/class.ilObjectAccess.php");
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  */
-class ilObjStudyProgrammeAdminAccess extends ilObjectAccess {
-
+class ilObjStudyProgrammeAdminAccess extends ilObjectAccess
+{
 }
-
-?>

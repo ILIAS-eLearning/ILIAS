@@ -10,66 +10,66 @@
  */
 class ilTestRandomQuestionSetQuestion
 {
-	/**
-	 * @var integer
-	 */
-	private $questionId = null;
+    /**
+     * @var integer
+     */
+    private $questionId = null;
 
-	/**
-	 * @var integer
-	 */
-	private $sequencePosition = null;
+    /**
+     * @var integer
+     */
+    private $sequencePosition = null;
 
-	/**
-	 * @var integer
-	 */
-	private $sourcePoolDefinitionId = null;
+    /**
+     * @var integer
+     */
+    private $sourcePoolDefinitionId = null;
 
-	/**
-	 * @param int $questionId
-	 */
-	public function setQuestionId($questionId)
-	{
-		$this->questionId = $questionId;
-	}
+    /**
+     * @param int $questionId
+     */
+    public function setQuestionId($questionId)
+    {
+        $this->questionId = $questionId;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getQuestionId()
-	{
-		return $this->questionId;
-	}
+    /**
+     * @return int
+     */
+    public function getQuestionId()
+    {
+        return $this->questionId;
+    }
 
-	/**
-	 * @param int $sequencePosition
-	 */
-	public function setSequencePosition($sequencePosition)
-	{
-		$this->sequencePosition = $sequencePosition;
-	}
+    /**
+     * @param int $sequencePosition
+     */
+    public function setSequencePosition($sequencePosition)
+    {
+        $this->sequencePosition = $sequencePosition;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getSequencePosition()
-	{
-		return $this->sequencePosition;
-	}
+    /**
+     * @return int
+     */
+    public function getSequencePosition()
+    {
+        return $this->sequencePosition;
+    }
 
-	/**
-	 * @param int $sourcePoolDefinitionId
-	 */
-	public function setSourcePoolDefinitionId($sourcePoolDefinitionId)
-	{
-		$this->sourcePoolDefinitionId = $sourcePoolDefinitionId;
-	}
+    /**
+     * @param int $sourcePoolDefinitionId
+     */
+    public function setSourcePoolDefinitionId($sourcePoolDefinitionId)
+    {
+        $this->sourcePoolDefinitionId = $sourcePoolDefinitionId;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getSourcePoolDefinitionId()
-	{
-		return $this->sourcePoolDefinitionId;
-	}
+    /**
+     * @return int
+     */
+    public function getSourcePoolDefinitionId()
+    {
+        return $this->sourcePoolDefinitionId;
+    }
 }

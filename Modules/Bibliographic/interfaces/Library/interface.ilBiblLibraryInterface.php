@@ -5,76 +5,77 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblLibraryInterface {
+interface ilBiblLibraryInterface
+{
 
-	/**
-	 * @return int
-	 */
-	public function getId();
-
-
-	/**
-	 * @param int $id
-	 */
-	public function setId($id);
+    /**
+     * @return int
+     */
+    public function getId();
 
 
-	/**
-	 * @return string
-	 */
-	public function getImg();
+    /**
+     * @param int $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @param string $img
-	 */
-	public function setImg($img);
+    /**
+     * @return string
+     */
+    public function getImg();
 
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @param string $img
+     */
+    public function setImg($img);
 
 
-	/**
-	 * @param string $name
-	 */
-	public function setName($name);
+    /**
+     * @return string
+     */
+    public function getName();
 
 
-	/**
-	 * @return bool
-	 */
-	public function getShowInList();
+    /**
+     * @param string $name
+     */
+    public function setName($name);
 
 
-	/**
-	 * @param bool $show_in_list
-	 */
-	public function setShowInList($show_in_list);
+    /**
+     * @return bool
+     */
+    public function getShowInList();
 
 
-	/**
-	 * @return string
-	 */
-	public function getUrl();
+    /**
+     * @param bool $show_in_list
+     */
+    public function setShowInList($show_in_list);
 
 
-	/**
-	 * @param string $url
-	 */
-	public function setUrl($url);
+    /**
+     * @return string
+     */
+    public function getUrl();
 
 
-	public function store();
+    /**
+     * @param string $url
+     */
+    public function setUrl($url);
 
 
-	public function delete();
+    public function store();
 
 
-	public function create();
+    public function delete();
 
 
-	public function update();
+    public function create();
+
+
+    public function update();
 }

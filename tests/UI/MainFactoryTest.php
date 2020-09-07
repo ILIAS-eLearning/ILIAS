@@ -8,13 +8,13 @@ require_once 'tests/UI/AbstractFactoryTest.php';
 class MainFactoryTest extends AbstractFactoryTest
 {
     public $kitchensink_info_settings = array(
-        "card"		        => array("context" => false)
-        , "deck"			=> array("context" => false)
-        , "image"			=> array("context" => false, "rules" => false)
-        , "legacy"			=> array("context" => false)
-        , "viewControl"		=> array("rules" => false)
-        , "input"		    => array("rules" => false)
-        , "table"		    => array("rules" => false)
+        "card" => array("context" => false)
+        , "deck" => array("context" => false)
+        , "image" => array("context" => false, "rules" => false)
+        , "legacy" => array("context" => false)
+        , "viewControl" => array("rules" => false)
+        , "input" => array("rules" => false)
+        , "table" => array("rules" => false)
 
     );
 

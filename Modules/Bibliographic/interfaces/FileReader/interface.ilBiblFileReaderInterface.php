@@ -5,35 +5,36 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblFileReaderInterface {
+interface ilBiblFileReaderInterface
+{
 
-	/**
-	 * @param $path_to_file
-	 *
-	 * @return bool
-	 */
-	public function readContent($path_to_file);
-
-
-	/**
-	 * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
-	 * @return array
-	 */
-	public function parseContent();
+    /**
+     * @param $path_to_file
+     *
+     * @return bool
+     */
+    public function readContent($path_to_file);
 
 
-	/**
-	 * @return ilBiblEntryFactoryInterface
-	 */
-	public function getEntryFactory();
+    /**
+     * @deprecated REFACTOR Implementierungen mit Objekten statt mit Arrays
+     * @return array
+     */
+    public function parseContent();
 
-	/**
-	 * @return ilBiblFieldFactoryInterface
-	 */
-	public function getFieldFactory();
 
-	/**
-	 * @return ilBiblAttributeFactoryInterface
-	 */
-	public function getAttributeFactory();
+    /**
+     * @return ilBiblEntryFactoryInterface
+     */
+    public function getEntryFactory();
+
+    /**
+     * @return ilBiblFieldFactoryInterface
+     */
+    public function getFieldFactory();
+
+    /**
+     * @return ilBiblAttributeFactoryInterface
+     */
+    public function getAttributeFactory();
 }

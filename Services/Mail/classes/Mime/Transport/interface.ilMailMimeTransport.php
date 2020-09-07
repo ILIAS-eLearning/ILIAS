@@ -6,9 +6,9 @@
  */
 interface ilMailMimeTransport
 {
-	/**
-	 * @param ilMimeMail $mail
-	 * @return bool
-	 */
-	public function send(\ilMimeMail $mail): bool;
+    /**
+     * @param ilMimeMail $mail
+     * @return bool
+     */
+    public function send(\ilMimeMail $mail) : bool;
 }

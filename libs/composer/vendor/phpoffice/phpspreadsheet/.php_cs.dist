@@ -1,14 +1,16 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('vendor')
+    ->exclude(['vendor', 'tests/data/Calculation'])
     ->in('samples')
     ->in('src')
-    ->in('tests');
+    ->in('tests/PhpSpreadsheetTests')
+    ;
 
 return PhpCsFixer\Config::create()
     ->setRiskyAllowed(true)
     ->setFinder($finder)
+    ->setCacheFile(sys_get_temp_dir() . '/php-cs-fixer' . preg_replace('~\W~', '-', __DIR__))
     ->setRules([
         'align_multiline_comment' => true,
         'array_syntax' => ['syntax' => 'short'],

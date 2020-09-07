@@ -9,11 +9,11 @@ require_once 'Services/User/classes/class.ilObjUser.php';
  */
 class ilObjSetupUser extends ilObjUser
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		// Do not call the parent constructor here
-	}
-} 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        // Do not call the parent constructor here
+    }
+}

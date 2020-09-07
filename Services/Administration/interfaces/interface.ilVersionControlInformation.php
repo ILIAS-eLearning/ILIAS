@@ -7,8 +7,8 @@
  */
 interface ilVersionControlInformation
 {
-	/**
-	 * @return string
-	 */
-	public function getInformationAsHtml();
-} 
+    /**
+     * @return string
+     */
+    public function getInformationAsHtml();
+}

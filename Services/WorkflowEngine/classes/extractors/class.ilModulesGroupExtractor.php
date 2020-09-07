@@ -13,30 +13,29 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilModulesGroupExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('group');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('group');
 
-		switch($event)
-		{
-			case 'addParticipant':
-			case 'deleteParticipant':
-			case 'addSubscriber':
-			case 'addToWaitingList':
-				$this->extractWithUser($parameters);
-				break;
-			case 'create':
-			case 'update':
-			case 'delete':
-				$this->extractWithoutUser($parameters);
-		}
+        switch ($event) {
+            case 'addParticipant':
+            case 'deleteParticipant':
+            case 'addSubscriber':
+            case 'addToWaitingList':
+                $this->extractWithUser($parameters);
+                break;
+            case 'create':
+            case 'update':
+            case 'delete':
+                $this->extractWithoutUser($parameters);
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 }

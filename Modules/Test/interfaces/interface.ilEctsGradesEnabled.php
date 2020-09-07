@@ -8,65 +8,65 @@
  */
 interface ilEctsGradesEnabled
 {
-	/**
-	 * @param array $grades
-	 */
-	public function setECTSGrades(array $grades);
+    /**
+     * @param array $grades
+     */
+    public function setECTSGrades(array $grades);
 
-	/**
-	 * @return array
-	 */
-	public function getECTSGrades();
+    /**
+     * @return array
+     */
+    public function getECTSGrades();
 
-	/**
-	 * @param float|null $ects_fx
-	 */
-	public function setECTSFX($ects_fx);
+    /**
+     * @param float|null $ects_fx
+     */
+    public function setECTSFX($ects_fx);
 
-	/**
-	 * @return float|null
-	 */
-	public function getECTSFX();
+    /**
+     * @return float|null
+     */
+    public function getECTSFX();
 
-	/**
-	 * @param int|bool $status
-	 */
-	public function setECTSOutput($status);
+    /**
+     * @param int|bool $status
+     */
+    public function setECTSOutput($status);
 
-	/**
-	 * @return int|bool
-	 */
-	public function getECTSOutput();
+    /**
+     * @return int|bool
+     */
+    public function getECTSOutput();
 
-	/**
-	 *
-	 */
-	public function saveECTSStatus();
+    /**
+     *
+     */
+    public function saveECTSStatus();
 
-	/**
-	 * @return boolean
-	 */
-	public function canEditEctsGrades();
+    /**
+     * @return boolean
+     */
+    public function canEditEctsGrades();
 
-	/**
-	 * @return boolean
-	 */
-	public function canShowEctsGrades();
+    /**
+     * @return boolean
+     */
+    public function canShowEctsGrades();
 
-	/**
-	 * Returns the ECTS grade for a number of reached points
-	 * @param array  $passed_array   An array with the points of all users who passed the test
-	 * @param double $reached_points The points reached in the test
-	 * @param double $max_points     The maximum number of points for the test
-	 * @return string The ECTS grade short description
-	 */
-	public function getECTSGrade($passed_array, $reached_points, $max_points);
+    /**
+     * Returns the ECTS grade for a number of reached points
+     * @param array  $passed_array   An array with the points of all users who passed the test
+     * @param double $reached_points The points reached in the test
+     * @param double $max_points     The maximum number of points for the test
+     * @return string The ECTS grade short description
+     */
+    public function getECTSGrade($passed_array, $reached_points, $max_points);
 
-	/**
-	 * Returns the ECTS grade for a number of reached points
-	 * @param double $reached_points The points reached in the test
-	 * @param double $max_points     The maximum number of points for the test
-	 * @return string The ECTS grade short description
-	 */
-	public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx);
-} 
+    /**
+     * Returns the ECTS grade for a number of reached points
+     * @param double $reached_points The points reached in the test
+     * @param double $max_points     The maximum number of points for the test
+     * @return string The ECTS grade short description
+     */
+    public static function _getECTSGrade($points_passed, $reached_points, $max_points, $a, $b, $c, $d, $e, $fx);
+}

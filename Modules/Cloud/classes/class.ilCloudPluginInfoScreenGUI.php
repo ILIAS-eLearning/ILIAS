@@ -18,7 +18,7 @@ class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
     /**
      * @var ilInfoScreenGUI
      */
-    var $info = null;
+    public $info = null;
     /**
      * show information screen
      */
@@ -38,9 +38,5 @@ class ilCloudPluginInfoScreenGUI extends ilCloudPluginGUI
      */
     public function getPluginInfo()
     {
-
     }
-
 }
-
-?>

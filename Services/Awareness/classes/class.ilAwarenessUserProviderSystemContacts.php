@@ -13,47 +13,46 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
  */
 class ilAwarenessUserProviderSystemContacts extends ilAwarenessUserProvider
 {
-	/**
-	 * Get provider id
-	 *
-	 * @return string provider id
-	 */
-	function getProviderId()
-	{
-		return "adm_contacts";
-	}
+    /**
+     * Get provider id
+     *
+     * @return string provider id
+     */
+    public function getProviderId()
+    {
+        return "adm_contacts";
+    }
 
-	/**
-	 * Provider title (used in awareness overlay and in administration settings)
-	 *
-	 * @return string provider title
-	 */
-	function getTitle()
-	{
-		$this->lng->loadLanguageModule("adm");
-		return $this->lng->txt("adm_support_contacts");
-	}
+    /**
+     * Provider title (used in awareness overlay and in administration settings)
+     *
+     * @return string provider title
+     */
+    public function getTitle()
+    {
+        $this->lng->loadLanguageModule("adm");
+        return $this->lng->txt("adm_support_contacts");
+    }
 
-	/**
-	 * Provider info (used in administration settings)
-	 *
-	 * @return string provider info text
-	 */
-	function getInfo()
-	{
-		$this->lng->loadLanguageModule("adm");
-		return $this->lng->txt("adm_awrn_support_contacts_info");
-	}
+    /**
+     * Provider info (used in administration settings)
+     *
+     * @return string provider info text
+     */
+    public function getInfo()
+    {
+        $this->lng->loadLanguageModule("adm");
+        return $this->lng->txt("adm_awrn_support_contacts_info");
+    }
 
-	/**
-	 * Get initial set of users
-	 *
-	 * @return array array of user IDs
-	 */
-	function getInitialUserSet()
-	{
-		include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
-		return ilSystemSupportContacts::getValidSupportContactIds();
-	}
+    /**
+     * Get initial set of users
+     *
+     * @return array array of user IDs
+     */
+    public function getInitialUserSet()
+    {
+        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
+        return ilSystemSupportContacts::getValidSupportContactIds();
+    }
 }
-?>

@@ -16,70 +16,69 @@
  */
 class ilTestFixedQuestionSetConfigGUI
 {
-	/**
-	 * @var ilCtrl
-	 */
-	public $ctrl = null;
-	
-	/**
-	 * @var ilAccess
-	 */
-	public $access = null;
-	
-	/**
-	 * @var ilTabsGUI
-	 */
-	public $tabs = null;
-	
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng = null;
-	
-	/**
-	 * @var ilTemplate
-	 */
-	public $tpl = null;
-	
-	/**
-	 * @var ilDBInterface
-	 */
-	public $db = null;
-	
-	/**
-	 * @var ilTree
-	 */
-	public $tree = null;
-	
-	/**
-	 * @var ilPluginAdmin
-	 */
-	public $pluginAdmin = null;
-	
-	/**
-	 * @var ilObjectDefinition
-	 */
-	public $objDefinition = null;
-	
-	/**
-	 * @var ilObjTest
-	 */
-	public $testOBJ = null;
-	
-	/**
-	 * ilTestFixedQuestionSetConfigGUI constructor.
-	 */
-	public function __construct()
-	{
-		
-	}
-	/**
-	 * Control Flow Entrance
-	 */
-	public function executeCommand()
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		$ctrl = $DIC['ilCtrl']; /* @var ilCtrl $ctrl */
-		//switch( $ctrl->getNextClass() )
-	}	
+    /**
+     * @var ilCtrl
+     */
+    public $ctrl = null;
+    
+    /**
+     * @var ilAccess
+     */
+    public $access = null;
+    
+    /**
+     * @var ilTabsGUI
+     */
+    public $tabs = null;
+    
+    /**
+     * @var ilLanguage
+     */
+    public $lng = null;
+    
+    /**
+     * @var ilTemplate
+     */
+    public $tpl = null;
+    
+    /**
+     * @var ilDBInterface
+     */
+    public $db = null;
+    
+    /**
+     * @var ilTree
+     */
+    public $tree = null;
+    
+    /**
+     * @var ilPluginAdmin
+     */
+    public $pluginAdmin = null;
+    
+    /**
+     * @var ilObjectDefinition
+     */
+    public $objDefinition = null;
+    
+    /**
+     * @var ilObjTest
+     */
+    public $testOBJ = null;
+    
+    /**
+     * ilTestFixedQuestionSetConfigGUI constructor.
+     */
+    public function __construct()
+    {
+    }
+    /**
+     * Control Flow Entrance
+     */
+    public function executeCommand()
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        $ctrl = $DIC['ilCtrl']; /* @var ilCtrl $ctrl */
+        //switch( $ctrl->getNextClass() )
+    }
 }

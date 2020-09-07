@@ -13,6 +13,4 @@ include_once 'Modules/Test/exceptions/class.ilTestException.php';
  */
 class ilTestMissingSourcePoolDefinitionParameterException extends ilTestException
 {
-
 }
-

@@ -22,4 +22,3 @@ abstract class ilCloudPluginListGUI extends ilCloudPluginGUI
     abstract protected function addItemsBefore();
     abstract protected function addItemsAfter();
 }
-?>

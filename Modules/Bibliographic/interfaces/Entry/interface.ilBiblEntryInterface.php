@@ -5,38 +5,39 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBiblEntryInterface {
+interface ilBiblEntryInterface
+{
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id);
-
-
-	/**
-	 * @return int
-	 */
-	public function getId();
-
-	/**
-	 * @return integer
-	 */
-	public function getDataId();
+    /**
+     * @param int $id
+     */
+    public function setId($id);
 
 
-	/**
-	 * @param integer $data_id
-	 */
-	public function setDataId($data_id);
+    /**
+     * @return int
+     */
+    public function getId();
 
-	/**
-	 * @return string
-	 */
-	public function getType();
+    /**
+     * @return integer
+     */
+    public function getDataId();
 
 
-	/**
-	 * @param string $type
-	 */
-	public function setType($type);
+    /**
+     * @param integer $data_id
+     */
+    public function setDataId($data_id);
+
+    /**
+     * @return string
+     */
+    public function getType();
+
+
+    /**
+     * @param string $type
+     */
+    public function setType($type);
 }

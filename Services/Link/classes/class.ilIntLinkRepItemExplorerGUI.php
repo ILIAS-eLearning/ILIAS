@@ -14,65 +14,61 @@ include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 */
 class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
 {
-	/**
-	 * Constructor
-	 */
-	function __construct($a_parent_obj, $a_parent_cmd)
-	{
-		parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
-		
-		// #14587 - ilRepositorySelectorExplorerGUI::__construct() does NOT include side blocks!
-		$list = $this->getTypeWhiteList();
-		$list[] = "poll";
-		$this->setTypeWhiteList($list);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd)
+    {
+        parent::__construct($a_parent_obj, $a_parent_cmd, null, "", "");
+        
+        // #14587 - ilRepositorySelectorExplorerGUI::__construct() does NOT include side blocks!
+        $list = $this->getTypeWhiteList();
+        $list[] = "poll";
+        $this->setTypeWhiteList($list);
+    }
 
-	/**
-	 * Set "set link target" script
-	 *
-	 * @param <type> $a_script
-	 */
-	function setSetLinkTargetScript($a_script)
-	{
-		$this->link_target_script = $a_script;
-	}
+    /**
+     * Set "set link target" script
+     *
+     * @param <type> $a_script
+     */
+    public function setSetLinkTargetScript($a_script)
+    {
+        $this->link_target_script = $a_script;
+    }
 
-	/**
-	 * Get "set link target" script
-	 */
-	function getSetLinkTargetScript()
-	{
-		return $this->link_target_script;
-	}
+    /**
+     * Get "set link target" script
+     */
+    public function getSetLinkTargetScript()
+    {
+        return $this->link_target_script;
+    }
 
-	function getNodeHref($a_node)
-	{
-		if ($this->getSetLinkTargetScript() == "")
-		{
-			return "#";
-		}
-		else
-		{
-			$link =
-				ilUtil::appendUrlParameterString($this->getSetLinkTargetScript(),
-					"linktype=RepositoryItem".
-					"&linktarget=il__".$a_node["type"]."_".$a_node["child"]);
+    public function getNodeHref($a_node)
+    {
+        if ($this->getSetLinkTargetScript() == "") {
+            return "#";
+        } else {
+            $link =
+                ilUtil::appendUrlParameterString(
+                    $this->getSetLinkTargetScript(),
+                    "linktype=RepositoryItem" .
+                    "&linktarget=il__" . $a_node["type"] . "_" . $a_node["child"]
+                );
 
-			return ($link);
-		}
-	}
+            return ($link);
+        }
+    }
 
-	/**
-	 * get onclick event handling
-	 */
-	function getNodeOnClick($a_node)
-	{
-		if ($this->getSetLinkTargetScript() == "")
-		{
-			return "return il.IntLink.addInternalLink('[iln ".$a_node['type']."=&quot;".$a_node['child']."&quot;]','[/iln]', event);";
-		}
-		return "";
-	}
-
+    /**
+     * get onclick event handling
+     */
+    public function getNodeOnClick($a_node)
+    {
+        if ($this->getSetLinkTargetScript() == "") {
+            return "return il.IntLink.addInternalLink('[iln " . $a_node['type'] . "=&quot;" . $a_node['child'] . "&quot;]','[/iln]', event);";
+        }
+        return "";
+    }
 }
-?>

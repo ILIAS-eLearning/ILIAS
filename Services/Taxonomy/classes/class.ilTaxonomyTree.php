@@ -13,12 +13,10 @@ include_once("./Services/Tree/classes/class.ilTree.php");
  */
 class ilTaxonomyTree extends ilTree
 {
-	function __construct($a_id)
-	{
-		parent::__construct($a_id);
-		$this->setTreeTablePK("tax_tree_id");
-		$this->setTableNames('tax_tree', 'tax_node');
-	}
+    public function __construct($a_id)
+    {
+        parent::__construct($a_id);
+        $this->setTreeTablePK("tax_tree_id");
+        $this->setTableNames('tax_tree', 'tax_node');
+    }
 }
-
-?>

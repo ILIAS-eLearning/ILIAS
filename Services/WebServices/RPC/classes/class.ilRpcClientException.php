@@ -12,17 +12,16 @@ include_once('Services/Exceptions/classes/class.ilException.php');
  */
 class ilRpcClientException extends ilException
 {
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param string $a_message
-	 * @param int $a_errno
-	 * 
-	 */
-	public function __construct($a_message,$a_errno = 0)
-	{
-	 	parent::__construct($a_message,$a_errno);
-	}
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param string $a_message
+     * @param int $a_errno
+     *
+     */
+    public function __construct($a_message, $a_errno = 0)
+    {
+        parent::__construct($a_message, $a_errno);
+    }
 }
-?>

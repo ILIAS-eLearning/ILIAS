@@ -9,17 +9,17 @@
  */
 interface ilExcRepoObjAssignmentAccessInfoInterface
 {
-	/**
-	 * Is access granted due to exercise assignment conditions?
-	 *
-	 * @return int assignment id
-	 */
-	function isGranted();
+    /**
+     * Is access granted due to exercise assignment conditions?
+     *
+     * @return int assignment id
+     */
+    public function isGranted();
 
-	/**
-	 * Get reasons why access is not granted.
-	 *
-	 * @return string[]
-	 */
-	function getNotGrantedReasons();
+    /**
+     * Get reasons why access is not granted.
+     *
+     * @return string[]
+     */
+    public function getNotGrantedReasons();
 }

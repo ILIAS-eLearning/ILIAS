@@ -13,58 +13,58 @@ declare(strict_types=1);
  */
 class ilLSPostCondition
 {
-	/**
-	 * @var int
-	 */
-	protected $ref_id;
+    /**
+     * @var int
+     */
+    protected $ref_id;
 
-	/**
-	 * @var string
-	 */
-	protected $operator;
+    /**
+     * @var string
+     */
+    protected $operator;
 
-	/**
-	 * @var mixed
-	 */
-	protected $value;
+    /**
+     * @var mixed
+     */
+    protected $value;
 
-	public function __construct(
-		int $ref_id,
-		string $operator,
-		$value = null
-	){
-		$this->ref_id = $ref_id;
-		$this->operator = $operator;
-		$this->value = $value;
-	}
+    public function __construct(
+        int $ref_id,
+        string $operator,
+        $value = null
+    ) {
+        $this->ref_id = $ref_id;
+        $this->operator = $operator;
+        $this->value = $value;
+    }
 
-	public function getRefId(): int
-	{
-		return $this->ref_id;
-	}
+    public function getRefId() : int
+    {
+        return $this->ref_id;
+    }
 
 
-	public function getConditionOperator(): string
-	{
-		return $this->operator;
-	}
+    public function getConditionOperator() : string
+    {
+        return $this->operator;
+    }
 
-	public function withConditionOperator(string $operator): ilLSPostCondition
-	{
-		$clone = clone $this;
-		$clone->operator = $operator;
-		return $clone;
-	}
+    public function withConditionOperator(string $operator) : ilLSPostCondition
+    {
+        $clone = clone $this;
+        $clone->operator = $operator;
+        return $clone;
+    }
 
-	public function getValue()
-	{
-		return $this->value;
-	}
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-	public function withValue($value): ilLSPostCondition
-	{
-		$clone = clone $this;
-		$clone->value = $value;
-		return $clone;
-	}
+    public function withValue($value) : ilLSPostCondition
+    {
+        $clone = clone $this;
+        $clone->value = $value;
+        return $clone;
+    }
 }

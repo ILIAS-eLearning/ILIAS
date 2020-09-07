@@ -58,10 +58,10 @@ class ilMainMenuGUI
     /**
      * @var ilTemplate
      */
-    var $tpl;
-    var $target;
-    var $start_template;
-    var $mail; // [bool]
+    public $tpl;
+    public $target;
+    public $start_template;
+    public $mail; // [bool]
     /**
      * @var ilTemplate
      */
@@ -105,7 +105,9 @@ class ilMainMenuGUI
         $ilUser = $DIC->user();
 
         $this->tpl = new ilTemplate(
-            "tpl.main_menu.html", true, true,
+            "tpl.main_menu.html",
+            true,
+            true,
             "Services/MainMenu"
         );
         $this->target = $a_target;
@@ -226,8 +228,7 @@ class ilMainMenuGUI
         $gr_list->setAsDropDown(true);
 
         $languages = $lng->getInstalledLanguages();
-        if (sizeof($languages) > 1) // #11237
-        {
+        if (sizeof($languages) > 1) { // #11237
             foreach ($languages as $lang_key) {
                 $base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
                 $base = preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
@@ -262,6 +263,7 @@ class ilMainMenuGUI
             $this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
             $this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
             $this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+            $this->tpl->setVariable("LOGO_TITLE", $lng->txt("logo"));
 
             // #15759
             $header_top_title = ilObjSystemFolder::_getHeaderTitle();
@@ -286,7 +288,8 @@ class ilMainMenuGUI
 
                 // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
-                    "Services/MainMenu", "main_menu_search",
+                    "Services/MainMenu",
+                    "main_menu_search",
                     array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
                 );
                 if (!$uip->replaced()) {
@@ -392,7 +395,8 @@ class ilMainMenuGUI
             $this->tpl->setCurrentBlock("header_back_bl");
             $this->tpl->setVariable("URL_HEADER_BACK", $this->topbar_back_url);
             $this->tpl->setVariable(
-                "TXT_HEADER_BACK", $this->topbar_back_caption
+                "TXT_HEADER_BACK",
+                $this->topbar_back_caption
                 ? $this->topbar_back_caption
                 : $lng->txt("back")
             );
@@ -406,6 +410,7 @@ class ilMainMenuGUI
             $this->tpl->setVariable("HEADER_URL", $this->getHeaderURL());
             $this->tpl->setVariable("HEADER_ICON", ilUtil::getImagePath("HeaderIcon.svg"));
             $this->tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
+            $this->tpl->setVariable("LOGO_TITLE", $lng->txt("logo"));
         }
 
         $this->tpl->setVariable("TXT_MAIN_MENU", $lng->txt("main_menu"));
@@ -544,8 +549,12 @@ class ilMainMenuGUI
             $acc->addCss();
 
             ilTooltipGUI::addTooltip(
-                "help_tr", $lng->txt("help_open_online_help"), "",
-                "bottom center", "top center", false
+                "help_tr",
+                $lng->txt("help_open_online_help"),
+                "",
+                "bottom center",
+                "top center",
+                false
             );
             $helpl->addEntry("<span>&nbsp;</span> " . $lng->txt("help_topcis"), "#", "", "il.Help.listHelp(event, false);");
         }
@@ -560,8 +569,12 @@ class ilMainMenuGUI
             $main_tpl->addJavascript("./Services/Help/js/ilHelp.js");
 
             ilTooltipGUI::addTooltip(
-                "help_tt", $lng->txt("help_toggle_tooltips"), "",
-                "bottom center", "top center", false
+                "help_tt",
+                $lng->txt("help_toggle_tooltips"),
+                "",
+                "bottom center",
+                "top center",
+                false
             );
             $helpl->addEntry('<span id="help_tt_switch_on" class="glyphicon glyphicon-ok"></span> ' . $lng->txt("help_tooltips"), "#", "", "return il.Help.switchTooltips(event);");
         }
@@ -613,7 +626,7 @@ class ilMainMenuGUI
     /**
      * Render awareness tool
      */
-    function renderAwareness()
+    public function renderAwareness()
     {
         include_once("./Services/Awareness/classes/class.ilAwarenessGUI.php");
         $aw = ilAwarenessGUI::getInstance();
@@ -693,9 +706,10 @@ class ilMainMenuGUI
 
         $numberOfUserInteractions = count(
             array_filter(
-                $metas, function (BucketMeta $meta) {
-                return $meta->getState() == State::USER_INTERACTION;
-            }
+                $metas,
+                function (BucketMeta $meta) {
+                    return $meta->getState() == State::USER_INTERACTION;
+                }
             )
         );
         $numberOfNotUserInteractions = count($metas) - $numberOfUserInteractions;
@@ -750,9 +764,14 @@ class ilMainMenuGUI
     protected function addToolbarTooltip(string $element_id, string $help_id)
     {
         if (ilHelp::getMainMenuTooltip($help_id) != "") {
-            ilTooltipGUI::addTooltip($element_id, ilHelp::getMainMenuTooltip($help_id),
-                "", "top center", "bottom center", false);
+            ilTooltipGUI::addTooltip(
+                $element_id,
+                ilHelp::getMainMenuTooltip($help_id),
+                "",
+                "top right",
+                "top left",
+                false
+            );
         }
     }
 }
-

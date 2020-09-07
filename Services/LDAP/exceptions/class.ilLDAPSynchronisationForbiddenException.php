@@ -11,6 +11,4 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  */
 class ilLDAPSynchronisationForbiddenException extends ilException
 {
-
 }
-?>

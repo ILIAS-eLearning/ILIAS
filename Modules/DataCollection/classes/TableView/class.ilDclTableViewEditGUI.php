@@ -68,7 +68,7 @@ class ilDclTableViewEditGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
-	    $locator = $DIC['ilLocator'];
+        $locator = $DIC['ilLocator'];
         $this->table = $table;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -77,10 +77,10 @@ class ilDclTableViewEditGUI
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
 
-	    $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
-	    $this->ctrl->saveParameter($this, 'tableview_id');
-	    $locator->addItem($this->tableview->getTitle(), $this->ctrl->getLinkTarget($this, 'show'));
-	    $this->tpl->setLocator();
+        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+        $this->ctrl->saveParameter($this, 'tableview_id');
+        $locator->addItem($this->tableview->getTitle(), $this->ctrl->getLinkTarget($this, 'show'));
+        $this->tpl->setLocator();
     }
 
 
@@ -89,12 +89,12 @@ class ilDclTableViewEditGUI
      */
     public function executeCommand()
     {
-	    $cmd = $this->ctrl->getCmd('show');
-	    $next_class = $this->ctrl->getNextClass($this);
+        $cmd = $this->ctrl->getCmd('show');
+        $next_class = $this->ctrl->getNextClass($this);
 
-	    if (!$this->checkAccess($cmd)) {
-		    $this->permissionDenied();
-	    }
+        if (!$this->checkAccess($cmd)) {
+            $this->permissionDenied();
+        }
 
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
@@ -103,8 +103,7 @@ class ilDclTableViewEditGUI
 
 
 
-        switch($next_class)
-        {
+        switch ($next_class) {
             case 'ildcldetailedviewdefinitiongui':
                 $this->setTabs('detailed_view');
                                 $recordedit_gui = new ilDclDetailedViewDefinitionGUI($this->tableview->getId());
@@ -120,7 +119,7 @@ class ilDclTableViewEditGUI
                 $ilTabs->removeTab('pg');
                 break;
             default:
-                switch($cmd) {
+                switch ($cmd) {
                     case 'show':
                         if ($this->tableview->getId()) {
                             $this->ctrl->redirect($this, 'editGeneralSettings');
@@ -148,7 +147,6 @@ class ilDclTableViewEditGUI
                 }
                 break;
         }
-
     }
 
     protected function setTabs($active)
@@ -160,7 +158,7 @@ class ilDclTableViewEditGUI
     }
 
     /**
-     * 
+     *
      */
     public function update()
     {
@@ -198,29 +196,21 @@ class ilDclTableViewEditGUI
         /**
          * @var ilDclTableViewFieldSetting $setting
          */
-        foreach ($this->tableview->getFieldSettings() as $setting)
-        {
+        foreach ($this->tableview->getFieldSettings() as $setting) {
             //Checkboxes
-            foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute)
-            {
+            foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute) {
                 $key = $attribute . '_' . $setting->getField();
-                $setting->{'set'.$attribute}($_POST[$key] == 'on');
-
+                $setting->{'set' . $attribute}($_POST[$key] == 'on');
             }
 
             //Filter Value
             $key = 'filter_' . $setting->getField();
-            if ($_POST[$key] != null)
-            {
+            if ($_POST[$key] != null) {
                 $setting->setFilterValue($_POST[$key]);
-            }
-            elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null)
-            {
-                $setting->setFilterValue( array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ) );
-            }
-            else
-            {
-            	$setting->setFilterValue(null);
+            } elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null) {
+                $setting->setFilterValue(array( "from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to'] ));
+            } else {
+                $setting->setFilterValue(null);
             }
 
             $setting->update();
@@ -261,7 +251,7 @@ class ilDclTableViewEditGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_tableview_confirm_delete'));
 
-        $conf->addItem('tableview_id', (int)$this->tableview->getId(), $this->tableview->getTitle());
+        $conf->addItem('tableview_id', (int) $this->tableview->getId(), $this->tableview->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancel');
@@ -269,7 +259,8 @@ class ilDclTableViewEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
     
-    protected function delete() {
+    protected function delete()
+    {
         $this->tableview->delete();
         $this->table->sortTableViews();
         ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_deleted'), true);
@@ -277,34 +268,34 @@ class ilDclTableViewEditGUI
     }
 
 
-	/**
-	 *
-	 */
-	public function permissionDenied() {
-		ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-		$this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
-	}
+    /**
+     *
+     */
+    public function permissionDenied()
+    {
+        ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+    }
 
 
-	/**
-	 * @param $cmd
-	 *
-	 * @return bool
-	 */
-	protected function checkAccess($cmd)
-	{
-		if (in_array($cmd, ['add', 'create'])) {
-			return ilObjDataCollectionAccess::hasAccessToEditTable(
-				$this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
-				$this->table->getId()
-			);
-		} else {
-			return ilObjDataCollectionAccess::hasAccessTo(
-				$this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
-				$this->table->getId(),
-				$this->tableview->getId()
-			);
-		}
-	}
-
+    /**
+     * @param $cmd
+     *
+     * @return bool
+     */
+    protected function checkAccess($cmd)
+    {
+        if (in_array($cmd, ['add', 'create'])) {
+            return ilObjDataCollectionAccess::hasAccessToEditTable(
+                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->table->getId()
+            );
+        } else {
+            return ilObjDataCollectionAccess::hasAccessTo(
+                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->table->getId(),
+                $this->tableview->getId()
+            );
+        }
+    }
 }

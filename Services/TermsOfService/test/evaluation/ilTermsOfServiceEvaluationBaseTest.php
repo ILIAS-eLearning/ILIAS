@@ -7,101 +7,101 @@
  */
 abstract class ilTermsOfServiceEvaluationBaseTest extends \ilTermsOfServiceBaseTest
 {
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilObjUser
-	 */
-	protected function getUserMock(): \ilObjUser
-	{
-		$user = $this
-			->getMockBuilder(\ilObjUser::class)
-			->disableOriginalConstructor()
-			->setMethods(['getLanguage', 'getId', 'getLogin'])
-			->getMock();
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilObjUser
+     */
+    protected function getUserMock() : \ilObjUser
+    {
+        $user = $this
+            ->getMockBuilder(\ilObjUser::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getLanguage', 'getId', 'getLogin'])
+            ->getMock();
 
-		$user
-			->expects($this->any())
-			->method('getId')
-			->willReturn(-1);
+        $user
+            ->expects($this->any())
+            ->method('getId')
+            ->willReturn(-1);
 
-		$user
-			->expects($this->any())
-			->method('getLogin')
-			->willReturn('phpunit');
+        $user
+            ->expects($this->any())
+            ->method('getLogin')
+            ->willReturn('phpunit');
 
-		return $user;
-	}
+        return $user;
+    }
 
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilLogger
-	 */
-	protected function getLogMock(): \ilLogger
-	{
-		$log = $this
-			->getMockBuilder(\ilLogger::class)
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilLogger
+     */
+    protected function getLogMock() : \ilLogger
+    {
+        $log = $this
+            ->getMockBuilder(\ilLogger::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		return $log;
-	}
+        return $log;
+    }
 
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceDocumentCriteriaEvaluation
-	 */
-	protected function getEvaluatorMock(): \ilTermsOfServiceDocumentCriteriaEvaluation
-	{
-		$evaluator = $this
-			->getMockBuilder(\ilTermsOfServiceDocumentCriteriaEvaluation::class)
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceDocumentCriteriaEvaluation
+     */
+    protected function getEvaluatorMock() : \ilTermsOfServiceDocumentCriteriaEvaluation
+    {
+        $evaluator = $this
+            ->getMockBuilder(\ilTermsOfServiceDocumentCriteriaEvaluation::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		return $evaluator;
-	}
+        return $evaluator;
+    }
 
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface
-	 */
-	protected function getCriterionTypeFactoryMock(): \ilTermsOfServiceCriterionTypeFactoryInterface
-	{
-		$criterionTypeFactory = $this
-			->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)
-			->getMock();
+    /**
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionTypeFactoryInterface
+     */
+    protected function getCriterionTypeFactoryMock() : \ilTermsOfServiceCriterionTypeFactoryInterface
+    {
+        $criterionTypeFactory = $this
+            ->getMockBuilder(\ilTermsOfServiceCriterionTypeFactoryInterface::class)
+            ->getMock();
 
-		return $criterionTypeFactory;
-	}
+        return $criterionTypeFactory;
+    }
 
-	/**
-	 * @param string $typeIdent
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionType
-	 */
-	protected function getCriterionTypeMock(string $typeIdent): \ilTermsOfServiceCriterionType
-	{
-		$criterionType = $this
-			->getMockBuilder(\ilTermsOfServiceCriterionType::class)
-			->getMock();
+    /**
+     * @param string $typeIdent
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceCriterionType
+     */
+    protected function getCriterionTypeMock(string $typeIdent) : \ilTermsOfServiceCriterionType
+    {
+        $criterionType = $this
+            ->getMockBuilder(\ilTermsOfServiceCriterionType::class)
+            ->getMock();
 
-		$criterionType
-			->expects($this->any())
-			->method('getTypeIdent')
-			->willReturn($typeIdent);
+        $criterionType
+            ->expects($this->any())
+            ->method('getTypeIdent')
+            ->willReturn($typeIdent);
 
-		return $criterionType;
-	}
+        return $criterionType;
+    }
 
-	/**
-	 * @param ilTermsOfServiceCriterionType $criterionType
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceEvaluableCriterion
-	 */
-	protected function getCriterionAssignmentMock(\ilTermsOfServiceCriterionType $criterionType): \ilTermsOfServiceEvaluableCriterion
-	{
-		$criterionAssignment = $this
-			->getMockBuilder(\ilTermsOfServiceEvaluableCriterion::class)
-			->getMock();
+    /**
+     * @param ilTermsOfServiceCriterionType $criterionType
+     * @return PHPUnit_Framework_MockObject_MockObject|\ilTermsOfServiceEvaluableCriterion
+     */
+    protected function getCriterionAssignmentMock(\ilTermsOfServiceCriterionType $criterionType) : \ilTermsOfServiceEvaluableCriterion
+    {
+        $criterionAssignment = $this
+            ->getMockBuilder(\ilTermsOfServiceEvaluableCriterion::class)
+            ->getMock();
 
-		$criterionAssignment
-			->expects($this->any())
-			->method('getCriterionId')
-			->willReturn($criterionType->getTypeIdent());
+        $criterionAssignment
+            ->expects($this->any())
+            ->method('getCriterionId')
+            ->willReturn($criterionType->getTypeIdent());
 
-		return $criterionAssignment;
-	}
+        return $criterionAssignment;
+    }
 }

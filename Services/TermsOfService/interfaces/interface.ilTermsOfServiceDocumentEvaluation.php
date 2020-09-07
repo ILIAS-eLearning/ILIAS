@@ -7,14 +7,14 @@
  */
 interface ilTermsOfServiceDocumentEvaluation
 {
-	/**
-	 * @return \ilTermsOfServiceSignableDocument
-	 * @throws \ilTermsOfServiceNoSignableDocumentFoundException
-	 */
-	public function document(): \ilTermsOfServiceSignableDocument;
+    /**
+     * @return \ilTermsOfServiceSignableDocument
+     * @throws \ilTermsOfServiceNoSignableDocumentFoundException
+     */
+    public function document() : \ilTermsOfServiceSignableDocument;
 
-	/**
-	 * @return bool
-	 */
-	public function hasDocument(): bool;
+    /**
+     * @return bool
+     */
+    public function hasDocument() : bool;
 }

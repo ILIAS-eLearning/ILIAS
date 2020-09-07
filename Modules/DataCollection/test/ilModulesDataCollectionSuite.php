@@ -9,7 +9,7 @@ class ilModulesDataCollectionSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-        PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+        PHPUnit_Framework_Error_Deprecated::$enabled = false;
 
         $suite = new ilModulesDataCollectionSuite();
 

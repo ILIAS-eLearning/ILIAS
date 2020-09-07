@@ -5,15 +5,14 @@ class ilServicesObjectSuite extends PHPUnit_Framework_TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesObjectSuite();
-		
-		include_once("./Services/Object/test/ilObjectDefinitionTest.php");
-		$suite->addTestSuite("ilObjectDefinitionTest");
+        $suite = new ilServicesObjectSuite();
+        
+        include_once("./Services/Object/test/ilObjectDefinitionTest.php");
+        $suite->addTestSuite("ilObjectDefinitionTest");
 
-		include_once("./Services/Object/test/ilObjectTest.php");
-		$suite->addTestSuite("ilObjectTest");
-		
-		return $suite;
+        include_once("./Services/Object/test/ilObjectTest.php");
+        $suite->addTestSuite("ilObjectTest");
+        
+        return $suite;
     }
 }
-?>

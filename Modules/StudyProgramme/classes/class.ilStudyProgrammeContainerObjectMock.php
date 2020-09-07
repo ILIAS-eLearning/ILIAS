@@ -11,13 +11,15 @@
  *
  */
 
-class ilStudyProgrammeContainerObjectMock {
-	/**
-	 * @var ilObject
-	 */
-	public $object;
-	
-	public function __construct(ilObject $object) {
-		$this->object = $object;
-	}
+class ilStudyProgrammeContainerObjectMock
+{
+    /**
+     * @var ilObject
+     */
+    public $object;
+    
+    public function __construct(ilObject $object)
+    {
+        $this->object = $object;
+    }
 }

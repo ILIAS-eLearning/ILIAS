@@ -23,7 +23,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class FactoryImplTest extends TestCase
 {
-
     use MockeryPHPUnitIntegration;
     /**
      * @var IdentificationInterface
@@ -70,7 +69,8 @@ class FactoryImplTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods, [
+            $methods,
+            [
                 0 => 'complex',
                 1 => 'custom',
                 2 => 'link',

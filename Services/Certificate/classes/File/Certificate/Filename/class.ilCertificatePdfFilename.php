@@ -5,13 +5,11 @@
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificatePdfFilename implements ilCertificateFilename
-
 {
-	public function createFileName(ilUserCertificatePresentation $presentation)
-	{
-		$pdfDownloadName = $presentation->getObjectTitle() . ' ' . $presentation->getUserName() .' Certificate';
+    public function createFileName(ilUserCertificatePresentation $presentation)
+    {
+        $pdfDownloadName = $presentation->getObjectTitle() . ' ' . $presentation->getUserName() . ' Certificate';
 
-		return $pdfDownloadName;
-	}
-
+        return $pdfDownloadName;
+    }
 }

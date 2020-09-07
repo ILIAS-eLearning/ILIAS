@@ -17,7 +17,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    function init()
+    public function init()
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -41,11 +41,11 @@ class ilObjFileListGUI extends ilObjectListGUI
      *
      * @return    string        command target frame
      */
-    function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd)
     {
         $frame = "";
         switch ($a_cmd) {
-            case 'sendfile' :
+            case 'sendfile':
                 require_once('Modules/File/classes/class.ilObjFileAccess.php');
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
@@ -69,7 +69,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      * e.g. 'crs_offline", and/or to express a specific kind of object, e.g.
      * 'file_inline'.
      */
-    function getIconImageType()
+    public function getIconImageType()
     {
         include_once('Modules/File/classes/class.ilObjFileAccess.php');
 
@@ -109,26 +109,26 @@ class ilObjFileListGUI extends ilObjectListGUI
         // the filename extension is missing
         if (!preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
             $props[] = array(
-                "alert"               => false,
-                "property"            => $DIC->language()->txt("filename_interoperability"),
-                "value"               => $DIC->language()->txt("filename_extension_missing"),
+                "alert" => false,
+                "property" => $DIC->language()->txt("filename_interoperability"),
+                "value" => $DIC->language()->txt("filename_extension_missing"),
                 'propertyNameVisible' => false,
             );
         }
 
         $props[] = array(
-            "alert"               => false,
-            "property"            => $DIC->language()->txt("type"),
-            "value"               => ilObjFileAccess::_getFileExtension($this->title),
+            "alert" => false,
+            "property" => $DIC->language()->txt("type"),
+            "value" => ilObjFileAccess::_getFileExtension($this->title),
             'propertyNameVisible' => false,
         );
 
         $fileData = ilObjFileAccess::getListGUIData($this->obj_id);
         if (is_array($fileData)) {
             $props[] = array(
-                "alert"               => false,
-                "property"            => $DIC->language()->txt("size"),
-                "value"               => ilUtil::formatSize($fileData['size'], 'short'),
+                "alert" => false,
+                "property" => $DIC->language()->txt("size"),
+                "value" => ilUtil::formatSize($fileData['size'], 'short'),
                 'propertyNameVisible' => false,
             );
             $version = $fileData['version'];
@@ -141,9 +141,9 @@ class ilObjFileListGUI extends ilObjectListGUI
                     $value = $DIC->language()->txt("version") . ": $version";
                 }
                 $props[] = array(
-                    "alert"               => false,
-                    "property"            => $DIC->language()->txt("version"),
-                    "value"               => $value,
+                    "alert" => false,
+                    "property" => $DIC->language()->txt("version"),
+                    "value" => $value,
                     "propertyNameVisible" => false,
                 );
             }
@@ -151,18 +151,18 @@ class ilObjFileListGUI extends ilObjectListGUI
             // #6040
             if ($fileData["date"]) {
                 $props[] = array(
-                    "alert"               => false,
-                    "property"            => $DIC->language()->txt("last_update"),
-                    "value"               => ilDatePresentation::formatDate(new ilDateTime($fileData["date"], IL_CAL_DATETIME)),
+                    "alert" => false,
+                    "property" => $DIC->language()->txt("last_update"),
+                    "value" => ilDatePresentation::formatDate(new ilDateTime($fileData["date"], IL_CAL_DATETIME)),
                     'propertyNameVisible' => false,
                 );
             }
 
             if ($fileData["page_count"]) {
                 $props[] = array(
-                    "alert"               => false,
-                    "property"            => $DIC->language()->txt("page_count"),
-                    "value"               => $fileData["page_count"],
+                    "alert" => false,
+                    "property" => $DIC->language()->txt("page_count"),
+                    "value" => $fileData["page_count"],
                     'propertyNameVisible' => true,
                 );
             }
@@ -175,7 +175,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * Get command icon image
      */
-    function getCommandImage($a_cmd)
+    public function getCommandImage($a_cmd)
     {
         switch ($a_cmd) {
             default:
@@ -191,7 +191,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      *
      * @return string The command link.
      */
-    function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd)
     {
         // overwritten to always return the permanent download link
 

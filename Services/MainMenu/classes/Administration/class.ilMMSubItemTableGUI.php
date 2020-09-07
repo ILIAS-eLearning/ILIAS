@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMSubItemTableGUI extends ilTable2GUI
 {
-
     use Hasher;
     const IDENTIFIER = 'identifier';
     const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';
@@ -62,8 +61,8 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $table_entry_status = new ilSelectInputGUI($this->lng->txt(self::F_TABLE_ENTRY_STATUS), self::F_TABLE_ENTRY_STATUS);
         $table_entry_status->setOptions(
             array(
-                self::F_TABLE_ALL_VALUE           => $this->lng->txt("all"),
-                self::F_TABLE_ONLY_ACTIVE_VALUE   => $this->lng->txt("only_active"),
+                self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
+                self::F_TABLE_ONLY_ACTIVE_VALUE => $this->lng->txt("only_active"),
                 self::F_TABLE_ONLY_INACTIVE_VALUE => $this->lng->txt("only_inactive"),
             )
         );
@@ -145,7 +144,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
 
             $rendered_modal = "";
-            if ($item_facade->isCustom()) {
+            if ($item_facade->isDeletable()) {
                 $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
                 $m = $factory->modal()

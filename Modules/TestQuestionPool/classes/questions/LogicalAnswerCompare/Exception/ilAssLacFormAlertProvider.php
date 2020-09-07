@@ -9,5 +9,5 @@
  */
 interface ilAssLacFormAlertProvider
 {
-	public function getFormAlert(ilLanguage $lng);
+    public function getFormAlert(ilLanguage $lng);
 }

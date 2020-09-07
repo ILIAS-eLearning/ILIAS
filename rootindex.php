@@ -9,17 +9,15 @@
 // If we don't do this, the client will display a non-working login-dialog.
 
 if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND'
-|| $_SERVER['REQUEST_METHOD'] == 'OPTIONS')
-{
-	// Block WebDAV Requests from "Microsoft WebDAV MiniRedir" client.
-	$status = '404 Not Found';
-	header("HTTP/1.1 $status");
-	header("X-WebDAV-Status: $status", true);
-	exit;
+|| $_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    // Block WebDAV Requests from "Microsoft WebDAV MiniRedir" client.
+    $status = '404 Not Found';
+    header("HTTP/1.1 $status");
+    header("X-WebDAV-Status: $status", true);
+    exit;
 } else {
-	// Redirect browser to the ILIAS Start page
-	header("Location: /ilias/index.php");
-	exit;
+    // Redirect browser to the ILIAS Start page
+    header("Location: /ilias/index.php");
+    exit;
 }
 // END WebDAV
-?>

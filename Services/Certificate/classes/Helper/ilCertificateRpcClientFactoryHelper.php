@@ -6,13 +6,13 @@
  */
 class ilCertificateRpcClientFactoryHelper
 {
-	/**
-	 * @param string $package
-	 * @param string $certificateContent
-	 * @return string
-	 */
-	public function ilFO2PDF(string $package, string $certificateContent)
-	{
-		return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);
-	}
+    /**
+     * @param string $package
+     * @param string $certificateContent
+     * @return string
+     */
+    public function ilFO2PDF(string $package, string $certificateContent)
+    {
+        return ilRpcClientFactory::factory($package)->ilFO2PDF($certificateContent);
+    }
 }

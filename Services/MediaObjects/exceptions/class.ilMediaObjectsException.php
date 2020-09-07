@@ -12,16 +12,15 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  */
 class ilMediaObjectsException extends ilException
 {
-	/**
-	 * Constructor
-	 *
-	 * A message is not optional as in build in class Exception
-	 *
-	 * @param string $a_message message
-	 */
-	public function __construct($a_message)
-	{
-		parent::__construct($a_message);
-	}
+    /**
+     * Constructor
+     *
+     * A message is not optional as in build in class Exception
+     *
+     * @param string $a_message message
+     */
+    public function __construct($a_message)
+    {
+        parent::__construct($a_message);
+    }
 }
-?>

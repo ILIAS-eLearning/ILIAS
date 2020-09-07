@@ -7,23 +7,23 @@
  */
 interface ilTermsOfServiceSignableDocument
 {
-	/**
-	 * @return string
-	 */
-	public function content(): string;
+    /**
+     * @return string
+     */
+    public function content() : string;
 
-	/**
-	 * @return string
-	 */
-	public function title(): string;
+    /**
+     * @return string
+     */
+    public function title() : string;
 
-	/**
-	 * @return int
-	 */
-	public function id(): int;
+    /**
+     * @return int
+     */
+    public function id() : int;
 
-	/**
-	 * @return \ilTermsOfServiceEvaluableCriterion[]
-	 */
-	public function criteria(): array;
+    /**
+     * @return \ilTermsOfServiceEvaluableCriterion[]
+     */
+    public function criteria() : array;
 }

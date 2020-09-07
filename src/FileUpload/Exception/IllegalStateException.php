@@ -15,6 +15,6 @@ namespace ILIAS\FileUpload\Exception;
  *
  * @public
  */
-class IllegalStateException extends \Exception {
-
+class IllegalStateException extends \Exception
+{
 }

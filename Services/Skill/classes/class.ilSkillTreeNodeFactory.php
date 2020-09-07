@@ -19,64 +19,61 @@ include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
  */
 class ilSkillTreeNodeFactory
 {
-	static function getInstance($a_id = 0)
-	{
-		global $DIC;
+    public static function getInstance($a_id = 0)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT * FROM skl_tree_node WHERE obj_id = ".
-			$ilDB->quote($a_id, "integer");
-		$obj_set = $ilDB->query($query);
-		$obj_rec = $ilDB->fetchAssoc($obj_set);
-		$obj = null;
+        $query = "SELECT * FROM skl_tree_node WHERE obj_id = " .
+            $ilDB->quote($a_id, "integer");
+        $obj_set = $ilDB->query($query);
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
+        $obj = null;
 
-		switch($obj_rec["type"])
-		{
-			case "skll":
-				$obj = new ilBasicSkill();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+        switch ($obj_rec["type"]) {
+            case "skll":
+                $obj = new ilBasicSkill();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "scat":
-				$obj = new ilSkillCategory();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+            case "scat":
+                $obj = new ilSkillCategory();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "sktp":
-				$obj = new ilBasicSkillTemplate();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+            case "sktp":
+                $obj = new ilBasicSkillTemplate();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "sctp":
-				$obj = new ilSkillTemplateCategory();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+            case "sctp":
+                $obj = new ilSkillTemplateCategory();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "skrt":
-				$obj = new ilSkillRoot();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+            case "skrt":
+                $obj = new ilSkillRoot();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "sktr":
-				$obj = new ilSkillTemplateReference();
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
-		}
-		return $obj;
-	}
-
+            case "sktr":
+                $obj = new ilSkillTemplateReference();
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
+        }
+        return $obj;
+    }
 }
-?>

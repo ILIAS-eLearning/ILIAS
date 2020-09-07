@@ -7,64 +7,64 @@
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterion implements \ilTermsOfServiceCriterionType
 {
-	/** @var \ilRbacReview */
-	protected $rbacReview;
+    /** @var \ilRbacReview */
+    protected $rbacReview;
 
-	/** @var \ilObjectDataCache */
-	protected $objectCache;
+    /** @var \ilObjectDataCache */
+    protected $objectCache;
 
-	/**
-	 * ilTermsOfServiceUserHasGlobalRoleCriterion constructor.
-	 * @param ilRbacReview $rbacReview
-	 * @param ilObjectDataCache $objectCache
-	 */
-	public function __construct(\ilRbacReview $rbacReview, \ilObjectDataCache $objectCache)
-	{
-		$this->rbacReview = $rbacReview;
-		$this->objectCache = $objectCache;
-	}
+    /**
+     * ilTermsOfServiceUserHasGlobalRoleCriterion constructor.
+     * @param ilRbacReview $rbacReview
+     * @param ilObjectDataCache $objectCache
+     */
+    public function __construct(\ilRbacReview $rbacReview, \ilObjectDataCache $objectCache)
+    {
+        $this->rbacReview = $rbacReview;
+        $this->objectCache = $objectCache;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getTypeIdent(): string
-	{
-		return 'usr_global_role';
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getTypeIdent() : string
+    {
+        return 'usr_global_role';
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasUniqueNature(): bool
-	{
-		return false;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function hasUniqueNature() : bool
+    {
+        return false;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config): bool
-	{
-		$roleId = $config['role_id'] ?? 0;
+    /**
+     * @inheritdoc
+     */
+    public function evaluate(\ilObjUser $user, \ilTermsOfServiceCriterionConfig $config) : bool
+    {
+        $roleId = $config['role_id'] ?? 0;
 
-		if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
-			return false;
-		}
+        if (!is_numeric($roleId) || $roleId < 1 || is_float($roleId)) {
+            return false;
+        }
 
-		if (!$this->rbacReview->isGlobalRole($roleId)) {
-			return false;
-		}
+        if (!$this->rbacReview->isGlobalRole($roleId)) {
+            return false;
+        }
 
-		$result = $this->rbacReview->isAssigned($user->getId(), $roleId);
+        $result = $this->rbacReview->isAssigned($user->getId(), $roleId);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function ui(\ilLanguage $lng): \ilTermsOfServiceCriterionTypeGUI
-	{
-		return new \ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function ui(\ilLanguage $lng) : \ilTermsOfServiceCriterionTypeGUI
+    {
+        return new \ilTermsOfServiceUserHasGlobalRoleCriterionGUI($this, $lng, $this->rbacReview, $this->objectCache);
+    }
 }

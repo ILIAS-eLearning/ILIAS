@@ -22,6 +22,6 @@ use ILIAS\Filesystem\Provider\DirectoryAccess;
  *
  * @public
  */
-interface Filesystem extends FileStreamAccess, FileAccess, DirectoryAccess {
-
+interface Filesystem extends FileStreamAccess, FileAccess, DirectoryAccess
+{
 }

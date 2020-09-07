@@ -43,7 +43,6 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
             // 		return $b;
             // 	}
             // )->withNonAvailableReason($DIC->ui()->factory()->legacy($DIC->language()->txt('deleted')))
-
         }
 
         return $item;

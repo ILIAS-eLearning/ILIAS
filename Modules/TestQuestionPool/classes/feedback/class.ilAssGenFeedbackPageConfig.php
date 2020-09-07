@@ -4,7 +4,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Assessment generic feedback page configuration 
+ * Assessment generic feedback page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -12,13 +12,10 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilAssGenFeedbackPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+    }
 }
-
-?>

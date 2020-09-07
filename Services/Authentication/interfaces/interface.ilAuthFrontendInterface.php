@@ -5,14 +5,13 @@
 /**
  * Interface for auth methods (web form, http, ...)
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 interface ilAuthFrontendInterface
 {
-	/**
-	 * Try authentication.
-	 */
-	public function authenticate();
+    /**
+     * Try authentication.
+     */
+    public function authenticate();
 }
-?>

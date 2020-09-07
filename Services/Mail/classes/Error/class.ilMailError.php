@@ -7,36 +7,36 @@
  */
 class ilMailError
 {
-	/** @var string */
-	protected $languageVariable = '';
-	
-	/** @var array */
-	protected $placeHolderValues = [];
+    /** @var string */
+    protected $languageVariable = '';
+    
+    /** @var array */
+    protected $placeHolderValues = [];
 
-	/**
-	 * ilMailError constructor.
-	 * @param string $languageVariable
-	 * @param array  $placeHolderValues
-	 */
-	public function __construct(string $languageVariable, array $placeHolderValues = [])
-	{
-		$this->languageVariable = $languageVariable;
-		$this->placeHolderValues = $placeHolderValues;
-	}
+    /**
+     * ilMailError constructor.
+     * @param string $languageVariable
+     * @param array  $placeHolderValues
+     */
+    public function __construct(string $languageVariable, array $placeHolderValues = [])
+    {
+        $this->languageVariable = $languageVariable;
+        $this->placeHolderValues = $placeHolderValues;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getLanguageVariable(): string
-	{
-		return $this->languageVariable;
-	}
+    /**
+     * @return string
+     */
+    public function getLanguageVariable() : string
+    {
+        return $this->languageVariable;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getPlaceHolderValues(): array
-	{
-		return $this->placeHolderValues;
-	}
+    /**
+     * @return array
+     */
+    public function getPlaceHolderValues() : array
+    {
+        return $this->placeHolderValues;
+    }
 }

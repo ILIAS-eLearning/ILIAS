@@ -7,7 +7,7 @@
  * Please see the reference implementations for details:
  * @see class.ilSimpleEmitter.php
  * @see class.ilActivationEmitter.php
- * 
+ *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
@@ -15,8 +15,8 @@
  */
 interface ilEmitter
 {
-	/**
-	 * @return mixed
-	 */
-	public function emit();
+    /**
+     * @return mixed
+     */
+    public function emit();
 }

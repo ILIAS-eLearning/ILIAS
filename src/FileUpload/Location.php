@@ -13,26 +13,27 @@ namespace ILIAS\FileUpload;
  *
  * @public
  */
-interface Location {
+interface Location
+{
 
-	/**
-	 * The filesystem within the ilias web root.
-	 * Equal to the filesystem->web
-	 */
-	const WEB = 1;
-	/**
-	 * The filesystem outside of the ilias web root.
-	 * Equal to the filesystem->storage
-	 */
-	const STORAGE = 2;
-	/**
-	 * The filesystem within the web root where all the skins and plugins are saved.
-	 * Equal to the filesystem->customizing
-	 */
-	const CUSTOMIZING = 3;
-	/**
-	 * The ILIAS temporary directory.
-	 * Equal to the filesystem->temp
-	 */
-	const TEMPORARY = 4;
+    /**
+     * The filesystem within the ilias web root.
+     * Equal to the filesystem->web
+     */
+    const WEB = 1;
+    /**
+     * The filesystem outside of the ilias web root.
+     * Equal to the filesystem->storage
+     */
+    const STORAGE = 2;
+    /**
+     * The filesystem within the web root where all the skins and plugins are saved.
+     * Equal to the filesystem->customizing
+     */
+    const CUSTOMIZING = 3;
+    /**
+     * The ILIAS temporary directory.
+     * Equal to the filesystem->temp
+     */
+    const TEMPORARY = 4;
 }

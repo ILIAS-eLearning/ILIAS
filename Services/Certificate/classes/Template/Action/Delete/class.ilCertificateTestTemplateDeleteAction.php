@@ -6,31 +6,31 @@
  */
 class ilCertificateTestTemplateDeleteAction implements ilCertificateDeleteAction
 {
-	/**
-	 * @var ilCertificateDeleteAction
-	 */
-	private $deleteAction;
+    /**
+     * @var ilCertificateDeleteAction
+     */
+    private $deleteAction;
 
-	/**
-	 * @var ilCertificateObjectHelper
-	 */
-	private $objectHelper;
+    /**
+     * @var ilCertificateObjectHelper
+     */
+    private $objectHelper;
 
-	public function __construct(
-		ilCertificateDeleteAction $deleteAction,
-		ilCertificateObjectHelper $objectHelper
-	) {
-		$this->deleteAction = $deleteAction;
-		$this->objectHelper = $objectHelper;
-	}
+    public function __construct(
+        ilCertificateDeleteAction $deleteAction,
+        ilCertificateObjectHelper $objectHelper
+    ) {
+        $this->deleteAction = $deleteAction;
+        $this->objectHelper = $objectHelper;
+    }
 
-	/**
-	 * @param $templateId
-	 * @param $objectId
-	 * @return mixed
-	 */
-	public function delete($templateId, $objectId)
-	{
-		$this->deleteAction->delete($templateId, $objectId);
-	}
+    /**
+     * @param $templateId
+     * @param $objectId
+     * @return mixed
+     */
+    public function delete($templateId, $objectId)
+    {
+        $this->deleteAction->delete($templateId, $objectId);
+    }
 }

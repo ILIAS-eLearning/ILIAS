@@ -6,7 +6,7 @@ require_once './Services/WorkflowEngine/exceptions/ilWorkflowEngineException.php
 
 /**
  * ilWorkflowInvalidArgumentException
- * 
+ *
  * This exception is raised, when actions are not permitted due to an invalid
  * argument or an invalid combination of argumets.
  *

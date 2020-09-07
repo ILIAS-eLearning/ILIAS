@@ -10,45 +10,44 @@
  */
 interface ilObjectTileImageInterface
 {
-	/**
-	 * Get extenstion
-	 *
-	 * @return string
-	 */
-	public function getExtension(): string;
+    /**
+     * Get extenstion
+     *
+     * @return string
+     */
+    public function getExtension() : string;
 
-	/**
-	 * Copy tile image to repository object
-	 * @param int $target_obj_id
-	 */
-	public function copy(int $target_obj_id);
+    /**
+     * Copy tile image to repository object
+     * @param int $target_obj_id
+     */
+    public function copy(int $target_obj_id);
 
-	/**
-	 * Delete tile image
-	 */
-	public function delete();
+    /**
+     * Delete tile image
+     */
+    public function delete();
 
-	/**
-	 * Save image from request
-	 *
-	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-	 * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-	 * @throws \ILIAS\Filesystem\Exception\IOException
-	 */
-	public function saveFromHttpRequest(string $tmpname);
+    /**
+     * Save image from request
+     *
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    public function saveFromHttpRequest(string $tmpname);
 
-	/**
-	 * Does tile image file exist?
-	 *
-	 * @return bool
-	 */
-	public function exists(): bool;
+    /**
+     * Does tile image file exist?
+     *
+     * @return bool
+     */
+    public function exists() : bool;
 
-	/**
-	 * Get full path of the tile image file
-	 *
-	 * @return string
-	 */
-	public function getFullPath(): string;
-
+    /**
+     * Get full path of the tile image file
+     *
+     * @return string
+     */
+    public function getFullPath() : string;
 }
