@@ -120,9 +120,9 @@ abstract class ilParticipant
                         $new_status = 0;
                     }
                 }
-                
-                $update_fields = array('member' => array('integer', $new_status));
-                $update_string = ('member = ' . $ilDB->quote($new_status, 'integer'));
+
+                $update_fields = array($ilDB->quoteIdentifier('member') => array('integer', $new_status));
+                $update_string = ($ilDB->quoteIdentifier('member') . ' = ' . $ilDB->quote($new_status, 'integer'));
                 break;
         }
         
@@ -160,7 +160,7 @@ abstract class ilParticipant
             'AND usr_id = ' . $ilDB->quote($a_usr_id, 'integer') . ' ' .
             'AND admin = ' . $ilDB->quote(0, 'integer') . ' ' .
             'AND tutor = ' . $ilDB->quote(0, 'integer') . ' ' .
-            'AND member = ' . $ilDB->quote(0, 'integer');
+            'AND ' . $ilDB->quoteIdentifier('member') . ' = ' . $ilDB->quote(0, 'integer');
         $ilDB->manipulate($query);
     }
 
