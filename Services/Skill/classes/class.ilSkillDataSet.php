@@ -343,7 +343,10 @@ class ilSkillDataSet extends ilDataSet
                     $this->getDirectDataFromQuery("SELECT id, title, description" .
                             " FROM skl_profile WHERE " .
                             $ilDB->in("id", $a_ids, false, "integer"));
-                    $this->data["RefId"] = 0;
+                    $this->data = array_map(function($item) {
+                        $item["RefId"] = 0;
+                        return $item;
+                    }, $this->data);
                     break;
 
             }

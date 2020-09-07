@@ -96,9 +96,11 @@ class ilContainerExporter extends ilXmlExporter
             "ids" => $a_ids);
 
         // skill profiles
+        // @todo get profile ids for crs id in $a_ids
+        $a_ids = [1];
         $res[] = array(
             "component" => "Services/Skill",
-            "entity" => "skll",
+            "entity" => "skl_prof",
             "ids" => $a_ids);
 
         //var_dump($res); exit;
