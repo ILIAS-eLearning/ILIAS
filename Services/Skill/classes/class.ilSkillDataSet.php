@@ -202,7 +202,6 @@ class ilSkillDataSet extends ilDataSet
                         "Id" => "integer",
                         "Title" => "text",
                         "Description" => "text"
-                        //obj id auch
                     );
             }
         }
@@ -362,23 +361,22 @@ class ilSkillDataSet extends ilDataSet
         if ($a_entity == "skl_local_prof") {
             switch ($a_version) {
                 case "7.0":
-                    // für $a_ids (=crs obj ids) (crs ref ids holen über getAllReferences (sollte nur eine sein)
-                    // für $a_ids alle lokalen profile holen...
-                    foreach ($a_ids as $crs_id) {
-                        // $crs_ref_id = für $a_ids (=crs obj ids) (crs ref ids holen über getAllReferences (sollte nur eine sein)
-                        // $profile_ids = für $a_ids alle lokalen profile holen...
-                        $set = $db->queryF(
+                    foreach ($a_ids as $obj_id) {
+                        $obj_ref_id = end(ilObject::_getAllReferences($obj_id));
+                        $profiles = ilSkillProfile::getLocalProfiles($obj_ref_id);
+                        foreach ($profiles as $p) {
+                            $profile_ids[] = $p["id"];
+                        }
+                        $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
-                            " WHERE  ". $db->in("id", $profile_ids, false, "integer"),
-                            [""],
-                            []
+                            " WHERE ". $ilDB->in("id", $profile_ids, false, "integer")
                         );
-                        while ($rec = $db->fetchAssoc($set)) {
+                        while ($rec = $ilDB->fetchAssoc($set)) {
                             $this->data[] = [
                                 "Id" => $rec["id"],
                                 "Title" => $rec["title"],
-                                ...
-                                "RefId" => $crs_ref_id
+                                "Description" => $rec["description"],
+                                "RefId" => $obj_ref_id
                             ];
                         }
                     }
@@ -597,6 +595,15 @@ class ilSkillDataSet extends ilDataSet
                 break;
 
             case "skl_prof":
+                $prof = new ilSkillProfile();
+                $prof->setTitle($a_rec["Title"]);
+                $prof->setDescription($a_rec["Description"]);
+                $prof->setRefId(0);
+                $prof->create();
+                $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
+                break;
+
+            case "skl_local_prof":
                 $prof = new ilSkillProfile();
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);

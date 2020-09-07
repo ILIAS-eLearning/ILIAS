@@ -27,7 +27,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected $id;
     protected $title;
     protected $description;
-    protected $ref_id;
+    protected $ref_id; // standardmäßig 0 und unnötige Setter entfernen
     protected $skill_level = array();
     
     /**
@@ -433,6 +433,31 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile " .
             " WHERE ref_id = 0 " .
+            " ORDER BY title "
+        );
+        $profiles = array();
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[$rec["id"]] = $rec;
+        }
+
+        return $profiles;
+    }
+
+    /**
+     * Get local profiles of object
+     *
+     * @param int $a_ref_id
+     * @return array
+     */
+    public static function getLocalProfiles(int $a_ref_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_profile " .
+            " WHERE ref_id = " . $a_ref_id .
             " ORDER BY title "
         );
         $profiles = array();
