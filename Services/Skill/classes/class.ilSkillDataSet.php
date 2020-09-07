@@ -199,6 +199,17 @@ class ilSkillDataSet extends ilDataSet
                 case "5.1.0":
                 case "7.0":
                     return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text"
+                        //obj id auch
+                    );
+            }
+        }
+        if ($a_entity == "skl_local_prof") {
+            switch ($a_version) {
+                case "7.0":
+                    return array(
                             "Id" => "integer",
                             "Title" => "text",
                             "Description" => "text",
@@ -343,10 +354,34 @@ class ilSkillDataSet extends ilDataSet
                     $this->getDirectDataFromQuery("SELECT id, title, description" .
                             " FROM skl_profile WHERE " .
                             $ilDB->in("id", $a_ids, false, "integer"));
-                    $this->data = array_map(function($item) {
-                        $item["RefId"] = 0;
-                        return $item;
-                    }, $this->data);
+                    break;
+
+            }
+        }
+
+        if ($a_entity == "skl_local_prof") {
+            switch ($a_version) {
+                case "7.0":
+                    // für $a_ids (=crs obj ids) (crs ref ids holen über getAllReferences (sollte nur eine sein)
+                    // für $a_ids alle lokalen profile holen...
+                    foreach ($a_ids as $crs_id) {
+                        // $crs_ref_id = für $a_ids (=crs obj ids) (crs ref ids holen über getAllReferences (sollte nur eine sein)
+                        // $profile_ids = für $a_ids alle lokalen profile holen...
+                        $set = $db->queryF(
+                            "SELECT * FROM skl_profile " .
+                            " WHERE  ". $db->in("id", $profile_ids, false, "integer"),
+                            [""],
+                            []
+                        );
+                        while ($rec = $db->fetchAssoc($set)) {
+                            $this->data[] = [
+                                "Id" => $rec["id"],
+                                "Title" => $rec["title"],
+                                ...
+                                "RefId" => $crs_ref_id
+                            ];
+                        }
+                    }
                     break;
 
             }
@@ -437,6 +472,7 @@ class ilSkillDataSet extends ilDataSet
                 return $deps;
 
             case "skl_prof":
+            case "skl_local_prof":
                 $deps["skl_prof_level"]["ids"][] = $a_rec["Id"];
                 return $deps;
         }
