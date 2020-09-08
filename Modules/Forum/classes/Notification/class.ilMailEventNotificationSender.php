@@ -366,10 +366,10 @@ class ilMailEventNotificationSender extends ilMailNotification
     /**
      * @return string
      */
-    private function getSecurePostMessage()
+    private function getPostMessage() : string
     {
         $pos_message = $this->provider->getPostMessage();
-        if (strip_tags($pos_message) != $pos_message) {
+        if (strip_tags($pos_message) !== $pos_message) {
             $pos_message = preg_replace("/\n/i", "", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
@@ -378,7 +378,7 @@ class ilMailEventNotificationSender extends ilMailNotification
             return $pos_message;
         }
 
-        return strip_tags($pos_message);
+        return $pos_message;
     }
 
     /**
@@ -502,7 +502,7 @@ class ilMailEventNotificationSender extends ilMailNotification
         $body .= $this->getLanguageText('frm_noti_message');
         $body .= "\n";
 
-        $message = strip_tags($this->getSecurePostMessage());
+        $message = strip_tags($this->getPostMessage());
 
         if ($this->provider->getPostCensored() == 1) {
             $message = $this->provider->getCensorshipComment();
