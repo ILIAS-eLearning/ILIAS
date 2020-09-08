@@ -28,9 +28,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         ilForumProperties::VIEW_DATE_DESC => 'descending_order',
     ];
 
-    /** @var int */
-    private $defaultSorting;
-
     /** @var \ILIAS\GlobalScreen\Services */
     private $globalScreen;
 
@@ -51,9 +48,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     /** @var bool */
     private $is_moderator = false;
-
-    /** @var ilPropertyFormGUI */
-    private $create_form_gui;
 
     /** @var ilPropertyFormGUI */
     private $replyEditForm;
@@ -2704,6 +2698,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             1,
             $authorinfo->getAuthorName()
         ), 1);
+
         echo $html;
         exit();
     }
