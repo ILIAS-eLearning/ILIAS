@@ -30,6 +30,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             new \ILIAS\Data\Factory(),
             $this->lng
         );
+        $this->transformation_factory = new \ILIAS\Transformation\Factory();
     }
 
     public function getAdminTabs()
@@ -118,10 +119,18 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 
     protected function save() : void
     {
-        $form = $this->getForm()->withRequest($this->request);
+        $form = $this->getForm()
+        ->withAdditionalTransformation(
+            $this->transformation_factory->custom(
+                function ($data) {
+                    return array_shift($data);
+                }
+            )
+        )
+        ->withRequest($this->request);
+
         $data = $form->getData();
         if ($data) {
-            $data = array_shift($data);
             $interval = $data[self::F_POLL_INTERVAL];
             $this->ilSetting->set(
                 \ilObjLearningSequenceAdmin::SETTING_POLL_INTERVAL,
