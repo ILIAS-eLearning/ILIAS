@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilMailEventNotificationSender extends ilMailNotification
+class ilForumMailEventNotificationSender extends ilMailNotification
 {
     const TYPE_THREAD_DELETED = 54;
 
