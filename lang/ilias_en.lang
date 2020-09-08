@@ -15123,3 +15123,9 @@ awrn#:#user_awrn_show#:#Show my status
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#logo#:#ILIAS Logo
+common#:#obj_lsos#:#Learning Sequences
+common#:#obj_lsos_desc#:#Learning Sequence Administration
+common#:#lso_admin_form_title#:#Settings
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!

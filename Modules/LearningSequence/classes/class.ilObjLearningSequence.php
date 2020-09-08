@@ -481,6 +481,16 @@ class ilObjLearningSequence extends ilContainer
     }
 
 
+    protected function getPollingInterval() : int
+    {
+        $interval = $this->il_settings->get(\ilObjLearningSequenceAdmin::SETTING_POLL_INTERVAL);
+        if (!$interval) {
+            $interval = \ilObjLearningSequenceAdmin::POLL_INTERVAL_DEFAULT;
+        }
+        $interval = (float) $interval * 1000;
+        return (int) $interval;
+    }
+
     /**
      * factors the player
      */
@@ -502,10 +512,12 @@ class ilObjLearningSequence extends ilContainer
 
         $state_db = $this->getStateDB();
 
+        $interval = $this->getPollingInterval();
         $control_builder = new LSControlBuilder(
             $DIC["ui.factory"],
             $url_builder,
-            $this->lng
+            $this->lng,
+            $interval
         );
 
         $view_factory = new ilLSViewFactory(

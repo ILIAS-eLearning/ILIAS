@@ -85,14 +85,21 @@ class LSControlBuilder implements ControlBuilder
      */
     protected $additional_js;
 
+    /**
+     * @var int
+     */
+    protected $polling_interval;
+
     public function __construct(
         Factory $ui_factory,
         LSURLBuilder $url_builder,
-        ilLanguage $language
+        ilLanguage $language,
+        int $polling_interval
     ) {
         $this->ui_factory = $ui_factory;
         $this->url_builder = $url_builder;
         $this->lng = $language;
+        $this->polling_interval = $polling_interval;
     }
 
     public function getExitControl()
@@ -342,7 +349,7 @@ class LSControlBuilder implements ControlBuilder
         string $check_lp_url,
         string $on_lp_change_url
     ) {
-        $interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
+        $interval = $this->polling_interval;
         $this->additional_js =
 <<<JS
 function lso_checkLPOfObject() {

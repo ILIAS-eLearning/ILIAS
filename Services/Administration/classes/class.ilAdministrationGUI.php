@@ -39,6 +39,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjLearningSequenceAdminGUI
 */
 class ilAdministrationGUI
 {
@@ -449,7 +450,7 @@ class ilAdministrationGUI
                 ),
             3 => array(
                 "container" =>
-                    array("reps", "crss", "grps", "prgs"),
+                    array("reps", "crss", "grps", "prgs", "lsos"),
                 "content_objects" =>
                     array("bibs", "blga", "chta", "excs", "facs", "frma",
                         "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks")
