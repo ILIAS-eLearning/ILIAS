@@ -14861,6 +14861,7 @@ sess#:#sess_contact#:#Contact
 sess#:#sess_mem_contacts#:#Tutorial Support
 dateplaner#:#cal_calendar_subscription_modal_title#:#Calendar Subscription
 sess#:#sess_members#:#Participants
+sess#:#sess_title#:#Title of Session
 grp#:#grp_contact#:#Support
 grp#:#grp_mem_contacts#:#Tutorial Support
 common#:#lso_new#:#New Learning Sequence

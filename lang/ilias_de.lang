@@ -12896,6 +12896,7 @@ sess#:#sess_mem_contacts#:#Tutorielle Betreuung
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#sess_member_administration#:#Teilnehmerverwaltung
 sess#:#sess_members#:#Teilnehmer
+sess#:#sess_title#:#Titel der Sitzung
 sess#:#sess_members_gallery#:#Teilnehmergalerie
 sess#:#sess_members_print_title#:#Sitzungsteilnehmer
 sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
