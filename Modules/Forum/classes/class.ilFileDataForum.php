@@ -434,7 +434,7 @@ class ilFileDataForum extends ilFileData
             $post = new ilForumPost($this->getPosId());
             ilUtil::deliverFile($zip_file, $post->getSubject() . '.zip', '', false, true, false);
             ilUtil::delDir($this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId());
-            exit();
+            $DIC->http()->close();
         }
     }
 

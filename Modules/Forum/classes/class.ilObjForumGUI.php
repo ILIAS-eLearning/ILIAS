@@ -60,6 +60,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     /** @var \Psr\Http\Message\ServerRequestInterface */
     private $httpRequest;
+    /** @var \ILIAS\HTTP\GlobalHttpState */
+    private $http;
 
     /** @var Factory */
     private $uiFactory;
@@ -106,6 +108,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->globalScreen = $DIC->globalScreen();
@@ -374,7 +377,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             case 'ilforumexportgui':
                 $fex_gui = new ilForumExportGUI();
                 $this->ctrl->forwardCommand($fex_gui);
-                exit();
+                $this->http->close();
                 break;
 
             case 'ilforummoderatorsgui':
@@ -1409,7 +1412,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $_GET['ref_id'] = $a_target;
                 $_GET['baseClass'] = 'ilRepositoryGUI';
                 include_once('ilias.php');
-                exit();
+                $DIC->http()->close();
             }
         } elseif ($ilAccess->checkAccess('visible', '', $a_target)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $a_target);
@@ -1430,7 +1433,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             ), true);
             $_GET['baseClass'] = 'ilRepositoryGUI';
             include_once('ilias.php');
-            exit();
+            $DIC->http()->close();
         }
 
         $ilErr->raiseError($lng->txt('msg_no_perm_read'), $ilErr->FATAL);
@@ -2699,8 +2702,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $authorinfo->getAuthorName()
         ), 1);
 
-        echo $html;
-        exit();
+        $this->http->saveResponse($this->http->response()->withBody(
+            \ILIAS\Filesystem\Stream\Streams::ofString($html)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     private function getForumObjects()
@@ -4921,10 +4927,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 \ilUtil::stripSlashes($this->requestAction)
             );
 
-            echo json_encode($action->executeAndGetResponseObject());
+            $this->http->saveResponse($this->http->response()->withBody(
+                \ILIAS\Filesystem\Stream\Streams::ofString(json_encode($action->executeAndGetResponseObject()))
+            ));
         }
 
-        exit();
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function autosaveThreadDraftAsyncObject()
@@ -4949,10 +4958,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 \ilUtil::stripSlashes($this->requestAction)
             );
 
-            echo json_encode($action->executeAndGetResponseObject());
+            $this->http->saveResponse($this->http->response()->withBody(
+                \ILIAS\Filesystem\Stream\Streams::ofString(json_encode($action->executeAndGetResponseObject()))
+            ));
         }
 
-        exit();
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**
