@@ -11,7 +11,7 @@ the "jour fixe"-label.
 ## Dependencies for production
 - Install the new library, e.g. "npm install bootstrap@3.3.7"
 - Add a section in "extra" with the following metadata":
-```json
+```
  "jquery": {
       "introduction-date": "2017-08-03",
       "approved-by": "Technical Board", // "Technical Board" or "Jour Fixe"
