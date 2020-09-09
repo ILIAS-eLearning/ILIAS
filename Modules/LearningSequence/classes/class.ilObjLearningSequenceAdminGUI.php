@@ -14,6 +14,11 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
     const CMD_SAVE = 'save';
     const F_POLL_INTERVAL = 'polling';
 
+    /**
+     * @var ilLSGlobalSettingsDB
+     */
+    protected $settings_db;
+
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         $this->type = 'lsos';
@@ -21,11 +26,12 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->ilSetting = $DIC['ilSetting'];
+        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+
+        $this->settings_db = new ilLSGlobalSettingsDB($DIC['ilSetting']);
         $this->ui_factory = $DIC['ui.factory'];
         $this->ui_renderer = $DIC['ui.renderer'];
         $this->request = $DIC->http()->request();
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->validation_factory = new \ILIAS\Validation\Factory(
             new \ILIAS\Data\Factory(),
             $this->lng
@@ -77,7 +83,14 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             $this->lng->txt("lso_admin_interval_label"),
             $this->lng->txt("lso_admin_interval_byline")
         )
-        ->withAdditionalConstraint($this->validation_factory->greaterThan(0));
+        ->withAdditionalConstraint($this->validation_factory->greaterThan(0))
+        ->withAdditionalTransformation(
+            $this->transformation_factory->custom(
+                function ($v) {
+                    return (float) $v;
+                }
+            )
+        );
 
         if (isset($values[self::F_POLL_INTERVAL])) {
             $poll_interval = $poll_interval->withValue($values[self::F_POLL_INTERVAL]);
@@ -99,19 +112,10 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         );
     }
 
-    protected function getCurrentPollingInterval() : float
-    {
-        $interval = $this->ilSetting->get(\ilObjLearningSequenceAdmin::SETTING_POLL_INTERVAL);
-        if (!$interval) {
-            $interval = \ilObjLearningSequenceAdmin::POLL_INTERVAL_DEFAULT;
-        }
-        return (float) $interval;
-    }
-
     protected function edit() : void
     {
         $values = [
-            self::F_POLL_INTERVAL => $this->getCurrentPollingInterval()
+            self::F_POLL_INTERVAL => $this->settings_db->getSettings()->getPollingIntervalSeconds()
         ];
         $form = $this->getForm($values);
         $this->show($form);
@@ -131,11 +135,9 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 
         $data = $form->getData();
         if ($data) {
-            $interval = $data[self::F_POLL_INTERVAL];
-            $this->ilSetting->set(
-                \ilObjLearningSequenceAdmin::SETTING_POLL_INTERVAL,
-                $interval
-            );
+            $settings = $this->settings_db->getSettings()
+                ->withPollingIntervalSeconds($data[self::F_POLL_INTERVAL]);
+            $this->settings_db->storeSettings($settings);
         }
         $this->show($form);
     }

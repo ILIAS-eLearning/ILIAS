@@ -17,8 +17,6 @@ class LSControlBuilder implements ControlBuilder
     const CMD_START_OBJECT = 'start_legacy_obj';
     const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
     const PARAM_LP_CURRENT_ITEM_OBJID = 'ccilpobjid';
-    const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 4000;
-
 
     /**
      * @var Component|null
@@ -86,20 +84,20 @@ class LSControlBuilder implements ControlBuilder
     protected $additional_js;
 
     /**
-     * @var int
+     * @var LSGlobalSettings
      */
-    protected $polling_interval;
+    protected $global_settings;
 
     public function __construct(
         Factory $ui_factory,
         LSURLBuilder $url_builder,
         ilLanguage $language,
-        int $polling_interval
+        LSGlobalSettings $global_settings
     ) {
         $this->ui_factory = $ui_factory;
         $this->url_builder = $url_builder;
         $this->lng = $language;
-        $this->polling_interval = $polling_interval;
+        $this->global_settings = $global_settings;
     }
 
     public function getExitControl()
@@ -349,7 +347,7 @@ class LSControlBuilder implements ControlBuilder
         string $check_lp_url,
         string $on_lp_change_url
     ) {
-        $interval = $this->polling_interval;
+        $interval = $this->global_settings->getPollingIntervalMilliseconds();
         $this->additional_js =
 <<<JS
 function lso_checkLPOfObject() {

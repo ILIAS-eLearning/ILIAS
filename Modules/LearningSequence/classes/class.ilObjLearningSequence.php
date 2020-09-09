@@ -480,15 +480,10 @@ class ilObjLearningSequence extends ilContainer
         return new LSUrlBuilder($player_url);
     }
 
-
-    protected function getPollingInterval() : int
+    protected function getGlobalSettings() : LSGlobalSettings
     {
-        $interval = $this->il_settings->get(\ilObjLearningSequenceAdmin::SETTING_POLL_INTERVAL);
-        if (!$interval) {
-            $interval = \ilObjLearningSequenceAdmin::POLL_INTERVAL_DEFAULT;
-        }
-        $interval = (float) $interval * 1000;
-        return (int) $interval;
+        $db = new ilLSGlobalSettingsDB($this->il_settings);
+        return $db->getSettings();
     }
 
     /**
@@ -510,14 +505,12 @@ class ilObjLearningSequence extends ilContainer
             $url_builder
         );
 
-        $state_db = $this->getStateDB();
-
-        $interval = $this->getPollingInterval();
+        $global_settings = $this->getGlobalSettings();
         $control_builder = new LSControlBuilder(
             $DIC["ui.factory"],
             $url_builder,
             $this->lng,
-            $interval
+            $global_settings
         );
 
         $view_factory = new ilLSViewFactory(
@@ -526,6 +519,7 @@ class ilObjLearningSequence extends ilContainer
             $this->access
         );
 
+        $state_db = $this->getStateDB();
         $kiosk_renderer = $this->getKioskRenderer($url_builder);
 
         return new ilLSPlayer(
