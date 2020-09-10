@@ -334,7 +334,12 @@ class LSControlBuilder implements ControlBuilder
     ) {
         $this->additional_js =
 <<<JS
-function lso_checkLPOfObject() {
+function lso_checkLPOfObject()
+{
+    if(! il.UICore.isPageVisible()) {
+        return;
+    }
+
 	$.ajax({
 		url: "$check_lp_url",
 	}).done(function(data) {
