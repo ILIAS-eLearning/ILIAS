@@ -101,7 +101,16 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
             $this->lng->txt("lso_admin_form_title"),
             $this->lng->txt("lso_admin_form_byline")
         );
-        $form = $this->ui_factory->input()->container()->form()->standard($target, [$section]);
+        $form = $this->ui_factory->input()->container()->form()
+            ->standard($target, [$section])
+            ->withAdditionalTransformation(
+                $this->transformation_factory->custom(
+                    function ($data) {
+                        return array_shift($data);
+                    }
+                )
+            );
+
         return $form;
     }
 
@@ -123,16 +132,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
 
     protected function save() : void
     {
-        $form = $this->getForm()
-        ->withAdditionalTransformation(
-            $this->transformation_factory->custom(
-                function ($data) {
-                    return array_shift($data);
-                }
-            )
-        )
-        ->withRequest($this->request);
-
+        $form = $this->getForm()->withRequest($this->request);
         $data = $form->getData();
         if ($data) {
             $settings = $this->settings_db->getSettings()
