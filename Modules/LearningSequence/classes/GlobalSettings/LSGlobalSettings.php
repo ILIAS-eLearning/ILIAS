@@ -22,7 +22,8 @@ class LSGlobalSettings
 
     public function getPollingIntervalMilliseconds() : int
     {
-        return (int) $this->getPollingIntervalSeconds() * 1000;
+        $interval = $this->getPollingIntervalSeconds() * 1000;
+        return (int) $interval;
     }
 
     public function withPollingIntervalSeconds(float $seconds) : LSGlobalSettings
