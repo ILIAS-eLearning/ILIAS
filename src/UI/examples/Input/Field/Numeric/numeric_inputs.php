@@ -11,12 +11,14 @@ function numeric_inputs()
     $request = $DIC->http()->request();
 
     //Step 1: Declare the numeric input
-    $number_input = $ui->input()->field()->numeric("Some Number", "Put in a number.")->withValue(133);
+    $number_input = $ui->input()->field()
+        ->numeric("Some Number", "Put in a number.")
+        ->withValue(133);
 
     //Step 2, define form and form actions
     $form = $ui->input()->container()->form()->standard('#', [ $number_input]);
 
-    //Step 4, implement some form data processing.
+    //Step 3, implement some form data processing.
     if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
