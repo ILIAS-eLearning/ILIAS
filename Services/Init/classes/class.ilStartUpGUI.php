@@ -1901,7 +1901,7 @@ class ilStartUpGUI
         }
         PageContentProvider::setShortTitle($short_title);
 
-        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        $header_title = (string) ilObjSystemFolder::_getHeaderTitle();
         PageContentProvider::setTitle($header_title);
 
         return $tpl;
