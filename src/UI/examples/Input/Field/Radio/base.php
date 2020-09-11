@@ -23,11 +23,17 @@ function base()
         ->withOption('value1', 'label1', 'byline1')
         ->withOption('value2', 'label2', 'byline2', $dependant_fields);
 
+    $radio_num_value = $ui->input()->field()->radio("Numeric Values", "pick one...")
+        ->withOption('1', 'One', '')
+        ->withOption('2', 'Two', '')
+        ->withOption('3', 'Three', '');
+
     //Step 2: define the radio
     $radio = $ui->input()->field()->radio("Radio", "check an option")
         ->withOption('value1', 'label1', 'byline1')
         ->withOption('value2', 'label2', 'byline2', $dependant_fields)
-        ->withOption('value3', 'label3', 'byline3', [$radio_d]);
+        ->withOption('value3', 'label3', 'byline3', [$radio_d])
+        ->withOption('value4', 'numerics', 'test num values', [$radio_num_value]);
 
 
     //Step 3: define form and form actions
@@ -37,12 +43,11 @@ function base()
         'radio'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['radio' => $radio]);
+    $form = $ui->input()->container()->form()->standard('#', ['radio' => $radio]);
 
     //Step 4: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] == 'radio') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {
