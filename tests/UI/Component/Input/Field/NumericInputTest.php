@@ -116,4 +116,36 @@ class NumericInputTest extends ILIAS_UI_TestBase
                     . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
     }
+
+    public function testNullValue()
+    {
+        $f = $this->buildFactory();
+        $post_data = new DefPostData(['name_0' => null]);
+        $field = $f->numeric('')->withNameFrom($this->name_source);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertNull($value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isError());
+        return $field;
+    }
+
+    /**
+     * @depends testNullValue
+     */
+    public function testEmptyValue($field)
+    {
+        $post_data = new DefPostData(['name_0' => '']);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertEquals('', $value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isError());
+    }
 }
