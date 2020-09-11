@@ -34,7 +34,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
         $this->setAdditionalTransformation(
             $this->refinery->logical()->logicalOr([
                 $this->refinery->numeric()->isNumeric(),
-                $this->refinery->null()
+                $this->refinery->string()->hasMaxLength(0)
             ])
             ->withProblemBuilder(function ($txt, $value) {
                 return $txt("ui_numeric_only");
@@ -57,7 +57,12 @@ class Numeric extends Input implements C\Input\Field\Numeric
      */
     protected function getConstraintForRequirement()
     {
-        return $this->refinery->numeric()->isNumeric();
+        return $this->refinery->logical()->parallel([
+            $this->refinery->numeric()->isNumeric(),
+            $this->refinery->logical()->not(
+                $this->refinery->null()
+            )
+        ]) ;
     }
 
     /**
