@@ -19,6 +19,7 @@ class ImplementationOfInterfaceFinder
      */
     private $ignore
         = [
+            '.*/Customizing/',
             '.*/libs/',
             '.*/test/',
             '.*/tests/',
