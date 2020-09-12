@@ -6,7 +6,7 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
-use ILIAS\MainMenu\Storage\Services;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Input\Field\HandlerResult;
 
 /**
