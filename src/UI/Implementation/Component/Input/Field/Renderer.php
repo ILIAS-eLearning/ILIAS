@@ -553,7 +553,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue() === $value) {
+            if ($input->getValue() !== null && $input->getValue() == $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
             if ($input->isDisabled()) {
@@ -617,7 +617,7 @@ class Renderer extends AbstractComponentRenderer
 
             if ($input->getValue() !== null) {
                 list($index, $subvalues) = $input->getValue();
-                if ($index === $key) {
+                if ($index == $key) {
                     $input_tpl->setVariable("CHECKED", 'checked="checked"');
                 }
             }
