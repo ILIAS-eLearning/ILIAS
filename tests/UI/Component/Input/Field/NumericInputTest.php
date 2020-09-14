@@ -22,7 +22,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
     protected function buildFactory()
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->getLanguage();
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
@@ -159,16 +159,17 @@ class NumericInputTest extends ILIAS_UI_TestBase
 
         $value = $field->withInput($post_data)->getContent();
         $this->assertTrue($value->isOk());
-        $this->assertEquals('', $value->value());
+        $this->assertNull($value->value());
 
-        $value = $field_required->withInput($post_data)->getContent();
+        $field_required = $field_required->withInput($post_data);
+        $value = $field_required->getContent();
         $this->assertTrue($value->isError());
     }
 
     /**
      * @depends testNullValue
      */
-    public function testZeroisValidValue($field)
+    public function testZeroIsValidValue($field)
     {
         $post_data = new DefInputData(['name_0' => 0]);
         $field_required = $field->withRequired(true);
