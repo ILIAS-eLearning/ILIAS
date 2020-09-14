@@ -30,9 +30,19 @@ class ilGitInformation implements ilVersionControlInformation
         $info = array();
 
         if (!ilUtil::isWindows()) {
+            $origin = ilUtil::execQuoted('git config --get remote.origin.url');
+            $branch = ilUtil::execQuoted('git rev-parse --abbrev-ref HEAD');
             $version_mini_hash = ilUtil::execQuoted('git rev-parse --short HEAD');
             $version_number = ilUtil::execQuoted('git rev-list --count HEAD');
             $line = ilUtil::execQuoted('git log -1');
+
+            if ($origin[0]) {
+                $origin = $origin[0];
+            }
+
+            if ($branch[0]) {
+                $branch = $branch[0];
+            }
 
             if ($version_number[0]) {
                 $version_number = $version_number[0];
@@ -46,11 +56,21 @@ class ilGitInformation implements ilVersionControlInformation
                 $line = implode(' | ', array_filter($line));
             }
         } else {
+            $origin = trim(exec('git config --get remote.origin.url'));
+            $branch = trim(exec('git rev-parse --abbrev-ref HEAD'));
             $version_mini_hash = trim(exec('git rev-parse --short HEAD'));
             $version_number = exec('git rev-list --count HEAD');
             $line = trim(exec('git log -1'));
         }
 
+        if ($origin) {
+            $info[] = $origin;
+        }
+
+        if ($branch) {
+            $info[] = $branch;
+        }
+        
         if ($version_number) {
             $info[] = sprintf($lng->txt('git_revision'), $version_number);
         }
