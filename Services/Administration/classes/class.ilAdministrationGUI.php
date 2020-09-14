@@ -450,10 +450,11 @@ class ilAdministrationGUI
                 ),
             3 => array(
                 "container" =>
-                    array("reps", "crss", "grps", "prgs", "lsos"),
+                    array("reps", "crss", "grps", "prgs"),
                 "content_objects" =>
                     array("bibs", "blga", "chta", "excs", "facs", "frma",
-                        "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks")
+                        "lrss", "mcts", "mobs", "svyf", "assf", "wbrs", "wiks",
+                        "lsos")
                 )
             );
         
