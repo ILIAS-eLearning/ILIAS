@@ -15,8 +15,13 @@ function numeric_inputs()
         ->numeric("Some Number", "Put in a number.")
         ->withValue(133);
 
+    $number_input2 = $number_input->withRequired(true)->withValue('');
+
     //Step 2, define form and form actions
-    $form = $ui->input()->container()->form()->standard('#', [ $number_input]);
+    $form = $ui->input()->container()->form()->standard('#', [
+        'n1' => $number_input,
+        'n2' => $number_input2
+    ]);
 
     //Step 3, implement some form data processing.
     if ($request->getMethod() == "POST") {
