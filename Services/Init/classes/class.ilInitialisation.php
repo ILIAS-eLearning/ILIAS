@@ -686,6 +686,7 @@ class ilInitialisation
             // init console log handler
             include_once './Services/Logging/classes/public/class.ilLoggerFactory.php';
             ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
+            \ilOnlineTracking::updateAccess($ilUser);
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();
