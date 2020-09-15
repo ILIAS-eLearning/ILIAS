@@ -14,7 +14,6 @@ class LSControlBuilder implements ControlBuilder
 {
     const CMD_START_OBJECT = 'start_legacy_obj';
     const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
-    const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
 
     /**
      * @var Component[]
@@ -44,14 +43,21 @@ class LSControlBuilder implements ControlBuilder
     protected LSURLBuilder $url_builder;
     protected ilLanguage $lng;
 
+    /**
+     * @var LSGlobalSettings
+     */
+    protected $global_settings;
+
     public function __construct(
         Factory $ui_factory,
         LSURLBuilder $url_builder,
-        ilLanguage $language
+        ilLanguage $language,
+        LSGlobalSettings $global_settings
     ) {
         $this->ui_factory = $ui_factory;
         $this->url_builder = $url_builder;
         $this->lng = $language;
+        $this->global_settings = $global_settings;
     }
 
     /**
@@ -273,8 +279,8 @@ class LSControlBuilder implements ControlBuilder
         $this->start = $this->ui_factory->button()
             ->primary($label, '')
             ->withOnLoadCode(function ($id) use ($url) {
-                $interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
-                return "$('#$id').on('click', function(ev) {
+                $interval = $this->global_settings->getPollingIntervalMilliseconds();
+                return "$('#{$id}').on('click', function(ev) {
 					var il_ls_win = window.open('$url');
 					window._lso_current_item_lp = -1;
 					window.setInterval(lso_checkLPOfObject, $interval);
@@ -300,7 +306,12 @@ class LSControlBuilder implements ControlBuilder
     ) : void {
         $this->additional_js =
 <<<JS
-function lso_checkLPOfObject() {
+function lso_checkLPOfObject()
+{
+    if(! il.UICore.isPageVisible()) {
+        return;
+    }
+
 	$.ajax({
 		url: "$check_lp_url",
 	}).done(function(data) {
