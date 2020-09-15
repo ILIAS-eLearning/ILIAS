@@ -114,14 +114,14 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function show(Input\Container\Form\Form $form) : void
+    protected function show(Input\Container\Form\Form $form)
     {
         $this->tpl->setContent(
             $this->ui_renderer->render($form)
         );
     }
 
-    protected function edit() : void
+    protected function edit()
     {
         $values = [
             self::F_POLL_INTERVAL => $this->settings_db->getSettings()->getPollingIntervalSeconds()
@@ -130,7 +130,7 @@ class ilObjLearningSequenceAdminGUI extends ilObjectGUI
         $this->show($form);
     }
 
-    protected function save() : void
+    protected function save()
     {
         $form = $this->getForm()->withRequest($this->request);
         $data = $form->getData();
