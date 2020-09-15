@@ -27,6 +27,10 @@ class ilModulesLearningSequenceSuite extends TestSuite
         require_once("./Modules/LearningSequence/test/LSLocatorBuilderTest.php");
         require_once("./Modules/LearningSequence/test/LSTOCBuilderTest.php");
         require_once("./Modules/LearningSequence/test/LSUrlBuilderTest.php");
+        require_once("./Modules/LearningSequence/test/Settings/LSSettingsTest.php");
+        require_once("./Modules/LearningSequence/test/LSItems/LSItemTest.php");
+        require_once("./Modules/LearningSequence/test/LearnerProgress/LSLearnerItemTest.php");
+        require_once("./Modules/LearningSequence/test/GlobalSettings/GlobalSettingsTest.php");
 
         $suite->addTestSuite("ilLearningSequenceActivationTest");
         $suite->addTestSuite("ilLearningSequenceActivationDBTest");
@@ -44,6 +48,10 @@ class ilModulesLearningSequenceSuite extends TestSuite
         $suite->addTestSuite("LSLocatorBuilderTest");
         $suite->addTestSuite("LSTOCBuilderTest");
         $suite->addTestSuite("LSUrlBuilderTest");
+        $suite->addTestSuite("LSSettingsTest");
+        $suite->addTestSuite("LSItemTest");
+        $suite->addTestSuite("LSLearnerItemTest");
+        $suite->addTestSuite("LSGlobalSettingsTest");
 
         return $suite;
     }

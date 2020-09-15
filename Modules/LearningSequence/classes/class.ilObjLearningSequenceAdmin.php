@@ -3,6 +3,10 @@
 /* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
 /* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
 
+/**
+ * Class ilObjLearningSequenceAdmin
+ *
+ */
 class ilObjLearningSequenceAdmin extends ilObject2
 {
     public function __construct(int $id = 0, bool $call_by_reference = true)
