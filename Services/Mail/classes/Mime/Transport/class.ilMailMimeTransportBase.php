@@ -53,6 +53,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->clearAllRecipients();
         $this->getMailer()->clearAttachments();
         $this->getMailer()->clearReplyTos();
+        $this->getMailer()->ErrorInfo = '';
     }
 
     /**
