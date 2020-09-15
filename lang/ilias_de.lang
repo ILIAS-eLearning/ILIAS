@@ -16184,3 +16184,7 @@ common#:#eyeopened#:#Offenes Auge: Klicken Sie, um den Inhalt der Eingabe anzuze
 rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
+common#:#lso_admin_form_title#:#Einstellungen
+common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
+common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
