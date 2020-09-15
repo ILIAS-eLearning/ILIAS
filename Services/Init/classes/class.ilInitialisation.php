@@ -771,8 +771,8 @@ class ilInitialisation
                 $context_init = true;
             }
             // init console log handler
-            ilLoggerFactory::getInstance()->initUser($ilUser->getLogin());
-            \ilOnlineTracking::updateAccess($ilUser);
+            ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+            \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();
