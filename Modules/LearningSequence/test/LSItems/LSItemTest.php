@@ -21,7 +21,7 @@ class LSItemTest extends TestCase
 
     public function setUp()
     {
-        $this->post_condition = new ilLSPostCondition(666, 1);
+        $this->post_condition = new ilLSPostCondition(666, 'op');
     }
 
     public function testCreate() : LSItem
@@ -106,7 +106,7 @@ class LSItemTest extends TestCase
      */
     public function testWithPostCondition(LSItem $object)
     {
-        $pc = new ilLSPostCondition(555, 2);
+        $pc = new ilLSPostCondition(555, "2");
         $new_obj = $object->withPostCondition($pc);
 
         $this->assertEquals($object->getType(), self::TYPE);
