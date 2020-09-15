@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+sess#:#sess_title#:#Title of Session
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
@@ -182,6 +183,7 @@ survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cro
 survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
 survey#:#survey_results_tutor_subject#:#Results for survey "%s"
 survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
@@ -5591,6 +5593,7 @@ forum#:#frm_moderators_select_at_least_one#:#Please choose at least one moderato
 forum#:#frm_moderators_select_one#:#Please choose one user.
 forum#:#frm_moderators#:#Moderators
 forum#:#frm_post_not_activated_yet#:#Not activated yet.
+forum#:#frm_posts#:#Forum Posts
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Purifier for type %s not implemented yet.
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.

@@ -251,12 +251,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     false
                 );
                 $style_gui->omitLocator();
-                if ($cmd == 'create' || $_GET['new_type'] == 'sty') {
+                if ($cmd === 'create' || $_GET['new_type'] === 'sty') {
                     $style_gui->setCreationMode(true);
                 }
+
+                if ($cmd === 'confirmedDelete') {
+                    $this->object->setStyleSheetId(0);
+                    $this->object->update();
+                }
+
                 $ret = $this->ctrl->forwardCommand($style_gui);
 
-                if ($cmd == 'save' || $cmd == 'copyStyle' || $cmd == 'importStyle') {
+                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
                     $styleId = $ret;
                     $this->object->setStyleSheetId($styleId);
                     $this->object->update();

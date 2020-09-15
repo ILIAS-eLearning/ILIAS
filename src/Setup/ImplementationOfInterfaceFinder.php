@@ -19,6 +19,7 @@ class ImplementationOfInterfaceFinder
      */
     private $ignore
         = [
+            '.*/Customizing/',
             '.*/libs/',
             '.*/test/',
             '.*/tests/',
@@ -37,7 +38,7 @@ class ImplementationOfInterfaceFinder
     }
 
 
-    private function getAllClassNames() : \Iterator
+    protected function getAllClassNames() : \Iterator
     {
         // We use the composer classmap ATM
         $composer_classmap = include "./libs/composer/vendor/composer/autoload_classmap.php";

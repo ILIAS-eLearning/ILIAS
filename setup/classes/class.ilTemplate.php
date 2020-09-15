@@ -199,8 +199,6 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 
         if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php"))) {
-            ilSession::set("post_vars", $_POST);
-
             // referer is modified if query string contains cmd=gateway and $_POST is not empty.
             // this is a workaround to display formular again in case of error and if the referer points to another page
             $url_parts = parse_url($_SERVER["REQUEST_URI"]);

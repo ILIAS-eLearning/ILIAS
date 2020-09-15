@@ -714,13 +714,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (is_object($this->form)) {
             return true;
         }
-        // Are there any authentication methods that support automatic determination ?
-    
-        include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
-        $det = ilAuthModeDetermination::_getInstance();
-        if ($det->getCountActiveAuthModes() <= 1) {
-            return false;
-        }
         
         include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
@@ -739,6 +732,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $cap->setChecked(ilCaptchaUtil::isActiveForLogin());
         $this->form->addItem($cap);
         
+        // Are there any authentication methods that support automatic determination ?
+        include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
+        $det = ilAuthModeDetermination::_getInstance();
+        if ($det->getCountActiveAuthModes() <= 1) {
+            return true;
+        }
+
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt('auth_auth_mode_determination'));
         $this->form->addItem($header);

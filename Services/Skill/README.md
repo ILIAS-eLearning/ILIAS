@@ -29,6 +29,7 @@ In ILIAS both terms are synonyms. In the UI we started with the "Skill" term and
 
 **Other Concepts**
 
+* [Import Export](#import-export)
 * [Personal Skills](#personal-skills)
 * [Skill Profile](#skill-profile)
 * [Skill Resource](#skill-resource)
@@ -221,3 +222,24 @@ Root
  |            +-- Reading (a.2)
  ...
 ```
+
+## Import Export
+
+* When skills are imported their original ID from the exporting installation is stored in `skl_tree_node.import_id`.
+* Features that reference skills (e.g. local skill profiles) can re-instantiate these references on import by retrieving the new IDs
+  through the methods `ilBasicSkill::getCommonSkillIdForImportId()` and/or `ilBasicSkill::getLevelIdForImportIdMatchSkill`. 
+ 
+
+## Skill Profiles
+
+### Local Skill Profiles
+
+**Business Rules**
+
+* Locale skill profiles can be created, edited and deleted in courses and groups.
+* Locale skill profiles are listed in the global skill profile administration, too.
+* Globale skill profiles can be used and removed (not deleted) from courses and groups (not be edited).
+* Courses and groups export their local skill profiles. However skill level entries of profiles will only appear on import, if the
+  corresponding skills have been imported in the global administration before.
+* Local profiles can be exported in the global administation, too. However this will not include the reference to the course
+  or group. They will always be imported as global profiles.
