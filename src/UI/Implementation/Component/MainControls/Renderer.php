@@ -85,7 +85,7 @@ class Renderer extends AbstractComponentRenderer
                    function ($id) use ($mb_id) {
                        return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
                    }
-                )
+               )
                 ->withOnClick($trigger_signal);
 
             $tpl->setCurrentBlock("tool_removal");
@@ -124,11 +124,10 @@ class Renderer extends AbstractComponentRenderer
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
-
             } else {
                 //add Links/Buttons as toplevel entries
                 $pos = array_search($k, array_keys($entries));
-                $mb_id = '0:' .$pos;
+                $mb_id = '0:' . $pos;
                 $is_tool = false;
             }
 
@@ -392,7 +391,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/MainControls/mainbar.js');
+        $registry->register('./src/UI/templates/js/MainControls/dist/mainbar.js');
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
         $registry->register('./src/UI/templates/js/MainControls/footer.js');
