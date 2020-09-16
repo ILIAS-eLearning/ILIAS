@@ -796,6 +796,24 @@ Check how your suggested element fits into our semantic structures.
 8.	Always use the language attribute on the HTML element. Screen readers change pronunciation automatically. (3.1.1)
 9.	Indicate the language for each chunk of text (3.1.2). Using the language attribute on the HTML element. Screen readers change pronunciation automatically. 
 10.	Functional and informative components, i.e. labels and icons, must have consistent labels, aria-labels and alt-texts. 
+##Landmark Roles
+* Banner
+    * For the Header of the UI Component [*Standard Page*](../../src/UI/Component/Layout/Page/Factory.php), where Logo and Title are placed, the HTML tag < header > is used to be identified as the ARIA Landmark Role *Banner*.
+* Complementary
+    * In the template [*tpl.page_content.html*](../../templates/default/tpl.page_content.html), the HTML tag < aside > is used for the right column of the page to be identified as the ARIA Landmark Role *Complementary*.
+* Contentinfo
+    * For the Footer of the UI Component [*Standard Page*](../../src/UI/Component/Layout/Page/Factory.php), the HTML tag < footer > is used to be identified as the ARIA Landmark Role *Contentinfo*. As long as the Footer is nested in the HTML element < main >, the HTML element of the Footer is additionally declared with the ARIA role *contentinfo*.
+* Form
+    * currently missing
+* Main
+    * For the content area of the UI Component [*Standard Page*](../../src/UI/Component/Layout/Page/Factory.php), the HTML tag < main > is used to be identified as the ARIA Landmark Role *Main*.
+* Navigation
+    * For the UI Component [*Main Bar*](../../src/UI/Component/MainControls/Factory.php), the HTML tag < nav > is used to be identified as the ARIA Landmark Role *Navigation*.
+    * For the UI Component [*Breadcrumbs*](../../src/UI/Factory.php), the HTML tag < nav > is used to be identified as the ARIA Landmark Role *Navigation*.
+* Search
+    * currently missing
+* Application
+    * not needed
 ## Alt-Texts and aria labels
 11.	All non-text elements (icons, glyphs, images, graphs and the like) must have alt-texts (1.1.1). Do they? For all their statuses? 
 12.	The aria-label for an element must contain the text the element presents (2.5.3). This is really important for speech input. 
