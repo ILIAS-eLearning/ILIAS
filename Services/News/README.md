@@ -84,3 +84,11 @@ if ($n = current($items))
 	$ns->data()->delete($n);
 }
 ```
+
+## News and RSS
+
+### Business Rules
+
+- News entries that are set to `public` `visibility` will be served via RSS (if activated) without any access checks.
+- The container news setting "default visibility" determines the visibility for news items (especially automatically created entries, like for new files) under the container.
+- Only manually created news entries allow to change the visibility per news item.
