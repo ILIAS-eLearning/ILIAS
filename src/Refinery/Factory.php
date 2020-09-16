@@ -58,7 +58,7 @@ class Factory
      *
      * @return KindlyTo\Group
      */
-    public function kindlyTo() : To\Group
+    public function kindlyTo() : KindlyTo\Group
     {
         return new KindlyTo\Group($this->dataFactory);
     }
