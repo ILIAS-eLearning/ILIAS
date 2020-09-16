@@ -267,7 +267,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-            
+
         if (!is_array($_POST["tr"]) || count($_POST["tr"]) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
@@ -282,7 +282,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             foreach ($_POST["tr"] as $i) {
                 $cgui->addItem("tr[]", $i, $_POST["title"][$i]);
             }
-            
             $tpl->setContent($cgui->getHTML());
         }
     }
