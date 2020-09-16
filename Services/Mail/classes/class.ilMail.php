@@ -834,7 +834,6 @@ class ilMail
             $individualMessage = $message;
             if ($usePlaceholders) {
                 $individualMessage = $this->replacePlaceholders($message, $user->getId());
-                ;
                 $usrIdToMessageMap[$user->getId()] = $individualMessage;
             }
 
