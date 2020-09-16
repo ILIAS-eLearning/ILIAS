@@ -38,4 +38,9 @@ class StringTransformation implements Transformation
     {
         return $this->transform($from);
     }
+
+    public function accepts($value) : bool
+    {
+        return is_string($value);
+    }
 }

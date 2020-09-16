@@ -10,6 +10,7 @@ use ILIAS\Refinery\Logical\LogicalOr;
 use ILIAS\Refinery\Logical\Not;
 use ILIAS\Refinery\Logical\Parallel;
 use ILIAS\Refinery\Logical\Sequential;
+use ILIAS\Refinery\Logical\ByTrying;
 use ILIAS\Refinery\Logical\Group;
 use ILIAS\Tests\Refinery\TestCase;
 
@@ -77,5 +78,15 @@ class GroupTest extends TestCase
     {
         $instance = $this->group->sequential(array($this->greaterThanConstraint, $this->lessThanConstaint));
         $this->assertInstanceOf(Sequential::class, $instance);
+    }
+
+    public function testByTryingInGroup()
+    {
+        $instance = $this->group->byTrying(
+            [
+            $this->greaterThanConstraint,
+            $this->lessThanConstaint]
+        );
+        $this->assertInstanceOf(ByTrying::class, $instance);
     }
 }
