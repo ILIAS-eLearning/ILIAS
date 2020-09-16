@@ -651,6 +651,25 @@ class ilConditionHandler
 
         return true;
     }
+
+    /**
+     * @param string $a_trigger_obj_type
+     * @param int $a_trigger_id
+     * @return int
+     * @throws ilDatabaseException
+     */
+    public static function getNumberOfConditionsOfTrigger($a_trigger_obj_type, $a_trigger_id)
+    {
+        global $DIC;
+        $db = $DIC->database();
+
+        $query = 'select count(*) num from conditions ' .
+            'where trigger_obj_id = ' . $db->quote($a_trigger_id, ilDBConstants::T_INTEGER) . ' ' .
+            'and trigger_type = ' . $db->quote($a_trigger_obj_type, ilDBConstants::T_TEXT);
+        $res = $db->query($query);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        return (int) $row->num;
+    }
     
     /**
     * get all conditions of trigger object
