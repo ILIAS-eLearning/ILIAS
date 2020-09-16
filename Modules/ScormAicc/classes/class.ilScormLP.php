@@ -80,8 +80,6 @@ class ilScormLP extends ilObjectLP
      */
     protected function checkSCORMPreconditions()
     {
-        static $counter;
-
         if (!is_null($this->precondition_cache)) {
             return $this->precondition_cache;
         }
