@@ -119,7 +119,7 @@ abstract class ilContainerContentGUI
 
         $this->log = ilLoggerFactory::getLogger('cont');
 
-        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
+        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel() && !$this->container_gui->isActiveOrdering())
             ? self::VIEW_MODE_TILE
             : self::VIEW_MODE_LIST;
     }
