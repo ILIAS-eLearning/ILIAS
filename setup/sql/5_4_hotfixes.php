@@ -1381,3 +1381,8 @@ class EventHandler
 $GLOBALS['ilAppEventHandler'] = new EventHandler();
 ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
 ?>
+
+<#96>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
