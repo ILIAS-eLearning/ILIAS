@@ -1758,7 +1758,7 @@ common#:#continue_work#:#Devam
 common#:#contra#:#Contra
 common#:#copy#:#Kopya
 common#:#copy_all#:#Tümünü kopyala
-common#:#copy_n_of_suffix#:#- Kopyala (% 1 $ s)
+common#:#copy_n_of_suffix#:#- Kopyala (%1$s)
 common#:#copy_of#:#Arasında Kopya
 common#:#copy_of_suffix#:#- Kopya
 common#:#copy_selected_items#:#Kopya
@@ -1886,9 +1886,9 @@ common#:#disable_hide_user_toggle#:#üyesi devre dışı bırakmak için izin ve
 common#:#disabled#:#Kapalı
 common#:#disk_quota#:#Disk Kotası
 common#:#disk_quota_exceeded_headline#:#Aşağıdaki kullanıcılar kendi disk kotanızı aştınız:
-common#:#disk_quota_is_1_by_2#:#etkili disk kotası "% 2 $ s"% 1 $ s üyeliği nedeniyle rolü olduğunu.
-common#:#disk_quota_is_1_instead_of_2_by_3#:#etkili disk kotası% 1 $ s bu kullanıcı hesabının tanımlandığı gibidir. Rol üyeliği ile disk kotası rolüne göre 2 $ s "% 3 $ s"% olurdu.
-common#:#disk_quota_is_unlimited_by_1#:#etkili disk kotası nedeniyle "% 1 $ s" rolü üyeliği için sınırsızdır.
+common#:#disk_quota_is_1_by_2#:#etkili disk kotası "%2$s"%1$s üyeliği nedeniyle rolü olduğunu.
+common#:#disk_quota_is_1_instead_of_2_by_3#:#etkili disk kotası%1$s bu kullanıcı hesabının tanımlandığı gibidir. Rol üyeliği ile disk kotası rolüne göre 2 $ s "%3$s"% olurdu.
+common#:#disk_quota_is_unlimited_by_1#:#etkili disk kotası nedeniyle "%1$s" rolü üyeliği için sınırsızdır.
 common#:#disk_quota_last_reminder_sent#:#Gönderilen Son kota hatırlatma
 common#:#disk_quota_last_reminder_sent_desc#:#son tarih kullanıcı nedeniyle disk kotasını aşan bir hatırlatma posta aldı.
 common#:#disk_quota_on_role_desc#:#Bir rolü üzerinde belirtilen disk kota bu role atanan tüm kullanıcı hesaplarını etkiler.
@@ -1947,7 +1947,7 @@ common#:#enable_search_engine#:#Herkese açık alanı arama motorlarına açın(
 common#:#enable_trash#:#Çöpü Etkinleştir
 common#:#enable_trash_info#:#Etkinse, silinen nesneler çöpe taşınır ve daha sonra geri alınabilir. Bu seçenek devre dışı bırakıldığında nesneler sistemden hemen silinir!
 common#:#enable_webdav#:#WebDAV erişimi etkinleştir
-common#:#enable_webdav_info#:#WebDAV istemcileri bir webfolder olarak depo erişmek için izin verir. Kullanıcılar, veya WebDAV istemci aşağıdaki adrese girerek depo "webfolder gibi açık" eylemini kullanarak webfolders açabilirsiniz: <a href="%1$s" folder="%1$s">% 1 $ s </ a>
+common#:#enable_webdav_info#:#WebDAV istemcileri bir webfolder olarak depo erişmek için izin verir. Kullanıcılar, veya WebDAV istemci aşağıdaki adrese girerek depo "webfolder gibi açık" eylemini kullanarak webfolders açabilirsiniz: <a href="%1$s" folder="%1$s">%1$s </ a>
 common#:#enabled#:#Etkin
 common#:#enter_in_mb_desc#:#MB cinsinden bir değer girin.
 common#:#err_1_param#:#Sadece 1 parametresi!
@@ -2422,7 +2422,7 @@ common#:#logs#:#Log verileri
 common#:#lres#:#Öğrenim Kaynakları
 common#:#mail#:#Posta
 common#:#mail_addressbook#:#Rehber
-common#:#mail_at_the_ilias_installation#:#Sen ILIAS-Montaj% 2 $ s $ s yeni posta% 1 alındı
+common#:#mail_at_the_ilias_installation#:#Sen ILIAS-Montaj%2$s $ s yeni posta% 1 alındı
 common#:#mail_attachment#:#Posta eki
 common#:#mail_b_inbox#:#Gelen Kutusu
 common#:#mail_c_trash#:#Çöp
@@ -3158,7 +3158,7 @@ common#:#session_max_idle_info#:#Kullanıcının oturumu sona ermeden önce ne k
 common#:#session_min_idle#:#Minimum oturum boşta kalma süresi (dakika)
 common#:#session_min_idle_info#:#Bir kullanıcı oturumu boşa düştüğü zaman, oturum sayısı azami sınıra ulaşmış ise başka kullanıcı onun yerine oturum açabilir.
 common#:#session_reminder#:#Oturum Hatırlatma
-common#:#session_reminder_alert#:#Oturumunuz $ s% 2% 1 $ s içinde sona erecek! Oturuma devam etmek için tamamı seçin Eğer iptal ederseniz oturumunuz sonlanacaktır.
+common#:#session_reminder_alert#:#Oturumunuz $ s% 2%1$s içinde sona erecek! Oturuma devam etmek için tamamı seçin Eğer iptal ederseniz oturumunuz sonlanacaktır.
 common#:#session_reminder_info#:#Etkinse, çevrimiçi oturum süresi dolmadan önce size bir hatırlatma yapılır
 common#:#session_reminder_lead_time#:#Zaman Aralığı
 common#:#session_reminder_lead_time_info#:#Oturum hatırlatmasının kaç dakikada bir olacağını belirleyin Önerilen değer 5 (dakika) <br /> Bir kullanıcı oturumunun geçerli uzunluğu % s dir.
@@ -4888,7 +4888,7 @@ dateplaner#:#cal_import_appointments#:#Randevuları İçe Aktar
 dateplaner#:#cal_import_file#:#Dosya İçe aktar
 dateplaner#:#cal_import_file_info#:#takvim randevuları içeren dosyayı, seçin.
 dateplaner#:#cal_import_tbl#:#Randevuları İçe Aktar
-dateplaner#:#cal_imported_success#:#İthal% 1 $ s randevular.
+dateplaner#:#cal_imported_success#:#İthal%1$s randevular.
 dateplaner#:#cal_in#:#yılında
 dateplaner#:#cal_last#:#Son
 dateplaner#:#cal_mail_notification_body#:#Randevu için davet edilmiştir.
@@ -7082,14 +7082,14 @@ ps#:#rbac_log_info#:#Nesne izinlerinde yapılan tüm değişikliklerin günlüğ
 ps#:#show_privacy#:#Gizlilik
 ps#:#show_security#:#Güvenlik
 pwassist#:#password_assistance#:#Şifre Yardımı
-pwassist#:#pwassist_enter_email#:#e-posta adresinizi girin ve. ilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir. Choose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya% 1 $ s ile iletişim kurunuz.
-pwassist#:#pwassist_enter_username_and_email#:#aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin. ilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz. in durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek % 1 $ s için.
+pwassist#:#pwassist_enter_email#:#e-posta adresinizi girin ve. ilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir. Choose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya%1$s ile iletişim kurunuz.
+pwassist#:#pwassist_enter_username_and_email#:#aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin. ilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz. in durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek %1$s için.
 pwassist#:#pwassist_enter_username_and_new_password#:#kullanıcı adınızı ve aşağıda alanlarına yeni parolayı girin.
 pwassist#:#pwassist_login_not_match#:#başka bir kullanıcı adı giriniz. Girdiğiniz Bu kullanıcı adı şifre yardımı için sormuştu hangi kullanıcı adı eşleşmiyor.
-pwassist#:#pwassist_mail_body#:#$ S  Bu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu  \ t% 2 $ s  Bu (veya% 3 birisiyle $  \ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) "% 4 $ s" kullanıcı hesabı için parola yardım istedi  Lütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır  -varsa kaza: Delete bu mail  -Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s  -Eğer Lütfen iletişim% 5, şu şekilde hareket edin:  1. Tarayıcınızı açın.  2. Tarayıcınızda aşağıdaki adresi girin:  \ t% 6 $ s  Important: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir.  3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz.  Lütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda.
-pwassist#:#pwassist_mail_sent#:#Bir mesaj% 1 $ s gönderildi. Lütfen posta kutusunu işaretleyin.
+pwassist#:#pwassist_mail_body#:#$ S  Bu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu  \ t%2$s  Bu (veya% 3 birisiyle $  \ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) "%4$s" kullanıcı hesabı için parola yardım istedi  Lütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır  -varsa kaza: Delete bu mail  -Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s  -Eğer Lütfen iletişim% 5, şu şekilde hareket edin:  1. Tarayıcınızı açın.  2. Tarayıcınızda aşağıdaki adresi girin:  \ t%6$s  Important: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir.  3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz.  Lütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda.
+pwassist#:#pwassist_mail_sent#:#Bir mesaj%1$s gönderildi. Lütfen posta kutusunu işaretleyin.
 pwassist#:#pwassist_mail_subject#:#ILIAS Şifre Yardımı
-pwassist#:#pwassist_password_assigned#:#parola başarıyla kullanıcı "% 1 $ s" atanmıştır.
+pwassist#:#pwassist_password_assigned#:#parola başarıyla kullanıcı "%1$s" atanmıştır.
 pwassist#:#pwassist_session_expired#:#yine bu formu doldurunuz. Dışa şifre yardım oturumunuzun süresi doldu. Eğer birden fazla kez size e-posta ile gönderilen linki kullanmaya çalıştım, çünkü bu olmuş olabilir, veya bağlantıyı size gönderilen beri çok zaman geçti çünkü.
 pwassist#:#pwassist_username_mail_body#:#Bu verilen e-posta adresi için bulunan aktif kullanıcı adı: % s  Bu mesajı şu ILIAS Server tarafından otomatik olarak oluşturulmuştur  \ t% s  Bu (veya IP% olan biri ler) e-posta adresi '% s' için unutulmuş kullanıcı için destek talep etmiş önerdiği gibi  Lütfen aşağıdaki ve hareket kontrol ::  -İstemeden Bu e-posta istedi:. Delete bu E-posta  -Sen bu e-posta talep asla, eminiz:.. Lütfen temas% s aşağıdaki gibi  -Eğer bu e-posta talep, lütfen devam ::  1. Internet tarayıcınızı açın.  2. Aşağıdaki url girin:  \ t% s  Important: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir.  3. Tarayıcınız artık Şifre-Servis gösterir. Adlarını biri ve yeni bir şifre almak için uygun e-posta adresi ile birlikte bu sayfayı kullanın.
 rating#:#rat_not_rated_yet#:#Henüz Oylanmadı
@@ -7384,8 +7384,8 @@ rbac#:#perm_local_role#:#Yerel Rolü
 rbac#:#perm_local_role_desc#:#Bu rolü yerel akım nesne tanımlanan ve yerel politika karşılık edilir
 rbac#:#perm_protected_global_role#:#Korumalı Global Rol
 rbac#:#perm_protected_local_role#:#Korumalı Yerel Rolü
-rbac#:#perm_role_path_info_created#:#% 1 $ s "% 2 $ s" düzenlendi
-rbac#:#perm_role_path_info_inheritance#:#% 1 yerel ilkeyi kullanarak $ s "% 2 $ s"
+rbac#:#perm_role_path_info_created#:#%1$s "%2$s" düzenlendi
+rbac#:#perm_role_path_info_inheritance#:#% 1 yerel ilkeyi kullanarak $ s "%2$s"
 rbac#:#perm_use_local_policy#:#kullanımlar yerel politika
 rbac#:#perm_use_local_policy_desc#:#Yerel ilkesi etkinse, geçerli nesne için farklı varsayılan izin ayarları tanımlayabilirsiniz.
 rbac#:#poll_copy#:#Kullanıcı anket kopyalayabilirsiniz

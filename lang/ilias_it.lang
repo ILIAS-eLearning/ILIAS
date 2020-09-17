@@ -5182,7 +5182,7 @@ common#:#user#:#Utente
 common#:#user_activated#:#L’utente è stato approvato
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
-common#:#user_cant_receive_mail#:#% 1 $ s (l'utente non è autorizzato a utilizzare il sistema di posta)
+common#:#user_cant_receive_mail#:#%1$s (l'utente non è autorizzato a utilizzare il sistema di posta)
 common#:#user_comment#:#Commento utente
 common#:#user_deactivated#:#L’utente è stato disapprovato
 common#:#user_defined_fields#:#Campi definiti dall'utente
@@ -5245,18 +5245,18 @@ common#:#usrimport_cant_delete#:#Impossibile eseguire l'azione "Elimina". Nessun
 common#:#usrimport_cant_insert#:#Impossibile eseguire l'azione "Elimina". Nessun utente di questo tipo nel database.
 common#:#usrimport_cant_update#:#Impossibile eseguire l'azione "Elimina". Nessun utente di questo tipo nel database.
 common#:#usrimport_conflict_handling_info#:#Quando si seleziona 'Ignora in conflitto', ILIAS ignora un'azione, se non può essere eseguita (ad es. Un'azione 'Inserisci' non viene eseguita, se nel database è già presente un utente con lo stesso accesso.) Quando si aggiorna in caso di conflitto ", ILIAS aggiorna il database se non è possibile eseguire un'azione. (ad esempio un'azione "Inserisci" è sostituita da un'azione "Aggiorna", se nel database esiste un utente con lo stesso accesso).
-common#:#usrimport_global_role_for_action_required#:#È necessario specificare almeno un ruolo globale per l'azione "% 1 $ s".
+common#:#usrimport_global_role_for_action_required#:#È necessario specificare almeno un ruolo globale per l'azione "%1$s".
 common#:#usrimport_ignore_role#:#Ignora il ruolo
 common#:#usrimport_login_is_not_unique#:#Login non unico.
 common#:#usrimport_no_insert_ext_account_exists#:#Non e' possibile eseguire l'azione di inserimento. Esistono già account esterni.
 common#:#usrimport_no_update_ext_account_exists#:#Non è possibile eseguire l'azione di "Update". Esistono già account esterni.
 common#:#usrimport_with_specified_role_not_permitted#:#Importazione con ruolo specificato non consentita.
-common#:#usrimport_xml_attribute_missing#:#Attributo "% 2 $ s" nell'elemento "% 1 $ s" mancante.
-common#:#usrimport_xml_attribute_value_illegal#:#Il valore "% 3 $ s" dell'attributo "% 2 $ s" nell'elemento "% 1 $ s" è illegale.
-common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "% 3 $ s" dell'attributo "% 2 $ s" nell'elemento "% 1 $ s" non è applicabile per l'azione "% 4 $ s".
-common#:#usrimport_xml_element_content_illegal#:#Il contenuto "% 2 $ s" dell'elemento "% 1 $ s" è illegale.
-common#:#usrimport_xml_element_for_action_required#:#L'elemento "% 1 $ s" deve essere specificato per l'azione "% 2 $ s".
-common#:#usrimport_xml_element_inapplicable#:#L'elemento "% 1 $ s" non è applicabile per l'azione "% 2 $ s".
+common#:#usrimport_xml_attribute_missing#:#Attributo "%2$s" nell'elemento "%1$s" mancante.
+common#:#usrimport_xml_attribute_value_illegal#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" è illegale.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non è applicabile per l'azione "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Il contenuto "%2$s" dell'elemento "%1$s" è illegale.
+common#:#usrimport_xml_element_for_action_required#:#L'elemento "%1$s" deve essere specificato per l'azione "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#L'elemento "%1$s" non è applicabile per l'azione "%2$s".
 common#:#valid#:#Valido
 common#:#validate#:#Valida
 common#:#value#:#Valore
@@ -5287,7 +5287,7 @@ common#:#webfolder_instructions#:#Istruzioni cartella web
 common#:#webfolder_instructions_info#:#Le istruzioni della cartella web sono mostrate sui browser, che non possono aprire direttamente una cartella web. È possibile utilizzare il codice HTML e i seguenti segnaposto: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Deselezionare il campo per ottenere le istruzioni predefinite.
 common#:#webfolder_instructions_text#:#<p>Segui le istruzioni qui sotto per aprire <b>[WEBFOLDER_TITLE]</b> come cartella sul web:</p>[IF_WINDOWS]<h3>Istruzioni per Windows XP con Internet Explorer</h3><ol><li>Apri Internet Explorer</li><li>Scegli nel menù 'File &gt; Apri...'</li><li>Nella casella Apri, inserisci il seguente indirizzo:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Seleziona 'Apri come cartella web', e poi premi 'OK'.</li><li>Inserisci il tuo username e la tua password, e seleziona 'OK'.</li></ol><h3>Istruzioni per Windows XP senza Internet Explorer</h3><ol><li>Doppio click sull'icona  'I miei siti sul web' sul desktop.</li><li>Clicca su 'Aggiungi sito' dal menù a sinistra della finestra.</li><li>Si aprirà il wizard 'Aggiungi sito', clicca su  'Avanti'.</li><li>Seleziona l'opzione 'Scegli un altro sito' e poi seleziona 'Avanti'.<li>Nella casella 'indirizzo web' inserisci<br/><b>[WEBFOLDER_URI]</b><br/>e poi 'Avanti'.</li><li>Inserisci il tuo username e la password, e seleziona 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Istruzioni per Mac OS X</h3><ol><li>Apri Cerca</li><li>Scegli il Menu 'Vai &gt; Connessione al server...'</li><li>Nel campo dell'indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI]</b>, e seleziona 'Connetti'.</li><li>inserisci il tuo login e password, seleziona 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Istruzioni per Linux con Konqueror</h3><ol><li>Apri Konqueror browser</li><li>Nel campo indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Premi il tasto Invio.</li><li>Inserisci il tuo login e password, e seleziona 'OK'.</li></ol><h3>Istruzioni per Linux con Nautilus</h3><ol><li>Avvia Nautilus browser</li><li>Nel campo indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Inserisci il tuo login e password, e seleziona 'OK'.</li></ol>[/IF_LINUX]<p>Se aprendo la cartella web non funziona, per favore contatta <a href="mailto:[ADMIN_MAIL]">[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#Apri %1$s come cartella web
-common#:#webfolder_mount_dir_with#:#Apri questa pagina come cartella Web con <a href="%1$s"> Internet Explorer </a>, <a href="%2$s"> Konqueror </a>, <a href = "% 3 $ s "> altro browser </a>.
+common#:#webfolder_mount_dir_with#:#Apri questa pagina come cartella Web con <a href="%1$s"> Internet Explorer </a>, <a href="%2$s"> Konqueror </a>, <a href = "%3$s "> altro browser </a>.
 common#:#webr#:#Risorsa web
 common#:#webr_active#:#Attivo
 common#:#webr_add#:#Aggiungi risorsa web
@@ -12950,7 +12950,7 @@ skll#:#skll_intro_skill_notification_for#:#questa è una panoramica dei tuoi ult
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
-skll#:#skll_new_skill_achievements#:#Hai raggiunto nuovi livelli di competenza nel periodo da% 1 $ sa% 2 $ s:
+skll#:#skll_new_skill_achievements#:#Hai raggiunto nuovi livelli di competenza nel periodo da%1$sa%2$s:
 skll#:#skll_skill_notification#:#Notifica competenze
 skll#:#skll_skill_notification_desc#:#Informa l'utente sui livelli di competenze appena impostati.
 skmg#:#scat#:#Categoria di competenze
