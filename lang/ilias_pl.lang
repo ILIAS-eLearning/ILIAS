@@ -7582,7 +7582,7 @@ crs#:#event_updated#:#Ustawienia zapisane
 crs#:#event_user_selection#:#Wybór użytkowników
 crs#:#event_user_selection_include_filter#:#Włącz "%1$s"
 crs#:#event_user_selection_include_requests#:#Uwzględnij wszystkich użytkowników na liście „Prośby o dołączenie”
-crs#:#event_user_selection_include_role#:#Uwzględnij wszystkich użytkowników z rolą „% 1 $ s”
+crs#:#event_user_selection_include_role#:#Uwzględnij wszystkich użytkowników z rolą „ %1$s”
 crs#:#event_user_selection_include_waiting_list#:#Uwzględnij wszystkich użytkowników na „liście oczekujących”
 crs#:#events#:#Zdarzenia
 crs#:#export_members#:#Uczestnicy eksportu
