@@ -123,18 +123,18 @@ meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
-meta#:#meta_oer_blocked#:#Ignored by OER Harvester
-meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_copyright_show_usages#:#Show usages
-meta#:#meta_copyright_sub_items#:#Sub Items
-meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
+meta#:#meta_copyright_show_usages#:#Zeige Nutzung
+meta#:#meta_copyright_sub_items#:#Unterelemente
+meta#:#meta_copyright_outdated#:#Veraltet / nicht mehr genutzt
+meta#:#meta_copyright_in_use#:#Wird genutzt
+meta#:#meta_copyright_usage#:#Nutzung
 meta#:#meta_copyright_status#:#Status
-meta#:#meta_save_order#:#Save Order
-meta#:#meta_order#:#Order
-meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
-meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+meta#:#meta_save_order#:#Reihenfolge speichern
+meta#:#meta_order#:#Reihenfolge
+meta#:#meta_copyright_change_warning_title#:#Änderung der Copyright-Einstellungen
+meta#:#meta_copyright_change_info#:#Sie wollen die Lizenz für dieses Objekt ändern. Dies sollte nur in Übereinstimmung mit dem Inhaber des Urheberrechts erfolgen. Bitte fahren Sie nur fort, wenn die neue Lizenz nicht restriktiver ist als die zuvor verwendete.
 survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
