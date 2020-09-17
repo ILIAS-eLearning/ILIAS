@@ -1244,7 +1244,7 @@ chatroom#:#chat_connection_disconnected#:#--- <b> # username # </ b> chatroom b�
 chatroom#:#chat_connection_established#:#+ + + <b> # username # </ b> girmiştir chatroom + + +
 chatroom#:#chat_create_private_room_button#:#Özel Oda Oluştur
 chatroom#:#chat_invitation#:#[INVITER_NAME] den kişiye davetiye Chatroom [ROOM_NAME]
-chatroom#:#chat_invitation_long#:#[SALUTATION] \ n \ nBu bir sohbet için davet edildiniz: \ nChatroom Başlığı: [ROOM_NAME] tarafından \ nInvited: [INVITER_NAME] \ nURL: [LINK] Eğer sohbet odası katılmak istiyorsanız \ n \ nBu takip edin verilen URL'ye .
+chatroom#:#chat_invitation_long#:#[SALUTATION]    Bu bir sohbet için davet edildiniz:  Chatroom Başlığı: [ROOM_NAME] tarafından  Invited: [INVITER_NAME]  URL: [LINK] Eğer sohbet odası katılmak istiyorsanız    Bu takip edin verilen URL'ye .
 chatroom#:#chat_invitation_short#:#Chat'e girmek için başlık bağlantısına tıklayınız.
 chatroom#:#chat_invite#:#Davet
 chatroom#:#chat_join#:#Üyelik
@@ -3139,7 +3139,7 @@ common#:#session_max_idle_info#:#Kullanıcının oturumu sona ermeden önce ne k
 common#:#session_min_idle#:#Minimum oturum boşta kalma süresi (dakika)
 common#:#session_min_idle_info#:#Bir kullanıcı oturumu boşa düştüğü zaman, oturum sayısı azami sınıra ulaşmış ise başka kullanıcı onun yerine oturum açabilir.
 common#:#session_reminder#:#Oturum Hatırlatma
-common#:#session_reminder_alert#:#Oturumunuz $ s% 2% 1 $ s içinde sona erecek!\ N \ nOturuma devam etmek için tamamı seçin \ nEğer iptal ederseniz oturumunuz sonlanacaktır.
+common#:#session_reminder_alert#:#Oturumunuz $ s% 2% 1 $ s içinde sona erecek!   Oturuma devam etmek için tamamı seçin  Eğer iptal ederseniz oturumunuz sonlanacaktır.
 common#:#session_reminder_info#:#Etkinse, çevrimiçi oturum süresi dolmadan önce size bir hatırlatma yapılır
 common#:#session_reminder_lead_time#:#Zaman Aralığı
 common#:#session_reminder_lead_time_info#:#Oturum hatırlatmasının kaç dakikada bir olacağını belirleyin Önerilen değer 5 (dakika) <br /> Bir kullanıcı oturumunun geçerli uzunluğu % s dir.
@@ -4376,7 +4376,7 @@ crs#:#crs_blocked_member_body#:#Kurs üyeliği "% s" bloke edilmiştir.
 crs#:#crs_cancel_subscr_request#:#Sil Üyelik İsteği
 crs#:#crs_cancel_subscription#:#Kullanıcı sol ders "% s"
 crs#:#crs_cancel_subscription_body#:#% s ders "% s" için onun / onun üyeliğini iptal etti.
-crs#:#crs_cancel_subscription_body2#:#Ders bir bekleme listesine diğer üyeleri olabilir \ nŞimdi bekleme listesi kontrol etmelisiniz \ nBir Ders üyelerini görüntülemek için tıklayın..:
+crs#:#crs_cancel_subscription_body2#:#Ders bir bekleme listesine diğer üyeleri olabilir  Şimdi bekleme listesi kontrol etmelisiniz  Bir Ders üyelerini görüntülemek için tıklayın..:
 crs#:#crs_contact#:#İletişim
 crs#:#crs_contact_consultation#:#Danışman
 crs#:#crs_contact_email#:#E-Posta
@@ -4580,7 +4580,7 @@ crs#:#crs_subject_course_group_notification#:#%S için Daily Mail
 crs#:#crs_subscribe_member#:#Kurs için Kaydınız "% s"
 crs#:#crs_subscribe_member_body#:#Biz ders "% s" için kaydınızı onaylamak için mutluyuz .
 crs#:#crs_subscribe_wl#:#Kurs için Kaydınız "% s"
-crs#:#crs_subscribe_wl_body#:#"% s" dersin bekleme listesine tahsis edilmiştir. \ NBu listedeki pozisyonu% s tahsis edilir. \ N \ İsteğiniz onay veya red edildiği zaman nBu bir kurs yöneticisi bir mesaj alacaksınız.
+crs#:#crs_subscribe_wl_body#:#"% s" dersin bekleme listesine tahsis edilmiştir.  Bu listedeki pozisyonu% s tahsis edilir.   \ İsteğiniz onay veya red edildiği zaman nBu bir kurs yöneticisi bir mesaj alacaksınız.
 crs#:#crs_subscriber#:#Abone
 crs#:#crs_subscribers_deleted#:#Silinmiş abone (ler)
 crs#:#crs_subscription#:#Abonelik
@@ -5671,7 +5671,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#bu kaydı onaylamak için, şu adrese
 grp#:#grp_mail_notification_reg_req_sub#:#İstek grubu "% s" katılmak için
 grp#:#grp_mail_notification_reg_sub#:#Kullanıcı grubu "% s" için tescil
 grp#:#grp_mail_notification_unsub_bod#:#s grubu "% s" için onun / onun üyeliğini iptal etti.
-grp#:#grp_mail_notification_unsub_bod2#:#grup bir bekleme listesine diğer üyeleri olabilir \ nŞimdi bekleme listesi kontrol etmelisiniz \ nBir grup üyelerini görüntülemek için tıklayın..:
+grp#:#grp_mail_notification_unsub_bod2#:#grup bir bekleme listesine diğer üyeleri olabilir  Şimdi bekleme listesi kontrol etmelisiniz  Bir grup üyelerini görüntülemek için tıklayın..:
 grp#:#grp_mail_notification_unsub_sub#:#Kullanıcı sol grubu "% s"
 grp#:#grp_mail_permanent_link#:#Grubu ile ilgili ihtiyacınız olan bilgileri, tüm bulmak için aşağıdaki linke tıklayınız :
 grp#:#grp_mail_status_bod#:#grubunda Durumunuz "% s" değiştirildi.
@@ -5682,9 +5682,9 @@ grp#:#grp_mail_sub_dec_bod#:#Biz sizin kayıt "% s" grubu için red edildiğini 
 grp#:#grp_mail_sub_dec_sub#:#Kayıt grubu "% s" için reddetti
 grp#:#grp_mail_subscribe_member_bod#:#Biz grubu "% s" için kaydınızı onaylamak için mutluyuz .
 grp#:#grp_mail_subscribe_member_sub#:#Grubu "% s" için Kaydınız
-grp#:#grp_mail_unsubscribe_member_bod#:#biz grup% s üyeliğinizin iptal onaylamak. Başka bir gruba katılmak için bir fırsat bulduğunuz \ nSizi umut.
+grp#:#grp_mail_unsubscribe_member_bod#:#biz grup% s üyeliğinizin iptal onaylamak. Başka bir gruba katılmak için bir fırsat bulduğunuz  Sizi umut.
 grp#:#grp_mail_unsubscribe_member_sub#:#Grubu "% s" üyelik Sizin iptali
-grp#:#grp_mail_wl_bod#:#Eğer grubu "% s" bekleme listesi atanmış. \ NBu listedeki pozisyonu% s tahsis edilir. \ N \ İsteğiniz onay veya red edildiği zaman nBu bir grup yöneticisi bir mesaj alacaksınız.
+grp#:#grp_mail_wl_bod#:#Eğer grubu "% s" bekleme listesi atanmış.  Bu listedeki pozisyonu% s tahsis edilir.   \ İsteğiniz onay veya red edildiği zaman nBu bir grup yöneticisi bir mesaj alacaksınız.
 grp#:#grp_mail_wl_sub#:#Grubu "% s" için Kaydınız
 grp#:#grp_map_location#:#Grubu Harita Konum
 grp#:#grp_map_settings#:#Harita Ayarları
@@ -5772,8 +5772,8 @@ itgr#:#itgr_edit#:#Öğe Düzenleme Grupları
 itgr#:#itgr_item#:#Ürün
 itgr#:#itgr_materials#:#Malzemeler
 jscalendar#:#about_calendar#:#Takvim hakkında
-jscalendar#:#about_calendar_long#:#DHTML Tarih / Saat Seçici \ n (c) dynarch.com 2002-2003 \ nDaha son sürümünü ziyaretiniz: http://dynarch.com/mishoo/calendar.epl \ GNU LGPL altında nDistributed. Ayrıntılar için http://gnu.org/licenses/lgpl.html bakınız \ n \ nTarih seçimi:. \ Seçmek için «Â» düğmeleri Â n kullan yıl \ n kullan <,> düğmelerini ayı seçmek için \ Daha hızlı seçim için yukarıdaki düğmelerden birine üzerinde fare düğmesi n-tutun.
-jscalendar#:#about_time#:#\ n \ nTime seçimi: \ arttırmak için zaman parçalarının üzerinde n-tıklayın \ n-veya azaltmak \ n-veya daha hızlı seçimi için tıklayın ve sürükleyin Shift-tıklatın.
+jscalendar#:#about_calendar_long#:#DHTML Tarih / Saat Seçici   (c) dynarch.com 2002-2003  Daha son sürümünü ziyaretiniz: http://dynarch.com/mishoo/calendar.epl \ GNU LGPL altında nDistributed. Ayrıntılar için http://gnu.org/licenses/lgpl.html bakınız    Tarih seçimi:. \ Seçmek için «Â» düğmeleri Â n kullan yıl   kullan <,> düğmelerini ayı seçmek için \ Daha hızlı seçim için yukarıdaki düğmelerden birine üzerinde fare düğmesi n-tutun.
+jscalendar#:#about_time#:#   Time seçimi: \ arttırmak için zaman parçalarının üzerinde n-tıklayın  -veya azaltmak  -veya daha hızlı seçimi için tıklayın ve sürükleyin Shift-tıklatın.
 jscalendar#:#close#:#Kapat
 jscalendar#:#day_first#:#Ekran% ilk
 jscalendar#:#def_date_format#:#%Y-% m-% d
@@ -7033,16 +7033,16 @@ ps#:#rbac_log_info#:#Nesne izinlerinde yapılan tüm değişikliklerin günlüğ
 ps#:#show_privacy#:#Gizlilik
 ps#:#show_security#:#Güvenlik
 pwassist#:#password_assistance#:#Şifre Yardımı
-pwassist#:#pwassist_enter_email#:#e-posta adresinizi girin ve. \ Nilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir. \ NChoose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya% 1 $ s ile iletişim kurunuz.
-pwassist#:#pwassist_enter_username_and_email#:#aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin. \ Nilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz. \ Nin durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek % 1 $ s için.
+pwassist#:#pwassist_enter_email#:#e-posta adresinizi girin ve.  ilias bu adrese bir e-posta göndereceğiz formu doldurarak gönderiniz. E-posta Bu e-posta adresi kayıtlı tüm kullanıcı adlarını içerir.  Choose uygun bir kullanıcı adı ve yeni bir şifre almak için şifre servisini kullanmak. Bu hizmet ile herhangi bir e-posta almak istemiyorsanız kurs yöneticisi veya% 1 $ s ile iletişim kurunuz.
+pwassist#:#pwassist_enter_username_and_email#:#aşağıda gösterilen alanlara bir kullanıcı adı ve ilişkili e-posta adresini girin.  ilias bu e-posta adresine bir mesaj gönderecektir. Mesaj bir web sayfası için bir adres içerir, nereye kullanıcı hesabı için yeni bir parola girebilirsiniz.  in durumunda bu formu kullanarak kullanıcı hesabı için bir parola atamak mümkün değildir, kurs yönetimi ile temas ya da bir e-posta göndermek % 1 $ s için.
 pwassist#:#pwassist_enter_username_and_new_password#:#kullanıcı adınızı ve aşağıda alanlarına yeni parolayı girin.
-pwassist#:#pwassist_login_not_match#:#başka bir kullanıcı adı giriniz. Girdiğiniz \ nBu kullanıcı adı şifre yardımı için sormuştu hangi kullanıcı adı eşleşmiyor.
-pwassist#:#pwassist_mail_body#:#$ S \ n \ nBu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu \ n \ t% 2 $ s \ n \ nBu (veya% 3 birisiyle $ \ n \ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) "% 4 $ s" kullanıcı hesabı için parola yardım istedi \ n \ nLütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır \ n \ n-varsa kaza: \ nDelete bu mail \ n \ n-Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s \ n \ n-Eğer \ nLütfen iletişim% 5, şu şekilde hareket edin: \ n \ n1. Tarayıcınızı açın. \ N \ n2. Tarayıcınızda aşağıdaki adresi girin: \ n \ t% 6 $ s \ n \ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \ N \ n3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz. \ N \ nLütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda.
-pwassist#:#pwassist_mail_sent#:#Bir mesaj% 1 $ s gönderildi. \ NLütfen posta kutusunu işaretleyin.
+pwassist#:#pwassist_login_not_match#:#başka bir kullanıcı adı giriniz. Girdiğiniz  Bu kullanıcı adı şifre yardımı için sormuştu hangi kullanıcı adı eşleşmiyor.
+pwassist#:#pwassist_mail_body#:#$ S    Bu mesaj ILIAS sunucu tarafından otomatik olarak oluşturuldu   \ t% 2 $ s    Bu (veya% 3 birisiyle $   \ t% 1: kullanıcı hesabınız için yeni bir şifre Kayıt s) "% 4 $ s" kullanıcı hesabı için parola yardım istedi    Lütfen aşağıda sıralanan koşulları dikkatle kontrol edin ve buna göre hareket edin:. Eğer ILIAS sunucudaki şifre yardımı formu kullanılmıştır    -varsa kaza:  Delete bu mail    -Eğer bu ILIAS sunucuda şifre yardım istedi asla, kesin:.. şifre yardım istedi $ s    -Eğer  Lütfen iletişim% 5, şu şekilde hareket edin:    1. Tarayıcınızı açın.    2. Tarayıcınızda aşağıdaki adresi girin:   \ t% 6 $ s    Important: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir.    3. Tarayıcınız tarafından gösterilen web sayfasında, kullanıcı hesabınız için yeni bir şifre güvenlik nedenleriyle, sadece tam bir kez ve yalnızca sınırlı bir süre için yukarıdaki üç adımı gerçekleştirebilirsiniz.    Lütfen not girin. Daha sonra adres geçersiz olur ve tekrar ILIAS sunucuda şifre yardımı sayfasını kullanmak zorunda.
+pwassist#:#pwassist_mail_sent#:#Bir mesaj% 1 $ s gönderildi.  Lütfen posta kutusunu işaretleyin.
 pwassist#:#pwassist_mail_subject#:#ILIAS Şifre Yardımı
 pwassist#:#pwassist_password_assigned#:#parola başarıyla kullanıcı "% 1 $ s" atanmıştır.
-pwassist#:#pwassist_session_expired#:#yine bu formu doldurunuz. \ NDışa şifre yardım oturumunuzun süresi doldu. Eğer birden fazla kez size e-posta ile gönderilen linki kullanmaya çalıştım, çünkü bu olmuş olabilir, veya bağlantıyı size gönderilen beri çok zaman geçti çünkü.
-pwassist#:#pwassist_username_mail_body#:#Bu verilen e-posta adresi için bulunan aktif kullanıcı adı: \ n% s \ n \ nBu mesajı şu ILIAS Server tarafından otomatik olarak oluşturulmuştur \ n \ t% s \ n \ nBu (veya IP% olan biri ler) e-posta adresi '% s' için unutulmuş kullanıcı için destek talep etmiş önerdiği gibi \ n \ nLütfen aşağıdaki ve hareket kontrol :: \ n \ n-İstemeden Bu e-posta istedi:. \ nDelete bu E-posta \ n \ n-Sen bu e-posta talep asla, eminiz:.. \ nLütfen temas% s aşağıdaki gibi \ n \ n-Eğer bu e-posta talep, lütfen devam :: \ n \ n1. Internet tarayıcınızı açın. \ N \ n2. Aşağıdaki url girin: \ n \ t% s \ n \ nImportant: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir. \ N \ n3. Tarayıcınız artık Şifre-Servis gösterir. Adlarını biri ve yeni bir şifre almak için uygun e-posta adresi ile birlikte bu sayfayı kullanın.
+pwassist#:#pwassist_session_expired#:#yine bu formu doldurunuz.  Dışa şifre yardım oturumunuzun süresi doldu. Eğer birden fazla kez size e-posta ile gönderilen linki kullanmaya çalıştım, çünkü bu olmuş olabilir, veya bağlantıyı size gönderilen beri çok zaman geçti çünkü.
+pwassist#:#pwassist_username_mail_body#:#Bu verilen e-posta adresi için bulunan aktif kullanıcı adı:  % s    Bu mesajı şu ILIAS Server tarafından otomatik olarak oluşturulmuştur   \ t% s    Bu (veya IP% olan biri ler) e-posta adresi '% s' için unutulmuş kullanıcı için destek talep etmiş önerdiği gibi    Lütfen aşağıdaki ve hareket kontrol ::    -İstemeden Bu e-posta istedi:.  Delete bu E-posta    -Sen bu e-posta talep asla, eminiz:..  Lütfen temas% s aşağıdaki gibi    -Eğer bu e-posta talep, lütfen devam ::    1. Internet tarayıcınızı açın.    2. Aşağıdaki url girin:   \ t% s    Important: adresi tek bir çizgidir. Eğer birden fazla satır içine bu adresi bölünmüş görürseniz, ardından e-posta programı bu satır sonlarını eklemiştir.    3. Tarayıcınız artık Şifre-Servis gösterir. Adlarını biri ve yeni bir şifre almak için uygun e-posta adresi ile birlikte bu sayfayı kullanın.
 rating#:#rat_not_rated_yet#:#Henüz Oylanmadı
 rating#:#rat_nr_ratings#:#%s Puan
 rating#:#rat_one_rating#:#Bir Değerlendirme
