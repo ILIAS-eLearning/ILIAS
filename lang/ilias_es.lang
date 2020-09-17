@@ -3490,7 +3490,7 @@ common#:#server_software#:#software del servidor
 common#:#server#:#servidor
 rbac#:#sess_copy#:#Copiar Sesión
 common#:#sess#:#Sesión
-common#:#session_reminder_alert#:#¡Tu sesión finalizará en %1$s a las %2$s!\n\nPulsa Aceptar para que te volvamos a avisar.\nSi pulsas Cancelar no volveremos a avisarte durante tu sesión.\n\nInstalación: %3$s.
+common#:#session_reminder_alert#:#¡Tu sesión finalizará en %1$s a las %2$s!Pulsa Aceptar para que te volvamos a avisar.Si pulsas Cancelar no volveremos a avisarte durante tu sesión.Instalación: %3$s.
 common#:#session_reminder_info#:#Si está habilitado, recibirá un aviso antes de que expire su sesión.
 common#:#session_reminder_lead_time_info#:#Por favor especifique la cantidad de minutos de sesión restantes antes de mostrarle un aviso de recordatorio de fin de sesión. El valor debe se menor que el tiempo máximo de inactividad permitido en la plataforma que es de %s. Se recomiendan al menos 5 minutos.
 common#:#session_reminder_lead_time#:#Periodo de aviso
@@ -3811,7 +3811,7 @@ common#:#usrimport_action_replaced#:#Acción %1$s reemplazada por %2$s
 common#:#usrimport_cant_delete#:#No se puede realizar la acción "Delete". No existe el usuario en la base de datos.
 common#:#usrimport_cant_insert#:#No se puede realizar la acción "Insert". El usuario ya existe en la base de datos.
 common#:#usrimport_cant_update#:#No se puede realizar la acción "Update". No existe el usuario en la base de datos.
-common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora la acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)\nCuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
+common#:#usrimport_conflict_handling_info#:#Cuando se selecciona "Ignorar si hay conflicto", ILIAS ignora la acción, si no puede ser llevada a cabo (e. g. una acción "Insert" no se realiza, si ya hay un usuario con el mismo ID en la base de datos.)Cuando se selecciona "Actualizar si hay conflicto", ILIAS actualiza actualiza la base de datos si una acción no se puede realizar. (e. g. una acción "Insert" es reemplazada por una acción "Update", si un usuario con el mismo login existe en la base de datos)
 common#:#usrimport_global_role_for_action_required#:#Al menos un rol global ha de ser especificado para la acción "%1$s".
 common#:#usrimport_ignore_role#:#Ignorar rol
 common#:#usrimport_login_is_not_unique#:#El ID de usuario no es único.
@@ -4534,7 +4534,7 @@ crs#:#crs_blocked_member#:#Pertenencia en el Curso "%s"
 crs#:#crs_blocked#:#Acceso rechazado
 crs#:#crs_cancel_subscr_request#:#Eliminar Petición de miembro.
 crs#:#crs_cancel_subscription_body#:#Un usuario se ha dado de baja en el curso "%s"
-crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.\nDebe revisar la lista de espera.\nPara ver los miembros de tu curso, click aquí:
+crs#:#crs_cancel_subscription_body2#:#Podría haber otros miembros en lista de espera en su curso.Debe revisar la lista de espera.Para ver los miembros de tu curso, click aquí:
 crs#:#crs_cancel_subscription#:#Su pertenencia al curso "%s" ha sido cancelada
 crs#:#crs_contact_consultation#:#Tutoría
 crs#:#crs_contact_email_info#:#Introducir uno o más e-mails (separado por comas).
@@ -4715,7 +4715,7 @@ crs#:#crs_status#:#Estado
 crs#:#crs_structure#:#Estructura del curso
 crs#:#crs_subscribe_member_body#:#Estamos encantados de confirmar tu registro en el curso "%s".
 crs#:#crs_subscribe_member#:#Tu registro del curso "%s"
-crs#:#crs_subscribe_wl_body#:#has sido asignado a la lista de espera del curso "%s".\nHas sido asignado a la posición %s de la lista.\n\n Recibirás un mensaje del administrador del curso cuando tu petición de pertenencia sea confirmada o rechazada.
+crs#:#crs_subscribe_wl_body#:#has sido asignado a la lista de espera del curso "%s".Has sido asignado a la posición %s de la lista. Recibirás un mensaje del administrador del curso cuando tu petición de pertenencia sea confirmada o rechazada.
 crs#:#crs_subscribe_wl#:#Su registro para el curso "%s".
 crs#:#crs_subscriber#:#Suscriptor
 crs#:#crs_subscribers_deleted#:#Usuario(s) matriculado(s) eliminado(s)
@@ -5394,7 +5394,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#Para confirmar este registro, vaya a:
 grp#:#grp_mail_notification_reg_req_sub#:#Petición para el grupo "%s"
 grp#:#grp_mail_notification_reg_sub#:#Usuario registrado en el grupo "%s"
 grp#:#grp_mail_notification_unsub_bod#:#%s ha cancelado su pertenencia al grupo "%s".
-grp#:#grp_mail_notification_unsub_bod2#:#Podría haber otros miembros en lista de espera para el grupo.\nPara ver los miembros de tu grupo, click aquí:
+grp#:#grp_mail_notification_unsub_bod2#:#Podría haber otros miembros en lista de espera para el grupo.Para ver los miembros de tu grupo, click aquí:
 grp#:#grp_mail_notification_unsub_sub#:#El usuario dejó el grupo "%s"
 grp#:#grp_mail_permanent_link#:#Haz click en el siguiente enlace para encontrar toda la información que necesitas sobre el grupo:
 grp#:#grp_mail_status_bod#:#tu estado en el grupo "%s" ha cambiado.
@@ -5405,9 +5405,9 @@ grp#:#grp_mail_sub_dec_bod#:#Sentimos decir que su registro ha sido rechazado pa
 grp#:#grp_mail_sub_dec_sub#:#Registro rechazado para el grupo "%s"
 grp#:#grp_mail_subscribe_member_bod#:#estamos encantados de confirmar su registro para el grupo "%s".
 grp#:#grp_mail_subscribe_member_sub#:#Tu registro para el grupo "%s"
-grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su cancelación de pertenencia al grupo %s.\nEsperamos que encuentre oportunidad de participar en algún otro grupo.
+grp#:#grp_mail_unsubscribe_member_bod#:#confirmamos su cancelación de pertenencia al grupo %s.Esperamos que encuentre oportunidad de participar en algún otro grupo.
 grp#:#grp_mail_unsubscribe_member_sub#:#Su cancelación de pertenencia en el grupo "%s"
-grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".\nHa sido asignado en la posición %s de la lista.\n\n Usted recibirá un mensaje del administrador del grupo cuando su petición sea aprobada o rechazada.
+grp#:#grp_mail_wl_bod#:#ha sido asignado a la lista de espera del grupo "%s".Ha sido asignado en la posición %s de la lista. Usted recibirá un mensaje del administrador del grupo cuando su petición sea aprobada o rechazada.
 grp#:#grp_mail_wl_sub#:#Su registro en el grupo "%s".
 grp#:#grp_map_location#:#Mapa de Localización de Grupo
 grp#:#grp_map_settings#:#Configuración del mapa
@@ -5454,9 +5454,9 @@ grp#:#grp_wrong_max_members#:#Por favor compruebe el número máximo de usuarios
 grp#:#grp_wrong_reg_time_limit#:#Por favor, revise la hora de inicio y final.
 grp#:#reg_grp_max_members_short#:#Número de miembros
 grp#:#reg_grp_max_members#:#Número máximo de usuarios
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\nPara la última versión visite: http://dynarch.com/mishoo/calendar.epl\nDistribuído bajo GNU LGPL. Visite http://gnu.org/licenses/lgpl.html para detalles.\n\nSelección de fecha:\n- Use los botones Â«, Â» para seleccionar año\n- Use los botones <, > para seleccionar mes\n- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector(c) dynarch.com 2002-2003Para la última versión visite: http://dynarch.com/mishoo/calendar.eplDistribuído bajo GNU LGPL. Visite http://gnu.org/licenses/lgpl.html para detalles.Selección de fecha:- Use los botones Â«, Â» para seleccionar año- Use los botones <, > para seleccionar mes- Haga click con el ratón en cualquiera de los botones superiores para una selección más rápida.
 jscalendar#:#about_calendar#:#Acerca del calendario
-jscalendar#:#about_time#:#\n\nSelección de hora:\n- Haga click en cualquiera de las partes del tiempo para incrementarlo \n- o Shift-click para decrementarlo\n- o click y arrastrar para una selección más rápida
+jscalendar#:#about_time#:#Selección de hora:- Haga click en cualquiera de las partes del tiempo para incrementarlo - o Shift-click para decrementarlo- o click y arrastrar para una selección más rápida
 jscalendar#:#close#:#Cerrar
 jscalendar#:#day_first#:#Mostrar primero %s
 jscalendar#:#def_date_format#:#%d-%m-%Y
@@ -6623,17 +6623,17 @@ ps#:#ps_warning_modify#:#Atención: Al menos un usuario ha aceptado el acuerdo d
 ps#:#show_privacy#:#Privacidad
 ps#:#show_security#:#Seguridad
 pwassist#:#password_assistance#:#Asistencia para Contraseñas
-pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.\nILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que se han registrado con esta dirección de e-mail.\nEscoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.\nILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.\nEn caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
+pwassist#:#pwassist_enter_email#:#Por favor introduzca una dirección de correo electrónico y envíe el formulario.ILIAS le enviará un correo a dicha dirección.El correo contiene todos los nombres de usuario que se han registrado con esta dirección de e-mail.Escoja un nombre de usuario apropiado y use el servicio de asistencia de contraseña para obtener una nueva. Si no recibe ningún correo por este servicio por favor contacte con su administrador del curso o %1$s.
+pwassist#:#pwassist_enter_username_and_email#:#Introduzca un nombre de usuario y la dirección de correo electrónico asociada en los campos mostrados debajo.ILIAS le enviará un mensaje a dicha dirección de correo electrónico. El mensaje contiene una dirección para una página web, donde puede introducir una nueva contraseña para su cuenta de usuario.En caso de que sea incapaz de asignar una nueva contraseña a su usuario usando este formulario, contacte a su tutor del curso o envíe un e-mail a %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Introduzca el nombre de usuario y la nueva contraseña en los siguientes campos.
-pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.\nEl nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
-pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:\n\t%1$s\n\nEste mensaje ha sido generado automáticamente por el servidor ILIAS\n\t%2$s\n\nUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".\n\nPor favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:\n\n- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:\nElimine este mensaje.\n\n- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:\nPor favor contacte %5$s.\n\n- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:\n\n1. Abra su navegador.\n\n2. Introduzca la siguiente dirección de correo en su navegador:\n\t%1$s\n\nImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.\n\n3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.\n\nPor favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
-pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.\nPor favor compruebe su bandeja de entrada.
-pwassist#:#pwassist_mail_sent_generic#:#Se ha enviado un mensaje a la dirección de correo electrónico definida en ILIAS. \nPor favor, comprueba tu buzón de correo
+pwassist#:#pwassist_login_not_match#:#Por favor introduzca otro nombre de usuario.El nombre de usuario que ha introducido no coincide con el nombre de usuario para el que pidió asistencia de contraseña.
+pwassist#:#pwassist_mail_body#:#Registrar una nueva contraseña para su cuenta de usuario:%1$sEste mensaje ha sido generado automáticamente por el servidor ILIAS%2$sUsted (o alguien en %3$s) solicitó asistencia para contraseña para la cuenta de usuario "%4$s".Por favor compruebe cuidadosamente las condiciones siguientes, y proceda de acuerdo a lo siguiente:- Si ha usado el formulario de asistencia de contraseñas en el servidor ILIAS por error:Elimine este mensaje.- Si está seguro de que nunca solicitó asistencia para contraseñas en este servidor ILIAS:Por favor contacte %5$s.- Si usted solicitó asistencia de contraseña, por favor proceda del siguiente modo:1. Abra su navegador.2. Introduzca la siguiente dirección de correo en su navegador:%1$sImportante: La dirección de correo está en una única línea. Si ve esta dirección dividida en múltiples líneas, entonces su cliente de correo ha debido insertar estos saltos de línea.3. En la página web mostrar por su navegador, introduzca una nueva contraseña para su cuenta de usuario.Por favor, note que por motivos de seguridad, puede realizar estos tres pasos sólo una única vez y durante un tiempo limitado. Después la dirección es inválida, y tiene que usar la página de asistencia de contraseñas en el servidor ILIAS de nuevo.
+pwassist#:#pwassist_mail_sent#:#Un mensaje ha sido enviado a %1$s.Por favor compruebe su bandeja de entrada.
+pwassist#:#pwassist_mail_sent_generic#:#Se ha enviado un mensaje a la dirección de correo electrónico definida en ILIAS. Por favor, comprueba tu buzón de correo
 pwassist#:#pwassist_mail_subject#:#Asistencia de Contraseña ILIAS
 pwassist#:#pwassist_password_assigned#:#La contraseña ha sido asignada al usuario "%1$s".
-pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.\nSu sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fue enviado.
-pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:\n%s\n\nEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:\n\t%s\n\nUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.\n\nPor favor compruebe lo siguiente y actue como se sugiere::\n\n-Usted ha solicitado este mail por accidente::\nElimine este correo.\n\n-Está seguro de que nunca solicitó este correo::\nPor favor contacte con %s.\n\n- Si solicitó este correo electrónico, por favor proceda del siguiente modo::\n\n1. Ejecute su navegador de internet.\n\n2. Introduzca la siguiente URL:\n\t%s\n\nImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.\n\n3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
+pwassist#:#pwassist_session_expired#:#Por favor rellene este formulario de nuevo.Su sesión de asistencia de contraseñas ha expirado. Esto puede haber ocurrido porque intentó usar el enlace a la URL que le ha sido enviado más de una vez, o porque pasó mucho tiempo desde que dicho enlace le fue enviado.
+pwassist#:#pwassist_username_mail_body#:#Estos son los usuarios activos encontrados para la dirección de e-mail recibida.:%sEste mensaje ha sido creado automáticamente por el siguiente servidor ILIAS:%sUsted (o alguien con la dirección IP %s) ha requerido soporte para recordatorio de nombre de usuario para la dirección de correo '%s'.Por favor compruebe lo siguiente y actue como se sugiere::-Usted ha solicitado este mail por accidente::Elimine este correo.-Está seguro de que nunca solicitó este correo::Por favor contacte con %s.- Si solicitó este correo electrónico, por favor proceda del siguiente modo::1. Ejecute su navegador de internet.2. Introduzca la siguiente URL:%sImportante: La URL es una única línea. Si observa que esta dirección se divide en múltiples líneas, entonces su programa de correo ha insertado estos saltos de línea.3. Su navegador no muestra el servicio de asistencia de contraseña. Use esta página conjuntamente con un nombre de usuario, y la dirección de e-mail para obtener una nueva contraseña.
 pwassist#:#pwassist_disabled_no_access#:#No está habilitada la asistencia de contraseñas. Póngase en contacto con la administración del sistema para obtener más ayuda: %s
 pwassist#:#unassist_disabled_no_access#:#No está habilitada la asistencia para nombres de usuario. Póngase en contacto con la administración del sistema para obtener más ayuda: %sNo es
 rating#:#rating_your_rating#:#Su puntuación
@@ -9030,7 +9030,7 @@ chatroom#:#chat_to_mainroom#:#A la sala principal
 chatroom#:#chat_create_private_room_button#:#Crear sala privada
 chatroom#:#chatroom_smiley_keyword#:#Palabra clave
 chatroom#:#chat_invitation#:#Invitación para ##inviter_name## a la sala ##room_name##
-chatroom#:#chat_invitation_long#:#Has sido invitado por ##inviter_name## a la sala ##room_name##.\n\nPincha sobre este enlace ##link## para unirte a esta sala directamente
+chatroom#:#chat_invitation_long#:#Has sido invitado por ##inviter_name## a la sala ##room_name##.Pincha sobre este enlace ##link## para unirte a esta sala directamente
 chatroom#:#chat_invitation_short#:#Por favor, pincha en el título del enlace para entrar en la sala
 chatroom#:#settings_title#:#Configuraciones
 chatroom#:#history_byday_title#:#Histórico por día
@@ -14904,10 +14904,10 @@ lso#:#lso_notify_off#:#Desactivada notificación de nuevos registros
 lso#:#lso_new_status#:#Tu nuevo estado es:
 lso#:#lso_notification_explanation_admin#:#Recibes un correo de ILIAS porque eres adminitrador de una secuencia de aprendizaje con notificaciones activas.
 lso#:#lso_mail_unsubscribe_member_sub#:#Cancelación de pertenencia a la secuencia de aprendizaje "%s"
-lso#:#lso_mail_unsubscribe_member_bod#:#Te confirmamos la cancelación de tu pertenencia a la secuencia de aprendizaje %s.\nEsperamos que tengas la oportunidad de participar en otras secuencias de aprendizaje pronto.
+lso#:#lso_mail_unsubscribe_member_bod#:#Te confirmamos la cancelación de tu pertenencia a la secuencia de aprendizaje %s.Esperamos que tengas la oportunidad de participar en otras secuencias de aprendizaje pronto.
 lso#:#lso_mail_notification_unsub_sub#:#El usuario abandonó la secuencia de aprendizaje "%s"
 lso#:#lso_mail_notification_unsub_bod#:#%s ha cancelado su pertenencia a la secuencia de aprendizaje "%s".
-lso#:#lso_mail_notification_unsub_bod2#:#Puede haber otros usuarios en la lista de espera de su Secuencia de Aprendizaje.\nDeberías consultar la lista de espera ahora.\nPara visualizar los miembros de tu Secuencia de Aprendizaje pulsa aquí:
+lso#:#lso_mail_notification_unsub_bod2#:#Puede haber otros usuarios en la lista de espera de su Secuencia de Aprendizaje.Deberías consultar la lista de espera ahora.Para visualizar los miembros de tu Secuencia de Aprendizaje pulsa aquí:
 lso#:#lso_mail_subscribe_member_sub#:#Confirmación de registro en Secuencia de Aprendizaje "%s"
 lso#:#lso_mail_subscribe_member_bod#:#Estamos encantados de confirmarte tu registro para la Secuencia de Aprendizaje "%s".
 lso#:#lso_mail_notification_reg_req_sub#:#Solicitud para unirse a la Secuencia de Aprendizaje "%s"
@@ -14918,7 +14918,7 @@ lso#:#lso_mail_sub_dec_bod#:#Lamentamos informarte que tu solicitud para unirte 
 lso#:#lso_mail_sub_acc_sub#:#Registro confirmado para "%s"
 lso#:#lso_mail_sub_acc_bod#:#estamos encantados de confirmarte tu registro para Secuencia de Aprendizaje "%s".
 lso#:#lso_mail_wl_sub#:#Tu alta en la Secuencia de Aprendizaje "%s"
-lso#:#lso_mail_wl_bod#:#has sido añadido a la lista de espera de la Secuencia de Aprendizaje "%s".\nEstás en la posición %s de la lista.\n\nRecibirás un mensaje del administrador de la Secuencia de Aprendizaje cuando tu solicitud sea aprobada o rechazada.
+lso#:#lso_mail_wl_bod#:#has sido añadido a la lista de espera de la Secuencia de Aprendizaje "%s".Estás en la posición %s de la lista.Recibirás un mensaje del administrador de la Secuencia de Aprendizaje cuando tu solicitud sea aprobada o rechazada.
 lso#:#lso_mail_status_sub#:#Cambio de estado en la Secuencia de Aprendizaje "%s"
 lso#:#lso_mail_status_bod#:#tu estado en la Secuencia de Aprendizaje "%s" ha cambiado.
 lso#:#first_access#:#Primer acceso
