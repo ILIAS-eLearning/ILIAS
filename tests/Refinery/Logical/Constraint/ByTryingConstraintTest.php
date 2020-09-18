@@ -29,7 +29,7 @@ class ByTryingTransformationTest extends TestCase
             $this->expectException(ConstraintViolationException::class);
         }
         $transformed = $trafo->transform($value);
-        $this->assertEquals($expected, $value);
+        $this->assertEquals($expected, $transformed);
     }
 
     protected function runTests($constraints, $data)
@@ -56,6 +56,8 @@ class ByTryingTransformationTest extends TestCase
     {
         $data = [
             'empty string' => ['', null],
+            'empty string2' => [' ', null],
+            'empty string3' => ['  ', null],
             'null' => [null, null],
             'string' => ['str', self::ERROR],
             'int' => [1, 1],
