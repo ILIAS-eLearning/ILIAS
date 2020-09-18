@@ -348,6 +348,13 @@ columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_b
 
 As a workaround ```STRICT_TRANS_TABLES```, ```STRICT_ALL_TABLES``` and ```ONLY_FULL_GROUP_BY``` MUST be disabled. To do so create the file ```/etc/mysql/conf.d/disable_strict_mode.cnf``` and enter the following (or add it to ```/etc/mysql/my.cnf```):
 
+Before MySQL < 8:
+```
+[mysqld]
+sql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+```
+
+With MySQL >= 8:
 ```
 [mysqld]
 sql_mode=IGNORE_SPACE,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
