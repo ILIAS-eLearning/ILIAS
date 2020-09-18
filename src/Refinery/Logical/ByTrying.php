@@ -37,7 +37,7 @@ class ByTrying extends Constraint
         $is_not_OK = function () {
             throw new ConstraintViolationException(
                 'no valid constraints',
-                'no_valid_costraints'
+                'no_valid_constraints'
             );
         };
 
