@@ -32,14 +32,17 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
         // Login-Button
         // Only visible, if not on login-page but not logged in
-        $target = '';
+        $target_str = '';
         if ($ref_id = $request->getQueryParams()['ref_id']) {
-            $target = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' .(int) $ref_id . '&';
+            $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' .(int) $ref_id . '&';
+        }
+        elseif ($target = $request->getQueryParams()['target']) {
+            $target_str = 'target=' . $target . '&';
         }
 
         $login_glyph = $factory->symbol()->glyph()->login();
         $login = $this->meta_bar->topLinkItem($if('login'))
-            ->withAction("login.php?" . $target . "client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
+            ->withAction("login.php?" . $target_str . "client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
             ->withSymbol($login_glyph)
             ->withPosition(2)
             ->withTitle($txt('log_in'))
