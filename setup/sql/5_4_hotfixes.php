@@ -1386,3 +1386,16 @@ ilDBUpdateNewObjectType::addAdminNode('lsos', 'LearningSequenceAdmin');
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+
+<#97>
+<?php
+if (!$ilDB->indexExistsByFields('booking_object', array('pool_id'))) {
+    $ilDB->addIndex('booking_object', array('pool_id'), 'i1');
+}
+?>
+<#98>
+<?php
+if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
+    $ilDB->addIndex('il_object_subobj', array('subobj'), 'i1');
+}
+?>
