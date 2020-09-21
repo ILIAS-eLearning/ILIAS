@@ -95,10 +95,10 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         if ($profile_ref_id > 0) {
             $this->tpl->setVariable(
                 "CONTEXT",
-                $lng->txt("cont_skill_context_local") . " (" . $profile_obj_title . ")");
+                $lng->txt("skmg_context_local") . " (" . $profile_obj_title . ")");
         }
         else {
-            $this->tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_global"));
+            $this->tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
         }
 
         $this->tpl->setVariable("NUM_USERS", ilSkillProfile::countUsers($a_set["id"]));

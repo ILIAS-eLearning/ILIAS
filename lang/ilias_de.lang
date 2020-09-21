@@ -11075,6 +11075,7 @@ survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
 skmg#:#skmg_skill_profiles#:#Profile
+skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
 skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen?
@@ -14495,7 +14496,9 @@ skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
 skmg#:#skmg_selected_skills#:#Kompetenzeinträge
 skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
 skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
-skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen zulassen
+skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
+skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
+skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
 skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
 skmg#:#skmg_lp_triggers_level#:#Gesetzt durch 'Bearbeitet'-Status
 skmg#:#skmg_save_settings#:#Einstellungen speichern
@@ -14624,12 +14627,16 @@ cont#:#cont_skill_do_not_set#:#Nicht setzen
 cont#:#cont_skill_no_skill#:#Kein Wert (zurücksetzen)
 cont#:#cont_skill_profiles#:#Profile der Mitglieder
 cont#:#cont_skill_profile#:#Profil
-cont#:#cont_add_profile#:#Profil hinzufügen
+cont#:#cont_add_global_profile#:#Globales Profil hinzufügen
+cont#:#cont_add_local_profile#:#Lokales Profil hinzufügen
 cont#:#cont_skill_assigned_profiles#:#Profilauswahl
 cont#:#cont_skill_no_profile_selected#:#Bitte wählen Sie ein Profil aus.
 cont#:#cont_skill_really_remove_profiles_from_list#:#Sollen die Profile wirklich aus der Liste entfernt werden?
 cont#:#cont_skill_really_remove_profile_from_list#:#Soll das Profil wirklich aus der Liste entfernt werden?
-cont#:#cont_skill_remove_profile#:#Profil entfernen
+cont#:#cont_skill_really_delete_profiles_from_list#:#Sollen die Profile wirklich gelöscht werden?
+cont#:#cont_skill_really_delete_profile_from_list#:#Soll das Profil wirklich gelöscht werden?
+cont#:#cont_skill_removal_not_possible#:#Das Entfernen von lokalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich globale Kompetenzprofile aus.
+cont#:#cont_skill_deletion_not_possible#:#Das Löschen von globalen Kompetenzprofilen ist nicht möglich. Bitte wählen Sie ausschließlich lokale Kompetenzprofile aus.
 cont#:#cont_mem_skills#:#Kompetenzen
 cont#:#cont_published#:#Veröffentlichung
 cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
@@ -16231,3 +16238,6 @@ feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#mainbar_more_label#:#Mehr
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
+common#:#back_to_course#:#Zurück zum Kurs
+skmg#:#skmg_context_global#:#Global
+skmg#:#skmg_context_local#:#Lokal

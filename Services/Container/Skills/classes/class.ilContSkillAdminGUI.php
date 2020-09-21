@@ -744,7 +744,7 @@ class ilContSkillAdminGUI
         } else {
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ctrl->getFormAction($this));
-            $cgui->setHeaderText($lng->txt("cont_skill_really_delete_local_profile_from_list"));
+            $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "deleteSingleLocalProfile");
             $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));

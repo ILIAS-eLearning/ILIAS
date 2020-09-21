@@ -137,10 +137,10 @@ class ilContProfileTableGUI extends ilTable2GUI
         $tpl->setVariable("ID", $a_set["profile_id"]);
 
         if (ilSkillProfile::lookupRefId($a_set["profile_id"]) > 0) {
-            $tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_local"));
+            $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_local"));
         }
         else {
-            $tpl->setVariable("CONTEXT", $lng->txt("cont_skill_context_global"));
+            $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
         }
 
         $ctrl->setParameter($this->parent_obj, "profile_id", $a_set["profile_id"]);

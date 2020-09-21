@@ -11081,6 +11081,7 @@ survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_select_appraisee#:#Select
 survey#:#survey_360_appraisee#:#Appraisee
 skmg#:#skmg_skill_profiles#:#Profiles
+skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
@@ -14506,6 +14507,8 @@ skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
+skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
+skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
 skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14636,12 +14639,16 @@ cont#:#cont_skill_do_not_set#:#Do not set
 cont#:#cont_skill_no_skill#:#No value (Reset)
 cont#:#cont_skill_profiles#:#Assigned Profiles of Members
 cont#:#cont_skill_profile#:#Profile
-cont#:#cont_add_profile#:#Add Profile
+cont#:#cont_add_global_profile#:#Add Global Profile
+cont#:#cont_add_local_profile#:#Add Local Profile
 cont#:#cont_skill_assigned_profiles#:#Profile Selection
 cont#:#cont_skill_no_profile_selected#:#Please select a profile.
 cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
 cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
-cont#:#cont_skill_remove_profile#:#Remove Profile
+cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
+cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?
+cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
+cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_published#:#Published
 cont#:#cont_assign_competence#:#Assign Competences to Members
@@ -16236,3 +16243,6 @@ feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid e
 common#:#mainbar_more_label#:#More
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
+common#:#back_to_course#:#Back to Course
+skmg#:#skmg_context_global#:#Global
+skmg#:#skmg_context_local#:#Local

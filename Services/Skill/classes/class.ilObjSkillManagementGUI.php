@@ -280,7 +280,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             "allow_local_profiles"
         );
         $cb_prop->setValue("1");
-        $cb_prop->setInfo("skmg_allow_local_profiles_info");
+        $cb_prop->setInfo($lng->txt("skmg_allow_local_profiles_info"));
         $cb_prop->setChecked($skmg_set->getAllowLocalProfiles());
         $form->addItem($cb_prop);
         
