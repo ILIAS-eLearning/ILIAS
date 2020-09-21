@@ -29,7 +29,6 @@ class UuidTest extends TestCase
         $factory = new Factory();
         $uuid = $factory->uuid4();
 
-        $this->assertTrue(get_class($uuid) === RamseyUuidWrapper::class);
         $this->assertEquals(1, preg_match(self::VALID_UUID4, $uuid->toString()));
     }
 
@@ -53,9 +52,8 @@ class UuidTest extends TestCase
         $factory = new Factory();
         $uuid = $factory->fromString(self::UUID4);
 
-        $this->assertTrue(get_class($uuid) === RamseyUuidWrapper::class);
         $this->assertEquals(1, preg_match(self::VALID_UUID4, $uuid->toString()));
-        $this->assertTrue($uuid->toString() === self::UUID4);
+        $this->assertEquals(self::UUID4, $uuid->toString());
     }
 
     /**
