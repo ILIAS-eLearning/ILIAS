@@ -34,7 +34,7 @@ class ByTryingTransformationTest extends TestCase
 
     protected function runTests($constraints, $data)
     {
-        $trafo = $this->refine->logical()->byTrying($constraints);
+        $trafo = $this->refine->byTrying($constraints);
         foreach ($data as $key => $value) {
             list($v, $expected) = $value;
             $this->single($trafo, $v, $expected);
@@ -43,7 +43,7 @@ class ByTryingTransformationTest extends TestCase
 
     public function testNullOrNumericWithSpaces()
     {
-        $trafo = $this->refine->logical()->byTrying([
+        $trafo = $this->refine->byTrying([
             $this->refine->numeric()->isNumeric(),
             $this->refine->kindlyTo()->null()
         ]);

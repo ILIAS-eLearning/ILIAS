@@ -9,7 +9,6 @@ use ILIAS\Refinery\Logical\LogicalOr;
 use ILIAS\Refinery\Logical\Not;
 use ILIAS\Refinery\Logical\Parallel;
 use ILIAS\Refinery\Logical\Sequential;
-use ILIAS\Refinery\Logical\ByTrying;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -66,13 +65,5 @@ class Group
     public function sequential(array $constraints) : Sequential
     {
         return new Sequential($constraints, $this->dataFactory, $this->language);
-    }
-
-    /**
-     * return first successful
-     */
-    public function byTrying(array $constraints) : ByTrying
-    {
-        return new ByTrying($constraints, $this->dataFactory, $this->language);
     }
 }
