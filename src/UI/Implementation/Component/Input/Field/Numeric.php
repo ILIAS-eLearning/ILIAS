@@ -31,7 +31,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
 
-        $trafo_numericOrNull = $this->refinery->logical()->byTrying([
+        $trafo_numericOrNull = $this->refinery->byTrying([
             $this->refinery->kindlyTo()->null(),
             $this->refinery->numeric()->isNumeric()
         ])
