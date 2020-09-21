@@ -45,4 +45,13 @@ class Factory
     {
         return $this->uuid4()->toString();
     }
+
+    /**
+     * @param string $uuid
+     * @return Uuid
+     */
+    public function fromString(string $uuid) : Uuid
+    {
+        return new RamseyUuidWrapper($this->uuid_factory->fromString($uuid));
+    }
 }
