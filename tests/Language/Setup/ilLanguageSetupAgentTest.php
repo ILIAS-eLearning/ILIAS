@@ -34,12 +34,6 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->assertTrue($this->obj->hasConfig());
     }
 
-    public function testGetConfigInput() : void
-    {
-        $this->expectException(\LogicException::class);
-        $this->obj->getConfigInput();
-    }
-
     public function testGetArrayToConfigTransformationWithDefaultLanguage() : void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();

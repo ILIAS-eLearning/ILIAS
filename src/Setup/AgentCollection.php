@@ -15,11 +15,6 @@ use ILIAS\Refinery\Transformation;
 class AgentCollection implements Agent
 {
     /**
-     * @var FieldFactory
-     */
-    protected $field_factory;
-
-    /**
      * @var Refinery
      */
     protected $refinery;
@@ -30,11 +25,9 @@ class AgentCollection implements Agent
     protected $agents;
 
     public function __construct(
-        FieldFactory $field_factory,
         Refinery $refinery,
         array $agents
     ) {
-        $this->field_factory = $field_factory;
         $this->refinery = $refinery;
         $this->agents = $agents;
     }
@@ -55,35 +48,6 @@ class AgentCollection implements Agent
             }
         }
         return false;
-    }
-
-    /**
-     * @inheritdocs
-     */
-    public function getConfigInput(Config $config = null) : Input
-    {
-        if ($config !== null) {
-            $this->checkConfig($config);
-        }
-
-        $inputs = [];
-        foreach ($this->getAgentsWithConfig() as $k => $c) {
-            if ($config) {
-                $inputs[$k] = $c->getConfigInput($config->getConfig($k));
-            } else {
-                $inputs[$k] = $c->getConfigInput();
-            }
-        }
-
-        return $this->field_factory->group($inputs)
-            ->withAdditionalTransformation(
-                $this->refinery->in()->series([
-                    $this->refinery->custom()->transformation(function ($v) {
-                        return [$v];
-                    }),
-                    $this->refinery->to()->toNew(ConfigCollection::class)
-                ])
-            );
     }
 
     /**

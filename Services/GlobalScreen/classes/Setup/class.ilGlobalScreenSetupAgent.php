@@ -30,14 +30,6 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException(self::class . " has no Config.");
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         throw new \LogicException(self::class . " has no Config.");

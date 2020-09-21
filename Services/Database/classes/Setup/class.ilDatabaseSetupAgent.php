@@ -30,14 +30,6 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("NYI!");
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.

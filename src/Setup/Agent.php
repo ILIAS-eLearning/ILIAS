@@ -18,15 +18,6 @@ interface Agent
     public function hasConfig() : bool;
 
     /**
-     * Agents must provide an input to set the configuration if they have a
-     * configuration.
-     *
-     * @throw InvalidArgumentException if Config does not match the Agent..
-     * @throw LogicException if Agent has no Config
-     */
-    public function getConfigInput(Config $config = null) : UI\Component\Input\Field\Input;
-
-    /**
      * Agents must be able to tell how to create a configuration from a
      * nested array.
      *

@@ -26,14 +26,6 @@ class ilUICoreSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException(self::class . " has no Config.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         throw new \LogicException(self::class . " has no Config.");
