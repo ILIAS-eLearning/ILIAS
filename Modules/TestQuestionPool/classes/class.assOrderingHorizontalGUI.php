@@ -255,7 +255,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
+        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
         if ($this->object->textsize >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
         }
@@ -314,7 +314,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if ($this->object->textsize >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
         }
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
+        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         $questionoutput = $template->get();
         if (!$show_question_only) {

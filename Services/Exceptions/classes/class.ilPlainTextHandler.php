@@ -110,6 +110,7 @@ class ilPlainTextHandler extends Handler
         $server = $_SERVER;
 
         $post = $this->hidePassword($post);
+        $server = $this->hidePassword($server);
         $server = $this->shortenPHPSessionId($server);
 
         return array( "GET Data" => $_GET
@@ -123,19 +124,22 @@ class ilPlainTextHandler extends Handler
     }
 
     /**
-     * Replace passwort from post array with security message
+     * Replace password from super global array with security message
      *
-     * @param array $post
-     *
+     * @param array $superGlobal
      * @return array
      */
-    private function hidePassword(array $post)
+    private function hidePassword(array $superGlobal) : array
     {
-        if (isset($post["password"])) {
-            $post["password"] = "REMOVED FOR SECURITY";
+        if (isset($superGlobal["password"])) {
+            $superGlobal["password"] = "REMOVED FOR SECURITY";
         }
 
-        return $post;
+        if (isset($superGlobal["post_vars"]) && isset($superGlobal["post_vars"]["password"])) {
+            $superGlobal["post_vars"]["password"] = "REMOVED FOR SECURITY";
+        }
+
+        return $superGlobal;
     }
 
     /**

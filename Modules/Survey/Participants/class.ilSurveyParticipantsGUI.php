@@ -1470,7 +1470,7 @@ class ilSurveyParticipantsGUI
         $mailmessage_a->setRequired(true);
         $mailmessage_a->setCols(80);
         $mailmessage_a->setRows(10);
-        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
+        $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
         $form->addItem($mailmessage_a);
         
         $recf = new ilHiddenInputGUI("rtr_id");

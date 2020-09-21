@@ -137,10 +137,15 @@ class ilLMTracker
      *
      * @param int $a_page_id page id
      */
-    public function trackAccess($a_page_id)
+    public function trackAccess($a_page_id, $user_id)
     {
+        if ($user_id == ANONYMOUS_USER_ID) {
+            ilChangeEvent::_recordReadEvent("lm", $this->lm_ref_id, $this->lm_obj_id, $user_id);
+            return;
+        }
+
         if ($this->lm_ref_id == 0) {
-            die("ilLMTracker: No Ref Id given.");
+            throw new ilLMPresentationException("ilLMTracker: No Ref Id given.");
         }
 
         // track page and chapter access

@@ -5394,12 +5394,12 @@ pwassist#:#pwassist_enter_email#:#请输入一个电子邮件地址并提交表�
 pwassist#:#pwassist_enter_username_and_email#:#在下面的字段中输入一个用户名和相关的电子邮件地址。 ILIAS将发送一条消息到这个电子邮件地址。这条消息包含一个网页地址。在这里，您可以为用户账号输入一个新密码。
 pwassist#:#pwassist_enter_username_and_new_password#:#在下面的字段中输入用户名和新密码。
 pwassist#:#pwassist_login_not_match#:#请输入其他用户名。 您所输入的这个用户名和您要求密码辅助的用户名不匹配。
-pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码： \t%1$s  这条信息由ILIAS服务器自动生成 \t%2$s  您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。  请仔细检查下面列出的条件，并进行相应处理：  - 如果您意外的在ILIAS服务器上使用了密码辅助：  请删除这封邮件。  - 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助： 请联系 %5$s.  - 如果您要求了密码辅助，请按以下步骤操作：  1、打开您的浏览器。  2、在您的浏览器中输入以下地址： \t%1$s  重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。  3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。  请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
+pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码： %1$s  这条信息由ILIAS服务器自动生成 %2$s  您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。  请仔细检查下面列出的条件，并进行相应处理：  - 如果您意外的在ILIAS服务器上使用了密码辅助：  请删除这封邮件。  - 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助： 请联系 %5$s.  - 如果您要求了密码辅助，请按以下步骤操作：  1、打开您的浏览器。  2、在您的浏览器中输入以下地址： %1$s  重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。  3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。  请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
 pwassist#:#pwassist_mail_sent#:#一条消息已经发送到%1$s. 请检查您的邮箱。
 pwassist#:#pwassist_mail_subject#:#ILIAS密码助手
 pwassist#:#pwassist_password_assigned#:#密码已成功分配给用户"%1$s"。
 pwassist#:#pwassist_session_expired#:#请再次填写这个表单。 您的密码辅助会话已过期。这种情况有可能发生，因为您试图使用的链接已经通过电子邮件不止一次的发送给您，或因为这个链接已经发送给您太长时间了。
-pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户： %s  这条信息已经由以下ILIAS服务器自动创建： \t%s  您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。  请检查以下和做为建议：  - 您意外的请求了这封邮件： 请删除这封邮件。  - 您确信您从来没有请求过这封邮件： 请联系 %s。  - 如果您请求了这封邮件，请按照以下步骤处理：  1、启动您的浏览器。  2、输入以下url： \t\5s  重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。  3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
+pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户： %s  这条信息已经由以下ILIAS服务器自动创建： %s  您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。  请检查以下和做为建议：  - 您意外的请求了这封邮件： 请删除这封邮件。  - 您确信您从来没有请求过这封邮件： 请联系 %s。  - 如果您请求了这封邮件，请按照以下步骤处理：  1、启动您的浏览器。  2、输入以下url： \5s  重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。  3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
 rating#:#rating_your_rating#:#您的评分
 rbac#:#cals_edit_event#:#管理公共日历
 rbac#:#cals_edit_permission#:#改变权限设置
@@ -16179,3 +16179,5 @@ ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new vari
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable

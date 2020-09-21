@@ -962,7 +962,7 @@ class ilMailFolderGUI
         }
 
         $filename = $this->httpRequest->getParsedBody()['filename'] ?? '';
-        if (strlen(ilSession::get('filename')) > 0) {
+        if (is_string(ilSession::get('filename')) && strlen(ilSession::get('filename')) > 0) {
             $filename = ilSession::get('filename');
             ilSession::set('filename', null);
         }

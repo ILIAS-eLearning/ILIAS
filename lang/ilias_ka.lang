@@ -7070,7 +7070,7 @@ pwassist#:#pwassist_mail_sent#:#შეტყობინება გაგზ�
 pwassist#:#pwassist_mail_subject#:#ილიასის პაროლის დახმარება
 pwassist#:#pwassist_password_assigned#:#პაროლი წარმატებით დაინიშნა მომხარებელზე "%s1$".
 pwassist#:#pwassist_session_expired#:#გთხოვთ ხელახლა შეავსოთ ეს ფორმა. \ნ თქვენი პაროლის დახმარების სესია ამოიწურა. Eეს იმის გამო მოხდა რომ თქვენ გამოგზავნილი ლინკი რამდენიმეჯერ გამოიყენეთ ან დიდი დრო მოანდომეთ პაროლის აღდგენას
-pwassist#:#pwassist_username_mail_body#:# \t%s  You (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.  Please check the following and act as suggested
+pwassist#:#pwassist_username_mail_body#:# %s  You (or somebody with IP  %s) have requested support for forgotten usernames for the e-mail address '%s'.  Please check the following and act as suggested
 rating#:#rat_not_rated_yet#:#არ არის შეფასებული ჯერ
 rating#:#rat_nr_ratings#:#%s რეიტინგები
 rating#:#rat_one_rating#:#ერთი რეიტინგი
@@ -16180,3 +16180,5 @@ ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new vari
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable

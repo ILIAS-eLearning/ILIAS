@@ -368,18 +368,16 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $commandGroups[] = $presentationCommands;
         }
 
-        if (!$this->viewSettings->isTilePresentation()) {
-            $commandGroups[] = [
-                [
-                    'txt' => $this->viewSettings->isSelectedItemsViewActive() ?
-                        $this->lng->txt('pd_remove_multiple') :
-                        $this->lng->txt('pd_unsubscribe_multiple_memberships'),
-                    'url' => $this->ctrl->getLinkTarget($this, 'manage'),
-                    'asyncUrl' => null,
-                    'active' => false,
-                ]
-            ];
-        }
+        $commandGroups[] = [
+            [
+                'txt' => $this->viewSettings->isSelectedItemsViewActive() ?
+                    $this->lng->txt('pd_remove_multiple') :
+                    $this->lng->txt('pd_unsubscribe_multiple_memberships'),
+                'url' => $this->ctrl->getLinkTarget($this, 'manage'),
+                'asyncUrl' => null,
+                'active' => false,
+            ]
+        ];
 
         return $commandGroups;
     }

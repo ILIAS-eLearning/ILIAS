@@ -2010,7 +2010,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $chap_ids[] = $chap->getId();
         }
         $chap_ids = array_reverse($chap_ids);
-        $chap_ids = implode($chap_ids, ":");
+        $chap_ids = implode(":", $chap_ids);
 
         if ($a_redirect) {
             $ilCtrl->setParameter($this, "highlight", $chap_ids);
@@ -2057,7 +2057,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $sco_ids[] = $sco->getId();
         }
         $sco_ids = array_reverse($sco_ids);
-        $sco_ids = implode($sco_ids, ":");
+        $sco_ids = implode(":", $sco_ids);
 
         if ($a_redirect) {
             $ilCtrl->setParameter($this, "highlight", $sco_ids);
@@ -2104,7 +2104,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $ass_ids[] = $ass->getId();
         }
         $ass_ids = array_reverse($ass_ids);
-        $ass_ids = implode($ass_ids, ":");
+        $ass_ids = implode(":", $ass_ids);
 
         if ($a_redirect) {
             $ilCtrl->setParameter($this, "highlight", $ass_ids);
@@ -2150,7 +2150,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $page_ids[] = $page->getId();
         }
         $page_ids = array_reverse($page_ids);
-        $page_ids = implode($page_ids, ":");
+        $page_ids = implode(":", $page_ids);
 
         if ($a_redirect) {
             $ilCtrl->setParameter($this, "highlight", $page_ids);
@@ -2403,7 +2403,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $page_ids[] = $page->getId();
         }
         $page_ids = array_reverse($page_ids);
-        $page_ids = implode($page_ids, ":");
+        $page_ids = implode(":", $page_ids);
 
         if ($a_redirect) {
             if ($_GET["obj_id"] != "") {

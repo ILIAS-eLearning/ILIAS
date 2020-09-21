@@ -1065,7 +1065,7 @@ abstract class assQuestion
                     break;
             }
         }
-        return join($output, "<br />");
+        return join("<br />", $output);
     }
 
     /**

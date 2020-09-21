@@ -9200,8 +9200,13 @@ footer {
   html body .il-layout-page header,
   html body .il-layout-page .il-maincontrols,
   html body .il-layout-page .breadcrumbs,
-  html body .il-layout-page footer {
-    display: none;
+  html body .il-layout-page footer,
+  html body .il-layout-page .ilFileDropTargetOverlay {
+    display: none !important;
+  }
+  html body .il-layout-page-content,
+  html body .il-layout-page-content div {
+    display: block;
   }
 }
 .il-maincontrols-slate.disengaged {
@@ -19022,6 +19027,9 @@ span.ilProfileBadge .modal .img-responsive {
   margin-bottom: 10px;
   background-color: #e0e0e0;
 }
+.ilLSOKioskModeNavigation .navbar-form {
+  line-height: 25px;
+}
 .ilLSOKioskTopBarControls {
   float: left;
   display: block;
@@ -19359,4 +19367,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: 0.25em;
 }
-/*# sourceMappingURL=delos.css.map */
