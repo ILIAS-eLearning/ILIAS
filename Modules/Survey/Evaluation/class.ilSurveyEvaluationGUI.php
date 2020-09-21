@@ -455,7 +455,7 @@ class ilSurveyEvaluationGUI
                 $separator = ";";
                 foreach ($csvfile as $csvrow) {
                     $csvrow = $this->processCSVRow($csvrow, true, $separator);
-                    $csv .= join($csvrow, $separator) . "\n";
+                    $csv .= join($separator, $csvrow) . "\n";
                 }
                 ilUtil::deliverData($csv, $surveyname . ".csv");
                 exit();
@@ -1378,7 +1378,7 @@ class ilSurveyEvaluationGUI
                 $separator = ";";
                 foreach ($rows as $csvrow) {
                     $csvrow = str_replace("\n", " ", $this->processCSVRow($csvrow, true, $separator));
-                    $csv .= join($csvrow, $separator) . "\n";
+                    $csv .= join($separator, $csvrow) . "\n";
                 }
                 ilUtil::deliverData($csv, "$surveyname.csv");
                 exit();

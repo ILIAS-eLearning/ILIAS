@@ -902,7 +902,7 @@ abstract class SurveyQuestionGUI
             $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
                 
             $opt = new ilRadioOption($phrase_array["title"], $phrase_id);
-            $opt->setInfo(join($categories, ","));
+            $opt->setInfo(join(",", $categories));
             $group->addOption($opt);
             
             if ($phrase_array["org_title"] == "dp_standard_numbers") {

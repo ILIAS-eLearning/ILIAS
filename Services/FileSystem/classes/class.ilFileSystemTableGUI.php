@@ -118,7 +118,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 
             if ($this->label_enable) {
                 $label = (is_array($this->file_labels[$cfile]))
-                    ? implode($this->file_labels[$cfile], ", ")
+                    ? implode(", ", $this->file_labels[$cfile])
                     : "";
             }
 

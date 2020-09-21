@@ -951,7 +951,7 @@ class ilExSubmission
         }
         
         chdir($tmpdir);
-        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join($parsed_files, " ");
+        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
 
         exec($zipcmd);
         ilUtil::delDir($tmpdir);

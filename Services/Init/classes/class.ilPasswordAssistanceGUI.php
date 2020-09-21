@@ -669,7 +669,7 @@ class ilPasswordAssistanceGUI
                 array("\n", "\t"),
                 sprintf(
                     $this->lng->txt('pwassist_username_mail_body'),
-                    join($logins, ",\n"),
+                    join(",\n", $logins),
                     $this->getBaseUrl() . '/',
                     $_SERVER['REMOTE_ADDR'],
                     $email,
