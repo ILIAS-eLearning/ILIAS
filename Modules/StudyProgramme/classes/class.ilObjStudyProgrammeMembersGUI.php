@@ -214,7 +214,7 @@ class ilObjStudyProgrammeMembersGUI
     protected function getAssignmentsById() : array
     {
         $assignments = $this->object->getAssignments();
-        ;
+
         return array_filter($assignments, function (ilStudyProgrammeUserAssignment $assignment) {
             return $assignment->getStudyProgramme()->getId() == $this->object->getId();
         });
