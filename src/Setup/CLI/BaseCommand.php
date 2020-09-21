@@ -150,8 +150,11 @@ abstract class BaseCommand extends Command
         $config_overwrites_raw = $input->getOption("config");
         $config_overwrites = [];
         foreach ($config_overwrites_raw as $o) {
-            list($k, $v) = explode("=", $o);
-            $config_overwrites[$k] = $v;
+            $vs = explode("=", $o);
+            if (count($vs) !== 2) {
+                throw new \Exception("Cannot read config-option: '$o'");
+            }
+            $config_overwrites[$vs[0]] = $vs[1];
         }
         $config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
         $trafo = $this->agent->getArrayToConfigTransformation();
