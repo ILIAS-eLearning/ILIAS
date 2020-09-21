@@ -1309,6 +1309,10 @@ abstract class assQuestionGUI
     protected function populateTaxonomyFormSection(ilPropertyFormGUI $form)
     {
         if (count($this->getTaxonomyIds())) {
+            // this is needed by ilTaxSelectInputGUI in some cases
+            require_once 'Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
+            ilOverlayGUI::initJavaScript();
+
             $sectHeader = new ilFormSectionHeaderGUI();
             $sectHeader->setTitle($this->lng->txt('qpl_qst_edit_form_taxonomy_section'));
             $form->addItem($sectHeader);
