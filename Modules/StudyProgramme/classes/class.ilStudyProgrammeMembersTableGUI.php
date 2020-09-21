@@ -303,10 +303,12 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
         );
 
-        $manage_members = $parent->isOperationAllowedForUser(
-            $usr_id,
-            ilOrgUnitOperation::OP_MANAGE_MEMBERS
-        ) && in_array($usr_id, $this->getParentObject()->getLocalMembers());
+        $manage_members =
+            (
+                $access_by_position == false
+                || $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
+            )
+            && in_array($usr_id, $this->getParentObject()->getLocalMembers());
 
         foreach ($actions as $action) {
             switch ($action) {
@@ -393,6 +395,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $sql .= $this->getFrom();
         $sql .= $this->getWhere($prg_id);
         $sql .= $this->getFilterWhere($filter);
+        $sql .= $this->getOrguValidUsersFilter();
 
         if ($limit !== null) {
             $this->db->setLimit($limit, $offset !== null ? $offset : 0);
@@ -401,6 +404,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $res = $this->db->query($sql);
         $now = (new DateTime())->format('Y-m-d H:i:s');
         $members_list = array();
+
 
         while ($rec = $this->db->fetchAssoc($res)) {
             $rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
@@ -707,5 +711,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             ||
             $this->prg->getPositionSettingsIsActiveForPrg()
         );
+    }
+
+    protected function getOrguValidUsersFilter() : string
+    {
+        $valid_user_ids = $this->position_based_access->getUsersInPrgAccessibleForOperation(
+            $this->getParentObject()->object,
+            ilOrgUnitOperation::OP_MANAGE_MEMBERS
+        );
+        if (count($valid_user_ids) < 1) {
+            return '';
+        }
+        return ' AND pcp.usr_id in ('
+            . implode(',', $valid_user_ids)
+            . ')';
     }
 }
