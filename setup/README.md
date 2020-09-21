@@ -37,9 +37,11 @@ same installation a during the initial setup process.
 
 Do not discard the `config.json` you use for the installation, you will need it later
 on to update that installation. If you want to overwrite specific fields in the
-configuration file you can use the `--config="a.b.c=value"` option, even several
-times. The nested field `a.b.c` from the config file will then be overwritten with
-`value`.
+configuration file you can use the `--config="<path>=<value>"` option, even several
+times. If you e.g. use `--config="common.master_password=XYZ"` the field `common.master_password`
+from the original config will be overwritten with `XYZ`. This allows to use one
+configuration for multiple setups and overwrite it from the CLI or even share
+configs without secrets.
 
 
 ## Update ILIAS
