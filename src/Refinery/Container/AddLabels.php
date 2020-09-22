@@ -6,12 +6,15 @@ namespace ILIAS\Refinery\Container;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Adds to any array keys for each value
  */
 class AddLabels implements Transformation
 {
+    use DeriveInvokeFromTransform;
+
     /**
      * @var string[] | int[]
      */
@@ -46,14 +49,6 @@ class AddLabels implements Transformation
         }
 
         return array_combine($this->labels, $from);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 
     /**

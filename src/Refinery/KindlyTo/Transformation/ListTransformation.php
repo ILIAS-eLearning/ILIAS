@@ -6,11 +6,13 @@ namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 
 class ListTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     private $transformation;
 
@@ -34,13 +36,5 @@ class ListTransformation implements Transformation
             $result[] = $transformedVal;
         }
         return $result;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

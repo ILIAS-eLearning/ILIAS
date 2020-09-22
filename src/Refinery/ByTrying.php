@@ -7,12 +7,14 @@ namespace ILIAS\Refinery;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ProblemBuilder;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Data;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class ByTrying implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
     use ProblemBuilder;
 
     /**
@@ -40,20 +42,13 @@ class ByTrying implements Transformation
     /**
      * @inheritdoc
      */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function transform($from)
     {
         foreach ($this->transformations as $transformation) {
-            if ($transformation->accepts($from)) {
-                $result = $this->data_factory->ok($from);
-                return $transformation->applyTo($result)->value();
+            $result = $this->data_factory->ok($from);
+            $result = $transformation->applyTo($result);
+            if ($result->isOK()) {
+                return $result->value();
             }
         }
         throw new \Exception($this->getErrorMessage($from));

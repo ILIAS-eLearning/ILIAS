@@ -6,6 +6,7 @@ namespace ILIAS\Refinery\DateTime;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Change the timezone (and only the timezone) of php's \DateTimeImmutable WITHOUT changing the date-value.
@@ -14,6 +15,7 @@ use ILIAS\Refinery\Transformation;
 class ChangeTimezone implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @var \DateTimeZone
@@ -44,13 +46,5 @@ class ChangeTimezone implements Transformation
         $ts = $from->format('Y-m-d H:i:s');
         $to = new \DateTimeImmutable($ts, $this->timezone);
         return $to;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }
