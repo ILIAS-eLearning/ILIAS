@@ -32,9 +32,4 @@ class StringTransformation implements Transformation
         }
         return (string) $from;
     }
-
-    public function accepts($value) : bool
-    {
-        return is_string($value);
-    }
 }
