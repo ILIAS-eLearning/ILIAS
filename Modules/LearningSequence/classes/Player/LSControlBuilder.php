@@ -367,6 +367,7 @@ $(document).on('{$signal_id}', function() {
 	var il_ls_win = window.open('$new_win_url');
 });
 window._lso_current_item_lp = -1;
+lso_checkLPOfObject();
 window.setInterval(lso_checkLPOfObject, $interval);
 JS;
     }
