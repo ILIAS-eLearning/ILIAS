@@ -23,41 +23,12 @@ class ByTryingTransformationTest extends TestCase
         $this->refine = new \ILIAS\Refinery\Factory($df, $lang);
     }
 
-    protected function single($trafo, $value, $expected)
+    public function NullOrNumericDataProvider()
     {
-        if ($expected === self::ERROR) {
-            $this->expectException(ConstraintViolationException::class);
-        }
-        $transformed = $trafo->transform($value);
-        $this->assertEquals($expected, $transformed);
-    }
-
-    protected function runTests($constraints, $data)
-    {
-        $trafo = $this->refine->byTrying($constraints);
-        foreach ($data as $key => $value) {
-            list($v, $expected) = $value;
-            $this->single($trafo, $v, $expected);
-        }
-    }
-
-    public function testNullOrNumericWithSpaces()
-    {
-        $trafo = $this->refine->byTrying([
-            $this->refine->numeric()->isNumeric(),
-            $this->refine->kindlyTo()->null()
-        ]);
-        $this->assertNull($trafo->transform(''));
-        $this->assertNull($trafo->transform(' '));
-        $this->assertNull($trafo->transform('    '));
-    }
-
-    public function testNullOrNumeric()
-    {
-        $data = [
+        return [
             'empty string' => ['', null],
-            'empty string2' => [' ', null],
-            'empty string3' => ['  ', null],
+            'empty string - one space' => [' ', null],
+            'empty string - more spaces' => ['  ', null],
             'null' => [null, null],
             'string' => ['str', self::ERROR],
             'int' => [1, 1],
@@ -67,45 +38,81 @@ class ByTryingTransformationTest extends TestCase
             'bool (false)' => [false, self::ERROR],
             'bool (true)' => [true, self::ERROR]
         ];
-
-        $constraints = [
-            $this->refine->numeric()->isNumeric(),
-            $this->refine->kindlyTo()->null()
-        ];
-        $this->runTests($constraints, $data);
     }
 
-    public function testNullOrNumericOrString()
+    /**
+     * @dataProvider NullOrNumericDataProvider
+     */
+    public function testNullOrNumeric($value, $expected)
     {
-        $data = [
+        $transformation = $this->refine->byTrying([
+            $this->refine->numeric()->isNumeric(),
+            $this->refine->kindlyTo()->null()
+        ]);
+
+        if ($expected === self::ERROR) {
+            $this->expectException(ConstraintViolationException::class);
+        }
+        $transformed = $transformation->transform($value);
+        $this->assertEquals($expected, $transformed);
+    }
+
+
+    public function NullOrNumericOrStringDataProvider()
+    {
+        return [
             'string' => ['str', 'str'],
             'null' => [null, null],
             'empty string' => ['', null],
             'int' => [1, 1],
-            'bool (true)' => [true, self::ERROR]
+            'bool (true)' => [true, self::ERROR],
+            'array' => [[], self::ERROR]
         ];
+    }
 
-        $constraints = [
+    /**
+     * @dataProvider NullOrNumericOrStringDataProvider
+     */
+    public function testNullOrNumericOrString($value, $expected)
+    {
+        $transformation = $this->refine->byTrying([
             $this->refine->kindlyTo()->null(),
             $this->refine->numeric()->isNumeric(),
             $this->refine->to()->string()
-        ];
-        $this->runTests($constraints, $data);
+        ]);
+
+        if ($expected === self::ERROR) {
+            $this->expectException(ConstraintViolationException::class);
+        }
+        $transformed = $transformation->transform($value);
+        $this->assertEquals($expected, $transformed);
     }
 
-    public function testStringOrNull()
+    public function StringOrNullDataProvider()
     {
-        $data = [
+        return [
             'string' => ['str', 'str'],
             'null' => [null, null],
             'empty string' => ['', ''],
-            'int' => [1, self::ERROR]
+            'int' => [1, self::ERROR],
+            'array' => [[], self::ERROR]
         ];
+    }
 
-        $constraints = [
+    /**
+     * @dataProvider StringOrNullDataProvider
+     */
+    public function testStringOrNull($value, $expected)
+    {
+        $transformation = $this->refine->byTrying([
             $this->refine->to()->string(),
             $this->refine->kindlyTo()->null()
-        ];
-        $this->runTests($constraints, $data);
+        ]);
+
+        if ($expected === self::ERROR) {
+            $this->expectException(ConstraintViolationException::class);
+        }
+        $transformed = $transformation->transform($value);
+        $this->assertEquals($expected, $transformed);
     }
 }
