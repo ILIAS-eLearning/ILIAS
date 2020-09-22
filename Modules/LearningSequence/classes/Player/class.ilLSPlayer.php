@@ -19,8 +19,6 @@ class ilLSPlayer
     const LSO_CMD_GOTO = 'lsogoto'; //with param ref_id
     const LSO_CMD_SUSPEND = 'lsosuspend';
     const LSO_CMD_FINISH = 'lsofinish';
-    const LSO_CMD_CONTINUE = 'lsostay';
-
 
     public function __construct(
         int $lso_ref_id,
@@ -107,7 +105,6 @@ class ilLSPlayer
             case self::LSO_CMD_GOTO:
                 list($position, $next_item) = $this->findItemByRefId($param);
                 break;
-            case self::LSO_CMD_CONTINUE:
             default:
                 $next_item = $current_item;
         }
