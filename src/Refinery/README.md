@@ -295,7 +295,7 @@ An example shows how the traits can be used.
 class BooleanTransformation implements Transformation
 {
 	use DeriveApplyToFromTransform;
-  use DeriveInvokeFromTransform;
+	use DeriveInvokeFromTransform;
 
 	/**
 	 * @inheritdoc

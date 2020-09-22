@@ -9,9 +9,9 @@ use ILIAS\Refinery\ConstraintViolationException;
 trait ProblemBuilder
 {
     /**
-     * @var string|callable
+     * @return string|callable
      */
-    protected $error;
+    abstract protected function getError();
 
     /**
      * @inheritdoc
@@ -30,8 +30,9 @@ trait ProblemBuilder
      */
     final public function getErrorMessage($value)
     {
-        if (!is_callable($this->error)) {
-            return (string) $this->error;
+        $error = $this->getError();
+        if (!is_callable($error)) {
+            return (string) $error;
         }
         $lng_closure = $this->getLngClosure();
         return call_user_func($this->error, $lng_closure, $value);

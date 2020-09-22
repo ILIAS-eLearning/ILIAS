@@ -32,7 +32,7 @@ class Constraint implements ConstraintInterface
     protected $is_ok;
 
     /**
-     * @var callable
+     * @var callable|string
      */
     protected $error;
 
@@ -48,17 +48,17 @@ class Constraint implements ConstraintInterface
     public function __construct(callable $is_ok, $error, Data\Factory $data_factory, \ilLanguage $lng)
     {
         $this->is_ok = $is_ok;
-
-        if (!is_callable($error)) {
-            $this->error = function () use ($error) {
-                return $error;
-            };
-        } else {
-            $this->error = $error;
-        }
-
+        $this->error = $error;
         $this->data_factory = $data_factory;
         $this->lng = $lng;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getError()
+    {
+        return $this->error;
     }
 
     /**

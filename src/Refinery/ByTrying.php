@@ -23,9 +23,14 @@ class ByTrying implements Transformation
     protected $transformations;
 
     /**
-    * @var Data\Factory
-    */
+     * @var Data\Factory
+     */
     protected $data_factory;
+
+    /**
+     * @var callable
+     */
+    protected $error;
 
     public function __construct(array $transformations, Data\Factory $data_factory, \ilLanguage $lng)
     {
@@ -37,6 +42,14 @@ class ByTrying implements Transformation
                 'no_valid_constraints'
             );
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getError()
+    {
+        return $this->error;
     }
 
     /**
