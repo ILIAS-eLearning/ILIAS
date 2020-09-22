@@ -12,10 +12,12 @@ namespace ILIAS\Refinery\To\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 class IntegerTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -29,13 +31,5 @@ class IntegerTransformation implements Transformation
             );
         }
         return (int) $from;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

@@ -179,7 +179,7 @@ class Factory
 
     /**
      * Accepts Transformations and uses first successful one.
-     * @param Transformation[]
+     * @param Transformation[] $transformations
      */
     public function byTrying(array $transformations) : ByTrying
     {

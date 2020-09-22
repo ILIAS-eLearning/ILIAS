@@ -5,12 +5,14 @@
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class DictionaryTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     private $transformation;
 
@@ -44,13 +46,5 @@ class DictionaryTransformation implements Transformation
             $result[$key] = $transformedValue;
         }
         return $result;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

@@ -5,6 +5,7 @@
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
@@ -14,6 +15,7 @@ class FloatTransformation implements Transformation
     const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
 
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -55,13 +57,5 @@ class FloatTransformation implements Transformation
             'not_float',
             $from
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

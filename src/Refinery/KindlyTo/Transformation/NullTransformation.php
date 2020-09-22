@@ -5,12 +5,14 @@
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class NullTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -28,18 +30,5 @@ class NullTransformation implements Transformation
             'not_null',
             $from
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
-    }
-
-    public function accepts($value) : bool
-    {
-        return is_null($value) || (is_string($value) && trim($value) === '');
     }
 }

@@ -11,10 +11,12 @@ use ILIAS\Data\URI;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 class StringTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -44,13 +46,5 @@ class StringTransformation implements Transformation
         $result .= $fragment;
 
         return $result;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

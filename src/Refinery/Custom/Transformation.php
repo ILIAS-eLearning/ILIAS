@@ -7,6 +7,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation as TransformationInterface;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Transform values according to custom configuration
@@ -14,6 +15,7 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 class Transformation implements TransformationInterface
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @var callable
@@ -37,13 +39,5 @@ class Transformation implements TransformationInterface
     public function transform($from)
     {
         return call_user_func($this->transform, $from);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }
