@@ -102,6 +102,9 @@ class ilAccessibilityControlConceptGUI
             $this->user->setId(ANONYMOUS_USER_ID);
         }
 
+        $this->tpl->loadStandardTemplate();
+        $this->tpl->setTitle($this->lng->txt("accessibility_control_concept"));
+
         $tpl = $this->initTemplate('tpl.view_accessibility_control_concept.html');
 
         $handleDocument = $this->accessibilityEvaluation->hasDocument();
