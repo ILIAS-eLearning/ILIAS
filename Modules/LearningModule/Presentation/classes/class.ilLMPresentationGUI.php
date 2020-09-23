@@ -877,6 +877,7 @@ class ilLMPresentationGUI
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");
         $exp->handleCommand();
+        return $exp;
     }
 
     /**
