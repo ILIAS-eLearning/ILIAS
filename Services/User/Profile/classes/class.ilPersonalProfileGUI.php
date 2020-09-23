@@ -528,18 +528,49 @@ class ilPersonalProfileGUI
         $this->tpl->printToStdout();
     }
 
-    protected function showConsentWithdrawalConfirmation()
+    protected function showConsentWithdrawalConfirmation() : void
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
+        $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
-        $tpl = new \ilTemplate('tpl.view_terms_of_service.html', true, true, 'Services/Init');
+        $tpl = new \ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
+        $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
+        $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this));
 
-        $this->tpl->setTitle($this->lng->txt('usr_agreement'));
+        $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
+        $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
+        $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
 
         $this->tpl->setContent($tpl->get());
         $this->tpl->setPermanentLink('usr', null, 'agreement');
         $this->tpl->printToStdout();
+    }
+
+    protected function cancelWithdrawal() : void
+    {
+        $this->user->writePref('consent_withdrawal_requested', 0);
+        ilInitialisation::redirectToStartingPage();
+    }
+
+    protected function withdrawAcceptance() : void
+    {
+        global $DIC;
+        $auth_mode = $this->user->getAuthMode();
+        if($auth_mode == AUTH_LOCAL) {
+            // First the event, so they have a user to act upon
+            $ilAppEventHandler = $DIC['ilAppEventHandler'];
+            $ilAppEventHandler->raise(
+                'Services/TermsOfService',
+                'consentWithdrawn',
+                array('usr_id' => $this->user->getId())
+            );
+
+            //$this->user->delete();
+        } else {
+            // Redirect to farewell page
+        }
+        $a = 1;
     }
 
     /**

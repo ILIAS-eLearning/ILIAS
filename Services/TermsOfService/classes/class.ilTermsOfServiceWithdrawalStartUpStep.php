@@ -35,10 +35,16 @@ class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep
      */
     public function isInFulfillment() : bool
     {
+
+        $a = $this->dic->ctrl()->getCmdClass();
+        $b = $this->dic->ctrl()->getCmd();
         return (
             strtolower($this->dic->ctrl()->getCmdClass()) === 'ilpersonalprofilegui' && (
                 strtolower($this->dic->ctrl()->getCmd()) === 'showuseragreement'  ||
                 strtolower($this->dic->ctrl()->getCmd()) === 'confirmwithdrawal'  ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'showconsentwithdrawalconfirmation'  ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'cancelwithdrawal'  ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'withdrawacceptance'  ||
                 strtolower($this->dic->ctrl()->getCmd()) === 'rejectwithdrawal'
             )
         );

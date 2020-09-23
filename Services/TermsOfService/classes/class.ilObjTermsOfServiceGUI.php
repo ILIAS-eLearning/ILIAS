@@ -230,7 +230,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function getWithdrawalSectionForModal()
+    public function getWithdrawalSectionForModal() : ilTemplate
     {
         $template = new ilTemplate('tpl.tos_withdrawal_section.html',true,true,'Services/TermsOfService');
         $template->setVariable('TXT_TOS_WITHDRAWAL_HEADLINE', $this->dic->language()->txt('withdrawal_consent_header'));

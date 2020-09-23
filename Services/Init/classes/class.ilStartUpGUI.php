@@ -1265,11 +1265,13 @@ class ilStartUpGUI
 
 
         $withdrawal_appendage_text = '';
-        if(isset($_GET['withdrawal_relogin_content'])) {
-            if($_GET['withdrawal_relogin_content'] == 'internal') {
-                $withdrawal_appendage_text = "INTERNAL; MAKE LANG VAR, YOU FOOL!";
+        $withdrawal_relogin = ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0);
+        if($withdrawal_relogin !== 0) {
+            $withdrawal_appendage_text = '<br /><br />';
+            if($withdrawal_relogin == 'internal') {
+                $withdrawal_appendage_text .= $lng->txt('withdraw_consent_description_internal');
             } else {
-                $withdrawal_appendage_text = "EXTERNAL; MAKE LANG VAR, YOU FOOL!";
+                $withdrawal_appendage_text .= $lng->txt('withdraw_consent_description_external');
             }
         }
 

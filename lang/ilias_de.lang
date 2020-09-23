@@ -2348,6 +2348,17 @@ cntr#:#edit_questions#:#Fragen bearbeiten
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
+common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
+common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück und loggen Sie sich erneut ein um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent#:#Einverständnis widerrufen
+common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen wird Ihr Account gelöscht.
+common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Authorisierungssystem und teilen Sie Ihre Absicht mit.
+common#:#withdraw_consent_header#:#Widerrug der Nutzungsbedingungen
+common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsbedingungen
+common#:#withdraw#:#Widerruf
+common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsbedingungen
+common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
