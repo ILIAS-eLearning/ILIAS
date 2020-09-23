@@ -186,9 +186,10 @@ class ilCalendarExport
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
-        if (!$app->getStart() instanceof ilDateTime) {
+
+        if (!$app->getStart()||$app->getStart()==""||$app->getStart()=="<br>" ) {
             $this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
+            return;
         }
 
         $this->writer->addLine('BEGIN:VEVENT');
