@@ -71,5 +71,9 @@ il.UI = il.UI || {};
 	})($);
 })($, il.UI);
 il.Util.addOnLoad(function() {
-    $("main").attr("tabindex", -1).focus();
+	window.setTimeout(
+		function(){
+			$("main").attr("tabindex", -1).focus();
+		}, 10
+	);
 });
