@@ -10617,6 +10617,7 @@ dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
 file#:#file_download#:#Datei herunterladen
+trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 search#:#search_option_online#:#Online
