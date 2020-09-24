@@ -101,7 +101,6 @@ class ilStudyProgrammeDashboardViewGUI
                 $current_progress->getCurrentAmountOfPoints(),
                 (int) $current->getStudyProgramme()->getRefId()
             );
-
             $current_status = $current_progress->getStatus();
             $validation_expires = $current_prg_settings->validationExpires();
             $deadline = $current_prg_settings->getDeadlineSettings()->getDeadlineDate();
@@ -288,25 +287,36 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->lng->txt($code);
     }
 
-    protected function calculatePercent(int $points, int $current_points, int $prg_ref_id) : array
+    protected function calculatePercent(int $prg_points, int $current_points, int $prg_ref_id) : array
     {
-        $children = ilObjStudyProgramme::getAllChildren($prg_ref_id);
         $max_points = 0;
-        /** @var ilObjStudyProgramme $child */
-        foreach ($children as $child) {
-            $max_points += $child->getRawSettings()->getAssessmentSettings()->getPoints();
-        }
+        $children = ilObjStudyProgramme::getAllChildren($prg_ref_id);
+        if (count($children) > 0) {
+            /** @var ilObjStudyProgramme $child */
+            foreach ($children as $child) {
+                $max_points += $child->getRawSettings()->getAssessmentSettings()->getPoints();
+            }
 
-        $minimum_percents = 0;
-        $current_percents = 0;
-        if ($max_points > 0) {
-            $minimum_percents = round((100 * $points / $max_points), 2);
-            $current_percents = round((100 * $current_points / $max_points), 2);
-        }
-
-        if ($max_points == 0 && $points == 0) {
-            $minimum_percents = 100;
-            $current_percents = 100;
+            if ($max_points > 0) {
+                $minimum_percents = round((100 * $prg_points / $max_points), 2);
+                $current_percents = round((100 * $current_points / $max_points), 2);
+            }
+            if ($max_points == 0 && $points == 0) {
+                $minimum_percents = 100;
+                $current_percents = 100;
+            }
+        } else {
+            $root_prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
+            if ($root_prg->hasLPChildren()) {
+                $minimum_percents = 100;
+                $current_percents = 0;
+                if ($current_points > 0) {
+                    $current_percents = 100;
+                }
+            } else {
+                $minimum_percents = 0;
+                $current_percents = 0;
+            }
         }
 
         return [
