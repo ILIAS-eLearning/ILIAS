@@ -13722,7 +13722,6 @@ style#:#personal_style_set_to#:#Su estilo personal ha cambiado a:
 style#:#refresh_entries#:#Actualizar entradas
 style#:#entries_reloaded#:#Todas las entradas han sido actualizadas
 style#:#msg_sub_style_created#:#El sub-estilo ha sido creado.
-style#:#style#:#Estilo
 style#:#parent#:#Estilo padre
 style#:#sty_substyle_of#:#Sub-estilo de
 style#:#assignment#:#Asignación
@@ -15037,7 +15036,6 @@ certificate#:#persistent_certificate_mode_instant_info#:#Esta opción está reco
 content#:#cont_Attention#:#Atención
 content#:#cont_Confirmation#:#Confirmación
 content#:#cont_Information#:#Información
-content#:#cont_Link#:#Enlace
 content#:#cont_Literature#:#Bibliografía
 content#:#cont_Separator#:#Separador
 content#:#cont_StandardCenter#:#Centro estándar
@@ -15067,8 +15065,6 @@ assessment#:#tst_tbl_col_pass_finished#:#Realización finalizada
 logging#:#log_error_path_not_configured_or_wrong#:#La routa para errores (error_path) no está configurada o no es accesible.
 exc#:#exc_text_saved#:#El texto se ha guardado.
 exc#:#exc_team_by_random_add_info#:#Por favor, tenga en cuenta que debe asignar todos los participantes primero antes de utilizar este modo.
-style#:#Style#:#Estilo
-content#:#cont_Link#:#Enlace
 common#:#msg_unknown_value#:#Se ha proporcionado un valor desconocido
 exc#:#exc_deleted_user#:#Usuario borrado
 copg#:#copg_allow_html#:#Activar HTML/Javascript
