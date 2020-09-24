@@ -556,21 +556,30 @@ class ilPersonalProfileGUI
     protected function withdrawAcceptance() : void
     {
         global $DIC;
-        $auth_mode = $this->user->getAuthMode();
-        if($auth_mode == AUTH_LOCAL) {
-            // First the event, so they have a user to act upon
-            $ilAppEventHandler = $DIC['ilAppEventHandler'];
-            $ilAppEventHandler->raise(
-                'Services/TermsOfService',
-                'consentWithdrawn',
-                array('usr_id' => $this->user->getId())
-            );
+        $document = $this->termsOfServiceEvaluation->document();
+        $helper = new \ilTermsOfServiceHelper();
+        $helper->resetAcceptance($this->user, $document);
 
-            //$this->user->delete();
+        $shouldDeleteAccountOnWithdrawal = $DIC->settings()->get(
+            'tos_withdrawal_usr_deletion',
+            false
+        );
+        if($shouldDeleteAccountOnWithdrawal == 1 &&
+            ($this->user->getAuthMode() == AUTH_LOCAL || $this->user->getAuthMode() == 'default')
+        ) {
+            $accdel = 1;
         } else {
-            // Redirect to farewell page
+            $accdel = 0;
         }
-        $a = 1;
+
+            $ilAppEventHandler = $DIC['ilAppEventHandler'];
+        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
+        $ilAppEventHandler->raise('Services/TermsOfService', 'ilTermsOfServiceEventWithdrawn', ['event' => $domainEvent]);
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $GLOBALS['DIC']['ilAuthSession']->logout();
+
+        ilUtil::redirect("login.php?wdtdel=".$accdel."&cmd=force_login");
     }
 
     /**

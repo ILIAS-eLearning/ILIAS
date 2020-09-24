@@ -2354,11 +2354,15 @@ common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herku
 common#:#withdraw_consent#:#Einverständnis widerrufen
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen wird Ihr Account gelöscht.
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Authorisierungssystem und teilen Sie Ihre Absicht mit.
-common#:#withdraw_consent_header#:#Widerrug der Nutzungsbedingungen
 common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsbedingungen
 common#:#withdraw#:#Widerruf
 common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsbedingungen
 common#:#withdraw_usr_agreement#:#Widerrufen
+common#:#accept_usr_agreement_btn#:#Zustimmen
+common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
+common#:#deny_usr_agreement_btn#:#Ablehnen
+common#:#withdrawal_complete_deleted#:#Widerrufsvorgang abgeschlossen. Der Nutzeraccount wurde gelöscht.
+common#:#withdrawal_complete_redirect#:#Widerrufsvorgang abgeschlossen. Zur Löschung des Accounts bitte Kontakt zu Ihrer Organisation aufnehmen.
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.

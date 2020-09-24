@@ -236,6 +236,14 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
+        if(array_key_exists('wdtdel', $this->httpRequest->getQueryParams())) {
+            if($this->httpRequest->getQueryParams()['wdtdel'] == 1) {
+                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_deleted'));
+            } else {
+                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_redirect'));
+            }
+        }
+
         self::printToGlobalTemplate($tpl);
     }
 
@@ -1540,6 +1548,11 @@ class ilStartUpGUI
         $this->showTermsOfService();
     }
 
+    protected function confirmAcceptance()
+    {
+        $this->showTermsOfService(true);
+    }
+
     // Show terms of service and modal to confirm withdrawal
     protected function confirmWithdrawal()
     {
@@ -1585,8 +1598,12 @@ class ilStartUpGUI
 
     /**
      * Show terms of service
+     * @param bool $accepted
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ilTermsOfServiceNoSignableDocumentFoundException
+     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    protected function showTermsOfService()
+    protected function showTermsOfService(bool $accepted = false)
     {
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
@@ -1599,8 +1616,9 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('getAcceptance' == $this->ctrl->getCmd()) {
-                if (isset($_POST['status']) && 'accepted' == $_POST['status']) {
+            if ('confirmAcceptance' == $this->ctrl->getCmd() ||
+            'getAcceptance' == $this->ctrl->getCmd()) {
+                if ($accepted) {
                     $helper = new \ilTermsOfServiceHelper();
 
                     $helper->trackAcceptance($this->user, $document);
@@ -1613,11 +1631,20 @@ class ilStartUpGUI
                         ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
                     }
                 }
-
+                global $DIC;
                 $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-                $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
-                $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+                $tpl->setVariable('TXT_ACCEPT', $this->lng->txt('accept_usr_agreement_btn'));
+                $tpl->setVariable('DENY_TERMS_OF_SERVICE', $this->lng->txt('deny_usr_agreement'));
+                $tpl->setVariable('DENIAL_BUTTON',
+                    $DIC->ui()->renderer()->render(
+                        $DIC->ui()->factory()->button()->standard(
+                            $DIC->language()->txt('deny_usr_agreement_btn'),
+                            'logout.php?withdraw_consent'
+                        )
+                    )
+                );
+                //$tpl->setVariable('TXT_NEGATIVE_SUBMIT', $this->lng->txt('deny_usr_agreement_btn'));
             }
 
             $tpl->setPermanentLink('usr', null, 'agreement');
