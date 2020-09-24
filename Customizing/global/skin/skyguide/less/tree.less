@@ -1,0 +1,44 @@
+#ilSideBarIcon {
+    display: none;
+}
+a.ilTreeView {
+    background-color: white;
+    border: 1px solid #0057a2;
+        border-left-color: rgb(0, 87, 162);
+        border-left-style: solid;
+        border-left-width: 1px;
+    border-left: none;
+    bottom: auto;
+    box-shadow: none;
+    color: #0057a2;
+    display: block;
+    z-index: 999;
+    border-radius: 0;
+    padding: 0 1px;
+    width: 20px;
+    margin-left: 0;
+    text-align: center;
+    left: 0;
+    line-height: 32px;
+    top: 130px;
+    -webkit-transition: color, background-color 0.1s ease-in-out;
+    transition: color, background-color 0.1s ease-in-out;
+}
+#imgtree {
+    @media  (max-width: 1200px) {
+    display: none;
+  }
+}
+a.ilTreeView[href*="mode=flat"] {
+    margin-left: 277px;
+    border-right: none;
+    left: auto;
+    border: 1px solid #0057a2;
+        border-right-color: rgb(0, 87, 162);
+        border-right-style: solid;
+        border-right-width: 1px;
+    border-right: none;
+}
+a.ilTreeView:hover {
+    background-color: #ccddec;
+}
