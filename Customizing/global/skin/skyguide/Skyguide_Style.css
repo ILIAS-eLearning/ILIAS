@@ -17229,7 +17229,7 @@ table.calmini td.calminitoday {
   margin-left: 180px;
 }
 #ilTopNav {
-  margin: -45px 0 0 0;
+  margin: -48px 0 0 0;
 }
 #ilTopNav .navbar-nav > li > a {
   border-top: none;
@@ -17275,11 +17275,11 @@ div.ilTopMemberView h3 {
   margin-left: 15px;
 }
 .ilMainHeader > header > .row > a.navbar-brand > img {
-  height: 65px !important;
+  height: 75px !important;
   width: auto;
 }
 .ilMainHeader > header > .row > a.navbar-brand {
-  margin: 5px 15px 0;
+  margin: 1px 15px 0;
 }
 /**********HEADER**********/
 @media (max-width: 767px) {
