@@ -957,9 +957,7 @@ class ilObjStudyProgrammeMembersGUI
 
     public function isOperationAllowedForUser(int $usr_id, string $operation) : bool
     {
-        $ret = $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation)
-            || $this->access->checkAccess("manage_members", "", $this->object->getRefId());
-
-        return $ret;
+        return $this->mayManageMembers()
+            || $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation);
     }
 }
