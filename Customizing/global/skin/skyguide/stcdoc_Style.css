@@ -10543,7 +10543,7 @@ div.il_info {
 }
 /* ---------------- headlines ------------------ */
 a#il_mhead_t_focus {
-  color: #6ea03c;
+  color: #557b2e;
   vertical-align: middle;
   font-size: 26px;
   cursor: default;
@@ -12958,6 +12958,10 @@ li.ilWikiBlockItem {
   background-color: #3379b5;
   color: white;
 }
+#ilTopNav .navbar-nav > li > a:focus {
+  outline: 1px dotted #434343;
+  text-decoration: underline;
+}
 #ilTopNav .navbar-nav > .active > a,
 #ilTopNav .navbar-nav > .open > a,
 #ilTopNav .navbar-nav > .active > a:hover,
@@ -12967,6 +12971,7 @@ li.ilWikiBlockItem {
 #ilTopNav .navbar-nav > .active > a:focus,
 #ilTopNav .navbar-nav > .open > a:focus {
   outline: 0 none;
+  text-decoration: none;
   border-top: 4px solid #0057a2;
   background-color: #3379b5;
   color: white;
@@ -13412,6 +13417,9 @@ div.ilTableNav {
   font-size: 80%;
   text-align: right;
 }
+div.ilTableNav table {
+  width: 100%;
+}
 tr.tblfooter {
   color: black;
   font-weight: normal;
@@ -13650,6 +13658,12 @@ textarea#note {
 }
 div.ilNoteInput {
   padding-bottom: 10px;
+}
+.ilNotesCheckboxes .ilComment {
+  padding-left: 80px;
+}
+.ilNotesCheckboxes .ilNoteList input[type="checkbox"] {
+  position: absolute;
 }
 /* Modules/Blog */
 div.ilBlogList {
@@ -15382,6 +15396,12 @@ span.ilNewsRssIcon:hover {
   margin-right: 0;
 }
 @media only screen and (max-width: 767px) {
+  .ilTimeline > li:nth-child(even) > .ilTimelineBadge {
+    right: auto;
+    left: 90%;
+  }
+}
+@media only screen and (max-width: 767px) {
   .ilTimeline > li {
     margin-right: 0;
   }
@@ -15436,6 +15456,8 @@ span.ilNewsRssIcon:hover {
 @media only screen and (max-width: 767px) {
   .ilTimeline > li > .ilTimelineBadge {
     left: 90%;
+    right: auto;
+    margin-left: -25px;
   }
 }
 .ilTimeline > li > .ilTimelineBadge > .ilTimelineDay {
@@ -15489,9 +15511,9 @@ span.ilNewsRssIcon:hover {
   margin-top: 8px;
 }
 .ilNewsTimelineTruncatedText {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  /*overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;*/
 }
 .ilNewsTimelineObjHead img {
   width: 22px;
@@ -17116,57 +17138,11 @@ table.mceToolbar td {
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
-/**********HEADER**********/
-#ilTopNav.navbar {
-  float: left;
-  margin-right: 15px;
-  margin-left: 180px;
+.alert {
+  margin-top: 20px;
 }
-#ilTopNav {
-  margin: -45px 0 0 0;
-}
-#ilTopNav .navbar-nav > li > a {
-  border-top: none;
-}
-#ilTopNav .navbar-nav > .active > a,
-#ilTopNav .navbar-nav > .open > a,
-#ilTopNav .navbar-nav > .active > a:hover,
-#ilTopNav .navbar-nav > .open > a:hover,
-#ilTopNav .navbar-nav > .active > a:active,
-#ilTopNav .navbar-nav > .open > a:active,
-#ilTopNav .navbar-nav > .active > a:focus,
-#ilTopNav .navbar-nav > .open > a:focus {
-  border-top: none;
-}
-#ilTopNav .navbar-nav > li > a {
-  text-transform: inherit;
-}
-.navbar-nav > li > .dropdown-menu {
-  margin-top: 14px;
-}
-div.ilMemberViewMainHeader {
-  background-color: #981a0a;
-  color: white !important;
-}
-div.ilMemberViewMainHeader .ilTopTitle {
-  float: right;
-  margin-right: 15px;
-  padding-right: 15px;
-}
-div.ilMemberViewMainHeader a {
-  color: white !important;
-  font-weight: initial;
-}
-div.ilMemberViewMainHeader .ilTopTitle:hover,
-div.ilMemberViewMainHeader .ilTopTitle:active,
-div.ilMemberViewMainHeader .ilTopTitle:focus {
-  background-color: #aeaeae;
-  outline: 0;
-  text-decoration: none;
-}
-div.ilTopMemberView h3 {
-  float: left;
-  margin-left: 15px;
+ul.il-mm-selfloading {
+  width: 925px;
 }
 /**********BODY**********/
 .breadcrumb {
@@ -17223,83 +17199,10 @@ table.calmini td.calminitoday {
 .RepositoryPermaLink .input-group-btn {
   float: left;
 }
-/*Tree*/
-#ilSideBarIcon {
-  display: none;
+/*Forms*/
+.form-control {
+  height: 28px;
 }
-a.ilTreeView {
-  background-color: white;
-  border: 1px solid #0057a2;
-  border-left-color: #0057a2;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left: none;
-  bottom: auto;
-  box-shadow: none;
-  color: #0057a2;
-  display: block;
-  z-index: 999;
-  border-radius: 0;
-  padding: 0 1px;
-  width: 20px;
-  margin-left: 0;
-  text-align: center;
-  left: 0;
-  line-height: 32px;
-  top: 130px;
-  -webkit-transition: color, background-color 0.1s ease-in-out;
-  transition: color, background-color 0.1s ease-in-out;
-}
-@media (max-width: 1200px) {
-  #imgtree {
-    display: none;
-  }
-}
-a.ilTreeView[href*="mode=flat"] {
-  margin-left: 277px;
-  left: auto;
-  border: 1px solid #0057a2;
-  border-right-color: #0057a2;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-right: none;
-}
-a.ilTreeView:hover {
-  background-color: #ccddec;
-}
-/*Tab Navigation*/
-.nav-tabs > li > a {
-  color: #0057a2;
-  font-size: 100%;
-}
-.nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus {
-  background-color: #0057a2;
-  color: white;
-  border: 0;
-}
-.nav-tabs > li > a:hover {
-  border-color: white;
-  background-color: white;
-  color: #434343;
-}
-#ilSubTab {
-  background-color: #e5eef6;
-  margin: -23px 15px 10px;
-  padding: 5px 0;
-}
-#ilSubTab > li > a {
-  font-size: 90%;
-  color: #0057a2;
-}
-.nav > li > a:hover,
-.nav > li > a:focus {
-  text-decoration: none;
-  color: #434343;
-  background-color: transparent;
-}
-/*Buttons*/
 .btn-default {
   color: #0057a2;
   background-color: transparent;
@@ -17319,9 +17222,63 @@ a.ilTreeView:hover {
 .input-group-btn {
   font-size: 100%;
 }
-/*Forms*/
-.form-control {
-  height: 28px;
+#ilTopNav.navbar {
+  float: left;
+  margin-right: 15px;
+  margin-left: 180px;
+}
+#ilTopNav {
+  margin: -48px 0 0 0;
+}
+#ilTopNav .navbar-nav > li > a {
+  border-top: none;
+}
+#ilTopNav .navbar-nav > .active > a,
+#ilTopNav .navbar-nav > .open > a,
+#ilTopNav .navbar-nav > .active > a:hover,
+#ilTopNav .navbar-nav > .open > a:hover,
+#ilTopNav .navbar-nav > .active > a:active,
+#ilTopNav .navbar-nav > .open > a:active,
+#ilTopNav .navbar-nav > .active > a:focus,
+#ilTopNav .navbar-nav > .open > a:focus {
+  border-top: none;
+}
+#ilTopNav .navbar-nav > li > a {
+  text-transform: inherit;
+}
+.navbar-nav > li > .dropdown-menu {
+  margin-top: 14px;
+}
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  height: 75px !important;
+  width: auto;
+}
+.ilMainHeader > header > .row > a.navbar-brand {
+  margin: 1px 15px 0;
+}
+div.ilMemberViewMainHeader {
+  background-color: #981a0a;
+  color: white !important;
+}
+div.ilMemberViewMainHeader .ilTopTitle {
+  float: right;
+  margin-right: 15px;
+  padding-right: 15px;
+}
+div.ilMemberViewMainHeader a {
+  color: white !important;
+  font-weight: initial;
+}
+div.ilMemberViewMainHeader .ilTopTitle:hover,
+div.ilMemberViewMainHeader .ilTopTitle:active,
+div.ilMemberViewMainHeader .ilTopTitle:focus {
+  background-color: #aeaeae;
+  outline: 0;
+  text-decoration: none;
+}
+div.ilTopMemberView h3 {
+  float: left;
+  margin-left: 15px;
 }
 /**********HEADER**********/
 @media (max-width: 767px) {
@@ -17402,9 +17359,17 @@ a.ilTreeView:hover {
     margin-right: -15px;
   }
   .ilMainHeader > header > .row > a.navbar-brand > img {
-    height: 55px;
-    margin-top: 4px;
-    margin-left: 4px;
+    height: 30px !important;
+    top: 15px;
+    margin-left: 21px;
+  }
+  .ilMainHeader > header > .row > a.navbar-brand {
+    height: 40px;
+    width: 40px;
+    background-color: #0057a2;
+    border-radius: 3px;
+    margin: -30px 15px 0 !important;
+    position: fixed;
   }
 }
 /**********BODY**********/
@@ -17420,13 +17385,10 @@ a.ilTreeView:hover {
     display: inherit;
   }
 }
-.ilMainHeader > header > .row > a.navbar-brand > img {
-  height: 50px;
-  width: auto;
-}
 div#il_startup_logo img {
-  height: 50px;
+  height: 75px;
   width: auto;
+  margin: 1px 15px 0;
 }
 .ilStartupSection {
   padding-top: 0px;
@@ -17468,6 +17430,80 @@ div#il_startup_logo img {
     margin-right: -15px;
   }
 }
+.nav-tabs > li > a {
+  color: #0057a2;
+  font-size: 100%;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  background-color: #0057a2;
+  color: white;
+  border: 0;
+}
+.nav-tabs > li > a:hover {
+  border-color: white;
+  background-color: white;
+  color: #434343;
+}
+#ilSubTab {
+  background-color: #e5eef6;
+  margin: -23px 15px 10px;
+  padding: 5px 0;
+}
+#ilSubTab > li > a {
+  font-size: 90%;
+  color: #0057a2;
+}
+.nav > li > a:hover,
+.nav > li > a:focus {
+  text-decoration: none;
+  color: #434343;
+  background-color: transparent;
+}
+#ilSideBarIcon {
+  display: none;
+}
+a.ilTreeView {
+  background-color: white;
+  border: 1px solid #0057a2;
+  border-left-color: #0057a2;
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left: none;
+  bottom: auto;
+  box-shadow: none;
+  color: #0057a2;
+  display: block;
+  z-index: 999;
+  border-radius: 0;
+  padding: 0 1px;
+  width: 20px;
+  margin-left: 0;
+  text-align: center;
+  left: 0;
+  line-height: 32px;
+  top: 130px;
+  -webkit-transition: color, background-color 0.1s ease-in-out;
+  transition: color, background-color 0.1s ease-in-out;
+}
+@media (max-width: 1200px) {
+  #imgtree {
+    display: none;
+  }
+}
+a.ilTreeView[href*="mode=flat"] {
+  margin-left: 277px;
+  left: auto;
+  border: 1px solid #0057a2;
+  border-right-color: #0057a2;
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-right: none;
+}
+a.ilTreeView:hover {
+  background-color: #ccddec;
+}
 /*		Color scheme
 		Dark BLue: #0f2152;
 		Mid Blue: #4c6586;
@@ -17490,14 +17526,13 @@ div#il_startup_logo img {
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
-/**********HEADER**********/
 #ilTopNav.navbar {
   float: left;
   margin-right: 15px;
   margin-left: 180px;
 }
 #ilTopNav {
-  margin: -45px 0 0 0;
+  margin: -48px 0 0 0;
 }
 .ilMainHeader {
   background-color: #dc7800;
@@ -17522,30 +17557,72 @@ div.ilMemberViewMainHeader {
   background-color: #dc7800;
   color: white !important;
 }
-/**********HEADER**********/
 @media (max-width: 767px) {
   #ilTopBar.ilTopBar {
-    background-color: #dc7800;
+    height: 60px;
+    background-color: #f9f9f9;
+    color: #434343;
+    border-bottom: 3px solid #f0f0f0;
   }
-  #ilTopBarNav > li > a:hover,
-  #ilTopBarNav > li > a:active,
-  #ilTopBarNav > li > a:focus {
-    background-color: #ae5f00;
+  #ilTopBarNav > li > a {
+    background-color: transparent;
+    margin-top: 9px;
+    font-size: initial;
   }
   #ilTopNav button.navbar-toggle {
     color: white;
     border: 1px solid white;
   }
-  #ilTopNav button.navbar-toggle:hover {
-    background-color: #ae5f00;
+  #ilTopNav {
+    margin: 0px 0 0 0;
   }
   #ilTopNav button.navbar-toggle .icon-bar {
     background-color: white;
+  }
+  #ilTopNav button.navbar-toggle:hover {
+    background-color: #ae5f00;
+  }
+  .ilMainMenu.ilTopFixed {
+    top: 60px;
+  }
+  .ilMainMenu {
+    background-color: #E5EEF6;
+  }
+  #ilTopNav .navbar-nav > li > a {
+    color: #666;
+    margin: 0px;
+    padding: 7px 10px 8px;
+  }
+  #ilTopNav.navbar-default {
+    background-color: transparent;
+  }
+  #ilTopNav.navbar {
+    float: right;
+    margin-right: 0px;
+    width: 100%;
+  }
+  #ilTopNav .navbar-nav > li {
+    border-bottom: 1px solid #ccc;
+    margin: 0px;
+  }
+  #ilTopNav.navbar > .navbar-collapse {
+    padding: 0 0 0 0;
+  }
+  #ilTopBar.ilTopBar {
+    background-color: #dc7800;
   }
   #ilTopNav .navbar-nav > li > a:hover,
   #ilTopNav .navbar-nav > li > a:active,
   #ilTopNav .navbar-nav > li > a:focus {
     background-color: #dc7800;
+  }
+  .navbar-nav {
+    margin: 0px 0px;
+  }
+  #ilTopBarNav > li > a:hover,
+  #ilTopBarNav > li > a:active,
+  #ilTopBarNav > li > a:focus {
+    background-color: #ae5f00;
   }
   #ilTopNav .navbar-nav > .active > a,
   #ilTopNav .navbar-nav > .open > a,
@@ -17557,14 +17634,40 @@ div.ilMemberViewMainHeader {
   #ilTopNav .navbar-nav > .open > a:focus {
     background-color: #dc7800;
   }
+  .navbar-nav .open .dropdown-menu > li > a,
+  .navbar-nav .open .dropdown-menu .dropdown-header {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  #ilTopBarNav > li > a {
+    color: white;
+  }
+  .ilMainHeader > header > .row > a.navbar-brand > img {
+    height: 30px !important;
+    top: 15px;
+    margin-left: 21px;
+  }
+  .ilMainHeader > header > .row > a.navbar-brand {
+    height: 40px;
+    width: 40px;
+    background-color: transparent;
+    border-radius: 3px;
+    border: 1px solid white;
+    margin: -30px 15px 0 !important;
+    position: fixed;
+  }
 }
 .ilMainHeader > header > .row > a.navbar-brand > img {
-  height: 50px;
+  height: 75px;
   width: auto;
 }
+.ilMainHeader > header > .row > a.navbar-brand {
+  margin: 1px 15px 0;
+}
 div#il_startup_logo img {
-  height: 50px;
+  height: 75px;
   width: auto;
+  margin: 1px 15px 0;
 }
 .ilStartupSection {
   padding-top: 0px;

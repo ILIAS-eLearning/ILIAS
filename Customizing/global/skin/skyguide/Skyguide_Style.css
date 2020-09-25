@@ -17222,7 +17222,6 @@ table.calmini td.calminitoday {
 .input-group-btn {
   font-size: 100%;
 }
-/**********HEADER**********/
 #ilTopNav.navbar {
   float: left;
   margin-right: 15px;
@@ -17250,6 +17249,13 @@ table.calmini td.calminitoday {
 .navbar-nav > li > .dropdown-menu {
   margin-top: 14px;
 }
+.ilMainHeader > header > .row > a.navbar-brand > img {
+  height: 75px !important;
+  width: auto;
+}
+.ilMainHeader > header > .row > a.navbar-brand {
+  margin: 1px 15px 0;
+}
 div.ilMemberViewMainHeader {
   background-color: #981a0a;
   color: white !important;
@@ -17273,13 +17279,6 @@ div.ilMemberViewMainHeader .ilTopTitle:focus {
 div.ilTopMemberView h3 {
   float: left;
   margin-left: 15px;
-}
-.ilMainHeader > header > .row > a.navbar-brand > img {
-  height: 75px !important;
-  width: auto;
-}
-.ilMainHeader > header > .row > a.navbar-brand {
-  margin: 1px 15px 0;
 }
 /**********HEADER**********/
 @media (max-width: 767px) {
@@ -17360,9 +17359,17 @@ div.ilTopMemberView h3 {
     margin-right: -15px;
   }
   .ilMainHeader > header > .row > a.navbar-brand > img {
-    height: 40px !important;
-    top: 10px;
-    margin-left: 12px;
+    height: 30px !important;
+    top: 15px;
+    margin-left: 21px;
+  }
+  .ilMainHeader > header > .row > a.navbar-brand {
+    height: 40px;
+    width: 40px;
+    background-color: #0057a2;
+    border-radius: 3px;
+    margin: -30px 15px 0 !important;
+    position: fixed;
   }
 }
 /**********BODY**********/
@@ -17379,9 +17386,9 @@ div.ilTopMemberView h3 {
   }
 }
 div#il_startup_logo img {
-  height: 65px;
+  height: 75px;
   width: auto;
-  margin: 5px 15px 0;
+  margin: 1px 15px 0;
 }
 .ilStartupSection {
   padding-top: 0px;
