@@ -303,12 +303,6 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
         );
 
-        $manage_members =
-            (
-                $access_by_position == false
-                || $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
-            )
-            && in_array($usr_id, $this->getParentObject()->getLocalMembers());
 
         foreach ($actions as $action) {
             switch ($action) {
@@ -324,6 +318,10 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     }
                     break;
                 case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
+                    $manage_members =
+                        $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
+                        && in_array($usr_id, $this->getParentObject()->getLocalMembers());
+
                     if (!$manage_members) {
                         continue 2;
                     }
@@ -715,12 +713,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
     protected function getOrguValidUsersFilter() : string
     {
+        if ($this->getParentObject()->mayManageMembers()) {
+            return '';
+        }
+
         $valid_user_ids = $this->position_based_access->getUsersInPrgAccessibleForOperation(
             $this->getParentObject()->object,
             ilOrgUnitOperation::OP_MANAGE_MEMBERS
         );
         if (count($valid_user_ids) < 1) {
-            return '';
+            return ' AND false';
         }
         return ' AND pcp.usr_id in ('
             . implode(',', $valid_user_ids)
