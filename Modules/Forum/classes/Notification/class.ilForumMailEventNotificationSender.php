@@ -372,6 +372,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         if (strip_tags($pos_message) !== $pos_message) {
             $pos_message = preg_replace("/\n/i", "", $pos_message);
             $pos_message = preg_replace("/<li([^>]*)>/i", "\n<li$1>", $pos_message);
+            $pos_message = preg_replace("/<\/ul([^>]*)>(?!(<p|<ul))/i", "</ul$1>\n", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
             $pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
