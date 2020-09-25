@@ -84,7 +84,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
                 $ilNavigationHistory->addItem(
                     $_GET["ref_id"],
-                    $ilCtrl->getLinkTarget($this, $this->getStandardCmd()),
+                    ilLink::_getStaticLink($_GET["ref_id"]),
                     $this->getType()
                 );
             }
