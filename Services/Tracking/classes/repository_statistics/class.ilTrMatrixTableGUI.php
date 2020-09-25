@@ -56,7 +56,6 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
     
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        $this->setLimit(9999);
         $this->parseTitle($this->obj_id, "trac_matrix");
     
         $this->setEnableHeader(true);

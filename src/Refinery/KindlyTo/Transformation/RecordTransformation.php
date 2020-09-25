@@ -5,12 +5,14 @@
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
 class RecordTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     private $transformations;
 
@@ -66,13 +68,5 @@ class RecordTransformation implements Transformation
             $result[$key] = $transformation->transform($from[$key]);
         }
         return $result;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

@@ -9,6 +9,7 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use InvalidArgumentException;
 use LogicException;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Class CaseOfLabel
@@ -24,6 +25,8 @@ use LogicException;
 class CaseOfLabel implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
+
     /**
      * @var string
      */
@@ -220,16 +223,6 @@ class CaseOfLabel implements Transformation
 
         return $to;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
-    }
-
 
     /**
      * @param array $words

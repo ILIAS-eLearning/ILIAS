@@ -789,6 +789,7 @@ class ilInitialisation
             }
             // init console log handler
             ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+            \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();

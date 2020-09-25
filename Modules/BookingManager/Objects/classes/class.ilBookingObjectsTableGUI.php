@@ -338,8 +338,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             if ($has_booking) {
                 $booking_possible = false;
             }
-            if ($a_set["nr_items"] <= $cnt
-                || empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
+            if ($a_set["nr_items"] <= $cnt) {
                 $assign_possible = false;
             }
         } elseif (!$this->may_edit) {
@@ -392,13 +391,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         }
 
         if ($this->may_assign && $assign_possible) {
-            if (is_object($this->filter['period']['from'])) {
-                $ilCtrl->setParameter($this->parent_obj, 'sseed', $this->filter['period']['from']->get(IL_CAL_DATE));
+            if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
+                if (is_object($this->filter['period']['from'])) {
+                    $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed',
+                        $this->filter['period']['from']->get(IL_CAL_DATE));
+                }
+
+                $items[] = $this->ui_factory->button()->shy($lng->txt('book_assign_participant'),
+                    $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'assignParticipants'));
+
+                $ilCtrl->setParameterByClass("ilbookingprocessgui", 'sseed', '');
             }
-
-            $items[] = $this->ui_factory->button()->shy($lng->txt('book_assign_participant'), $ilCtrl->getLinkTarget($this->parent_obj, 'assignParticipants'));
-
-            $ilCtrl->setParameter($this->parent_obj, 'sseed', '');
         }
 
         if ($a_set['info_file']) {

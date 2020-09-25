@@ -102,4 +102,13 @@ class FactoryTest extends TestCase
         $group = $this->basicFactory->uri();
         $this->assertInstanceOf(\ILIAS\Refinery\URI\Group::class, $group);
     }
+
+    public function testByTryingInGroup()
+    {
+        $instance = $this->basicFactory->byTrying([
+            $this->basicFactory->numeric(),
+            $this->basicFactory->string()
+        ]);
+        $this->assertInstanceOf(\ILIAS\Refinery\ByTrying::class, $instance);
+    }
 }

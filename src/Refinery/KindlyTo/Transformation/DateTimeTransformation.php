@@ -6,6 +6,7 @@ namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -18,6 +19,7 @@ use ILIAS\Refinery\Transformation;
 class DateTimeTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -55,13 +57,5 @@ class DateTimeTransformation implements Transformation
             'no_valid_datetime',
             $from
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

@@ -11,6 +11,7 @@ namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
+use ILIAS\Refinery\ByTrying;
 
 class Factory
 {
@@ -58,7 +59,7 @@ class Factory
      *
      * @return KindlyTo\Group
      */
-    public function kindlyTo() : To\Group
+    public function kindlyTo() : KindlyTo\Group
     {
         return new KindlyTo\Group($this->dataFactory);
     }
@@ -174,5 +175,14 @@ class Factory
     public function uri() : URI\Group
     {
         return new URI\Group();
+    }
+
+    /**
+     * Accepts Transformations and uses first successful one.
+     * @param Transformation[] $transformations
+     */
+    public function byTrying(array $transformations) : ByTrying
+    {
+        return new ByTrying($transformations, $this->dataFactory, $this->language);
     }
 }
