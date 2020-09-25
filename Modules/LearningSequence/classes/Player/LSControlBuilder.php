@@ -16,8 +16,7 @@ class LSControlBuilder implements ControlBuilder
 {
     const CMD_START_OBJECT = 'start_legacy_obj';
     const CMD_CHECK_CURRENT_ITEM_LP = 'ccilp';
-    const UPDATE_LEGACY_OBJECT_LP_INTERVAL = 2000;
-
+    const PARAM_LP_CURRENT_ITEM_OBJID = 'ccilpobjid';
 
     /**
      * @var Component|null
@@ -84,14 +83,21 @@ class LSControlBuilder implements ControlBuilder
      */
     protected $additional_js;
 
+    /**
+     * @var LSGlobalSettings
+     */
+    protected $global_settings;
+
     public function __construct(
         Factory $ui_factory,
         LSURLBuilder $url_builder,
-        ilLanguage $language
+        ilLanguage $language,
+        LSGlobalSettings $global_settings
     ) {
         $this->ui_factory = $ui_factory;
         $this->url_builder = $url_builder;
         $this->lng = $language;
+        $this->global_settings = $global_settings;
     }
 
     public function getExitControl()
@@ -290,14 +296,18 @@ class LSControlBuilder implements ControlBuilder
         if ($this->start) {
             throw new \LogicException("Only one start-control per view...", 1);
         }
-        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, $parameter);
+
+        $this_cmd = $this->url_builder->getHref(self::CMD_START_OBJECT, 0);
         $lp_cmd = str_replace(
             '&cmd=view&',
             '&cmd=' . self::CMD_CHECK_CURRENT_ITEM_LP . '&',
             $this_cmd
         );
-        $signal = $this->getStartSignal();
 
+        $current_obj_id = $parameter;
+        $lp_cmd .= '&' . self::PARAM_LP_CURRENT_ITEM_OBJID . '=' . $current_obj_id;
+
+        $signal = $this->getStartSignal();
         $this->setListenerJS($signal->getId(), $url, $lp_cmd, $this_cmd);
 
         $this->start = $this->ui_factory->button()
@@ -337,7 +347,7 @@ class LSControlBuilder implements ControlBuilder
         string $check_lp_url,
         string $on_lp_change_url
     ) {
-        $interval = self::UPDATE_LEGACY_OBJECT_LP_INTERVAL;
+        $interval = $this->global_settings->getPollingIntervalMilliseconds();
         $this->additional_js =
 <<<JS
 function lso_checkLPOfObject() {

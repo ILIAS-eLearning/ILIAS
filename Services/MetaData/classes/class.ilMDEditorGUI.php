@@ -222,7 +222,7 @@ class ilMDEditorGUI
 
             $this->tpl->setCurrentBlock("keyword_loop");
             $this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
-                implode($keyword_set, ", ")
+                implode(", ", $keyword_set)
             ));
             $this->tpl->setVariable("LANG", $lang);
             $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(

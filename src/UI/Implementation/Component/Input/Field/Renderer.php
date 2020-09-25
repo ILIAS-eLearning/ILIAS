@@ -519,7 +519,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue() === $value) {
+            if ($input->getValue() !== null && $input->getValue() == $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
 

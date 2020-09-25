@@ -181,7 +181,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
             array_push($params_array, "param_value_$key=" . $value["value"]);
         }
         
-        return join($params_array, "<separator>");
+        return join("<separator>", $params_array);
     }
 
     /**
@@ -201,7 +201,7 @@ class assJavaApplet extends assQuestion implements ilObjQuestionScoringAdjustabl
             array_push($params_array, "param_name_$key=" . $value["name"]);
             array_push($params_array, "param_value_$key=" . $value["value"]);
         }
-        return join($params_array, "<separator>");
+        return join("<separator>", $params_array);
     }
 
     /**

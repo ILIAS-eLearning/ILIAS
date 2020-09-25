@@ -1,0 +1,44 @@
+<svg id="Layer_1" width="32px" height="32px" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 24">
+	<defs>
+		<style>
+			.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:url(#linear-gradient);}.cls-4{clip-path:url(#clip-path-2);}.cls-5{fill:url(#linear-gradient-2);}.cls-6{clip-path:url(#clip-path-3);}.cls-7{fill:url(#linear-gradient-3);}
+		</style>
+		<clipPath id="clip-path" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 17 16 28 26 17 6 17"/>
+		</clipPath>
+		<linearGradient id="linear-gradient" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4804)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#e66e1e"/>
+			<stop offset="1" stop-color="#ff8e2c"/>
+			<stop offset="1" stop-color="#ff8e2c"/>
+		</linearGradient>
+		<clipPath id="clip-path-2" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 10.5 16 21.5 26 10.5 6 10.5"/>
+		</clipPath>
+		<linearGradient id="linear-gradient-2" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4797.5)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#4c6586"/>
+			<stop offset="0.02" stop-color="#4c6586"/>
+			<stop offset="1" stop-color="#5a78a0"/>
+		</linearGradient>
+		<clipPath id="clip-path-3" transform="translate(-6 -4)">
+			<polygon class="cls-1" points="6 4 16 15 26 4 6 4"/>
+		</clipPath>
+		<linearGradient id="linear-gradient-3" x1="-185.9" y1="239.27" x2="-184.9" y2="239.27"
+						gradientTransform="matrix(20, 0, 0, -20, 3718, 4791)" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#2f5a28"/>
+			<stop offset="0.02" stop-color="#2f5a28"/>
+			<stop offset="1" stop-color="#6ea03c"/>
+		</linearGradient>
+	</defs>
+	<title>icon_lrnng-sqnce-bjct_v3</title>
+	<g class="cls-2">
+		<rect class="cls-3" y="13" width="20" height="11"/>
+	</g>
+	<g class="cls-4">
+		<rect class="cls-5" y="6.5" width="20" height="11"/>
+	</g>
+	<g class="cls-6">
+		<rect class="cls-7" width="20" height="11"/>
+	</g>
+</svg>

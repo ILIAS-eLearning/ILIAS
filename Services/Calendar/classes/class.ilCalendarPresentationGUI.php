@@ -187,6 +187,8 @@ class ilCalendarPresentationGUI
 
         $this->initSeed();
         $this->prepareOutput();
+
+        $this->help->setScreenIdComponent("cal");
         
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
@@ -720,9 +722,6 @@ class ilCalendarPresentationGUI
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        $ilHelp = $this->help;
-
-        $ilHelp->setScreenIdComponent("cal");
 
         if ($this->category_id) {
             $this->addCategoryTabs();

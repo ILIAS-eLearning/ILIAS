@@ -32,9 +32,27 @@ class Numeric extends Input implements C\Input\Field\Numeric
     ) {
         parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
 
+        $this->setAdditionalTransformation(
+            $this->transformation_factory->custom(
+                function ($v) {
+                    if (trim($v) === '') {
+                        return null;
+                    }
+                    return $v;
+                }
+            )
+        );
+
         //TODO: Is there a better way to do this? Note, that "withConstraint" is not
         // usable here (clone).
-        $this->setAdditionalConstraint($this->validation_factory->or([$this->validation_factory->isNumeric(), $this->validation_factory->isNull()]));
+        $this->setAdditionalConstraint(
+            $this->validation_factory->or(
+                [
+                    $this->validation_factory->isNumeric(),
+                    $this->validation_factory->isNull()
+                ]
+            )
+        );
     }
 
 

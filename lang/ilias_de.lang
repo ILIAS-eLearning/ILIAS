@@ -10254,13 +10254,13 @@ meta#:#meta_context#:#Kontext
 meta#:#meta_contribute#:#Beitrag
 meta#:#meta_copyright#:#Copyright
 meta#:#meta_copyright_and_other_restrictions#:#Copyright und andere Einschränkungen
-meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
-meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
-meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_change_warning_title#:#Änderung der Copyright-Einstellungen
+meta#:#meta_copyright_change_info#:#Sie wollen die Lizenz für dieses Objekt ändern. Dies sollte nur in Übereinstimmung mit dem Inhaber des Urheberrechts erfolgen. Bitte fahren Sie nur fort, wenn die neue Lizenz nicht restriktiver ist als die zuvor verwendete.
+meta#:#meta_copyright_in_use#:#Wird genutzt
+meta#:#meta_copyright_outdated#:#Veraltet / nicht mehr genutzt
+meta#:#meta_copyright_show_usages#:#Zeige Nutzung
 meta#:#meta_copyright_status#:#Status
-meta#:#meta_copyright_sub_items#:#Sub Items
+meta#:#meta_copyright_sub_items#:#Unterelemente
 meta#:#meta_copyright_usage#:#Usage
 meta#:#meta_cost#:#Kosten
 meta#:#meta_coverage#:#Anwendungsbereich
@@ -10493,8 +10493,8 @@ meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben'
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
-meta#:#meta_oer_blocked#:#Ignored by OER Harvester
-meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
+meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
 meta#:#meta_oer_harvester#:#OER Harvester
@@ -10502,7 +10502,7 @@ meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
 meta#:#meta_operating_system#:#Betriebssystem
 meta#:#meta_or_composite#:#... oder zusammengesetzt ...
-meta#:#meta_order#:#Order
+meta#:#meta_order#:#Reihenfolge
 meta#:#meta_other#:#Andere
 meta#:#meta_other_plattform_requirements#:#Andere Plattform-Anforderungen
 meta#:#meta_pc_dos#:#PC-DOS
@@ -10522,7 +10522,7 @@ meta#:#meta_resource#:#Ressource
 meta#:#meta_revised#:#Überarbeitete Fassung
 meta#:#meta_rights#:#Rechte und Lizenzen
 meta#:#meta_role#:#Rolle
-meta#:#meta_save_order#:#Save Order
+meta#:#meta_save_order#:#Reihenfolge speichern
 meta#:#meta_school#:#Schule
 meta#:#meta_scriptwriter#:#Werbetexter
 meta#:#meta_section#:#Bereich
@@ -11436,13 +11436,13 @@ pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: \t%1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: \t%2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: %1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: \t%s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
 pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
 rating#:#rat_nr_ratings#:#%s Bewertungen
@@ -12896,6 +12896,7 @@ sess#:#sess_mem_contacts#:#Tutorielle Betreuung
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
 sess#:#sess_member_administration#:#Teilnehmerverwaltung
 sess#:#sess_members#:#Teilnehmer
+sess#:#sess_title#:#Titel der Sitzung
 sess#:#sess_members_gallery#:#Teilnehmergalerie
 sess#:#sess_members_print_title#:#Sitzungsteilnehmer
 sess#:#sess_msg_applicants_assigned#:#Der Benutzer wurde für den Sitzungstermin angemeldet.
@@ -15123,3 +15124,9 @@ awrn#:#user_awrn_show#:#Anzeigen
 awrn#:#awrn_user_show#:#Mein Status in "Wer ist online?" anzeigen
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#logo#:#ILIAS Logo
+common#:#obj_lsos#:#Lernsequenzen
+common#:#obj_lsos_desc#:#Administration Lernsequenzen
+common#:#lso_admin_form_title#:#Einstellungen
+common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
+common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.

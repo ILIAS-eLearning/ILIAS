@@ -11,20 +11,20 @@ function numeric_inputs()
     $request = $DIC->http()->request();
 
     //Step 1: Declare the numeric input
-    $number_input = $ui->input()->field()->numeric("Some Number", "Put in a number.")->withValue(133);
+    $number_input = $ui->input()->field()
+        ->numeric("Some Number", "Put in a number.")
+        ->withValue(133);
 
-    //Step 2, define form and form actions
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'numeric_inputs'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [ $number_input]);
+    $number_input2 = $number_input->withRequired(true)->withValue('');
 
-    //Step 4, implement some form data processing.
-    if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] == 'numeric_inputs') {
+    //Step 2, define form
+    $form = $ui->input()->container()->form()->standard('#', [
+        'n1' => $number_input,
+        'n2' => $number_input2
+    ]);
+
+    //Step 3, implement some form data processing.
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

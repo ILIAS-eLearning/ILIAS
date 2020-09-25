@@ -25,7 +25,7 @@ class LSLearnerItemTest extends TestCase
 
     public function setUp()
     {
-        $this->post_condition = new ilLSPostCondition(666, 1);
+        $this->post_condition = new ilLSPostCondition(666, "1");
     }
 
     public function testCreate() : LSLearnerItem
@@ -56,7 +56,9 @@ class LSLearnerItemTest extends TestCase
 
         $object = new LSLearnerItem(
             self::USER_ID,
-            self::LP_STATUS,
+            function () {
+                return self::LP_STATUS;
+            },
             self::AVAILABILITY_STATUS,
             $kiosk_state,
             $ls_item
