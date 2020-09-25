@@ -26,19 +26,24 @@ class ilWebDAVObjDAVHelper
 
     /**
      * Check if given object (either obj_id or ref_id) is compatible to be represented as a WebDAV object
-     *
-     * @param $id
+     * @param      $id
      * @param bool $is_reference
+     * @param bool $do_name_check
      * @return bool
      */
-    public function isDAVableObject($id, $is_reference = true, &$webdav_problems = null)
+    public function isDAVableObject($id, $is_reference = true, bool $do_name_check = true)
     {
         $obj_id = $is_reference ? $this->repo_helper->getObjectIdFromRefId($id) : $id;
 
         $type = $this->repo_helper->getObjectTypeFromObjId($obj_id);
         $title = $this->repo_helper->getObjectTitleFromObjId($obj_id);
 
-        $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title, $webdav_problems);
+        if($do_name_check) {
+            $is_davable = $this->isDAVableObjType($type) && $this->isDAVableObjTitle($title);
+        } else {
+            $is_davable = $this->isDAVableObjType($type);
+        }
+
         return $is_davable;
     }
 
@@ -81,6 +86,7 @@ class ilWebDAVObjDAVHelper
         }
         return true;
     }
+
     /**
      * Check for forbidden chars in title that are making trouble if displayed in WebDAV
      *
