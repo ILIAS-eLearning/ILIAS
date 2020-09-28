@@ -6,27 +6,37 @@ use ILIAS\ResourceStorage\StorableResource;
 
 /**
  * Class StorageHandlerFactory
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StorageHandlerFactory
 {
+    /**
+     * @var StorageHandler[]
+     */
+    protected $handlers = [];
+
+    /**
+     * StorageHandlerFactory constructor.
+     * @param StorageHandler[] $handlers
+     */
+    public function __construct(array $handlers)
+    {
+        foreach ($handlers as $handler) {
+            $this->handlers[$handler->getID()] = $handler;
+        }
+    }
 
     /**
      * @param StorableResource $resource
-     *
      * @return StorageHandler
      */
     public function getHandlerForResource(StorableResource $resource) : StorageHandler
     {
-        $file_system_storage_handler = new FileSystemStorageHandler();
-        switch ($resource->getStorageID()) {
-            case $file_system_storage_handler->getID():
-
-                return $file_system_storage_handler;
-            // More to come
-            default:
-                throw new \LogicException("no other StorageHandler possible at the moment");
+        if (isset($this->handlers[$resource->getStorageID()])) {
+            return $this->handlers[$resource->getStorageID()];
         }
+
+        throw new \LogicException("no other StorageHandler possible at the moment");
+
     }
 }

@@ -40,9 +40,10 @@ class ilMMItemInformation implements ItemInformation
      */
     public function __construct()
     {
+        global $DIC;
         $this->items        = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage      = new Services();
+        $this->storage      = $DIC['resource_storage'];
     }
 
     /**

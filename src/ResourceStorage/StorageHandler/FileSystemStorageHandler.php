@@ -14,10 +14,8 @@ use ILIAS\ResourceStorage\StorableResource;
 
 /**
  * Class FileSystemStorage
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @internal
- *
  * @package ILIAS\ResourceStorage\Storage
  */
 class FileSystemStorageHandler implements StorageHandler
@@ -33,17 +31,15 @@ class FileSystemStorageHandler implements StorageHandler
      */
     private $id;
 
-
     /**
      * FileSystemStorageHandler constructor.
+     * @param Filesystem $filesystem
      */
-    public function __construct()
+    public function __construct(Filesystem $filesystem)
     {
-        global $DIC;
-        $this->fs = $DIC->filesystem()->customizing();
+        $this->fs = $filesystem;
         $this->id = new UniqueIDIdentificationGenerator();
     }
-
 
     /**
      * @inheritDoc
@@ -53,7 +49,6 @@ class FileSystemStorageHandler implements StorageHandler
         return 'fsv1';
     }
 
-
     /**
      * @inheritDoc
      */
@@ -62,12 +57,10 @@ class FileSystemStorageHandler implements StorageHandler
         return $this->id;
     }
 
-
     public function has(ResourceIdentification $identification) : bool
     {
         return $this->fs->has($this->getBasePath($identification));
     }
-
 
     /**
      * @inheritDoc
@@ -76,7 +69,6 @@ class FileSystemStorageHandler implements StorageHandler
     {
         return $this->fs->readStream($this->getRevisionPath($revision) . '/' . self::DATA);
     }
-
 
     public function storeUpload(UploadedFileRevision $revision) : bool
     {
@@ -87,7 +79,6 @@ class FileSystemStorageHandler implements StorageHandler
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -95,7 +86,6 @@ class FileSystemStorageHandler implements StorageHandler
     {
         $this->fs->deleteDir($this->getRevisionPath($revision));
     }
-
 
     /**
      * @inheritDoc
@@ -105,12 +95,10 @@ class FileSystemStorageHandler implements StorageHandler
         $this->fs->deleteDir($this->getBasePath($resource->getIdentification()));
     }
 
-
     private function getBasePath(ResourceIdentification $identification) : string
     {
         return self::BASE . '/' . str_replace("-", "/", $identification->serialize());
     }
-
 
     private function getRevisionPath(Revision $revision) : string
     {

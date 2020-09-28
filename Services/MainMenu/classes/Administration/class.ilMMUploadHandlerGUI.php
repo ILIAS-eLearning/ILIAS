@@ -34,8 +34,9 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function __construct()
     {
+        global $DIC;
         parent::__construct();
-        $this->storage = new Services();
+        $this->storage = $DIC['resource_storage'];
         $this->stakeholder = new ilMMStorageStakeholder();
     }
 
