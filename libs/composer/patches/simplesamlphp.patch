@@ -1,0 +1,15 @@
+diff --git a/modules/saml/lib/Auth/Source/SP.php b/modules/saml/lib/Auth/Source/SP.php
+--- a/modules/saml/lib/Auth/Source/SP.php
++++ b/modules/saml/lib/Auth/Source/SP.php
+@@ -512,6 +512,11 @@
+         $ar = Module\saml\Message::buildAuthnRequest($this->metadata, $idpMetadata);
+ 
+         $ar->setAssertionConsumerServiceURL(Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
++        // ilias-patch: begin
++        // see: https://bugs.launchpad.net/mahara/+bug/1689685
++        // see: https://github.com/simplesamlphp/simplesamlphp/issues/503
++        $ar->setAssertionConsumerServiceURL(ILIAS_HTTP_PATH . '/Services/Saml/lib/saml2-acs.php/default-sp/' . CLIENT_ID);
++        // ilias-patch: end
+ 
+         if (isset($state['\SimpleSAML\Auth\Source.ReturnURL'])) {
+             $ar->setRelayState($state['\SimpleSAML\Auth\Source.ReturnURL']);

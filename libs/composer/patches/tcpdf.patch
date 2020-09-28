@@ -1,0 +1,48 @@
+diff --git a/tcpdf.php b/tcpdf.php
+index 599a3f8..e8bdf90 100644
+--- a/tcpdf.php
++++ b/tcpdf.php
+@@ -6765,7 +6765,17 @@ class TCPDF {
+ 		}
+ 		// resize the block to be contained on the remaining available page or column space
+ 		if ($fitonpage) {
+-			$ratio_wh = ($w / $h);
++			// tcpdf-patch: begin
++			// 2016-06-02 mbecker will create a pull request to make this patch 
++			if($h)
++			{
++				$ratio_wh = ($w / $h);
++			}
++			else
++			{
++				$ratio_wh = 1;
++			}
++			// tcpdf-patch: end
+ 			if (($y + $h) > $this->PageBreakTrigger) {
+ 				$h = $this->PageBreakTrigger - $y;
+ 				$w = ($h * $ratio_wh);
+@@ -18040,9 +18050,21 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
+ 						// total table width without cellspaces
+ 						$table_columns_width = ($table_width - ($cellspacing['H'] * ($dom[$key]['cols'] - 1)));
+ 						// minimum column width
+-						$table_min_column_width = ($table_columns_width / $dom[$key]['cols']);
+-						// array of custom column widths
+-						$table_colwidths = array_fill(0, $dom[$key]['cols'], $table_min_column_width);
++						// tcpdf-patch: begin
++						if ($table_columns_width == 0 || $dom[$key]['cols'] == 0)
++						{
++							$table_min_column_width = 1;
++						}
++						else
++						{
++							$table_min_column_width = ($table_columns_width / $dom[$key]['cols']);
++						}
++						if ($dom[$key]['cols'] != 0)
++						{
++							// array of custom column widths
++							$table_colwidths = array_fill(0, $dom[$key]['cols'], $table_min_column_width);
++						}
++						// tcpdf-patch: end
+ 					}
+ 					// table row
+ 					if ($dom[$key]['value'] == 'tr') {
