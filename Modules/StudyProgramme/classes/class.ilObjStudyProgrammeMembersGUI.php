@@ -950,18 +950,14 @@ class ilObjStudyProgrammeMembersGUI
         );
     }
 
-    public function getLocalMembers(): array
+    public function getLocalMembers() : array
     {
         return $this->object->getMembers();
     }
 
-    public function isOperationAllowedForUser(int $usr_id, string $operation): bool
+    public function isOperationAllowedForUser(int $usr_id, string $operation) : bool
     {
-        $ret = $this->position_based_access->isUserAccessibleForOperationAtPrg(
-            $usr_id,
-            $this->object,
-            $operation
-        );
-        return $ret;
+        return $this->mayManageMembers()
+            || $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation);
     }
 }
