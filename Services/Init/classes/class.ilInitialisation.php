@@ -192,13 +192,12 @@ class ilInitialisation
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
             return new \ILIAS\ResourceStorage\Services(
-                new FileSystemStorageHandler($c['filesystem.customizing']),
+                new FileSystemStorageHandler($c['filesystem.storage']),
                 new RevisionARRepository(),
                 new ResourceARRepository(),
                 new InformationARRepository()
             );
         };
-
     }
 
 

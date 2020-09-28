@@ -2,22 +2,15 @@
 
 namespace ILIAS\ResourceStorage;
 
-use Generator;
-use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
-use ILIAS\ResourceStorage\Consumer\DownloadConsumer;
-use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
-use ILIAS\ResourceStorage\Consumer\InlineConsumer;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Consumer\Consumers;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
+use ILIAS\ResourceStorage\Manager\Manager;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Resource\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use LogicException;
 
 /**
  * Class Services
@@ -28,13 +21,13 @@ class Services
 {
 
     /**
-     * @var ConsumerFactory
+     * @var Manager
      */
-    private $consumer_factory;
+    protected $manager;
     /**
-     * @var ResourceBuilder
+     * @var Consumers
      */
-    private $resource_builder;
+    protected $consumers;
 
     /**
      * Services constructor.
@@ -49,87 +42,27 @@ class Services
         ResourceRepository $resource_repository,
         InformationRepository $information_repository
     ) {
-        $this->resource_builder = new ResourceBuilder(
+        $b               = new ResourceBuilder(
             $storage_handler,
             $revision_repository,
             $resource_repository,
             $information_repository
         );
-        $this->consumer_factory = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
+        $this->manager   = new Manager($b);
+        $this->consumers = new Consumers(
+            new ConsumerFactory(new StorageHandlerFactory([$storage_handler]))
+            , $b
+        );
     }
 
-    /**
-     * this is the fast-lane: in most cases you want to store a uploaded file in
-     * the storage and use it's identification.
-     * @param UploadResult        $result
-     * @param ResourceStakeholder $stakeholder
-     * @param string              $title
-     * @return ResourceIdentification
-     */
-    public function upload(UploadResult $result, ResourceStakeholder $stakeholder, string $title = null) : ResourceIdentification
+    public function manage() : Manager
     {
-        if ($result->isOK()) {
-            $resource = $this->resource_builder->new($result);
-
-            $this->resource_builder->store($resource);
-
-            return $resource->getIdentification();
-        } else {
-            throw new LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
-        }
+        return $this->manager;
     }
 
-    public function find(string $identification) : ?ResourceIdentification
+    public function consume() : Consumers
     {
-        $resource_identification = new ResourceIdentification($identification);
-
-        if ($this->resource_builder->has($resource_identification)) {
-            return $resource_identification;
-        }
-
-        return null;
+        return $this->consumers;
     }
 
-    public function getRevision(ResourceIdentification $identification) : Revision
-    {
-        return $this->resource_builder->get($identification)->getCurrentRevision();
-    }
-
-    public function remove(ResourceIdentification $identification) : void
-    {
-        $this->resource_builder->remove($this->resource_builder->get($identification));
-    }
-
-    /**
-     * @return Generator|ResourceIdentification[]
-     */
-    public function getAll() : Generator
-    {
-        foreach ($this->resource_builder->getAll() as $item) {
-            /**
-             * @var $item StorableResource
-             */
-            yield $item->getIdentification();
-        }
-    }
-
-
-    //
-    // CONSUMERS
-    //
-
-    public function download(ResourceIdentification $identification) : DownloadConsumer
-    {
-        return $this->consumer_factory->download($this->resource_builder->get($identification));
-    }
-
-    public function inline(ResourceIdentification $identification) : InlineConsumer
-    {
-        return $this->consumer_factory->inline($this->resource_builder->get($identification));
-    }
-
-    public function stream(ResourceIdentification $identification) : FileStreamConsumer
-    {
-        return $this->consumer_factory->fileStream($this->resource_builder->get($identification));
-    }
 }

@@ -128,12 +128,12 @@ class ilMMItemInformation implements ItemInformation
         if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
             global $DIC;
 
-            $ri = $this->storage->find($this->items[$id][self::ICON_ID]);
+            $ri = $this->storage->manage()->find($this->items[$id][self::ICON_ID]);
             if (!$ri) {
                 return $item;
             }
-            $stream     = $this->storage->stream($ri)->getStream();
-            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $stream     = $this->storage->consume()->stream($ri)->getStream();
+            $data       = 'data:' . $this->storage->manage()->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();

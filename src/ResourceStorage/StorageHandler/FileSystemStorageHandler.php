@@ -74,7 +74,7 @@ class FileSystemStorageHandler implements StorageHandler
     {
         global $DIC;
 
-        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), Location::CUSTOMIZING, self::DATA);
+        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), Location::STORAGE, self::DATA);
 
         return true;
     }
