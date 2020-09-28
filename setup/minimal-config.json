@@ -1,7 +1,6 @@
 {
 	"common" : {
-		"client_id" : "myilias",
-		"master_password" : "my_masterpassword"
+		"client_id" : "myilias"
 	},
 	"database" : {
 		"user" : "ilias_user"

@@ -26,8 +26,6 @@ require_once(__DIR__ . "/classes/class.ilIniFilesLoadedObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyRegisteredObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyStoredObjective.php");
 require_once(__DIR__ . "/classes/class.ilSetupConfigStoredObjective.php");
-require_once(__DIR__ . "/classes/class.ilSetupPasswordManager.php");
-require_once(__DIR__ . "/classes/class.ilSetupPasswordEncoderFactory.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
@@ -126,8 +124,7 @@ function build_container_for_setup(string $executed_in_directory)
     $c["common_agent"] = function ($c) {
         return new \ilSetupAgent(
             $c["refinery"],
-            $c["data_factory"],
-            $c["password_manager"]
+            $c["data_factory"]
         );
     };
 
@@ -248,15 +245,6 @@ function build_container_for_setup(string $executed_in_directory)
         return new \ILIAS\Setup\CLI\ConfigReader(
             $executed_in_directory
         );
-    };
-
-    $c["password_manager"] = function ($c) {
-        return new \ilSetupPasswordManager([
-            'password_encoder' => 'bcryptphp',
-            'encoder_factory' => new \ilSetupPasswordEncoderFactory([
-                'default_password_encoder' => 'bcryptphp'
-            ])
-        ]);
     };
 
     return $c;

@@ -38,7 +38,7 @@ same installation a during the initial setup process.
 Do not discard the `config.json` you use for the installation, you will need it later
 on to update that installation. If you want to overwrite specific fields in the
 configuration file you can use the `--config="<path>=<value>"` option, even several
-times. If you e.g. use `--config="common.master_password=XYZ"` the field `common.master_password`
+times. If you e.g. use `--config="database.password=XYZ"` the field `database.password`
 from the original config will be overwritten with `XYZ`. This allows to use one
 configuration for multiple setups and overwrite it from the CLI or even share
 configs without secrets.
@@ -84,7 +84,6 @@ are printed bold**, all other fields might be ommitted. A minimal example is
 
 * **common** settings relevant for the complete installation 
   * **client_id** is the identifier to be used for the installation 
-  * **master_password** is used to identify at the web version of the setup
   * *server_timezone* where the installation resides, given as `region/city`,
     e.g. `Europe/Berlin`. Defaults to `UTC`.
   * *register_nic* sends the identification number of the installation to a server
