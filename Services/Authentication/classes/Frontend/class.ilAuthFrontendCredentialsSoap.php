@@ -31,14 +31,19 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
      */
     public function tryAuthenticationOnLoginPage()
     {
-        $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
+        $cmd = '';
+        if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
+            $cmd = $this->httpRequest->getQueryParams()['cmd'];
+        }
         if ('' === $cmd) {
-            $cmd = (string) ($this->httpRequest->getParsedBody()['cmd'] ?? '');
+            if (isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
+                $cmd = $this->httpRequest->getParsedBody()['cmd'];
+            }
         }
 
-        $passedSso = (string) ($this->httpRequest->getQueryParams()['passed_sso'] ?? '');
-        if ('' === $passedSso) {
-            $passedSso = (string) ($this->httpRequest->getParsedBody()['passed_sso'] ?? '');
+        $passedSso = '';
+        if (isset($this->httpRequest->getQueryParams()['passed_sso']) && is_string($this->httpRequest->getQueryParams()['passed_sso'])) {
+            $passedSso = $this->httpRequest->getParsedBody()['passed_sso'];
         }
 
         if ('force_login' === $cmd || !empty($passedSso)) {
