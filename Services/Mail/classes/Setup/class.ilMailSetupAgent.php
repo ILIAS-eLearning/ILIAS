@@ -29,15 +29,9 @@ class ilMailSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+        return new ilFileSystemComponentDataDirectoryCreatedObjective(
             'mail',
             ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
-        );
-
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Mail",
-            false,
-            $dir_objective
         );
     }
 
