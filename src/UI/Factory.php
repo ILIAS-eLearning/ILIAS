@@ -535,6 +535,9 @@ interface Factory
      *     3: Modals SHOULD not be used to perform complex workflows.
      *     4: Modals MUST be closable by a little “x”-button on the right side of the header.
      *     5: Modals MUST contain a title in the header.
+     *     6: >
+     *       If a Modal contains a form, it MUST NOT be rendered within another form. This
+     *       will break the HTML-engine of the client, since forms in forms are not allowed.
      * ---
      *
      * @return \ILIAS\UI\Component\Modal\Factory

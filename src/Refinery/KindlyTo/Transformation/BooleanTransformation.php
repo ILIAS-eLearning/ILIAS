@@ -5,6 +5,7 @@
 namespace ILIAS\Refinery\KindlyTo\Transformation;
 
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 
@@ -18,6 +19,7 @@ class BooleanTransformation implements Transformation
     const BOOL_FALSE_NUMBER_STRING = '0';
 
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -49,13 +51,5 @@ class BooleanTransformation implements Transformation
             'not_boolean',
             $from
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

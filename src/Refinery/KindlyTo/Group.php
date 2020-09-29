@@ -15,6 +15,7 @@ use ILIAS\Refinery\KindlyTo\Transformation\ListTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\RecordTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\TupleTransformation;
 use ILIAS\Refinery\KindlyTo\Transformation\DictionaryTransformation;
+use ILIAS\Refinery\KindlyTo\Transformation\NullTransformation;
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -209,5 +210,17 @@ class Group
     public function recordOf(array $transformations) : Transformation
     {
         return new RecordTransformation($transformations);
+    }
+
+    /**
+     * Get a kind transformation to null.
+     *
+     * Transforms an empty string to null; e.g.in the case of optional numeric inputs,
+     * an empty string is being relayed to the server: This is rather the absence
+     * of input than an invalid number.
+     */
+    public function null() : Transformation
+    {
+        return new NullTransformation();
     }
 }

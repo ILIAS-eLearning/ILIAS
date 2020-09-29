@@ -156,13 +156,13 @@ class SurveySearch
         }
         $cumulated_fields = array();
         foreach ($fields as $params) {
-            array_push($cumulated_fields, "(" . join($params, " OR ") . ")");
+            array_push($cumulated_fields, "(" . join(" OR ", $params) . ")");
         }
         $str_where = "";
         if ($this->concatenation == self::CONCAT_AND) {
-            $str_where = "(" . join($cumulated_fields, " AND ") . ")";
+            $str_where = "(" . join(" AND ", $cumulated_fields) . ")";
         } else {
-            $str_where = "(" . join($cumulated_fields, " OR ") . ")";
+            $str_where = "(" . join(" OR ", $cumulated_fields) . ")";
         }
         if ($str_where) {
             $str_where = " AND $str_where";

@@ -4464,3 +4464,15 @@ if (!$ilDB->tableColumnExists('skl_user_has_level', 'next_level_fulfilment')) {
     ));
 }
 ?>
+<#5678>
+<?php
+if (!$ilDB->indexExistsByFields('booking_object', array('pool_id'))) {
+    $ilDB->addIndex('booking_object', array('pool_id'), 'i1');
+}
+?>
+<#5679>
+<?php
+if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
+    $ilDB->addIndex('il_object_subobj', array('subobj'), 'i1');
+}
+?>

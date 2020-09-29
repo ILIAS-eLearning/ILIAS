@@ -6,12 +6,15 @@ namespace ILIAS\Refinery\String;
 use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Split a string by delimiter into array
  */
 class SplitString implements Transformation
 {
+    use DeriveInvokeFromTransform;
+
     /**
      * @var string
      */
@@ -42,14 +45,6 @@ class SplitString implements Transformation
         }
 
         return explode($this->delimiter, $from);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 
     /**

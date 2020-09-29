@@ -7,6 +7,7 @@ use ILIAS\Data\Factory;
 use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 /**
  * Transform a string representing a datetime-value to php's DateTimeImmutable
@@ -15,6 +16,7 @@ use ILIAS\Refinery\DeriveApplyToFromTransform;
 class DateTimeTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @var DataFactory
@@ -39,13 +41,5 @@ class DateTimeTransformation implements Transformation
         } catch (\Exception $e) {
             throw new \InvalidArgumentException($e->getMessage(), 1);
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

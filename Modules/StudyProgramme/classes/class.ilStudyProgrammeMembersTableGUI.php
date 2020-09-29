@@ -293,22 +293,20 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $access_by_position = $this->isPermissionControlledByOrguPosition();
         $parent = $this->getParentObject();
 
-        $view_individual_plan =
-           $access_by_position == false ||
-           $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
-        ;
+        $view_individual_plan = $parent->isOperationAllowedForUser(
+            $usr_id,
+            ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
+        );
 
-        $edit_individual_plan =
-            $access_by_position == false ||
-            $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN)
-        ;
+        $edit_individual_plan = $parent->isOperationAllowedForUser(
+            $usr_id,
+            ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN
+        );
 
-        $manage_members =
-            (   $access_by_position == false ||
-                $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
-            ) &&
-            in_array($usr_id, $this->getParentObject()->getLocalMembers())
-        ;
+        $manage_members = $parent->isOperationAllowedForUser(
+            $usr_id,
+            ilOrgUnitOperation::OP_MANAGE_MEMBERS
+        ) && in_array($usr_id, $this->getParentObject()->getLocalMembers());
 
         foreach ($actions as $action) {
             switch ($action) {

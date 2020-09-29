@@ -229,7 +229,7 @@ class ilObjAssessmentFolder extends ilObject
         if ((!is_array($type_ids)) || (count($type_ids) == 0)) {
             $setting->delete("assessment_manual_scoring");
         } else {
-            $setting->set("assessment_manual_scoring", implode($type_ids, ","));
+            $setting->set("assessment_manual_scoring", implode(",", $type_ids));
         }
     }
 
@@ -247,7 +247,7 @@ class ilObjAssessmentFolder extends ilObject
         if ((!is_array($type_ids)) || (count($type_ids) == 0)) {
             $setting->delete("assessment_scoring_adjustment");
         } else {
-            $setting->set("assessment_scoring_adjustment", implode($type_ids, ","));
+            $setting->set("assessment_scoring_adjustment", implode(",", $type_ids));
         }
     }
 

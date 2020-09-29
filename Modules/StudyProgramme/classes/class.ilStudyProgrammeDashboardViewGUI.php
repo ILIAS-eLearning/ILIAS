@@ -88,8 +88,10 @@ class ilStudyProgrammeDashboardViewGUI
                 continue;
             }
 
+            $current_prg = $current->getStudyProgramme();
+
             /** @var ilStudyProgrammeSettings $current_prg_settings */
-            $current_prg_settings = $current->getStudyProgramme()->getRawSettings();
+            $current_prg_settings = $current_prg->getRawSettings();
 
             /** @var ilStudyProgrammeUserProgress $current_progress */
             $current_progress = $current->getRootProgress();
@@ -97,9 +99,8 @@ class ilStudyProgrammeDashboardViewGUI
             list($valid, $validation_date) = $this->findValidationValues($assignments);
 
             list($minimum_percents, $current_percents) = $this->calculatePercent(
-                $current_prg_settings->getAssessmentSettings()->getPoints(),
-                $current_progress->getCurrentAmountOfPoints(),
-                (int) $current->getStudyProgramme()->getRefId()
+                $current_prg,
+                $current_progress->getCurrentAmountOfPoints()
             );
 
             $current_status = $current_progress->getStatus();
@@ -128,7 +129,6 @@ class ilStudyProgrammeDashboardViewGUI
             }
 
             $items[] = $this->buildItem($current->getStudyProgramme(), $properties);
-            ;
         }
 
         if (count($items) == 0) {
@@ -288,25 +288,32 @@ class ilStudyProgrammeDashboardViewGUI
         return $this->lng->txt($code);
     }
 
-    protected function calculatePercent(int $points, int $current_points, int $prg_ref_id) : array
+    protected function calculatePercent(ilObjStudyProgramme $prg, int $current_points) : array
     {
-        $children = ilObjStudyProgramme::getAllChildren($prg_ref_id);
-        $max_points = 0;
-        /** @var ilObjStudyProgramme $child */
-        foreach ($children as $child) {
-            $max_points += $child->getRawSettings()->getAssessmentSettings()->getPoints();
-        }
-
         $minimum_percents = 0;
         $current_percents = 0;
-        if ($max_points > 0) {
-            $minimum_percents = round((100 * $points / $max_points), 2);
-            $current_percents = round((100 * $current_points / $max_points), 2);
+
+        if ($prg->hasLPChildren()) {
+            $minimum_percents = 100;
+            if ($current_points > 0) {
+                $current_percents = 100;
+            }
         }
 
-        if ($max_points == 0 && $points == 0) {
-            $minimum_percents = 100;
-            $current_percents = 100;
+        $children = $prg->getAllPrgChildren();
+        if (count($children) > 0) {
+            $max_points = 0;
+            foreach ($children as $child) {
+                $max_points += $child->getPoints();
+            }
+
+            if ($max_points > 0) {
+                $prg_points = $prg->getPoints();
+                $minimum_percents = round((100 * $prg_points / $max_points), 2);
+            }
+            if ($current_points > 0) {
+                $current_percents = round((100 * $current_points / $max_points), 2);
+            }
         }
 
         return [
@@ -314,6 +321,7 @@ class ilStudyProgrammeDashboardViewGUI
             $current_percents
         ];
     }
+
 
     /**
      * @throws ilException

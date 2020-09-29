@@ -289,12 +289,13 @@ The traits that can be used are:
  * [DeriveApplyToFromTransform](#deriveapplytofromtransform)
  * [DeriveTransformFromApplyTo](#derivetransformfromapplyto)
 
-An example shows how one of the traits can be used.
+An example shows how the traits can be used.
 
 ```php
 class BooleanTransformation implements Transformation
 {
 	use DeriveApplyToFromTransform;
+	use DeriveInvokeFromTransform;
 
 	/**
 	 * @inheritdoc
@@ -308,14 +309,6 @@ class BooleanTransformation implements Transformation
 			);
 		}
 		return (bool) $from;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
 	}
 }
 ```
