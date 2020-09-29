@@ -21,6 +21,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
     {
         $factory = $this->dic->ui()->factory();
         $request = $this->dic->http()->request();
+        $languages = $this->dic->language()->getInstalledLanguages();
 
         $if = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
@@ -34,9 +35,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         // Only visible, if not on login-page but not logged in
         $target_str = '';
         if ($ref_id = $request->getQueryParams()['ref_id']) {
-            $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' .(int) $ref_id . '&';
-        }
-        elseif ($target = $request->getQueryParams()['target']) {
+            $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' . (int) $ref_id . '&';
+        } elseif ($target = $request->getQueryParams()['target']) {
             $target_str = 'target=' . $target . '&';
         }
 
@@ -60,8 +60,8 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAvailableCallable(function () {
                 return !$this->isUserLoggedIn();
             })
-            ->withVisibilityCallable(function () {
-                return true;
+            ->withVisibilityCallable(function () use ($languages) {
+                return count($languages) > 1;
             })
             ->withTitle($txt('language'));
 
@@ -70,7 +70,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         /**
          * @var $language_selection TopParentItem
          */
-        foreach ($this->dic->language()->getInstalledLanguages() as $lang_key) {
+        foreach ($languages as $lang_key) {
             $link = $this->appendUrlParameterString($base, "lang=" . $lang_key);
             $language_name = $this->dic->language()->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key);
 
