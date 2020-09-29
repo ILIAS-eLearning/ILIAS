@@ -1,13 +1,19 @@
 # Roadmap
 
-
 ## Short Term
 
 ### GET/POST handling
 
 - replace GET/POST access by using request objects
+  - ILIAS 6
+    - Presentation centralises most of request access in `ilLMPresentationRequest`
+    - Editing missing (and view remaining cases in presentation)
 
 ## Mid Term
+
+### Refactor Editing Clipboard
+
+- The editing cliboard uses static calls to `ilEditClipboard` and features in `ilUser`. This should be moved to one decent repo class in `Modules/LearningModule`.
 
 ### Improve Architecture
 
