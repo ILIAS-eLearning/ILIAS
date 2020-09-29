@@ -39,6 +39,11 @@ class AgentCollection implements Agent
         $this->agents = $agents;
     }
 
+    public function getAgent(string $key) : ?Agent
+    {
+        return $this->agents[$key] ?? null;
+    }
+
     /**
      * @inheritdocs
      */

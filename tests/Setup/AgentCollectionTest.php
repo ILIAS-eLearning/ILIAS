@@ -347,4 +347,27 @@ class AgentCollectionTest extends TestCase
         $this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
+
+    public function testGetAgent()
+    {
+        $ff = $this->createMock(FieldFactory::class);
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $c = new Setup\AgentCollection(
+            $ff,
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3, "c4" => $c4]
+        );
+
+        $this->assertSame($c1, $c->getAgent("c1"));
+        $this->assertSame($c2, $c->getAgent("c2"));
+        $this->assertSame($c3, $c->getAgent("c3"));
+        $this->assertSame($c4, $c->getAgent("c4"));
+        $this->assertNull($c->getAgent("c5"));
+    }
 }
