@@ -67,7 +67,12 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilDatabaseUpdatedObjective($config, false);
+        return new Setup\ObjectiveCollection(
+            "Complete objectives from Services\Database",
+            false,
+            new \ilDatabaseConfigStoredObjective($config),
+            new \ilDatabaseUpdatedObjective($config, false)
+        );
     }
 
     /**

@@ -46,11 +46,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/BackgroundTasks",
-            false,
-            new ilBackgroundTasksConfigStoredObjective($config)
-        );
+        return new ilBackgroundTasksConfigStoredObjective($config);
     }
 
     /**
@@ -58,7 +54,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilBackgroundTasksConfigStoredObjective($config);
     }
 
     /**

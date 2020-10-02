@@ -35,7 +35,7 @@ class ilSystemFolderSetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilSystemFolderSetupConfig(
-                $data["client"]["name"],
+                $data["client"]["name"] ?? null,
                 $data["client"]["description"] ?? null,
                 $data["client"]["institution"] ?? null,
                 $data["contact"]["firstname"],
@@ -58,11 +58,7 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Modules/SystemFolder",
-            false,
-            new ilInstallationInformationStoredObjective($config)
-        );
+        return new ilInstallationInformationStoredObjective($config);
     }
 
     /**
@@ -70,7 +66,7 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilInstallationInformationStoredObjective($config);
     }
 
     /**

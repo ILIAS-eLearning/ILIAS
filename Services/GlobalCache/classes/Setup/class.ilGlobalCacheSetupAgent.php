@@ -74,11 +74,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/GlobalCache",
-            false,
-            new ilGlobalCacheConfigStoredObjective($config)
-        );
+        return new ilGlobalCacheConfigStoredObjective($config);
     }
 
     /**
@@ -86,7 +82,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilGlobalCacheConfigStoredObjective($config);
     }
 
     /**
