@@ -31,7 +31,7 @@ class ilSetupConfigStoredObjective extends ilSetupObjective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ilIniFilesPopulatedObjective($this->config)
+            new ilIniFilesLoadedObjective()
         ];
     }
 

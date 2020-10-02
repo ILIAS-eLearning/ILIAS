@@ -45,11 +45,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objetives from Services/FileSystem",
-            false,
-            new ilFileSystemDirectoriesCreatedObjective($config)
-        );
+        return new ilFileSystemDirectoriesCreatedObjective($config);
     }
 
     /**
@@ -57,7 +53,7 @@ class ilFileSystemSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilFileSystemConfigNotChangedObjective($config);
     }
 
     /**

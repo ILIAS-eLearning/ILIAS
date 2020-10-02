@@ -24,7 +24,8 @@ class ilIniFilesLoadedObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ClientIdReadObjective()
+            new Setup\Objective\ClientIdReadObjective(),
+            new ilIniFilesPopulatedObjective()
         ];
     }
 
@@ -41,13 +42,15 @@ class ilIniFilesLoadedObjective implements Setup\Objective
         if ($environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI) == null) {
             $path = dirname(__DIR__, 2) . "/ilias.ini.php";
             $ini = new ilIniFile($path);
+            $ini->read();
             $environment = $environment
                 ->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini);
         }
 
         if ($environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI) == null) {
-            $path = $this->getClientDir() . "/client.ini.php";
+            $path = $this->getClientDir($client_id) . "/client.ini.php";
             $client_ini = new ilIniFile($path);
+            $client_ini->read();
             $environment = $environment
                 ->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
         }

@@ -45,11 +45,7 @@ class ilPreviewSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Preview",
-            false,
-            new ilPreviewConfigStoredObjective($config)
-        );
+        return new ilPreviewConfigStoredObjective($config);
     }
 
     /**
@@ -57,7 +53,7 @@ class ilPreviewSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilPreviewConfigStoredObjective($config);
     }
 
     /**

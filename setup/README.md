@@ -47,9 +47,8 @@ configs without secrets.
 ## Update ILIAS
 
 To update ILIAS from the command line, call `php setup/setup.php update config.json`
-from within your ILIAS folder. Make sure you use the same config to update your
-installation as you have used for the [installation](#install-ilias). The remarks
-for the [installation](#install-ilias) in this README also apply for the update.
+from within your ILIAS folder. This will update the configuration of ILIAS according
+to the provided configuration as well as update the database of the installation.
 
 Sometimes it might happen that the database update steps detect some edge case
 or warn about a possible loss of data. In this case the update is aborted with

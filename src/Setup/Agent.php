@@ -28,12 +28,22 @@ interface Agent
     /**
      * Get the goals the agent wants to achieve on setup.
      *
+     * The provided configuration is to be used to set according configuration
+     * values in the installation.
+     *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */
     public function getInstallObjective(Config $config = null) : Objective;
 
     /**
      * Get the goal the agent wants to achieve on update.
+     *
+     * The provided configuration is to be used to change according configuration
+     * values in the installation. If this is not possible for some reason, an
+     * according UnachievableException needs to be thrown in the according objective.
+     * The configuration is not to be used to initialize the required environment
+     * for the objectives. This must be done via ClientIdReadObjective and depending
+     * objectives like ilIniFilesLoadedObjective.
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */

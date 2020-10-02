@@ -2,21 +2,18 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+
 use ILIAS\Setup;
 
-/**
- * Stores configuration for the service (currently only path to ffmpeg)
- * in the according ini-field.
- */
-class ilMediaObjectConfigStoredObjective implements Setup\Objective
+class ilFileSystemConfigNotChangedObjective implements Setup\Objective
 {
     /**
-     * @var	\ilMediaObjectSetupConfig
+     * @var	\ilFileSystemSetupConfig
      */
     protected $config;
 
     public function __construct(
-        \ilMediaObjectSetupConfig $config
+        \ilFileSystemSetupConfig $config
     ) {
         $this->config = $config;
     }
@@ -28,7 +25,7 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
 
     public function getLabel() : string
     {
-        return "Store configuration of Services/MediaObject";
+        return "Config for Filesystems did not change.";
     }
 
     public function isNotable() : bool
@@ -39,7 +36,8 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ilIniFilesLoadedObjective()
+            new ilIniFilesLoadedObjective(),
+            new ilFileSystemDirectoriesCreatedObjective($this->config)
         ];
     }
 
@@ -47,10 +45,14 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
-        $ini->setVariable("tools", "ffmpeg", $this->config->getPathToFFMPEG());
-
-        if (!$ini->write()) {
-            throw new Setup\UnachievableException("Could not write ilias.ini.php");
+        $current = $ini->readVariable("clients", "datadir");
+        $new = $this->config->getDataDir();
+        if ($current !== $new) {
+            throw new Setup\UnachievableException(
+                "You seem to try to move the ILIAS data-directory from '$current' " .
+                "to '$new', the client.ini.php contains a different path then the " .
+                "config you are using. This is not supported by the setup."
+            );
         }
 
         return $environment;
@@ -63,6 +65,6 @@ class ilMediaObjectConfigStoredObjective implements Setup\Objective
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
-        return $ini->readVariable("tools", "ffmpeg") !== $this->config->getPathToFFMPEG();
+        return $ini->readVariable("clients", "datadir") !== $this->config->getDataDir();
     }
 }

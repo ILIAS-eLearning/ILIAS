@@ -52,9 +52,8 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective
             ];
         }
 
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesLoadedObjective(),
             new \ilDatabasePopulatedObjective($this->config)
         ];
     }

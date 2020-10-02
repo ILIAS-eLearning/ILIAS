@@ -57,6 +57,10 @@ class ClientIdReadObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
+        if ($environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID) !== null) {
+            return $environment;
+        }
+
         $dir = $this->getDataDirectoryPath();
         $candidates = array_filter(
             $this->scanDirectory($dir),
@@ -108,6 +112,6 @@ class ClientIdReadObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        return $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID) !== null;
+        return $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID) === null;
     }
 }

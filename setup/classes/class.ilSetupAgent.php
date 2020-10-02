@@ -73,7 +73,7 @@ class ilSetupAgent implements Setup\Agent
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
-                new ilSetupConfigStoredObjective($config),
+                new ilSetupConfigStoredObjective($config, true),
                 $config->getRegisterNIC()
                         ? new ilNICKeyRegisteredObjective($config)
                         : new ilNICKeyStoredObjective($config)
@@ -103,7 +103,7 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilSetupConfigStoredObjective($config);
     }
 
     /**

@@ -47,11 +47,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Utilities",
-            false,
-            new ilUtilitiesConfigStoredObjective($config)
-        );
+        return  new ilUtilitiesConfigStoredObjective($config);
     }
 
     /**
@@ -59,7 +55,7 @@ class ilUtilitiesSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return  new ilUtilitiesConfigStoredObjective($config);
     }
 
     /**

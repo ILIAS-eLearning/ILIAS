@@ -45,11 +45,7 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/PDFGeneration",
-            false,
-            new ilPDFGenerationConfigStoredObjective($config)
-        );
+        return new ilPDFGenerationConfigStoredObjective($config);
     }
 
     /**
@@ -57,7 +53,7 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilPDFGenerationConfigStoredObjective($config);
     }
 
     /**
