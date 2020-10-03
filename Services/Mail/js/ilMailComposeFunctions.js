@@ -1,31 +1,82 @@
-// inserts placeholder at current coursor position
+let browserSupportsTextareaTextNodes;
+
+/**
+ * @param {HTMLElement} input
+ * @return {boolean}
+ */
+function canManipulateViaTextNodes(input) {
+	if (input.nodeName !== "TEXTAREA") {
+		return false;
+	}
+
+	if (typeof browserSupportsTextareaTextNodes === "undefined") {
+		const textarea = document.createElement("textarea");
+		textarea.value = 1;
+		browserSupportsTextareaTextNodes = !!textarea.firstChild;
+	}
+
+	return browserSupportsTextareaTextNodes;
+}
+
+
 function insertTextIntoTextField(text, obj_id)
 {
-    if (text && obj_id)
-    {
-		var objTextField = document.getElementById(obj_id);
-		
-		if (document.selection)
-		{
-        	objTextField.focus();
-            sel = document.selection.createRange();
-            sel.text = text;
-        }
-        else if (objTextField.selectionStart || objTextField.selectionStart == '0')
-        {
-            var startPos = objTextField.selectionStart;
-            var endPos = objTextField.selectionEnd;
-            var TextFieldValue = objTextField.value;
+	const input = document.getElementById(obj_id);
 
-            objTextField.value = TextFieldValue.substring(0, startPos) +
-	    				text +
-					TextFieldValue.substring(endPos, TextFieldValue.length);
-        }
-        else
-        {
-            objTextField.value += text;
-        }
-    }
+	input.focus();
+
+	const isSuccess = document.execCommand("insertText", false, text);
+	if (!isSuccess) {
+		const start = input.selectionStart, end = input.selectionEnd;
+
+		if (typeof input.setRangeText === "function") {
+			input.setRangeText(text);
+		} else {
+			const range = document.createRange(), textNode = document.createTextNode(text);
+
+			if (canManipulateViaTextNodes(input)) {
+				let node = input.firstChild;
+
+				if (!node) {
+					input.appendChild(textNode);
+				} else {
+					let offset = 0, startNode = null, endNode = null;
+
+					while (node && (startNode === null || endNode === null)) {
+						const nodeLength = node.nodeValue.length;
+
+						if (start >= offset && start <= offset + nodeLength) {
+							range.setStart((startNode = node), start - offset);
+						}
+
+						if (end >= offset && end <= offset + nodeLength) {
+							range.setEnd((endNode = node), end - offset);
+						}
+
+						offset += nodeLength;
+						node = node.nextSibling;
+					}
+
+					if (start !== end) {
+						range.deleteContents();
+					}
+				}
+			}
+
+			if (canManipulateViaTextNodes(input) && range.commonAncestorContainer.nodeName === '#text') {
+				range.insertNode(textNode);
+			} else {
+				const value = input.value;
+				input.value = value.slice(0, start) + text + value.slice(end);
+			}
+		}
+
+		input.setSelectionRange(start + text.length, start + text.length);
+
+		const e = document.createEvent("UIEvent");
+		e.initEvent("input", true, false);
+		input.dispatchEvent(e);
+	}
 }
 
 // removes ',' at the ending of recipients textfield
