@@ -634,9 +634,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     public function getTabs()
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilHelp = $DIC['ilHelp'];
+		$ilAccess = $DIC->access();
         
         if ($this->ctrl->getCmd() == "delete") {
             return;
@@ -686,7 +686,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             
         // learning progress and offline mode
         include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
-        if (ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId())) {
+        if (ilLearningProgressAccess::checkAccess($this->object->getRefId()) || $ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             //if scorm && offline_mode activated
             if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
                 if ($this->object->getOfflineMode() == true) {
@@ -709,7 +709,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // tracking data
-        if ($rbacsystem->checkAccess("read_learning_progress", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", $this->object->getRefId())) {
+        if ($ilAccess->checkAccess("read_learning_progress", '', $this->object->getRefId()) || $ilAccess->checkAccess("edit_learning_progress", '', $this->object->getRefId())) {
             if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
                 include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
                 $privacy = ilPrivacySettings::_getInstance();
@@ -738,7 +738,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // export
-        if ($rbacsystem->checkAccess("edit_permission", "", $this->object->getRefId())) {
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "export",
                 $this->ctrl->getLinkTarget($this, "export"),
@@ -748,7 +748,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         }
 
         // perm
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($ilAccess->checkAccess('edit_permission', '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
