@@ -2100,27 +2100,26 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 ));
                 $this->replyEditForm->addItem($draftInfoGUI);
             }
-
-            $selected_draft_id = (int) $_GET['draft_id'];
-            $draftObj = new ilForumPostDraft(
-                $this->user->getId(),
-                $this->objCurrentPost->getId(),
-                $selected_draft_id
-            );
-            if ($draftObj->getDraftId() > 0) {
-                $oFDForumDrafts = new ilFileDataForumDrafts(0, $draftObj->getDraftId());
-                if (count($oFDForumDrafts->getFilesOfPost())) {
-                    $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI(
-                        $this->lng->txt('forums_delete_file'),
-                        'del_file'
-                    );
-                    foreach ($oFDForumDrafts->getFilesOfPost() as $file) {
-                        $oAttachmentGUI = new ilCheckboxInputGUI($file['name'], 'del_file');
-                        $oAttachmentGUI->setValue($file['md5']);
-                        $oExistingAttachmentsGUI->addOption($oAttachmentGUI);
-                    }
-                    $this->replyEditForm->addItem($oExistingAttachmentsGUI);
+        }
+        $selected_draft_id = (int)$_GET['draft_id'];
+        $draftObj = new ilForumPostDraft(
+            $this->user->getId(),
+            $this->objCurrentPost->getId(),
+            $selected_draft_id
+        );
+        if ($draftObj->getDraftId() > 0) {
+            $oFDForumDrafts = new ilFileDataForumDrafts(0, $draftObj->getDraftId());
+            if (count($oFDForumDrafts->getFilesOfPost())) {
+                $oExistingAttachmentsGUI = new ilCheckboxGroupInputGUI(
+                    $this->lng->txt('forums_delete_file'),
+                    'del_file'
+                );
+                foreach ($oFDForumDrafts->getFilesOfPost() as $file) {
+                    $oAttachmentGUI = new ilCheckboxInputGUI($file['name'], 'del_file');
+                    $oAttachmentGUI->setValue($file['md5']);
+                    $oExistingAttachmentsGUI->addOption($oAttachmentGUI);
                 }
+                $this->replyEditForm->addItem($oExistingAttachmentsGUI);
             }
         }
 
