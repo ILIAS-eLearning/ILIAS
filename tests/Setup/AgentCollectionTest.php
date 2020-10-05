@@ -191,6 +191,40 @@ class AgentCollectionTest extends TestCase
     public function testGetUpdateObjective() : void
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $storage = $this->createMock(Setup\Metrics\Storage::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+
+        $g1 = $this->newObjective();
+        $g2 = $this->newObjective();
+
+        $s1 = new Setup\Metrics\StorageOnPathWrapper("c1", $storage);
+        $s2 = new Setup\Metrics\StorageOnPathWrapper("c2", $storage);
+
+        $c1
+            ->expects($this->once())
+            ->method("getStatusObjective")
+            ->with($s1)
+            ->willReturn($g1);
+        $c2
+            ->expects($this->once())
+            ->method("getStatusObjective")
+            ->with($s2)
+            ->willReturn($g2);
+
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
+        $conf = new Setup\ConfigCollection(["c1" => $conf1]);
+
+        $g = $col->getStatusObjective($storage);
+
+        $this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
+        $this->assertEquals([$g1, $g2], $g->getObjectives());
+    }
+
+    public function testGetCollectMetricsObjective() : void
+    {
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
         $c2 = $this->newAgent();

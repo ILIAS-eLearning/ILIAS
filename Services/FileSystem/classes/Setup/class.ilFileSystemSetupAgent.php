@@ -63,4 +63,12 @@ class ilFileSystemSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
 }

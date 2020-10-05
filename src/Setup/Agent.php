@@ -55,4 +55,12 @@ interface Agent
      * @throw InvalidArgumentException if Config does not match the Agent.
      */
     public function getBuildArtifactObjective() : Objective;
+
+    /**
+     * Get the objective to collect metrics about the component the agent belongs
+     * to.
+     *
+     * This is supposed to inform about any kind of metrics regarding the component.
+     */
+    public function getStatusObjective(Metrics\Storage $storage) : Objective;
 }

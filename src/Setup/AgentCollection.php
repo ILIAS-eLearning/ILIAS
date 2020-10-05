@@ -103,6 +103,19 @@ class AgentCollection implements Agent
         return new ObjectiveCollection("Collected Build Artifact Objectives", false, ...$gs);
     }
 
+    /**
+     * @inheritdocs
+     */
+    public function getStatusObjective(Metrics\Storage $storage) : Objective
+    {
+        $os = [];
+        foreach ($this->agents as $k => $a) {
+            $s = new Metrics\StorageOnPathWrapper($k, $storage);
+            $os[] = $a->getStatusObjective($s);
+        }
+        return new ObjectiveCollection("Collected Status Objectives", false, ...$os);
+    }
+
     protected function getXObjective(string $which, Config $config = null) : Objective
     {
         $this->checkConfig($config);
