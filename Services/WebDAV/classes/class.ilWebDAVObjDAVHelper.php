@@ -73,12 +73,9 @@ class ilWebDAVObjDAVHelper
      * @param $title
      * @return bool
      */
-    public function isDAVableObjTitle(string $title, &$webdav_problems = null) : bool
+    public function isDAVableObjTitle(string $title) : bool
     {
         if ($this->hasTitleForbiddenChars($title)) {
-            if (!is_null($webdav_problems)) {
-                $webdav_problems['characters'][] = $title;
-            }
             return false;
         }
         if ($this->hasInvalidPrefixInTitle($title)) {
