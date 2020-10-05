@@ -58,4 +58,12 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     {
         return new \ilGlobalScreenBuildProviderMapObjective();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
 }

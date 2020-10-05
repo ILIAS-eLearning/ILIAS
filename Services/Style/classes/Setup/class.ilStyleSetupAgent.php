@@ -64,4 +64,12 @@ class ilStyleSetupAgent implements Setup\Agent
     {
         return new ilKitchenSinkDataCollectedObjective();
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
 }
