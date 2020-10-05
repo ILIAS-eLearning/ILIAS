@@ -125,7 +125,7 @@ class CardTest extends ILIAS_UI_TestBase
                 "   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />" .
                 "   <div class=\"card-no-highlight\"></div>" .
                 "   <div class=\"caption\">" .
-                "       <h5 class=\"card-title\">Card Title</h5>" .
+                "       <div class=\"card-title\">Card Title</div>" .
                 "   </div>" .
                 "   <div class=\"caption\">Random Content</div>" .
                 "</div>";
@@ -146,7 +146,7 @@ class CardTest extends ILIAS_UI_TestBase
             "   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />" .
             "   <div class=\"card-highlight\"></div>" .
             "   <div class=\"caption\">" .
-            "       <h5 class=\"card-title\">Card Title</h5>" .
+            "       <div class=\"card-title\">Card Title</div>" .
             "   </div>" .
             "</div>";
 
