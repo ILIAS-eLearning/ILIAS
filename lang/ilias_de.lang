@@ -900,7 +900,7 @@ assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit e
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
-assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auwählen einer Antwort ein.
+assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
@@ -6241,12 +6241,12 @@ ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
-ecs#:#ecs_import_cms#:#Campus Management
+ecs#:#ecs_import_cms#:#Campus-Management
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
@@ -15209,7 +15209,7 @@ lso#:#participate#:#Anmelden
 lhist#:#lhist_show_more#:#Mehr anzeigen
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
@@ -15330,7 +15330,7 @@ certificate#:#persistent_certificate_mode#:#Benutzer Zertifikatserstellung
 certificate#:#persistent_certificate_mode_cron#:#Cron-Job
 certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
 certificate#:#persistent_certificate_mode_instant#:#Direkt
-certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
+certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteraktion empfohlen. Für Systeme, die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
 common#:#obj_task#:#To-Do
 task#:#task_derived_tasks#:#To-Do
 task#:#task_tasks_with_deadline#:#Mit Endtermin
@@ -15355,7 +15355,7 @@ content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
-certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
+certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
