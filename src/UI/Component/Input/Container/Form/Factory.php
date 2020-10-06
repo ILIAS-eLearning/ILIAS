@@ -9,7 +9,6 @@ namespace ILIAS\UI\Component\Input\Container\Form;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -18,10 +17,13 @@ interface Factory
      *      configuring objects or services.
      *   composition: >
      *      Standard forms provide a submit-button.
+     *      Additionally, they MAY provide a cancel-button.
      *   effect: >
      *      The users manipulates input-values and saves the form to apply the
      *      settings to the object or service or create new entities in the
      *      system.
+     *      Operating the cancel-button will take the user back to the situation
+     *      before calling the form.
      *
      * rules:
      *   usage:
@@ -39,10 +41,16 @@ interface Factory
      *        changed, then you MUST propose it to the JF.
      *     4: >
      *        On top and bottom of a standard form there SHOULD be the “Save” button for the form.
-     *     5: >
-     *        In some rare exceptions the Buttons MAY be named differently: if “Save” is
-     *        clearly a misleading since the action is more than storing
+     *        When the form is very small (e.g. accepting Terms of Condition, or username/password only,
+     *        the upper button MAY be omitted.
+     *   interaction:
+     *     1: Operating the cancel button MUST NOT change the system in any way.
+     *   wording:
+     *     1: >
+     *        In some rare exceptions the Buttons MAY be named differently, e.g.
+     *        if “Save” is clearly a misleading since the action is more than storing
      *        the data into the database. “Send Mail” would be an example of this.
+     *     2: The cancel-button, however, MUST NOT be labelled other than “Cancel”.
      *
      * ---
      *
