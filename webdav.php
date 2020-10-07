@@ -26,7 +26,7 @@ try{
     $context =  ilContext::CONTEXT_WEBDAV;
     ilContext::init($context);
     ilInitialisation::initILIAS();
-} catch(Exception $e) {
+} catch(InvalidArgumentException $e) {
     header("HTTP/1.1 400 Bad Request");
     header("X-WebDAV-Status: 400 Bad Request", true);
     echo '<?xml version="1.0" encoding="utf-8"?>
