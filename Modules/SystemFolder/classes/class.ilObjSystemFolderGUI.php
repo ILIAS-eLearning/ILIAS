@@ -977,7 +977,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     // Server Info
     //
     //
-    
+
+    // TODO: remove this subtabs
     /**
     * Set sub tabs for server info
     */
@@ -990,7 +991,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
         
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            $ilTabs->addSubTabTarget("adm_https", $ilCtrl->getLinkTarget($this, "showHTTPS"));
             $ilTabs->addSubTabTarget("proxy", $ilCtrl->getLinkTarget($this, "showProxy"));
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
             $ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
@@ -1023,6 +1023,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilToolbar->addButtonInstance($button);
 
         $this->initServerInfoForm();
+        // TODO: remove sub tabs
+//        $this->tabs->setTabActive("server");
         $this->setServerInfoSubTabs("server_data");
         
         $btpl = new ilTemplate("tpl.server_data.html", true, true, "Modules/SystemFolder");
@@ -2153,87 +2155,20 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // save and cancel commands
         $this->form->addCommandButton('saveProxy', $lng->txt('save'));
     }
-    
-    public function showHTTPSObject()
-    {
-        $tpl = $this->tpl;
-        $ilAccess = $this->access;
-        $ilErr = $this->error;
-        
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
-        }
-        
-        $form = $this->initHTTPSForm();
-        $tpl->setContent($form->getHTML());
-    }
-    
-    public function saveHTTPSObject()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        $form = $this->initHTTPSForm();
-        if ($form->checkInput()) {
-            $security = ilSecuritySettings::_getInstance();
-            
-            // ilias https handling settings
-            $security->setHTTPSEnabled($_POST["https_enabled"]);
-            
-            if ($security->validate($form)) {
-                $security->save();
-                
-                ilUtil::sendSuccess($lng->txt('saved_successfully'), true);
-                $ilCtrl->redirect($this, "showHTTPS");
-            }
-        }
-        
-        $form->setValuesByPost();
-        $tpl->setContent($form->getHTML());
-    }
-    
-    private function initHTTPSForm()
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        $this->setServerInfoSubTabs('adm_https');
-        
-        $lng->loadLanguageModule('ps');
-        
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-        $security = ilSecuritySettings::_getInstance();
-        
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($lng->txt("adm_https"));
-        $form->setFormAction($ilCtrl->getFormAction($this, 'saveHTTPS'));
-        
-        $check2 = new ilCheckboxInputGUI($lng->txt('activate_https'), 'https_enabled');
-        $check2->setChecked($security->isHTTPSEnabled() ? 1 : 0);
-        $check2->setValue(1);
-        $form->addItem($check2);
-        
-        // save and cancel commands
-        $form->addCommandButton('saveHTTPS', $lng->txt('save'));
-        
-        return $form;
-    }
-    
+
     public function addToExternalSettingsForm($a_form_id)
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_SECURITY:
-                
+
                 include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
                 $security = ilSecuritySettings::_getInstance();
-                                
+
                 $subitems = null;
-                
+
                 $fields['activate_https'] =
                     array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-                
+
                 return array("general_settings" => array("showHTTPS", $fields));
         }
     }
