@@ -331,7 +331,6 @@ class ilSkillProfileGUI
             $prof = new ilSkillProfile();
             $prof->setTitle($form->getInput("title"));
             $prof->setDescription($form->getInput("description"));
-            $prof->setRefId(0);
             $prof->create();
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "listProfiles");

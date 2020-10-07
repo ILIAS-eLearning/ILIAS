@@ -598,7 +598,6 @@ class ilSkillDataSet extends ilDataSet
                 $prof = new ilSkillProfile();
                 $prof->setTitle($a_rec["Title"]);
                 $prof->setDescription($a_rec["Description"]);
-                $prof->setRefId(0);
                 $prof->create();
                 $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
                 break;

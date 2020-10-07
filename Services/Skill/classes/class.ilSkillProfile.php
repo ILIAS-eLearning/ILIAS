@@ -27,7 +27,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected $id;
     protected $title;
     protected $description;
-    protected $ref_id; // standardmäßig 0 und unnötige Setter entfernen
+    protected $ref_id = 0;
     protected $skill_level = array();
     
     /**
