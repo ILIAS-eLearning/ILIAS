@@ -42,12 +42,9 @@ class Renderer extends AbstractComponentRenderer
             $f->button()->standard($this->txt($component->getSubmitLabel()), '')
         ];
         if (!is_null($component->getCancelURL())) {
-            array_unshift(
-                $buttons,
-                $f->button()->standard(
-                    $this->txt('cancel'),
-                    (string) $component->getCancelURL()
-                )
+            $buttons[] = $f->button()->standard(
+                $this->txt('cancel'),
+                (string) $component->getCancelURL()
             );
         }
 

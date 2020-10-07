@@ -142,8 +142,8 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
     <div class="il-standard-form-header clearfix">
         <div class="il-standard-form-cmd">
-            <button class="btn btn-default" data-action="http://www.ilias.de" id="id_1">cancel</button>
             <button class="btn btn-default" data-action="">save</button>
+            <button class="btn btn-default" data-action="http://www.ilias.de" id="id_1">cancel</button>
         </div>
     </div>
 
@@ -156,8 +156,8 @@ class StandardFormTest extends ILIAS_UI_TestBase
 
     <div class="il-standard-form-footer clearfix">
         <div class="il-standard-form-cmd">
-            <button class="btn btn-default" data-action="http://www.ilias.de" id="id_2">cancel</button>
             <button class="btn btn-default" data-action="">save</button>
+            <button class="btn btn-default" data-action="http://www.ilias.de" id="id_2">cancel</button>
         </div>
     </div>
 
