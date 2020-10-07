@@ -196,7 +196,5 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *virusscanner* to be used. Either `none`, `sophos`, `antivir` or `clamav`
   * *path_to_scan* command of the scanner
   * *path_to_clean* command of the scanner
-
-
-
- 
+* *privacysecurity*
+  * *https_enabled* forces https on login page
