@@ -503,6 +503,24 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         return self::lookup($a_id, "ref_id");
     }
+
+    /**
+     * Update the old ref id with the new ref id after import
+     *
+     * @param int $a_new_ref_id
+     */
+    public function updateRefIdAfterImport(int $a_new_ref_id)
+    {
+        $ilDB = $this->db;
+
+        $ilDB->update(
+            "skl_profile",
+            array(
+                "ref_id" => array("integer", $a_new_ref_id)),
+            array(
+                "id" => array("integer", $this->getId()))
+        );
+    }
     
     ////
     //// Skill user assignment

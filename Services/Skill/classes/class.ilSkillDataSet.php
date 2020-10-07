@@ -213,7 +213,6 @@ class ilSkillDataSet extends ilDataSet
                             "Title" => "text",
                             "Description" => "text",
                             "RefId" => "integer"
-                            //obj id auch
                     );
             }
         }
@@ -362,7 +361,8 @@ class ilSkillDataSet extends ilDataSet
             switch ($a_version) {
                 case "7.0":
                     foreach ($a_ids as $obj_id) {
-                        $obj_ref_id = end(ilObject::_getAllReferences($obj_id));
+                        $obj_ref_id = ilObject::_getAllReferences($obj_id);
+                        $obj_ref_id = end($obj_ref_id);
                         $profiles = ilSkillProfile::getLocalProfiles($obj_ref_id);
                         foreach ($profiles as $p) {
                             $profile_ids[] = $p["id"];
@@ -609,7 +609,7 @@ class ilSkillDataSet extends ilDataSet
                 $prof->setDescription($a_rec["Description"]);
                 $prof->setRefId($a_rec["RefId"]);
                 $prof->create();
-                $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
+                $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], $prof->getId());
                 break;
 
             case "skl_prof_level":
