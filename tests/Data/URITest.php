@@ -43,6 +43,13 @@ class URITest extends TestCase
     const URI_INVALID = 'https://host.de/ilias.php/"><script>alert(1)</script>?baseClass=ilObjChatroomGUI&cmd=getOSDNotifications&cmdMode=asynch&max_age=15192913';
 
     const URI_FAKEPCENC = 'g+it://github.com:8080/someaccoun%t/somerepo/somerepo.git/?query_par_1=val_1&query_par_2=val_2#fragment';
+   
+    const URI_REALPCTENC = 'g+it://github.com:8080/someaccount%2Fsomerepo/som%2brepo.git/?par_lower=val_%2b&par_upper=val_%C3%A1#fragment';
+    const PATH_REALPCTENC = 'someaccount%2Fsomerepo/som%2brepo.git';
+    const PARAMS_REALPCTENC =[
+        'par_lower' => 'val_+',
+        'par_upper' => 'val_á'
+    ];
 
     const URI_HOST_ALPHADIG_START_1 = 'g+it://-github.com:8080/someaccount';
     const URI_HOST_ALPHADIG_START_2 = 'g+it://github-.com:8080/someaccount';
@@ -331,6 +338,16 @@ class URITest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         new ILIAS\Data\URI(self::URI_INVALID);
+    }
+
+    /**
+     * @depends test_init
+     */
+    public function test_realpctenc()
+    {
+        $uri = new ILIAS\Data\URI(self::URI_REALPCTENC);
+        $this->assertEquals(self::PATH_REALPCTENC, $uri->getPath());
+        $this->assertEquals(self::PARAMS_REALPCTENC, $uri->getParameters());
     }
 
     /**
