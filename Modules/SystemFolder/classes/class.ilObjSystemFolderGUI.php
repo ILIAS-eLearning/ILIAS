@@ -992,7 +992,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
-            $ilTabs->addSubTabTarget("webservices", $ilCtrl->getLinkTarget($this, "showWebServices"));
         }
         
         $ilTabs->setSubTabActive($a_activate);
@@ -1669,99 +1668,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $tpl->setContent($this->form->getHtml());
         }
     }
-
-    //
-    //
-    // Web Services
-    //
-    //
-
-    /**
-    * Show Web Services
-    */
-    public function showWebServicesObject()
-    {
-        $tpl = $this->tpl;
-        
-        $this->initWebServicesForm();
-        $this->setServerInfoSubTabs("webservices");
-        $tpl->setContent($this->form->getHTML());
-    }
-    
-    /**
-    * Init web services form.
-    */
-    public function initWebServicesForm()
-    {
-        $lng = $this->lng;
-        $ilSetting = $this->settings;
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        $this->form = new ilPropertyFormGUI();
-    
-        // soap administration
-        $cb = new ilCheckboxInputGUI($this->lng->txt("soap_user_administration"), "soap_user_administration");
-        $cb->setInfo($this->lng->txt("soap_user_administration_desc"));
-        if ($ilSetting->get("soap_user_administration")) {
-            $cb->setChecked(true);
-        }
-        $this->form->addItem($cb);
-        
-        // wsdl path
-        $wsdl = new ilTextInputGUI($this->lng->txt('soap_wsdl_path'), 'soap_wsdl_path');
-        $wsdl->setInfo(sprintf($this->lng->txt('soap_wsdl_path_info'), "<br />'" . ILIAS_HTTP_PATH . "/webservice/soap/server.php?wsdl'"));
-        $wsdl->setValue((string) $ilSetting->get('soap_wsdl_path'));
-        $wsdl->setSize(60);
-        $wsdl->setMaxLength(255);
-        $this->form->addItem($wsdl);
-
-        // response timeout
-        $ctime = new ilNumberInputGUI($this->lng->txt('soap_connect_timeout'), 'ctimeout');
-        $ctime->setMinValue(1);
-        $ctime->setSize(2);
-        $ctime->setMaxLength(3);
-        include_once './Services/WebServices/SOAP/classes/class.ilSoapClient.php';
-        $ctime->setValue((int) $ilSetting->get('soap_connect_timeout', ilSoapClient::DEFAULT_CONNECT_TIMEOUT));
-        $ctime->setInfo($this->lng->txt('soap_connect_timeout_info'));
-        $this->form->addItem($ctime);
-
-        $this->form->addCommandButton("saveWebServices", $lng->txt("save"));
-                    
-        $this->form->setTitle($lng->txt("webservices"));
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
-    }
-    
-    /**
-    * Save web services form
-    *
-    */
-    public function saveWebServicesObject()
-    {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-        $rbacsystem = $this->rbacsystem;
-        $ilErr = $this->error;
-        
-        if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
-        }
-    
-        $this->initWebServicesForm();
-        if ($this->form->checkInput()) {
-            $ilSetting->set('soap_user_administration', $this->form->getInput('soap_user_administration'));
-            $ilSetting->set('soap_wsdl_path', trim($this->form->getInput('soap_wsdl_path')));
-            $ilSetting->set('soap_connect_timeout', $this->form->getInput('ctimeout'));
-            
-            ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
-            $ilCtrl->redirect($this, 'showWebServices');
-        } else {
-            $this->setGeneralSettingsSubTabs("webservices");
-            $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
-        }
-    }
     
     //
     //
@@ -1779,14 +1685,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.java_settings.html', 'Modules/SystemFolder');
         
         $GLOBALS['lng']->loadLanguageModule('search');
-
-        include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
-        $toolbar = new ilToolbarGUI();
-        $toolbar->addButton(
-            $this->lng->txt('lucene_create_ini'),
-            $this->ctrl->getLinkTarget($this, 'createJavaServerIni')
-        );
-        $tpl->setVariable('ACTION_BUTTONS', $toolbar->getHTML());
         
         $this->initJavaServerForm();
         $this->setServerInfoSubTabs("java_server");
@@ -1800,117 +1698,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function createJavaServerIniObject()
     {
         $this->setGeneralSettingsSubTabs('java_server');
-        $this->initJavaServerIniForm();
         $this->tpl->setContent($this->form->getHTML());
-    }
-    
-    protected function initJavaServerIniForm()
-    {
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        
-        $this->form = new ilPropertyFormGUI();
-        
-        $GLOBALS['lng']->loadLanguageModule('search');
-        
-        $this->form->setTitle($this->lng->txt('lucene_tbl_create_ini'));
-        $this->form->setFormAction($this->ctrl->getFormAction($this, 'createJavaServerIni'));
-        $this->form->addCommandButton('downloadJavaServerIni', $this->lng->txt('lucene_download_ini'));
-        $this->form->addCommandButton('showJavaServer', $this->lng->txt('cancel'));
-        
-        // Host
-        $ip = new ilTextInputGUI($this->lng->txt('lucene_host'), 'ho');
-        $ip->setInfo($this->lng->txt('lucene_host_info'));
-        $ip->setMaxLength(128);
-        $ip->setSize(32);
-        $ip->setRequired(true);
-        $this->form->addItem($ip);
-        
-        // Port
-        $port = new ilNumberInputGUI($this->lng->txt('lucene_port'), 'po');
-        $port->setSize(5);
-        $port->setMinValue(1);
-        $port->setMaxValue(65535);
-        $port->setRequired(true);
-        $this->form->addItem($port);
-        
-        // Index Path
-        $path = new ilTextInputGUI($this->lng->txt('lucene_index_path'), 'in');
-        $path->setSize(80);
-        $path->setMaxLength(1024);
-        $path->setInfo($this->lng->txt('lucene_index_path_info'));
-        $path->setRequired(true);
-        $this->form->addItem($path);
-        
-        // Logging
-        $log = new ilTextInputGUI($this->lng->txt('lucene_log'), 'lo');
-        $log->setSize(80);
-        $log->setMaxLength(1024);
-        $log->setInfo($this->lng->txt('lucene_log_info'));
-        $log->setRequired(true);
-        $this->form->addItem($log);
-        
-        // Level
-        $lev = new ilSelectInputGUI($this->lng->txt('lucene_level'), 'le');
-        $lev->setOptions(array(
-            'DEBUG' => 'DEBUG',
-            'INFO' => 'INFO',
-            'WARN' => 'WARN',
-            'ERROR' => 'ERROR',
-            'FATAL' => 'FATAL'));
-        $lev->setValue('INFO');
-        $lev->setRequired(true);
-        $this->form->addItem($lev);
-        
-        // CPU
-        $cpu = new ilNumberInputGUI($this->lng->txt('lucene_cpu'), 'cp');
-        $cpu->setValue(1);
-        $cpu->setSize(1);
-        $cpu->setMaxLength(2);
-        $cpu->setMinValue(1);
-        $cpu->setRequired(true);
-        $this->form->addItem($cpu);
-
-        // Max file size
-        $fs = new ilNumberInputGUI($this->lng->txt('lucene_max_fs'), 'fs');
-        $fs->setInfo($this->lng->txt('lucene_max_fs_info'));
-        $fs->setValue(500);
-        $fs->setSize(4);
-        $fs->setMaxLength(4);
-        $fs->setMinValue(1);
-        $fs->setRequired(true);
-        $this->form->addItem($fs);
-        
-        return true;
-    }
-    
-    /**
-     * Create and offer server ini file for download
-     * @return
-     */
-    protected function downloadJavaServerIniObject()
-    {
-        $this->initJavaServerIniForm();
-        if ($this->form->checkInput()) {
-            include_once './Services/WebServices/RPC/classes/class.ilRpcIniFileWriter.php';
-            $ini = new ilRpcIniFileWriter();
-            $ini->setHost($this->form->getInput('ho'));
-            $ini->setPort($this->form->getInput('po'));
-            $ini->setIndexPath($this->form->getInput('in'));
-            $ini->setLogPath($this->form->getInput('lo'));
-            $ini->setLogLevel($this->form->getInput('le'));
-            $ini->setNumThreads($this->form->getInput('cp'));
-            $ini->setMaxFileSize($this->form->getInput('fs'));
-            
-            $ini->write();
-            ilUtil::deliverData($ini->getIniString(), 'ilServer.ini', 'text/plain', 'utf-8');
-            return true;
-        }
-        
-        $this->form->setValuesByPost();
-        ilUtil::sendFailure($this->lng->txt('err_check_input'));
-        $this->setGeneralSettingsSubTabs('java_server');
-        $this->tpl->setContent($this->form->getHTML());
-        return true;
     }
 
     /**
@@ -1923,20 +1711,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-    
-        // host
-        $ti = new ilTextInputGUI($this->lng->txt("java_server_host"), "rpc_server_host");
-        $ti->setMaxLength(64);
-        $ti->setSize(32);
-        $ti->setValue($ilSetting->get("rpc_server_host"));
-        $this->form->addItem($ti);
-        
-        // port
-        $ti = new ilNumberInputGUI($this->lng->txt("java_server_port"), "rpc_server_port");
-        $ti->setMaxLength(5);
-        $ti->setSize(5);
-        $ti->setValue($ilSetting->get("rpc_server_port"));
-        $this->form->addItem($ti);
         
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();
@@ -1952,16 +1726,9 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $ilSetting->get('rpc_pdf_font', 'Helvetica, unifont')
         );
         $this->form->addItem($pdf_font);
-        
     
         // save and cancel commands
         $this->form->addCommandButton("saveJavaServer", $lng->txt("save"));
-                    
-        $this->form->setTitle($lng->txt("java_server"));
-        $this->form->setDescription($lng->txt("java_server_info") .
-            '<br /><a href="Services/WebServices/RPC/lib/README.md" target="_blank">' .
-            $lng->txt("java_server_readme") . '</a>');
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
     
     /**
@@ -1983,8 +1750,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->initJavaServerForm();
         if ($this->form->checkInput()) {
-            $ilSetting->set("rpc_server_host", trim($_POST["rpc_server_host"]));
-            $ilSetting->set("rpc_server_port", trim($_POST["rpc_server_port"]));
             $ilSetting->set('rpc_pdf_font', ilUtil::stripSlashes($_POST['rpc_pdf_font']));
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showJavaServer");

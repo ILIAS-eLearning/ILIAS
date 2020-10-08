@@ -198,3 +198,9 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *path_to_clean* command of the scanner
 * *privacysecurity*
   * *https_enabled* forces https on login page
+* *webservices*
+  * *soap_user_administration* enable administration per soap
+  * *soap_wsdl_path* path to the ilias wsdl file, default is 'http://<your server>/webservice/soap/server.php?wsdl
+  * *soap_connect_timeout* maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted
+  * *rpc_server_host* Java-Server host (if set `rpc_server_port` must be set too)
+  * *rpc_server_port* Java-Server port (if set `rpc_server_host` must be set too)
