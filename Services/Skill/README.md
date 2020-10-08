@@ -223,9 +223,9 @@ Root
  ...
 ```
 
-## Import Export
+## Import/Export
 
-* When skills are imported their original ID from the exporting installation is stored in `skl_tree_node.import_id`.
+* When skills are imported, their original ID from the exporting installation is stored in `skl_tree_node.import_id`.
 * Features that reference skills (e.g. local skill profiles) can re-instantiate these references on import by retrieving the new IDs
   through the methods `ilBasicSkill::getCommonSkillIdForImportId()` and/or `ilBasicSkill::getLevelIdForImportIdMatchSkill`. 
  
@@ -236,10 +236,10 @@ Root
 
 **Business Rules**
 
-* Locale skill profiles can be created, edited and deleted in courses and groups.
-* Locale skill profiles are listed in the global skill profile administration, too.
-* Globale skill profiles can be used and removed (not deleted) from courses and groups (not be edited).
-* Courses and groups export their local skill profiles. However skill level entries of profiles will only appear on import, if the
+* Local skill profiles can be created, edited and deleted in courses and groups.
+* Local skill profiles are listed in the global skill profile administration, too.
+* Global skill profiles can be used and removed (but not deleted) from courses and groups. They cannot be edited in courses and groups.
+* Courses and groups export their local skill profiles. However, assigned skill levels of profiles will only appear on import, if the
   corresponding skills have been imported in the global administration before.
-* Local profiles can be exported in the global administation, too. However this will not include the reference to the course
+* Local profiles can be exported in the global administration, too. However, this will not include the reference to the course
   or group. They will always be imported as global profiles.
