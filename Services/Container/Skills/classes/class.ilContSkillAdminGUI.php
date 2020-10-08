@@ -447,6 +447,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("competences");
 
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -588,6 +591,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
 
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -638,6 +644,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
 
         $profile_id = (int) $this->params["profile_id"];
 
@@ -683,6 +692,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
 
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -735,6 +747,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
 
         $profile_id = (int) $this->params["profile_id"];
 
@@ -746,7 +761,7 @@ class ilContSkillAdminGUI
             $cgui->setFormAction($ctrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
-            $cgui->setConfirm($lng->txt("remove"), "deleteSingleLocalProfile");
+            $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
             $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
