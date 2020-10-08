@@ -26,6 +26,7 @@ require_once(__DIR__ . "/classes/class.ilIniFilesLoadedObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyRegisteredObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyStoredObjective.php");
 require_once(__DIR__ . "/classes/class.ilSetupConfigStoredObjective.php");
+require_once(__DIR__ . "/classes/class.ilSetupMetricsCollectedObjective.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
@@ -66,7 +67,8 @@ function build_container_for_setup(string $executed_in_directory)
             $c["command.install"],
             $c["command.update"],
             $c["command.build-artifacts"],
-            $c["command.reload-control-structure"]
+            $c["command.reload-control-structure"],
+            $c["command.status"]
         );
     };
     $c["command.install"] = function ($c) {
@@ -91,6 +93,11 @@ function build_container_for_setup(string $executed_in_directory)
     $c["command.reload-control-structure"] = function ($c) {
         return new \ILIAS\Setup\CLI\ReloadControlStructureCommand(
             $c["common_preconditions"]
+        );
+    };
+    $c["command.status"] = function ($c) {
+        return new \ILIAS\Setup\CLI\StatusCommand(
+            $c["agent"]
         );
     };
 
