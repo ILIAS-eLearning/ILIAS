@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -63,7 +63,16 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilHttpConfigStoredObjective($config);
+        $http_config_stored = new ilHttpConfigStoredObjective($config);
+
+        if (!$config->isProxyEnabled()) {
+            return $http_config_stored;
+        }
+
+        return new Setup\Objective\ObjectiveWithPreconditions(
+            $http_config_stored, 
+            new ProxyConnectableCondition($config)
+        );
     }
 
     /**
