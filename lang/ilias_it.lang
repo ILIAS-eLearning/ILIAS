@@ -5182,7 +5182,7 @@ common#:#user#:#Utente
 common#:#user_activated#:#L’utente è stato approvato
 common#:#user_added#:#Utente aggiunto
 common#:#user_assignment#:#Utenti assegnati
-common#:#user_cant_receive_mail#:#% 1 $ s (l'utente non è autorizzato a utilizzare il sistema di posta)
+common#:#user_cant_receive_mail#:#%1$s (l'utente non è autorizzato a utilizzare il sistema di posta)
 common#:#user_comment#:#Commento utente
 common#:#user_deactivated#:#L’utente è stato disapprovato
 common#:#user_defined_fields#:#Campi definiti dall'utente
@@ -5244,19 +5244,19 @@ common#:#usrimport_action_replaced#:#Sostituita operazione %1$s con %2$s.
 common#:#usrimport_cant_delete#:#Impossibile eseguire l'azione "Elimina". Nessun utente di questo tipo nel database.
 common#:#usrimport_cant_insert#:#Impossibile eseguire l'azione "Elimina". Nessun utente di questo tipo nel database.
 common#:#usrimport_cant_update#:#Impossibile eseguire l'azione "Elimina". Nessun utente di questo tipo nel database.
-common#:#usrimport_conflict_handling_info#:#Quando si seleziona 'Ignora in conflitto', ILIAS ignora un'azione, se non può essere eseguita (ad es. Un'azione 'Inserisci' non viene eseguita, se nel database è già presente un utente con lo stesso accesso.) \ NQuando si aggiorna in caso di conflitto ", ILIAS aggiorna il database se non è possibile eseguire un'azione. (ad esempio un'azione "Inserisci" è sostituita da un'azione "Aggiorna", se nel database esiste un utente con lo stesso accesso).
-common#:#usrimport_global_role_for_action_required#:#È necessario specificare almeno un ruolo globale per l'azione "% 1 $ s".
+common#:#usrimport_conflict_handling_info#:#Quando si seleziona 'Ignora in conflitto', ILIAS ignora un'azione, se non può essere eseguita (ad es. Un'azione 'Inserisci' non viene eseguita, se nel database è già presente un utente con lo stesso accesso.) Quando si aggiorna in caso di conflitto ", ILIAS aggiorna il database se non è possibile eseguire un'azione. (ad esempio un'azione "Inserisci" è sostituita da un'azione "Aggiorna", se nel database esiste un utente con lo stesso accesso).
+common#:#usrimport_global_role_for_action_required#:#È necessario specificare almeno un ruolo globale per l'azione "%1$s".
 common#:#usrimport_ignore_role#:#Ignora il ruolo
 common#:#usrimport_login_is_not_unique#:#Login non unico.
 common#:#usrimport_no_insert_ext_account_exists#:#Non e' possibile eseguire l'azione di inserimento. Esistono già account esterni.
 common#:#usrimport_no_update_ext_account_exists#:#Non è possibile eseguire l'azione di "Update". Esistono già account esterni.
 common#:#usrimport_with_specified_role_not_permitted#:#Importazione con ruolo specificato non consentita.
-common#:#usrimport_xml_attribute_missing#:#Attributo "% 2 $ s" nell'elemento "% 1 $ s" mancante.
-common#:#usrimport_xml_attribute_value_illegal#:#Il valore "% 3 $ s" dell'attributo "% 2 $ s" nell'elemento "% 1 $ s" è illegale.
-common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "% 3 $ s" dell'attributo "% 2 $ s" nell'elemento "% 1 $ s" non è applicabile per l'azione "% 4 $ s".
-common#:#usrimport_xml_element_content_illegal#:#Il contenuto "% 2 $ s" dell'elemento "% 1 $ s" è illegale.
-common#:#usrimport_xml_element_for_action_required#:#L'elemento "% 1 $ s" deve essere specificato per l'azione "% 2 $ s".
-common#:#usrimport_xml_element_inapplicable#:#L'elemento "% 1 $ s" non è applicabile per l'azione "% 2 $ s".
+common#:#usrimport_xml_attribute_missing#:#Attributo "%2$s" nell'elemento "%1$s" mancante.
+common#:#usrimport_xml_attribute_value_illegal#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" è illegale.
+common#:#usrimport_xml_attribute_value_inapplicable#:#Il valore "%3$s" dell'attributo "%2$s" nell'elemento "%1$s" non è applicabile per l'azione "%4$s".
+common#:#usrimport_xml_element_content_illegal#:#Il contenuto "%2$s" dell'elemento "%1$s" è illegale.
+common#:#usrimport_xml_element_for_action_required#:#L'elemento "%1$s" deve essere specificato per l'azione "%2$s".
+common#:#usrimport_xml_element_inapplicable#:#L'elemento "%1$s" non è applicabile per l'azione "%2$s".
 common#:#valid#:#Valido
 common#:#validate#:#Valida
 common#:#value#:#Valore
@@ -5287,7 +5287,7 @@ common#:#webfolder_instructions#:#Istruzioni cartella web
 common#:#webfolder_instructions_info#:#Le istruzioni della cartella web sono mostrate sui browser, che non possono aprire direttamente una cartella web. È possibile utilizzare il codice HTML e i seguenti segnaposto: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Deselezionare il campo per ottenere le istruzioni predefinite.
 common#:#webfolder_instructions_text#:#<p>Segui le istruzioni qui sotto per aprire <b>[WEBFOLDER_TITLE]</b> come cartella sul web:</p>[IF_WINDOWS]<h3>Istruzioni per Windows XP con Internet Explorer</h3><ol><li>Apri Internet Explorer</li><li>Scegli nel menù 'File &gt; Apri...'</li><li>Nella casella Apri, inserisci il seguente indirizzo:<br/><b>[WEBFOLDER_URI_IE]</b></li><li>Seleziona 'Apri come cartella web', e poi premi 'OK'.</li><li>Inserisci il tuo username e la tua password, e seleziona 'OK'.</li></ol><h3>Istruzioni per Windows XP senza Internet Explorer</h3><ol><li>Doppio click sull'icona  'I miei siti sul web' sul desktop.</li><li>Clicca su 'Aggiungi sito' dal menù a sinistra della finestra.</li><li>Si aprirà il wizard 'Aggiungi sito', clicca su  'Avanti'.</li><li>Seleziona l'opzione 'Scegli un altro sito' e poi seleziona 'Avanti'.<li>Nella casella 'indirizzo web' inserisci<br/><b>[WEBFOLDER_URI]</b><br/>e poi 'Avanti'.</li><li>Inserisci il tuo username e la password, e seleziona 'OK'.</li></ol>[/IF_WINDOWS][IF_MAC]<h3>Istruzioni per Mac OS X</h3><ol><li>Apri Cerca</li><li>Scegli il Menu 'Vai &gt; Connessione al server...'</li><li>Nel campo dell'indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI]</b>, e seleziona 'Connetti'.</li><li>inserisci il tuo login e password, seleziona 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Istruzioni per Linux con Konqueror</h3><ol><li>Apri Konqueror browser</li><li>Nel campo indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI_KONQUEROR]</b></li><li>Premi il tasto Invio.</li><li>Inserisci il tuo login e password, e seleziona 'OK'.</li></ol><h3>Istruzioni per Linux con Nautilus</h3><ol><li>Avvia Nautilus browser</li><li>Nel campo indirizzo inserire il seguente indirizzo:<br/><b>[WEBFOLDER_URI_NAUTILUS]</b></li><li>Press the Enter key.</li><li>Inserisci il tuo login e password, e seleziona 'OK'.</li></ol>[/IF_LINUX]<p>Se aprendo la cartella web non funziona, per favore contatta <a href="mailto:[ADMIN_MAIL]">[ADMIN_MAIL]</a>.</p>
 common#:#webfolder_instructions_titletext#:#Apri %1$s come cartella web
-common#:#webfolder_mount_dir_with#:#Apri questa pagina come cartella Web con <a href="%1$s"> Internet Explorer </a>, <a href="%2$s"> Konqueror </a>, <a href = "% 3 $ s "> altro browser </a>.
+common#:#webfolder_mount_dir_with#:#Apri questa pagina come cartella Web con <a href="%1$s"> Internet Explorer </a>, <a href="%2$s"> Konqueror </a>, <a href = "%3$s "> altro browser </a>.
 common#:#webr#:#Risorsa web
 common#:#webr_active#:#Attivo
 common#:#webr_add#:#Aggiungi risorsa web
@@ -8927,9 +8927,9 @@ grp#:#grp_mail_subscribe_member_sub#:#Tua registrazione al gruppo "%s"
 grp#:#grp_mail_tutors_only#:#Solo per gli amministratori
 grp#:#grp_mail_tutors_only_info#:#Solo gli amministratori possono utilizzare la funzione "Invia ai membri" nella scheda "Membri".
 grp#:#grp_mail_type#:#Mail per i membri
-grp#:#grp_mail_unsubscribe_member_bod#:#confermiamo la tua cancellazione come membro del gruppo %s.\ Ci auguriamo avrai un’altra opportunità di partecipare a un altro gruppo.
+grp#:#grp_mail_unsubscribe_member_bod#:#confermiamo la tua cancellazione come membro del gruppo %s. Ci auguriamo avrai un’altra opportunità di partecipare a un altro gruppo.
 grp#:#grp_mail_unsubscribe_member_sub#:#La tua cancellazione come membro dal gruppo "%s"
-grp#:#grp_mail_wl_bod#:#sei stato assegnato alla lista di attesa del gruppo "% s". \ nSi è assegnato alla posizione% s sulla lista. \ n \ n Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta è stata approvata o respinta.
+grp#:#grp_mail_wl_bod#:#sei stato assegnato alla lista di attesa del gruppo "% s". Si è assegnato alla posizione% s sulla lista.   Riceverai un messaggio da un amministratore di gruppo quando la tua richiesta è stata approvata o respinta.
 grp#:#grp_mail_wl_sub#:#La tua registrazione per il gruppo "% s".
 grp#:#grp_map_location#:#Posizione della mappa di gruppo
 grp#:#grp_map_settings#:#Impostazioni della Mappa
@@ -9140,8 +9140,8 @@ itgr#:#itgr_materials#:#Materiali
 itgr#:#itgr_show_title#:#Mostra titolo
 itgr#:#itgr_show_title_info#:#Mostra il titolo del gruppo di articoli nella presentazione per l’allievo.
 jscalendar#:#about_calendar#:#Informazioni sul calendario
-jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML \ n (c) dynarch.com 2002-2003 \ nPer l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli. \ N \ nData selezione: \ n- Usa i pulsanti Â «, Â» per selezionare l'anno \ n- Usa i pulsanti <,> per selezionare il mese \ n- Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
-jscalendar#:#about_time#:#\ n \ nTempo di tempo: \ n- Fai clic su una delle parti del tempo per aumentarlo \ n- o Maiusc + clic per ridurlo \ n- oppure fai clic e trascina per una selezione più rapida.
+jscalendar#:#about_calendar_long#:#Selettore data / ora DHTML  (c) dynarch.com 2002-2003 Per l'ultima versione visitare: http://dynarch.com/mishoo/calendar.epl  Distribuito sotto GNU LGPL. Vedi http://gnu.org/licenses/lgpl.html per i dettagli.  Data selezione: - Usa i pulsanti Â «, Â» per selezionare l'anno - Usa i pulsanti <,> per selezionare il mese - Tieni premuto il pulsante del mouse su uno dei pulsanti sopra per una selezione più rapida.
+jscalendar#:#about_time#:# Tempo di tempo: - Fai clic su una delle parti del tempo per aumentarlo - o Maiusc + clic per ridurlo - oppure fai clic e trascina per una selezione più rapida.
 jscalendar#:#close#:#Chiudi
 jscalendar#:#day_first#:#Mostra prima %s
 jscalendar#:#def_date_format#:#%A-%m-%g
@@ -9394,7 +9394,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#Per confermare questa registrazione, 
 lso#:#lso_mail_notification_reg_req_sub#:#Richiesta di partecipare alla sequenza di apprendimento "% s"
 lso#:#lso_mail_notification_reg_sub#:#Utente registrato per la sequenza di apprendimento "% s"
 lso#:#lso_mail_notification_unsub_bod#:#% s ha annullato la sua iscrizione per la sequenza di apprendimento "% s".
-lso#:#lso_mail_notification_unsub_bod2#:#Potrebbero esserci altri membri in una lista di attesa della sequenza di apprendimento. \ Dovresti controllare la lista di attesa come. \ Per visualizzare i membri della sequenza di apprendimento, fai clic qui:
+lso#:#lso_mail_notification_unsub_bod2#:#Potrebbero esserci altri membri in una lista di attesa della sequenza di apprendimento. Dovresti controllare la lista di attesa come. Per visualizzare i membri della sequenza di apprendimento, fai clic qui:
 lso#:#lso_mail_notification_unsub_sub#:#L'utente ha lasciato la sequenza di apprendimento "% s"
 lso#:#lso_mail_permanent_link#:#Fai clic sul seguente link per trovare tutte le informazioni necessarie sulla sequenza di apprendimento:
 lso#:#lso_mail_status_bod#:#Il tuo stato nella sequenza di apprendimento "% s" è stato modificato.
@@ -11407,19 +11407,19 @@ ps#:#rbac_log_info#:#Attiva Logging di tutti i cambiamenti e delle impostazioni 
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Sicurezza
 pwassist#:#password_assistance#:#Servizio di assistenza per le password
-pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: \t%1$s
-pwassist#:#pwassist_enter_email#:#Inserisci un indirizzo e-mail e invia il modulo. \nILIAS invierà un'e-mail a tale indirizzo. L'e-mail contiene tutti i nomi utente che hanno registrato questo indirizzo e-mail. \n Scegliere un nome utente adatto e utilizzare il servizio password per recuperare una nuova password. Se non si recupera alcuna e-mail da questo servizio, contattare l'amministratore del corso.
-pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indirizzo e-mail associato nei campi indicati di seguito. \n ILIAS invierà un messaggio a tale indirizzo e-mail. Il messaggio contiene un indirizzo per una pagina Web, in cui è possibile inserire una nuova password per l'account utente. \nSe non è possibile assegnare una password al proprio account utente utilizzando questo modulo, contattare l'amministrazione del corso o inviare un'e-mail all'amministratore.
+pwassist#:#pwassist_disabled_no_access#:#L'assistenza per la password non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %1$s
+pwassist#:#pwassist_enter_email#:#Inserisci un indirizzo e-mail e invia il modulo. ILIAS invierà un'e-mail a tale indirizzo. L'e-mail contiene tutti i nomi utente che hanno registrato questo indirizzo e-mail.  Scegliere un nome utente adatto e utilizzare il servizio password per recuperare una nuova password. Se non si recupera alcuna e-mail da questo servizio, contattare l'amministratore del corso.
+pwassist#:#pwassist_enter_username_and_email#:#Immettere un nome utente e l'indirizzo e-mail associato nei campi indicati di seguito.  ILIAS invierà un messaggio a tale indirizzo e-mail. Il messaggio contiene un indirizzo per una pagina Web, in cui è possibile inserire una nuova password per l'account utente. Se non è possibile assegnare una password al proprio account utente utilizzando questo modulo, contattare l'amministrazione del corso o inviare un'e-mail all'amministratore.
 pwassist#:#pwassist_enter_username_and_new_password#:#Inserisci il nome utente e la nuova password nei campi sottostanti.
-pwassist#:#pwassist_login_not_match#:#Inserisci un altro nome utente. \ Il nome utente che hai inserito non corrisponde al nome utente per il quale hai richiesto l'assistenza tramite password.
-pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: \t%1$s \n \n Questo messaggio è stato generato automaticamente dal server ILIAS \t%2$s \n \nTu (o qualcuno all'indirizzo \t%3$s) ha richiesto l'assistenza per la password per l'account utente \t%4$s. \n \nControlla attentamente le condizioni elencate di seguito e procedi di conseguenza: \n \n-Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: elimina questa mail. \n \n- Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: \nSi prega di contattare \t%5$s. \n \n- Se hai chiesto assistenza per la password, per favore procedere come segue: \n \n1. Apri il tuo browser. \n \n2. Immettere il seguente indirizzo nel browser: \n \t%6$s \n \nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \n \n3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente. \n \nSi prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e sarà necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
-pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a \t%1$s.\ Per favore controlla la tua casella di posta.
+pwassist#:#pwassist_login_not_match#:#Inserisci un altro nome utente. Il nome utente che hai inserito non corrisponde al nome utente per il quale hai richiesto l'assistenza tramite password.
+pwassist#:#pwassist_mail_body#:#Registra una nuova password per il tuo account utente: %1$s   Questo messaggio è stato generato automaticamente dal server ILIAS %2$s  Tu (o qualcuno all'indirizzo %3$s) ha richiesto l'assistenza per la password per l'account utente %4$s.  Controlla attentamente le condizioni elencate di seguito e procedi di conseguenza:  Se hai utilizzato il modulo di assistenza per la password sul server ILIAS da incidente: elimina questa mail. Se sei sicuro di non aver mai chiesto assistenza per la password su questo server ILIAS: Si prega di contattare %5$s. Se hai chiesto assistenza per la password, per favore procedere come segue:  1. Apri il tuo browser.  2. Immettere il seguente indirizzo nel browser:  %6$s  Importante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga.  3. Nella pagina Web visualizzata dal browser, inserisci una nuova password per il tuo account utente.  Si prega di notare che, per motivi di sicurezza, è possibile eseguire i tre passaggi sopra una sola volta e solo per un periodo di tempo limitato. Successivamente l'indirizzo non è più valido e sarà necessario utilizzare nuovamente la pagina di assistenza per la password sul server ILIAS.
+pwassist#:#pwassist_mail_sent#:#Un messaggio e' stato inviato a %1$s. Per favore controlla la tua casella di posta.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Servizio di assistenza per le password di ILIAS
-pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente \t%1$s.
-pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. \nLa tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
-pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovati per l'indirizzo e-mail indicato: \t%1$s \ n \ n Questo messaggio è stato creato automaticamente dal seguente server ILIAS: \n \t%2$s \n \nYou (o qualcuno con IP\t%3$s) ha richiesto il supporto per i nomi utente dimenticati per l'indirizzo e-mail \t%4$s. \n \nSi prega di controllare quanto segue e agire come suggerito :: \n \n-Hai richiesto questa e-mail per sbaglio: \nElimina questo e-mail. \n \n-Sei sicuro di non aver mai richiesto questa e-mail: \nSi prega di contattare \t%5$s. \n \n- Se hai richiesto questa e-mail, procedi come segue :: \n \n1. Avvia il tuo browser Internet. \n \n2. Immettere il seguente URL: \n \t%5$s \n \nImportante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga. \n \n3. Il tuo browser ora mostra il servizio password. Utilizzare questa pagina insieme a uno dei nomi utente e all'indirizzo e-mail corrispondente per recuperare una nuova password.
-pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: \t%1$s
+pwassist#:#pwassist_password_assigned#:#La password è stata assegnata correttamente all'utente %1$s.
+pwassist#:#pwassist_session_expired#:#Compila nuovamente questo modulo. La tua sessione di assistenza per la password è scaduta. Ciò può essere accaduto perché hai tentato di utilizzare il link che ti è stato inviato più di una volta via e-mail o perché è trascorso troppo tempo dall'invio del link.
+pwassist#:#pwassist_username_mail_body#:#Questi sono i nomi utente attivi trovati per l'indirizzo e-mail indicato: %1$s   Questo messaggio è stato creato automaticamente dal seguente server ILIAS:  %2$s  Voi (o qualcuno con IP%3$s) ha richiesto il supporto per i nomi utente dimenticati per l'indirizzo e-mail %4$s.  Si prega di controllare quanto segue e agire come suggerito ::  Hai richiesto questa e-mail per sbaglio: Elimina questo e-mail.  Sei sicuro di non aver mai richiesto questa e-mail: Si prega di contattare %5$s.  Se hai richiesto questa e-mail, procedi come segue ::  1. Avvia il tuo browser Internet.  2. Immettere il seguente URL:  %5$s  Importante: l'indirizzo è una riga singola. Se vedi questo indirizzo diviso in più righe, il tuo programma di posta elettronica ha inserito queste interruzioni di riga.  3. Il tuo browser ora mostra il servizio password. Utilizzare questa pagina insieme a uno dei nomi utente e all'indirizzo e-mail corrispondente per recuperare una nuova password.
+pwassist#:#unassist_disabled_no_access#:#L'assistenza per il nome utente non è abilitata. Si prega di contattare l'amministrazione del sistema per ulteriore assistenza: %1$s
 rating#:#rat_not_rated_yet#:#Non valutato
 rating#:#rat_nr_ratings#:#%s Valutazioni
 rating#:#rat_one_rating#:#Una valutazione
@@ -12950,7 +12950,7 @@ skll#:#skll_intro_skill_notification_for#:#questa è una panoramica dei tuoi ult
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
-skll#:#skll_new_skill_achievements#:#Hai raggiunto nuovi livelli di competenza nel periodo da% 1 $ sa% 2 $ s:
+skll#:#skll_new_skill_achievements#:#Hai raggiunto nuovi livelli di competenza nel periodo da%1$sa%2$s:
 skll#:#skll_skill_notification#:#Notifica competenze
 skll#:#skll_skill_notification_desc#:#Informa l'utente sui livelli di competenze appena impostati.
 skmg#:#scat#:#Categoria di competenze
@@ -15122,3 +15122,4 @@ awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###29 05 2020 new v
 form#:#form_date_aria_desc#:#The following input format is required:###31 07 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
 common#:#logo#:#ILIAS Logo###31 07 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable

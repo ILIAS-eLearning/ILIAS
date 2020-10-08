@@ -26,7 +26,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
-            new Validation\Factory($df, $this->createMock(\ilLanguage::class)),
+            new Validation\Factory($df, $this->getLanguage()),
             new Transformation\Factory()
         );
     }
@@ -115,5 +115,38 @@ class NumericInputTest extends ILIAS_UI_TestBase
                     . "		<input type=\"number\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		"
                     . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
+    }
+
+    public function testNullValue()
+    {
+        $f = $this->buildFactory();
+        $post_data = new DefPostData(['name_0' => null]);
+        $field = $f->numeric('')->withNameFrom($this->name_source);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertNull($value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isError());
+        return $field;
+    }
+
+    /**
+     * @depends testNullValue
+     */
+    public function testEmptyValue($field)
+    {
+        $post_data = new DefPostData(['name_0' => '']);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertNull($value->value());
+        $this->assertFalse($value->value() === '');
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isError());
     }
 }

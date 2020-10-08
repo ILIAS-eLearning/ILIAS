@@ -29,11 +29,124 @@
 * @version $Id$
 *
 */
-include_once 'Services/Object/classes/class.ilObjectActivation.php';
-include_once 'Modules/Course/classes/Timings/class.ilTimingPlaned.php';
-
 class ilTimingCache
 {
+    /**
+     * @var null | ilTimingCache
+     */
+    private static $instances = array();
+
+    /**
+     * @var int
+     */
+    private $ref_id = 0;
+
+    /**
+     * @var int
+     */
+    private $obj_id = 0;
+
+    /**
+     * @var bool
+     */
+    private $timings_active = false;
+
+    /**
+     * @var array
+     */
+    private $timings = array();
+
+    /**
+     * @var array
+     */
+    private $timings_user = array();
+
+    /**
+     * @var array
+     */
+    private $collection_items = array();
+
+    /**
+     * @var array
+     */
+    private $completed_users = array();
+
+    /**
+     * ilTimingCache constructor.
+     */
+    public function __construct($ref_id)
+    {
+        $this->ref_id = $ref_id;
+        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
+        $this->readObjectInformation();
+    }
+
+    /**
+     * @param $ref_id
+     * @return ilTimingCache
+     */
+    public static function getInstanceByRefId($ref_id)
+    {
+        if (!isset(self::$instances[$ref_id])) {
+            self::$instances[$ref_id] = new self($ref_id);
+        }
+        return self::$instances[$ref_id];
+    }
+
+    /**
+     * @param int $usr_id
+     * @return bool
+     */
+    public function isWarningRequired($usr_id)
+    {
+        if (in_array($usr_id, $this->completed_users)) {
+            return false;
+        }
+        foreach ($this->collection_items as $item) {
+            $item_instance = self::getInstanceByRefId($item);
+            if ($item_instance->isWarningRequired($usr_id)) {
+                return true;
+            }
+        }
+        if (!$this->timings_active) {
+            return false;
+        }
+
+        // check constraints
+        if ($this->timings['changeable'] && isset($this->timings_user[$usr_id]['end'])) {
+            $end = $this->timings_user[$usr_id]['end'];
+        } else {
+            $end = $this->timings['suggestion_end'];
+        }
+        return $end < time();
+    }
+
+    /**
+     * Read timing information for object
+     */
+    protected function readObjectInformation()
+    {
+        $this->timings = ilObjectActivation::getItem($this->ref_id);
+        $this->timings_active = false;
+        if ($this->timings['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
+            $this->timings_active = true;
+            $this->timings_user = ilTimingPlaned::_getPlanedTimingsByItem($this->ref_id);
+        }
+
+        $olp = ilObjectLP::getInstance($this->obj_id);
+        $collection = $olp->getCollectionInstance();
+        if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
+            $this->collection_items = $collection->getItems();
+        }
+        $this->completed_users = ilLPStatus::_getCompleted($this->obj_id);
+    }
+
+
+    /**
+     * @deprecated 7
+     * @param $a_ref_id
+     * @return mixed
+     */
     public static function &_getTimings($a_ref_id)
     {
         static $cache = array();
@@ -47,6 +160,12 @@ class ilTimingCache
         return $cache[$a_ref_id];
     }
         
+    /**
+     * @deprecated 7
+     * @param $a_ref_id
+     * @param $a_usr_id
+     * @return bool
+     */
     public static function _showWarning($a_ref_id, $a_usr_id)
     {
         global $DIC;

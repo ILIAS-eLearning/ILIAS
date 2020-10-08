@@ -480,6 +480,11 @@ class ilObjLearningSequence extends ilContainer
         return new LSUrlBuilder($player_url);
     }
 
+    protected function getGlobalSettings() : LSGlobalSettings
+    {
+        $db = new ilLSGlobalSettingsDB($this->il_settings);
+        return $db->getSettings();
+    }
 
     /**
      * factors the player
@@ -500,12 +505,12 @@ class ilObjLearningSequence extends ilContainer
             $url_builder
         );
 
-        $state_db = $this->getStateDB();
-
+        $global_settings = $this->getGlobalSettings();
         $control_builder = new LSControlBuilder(
             $DIC["ui.factory"],
             $url_builder,
-            $this->lng
+            $this->lng,
+            $global_settings
         );
 
         $view_factory = new ilLSViewFactory(
@@ -514,6 +519,7 @@ class ilObjLearningSequence extends ilContainer
             $this->access
         );
 
+        $state_db = $this->getStateDB();
         $kiosk_renderer = $this->getKioskRenderer($url_builder);
 
         return new ilLSPlayer(

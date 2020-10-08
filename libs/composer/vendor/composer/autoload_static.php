@@ -6,7 +6,7 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
 {
-    public static $files = array (
+    public static $files = array(
         '383eaff206634a77a1be54e64e6459c7' => __DIR__ . '/..' . '/sabre/uri/lib/functions.php',
         '2b9d0f43f9552984cfa82fee95491826' => __DIR__ . '/..' . '/sabre/event/lib/coroutine.php',
         'd81bab31d3feb45bfe2f283ea3c8fdf7' => __DIR__ . '/..' . '/sabre/event/lib/Loop/functions.php',
@@ -80,31 +80,31 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         '5abda994d126976858eb25d2546ee3c9' => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/_autoload_modules.php',
     );
 
-    public static $prefixLengthsPsr4 = array (
-        'p' => 
-        array (
+    public static $prefixLengthsPsr4 = array(
+        'p' =>
+        array(
             'phpseclib\\' => 10,
         ),
-        'e' => 
-        array (
+        'e' =>
+        array(
             'enshrined\\svgSanitize\\' => 22,
         ),
-        'c' => 
-        array (
+        'c' =>
+        array(
             'cweagans\\Composer\\' => 18,
         ),
-        'W' => 
-        array (
+        'W' =>
+        array(
             'Whoops\\' => 7,
             'WhiteHat101\\Crypt\\' => 18,
         ),
-        'T' => 
-        array (
+        'T' =>
+        array(
             'Twig\\Extensions\\' => 16,
             'Twig\\' => 5,
         ),
-        'S' => 
-        array (
+        'S' =>
+        array(
             'Symfony\\Component\\Yaml\\' => 23,
             'Slim\\' => 5,
             'SimpleSAML\\' => 11,
@@ -118,12 +118,12 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             'Sabre\\CardDAV\\' => 14,
             'Sabre\\CalDAV\\' => 13,
         ),
-        'R' => 
-        array (
+        'R' =>
+        array(
             'RobRichards\\XMLSecLibs\\' => 23,
         ),
-        'P' => 
-        array (
+        'P' =>
+        array(
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
@@ -131,247 +131,247 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             'PhpOffice\\PhpSpreadsheet\\' => 25,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'M' => 
-        array (
+        'M' =>
+        array(
             'Monolog\\' => 8,
             'Matrix\\' => 7,
         ),
-        'L' => 
-        array (
+        'L' =>
+        array(
             'League\\Flysystem\\' => 17,
         ),
-        'J' => 
-        array (
+        'J' =>
+        array(
             'JaimePerez\\TwigConfigurableI18n\\' => 32,
         ),
-        'I' => 
-        array (
+        'I' =>
+        array(
             'Interop\\Container\\' => 18,
             'IMSGlobal\\LTI\\' => 14,
             'ILIAS\\' => 6,
         ),
-        'G' => 
-        array (
+        'G' =>
+        array(
             'GuzzleHttp\\Psr7\\' => 16,
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
         ),
-        'F' => 
-        array (
+        'F' =>
+        array(
             'FastRoute\\' => 10,
         ),
-        'D' => 
-        array (
+        'D' =>
+        array(
             'Dflydev\\FigCookies\\' => 19,
         ),
-        'C' => 
-        array (
+        'C' =>
+        array(
             'Complex\\' => 8,
         ),
     );
 
-    public static $prefixDirsPsr4 = array (
-        'phpseclib\\' => 
-        array (
+    public static $prefixDirsPsr4 = array(
+        'phpseclib\\' =>
+        array(
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
-        'enshrined\\svgSanitize\\' => 
-        array (
+        'enshrined\\svgSanitize\\' =>
+        array(
             0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
-        'cweagans\\Composer\\' => 
-        array (
+        'cweagans\\Composer\\' =>
+        array(
             0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
         ),
-        'Whoops\\' => 
-        array (
+        'Whoops\\' =>
+        array(
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
-        'WhiteHat101\\Crypt\\' => 
-        array (
+        'WhiteHat101\\Crypt\\' =>
+        array(
             0 => __DIR__ . '/..' . '/whitehat101/apr1-md5/src',
         ),
-        'Twig\\Extensions\\' => 
-        array (
+        'Twig\\Extensions\\' =>
+        array(
             0 => __DIR__ . '/..' . '/twig/extensions/src',
         ),
-        'Twig\\' => 
-        array (
+        'Twig\\' =>
+        array(
             0 => __DIR__ . '/..' . '/twig/twig/src',
         ),
-        'Symfony\\Component\\Yaml\\' => 
-        array (
+        'Symfony\\Component\\Yaml\\' =>
+        array(
             0 => __DIR__ . '/..' . '/symfony/yaml',
         ),
-        'Slim\\' => 
-        array (
+        'Slim\\' =>
+        array(
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
-        'SimpleSAML\\' => 
-        array (
+        'SimpleSAML\\' =>
+        array(
             0 => __DIR__ . '/..' . '/simplesamlphp/simplesamlphp/lib/SimpleSAML',
         ),
-        'Sabre\\Xml\\' => 
-        array (
+        'Sabre\\Xml\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/xml/lib',
         ),
-        'Sabre\\VObject\\' => 
-        array (
+        'Sabre\\VObject\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/vobject/lib',
         ),
-        'Sabre\\Uri\\' => 
-        array (
+        'Sabre\\Uri\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/uri/lib',
         ),
-        'Sabre\\HTTP\\' => 
-        array (
+        'Sabre\\HTTP\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/http/lib',
         ),
-        'Sabre\\Event\\' => 
-        array (
+        'Sabre\\Event\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/event/lib',
         ),
-        'Sabre\\DAV\\' => 
-        array (
+        'Sabre\\DAV\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/dav/lib/DAV',
         ),
-        'Sabre\\DAVACL\\' => 
-        array (
+        'Sabre\\DAVACL\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/dav/lib/DAVACL',
         ),
-        'Sabre\\CardDAV\\' => 
-        array (
+        'Sabre\\CardDAV\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/dav/lib/CardDAV',
         ),
-        'Sabre\\CalDAV\\' => 
-        array (
+        'Sabre\\CalDAV\\' =>
+        array(
             0 => __DIR__ . '/..' . '/sabre/dav/lib/CalDAV',
         ),
-        'RobRichards\\XMLSecLibs\\' => 
-        array (
+        'RobRichards\\XMLSecLibs\\' =>
+        array(
             0 => __DIR__ . '/..' . '/robrichards/xmlseclibs/src',
         ),
-        'Psr\\SimpleCache\\' => 
-        array (
+        'Psr\\SimpleCache\\' =>
+        array(
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
         ),
-        'Psr\\Log\\' => 
-        array (
+        'Psr\\Log\\' =>
+        array(
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' => 
-        array (
+        'Psr\\Http\\Message\\' =>
+        array(
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Container\\' => 
-        array (
+        'Psr\\Container\\' =>
+        array(
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'PhpOffice\\PhpSpreadsheet\\' => 
-        array (
+        'PhpOffice\\PhpSpreadsheet\\' =>
+        array(
             0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
         ),
-        'PHPMailer\\PHPMailer\\' => 
-        array (
+        'PHPMailer\\PHPMailer\\' =>
+        array(
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Monolog\\' => 
-        array (
+        'Monolog\\' =>
+        array(
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
-        'Matrix\\' => 
-        array (
+        'Matrix\\' =>
+        array(
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
         ),
-        'League\\Flysystem\\' => 
-        array (
+        'League\\Flysystem\\' =>
+        array(
             0 => __DIR__ . '/..' . '/league/flysystem/src',
         ),
-        'JaimePerez\\TwigConfigurableI18n\\' => 
-        array (
+        'JaimePerez\\TwigConfigurableI18n\\' =>
+        array(
             0 => __DIR__ . '/..' . '/jaimeperez/twig-configurable-i18n/src',
         ),
-        'Interop\\Container\\' => 
-        array (
+        'Interop\\Container\\' =>
+        array(
             0 => __DIR__ . '/..' . '/container-interop/container-interop/src/Interop/Container',
         ),
-        'IMSGlobal\\LTI\\' => 
-        array (
+        'IMSGlobal\\LTI\\' =>
+        array(
             0 => __DIR__ . '/..' . '/imsglobal/lti/src',
         ),
-        'ILIAS\\' => 
-        array (
+        'ILIAS\\' =>
+        array(
             0 => __DIR__ . '/../..' . '/../../src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
-        array (
+        'GuzzleHttp\\Psr7\\' =>
+        array(
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'Gettext\\Languages\\' => 
-        array (
+        'Gettext\\Languages\\' =>
+        array(
             0 => __DIR__ . '/..' . '/gettext/languages/src',
         ),
-        'Gettext\\' => 
-        array (
+        'Gettext\\' =>
+        array(
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
-        'FastRoute\\' => 
-        array (
+        'FastRoute\\' =>
+        array(
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
         ),
-        'Dflydev\\FigCookies\\' => 
-        array (
+        'Dflydev\\FigCookies\\' =>
+        array(
             0 => __DIR__ . '/..' . '/dflydev/fig-cookies/src/Dflydev/FigCookies',
         ),
-        'Complex\\' => 
-        array (
+        'Complex\\' =>
+        array(
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
         ),
     );
 
-    public static $prefixesPsr0 = array (
-        'T' => 
-        array (
-            'Twig_Extensions_' => 
-            array (
+    public static $prefixesPsr0 = array(
+        'T' =>
+        array(
+            'Twig_Extensions_' =>
+            array(
                 0 => __DIR__ . '/..' . '/twig/extensions/lib',
             ),
-            'Twig_' => 
-            array (
+            'Twig_' =>
+            array(
                 0 => __DIR__ . '/..' . '/twig/twig/lib',
             ),
         ),
-        'S' => 
-        array (
-            'SAML2\\' => 
-            array (
+        'S' =>
+        array(
+            'SAML2\\' =>
+            array(
                 0 => __DIR__ . '/..' . '/simplesamlphp/saml2/src',
             ),
         ),
-        'P' => 
-        array (
-            'Pimple' => 
-            array (
+        'P' =>
+        array(
+            'Pimple' =>
+            array(
                 0 => __DIR__ . '/..' . '/pimple/pimple/src',
             ),
         ),
-        'L' => 
-        array (
-            'LibRIS' => 
-            array (
+        'L' =>
+        array(
+            'LibRIS' =>
+            array(
                 0 => __DIR__ . '/..' . '/technosophos/LibRIS/src',
             ),
         ),
-        'H' => 
-        array (
-            'HTMLPurifier' => 
-            array (
+        'H' =>
+        array(
+            'HTMLPurifier' =>
+            array(
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
     );
 
-    public static $classMap = array (
+    public static $classMap = array(
         'ADLAuxiliaryResource' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/adlparser/ADLAuxiliaryResource.php',
         'AMFReader' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/module.audio-video.flv.php',
         'AMFStream' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/module.audio-video.flv.php',
@@ -1390,6 +1390,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Jumbojett\\OpenIDConnectClient' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
         'Jumbojett\\OpenIDConnectClientException' => __DIR__ . '/..' . '/jumbojett/openid-connect-php/src/OpenIDConnectClient.php',
         'LSControlBuilder' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Player/LSControlBuilder.php',
+        'LSGlobalSettings' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/GlobalSettings/LSGlobalSettings.php',
+        'LSGlobalSettingsDB' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/GlobalSettings/LSGlobalSettingsDB.php',
         'LSItem' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LSItems/LSItem.php',
         'LSItemOnlineStatus' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LSItems/LSItemOnlineStatus.php',
         'LSLearnerItem' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LearnerProgress/LSLearnerItem.php',
@@ -5205,6 +5207,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilLPXmlWriter' => __DIR__ . '/../..' . '/../../Services/Tracking/classes/class.ilLPXmlWriter.php',
         'ilLSCurriculumBuilder' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Player/class.ilLSCurriculumBuilder.php',
         'ilLSEventHandler' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilLSEventHandler.php',
+        'ilLSGlobalSettingsDB' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/GlobalSettings/ilLSGlobalSettingsDB.php',
         'ilLSItemsDB' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LSItems/ilLSItemsDB.php',
         'ilLSLP' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LearnerProgress/class.ilLSLP.php',
         'ilLSLPEventHandler' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/LearnerProgress/class.ilLSLPEventHandler.php',
@@ -5945,6 +5948,9 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjLearningResourcesSettingsGUI' => __DIR__ . '/../..' . '/../../Modules/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php',
         'ilObjLearningSequence' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequence.php',
         'ilObjLearningSequenceAccess' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequenceAccess.php',
+        'ilObjLearningSequenceAdmin' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequenceAdmin.php',
+        'ilObjLearningSequenceAdminAccess' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequenceAdminAccess.php',
+        'ilObjLearningSequenceAdminGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequenceAdminGUI.php',
         'ilObjLearningSequenceContentGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Content/class.ilObjLearningSequenceContentGUI.php',
         'ilObjLearningSequenceContentTableGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/Content/class.ilObjLearningSequenceContentTableGUI.php',
         'ilObjLearningSequenceGUI' => __DIR__ . '/../..' . '/../../Modules/LearningSequence/classes/class.ilObjLearningSequenceGUI.php',
@@ -7793,7 +7799,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
             $loader->prefixDirsPsr4 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83::$classMap;
-
         }, null, ClassLoader::class);
     }
 }
