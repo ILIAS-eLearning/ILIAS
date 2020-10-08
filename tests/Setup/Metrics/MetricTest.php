@@ -5,6 +5,7 @@
 namespace ILIAS\Tests\Setup\Metrics;
 
 use ILIAS\Setup\Metrics;
+use ILIAS\Setup\Metrics\Metric as M;
 use PHPUnit\Framework\TestCase;
 
 class MetricTest extends TestCase
@@ -91,5 +92,68 @@ class MetricTest extends TestCase
             "no_mixed_timestamp" => [$mixed, $timestamp, new \DateTimeImmutable(), "", false],
             "no_mixed_text" => [$mixed, $text, "", "", false],
         ];
+    }
+
+    /**
+     * @dataProvider typedMetricsProvider
+     */
+    public function testToYAML(M $metric, string $expected)
+    {
+        $this->assertEquals($expected, $metric->toYAML());
+    }
+
+    public function typedMetricsProvider()
+    {
+        return [
+            "bool_true" => [new M(M::STABILITY_STABLE, M::TYPE_BOOL, true), "true"],
+            "bool_false" => [new M(M::STABILITY_STABLE, M::TYPE_BOOL, false), "false"],
+            "counter_0" => [new M(M::STABILITY_STABLE, M::TYPE_COUNTER, 0), "0"],
+            "counter_1337" => [new M(M::STABILITY_STABLE, M::TYPE_COUNTER, 1337), "1337"],
+            "gauge_23" => [new M(M::STABILITY_STABLE, M::TYPE_GAUGE, 23), "23"],
+            "gauge_42_0" => [new M(M::STABILITY_STABLE, M::TYPE_GAUGE, 42.0), "42.000"],
+            "gauge_42_001" => [new M(M::STABILITY_STABLE, M::TYPE_GAUGE, 42.001), "42.001"],
+            "timestamp" => [new M(M::STABILITY_STABLE, M::TYPE_TIMESTAMP, new \DateTimeImmutable("1985-05-04T13:37:00+01:00")), "1985-05-04T13:37:00+0100"],
+            "text" => [new M(M::STABILITY_STABLE, M::TYPE_TEXT, "some text"), "some text"],
+            "text_with_nl" => [new M(M::STABILITY_STABLE, M::TYPE_TEXT, "some\ntext"), ">\nsome\ntext"],
+        ];
+    }
+
+    public function testIndentation()
+    {
+        $metrics = new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+            "a" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+                "h" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_h"),
+                "c" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+                    "d" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+                        "e" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_c_d_e"),
+                        "f" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_c_d_f")
+                    ]),
+                    "g" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_c_g")
+                ]),
+                "i" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_i\na_i")
+            ]),
+            "b" => new M(M::STABILITY_STABLE, M::TYPE_COLLECTION, [
+                "j" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "b_j")
+            ]),
+            "k" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "k")
+        ]);
+
+        $expected = <<<METRIC
+a:
+    h: a_h
+    c:
+        d:
+            e: a_c_d_e
+            f: a_c_d_f
+        g: a_c_g
+    i: >
+        a_i
+        a_i
+b:
+    j: b_j
+k: k
+METRIC;
+
+        $this->assertEquals($expected, $metrics->toYAML());
     }
 }

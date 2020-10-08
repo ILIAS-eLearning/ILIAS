@@ -9,7 +9,7 @@ namespace ILIAS\Setup\Metrics;
  *
  * To make metrics processable and understandable for the setup, we use a closed
  * sum type to represent them. So basically, this class will contain every kind
- * of metric that can exist.
+ * of metric that can exist and the types are not extendable.
  */
 final class Metric
 {
@@ -157,5 +157,60 @@ final class Metric
     public function getDescription() : string
     {
         return $this->description;
+    }
+
+    public function toYAML(int $indentation = 0) : string
+    {
+        $value = $this->getValue();
+        switch ($this->getType()) {
+            case self::TYPE_BOOL:
+                if ($value) {
+                    return "true";
+                } else {
+                    return "false";
+                }
+                // no break
+            case self::TYPE_COUNTER:
+                return "$value";
+            case self::TYPE_GAUGE:
+                if (is_int($value)) {
+                    return "$value";
+                }
+                return sprintf("%.03f", $value);
+            case self::TYPE_TIMESTAMP:
+                return $value->format(\DateTimeInterface::ISO8601);
+            case self::TYPE_TEXT:
+                if (substr_count($value, "\n") > 0) {
+                    return ">" . str_replace("\n", "\n" . $this->getIndentation($indentation), "\n$value");
+                }
+                return $value;
+            case self::TYPE_COLLECTION:
+                return implode(
+                    "\n",
+                    array_map(
+                        function ($k, $v) use ($indentation) {
+                            if ($v->getType() === self::TYPE_COLLECTION) {
+                                $split = "\n";
+                            } else {
+                                $split = " ";
+                            }
+                            return $this->getIndentation($indentation) . "$k:$split" . $v->toYAML($indentation + 1);
+                        },
+                        array_keys($value),
+                        array_values($value)
+                    )
+                );
+            default:
+                throw new \LogicException("Unknown type: " . $this->getType());
+        }
+    }
+
+    protected function getIndentation(int $indentation = 0)
+    {
+        $res = "";
+        while ($indentation--) {
+            $res .= "    ";
+        }
+        return $res;
     }
 }
