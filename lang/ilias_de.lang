@@ -626,7 +626,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
-assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auwählen einer Antwort ein.
+assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#enter_valid_values#:#Bitte achten Sie auf die Eingabe gültiger Werte. Die Eingabe von Buchstaben wird als falsch gewertet!
 assessment#:#err_category_in_use#:#Die Kategorie kann nicht gelöscht werden. Eine oder mehrere Einheiten der Kategorie sind bereits in Benutzung.
 assessment#:#err_duplicate_results#:#Sie haben eine Ergebnisvariable mehrfach verwendet. Das ist innerhalb des Aufgabentextes nicht erlaubt!
@@ -646,7 +646,7 @@ assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfra
 assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
-assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern und lassen in diesem Fall das Rautezeichen weg. Beispiel: Dies ist ((ein Beispiel)) für mehrere falsche Wörter. Wichtig: bei einer Gruppe von Fehlerwörtern muss jedes einzelne ausgewählt werden, um die für die Gruppe vorgesehene Punktzahl zu erzielen. Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#errRecursionInResult#:#Die Formel enthält eine nicht auflösbare Rekursion.
 assessment#:#essay_scoring_mode#:#Bewertungsmodus
 assessment#:#essay_scoring_mode_keyword_relation_all#:#Automatische Bewertung bei Nennung aller Begriffe
@@ -2355,7 +2355,7 @@ book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_fromto#:#Datumsbereich
 book#:#book_hours#:#Stunden
 book#:#book_is_used#:#In Benutzung
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
 book#:#book_log#:#Reservierungen
 book#:#book_new#:#Neuen Buchungspool anlegen
 book#:#book_no_of_objects#:#Anzahl Objekte
@@ -5013,7 +5013,7 @@ common#:#shib_update#:#Dieses Feld bei jeder Anmeldung aktualisieren
 common#:#shib_user_default_role#:#Generelle Rolle für Shibboleth-Benutzer
 common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#short_inst_name#:#Kurztitel
-common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'.
+common#:#short_inst_name_info#:#Dieser Text erscheint zusammen mit dem Seitentitel als Titel des Browser-Tabs. Wird hier nichts eingetragen, erscheint 'ILIAS'.
 common#:#show#:#Anzeigen
 common#:#show_all_details#:#Alle Details anzeigen
 common#:#show_details#:#Details anzeigen
@@ -8004,13 +8004,13 @@ ecs#:#ecs_grp_export_enabled#:#Freigeben
 ecs#:#ecs_grp_export_obj_settings#:#Einstellungen für Gruppenfreigaben
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
-ecs#:#ecs_import_cms#:#Campus Management
+ecs#:#ecs_import_cms#:#Campus-Management
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_types#:#Importierbare Objekttypen
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_lm_export#:#Lernmodulfreigaben
 ecs#:#ecs_lm_export_disabled#:#Nicht freigeben
@@ -9619,7 +9619,7 @@ mail#:#mail_move_error#:#Fehler beim Mailversand
 mail#:#mail_move_to#:#Verschieben nach:
 mail#:#mail_moved#:#Ihre Mail(s) wurden verschoben
 mail#:#mail_moved_to_trash#:#Die Mail(s) wurde(n) in den Papierkorb verschoben
-mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
+mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Empfänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_my_courses#:#Meine Kurse
 mail#:#mail_my_groups#:#Meine Gruppen
 mail#:#mail_my_mailing_lists#:#Meine Verteilerlisten
@@ -13054,7 +13054,7 @@ skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_really_delete_levels#:#Sollen die folgenden Kompetenzausprägungen wirklich gelöscht werden?
 skmg#:#skmg_really_remove_skills#:#Möchten Sie die folgenden Kompetenzen wirklich entfernen?
 skmg#:#skmg_refresh_view#:#Ansicht aktualisieren
-skmg#:#skmg_remove_levels#:#Ausprägung entfernen
+skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_remove_skill#:#Kompetenz entfernen
 skmg#:#skmg_remove_skills#:#Kompetenzen entfernen
 skmg#:#skmg_remove_trigger#:#Auslöser entfernen
@@ -13796,7 +13796,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
+survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein numerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
@@ -15082,7 +15082,7 @@ mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe fü
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###25 04 2019 new variable
-certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
+certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
 crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
