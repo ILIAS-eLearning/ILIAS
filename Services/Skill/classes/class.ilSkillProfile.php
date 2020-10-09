@@ -584,7 +584,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
             // get object of role
-            $obj = ilContainerReference::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
+            $obj = ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
             // get title of object if course or group
             if (ilObject::_lookupType($obj) == "crs" || ilObject::_lookupType($obj) == "grp") {
                 $obj_title = ilObject::_lookupTitle($obj);
