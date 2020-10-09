@@ -6,6 +6,7 @@
  * @author    Alex Killing <alex.killing@gmx.de>
  * @version   $Id$
  * @extends   ilVirusScanner
+ * @deprecated since ILIAS 7.0, the last update for the virus database was 2016
  */
 
 require_once "Services/VirusScanner/classes/class.ilVirusScanner.php";

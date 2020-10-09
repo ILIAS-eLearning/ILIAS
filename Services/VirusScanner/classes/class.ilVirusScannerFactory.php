@@ -2,40 +2,38 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Factory for virus scanner class(es)
- * @author    Alex Killing <alex.killing@gmx.de>
- * @version   $Id$
+ * Class ilVirusScannerFactory
  */
 class ilVirusScannerFactory
 {
     /**
-     * @return ilVirusScannerAntiVir|ilVirusScannerClamAV|ilVirusScannerSophos|null
+     * @return ilVirusScannerAntiVir|ilVirusScannerClamAV|ilVirusScannerICapClient|ilVirusScannerICapRemoteAvClient|ilVirusScannerSophos|null
      */
-    public static function _getInstance()
+    static public function _getInstance()
     {
-        // create global virus scanner class instance
-        switch (IL_VIRUS_SCANNER) {
-            case "Sophos":
-                require_once("./Services/VirusScanner/classes/class.ilVirusScannerSophos.php");
-                $vs = new ilVirusScannerSophos(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
-                return $vs;
-                break;
+        $vs = null;
 
-            case "AntiVir":
-                require_once("./Services/VirusScanner/classes/class.ilVirusScannerAntiVir.php");
-                $vs = new ilVirusScannerAntiVir(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
-                return $vs;
-                break;
-
-            case "ClamAV":
-                require_once("./Services/VirusScanner/classes/class.ilVirusScannerClamAV.php");
-                $vs = new ilVirusScannerClamAV(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
-                return $vs;
-                break;
-
-            default:
-                return null;
-                break;
+        if (IL_SCANNER_TYPE == "1") {
+            if (strlen(IL_ICAP_CLIENT) > 0) {
+                $vs = new ilVirusScannerICapClient('', '');
+            } else {
+                $vs = new ilVirusScannerICapRemoteAvClient('', '');
+            }
+        } elseif (IL_SCANNER_TYPE == 0) {
+            switch (IL_VIRUS_SCANNER) {
+                case "Sophos":
+                    $vs = new ilVirusScannerSophos(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
+                    break;
+                case "AntiVir":
+                    global $DIC;
+                    $DIC->logger()->error('AntiVir is deprecated, please install and use a different virus scanner.');
+                    $vs = new ilVirusScannerAntiVir(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
+                    break;
+                case "ClamAV":
+                    $vs = new ilVirusScannerClamAV(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
+                    break;
+            }
         }
+        return $vs;
     }
 }
