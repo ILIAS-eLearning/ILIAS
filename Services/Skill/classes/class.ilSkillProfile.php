@@ -262,12 +262,26 @@ class ilSkillProfile implements ilSkillUsageInfo
     public function delete()
     {
         $ilDB = $this->db;
+
+        // TODO: Split the deletions when refactoring to repository pattern
         
         // profile levels
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
             );
+
+        // profile users
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_user WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
+
+        // profile roles
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_role WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
         
         // profile
         $ilDB->manipulate(
