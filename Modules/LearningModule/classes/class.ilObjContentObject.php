@@ -2486,10 +2486,15 @@ class ilObjContentObject extends ilObject
                     "target" => $a_target_dir . '/js/ilExtLink.js',
                     "type" => "js");
             }
-            if (is_int(strpos($p, "linkify"))) {
+            if (is_int(strpos($p, "linkify.min.js"))) {
                 $scripts[] = array("source" => $p,
-                    "target" => $a_target_dir . '/js/linkify.js',
+                    "target" => $a_target_dir . '/js/linkify.min.js',
                     "type" => "js");
+            }
+            if (is_int(strpos($p, "linkify-jquery.min.js"))) {
+                $scripts[] = array("source" => $p,
+                                   "target" => $a_target_dir . '/js/linkify-jquery.min.js',
+                                   "type" => "js");
             }
         }
 
