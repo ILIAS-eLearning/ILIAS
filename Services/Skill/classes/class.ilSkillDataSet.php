@@ -612,7 +612,9 @@ class ilSkillDataSet extends ilDataSet
                 break;
 
             case "skl_prof_level":
-                $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"]);
+                $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
+                    ? (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
+                    : (int) $a_mapping->getMapping("Services/Skill", "skl_local_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
                     $prof = new ilSkillProfile($profile_id);
                     $level_id_data = ilBasicSkill::getLevelIdForImportId($this->getCurrentInstallationId(), $a_rec["LevelId"]);
