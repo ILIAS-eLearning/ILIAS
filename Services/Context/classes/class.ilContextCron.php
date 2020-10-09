@@ -51,7 +51,8 @@ class ilContextCron implements ilContextTemplate
      */
     public static function hasHTML()
     {
-        return false;
+        // required for lftestexport
+        return true;
     }
     
     /**
@@ -61,6 +62,7 @@ class ilContextCron implements ilContextTemplate
      */
     public static function usesTemplate()
     {
+        // required for lftestexport
         return true;
     }
     
