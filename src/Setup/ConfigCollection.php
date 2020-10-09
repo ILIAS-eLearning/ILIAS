@@ -29,6 +29,11 @@ class ConfigCollection implements Config
         return $this->configs[$key];
     }
 
+    public function maybeGetConfig(string $key) : ?Config
+    {
+        return $this->configs[$key] ?? null;
+    }
+
     /**
      * @return string[]
      */
