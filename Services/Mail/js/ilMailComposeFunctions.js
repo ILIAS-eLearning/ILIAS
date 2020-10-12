@@ -72,7 +72,7 @@ il = il || {};
         if (canManipulateViaTextNodes(input) && range.commonAncestorContainer.nodeName === '#text') {
           range.insertNode(textNode);
         } else {
-          const { value } = input;
+          const value = input.value;
           input.value = value.slice(0, start) + text + value.slice(end);
         }
       }
