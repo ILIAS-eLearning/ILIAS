@@ -5,32 +5,11 @@
 use ILIAS\Setup;
 use ILIAS\DI;
 
-class ilDatabaseUpdatedObjective extends \ilDatabaseObjective
+class ilDatabaseUpdatedObjective implements Setup\Objective
 {
-    /**
-     * @var	ilDatabaseSetupConfig
-     */
-    protected $config;
-
-    /**
-     * @var	bool
-     */
-    protected $populate_before;
-
-    public function __construct(\ilDatabaseSetupConfig $config, bool $populate_before = false)
-    {
-        parent::__construct($config);
-        $this->populate_before = $populate_before;
-    }
-
     public function getHash() : string
     {
-        return hash("sha256", implode("-", [
-            self::class,
-            $this->config->getHost(),
-            $this->config->getPort(),
-            $this->config->getDatabase()
-        ]));
+        return hash("sha256", self::class);
     }
 
     public function getLabel() : string
@@ -45,16 +24,8 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        if (!$this->populate_before) {
-            return [
-                new \ilIniFilesLoadedObjective(),
-                new \ilDatabaseExistsObjective($this->config)
-            ];
-        }
-
         return [
-            new \ilIniFilesLoadedObjective(),
-            new \ilDatabasePopulatedObjective($this->config)
+            new \ilDatabaseInitializedObjective()
         ];
     }
 

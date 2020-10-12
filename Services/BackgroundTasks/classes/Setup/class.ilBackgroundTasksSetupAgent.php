@@ -54,7 +54,10 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilBackgroundTasksConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilBackgroundTasksConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

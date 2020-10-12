@@ -23,9 +23,8 @@ class ilSettingsFactoryExistsObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $db_config = $environment->getConfigFor("database");
         return [
-            new ilDatabasePopulatedObjective($db_config)
+            new ilDatabaseInitializedObjective()
         ];
     }
 

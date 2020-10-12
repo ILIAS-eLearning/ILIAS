@@ -82,7 +82,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilGlobalCacheConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilGlobalCacheConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

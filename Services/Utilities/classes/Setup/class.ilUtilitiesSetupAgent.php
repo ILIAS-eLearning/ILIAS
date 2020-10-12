@@ -55,7 +55,10 @@ class ilUtilitiesSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return  new ilUtilitiesConfigStoredObjective($config);
+        if ($config !== null) {
+            return  new ilUtilitiesConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

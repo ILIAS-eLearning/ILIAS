@@ -35,7 +35,10 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilComponentDefinitionsStoredObjective(false);
+        if ($config !== null) {
+            return new \ilComponentDefinitionsStoredObjective(false);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

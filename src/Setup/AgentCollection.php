@@ -80,7 +80,23 @@ class AgentCollection implements Agent
      */
     public function getInstallObjective(Config $config = null) : Objective
     {
-        return $this->getXObjective("getInstallObjective", $config);
+        $this->checkConfig($config);
+
+        return new ObjectiveCollection(
+            "Collected Install Objectives",
+            false,
+            ...array_values(array_map(
+                function (string $k, Agent $v) use ($config) {
+                    if ($v->hasConfig()) {
+                        return $v->getInstallObjective($config->getConfig($k));
+                    } else {
+                        return $v->getInstallObjective();
+                    }
+                },
+                array_keys($this->agents),
+                array_values($this->agents)
+            ))
+        );
     }
 
     /**
@@ -88,7 +104,24 @@ class AgentCollection implements Agent
      */
     public function getUpdateObjective(Config $config = null) : Objective
     {
-        return $this->getXObjective("getUpdateObjective", $config);
+        if ($config) {
+            $this->checkConfig($config);
+        }
+
+        return new ObjectiveCollection(
+            "Collected Update Objectives",
+            false,
+            ...array_values(array_map(
+                function (string $k, Agent $v) use ($config) {
+                    if ($config) {
+                        return $v->getUpdateObjective($config->maybeGetConfig($k));
+                    }
+                    return $v->getUpdateObjective();
+                },
+                array_keys($this->agents),
+                array_values($this->agents)
+            ))
+        );
     }
 
     /**
@@ -96,11 +129,16 @@ class AgentCollection implements Agent
      */
     public function getBuildArtifactObjective() : Objective
     {
-        $gs = [];
-        foreach ($this->agents as $k => $c) {
-            $gs[] = $c->getBuildArtifactObjective();
-        }
-        return new ObjectiveCollection("Collected Build Artifact Objectives", false, ...$gs);
+        return new ObjectiveCollection(
+            "Collected Build Artifact Objectives",
+            false,
+            ...array_values(array_map(
+                function (Agent $v) {
+                    return $v->getBuildArtifactObjective();
+                },
+                $this->agents
+            ))
+        );
     }
 
     /**
@@ -108,28 +146,19 @@ class AgentCollection implements Agent
      */
     public function getStatusObjective(Metrics\Storage $storage) : Objective
     {
-        $os = [];
-        foreach ($this->agents as $k => $a) {
-            $s = new Metrics\StorageOnPathWrapper($k, $storage);
-            $os[] = $a->getStatusObjective($s);
-        }
-        return new ObjectiveCollection("Collected Status Objectives", false, ...$os);
-    }
-
-    protected function getXObjective(string $which, Config $config = null) : Objective
-    {
-        $this->checkConfig($config);
-
-        $gs = [];
-        foreach ($this->agents as $k => $c) {
-            if ($c->hasConfig()) {
-                $gs[] = call_user_func([$c, $which], $config->getConfig($k));
-            } else {
-                $gs[] = call_user_func([$c, $which]);
-            }
-        }
-
-        return new ObjectiveCollection("Collected Objectives", false, ...$gs);
+        return new ObjectiveCollection(
+            "Collected Status Objectives",
+            false,
+            ...array_values(array_map(
+                function (string $k, Agent $v) use ($storage) {
+                    return $v->getStatusObjective(
+                        new Metrics\StorageOnPathWrapper($k, $storage)
+                    );
+                },
+                array_keys($this->agents),
+                array_values($this->agents)
+            ))
+        );
     }
 
     protected function checkConfig(Config $config)

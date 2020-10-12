@@ -71,7 +71,10 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilHttpConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilHttpConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

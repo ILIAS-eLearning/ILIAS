@@ -236,15 +236,6 @@ class AgentCollectionTest extends TestCase
 
         $c1
             ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(true);
-        $c2
-            ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(false);
-
-        $c1
-            ->expects($this->once())
             ->method("getUpdateObjective")
             ->with($conf1)
             ->willReturn($g1);
