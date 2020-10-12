@@ -16,17 +16,25 @@ $path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);
 
-// Set context for authentication
-include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
-ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
-
-// Launch ILIAS using the client id we have determined
-$_GET["client_id"] = $client_id;
-include_once "Services/Context/classes/class.ilContext.php";
-$context =  ilContext::CONTEXT_WEBDAV;
-ilContext::init($context);
-require_once("Services/Init/classes/class.ilInitialisation.php");
-ilInitialisation::initILIAS();
+try{
+    // Set context for authentication
+    ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
+    // Launch ILIAS using the client id we have determined
+    $_GET["client_id"] = $client_id;
+    $context =  ilContext::CONTEXT_WEBDAV;
+    ilContext::init($context);
+    ilInitialisation::initILIAS();
+} catch(InvalidArgumentException $e) {
+    header("HTTP/1.1 400 Bad Request");
+    header("X-WebDAV-Status: 400 Bad Request", true);
+    echo '<?xml version="1.0" encoding="utf-8"?>
+    <d:error xmlns:d="DAV:" xmlns:s="http://sabredav.org/ns">
+      <s:sabredav-version>3.2.2</s:sabredav-version>
+      <s:exception>Sabre\DAV\Exception\BadRequest</s:exception>
+      <s:message/>
+    </d:error>';
+    exit;
+}
 
 if (!ilDAVActivationChecker::_isActive()) {
     header("HTTP/1.1 403 Forbidden");
