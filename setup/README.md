@@ -204,3 +204,22 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *soap_connect_timeout* maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted
   * *rpc_server_host* Java-Server host (if set `rpc_server_port` must be set too)
   * *rpc_server_port* Java-Server port (if set `rpc_server_host` must be set too)
+* *chatroom* see also [Chat Server Setup](/Modules/Chatroom/README.md)
+  * *address* IP-Address/FQN of Chat Server
+  * *port* of the chat server, possible value from `1` to `65535` 
+  * *sub_directory* http(s)://[IP/Domain]/[SUB_DIRECTORY]
+  * *https* adding this enables https
+    * *cert* absolute server path to the SSL certificate file e.g. `/etc/ssl/certs/server.pem`
+    * *key* absolute server path to the private key file e.g. `/etc/ssl/private/server.key`
+    * *dhparam* absolute server path to a file e.g. `/etc/ssl/private/dhparam.pem`
+  * *log* absolute server path to the chat server's log file e.g. `/var/www/ilias/data/chat.log`
+  * *log_level* possible values are `emerg`, `alert`, `crit` `error`, `warning`, `notice`, `info`, `debug`, `silly`
+  * *error_log* absolute server path to the chat server's error log file e.g. `/var/www/ilias/data/chat_error.log`
+  * *ilias_proxy* ILIAS to Server Connection
+    * *ilias_url* URL for the Server connection
+  * *client_proxy* Client to Server Connection
+    * *client_url* URL for the Server connection
+  * *deletion_interval*
+    * *deletion_unit* possible values are `days`, `weeks`, `months`, `years`
+    * *deletion_value* depending on `deletion_unit` possible values are `days max 31`, `weeks max 52`, `months max 12`, `years no max`
+    * *deletion_time* with format `HH:MM e.g. 23:30`
