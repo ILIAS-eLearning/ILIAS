@@ -25,6 +25,8 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
+            new Setup\Objective\ClientIdReadObjective(),
+            new ilIniFilesPopulatedObjective(),
             new \ilDatabaseInitializedObjective()
         ];
     }
@@ -33,9 +35,9 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $common_config = $environment->getConfigFor("common");
-        $filesystem_config = $environment->getConfigFor("filesystem");
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
 
         // ATTENTION: This is a total abomination. It only exists to allow the db-
         // update to run. This is a memento to the fact, that dependency injection
@@ -87,8 +89,8 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
             {
             }
         };
-        define("CLIENT_DATA_DIR", $filesystem_config->getDataDir() . "/" . $common_config->getClientId());
-        define("CLIENT_WEB_DIR", $filesystem_config->getWebDir() . "/" . $common_config->getClientId());
+        define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
+        define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }

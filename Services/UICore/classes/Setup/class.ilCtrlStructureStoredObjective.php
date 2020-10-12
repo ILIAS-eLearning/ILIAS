@@ -52,9 +52,8 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $config = $environment->getConfigFor('database');
         return [
-            new \ilDatabaseUpdatedObjective($config, $this->populate_before)
+            new \ilDatabaseInitializedObjective()
         ];
     }
 
