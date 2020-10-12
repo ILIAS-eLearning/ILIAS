@@ -68,7 +68,11 @@ class UpdateCommand extends Command
 
         $agent = $this->getAgent();
 
-        $config = $this->readAgentConfig($agent, $input);
+        if ($input->getArgument("config")) {
+            $config = $this->readAgentConfig($agent, $input);
+        } else {
+            $config = null;
+        }
 
         $objective = $agent->getUpdateObjective($config);
         if (count($this->preconditions) > 0) {
@@ -81,7 +85,9 @@ class UpdateCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
+        if ($config) {
+            $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
+        }
 
         try {
             $this->achieveObjective($objective, $environment, $io);
