@@ -1,110 +1,115 @@
-let browserSupportsTextareaTextNodes;
+/* global il */
+il = il || {};
 
-/**
- * @param {HTMLElement} input
- * @return {boolean}
- */
-function canManipulateViaTextNodes(input) {
-	if (input.nodeName !== "TEXTAREA") {
-		return false;
-	}
+(function init(scope, factory) {
+  scope.Mail = factory();
+}(il, () => {
+  let browserSupportsTextareaTextNodes;
 
-	if (typeof browserSupportsTextareaTextNodes === "undefined") {
-		const textarea = document.createElement("textarea");
-		textarea.value = 1;
-		browserSupportsTextareaTextNodes = !!textarea.firstChild;
-	}
+  function canManipulateViaTextNodes(input) {
+    if (input.nodeName !== 'TEXTAREA') {
+      return false;
+    }
 
-	return browserSupportsTextareaTextNodes;
-}
+    if (typeof browserSupportsTextareaTextNodes === 'undefined') {
+      const textarea = document.createElement('textarea');
+      textarea.value = '1';
+      browserSupportsTextareaTextNodes = !!textarea.firstChild;
+    }
 
+    return browserSupportsTextareaTextNodes;
+  }
 
-function insertTextIntoTextField(text, obj_id)
-{
-	const input = document.getElementById(obj_id);
+  const methods = {};
 
-	input.focus();
+  methods.insertTextIntoTextField = function (elementId, text) {
+    const input = document.getElementById(elementId);
 
-	const isSuccess = document.execCommand("insertText", false, text);
-	if (!isSuccess) {
-		const start = input.selectionStart, end = input.selectionEnd;
+    input.focus();
 
-		if (typeof input.setRangeText === "function") {
-			input.setRangeText(text);
-		} else {
-			const range = document.createRange(), textNode = document.createTextNode(text);
+    const isSuccess = document.execCommand('insertText', false, text);
+    if (!isSuccess) {
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
 
-			if (canManipulateViaTextNodes(input)) {
-				let node = input.firstChild;
+      if (typeof input.setRangeText === 'function') {
+        input.setRangeText(text);
+      } else {
+        const range = document.createRange();
+        const textNode = document.createTextNode(text);
 
-				if (!node) {
-					input.appendChild(textNode);
-				} else {
-					let offset = 0, startNode = null, endNode = null;
+        if (canManipulateViaTextNodes(input)) {
+          let node = input.firstChild;
 
-					while (node && (startNode === null || endNode === null)) {
-						const nodeLength = node.nodeValue.length;
+          if (!node) {
+            input.appendChild(textNode);
+          } else {
+            let offset = 0;
+            let startNode = null;
+            let endNode = null;
 
-						if (start >= offset && start <= offset + nodeLength) {
-							range.setStart((startNode = node), start - offset);
-						}
+            while (node && (startNode === null || endNode === null)) {
+              const nodeLength = node.nodeValue.length;
 
-						if (end >= offset && end <= offset + nodeLength) {
-							range.setEnd((endNode = node), end - offset);
-						}
+              if (start >= offset && start <= offset + nodeLength) {
+                range.setStart((startNode = node), start - offset);
+              }
 
-						offset += nodeLength;
-						node = node.nextSibling;
-					}
+              if (end >= offset && end <= offset + nodeLength) {
+                range.setEnd((endNode = node), end - offset);
+              }
 
-					if (start !== end) {
-						range.deleteContents();
-					}
-				}
-			}
+              offset += nodeLength;
+              node = node.nextSibling;
+            }
 
-			if (canManipulateViaTextNodes(input) && range.commonAncestorContainer.nodeName === '#text') {
-				range.insertNode(textNode);
-			} else {
-				const value = input.value;
-				input.value = value.slice(0, start) + text + value.slice(end);
-			}
-		}
+            if (start !== end) {
+              range.deleteContents();
+            }
+          }
+        }
 
-		input.setSelectionRange(start + text.length, start + text.length);
+        if (canManipulateViaTextNodes(input) && range.commonAncestorContainer.nodeName === '#text') {
+          range.insertNode(textNode);
+        } else {
+          const { value } = input;
+          input.value = value.slice(0, start) + text + value.slice(end);
+        }
+      }
 
-		const e = document.createEvent("UIEvent");
-		e.initEvent("input", true, false);
-		input.dispatchEvent(e);
-	}
-}
+      input.setSelectionRange(start + text.length, start + text.length);
+
+      const e = document.createEvent('UIEvent');
+      e.initEvent('input', true, false);
+      input.dispatchEvent(e);
+    }
+  };
+
+  return methods;
+}));
 
 // removes ',' at the ending of recipients textfield
-function getStripCommaCallback(obj)
-{
-	return function ()
-	{
-		var val = obj.value.replace(/^\s+/, '').replace(/\s+$/, '');
-		var stripcount = 0;
-		var i;
-		for (i = 0; i < val.length && val.charAt(val.length - i - 1) == ','; i++)
-			stripcount++;
-		obj.value = val.substr(0, val.length - stripcount);
-	}
+function getStripCommaCallback(obj) {
+  return function () {
+    const val = obj.value.replace(/^\s+/, '').replace(/\s+$/, '');
+    let stripcount = 0;
+    let i;
+    for (i = 0; i < val.length && val.charAt(val.length - i - 1) === ','; i++) {
+      stripcount++;
+    }
+    obj.value = val.substr(0, val.length - stripcount);
+  };
 }
 
 // initializes textfields for comma stripping on leaving recipients textfields
 il.Util.addOnLoad(
-	function()
-	{
-		var ar = ['rcp_to', 'rcp_cc', 'rcp_bcc'];
-		for(var i = 0; i < ar.length; i++)
-		{
-			var obj = document.getElementById(ar[i]); 
-			if (obj)
-			{
-				obj.onblur = getStripCommaCallback(document.getElementById(ar[i]));
-			}
-		}
-	}
+  () => {
+    const ar = ['rcp_to', 'rcp_cc', 'rcp_bcc'];
+    for (let i = 0; i < ar.length; i++) {
+      const obj = document.getElementById(ar[i]);
+      if (obj) {
+        obj.onblur = getStripCommaCallback(document.getElementById(ar[i]));
+      }
+    }
+  }
 );
