@@ -34,7 +34,7 @@ class InstallCommandTest extends TestCase
 
         $tester = new CommandTester($command);
 
-        $config = $this->createMock(Setup\Config::class);
+        $config = $this->createMock(Setup\ConfigCollection::class);
         $config_file = "config_file";
         $config_file_content = ["config_file"];
 
@@ -52,10 +52,16 @@ class InstallCommandTest extends TestCase
             ->with($config_file, $config_overwrites)
             ->willReturn($config_file_content);
 
-        $agent
+        $config
             ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(true);
+            ->method("getConfig")
+            ->with("common")
+            ->willReturn(new class implements Setup\Config {
+                public function getClientId() : string
+                {
+                    return "client_id";
+                }
+            });
 
         $agent
             ->expects($this->once())
@@ -81,7 +87,7 @@ class InstallCommandTest extends TestCase
         $agent
             ->expects($this->once())
             ->method("getUpdateObjective")
-            ->with($config)
+            ->with()
             ->willReturn(new Setup\Objective\NullObjective());
 
         $objective

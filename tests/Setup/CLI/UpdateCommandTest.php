@@ -48,11 +48,6 @@ class UpdateCommandTest extends TestCase
 
         $agent
             ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(true);
-
-        $agent
-            ->expects($this->once())
             ->method("getArrayToConfigTransformation")
             ->with()
             ->willReturn($refinery->custom()->transformation(function ($v) use ($config_file_content, $config) {
