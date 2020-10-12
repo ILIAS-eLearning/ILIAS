@@ -47,7 +47,7 @@ class ilCronManager implements \ilCronManagerInterface
             'Verification of last run datetime (read from database): %s',
             ilDatePresentation::formatDate(
                 new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX)
-        )
+            )
         ));
         ilDatePresentation::setUseRelativeDates((bool) $useRelativeDates);
 
