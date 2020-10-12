@@ -54,7 +54,10 @@ class ilStyleSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilStyleConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilStyleConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

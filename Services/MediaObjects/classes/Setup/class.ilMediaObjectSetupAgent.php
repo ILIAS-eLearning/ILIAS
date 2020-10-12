@@ -63,7 +63,10 @@ class ilMediaObjectSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilMediaObjectConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilMediaObjectConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

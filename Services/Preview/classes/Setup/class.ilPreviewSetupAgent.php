@@ -53,7 +53,10 @@ class ilPreviewSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilPreviewConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilPreviewConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

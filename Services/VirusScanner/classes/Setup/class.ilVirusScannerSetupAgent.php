@@ -55,7 +55,10 @@ class ilVirusScannerSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilVirusScannerConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilVirusScannerConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

@@ -53,7 +53,10 @@ class ilFileSystemSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilFileSystemConfigNotChangedObjective($config);
+        if ($config) {
+            return new ilFileSystemConfigNotChangedObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

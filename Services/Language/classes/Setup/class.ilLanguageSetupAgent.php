@@ -71,13 +71,16 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Language",
-            false,
-            new ilLanguageConfigStoredObjective($config),
-            new ilLanguagesInstalledObjective($config, $this->il_setup_language),
-            new ilDefaultLanguageSetObjective($config)
-        );
+        if ($config !== null) {
+            return new Setup\ObjectiveCollection(
+                "Complete objectives from Services/Language",
+                false,
+                new ilLanguageConfigStoredObjective($config),
+                new ilLanguagesInstalledObjective($config, $this->il_setup_language),
+                new ilDefaultLanguageSetObjective($config)
+            );
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

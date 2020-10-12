@@ -41,9 +41,13 @@ interface Agent
      * The provided configuration is to be used to change according configuration
      * values in the installation. If this is not possible for some reason, an
      * according UnachievableException needs to be thrown in the according objective.
+     *
      * The configuration is not to be used to initialize the required environment
      * for the objectives. This must be done via ClientIdReadObjective and depending
      * objectives like ilIniFilesLoadedObjective.
+     *
+     * If no configuration is provided the configuration of the component should
+     * stay as is.
      *
      * @throw InvalidArgumentException if Config does not match the Agent..
      */

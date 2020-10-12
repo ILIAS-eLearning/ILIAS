@@ -29,14 +29,9 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+        return new ilFileSystemComponentDataDirectoryCreatedObjective(
             ilLearningSequenceFilesystem::PATH_PRE,
             ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
-        );
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Modules/LearningSequence",
-            false,
-            $dir_objective
         );
     }
 

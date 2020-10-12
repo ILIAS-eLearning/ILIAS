@@ -66,7 +66,10 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilInstallationInformationStoredObjective($config);
+        if ($config !== null) {
+            return new ilInstallationInformationStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**

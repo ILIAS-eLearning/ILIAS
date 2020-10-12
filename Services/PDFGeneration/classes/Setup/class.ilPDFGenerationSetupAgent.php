@@ -53,7 +53,10 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilPDFGenerationConfigStoredObjective($config);
+        if ($config !== null) {
+            return new ilPDFGenerationConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**
