@@ -83,7 +83,8 @@
 		"exclude-from-classmap": [
 			"./Services/Migration",
 			"./*/*/lib", "./*/*/test",
-			"./Services/CAS/phpcas"
+			"./Services/CAS/phpcas",
+			"./Customizing/**/vendor"
 		]
 	},
 	"extra": {
