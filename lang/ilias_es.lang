@@ -771,7 +771,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Configurar umbrales de competencia
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Por favor, considere que los resultados de competencia de un único test tienen una significación limitada. Cuanto más información se recolecte por competencia, mejor será la significación. En caso de que hubiera competencias individuales sin ninguna entrada, hay menos información recopilada.
 assessment#:#locked#:#bloqueado
 assessment#:#log_answer_changed_points#:#Modificación manual de puntuación %s desde %d a %d puntos por %s
-assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta. Entrada: '%s'
+assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#El usuario no pudo entrar al test porque se ha alcanzado el máximo número simultáneo de conexiones
 assessment#:#log_create_new_test#:#Nuevo Test creado
 assessment#:#log_manual_feedback#:#%s añadió comentario manual para %s y la pregunta %s: %s

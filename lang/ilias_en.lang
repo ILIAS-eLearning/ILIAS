@@ -798,7 +798,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Configure Competence Thresholds
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.
 assessment#:#locked#:#locked
 assessment#:#log_answer_changed_points#:#Manual change of points of test person %s from %d to %d points by %s
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#The user could not enter the test because the maximum number of simultaneous users has been reached
 assessment#:#log_create_new_test#:#Created new test
 assessment#:#log_manual_feedback#:#%s added manual feedback for test person %s and question %s: %s

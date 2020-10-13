@@ -781,7 +781,7 @@ assessment#:#log_user_answered_question#:#Пользователь ответи�
 assessment#:#log_user_entered_values#:#Введенные пользователем значения
 assessment#:#log_user_not_entered_values#:#Пользователь не ввел значений
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send notification even if a user finishes a test pass

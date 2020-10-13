@@ -808,7 +808,7 @@ assessment#:#log_user_answered_question#:#Ein Benutzer beantwortet eine Frage un
 assessment#:#log_user_entered_values#:#Der Benutzer hat Werte eingetragen
 assessment#:#log_user_not_entered_values#:#Der Benutzer hat keine Werte eingetragen
 assessment#:#log_user_solution_willingly_deleted#:#Der Benutzer hat seine Antwort entfernt.
-assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#‘Long Menu’-Text
 assessment#:#mailnottype#:#Ein Versand findet auch beim Beenden einzelner Testdurchläufe statt

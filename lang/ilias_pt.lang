@@ -782,7 +782,7 @@ assessment#:#log_user_answered_question#:#O utilizador respondeu a uma pergunta 
 assessment#:#log_user_entered_values#:#Valores introduzidos pelo utilizador
 assessment#:#log_user_not_entered_values#:#O utilizador não introduziu valores
 assessment#:#log_user_solution_willingly_deleted#:#O utilizador apagou a resposta.
-assessment#:#log_wrong_test_password_entered#:#O participante introduziu uma palavra-passe de teste errada. Entrada: '%s'
+assessment#:#log_wrong_test_password_entered#:#O participante introduziu uma palavra-passe de teste errada.
 assessment#:#longmenu#:#Menu comprido
 assessment#:#longmenu_text#:#Texto de menu comprido
 assessment#:#mailnottype#:#Enviar notificação mesmo que um utilizador termine uma tentativa de teste
