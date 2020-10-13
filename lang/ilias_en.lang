@@ -62,7 +62,6 @@ common#:#obj_prss_desc#:#Personal resources settings
 common#:#obj_prss#:#Personal Resources
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
-pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_side_panel#:#Side Panel
