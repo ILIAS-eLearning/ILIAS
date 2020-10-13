@@ -774,7 +774,7 @@ assessment#:#log_user_answered_question#:#Un utente ha risposto alla domanda ed 
 assessment#:#log_user_entered_values#:#L'utente ha inserito un valore
 assessment#:#log_user_not_entered_values#:#L'utente non ha inserito un valore
 assessment#:#log_user_solution_willingly_deleted#:#L’utente ha eliminato la risposta.
-assessment#:#log_wrong_test_password_entered#:#Il partecipante ha inserito una password sbagliata del test. Entrata: '%s'
+assessment#:#log_wrong_test_password_entered#:#Il partecipante ha inserito una password sbagliata del test.
 assessment#:#longmenu#:#Menù esteso							
 assessment#:#longmenu_text#:#Testo menu esteso
 assessment#:#mailnottype#:#Inviare la notifica anche quando un utente termina un passaggio di prova

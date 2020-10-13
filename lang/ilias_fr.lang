@@ -774,7 +774,7 @@ assessment#:#log_user_answered_question#:#L'utilisateur a répondu à une questi
 assessment#:#log_user_entered_values#:#Valeurs saisies par l'utilisateur
 assessment#:#log_user_not_entered_values#:#L'utilisateur n'a saisi aucune valeur
 assessment#:#log_user_solution_willingly_deleted#:#L’utilisateur a supprimé la réponse.
-assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné. Contribution: '%s'
+assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Texte de menu long
 assessment#:#mailnottype#:#Envoyer notification lorsqu'un utilisateur achève un passage de test.

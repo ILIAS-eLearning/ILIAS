@@ -774,7 +774,7 @@ assessment#:#log_user_answered_question#:#Uživatel odpověděl na otázku a obd
 assessment#:#log_user_entered_values#:#Uživatel vložil hodnoty
 assessment#:#log_user_not_entered_values#:#Uživatel nevložil hodnoty
 assessment#:#log_user_solution_willingly_deleted#:#Uživatel smazal odpověď.
-assessment#:#log_wrong_test_password_entered#:#Účastník zadal nesprávné heslo k testu. Vstup: '%s'
+assessment#:#log_wrong_test_password_entered#:#Účastník zadal nesprávné heslo k testu.
 assessment#:#longmenu#:#Dlouhé menu
 assessment#:#longmenu_text#:#Text dlouhého menu
 assessment#:#mailnottype#:#Zaslat oznámení vždy, když uživatel ukončil průchod testem

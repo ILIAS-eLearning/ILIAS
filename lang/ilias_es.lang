@@ -776,7 +776,7 @@ assessment#:#log_user_answered_question#:#El usuario respondió una pregunta y r
 assessment#:#log_user_entered_values#:#El usuario introdujo valores
 assessment#:#log_user_not_entered_values#:#El usuario no introdujo valores
 assessment#:#log_user_solution_willingly_deleted#:#El usuario eliminó la respuesta.
-assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta. Entrada: '%s'
+assessment#:#log_wrong_test_password_entered#:#El participante introdujo un clave para el test incorrecta.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Texto de menú largo
 assessment#:#mailnottype#:#Enviar notificación incluso cuando un usuario haya terminado un examen, aunque el examen no haya finalizado.

@@ -995,7 +995,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetencia-küszöbértékek beál
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Kérjük, vegye figyelembe, hogy a csupán egy tesztből kapott kompetenciaeredmények korlátozott jelentőséggel bírnak. Minél több információt sikerül gyűjteni kompetenciánként, annál jobb lesz az eredmény. Amennyiben egyszerű kompetenciához nincs bejegyzés, a kompetencia megállapításához túl kevés információ áll rendelkezésre.
 assessment#:#locked#:#Zárolva
 assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális módosítása %d pontról %d pontra %s által
-assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg. Bemenet: '%s'
+assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
 assessment#:#log_create_new_test#:#Új teszt jött létre
 assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez

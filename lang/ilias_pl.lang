@@ -827,7 +827,7 @@ assessment#:#log_user_answered_question#:#Użytkownik odpowiedział na pytanie i
 assessment#:#log_user_entered_values#:#Wartość podana przez użytkownika
 assessment#:#log_user_not_entered_values#:#Użytkownik nie podał wartości
 assessment#:#log_user_solution_willingly_deleted#:#Użytkownik usunął swoją odpowiedź.
-assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu. Wprowadzona wartość: '%s'
+assessment#:#log_wrong_test_password_entered#:#Uczestnik wprowadził nieprawidłowe hasło do testu.
 assessment#:#longmenu#:#Rozszerzone menu
 assessment#:#longmenu_text#:#Tekst ‘Long Menu’
 assessment#:#mailnottype#:#Transmisja odbywa się również po zakończeniu poszczególnych przebiegów testu.

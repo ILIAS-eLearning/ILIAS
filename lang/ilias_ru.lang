@@ -827,7 +827,7 @@ assessment#:#log_user_answered_question#:#Пользователь ответи�
 assessment#:#log_user_entered_values#:#Пользователь ввел значения
 assessment#:#log_user_not_entered_values#:#Пользователь не ввел значений
 assessment#:#log_user_solution_willingly_deleted#:#Пользователь удалил свой ответ.
-assessment#:#log_wrong_test_password_entered#:#Участник ввел неправильный пароль к тесту. Введено: '%s'
+assessment#:#log_wrong_test_password_entered#:#Участник ввел неправильный пароль к тесту.
 assessment#:#longmenu#:#Длинное меню
 assessment#:#longmenu_text#:#Текст «Длинное меню»
 assessment#:#mailnottype#:#Отправлять уведомления, даже если пользователь заканчивает попытку
