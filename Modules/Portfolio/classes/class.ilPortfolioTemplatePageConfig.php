@@ -33,9 +33,10 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
             ilPCPlaceHolderGUI::TYPE_TEXT,
             ilPCPlaceHolderGUI::TYPE_MEDIA
         );
-        
-        if (!$ilSetting->get('disable_wsp_certificates')) {
-            $all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
+
+        $validator = new ilCertificateActiveValidator();
+        if (true === $validator->validate()) {
+             $all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
         }
         
         return $all;
