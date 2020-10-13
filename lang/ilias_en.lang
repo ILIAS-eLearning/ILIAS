@@ -13364,6 +13364,8 @@ awrn#:#awrn_incl_offline#:#Online and Offline
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.
 adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
 adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
