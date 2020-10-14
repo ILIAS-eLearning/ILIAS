@@ -800,7 +800,7 @@ Check how your project complies with our semantic structures:
 
 8.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1). Use [validator](https://validator.w3.org/) to verfiy, [this test case](https://testrail.ilias.de/index.php?/tests/view/44245) may be helpful.  
 9.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).  @Thomas: Ich brauche hier eine Sprungstelle auf das md zu den Roles.  @Michael: Ich brauche hier eine Sprungstelle zu den Headlines. 
-10.	Make the DOM order match the visual order (1.3.2). The screen reader will the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually on the top.
+10.	Make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually presented on the top.
 11.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
 ## Headings and Labels and Language (Überschrift ist unpassend) 
 12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not neccessarily concern developers and can be handled by language manintainer or editorial team. 
@@ -820,6 +820,5 @@ Please check if your project labels the GUI for all target groups:
 19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
 20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
 21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
-
 
 
