@@ -10191,6 +10191,7 @@ footer {
 .icon.wfe .abbreviation,
 .icon.iass .abbreviation,
 .icon.copa .abbreviation,
+.icon.cpad .abbreviation,
 .icon.lso .abbreviation,
 .icon.bgtk .abbreviation {
   display: none;
@@ -10512,6 +10513,9 @@ footer {
 }
 .icon.copa {
   background-image: url("images/icon_copa.svg");
+}
+.icon.cpad {
+  background-image: url("images/icon_cpad.svg");
 }
 .icon.lso {
   background-image: url("images/icon_lso.svg");
@@ -10875,6 +10879,9 @@ footer {
 }
 .icon.outlined.copa {
   background-image: url("images/outlined/icon_copa.svg");
+}
+.icon.outlined.cpad {
+  background-image: url("images/outlined/icon_cpad.svg");
 }
 .icon.outlined.lso {
   background-image: url("images/outlined/icon_lso.svg");

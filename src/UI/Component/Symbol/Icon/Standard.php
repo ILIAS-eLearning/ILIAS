@@ -115,6 +115,7 @@ interface Standard extends Icon
     const WFE = 'wfe';	//WorkflowEngine
     const IASS = 'iass';	//Individual Assessment
     const COPA = 'copa';	//Content Page
+    const CPAD = 'cpad';	//Content Page Admnistration
     const BGTK = 'bgtk';	//Background Task
     const MME = 'mme';	//Main Menu
     const PDFG = 'pdfg';	//PDF Generation

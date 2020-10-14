@@ -4480,3 +4480,8 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5681>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('cpad', 'ContentPageAdministration');
+?>
