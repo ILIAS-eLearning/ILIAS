@@ -4,57 +4,27 @@
 
 use ILIAS\Setup;
 
-class ilSetupMetricsCollectedObjective implements Setup\Objective
+class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    /**
-     * @var Setup\Metrics\Storage
-     */
-    protected $storage;
-
-    public function __construct(Setup\Metrics\Storage $storage)
-    {
-        $this->storage = $storage;
-    }
-
-    public function getHash() : string
-    {
-        return hash("sha256", self::class);
-    }
-
     public function getLabel() : string
     {
         return "Collect common metrics for the ILIAS installation.";
     }
 
-    public function isNotable() : bool
-    {
-        return true;
-    }
-
-    public function getPreconditions(Setup\Environment $environment) : array
+    public function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new ilIniFilesLoadedObjective()
         ];
     }
 
-    public function achieve(Setup\Environment $environment) : Setup\Environment
+    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $this->storage->storeStableBool(
+        $storage->storeStableBool(
             "is_installed",
             $ini !== null && $client_ini !== null
         );
-
-        return $environment;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isApplicable(Setup\Environment $environment) : bool
-    {
-        return true;
     }
 }
