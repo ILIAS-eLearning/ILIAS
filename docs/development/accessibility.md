@@ -789,7 +789,7 @@ Please manually check your project for tabbing and focus quaility:
 1.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
 2.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
 3.	Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) 
-4.	Tabbing order must be sensible and predictable. The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
+4.	Tabbing order must be sensible and predictable. The focus moves following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
 5.	If an element gains focus it must not
 	* transfer users to a different context automatically and without warning i.e. open a new window. 
 	* Carry out an action automatically i.e. submit a form after a save-button received focus. 
@@ -820,7 +820,6 @@ Please check if your project labels the GUI for all target groups:
 19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
 20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
 21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
-
 
 
 
