@@ -796,7 +796,7 @@ Please manually check your project for tabbing and focus quaility:
 6.      Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
 7.      Give users a submit-button to initiate change of context. 
 ## Structure 
-Check how your project complies to our semantic structures: 
+Check how your project complies with our semantic structures: 
 
 8.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1). Use [validator](https://validator.w3.org/) to verfiy, [this test case](https://testrail.ilias.de/index.php?/tests/view/44245) may be helpful.  
 9.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).  @Thomas: Ich brauche hier eine Sprungstelle auf das md zu den Roles.  @Michael: Ich brauche hier eine Sprungstelle zu den Headlines. 
@@ -820,7 +820,6 @@ Please check if your project labels the GUI for all target groups:
 19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
 20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
 21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
-
 
 
 
