@@ -803,7 +803,7 @@ Check how your project complies with our semantic structures:
 10.	Make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually presented on the top.
 11.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
 ## Headings and Labels and Language (Überschrift ist unpassend) 
-12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not neccessarily concern developers and can be handled by language manintainer or editorial team. 
+12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or  the editorial team. 
 14.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
 	* Provide text instructions describing the necessary input in a by-line to the field.
 	* Use aria-describedby property to provide information about a user interface element. 
@@ -820,5 +820,4 @@ Please check if your project labels the GUI for all target groups:
 19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
 20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
 21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
-
 
