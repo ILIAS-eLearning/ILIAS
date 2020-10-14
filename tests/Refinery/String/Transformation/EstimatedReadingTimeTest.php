@@ -4,7 +4,6 @@ namespace ILIAS\Tests\Refinery\String;
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\TestCase;
-require_once 'libs/composer/vendor/autoload.php';
 
 class EstimatedReadingTimeTest extends TestCase
 {
