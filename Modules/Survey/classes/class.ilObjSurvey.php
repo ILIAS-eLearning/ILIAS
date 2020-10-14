@@ -6167,14 +6167,13 @@ class ilObjSurvey extends ilObject
             $mail_obj = new ilMail(ANONYMOUS_USER_ID);
             $mail_obj->appendInstallationSignature(true);
             $log->debug("send mail to user id: " . $user_id . ",login: " . ilObjUser::_lookupLogin($user_id));
-            $mail_obj->sendMail(
+            $mail_obj->enqueue(
                 ilObjUser::_lookupLogin($user_id),
                 "",
                 "",
                 $subject,
                 $message,
-                array($att),
-                array("system")
+                array($att)
             );
         }
         
