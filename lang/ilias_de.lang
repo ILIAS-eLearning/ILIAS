@@ -1033,7 +1033,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurie
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
@@ -13366,6 +13366,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
+adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur Info Barrierefreit im Footer.
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen

@@ -1505,6 +1505,7 @@ class ilPageObjectGUI
                 
             // content snippets used
             include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
+            $this->getPageObject()->buildDom();
             $snippets = ilPCContentInclude::collectContentIncludes(
                 $this->getPageObject(),
                 $this->getPageObject()->getDomDoc()

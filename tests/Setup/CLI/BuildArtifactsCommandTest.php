@@ -16,7 +16,7 @@ class BuildArtifactsCommandTest extends TestCase
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
         $command = new Setup\CLI\BuildArtifactsCommand(function () use ($agent) {
             return $agent;
-        }, $config_reader, []);
+        });
 
         $tester = new CommandTester($command);
 

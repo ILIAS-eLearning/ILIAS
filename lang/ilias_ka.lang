@@ -12400,7 +12400,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable

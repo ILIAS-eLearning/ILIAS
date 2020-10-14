@@ -119,6 +119,7 @@ class ilAccessibilitySupportContactsGUI
         $ctrl = $DIC->ctrl();
         $user = $DIC->user();
         $http = $DIC->http();
+        $lng = $DIC->language();
 
 
         $users = ilAccessibilitySupportContacts::getValidSupportContactIds();
@@ -132,7 +133,7 @@ class ilAccessibilitySupportContactsGUI
                 $url = $request_scheme . '://'
                     . $http->request()->getServerParams()['HTTP_HOST']
                     . $http->request()->getServerParams()['REQUEST_URI'];
-                return "mailto:" . $mails . "?body=%0D%0A%0D%0AGemeldeter%20Link:%0D%0A" . rawurlencode($url);
+                return "mailto:" . $mails . "?body=%0D%0A%0D%0A" . $lng->txt("report_accessibility_link") . "%0D%0A" . rawurlencode($url);
             } else {
                 return $ctrl->getLinkTargetByClass("ilaccessibilitysupportcontactsgui", "");
             }
