@@ -534,12 +534,11 @@ class ilUserImportParser extends ilSaxParser
                         case "saml":
                         case "ldap":
                             if (strcmp('saml', $a_attribs['type']) === 0) {
-                                require_once './Services/Saml/classes/class.ilSamlIdp.php';
                                 $list = ilSamlIdp::getActiveIdpList();
-                                if (count($list) == 1) {
+                                if (count($list) === 1) {
                                     $this->auth_mode_set = true;
-                                    $ldap_id = current($list);
-                                    $this->userObj->setAuthMode('saml_' . $ldap_id);
+                                    $idp = current($list);
+                                    $this->userObj->setAuthMode('saml_' . $idp->getIdpId());
                                 }
                                 break;
                             }
@@ -673,9 +672,8 @@ class ilUserImportParser extends ilSaxParser
                         case "saml":
                         case "ldap":
                             if (strcmp('saml', $a_attribs['type']) === 0) {
-                                require_once './Services/Saml/classes/class.ilSamlIdp.php';
                                 $list = ilSamlIdp::getActiveIdpList();
-                                if (count($list) != 1) {
+                                if (count($list) !== 1) {
                                     $this->logFailure(
                                         $this->userObj->getImportId(),
                                         sprintf($lng->txt("usrimport_xml_attribute_value_illegal"), "AuthMode", "type", $a_attribs['type'])
