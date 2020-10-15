@@ -161,7 +161,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
                 $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
-            //$solutionvalue = join($this->object->getOrderingElements(), " ");
         }
 
         if (($active_id > 0) && (!$show_correct_solution)) {
