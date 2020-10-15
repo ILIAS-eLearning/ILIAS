@@ -9256,6 +9256,9 @@ footer {
 .il-maincontrols-slate .link-bulky .icon {
   margin-top: 3px;
   margin-right: 5px;
+}
+.il-maincontrols-slate .btn-bulky .icon.outlined,
+.il-maincontrols-slate .link-bulky .icon.outlined {
   filter: invert(50%);
 }
 .il-maincontrols-slate .btn-bulky .icon.small,

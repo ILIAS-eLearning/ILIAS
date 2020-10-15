@@ -76,7 +76,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
 
-        $p = $this;
         $entries[] = $this->mainmenu
             ->complex($this->if->identifier('last_visited'))
             ->withTitle($this->dic->language()->txt('last_visited'))
@@ -85,8 +84,10 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
-            ->withContentWrapper(function () use ($p) {
-                return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
+            ->withContentWrapper(function () {
+                $history_list = new \ilNavigationHistoryListMenuGUI();
+
+                return $this->dic->ui()->factory()->legacy($history_list->render());
             });
 
 
