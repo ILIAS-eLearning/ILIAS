@@ -21,15 +21,10 @@ class ilFavouritesListMenuGUI extends ilFavouritesListGUI
         $this->ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
         $this->ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
         $this->ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
-        $items[] = $this->ui->factory()->link()->bulky(
-            $this->ui->factory()->symbol()->icon()->standard('adm',$this->lng->txt("rep_configure")),
+        $items[] = $this->ui->factory()->button()->bulky(
+            $this->ui->factory()->symbol()->icon()->standard('adm',$this->lng->txt("rep_configure"))->withIsOutlined(true),
             $this->lng->txt("rep_configure"),
-            new URI(ilUtil::_getHttpPath() . '/' .
-                $this->ctrl->getLinkTargetByClass(
-                    ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-                    "manage"
-                )
-            )
+            $this->ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"], "manage")
         );
         foreach ($this->block_view->getItemGroups() as $group) {
             foreach ($group->getItems() as $item) {
