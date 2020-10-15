@@ -156,4 +156,54 @@ METRIC;
 
         $this->assertEquals($expected, $metrics->toYAML());
     }
+
+    public function testExtractBySeverity()
+    {
+        $metrics = new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+            "a" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                "h" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "a_h"),
+                "c" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                    "d" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                        "e" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_c_d_e"),
+                        "f" => new M(M::STABILITY_VOLATILE, M::TYPE_TEXT, "a_c_d_f")
+                    ]),
+                    "g" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "a_c_g")
+                ]),
+                "i" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_i\na_i")
+            ]),
+            "b" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                "j" => new M(M::STABILITY_VOLATILE, M::TYPE_TEXT, "b_j")
+            ]),
+            "k" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "k")
+        ]);
+
+        $expected_extracted = new M(M::STABILITY_CONFIG, M::TYPE_COLLECTION, [
+            "a" => new M(M::STABILITY_CONFIG, M::TYPE_COLLECTION, [
+                "h" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "a_h"),
+                "c" => new M(M::STABILITY_CONFIG, M::TYPE_COLLECTION, [
+                    "g" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "a_c_g")
+                ]),
+            ]),
+            "k" => new M(M::STABILITY_CONFIG, M::TYPE_TEXT, "k")
+        ]);
+        $expected_rest = new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+            "a" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                "c" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                    "d" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                        "e" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_c_d_e"),
+                        "f" => new M(M::STABILITY_VOLATILE, M::TYPE_TEXT, "a_c_d_f")
+                    ])
+                ]),
+                "i" => new M(M::STABILITY_STABLE, M::TYPE_TEXT, "a_i\na_i")
+            ]),
+            "b" => new M(M::STABILITY_MIXED, M::TYPE_COLLECTION, [
+                "j" => new M(M::STABILITY_VOLATILE, M::TYPE_TEXT, "b_j")
+            ])
+        ]);
+
+        list($extracted, $rest) = $metrics->extractByStability(M::STABILITY_CONFIG);
+
+        $this->assertEquals($expected_extracted, $extracted);
+        $this->assertEquals($expected_rest, $rest);
+    }
 }

@@ -58,6 +58,18 @@ class StatusCommand extends Command
         $this->achieveObjective($objective, $environment);
 
         $metric = $storage->asMetric();
+        list($config, $other) = $metric->extractByStability(Metrics\Metric::STABILITY_CONFIG);
+        if ($other) {
+            $values = $other->getValue();
+        } else {
+            $values = [];
+        }
+        $values["config"] = $config;
+        $metric = new Metrics\Metric(
+            Metrics\Metric::STABILITY_MIXED,
+            Metrics\Metric::TYPE_COLLECTION,
+            $values
+        );
 
         $output->write($metric->toYAML() . "\n");
     }
