@@ -90,7 +90,7 @@
 	"extra": {
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",
-			"used_version" : "v1.0",
+			"used_version" : "v1.7",
 			"wrapped_by" : "",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
 			"last_update" : "2020-10-15",
