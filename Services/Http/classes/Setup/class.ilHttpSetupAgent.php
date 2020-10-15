@@ -90,6 +90,6 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilHttpMetricsCollectedObjective($storage);
     }
 }

@@ -24,7 +24,16 @@ class ilSetupMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $storage->storeStableBool(
             "is_installed",
-            $ini !== null && $client_ini !== null
+            $ini !== null && $client_ini !== null,
+            "Are there any indications an installation was performed?"
         );
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        if ($client_id) {
+            $storage->storeConfigText(
+                "client_id",
+                $client_id,
+                "Id of the ILIAS client."
+            );
+        }
     }
 }

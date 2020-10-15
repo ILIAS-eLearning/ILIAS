@@ -494,7 +494,7 @@ class ilSetupLanguage extends ilLanguage
     * @param    string  	maximum change date "yyyy-mm-dd hh:mm:ss"
     * @return   array       [module][identifier] => value
     */
-    protected function getLocalChanges($a_lang_key, $a_min_date = "", $a_max_date = "")
+    public function getLocalChanges($a_lang_key, $a_min_date = "", $a_max_date = "")
     {
         $ilDB = $this->db;
         
