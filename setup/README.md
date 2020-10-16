@@ -5,6 +5,7 @@ commands to manage ILIAS installations:
 
 * `install` will [set an installation up](#install-ilias)
 * `update` will [update an installation](#update-ilias)
+* `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
 * `reload-control-structure` [rebuilds structure information](#build-ilias-artifacts) of an installation
 
@@ -48,13 +49,28 @@ configs without secrets.
 
 To update ILIAS from the command line, call `php setup/setup.php update config.json`
 from within your ILIAS folder. This will update the configuration of ILIAS according
-to the provided configuration as well as update the database of the installation.
+to the provided configuration as well as update the database of the installation or
+do other necessary task for the update. This does not update the source code.
 
 Sometimes it might happen that the database update steps detect some edge case
 or warn about a possible loss of data. In this case the update is aborted with
 a message and can be resumed after the messages was read carefully and acted
 upon. You may use the `--ignore-db-update-messages` at your own risk if you want
 to silence the messages.
+
+
+## Report Status of ILIAS
+
+Via `php setup/setup.php status` you can get a status of your ILIAS instalaltion.
+The command uses a best effort approach, so according to the status of your
+system the output might contain more or less fields. When calling this for an
+system where ILIAS was not installed, for example, the output only contains the
+information that ilias is not installed. The command also reports on the configuration
+of the installation.
+
+The output of the command is formatted as YAML to be easily readable by people and
+machines. So we encourage you to use this command for monitoring your system and
+also request status information via our feature process that you are interested in.
 
 
 ## Build ILIAS Artifacts
