@@ -128,6 +128,32 @@ interface Standard extends Icon
     const CMIS = 'cmis';	//xAPI/cmi5
     const REP = 'rep';	//Repository
     const TASK = 'task';   //Task
+    const PEAC = 'peac';    //Page Editor Accordion
+    const PEADL = 'peadl';   //Page Editor Advanced List
+    const PEADT = 'peadt';   //Page Editor Advanced Tables
+    const PECD = 'pecd';     //Page Editor Code
+    const PECH = 'pech';     //Page Editor Consultation Hour
+    const PECL = 'pecl';     //Page Editor Column Layout
+    const PECLP = 'peclp';   //Page Editor Clipboard
+    const PECOM = 'pecom';   //Page Editor Competence
+    const PECRS = 'pecrs';   //Page Editor Course
+    const PECRT = 'pecrt';   //Page Editor Certificate
+    const PECS = 'pecs';     //Page Editor Content Snippet
+    const PEDT = 'pedt';     //Page Editor Data Table
+    const PEFL = 'pefl';     //Page Editor File List
+    const PEIM = 'peim';     //Page Editor Interactive Media
+    const PELH = 'pelh';     //Page Editor Learning History
+    const PEMED = 'pemed';   //Page Editor Media
+    const PEMP = 'pemp';     //Page Editor Map
+    const PEPD = 'pepd';     //Page Editor Personal Data
+    const PEPE = 'pepe';     //Page Editor Plugin Element
+    const PEPL = 'pepl';     //Page Editor Page List
+    const PEPLH = 'peplh';   //Page Editor Placeholder
+    const PEQU = 'pequ';     //Page Editor Question
+    const PERL = 'perl';     //Page Editor Ressource List
+    const PESC = 'pesc';     //Page Editor Section
+    const PETMP = 'petmp';   //Page Editor Template
+    const PEUSR = 'peusr';   //Page Editor User
 
     /**
      * Is this an outlined Icon?

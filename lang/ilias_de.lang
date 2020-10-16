@@ -7004,7 +7004,7 @@ mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technischer Absender
 mail#:#mail_system_sys_signature#:#Signatur
 mail#:#mail_use_global_reply_to_addr#:#Globale Reply-To-Adresse nutzen
-mail#:#mail_use_global_reply_to_addr_info#:#Falls aktiviert, wird die unten eingetragene globale E-Mail-Adresse für den 'Reply-To'-Header der E-Mail genutzt. Somit wird die E-Mail-Adresse eines Senders nicht offengelegt. Eine direkte Antwort auf eine E-Mail ist dann nicht mehr möglich. 
+mail#:#mail_use_global_reply_to_addr_info#:#Falls aktiviert, wird die unten eingetragene globale E-Mail-Adresse für den 'Reply-To'-Header der E-Mail genutzt. Somit wird die E-Mail-Adresse eines Senders nicht offengelegt. Eine direkte Antwort auf eine E-Mail ist dann nicht mehr möglich.
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Bitte tragen Sie hier die gewünschte 'Reply-To'-E-Mail-Adresse ein.
 mail#:#mail_s#:#Mails
@@ -16249,3 +16249,29 @@ lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 common#:#back_to_course#:#Zurück zum Kurs
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Lokal
+common#:#obj_peac#:#Akkordeon
+common#:#obj_peadl#:#Erweiterte Liste
+common#:#obj_peadt#:#Erweiterte Tabelle
+common#:#obj_pecd#:#Code
+common#:#obj_pech#:#Sprechstunde
+common#:#obj_pecl#:#Spaltenlayout
+common#:#obj_peclp#:#Zwischenablage
+common#:#obj_pecom#:#Kompetenz
+common#:#obj_pecrs#:#Kurs
+common#:#obj_pecrt#:#Zertifikat
+common#:#obj_pecs#:#Inhaltsbaustein
+common#:#obj_pedt#:#Datentabelle
+common#:#obj_pefl#:#Dateiliste
+common#:#obj_peim#:#Interaktives Bild
+common#:#obj_pelh#:#Lernverlauf
+common#:#obj_pemed#:#Bild/Audio/Video
+common#:#obj_pemp#:#Karte
+common#:#obj_pepd#:#Persönliche Daten
+common#:#obj_pepe#:#Plugin Element
+common#:#obj_pepl#:#Seitenliste
+common#:#obj_peplh#:#Platzhalter
+common#:#obj_pequ#:#Frage
+common#:#obj_perl#:#Materalienliste
+common#:#obj_pesc#:#Block
+common#:#obj_petmp#:#Seitenvorlage
+common#:#obj_peusr#:#Benutzer

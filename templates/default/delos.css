@@ -10366,7 +10366,33 @@ footer {
 .icon.copa .abbreviation,
 .icon.cpad .abbreviation,
 .icon.lso .abbreviation,
-.icon.bgtk .abbreviation {
+.icon.bgtk .abbreviation,
+.icon.peac .abbreviation,
+.icon.peadl .abbreviation,
+.icon.peadt .abbreviation,
+.icon.pecd .abbreviation,
+.icon.pech .abbreviation,
+.icon.pecl .abbreviation,
+.icon.peclp .abbreviation,
+.icon.pecom .abbreviation,
+.icon.pecrs .abbreviation,
+.icon.pecrt .abbreviation,
+.icon.pecs .abbreviation,
+.icon.pedt .abbreviation,
+.icon.pefl .abbreviation,
+.icon.peim .abbreviation,
+.icon.pelh .abbreviation,
+.icon.pemed .abbreviation,
+.icon.pemp .abbreviation,
+.icon.pepd .abbreviation,
+.icon.pepe .abbreviation,
+.icon.pepl .abbreviation,
+.icon.peplh .abbreviation,
+.icon.pequ .abbreviation,
+.icon.perl .abbreviation,
+.icon.pesc .abbreviation,
+.icon.petmp .abbreviation,
+.icon.peusr .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -10728,6 +10754,84 @@ footer {
 }
 .icon.rep {
   background-image: url("images/icon_rep.svg");
+}
+.icon.peac {
+  background-image: url("images/icon_peac.svg");
+}
+.icon.peadl {
+  background-image: url("images/icon_peadl.svg");
+}
+.icon.peadt {
+  background-image: url("images/icon_peadt.svg");
+}
+.icon.pecd {
+  background-image: url("images/icon_pecd.svg");
+}
+.icon.pech {
+  background-image: url("images/icon_pech.svg");
+}
+.icon.pecl {
+  background-image: url("images/icon_pecl.svg");
+}
+.icon.peclp {
+  background-image: url("images/icon_peclp.svg");
+}
+.icon.pecom {
+  background-image: url("images/icon_pecom.svg");
+}
+.icon.pecrs {
+  background-image: url("images/icon_pecrs.svg");
+}
+.icon.pecrt {
+  background-image: url("images/icon_pecrt.svg");
+}
+.icon.pecs {
+  background-image: url("images/icon_pecs.svg");
+}
+.icon.pedt {
+  background-image: url("images/icon_pedt.svg");
+}
+.icon.pefl {
+  background-image: url("images/icon_pefl.svg");
+}
+.icon.peim {
+  background-image: url("images/icon_peim.svg");
+}
+.icon.pelh {
+  background-image: url("images/icon_pelh.svg");
+}
+.icon.pemed {
+  background-image: url("images/icon_pemed.svg");
+}
+.icon.pemp {
+  background-image: url("images/icon_pemp.svg");
+}
+.icon.pepd {
+  background-image: url("images/icon_pepd.svg");
+}
+.icon.pepe {
+  background-image: url("images/icon_pepe.svg");
+}
+.icon.pepl {
+  background-image: url("images/icon_pepl.svg");
+}
+.icon.peplh {
+  background-image: url("images/icon_peplh.svg");
+}
+.icon.pequ {
+  background-image: url("images/icon_pequ.svg");
+}
+.icon.perl {
+  background-image: url("images/icon_perl.svg");
+}
+.icon.pesc {
+  background-image: url("images/icon_pesc.svg");
+}
+.icon.petmp {
+  background-image: url("images/icon_petmp.svg");
+}
+.icon.peusr {
+  background-image: url("images/icon_peusr.svg");
 }
 .icon.outlined {
   filter: brightness(0);
@@ -11094,6 +11198,84 @@ footer {
 }
 .icon.outlined.rep {
   background-image: url("images/outlined/icon_rep.svg");
+}
+.icon.outlined.peac {
+  background-image: url("images/outlined/icon_peac.svg");
+}
+.icon.outlined.peadl {
+  background-image: url("images/outlined/icon_peadl.svg");
+}
+.icon.outlined.peadt {
+  background-image: url("images/outlined/icon_peadt.svg");
+}
+.icon.outlined.pecd {
+  background-image: url("images/outlined/icon_pecd.svg");
+}
+.icon.outlined.pech {
+  background-image: url("images/outlined/icon_pech.svg");
+}
+.icon.outlined.pecl {
+  background-image: url("images/outlined/icon_pecl.svg");
+}
+.icon.outlined.peclp {
+  background-image: url("images/outlined/icon_peclp.svg");
+}
+.icon.outlined.pecom {
+  background-image: url("images/outlined/icon_pecom.svg");
+}
+.icon.outlined.pecrs {
+  background-image: url("images/outlined/icon_pecrs.svg");
+}
+.icon.outlined.pecrt {
+  background-image: url("images/outlined/icon_pecrt.svg");
+}
+.icon.outlined.pecs {
+  background-image: url("images/outlined/icon_pecs.svg");
+}
+.icon.outlined.pedt {
+  background-image: url("images/outlined/icon_pedt.svg");
+}
+.icon.outlined.pefl {
+  background-image: url("images/outlined/icon_pefl.svg");
+}
+.icon.outlined.peim {
+  background-image: url("images/outlined/icon_peim.svg");
+}
+.icon.outlined.pelh {
+  background-image: url("images/outlined/icon_pelh.svg");
+}
+.icon.outlined.pemed {
+  background-image: url("images/outlined/icon_pemed.svg");
+}
+.icon.outlined.pemp {
+  background-image: url("images/outlined/icon_pemp.svg");
+}
+.icon.outlined.pepd {
+  background-image: url("images/outlined/icon_pepd.svg");
+}
+.icon.outlined.pepe {
+  background-image: url("images/outlined/icon_pepe.svg");
+}
+.icon.outlined.pepl {
+  background-image: url("images/outlined/icon_pepl.svg");
+}
+.icon.outlined.peplh {
+  background-image: url("images/outlined/icon_peplh.svg");
+}
+.icon.outlined.pequ {
+  background-image: url("images/outlined/icon_pequ.svg");
+}
+.icon.outlined.perl {
+  background-image: url("images/outlined/icon_perl.svg");
+}
+.icon.outlined.pesc {
+  background-image: url("images/outlined/icon_pesc.svg");
+}
+.icon.outlined.petmp {
+  background-image: url("images/outlined/icon_petmp.svg");
+}
+.icon.outlined.peusr {
+  background-image: url("images/outlined/icon_peusr.svg");
 }
 .glyph {
   color: #557196;
