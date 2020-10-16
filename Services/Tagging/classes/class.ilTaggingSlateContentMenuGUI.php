@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Data\URI;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Tagging slate UI
@@ -16,6 +18,7 @@ class ilTaggingSlateContentMenuGUI extends ilTaggingSlateContentGUI
      *
      * @param
      * @return string
+     * @throws ResponseSendingException
      */
     protected function showResourcesForTag()
     {
@@ -52,7 +55,10 @@ class ilTaggingSlateContentMenuGUI extends ilTaggingSlateContentGUI
             }
         }
 
-        echo $this->ui->renderer()->renderAsync($items);
-        exit;
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($this->ui->renderer()->renderAsync($items))
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 }
