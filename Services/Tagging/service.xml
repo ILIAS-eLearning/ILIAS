@@ -3,6 +3,7 @@
 	id="tag">
 	<baseclasses>
 		<baseclass name="ilTaggingSlateContentGUI" dir="classes" />
+		<baseclass name="ilTaggingSlateContentMenuGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="tags" class_name="TaggingSettings" dir="classes"
