@@ -136,7 +136,7 @@ class ilCertificateCron extends \ilCronJob
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      * @throws ilDatabaseException
      */
     public function run()

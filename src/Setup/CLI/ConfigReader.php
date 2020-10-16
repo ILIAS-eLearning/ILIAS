@@ -60,7 +60,7 @@ class ConfigReader
                 return $value;
             }
             $cur = array_shift($path);
-            $subject[$cur] = $replacer($subject[$cur], $path, $value);
+            $subject[$cur] = $replacer($subject[$cur] ?? [], $path, $value);
             return $subject;
         };
 

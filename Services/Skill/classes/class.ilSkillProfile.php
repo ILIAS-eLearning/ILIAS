@@ -19,6 +19,11 @@ class ilSkillProfile implements ilSkillUsageInfo
      */
     protected $lng;
 
+    /**
+     * @var ilRbacReview
+     */
+    protected $review;
+
     protected $id;
     protected $title;
     protected $description;
@@ -35,6 +40,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
+        $this->review = $DIC->rbac()->review();
         if ($a_id > 0) {
             $this->setId($a_id);
             $this->read();
@@ -262,12 +268,26 @@ class ilSkillProfile implements ilSkillUsageInfo
     public function delete()
     {
         $ilDB = $this->db;
+
+        // TODO: Split the deletions when refactoring to repository pattern
         
         // profile levels
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
             );
+
+        // profile users
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_user WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
+
+        // profile roles
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_role WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
         
         // profile
         $ilDB->manipulate(
@@ -567,6 +587,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         $ilDB = $this->db;
         $lng = $this->lng;
+        $review = $this->review;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_role " .
@@ -574,14 +595,23 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $roles = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $name = ilObjRole::_lookupTitle($rec["role_id"]);
+            $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
+            // get object of role
+            $obj = ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
+            // get title of object if course or group
+            if (ilObject::_lookupType($obj) == "crs" || ilObject::_lookupType($obj) == "grp") {
+                $obj_title = ilObject::_lookupTitle($obj);
+            }
+
             $roles[$rec["role_id"]] = array(
                 "type" => $type,
                 "name" => $name,
-                "id" => $rec["role_id"]
+                "id" => $rec["role_id"],
+                "object" => $obj_title
             );
         }
+
         return $roles;
     }
 

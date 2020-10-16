@@ -31,7 +31,7 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentCriteriaEvaluation
     {

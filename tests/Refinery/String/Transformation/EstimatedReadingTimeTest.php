@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 namespace ILIAS\Tests\Refinery\String;
 
 use ILIAS\Refinery\Factory;
@@ -14,7 +13,7 @@ EOT;
     const HTML = <<<EOT
 <div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
 EOT;
-    
+
     /** @var Factory */
     private $refinery;
     
@@ -60,9 +59,6 @@ EOT;
         $readingTimeTrafo->transform($from);
     }
 
-    /**
-     *
-     */
     public function testReadingTimeForPlainText() : void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
@@ -72,9 +68,6 @@ EOT;
         );
     }
 
-    /**
-     *
-     */
     public function testReadingTimeForHtmlFragment() : void
     {
         $text = self::HTML;
@@ -92,10 +85,7 @@ EOT;
         );
     }
 
-    /**
-     *
-     */
-    public function testSolitaryPunctuationCharactersMustNotEffectReadingTime() : void
+    public function testSolitaryPunctuationCharactersMustNotAffectReadingTime() : void
     {
         $textSegmentWithPunctuation = 'Lorem ipsum <img src="#" />, and some other text... ';
         $repetitions = 300; // 275 repetitions result in an additional minute, if the `,` would be considered
@@ -112,5 +102,20 @@ EOT;
 
         $timeInMinutes = $readingTimeTrafo->transform($text);
         $this->assertEquals(23, $timeInMinutes);
+    }
+
+    public function testXTHMLCommentsMustNotAffectReadingTime() : void
+    {
+        $text = self::HTML;
+
+        $comment = '<script><!--a comment--></script>';
+        $repetitions = 300;
+        $text = $text . str_repeat($comment, $repetitions);
+
+        $onlyTextReadingTimeInfo = $this->refinery->string()->estimatedReadingTime();
+        $this->assertEquals(
+            1,
+            $onlyTextReadingTimeInfo->transform($text)
+        );
     }
 }

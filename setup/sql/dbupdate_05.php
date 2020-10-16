@@ -4476,3 +4476,7 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
     $ilDB->addIndex('il_object_subobj', array('subobj'), 'i1');
 }
 ?>
+<#5680>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

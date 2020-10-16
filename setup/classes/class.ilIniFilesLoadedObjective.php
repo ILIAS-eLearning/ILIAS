@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilIniFilesLoadedObjective extends ilSetupObjective
+class ilIniFilesLoadedObjective implements Setup\Objective
 {
     public function getHash() : string
     {
@@ -23,20 +23,36 @@ class ilIniFilesLoadedObjective extends ilSetupObjective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        return [];
+        return [
+            new ClientIdReadObjective()
+        ];
     }
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $path = dirname(__DIR__, 2) . "/ilias.ini.php";
-        $ini = new ilIniFile($path);
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        if ($client_id === null) {
+            throw new Setup\UnachievableException(
+                "To initialize the ini-files, we need a client id, but it does not " .
+                "exist in the environment."
+            );
+        }
 
-        $path = $this->getClientDir() . "/client.ini.php";
-        $client_ini = new ilIniFile($path);
+        if ($environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI) == null) {
+            $path = dirname(__DIR__, 2) . "/ilias.ini.php";
+            $ini = new ilIniFile($path);
+            $environment = $environment
+                ->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini);
+        }
 
-        return $environment
-            ->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini)
-            ->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
+        if ($environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI) == null) {
+            $path = $this->getClientDir() . "/client.ini.php";
+            $client_ini = new ilIniFile($path);
+            $environment = $environment
+                ->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
+        }
+
+        return $environment;
     }
 
     /**
@@ -50,8 +66,8 @@ class ilIniFilesLoadedObjective extends ilSetupObjective
         return is_null($ini) || is_null($client_ini);
     }
 
-    protected function getClientDir() : string
+    protected function getClientDir($client_id) : string
     {
-        return dirname(__DIR__, 2) . "/data/" . $this->config->getClientId();
+        return dirname(__DIR__, 2) . "/data/$client_id";
     }
 }

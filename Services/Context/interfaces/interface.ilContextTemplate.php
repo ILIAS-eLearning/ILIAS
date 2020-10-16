@@ -76,4 +76,12 @@ interface ilContextTemplate
      * @return bool
      */
     public static function isSessionMainContext();
+
+    /**
+     * A context might modify the ILIAS http path
+     * @see \ilInitialisation::buildHTTPPath 
+     * @param string $httpPath
+     * @return string
+     */
+    public static function modifyHttpPath(string $httpPath) : string;
 }

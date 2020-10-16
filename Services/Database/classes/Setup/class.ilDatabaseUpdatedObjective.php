@@ -45,13 +45,14 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         if (!$this->populate_before) {
             return [
-                new \ilIniFilesLoadedObjective($common_config),
+                new \ilIniFilesLoadedObjective(),
                 new \ilDatabaseExistsObjective($this->config)
             ];
         }
+
+        $common_config = $environment->getConfigFor("common");
         return [
             new \ilIniFilesPopulatedObjective($common_config),
             new \ilDatabasePopulatedObjective($this->config)

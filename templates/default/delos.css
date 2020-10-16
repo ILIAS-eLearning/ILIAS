@@ -7621,13 +7621,14 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item:after {
   clear: both;
 }
-.il-item h5 {
+.il-item h4 {
+  padding-top: 0;
   margin: 0;
   font-size: 14px;
   float: left;
 }
-.il-item h5 .btn-link,
-.il-item h5 a {
+.il-item h4 .btn-link,
+.il-item h4 a {
   font-size: inherit;
   line-height: 1.42857143;
 }
@@ -9357,7 +9358,6 @@ footer {
 .il-maincontrols-slate-content h1,
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
-.il-maincontrols-slate-content h4,
 .il-maincontrols-slate-content li {
   padding: 10px 20px;
 }
