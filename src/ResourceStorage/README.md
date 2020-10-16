@@ -131,6 +131,40 @@ $identification = $DIC['resource_storage']->upload($upload_result, $stakeholder)
 
 ```
 
+Suppose we already have a file stored in the Storage Service and would download it in our component. We had stored the identification, with which a corresponding consumer can now be obtained to download the file.
+
+```php
+<?php
+// ...
+global $DIC;
+$rid_string = $this->getMyResourceIDasString(); // we get the stored ID of the resource
+
+$identification  = $DIC['resource_storage']->manage()->find($rid_string);
+if (null !== $identification) {
+    $DIC['resource_storage']->consume()->download($identification)->run();
+} else {
+    // there is no such resource in the storage service
+}
+```
+Adding a new revision is as simple as that:
+
+```php
+<?php
+// ...
+global $DIC;
+$rid_string = $this->getMyResourceIDasString(); // we get the stored ID of the resource
+
+$identification  = $DIC['resource_storage']->manage()->find($rid_string);
+$upload_result = $DIC['upload']->getResults()['my_uploaded_file'];
+$stakeholder = new ilMyComponentResourceStakeholder();
+
+if (null !== $identification) {
+    $DIC['resource_storage']->manage()->appendNewVersion($identification, $upload_result, $stakeholder);
+} else {
+    // there is no such resource in the storage service
+}
+```
+
 # Other (involved) Services
 
 - UploadService, see [here](../FileUpload/README.md)
