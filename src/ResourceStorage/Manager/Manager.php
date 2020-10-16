@@ -61,14 +61,30 @@ class Manager
         return null;
     }
 
-    public function getRevision(ResourceIdentification $identification) : Revision
-    {
-        return $this->resource_builder->get($identification)->getCurrentRevision();
-    }
-
     public function remove(ResourceIdentification $identification) : void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification));
+    }
+
+    public function appendNewVersion(ResourceIdentification $identification, UploadResult $result, ResourceStakeholder $stakeholder) : StorableResource
+    {
+        if ($result->isOK()) {
+            if (!$this->resource_builder->has($identification)) {
+                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            }
+
+            $resource = $this->resource_builder->get($identification);
+            $revision = $this->resource_builder->append($resource, $result);
+            $this->resource_builder->store($resource);
+
+            return $revision;
+        }
+        throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
+    }
+
+    public function getRevision(ResourceIdentification $identification) : Revision
+    {
+        return $this->resource_builder->get($identification)->getCurrentRevision();
     }
 
     /**

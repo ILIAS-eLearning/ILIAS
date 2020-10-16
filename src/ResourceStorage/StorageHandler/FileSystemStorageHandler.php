@@ -30,15 +30,21 @@ class FileSystemStorageHandler implements StorageHandler
      * @var UniqueIDIdentificationGenerator
      */
     private $id;
+    /**
+     * @var int
+     */
+    private $location;
 
     /**
      * FileSystemStorageHandler constructor.
      * @param Filesystem $filesystem
+     * @param int        $location
      */
-    public function __construct(Filesystem $filesystem)
+    public function __construct(Filesystem $filesystem, int $location = Location::STORAGE)
     {
-        $this->fs = $filesystem;
-        $this->id = new UniqueIDIdentificationGenerator();
+        $this->fs       = $filesystem;
+        $this->location = $location;
+        $this->id       = new UniqueIDIdentificationGenerator();
     }
 
     /**
@@ -74,7 +80,7 @@ class FileSystemStorageHandler implements StorageHandler
     {
         global $DIC;
 
-        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), Location::STORAGE, self::DATA);
+        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location, self::DATA);
 
         return true;
     }

@@ -14,9 +14,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
  * Class ResourceBuilder
- *
  * @internal
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ResourceBuilder
@@ -39,10 +37,8 @@ class ResourceBuilder
      */
     private $storage_handler;
 
-
     /**
      * ResourceBuilder constructor.
-     *
      * @param StorageHandler        $storage_handler
      * @param RevisionRepository    $revision_repository
      * @param ResourceRepository    $resource_repository
@@ -50,12 +46,11 @@ class ResourceBuilder
      */
     public function __construct(StorageHandler $storage_handler, RevisionRepository $revision_repository, ResourceRepository $resource_repository, InformationRepository $information_repository)
     {
-        $this->storage_handler = $storage_handler;
-        $this->revision_repository = $revision_repository;
-        $this->resource_repository = $resource_repository;
+        $this->storage_handler        = $storage_handler;
+        $this->revision_repository    = $revision_repository;
+        $this->resource_repository    = $resource_repository;
         $this->information_repository = $information_repository;
     }
-
 
     /**
      * @inheritDoc
@@ -63,6 +58,15 @@ class ResourceBuilder
     public function new(UploadResult $result) : StorableResource
     {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+
+        return $this->append($resource, $result);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function append(StorableResource $resource, UploadResult $result) : StorableResource
+    {
         $revision = $this->revision_repository->blank($resource, $result);
 
         $info = $revision->getInformation();
@@ -78,12 +82,10 @@ class ResourceBuilder
         return $resource;
     }
 
-
     public function has(ResourceIdentification $identification) : bool
     {
-        return $this->resource_repository->has($identification);
+        return $this->resource_repository->has($identification) && $this->storage_handler->has($identification);
     }
-
 
     /**
      * @param StorableResource $resource
@@ -101,7 +103,6 @@ class ResourceBuilder
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -112,10 +113,8 @@ class ResourceBuilder
         return $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
     }
 
-
     /**
      * @param StorableResource $resource
-     *
      * @return StorableResource
      */
     private function populateNakedResourceWithRevisionsAndStakeholders(StorableResource $resource) : StorableResource
@@ -131,7 +130,6 @@ class ResourceBuilder
         return $resource;
     }
 
-
     /**
      * @param StorableResource $resource
      */
@@ -144,7 +142,6 @@ class ResourceBuilder
         $this->storage_handler->deleteResource($resource);
         $this->resource_repository->delete($resource);
     }
-
 
     /**
      * @return Generator
