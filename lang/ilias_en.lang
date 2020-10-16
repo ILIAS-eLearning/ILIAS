@@ -8056,7 +8056,7 @@ mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_signature#:#Signature
 mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To
-mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore. 
+mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 content#:#glo_quick_navigation#:#Quick Navigation
@@ -16194,3 +16194,29 @@ survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#mainbar_more_label#:#More
+common#:#obj_peac#:#Accordion
+common#:#obj_peadl#:#Advanced List
+common#:#obj_peadt#:#Advanced Table
+common#:#obj_pecd#:#Code
+common#:#obj_pech#:#Consultation Hour
+common#:#obj_pecl#:#Column Layout
+common#:#obj_peclp#:#Clipboard
+common#:#obj_pecom#:#Competences
+common#:#obj_pecrs#:#Course
+common#:#obj_pecrt#:#Certificate
+common#:#obj_pecs#:#Content Snippet
+common#:#obj_pedt#:#Data Table
+common#:#obj_pefl#:#File List
+common#:#obj_peim#:#interactive Media
+common#:#obj_pelh#:#Learning History
+common#:#obj_pemed#:#Image/Audio/Video
+common#:#obj_pemp#:#Map
+common#:#obj_pepd#:#Personal Data
+common#:#obj_pepe#:#Plugin Element
+common#:#obj_pepl#:#Page List
+common#:#obj_peplh#:#Placeholder
+common#:#obj_pequ#:#Questions
+common#:#obj_perl#:#Ressource List
+common#:#obj_pesc#:#Section
+common#:#obj_petmp#:#Page Template
+common#:#obj_peusr#:#User
