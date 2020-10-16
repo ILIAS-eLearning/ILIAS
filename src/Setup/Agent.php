@@ -61,8 +61,12 @@ interface Agent
     public function getBuildArtifactObjective() : Objective;
 
     /**
-     * Get the objective to collect metrics about the component the agent belongs
-     * to.
+     * Get the objective to be achieved when status is requested.
+     *
+     * Make sure that this runs in a reasonable time and also uses a reasonable
+     * amount of ressources, since the command fed by this objective is meant to
+     * be called by monitoring systems in short intervalls. So no expansive queries,
+     * complicated calculations or long lasting network requests.
      *
      * This is supposed to inform about any kind of metrics regarding the component.
      */
