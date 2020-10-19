@@ -4485,3 +4485,37 @@ $ilCtrlStructureReader->getStructure();
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::addAdminNode('cpad', 'ContentPageAdministration');
 ?>
+<#5682>
+<?php
+if (!$ilDB->tableExists('content_page_metrics')) {
+    $fields = [
+        'content_page_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0,
+        ],
+        'page_id' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 4,
+            'default' => 0,
+        ],
+        'lang' => [
+            'type' => 'text',
+            'notnull' => true,
+            'length' => 2,
+            'default' => '-',
+        ],
+        'reading_time' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 2,
+            'default' => 0,
+        ]
+    ];
+
+    $ilDB->createTable('content_page_metrics', $fields);
+    $ilDB->addPrimaryKey('content_page_metrics', ['content_page_id', 'page_id', 'lang']);
+}
+?>
