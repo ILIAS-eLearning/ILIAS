@@ -1,24 +1,35 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ContentPage\PageMetrics\PageMetricsService;
+use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
+use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
+
 /**
  * Class ilContentPageImporter
  */
 class ilContentPageImporter extends ilXmlImporter implements ilContentPageObjectConstants
 {
-    /**
-     * @var ilContentPageDataSet
-     */
+    /** @var ilContentPageDataSet */
     protected $ds;
+    /** @var PageMetricsService */
+    private $pageMetricsService;
 
     /**
      *
      */
     public function init()
     {
+        global $DIC;
+
         $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
         $this->ds->setImportDirectory($this->getImportDirectory());
+
+        $this->pageMetricsService = new PageMetricsService(
+            new PageMetricsRepositoryImp($DIC->database()),
+            $DIC->refinery()
+        );
     }
 
     /**
@@ -41,6 +52,16 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
             $newCopaId = substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
             ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
+
+            $translations = ilContentPagePage::lookupTranslations(self::OBJ_TYPE, $newCopaId);
+            foreach ($translations as $language) {
+                $this->pageMetricsService->store(
+                    new StorePageMetricsCommand(
+                        (int) $newCopaId,
+                        $language
+                    )
+                );
+            }
         }
 
         $styleMapping = $a_mapping->getMappingsOfEntity('Modules/ContentPage', 'style');
