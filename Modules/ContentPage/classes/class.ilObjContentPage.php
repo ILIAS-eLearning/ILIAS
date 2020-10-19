@@ -197,6 +197,18 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
 
         $this->initTranslationService();
         $this->objTrans->delete();
+
+        $this->db->manipulateF(
+            'DELETE FROM content_page_metrics WHERE content_page_id = %s',
+            ['integer'],
+            [$this->getId()]
+        );
+
+        $this->db->manipulateF(
+            'DELETE FROM content_page_data WHERE content_page_id = %s',
+            ['integer'],
+            [$this->getId()]
+        );
     }
 
     /**
