@@ -97,7 +97,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
      * @param array $values
      * @return Form
      */
-    private function getForm(array $values = [])
+    private function getForm(array $values = []) : Form
     {
         $action = $this->ctrl->getLinkTargetByClass(self::class, self::CMD_SAVE);
 

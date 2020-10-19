@@ -88,10 +88,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     }
 
     /**
-     * Deep link
      * @param string $target
      */
-    public static function _goto($target)
+    public static function _goto(string $target) : void
     {
         global $DIC;
 
@@ -391,10 +390,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return null;
     }
 
-    /**
-     *
-     */
-    public function addToNavigationHistory()
+    public function addToNavigationHistory() : void
     {
         if (!$this->getCreationMode()) {
             if ($this->checkPermissionBool('read')) {
@@ -407,10 +403,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     *
-     */
-    public function renderHeaderActions()
+    public function renderHeaderActions() : void
     {
         if (!$this->getCreationMode()) {
             if ($this->checkPermissionBool('read')) {
@@ -420,10 +413,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     }
 
     /**
-     *
      * @throws ilCtrlException
      */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         if (!$this->infoScreenEnabled) {
             return;
@@ -447,7 +439,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
      * Sub tab configuration of the settings area
      * @param string $activeTab
      */
-    protected function setSettingsSubTabs($activeTab)
+    protected function setSettingsSubTabs(string $activeTab) : void
     {
         if ($this->checkPermissionBool('write')) {
             $this->tabs->addSubTab(
@@ -499,7 +491,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
      *
      * @throws ilCtrlException
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd('showSummary');
         $this->ctrl->setCmdClass('ilinfoscreengui');
@@ -530,7 +522,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * Sub tab configuration of the content area
      */
-    protected function setContentSubTabs()
+    protected function setContentSubTabs() : void
     {
         if ($this->checkPermissionBool('write')) {
             $this->tabs->addSubTab(
@@ -578,7 +570,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return '';
     }
 
-    protected function initStyleSheets()
+    protected function initStyleSheets() : void
     {
         $this->tpl->setVariable(
             'LOCATION_CONTENT_STYLESHEET',
@@ -667,7 +659,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * @throws ilObjectException
      */
-    protected function editStyleProperties()
+    protected function editStyleProperties() : void
     {
         $this->checkPermission('write');
 
@@ -736,35 +728,25 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return $form;
     }
 
-    /**
-     * Create Style
-     */
-    protected function createStyle()
+    protected function createStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'create');
     }
 
-    /**
-     * Edit Style
-     */
-    protected function editStyle()
+    protected function editStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
     }
 
-    /**
-     * Delete Style
-     */
-    protected function deleteStyle()
+    protected function deleteStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'delete');
     }
 
     /**
-     * Save style settings
      * @throws ilObjectException
      */
-    protected function saveStyleSettings()
+    protected function saveStyleSettings() : void
     {
         $this->checkPermission('write');
 

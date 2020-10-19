@@ -83,7 +83,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     /**
      * @param int $styleId
      */
-    public function writeStyleSheetId(int $styleId)
+    public function writeStyleSheetId(int $styleId) : void
     {
         $this->db->manipulateF(
             'UPDATE content_object SET stylesheet = %s WHERE id = %s',
@@ -271,7 +271,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     /**
      * @param int $usrId
      */
-    public function trackProgress(int $usrId)
+    public function trackProgress(int $usrId) : void
     {
         ilChangeEvent::_recordReadEvent(
             $this->getType(),

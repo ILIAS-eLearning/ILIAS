@@ -49,7 +49,7 @@ final class PageMetricsService implements ilContentPageObjectConstants
      * @param int    $contentPageId
      * @param string $language
      */
-    protected function ensurePageObjectExists(int $contentPageId, string $language)
+    protected function ensurePageObjectExists(int $contentPageId, string $language) : void
     {
         if (!$this->doesPageExistsForLanguage($contentPageId, $language)) {
             $pageObject = new ilContentPagePage();
