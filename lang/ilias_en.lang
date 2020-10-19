@@ -14784,7 +14784,9 @@ copa#:#copa_edit#:#Edit Content Page
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
-copa#:#copa_reading_time#:#Reading Time
+copa#:#copa_prop_reading_time#:#Reading Time
+copa#:#copa_value_reading_time_f_s#:#%s Minute
+copa#:#copa_value_reading_time_f_p#:#%s Minutes
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration

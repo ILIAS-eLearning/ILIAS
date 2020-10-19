@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
+use ILIAS\ContentPage\PageMetrics\PageMetricsService;
+use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
+use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
+
 /**
  * Class ilObjContentPageGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
@@ -19,60 +24,30 @@
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
+    /** @var \Psr\Http\Message\ServerRequestInterface */
     protected $request;
-
-    /**
-     * @var ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
+    /** @var ilAccessHandler */
     protected $access;
-
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting */
     protected $settings;
-
-    /**
-     * @var ilTabsGUI
-     */
+    /** @var ilTabsGUI */
     protected $tabs;
-
-    /**
-     * @var ilObjUser
-     */
+    /** @var ilObjUser */
     protected $user;
-
-    /**
-     * @var ilObjectService
-     */
+    /** @var ilObjectService */
     protected $obj_service;
-
-    /**
-     * @var ilNavigationHistory
-     */
+    /** @var ilNavigationHistory */
     protected $navHistory;
-
-    /**
-     * @var ilErrorHandling
-     */
+    /** @var ilErrorHandling */
     protected $error;
-
-    /**
-     * @var \ILIAS\DI\Container
-     */
+    /** @var \ILIAS\DI\Container */
     protected $dic;
-
-    /**
-     * @var bool|string
-     */
+    /** @var bool|string */
     protected $infoScreenEnabled = false;
+    /** @var PageMetricsService */
+    private $pageMetricsService;
 
     /**
      * @inheritdoc
@@ -105,6 +80,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 true
             );
         }
+
+        $this->pageMetricsService = new PageMetricsService(
+            new PageMetricsRepositoryImp($DIC->database()),
+            $DIC->refinery()
+        );
     }
 
     /**
@@ -302,6 +282,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->object,
                     $this->user
                 );
+
+                $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
+                    $this->pageMetricsService->store(
+                        new StorePageMetricsCommand(
+                            (int) $this->object->getId(),
+                            $event->page()->getLanguage()
+                        )
+                    );
+                });
+
                 $pageContent = $forwarder->forward();
                 if (strlen($pageContent) > 0) {
                     $this->tpl->setContent($pageContent);

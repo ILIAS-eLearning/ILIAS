@@ -4,7 +4,7 @@
 /**
  * Class ilContentPagePage
  */
-class ilContentPagePage extends ilPageObject implements ilContentPageObjectConstants
+final class ilContentPagePage extends ilPageObject implements ilContentPageObjectConstants
 {
     /**
      * @inheritdoc
