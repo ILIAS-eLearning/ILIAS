@@ -4480,3 +4480,7 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5681>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
