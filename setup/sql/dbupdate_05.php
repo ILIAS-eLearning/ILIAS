@@ -4525,11 +4525,8 @@ $ilDB->manipulate(
     '
     DELETE
     FROM content_page_data
-    WHERE EXISTS(
-        SELECT content_page_data.content_page_id
-        FROM content_page_data
-        LEFT JOIN object_data od ON od.obj_id = content_page_data.content_page_data
-        WHERE od.obj_id IS NULL
+    WHERE NOT EXISTS(
+        SELECT od.obj_id FROM object_data od WHERE od.obj_id = content_page_data.content_page_id
     )
     '
 );
