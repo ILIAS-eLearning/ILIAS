@@ -4519,3 +4519,18 @@ if (!$ilDB->tableExists('content_page_metrics')) {
     $ilDB->addPrimaryKey('content_page_metrics', ['content_page_id', 'page_id', 'lang']);
 }
 ?>
+<#5683>
+<?php
+$ilDB->manipulate(
+    '
+    DELETE
+    FROM content_page_data
+    WHERE EXISTS(
+        SELECT content_page_data.content_page_id
+        FROM content_page_data
+        LEFT JOIN object_data od ON od.obj_id = content_page_data.content_page_data
+        WHERE od.obj_id IS NULL
+    )
+    '
+);
+?>
