@@ -38,6 +38,7 @@ class ilProfileChecklistStatus
             ? $DIC->language()
             : $lng;
 
+        $this->lng->loadLanguageModule("chatroom");
         $this->user = is_null($user)
             ? $DIC->user()
             : $user;
@@ -164,6 +165,11 @@ class ilProfileChecklistStatus
                         $status[] = ($user->getPref("bs_allow_to_contact_me") != "y")
                             ? $lng->txt("buddy_allow_to_contact_me_no")
                             : $lng->txt("buddy_allow_to_contact_me_yes");
+                    }
+                    if ($user->getPref('chat_osc_accept_msg')) {
+                    $status[] = ($user->getPref("chat_osc_accept_msg") != "n")
+                        ? $lng->txt("chat_osc_browser_receive_notifications")
+                        : $lng->txt("chat_osc_browser_not_receive_notifications");
                     }
                     $details = implode(",<br>", $status);
                 } else {

@@ -40,11 +40,13 @@
 
 				// Very fucked up!!!
 				if (3 === $checkboxes.size()) {
-					$notificationToggle = $checkboxes.eq(1);
+					$notificationToggle = $checkboxes.eq(2);
 				} else if (2 === $checkboxes.size()) {
 					if ($.contains($checkboxes.eq(0).parent().get(0), $checkboxes.eq(1).get(0))) {
 						$notificationToggle = $checkboxes.eq(1);
 					}
+				} else if (4 === $checkboxes.size()) {
+                    $notificationToggle = $checkboxes.eq(3);
 				}
 
 				if (null !== $notificationToggle) {
