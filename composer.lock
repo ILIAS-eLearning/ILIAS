@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8c3e6e20fe1cce4482d67d622ba7fbee",
+    "content-hash": "35e12c2b5abb30e825cc4b5579e7dc34",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -40,24 +40,24 @@
         },
         {
             "name": "cweagans/composer-patches",
-            "version": "1.5.0",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8"
+                "reference": "ae02121445ad75f4eaff800cc532b5e6233e2ddf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
-                "reference": "8de7c73b2eae217f4e7028d7262ff2330aa4b4e8",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/ae02121445ad75f4eaff800cc532b5e6233e2ddf",
+                "reference": "ae02121445ad75f4eaff800cc532b5e6233e2ddf",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.0",
+                "composer-plugin-api": "^1.0 || ^2.0",
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "composer/composer": "~1.0",
+                "composer/composer": "~1.0 || ~2.0",
                 "phpunit/phpunit": "~4.6"
             },
             "type": "composer-plugin",
@@ -71,7 +71,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "BSD"
+                "BSD-3-Clause"
             ],
             "authors": [
                 {
@@ -80,7 +80,7 @@
                 }
             ],
             "description": "Provides a way to patch Composer packages.",
-            "time": "2016-03-28T18:54:21+00:00"
+            "time": "2020-09-30T17:56:20+00:00"
         },
         {
             "name": "dflydev/fig-cookies",
@@ -645,6 +645,11 @@
                 "php": ">=5.6.0"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "IMSGlobal\\LTI\\": "src/"
@@ -666,12 +671,7 @@
                 "LTI"
             ],
             "abandoned": true,
-            "time": "2016-09-18T04:22:22+00:00",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
-                }
-            }
+            "time": "2016-09-18T04:22:22+00:00"
         },
         {
             "name": "james-heinrich/getid3",
@@ -1290,6 +1290,11 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PHPMailer\\PHPMailer\\": "src/"
@@ -1323,12 +1328,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-05-27T12:24:03+00:00",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS PhpMailer Patches": "./libs/composer/patches/phpmailer.patch"
-                }
-            }
+            "time": "2020-05-27T12:24:03+00:00"
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -2544,6 +2544,11 @@
                 "predis/predis": "Needed if a Redis server is used to store session information"
             },
             "type": "project",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "SimpleSAML\\": "lib/SimpleSAML"
@@ -2580,12 +2585,7 @@
                 "sp",
                 "ws-federation"
             ],
-            "time": "2020-09-02T12:07:28+00:00",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
-                }
-            }
+            "time": "2020-09-02T12:07:28+00:00"
         },
         {
             "name": "simplesamlphp/simplesamlphp-module-adfs",
@@ -5609,6 +5609,11 @@
                 "php": ">=5.3.0"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "config",
@@ -5651,12 +5656,7 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2018-10-16T17:24:05+00:00",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS TCPDF Patches": "./libs/composer/patches/tcpdf.patch"
-                }
-            }
+            "time": "2018-10-16T17:24:05+00:00"
         },
         {
             "name": "twig/extensions",
