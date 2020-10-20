@@ -34,7 +34,7 @@ class ilTaggingSlateContentMenuGUI extends ilTaggingSlateContentGUI
 
         $items[] = $this->ui->factory()->item()->standard(sprintf(
             $this->lng->txt("tagging_resources_for_tag"),
-            "<i>" . $_GET["tag"] . "</i>"
+            "<i>" . ilUtil::secureString($this->http->request()->getQueryParams()["tag"]) . "</i>"
         ));
 
         // resource list
