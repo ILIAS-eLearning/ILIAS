@@ -74,7 +74,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         );
 
         $description = $this->dic->language()->txt('chat_osc_nc_no_conv');
-        if ($showAcceptMessageChange) {
+        /*if ($showAcceptMessageChange) {
             $description = sprintf(
                 $this->dic->language()->txt('chat_osc_dont_accept_msg'),
                 $this->dic->ui()->renderer()->render(
@@ -90,7 +90,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ->withOpenInNewViewport(true)
                 )
             );
-        }
+        }*/
 
         $icon = $this->dic->ui()->factory()
             ->symbol()
