@@ -2249,8 +2249,8 @@ common#:#chat_enter_public_room#:#Public Chat
 common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
 common#:#chat_invite_public_room#:#Public Chat
 chatroom#:#chat_settings#:#Chat Settings
-chatroom#:#chat_osc_browser_receive_notifications#:#Allow On-Screen-Chat Conversations
-chatroom#:#chat_osc_browser_not_receive_notifications#:#Do Not Allow On-Screen-Chat Conversations
+chatroom#:#chat_osc_receives_msg#:#Does Receive On-Screen-Chat Messages
+chatroom#:#chat_osc_not_receives_msg#:#Doesn`t Receive On-Screen-Chat Messages
 common#:#chat_users_active#:#Active users
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file

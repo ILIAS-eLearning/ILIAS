@@ -38,7 +38,7 @@ class ilProfileChecklistStatus
             ? $DIC->language()
             : $lng;
 
-        $this->lng->loadLanguageModule("chatroom");
+        $this->lng->loadLanguageModule('chatroom');
         $this->user = is_null($user)
             ? $DIC->user()
             : $user;
@@ -46,6 +46,20 @@ class ilProfileChecklistStatus
         $this->settings = $DIC->settings();
 
         $this->profile_mode = new ilPersonalProfileMode($this->user, $DIC->settings());
+    }
+
+    /**
+     * @return bool
+     */
+    private function areOnScreenChatOptionsVisible() : bool
+    {
+        $chatSettings = new ilSetting('chatroom');
+        $notificationSettings = new ilSetting('notifications');
+
+        return (
+            $chatSettings->get('enable_osc', false) &&
+            !(bool) $notificationSettings->get('usr_settings_hide_chat_osc_accept_msg', false)
+        );
     }
 
     /**
@@ -77,8 +91,11 @@ class ilProfileChecklistStatus
     public function anyVisibilitySettings() : bool
     {
         $awrn_set = new ilSetting("awrn");
-        if ($awrn_set->get("awrn_enabled", false) ||
-            ilBuddySystem::getInstance()->isEnabled()) {
+        if (
+            $awrn_set->get("awrn_enabled", false) ||
+            ilBuddySystem::getInstance()->isEnabled() ||
+            $this->areOnScreenChatOptionsVisible()
+        ) {
             return true;
         }
 
@@ -100,21 +117,24 @@ class ilProfileChecklistStatus
             case self::STEP_PROFILE_DATA:
                 if ($user->getPref("profile_personal_data_saved")) {
                     $status = self::STATUS_SUCCESSFUL;
-                };
+                }
+
                 if ($user->getProfileIncomplete()) {
                     $status = self::STATUS_IN_PROGRESS;
                 }
                 break;
+
             case self::STEP_PUBLISH_OPTIONS:
                 if ($user->getPref("profile_publish_opt_saved")) {
                     $status = self::STATUS_SUCCESSFUL;
-                };
+                }
                 break;
+
             case self::STEP_VISIBILITY_OPTIONS:
                 if ($user->getPref("profile_visibility_opt_saved") ||
                     (!$this->anyVisibilitySettings() && $user->getPref("profile_publish_opt_saved"))) {
                     $status = self::STATUS_SUCCESSFUL;
-                };
+                }
                 break;
         }
 
@@ -166,10 +186,10 @@ class ilProfileChecklistStatus
                             ? $lng->txt("buddy_allow_to_contact_me_no")
                             : $lng->txt("buddy_allow_to_contact_me_yes");
                     }
-                    if ($user->getPref('chat_osc_accept_msg')) {
-                    $status[] = ($user->getPref("chat_osc_accept_msg") != "n")
-                        ? $lng->txt("chat_osc_browser_receive_notifications")
-                        : $lng->txt("chat_osc_browser_not_receive_notifications");
+                    if ($this->areOnScreenChatOptionsVisible()) {
+                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
+                            ? $lng->txt("chat_osc_receives_msg")
+                            : $lng->txt("chat_osc_not_receives_msg");
                     }
                     $details = implode(",<br>", $status);
                 } else {
