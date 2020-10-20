@@ -61,6 +61,16 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $oidc = $this->initClient();
             $oidc->setRedirectURL(ILIAS_HTTP_PATH . '/openidconnect.php');
 
+            $proxy = ilProxySettings::_getInstance();
+            if ($proxy->isActive()) {
+                $host = $proxy->getHost();
+                $port = $proxy->getPort();
+                if ($port) {
+                    $host .= ":" . $port;
+                }
+                $oidc->setHttpProxy($host);
+            }
+
             $this->getLogger()->debug(
                 'Redirect url is: ' .
                 $oidc->getRedirectURL()
