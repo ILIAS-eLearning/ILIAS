@@ -74,7 +74,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         );
 
         $description = $this->dic->language()->txt('chat_osc_nc_no_conv');
-        /*if ($showAcceptMessageChange) {
+        if ($showAcceptMessageChange) {
             $description = sprintf(
                 $this->dic->language()->txt('chat_osc_dont_accept_msg'),
                 $this->dic->ui()->renderer()->render(
@@ -83,14 +83,14 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ->standard(
                         $this->dic->language()->txt('chat_osc_dont_accept_msg_link_txt'),
                         $this->dic->ctrl()->getLinkTargetByClass(
-                            ['ilDashboardGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'],
-                            'showChatOptions'
+                            ['ilDashboardGUI', 'ilPersonalProfileGUI', 'ilUserPrivacySettingsGUI'],
+                            'showPrivacySettings'
                         )
                     )
                     ->withOpenInNewViewport(true)
                 )
             );
-        }*/
+        }
 
         $icon = $this->dic->ui()->factory()
             ->symbol()
