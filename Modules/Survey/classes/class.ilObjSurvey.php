@@ -6127,7 +6127,6 @@ class ilObjSurvey extends ilObject
 
         $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
             
-        include_once "./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php";
         $gui = new ilSurveyEvaluationGUI($this);
         $url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
 
