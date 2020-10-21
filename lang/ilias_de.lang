@@ -9991,7 +9991,10 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_list_visibility_and_filter#:#Sichtbarkeit und Filter
+dcl#:#dcl_list_visibility_and_filter#:#Liste
+dcl#:#dcl_view_settings#:#Ansichtseinstellungen
+dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
+dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
@@ -10362,7 +10365,20 @@ dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_edit_entry_rules#:#Bearbeitung
+dcl#:#dcl_create_entry_rules#:#Erstellung
+dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
+dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
+dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
+dcl#:#dcl_tableview_locked#:#Gesperrt
+dcl#:#dcl_tableview_required#:#Verpflichtend
+dcl#:#dcl_tableview_default_value#:#Standardwert
+dcl#:#dcl_tableview_visible#:#Sichtbar
+dcl#:#dcl_tableview_not_visible#:#Nicht sichtbar
+dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
+dcl#:#dcl_tableview_locked_visible#:#Gesperrt & Sichtbar
+dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_tables#:#Tabellen löschen
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert

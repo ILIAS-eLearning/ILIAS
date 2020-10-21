@@ -4480,3 +4480,305 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5681>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'default_value')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'default_value',
+        array(
+            'type'    => 'text',
+            'length'  => 255,
+            'notnull' => false
+        )
+    );
+}
+?>
+<#5682>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'required_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5683>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'locked_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5684>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'visible_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5685>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'visible_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5686>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'required_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5687>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'locked_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5688>
+<?php
+if ($ilDB->tableColumnExists('il_dcl_field', 'required')) {
+    // Migration
+    $res = $ilDB->query("SELECT id, required FROM il_dcl_field");
+    while ($rec = $ilDB->fetchAssoc($res)) {
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET required_create = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['required'], $rec['id'])
+        );
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET required_edit = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['required'], $rec['id'])
+        );
+    }
+
+    $ilDB->dropTableColumn('il_dcl_field', 'required');
+}
+?>
+<#5689>
+<?php
+if ($ilDB->tableColumnExists('il_dcl_field', 'is_locked')) {
+    // Migration
+    $res = $ilDB->query("SELECT id, is_locked FROM il_dcl_field");
+    while ($rec = $ilDB->fetchAssoc($res)) {
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET locked_create = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['is_locked'], $rec['id'])
+        );
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET locked_edit = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['is_locked'], $rec['id'])
+        );
+    }
+
+    $ilDB->dropTableColumn('il_dcl_field', 'is_locked');
+}
+?>
+<#5690>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_vs')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_vs',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5691>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_c')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_c',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5692>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_e')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_e',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5693>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_o')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_o',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5694>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_s')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_s',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5695>
+<?php
+$fields = array(
+    'id'       => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'tview_set_id' => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'value'      => array(
+        'type'   => 'text',
+        'length' => '4000',
+
+    )
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc1_default')) {
+    $ilDB->createTable('il_dcl_stloc1_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc1_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc1_default");
+}
+?>
+<#5696>
+<?php
+$fields = array(
+    'id'       => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'tview_set_id' => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'value'      => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    )
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc2_default')) {
+    $ilDB->createTable('il_dcl_stloc2_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc2_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc2_default");
+}
+?>
+<#5697>
+<?php
+$fields = array(
+    'id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+    ),
+    'tview_set_id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+    ),
+    'value' => array(
+        'type' => 'timestamp',
+        'notnull' => true
+    ),
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc3_default')) {
+    $ilDB->createTable('il_dcl_stloc3_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc3_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc3_default");
+}
+?>
+<#5698>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

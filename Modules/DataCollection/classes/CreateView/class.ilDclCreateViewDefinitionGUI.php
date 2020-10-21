@@ -2,21 +2,18 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilDclDetailedViewDefinitionGUI
+ * Class ilDclCreateViewDefinitionGUI
  *
- * @author       Martin Studer <ms@studer-raimann.ch>
- * @author       Marcel Raimann <mr@studer-raimann.ch>
- * @author       Fabian Schmid <fs@studer-raimann.ch>
- * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
- * @ilCtrl_Calls ilDclDetailedViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilDclCreateViewDefinitionGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
+class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 {
 
     /**
-     * @var ilDclDetailedViewDefinition
+     * @var ilDclCreateViewDefinition
      */
     public $obj;
     /**
@@ -24,9 +21,13 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      */
     public $ctrl;
     /**
-     * @var int
+     * @var ilDclTableView
      */
-    protected $tableview_id;
+    public $tableview;
+    /**
+     * @var ilDclCreateViewTableGUI
+     */
+    protected $table_gui;
 
 
     /**
@@ -42,11 +43,11 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
          * @var $ilCtrl ilCtrl
          */
         $this->ctrl = $ilCtrl;
-        $this->tableview_id = $tableview_id;
+        $this->tableview = ilDclTableView::findOrGetInstance($tableview_id);
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
-            $viewdef = new ilDclDetailedViewDefinition();
+            $viewdef = new ilDclCreateViewDefinition();
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
             $viewdef->setActive(false);
@@ -55,17 +56,10 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
         parent::__construct("dclf", $tableview_id);
 
-        // Add JavaScript
-        $tpl->addJavascript('Modules/DataCollection/js/single_view_listener.js');
+        $table = new ilDclCreateViewTableGUI($this);
+        $this->table_gui = $table;
+        $this->tpl->setContent($table->getHTML());
 
-        // content style (using system defaults)
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable("LOCATION_SYNTAX_STYLESHEET", ilObjStyleSheet::getSyntaxStylePath());
-        $tpl->parseCurrentBlock();
-
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
-        $tpl->parseCurrentBlock();
     }
 
 
@@ -97,65 +91,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
                 return parent::executeCommand();
         }
-    }
-
-
-    /**
-     * @return mixed|string|string[]|null
-     */
-    public function showPage()
-    {
-        global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        /**
-         * @var $ilToolbar ilToolbarGUI
-         */
-        if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
-            $delete_button = ilLinkButton::getInstance();
-            $delete_button->setCaption('dcl_empty_detailed_view');
-            $delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
-            $ilToolbar->addButtonInstance($delete_button);
-
-            $activation_button = ilLinkButton::getInstance();
-            if ($this->getPageObject()->getActive()) {
-                $activation_button->setCaption('dcl_deactivate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'deactivate'));
-            } else {
-                $activation_button->setCaption('dcl_activate_view');
-                $activation_button->setUrl($this->ctrl->getLinkTarget($this, 'activate'));
-            }
-
-            $ilToolbar->addButtonInstance($activation_button);
-
-            $legend = $this->getPageObject()->getAvailablePlaceholders();
-            if (sizeof($legend)) {
-                $this->setPrependingHtml(
-                    "<span class=\"small\">" . $this->lng->txt("dcl_legend_placeholders") . ": " . implode(" ", $legend)
-                    . "</span>"
-                );
-            }
-        }
-
-        return parent::showPage();
-    }
-
-
-    public function editActivation()
-    {
-        parent::editActivation();
-    }
-
-
-    public function edit()
-    {
-        return parent::edit();
-    }
-
-
-
-    public function setEditPreview($a_editpreview)
-    {
-        parent::setEditPreview($a_editpreview);
     }
 
 
@@ -291,5 +226,88 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         }
 
         return $a_output;
+    }
+
+
+    /**
+     * Save table entries
+     */
+    public function saveTable() {
+        $f = new ilDclDefaultValueFactory();
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, "default_") === 0) {
+                $parts = explode("_", $key);
+                $id = $parts[1];
+                $data_type_id = intval($parts[2]);
+
+                // Delete all field values associated with this id
+                $existing_values = ilDclTableViewBaseDefaultValue::findAll($data_type_id, $id);
+
+                foreach ($existing_values as $existing_value) {
+                    $existing_value->delete();
+                }
+
+                // Create fields
+                if ($value !== '') {
+                    // Check number field
+                    if ($data_type_id === ilDclDatatype::INPUTFORMAT_NUMBER) {
+                        if (!ctype_digit($value)) {
+                            ilUtil::sendFailure($this->lng->txt('dcl_tableview_default_value_fail'), true);
+                            $this->ctrl->saveParameter($this, 'tableview_id');
+                            $this->ctrl->redirect($this, 'presentation');
+                        }
+                    }
+
+                    $default_value = $f->create($data_type_id);
+                    $default_value->setTviewSetId($id);
+                    $default_value->setValue($value);
+                    $default_value->create();
+                }
+            }
+        }
+        /**
+         * @var ilDclTableViewFieldSetting $setting
+         */
+        foreach ($this->tableview->getFieldSettings() as $setting) {
+
+            if (!$setting->getFieldObject()->isStandardField()) {
+
+                // Radio Inputs
+                foreach (array("RadioGroup") as $attribute) {
+                    $selection_key = $attribute . '_' . $setting->getField();
+                    $selection = $_POST[$selection_key];
+                    $selected_radio_attribute = explode("_", $selection)[0];
+
+                    foreach (array("LockedCreate", "RequiredCreate", "VisibleCreate", "NotVisibleCreate") as $radio_attribute) {
+                        $result = false;
+
+                        if ($selected_radio_attribute === $radio_attribute) {
+                            $result = true;
+                        }
+
+                        $setting->{'set' . $radio_attribute}($result);
+                    }
+                }
+
+                // Text Inputs
+                foreach (array("DefaultValue") as $attribute) {
+                    $key = $attribute . '_' . $setting->getField();
+                    $setting->{'set' . $attribute}($_POST[$key]);
+                }
+
+                $setting->update();
+            }
+        }
+
+        // Set Workflow flag to true
+        $view = ilDclTableView::getCollection()->where(array("id" => filter_input(INPUT_GET, "tableview_id")))->first();
+        if (!is_null($view)) {
+            $view->setStepC(true);
+            $view->save();
+        }
+
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableview_updated'), true);
+        $this->ctrl->saveParameter($this, 'tableview_id');
+        $this->ctrl->redirect($this, 'presentation');
     }
 }

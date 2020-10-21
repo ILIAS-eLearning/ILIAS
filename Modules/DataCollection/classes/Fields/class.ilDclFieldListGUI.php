@@ -142,7 +142,6 @@ class ilDclFieldListGUI
         }
 
         foreach ($fields as $field) {
-            $field->setLocked($_POST['locked'][$field->getId()] == "on");
             $field->setExportable($_POST['exportable'][$field->getId()] == "on");
             $field->setOrder($order[$field->getId()]);
             $field->doUpdate();

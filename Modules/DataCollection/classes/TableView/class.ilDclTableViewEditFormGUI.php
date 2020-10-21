@@ -51,7 +51,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
 
-        $this->setTitle($this->tableview->getId() ? $this->lng->txt('settings') : $this->lng->txt('dcl_tableview_add'));
+        $this->setTitle($this->tableview->getId() ? $this->lng->txt('dcl_view_settings') : $this->lng->txt('dcl_tableview_add'));
 
         //title
         $item = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -103,6 +103,11 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->tableview->setDescription($this->getInput('description'));
         $this->tableview->setRoles((array) $this->getInput('roles'));
         $this->tableview->setTableId($this->table->getId());
+        $this->tableview->setStepVs(true);
+        $this->tableview->setStepE(false);
+        $this->tableview->setStepC(false);
+        $this->tableview->setStepO(false);
+        $this->tableview->setStepS(false);
         $this->tableview->setOrder($this->table->getNewTableviewOrder());
         $this->tableview->create();
 

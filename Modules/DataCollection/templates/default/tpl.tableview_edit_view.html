@@ -1,0 +1,27 @@
+<!--<tr class="{CSS_ROW}" id="{ID}">
+	<td class="name">{TITLE}</td>
+	<td class="std">
+		<input type="checkbox" name="Locked_{FIELD_ID}" {IS_LOCKED} {HIDDEN}>
+	</td>
+	<td class="std">
+		<input type="checkbox" name="Required_{FIELD_ID}" {IS_REQUIRED} {HIDDEN_REQ}>
+	</td>
+	<td class="std">
+		<input type="checkbox" name="VisibleEdit_{FIELD_ID}" {IS_VISIBLE} {HIDDEN}>
+	</td>
+</tr>-->
+
+<tr class="{CSS_ROW}" id="{ID}">
+	<td class="name">{TITLE}</td>
+	<td class="std">
+		<input type="radio" id="v_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="VisibleEdit_{FIELD_ID}" {HIDDEN} {IS_VISIBLE}>
+		<label for="v_{FIELD_ID}" {HIDDEN}>{TEXT_VISIBLE}</label>
+		<input type="radio" id="rv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="RequiredEdit_{FIELD_ID}" {HIDDEN} {IS_REQUIRED}>
+		<label for="rv_{FIELD_ID}" {HIDDEN}>{TEXT_REQUIRED_VISIBLE}</label>
+		<input type="radio" id="lv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="LockedEdit_{FIELD_ID}" {HIDDEN} {IS_LOCKED}>
+		<label for="lv_{FIELD_ID}" {HIDDEN}>{TEXT_LOCKED_VISIBLE}</label>
+		<input type="radio" id="nv_{FIELD_ID}" name="RadioGroup_{FIELD_ID}" value="NotVisibleEdit_{FIELD_ID}" {HIDDEN} {IS_NOT_VISIBLE}>
+		<label for="nv_{FIELD_ID}" {HIDDEN}>{TEXT_NOT_VISIBLE}</label>
+	</td>
+</tr>
+

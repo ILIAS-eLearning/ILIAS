@@ -101,7 +101,7 @@ abstract class ilDclBaseFieldRepresentation
      * @param ilPropertyFormGUI $form
      * @param int               $record_id
      *
-     * @return null
+     * @return ?ilFormPropertyGUI
      */
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
     {
@@ -117,7 +117,6 @@ abstract class ilDclBaseFieldRepresentation
      */
     protected function setupInputField(ilFormPropertyGUI $input, ilDclBaseFieldModel $field)
     {
-        $input->setRequired($field->getRequired());
         $input->setInfo($field->getDescription() . ($input->getInfo() ? '<br>' . $input->getInfo() : ''));
     }
 

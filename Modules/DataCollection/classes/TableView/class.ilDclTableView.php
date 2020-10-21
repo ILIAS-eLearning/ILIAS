@@ -65,6 +65,46 @@ class ilDclTableView extends ActiveRecord
      */
     protected $tableview_order;
     /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $step_vs;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $step_c;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $step_e;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $step_o;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $step_s;
+    /**
      * @var ilDclBaseFieldModel[]
      */
     protected $visible_fields_cache;
@@ -189,6 +229,96 @@ class ilDclTableView extends ActiveRecord
 
 
     /**
+     * @return bool
+     */
+    public function isStepVs()
+    {
+        return $this->step_vs;
+    }
+
+
+    /**
+     * @param bool $step_vs
+     */
+    public function setStepVs($step_vs)
+    {
+        $this->step_vs = $step_vs;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isStepC()
+    {
+        return $this->step_c;
+    }
+
+
+    /**
+     * @param bool $step_c
+     */
+    public function setStepC($step_c)
+    {
+        $this->step_c = $step_c;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isStepE()
+    {
+        return $this->step_e;
+    }
+
+
+    /**
+     * @param bool $step_e
+     */
+    public function setStepE($step_e)
+    {
+        $this->step_e = $step_e;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isStepO()
+    {
+        return $this->step_o;
+    }
+
+
+    /**
+     * @param bool $step_o
+     */
+    public function setStepO($step_o)
+    {
+        $this->step_o = $step_o;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isStepS()
+    {
+        return $this->step_s;
+    }
+
+
+    /**
+     * @param bool $step_s
+     */
+    public function setStepS($step_s)
+    {
+        $this->step_s = $step_s;
+    }
+
+
+    /**
      * @return array
      */
     public function getRoles()
@@ -305,8 +435,11 @@ class ilDclTableView extends ActiveRecord
         return $this->visible_fields_cache;
     }
 
-
-    public function getFieldSettings()
+    /**
+     * @return ilDclTableViewFieldSetting[]
+     * @throws arException
+     */
+    public function getFieldSettings() : array
     {
         return ilDclTableViewFieldSetting::where(
             array(
@@ -316,6 +449,17 @@ class ilDclTableView extends ActiveRecord
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))->orderBy('field_order')->get();
     }
 
+    /**
+     * @param $field_id
+     * @return ilDclTableViewFieldSetting
+     */
+    public function getFieldSetting($field_id) : ilDclTableViewFieldSetting
+    {
+        return ilDclTableViewFieldSetting::where([
+            'tableview_id' => $this->getId(),
+            'field' => $field_id
+        ])->first();
+    }
 
     /**
      * @param bool $create_default_settings
@@ -367,6 +511,12 @@ class ilDclTableView extends ActiveRecord
             $field_set->setField($field_id);
             $field_set->setVisible(!ilDclStandardField::_isStandardField($field_id));
             $field_set->setFilterChangeable(true);
+            $field_set->setLockedCreate(false);
+            $field_set->setLockedEdit(false);
+            $field_set->setRequiredCreate(false);
+            $field_set->setRequiredEdit(false);
+            $field_set->setVisibleCreate(true);
+            $field_set->setVisibleEdit(true);
             $field_set->create();
         }
     }
@@ -383,7 +533,16 @@ class ilDclTableView extends ActiveRecord
         $this->setOrder($orig->getOrder());
         $this->setDescription($orig->getDescription());
         $this->setRoles($orig->getRoles());
+        $this->setStepVs($orig->isStepVs());
+        $this->setStepC($orig->isStepC());
+        $this->setStepE($orig->isStepE());
+        $this->setStepO($orig->isStepO());
+        $this->setStepS($orig->isStepS());
         $this->create(false); //create default setting, adjust them later
+
+        //clone default values
+        $f = new ilDclDefaultValueFactory();
+
 
         //clone fieldsettings
         foreach ($orig->getFieldSettings() as $orig_fieldsetting) {
@@ -396,7 +555,18 @@ class ilDclTableView extends ActiveRecord
                 //standard fields
                 $new_fieldsetting->setField($orig_fieldsetting->getField());
             }
-            $new_fieldsetting->cloneStructure($orig_fieldsetting);
+            $new_field_id = $new_fieldsetting->cloneStructure($orig_fieldsetting);
+
+            //clone default value
+            $datatype = $orig_fieldsetting->getFieldObject()->getDatatypeId();
+            $match = ilDclTableViewBaseDefaultValue::findSingle($datatype, $orig_fieldsetting->getId());
+
+            if (!is_null($match)) {
+                $new_default_value = $f->create($datatype);
+                $new_default_value->setTviewSetId($new_field_id);
+                $new_default_value->setValue($match->getValue());
+                $new_default_value->create();
+            }
         }
 
         //clone pageobject
@@ -467,8 +637,25 @@ class ilDclTableView extends ActiveRecord
         $lng = $DIC['lng'];
         $view->setTitle($lng->txt('dcl_title_standardview'));
         $view->setTableviewOrder(10);
+        $view->setStepVs(true);
+        $view->setStepC(false);
+        $view->setStepE(false);
+        $view->setStepO(false);
+        $view->setStepS(false);
         $view->create($create_default_settings);
 
         return $view;
+    }
+
+
+    /**
+     * Check if the configuration of the view is complete. The step "single" is
+     * optional and therefore omitted.
+     *
+     * @return bool
+     */
+    public function validateConfigCompletion()
+    {
+        return $this->step_vs && $this->step_c && $this->step_e && $this->step_o;
     }
 }
