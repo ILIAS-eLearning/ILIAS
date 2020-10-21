@@ -14803,7 +14803,7 @@ common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
 cpad#:#cpad_reading_time_status#:#Lesezeit
-cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die Lesezeit in Inhaltsseiten-Objekten agenzeigt.
+cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten-Objekten ermittelt und agenzeigt.
 adve#:#adve_grp_copa#:#Inhaltsseiten
 common#:#msg_info_blacklisted#:#Bitte entschuldigen Sie!  Sie dürfen die Datei aus Sicherheitsgründen nicht hochladen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt

@@ -14791,7 +14791,7 @@ common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration
 cpad#:#cpad_reading_time_status#:#Reading Time
-cpad#:#cpad_reading_time_status_desc#:#If enabled, the typical reading time will be displayed for content page objects.
+cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 adve#:#adve_grp_copa#:#Content Pages
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
