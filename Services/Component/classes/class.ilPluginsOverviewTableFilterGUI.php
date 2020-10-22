@@ -77,6 +77,10 @@ class ilPluginsOverviewTableFilterGUI
 
     public function getData() : array
     {
-        return $this->filter_service->getData($this->filter) ?? [];
+        try {
+            return $this->filter_service->getData($this->filter) ?? [];
+        } catch (InvalidArgumentException $e) {
+            return [];
+        }
     }
 }
