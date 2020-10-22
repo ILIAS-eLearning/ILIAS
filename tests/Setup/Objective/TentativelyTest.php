@@ -9,7 +9,7 @@ use ILIAS\Setup\Objective;
 use ILIAS\Tests\Setup as Test;
 use PHPUnit\Framework\TestCase;
 
-class TentativelyTests extends TestCase
+class TentativelyTest extends TestCase
 {
     use Test\Helper;
 
