@@ -10,7 +10,7 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 class ilObjComponentSettingsGUI extends ilObjectGUI
 {
     private const TYPE = 'cmps';
-    public const CMD_LIST_PLUGINS = "listPlugins";
+    public const CMD_DEFAULT = "listPlugins";
     public const CMD_LIST_SLOTS = "listSlots";
     public const TAB_PLUGINS = "plugins";
     public const CMD_INSTALL_PLUGIN = "installPlugin";
@@ -27,6 +27,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     public const CMD_SHOW_PLUGIN = "showPlugin";
     public const CMD_JUMP_TO_PLUGIN_SLOT = "jumpToPluginSlot";
     public const CMD_UNINSTALL_PLUGIN = "uninstallPlugin";
+    public const CMD_CONFIRM_UNINSTALL_PLUGIN = "confirmUninstallPlugin";
+    public const TAB_SLOTS = 'slots';
     /**
      * @var string
      */
@@ -115,7 +117,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
                 if (!$config) {
                     if (!$cmd || $cmd === 'view') {
-                        $cmd = self::CMD_LIST_PLUGINS;
+                        $cmd = self::CMD_DEFAULT;
                     }
 
                     $this->$cmd();
@@ -136,12 +138,12 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTab(
                 self::TAB_PLUGINS,
                 $this->lng->txt("cmps_plugins"),
-                $this->ctrl->getLinkTarget($this, self::CMD_LIST_PLUGINS)
+                $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)
             );
 
             if (DEVMODE) {
                 $this->tabs_gui->addTab(
-                    "slots",
+                    self::TAB_SLOTS,
                     $this->lng->txt("cmps_slots"),
                     $this->ctrl->getLinkTarget($this, self::CMD_LIST_SLOTS)
                 );
@@ -164,10 +166,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function listSlots() : void
     {
         if (!DEVMODE) {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
-        $this->tabs_gui->activateTab('slots');
+        $this->tabs_gui->activateTab(self::TAB_SLOTS);
         $comp_table = new ilComponentsTableGUI($this, self::CMD_LIST_SLOTS);
         $this->tpl->setContent($comp_table->getHTML());
     }
@@ -176,14 +178,16 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     {
         $this->tabs->activateTab(self::TAB_PLUGINS);
 
-        $table = new ilPluginsOverviewTableGUI($this, self::CMD_LIST_PLUGINS);
-        $this->tpl->setContent($table->getHTML());
+        $filters = new ilPluginsOverviewTableFilterGUI($this);
+        $table   = new ilPluginsOverviewTableGUI($this, $filters->getData(), self::CMD_DEFAULT);
+
+        $this->tpl->setContent($filters->getHTML() . $table->getHTML());
     }
 
     protected function showPluginSlotInfo() : void
     {
         if (!DEVMODE) {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         $this->tabs->clearTargets();
@@ -256,7 +260,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             !$_GET[self::P_CNAME] ||
             !$_GET[self::P_SLOT_ID] ||
             !$_GET[self::P_PLUGIN_ID]) {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         $slot = new ilPluginSlot($_GET[self::P_CTYPE], $_GET[self::P_CNAME], $_GET[self::P_SLOT_ID]);
@@ -269,13 +273,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             }
         }
         if (!$plugin) {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
 
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt("cmps_plugins"),
-            $this->ctrl->getLinkTarget($this, self::CMD_LIST_PLUGINS)
+            $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)
         );
 
         $this->ctrl->setParameter($this, self::P_CTYPE, $_GET[self::P_CTYPE]);
@@ -482,7 +486,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $_GET[self::P_PLUGIN_ID]);
             $this->ctrl->redirect($this, self::CMD_SHOW_PLUGIN);
         } else {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
     }
 
@@ -545,7 +549,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $_GET[self::P_PLUGIN_ID]);
             $this->ctrl->redirect($this, self::CMD_SHOW_PLUGIN);
         } else {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
     }
 
@@ -568,7 +572,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $_GET[self::P_PLUGIN_ID]);
             $this->ctrl->redirect($this, self::CMD_SHOW_PLUGIN);
         } else {
-            $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+            $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
     }
 
@@ -606,7 +610,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
         $confirmation_gui->setHeaderText($question);
-        $confirmation_gui->setCancel($this->lng->txt("cancel"), self::CMD_LIST_PLUGINS);
+        $confirmation_gui->setCancel($this->lng->txt("cancel"), self::CMD_DEFAULT);
         $confirmation_gui->setConfirm($this->lng->txt("cmps_uninstall"), self::CMD_UNINSTALL_PLUGIN);
 
         $this->tpl->setContent($confirmation_gui->getHTML());
@@ -633,11 +637,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         }
 
         ilGlobalCache::flushAll();
-        $ilPluginsOverviewTableGUI = new ilPluginsOverviewTableGUI($this);
+        $ilPluginsOverviewTableGUI = new ilPluginsOverviewTableGUI($this, []);
 
         $this->ctrl->setParameter($this, self::P_CTYPE, $_GET[self::P_CTYPE]);
         $this->ctrl->setParameter($this, self::P_CNAME, $_GET[self::P_CNAME]);
         $this->ctrl->setParameter($this, self::P_SLOT_ID, $_GET[self::P_SLOT_ID]);
-        $this->ctrl->redirect($this, self::CMD_LIST_PLUGINS);
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 }

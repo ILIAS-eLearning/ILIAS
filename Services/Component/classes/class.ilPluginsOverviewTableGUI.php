@@ -1,42 +1,42 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("Services/Component/classes/class.ilComponent.php");
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for components listing
- *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
- *
- * @version $Id$
- *
- * @ingroup ServicesComponent
  */
 class ilPluginsOverviewTableGUI extends ilTable2GUI
 {
-    private $mode;
+    public const F_PLUGIN_NAME = "plugin_name";
+    public const F_PLUGIN_ID = "plugin_id";
+    public const F_SLOT_NAME = "slot_name";
+    public const F_COMPONENT_NAME = "component_name";
+    public const F_PLUGIN_ACTIVE = "plugin_active";
+    /**
+     * @var array
+     */
+    protected $filter_data;
 
-
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilObjComponentSettingsGUI $a_parent_obj, array $filter_data, string $a_parent_cmd = "")
     {
         global $DIC;
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+        $this->lng         = $DIC->language();
+        $this->ctrl        = $DIC->ctrl();
+        $this->filter_data = $filter_data;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setId("cmpspl");
 
-        $this->addColumn($this->lng->txt("cmps_plugin"), "plugin_name");
-        $this->addColumn($this->lng->txt("id"), "plugin_id");
-        $this->addColumn($this->lng->txt("cmps_plugin_slot"), "slot_name");
-        $this->addColumn($this->lng->txt("cmps_component"), "component_name");
-        $this->addColumn($this->lng->txt("active"), "plugin_active");
+        $this->addColumn($this->lng->txt("cmps_plugin"), self::F_PLUGIN_NAME);
+        $this->addColumn($this->lng->txt("id"), self::F_PLUGIN_ID);
+        $this->addColumn($this->lng->txt("cmps_plugin_slot"), self::F_SLOT_NAME);
+        $this->addColumn($this->lng->txt("cmps_component"), self::F_COMPONENT_NAME);
+        $this->addColumn($this->lng->txt("active"), self::F_PLUGIN_ACTIVE);
         $this->addColumn($this->lng->txt("action"));
 
-        $this->setDefaultOrderField("plugin_name");
+        $this->setDefaultOrderField(self::F_PLUGIN_NAME);
 
         $this->setEnableHeader(true);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
@@ -46,63 +46,64 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         );
         $this->getComponents();
         $this->setLimit(10000);
-
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
     }
 
-
-    /**
-     * Get pages for list.
-     */
-    public function getComponents()
+    protected function getComponents() : void
     {
-        $plugins = array();
+        $plugins = [];
         $modules = $this->getModulesCoreItems();
         $this->addPluginData($plugins, $modules, IL_COMP_MODULE);
 
         $services = $this->getServicesCoreItems();
         $this->addPluginData($plugins, $services, IL_COMP_SERVICE);
 
+        // apply filters
+
+        $active_filters = array_filter($this->filter_data, static function ($value) : bool {
+            return !empty($value);
+        });
+
+        $plugins = array_filter($plugins, static function (array $plugin_data) use ($active_filters) : bool {
+            $matches_filter = true;
+            if (isset($active_filters[self::F_PLUGIN_NAME])) {
+                $matches_filter = strpos($plugin_data[self::F_PLUGIN_NAME], $active_filters[self::F_PLUGIN_NAME]) !== false;
+            }
+            if (isset($active_filters[self::F_PLUGIN_ID])) {
+                $matches_filter = strpos($plugin_data[self::F_PLUGIN_ID], $active_filters[self::F_PLUGIN_ID]) !== false;
+            }
+            if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
+                $v              = (bool) $active_filters[self::F_PLUGIN_ACTIVE];
+                $matches_filter = $plugin_data[self::F_PLUGIN_ACTIVE] === $v && $matches_filter;
+            }
+            if (isset($active_filters[self::F_SLOT_NAME])) {
+                $matches_filter = in_array($plugin_data[self::F_SLOT_NAME], $active_filters[self::F_SLOT_NAME], true) && $matches_filter;
+            }
+            if (isset($active_filters[self::F_COMPONENT_NAME])) {
+                $matches_filter = in_array($plugin_data['component_type'] . '/' . $plugin_data['component_name'], $active_filters[self::F_COMPONENT_NAME], true) && $matches_filter;
+            }
+
+            return $matches_filter;
+        });
+
         $this->setData($plugins);
     }
 
-
-    /**
-     * Get all available modules
-     *
-     * @return string[]
-     */
-    protected function getModulesCoreItems()
+    protected function getModulesCoreItems() : array
     {
-        include_once("./Services/Component/classes/class.ilModule.php");
-
         return ilModule::getAvailableCoreModules();
     }
 
-
-    /**
-     * Get all available services
-     *
-     * @return string[]
-     */
-    protected function getServicesCoreItems()
+    protected function getServicesCoreItems() : array
     {
-        include_once("./Services/Component/classes/class.ilService.php");
-
         return ilService::getAvailableCoreServices();
     }
 
-
     /**
-     * Get plugin informations
-     *
-     * @param string[]    &$plugins
-     * @param string[]     $core_items
-     * @param sring        $core_type
-     *
-     * @return string[]
+     * @param array $plugins
+     * @param array $core_items
+     * @param       $core_type
      */
-    protected function addPluginData(array &$plugins, array $core_items, $core_type)
+    protected function addPluginData(array &$plugins, array $core_items, string $core_type)
     {
         foreach ($core_items as $core_item) {
             $plugin_slots = ilComponent::lookupPluginSlots($core_type, $core_item["subdir"]);
@@ -117,23 +118,20 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         }
     }
 
-
     /**
-     * Process plugin data for table row
-     *
      * @param string       $a_type
      * @param ilPluginSlot $a_slot
      * @param string       $a_slot_subdir
      * @param array        $a_plugin
-     *
      * @return array
+     * @throws ilPluginException
      */
-    protected function gatherPluginData($a_type, ilPluginSlot $a_slot, $a_slot_subdir, array $a_plugin)
+    protected function gatherPluginData(string $a_type, ilPluginSlot $a_slot, string $a_slot_subdir, array $a_plugin) : array
     {
         if (!$a_plugin["component_type"]) {
             return array();
         }
-        $plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin["component_name"], $a_plugin["slot_id"], $a_plugin["name"]);
+        $plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin[self::F_COMPONENT_NAME], $a_plugin["slot_id"], $a_plugin["name"]);
 
         $config_class = null;
         if (ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data)
@@ -142,41 +140,38 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             $config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin));
         }
 
-        return array("slot_name" => $a_slot->getSlotName(),
-                     "component_type" => $a_type,
-                     "component_name" => $a_slot_subdir,
-                     "slot_id" => $a_slot->getSlotId(),
-                     "plugin_id" => $a_plugin["id"],
-                     "plugin_name" => $a_plugin["name"],
-                     "must_install" => $a_plugin["must_install"],
-                     "plugin_active" => $a_plugin["is_active"],
-                     "activation_possible" => $a_plugin["activation_possible"],
-                     "needs_update" => $a_plugin["needs_update"],
-                     "config_class" => $config_class,
-                     "has_lang" => (bool) sizeof(
-                         ilPlugin::getAvailableLangFiles(
-                             $a_slot->getPluginsDirectory() . "/" . $a_plugin["name"] . "/lang"
-                         )
-                     ));
+        return array(
+            self::F_SLOT_NAME      => $a_slot->getSlotName(),
+            "component_type"       => $a_type,
+            self::F_COMPONENT_NAME => $a_slot_subdir,
+            "slot_id"              => $a_slot->getSlotId(),
+            self::F_PLUGIN_ID      => $a_plugin["id"],
+            self::F_PLUGIN_NAME    => $a_plugin["name"],
+            "must_install"         => $a_plugin["must_install"],
+            self::F_PLUGIN_ACTIVE  => $a_plugin["is_active"],
+            "activation_possible"  => $a_plugin["activation_possible"],
+            "needs_update"         => $a_plugin["needs_update"],
+            "config_class"         => $config_class,
+            "has_lang"             => (bool) sizeof(
+                ilPlugin::getAvailableLangFiles(
+                    $a_slot->getPluginsDirectory() . "/" . $a_plugin["name"] . "/lang"
+                )
+            )
+        );
     }
 
-
-    /**
-     * Standard Version of Fill Row. Most likely to
-     * be overwritten by derived class.
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
 
-        $this->tpl->setVariable("TXT_SLOT_NAME", $a_set["slot_name"]);
+        $this->tpl->setVariable("TXT_SLOT_NAME", $a_set[self::F_SLOT_NAME]);
         $this->tpl->setVariable(
             "TXT_COMP_NAME",
-            $a_set["component_type"] . "/" . $a_set["component_name"]
+            $a_set["component_type"] . "/" . $a_set[self::F_COMPONENT_NAME]
         );
 
-        if ($a_set["plugin_active"]) {
+        if ($a_set[self::F_PLUGIN_ACTIVE]) {
             $this->tpl->setCurrentBlock("active");
             $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("yes"));
             $this->tpl->parseCurrentBlock();
@@ -186,25 +181,21 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set["plugin_name"]);
-        $this->tpl->setVariable("TXT_PLUGIN_ID", $a_set["plugin_id"]);
+        $this->tpl->setVariable("TXT_PLUGIN_NAME", $a_set[self::F_PLUGIN_NAME]);
+        $this->tpl->setVariable("TXT_PLUGIN_ID", $a_set[self::F_PLUGIN_ID]);
 
         if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
             $actions = $this->getActionMenuEntries($a_set);
-            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set["plugin_id"]));
+            $this->tpl->setVariable("ACTION_SELECTOR", $this->getActionMenu($actions, $a_set[self::F_PLUGIN_ID]));
         }
     }
 
-
     /**
-     * Get action menu for each row
-     *
-     * @param string[] $actions
-     * @param int      $plugin_id
-     *
-     * @return ilAdvancedSelectionListGUI
+     * @param array  $actions
+     * @param string $plugin_id
+     * @return string
      */
-    protected function getActionMenu(array $actions, $plugin_id)
+    protected function getActionMenu(array $actions, string $plugin_id) : string
     {
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($plugin_id);
@@ -217,50 +208,46 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return $alist->getHTML();
     }
 
-
     /**
-     * Get entries for action menu
-     *
-     * @param string[] $a_set
-     *
-     * @return string[]
+     * @param array $a_set
+     * @return array
      */
-    protected function getActionMenuEntries(array $a_set)
+    protected function getActionMenuEntries(array $a_set) : array
     {
         $this->setParameter($a_set);
 
         $actions = array();
-        $this->ctrl->setParameter($this->parent_obj, "plugin_id", $a_set["plugin_id"]);
+        $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, $a_set[self::F_PLUGIN_ID]);
         $this->addCommandToActions($actions, "info", "showPlugin");
-        $this->ctrl->setParameter($this->parent_obj, "plugin_id", null);
+        $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, null);
 
         if ($a_set["must_install"]) {
-            $this->addCommandToActions($actions, "cmps_install", "installPlugin");
+            $this->addCommandToActions($actions, "cmps_install", ilObjComponentSettingsGUI::CMD_INSTALL_PLUGIN);
         } else {
             if ($a_set["config_class"]) {
                 $actions[$this->lng->txt("cmps_configure")]
-                    = $this->ctrl->getLinkTargetByClass($a_set["config_class"], "configure");
+                    = $this->ctrl->getLinkTargetByClass($a_set["config_class"], ilObjComponentSettingsGUI::CMD_CONFIGURE);
             }
 
             if ($a_set["has_lang"]) {
-                $this->addCommandToActions($actions, "cmps_refresh", "refreshLanguages");
+                $this->addCommandToActions($actions, "cmps_refresh", ilObjComponentSettingsGUI::CMD_REFRESH_LANGUAGES);
             }
 
-            if ($a_set["plugin_active"]) {
-                $this->addCommandToActions($actions, "cmps_deactivate", "deactivatePlugin");
+            if ($a_set[self::F_PLUGIN_ACTIVE]) {
+                $this->addCommandToActions($actions, "cmps_deactivate", ilObjComponentSettingsGUI::CMD_DEACTIVATE_PLUGIN);
             }
 
             if ($a_set["activation_possible"]) {
-                $this->addCommandToActions($actions, "cmps_activate", "activatePlugin");
+                $this->addCommandToActions($actions, "cmps_activate", ilObjComponentSettingsGUI::CMD_ACTIVATE_PLUGIN);
             }
 
             // update button
             if ($a_set["needs_update"]) {
-                $this->addCommandToActions($actions, "cmps_update", "updatePlugin");
+                $this->addCommandToActions($actions, "cmps_update", ilObjComponentSettingsGUI::CMD_UPDATE_PLUGIN);
             }
 
             // #17428
-            $this->addCommandToActions($actions, "cmps_uninstall", "confirmUninstallPlugin");
+            $this->addCommandToActions($actions, "cmps_uninstall", ilObjComponentSettingsGUI::CMD_CONFIRM_UNINSTALL_PLUGIN);
         }
 
         $this->clearParameter();
@@ -268,47 +255,23 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         return $actions;
     }
 
-
-    /**
-     * Set parameter for plugin
-     *
-     * @param string[] $a_set
-     *
-     * @return void
-     */
-    protected function setParameter(array $a_set)
+    protected function setParameter(array $a_set) : void
     {
-        $this->ctrl->setParameter($this->parent_obj, "ctype", $a_set["component_type"]);
-        $this->ctrl->setParameter($this->parent_obj, "cname", $a_set["component_name"]);
-        $this->ctrl->setParameter($this->parent_obj, "slot_id", $a_set["slot_id"]);
-        $this->ctrl->setParameter($this->parent_obj, "pname", $a_set["plugin_name"]);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CTYPE, $a_set["component_type"]);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CNAME, $a_set[self::F_COMPONENT_NAME]);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_SLOT_ID, $a_set["slot_id"]);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_PLUGIN_NAME, $a_set[self::F_PLUGIN_NAME]);
     }
 
-
-    /**
-     * Clear parameter
-     *
-     * @return void
-     */
-    protected function clearParameter()
+    protected function clearParameter() : void
     {
-        $this->ctrl->setParameter($this->parent_obj, "ctype", null);
-        $this->ctrl->setParameter($this->parent_obj, "cname", null);
-        $this->ctrl->setParameter($this->parent_obj, "slot_id", null);
-        $this->ctrl->setParameter($this->parent_obj, "pname", null);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CTYPE, null);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_CNAME, null);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_SLOT_ID, null);
+        $this->ctrl->setParameter($this->parent_obj, ilObjComponentSettingsGUI::P_PLUGIN_NAME, null);
     }
 
-
-    /**
-     * Add command to actions
-     *
-     * @param string[]    &$actions
-     * @param string       $caption not translated lang var
-     * @param string       $command
-     *
-     * @return void
-     */
-    protected function addCommandToActions(array &$actions, $caption, $command)
+    protected function addCommandToActions(array &$actions, string $caption, string $command) : void
     {
         $actions[$this->lng->txt($caption)]
             = $this->ctrl->getLinkTarget($this->parent_obj, $command);
