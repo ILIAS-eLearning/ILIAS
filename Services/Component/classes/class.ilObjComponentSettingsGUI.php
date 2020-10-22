@@ -2,23 +2,19 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
-
 /**
-* Components (Modules, Services, Plugins) Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
-*
-* @ingroup ServicesComponent
-*/
+ * Components (Modules, Services, Plugins) Settings.
+ * @author       Alex Killing <alex.killing@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilObjComponentSettingsGUI: ilPermissionGUI
+ * @ingroup      ServicesComponent
+ */
 class ilObjComponentSettingsGUI extends ilObjectGUI
 {
     private static $ERROR_MESSAGE;
+
     /**
      * Contructor
-     *
      * @access public
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -31,19 +27,17 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     /**
      * Execute command
-     *
      * @access public
-     *
      */
     public function executeCommand()
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC->ctrl();
+        $ilErr      = $DIC['ilErr'];
+        $ilCtrl     = $DIC->ctrl();
 
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $cmd        = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
@@ -56,7 +50,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 $this->tabs_gui->setTabActive('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $ret      = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -78,7 +72,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
                         $nc->setPluginObject($pl);
 
-                        $ret = $this->ctrl->forwardCommand($nc);
+                        $ret    = $this->ctrl->forwardCommand($nc);
                         $config = true;
                     }
                 }
@@ -97,15 +91,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     /**
      * Get tabs
-     *
      * @access public
-     *
      */
     public function getAdminTabs()
     {
         global $DIC;
         $rbacsystem = $DIC->rbac()->system();
-        $lng = $DIC->language();
+        $lng        = $DIC->language();
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
@@ -137,8 +129,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * List Services
-    */
+     * List Services
+     */
     public function listSlots()
     {
         if (!DEVMODE) {
@@ -152,17 +144,16 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         $this->tpl->setContent($comp_table->getHTML());
     }
-    
+
     /**
      * List plugins
-     *
      * @param
      * @return
      */
     protected function listPlugins()
     {
         global $DIC;
-        $tpl = $DIC->ui()->mainTemplate();
+        $tpl    = $DIC->ui()->mainTemplate();
         $ilTabs = $DIC->tabs();
 
         $ilTabs->activateTab("plugins");
@@ -177,8 +168,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function showPluginSlotInfo()
     {
         global $DIC;
-        $tpl = $DIC->ui()->mainTemplate();
-        $lng = $DIC->language();
+        $tpl    = $DIC->ui()->mainTemplate();
+        $lng    = $DIC->language();
         $ilTabs = $DIC->tabs();
         $ilCtrl = $DIC->ctrl();
 
@@ -254,11 +245,11 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function showPlugin()
     {
         global $DIC;
-        $ilCtrl = $DIC->ctrl();
-        $ilTabs = $DIC->tabs();
-        $lng = $DIC->language();
-        $tpl = $DIC->ui()->mainTemplate();
-        $ilDB = $DIC->database();
+        $ilCtrl    = $DIC->ctrl();
+        $ilTabs    = $DIC->tabs();
+        $lng       = $DIC->language();
+        $tpl       = $DIC->ui()->mainTemplate();
+        $ilDB      = $DIC->database();
         $ilToolbar = $DIC->toolbar();
 
         if (!$_GET["ctype"] ||
@@ -298,7 +289,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $plugin["name"] . "/lang");
 
         // dbupdate
-        $file = ilPlugin::getDBUpdateScriptName(
+        $file    = ilPlugin::getDBUpdateScriptName(
             $_GET["ctype"],
             $_GET["cname"],
             ilPluginSlot::lookupSlotName($_GET["ctype"], $_GET["cname"], $_GET["slot_id"]),
@@ -396,15 +387,15 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $status = $lng->txt("cmps_inactive") . $r;
         }
 
-        $info[""][$lng->txt("cmps_name")] = $plugin["name"];
-        $info[""][$lng->txt("cmps_id")] = $plugin["id"];
+        $info[""][$lng->txt("cmps_name")]    = $plugin["name"];
+        $info[""][$lng->txt("cmps_id")]      = $plugin["id"];
         $info[""][$lng->txt("cmps_version")] = $plugin["version"];
         if ($resp) {
             $info[""][$lng->txt("cmps_responsible")] = $resp;
         }
         $info[""][$lng->txt("cmps_ilias_min_version")] = $plugin["ilias_min_version"];
         $info[""][$lng->txt("cmps_ilias_max_version")] = $plugin["ilias_max_version"];
-        $info[""][$lng->txt("cmps_status")] = $status;
+        $info[""][$lng->txt("cmps_status")]            = $status;
 
         if (sizeof($langs)) {
             $lang_files = array();
@@ -416,7 +407,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             $info[""][$lng->txt("cmps_languages")] = $lng->txt("cmps_no_language_file_available");
         }
 
-        $info[$lng->txt("cmps_basic_files")]["plugin.php"] = $plugin["plugin_php_file_status"] ?
+        $info[$lng->txt("cmps_basic_files")]["plugin.php"]                 = $plugin["plugin_php_file_status"] ?
             $lng->txt("cmps_available") :
             $lng->txt("cmps_missing");
         $info[$lng->txt("cmps_basic_files")][$lng->txt("cmps_class_file")] = ($plugin["class_file_status"] ?
@@ -427,9 +418,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         if (!$db_file) {
             $info[$lng->txt("cmps_database")][$lng->txt("file")] = $lng->txt("cmps_no_db_update_file_available");
         } else {
-            $info[$lng->txt("cmps_database")][$lng->txt("file")] = "dbupdate.php";
+            $info[$lng->txt("cmps_database")][$lng->txt("file")]                 = "dbupdate.php";
             $info[$lng->txt("cmps_database")][$lng->txt("cmps_current_version")] = $db_curr;
-            $info[$lng->txt("cmps_database")][$lng->txt("cmps_file_version")] = $db_file;
+            $info[$lng->txt("cmps_database")][$lng->txt("cmps_file_version")]    = $db_file;
         }
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -454,7 +445,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     /**
      * Install a plugin
-     *
      * @return void
      */
     protected function installPlugin()
@@ -472,13 +462,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Activate a plugin.
-    */
+     * Activate a plugin.
+     */
     protected function activatePlugin()
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
+        $lng    = $DIC->language();
 
         include_once("./Services/Component/classes/class.ilPlugin.php");
         $pl = ilPlugin::getPluginObject(
@@ -512,8 +502,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Update a plugin.
-    */
+     * Update a plugin.
+     */
     protected function updatePlugin()
     {
         include_once("./Services/Component/classes/class.ilPlugin.php");
@@ -529,9 +519,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     /**
      * Execute update and ctrl reload
-     *
-     * @param ilPlugin 	$plugin
-     *
+     * @param ilPlugin $plugin
      * @return void
      */
     protected function update(ilPlugin $plugin)
@@ -559,13 +547,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Deactivate a plugin.
-    */
+     * Deactivate a plugin.
+     */
     protected function deactivatePlugin()
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
+        $lng    = $DIC->language();
 
         include_once("./Services/Component/classes/class.ilPlugin.php");
         $pl = ilPlugin::getPluginObject(
@@ -596,8 +584,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Refresh Languages
-    */
+     * Refresh Languages
+     */
     protected function refreshLanguages()
     {
         global $DIC;
@@ -632,8 +620,8 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function confirmUninstallPlugin()
     {
         global $DIC;
-        $ilCtrl = $DIC->ctrl();
-        $tpl = $DIC->ui()->mainTemplate();
+        $ilCtrl        = $DIC->ctrl();
+        $tpl           = $DIC->ui()->mainTemplate();
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         include_once("./Services/Component/classes/class.ilPlugin.php");
@@ -652,7 +640,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         );
 
         $activation = ((bool) $pl_meta["activation_possible"] || (bool) $pl_meta["is_active"]); // #18827
-        $reason = $pl_meta["inactive_reason"];
+        $reason     = $pl_meta["inactive_reason"];
 
         $question = $activation
             ? sprintf($this->lng->txt("cmps_uninstall_confirm"), $pl->getPluginName())
