@@ -11235,6 +11235,26 @@ footer {
   font-family: il-icons;
   content: "\e606";
 }
+.glyphicon-bulletlist:before {
+  font-family: il-icons;
+  content: "\e900";
+}
+.glyphicon-numberedlist:before {
+  font-family: il-icons;
+  content: "\e901";
+}
+.glyphicon-listindent:before {
+  font-family: il-icons;
+  content: "\e902";
+}
+.glyphicon-listoutdent:before {
+  font-family: il-icons;
+  content: "\e903";
+}
+.glyphicon-filter:before {
+  font-family: il-icons;
+  content: "\e904";
+}
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
