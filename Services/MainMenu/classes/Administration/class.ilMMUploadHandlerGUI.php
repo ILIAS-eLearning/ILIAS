@@ -6,7 +6,7 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult as HandlerResultInterface;
-use ILIAS\MainMenu\Storage\Services;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Input\Field\HandlerResult;
 
 /**
@@ -34,8 +34,9 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function __construct()
     {
+        global $DIC;
         parent::__construct();
-        $this->storage = new Services();
+        $this->storage = $DIC['resource_storage'];
         $this->stakeholder = new ilMMStorageStakeholder();
     }
 
@@ -52,7 +53,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         $array = $this->upload->getResults();
         $result = end($array);
         if ($result instanceof UploadResult && $result->isOK()) {
-            $i = $this->storage->upload($result, $this->stakeholder);
+            $i = $this->storage->manage()->upload($result, $this->stakeholder);
             $status = HandlerResultInterface::STATUS_OK;
             $identifier = $i->serialize();
             $message = 'Upload ok';
@@ -68,9 +69,9 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     protected function getRemoveResult(string $identifier) : HandlerResultInterface
     {
-        $id = $this->storage->find($identifier);
+        $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
-            $this->storage->remove($id);
+            $this->storage->manage()->remove($id);
 
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         } else {
@@ -81,11 +82,11 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 
     protected function getInfoResult(string $identifier) : FileInfoResult
     {
-        $id = $this->storage->find($identifier);
+        $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
-        $r = $this->storage->getRevision($id)->getInformation();
+        $r = $this->storage->manage()->getRevision($id)->getInformation();
 
         return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(), $r->getSize(), $r->getMimeType());
     }
@@ -95,11 +96,11 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $infos = [];
         foreach ($file_ids as $file_id) {
-            $id = $this->storage->find($file_id);
+            $id = $this->storage->manage()->find($file_id);
             if ($id === null) {
                 continue;
             }
-            $r = $this->storage->getRevision($id)->getInformation();
+            $r = $this->storage->manage()->getRevision($id)->getInformation();
 
             $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, $r->getTitle(), $r->getSize(), $r->getMimeType());
         }
