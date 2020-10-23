@@ -53,6 +53,11 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
     const LANGUAGE = "language";
     const LOGIN = "login";
     const LOGOUT = "logout";
+    const BULLETLIST = "bulletlist";
+    const NUMBEREDLIST = "numberedlist";
+    const LISTINDENT = "listindent";
+    const LISTOUTDENT = "listoutdent";
+    const FILTER = "filter";
 
     /**
      * Get the type of the glyph.

@@ -329,4 +329,44 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::LOGOUT, "log_out", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function bulletlist(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::BULLETLIST, "bulletlist", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function numberedlist(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::NUMBEREDLIST, "numberedlist", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function listindent(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LISTINDENT, "listindent", $action);
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function listoutdent(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LISTOUTDENT, "listoutdent", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function filter(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::FILTER, "filter", $action);
+    }
 }
