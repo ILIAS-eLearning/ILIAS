@@ -11776,10 +11776,8 @@ pd#:#block_show_pdtasks#:#Pokaż zadania
 pd#:#block_show_x#:#Pokaż %s
 pd#:#pd_achievements#:#Osiągnięcia
 pd#:#pd_bookmarks#:#Zakładki
-pd#:#pd_comments_notification#:#General notification about all comments
 pd#:#pd_download_last_export_file#:#Pobierz aktualny plik eksportowy
 pd#:#pd_enable_comments#:#Aktywuj komentarze
-pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors
 pd#:#pd_enable_prtf#:#Aktywuj portfolia
 pd#:#pd_enable_user_publish#:#Aktywuj opublikowanie treści użytkowników
 pd#:#pd_enable_user_publish_info#:#Ta opcja umożliwia użytkownikom globalne udostępnienie swojego profilu, treści z przestrzeni pracy oraz portfolia (w Internecie).
@@ -13464,41 +13462,6 @@ rep#:#rep_tree_limit_info#:#Liczba obiektów w drzewie repozytorium będzie ogra
 rep#:#rep_tree_limit_number#:#Maksymalna liczba
 rep#:#rep_tree_limit_number_info#:#Maksymalna liczba elementów podrzędnych, które są początkowo wyświetlane dla rozwiniętego węzła. Jeśli występuje więcej elementów podrzędnych, wyświetlane jest pole wyszukiwania, które filtruje elementy podrzędne według tytułu.
 rep#:#rep_visibility_until#:#Dostępny tymczasowo
-rep_robj_xbbb#:#obj_xbbb#:#Wideokonferencje
-rep_robj_xbbb#:#rep_robj_xbbb_checkbox_record_meeting#:#Nagraj spotkanie
-rep_robj_xbbb#:#rep_robj_xbbb_class_running#:#Lekcja uruchomiona
-rep_robj_xbbb#:#rep_robj_xbbb_click_to_open_class#:#Kliknij, aby otworzyć lekcję
-rep_robj_xbbb#:#rep_robj_xbbb_content#:#Zawartość
-rep_robj_xbbb#:#rep_robj_xbbb_Date_Title#:#Data
-rep_robj_xbbb#:#rep_robj_xbbb_delete_bbb_recording#:#Usuń nagranie BBB
-rep_robj_xbbb#:#rep_robj_xbbb_description#:#Opis
-rep_robj_xbbb#:#rep_robj_xbbb_edit#:#Edytuj ustawienia
-rep_robj_xbbb#:#rep_robj_xbbb_edit_properties#:#Edytuj ustawienia
-rep_robj_xbbb#:#rep_robj_xbbb_end_bbb_class#:#Zakończ lekcję
-rep_robj_xbbb#:#rep_robj_xbbb_end_class#:#Zakończ lekcję
-rep_robj_xbbb#:#rep_robj_xbbb_end_class_comment#:#Komentarze wyłączone
-rep_robj_xbbb#:#rep_robj_xbbb_Headline_Recordings#:#Nagranie z nagłówkami
-rep_robj_xbbb#:#rep_robj_xbbb_Length_Title#:#Długość tytułu
-rep_robj_xbbb#:#rep_robj_xbbb_Link_Title#:#Nazwa linku
-rep_robj_xbbb#:#rep_robj_xbbb_meetingRecordedMessage#:#Nagrane spotkanie - wiadomość
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created#:#Nowa lekcja utworzona
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_join_manual#:#Kliknij, aby dołączyć
-rep_robj_xbbb#:#rep_robj_xbbb_new_class_created_warning#:#Ostrzeżenie
-rep_robj_xbbb#:#rep_robj_xbbb_no_class_running#:#Brak uruchomionych lekcji
-rep_robj_xbbb#:#rep_robj_xbbb_obj_xbbb#:#Wirtualna lekcja
-rep_robj_xbbb#:#rep_robj_xbbb_objs_xbbb#:#Wirtualne lekcje
-rep_robj_xbbb#:#rep_robj_xbbb_properties#:#Właściwości
-rep_robj_xbbb#:#rep_robj_xbbb_save#:#Zapisz
-rep_robj_xbbb#:#rep_robj_xbbb_start_bbb_class#:#Rozpocznij lekcję
-rep_robj_xbbb#:#rep_robj_xbbb_start_class#:#Rozpocznij lekcję
-rep_robj_xbbb#:#rep_robj_xbbb_title#:#Tytuł
-rep_robj_xbbb#:#rep_robj_xbbb_welcometext#:#Test powitalny
-rep_robj_xhfp#:#rep_robj_xhfp_obj_xhfp#:#Obiekty H5P
-rep_robj_xhfp#:#rep_robj_xhfp_objs_xhfp_duplicate#:#Skopiuj
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_add#:#Dodaj nowy obiekt
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_new#:#Dodaj nowy obiekt
-rep_robj_xhfp#:#xhfp_copy#:#Skopiuj
-rep_robj_xuiz#:#rep_robj_xuiz_obj_xuiz#:#Mobilny quiz
 rfil#:#rfil_call#:#Wywołaj plik ECS
 rfil#:#rfil_version_tstamp#:#Data wysłania
 rglo#:#rglo_call#:#Wywołaj słownik ECS
@@ -13562,9 +13525,6 @@ scormdebug#:#adl.nav.request_valid.continue#:#wysyła komunikat zwrotny do SCO, 
 scormdebug#:#adl.nav.request_valid.previous#:#wysyła komunikat zwrotny do SCO, czy możliwa jest zwrotna nawigacja
 scormdebug#:#all_API-calls_shown#:#Aktualnie wyświetlane są wszystkie wywołania SCORM-API.
 scormdebug#:#API-call#:#Wywołanie API
-scormdebug#:#cmi_comments_from_learner__count#:#Current number of learner comments
-scormdebug#:#cmi_comments_from_lms__count#:#Current number of comments from the LMS
-scormdebug#:#cmi_comments_from_lms_n_comment#:#Comments or annotations associated with a SCO
 scormdebug#:#cmi._version#:#przedstawia wersję modelu danych
 scormdebug#:#cmi.comments_from_learner._children#:#Lista obsługiwanych elementów modelu danych
 scormdebug#:#cmi.comments_from_learner._count#:#aktualna liczba komentarzy uczestnika/uczestników kursu
@@ -15763,7 +15723,6 @@ ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Pozostałe znaki:
 ui#:#ui_error_in_group#:#W tej części jest błąd.
 ui#:#ui_numeric_only#:#Proszę wstawić liczbę całkowitą.
-ui_uihk_srlppd#:#object_deleted#:#Usunięty obiekt
 user#:#all_roles_has_starting_point#:#Wszystkie role ze zdefiniowaną stroną startową
 user#:#back_to_starting_points_list#:#Wróć do stron startowych
 user#:#clipboard_add_btn#:#Dodaj do schowka
@@ -16219,3 +16178,16 @@ wsp#:#wsp_type_scov#:#Certyfikat: SCORM
 wsp#:#wsp_type_tstv#:#Certyfikat: test
 wsp#:#wsp_type_webr#:#Zasób web
 wsp#:#wsp_type_wfld#:#Folder
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###23 10 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+content#:#cont_link#:#Link###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+style#:#style#:#Style###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable

@@ -16007,7 +16007,6 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
-prg#:#prg_formatted_peri nbod#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16191,3 +16190,4 @@ common#:#lso_admin_form_title#:#Beállítások
 common#:#lso_admin_form_byline#:#Tanulási sor általános beállításai
 common#:#lso_admin_interval_label#:#Tanulási haladás frissítésének időköze (másodperc)
 common#:#lso_admin_interval_byline#:#A még nem teljesített Tanulási haladást minden  x. másodpercben újra lekérjük. Legyen óvatos! Túl alacsony érték negatívan hathat a szerver teljesítményére. A lehető legnagyobb értéket válassza!
+prg#:#prg_formatted_period#:#%d days###23 10 2020 new variable
