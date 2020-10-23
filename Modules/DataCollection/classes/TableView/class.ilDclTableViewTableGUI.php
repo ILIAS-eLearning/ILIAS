@@ -68,6 +68,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
         $this->addColumn($lng->txt('title'), null, 'auto');
         $this->addColumn($lng->txt('description'), null, 'auto');
+        $this->addColumn($lng->txt('dcl_configuration_complete'), null, 'auto');
         $this->addColumn($lng->txt('actions'), null, '30px');
 
         $this->setTopCommands(true);
@@ -99,6 +100,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
+        $this->tpl->setVariable("DCL_CONFIG",
+            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok.svg') : ilUtil::getImagePath('icon_not_ok.svg')
+        );
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
 
@@ -118,9 +122,8 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->setListTitle($this->lng->txt('actions'));
             $this->ctrl->setParameterByClass('ildcltableviewgui', 'tableview_id', $id);
             $this->ctrl->setParameterByClass('ilDclDetailedViewDefinitionGUI', 'tableview_id', $id);
-            $alist->addItem($this->lng->txt('settings'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
-            $alist->addItem($this->lng->txt('dcl_list_visibility_and_filter'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editFieldSettings'));
-            $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ilDclDetailedViewDefinitionGUI'), 'edit'));
+            $alist->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'editGeneralSettings'));
+            $alist->addItem($this->lng->txt('copy'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'copy'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
 
             return $alist->getHTML();

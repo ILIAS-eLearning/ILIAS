@@ -70,7 +70,7 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('FIELD_TITLE', $field->getTitle());
         $this->tpl->setVariable('ID', $a_set->getId());
         $this->tpl->setVariable('FIELD_ID', $a_set->getField());
-        $this->tpl->setVariable('VISIBLE', $a_set->isVisible() ? 'checked' : '');
+        $this->tpl->setVariable('VISIBLE', $a_set->isVisibleInList() ? 'checked' : '');
         if ($field->allowFilterInListView()) {
             $this->tpl->setVariable('IN_FILTER', $a_set->isInFilter() ? 'checked' : '');
             $this->tpl->setVariable('FILTER_VALUE', $this->getStandardFilterHTML($field, $a_set->getFilterValue()));

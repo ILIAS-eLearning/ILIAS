@@ -36,10 +36,6 @@ class ilDclBaseFieldModel
      */
     protected $datatypeId;
     /**
-     * @var bool
-     */
-    protected $required;
-    /**
      * @var int
      */
     protected $order;
@@ -47,10 +43,6 @@ class ilDclBaseFieldModel
      * @var bool
      */
     protected $unique;
-    /**
-     * @var bool
-     */
-    protected $locked;
     /**
      * @var array
      */
@@ -268,28 +260,6 @@ class ilDclBaseFieldModel
 
 
     /**
-     * Set Required
-     *
-     * @param boolean $a_required Required
-     */
-    public function setRequired($a_required)
-    {
-        $this->required = $a_required;
-    }
-
-
-    /**
-     * Get Required Required
-     *
-     * @return boolean
-     */
-    public function getRequired()
-    {
-        return $this->required;
-    }
-
-
-    /**
      * @return bool
      */
     public function isUnique()
@@ -427,9 +397,7 @@ class ilDclBaseFieldModel
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setDatatypeId($rec["datatype_id"]);
-        $this->setRequired($rec["required"]);
         $this->setUnique($rec["is_unique"]);
-        $this->setLocked($rec["is_locked"]);
         $this->loadProperties();
         $this->loadTableFieldSetting();
     }
@@ -447,9 +415,7 @@ class ilDclBaseFieldModel
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setDatatypeId($rec["datatype_id"]);
-        $this->setRequired($rec["required"]);
         $this->setUnique($rec["is_unique"]);
-        $this->setLocked($rec["is_locked"]);
     }
 
 
@@ -460,7 +426,6 @@ class ilDclBaseFieldModel
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
-        $this->getLocked() == null ? $this->setLocked(false) : true;
 
         if (!ilDclTable::_tableExists($this->getTableId())) {
             throw new ilException("The field does not have a related table!");
@@ -468,11 +433,10 @@ class ilDclBaseFieldModel
 
         $id = $ilDB->nextId("il_dcl_field");
         $this->setId($id);
-        $query = "INSERT INTO il_dcl_field (" . "id" . ", table_id" . ", datatype_id" . ", title" . ", description" . ", required" . ", is_unique"
-            . ", is_locked" . " ) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getTableId(), "integer") . ","
+        $query = "INSERT INTO il_dcl_field (" . "id" . ", table_id" . ", datatype_id" . ", title" . ", description" . ", is_unique"
+            . " ) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getTableId(), "integer") . ","
             . $ilDB->quote($this->getDatatypeId(), "integer") . "," . $ilDB->quote($this->getTitle(), "text") . ","
-            . $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->getRequired(), "integer") . ","
-            . $ilDB->quote($this->isUnique(), "integer") . "," . $ilDB->quote($this->getLocked() ? 1 : 0, "integer") . ")";
+            . $ilDB->quote($this->getDescription(), "text") . "," . $ilDB->quote($this->isUnique(), "integer") . ")";
         $ilDB->manipulate($query);
 
         $this->updateTableFieldSetting();
@@ -503,35 +467,27 @@ class ilDclBaseFieldModel
         $ilDB->update(
             "il_dcl_field",
             array(
-            "table_id" => array(
-                "integer",
-                $this->getTableId(),
+                "table_id"    => array(
+                    "integer",
+                    $this->getTableId(),
+                ),
+                "datatype_id" => array(
+                    "text",
+                    $this->getDatatypeId(),
+                ),
+                "title"       => array(
+                    "text",
+                    $this->getTitle(),
+                ),
+                "description" => array(
+                    "text",
+                    $this->getDescription(),
+                ),
+                "is_unique"   => array(
+                    "integer",
+                    $this->isUnique(),
+                ),
             ),
-            "datatype_id" => array(
-                "text",
-                $this->getDatatypeId(),
-            ),
-            "title" => array(
-                "text",
-                $this->getTitle(),
-            ),
-            "description" => array(
-                "text",
-                $this->getDescription(),
-            ),
-            "required" => array(
-                "integer",
-                $this->getRequired(),
-            ),
-            "is_unique" => array(
-                "integer",
-                $this->isUnique(),
-            ),
-            "is_locked" => array(
-                "integer",
-                $this->getLocked() ? 1 : 0,
-            ),
-        ),
             array(
                 "id" => array(
                     "integer",
@@ -585,15 +541,26 @@ class ilDclBaseFieldModel
         $query = "DELETE FROM il_dcl_field WHERE id = " . $ilDB->quote($this->getId(), "text");
         $ilDB->manipulate($query);
 
-        foreach ($this->getFieldSettings() as $field_setting) {
+        foreach ($this->getViewSettings() as $field_setting) {
             $field_setting->delete();
         }
     }
 
-
-    public function getFieldSettings()
+    /**
+     * @return ilDclTableViewFieldSetting[]
+     */
+    public function getViewSettings() : array
     {
         return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
+    }
+
+    /**
+     * @param int $tableview_id
+     * @return ilDclTableViewFieldSetting
+     */
+    public function getViewSetting(int $tableview_id) : ilDclTableViewFieldSetting
+    {
+        return ilDclTableViewFieldSetting::where(array('field' => $this->getId(), 'tableview_id' => $tableview_id))->first();
     }
 
 
@@ -716,24 +683,6 @@ class ilDclBaseFieldModel
 
 
     /**
-     * @param boolean $locked
-     */
-    public function setLocked($locked)
-    {
-        $this->locked = $locked;
-    }
-
-
-    /**
-     * @return boolean
-     */
-    public function getLocked()
-    {
-        return $this->locked;
-    }
-
-
-    /**
      * @param ilPropertyFormGUI $form
      * @param null              $record_id
      */
@@ -799,9 +748,7 @@ class ilDclBaseFieldModel
         $this->setTitle($original->getTitle());
         $this->setDatatypeId($original->getDatatypeId());
         $this->setDescription($original->getDescription());
-        $this->setLocked($original->getLocked());
         $this->setOrder($original->getOrder());
-        $this->setRequired($original->getRequired());
         $this->setUnique($original->isUnique());
         $this->setExportable($original->getExportable());
         $this->doCreate();
@@ -1027,13 +974,12 @@ class ilDclBaseFieldModel
     public function fillPropertiesForm(ilPropertyFormGUI &$form)
     {
         $values = array(
-            'table_id' => $this->getTableId(),
-            'field_id' => $this->getId(),
-            'title' => $this->getTitle(),
-            'datatype' => $this->getDatatypeId(),
-            'description' => $this->getDescription(),
-            'required' => $this->getRequired(),
-            'unique' => $this->isUnique(),
+            'table_id'      => $this->getTableId(),
+            'field_id'      => $this->getId(),
+            'title'         => $this->getTitle(),
+            'datatype'      => $this->getDatatypeId(),
+            'description'   => $this->getDescription(),
+            'unique'        => $this->isUnique(),
         );
 
         $properties = $this->getValidFieldProperties();
@@ -1078,7 +1024,6 @@ class ilDclBaseFieldModel
         $ilConfirmationGUI->addHiddenItem('title', $form->getInput('title'));
         $ilConfirmationGUI->addHiddenItem('description', $form->getInput('description'));
         $ilConfirmationGUI->addHiddenItem('datatype', $form->getInput('datatype'));
-        $ilConfirmationGUI->addHiddenItem('required', $form->getInput('required'));
         $ilConfirmationGUI->addHiddenItem('unique', $form->getInput('unique'));
         $ilConfirmationGUI->setConfirm($DIC->language()->txt('dcl_update_field'), 'update');
         $ilConfirmationGUI->setCancel($DIC->language()->txt('cancel'), 'edit');

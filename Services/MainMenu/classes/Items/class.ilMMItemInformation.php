@@ -1,5 +1,6 @@
 <?php
 
+use ILIAS\Filesystem\Exception\FileNotFoundException;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
@@ -132,8 +133,14 @@ class ilMMItemInformation implements ItemInformation
             if (!$ri) {
                 return $item;
             }
-            $stream     = $this->storage->consume()->stream($ri)->getStream();
-            $data       = 'data:' . $this->storage->manage()->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+
+            try {
+                $stream = $this->storage->consume()->stream($ri)->getStream();
+            } catch (FileNotFoundException $f) {
+                return $item;
+            }
+            $data = 'data:' . $this->storage->manage()->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();

@@ -699,17 +699,17 @@ class ilDclTable
         return $this->fields;
     }
 
-
     /**
+     * @param bool $creation_mode
      * @return array
      */
-    public function getEditableFields()
+    public function getEditableFields(bool $creation_mode)
     {
         $fields = $this->getRecordFields();
         $editableFields = array();
 
         foreach ($fields as $field) {
-            if (!$field->getLocked()) {
+            if (!$field->getViewSetting($_POST["tableview_id"])->isLocked($creation_mode)) {
                 $editableFields[] = $field;
             }
         }
