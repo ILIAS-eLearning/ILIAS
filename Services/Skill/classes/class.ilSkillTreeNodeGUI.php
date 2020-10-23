@@ -61,6 +61,7 @@ class ilSkillTreeNodeGUI
         $this->tpl = $DIC["tpl"];
         $this->user = $DIC->user();
         $ilAccess = $DIC->access();
+        $this->tree = $DIC->repositoryTree();
 
         $this->node_object = null;
         $this->access = $ilAccess;
@@ -723,6 +724,41 @@ class ilSkillTreeNodeGUI
         }
 
         $tpl->setContent($html);
+    }
+
+    /**
+     * @param $a_tabs
+     */
+    public function addObjectsTab($a_tabs)
+    {
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+
+        $a_tabs->addTab(
+            "objects",
+            $lng->txt("skmg_assigned_objects"),
+            $ilCtrl->getLinkTarget($this, "showObjects")
+        );
+    }
+
+    /**
+     * Show assigned objects
+     */
+    public function showObjects()
+    {
+        $tpl = $this->tpl;
+
+        $this->setTabs("objects");
+
+        $base_skill_id = ($this->base_skill_id > 0)
+            ? $this->base_skill_id
+            : $this->node_object->getId();
+        $usage_info = new ilSkillUsage();
+        $objects = $usage_info->getAssignedObjectsForSkill($base_skill_id, $this->tref_id);
+
+        $tab = new ilSkillAssignedObjectsTableGUI($this, "showObjects", $objects);
+
+        $tpl->setContent($tab->getHTML());
     }
     
     /**

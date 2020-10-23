@@ -129,7 +129,7 @@ class ilSkillProfileGUI
                     "showUsers", "assignUser", "assignRole",
                     "confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm",
                     "importProfiles", "saveLevelOrder", "createLocal", "saveLocal",
-                    "listLocalProfiles", "showLevelsWithLocalContext"))) {
+                    "listLocalProfiles", "showLevelsWithLocalContext", "showObjects"))) {
                     $this->$cmd();
                 }
                 break;
@@ -174,6 +174,13 @@ class ilSkillProfileGUI
             "levels",
             $lng->txt("skmg_assigned_skill_levels"),
             $ilCtrl->getLinkTarget($this, "showLevels")
+        );
+
+        // objects
+        $ilTabs->addTab(
+            "objects",
+            $lng->txt("skmg_assigned_objects"),
+            $ilCtrl->getLinkTarget($this, "showObjects")
         );
         
         // settings
@@ -906,6 +913,26 @@ class ilSkillProfileGUI
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
         $ilCtrl->redirect($this, "showUsers");
+    }
+
+    /**
+     * Show assigned objects
+     */
+    public function showObjects()
+    {
+        $tpl = $this->tpl;
+
+        $this->setTabs("objects");
+
+        $usage_info = new ilSkillUsage();
+        $objects = $usage_info->getAssignedObjectsForSkillProfile($this->profile->getId());
+
+        $tab = new ilSkillAssignedObjectsTableGUI(
+            $this,
+            "showObjects",
+            $objects
+        );
+        $tpl->setContent($tab->getHTML());
     }
 
     /**

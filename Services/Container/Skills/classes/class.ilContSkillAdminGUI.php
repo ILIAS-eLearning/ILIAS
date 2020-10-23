@@ -433,6 +433,7 @@ class ilContSkillAdminGUI
 
         $this->container_skills->addSkill((int) $s[0], (int) $s[1]);
         $this->container_skills->save();
+        ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1]);
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
@@ -485,6 +486,7 @@ class ilContSkillAdminGUI
                 $this->container_skills->removeSkill($s[0], $s[1]);
             }
             $this->container_skills->save();
+            ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
         }
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 

@@ -66,7 +66,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TYPE", $a_set["type"]);
         $this->tpl->setVariable("NAME", $a_set["name"]);
-        $this->tpl->setVariable("OBJECT", $a_set["object"]);
+        $this->tpl->setVariable("OBJECT", $a_set["object_title"]);
         if (!$this->profile->getRefId() > 0) {
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable("ID", $a_set["id"]);
