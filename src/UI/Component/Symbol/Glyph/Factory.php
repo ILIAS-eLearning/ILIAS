@@ -1134,6 +1134,8 @@ interface Factory
      *    - The Logout Glyph appears in the Slate triggered by clicking on the User Avatar in the Meta Bar.
      *
      * rules:
+     *   usage:
+     *       1: The Logout Glyph MUST be displayed if the user is logged in.
      *   accessibility:
      *       1: >
      *          The aria-label MUST be 'Logout'.
