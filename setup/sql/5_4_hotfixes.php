@@ -1399,3 +1399,7 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
     $ilDB->addIndex('il_object_subobj', array('subobj'), 'i1');
 }
 ?>
+<#99>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

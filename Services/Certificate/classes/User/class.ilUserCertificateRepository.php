@@ -52,16 +52,17 @@ class ilUserCertificateRepository
 
     /**
      * @param ilUserCertificate $userCertificate
+     * @return ilUserCertificate
      * @throws ilDatabaseException
      */
-    public function save(ilUserCertificate $userCertificate)
+    public function save(ilUserCertificate $userCertificate) : ilUserCertificate
     {
         $this->logger->info('START - saving of user certificate');
 
-        $version = $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
+        $version = (int) $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
         $version += 1;
 
-        $id = $this->database->nextId('il_cert_user_cert');
+        $id = (int) $this->database->nextId('il_cert_user_cert');
 
         $objId = $userCertificate->getObjId();
         $userId = $userCertificate->getUserId();
@@ -89,6 +90,8 @@ class ilUserCertificateRepository
         $this->logger->debug(sprintf('END - Save certificate with following values: %s', json_encode($columns, JSON_PRETTY_PRINT)));
 
         $this->database->insert('il_cert_user_cert', $columns);
+
+        return $userCertificate->withId($id)->withVersion($version);
     }
 
     /**
