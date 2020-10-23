@@ -20,6 +20,10 @@ class ilSessionDBHandler
     public function setSaveHandler()
     {
         // register save handler functions
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return true;
+        }
+
         if (ini_get("session.save_handler") == "user" || version_compare(PHP_VERSION, '7.2.0', '>=')) {
             session_set_save_handler(
                 array($this, "open"),
