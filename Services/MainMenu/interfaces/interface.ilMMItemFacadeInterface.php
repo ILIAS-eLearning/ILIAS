@@ -186,6 +186,11 @@ interface ilMMItemFacadeInterface
      */
     public function setIsTopItm(bool $top_item);
 
+    /**
+     * @return bool
+     */
+    public function isInterchangeable() : bool;
+
     //
     // CRUD
     //

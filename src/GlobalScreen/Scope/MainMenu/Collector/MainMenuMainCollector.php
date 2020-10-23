@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -13,6 +14,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
@@ -54,10 +56,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information = $information;
-        $this->providers = $providers;
+        $this->information                 = $information;
+        $this->providers                   = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map = new Map();
+        $this->map                         = new Map();
     }
 
     /**
@@ -153,6 +155,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                     $item->overrideParent($parent->getProviderIdentification());
                 }
             }
+            if ($item instanceof isInterchangeableItem) {
+                $parent_identification = $this->information->getParent($item);
+                if (!$parent_identification instanceof NullIdentification) {
+                    $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
+                    $parent->appendChild($item);
+                }
+                $item->overrideParent($parent_identification);
+            }
+
             return $item;
         });
     }
@@ -187,18 +198,23 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
 
     /**
-     * This will return all available topitems, stacked based on the configuration
-     * in "Administration" and for the visibility of the currently user.
-     * Additionally this will filter sequent Separators to avoid double Separators
-     * in the UI.
-     * @return \Generator|isTopItem[]
-     * @throws \Throwable
+     * This will return all available isTopItem (and moved isInterchangeableItem),
+     * stacked based on the configuration in "Administration" and for the
+     * visibility of the currently user.
+     * @return \Generator|isTopItem[]|isInterchangeableItem[]
      */
     public function getItemsForUIRepresentation() : \Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
+            if ($item instanceof isInterchangeableItem) {
+                if ($item->getParent() instanceof NullIdentification) {
+                    yield $item;
+                }
+                continue;
+            }
             if ($item instanceof isTopItem) {
                 yield $item;
+                continue;
             }
         }
     }

@@ -143,20 +143,31 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
             $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
 
-            $rendered_modal = "";
+            $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+
+            $delete_modal = "";
             if ($item_facade->isCustom()) {
-                $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
                 $m      = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);
 
-                $items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
-                // $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CONFIRM_DELETE));
-                $rendered_modal = $renderer->render([$m]);
+                $items[]      = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
+                $delete_modal = $renderer->render([$m]);
             }
 
-            $this->tpl->setVariable('ACTIONS', $rendered_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))]));
+            $move_modal = "";
+            if ($item_facade->isInterchangeable()) {
+                $action     = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_MOVE);
+                $m          = $factory->modal()
+                                      ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_MOVE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE), $action)
+                                      ->withActionButtonLabel(ilMMSubItemGUI::CMD_MOVE)
+                                      ->withAffectedItems([$ditem]);
+                $items[]    = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_MOVE), "")->withOnClick($m->getShowSignal());
+                $move_modal = $renderer->render([$m]);
+            }
+
+            $this->tpl->setVariable('ACTIONS', $move_modal . $delete_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))]));
         }
     }
 

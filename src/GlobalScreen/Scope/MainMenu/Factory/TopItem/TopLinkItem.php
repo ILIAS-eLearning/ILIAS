@@ -1,10 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
@@ -12,7 +14,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
  * Class TopLinkItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem, hasSymbol
+class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTopItem, hasSymbol, isInterchangeableItem
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
@@ -89,4 +91,6 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
     {
         return $this->is_external_action;
     }
+
+
 }

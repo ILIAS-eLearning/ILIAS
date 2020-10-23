@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
@@ -16,7 +17,7 @@ use ilObject2;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
+class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
