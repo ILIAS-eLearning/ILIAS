@@ -93,8 +93,8 @@ class ilCmiXapiLaunchGUI
             }
         }
         
-        $params['activitiy_id'] = urlencode($this->object->getActivityId());
-        $params['activitiyId'] = urlencode($this->object->getActivityId());
+        $params['activity_id'] = urlencode($this->object->getActivityId());
+        $params['activityId'] = urlencode($this->object->getActivityId());
         
         $params['actor'] = urlencode($this->buildActorParameter());
         
