@@ -1,6 +1,6 @@
 <?php
 /**
- * Example of how to create and render a basic password field and attach it to a form.
+ * Example of how to create and render a file input field and attach it to a form.
  */
 function base()
 {
