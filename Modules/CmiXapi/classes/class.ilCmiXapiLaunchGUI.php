@@ -63,7 +63,7 @@ class ilCmiXapiLaunchGUI
         }
         
         foreach ($this->getLaunchParameters() as $paramName => $paramValue) {
-            $launchLink = iLUtil::appendUrlParameterString($launchLink, "{$paramName}={$paramValue}");
+            $launchLink = ilUtil::appendUrlParameterString($launchLink, "{$paramName}={$paramValue}");
         }
         
         return $launchLink;
@@ -71,6 +71,8 @@ class ilCmiXapiLaunchGUI
     
     protected function getLaunchParameters()
     {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         $params = [];
         
         if ($this->object->isBypassProxyEnabled()) {
@@ -97,7 +99,9 @@ class ilCmiXapiLaunchGUI
         $params['activityId'] = urlencode($this->object->getActivityId());
         
         $params['actor'] = urlencode($this->buildActorParameter());
-        
+
+        $params['registration'] = urlencode(ilCmiXapiUser::getRegistration($this->object, $DIC->user()));
+
         return $params;
     }
     
@@ -140,10 +144,17 @@ class ilCmiXapiLaunchGUI
     protected function buildActorParameter()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $name = ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user());
+//        $name = ($name === '') ? 'NO_NAME' : $name;
         return json_encode([
             'mbox' => $this->cmixUser->getUsrIdent(),
-            'name' => ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user())
+            'name' => $name,
+            'objectType' => 'Agent',
+            'account' => [
+                'homePage' => 'NO_PAGE',
+                'name' => $name
+            ]
         ]);
     }
     
