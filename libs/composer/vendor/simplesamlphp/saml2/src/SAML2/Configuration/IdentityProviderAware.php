@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Configuration;
 
 /**
@@ -7,5 +9,10 @@ namespace SAML2\Configuration;
  */
 interface IdentityProviderAware
 {
-    public function setIdentityProvider(IdentityProvider $identityProvider);
+    /**
+     * @param IdentityProvider $identityProvider
+     *
+     * @return void
+     */
+    public function setIdentityProvider(IdentityProvider $identityProvider) : void;
 }

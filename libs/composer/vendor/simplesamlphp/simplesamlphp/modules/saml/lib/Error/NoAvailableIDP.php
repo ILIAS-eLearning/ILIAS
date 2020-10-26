@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A SAML error indicating that none of the requested IdPs can be used.
  *
@@ -10,7 +11,7 @@ namespace SimpleSAML\Module\saml\Error;
 
 use SAML2\Constants;
 
-class NoAvailableIDP extends \sspmod_saml_Error
+class NoAvailableIDP extends \SimpleSAML\Module\saml\Error
 {
     /**
      * NoAvailableIDP error constructor.

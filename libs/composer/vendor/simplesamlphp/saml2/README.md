@@ -24,6 +24,9 @@ The latest released version (`3.x` range) is the _only supported version_.
 All other branches (`2.x` and earlier) are no longer supported and will not receive any maintenance or
 (security) fixes. Do not use these versions.
 
+Also be sure to check the [UPGRADING.md](UPGRADING.md) file if you are upgrading from an older version to `>= 4.x`. Here 
+you will find instructions on how to deal with BC breaking changes between versions.
+
 Usage
 -----
 

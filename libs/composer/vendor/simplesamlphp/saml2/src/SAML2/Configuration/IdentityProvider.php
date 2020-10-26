@@ -1,55 +1,87 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Configuration;
 
 /**
  * Basic configuration wrapper
  */
-class IdentityProvider extends ArrayAdapter implements
-    CertificateProvider,
-    DecryptionProvider,
-    EntityIdProvider
+final class IdentityProvider extends ArrayAdapter implements CertificateProvider, DecryptionProvider, EntityIdProvider
 {
+    /**
+     * @return array|\Traversable|null
+     */
     public function getKeys()
     {
         return $this->get('keys');
     }
 
-    public function getCertificateData()
+
+    /**
+     * @return string|null
+     */
+    public function getCertificateData() : ?string
     {
         return $this->get('certificateData');
     }
 
-    public function getCertificateFile()
+
+    /**
+     * @return string|null
+     */
+    public function getCertificateFile() : ?string
     {
         return $this->get('certificateFile');
     }
 
+
     /**
-     * @deprecated Please use getCertifiateFile() or getCertificateData()
+     * @return array|mixed|\Traversable|null
      */
     public function getCertificateFingerprints()
     {
         return $this->get('certificateFingerprints');
     }
 
-    public function isAssertionEncryptionRequired()
+
+    /**
+     * @return bool|null
+     */
+    public function isAssertionEncryptionRequired() : ?bool
     {
         return $this->get('assertionEncryptionEnabled');
     }
 
-    public function getSharedKey()
+
+    /**
+     * @return string|null
+     */
+    public function getSharedKey() : ?string
     {
         return $this->get('sharedKey');
     }
 
+
+    /**
+     * @return mixed|null
+     */
     public function hasBase64EncodedAttributes()
     {
         return $this->get('base64EncodedAttributes');
     }
 
-    public function getPrivateKey($name, $required = false)
+
+    /**
+     * @param string $name
+     * @param bool $required
+     * @return mixed|null
+     */
+    public function getPrivateKey(string $name, bool $required = null)
     {
+        if ($required === null) {
+            $required = false;
+        }
         $privateKeys = $this->get('privateKeys');
         $key = array_filter($privateKeys, function (PrivateKey $key) use ($name) {
             return $key->getName() === $name;
@@ -72,15 +104,20 @@ class IdentityProvider extends ArrayAdapter implements
         return array_pop($key);
     }
 
-    public function getBlacklistedAlgorithms()
+
+    /**
+     * @return array|null
+     */
+    public function getBlacklistedAlgorithms() : ?array
     {
         return $this->get('blacklistedEncryptionAlgorithms');
     }
 
+
     /**
-     * @return null|string
+     * @return string|null
      */
-    public function getEntityId()
+    public function getEntityId() : ?string
     {
         return $this->get('entityId');
     }

@@ -1,26 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Utilities;
+
+use Closure;
 
 interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Add an element to the collection
      *
-     * @param $element
+     * @param mixed $element
      *
-     * @return $this|\SAML2\Utilities\Collection
+     * @return void
      */
-    public function add($element);
+    public function add($element) : void;
+
 
     /**
      * Shorthand for getting a single element that also must be the only element in the collection.
      *
-     * @return mixed
-     *
      * @throws \SAML2\Exception\RuntimeException if the element was not the only element
+     *
+     * @return mixed
      */
     public function getOnlyElement();
+
 
     /**
      * Return the first element from the collection
@@ -29,6 +35,7 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function first();
 
+
     /**
      * Return the last element from the collection
      *
@@ -36,21 +43,25 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function last();
 
+
     /**
-     * Applies the given function to each element in the collection and returns a new collection with the elements returned by the function.
+     * Applies the given function to each element in the collection and returns a new collection with the elements
+     * returned by the function.
      *
-     * @param callable $function
+     * @param \Closure $function
      *
      * @return mixed
      */
-    public function map(\Closure $function);
+    public function map(Closure $function);
+
 
     /**
-     * @param callable $filterFunction
+     * @param \Closure $filterFunction
      *
      * @return \SAML2\Utilities\Collection
      */
-    public function filter(\Closure $filterFunction);
+    public function filter(Closure $filterFunction): Collection;
+
 
     /**
      * Get the element at index
@@ -61,16 +72,20 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function get($key);
 
+
     /**
-     * @param $element
+     * @param mixed $element
+     * @return void
      */
-    public function remove($element);
+    public function remove($element) : void;
+
 
     /**
      * Set the value for index
      *
      * @param mixed $key
      * @param mixed $value
+     * @return void
      */
-    public function set($key, $value);
+    public function set($key, $value) : void;
 }

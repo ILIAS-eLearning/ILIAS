@@ -1,7 +1,7 @@
 `sqlauth:SQL`
 =============
 
-This is a authentication module for authenticating an user against a SQL database.
+This is a authentication module for authenticating a user against a SQL database.
 
 
 Options

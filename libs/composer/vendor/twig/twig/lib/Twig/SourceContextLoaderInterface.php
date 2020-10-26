@@ -1,33 +1,14 @@
 <?php
 
-/*
- * This file is part of Twig.
- *
- * (c) Fabien Potencier
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+use Twig\Loader\SourceContextLoaderInterface;
 
-/**
- * Adds a getSourceContext() method for loaders.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since 1.27 (to be removed in 3.0)
- */
-interface Twig_SourceContextLoaderInterface
-{
-    /**
-     * Returns the source context for a given template logical name.
-     *
-     * @param string $name The template logical name
-     *
-     * @return Twig_Source
-     *
-     * @throws Twig_Error_Loader When $name is not found
-     */
-    public function getSourceContext($name);
+class_exists('Twig\Loader\SourceContextLoaderInterface');
+
+@trigger_error(sprintf('Using the "Twig_SourceContextLoaderInterface" class is deprecated since Twig version 2.7, use "Twig\Loader\SourceContextLoaderInterface" instead.'), E_USER_DEPRECATED);
+
+if (\false) {
+    /** @deprecated since Twig 2.7, use "Twig\Loader\SourceContextLoaderInterface" instead */
+    class Twig_SourceContextLoaderInterface extends SourceContextLoaderInterface
+    {
+    }
 }
-
-class_alias('Twig_SourceContextLoaderInterface', 'Twig\Loader\SourceContextLoaderInterface', false);

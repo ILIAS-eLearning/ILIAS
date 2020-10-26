@@ -1,6 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\XML\saml;
+
+use DOMElement;
+use Webmozart\Assert\Assert;
 
 use SAML2\Constants;
 use SAML2\DOMDocumentFactory;
@@ -18,19 +23,20 @@ class AttributeValue implements \Serializable
      *
      * @var \DOMElement
      */
-    public $element;
+    private $element;
+
 
     /**
      * Create an AttributeValue.
      *
      * @param mixed $value The value of this element. Can be one of:
-     *  - string                      Create an attribute value with a simple string.
+     *  - string                       Create an attribute value with a simple string.
      *  - \DOMElement(AttributeValue)  Create an attribute value of the given DOMElement.
      *  - \DOMElement                  Create an attribute value with the given DOMElement as a child.
      */
     public function __construct($value)
     {
-        assert(is_string($value) || $value instanceof \DOMElement);
+        Assert::true(is_string($value) || $value instanceof DOMElement);
 
         if (is_string($value)) {
             $doc = DOMDocumentFactory::create();
@@ -41,13 +47,11 @@ class AttributeValue implements \Serializable
             /* Make sure that the xs-namespace is available in the AttributeValue (for xs:string). */
             $this->element->setAttributeNS(Constants::NS_XS, 'xs:tmp', 'tmp');
             $this->element->removeAttributeNS(Constants::NS_XS, 'tmp');
-
             return;
         }
 
         if ($value->namespaceURI === Constants::NS_SAML && $value->localName === 'AttributeValue') {
             $this->element = Utils::copyElement($value);
-
             return;
         }
 
@@ -56,29 +60,55 @@ class AttributeValue implements \Serializable
         Utils::copyElement($value, $this->element);
     }
 
+
+    /**
+     * Collect the value of the element-property
+     *
+     * @return \DOMElement
+     */
+    public function getElement() : DOMElement
+    {
+        return $this->element;
+    }
+
+
+    /**
+     * Set the value of the element-property
+     *
+     * @param \DOMElement $element
+     * @return void
+     */
+    public function setElement(DOMElement $element) : void
+    {
+        $this->element = $element;
+    }
+
+
     /**
      * Append this attribute value to an element.
      *
      * @param  \DOMElement $parent The element we should append this attribute value to.
      * @return \DOMElement The generated AttributeValue element.
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent) : DOMElement
     {
-        assert($this->element instanceof \DOMElement);
-        assert($this->element->namespaceURI === \SAML2\Constants::NS_SAML && $this->element->localName === "AttributeValue");
+        Assert::same($this->getElement()->namespaceURI, Constants::NS_SAML);
+        Assert::same($this->getElement()->localName, "AttributeValue");
 
-        $v = Utils::copyElement($this->element, $parent);
-
-        return $v;
+        return Utils::copyElement($this->element, $parent);
     }
+
 
     /**
      * Returns a plain text content of the attribute value.
+     *
+     * @return string
      */
-    public function getString()
+    public function getString() : string
     {
         return $this->element->textContent;
     }
+
 
     /**
      * Convert this attribute value to a string.
@@ -87,10 +117,8 @@ class AttributeValue implements \Serializable
      *
      * @return string This attribute value.
      */
-    public function __toString()
+    public function __toString() : string
     {
-        assert($this->element instanceof \DOMElement);
-
         $doc = $this->element->ownerDocument;
 
         $ret = '';
@@ -107,7 +135,7 @@ class AttributeValue implements \Serializable
      *
      * @return string The AttributeValue serialized.
      */
-    public function serialize()
+    public function serialize() : string
     {
         return serialize($this->element->ownerDocument->saveXML($this->element));
     }
@@ -117,8 +145,11 @@ class AttributeValue implements \Serializable
      * Un-serialize this AttributeValue.
      *
      * @param string $serialized The serialized AttributeValue.
+     * @return void
+     *
+     * Type hint not possible due to upstream method signature
      */
-    public function unserialize($serialized)
+    public function unserialize($serialized) : void
     {
         $doc = DOMDocumentFactory::fromString(unserialize($serialized));
         $this->element = $doc->documentElement;

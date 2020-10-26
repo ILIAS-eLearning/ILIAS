@@ -1,28 +1,15 @@
 <?php
 
-$config = SimpleSAML_Configuration::getInstance();
-$statconfig = SimpleSAML_Configuration::getConfig('module_statistics.php');
+namespace SimpleSAML\Module\statistics;
 
-sspmod_statistics_AccessCheck::checkAccess($statconfig);
+use SimpleSAML\Configuration;
+use SimpleSAML\Session;
+use Symfony\Component\HttpFoundation\Request;
 
-$aggr = new sspmod_statistics_Aggregator();
-$aggr->loadMetadata();
-$metadata = $aggr->getMetadata();
+$config = Configuration::getInstance();
+$session = Session::getSessionFromRequest();
+$request = Request::createFromGlobals();
 
-$t = new SimpleSAML_XHTML_Template($config, 'statistics:statmeta.tpl.php');
-
-if ($metadata !== null) {
-    if (in_array('lastrun', $metadata, true)) {
-        $metadata['lastrun'] = date('l jS \of F Y H:i:s', $metadata['lastrun']);
-    }
-    if (in_array('notBefore', $metadata, true)) {
-        $metadata['notBefore'] = date('l jS \of F Y H:i:s', $metadata['notBefore']);
-    }
-    if (in_array('memory', $metadata, true)) {
-        $metadata['memory'] = number_format($metadata['memory'] / (1024 * 1024), 2);
-    }
-    $t->data['metadata'] = $metadata;
-}
-
+$controller = new StatisticsController($config, $session);
+$t = $controller->metadata($request);
 $t->show();
-

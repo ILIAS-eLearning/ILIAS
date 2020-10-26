@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2;
 
 use DOMDocument;
@@ -13,6 +15,11 @@ use SAML2\XML\ecp\Response as ECPResponse;
  */
 class SOAP extends Binding
 {
+    /**
+     * @param Message $message
+     * @throws \Exception
+     * @return string|false The XML or false on error
+     */
     public function getOutputToSend(Message $message)
     {
         $envelope = <<<SOAP
@@ -31,10 +38,15 @@ SOAP;
         // containing another message (e.g. a Response), however in the ECP
         // profile, this is the Response itself.
         if ($message instanceof Response) {
+            /** @var \DOMElement $header */
             $header = $doc->getElementsByTagNameNS(Constants::NS_SOAP, 'Header')->item(0);
 
-            $response = new ECPResponse;
-            $response->AssertionConsumerServiceURL = $this->getDestination() ?: $message->getDestination();
+            $response = new ECPResponse();
+            $destination = $this->destination ?: $message->getDestination();
+            if ($destination === null) {
+                throw new \Exception('No destination available for SOAP message.');
+            }
+            $response->setAssertionConsumerServiceURL($destination);
 
             $response->toXML($header);
 
@@ -47,6 +59,7 @@ SOAP;
             // See Section 2.3.6.1
         }
 
+        /** @var \DOMElement $body */
         $body = $doc->getElementsByTagNameNs(Constants::NS_SOAP, 'Body')->item(0);
 
         $body->appendChild($doc->importNode($message->toSignedXML(), true));
@@ -54,50 +67,57 @@ SOAP;
         return $doc->saveXML();
     }
 
+
     /**
      * Send a SAML 2 message using the SOAP binding.
      *
      * Note: This function never returns.
      *
      * @param \SAML2\Message $message The message we should send.
-     *
-     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @return void
      */
-    public function send(Message $message)
+    public function send(Message $message) : void
     {
         header('Content-Type: text/xml', true);
 
         $xml = $this->getOutputToSend($message);
-        Utils::getContainer()->debugMessage($xml, 'out');
-        echo $xml;
+        if ($xml !== false) {
+            Utils::getContainer()->debugMessage($xml, 'out');
+            echo $xml;
+        }
 
+        // DOMDocument::saveXML() returned false. Something is seriously wrong here. Not much we can do.
         exit(0);
     }
+
 
     /**
      * Receive a SAML 2 message sent using the HTTP-POST binding.
      *
-     * Throws an exception if it is unable receive the message.
-     *
+     * @throws \Exception If unable to receive the message
      * @return \SAML2\Message The received message.
-     * @throws \Exception
      */
-    public function receive()
+    public function receive() : Message
     {
         $postText = $this->getInputStream();
 
-        if (empty($postText)) {
+        if ($postText === false) {
             throw new \Exception('Invalid message received to AssertionConsumerService endpoint.');
         }
 
         $document = DOMDocumentFactory::fromString($postText);
+        /** @var \DOMNode $xml */
         $xml = $document->firstChild;
-        Utils::getContainer()->debugMessage($xml, 'in');
+        Utils::getContainer()->debugMessage($document->documentElement, 'in');
+        /** @var \DOMElement[] $results */
         $results = Utils::xpQuery($xml, '/soap-env:Envelope/soap-env:Body/*[1]');
 
         return Message::fromXML($results[0]);
     }
 
+    /**
+     * @return string|false
+     */
     protected function getInputStream()
     {
         return file_get_contents('php://input');

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 /**
  * Base class corresponding to the BaseID element.
  *
@@ -8,6 +11,7 @@
 
 namespace SAML2\XML\saml;
 
+use DOMElement;
 
 use SAML2\Constants;
 use SAML2\DOMDocumentFactory;
@@ -22,7 +26,7 @@ abstract class BaseIDType
      *
      * @var string|null
      */
-    public $NameQualifier = null;
+    protected $NameQualifier = null;
 
     /**
      * Further qualifies an identifier with the name of a service provider or affiliation of providers.
@@ -32,7 +36,7 @@ abstract class BaseIDType
      *
      * @var string|null
      */
-    public $SPNameQualifier = null;
+    protected $SPNameQualifier = null;
 
     /**
      * The name for this BaseID.
@@ -43,13 +47,18 @@ abstract class BaseIDType
      */
     protected $nodeName;
 
+    /**
+     * @var \DOMElement
+     */
+    protected $element;
+
 
     /**
      * Initialize a saml:BaseID, either from scratch or from an existing \DOMElement.
      *
      * @param \DOMElement|null $xml The XML element we should load, if any.
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
@@ -68,16 +77,59 @@ abstract class BaseIDType
 
 
     /**
+     * Collect the value of the NameQualifier-property
+     *
+     * @return string|null
+     */
+    public function getNameQualifier() : ?string
+    {
+        return $this->NameQualifier;
+    }
+
+
+    /**
+     * Set the value of the NameQualifier-property
+     *
+     * @param string|null $nameQualifier
+     * @return void
+     */
+    public function setNameQualifier(string $nameQualifier = null) : void
+    {
+        $this->NameQualifier = $nameQualifier;
+    }
+
+
+    /**
+     * Collect the value of the SPNameQualifier-property
+     *
+     * @return string|null
+     */
+    public function getSPNameQualifier() : ?string
+    {
+        return $this->SPNameQualifier;
+    }
+
+
+    /**
+     * Set the value of the SPNameQualifier-property
+     *
+     * @param string|null $spNameQualifier
+     * @return void
+     */
+    public function setSPNameQualifier(string $spNameQualifier = null) : void
+    {
+        $this->SPNameQualifier = $spNameQualifier;
+    }
+
+
+    /**
      * Convert this BaseID to XML.
      *
-     * @param \DOMElement $element The element we are converting to XML.
+     * @param \DOMElement $parent The element we are converting to XML.
      * @return \DOMElement The XML element after adding the data corresponding to this BaseID.
      */
-    public function toXML(\DOMElement $parent = null)
+    public function toXML(DOMElement $parent = null) : DOMElement
     {
-        assert(is_string($this->NameQualifier) || is_null($this->NameQualifier));
-        assert(is_string($this->SPNameQualifier) || is_null($this->SPNameQualifier));
-
         if ($parent === null) {
             $parent = DOMDocumentFactory::create();
             $doc = $parent;

@@ -1,13 +1,10 @@
 ``last``
 ========
 
-.. versionadded:: 1.12.2
-    The ``last`` filter was added in Twig 1.12.2.
-
 The ``last`` filter returns the last "element" of a sequence, a mapping, or
 a string:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {{ [1, 2, 3, 4]|last }}
     {# outputs 4 #}
@@ -22,4 +19,4 @@ a string:
 
     It also works with objects implementing the `Traversable`_ interface.
 
-.. _`Traversable`: http://php.net/manual/en/class.traversable.php
+.. _`Traversable`: https://secure.php.net/manual/en/class.traversable.php

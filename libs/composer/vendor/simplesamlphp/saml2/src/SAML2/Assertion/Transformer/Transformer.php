@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Assertion\Transformer;
 
 use SAML2\Assertion;
@@ -11,5 +13,5 @@ interface Transformer
      *
      * @return \SAML2\Assertion
      */
-    public function transform(Assertion $assertion);
+    public function transform(Assertion $assertion) : Assertion;
 }

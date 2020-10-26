@@ -1,46 +1,15 @@
 diff --git a/modules/saml/lib/Auth/Source/SP.php b/modules/saml/lib/Auth/Source/SP.php
-index 81fecd3..2239a4f 100644
 --- a/modules/saml/lib/Auth/Source/SP.php
 +++ b/modules/saml/lib/Auth/Source/SP.php
-@@ -185,7 +185,12 @@
- 
-         $ar = sspmod_saml_Message::buildAuthnRequest($this->metadata, $idpMetadata);
- 
--        $ar->setAssertionConsumerServiceURL(SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
-+		// ilias-patch: begin
-+		// see: https://bugs.launchpad.net/mahara/+bug/1689685
-+		// see: https://github.com/simplesamlphp/simplesamlphp/issues/503
-+		//$ar->setAssertionConsumerServiceURL(SimpleSAML\Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
-+		$ar->setAssertionConsumerServiceURL(ILIAS_HTTP_PATH . '/Services/Saml/lib/saml2-acs.php/default-sp/' . CLIENT_ID);
-+		// ilias-patch: end
- 
-         if (isset($state['SimpleSAML_Auth_Source.ReturnURL'])) {
-             $ar->setRelayState($state['SimpleSAML_Auth_Source.ReturnURL']);
---- a/www/errorreport.php
-+++ b/www/errorreport.php
-@@ -17,6 +17,11 @@
- $email = (string) $_REQUEST['email'];
- $text = htmlspecialchars((string) $_REQUEST['text']);
- 
-+// ilias-patch: begin
-+if (!preg_match('/^[0-9a-f]{8}$/', $reportId)) {
-+    throw new SimpleSAML_Error_Exception('Invalid reportID');
-+}
-+// ilias-patch: end
- $data = null;
- try {
-     $session = SimpleSAML_Session::getSessionFromRequest();
+@@ -512,6 +512,11 @@
+         $ar = Module\saml\Message::buildAuthnRequest($this->metadata, $idpMetadata);
 
---- a/www/module.php
-+++ b/www/module.php
-@@ -119,7 +119,9 @@
-     throw new SimpleSAML_Error_NotFound('The URL wasn\'t found in the module.');
- }
- 
--if (preg_match('#\.php$#D', $path)) {
-+// ilias-patch: begin
-+if (preg_match('#\.php$#D', mb_strtolower($path, 'UTF-8'))) {
-+// ilias-patch: end
-     // PHP file - attempt to run it
- 
-     /* In some environments, $_SERVER['SCRIPT_NAME'] is already set with $_SERVER['PATH_INFO']. Check for that case,
+         $ar->setAssertionConsumerServiceURL(Module::getModuleURL('saml/sp/saml2-acs.php/' . $this->authId));
++        // ilias-patch: begin
++        // see: https://bugs.launchpad.net/mahara/+bug/1689685
++        // see: https://github.com/simplesamlphp/simplesamlphp/issues/503
++        $ar->setAssertionConsumerServiceURL(ILIAS_HTTP_PATH . '/Services/Saml/lib/saml2-acs.php/default-sp/' . CLIENT_ID);
++        // ilias-patch: end
+
+         if (isset($state['\SimpleSAML\Auth\Source.ReturnURL'])) {
+             $ar->setRelayState($state['\SimpleSAML\Auth\Source.ReturnURL']);

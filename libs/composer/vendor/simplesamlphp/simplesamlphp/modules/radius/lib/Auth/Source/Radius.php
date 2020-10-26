@@ -1,5 +1,7 @@
 <?php
 
+namespace SimpleSAML\Module\radius\Auth\Source;
+
 /**
  * RADIUS authentication source.
  *
@@ -7,63 +9,64 @@
  *
  * @package SimpleSAMLphp
  */
-class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
+class Radius extends \SimpleSAML\Module\core\Auth\UserPassBase
 {
     /**
-     * The list of radius servers to use.
+     * @var array The list of radius servers to use.
      */
     private $servers;
 
     /**
-     * The hostname of the radius server.
+     * @var string The hostname of the radius server.
      */
     private $hostname;
 
     /**
-     * The port of the radius server.
+     * @var int The port of the radius server.
      */
     private $port;
 
     /**
-     * The secret used when communicating with the radius server.
+     * @var string The secret used when communicating with the radius server.
      */
     private $secret;
 
     /**
-     * The timeout for contacting the radius server.
+     * @var int The timeout for contacting the radius server.
      */
     private $timeout;
 
     /**
-     * The number of retries which should be attempted.
+     * @var int The number of retries which should be attempted.
      */
     private $retries;
 
     /**
-     * The realm to be added to the entered username.
+     * Var string The realm to be added to the entered username.
      */
     private $realm;
 
     /**
-     * The attribute name where the username should be stored.
+     * @var string|null The attribute name where the username should be stored.
      */
-    private $usernameAttribute;
+    private $usernameAttribute = null;
 
     /**
-     * The vendor for the RADIUS attributes we are interrested in.
+     * @var string|null The vendor for the RADIUS attributes we are interrested in.
      */
-    private $vendor;
+    private $vendor = null;
 
     /**
-     * The vendor-specific attribute for the RADIUS attributes we are
-     * interrested in.
+     * @var string The vendor-specific attribute for the RADIUS attributes we are
+     *     interrested in.
      */
     private $vendorType;
 
     /**
-     * The NAS-Identifier that should be set in Access-Request packets.
+     * @var string|null The NAS-Identifier that should be set in Access-Request packets.
      */
-    private $nasIdentifier;
+    private $nasIdentifier = null;
+
 
     /**
      * Constructor for this authentication source.
@@ -80,29 +83,35 @@ class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
         parent::__construct($info, $config);
 
         // Parse configuration.
-        $config = SimpleSAML_Configuration::loadFromArray($config,
-            'Authentication source ' . var_export($this->authId, true));
+        $cfg = \SimpleSAML\Configuration::loadFromArray(
+            $config,
+            'Authentication source ' . var_export($this->authId, true)
+        );
 
-        $this->servers = $config->getArray('servers', array());
-        /* For backwards compatibility. */
+        $this->servers = $cfg->getArray('servers', []);
+        // For backwards compatibility
         if (empty($this->servers)) {
-            $this->hostname = $config->getString('hostname');
-            $this->port = $config->getIntegerRange('port', 1, 65535, 1812);
-            $this->secret = $config->getString('secret');
-            $this->servers[] = array('hostname' => $this->hostname,
-                                     'port' => $this->port,
-                                     'secret' => $this->secret);
+            $this->hostname = $cfg->getString('hostname');
+            $this->port = $cfg->getIntegerRange('port', 1, 65535, 1812);
+            $this->secret = $cfg->getString('secret');
+            $this->servers[] = [
+                'hostname' => $this->hostname,
+                'port' => $this->port,
+                'secret' => $this->secret
+            ];
         }
-        $this->timeout = $config->getInteger('timeout', 5);
-        $this->retries = $config->getInteger('retries', 3);
-        $this->realm = $config->getString('realm', null);
-        $this->usernameAttribute = $config->getString('username_attribute', null);
-        $this->nasIdentifier = $config->getString('nas_identifier',
-            \SimpleSAML\Utils\HTTP::getSelfHost());
+        $this->timeout = $cfg->getInteger('timeout', 5);
+        $this->retries = $cfg->getInteger('retries', 3);
+        $this->realm = $cfg->getString('realm', null);
+        $this->usernameAttribute = $cfg->getString('username_attribute', null);
+        $this->nasIdentifier = $cfg->getString(
+            'nas_identifier',
+            \SimpleSAML\Utils\HTTP::getSelfHost()
+        );
 
-        $this->vendor = $config->getInteger('attribute_vendor', null);
+        $this->vendor = $cfg->getInteger('attribute_vendor', null);
         if ($this->vendor !== null) {
-            $this->vendorType = $config->getInteger('attribute_vendor_type');
+            $this->vendorType = $cfg->getInteger('attribute_vendor_type');
         }
     }
 
@@ -112,7 +121,7 @@ class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
      *
      * @param string $username  The username the user wrote.
      * @param string $password  The password the user wrote.
-     * @return array  Associative array with the user's attributes.
+     * @return array[] Associative array with the user's attributes.
      */
     protected function login($username, $password)
     {
@@ -120,62 +129,76 @@ class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
         assert(is_string($password));
 
         $radius = radius_auth_open();
+        if (!is_resource($radius)) {
+            throw new \Exception("Insufficient memory available to create handle.");
+        }
 
-        /* Try to add all radius servers, trigger a failure if no one works. */
+        // Try to add all radius servers, trigger a failure if no one works
         $success = false;
         foreach ($this->servers as $server) {
             if (!isset($server['port'])) {
                 $server['port'] = 1812;
             }
-            if (!radius_add_server($radius,
-                $server['hostname'], $server['port'], $server['secret'], 
-                $this->timeout, $this->retries)) {
-                SimpleSAML\Logger::info("Could not add radius server: " .
-                    radius_strerror($radius));
+            if (
+                !radius_add_server(
+                    $radius,
+                    $server['hostname'],
+                    $server['port'],
+                    $server['secret'],
+                    $this->timeout,
+                    $this->retries
+                )
+            ) {
+                \SimpleSAML\Logger::info(
+                    "Could not add radius server: " . radius_strerror($radius)
+                );
                 continue;
             }
             $success = true;
         }
         if (!$success) {
-            throw new Exception('Error adding radius servers, no servers available');
+            throw new \Exception('Error adding radius servers, no servers available');
         }
 
-        if (!radius_create_request($radius, RADIUS_ACCESS_REQUEST)) {
-            throw new Exception('Error creating radius request: ' .
-                radius_strerror($radius));
+        if (!radius_create_request($radius, \RADIUS_ACCESS_REQUEST)) {
+            throw new \Exception(
+                'Error creating radius request: ' . radius_strerror($radius)
+            );
         }
 
         if ($this->realm === null) {
-            radius_put_attr($radius, RADIUS_USER_NAME, $username);
+            radius_put_attr($radius, \RADIUS_USER_NAME, $username);
         } else {
-            radius_put_attr($radius, RADIUS_USER_NAME, $username . '@' . $this->realm);
+            radius_put_attr($radius, \RADIUS_USER_NAME, $username . '@' . $this->realm);
         }
-        radius_put_attr($radius, RADIUS_USER_PASSWORD, $password);
+        radius_put_attr($radius, \RADIUS_USER_PASSWORD, $password);
 
         if ($this->nasIdentifier !== null) {
-            radius_put_attr($radius, RADIUS_NAS_IDENTIFIER, $this->nasIdentifier);
+            radius_put_attr($radius, \RADIUS_NAS_IDENTIFIER, $this->nasIdentifier);
         }
 
         $res = radius_send_request($radius);
-        if ($res != RADIUS_ACCESS_ACCEPT) {
+        if ($res != \RADIUS_ACCESS_ACCEPT) {
             switch ($res) {
-            case RADIUS_ACCESS_REJECT:
-                /* Invalid username or password. */
-                throw new SimpleSAML_Error_Error('WRONGUSERPASS');
-            case RADIUS_ACCESS_CHALLENGE:
-                throw new Exception('Radius authentication error: Challenge requested, but not supported.');
-            default:
-                throw new Exception('Error during radius authentication: ' .
-                    radius_strerror($radius));
+                case \RADIUS_ACCESS_REJECT:
+                    // Invalid username or password
+                    throw new \SimpleSAML\Error\Error('WRONGUSERPASS');
+                case \RADIUS_ACCESS_CHALLENGE:
+                    throw new \Exception('Radius authentication error: Challenge requested, but not supported.');
+                default:
+                    throw new \Exception(
+                        'Error during radius authentication: ' . radius_strerror($radius)
+                    );
             }
         }
 
-        /* If we get this far, we have a valid login. */
+        // If we get this far, we have a valid login
 
-        $attributes = array();
+        $attributes = [];
+        $usernameAttribute = $this->usernameAttribute;
 
-        if ($this->usernameAttribute !== null) {
-            $attributes[$this->usernameAttribute] = array($username);
+        if ($usernameAttribute !== null) {
+            $attributes[$usernameAttribute] = [$username];
         }
 
         if ($this->vendor === null) {
@@ -186,28 +209,29 @@ class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
             return $attributes;
         }
 
-        /* get AAI attribute sets. Contributed by Stefan Winter, (c) RESTENA */
+        // get AAI attribute sets. Contributed by Stefan Winter, (c) RESTENA
         while ($resa = radius_get_attr($radius)) {
-
             if (!is_array($resa)) {
-                throw new Exception('Error getting radius attributes: ' .
-                    radius_strerror($radius));
+                throw new \Exception(
+                    'Error getting radius attributes: ' . radius_strerror($radius)
+                );
             }
 
-            /* Use the received user name */
-            if ($resa['attr'] == RADIUS_USER_NAME) {
-                $attributes[$this->usernameAttribute] = array($resa['data']);
+            // Use the received user name
+            if ($resa['attr'] === \RADIUS_USER_NAME && $usernameAttribute !== null) {
+                $attributes[$usernameAttribute] = [$resa['data']];
                 continue;
             }
 
-            if ($resa['attr'] !== RADIUS_VENDOR_SPECIFIC) {
+            if ($resa['attr'] !== \RADIUS_VENDOR_SPECIFIC) {
                 continue;
             }
 
             $resv = radius_get_vendor_attr($resa['data']);
-            if (!is_array($resv)) {
-                throw new Exception('Error getting vendor specific attribute: ' .
-                    radius_strerror($radius));
+            if ($resv === false) {
+                throw new \Exception(
+                    'Error getting vendor specific attribute: ' . radius_strerror($radius)
+                );
             }
 
             $vendor = $resv['vendor'];
@@ -218,18 +242,17 @@ class sspmod_radius_Auth_Source_Radius extends sspmod_core_Auth_UserPassBase
                 continue;
             }
 
-            $attrib_name = strtok($datav,'=');
+            $attrib_name = strtok($datav, '=');
             $attrib_value = strtok('=');
 
-            /* if the attribute name is already in result set,
-                add another value */
+            // if the attribute name is already in result set, add another value
             if (array_key_exists($attrib_name, $attributes)) {
                 $attributes[$attrib_name][] = $attrib_value;
             } else {
-                $attributes[$attrib_name] = array($attrib_value);
+                $attributes[$attrib_name] = [$attrib_value];
             }
         }
-        /* end of contribution */
+        // end of contribution
 
         return $attributes;
     }

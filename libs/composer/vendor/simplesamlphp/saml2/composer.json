@@ -9,36 +9,36 @@
         }
     ],
     "require": {
-        "php": ">=5.4",
+        "php": ">=7.2",
         "ext-openssl": "*",
         "ext-dom": "*",
         "ext-zlib": "*",
 
+        "psr/log": "~1.0",
         "robrichards/xmlseclibs": "^3.0",
-        "psr/log": "~1.0"
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "~1.4",
-        "phpmd/phpmd": "~1.5",
-        "sensiolabs/security-checker": "~1.1",
-        "phpunit/phpunit": "~4",
-        "sebastian/phpcpd": "~1.4",
-        "mockery/mockery": "~0.9"
+        "mockery/mockery": "~1.2",
+        "phpunit/phpunit": "^8.0",
+        "simplesamlphp/simplesamlphp-test-framework": "0.0.11",
+        "sensiolabs/security-checker": "~5.0",
+        "sebastian/phpcpd": "~4.1",
+        "squizlabs/php_codesniffer": "~3.4"
     },
     "autoload": {
-        "psr-0": {
-            "SAML2\\": "src/"
-        },
-        "files": ["src/_autoload.php"]
+        "psr-4": {
+            "SAML2\\": "src/SAML2"
+        }
     },
     "autoload-dev": {
-        "psr-0": {
-            "SAML2\\": "tests/"
+        "psr-4": {
+            "SAML2\\": "tests/SAML2/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "v3.1.x-dev"
+            "dev-master": "v4.0.x-dev"
         }
     }
 }

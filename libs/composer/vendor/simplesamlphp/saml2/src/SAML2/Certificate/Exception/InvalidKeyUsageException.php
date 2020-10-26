@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Certificate\Exception;
 
 use SAML2\Certificate\Key;
@@ -14,11 +16,11 @@ class InvalidKeyUsageException extends \InvalidArgumentException implements
     /**
      * @param string $usage
      */
-    public function __construct($usage)
+    public function __construct(string $usage)
     {
         $message = sprintf(
             'Invalid key usage given: "%s", usages "%s" allowed',
-            is_string($usage) ? $usage : gettype($usage),
+            $usage,
             implode('", "', Key::getValidKeyUsages())
         );
 

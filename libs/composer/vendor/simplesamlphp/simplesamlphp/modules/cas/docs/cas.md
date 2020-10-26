@@ -7,10 +7,6 @@ the only diffrence is this is authentication module and not a script.
 Setting up the CAS authentication module
 ----------------------------------
 
-The first thing you need to do is to enable the cas module:
-
-    touch modules/cas/enable
-
 Adding a authentication source
 
 example authsource.php

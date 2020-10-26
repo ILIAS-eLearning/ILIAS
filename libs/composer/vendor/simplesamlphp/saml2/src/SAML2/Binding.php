@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2;
 
 /**
@@ -13,22 +15,22 @@ abstract class Binding
      * The destination of messages.
      *
      * This can be null, in which case the destination in the message is used.
+     * @var string|null
      */
-    protected $destination;
+    protected $destination = null;
+
 
     /**
      * Retrieve a binding with the given URN.
      *
      * Will throw an exception if it is unable to locate the binding.
      *
-     * @param  string        $urn The URN of the binding.
-     * @return \SAML2\Binding The binding.
+     * @param string $urn The URN of the binding.
      * @throws \Exception
+     * @return \SAML2\Binding The binding.
      */
-    public static function getBinding($urn)
+    public static function getBinding(string $urn) : Binding
     {
-        assert(is_string($urn));
-
         switch ($urn) {
             case Constants::BINDING_HTTP_POST:
                 return new HTTPPost();
@@ -44,9 +46,10 @@ abstract class Binding
             case Constants::BINDING_PAOS:
                 return new SOAP();
             default:
-                throw new \Exception('Unsupported binding: ' . var_export($urn, true));
+                throw new \Exception('Unsupported binding: '.var_export($urn, true));
         }
     }
+
 
     /**
      * Guess the current binding.
@@ -56,10 +59,10 @@ abstract class Binding
      *
      * An exception will be thrown if it is unable to guess the binding.
      *
-     * @return \SAML2\Binding The binding.
      * @throws \Exception
+     * @return \SAML2\Binding The binding.
      */
-    public static function getCurrentBinding()
+    public static function getCurrentBinding() : Binding
     {
         switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
@@ -90,29 +93,31 @@ abstract class Binding
 
         $logger = Utils::getContainer()->getLogger();
         $logger->warning('Unable to find the SAML 2 binding used for this request.');
-        $logger->warning('Request method: ' . var_export($_SERVER['REQUEST_METHOD'], true));
+        $logger->warning('Request method: '.var_export($_SERVER['REQUEST_METHOD'], true));
         if (!empty($_GET)) {
-            $logger->warning("GET parameters: '" . implode("', '", array_map('addslashes', array_keys($_GET))) . "'");
+            $logger->warning("GET parameters: '".implode("', '", array_map('addslashes', array_keys($_GET)))."'");
         }
         if (!empty($_POST)) {
-            $logger->warning("POST parameters: '" . implode("', '", array_map('addslashes', array_keys($_POST))) . "'");
+            $logger->warning("POST parameters: '".implode("', '", array_map('addslashes', array_keys($_POST)))."'");
         }
         if (isset($_SERVER['CONTENT_TYPE'])) {
-            $logger->warning('Content-Type: ' . var_export($_SERVER['CONTENT_TYPE'], true));
+            $logger->warning('Content-Type: '.var_export($_SERVER['CONTENT_TYPE'], true));
         }
 
-        throw new \Exception('Unable to find the current binding.');
+        throw new \Exception('Unable to find the SAML 2 binding used for this request.');
     }
+
 
     /**
      * Retrieve the destination of a message.
      *
-     * @return string|null $destination  The destination the message will be delivered to.
+     * @return string|null $destination The destination the message will be delivered to.
      */
-    public function getDestination()
+    public function getDestination() : ?string
     {
         return $this->destination;
     }
+
 
     /**
      * Override the destination of a message.
@@ -120,13 +125,13 @@ abstract class Binding
      * Set to null to use the destination set in the message.
      *
      * @param string|null $destination The destination the message should be delivered to.
+     * @return void
      */
-    public function setDestination($destination)
+    public function setDestination(string $destination = null) : void
     {
-        assert(is_string($destination) || is_null($destination));
-
         $this->destination = $destination;
     }
+
 
     /**
      * Send a SAML 2 message.
@@ -135,8 +140,10 @@ abstract class Binding
      * The message will be delivered to the destination set in the message.
      *
      * @param \SAML2\Message $message The message which should be sent.
+     * @return void
      */
-    abstract public function send(Message $message);
+    abstract public function send(Message $message) : void;
+
 
     /**
      * Receive a SAML 2 message.
@@ -144,7 +151,7 @@ abstract class Binding
      * This function will extract the message from the current request.
      * An exception will be thrown if we are unable to process the message.
      *
-     * @return \SAML2\Message The received message.
+     * @return \SAML2\Message|null The received message.
      */
-    abstract public function receive();
+    abstract public function receive() : ?Message;
 }

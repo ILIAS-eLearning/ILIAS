@@ -1,6 +1,21 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 // ilias-patch: begin
+use SAML2\Constants;
+use SimpleSAML\Auth\Source;
+use SimpleSAML\Configuration;
+use SimpleSAML\Error\AuthSource;
+use SimpleSAML\Locale\Translate;
+use SimpleSAML\Metadata\SAMLBuilder;
+use SimpleSAML\Metadata\Signer;
+use SimpleSAML\Module\saml\Auth\Source\SP;
+use SimpleSAML\Store;
+use SimpleSAML\Store\SQL;
+use SimpleSAML\Utils\Auth;
+use SimpleSAML\Utils\Config\Metadata;
+use SimpleSAML\Utils\Crypto;
+use SimpleSAML\XHTML\Template;
+
 chdir(dirname(__FILE__));
 
 $ilias_main_directory = './';
@@ -50,33 +65,36 @@ if (!array_key_exists('PATH_INFO', $_SERVER)) {
     $DIC->logger()->root()->warning('Missing "PATH_INFO" variable. This could be a false positive log entry, but you have to ensure a valid "PATH_INFO" setting for your HTTP server.');
 }
 
-$config = SimpleSAML_Configuration::getInstance();
+$config = Configuration::getInstance();
 if ($config->getBoolean('admin.protectmetadata', false)) {
-    SimpleSAML\Utils\Auth::requireAdmin();
+    Auth::requireAdmin();
 }
 // ilias-patch: begin
 //$sourceId = substr($_SERVER['PATH_INFO'], 1);
 $sourceId = $auth->getAuthId();
 // ilias-patch: end
-$source = SimpleSAML_Auth_Source::getById($sourceId);
+$source = Source::getById($sourceId);
 if ($source === null) {
-    throw new SimpleSAML_Error_NotFound('Could not find authentication source with id ' . $sourceId);
+    throw new AuthSource($sourceId, 'Could not find authentication source.');
 }
 
-if (!($source instanceof sspmod_saml_Auth_Source_SP)) {
-    throw new SimpleSAML_Error_NotFound('Source isn\'t a SAML SP: ' . var_export($sourceId, true));
+if (!($source instanceof SP)) {
+    throw new AuthSource(
+        $sourceId,
+        'The authentication source is not a SAML Service Provider.'
+    );
 }
 
 $entityId = $source->getEntityId();
 $spconfig = $source->getMetadata();
-$store = SimpleSAML\Store::getInstance();
+$store = Store::getInstance();
 
-$metaArray20 = array();
+$metaArray20 = [];
 
-$slosvcdefault = array(
-    SAML2\Constants::BINDING_HTTP_REDIRECT,
-    SAML2\Constants::BINDING_SOAP,
-);
+$slosvcdefault = [
+    Constants::BINDING_HTTP_REDIRECT,
+    Constants::BINDING_SOAP,
+];
 
 $slob = $spconfig->getArray('SingleLogoutServiceBinding', $slosvcdefault);
 // ilias-patch: begin
@@ -84,22 +102,22 @@ $slol = $iliasHttpPath . '/saml2-logout.php/' . $sourceId . '/' . CLIENT_ID;
 // ilias-patch: end
 
 foreach ($slob as $binding) {
-    if ($binding == SAML2\Constants::BINDING_SOAP && !($store instanceof SimpleSAML\Store\SQL)) {
+    if ($binding == Constants::BINDING_SOAP && !($store instanceof SQL)) {
         // we cannot properly support SOAP logout
         continue;
     }
-    $metaArray20['SingleLogoutService'][] = array(
+    $metaArray20['SingleLogoutService'][] = [
         'Binding' => $binding,
         'Location' => $slol,
-    );
+    ];
 }
 
-$assertionsconsumerservicesdefault = array(
+$assertionsconsumerservicesdefault = [
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     'urn:oasis:names:tc:SAML:1.0:profiles:browser-post',
     'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact',
     'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01',
-);
+];
 
 if ($spconfig->getString('ProtocolBinding', '') == 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser') {
     $assertionsconsumerservicesdefault[] = 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser';
@@ -108,39 +126,56 @@ if ($spconfig->getString('ProtocolBinding', '') == 'urn:oasis:names:tc:SAML:2.0:
 $assertionsconsumerservices = $spconfig->getArray('acs.Bindings', $assertionsconsumerservicesdefault);
 
 $index = 0;
-$eps = array();
+$eps = [];
+$supported_protocols = [];
 foreach ($assertionsconsumerservices as $services) {
-    $acsArray = array('index' => $index);
+    $acsArray = ['index' => $index];
     switch ($services) {
         case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST':
-            $acsArray['Binding'] = SAML2\Constants::BINDING_HTTP_POST;
+            $acsArray['Binding'] = Constants::BINDING_HTTP_POST;
             // ilias-patch: begin
             $acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
             // ilias-patch: end
+            if (!in_array(Constants::NS_SAMLP, $supported_protocols, true)) {
+                $supported_protocols[] = Constants::NS_SAMLP;
+            }
             break;
         case 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:browser-post';
             // ilias-patch: begin
             $acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}/" . CLIENT_ID;
+            // ilias-patch: end
+            if (!in_array('urn:oasis:names:tc:SAML:1.1:protocol', $supported_protocols, true)) {
+                $supported_protocols[] = 'urn:oasis:names:tc:SAML:1.1:protocol';
+            }
             break;
         case 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Artifact';
             // ilias-patch: begin
             $acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
             // ilias-patch: end
+            if (!in_array(Constants::NS_SAMLP, $supported_protocols, true)) {
+                $supported_protocols[] = Constants::NS_SAMLP;
+            }
             break;
         case 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:1.0:profiles:artifact-01';
             // ilias-patch: begin
             $acsArray['Location'] = $iliasHttpPath . "/saml1-acs.php/{$sourceId}/artifact/" . CLIENT_ID;
             // ilias-patch: end
+            if (!in_array('urn:oasis:names:tc:SAML:1.1:protocol', $supported_protocols, true)) {
+                $supported_protocols[] = 'urn:oasis:names:tc:SAML:1.1:protocol';
+            }
             break;
         case 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser':
             $acsArray['Binding'] = 'urn:oasis:names:tc:SAML:2.0:profiles:holder-of-key:SSO:browser';
             // ilias-patch: begin
             $acsArray['Location'] = $iliasHttpPath . "/saml2-acs.php/{$sourceId}/" . CLIENT_ID;
             // ilias-patch: end
-            $acsArray['hoksso:ProtocolBinding'] = SAML2\Constants::BINDING_HTTP_REDIRECT;
+            $acsArray['hoksso:ProtocolBinding'] = Constants::BINDING_HTTP_REDIRECT;
+            if (!in_array(Constants::NS_SAMLP, $supported_protocols, true)) {
+                $supported_protocols[] = Constants::NS_SAMLP;
+            }
             break;
     }
     $eps[] = $acsArray;
@@ -149,49 +184,56 @@ foreach ($assertionsconsumerservices as $services) {
 
 $metaArray20['AssertionConsumerService'] = $eps;
 
-$keys = array();
-$certInfo = SimpleSAML\Utils\Crypto::loadPublicKey($spconfig, false, 'new_');
+$keys = [];
+$certInfo = Crypto::loadPublicKey($spconfig, false, 'new_');
 if ($certInfo !== null && array_key_exists('certData', $certInfo)) {
     $hasNewCert = true;
 
     $certData = $certInfo['certData'];
 
-    $keys[] = array(
+    $keys[] = [
         'type' => 'X509Certificate',
         'signing' => true,
         'encryption' => true,
         'X509Certificate' => $certInfo['certData'],
-    );
+    ];
 } else {
     $hasNewCert = false;
 }
 
-$certInfo = SimpleSAML\Utils\Crypto::loadPublicKey($spconfig);
+$certInfo = Crypto::loadPublicKey($spconfig);
 if ($certInfo !== null && array_key_exists('certData', $certInfo)) {
     $certData = $certInfo['certData'];
 
-    $keys[] = array(
+    $keys[] = [
         'type' => 'X509Certificate',
         'signing' => true,
         'encryption' => ($hasNewCert ? false : true),
         'X509Certificate' => $certInfo['certData'],
-    );
+    ];
 } else {
     $certData = null;
 }
 
-$format = $spconfig->getString('NameIDPolicy', null);
+$format = $spconfig->getValue('NameIDPolicy', null);
 if ($format !== null) {
-    $metaArray20['NameIDFormat'] = $format;
+    if (is_array($format)) {
+        $metaArray20['NameIDFormat'] = Configuration::loadFromArray($format)->getString(
+            'Format',
+            Constants::NAMEID_TRANSIENT
+        );
+    } elseif (is_string($format)) {
+        $metaArray20['NameIDFormat'] = $format;
+    }
 }
 
 $name = $spconfig->getLocalizedString('name', null);
-$attributes = $spconfig->getArray('attributes', array());
+$attributes = $spconfig->getArray('attributes', []);
 
 if ($name !== null && !empty($attributes)) {
     $metaArray20['name'] = $name;
     $metaArray20['attributes'] = $attributes;
-    $metaArray20['attributes.required'] = $spconfig->getArray('attributes.required', array());
+    $metaArray20['attributes.required'] = $spconfig->getArray('attributes.required', []);
 
     if (empty($metaArray20['attributes.required'])) {
         unset($metaArray20['attributes.required']);
@@ -205,6 +247,14 @@ if ($name !== null && !empty($attributes)) {
     $nameFormat = $spconfig->getString('attributes.NameFormat', null);
     if ($nameFormat !== null) {
         $metaArray20['attributes.NameFormat'] = $nameFormat;
+    }
+
+    if ($spconfig->hasValue('attributes.index')) {
+        $metaArray20['attributes.index'] = $spconfig->getInteger('attributes.index', 0);
+    }
+
+    if ($spconfig->hasValue('attributes.isDefault')) {
+        $metaArray20['attributes.isDefault'] = $spconfig->getBoolean('attributes.isDefault', false);
     }
 }
 
@@ -220,24 +270,24 @@ if ($orgName !== null) {
 
     $metaArray20['OrganizationURL'] = $spconfig->getLocalizedString('OrganizationURL', null);
     if ($metaArray20['OrganizationURL'] === null) {
-        throw new SimpleSAML_Error_Exception('If OrganizationName is set, OrganizationURL must also be set.');
+        throw new \SimpleSAML\Error\Exception('If OrganizationName is set, OrganizationURL must also be set.');
     }
 }
 
 if ($spconfig->hasValue('contacts')) {
     $contacts = $spconfig->getArray('contacts');
     foreach ($contacts as $contact) {
-        $metaArray20['contacts'][] = \SimpleSAML\Utils\Config\Metadata::getContact($contact);
+        $metaArray20['contacts'][] = Metadata::getContact($contact);
     }
 }
 
 // add technical contact
-$email = $config->getString('technicalcontact_email', 'na@example.org', false);
+$email = $config->getString('technicalcontact_email', 'na@example.org');
 if ($email && $email !== 'na@example.org') {
     $techcontact['emailAddress'] = $email;
     $techcontact['name'] = $config->getString('technicalcontact_name', null);
     $techcontact['contactType'] = 'technical';
-    $metaArray20['contacts'][] = \SimpleSAML\Utils\Config\Metadata::getContact($techcontact);
+    $metaArray20['contacts'][] = Metadata::getContact($techcontact);
 }
 
 // add certificate
@@ -272,12 +322,10 @@ if ($spconfig->hasValue('redirect.sign')) {
     $metaArray20['validate.authnrequest'] = $spconfig->getBoolean('sign.authnrequest');
 }
 
-$supported_protocols = array('urn:oasis:names:tc:SAML:1.1:protocol', SAML2\Constants::NS_SAMLP);
-
 $metaArray20['metadata-set'] = 'saml20-sp-remote';
 $metaArray20['entityid'] = $entityId;
 
-$metaBuilder = new SimpleSAML_Metadata_SAMLBuilder($entityId);
+$metaBuilder = new SAMLBuilder($entityId);
 $metaBuilder->addMetadataSP20($metaArray20, $supported_protocols);
 $metaBuilder->addOrganizationInfo($metaArray20);
 
@@ -293,13 +341,14 @@ if (isset($metaArray20['attributes']) && is_array($metaArray20['attributes'])) {
 }
 
 // sign the metadata if enabled
-$xml = SimpleSAML_Metadata_Signer::sign($xml, $spconfig->toArray(), 'SAML 2 SP');
+$xml = Signer::sign($xml, $spconfig->toArray(), 'SAML 2 SP');
 
 if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
-    $t = new SimpleSAML_XHTML_Template($config, 'metadata.php', 'admin');
+    $t = new Template($config, 'metadata.php', 'admin');
 
     $t->data['clipboard.js'] = true;
-    $t->data['header'] = 'saml20-sp';
+    $t->data['header'] = 'saml20-sp'; // TODO: Replace with headerString in 2.0
+    $t->data['headerString'] = Translate::noop('metadata_saml20-sp');
     $t->data['metadata'] = htmlspecialchars($xml);
     $t->data['metadataflat'] = '$metadata[' . var_export($entityId, true) . '] = ' . var_export($metaArray20, true) . ';';
     // ilias-patch: begin
@@ -308,7 +357,9 @@ if (array_key_exists('output', $_REQUEST) && $_REQUEST['output'] == 'xhtml') {
     $t->show();
 } else {
     header('Content-Type: application/samlmetadata+xml');
+    // ilias-patch: begin
     $ascii_filename = ilUtil::getASCIIFilename($sourceId);
     header("Content-Disposition:attachment; filename=\"" . $ascii_filename . "\"");
+    // ilias-patch: end
     echo($xml);
 }
