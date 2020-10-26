@@ -31,6 +31,7 @@ class ilCmiXapiLrsType
     const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
     const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
     const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
+    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
     const USER_IDENT_REAL_EMAIL = 'real_email';
     
     const USER_NAME_NONE = 'none';

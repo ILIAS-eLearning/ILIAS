@@ -269,6 +269,12 @@ class ilCmiXapiSettingsGUI
             $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
             $userIdent->addOption($op);
             $op = new ilRadioOption(
+                $DIC->language()->txt('conf_user_ident_il_uuid_random'),
+                ilCmiXapiLrsType::USER_IDENT_IL_UUID_RANDOM
+            );
+            $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_random_info'));
+            $userIdent->addOption($op);
+            $op = new ilRadioOption(
                 $DIC->language()->txt('conf_user_ident_real_email'),
                 ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
             );
