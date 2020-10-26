@@ -64,6 +64,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
                 break;
             case self::CMD_CONFIRM_DELETE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
@@ -75,6 +76,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->cancel();
                 break;
             case self::CMD_CONFIRM_RESTORE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
                 return $this->confirmRestore();
             case self::CMD_RESTORE:
@@ -83,6 +85,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->restore();
                 break;
             case self::CMD_SELECT_PARENT:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
                 return $this->selectParent();
             case self::CMD_MOVE:

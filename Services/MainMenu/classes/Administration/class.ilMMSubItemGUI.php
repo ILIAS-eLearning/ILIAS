@@ -70,10 +70,12 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 $this->saveTable();
                 break;
             case self::CMD_CONFIRM_DELETE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
             case self::CMD_CONFIRM_MOVE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmMove();
