@@ -17,7 +17,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_CREATE = 'subitem_create';
     const CMD_CONFIRM_MOVE = 'confirm_move';
     const CMD_MOVE = 'move';
-    const CMD_DELETE = 'subitem_delete';
+    const CMD_DELETE = 'delete';
     const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
     const CMD_EDIT = 'subitem_edit';
     const CMD_TRANSLATE = 'subitem_translate';
@@ -228,7 +228,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     {
         $item = $this->getMMItemFromRequest();
         if ($item->isCustom()) {
-//            $this->repository->deleteItem($item);
+            $this->repository->deleteItem($item);
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_subitem_deleted"), true);
