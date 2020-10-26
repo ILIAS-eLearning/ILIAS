@@ -4782,3 +4782,7 @@ if (!$ilDB->tableExists('il_dcl_stloc3_default')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5699>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
