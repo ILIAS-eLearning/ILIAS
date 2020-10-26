@@ -1,47 +1,11 @@
 <?php
 
-/*
- * This file is part of Twig.
- *
- * (c) Fabien Potencier
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace Twig\Extension;
 
-abstract class AbstractExtension implements ExtensionInterface
-{
-    public function getTokenParsers()
-    {
-        return [];
-    }
+class_exists('Twig_Extension');
 
-    public function getNodeVisitors()
+if (\false) {
+    class AbstractExtension extends \Twig_Extension
     {
-        return [];
-    }
-
-    public function getFilters()
-    {
-        return [];
-    }
-
-    public function getTests()
-    {
-        return [];
-    }
-
-    public function getFunctions()
-    {
-        return [];
-    }
-
-    public function getOperators()
-    {
-        return [];
     }
 }
-
-class_alias('Twig\Extension\AbstractExtension', 'Twig_Extension');

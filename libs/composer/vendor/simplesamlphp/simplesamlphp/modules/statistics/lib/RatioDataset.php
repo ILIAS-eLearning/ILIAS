@@ -1,42 +1,19 @@
 <?php
-
-namespace SimpleSAML\Module\statistics;
-
-use SimpleSAML\Configuration;
-
-/**
+/*
  * @author Andreas Åkre Solberg <andreas.solberg@uninett.no>
  * @package SimpleSAMLphp
  */
-class RatioDataset extends StatDataset
+class sspmod_statistics_RatioDataset extends sspmod_statistics_StatDataset
 {
-    /**
-     * Constructor
-     *
-     * @param \SimpleSAML\Configuration $statconfig
-     * @param \SimpleSAML\Configuration $ruleconfig
-     * @param string $ruleid
-     * @param string $timeres
-     * @param int $fileslot
-     */
-    public function __construct(Configuration $statconfig, Configuration $ruleconfig, $ruleid, $timeres, $fileslot)
-    {
-        parent::__construct($statconfig, $ruleconfig, $ruleid, $timeres, $fileslot);
-    }
-
-
-    /**
-     * @return void
-     */
     public function aggregateSummary()
     {
         /**
          * Aggregate summary table from dataset. To be used in the table view.
          */
-        $this->summary = [];
-        $noofvalues = [];
+        $this->summary = array(); 
+        $noofvalues = array();
         foreach ($this->results as $slot => $res) {
-            foreach ($res as $key => $value) {
+            foreach ($res AS $key => $value) {
                 if (array_key_exists($key, $this->summary)) {
                     $this->summary[$key] += $value;
                     if ($value > 0) {
@@ -61,13 +38,7 @@ class RatioDataset extends StatDataset
         $this->summary = array_reverse($this->summary, true);
     }
 
-
-    /**
-     * @param string $k
-     * @param array $a
-     * @return int
-     */
-    private function ag($k, array $a)
+    private function ag($k, $a)
     {
         if (array_key_exists($k, $a)) {
             return $a[$k];
@@ -75,12 +46,6 @@ class RatioDataset extends StatDataset
         return 0;
     }
 
-
-    /**
-     * @param int $v1
-     * @param int $v2
-     * @return int|float
-     */
     private function divide($v1, $v2)
     {
         if ($v2 == 0) {
@@ -89,20 +54,14 @@ class RatioDataset extends StatDataset
         return ($v1 / $v2);
     }
 
-
-    /**
-     * @param array $result1
-     * @param array $result2
-     * @return array
-     */
-    public function combine(array $result1, array $result2)
+    public function combine($result1, $result2)
     {
-        $combined = [];
+        $combined = array();
 
         foreach ($result2 as $tick => $val) {
-            $combined[$tick] = [];
+            $combined[$tick] = array();
             foreach ($val as $index => $num) {
-                $combined[$tick][$index] = $this->divide(
+                $combined[$tick][$index] = $this->divide( 
                     $this->ag($index, $result1[$tick]),
                     $this->ag($index, $result2[$tick])
                 );
@@ -111,12 +70,9 @@ class RatioDataset extends StatDataset
         return $combined;
     }
 
-
-    /**
-     * @return array
-     */
     public function getPieData()
     {
-        return [];
+        return null;
     }
 }
+

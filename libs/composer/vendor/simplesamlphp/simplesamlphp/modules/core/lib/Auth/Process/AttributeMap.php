@@ -1,9 +1,5 @@
 <?php
 
-namespace SimpleSAML\Module\core\Auth\Process;
-
-use SimpleSAML\Configuration;
-use SimpleSAML\Module;
 
 /**
  * Attribute filter for renaming attributes.
@@ -11,17 +7,16 @@ use SimpleSAML\Module;
  * @author Olav Morken, UNINETT AS.
  * @package SimpleSAMLphp
  */
-class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
+class sspmod_core_Auth_Process_AttributeMap extends SimpleSAML_Auth_ProcessingFilter
 {
+
     /**
      * Associative array with the mappings of attribute names.
-     * @var array
      */
-    private $map = [];
+    private $map = array();
 
     /**
      * Should attributes be duplicated or renamed.
-     * @var bool
      */
     private $duplicate = false;
 
@@ -29,17 +24,17 @@ class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
     /**
      * Initialize this filter, parse configuration
      *
-     * @param array &$config Configuration information about this filter.
+     * @param array $config Configuration information about this filter.
      * @param mixed $reserved For future use.
      *
-     * @throws \Exception If the configuration of the filter is wrong.
+     * @throws Exception If the configuration of the filter is wrong.
      */
-    public function __construct(&$config, $reserved)
+    public function __construct($config, $reserved)
     {
         parent::__construct($config, $reserved);
 
         assert(is_array($config));
-        $mapFiles = [];
+        $mapFiles = array();
 
         foreach ($config as $origName => $newName) {
             if (is_int($origName)) {
@@ -53,11 +48,11 @@ class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
             }
 
             if (!is_string($origName)) {
-                throw new \Exception('Invalid attribute name: ' . var_export($origName, true));
+                throw new Exception('Invalid attribute name: '.var_export($origName, true));
             }
 
             if (!is_string($newName) && !is_array($newName)) {
-                throw new \Exception('Invalid attribute name: ' . var_export($newName, true));
+                throw new Exception('Invalid attribute name: '.var_export($newName, true));
             }
 
             $this->map[$origName] = $newName;
@@ -76,33 +71,30 @@ class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
      * @param string $fileName Name of attribute map file. Expected to be in the attributemap directory in the root
      * of the SimpleSAMLphp installation, or in the root of a module.
      *
-     * @throws \Exception If the filter could not load the requested attribute map file.
-     * @return void
+     * @throws Exception If the filter could not load the requested attribute map file.
      */
     private function loadMapFile($fileName)
     {
-        $config = Configuration::getInstance();
+        $config = SimpleSAML_Configuration::getInstance();
 
         $m = explode(':', $fileName);
-        if (count($m) === 2) {
-            // we are asked for a file in a module
-            if (!Module::isModuleEnabled($m[0])) {
-                throw new \Exception("Module '$m[0]' is not enabled.");
+        if (count($m) === 2) { // we are asked for a file in a module
+            if (!SimpleSAML\Module::isModuleEnabled($m[0])) {
+                throw new Exception("Module '$m[0]' is not enabled.");
             }
-            $filePath = Module::getModuleDir($m[0]) . '/attributemap/' . $m[1] . '.php';
+            $filePath = SimpleSAML\Module::getModuleDir($m[0]).'/attributemap/'.$m[1].'.php';
         } else {
-            $attributenamemapdir = $config->getPathValue('attributenamemapdir', 'attributemap/') ?: 'attributemap/';
-            $filePath = $attributenamemapdir . $fileName . '.php';
+            $filePath = $config->getPathValue('attributenamemapdir', 'attributemap/').$fileName.'.php';
         }
 
         if (!file_exists($filePath)) {
-            throw new \Exception('Could not find attribute map file: ' . $filePath);
+            throw new Exception('Could not find attribute map file: '.$filePath);
         }
 
         $attributemap = null;
         include($filePath);
         if (!is_array($attributemap)) {
-            throw new \Exception('Attribute map file "' . $filePath . '" didn\'t define an attribute map.');
+            throw new Exception('Attribute map file "'.$filePath.'" didn\'t define an attribute map.');
         }
 
         if ($this->duplicate) {
@@ -117,14 +109,13 @@ class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
      * Apply filter to rename attributes.
      *
      * @param array &$request The current request.
-     * @return void
      */
     public function process(&$request)
     {
         assert(is_array($request));
         assert(array_key_exists('Attributes', $request));
 
-        $mapped_attributes = [];
+        $mapped_attributes = array();
 
         foreach ($request['Attributes'] as $name => $values) {
             if (array_key_exists($name, $this->map)) {
@@ -142,9 +133,6 @@ class AttributeMap extends \SimpleSAML\Auth\ProcessingFilter
                     }
                 }
             } else {
-                if (array_key_exists($name, $mapped_attributes)) {
-                    continue;
-                }
                 $mapped_attributes[$name] = $values;
             }
         }

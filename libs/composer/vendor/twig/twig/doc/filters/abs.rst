@@ -3,7 +3,7 @@
 
 The ``abs`` filter returns the absolute value.
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {# number = -5 #}
 
@@ -15,4 +15,4 @@ The ``abs`` filter returns the absolute value.
 
     Internally, Twig uses the PHP `abs`_ function.
 
-.. _`abs`: https://secure.php.net/abs
+.. _`abs`: http://php.net/abs

@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Configuration;
 
 use SAML2\Exception\InvalidArgumentException;
-use SAML2\Exception\RuntimeException;
 
 /**
  * Configuration of a private key.
@@ -18,10 +15,10 @@ class PrivateKey extends ArrayAdapter
     /**
      * @var string
      */
-    private $filePathOrContents;
+    private $filePath;
 
     /**
-     * @var string|null
+     * @var string
      */
     private $passphrase;
 
@@ -30,84 +27,54 @@ class PrivateKey extends ArrayAdapter
      */
     private $name;
 
-    /**
-     * @var bool
-     */
-    private $isFile;
-
-    /**
-     * Constructor for PrivateKey.
-     *
-     * @param string $filePathOrContents
-     * @param string $name
-     * @param string $passphrase
-     * @param bool $isFile
-     */
-    public function __construct(string $filePathOrContents, string $name, string $passphrase = '', bool $isFile = true)
+    public function __construct($filePath, $name, $passphrase = null)
     {
-        $this->filePathOrContents = $filePathOrContents;
+        if (!is_string($filePath)) {
+            throw InvalidArgumentException::invalidType('string', $filePath);
+        }
+
+        if (!is_string($name)) {
+            throw InvalidArgumentException::invalidType('string', $name);
+        }
+
+        if ($passphrase && !is_string($passphrase)) {
+            throw InvalidArgumentException::invalidType('string', $passphrase);
+        }
+
+        $this->filePath = $filePath;
         $this->passphrase = $passphrase;
         $this->name = $name;
-        $this->isFile = $isFile;
     }
-
 
     /**
      * @return string
      */
-    public function getFilePath() : string
+    public function getFilePath()
     {
-        if (!$this->isFile()) {
-            throw new RuntimeException('No path provided.');
-        }
-
-        return $this->filePathOrContents;
+        return $this->filePath;
     }
-
 
     /**
      * @return bool
      */
-    public function hasPassPhrase() : bool
+    public function hasPassPhrase()
     {
-        return $this->passphrase !== null;
+        return (bool) $this->passphrase;
     }
 
-
     /**
-     * @return string|null
+     * @return string
      */
-    public function getPassPhrase() : ?string
+    public function getPassPhrase()
     {
         return $this->passphrase;
     }
 
-
     /**
      * @return string
      */
-    public function getName() : string
+    public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContents() : string
-    {
-        if ($this->isFile()) {
-            throw new RuntimeException('No contents provided');
-        }
-
-        return $this->filePathOrContents;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFile() : bool
-    {
-        return $this->isFile;
     }
 }

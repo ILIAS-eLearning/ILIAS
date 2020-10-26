@@ -1,22 +1,22 @@
 <?php
-
-namespace SimpleSAML\Module\statistics\Graph;
-
-/**
- * \SimpleSAML\Module\statistics\Graph\GoogleCharts will help you to create a Google Chart
- * using the Google Charts API.
+/*
+ * sspmod_statistics_Graph_GoogleCharts will help you to create a Google Chart
+ * using the Google Charts API. 
  *
  * @author Andreas Åkre Solberg <andreas.solberg@uninett.no>
  * @package SimpleSAMLphp
  */
-class GoogleCharts
+class sspmod_statistics_Graph_GoogleCharts
 {
-    /** @var integer */
+    /**
+     * @var integer
+     */
     private $x;
 
-    /** @var integer */
+    /**
+     * @var integer
+     */
     private $y;
-
 
     /**
      * Constructor.
@@ -32,112 +32,90 @@ class GoogleCharts
         $this->y = $y;
     }
 
-
-    /**
-     * @param array $axis
-     * @return string
-     */
-    private function encodeaxis(array $axis)
+    private function encodeaxis($axis)
     {
         return join('|', $axis);
     }
 
-    /**
-     * t:10.0,58.0,95.0
-     * @param array $datasets
-     * @return string
-     */
-    private function encodedata(array $datasets)
+    // t:10.0,58.0,95.0
+    private function encodedata($datasets)
     {
-        $setstr = [];
+        $setstr = array();
         foreach ($datasets as $dataset) {
             $setstr[] = self::extEncode($dataset);
         }
         return 'e:' . join(',', $setstr);
     }
 
-
-    /**
-     * @param array $values
-     * @return string
-     */
-    public static function extEncode(array $values) // $max = 4095, $min = 0
+    public static function extEncode($values) // $max = 4095, $min = 0
     {
         $extended_table = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-.';
         $chardata = '';
         $delta = 4095;
-        $size = strlen($extended_table);
+        $size = (strlen($extended_table));
 
         foreach ($values as $k => $v) {
             if ($v >= 0 && $v <= 100) {
                 $first = substr($extended_table, intval(($delta * $v / 100) / $size), 1);
                 $second = substr($extended_table, intval(($delta * $v / 100) % $size), 1);
                 $chardata .= "$first$second";
-            } else {
-                $chardata .= '__'; // Value out of max range;
-            }
+            } else { 
+                $chardata .= '__'; // Value out of max range; 
+            } 
         }
-        return $chardata;
+        return($chardata); 
     }
-
 
     /**
      * Generate a Google Charts URL which points to a generated image.
-     * More documentation on Google Charts here:
+     * More documentation on Google Charts here: 
      *   http://code.google.com/apis/chart/
      *
-     * @param array $axis        Axis
-     * @param array $axispos     Axis positions
-     * @param array $datasets    Datasets values
-     * @param array $maxes       Max value. Will be the topmost value on the Y-axis.
-     * @return string
+     * @param $axis        Axis
+     * @param $axpis       Axis positions
+     * @param $datasets    Datasets values
+     * @param $max         Max value. Will be the topmost value on the Y-axis.
      */
-    public function show(array $axis, array $axispos, array $datasets, array $maxes)
+    public function show($axis, $axispos, $datasets, $maxes)
     {
         $labeld = '&chxt=x,y' . '&chxr=0,0,1|1,0,' . $maxes[0];
         if (count($datasets) > 1) {
             if (count($datasets) !== count($maxes)) {
-                throw new \Exception('Incorrect number of max calculations for graph plotting.');
+                throw new Exception('Incorrect number of max calculations for graph plotting.');
             }
             $labeld = '&chxt=x,y,r' . '&chxr=0,0,1|1,0,' . $maxes[0] . '|2,0,' . $maxes[1];
         }
 
         $url = 'https://chart.apis.google.com/chart?' .
             // Dimension of graph. Default is 800x350
-            'chs=' . $this->x . 'x' . $this->y .
+            'chs=' . $this->x . 'x' . $this->y . 
 
             // Dateset values
             '&chd=' . $this->encodedata($datasets) .
 
             // Fill area...
-            '&chco=ff5c00,cca600' .
+            '&chco=ff5c00,cca600' . 
             '&chls=1,1,0|1,6,3' .
 
             // chart type is linechart
             '&cht=lc' .
             $labeld .
-            '&chxl=0:|' . $this->encodeaxis($axis) . #.$'|1:||top' .
+            '&chxl=0:|' . $this->encodeaxis($axis) . # . $'|1:||top' .
             '&chxp=0,' . join(',', $axispos) .
-            '&chg=' . (2400 / (count($datasets[0]) - 1)) . ',-1,3,3'; // lines
+            '&chg=' . (2400/(count($datasets[0])-1)) . ',-1,3,3';   // lines
 
         return $url;
     }
 
-
-    /**
-     * @param array $axis
-     * @param array $datasets
-     * @return string
-     */
-    public function showPie(array $axis, array $datasets)
+    public function showPie($axis, $datasets)
     {
         $url = 'https://chart.apis.google.com/chart?' .
 
         // Dimension of graph. Default is 800x350
-        'chs=' . $this->x . 'x' . $this->y .
+        'chs=' . $this->x . 'x' . $this->y . 
 
         // Dateset values.
-        '&chd=' . $this->encodedata([$datasets]) .
+        '&chd=' . $this->encodedata(array($datasets)) .
 
         // chart type is linechart
         '&cht=p' .
@@ -147,7 +125,6 @@ class GoogleCharts
         return $url;
     }
 
-
     /**
      * Takes a input value, and generates a value that suits better as a max
      * value on the Y-axis. In example 37.6 will not make a good max value, instead
@@ -156,16 +133,13 @@ class GoogleCharts
      *
      * Here is some test code:
      * <code>
-     *      $foo = array(
-     *          0, 2, 2.3, 2.6, 6, 10, 15, 98, 198, 256, 487, 563, 763, 801, 899, 999, 987, 198234.485, 283746
-     *      );
-     *      foreach ($foo as $f) {
-     *          echo '<p>'.$f.' => '.\SimpleSAML\Module\statistics\Graph\GoogleCharts::roof($f);
-     *      }
+     * 	    $foo = array(0, 2, 2.3, 2.6, 6, 10, 15, 98, 198, 256, 487, 563, 763, 801, 899, 999, 987, 198234.485, 283746);
+     *	    foreach ($foo AS $f) {
+     *	        echo '<p>' . $f . ' => ' . sspmod_statistics_Graph_GoogleCharts::roof($f);
+     *	    }
      * </code>
-     *
-     * @param int $max    Input value.
-     * @return int
+     * 
+     * @param $max    Input value.
      */
     public static function roof($max)
     {
@@ -182,7 +156,7 @@ class GoogleCharts
         }
 
         $maxGridLines = 10;
-        $candidates = [1, 2, 5, 10, 20, 25, 50, 100];
+        $candidates = array(1, 2, 5, 10, 20, 25, 50, 100);
 
         foreach ($candidates as $c) {
             if ($t / $c < $maxGridLines) {
@@ -191,6 +165,5 @@ class GoogleCharts
                 return $target_top;
             }
         }
-        return 1;
     }
 }

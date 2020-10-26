@@ -1,9 +1,12 @@
 ``reverse``
 ===========
 
+.. versionadded:: 1.6
+    Support for strings has been added in Twig 1.6.
+
 The ``reverse`` filter reverses a sequence, a mapping, or a string:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% for user in users|reverse %}
         ...
@@ -18,7 +21,7 @@ The ``reverse`` filter reverses a sequence, a mapping, or a string:
     For sequences and mappings, numeric keys are not preserved. To reverse
     them as well, pass ``true`` as an argument to the ``reverse`` filter:
 
-    .. code-block:: twig
+    .. code-block:: jinja
 
         {% for key, value in {1: "a", 2: "b", 3: "c"}|reverse %}
             {{ key }}: {{ value }}
@@ -41,4 +44,4 @@ Arguments
 
 * ``preserve_keys``: Preserve keys when reversing a mapping or a sequence.
 
-.. _`Traversable`: https://secure.php.net/Traversable
+.. _`Traversable`: http://php.net/Traversable

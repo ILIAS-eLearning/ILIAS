@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Temporary autoloader to ensure compatibility with old, non-PSR-2 compliant classes.
  *
@@ -13,14 +11,13 @@ declare(strict_types=1);
  * Autoload function that looks for classes migrated to PSR-2.
  *
  * @param string $className Name of the class.
- * @return void
  */
-function SAML2_autoload(string $className) : void
+function SAML2_autoload($className)
 {
     // handle classes that have been renamed
-    $renamed = [
+    $renamed = array(
         'SAML2_Const' => 'SAML2_Constants',
-    ];
+    );
     $oldName = $className;
     if (array_key_exists($className, $renamed)) {
         $className = $renamed[$className];
@@ -32,6 +29,7 @@ function SAML2_autoload(string $className) : void
         $newName = '\\'.str_replace('_', '\\', $className);
         class_alias($newName, $oldName);
     }
+
 }
 
 spl_autoload_register('SAML2_autoload');

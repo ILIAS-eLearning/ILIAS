@@ -2,8 +2,7 @@
 
 namespace SimpleSAML\Logger;
 
-use SimpleSAML\Configuration;
-use SimpleSAML\Utils;
+use SimpleSAML\Utils\System;
 
 /**
  * A logger that sends messages to syslog.
@@ -14,25 +13,21 @@ use SimpleSAML\Utils;
  */
 class SyslogLoggingHandler implements LoggingHandlerInterface
 {
-    /** @var bool */
     private $isWindows = false;
-
-    /** @var string */
-    protected $format = "%b %d %H:%M:%S";
+    private $format;
 
 
     /**
      * Build a new logging handler based on syslog.
-     * @param \SimpleSAML\Configuration $config
      */
-    public function __construct(Configuration $config)
+    public function __construct(\SimpleSAML_Configuration $config)
     {
         $facility = $config->getInteger('logging.facility', defined('LOG_LOCAL5') ? constant('LOG_LOCAL5') : LOG_USER);
 
         $processname = $config->getString('logging.processname', 'SimpleSAMLphp');
 
         // Setting facility to LOG_USER (only valid in Windows), enable log level rewrite on windows systems
-        if (Utils\System::getOS() === Utils\System::WINDOWS) {
+        if (System::getOS() === System::WINDOWS) {
             $this->isWindows = true;
             $facility = LOG_USER;
         }
@@ -45,7 +40,6 @@ class SyslogLoggingHandler implements LoggingHandlerInterface
      * Set the format desired for the logs.
      *
      * @param string $format The format used for logs.
-     * @return void
      */
     public function setLogFormat($format)
     {
@@ -58,7 +52,6 @@ class SyslogLoggingHandler implements LoggingHandlerInterface
      *
      * @param int $level The log level.
      * @param string $string The formatted message to log.
-     * @return void
      */
     public function log($level, $string)
     {
@@ -71,8 +64,8 @@ class SyslogLoggingHandler implements LoggingHandlerInterface
             }
         }
 
-        $formats = ['%process', '%level'];
-        $replacements = ['', $level];
+        $formats = array('%process', '%level');
+        $replacements = array('', $level);
         $string = str_replace($formats, $replacements, $string);
         $string = preg_replace('/%\w+(\{[^\}]+\})?/', '', $string);
         $string = trim($string);

@@ -1,14 +1,16 @@
 <?php
-
-/**
+/*
  * The configuration of the riak Store module
  *
  */
 
-$config = [
-    'host' => 'localhost',
-    'port' => 8098,
-
-    // The name of the store
-    'bucket' => 'SimpleSAMLphp',
-];
+$config = array (
+	/*
+	 * This module has the following config options and defaults.
+	 *
+	 * 'path' => 'riak-php-client/riak.php',
+	 * 'host' => 'localhost',
+	 * 'port' => 8098,
+	 * 'bucket' => 'SimpleSAMLphp',
+	 */
+);

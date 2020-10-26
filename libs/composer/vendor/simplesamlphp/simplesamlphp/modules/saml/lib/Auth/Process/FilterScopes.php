@@ -3,7 +3,6 @@
 namespace SimpleSAML\Module\saml\Auth\Process;
 
 use SimpleSAML\Logger;
-use SimpleSAML\Utils;
 
 /**
  * Filter to remove attribute values which are not properly scoped.
@@ -12,16 +11,16 @@ use SimpleSAML\Utils;
  * @author Jaime Pérez Crespo, UNINETT AS <jaime.perez@uninett.no>
  * @package SimpleSAMLphp
  */
-
-class FilterScopes extends \SimpleSAML\Auth\ProcessingFilter
+class FilterScopes extends \SimpleSAML_Auth_ProcessingFilter
 {
+
     /**
-     * @var array Stores any pre-configured scoped attributes which come from the filter configuration.
+     * Stores any pre-configured scoped attributes which come from the filter configuration.
      */
-    private $scopedAttributes = [
+    private $scopedAttributes = array(
         'eduPersonScopedAffiliation',
         'eduPersonPrincipalName'
-    ];
+    );
 
 
     /**
@@ -45,7 +44,6 @@ class FilterScopes extends \SimpleSAML\Auth\ProcessingFilter
      * This method applies the filter, removing any values
      *
      * @param array &$request the current request
-     * @return void
      */
     public function process(&$request)
     {
@@ -55,47 +53,45 @@ class FilterScopes extends \SimpleSAML\Auth\ProcessingFilter
             Logger::warning('No scoped attributes configured.');
             return;
         }
-        $validScopes = [];
+        $validScopes = array();
         if (array_key_exists('scope', $src) && is_array($src['scope']) && !empty($src['scope'])) {
             $validScopes = $src['scope'];
         }
 
-        $ep = Utils\Config\Metadata::getDefaultEndpoint($request['Source']['SingleSignOnService']);
-        if ($ep !== null) {
-            foreach ($this->scopedAttributes as $attribute) {
-                if (!isset($request['Attributes'][$attribute])) {
-                    continue;
-                }
+        foreach ($this->scopedAttributes as $attribute) {
+            if (!isset($request['Attributes'][$attribute])) {
+                continue;
+            }
 
-                $values = $request['Attributes'][$attribute];
-                $newValues = [];
-                foreach ($values as $value) {
-                    $loc = $ep['Location'];
-                    $host = parse_url($loc, PHP_URL_HOST);
-                    if ($host === null) {
-                        $host = '';
-                    }
-                    $value_a = explode('@', $value, 2);
-                    if (count($value_a) < 2) {
-                        $newValues[] = $value;
-                        continue; // there's no scope
-                    }
-                    $scope = $value_a[1];
-                    if (in_array($scope, $validScopes, true)) {
-                        $newValues[] = $value;
-                    } elseif (strpos($host, $scope) === strlen($host) - strlen($scope)) {
-                        $newValues[] = $value;
-                    } else {
-                        Logger::warning("Removing value '$value' for attribute '$attribute'. Undeclared scope.");
-                    }
+            $values = $request['Attributes'][$attribute];
+            $newValues = array();
+            foreach ($values as $value) {
+                $ep = \SimpleSAML\Utils\Config\Metadata::getDefaultEndpoint($request['Source']['SingleSignOnService']);
+                $loc = $ep['Location'];
+                $host = parse_url($loc, PHP_URL_HOST);
+                if ($host === null) {
+                    $host = '';
                 }
-
-                if (empty($newValues)) {
-                    Logger::warning("No suitable values for attribute '$attribute', removing it.");
-                    unset($request['Attributes'][$attribute]); // remove empty attributes
+                $value_a = explode('@', $value, 2);
+                if (count($value_a) < 2) {
+                    $newValues[] = $value;
+                    continue; // there's no scope
+                }
+                $scope = $value_a[1];
+                if (in_array($scope, $validScopes, true)) {
+                    $newValues[] = $value;
+                } elseif (strpos($host, $scope) === strlen($host) - strlen($scope)) {
+                    $newValues[] = $value;
                 } else {
-                    $request['Attributes'][$attribute] = $newValues;
+                    Logger::warning("Removing value '$value' for attribute '$attribute'. Undeclared scope.");
                 }
+            }
+
+            if (empty($newValues)) {
+                Logger::warning("No suitable values for attribute '$attribute', removing it.");
+                unset($request['Attributes'][$attribute]); // remove empty attributes
+            } else {
+                $request['Attributes'][$attribute] = $newValues;
             }
         }
     }

@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2;
-
-use DOMElement;
 
 /**
  * Class for SAML 2 Response messages.
@@ -15,31 +11,26 @@ class Response extends StatusResponse
 {
     /**
      * The assertions in this response.
-     *
-     * @var (Assertion|EncryptedAssertion)[]
      */
     private $assertions;
-
 
     /**
      * Constructor for SAML 2 response messages.
      *
      * @param \DOMElement|null $xml The input message.
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('Response', $xml);
 
-        $this->assertions = [];
+        $this->assertions = array();
 
         if ($xml === null) {
             return;
         }
 
-        foreach ($xml->childNodes as $node) {
+        for ($node = $xml->firstChild; $node !== null; $node = $node->nextSibling) {
             if ($node->namespaceURI !== Constants::NS_SAML) {
-                continue;
-            } else if (!($node instanceof DOMElement)) {
                 continue;
             }
 
@@ -51,36 +42,32 @@ class Response extends StatusResponse
         }
     }
 
-
     /**
      * Retrieve the assertions in this response.
      *
      * @return \SAML2\Assertion[]|\SAML2\EncryptedAssertion[]
      */
-    public function getAssertions() : array
+    public function getAssertions()
     {
         return $this->assertions;
     }
 
-
     /**
      * Set the assertions that should be included in this response.
      *
-     * @param \SAML2\Assertion[]|\SAML2\EncryptedAssertion[] $assertions The assertions.
-     * @return void
+     * @param \SAML2\Assertion[]|\SAML2\EncryptedAssertion[] The assertions.
      */
-    public function setAssertions(array $assertions) : void
+    public function setAssertions(array $assertions)
     {
         $this->assertions = $assertions;
     }
-
 
     /**
      * Convert the response message to an XML element.
      *
      * @return \DOMElement This response.
      */
-    public function toUnsignedXML() : DOMElement
+    public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 

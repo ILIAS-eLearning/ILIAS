@@ -3,12 +3,11 @@
  *
  * @param id  The id of the element which should receive focus.
  */
-function SimpleSAML_focus(id)
-{
-    var element = document.getElementById(id);
-    if (element != null) {
-        element.focus();
-    }
+function SimpleSAML_focus(id) {
+  element = document.getElementById(id);
+  if(element != null) {
+    element.focus();
+  }
 }
 
 
@@ -17,14 +16,13 @@ function SimpleSAML_focus(id)
  *
  * @param id  The id of the element which should be shown.
  */
-function SimpleSAML_show(id)
-{
-    var element = document.getElementById(id);
-    if (element == null) {
-        return;
-    }
+function SimpleSAML_show(id) {
+  element = document.getElementById(id);
+  if (element == null) {
+    return;
+  }
 
-    element.style.display = 'block';
+  element.style.display = 'block';
 }
 
 
@@ -33,12 +31,11 @@ function SimpleSAML_show(id)
  *
  * @param id  The id of the element which should be hidden.
  */
-function SimpleSAML_hide(id)
-{
-    var element = document.getElementById(id);
-    if (element == null) {
-        return;
-    }
+function SimpleSAML_hide(id) {
+  element = document.getElementById(id);
+  if (element == null) {
+    return;
+  }
 
-    element.style.display = 'none';
+  element.style.display = 'none';
 }

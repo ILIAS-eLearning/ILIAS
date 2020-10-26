@@ -1,7 +1,5 @@
 <?php
 
-namespace SimpleSAML\Module\authcrypt\Auth\Source;
-
 /**
  * Authentication source for Apache 'htpasswd' files.
  *
@@ -9,13 +7,12 @@ namespace SimpleSAML\Module\authcrypt\Auth\Source;
  * @package SimpleSAMLphp
  */
 
-use SimpleSAML\Logger;
-use SimpleSAML\Utils\Attributes;
-use SimpleSAML\Utils\Crypto;
 use WhiteHat101\Crypt\APR1_MD5;
 
-class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
+class sspmod_authcrypt_Auth_Source_Htpasswd extends sspmod_core_Auth_UserPassBase
 {
+
+
     /**
      * Our users, stored in an array, where each value is "<username>:<passwordhash>".
      *
@@ -28,7 +25,7 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
      *
      * @var array
      */
-    private $attributes = [];
+    private $attributes = array();
 
 
     /**
@@ -47,18 +44,18 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
         // Call the parent constructor first, as required by the interface
         parent::__construct($info, $config);
 
-        $this->users = [];
+        $this->users = array();
 
         if (!$htpasswd = file_get_contents($config['htpasswd_file'])) {
-            throw new \Exception('Could not read '.$config['htpasswd_file']);
+            throw new Exception('Could not read '.$config['htpasswd_file']);
         }
 
         $this->users = explode("\n", trim($htpasswd));
 
         try {
-            $this->attributes = Attributes::normalizeAttributesArray($config['static_attributes']);
-        } catch (\Exception $e) {
-            throw new \Exception('Invalid static_attributes in authentication source '.
+            $this->attributes = SimpleSAML\Utils\Attributes::normalizeAttributesArray($config['static_attributes']);
+        } catch (Exception $e) {
+            throw new Exception('Invalid static_attributes in authentication source '.
                 $this->authId.': '.$e->getMessage());
         }
     }
@@ -69,7 +66,7 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
      *
      * On a successful login, this function should return the username as 'uid' attribute,
      * and merged attributes from the configuration file.
-     * On failure, it should throw an exception. A \SimpleSAML\Error\Error('WRONGUSERPASS')
+     * On failure, it should throw an exception. A SimpleSAML_Error_Error('WRONGUSERPASS')
      * should be thrown in case of a wrong username OR a wrong password, to prevent the
      * enumeration of usernames.
      *
@@ -78,7 +75,7 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
      *
      * @return array Associative array with the users attributes.
      *
-     * @throws \SimpleSAML\Error\Error if authentication fails.
+     * @throws SimpleSAML_Error_Error if authentication fails.
      */
     protected function login($username, $password)
     {
@@ -91,12 +88,12 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
                 $crypted = $matches[1];
 
                 // This is about the only attribute we can add
-                $attributes = array_merge(['uid' => [$username]], $this->attributes);
+                $attributes = array_merge(array('uid' => array($username)), $this->attributes);
 
                 // Traditional crypt(3)
-                if (Crypto::secureCompare($crypted, crypt($password, $crypted))) {
-                    Logger::debug('User '.$username.' authenticated successfully');
-                    Logger::warning(
+                if (SimpleSAML\Utils\Crypto::secureCompare($crypted, crypt($password, $crypted))) {
+                    SimpleSAML\Logger::debug('User '.$username.' authenticated successfully');
+                    SimpleSAML\Logger::warning(
                         'CRYPT authentication is insecure. Please consider using something else.'
                     );
                     return $attributes;
@@ -104,18 +101,21 @@ class Htpasswd extends \SimpleSAML\Module\core\Auth\UserPassBase
 
                 // Apache's custom MD5
                 if (APR1_MD5::check($password, $crypted)) {
-                    Logger::debug('User '.$username.' authenticated successfully');
+                    SimpleSAML\Logger::debug('User '.$username.' authenticated successfully');
                     return $attributes;
                 }
 
-                // PASSWORD_BCRYPT
-                if (Crypto::pwValid($crypted, $password)) {
-                    Logger::debug('User '.$username.' authenticated successfully');
+                // SHA1 or plain-text
+                if (SimpleSAML\Utils\Crypto::pwValid($crypted, $password)) {
+                    SimpleSAML\Logger::debug('User '.$username.' authenticated successfully');
+                    SimpleSAML\Logger::warning(
+                        'SHA1 and PLAIN TEXT authentication are insecure. Please consider using something else.'
+                    );
                     return $attributes;
                 }
-                throw new \SimpleSAML\Error\Error('WRONGUSERPASS');
+                throw new SimpleSAML_Error_Error('WRONGUSERPASS');
             }
         }
-        throw new \SimpleSAML\Error\Error('WRONGUSERPASS');
+        throw new SimpleSAML_Error_Error('WRONGUSERPASS');
     }
 }

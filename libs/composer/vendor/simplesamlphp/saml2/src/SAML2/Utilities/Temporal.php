@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Utilities;
 
 class Temporal
@@ -12,7 +10,7 @@ class Temporal
      *
      * @return int
      */
-    public static function getTime() : int
+    public static function getTime()
     {
         return time();
     }

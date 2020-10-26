@@ -7,10 +7,7 @@
 		"gl": "Noruega",
 		"da": "Norge",
 		"af": "Noorwe\u00eb",
-		"el": "\u039d\u03bf\u03c1\u03b2\u03b7\u03b3\u03af\u03b1",
-		"xh": "Norowe",
-		"zu": "ENorway",
-		"ca": "Noruega"
+		"el": "\u039d\u03bf\u03c1\u03b2\u03b7\u03b3\u03af\u03b1"
 	},
 	"kalmar": {
 		"es": "Kalmar",
@@ -19,8 +16,7 @@
 		"nl": "Kalmar",
 		"da": "Kalmar",
 		"af": "Kalmar",
-		"el": "Kalmar",
-		"ca": "Kalmar"
+		"el": "Kalmar"
 	},
 	"finland": {
 		"es": "Finlandia",
@@ -30,9 +26,7 @@
 		"gl": "Finlandia",
 		"da": "Finland",
 		"af": "Finland",
-		"el": "\u03a6\u03b9\u03bd\u03bb\u03b1\u03bd\u03b4\u03af\u03b1",
-		"xh": "Finlend",
-		"ca": "Finlàndia"
+		"el": "\u03a6\u03b9\u03bd\u03bb\u03b1\u03bd\u03b4\u03af\u03b1"
 	},
 	"sweden": {
 		"es": "Suecia",
@@ -42,10 +36,7 @@
 		"gl": "Suecia",
 		"da": "Sverige",
 		"af": "Swede",
-		"el": "\u03a3\u03bf\u03c5\u03b7\u03b4\u03af\u03b1",
-		"xh": "Swiden",
-		"zu": "Sweden",
-		"ca": "Suècia"
+		"el": "\u03a3\u03bf\u03c5\u03b7\u03b4\u03af\u03b1"
 	},
 	"iceland": {
 		"es": "Islandia",
@@ -55,10 +46,7 @@
 		"gl": "Islandia",
 		"da": "Island",
 		"af": "Ysland",
-		"el": "\u0399\u03c3\u03bb\u03b1\u03bd\u03b4\u03af\u03b1",
-		"xh": "Ayisilend",
-		"zu": "I-Iceland",
-		"ca": "Islàndia"
+		"el": "\u0399\u03c3\u03bb\u03b1\u03bd\u03b4\u03af\u03b1"
 	},
 	"denmark": {
 		"es": "Dinamarca",
@@ -68,9 +56,7 @@
 		"gl": "Dinamarca",
 		"da": "Danmark",
 		"af": "Denmark",
-		"el": "\u0394\u03b1\u03bd\u03af\u03b1",
-		"xh": "Dominikha",
-		"ca": "Dinamarca"
+		"el": "\u0394\u03b1\u03bd\u03af\u03b1"
 	},
 	"switzerland": {
 		"es": "Suiza",
@@ -80,28 +66,18 @@
 		"gl": "Suiza",
 		"da": "Schweiz",
 		"af": "Switserland",
-		"el": "\u0395\u03bb\u03b2\u03b5\u03c4\u03af\u03b1",
-		"xh": "Swizalend",
-		"zu": "ESwitzerland",
-		"ca": "Suïssa"
+		"el": "\u0395\u03bb\u03b2\u03b5\u03c4\u03af\u03b1"
 	},
 	"greece": {
 		"es": "Grecia",
+		"ru": "\u0413\u0440\u0435\u0446\u0438\u044f",
 		"nl": "Griekenland",
 		"gl": "Grecia",
 		"ru": "\u0413\u0440\u0435\u0446\u0438\u044f",
 		"da": "Gr\u00e6kenland",
 		"af": "Griekeland",
-		"el": "\u0395\u03bb\u03bb\u03ac\u03b4\u03b1",
-		"xh": "Grisi",
-		"ca": "Grècia"
+		"el": "\u0395\u03bb\u03bb\u03ac\u03b4\u03b1"
 	},
-		"netherlands": {
-				"en": "The Netherlands",
-				"nl": "Nederland",
-				"de": "Niederlande",
-				"fr": "Les Pays-Bas"
-		},
 	"southafrica": {
 		"es": "Sud\u00e1frica",
 		"ru": "\u042e\u0436\u043d\u0430\u044f \u0410\u0444\u0440\u0438\u043a\u0430",
@@ -112,9 +88,7 @@
 		"af": "Suid-Afrika",
 		"el": "\u039d\u03cc\u03c4\u03b9\u03b1 \u0391\u03c6\u03c1\u03b9\u03ba\u03ae",
 		"xh": "uMzantsi Afrika",
-		"zu": "iNingizimu Afrika",
-		"st": "Afrika Boroa",
-		"ca": "Sud-Àfrica"
+		"zu": "iNingizimu Afrika"
 	},
 	"edugain": {
 		"es": "Europa (eduGAIN)",
@@ -124,10 +98,7 @@
 		"gl": "Europa (eduGAIN)",
 		"da": "Europa (eduGAIN)",
 		"af": "Europa (eduGAIN)",
-		"el": "\u0395\u03c5\u03c1\u03ce\u03c0\u03b7 (eduGAIN)",
-		"xh": "Yurophu (eduGAIN)",
-		"zu": "IYurophu (eduGAIN)",
-		"ca": "Europa (eduGAIN)"
+		"el": "\u0395\u03c5\u03c1\u03ce\u03c0\u03b7 (eduGAIN)"
 	},
 	"misc": {
 		"es": "Otros",
@@ -137,11 +108,7 @@
 		"gl": "Miscelanea",
 		"da": "Forskellige",
 		"af": "Verskeie",
-		"el": "\u0386\u03bb\u03bb\u03bf\u03b9 \u03c6\u03bf\u03c1\u03b5\u03af\u03c2",
-		"xh": "Ezahlukahlukeneyo",
-		"zu": "Ezihlukahlukene",
-		"st": "Fapakaneng",
-		"ca": "Altres"
+		"el": "\u0386\u03bb\u03bb\u03bf\u03b9 \u03c6\u03bf\u03c1\u03b5\u03af\u03c2"
 	},
 	"incommon": {
 		"es": "InCommon",
@@ -149,8 +116,7 @@
 		"nl": "InCommon",
 		"da": "InCommon",
 		"af": "InCommon",
-		"el": "InCommon",
-		"ca": "InCommon"
+		"el": "InCommon"
 	},
 	"ukacessfederation": {
 		"es": "Federaci&oacute;n de Acceso de Reino Unido",
@@ -158,15 +124,6 @@
 		"nl": "UK Access Federation",
 		"da": "Storbritanniens adgangsf\u00f8deration",
 		"af": "UK Toegangs Federasie",
-		"el": "\u039f\u03bc\u03bf\u03c3\u03c0\u03bf\u03bd\u03b4\u03af\u03b1 UK Access",
-		"ca": "Federeació d'accès del Regne Unit"
-	},
-	"incremental_search": {
-		"af": "Inkrementele soektog...",
-		"nl": "Zoeken...",
-		"zu": "Ukucinga okukhulayo...",
-		"xh": "Ukhangelo oluqhubekayo...",
-		"st": "Patlo e Eketsang...",
-		"ca": "Cerca incremental..."
+		"el": "\u039f\u03bc\u03bf\u03c3\u03c0\u03bf\u03bd\u03b4\u03af\u03b1 UK Access"
 	}
 }

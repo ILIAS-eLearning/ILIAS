@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Configuration;
 
 /**
@@ -14,7 +12,6 @@ class ArrayAdapter implements Queryable
      */
     private $configuration;
 
-
     /**
      * @param array $configuration
      */
@@ -23,13 +20,7 @@ class ArrayAdapter implements Queryable
         $this->configuration = $configuration;
     }
 
-
-    /**
-     * @param string $key
-     * @param mixed|null $defaultValue
-     * @return mixed
-     */
-    public function get(string $key, $defaultValue = null)
+    public function get($key, $defaultValue = null)
     {
         if (!$this->has($key)) {
             return $defaultValue;
@@ -38,12 +29,7 @@ class ArrayAdapter implements Queryable
         return $this->configuration[$key];
     }
 
-
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public function has(string $key) : bool
+    public function has($key)
     {
         return array_key_exists($key, $this->configuration);
     }

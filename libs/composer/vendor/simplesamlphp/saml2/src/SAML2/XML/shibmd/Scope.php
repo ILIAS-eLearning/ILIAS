@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\shibmd;
-
-use DOMElement;
-use Webmozart\Assert\Assert;
 
 use SAML2\Utils;
 
@@ -27,22 +22,21 @@ class Scope
      *
      * @var string
      */
-    private $scope = '';
+    public $scope;
 
     /**
      * Whether this is a regexp scope.
      *
      * @var bool
      */
-    private $regexp = false;
-
+    public $regexp = false;
 
     /**
      * Create a Scope.
      *
      * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
@@ -52,62 +46,16 @@ class Scope
         $this->regexp = Utils::parseBoolean($xml, 'regexp', false);
     }
 
-
-    /**
-     * Collect the value of the scope-property
-     *
-     * @return string
-     */
-    public function getScope() : string
-    {
-        return $this->scope;
-    }
-
-
-    /**
-     * Set the value of the scope-property
-     *
-     * @param string $scope
-     * @return void
-     */
-    public function setScope(string $scope) : void
-    {
-        $this->scope = $scope;
-    }
-
-
-    /**
-     * Collect the value of the regexp-property
-     *
-     * @return bool
-     */
-    public function isRegexpScope() : bool
-    {
-        return $this->regexp;
-    }
-
-
-    /**
-     * Set the value of the regexp-property
-     *
-     * @param bool $regexp
-     * @return void
-     */
-    public function setIsRegexpScope(bool $regexp) : void
-    {
-        $this->regexp = $regexp;
-    }
-
-
     /**
      * Convert this Scope to XML.
      *
      * @param \DOMElement $parent The element we should append this Scope to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
-        Assert::notEmpty($this->scope);
+        assert(is_string($this->scope));
+        assert(is_bool($this->regexp) || is_null($this->regexp));
 
         $doc = $parent->ownerDocument;
 

@@ -1,11 +1,4 @@
 <?php
-
-namespace SimpleSAML\Error;
-
-use SimpleSAML\Configuration;
-use SimpleSAML\Logger;
-use SimpleSAML\Utils;
-
 /**
  * This exception represents a configuration error that we cannot recover from.
  *
@@ -25,19 +18,22 @@ use SimpleSAML\Utils;
  * @package SimpleSAMLphp
  */
 
+namespace SimpleSAML\Error;
+
 class CriticalConfigurationError extends ConfigurationError
 {
+
     /**
      * This is the bare minimum configuration that we can use.
      *
      * @var array
      */
-    private static $minimum_config = [
+    private static $minimum_config = array(
         'logging.handler' => 'errorlog',
-        'logging.level'  => Logger::DEBUG,
+        'logging.level'  => \SimpleSAML\Logger::DEBUG,
         'errorreporting' => false,
         'debug'          => true,
-    ];
+    );
 
 
     /**
@@ -45,16 +41,16 @@ class CriticalConfigurationError extends ConfigurationError
      *
      * @param string|null $reason The reason for this critical error.
      * @param string|null $file The configuration file that originated this error.
-     * @param array|null $config The configuration array that led to this problem.
+     * @param array|null The configuration array that led to this problem.
      */
     public function __construct($reason = null, $file = null, $config = null)
     {
         if ($config === null) {
             $config = self::$minimum_config;
-            $config['baseurlpath'] = Utils\HTTP::guessBasePath();
+            $config['baseurlpath'] = \SimpleSAML\Utils\HTTP::guessBasePath();
         }
 
-        Configuration::loadFromArray(
+        \SimpleSAML_Configuration::loadFromArray(
             $config,
             '',
             'simplesaml'

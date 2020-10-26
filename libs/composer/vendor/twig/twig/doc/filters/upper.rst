@@ -3,7 +3,7 @@
 
 The ``upper`` filter converts a value to uppercase:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ 'welcome'|upper }}
 

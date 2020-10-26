@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2;
-
-use DOMElement;
 
 /**
  * Class for SAML 2 LogoutResponse messages.
@@ -18,7 +14,7 @@ class LogoutResponse extends StatusResponse
      *
      * @param \DOMElement|null $xml     The input message.
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('LogoutResponse', $xml);
 

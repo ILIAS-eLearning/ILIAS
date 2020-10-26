@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Assertion\Transformer;
 
 use Psr\Log\LoggerInterface;
-
 use SAML2\Assertion;
 use SAML2\Assertion\Exception\NotDecryptedException;
 use SAML2\Certificate\PrivateKeyLoader;
@@ -14,7 +11,7 @@ use SAML2\Configuration\IdentityProviderAware;
 use SAML2\Configuration\ServiceProvider;
 use SAML2\Configuration\ServiceProviderAware;
 
-final class NameIdDecryptionTransformer implements
+class NameIdDecryptionTransformer implements
     Transformer,
     IdentityProviderAware,
     ServiceProviderAware
@@ -39,13 +36,6 @@ final class NameIdDecryptionTransformer implements
      */
     private $logger;
 
-
-    /**
-     * Constructor for NameIdDecryptionTransformer
-     *
-     * @param LoggerInterface $logger
-     * @param PrivateKeyLoader $privateKeyLoader
-     */
     public function __construct(
         LoggerInterface $logger,
         PrivateKeyLoader $privateKeyLoader
@@ -54,13 +44,7 @@ final class NameIdDecryptionTransformer implements
         $this->privateKeyLoader = $privateKeyLoader;
     }
 
-
-    /**
-     * @param Assertion $assertion
-     * @throws \Exception
-     * @return Assertion
-     */
-    public function transform(Assertion $assertion) : Assertion
+    public function transform(Assertion $assertion)
     {
         if (!$assertion->isNameIdEncrypted()) {
             return $assertion;
@@ -95,22 +79,12 @@ final class NameIdDecryptionTransformer implements
         return $assertion;
     }
 
-
-    /**
-     * @param IdentityProvider $identityProvider
-     * @return void
-     */
-    public function setIdentityProvider(IdentityProvider $identityProvider) : void
+    public function setIdentityProvider(IdentityProvider $identityProvider)
     {
         $this->identityProvider = $identityProvider;
     }
 
-
-    /**
-     * @param ServiceProvider $serviceProvider
-     * @return void
-     */
-    public function setServiceProvider(ServiceProvider $serviceProvider) : void
+    public function setServiceProvider(ServiceProvider $serviceProvider)
     {
         $this->serviceProvider = $serviceProvider;
     }

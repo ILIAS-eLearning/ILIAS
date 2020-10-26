@@ -1,5 +1,5 @@
 <?php
-$attributemap = [
+$attributemap = array(
 
     // Generated Windows Live ID Attributes
     'windowslive_user'       => 'eduPersonPrincipalName', // uid @ windowslive.com
@@ -19,4 +19,4 @@ $attributemap = [
     'windowslive.mail' => 'mail',
     'windowslive.preferredLanguage' => 'preferredLanguage',
 
-];
+);

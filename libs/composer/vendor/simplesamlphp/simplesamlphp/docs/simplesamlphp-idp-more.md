@@ -45,16 +45,11 @@ Here is an example of such a URL:
 
 	https://idp.example.org/simplesaml/saml2/idp/SSOService.php?spentityid=urn:mace:feide.no:someservice
 
-You can also add a `RelayState` parameter to the IdP-first URL:
+You can also add a RelayState parameter to the IdP-first URL:
 
 	https://idp.example.org/simplesaml/saml2/idp/SSOService.php?spentityid=urn:mace:feide.no:someservice&RelayState=https://sp.example.org/somepage
 
-The `RelayState` parameter is often used to carry the URL the SP should redirect to after authentication. It is also possible to specify the Assertion
-Consumer URL with the `ConsumerURL` parameter.
-
-For compatibility with certain SPs, SimpleSAMLphp will also accept the
-`providerId`, `target` and `shire` parameters as aliases for `spentityid`,
-`RelayState` and `ConsumerURL`, respectively.
+The RelayState parameter is often uset do carry the URL the SP should redirect to after authentication.
 
 
 ### IdP first with SAML 1.1

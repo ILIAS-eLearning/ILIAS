@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Certificate\Exception;
 
 use SAML2\Exception\Throwable;

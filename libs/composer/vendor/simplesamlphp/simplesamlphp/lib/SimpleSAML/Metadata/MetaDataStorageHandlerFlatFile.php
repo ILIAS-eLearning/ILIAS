@@ -1,8 +1,5 @@
 <?php
 
-namespace SimpleSAML\Metadata;
-
-use SimpleSAML\Configuration;
 
 /**
  * This file defines a flat file metadata source.
@@ -12,16 +9,16 @@ use SimpleSAML\Configuration;
  * @author Andreas Åkre Solberg, UNINETT AS. <andreas.solberg@uninett.no>
  * @package SimpleSAMLphp
  */
-
-class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
+class SimpleSAML_Metadata_MetaDataStorageHandlerFlatFile extends SimpleSAML_Metadata_MetaDataStorageSource
 {
+
     /**
      * This is the directory we will load metadata files from. The path will always end
      * with a '/'.
      *
      * @var string
      */
-    private $directory = '/';
+    private $directory;
 
 
     /**
@@ -29,7 +26,7 @@ class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
      *
      * @var array
      */
-    private $cachedMetadata = [];
+    private $cachedMetadata = array();
 
 
     /**
@@ -46,11 +43,11 @@ class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
         assert(is_array($config));
 
         // get the configuration
-        $globalConfig = Configuration::getInstance();
+        $globalConfig = SimpleSAML_Configuration::getInstance();
 
         // find the path to the directory we should search for metadata in
         if (array_key_exists('directory', $config)) {
-            $this->directory = $config['directory'] ?: 'metadata/';
+            $this->directory = $config['directory'];
         } else {
             $this->directory = $globalConfig->getString('metadatadir', 'metadata/');
         }
@@ -58,10 +55,7 @@ class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
         /* Resolve this directory relative to the SimpleSAMLphp directory (unless it is
          * an absolute path).
          */
-
-        /** @var string $base */
-        $base = $globalConfig->resolvePath($this->directory);
-        $this->directory = $base . '/';
+        $this->directory = $globalConfig->resolvePath($this->directory).'/';
     }
 
 
@@ -71,24 +65,24 @@ class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
      *
      * @param string $set The set of metadata we are loading.
      *
-     * @return array|null An associative array with the metadata,
-     *     or null if we are unable to load metadata from the given file.
-     * @throws \Exception If the metadata set cannot be loaded.
+     * @return array An associative array with the metadata, or null if we are unable to load metadata from the given
+     *     file.
+     * @throws Exception If the metadata set cannot be loaded.
      */
     private function load($set)
     {
-        $metadatasetfile = $this->directory . $set . '.php';
+        $metadatasetfile = $this->directory.$set.'.php';
 
         if (!file_exists($metadatasetfile)) {
             return null;
         }
 
-        $metadata = [];
+        $metadata = array();
 
         include($metadatasetfile);
 
         if (!is_array($metadata)) {
-            throw new \Exception('Could not load metadata set [' . $set . '] from file: ' . $metadatasetfile);
+            throw new Exception('Could not load metadata set ['.$set.'] from file: '.$metadatasetfile);
         }
 
         return $metadata;
@@ -110,18 +104,41 @@ class MetaDataStorageHandlerFlatFile extends MetaDataStorageSource
             return $this->cachedMetadata[$set];
         }
 
-        /** @var array|null $metadataSet */
         $metadataSet = $this->load($set);
         if ($metadataSet === null) {
-            $metadataSet = [];
+            $metadataSet = array();
         }
 
         // add the entity id of an entry to each entry in the metadata
         foreach ($metadataSet as $entityId => &$entry) {
-            $entry = $this->updateEntityID($set, $entityId, $entry);
+            if (preg_match('/__DYNAMIC(:[0-9]+)?__/', $entityId)) {
+                $entry['entityid'] = $this->generateDynamicHostedEntityID($set);
+            } else {
+                $entry['entityid'] = $entityId;
+            }
         }
 
         $this->cachedMetadata[$set] = $metadataSet;
+
         return $metadataSet;
+    }
+
+
+    private function generateDynamicHostedEntityID($set)
+    {
+        // get the configuration
+        $baseurl = \SimpleSAML\Utils\HTTP::getBaseURL();
+
+        if ($set === 'saml20-idp-hosted') {
+            return $baseurl.'saml2/idp/metadata.php';
+        } elseif ($set === 'shib13-idp-hosted') {
+            return $baseurl.'shib13/idp/metadata.php';
+        } elseif ($set === 'wsfed-sp-hosted') {
+            return 'urn:federation:'.\SimpleSAML\Utils\HTTP::getSelfHost();
+        } elseif ($set === 'adfs-idp-hosted') {
+            return 'urn:federation:'.\SimpleSAML\Utils\HTTP::getSelfHost().':idp';
+        } else {
+            throw new Exception('Can not generate dynamic EntityID for metadata of this type: ['.$set.']');
+        }
     }
 }

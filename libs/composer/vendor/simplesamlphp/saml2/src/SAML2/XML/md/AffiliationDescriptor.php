@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\md;
-
-use DOMElement;
-use Webmozart\Assert\Assert;
 
 use SAML2\Constants;
 use SAML2\SignedElementHelper;
@@ -23,14 +18,28 @@ class AffiliationDescriptor extends SignedElementHelper
      *
      * @var string
      */
-    public $affiliationOwnerID = '';
+    public $affiliationOwnerID;
 
     /**
      * The ID of this element.
      *
      * @var string|null
      */
-    private $ID = null;
+    public $ID;
+
+    /**
+     * How long this element is valid, as a unix timestamp.
+     *
+     * @var int|null
+     */
+    public $validUntil;
+
+    /**
+     * The length of time this element can be cached, as string.
+     *
+     * @var string|null
+     */
+    public $cacheDuration;
 
     /**
      * Extensions on this element.
@@ -39,7 +48,7 @@ class AffiliationDescriptor extends SignedElementHelper
      *
      * @var array
      */
-    private $Extensions = [];
+    public $Extensions = array();
 
     /**
      * The AffiliateMember(s).
@@ -48,7 +57,7 @@ class AffiliationDescriptor extends SignedElementHelper
      *
      * @var array
      */
-    private $AffiliateMember = [];
+    public $AffiliateMember = array();
 
     /**
      * KeyDescriptor elements.
@@ -57,8 +66,7 @@ class AffiliationDescriptor extends SignedElementHelper
      *
      * @var \SAML2\XML\md\KeyDescriptor[]
      */
-    private $KeyDescriptor = [];
-
+    public $KeyDescriptor = array();
 
     /**
      * Initialize a AffiliationDescriptor.
@@ -66,7 +74,7 @@ class AffiliationDescriptor extends SignedElementHelper
      * @param \DOMElement|null $xml The XML element we should load.
      * @throws \Exception
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct($xml);
 
@@ -77,172 +85,31 @@ class AffiliationDescriptor extends SignedElementHelper
         if (!$xml->hasAttribute('affiliationOwnerID')) {
             throw new \Exception('Missing affiliationOwnerID on AffiliationDescriptor.');
         }
-        $this->setAffiliationOwnerID($xml->getAttribute('affiliationOwnerID'));
+        $this->affiliationOwnerID = $xml->getAttribute('affiliationOwnerID');
 
         if ($xml->hasAttribute('ID')) {
-            $this->setID($xml->getAttribute('ID'));
+            $this->ID = $xml->getAttribute('ID');
         }
 
         if ($xml->hasAttribute('validUntil')) {
-            $this->setValidUntil(Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil')));
+            $this->validUntil = Utils::xsDateTimeToTimestamp($xml->getAttribute('validUntil'));
         }
 
         if ($xml->hasAttribute('cacheDuration')) {
-            $this->setCacheDuration($xml->getAttribute('cacheDuration'));
+            $this->cacheDuration = $xml->getAttribute('cacheDuration');
         }
 
-        $this->setExtensions(Extensions::getList($xml));
+        $this->Extensions = Extensions::getList($xml);
 
-        $this->setAffiliateMember(Utils::extractStrings($xml, Constants::NS_MD, 'AffiliateMember'));
+        $this->AffiliateMember = Utils::extractStrings($xml, Constants::NS_MD, 'AffiliateMember');
         if (empty($this->AffiliateMember)) {
             throw new \Exception('Missing AffiliateMember in AffiliationDescriptor.');
         }
 
-        /** @var \DOMElement $kd */
         foreach (Utils::xpQuery($xml, './saml_metadata:KeyDescriptor') as $kd) {
-            $this->addKeyDescriptor(new KeyDescriptor($kd));
+            $this->KeyDescriptor[] = new KeyDescriptor($kd);
         }
     }
-
-
-    /**
-     * Collect the value of the affiliationOwnerId-property
-     *
-     * @return string
-     */
-    public function getAffiliationOwnerID() : string
-    {
-        return $this->affiliationOwnerID;
-    }
-
-
-    /**
-     * Set the value of the affiliationOwnerId-property
-     *
-     * @param string $affiliationOwnerId
-     * @return void
-     */
-    public function setAffiliationOwnerID(string $affiliationOwnerId) : void
-    {
-        $this->affiliationOwnerID = $affiliationOwnerId;
-    }
-
-
-    /**
-     * Collect the value of the ID-property
-     *
-     * @return string|null
-     */
-    public function getID() : ?string
-    {
-        return $this->ID;
-    }
-
-
-    /**
-     * Set the value of the ID-property
-     *
-     * @param string|null $Id
-     * @return void
-     */
-    public function setID(string $Id = null) : void
-    {
-        $this->ID = $Id;
-    }
-
-
-    /**
-     * Collect the value of the Extensions-property
-     *
-     * @return \SAML2\XML\Chunk[]
-     */
-    public function getExtensions() : array
-    {
-        return $this->Extensions;
-    }
-
-
-    /**
-     * Set the value of the Extensions-property
-     *
-     * @param array $extensions
-     * @return void
-     */
-    public function setExtensions(array $extensions) : void
-    {
-        $this->Extensions = $extensions;
-    }
-
-
-    /**
-     * Add an Extension.
-     *
-     * @param Extensions $extensions The Extensions
-     * @return void
-     */
-    public function addExtension(Extensions $extension) : void
-    {
-        $this->Extensions[] = $extension;
-    }
-
-
-    /**
-     * Collect the value of the AffiliateMember-property
-     *
-     * @return array
-     */
-    public function getAffiliateMember() : array
-    {
-        return $this->AffiliateMember;
-    }
-
-
-    /**
-     * Set the value of the AffiliateMember-property
-     *
-     * @param array $affiliateMember
-     * @return void
-     */
-    public function setAffiliateMember(array $affiliateMember) : void
-    {
-        $this->AffiliateMember = $affiliateMember;
-    }
-
-
-    /**
-     * Collect the value of the KeyDescriptor-property
-     *
-     * @return \SAML2\XML\md\KeyDescriptor[]
-     */
-    public function getKeyDescriptor() : array
-    {
-        return $this->KeyDescriptor;
-    }
-
-
-    /**
-     * Set the value of the KeyDescriptor-property
-     *
-     * @param array $keyDescriptor
-     * @return void
-     */
-    public function setKeyDescriptor(array $keyDescriptor) : void
-    {
-        $this->KeyDescriptor = $keyDescriptor;
-    }
-
-
-    /**
-     * Add the value to the KeyDescriptor-property
-     *
-     * @param \SAML2\XML\md\KeyDescriptor $keyDescriptor
-     * @return void
-     */
-    public function addKeyDescriptor(KeyDescriptor $keyDescriptor) : void
-    {
-        $this->KeyDescriptor[] = $keyDescriptor;
-    }
-
 
     /**
      * Add this AffiliationDescriptor to an EntityDescriptor.
@@ -250,24 +117,31 @@ class AffiliationDescriptor extends SignedElementHelper
      * @param \DOMElement $parent The EntityDescriptor we should append this endpoint to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
-        Assert::notEmpty($this->AffiliateMember);
+        assert(is_string($this->affiliationOwnerID));
+        assert(is_null($this->ID) || is_string($this->ID));
+        assert(is_null($this->validUntil) || is_int($this->validUntil));
+        assert(is_null($this->cacheDuration) || is_string($this->cacheDuration));
+        assert(is_array($this->Extensions));
+        assert(is_array($this->AffiliateMember));
+        assert(!empty($this->AffiliateMember));
+        assert(is_array($this->KeyDescriptor));
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, 'md:AffiliationDescriptor');
         $parent->appendChild($e);
 
         $e->setAttribute('affiliationOwnerID', $this->affiliationOwnerID);
 
-        if ($this->ID !== null) {
+        if (isset($this->ID)) {
             $e->setAttribute('ID', $this->ID);
         }
 
-        if ($this->validUntil !== null) {
+        if (isset($this->validUntil)) {
             $e->setAttribute('validUntil', gmdate('Y-m-d\TH:i:s\Z', $this->validUntil));
         }
 
-        if ($this->cacheDuration !== null) {
+        if (isset($this->cacheDuration)) {
             $e->setAttribute('cacheDuration', $this->cacheDuration);
         }
 

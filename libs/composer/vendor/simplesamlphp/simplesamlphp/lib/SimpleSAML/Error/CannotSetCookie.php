@@ -1,7 +1,4 @@
 <?php
-
-namespace SimpleSAML\Error;
-
 /**
  * Exception to indicate that we cannot set a cookie.
  *
@@ -9,8 +6,11 @@ namespace SimpleSAML\Error;
  * @package SimpleSAMLphp
  */
 
-class CannotSetCookie extends Exception
+namespace SimpleSAML\Error;
+
+class CannotSetCookie extends \SimpleSAML_Error_Exception
 {
+
     /**
      * The exception was thrown for unknown reasons.
      *

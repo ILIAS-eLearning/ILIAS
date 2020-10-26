@@ -3,7 +3,7 @@
 
 ``odd`` returns ``true`` if the given number is odd:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ var is odd }}
 

@@ -1,15 +1,14 @@
 <?php
 
-namespace SimpleSAML\Error;
-
 /**
  * Error for missing metadata.
  *
  * @package SimpleSAMLphp
  */
-
-class MetadataNotFound extends Error
+class SimpleSAML_Error_MetadataNotFound extends SimpleSAML_Error_Error
 {
+
+
     /**
      * Create the error
      *
@@ -20,9 +19,9 @@ class MetadataNotFound extends Error
         assert(is_string($entityId));
 
         $this->includeTemplate = 'core:no_metadata.tpl.php';
-        parent::__construct([
+        parent::__construct(array(
                 'METADATANOTFOUND',
                 '%ENTITYID%' => htmlspecialchars(var_export($entityId, true))
-        ]);
+        ));
     }
 }

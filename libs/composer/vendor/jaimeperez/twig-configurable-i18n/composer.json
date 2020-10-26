@@ -1,0 +1,25 @@
+{
+    "name": "jaimeperez/twig-configurable-i18n",
+    "description": "This is an extension on top of Twig's i18n extension, allowing you to customize which functions to use for translations.",
+    "type": "project",
+    "keywords": [ "twig", "extension", "i18n", "internationalization", "translation", "gettext" ],
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Jaime Perez",
+            "email": "jaime.perez@uninett.no"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "JaimePerez\\TwigConfigurableI18n\\": "src/"
+        }
+    },
+    "require": {
+		"twig/extensions": "^1.3"
+    },
+    "support": {
+        "issues": "https://github.com/jaimeperez/twig-configurable-i18n/issues",
+        "source": "https://github.com/jaimeperez/twig-configurable-i18n"
+    }
+}

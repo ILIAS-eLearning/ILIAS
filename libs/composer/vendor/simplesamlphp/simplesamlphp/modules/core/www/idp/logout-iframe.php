@@ -1,29 +1,28 @@
 <?php
 
 if (!isset($_REQUEST['id'])) {
-    throw new \SimpleSAML\Error\BadRequest('Missing required parameter: id');
+    throw new SimpleSAML_Error_BadRequest('Missing required parameter: id');
 }
 
 if (isset($_REQUEST['type'])) {
     $type = (string) $_REQUEST['type'];
-    if (!in_array($type, ['init', 'js', 'nojs', 'embed'], true)) {
-        throw new \SimpleSAML\Error\BadRequest('Invalid value for type.');
+    if (!in_array($type, array('init', 'js', 'nojs', 'embed'), true)) {
+        throw new SimpleSAML_Error_BadRequest('Invalid value for type.');
     }
 } else {
     $type = 'init';
 }
 
 if ($type !== 'embed') {
-    \SimpleSAML\Logger::stats('slo-iframe ' . $type);
-    \SimpleSAML\Stats::log('core:idp:logout-iframe:page', ['type' => $type]);
+    SimpleSAML\Logger::stats('slo-iframe '.$type);
+    SimpleSAML_Stats::log('core:idp:logout-iframe:page', array('type' => $type));
 }
 
-$state = \SimpleSAML\Auth\State::loadState($_REQUEST['id'], 'core:Logout-IFrame');
-$idp = \SimpleSAML\IdP::getByState($state);
-$mdh = \SimpleSAML\Metadata\MetaDataStorageHandler::getMetadataHandler();
+$state = SimpleSAML_Auth_State::loadState($_REQUEST['id'], 'core:Logout-IFrame');
+$idp = SimpleSAML_IdP::getByState($state);
+$mdh = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
 
-if ($type !== 'init') {
-    // update association state
+if ($type !== 'init') { // update association state
     foreach ($state['core:Logout-IFrame:Associations'] as $assocId => &$sp) {
         $spId = sha1($assocId);
 
@@ -54,8 +53,8 @@ if ($type !== 'init') {
 
         if (!isset($sp['core:Logout-IFrame:Timeout'])) {
             if (method_exists($sp['Handler'], 'getAssociationConfig')) {
-                $assocIdP = \SimpleSAML\IdP::getByState($sp);
-                $assocConfig = call_user_func([$sp['Handler'], 'getAssociationConfig'], $assocIdP, $sp);
+                $assocIdP = SimpleSAML_IdP::getByState($sp);
+                $assocConfig = call_user_func(array($sp['Handler'], 'getAssociationConfig'), $assocIdP, $sp);
                 $sp['core:Logout-IFrame:Timeout'] = $assocConfig->getInteger('core:logout-timeout', 5) + time();
             } else {
                 $sp['core:Logout-IFrame:Timeout'] = time() + 5;
@@ -72,10 +71,10 @@ foreach ($state['core:Logout-IFrame:Associations'] as $assocId => &$sp) {
     }
 
     try {
-        $assocIdP = \SimpleSAML\IdP::getByState($sp);
-        $url = call_user_func([$sp['Handler'], 'getLogoutURL'], $assocIdP, $sp, null);
+        $assocIdP = SimpleSAML_IdP::getByState($sp);
+        $url = call_user_func(array($sp['Handler'], 'getLogoutURL'), $assocIdP, $sp, null);
         $sp['core:Logout-IFrame:URL'] = $url;
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         $sp['core:Logout-IFrame:State'] = 'failed';
     }
 }
@@ -91,7 +90,7 @@ if ($state['core:TerminatedAssocId'] !== null) {
 }
 
 // build an array with information about all services currently logged in
-$remaining = [];
+$remaining = array();
 foreach ($state['core:Logout-IFrame:Associations'] as $association) {
     $key = sha1($association['id']);
     $mdset = 'saml20-sp-remote';
@@ -99,41 +98,34 @@ foreach ($state['core:Logout-IFrame:Associations'] as $association) {
         $mdset = 'adfs-sp-remote';
     }
 
-    if ($association['core:Logout-IFrame:State'] === 'completed') {
-        continue;
-    }
-
-    $remaining[$key] = [
+    $remaining[$key] = array(
         'id' => $association['id'],
         'expires_on' => $association['Expires'],
         'entityID' => $association['saml:entityID'],
         'subject' => $association['saml:NameID'],
         'status' => $association['core:Logout-IFrame:State'],
+        'logoutURL' => $association['core:Logout-IFrame:URL'],
         'metadata' => $mdh->getMetaDataConfig($association['saml:entityID'], $mdset)->toArray(),
-    ];
-    if (isset($association['core:Logout-IFrame:URL'])) {
-        $remaining[$key]['logoutURL'] = $association['core:Logout-IFrame:URL'];
-    }
+    );
     if (isset($association['core:Logout-IFrame:Timeout'])) {
         $remaining[$key]['timeout'] = $association['core:Logout-IFrame:Timeout'];
     }
 }
 
-$globalConfig = \SimpleSAML\Configuration::getInstance();
+$id = SimpleSAML_Auth_State::saveState($state, 'core:Logout-IFrame');
+$globalConfig = SimpleSAML_Configuration::getInstance();
+
+$template_id = 'core:logout-iframe.php';
 if ($type === 'nojs') {
-    $t = new \SimpleSAML\XHTML\Template($globalConfig, 'core:logout-iframe-wrapper.tpl.php');
-} else {
-    $t = new \SimpleSAML\XHTML\Template($globalConfig, 'core:logout-iframe.tpl.php');
+    $template_id = 'core:logout-iframe-wrapper.php';
 }
 
+$t = new SimpleSAML_XHTML_Template($globalConfig, $template_id);
+$t->data['auth_state'] = $id;
 /**
  * @deprecated The "id" variable will be removed. Please use "auth_state" instead.
  */
-$id = \SimpleSAML\Auth\State::saveState($state, 'core:Logout-IFrame');
 $t->data['id'] = $id;
-$t->data['auth_state'] = $id;
-
-$t->data['header'] = $t->getTranslator()->t('{logout:progress}');
 $t->data['type'] = $type;
 $t->data['terminated_service'] = $terminated;
 $t->data['remaining_services'] = $remaining;
@@ -146,7 +138,7 @@ $t->data['SPs'] = $state['core:Logout-IFrame:Associations'];
 
 if ($type !== 'nojs') {
     /** @deprecated The "jquery" array will be removed in 2.0 */
-    $t->data['jquery'] = ['core' => true, 'ui' => false, 'css' => false];
+    $t->data['jquery'] = array('core' => true, 'ui' => false, 'css' => false);
 }
 
 $t->show();

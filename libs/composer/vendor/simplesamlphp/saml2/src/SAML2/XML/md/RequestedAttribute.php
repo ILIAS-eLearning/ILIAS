@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\md;
-
-use DOMElement;
 
 use SAML2\Constants;
 use SAML2\Utils;
@@ -22,15 +18,14 @@ class RequestedAttribute extends Attribute
      *
      * @var bool|null
      */
-    private $isRequired = null;
-
+    public $isRequired = null;
 
     /**
      * Initialize an RequestedAttribute.
      *
      * @param \DOMElement|null $xml The XML element we should load.
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct($xml);
 
@@ -41,42 +36,22 @@ class RequestedAttribute extends Attribute
         $this->isRequired = Utils::parseBoolean($xml, 'isRequired', null);
     }
 
-
-    /**
-     * Collect the value of the isRequired-property
-     *
-     * @return bool|null
-     */
-    public function getIsRequired() : ?bool
-    {
-        return $this->isRequired;
-    }
-
-
-    /**
-     * Set the value of the isRequired-property
-     *
-     * @param bool|null $flag
-     * @return void
-     */
-    public function setIsRequired(bool $flag = null) : void
-    {
-        $this->isRequired = $flag;
-    }
-
-
     /**
      * Convert this RequestedAttribute to XML.
      *
      * @param \DOMElement $parent The element we should append this RequestedAttribute to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
+        assert(is_bool($this->isRequired) || is_null($this->isRequired));
+
         $e = $this->toXMLInternal($parent, Constants::NS_MD, 'md:RequestedAttribute');
 
-        if (is_bool($this->isRequired)) {
-            $e->setAttribute('isRequired', $this->isRequired ? 'true' : 'false');
+        if ($this->isRequired === true) {
+            $e->setAttribute('isRequired', 'true');
+        } elseif ($this->isRequired === false) {
+            $e->setAttribute('isRequired', 'false');
         }
 
         return $e;

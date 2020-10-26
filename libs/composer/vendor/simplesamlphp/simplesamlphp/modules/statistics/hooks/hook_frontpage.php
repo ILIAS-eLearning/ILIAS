@@ -1,23 +1,22 @@
 <?php
-
 /**
  * Hook to add the modinfo module to the frontpage.
  *
  * @param array &$links  The links on the frontpage, split into sections.
- * @return void
  */
 function statistics_hook_frontpage(&$links)
 {
     assert(is_array($links));
     assert(array_key_exists('links', $links));
 
-    $links['config']['statistics'] = [
+    $links['config']['statistics'] = array(
         'href' => SimpleSAML\Module::getModuleURL('statistics/showstats.php'),
-        'text' => '{statistics:statistics:link_statistics}',
-    ];
-    $links['config']['statisticsmeta'] = [
+        'text' => array('en' => 'Show statistics', 'no' => 'Vis statistikk'),
+        'shorttext' => array('en' => 'Statistics', 'no' => 'Statistikk'),
+    );
+    $links['config']['statisticsmeta'] = array(
         'href' => SimpleSAML\Module::getModuleURL('statistics/statmeta.php'),
-        'text' => '{statistics:statistics:link_statistics_metadata}',
-        'shorttext' => ['en' => 'Statistics metadata', 'no' => 'Statistikk metadata'],
-    ];
+        'text' => array('en' => 'Show statistics metadata', 'no' => 'Vis statistikk metadata'),
+        'shorttext' => array('en' => 'Statistics metadata', 'no' => 'Statistikk metadata'),
+    );
 }

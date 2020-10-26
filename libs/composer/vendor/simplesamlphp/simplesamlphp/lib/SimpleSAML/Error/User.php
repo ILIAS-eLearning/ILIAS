@@ -1,7 +1,5 @@
 <?php
 
-namespace SimpleSAML\Error;
-
 /**
  * Baseclass for user error exceptions
  *
@@ -10,7 +8,7 @@ namespace SimpleSAML\Error;
  * @package SimpleSAMLphp_base
  *
  */
-
-class User extends Exception
+class SimpleSAML_Error_User extends SimpleSAML_Error_Exception
 {
+
 }

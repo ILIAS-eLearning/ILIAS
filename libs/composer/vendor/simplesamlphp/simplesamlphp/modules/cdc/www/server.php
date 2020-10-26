@@ -1,3 +1,3 @@
 <?php
 
-\SimpleSAML\Module\cdc\Server::processRequest();
+sspmod_cdc_Server::processRequest();

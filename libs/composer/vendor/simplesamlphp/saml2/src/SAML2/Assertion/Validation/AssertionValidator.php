@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Assertion\Validation;
 
 use SAML2\Assertion;
@@ -27,7 +25,6 @@ class AssertionValidator
      */
     private $serviceProvider;
 
-
     /**
      * @param \SAML2\Configuration\IdentityProvider $identityProvider
      * @param \SAML2\Configuration\ServiceProvider  $serviceProvider
@@ -40,12 +37,7 @@ class AssertionValidator
         $this->serviceProvider = $serviceProvider;
     }
 
-
-    /**
-     * @param AssertionConstraintValidator $constraint
-     * @return void
-     */
-    public function addConstraintValidator(AssertionConstraintValidator $constraint) : void
+    public function addConstraintValidator(AssertionConstraintValidator $constraint)
     {
         if ($constraint instanceof IdentityProviderAware) {
             $constraint->setIdentityProvider($this->identityProvider);
@@ -58,12 +50,7 @@ class AssertionValidator
         $this->constraints[] = $constraint;
     }
 
-
-    /**
-     * @param Assertion $assertion
-     * @return Result
-     */
-    public function validate(Assertion $assertion) : Result
+    public function validate(Assertion $assertion)
     {
         $result = new Result();
         foreach ($this->constraints as $validator) {

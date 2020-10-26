@@ -1,26 +1,26 @@
 <?php
 
-$config = [
+$config = array(
 
     // This is a authentication source which handles admin authentication.
-    'admin' => [
+    'admin' => array(
         // The default is to use core:AdminPassword, but it can be replaced with
         // any authentication source.
 
         'core:AdminPassword',
-    ],
+    ),
 
 
     // An authentication source which can authenticate against both SAML 2.0
     // and Shibboleth 1.3 IdPs.
-    'default-sp' => [
+    'default-sp' => array(
         'saml:SP',
 
         // The entity ID of this SP.
         // Can be NULL/unset, in which case an entity ID is generated based on the metadata URL.
         'entityID' => null,
 
-        // The entity ID of the IdP this SP should contact.
+        // The entity ID of the IdP this should SP should contact.
         // Can be NULL/unset, in which case the user will be shown a list of available IdPs.
         'idp' => null,
 
@@ -35,82 +35,79 @@ $config = [
          * The metadata will then be created as follows:
          * <md:RequestedAttribute FriendlyName="friendlyName" Name="name" />
          */
-        /*
-        'name' => [
-            'en' => 'A service',
-            'no' => 'En tjeneste',
-        ],
+        /*'name' => array(
+             'en' => 'A service',
+             'no' => 'En tjeneste',
+          ),
 
-        'attributes' => [
+          'attributes' => array(
             'attrname' => 'urn:oid:x.x.x.x',
-        ],
-        'attributes.required' => [
+        ),*/
+        /*'attributes.required' => array (
             'urn:oid:x.x.x.x',
-        ],
-        */
-    ],
+        ),*/
+    ),
 
 
     /*
-    'example-sql' => [
+    'example-sql' => array(
         'sqlauth:SQL',
         'dsn' => 'pgsql:host=sql.example.org;port=5432;dbname=simplesaml',
         'username' => 'simplesaml',
         'password' => 'secretpassword',
-        'query' => 'SELECT uid, givenName, email, eduPersonPrincipalName FROM users WHERE uid = :username ' .
-            'AND password = SHA2(CONCAT((SELECT salt FROM users WHERE uid = :username), :password), 256);',
-    ],
+        'query' => 'SELECT uid, givenName, email, eduPersonPrincipalName FROM users WHERE uid = :username AND password = SHA2(CONCAT((SELECT salt FROM users WHERE uid = :username), :password),256);',
+    ),
     */
 
     /*
-    'example-static' => [
-        'exampleauth:StaticSource',
-        'uid' => ['testuser'],
-        'eduPersonAffiliation' => ['member', 'employee'],
-        'cn' => ['Test User'],
-    ],
+    'example-static' => array(
+        'exampleauth:Static',
+        'uid' => array('testuser'),
+        'eduPersonAffiliation' => array('member', 'employee'),
+        'cn' => array('Test User'),
+    ),
     */
 
     /*
-    'example-userpass' => [
+    'example-userpass' => array(
         'exampleauth:UserPass',
 
         // Give the user an option to save their username for future login attempts
         // And when enabled, what should the default be, to save the username or not
-        //'remember.username.enabled' => false,
-        //'remember.username.checked' => false,
+        //'remember.username.enabled' => FALSE,
+        //'remember.username.checked' => FALSE,
 
-        'student:studentpass' => [
-            'uid' => ['test'],
-            'eduPersonAffiliation' => ['member', 'student'],
-        ],
-        'employee:employeepass' => [
-            'uid' => ['employee'],
-            'eduPersonAffiliation' => ['member', 'employee'],
-        ],
-    ],
+        'student:studentpass' => array(
+            'uid' => array('test'),
+            'eduPersonAffiliation' => array('member', 'student'),
+        ),
+        'employee:employeepass' => array(
+            'uid' => array('employee'),
+            'eduPersonAffiliation' => array('member', 'employee'),
+        ),
+    ),
     */
 
     /*
-    'crypto-hash' => [
+    'crypto-hash' => array(
         'authcrypt:Hash',
         // hashed version of 'verysecret', made with bin/pwgen.php
-        'professor:{SSHA256}P6FDTEEIY2EnER9a6P2GwHhI5JDrwBgjQ913oVQjBngmCtrNBUMowA==' => [
-            'uid' => ['prof_a'],
-            'eduPersonAffiliation' => ['member', 'employee', 'board'],
-        ],
-    ],
+        'professor:{SSHA256}P6FDTEEIY2EnER9a6P2GwHhI5JDrwBgjQ913oVQjBngmCtrNBUMowA==' => array(
+            'uid' => array('prof_a'),
+            'eduPersonAffiliation' => array('member', 'employee', 'board'),
+        ),
+    ),
     */
 
     /*
-    'htpasswd' => [
+    'htpasswd' => array(
         'authcrypt:Htpasswd',
         'htpasswd_file' => '/var/www/foo.edu/legacy_app/.htpasswd',
-        'static_attributes' => [
-            'eduPersonAffiliation' => ['member', 'employee'],
-            'Organization' => ['University of Foo'],
-        ],
-    ],
+        'static_attributes' => array(
+            'eduPersonAffiliation' => array('member', 'employee'),
+            'Organization' => array('University of Foo'),
+        ),
+    ),
     */
 
     /*
@@ -118,21 +115,21 @@ $config = [
     // external authentication engine. Take a look at the comment in the beginning
     // of modules/exampleauth/lib/Auth/Source/External.php for a description of
     // how to adjust it to your own site.
-    'example-external' => [
+    'example-external' => array(
         'exampleauth:External',
-    ],
+    ),
     */
 
     /*
-    'yubikey' => [
+    'yubikey' => array(
         'authYubiKey:YubiKey',
          'id' => '000',
         // 'key' => '012345678',
-    ],
+    ),
     */
 
     /*
-    'facebook' => [
+    'facebook' => array(
         'authfacebook:Facebook',
         // Register your Facebook application on http://www.facebook.com/developers
         // App ID or API key (requests with App ID should be faster; https://github.com/facebook/php-sdk/issues/214)
@@ -146,7 +143,7 @@ $config = [
         // When empty, only the app-specific user id and name will be returned
         // See https://developers.facebook.com/docs/graph-api/reference/v2.6/user for the full list
         // 'user_fields' => 'email,birthday,third_party_id,name,first_name,last_name',
-    ],
+    ),
     */
 
     /*
@@ -155,44 +152,59 @@ $config = [
     //  https://www.linkedin.com/secure/developer
     // Attributes definition:
     //  https://developer.linkedin.com/docs/fields
-    'linkedin' => [
+    'linkedin' => array(
         'authlinkedin:LinkedIn',
         'key' => 'xxxxxxxxxxxxxxxx',
         'secret' => 'xxxxxxxxxxxxxxxx',
         'attributes' => 'id,first-name,last-name,headline,summary,specialties,picture-url,email-address',
-    ],
+    ),
+    */
+
+    /*
+    // Twitter OAuth Authentication API.
+    // Register your application to get an API key here:
+    //  http://twitter.com/oauth_clients
+    'twitter' => array(
+        'authtwitter:Twitter',
+        'key' => 'xxxxxxxxxxxxxxxx',
+        'secret' => 'xxxxxxxxxxxxxxxx',
+
+        // Forces the user to enter their credentials to ensure the correct users account is authorized.
+        // Details: https://dev.twitter.com/docs/api/1/get/oauth/authenticate
+        'force_login' => FALSE,
+    ),
     */
 
     /*
     // Microsoft Account (Windows Live ID) Authentication API.
     // Register your application to get an API key here:
     //  https://apps.dev.microsoft.com/
-    'windowslive' => [
+    'windowslive' => array(
         'authwindowslive:LiveID',
         'key' => 'xxxxxxxxxxxxxxxx',
         'secret' => 'xxxxxxxxxxxxxxxx',
-    ],
+    ),
     */
 
     /*
     // Example of a LDAP authentication source.
-    'example-ldap' => [
+    'example-ldap' => array(
         'ldap:LDAP',
 
         // Give the user an option to save their username for future login attempts
         // And when enabled, what should the default be, to save the username or not
-        //'remember.username.enabled' => false,
-        //'remember.username.checked' => false,
+        //'remember.username.enabled' => FALSE,
+        //'remember.username.checked' => FALSE,
 
         // The hostname of the LDAP server.
         'hostname' => 'ldap.example.org',
 
         // Whether SSL/TLS should be used when contacting the LDAP server.
-        'enable_tls' => true,
+        'enable_tls' => TRUE,
 
         // Whether debug output from the LDAP library should be enabled.
         // Default is FALSE.
-        'debug' => false,
+        'debug' => FALSE,
 
         // The timeout for accessing the LDAP server, in seconds.
         // The default is 0, which means no timeout.
@@ -203,12 +215,12 @@ $config = [
         'port' => 389,
 
         // Set whether to follow referrals. AD Controllers may require FALSE to function.
-        'referrals' => true,
+        'referrals' => TRUE,
 
         // Which attributes should be retrieved from the LDAP server.
         // This can be an array of attribute names, or NULL, in which case
         // all attributes are fetched.
-        'attributes' => null,
+        'attributes' => NULL,
 
         // The pattern which should be used to create the users DN given the username.
         // %username% in this pattern will be replaced with the users username.
@@ -218,7 +230,7 @@ $config = [
 
         // As an alternative to specifying a pattern for the users DN, it is possible to
         // search for the username in a set of attributes. This is enabled by this option.
-        'search.enable' => false,
+        'search.enable' => FALSE,
 
         // The DN which will be used as a base for the search.
         // This can be a single string, in which case only that DN is searched, or an
@@ -229,45 +241,40 @@ $config = [
         //
         // This is an array with one or more attribute names. Any of the attributes in
         // the array may match the value the username.
-        'search.attributes' => ['uid', 'mail'],
+        'search.attributes' => array('uid', 'mail'),
 
         // Additional LDAP filters appended to the search attributes
-        //'search.filter' => '(objectclass=inetorgperson)',
+        'search.filter' => '(objectclass=inetorgperson)',
 
         // The username & password the SimpleSAMLphp should bind to before searching. If
         // this is left as NULL, no bind will be performed before searching.
-        'search.username' => null,
-        'search.password' => null,
+        'search.username' => NULL,
+        'search.password' => NULL,
 
         // If the directory uses privilege separation,
         // the authenticated user may not be able to retrieve
         // all required attribures, a privileged entity is required
         // to get them. This is enabled with this option.
-        'priv.read' => false,
+        'priv.read' => FALSE,
 
         // The DN & password the SimpleSAMLphp should bind to before
         // retrieving attributes. These options are required if
         // 'priv.read' is set to TRUE.
-        'priv.username' => null,
-        'priv.password' => null,
+        'priv.username' => NULL,
+        'priv.password' => NULL,
 
-    ],
+    ),
     */
 
     /*
     // Example of an LDAPMulti authentication source.
-    'example-ldapmulti' => [
+    'example-ldapmulti' => array(
         'ldap:LDAPMulti',
 
         // Give the user an option to save their username for future login attempts
         // And when enabled, what should the default be, to save the username or not
-        //'remember.username.enabled' => false,
-        //'remember.username.checked' => false,
-
-        // Give the user an option to save their organization choice for future login
-        // attempts. And when enabled, what should the default be, checked or not.
-        //'remember.organization.enabled' => false,
-        //'remember.organization.checked' => false,
+        //'remember.username.enabled' => FALSE,
+        //'remember.username.checked' => FALSE,
 
         // The way the organization as part of the username should be handled.
         // Three possible values:
@@ -286,7 +293,7 @@ $config = [
         // username will be used as the user enters it.
         //
         // The default is FALSE.
-        'include_organization_in_username' => false,
+        'include_organization_in_username' => FALSE,
 
         // A list of available LDAP servers.
         //
@@ -296,7 +303,7 @@ $config = [
         //
         // The value of each element is an array in the same format as an LDAP
         // authentication source.
-        'employees' => [
+        'employees' => array(
             // A short name/description for this group. Will be shown in a dropdown list
             // when the user logs on.
             //
@@ -307,14 +314,16 @@ $config = [
             // the LDAP authentication source.
             'hostname' => 'ldap.employees.example.org',
             'dnpattern' => 'uid=%username%,ou=employees,dc=example,dc=org',
-        ],
+        ),
 
-        'students' => [
+        'students' => array(
             'description' => 'Students',
 
             'hostname' => 'ldap.students.example.org',
             'dnpattern' => 'uid=%username%,ou=students,dc=example,dc=org',
-        ],
-    ],
+        ),
+
+    ),
     */
-];
+
+);

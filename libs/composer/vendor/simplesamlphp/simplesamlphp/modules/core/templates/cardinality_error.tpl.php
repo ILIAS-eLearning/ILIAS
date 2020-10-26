@@ -20,17 +20,18 @@ $this->includeAtTemplateBase('includes/header.php');
 <p><?php echo $this->data['cardinality_text']; ?></p>
 <h3><?php echo $this->data['problematic_attributes']; ?></h3>
 <dl class="cardinalityErrorAttributes">
+<?php foreach ($this->data['cardinalityErrorAttributes'] as $attr => $v) { ?>
+        <dt><?php echo $attr ?></td>
+        <dd><?php echo $this->t('{core:cardinality:got_want}', array('%GOT%' => $v[0], '%WANT%' => htmlspecialchars($v[1]))) ?></dd>
+    </tr>
+<?php } ?>
+</dl>
 <?php
-foreach ($this->data['cardinalityErrorAttributes'] as $attr => $v) {
-    echo '<dt>'.$attr.'</td><dd>';
-    echo $this->t(
-        '{core:cardinality:got_want}',
-        ['%GOT%' => $v[0], '%WANT%' => htmlspecialchars($v[1])]
-    );
-    echo '</dd></tr>';
-}
-echo '</dl>';
 if (isset($this->data['LogoutURL'])) {
-    echo '<p><a href="'.htmlspecialchars($this->data['LogoutURL']).'>">'.$this->t('{status:logout}').'</a></p>';
+?>
+<p><a href="<?php echo htmlspecialchars($this->data['LogoutURL']); ?>"><?php echo $this->t('{status:logout}'); ?></a></p>
+<?php
 }
+?>
+<?php
 $this->includeAtTemplateBase('includes/footer.php');

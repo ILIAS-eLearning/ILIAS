@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2;
-
-use DOMDocument;
 
 use SAML2\Exception\InvalidArgumentException;
 use SAML2\Exception\RuntimeException;
@@ -12,33 +8,28 @@ use SAML2\Exception\UnparseableXmlException;
 
 final class DOMDocumentFactory
 {
-    /**
-     * Constructor for DOMDocumentFactory.
-     * This class should never be instantiated
-     */
     private function __construct()
     {
     }
-
 
     /**
      * @param string $xml
      *
      * @return \DOMDocument
      */
-    public static function fromString(string $xml) : DOMDocument
+    public static function fromString($xml)
     {
-        if (trim($xml) === '') {
+        if (!is_string($xml) || trim($xml) === '') {
             throw InvalidArgumentException::invalidType('non-empty string', $xml);
         }
 
-        $entityLoader = libxml_disable_entity_loader(true);
+        $entityLoader   = libxml_disable_entity_loader(true);
         $internalErrors = libxml_use_internal_errors(true);
         libxml_clear_errors();
 
         $domDocument = self::create();
-        $options = LIBXML_DTDLOAD | LIBXML_DTDATTR | LIBXML_NONET;
-        if (defined('LIBXML_COMPACT')) {
+        $options     = LIBXML_DTDLOAD | LIBXML_DTDATTR | LIBXML_NONET;
+        if (defined(LIBXML_COMPACT)) {
             $options |= LIBXML_COMPACT;
         }
 
@@ -67,14 +58,17 @@ final class DOMDocumentFactory
         return $domDocument;
     }
 
-
     /**
-     * @param string $file
+     * @param $file
      *
      * @return \DOMDocument
      */
-    public static function fromFile(string $file) : DOMDocument
+    public static function fromFile($file)
     {
+        if (!is_string($file)) {
+            throw InvalidArgumentException::invalidType('string', $file);
+        }
+
         if (!is_file($file)) {
             throw new InvalidArgumentException(sprintf('Path "%s" is not a file', $file));
         }
@@ -100,12 +94,11 @@ final class DOMDocumentFactory
         return static::fromString($xml);
     }
 
-
     /**
      * @return \DOMDocument
      */
-    public static function create() : DOMDocument
+    public static function create()
     {
-        return new DOMDocument();
+        return new \DOMDocument();
     }
 }

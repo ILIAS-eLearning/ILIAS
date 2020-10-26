@@ -3,35 +3,37 @@
 namespace Gettext\Generators;
 
 use Gettext\Translations;
-use Gettext\Utils\DictionaryTrait;
-use Gettext\Utils\CsvTrait;
 
 class CsvDictionary extends Generator implements GeneratorInterface
 {
-    use DictionaryTrait;
-    use CsvTrait;
-
-    public static $options = [
-        'includeHeaders' => false,
-        'delimiter' => ",",
-        'enclosure' => '"',
-        'escape_char' => "\\"
-    ];
-
     /**
      * {@parentDoc}.
      */
-    public static function toString(Translations $translations, array $options = [])
+    public static function toString(Translations $translations)
     {
-        $options += static::$options;
+        $array = PhpArray::toArray($translations);
+
+        //for a simple json translation dictionary, one domain is supported
+        $values = current($array);
+
+        // remove meta / header data
+        if (array_key_exists('', $values)) {
+            unset($values['']);
+        }
+
         $handle = fopen('php://memory', 'w');
 
-        foreach (static::toArray($translations, $options['includeHeaders']) as $original => $translation) {
-            static::fputcsv($handle, [$original, $translation], $options);
+        //map to a simple csv dictionary (no plurals)
+        foreach ($values as $original => $translated) {
+            if (!isset($translated[1])) {
+                $translated[1] = '';
+            }
+            fputcsv($handle, array($original, $translated[1]));
         }
 
         rewind($handle);
         $csv = stream_get_contents($handle);
+
         fclose($handle);
 
         return $csv;

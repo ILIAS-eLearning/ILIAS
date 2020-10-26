@@ -4,13 +4,13 @@
 The ``striptags`` filter strips SGML/XML tags and replace adjacent whitespace
 by one space:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ some_html|striptags }}
 
 You can also provide tags which should not be stripped:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ some_html|striptags('<br><p>') }}
 
@@ -26,4 +26,4 @@ Arguments
 
 * ``allowable_tags``: Tags which should not be stripped
 
-.. _`strip_tags`: https://secure.php.net/strip_tags
+.. _`strip_tags`: http://php.net/strip_tags

@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Signature;
 
 use Psr\Log\LoggerInterface;
-
 use SAML2\Configuration\CertificateProvider;
 use SAML2\SignedElement;
 
@@ -25,11 +22,10 @@ class ValidatorChain implements ValidatorInterface
     /**
      * @var  \SAML2\Signature\ChainedValidator[]
      */
-    private $validators = [];
-
+    private $validators = array();
 
     /**
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface           $logger
      * @param \SAML2\Signature\ChainedValidator[] $validators
      */
     public function __construct(LoggerInterface $logger, array $validators)
@@ -42,19 +38,16 @@ class ValidatorChain implements ValidatorInterface
         }
     }
 
-
     /**
      * @param \SAML2\Signature\ChainedValidator $validator
-     * @return void
      */
-    public function appendValidator(ChainedValidator $validator) : void
+    public function appendValidator(ChainedValidator $validator)
     {
         $this->validators[] = $validator;
     }
 
-
     /**
-     * @param \SAML2\SignedElement $signedElement
+     * @param \SAML2\SignedElement             $signedElement
      * @param \SAML2\Configuration\CertificateProvider $configuration
      *
      * @return bool
@@ -62,7 +55,7 @@ class ValidatorChain implements ValidatorInterface
     public function hasValidSignature(
         SignedElement $signedElement,
         CertificateProvider $configuration
-    ) : bool {
+    ) {
         foreach ($this->validators as $validator) {
             if ($validator->canValidate($signedElement, $configuration)) {
                 $this->logger->debug(sprintf(
@@ -80,8 +73,8 @@ class ValidatorChain implements ValidatorInterface
         }
 
         throw new MissingConfigurationException(sprintf(
-            'No certificates have been configured%s',
-            $configuration->has('entityid') ? ' for "'.$configuration->get('entityid').'"' : ''
+            'No certificates or fingerprints have been configured%s',
+            $configuration->has('entityid') ? ' for "' . $configuration->get('entityid') . '"' : ''
         ));
     }
 }

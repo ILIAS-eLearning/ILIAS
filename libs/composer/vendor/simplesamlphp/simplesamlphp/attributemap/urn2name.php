@@ -1,5 +1,5 @@
 <?php
-$attributemap = [
+$attributemap = array(
     'urn:mace:dir:attribute-def:aRecord'                          => 'aRecord',
     'urn:mace:dir:attribute-def:aliasedEntryName'                 => 'aliasedEntryName',
     'urn:mace:dir:attribute-def:aliasedObjectName'                => 'aliasedObjectName',
@@ -184,6 +184,4 @@ $attributemap = [
     'urn:mace:terena.org:attribute-def:schacUserPresenceID'       => 'schacUserPresenceID',
     'urn:mace:terena.org:attribute-def:schacUserPrivateAttribute' => 'schacUserPrivateAttribute',
     'urn:mace:terena.org:attribute-def:schacUserStatus'           => 'schacUserStatus',
-    'urn:oasis:names:tc:SAML:attribute:pairwise-id'               => 'pairwise-id',
-    'urn:oasis:names:tc:SAML:attribute:subject-id'                => 'subject-id',
-];
+);

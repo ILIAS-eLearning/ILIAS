@@ -14,7 +14,7 @@ To use this module, enable the radius module by creating a file named
 authentication source which uses the `radius:Radius` module to
 `config/authsources.php`:
 
-    'example-radius' => [
+    'example-radius' => array(
         'radius:Radius',
 
         /*
@@ -24,18 +24,12 @@ authentication source which uses the `radius:Radius` module to
          *  - port: the port of the radius server. Optional, defaults to 1812.
          *  - secret: the radius secret to use with this server. Required.
          */
-        'servers' => [
-            [
-                'hostname' => 'radius1.example.org',
-                'port' => 1812,
-                'secret' => 'topsecret'
-            ],
-            [
-                'hostname' => 'radius2.example.org',
-                'port' => 1812,
-                'secret' => 'topsecret'
-            ]
-        ],
+        'servers' => array(array('hostname' => 'radius1.example.org',
+                                 'port' => 1812,
+                                 'secret' => 'topsecret'),
+                           array('hostname' => 'radius2.example.org',
+                                 'port' => 1812,
+                                 'secret' => 'topsecret')),
 
         /*
          * The timeout for contacting the RADIUS server, in seconds.
@@ -73,7 +67,7 @@ authentication source which uses the `radius:Radius` module to
          * Optional, defaults to NULL.
          */
         'username_attribute' => 'eduPersonPrincipalName',
-    ],
+    ),
 
 
 User attributes

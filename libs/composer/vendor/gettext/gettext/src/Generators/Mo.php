@@ -3,30 +3,29 @@
 namespace Gettext\Generators;
 
 use Gettext\Translations;
-use Gettext\Utils\HeadersGeneratorTrait;
 
 class Mo extends Generator implements GeneratorInterface
 {
-    use HeadersGeneratorTrait;
-
-    public static $options = [
-        'includeHeaders' => true,
-    ];
+    public static $includeEmptyTranslations = false;
 
     /**
      * {@parentDoc}.
      */
-    public static function toString(Translations $translations, array $options = [])
+    public static function toString(Translations $translations)
     {
-        $options += static::$options;
-        $messages = [];
+        $array = array();
+        $headers = '';
 
-        if ($options['includeHeaders']) {
-            $messages[''] = static::generateHeaders($translations);
+        foreach ($translations->getHeaders() as $headerName => $headerValue) {
+            $headers .= "$headerName: $headerValue\n";
+        }
+
+        if ($headers !== '') {
+            $array[''] = $headers;
         }
 
         foreach ($translations as $translation) {
-            if (!$translation->hasTranslation() || $translation->isDisabled()) {
+            if (!$translation->hasTranslation() && !static::$includeEmptyTranslations) {
                 continue;
             }
 
@@ -36,42 +35,35 @@ class Mo extends Generator implements GeneratorInterface
                 $originalString = $translation->getOriginal();
             }
 
-            $messages[$originalString] = $translation;
+            $array[$originalString] = $translation;
         }
 
-        ksort($messages);
-        $numEntries = count($messages);
+        ksort($array);
+        $numEntries = count($array);
         $originalsTable = '';
         $translationsTable = '';
-        $originalsIndex = [];
-        $translationsIndex = [];
-        $pluralForm = $translations->getPluralForms();
-        $pluralSize = is_array($pluralForm) ? ($pluralForm[0] - 1) : null;
+        $originalsIndex = array();
+        $translationsIndex = array();
 
-        foreach ($messages as $originalString => $translation) {
+        foreach ($array as $originalString => $translation) {
             if (is_string($translation)) {
                 // Headers
                 $translationString = $translation;
             } else {
                 /* @var $translation \Gettext\Translation */
-                if ($translation->hasPlural() && $translation->hasPluralTranslations(true)) {
+                if ($translation->hasPlural()) {
                     $originalString .= "\x00".$translation->getPlural();
-                    $translationString = $translation->getTranslation();
-                    $translationString .= "\x00".implode("\x00", $translation->getPluralTranslations($pluralSize));
-                } else {
-                    $translationString = $translation->getTranslation();
+                }
+                $translationString = $translation->getTranslation();
+
+                if ($translation->hasPluralTranslation()) {
+                    $translationString .= "\x00".implode("\x00", $translation->getPluralTranslation());
                 }
             }
 
-            $originalsIndex[] = [
-                'relativeOffset' => strlen($originalsTable),
-                'length' => strlen($originalString)
-            ];
+            $originalsIndex[] = array('relativeOffset' => strlen($originalsTable), 'length' => strlen($originalString));
             $originalsTable .= $originalString."\x00";
-            $translationsIndex[] = [
-                'relativeOffset' => strlen($translationsTable),
-                'length' => strlen($translationString)
-            ];
+            $translationsIndex[] = array('relativeOffset' => strlen($translationsTable), 'length' => strlen($translationString));
             $translationsTable .= $translationString."\x00";
         }
 

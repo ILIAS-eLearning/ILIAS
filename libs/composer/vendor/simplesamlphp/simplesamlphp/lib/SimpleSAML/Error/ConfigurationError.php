@@ -1,7 +1,4 @@
 <?php
-
-namespace SimpleSAML\Error;
-
 /**
  * This exception represents a configuration error.
  *
@@ -9,8 +6,11 @@ namespace SimpleSAML\Error;
  * @package SimpleSAMLphp
  */
 
-class ConfigurationError extends Error
+namespace SimpleSAML\Error;
+
+class ConfigurationError extends \SimpleSAML_Error_Error
 {
+
     /**
      * The reason for this exception.
      *
@@ -37,20 +37,20 @@ class ConfigurationError extends Error
     {
         $file_str = '';
         $reason_str = '.';
-        $params = ['CONFIG'];
+        $params = array('CONFIG');
         if ($file !== null) {
             $params['%FILE%'] = $file;
-            $basepath = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
-            $file_str = '(' . str_replace($basepath, '', $file) . ') ';
+            $basepath = dirname(dirname(dirname(dirname(__FILE__)))).'/';
+            $file_str = '('.str_replace($basepath, '', $file).') ';
         }
         if ($reason !== null) {
             $params['%REASON%'] = $reason;
-            $reason_str = ': ' . $reason;
+            $reason_str = ': '.$reason;
         }
         $this->reason = $reason;
         $this->config_file = $file;
         parent::__construct($params);
-        $this->message = 'The configuration ' . $file_str . 'is invalid' . $reason_str;
+        $this->message = 'The configuration '.$file_str.'is invalid'.$reason_str;
     }
 
 

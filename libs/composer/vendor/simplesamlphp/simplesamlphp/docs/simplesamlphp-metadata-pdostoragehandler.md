@@ -35,10 +35,10 @@ You will first need to configure a PDO metadata source.
 
 Here is an example of flatfile plus PDO:
 
-	'metadata.sources' => [
-		['type' => 'flatfile'],
-		['type' => 'pdo'],
-	],
+	'metadata.sources' => array(
+		array('type' => 'flatfile'),
+		array('type' => 'pdo'),
+	),
 
 
 

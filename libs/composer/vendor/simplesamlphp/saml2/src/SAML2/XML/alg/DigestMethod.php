@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\alg;
-
-use DOMElement;
-use Webmozart\Assert\Assert;
 
 /**
  * Class for handling the alg:DigestMethod element.
@@ -21,7 +16,7 @@ class DigestMethod
      *
      * @var string
      */
-    private $Algorithm = '';
+    public $Algorithm;
 
 
     /**
@@ -31,7 +26,7 @@ class DigestMethod
      *
      * @throws \Exception
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
@@ -40,30 +35,7 @@ class DigestMethod
         if (!$xml->hasAttribute('Algorithm')) {
             throw new \Exception('Missing required attribute "Algorithm" in alg:DigestMethod element.');
         }
-        $this->setAlgorithm($xml->getAttribute('Algorithm'));
-    }
-
-
-    /**
-     * Collect the value of the algorithm-property
-     *
-     * @return string
-     */
-    public function getAlgorithm() : string
-    {
-        return $this->Algorithm;
-    }
-
-
-    /**
-     * Set the value of the Algorithm-property
-     *
-     * @param string $algorithm
-     * @return void
-     */
-    public function setAlgorithm(string $algorithm) : void
-    {
-        $this->Algorithm = $algorithm;
+        $this->Algorithm = $xml->getAttribute('Algorithm');
     }
 
 
@@ -72,11 +44,10 @@ class DigestMethod
      *
      * @param \DOMElement $parent The element we should append to.
      * @return \DOMElement
-     * @throws \Exception
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
-        Assert::notEmpty($this->Algorithm, 'Cannot convert DigestMethod to XML without an Algorithm set.');
+        assert(is_string($this->Algorithm));
 
         $doc = $parent->ownerDocument;
         $e = $doc->createElementNS(Common::NS, 'alg:DigestMethod');

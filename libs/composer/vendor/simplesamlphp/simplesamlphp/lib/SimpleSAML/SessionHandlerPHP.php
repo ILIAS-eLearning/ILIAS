@@ -11,11 +11,12 @@
 
 namespace SimpleSAML;
 
-use SimpleSAML\Error;
-use SimpleSAML\Utils;
+use SimpleSAML\Error\CannotSetCookie;
+use SimpleSAML\Utils\HTTP;
 
 class SessionHandlerPHP extends SessionHandler
 {
+
     /**
      * This variable contains the session cookie name.
      *
@@ -33,7 +34,7 @@ class SessionHandlerPHP extends SessionHandler
      *
      * @var array
      */
-    private $previous_session = [];
+    private $previous_session = array();
 
 
     /**
@@ -45,14 +46,14 @@ class SessionHandlerPHP extends SessionHandler
         // call the parent constructor in case it should become necessary in the future
         parent::__construct();
 
-        $config = Configuration::getInstance();
+        $config = \SimpleSAML_Configuration::getInstance();
         $this->cookie_name = $config->getString('session.phpsession.cookiename', null);
 
         if (session_status() === PHP_SESSION_ACTIVE) {
             if (session_name() === $this->cookie_name || $this->cookie_name === null) {
                 Logger::warning(
-                    'There is already a PHP session with the same name as SimpleSAMLphp\'s session, or the ' .
-                    "'session.phpsession.cookiename' configuration option is not set. Make sure to set " .
+                    'There is already a PHP session with the same name as SimpleSAMLphp\'s session, or the '.
+                    "'session.phpsession.cookiename' configuration option is not set. Make sure to set ".
                     "SimpleSAMLphp's cookie name with a value not used by any other applications."
                 );
             }
@@ -67,35 +68,22 @@ class SessionHandlerPHP extends SessionHandler
             session_write_close();
         }
 
-
-        if (empty($this->cookie_name)) {
-            $this->cookie_name = session_name();
-        } elseif (!headers_sent() || version_compare(PHP_VERSION, '7.2', '<')) {
+        if (!empty($this->cookie_name)) {
             session_name($this->cookie_name);
+        } else {
+            $this->cookie_name = session_name();
         }
 
         $params = $this->getCookieParams();
 
         if (!headers_sent()) {
-            if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-                /** @psalm-suppress InvalidArgument  This annotation may be removed in Psalm >=3.0.15 */
-                session_set_cookie_params([
-                    'lifetime' => $params['lifetime'],
-                    'path' => $params['path'],
-                    'domain' => $params['domain'],
-                    'secure' => $params['secure'],
-                    'httponly' => $params['httponly'],
-                    'samesite' => $params['samesite'],
-                ]);
-            } else {
-                session_set_cookie_params(
-                    $params['lifetime'],
-                    $params['path'],
-                    is_null($params['domain']) ? '' : $params['domain'],
-                    $params['secure'],
-                    $params['httponly']
-                );
-            }
+            session_set_cookie_params(
+                $params['lifetime'],
+                $params['path'],
+                $params['domain'],
+                $params['secure'],
+                $params['httponly']
+            );
         }
 
         $savepath = $config->getString('session.phpsession.savepath', null);
@@ -106,16 +94,40 @@ class SessionHandlerPHP extends SessionHandler
 
 
     /**
+     * This method starts a session, making sure no warnings are generated due to headers being already sent.
+     */
+    private function sessionStart()
+    {
+        $cacheLimiter = session_cache_limiter();
+        if (headers_sent()) {
+            /*
+             * session_start() tries to send HTTP headers depending on the configuration, according to the
+             * documentation:
+             *
+             *      http://php.net/manual/en/function.session-start.php
+             *
+             * If headers have been already sent, it will then trigger an error since no more headers can be sent.
+             * Being unable to send headers does not mean we cannot recover the session by calling session_start(),
+             * so we still want to call it. In this case, though, we want to avoid session_start() to send any
+             * headers at all so that no error is generated, so we clear the cache limiter temporarily (no headers
+             * sent then) and restore it after successfully starting the session.
+             */
+            session_cache_limiter('');
+        }
+        session_cache_limiter($cacheLimiter);
+        @session_start();
+    }
+
+
+    /**
      * Restore a previously-existing session.
      *
      * Use this method to restore a previous PHP session existing before SimpleSAMLphp initialized its own session.
      *
      * WARNING: do not use this method directly, unless you know what you are doing. Calling this method directly,
-     * outside of \SimpleSAML\Session, could cause SimpleSAMLphp's session to be lost or mess the application's one. The
+     * outside of SimpleSAML_Session, could cause SimpleSAMLphp's session to be lost or mess the application's one. The
      * session must always be saved properly before calling this method. If you don't understand what this is about,
      * don't use this method.
-     *
-     * @return void
      */
     public function restorePrevious()
     {
@@ -127,20 +139,16 @@ class SessionHandlerPHP extends SessionHandler
         session_write_close();
 
         session_name($this->previous_session['name']);
-        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            session_set_cookie_params($this->previous_session['cookie_params']);
-        } else {
-            session_set_cookie_params(
-                $this->previous_session['cookie_params']['lifetime'],
-                $this->previous_session['cookie_params']['path'],
-                $this->previous_session['cookie_params']['domain'],
-                $this->previous_session['cookie_params']['secure'],
-                $this->previous_session['cookie_params']['httponly']
-            );
-        }
+        session_set_cookie_params(
+            $this->previous_session['cookie_params']['lifetime'],
+            $this->previous_session['cookie_params']['path'],
+            $this->previous_session['cookie_params']['domain'],
+            $this->previous_session['cookie_params']['secure'],
+            $this->previous_session['cookie_params']['httponly']
+        );
         session_id($this->previous_session['id']);
-        $this->previous_session = [];
-        @session_start();
+        $this->previous_session = array();
+        $this->sessionStart();
 
         /*
          * At this point, we have restored a previously-existing session, so we can't continue to use our session here.
@@ -158,48 +166,25 @@ class SessionHandlerPHP extends SessionHandler
      */
     public function newSessionId()
     {
-        $sessionId = false;
-        if (function_exists('session_create_id') && version_compare(PHP_VERSION, '7.2', '<')) {
-            // generate new (secure) session id
-            $sid_length = (int) ini_get('session.sid_length');
-            $sid_bits_per_char = (int) ini_get('session.sid_bits_per_character');
+        // generate new (secure) session id
+        $sessionId = bin2hex(openssl_random_pseudo_bytes(16));
+        \SimpleSAML_Session::createSession($sessionId);
 
-            if (($sid_length * $sid_bits_per_char) < 128) {
-                Logger::warning("Unsafe defaults used for sessionId generation!");
-            }
-
-            /**
-             * This annotation may be removed as soon as we start using vimeo/psalm 3.x
-             * @psalm-suppress TooFewArguments
-             */
-            $sessionId = session_create_id();
-        }
-
-        if (!$sessionId) {
-            Logger::warning("Secure session ID generation failed, falling back to custom ID generation.");
-            $sessionId = bin2hex(openssl_random_pseudo_bytes(16));
-        }
-
-        Session::createSession($sessionId);
         return $sessionId;
     }
+
 
     /**
      * Retrieve the session ID saved in the session cookie, if there's one.
      *
      * @return string|null The session id saved in the cookie or null if no session cookie was set.
      *
-     * @throws \SimpleSAML\Error\Exception If the cookie is marked as secure but we are not using HTTPS.
+     * @throws \SimpleSAML_Error_Exception If the cookie is marked as secure but we are not using HTTPS.
      */
     public function getCookieSessionId()
     {
-        if (!$this->hasSessionCookie()) {
+        if (!self::hasSessionCookie()) {
             return null; // there's no session cookie, can't return ID
-        }
-
-        if (version_compare(PHP_VERSION, '7.2', 'ge') && headers_sent()) {
-            // latest versions of PHP don't allow loading a session when output sent, get the ID from the cookie
-            return $_COOKIE[$this->cookie_name];
         }
 
         // do not rely on session_id() as it can return the ID of a previous session. Get it from the cookie instead.
@@ -207,11 +192,11 @@ class SessionHandlerPHP extends SessionHandler
 
         $session_cookie_params = session_get_cookie_params();
 
-        if ($session_cookie_params['secure'] && !Utils\HTTP::isHTTPS()) {
-            throw new Error\Exception('Session start with secure cookie not allowed on http.');
+        if ($session_cookie_params['secure'] && !HTTP::isHTTPS()) {
+            throw new \SimpleSAML_Error_Exception('Session start with secure cookie not allowed on http.');
         }
 
-        @session_start();
+        $this->sessionStart();
         return session_id();
     }
 
@@ -230,10 +215,9 @@ class SessionHandlerPHP extends SessionHandler
     /**
      * Save the current session to the PHP session array.
      *
-     * @param \SimpleSAML\Session $session The session object we should save.
-     * @return void
+     * @param \SimpleSAML_Session $session The session object we should save.
      */
-    public function saveSession(\SimpleSAML\Session $session)
+    public function saveSession(\SimpleSAML_Session $session)
     {
         $_SESSION['SimpleSAMLphp_SESSION'] = serialize($session);
     }
@@ -244,9 +228,9 @@ class SessionHandlerPHP extends SessionHandler
      *
      * @param string|null $sessionId The ID of the session we should load, or null to use the default.
      *
-     * @return \SimpleSAML\Session|null The session object, or null if it doesn't exist.
+     * @return \SimpleSAML_Session|null The session object, or null if it doesn't exist.
      *
-     * @throws \SimpleSAML\Error\Exception If it wasn't possible to disable session cookies or we are trying to load a
+     * @throws \SimpleSAML_Error_Exception If it wasn't possible to disable session cookies or we are trying to load a
      * PHP session with a specific identifier and it doesn't match with the current session identifier.
      */
     public function loadSession($sessionId = null)
@@ -254,20 +238,20 @@ class SessionHandlerPHP extends SessionHandler
         assert(is_string($sessionId) || $sessionId === null);
 
         if ($sessionId !== null) {
-            if (session_id() === '' && !(version_compare(PHP_VERSION, '7.2', 'ge') && headers_sent())) {
+            if (session_id() === '') {
                 // session not initiated with getCookieSessionId(), start session without setting cookie
                 $ret = ini_set('session.use_cookies', '0');
                 if ($ret === false) {
-                    throw new Error\Exception('Disabling PHP option session.use_cookies failed.');
+                    throw new \SimpleSAML_Error_Exception('Disabling PHP option session.use_cookies failed.');
                 }
 
                 session_id($sessionId);
-                @session_start();
+                $this->sessionStart();
             } elseif ($sessionId !== session_id()) {
-                throw new Error\Exception('Cannot load PHP session with a specific ID.');
+                throw new \SimpleSAML_Error_Exception('Cannot load PHP session with a specific ID.');
             }
         } elseif (session_id() === '') {
-            $this->getCookieSessionId();
+            self::getCookieSessionId();
         }
 
         if (!isset($_SESSION['SimpleSAMLphp_SESSION'])) {
@@ -304,17 +288,17 @@ class SessionHandlerPHP extends SessionHandler
      * @return array The cookie parameters for our sessions.
      * @link http://www.php.net/manual/en/function.session-get-cookie-params.php
      *
-     * @throws \SimpleSAML\Error\Exception If both 'session.phpsession.limitedpath' and 'session.cookie.path' options
+     * @throws \SimpleSAML_Error_Exception If both 'session.phpsession.limitedpath' and 'session.cookie.path' options
      * are set at the same time in the configuration.
      */
     public function getCookieParams()
     {
-        $config = Configuration::getInstance();
+        $config = \SimpleSAML_Configuration::getInstance();
 
         $ret = parent::getCookieParams();
 
         if ($config->hasValue('session.phpsession.limitedpath') && $config->hasValue('session.cookie.path')) {
-            throw new Error\Exception(
+            throw new \SimpleSAML_Error_Exception(
                 'You cannot set both the session.phpsession.limitedpath and session.cookie.path options.'
             );
         } elseif ($config->hasValue('session.phpsession.limitedpath')) {
@@ -326,13 +310,6 @@ class SessionHandlerPHP extends SessionHandler
 
         $ret['httponly'] = $config->getBoolean('session.phpsession.httponly', true);
 
-        if (version_compare(PHP_VERSION, '7.3.0', '<')) {
-            // in older versions of PHP we need a nasty hack to set RFC6265bis SameSite attribute
-            if ($ret['samesite'] !== null and !preg_match('/;\s+samesite/i', $ret['path'])) {
-                $ret['path'] .= '; SameSite=' . $ret['samesite'];
-            }
-        }
-
         return $ret;
     }
 
@@ -343,7 +320,6 @@ class SessionHandlerPHP extends SessionHandler
      * @param string $sessionName The name of the session.
      * @param string|null $sessionID The session ID to use. Set to null to delete the cookie.
      * @param array|null $cookieParams Additional parameters to use for the session cookie.
-     * @return void
      *
      * @throws \SimpleSAML\Error\CannotSetCookie If we can't set the cookie.
      */
@@ -353,17 +329,17 @@ class SessionHandlerPHP extends SessionHandler
             $cookieParams = session_get_cookie_params();
         }
 
-        if ($cookieParams['secure'] && !Utils\HTTP::isHTTPS()) {
-            throw new Error\CannotSetCookie(
+        if ($cookieParams['secure'] && !HTTP::isHTTPS()) {
+            throw new CannotSetCookie(
                 'Setting secure cookie on plain HTTP is not allowed.',
-                Error\CannotSetCookie::SECURE_COOKIE
+                CannotSetCookie::SECURE_COOKIE
             );
         }
 
         if (headers_sent()) {
-            throw new Error\CannotSetCookie(
+            throw new CannotSetCookie(
                 'Headers already sent.',
-                Error\CannotSetCookie::HEADERS_SENT
+                CannotSetCookie::HEADERS_SENT
             );
         }
 
@@ -372,20 +348,15 @@ class SessionHandlerPHP extends SessionHandler
             session_write_close();
         }
 
-        if (version_compare(PHP_VERSION, '7.3.0', '>=')) {
-            /** @psalm-suppress InvalidArgument  This annotation may be removed in Psalm >=3.0.15 */
-            session_set_cookie_params($cookieParams);
-        } else {
-            session_set_cookie_params(
-                $cookieParams['lifetime'],
-                $cookieParams['path'],
-                is_null($cookieParams['domain']) ? '' : $cookieParams['domain'],
-                $cookieParams['secure'],
-                $cookieParams['httponly']
-            );
-        }
+        session_set_cookie_params(
+            $cookieParams['lifetime'],
+            $cookieParams['path'],
+            $cookieParams['domain'],
+            $cookieParams['secure'],
+            $cookieParams['httponly']
+        );
 
-        session_id(strval($sessionID));
-        @session_start();
+        session_id($sessionID);
+        $this->sessionStart();
     }
 }

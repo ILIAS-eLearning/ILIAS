@@ -6,7 +6,7 @@ require_once 'Services/Saml/interfaces/interface.ilSamlIdpDiscovery.php';
 /**
  * Class ilSimpleSAMLphplIdpDiscovery
  */
-class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements ilSamlIdpDiscovery
+class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML_XHTML_IdPDisco implements ilSamlIdpDiscovery
 {
     const METADATA_DIRECTORY = 'auth/saml/metadata';
 
@@ -15,8 +15,8 @@ class ilSimpleSAMLphplIdpDiscovery extends SimpleSAML\XHTML\IdPDisco implements 
      */
     public function __construct()
     {
-        $this->config = SimpleSAML\Configuration::getInstance();
-        $this->metadata = SimpleSAML\Metadata\MetaDataStorageHandler::getMetadataHandler();
+        $this->config = SimpleSAML_Configuration::getInstance();
+        $this->metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
         $this->instance = 'saml';
         $this->metadataSets = array('saml20-idp-remote');
         $this->isPassive = false;

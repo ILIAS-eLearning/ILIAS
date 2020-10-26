@@ -9,7 +9,7 @@ yaml: |
     - banana
     - carrot
 php: |
-    ['apple', 'banana', 'carrot']
+    array('apple', 'banana', 'carrot')
 ---
 test: Sequence With Item Being Null In The Middle
 brief: |
@@ -21,7 +21,7 @@ yaml: |
     -
     - carrot
 php: |
-    ['apple', null, 'carrot']
+    array('apple', null, 'carrot')
 ---
 test: Sequence With Last Item Being Null
 brief: |
@@ -33,7 +33,7 @@ yaml: |
     - banana
     -
 php: |
-    ['apple', 'banana', null]
+    array('apple', 'banana', null)
 ---
 test: Nested Sequences
 brief: |
@@ -46,7 +46,7 @@ yaml: |
      - bar
      - baz
 php: |
-    [['foo', 'bar', 'baz']]
+    array(array('foo', 'bar', 'baz'))
 ---
 test: Mixed Sequences
 brief: |
@@ -61,7 +61,7 @@ yaml: |
     - banana
     - carrot
 php: |
-    ['apple', ['foo', 'bar', 'x123'], 'banana', 'carrot']
+    array('apple', array('foo', 'bar', 'x123'), 'banana', 'carrot')
 ---
 test: Deeply Nested Sequences
 brief: |
@@ -74,7 +74,7 @@ yaml: |
       - uno
       - dos
 php: |
-    [[['uno', 'dos']]]
+    array(array(array('uno', 'dos')))
 ---
 test: Simple Mapping
 brief: |
@@ -87,7 +87,7 @@ yaml: |
     foo: whatever
     bar: stuff
 php: |
-    ['foo' => 'whatever', 'bar' => 'stuff']
+    array('foo' => 'whatever', 'bar' => 'stuff')
 ---
 test: Sequence in a Mapping
 brief: |
@@ -98,7 +98,7 @@ yaml: |
      - uno
      - dos
 php: |
-    ['foo' => 'whatever', 'bar' => ['uno', 'dos']]
+    array('foo' => 'whatever', 'bar' => array('uno', 'dos'))
 ---
 test: Nested Mappings
 brief: |
@@ -110,14 +110,14 @@ yaml: |
      name: steve
      sport: baseball
 php: |
-    [
+    array(
       'foo' => 'whatever',
-      'bar' => [
+      'bar' => array(
          'fruit' => 'apple',
          'name' => 'steve',
          'sport' => 'baseball'
-      ]
-    ]
+       )
+    )
 ---
 test: Mixed Mapping
 brief: |
@@ -136,22 +136,22 @@ yaml: |
        perl: papers
        ruby: scissorses
 php: |
-    [
+    array(
       'foo' => 'whatever',
-      'bar' => [
-        [
+      'bar' => array(
+        array(
             'fruit' => 'apple',
             'name' => 'steve',
             'sport' => 'baseball'
-        ],
+        ),
         'more',
-        [
+        array(
             'python' => 'rocks',
             'perl' => 'papers',
             'ruby' => 'scissorses'
-        ]
-      ]
-    ]
+        )
+      )
+    )
 ---
 test: Mapping-in-Sequence Shortcut
 todo: true
@@ -163,7 +163,7 @@ yaml: |
      - work on YAML.py:
         - work on Store
 php: |
-    [['work on YAML.py' => ['work on Store']]]
+    array(array('work on YAML.py' => array('work on Store')))
 ---
 test: Sequence-in-Mapping Shortcut
 todo: true
@@ -177,7 +177,7 @@ yaml: |
      - '%.sourceforge.net'
      - '%.freepan.org'
 php: |
-     ['allow' => ['localhost', '%.sourceforge.net', '%.freepan.org']]
+     array('allow' => array('localhost', '%.sourceforge.net', '%.freepan.org'))
 ---
 todo: true
 test: Merge key
@@ -192,11 +192,11 @@ yaml: |
        <<:
          age: 38
 php: |
-     [
+     array(
        'mapping' =>
-       [
+       array(
          'name' => 'Joe',
          'job' => 'Accountant',
          'age' => 38
-       ]
-     ]
+       )
+     )

@@ -1,23 +1,10 @@
 <?php
-
 namespace Gettext\Languages\Exporter;
 
 class Xml extends Exporter
 {
     /**
-     * {@inheritdoc}
-     *
-     * @see \Gettext\Languages\Exporter\Exporter::getDescription()
-     */
-    public static function getDescription()
-    {
-        return 'Build an XML file - schema available at http://mlocati.github.io/cldr-to-gettext-plural-rules/GettextLanguages.xsd';
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @see \Gettext\Languages\Exporter\Exporter::toStringDo()
+     * @see Exporter::toStringDo
      */
     protected static function toStringDo($languages)
     {
@@ -56,5 +43,12 @@ class Xml extends Exporter
         $xml->formatOutput = true;
 
         return $xml->saveXML();
+    }
+    /**
+     * @see Exporter::getDescription
+     */
+    public static function getDescription()
+    {
+        return 'Build an XML file - schema available at http://mlocati.github.io/cldr-to-gettext-plural-rules/GettextLanguages.xsd';
     }
 }

@@ -1,32 +1,26 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Utilities;
-
-use Closure;
 
 interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
 {
     /**
      * Add an element to the collection
      *
-     * @param mixed $element
+     * @param $element
      *
-     * @return void
+     * @return $this|\SAML2\Utilities\Collection
      */
-    public function add($element) : void;
-
+    public function add($element);
 
     /**
      * Shorthand for getting a single element that also must be the only element in the collection.
      *
-     * @throws \SAML2\Exception\RuntimeException if the element was not the only element
-     *
      * @return mixed
+     *
+     * @throws \SAML2\Exception\RuntimeException if the element was not the only element
      */
     public function getOnlyElement();
-
 
     /**
      * Return the first element from the collection
@@ -35,7 +29,6 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function first();
 
-
     /**
      * Return the last element from the collection
      *
@@ -43,25 +36,21 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function last();
 
-
     /**
-     * Applies the given function to each element in the collection and returns a new collection with the elements
-     * returned by the function.
+     * Applies the given function to each element in the collection and returns a new collection with the elements returned by the function.
      *
-     * @param \Closure $function
+     * @param callable $function
      *
      * @return mixed
      */
-    public function map(Closure $function);
-
+    public function map(\Closure $function);
 
     /**
-     * @param \Closure $filterFunction
+     * @param callable $filterFunction
      *
      * @return \SAML2\Utilities\Collection
      */
-    public function filter(Closure $filterFunction): Collection;
-
+    public function filter(\Closure $filterFunction);
 
     /**
      * Get the element at index
@@ -72,20 +61,16 @@ interface Collection extends \ArrayAccess, \Countable, \IteratorAggregate
      */
     public function get($key);
 
-
     /**
-     * @param mixed $element
-     * @return void
+     * @param $element
      */
-    public function remove($element) : void;
-
+    public function remove($element);
 
     /**
      * Set the value for index
      *
      * @param mixed $key
      * @param mixed $value
-     * @return void
      */
-    public function set($key, $value) : void;
+    public function set($key, $value);
 }

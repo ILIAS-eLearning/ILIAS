@@ -1,5 +1,4 @@
 <?php
-
 /**
  * WS-Federation SP configuration for SimpleSAMLphp.
  *
@@ -7,6 +6,6 @@
  *  - host
  */
 
-$metadata['__DYNAMIC:1__'] = [
-    'host' => '__DEFAULT__',
-];
+$metadata['__DYNAMIC:1__'] = array(
+	'host' => '__DEFAULT__',
+);

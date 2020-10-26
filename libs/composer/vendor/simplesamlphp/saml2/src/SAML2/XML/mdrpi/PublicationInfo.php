@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\mdrpi;
-
-use DOMElement;
-use Webmozart\Assert\Assert;
 
 use SAML2\Utils;
 
@@ -22,21 +17,21 @@ class PublicationInfo
      *
      * @var string
      */
-    private $publisher = '';
+    public $publisher;
 
     /**
      * The creation timestamp for the metadata, as a UNIX timestamp.
      *
      * @var int|null
      */
-    private $creationInstant = null;
+    public $creationInstant;
 
     /**
      * Identifier for this metadata publication.
      *
      * @var string|null
      */
-    private $publicationId = null;
+    public $publicationId;
 
     /**
      * Link to usage policy for this metadata.
@@ -45,8 +40,7 @@ class PublicationInfo
      *
      * @var array
      */
-    private $UsagePolicy = [];
-
+    public $UsagePolicy = array();
 
     /**
      * Create/parse a mdrpi:PublicationInfo element.
@@ -54,7 +48,7 @@ class PublicationInfo
      * @param \DOMElement|null $xml The XML element we should load.
      * @throws \Exception
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
@@ -76,108 +70,18 @@ class PublicationInfo
         $this->UsagePolicy = Utils::extractLocalizedStrings($xml, Common::NS_MDRPI, 'UsagePolicy');
     }
 
-
-    /**
-     * Collect the value of the publisher-property
-     *
-     * @return string
-     */
-    public function getPublisher() : string
-    {
-        return $this->publisher;
-    }
-
-
-    /**
-     * Collect the value of the creationInstant-property
-     *
-     * @return int|null
-     */
-    public function getCreationInstant() : ?int
-    {
-        return $this->creationInstant;
-    }
-
-
-    /**
-     * Collect the value of the publicationId-property
-     *
-     * @return string|null
-     */
-    public function getPublicationId() : ?string
-    {
-        return $this->publicationId;
-    }
-
-
-    /**
-     * Collect the value of the UsagePolicy-property
-     *
-     * @return array
-     */
-    public function getUsagePolicy() : array
-    {
-        return $this->UsagePolicy;
-    }
-
-
-    /**
-     * Set the value of the publisher-property
-     *
-     * @param string $publisher
-     * @return void
-     */
-    public function setPublisher(string $publisher) : void
-    {
-        $this->publisher = $publisher;
-    }
-
-
-    /**
-     * Set the value of the creationInstant-property
-     *
-     * @param int|null $creationInstant
-     * @return void
-     */
-    public function setCreationInstant(int $creationInstant = null) : void
-    {
-        $this->creationInstant = $creationInstant;
-    }
-
-
-    /**
-     * Set the value of the publicationId-property
-     *
-     * @param string|null $publicationId
-     * @return void
-     */
-    public function setPublicationId(string $publicationId = null) : void
-    {
-        $this->publicationId = $publicationId;
-    }
-
-
-    /**
-     * Set the value of the UsagePolicy-property
-     *
-     * @param array $usagePolicy
-     * @return void
-     */
-    public function setUsagePolicy(array $usagePolicy) : void
-    {
-        $this->UsagePolicy = $usagePolicy;
-    }
-
-
     /**
      * Convert this element to XML.
      *
      * @param \DOMElement $parent The element we should append to.
      * @return \DOMElement
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
-        Assert::notEmpty($this->publisher, "Cannot convert PublicationInfo to XML without a publisher set.");
+        assert(is_string($this->publisher));
+        assert(is_int($this->creationInstant) || is_null($this->creationInstant));
+        assert(is_string($this->publicationId) || is_null($this->publicationId));
+        assert(is_array($this->UsagePolicy));
 
         $doc = $parent->ownerDocument;
 

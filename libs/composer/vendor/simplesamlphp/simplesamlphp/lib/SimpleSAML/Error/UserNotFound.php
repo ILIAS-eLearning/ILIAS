@@ -1,7 +1,5 @@
 <?php
 
-namespace SimpleSAML\Error;
-
 /**
  * Exception indicating user not found by authsource.
  *
@@ -9,7 +7,7 @@ namespace SimpleSAML\Error;
  * @package SimpleSAMLphp_base
  *
  */
-
-class UserNotFound extends User
+class SimpleSAML_Error_UserNotFound extends SimpleSAML_Error_User
 {
+
 }

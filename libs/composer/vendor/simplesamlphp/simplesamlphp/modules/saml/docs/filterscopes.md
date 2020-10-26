@@ -36,36 +36,36 @@ Examples
 --------
 
 Basic configuration:
-```
-    'authproc' => [
-        90 => [
+```php
+    'authproc' => array(
+        90 => array(
             'class' => 'saml:FilterScopes',
-        ],
-    [,
+        ),
+    ),
 ```
 
 Specify `mail` and `eduPersonPrincipalName` as scoped attributes:
-```
-    'authproc' => [
-        90 => [
+```php
+    'authproc' => array(
+        90 => array(
             'class' => 'saml:FilterScopes',
-            'attributes' => [
+            'attributes' => array(
                 'mail',
                 'eduPersonPrincipalName',
-            ],
-        ],
-    ],
+            ),
+        ),
+    ),
 ```
 
 Specify the same attributes in OID format:
-```
-    'authproc' => [
-        90 => [
+```php
+    'authproc' => array(
+        90 => array(
             'class' => 'saml:FilterScopes',
-            'attributes' => [
+            'attributes' => array(
                 'urn:oid:0.9.2342.19200300.100.1.3',
                 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
-            ],
-        ],
-    ],
+            ),
+        ),
+    ),
 ```

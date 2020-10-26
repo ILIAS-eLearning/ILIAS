@@ -1,10 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\XML\md;
-
-use DOMElement;
 
 use SAML2\Constants;
 use SAML2\Utils;
@@ -21,15 +17,14 @@ class AdditionalMetadataLocation
      *
      * @var string
      */
-    private $namespace;
+    public $namespace;
 
     /**
      * The URI where the metadata is located.
      *
      * @var string
      */
-    private $location;
-
+    public $location;
 
     /**
      * Initialize an AdditionalMetadataLocation element.
@@ -37,7 +32,7 @@ class AdditionalMetadataLocation
      * @param \DOMElement|null $xml The XML element we should load.
      * @throws \Exception
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
@@ -46,57 +41,10 @@ class AdditionalMetadataLocation
         if (!$xml->hasAttribute('namespace')) {
             throw new \Exception('Missing namespace attribute on AdditionalMetadataLocation element.');
         }
-        $this->setNamespace($xml->getAttribute('namespace'));
+        $this->namespace = $xml->getAttribute('namespace');
 
-        $this->setLocation($xml->textContent);
+        $this->location = $xml->textContent;
     }
-
-
-    /**
-     * Collect the value of the namespace-property
-     *
-     * @return string
-     */
-    public function getNamespace() : string
-    {
-        return $this->namespace;
-    }
-
-
-    /**
-     * Set the value of the namespace-property
-     *
-     * @param string $namespace
-     * @return void
-     */
-    public function setNamespace(string $namespace) : void
-    {
-        $this->namespace = $namespace;
-    }
-
-
-    /**
-     * Collect the value of the location-property
-     *
-     * @return string
-     */
-    public function getLocation() : string
-    {
-        return $this->location;
-    }
-
-
-    /**
-     * Set the value of the location-property
-     *
-     * @param string $location
-     * @return void
-     */
-    public function setLocation(string $location) : void
-    {
-        $this->location = $location;
-    }
-
 
     /**
      * Convert this AdditionalMetadataLocation to XML.
@@ -104,10 +52,13 @@ class AdditionalMetadataLocation
      * @param  \DOMElement $parent The element we should append to.
      * @return \DOMElement This AdditionalMetadataLocation-element.
      */
-    public function toXML(DOMElement $parent) : DOMElement
+    public function toXML(\DOMElement $parent)
     {
-        $e = Utils::addString($parent, Constants::NS_MD, 'md:AdditionalMetadataLocation', $this->getLocation());
-        $e->setAttribute('namespace', $this->getNamespace());
+        assert(is_string($this->namespace));
+        assert(is_string($this->location));
+
+        $e = Utils::addString($parent, Constants::NS_MD, 'md:AdditionalMetadataLocation', $this->location);
+        $e->setAttribute('namespace', $this->namespace);
 
         return $e;
     }

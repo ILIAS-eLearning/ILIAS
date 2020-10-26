@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Assertion\Validation;
 
 use SAML2\Configuration\IdentityProvider;
@@ -27,13 +25,6 @@ class SubjectConfirmationValidator
      */
     protected $serviceProvider;
 
-
-    /**
-     * Constructor for SubjectConfirmationValidator
-     *
-     * @param IdentityProvider $identityProvider
-     * @param ServiceProvider $serviceProvider
-     */
     public function __construct(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider
@@ -42,14 +33,9 @@ class SubjectConfirmationValidator
         $this->serviceProvider = $serviceProvider;
     }
 
-
-    /**
-     * @param SubjectConfirmationConstraintValidator $constraint
-     * @return void
-     */
     public function addConstraintValidator(
         SubjectConfirmationConstraintValidator $constraint
-    ) : void {
+    ) {
         if ($constraint instanceof IdentityProviderAware) {
             $constraint->setIdentityProvider($this->identityProvider);
         }
@@ -61,12 +47,7 @@ class SubjectConfirmationValidator
         $this->constraints[] = $constraint;
     }
 
-
-    /**
-     * @param SubjectConfirmation $subjectConfirmation
-     * @return Result
-     */
-    public function validate(SubjectConfirmation $subjectConfirmation) : Result
+    public function validate(SubjectConfirmation $subjectConfirmation)
     {
         $result = new Result();
         foreach ($this->constraints as $validator) {

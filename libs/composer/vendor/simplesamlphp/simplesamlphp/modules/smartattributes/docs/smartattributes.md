@@ -17,8 +17,6 @@ The filter has the following configuration options:
 * `candidates`. An array of attributes names to consider as the identifier attribute. Defaults to:
 	* eduPersonTargetedID
 	* eduPersonPrincipalName
-	* pairwise-id
-	* subject-id
 	* openid
 	* facebook_targetedID
 	* twitter_targetedID

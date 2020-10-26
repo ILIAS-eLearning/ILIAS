@@ -22,26 +22,26 @@ The SP is configured by an entry in `config/authsources.php`.
 This is a minimal `authsources.php` for a SP:
 
     <?php
-    $config = [
+    $config = array(
 
         /* This is the name of this authentication source, and will be used to access it later. */
-        'default-sp' => [
+        'default-sp' => array(
             'saml:SP',
-        ],
-    ];
+        ),
+    );
 
 For more information about additional options available for the SP, see the [`saml:SP` reference](./saml:sp).
 
 If you want multiple Service Providers in the same site and installation, you can add more entries in the `authsources.php` configuration. If so remember to set the EntityID explicitly. Here is an example:
 
-	'sp1' => [
+	'sp1' => array(
 	    'saml:SP',
 		'entityID' => 'https://sp1.example.org/',
-	],
-	'sp2' => [
+	),
+	'sp2' => array(
 	    'saml:SP',
 		'entityID' => 'https://sp2.example.org/',
-	],
+	),
 
 ### Enabling a certificate for your Service Provider
 
@@ -50,16 +50,16 @@ Some Identity Providers / Federations may require that your Service Providers ho
 Create a self-signed certificate in the `cert/` directory.
 
 	cd cert
-	openssl req -newkey rsa:3072 -new -x509 -days 3652 -nodes -out saml.crt -keyout saml.pem
+	openssl req -newkey rsa:2048 -new -x509 -days 3652 -nodes -out saml.crt -keyout saml.pem
 
 
 Then edit your `authsources.php` entry, and add references to your certificate:
 
-	'default-sp' => [
+	'default-sp' => array(
 	    'saml:SP',
 	    'privatekey' => 'saml.pem',
 	    'certificate' => 'saml.crt',
-	],
+	),
 
 
 Adding IdPs to the SP
@@ -69,11 +69,11 @@ The service provider you are configuring needs to know about the identity provid
 This is a minimal example of a `metadata/saml20-idp-remote.php` metadata file:
 
     <?php
-    $metadata['https://example.com'] = [
+    $metadata['https://example.com'] = array(
         'SingleSignOnService'  => 'https://example.com/simplesaml/saml2/idp/SSOService.php',
         'SingleLogoutService'  => 'https://example.com/simplesaml/saml2/idp/SingleLogoutService.php',
         'certificate'          => 'example.pem',
-    ];
+    );
 
 `example.pem` under your `cert/` directory contains the certificate the identity provider uses for signing assertions.
 
@@ -91,9 +91,9 @@ An option in the authentication source allows you to configure which IdP should 
 This is the `idp` option.
 
     <?php
-    $config = [
+    $config = array(
 
-        'default-sp' => [
+        'default-sp' => array(
             'saml:SP',
 
             /*
@@ -101,8 +101,8 @@ This is the `idp` option.
              * Can be NULL/unset, in which case the user will be shown a list of available IdPs.
              */
             'idp' => 'https://idp.example.com',
-        ],
-    ];
+        ),
+    );
 
 
 Exchange metadata with the IdP
@@ -122,7 +122,7 @@ directory.
 If you intend to add your SP to a federation, the procedure for managing trust in federations differ, but the common part is
 that you would need to provide the *SAML 2.0 metadata of your SP*, and register that with the federation administration.
 You will probably be required too to consume the federation metadata periodically. Read more about
-[automated metadata management](https://github.com/simplesamlphp/simplesamlphp-module-metarefresh/blob/master/docs/simplesamlphp-automated_metadata.md) to learn more about that. 
+[automated metadata management](simplesamlphp-automated_metadata) to learn more about that. 
 
 
 Test the SP
@@ -180,9 +180,9 @@ Each attribute name can be used as an index into $attributes to obtain the value
 
 We can also request authentication with a specific IdP:
 
-    $as->login([
+    $as->login(array(
         'saml:idp' => 'https://idp.example.org/',
-    ]);
+    ));
 
 Other options are also available.
 Take a look in the documentation for the [SP module](./saml:sp) for a list of all parameters.
@@ -191,31 +191,11 @@ If we are using PHP sessions in SimpleSAMLphp and in the application we are prot
 existing session when invoked for the first time, and its own session will prevail afterwards. If you want to restore
 your own session after calling SimpleSAMLphp, you can do so by cleaning up the session like this:
 
-    $session = \SimpleSAML\Session::getSessionFromRequest();
+    $session = SimpleSAML_Session::getSessionFromRequest();
     $session->cleanup();
 
 If you don't cleanup SimpleSAMLphp's session and try to use $_SESSION afterwards, you won't be using your own session
 and all your data is likely to get lost or inaccessible.
-
-Note that if your application uses a [custom session handler](https://www.php.net/manual/en/function.session-set-save-handler.php), SimpleSAMLphp will use it as well. This can lead to problems because SimpleSAMLphp's stand-alone web UI uses the default PHP session handlers. Therefore, you may need to unset the custom handler before making any calls to SimpleSAMLphp:
-
-    // use custom save handler
-    session_set_save_handler($handler);
-    session_start();
-    
-    // close session and restore default handler
-    session_write_close();
-    session_set_save_handler(new SessionHandler(), true);
-    
-    // use SimpleSAML\Session
-    $session = \SimpleSAML\Session::getSessionFromRequest();
-    $session->cleanup();
-    session_write_close();
-    
-    // back to custom save handler
-    session_set_save_handler($handler);
-    session_start();
-
 
 
 Support

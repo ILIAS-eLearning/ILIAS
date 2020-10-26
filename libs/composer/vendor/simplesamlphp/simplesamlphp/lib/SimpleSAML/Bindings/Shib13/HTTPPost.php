@@ -6,40 +6,40 @@
  *
  * @author Andreas Åkre Solberg, UNINETT AS. <andreas.solberg@uninett.no>
  * @package SimpleSAMLphp
- * @deprecated This class will be removed in a future release
  */
 
 namespace SimpleSAML\Bindings\Shib13;
 
 use SAML2\DOMDocumentFactory;
-use SimpleSAML\Configuration;
-use SimpleSAML\Metadata\MetaDataStorageHandler;
-use SimpleSAML\Utils;
+use SimpleSAML\Utils\Crypto;
+use SimpleSAML\Utils\HTTP;
+use SimpleSAML\Utils\XML;
 use SimpleSAML\XML\Shib13\AuthnResponse;
 use SimpleSAML\XML\Signer;
 
 class HTTPPost
 {
-    /**
-     * @var \SimpleSAML\Configuration
-     */
-    private $configuration;
 
     /**
-     * @var \SimpleSAML\Metadata\MetaDataStorageHandler
+     * @var \SimpleSAML_Configuration
      */
-    private $metadata;
+    private $configuration = null;
+
+    /**
+     * @var \SimpleSAML_Metadata_MetaDataStorageHandler
+     */
+    private $metadata = null;
 
 
     /**
      * Constructor for the \SimpleSAML\Bindings\Shib13\HTTPPost class.
      *
-     * @param \SimpleSAML\Configuration                   $configuration The configuration to use.
-     * @param \SimpleSAML\Metadata\MetaDataStorageHandler $metadatastore A store where to find metadata.
+     * @param \SimpleSAML_Configuration                   $configuration The configuration to use.
+     * @param \SimpleSAML_Metadata_MetaDataStorageHandler $metadatastore A store where to find metadata.
      */
     public function __construct(
-        Configuration $configuration,
-        MetaDataStorageHandler $metadatastore
+        \SimpleSAML_Configuration $configuration,
+        \SimpleSAML_Metadata_MetaDataStorageHandler $metadatastore
     ) {
         $this->configuration = $configuration;
         $this->metadata = $metadatastore;
@@ -50,23 +50,22 @@ class HTTPPost
      * Send an authenticationResponse using HTTP-POST.
      *
      * @param string                    $response The response which should be sent.
-     * @param \SimpleSAML\Configuration $idpmd The metadata of the IdP which is sending the response.
-     * @param \SimpleSAML\Configuration $spmd The metadata of the SP which is receiving the response.
+     * @param \SimpleSAML_Configuration $idpmd The metadata of the IdP which is sending the response.
+     * @param \SimpleSAML_Configuration $spmd The metadata of the SP which is receiving the response.
      * @param string|null               $relayState The relaystate for the SP.
      * @param string                    $shire The shire which should receive the response.
-     * @return void
      */
     public function sendResponse(
         $response,
-        Configuration $idpmd,
-        Configuration $spmd,
+        \SimpleSAML_Configuration $idpmd,
+        \SimpleSAML_Configuration $spmd,
         $relayState,
         $shire
     ) {
-        Utils\XML::checkSAMLMessage($response, 'saml11');
+        XML::checkSAMLMessage($response, 'saml11');
 
-        $privatekey = Utils\Crypto::loadPrivateKey($idpmd, true);
-        $publickey = Utils\Crypto::loadPublicKey($idpmd, true);
+        $privatekey = Crypto::loadPrivateKey($idpmd, true);
+        $publickey = Crypto::loadPublicKey($idpmd, true);
 
         $responsedom = DOMDocumentFactory::fromString(str_replace("\r", "", $response));
 
@@ -90,11 +89,11 @@ class HTTPPost
             $signResponse = true;
         }
 
-        $signer = new Signer([
+        $signer = new Signer(array(
             'privatekey_array' => $privatekey,
             'publickey_array'  => $publickey,
             'id'               => ($signResponse ? 'ResponseID' : 'AssertionID'),
-        ]);
+        ));
 
         if ($idpmd->hasValue('certificatechain')) {
             $signer->addCertificate($idpmd->getString('certificatechain'));
@@ -103,7 +102,7 @@ class HTTPPost
         if ($signResponse) {
             // sign the response - this must be done after encrypting the assertion
             // we insert the signature before the saml2p:Status element
-            $statusElements = Utils\XML::getDOMChildren($responseroot, 'Status', '@saml1p');
+            $statusElements = XML::getDOMChildren($responseroot, 'Status', '@saml1p');
             assert(count($statusElements) === 1);
             $signer->sign($responseroot, $responseroot, $statusElements[0]);
         } else {
@@ -113,12 +112,12 @@ class HTTPPost
 
         $response = $responsedom->saveXML();
 
-        Utils\XML::debugSAMLMessage($response, 'out');
+        XML::debugSAMLMessage($response, 'out');
 
-        Utils\HTTP::submitPOSTData($shire, [
+        HTTP::submitPOSTData($shire, array(
             'TARGET'       => $relayState,
             'SAMLResponse' => base64_encode($response),
-        ]);
+        ));
     }
 
 
@@ -139,9 +138,9 @@ class HTTPPost
         $rawResponse = $post['SAMLResponse'];
         $samlResponseXML = base64_decode($rawResponse);
 
-        Utils\XML::debugSAMLMessage($samlResponseXML, 'in');
+        XML::debugSAMLMessage($samlResponseXML, 'in');
 
-        Utils\XML::checkSAMLMessage($samlResponseXML, 'saml11');
+        XML::checkSAMLMessage($samlResponseXML, 'saml11');
 
         $samlResponse = new AuthnResponse();
         $samlResponse->setXML($samlResponseXML);

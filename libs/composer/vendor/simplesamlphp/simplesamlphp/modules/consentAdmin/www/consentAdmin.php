@@ -11,19 +11,9 @@
  * Author: Mads Freek <freek@ruc.dk>, Jacob Christiansen <jach@wayf.dk>
  */
 
-/**
+/*
  * Runs the processing chain and ignores all filter which have user
  * interaction.
- *
- * @param array $idp_metadata
- * @param string $source
- * @param array $sp_metadata
- * @param string $sp_entityid
- * @param array $attributes
- * @param string $userid
- * @param bool $hashAttributes
- * @param array $excludeAttributes
- * @return array
  */
 function driveProcessingChain(
     $idp_metadata,
@@ -33,30 +23,29 @@ function driveProcessingChain(
     $attributes,
     $userid,
     $hashAttributes = false,
-    $excludeAttributes = []
+    $excludeAttributes = array()
 ) {
+
     /*
      * Create a new processing chain
      */
-    $pc = new \SimpleSAML\Auth\ProcessingChain($idp_metadata, $sp_metadata, 'idp');
+    $pc = new SimpleSAML_Auth_ProcessingChain($idp_metadata, $sp_metadata, 'idp');
 
     /*
      * Construct the state.
      * REMEMBER: Do not set Return URL if you are calling processStatePassive
      */
-    $authProcState = [
+    $authProcState = array(
         'Attributes'  => $attributes,
         'Destination' => $sp_metadata,
         'SPMetadata'  => $sp_metadata,
         'Source'      => $idp_metadata,
         'IdPMetadata' => $idp_metadata,
         'isPassive'   => true,
-    ];
+    );
     /* we're being bridged, so add that info to the state */
     if (strpos($source, '-idp-remote|') !== false) {
-        /** @var int $i */
-        $i = strpos($source, '|');
-        $authProcState['saml:sp:IdP'] = substr($source, $i + 1);
+        $authProcState['saml:sp:IdP'] = substr($source, strpos($source, '|') + 1);
     }
 
     /*
@@ -78,20 +67,20 @@ function driveProcessingChain(
      */
     $destination = $sp_metadata['metadata-set'].'|'.$sp_entityid;
 
-    $targeted_id = \SimpleSAML\Module\consent\Auth\Process\Consent::getTargetedID($userid, $source, $destination);
-    $attribute_hash = \SimpleSAML\Module\consent\Auth\Process\Consent::getAttributeHash($attributes, $hashAttributes);
+    $targeted_id = sspmod_consent_Auth_Process_Consent::getTargetedID($userid, $source, $destination);
+    $attribute_hash = sspmod_consent_Auth_Process_Consent::getAttributeHash($attributes, $hashAttributes);
 
-    \SimpleSAML\Logger::info('consentAdmin: user: '.$userid);
-    \SimpleSAML\Logger::info('consentAdmin: target: '.$targeted_id);
-    \SimpleSAML\Logger::info('consentAdmin: attribute: '.$attribute_hash);
+    SimpleSAML\Logger::info('consentAdmin: user: '.$userid);
+    SimpleSAML\Logger::info('consentAdmin: target: '.$targeted_id);
+    SimpleSAML\Logger::info('consentAdmin: attribute: '.$attribute_hash);
 
     // Return values
-    return [$targeted_id, $attribute_hash, $attributes];
+    return array($targeted_id, $attribute_hash, $attributes);
 }
 
 // Get config object
-$config = \SimpleSAML\Configuration::getInstance();
-$cA_config = \SimpleSAML\Configuration::getConfig('module_consentAdmin.php');
+$config = SimpleSAML_Configuration::getInstance();
+$cA_config = SimpleSAML_Configuration::getConfig('module_consentAdmin.php');
 $authority = $cA_config->getValue('authority');
 
 $as = new \SimpleSAML\Auth\Simple($authority);
@@ -104,7 +93,7 @@ if (array_key_exists('logout', $_REQUEST)) {
 
 $hashAttributes = $cA_config->getValue('attributes.hash');
 
-$excludeAttributes = $cA_config->getValue('attributes.exclude', []);
+$excludeAttributes = $cA_config->getValue('attributes.exclude', array());
 
 // Check if valid local session exists
 $as->requireAuth();
@@ -113,11 +102,12 @@ $as->requireAuth();
 $attributes = $as->getAttributes();
 
 // Get metadata storage handler
-$metadata = \SimpleSAML\Metadata\MetaDataStorageHandler::getMetadataHandler();
+$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
 
 /*
  * Get IdP id and metadata
  */
+
 
 $idp_entityid = $metadata->getMetaDataCurrentEntityID('saml20-idp-hosted');
 $idp_metadata = $metadata->getMetaData($idp_entityid, 'saml20-idp-hosted');
@@ -132,16 +122,12 @@ if ($as->getAuthData('saml:sp:IdP') !== null) {
 }
 
 // Get user ID
-if (isset($idp_metadata['userid.attribute']) && is_string($idp_metadata['userid.attribute'])) {
-    $userid_attributename = $idp_metadata['userid.attribute'];
-} else {
-    $userid_attributename = 'eduPersonPrincipalName';
-}
+$userid_attributename = (isset($idp_metadata['userid.attribute']) && is_string($idp_metadata['userid.attribute'])) ? $idp_metadata['userid.attribute'] : 'eduPersonPrincipalName';
 
 $userids = $attributes[$userid_attributename];
 
 if (empty($userids)) {
-    throw new \Exception('Could not generate useridentifier for storing consent. Attribute ['.
+    throw new Exception('Could not generate useridentifier for storing consent. Attribute ['.
         $userid_attributename.'] was not available.');
 }
 
@@ -160,57 +146,41 @@ if (!empty($_GET['action'])) {
     $action = $_GET["action"];
 }
 
-\SimpleSAML\Logger::critical('consentAdmin: sp: '.$sp_entityid.' action: '.$action);
+SimpleSAML\Logger::critical('consentAdmin: sp: '.$sp_entityid.' action: '.$action);
 
 // Remove services, whitch have consent disabled
 if (isset($idp_metadata['consent.disable'])) {
-    foreach ($idp_metadata['consent.disable'] as $disable) {
+    foreach ($idp_metadata['consent.disable'] AS $disable) {
         if (array_key_exists($disable, $all_sp_metadata)) {
             unset($all_sp_metadata[$disable]);
         }
     }
 }
 
-\SimpleSAML\Logger::info('consentAdmin: '.$idp_entityid);
+SimpleSAML\Logger::info('consentAdmin: '.$idp_entityid);
 
 // Parse consent config
-$consent_storage = \SimpleSAML\Module\consent\Store::parseStoreConfig($cA_config->getValue('consentadmin'));
+$consent_storage = sspmod_consent_Store::parseStoreConfig($cA_config->getValue('consentadmin'));
 
 // Calc correct user ID hash
-$hashed_user_id = \SimpleSAML\Module\consent\Auth\Process\Consent::getHashedUserID($userid, $source);
+$hashed_user_id = sspmod_consent_Auth_Process_Consent::getHashedUserID($userid, $source);
 
 // If a checkbox have been clicked
 if ($action !== null && $sp_entityid !== null) {
-    // init template to enable translation of status messages
-    $template = new \SimpleSAML\XHTML\Template(
-        $config,
-        'consentAdmin:consentadminajax.php',
-        'consentAdmin:consentadmin'
-    );
-    $translator = $template->getTranslator();
-
     // Get SP metadata
     $sp_metadata = $metadata->getMetaData($sp_entityid, 'saml20-sp-remote');
 
     // Run AuthProc filters
-    list($targeted_id, $attribute_hash, $attributes_new) = driveProcessingChain(
-        $idp_metadata,
-        $source,
-        $sp_metadata,
-        $sp_entityid,
-        $attributes,
-        $userid,
-        $hashAttributes,
-        $excludeAttributes
-    );
+    list($targeted_id, $attribute_hash, $attributes_new) = driveProcessingChain($idp_metadata, $source, $sp_metadata,
+        $sp_entityid, $attributes, $userid, $hashAttributes, $excludeAttributes);
 
     // Add a consent (or update if attributes have changed and old consent for SP and IdP exists)
     if ($action == 'true') {
         $isStored = $consent_storage->saveConsent($hashed_user_id, $targeted_id, $attribute_hash);
         if ($isStored) {
-            $res = $translator->t("added");
+            $res = "added";
         } else {
-            $res = $translator->t("updated");
+            $res = "updated";
         }
         // Remove consent
     } else {
@@ -218,15 +188,16 @@ if ($action !== null && $sp_entityid !== null) {
             // Got consent, so this is a request to remove it
             $rowcount = $consent_storage->deleteConsent($hashed_user_id, $targeted_id);
             if ($rowcount > 0) {
-                $res = $translator->t("removed");
-            } else {
-                throw new \Exception("Unknown action (should not happen)");
+                $res = "removed";
             }
+            // Unknown action (should not happen)
         } else {
-            \SimpleSAML\Logger::info('consentAdmin: unknown action');
-            $res = $translator->t("unknown");
+            SimpleSAML\Logger::info('consentAdmin: unknown action');
+            $res = "unknown";
         }
     }
+    // init template to enable translation of status messages
+    $template = new SimpleSAML_XHTML_Template($config, 'consentAdmin:consentadminajax.php', 'consentAdmin:consentadmin');
     $template->data['res'] = $res;
     $template->show();
     exit;
@@ -236,20 +207,19 @@ if ($action !== null && $sp_entityid !== null) {
 $user_consent_list = $consent_storage->getConsents($hashed_user_id);
 
 // Parse list of consents
-$user_consent = [];
+$user_consent = array();
 foreach ($user_consent_list as $c) {
     $user_consent[$c[0]] = $c[1];
 }
 
-$template_sp_content = [];
+$template_sp_content = array();
 
 // Init template
-$template = new \SimpleSAML\XHTML\Template($config, 'consentAdmin:consentadmin.php', 'consentAdmin:consentadmin');
+$template = new SimpleSAML_XHTML_Template($config, 'consentAdmin:consentadmin.php', 'consentAdmin:consentadmin');
 $translator = $template->getTranslator();
 $translator->includeLanguageFile('attributes'); // attribute listings translated by this dictionary
-
+$sp_empty_name = $translator->getTag('sp_empty_name');
 $sp_empty_description = $translator->getTag('sp_empty_description');
-$sp_list = [];
 
 // Process consents for all SP
 foreach ($all_sp_metadata as $sp_entityid => $sp_values) {
@@ -257,38 +227,19 @@ foreach ($all_sp_metadata as $sp_entityid => $sp_values) {
     $sp_metadata = $metadata->getMetaData($sp_entityid, 'saml20-sp-remote');
 
     // Run attribute filters
-    list($targeted_id, $attribute_hash, $attributes_new) = driveProcessingChain(
-        $idp_metadata,
-        $source,
-        $sp_metadata,
-        $sp_entityid,
-        $attributes,
-        $userid,
-        $hashAttributes,
-        $excludeAttributes
-    );
-
-    // Translate attribute-names
-    foreach ($attributes_new as $orig_name => $value) {
-        if (isset($template->data['attribute_'.htmlspecialchars(strtolower($orig_name))])) {
-            $old_name = $template->data['attribute_'.htmlspecialchars(strtolower($orig_name))];
-        }
-        $name = $translator->getAttributeTranslation(strtolower($orig_name)); // translate
-
-        $attributes_new[$name] = $value;
-        unset($attributes_new[$orig_name]);
-    }
+    list($targeted_id, $attribute_hash, $attributes_new) = driveProcessingChain($idp_metadata, $source, $sp_metadata,
+        $sp_entityid, $attributes, $userid, $hashAttributes, $excludeAttributes);
 
     // Check if consent exists
     if (array_key_exists($targeted_id, $user_consent)) {
         $sp_status = "changed";
-        \SimpleSAML\Logger::info('consentAdmin: changed');
+        SimpleSAML\Logger::info('consentAdmin: changed');
         // Check if consent is valid. (Possible that attributes has changed)
         if ($user_consent[$targeted_id] == $attribute_hash) {
-            \SimpleSAML\Logger::info('consentAdmin: ok');
+            SimpleSAML\Logger::info('consentAdmin: ok');
             $sp_status = "ok";
         }
-        // Consent does not exist
+        // Consent does not exists
     } else {
         SimpleSAML\Logger::info('consentAdmin: none');
         $sp_status = "none";
@@ -303,7 +254,7 @@ foreach ($all_sp_metadata as $sp_entityid => $sp_values) {
         } elseif (isset($sp_values['OrganizationDisplayName']) && is_array($sp_values['OrganizationDisplayName'])) {
             $sp_name = $sp_metadata['OrganizationDisplayName'];
         } else {
-            $sp_name = $sp_entityid;
+            $sp_name = $sp_empty_name;
         }
     }
 
@@ -317,15 +268,8 @@ foreach ($all_sp_metadata as $sp_entityid => $sp_values) {
     // Add a URL to the service if present in metadata
     $sp_service_url = isset($sp_metadata['ServiceURL']) ? $sp_metadata['ServiceURL'] : null;
 
-    // Translate SP name and description
-    $translator->includeInlineTranslation('spname', $sp_name);
-    $translator->includeInlineTranslation('spdescription', $sp_description);
-
-    $sp_name = $translator->getPreferredTranslation($translator->getTag('spname'));
-    $sp_description = $translator->getPreferredTranslation($translator->getTag('spdescription'));
-
     // Fill out array for the template
-    $sp_list[$sp_entityid] = [
+    $sp_list[$sp_entityid] = array(
         'spentityid'       => $sp_entityid,
         'name'             => $sp_name,
         'description'      => $sp_description,
@@ -333,7 +277,7 @@ foreach ($all_sp_metadata as $sp_entityid => $sp_values) {
         'consentValue'     => $sp_entityid,
         'attributes_by_sp' => $attributes_new,
         'serviceurl'       => $sp_service_url,
-    ];
+    );
 }
 
 $template->data['header'] = 'Consent Administration';

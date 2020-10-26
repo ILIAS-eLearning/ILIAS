@@ -5,22 +5,22 @@
  * @author Jacob Christiansen, <jach@wayf.dk>
  * @package SimpleSAMLphp
  */
-$config = [
+$config = array(
     /*
      * Configuration for the database connection.
      */
-    'consentadmin'  => [
+    'consentadmin'  => array(
         'consent:Database',
         'dsn'       =>  'mysql:host=DBHOST;dbname=DBNAME',
         'username'  =>  'USERNAME',
         'password'  =>  'PASSWORD',
-    ],
+    ),
 
     // Hash attributes including values or not
     'attributes.hash' => true,
 
     // If you set attributes.exclude in the consent module, this must match
-    // 'attributes.exclude' => [],
+    // 'attributes.exclude' => array(),
 
     // Where to direct the user after logout
     // REMEMBER to prefix with http:// otherwise the relaystate is only appended
@@ -32,4 +32,4 @@ $config = [
 
     // Set authority
     'authority' => 'saml2',
-];
+);

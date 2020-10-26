@@ -4,14 +4,19 @@ namespace Gettext\Generators;
 
 use Gettext\Translations;
 
-abstract class Generator implements GeneratorInterface
+abstract class Generator
 {
     /**
-     * {@inheritdoc}
+     * Saves the translations in a file.
+     *
+     * @param Translations $translations
+     * @param string       $file
+     *
+     * @return bool
      */
-    public static function toFile(Translations $translations, $file, array $options = [])
+    public static function toFile(Translations $translations, $file)
     {
-        $content = static::toString($translations, $options);
+        $content = static::toString($translations);
 
         if (file_put_contents($file, $content) === false) {
             return false;

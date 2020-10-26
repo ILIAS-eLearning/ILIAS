@@ -12,7 +12,7 @@ The ``extends`` tag can be used to extend a template from another one.
 Let's define a base template, ``base.html``, which defines a simple HTML
 skeleton document:
 
-.. code-block:: html+twig
+.. code-block:: html+jinja
 
     <!DOCTYPE html>
     <html>
@@ -43,7 +43,7 @@ Child Template
 
 A child template might look like this:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% extends "base.html" %}
 
@@ -79,7 +79,7 @@ know which one of the blocks' content to use.
 If you want to print a block multiple times you can however use the
 ``block`` function:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     <title>{% block title %}{% endblock %}</title>
     <h1>{{ block('title') }}</h1>
@@ -92,7 +92,7 @@ It's possible to render the contents of the parent block by using the
 :doc:`parent<../functions/parent>` function. This gives back the results of
 the parent block:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% block sidebar %}
         <h3>Table Of Contents</h3>
@@ -104,9 +104,9 @@ Named Block End-Tags
 --------------------
 
 Twig allows you to put the name of the block after the end tag for better
-readability (the name after the ``endblock`` word must match the block name):
+readability:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% block sidebar %}
         {% block inner_sidebar %}
@@ -114,13 +114,15 @@ readability (the name after the ``endblock`` word must match the block name):
         {% endblock inner_sidebar %}
     {% endblock sidebar %}
 
+Of course, the name after the ``endblock`` word must match the block name.
+
 Block Nesting and Scope
 -----------------------
 
 Blocks can be nested for more complex layouts. Per default, blocks have access
 to variables from outer scopes:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% for item in seq %}
         <li>{% block loop_item %}{{ item }}{% endblock %}</li>
@@ -132,13 +134,13 @@ Block Shortcuts
 For blocks with little content, it's possible to use a shortcut syntax. The
 following constructs do the same thing:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% block title %}
         {{ page_title|title }}
     {% endblock %}
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% block title page_title|title %}
 
@@ -147,23 +149,30 @@ Dynamic Inheritance
 
 Twig supports dynamic inheritance by using a variable as the base template:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% extends some_var %}
 
-If the variable evaluates to a ``\Twig\Template`` or a ``\Twig\TemplateWrapper``
+If the variable evaluates to a ``Twig_Template`` or a ``Twig_TemplateWrapper``
 instance, Twig will use it as the parent template::
 
     // {% extends layout %}
 
+    // deprecated as of Twig 1.28
+    $layout = $twig->loadTemplate('some_layout_template.twig');
+
+    // as of Twig 1.28
     $layout = $twig->load('some_layout_template.twig');
 
-    $twig->display('template.twig', ['layout' => $layout]);
+    $twig->display('template.twig', array('layout' => $layout));
+
+.. versionadded:: 1.2
+    The possibility to pass an array of templates has been added in Twig 1.2.
 
 You can also provide a list of templates that are checked for existence. The
 first template that exists will be used as a parent:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% extends ['layout.html', 'base_layout.html'] %}
 
@@ -173,7 +182,7 @@ Conditional Inheritance
 As the template name for the parent can be any valid Twig expression, it's
 possible to make the inheritance mechanism conditional:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% extends standalone ? "minimum.html" : "base.html" %}
 
@@ -190,7 +199,7 @@ but it does not interfere in any way with the logic around it.
 Let's take the following example to illustrate how a block works and more
 importantly, how it does not work:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {# base.twig #}
 
@@ -205,7 +214,7 @@ If you render this template, the result would be exactly the same with or
 without the ``block`` tag. The ``block`` inside the ``for`` loop is just a way
 to make it overridable by a child template:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {# child.twig #}
 
@@ -222,7 +231,7 @@ Now, when rendering the child template, the loop is going to use the block
 defined in the child template instead of the one defined in the base one; the
 executed template is then equivalent to the following one:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% for post in posts %}
         <article>
@@ -233,7 +242,7 @@ executed template is then equivalent to the following one:
 
 Let's take another example: a block included within an ``if`` statement:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% if posts is empty %}
         {% block head %}
@@ -250,7 +259,7 @@ what will be rendered when the condition is ``true``.
 If you want the output to be displayed conditionally, use the following
 instead:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {% block head %}
         {{ parent() }}

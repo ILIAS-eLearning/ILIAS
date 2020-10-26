@@ -1,7 +1,4 @@
 <?php
-
-namespace SimpleSAML\Module\consent\Consent\Store;
-
 /**
  * Store consent in database.
  *
@@ -18,52 +15,51 @@ namespace SimpleSAML\Module\consent\Consent\Store;
  * @author Olav Morken <olav.morken@uninett.no>
  * @package SimpleSAMLphp
  */
-
-class Database extends \SimpleSAML\Module\consent\Store
+class sspmod_consent_Consent_Store_Database extends sspmod_consent_Store
 {
     /**
      * DSN for the database.
      */
-    private $dsn;
+    private $_dsn;
 
     /**
      * The DATETIME SQL function to use
      */
-    private $dateTime;
+    private $_dateTime;
 
     /**
      * Username for the database.
      */
-    private $username;
+    private $_username;
 
     /**
      * Password for the database;
      */
-    private $password;
+    private $_password;
 
     /**
      * Options for the database;
      */
-    private $options;
+    private $_options;
 
     /**
      * Table with consent.
      */
-    private $table;
+    private $_table;
 
     /**
      * The timeout of the database connection.
      *
      * @var int|null
      */
-    private $timeout = null;
+    private $_timeout = null;
 
     /**
      * Database handle.
      *
      * This variable can't be serialized.
      */
-    private $db;
+    private $_db;
 
 
     /**
@@ -73,62 +69,62 @@ class Database extends \SimpleSAML\Module\consent\Store
      *
      * @param array $config Configuration for database consent store.
      *
-     * @throws \Exception in case of a configuration error.
+     * @throws Exception in case of a configuration error.
      */
     public function __construct($config)
     {
         parent::__construct($config);
 
         if (!array_key_exists('dsn', $config)) {
-            throw new \Exception('consent:Database - Missing required option \'dsn\'.');
+            throw new Exception('consent:Database - Missing required option \'dsn\'.');
         }
         if (!is_string($config['dsn'])) {
-            throw new \Exception('consent:Database - \'dsn\' is supposed to be a string.');
+            throw new Exception('consent:Database - \'dsn\' is supposed to be a string.');
         }
 
-        $this->dsn = $config['dsn'];
-        $this->dateTime = (0 === strpos($this->dsn, 'sqlite:')) ? 'DATETIME("NOW")' : 'NOW()';
+        $this->_dsn = $config['dsn'];
+        $this->_dateTime = (0 === strpos($this->_dsn, 'sqlite:')) ? 'DATETIME("NOW")' : 'NOW()';
 
         if (array_key_exists('username', $config)) {
             if (!is_string($config['username'])) {
-                throw new \Exception('consent:Database - \'username\' is supposed to be a string.');
+                throw new Exception('consent:Database - \'username\' is supposed to be a string.');
             }
-            $this->username = $config['username'];
+            $this->_username = $config['username'];
         } else {
-            $this->username = null;
+            $this->_username = null;
         }
 
         if (array_key_exists('password', $config)) {
             if (!is_string($config['password'])) {
-                throw new \Exception('consent:Database - \'password\' is supposed to be a string.');
+                throw new Exception('consent:Database - \'password\' is supposed to be a string.');
             }
-            $this->password = $config['password'];
+            $this->_password = $config['password'];
         } else {
-            $this->password = null;
+            $this->_password = null;
         }
 
         if (array_key_exists('options', $config)) {
             if (!is_array($config['options'])) {
-                throw new \Exception('consent:Database - \'options\' is supposed to be an array.');
+                throw new Exception('consent:Database - \'options\' is supposed to be an array.');
             }
-            $this->options = $config['options'];
+            $this->_options = $config['options'];
         } else {
-            $this->options = null;
+            $this->_options = null;
         }
         if (array_key_exists('table', $config)) {
             if (!is_string($config['table'])) {
-                throw new \Exception('consent:Database - \'table\' is supposed to be a string.');
+                throw new Exception('consent:Database - \'table\' is supposed to be a string.');
             }
-            $this->table = $config['table'];
+            $this->_table = $config['table'];
         } else {
-            $this->table = 'consent';
+            $this->_table = 'consent';
         }
 
         if (isset($config['timeout'])) {
             if (!is_int($config['timeout'])) {
-                throw new \Exception('consent:Database - \'timeout\' is supposed to be an integer.');
+                throw new Exception('consent:Database - \'timeout\' is supposed to be an integer.');
             }
-            $this->timeout = $config['timeout'];
+            $this->_timeout = $config['timeout'];
         }
     }
 
@@ -140,14 +136,14 @@ class Database extends \SimpleSAML\Module\consent\Store
      */
     public function __sleep()
     {
-        return [
-            'dsn',
-            'dateTime',
-            'username',
-            'password',
-            'table',
-            'timeout',
-        ];
+        return array(
+            '_dsn',
+            '_dateTime',
+            '_username',
+            '_password',
+            '_table',
+            '_timeout',
+        );
     }
 
 
@@ -170,11 +166,11 @@ class Database extends \SimpleSAML\Module\consent\Store
         assert(is_string($destinationId));
         assert(is_string($attributeSet));
 
-        $st = $this->execute(
-            'UPDATE '.$this->table.' '.
-            'SET usage_date = '.$this->dateTime.' '.
+        $st = $this->_execute(
+            'UPDATE ' . $this->_table . ' ' .
+            'SET usage_date = ' . $this->_dateTime . ' ' .
             'WHERE hashed_user_id = ? AND service_id = ? AND attribute = ?',
-            [$userId, $destinationId, $attributeSet]
+            array($userId, $destinationId, $attributeSet)
         );
 
         if ($st === false) {
@@ -183,10 +179,10 @@ class Database extends \SimpleSAML\Module\consent\Store
 
         $rowCount = $st->rowCount();
         if ($rowCount === 0) {
-            \SimpleSAML\Logger::debug('consent:Database - No consent found.');
+            SimpleSAML\Logger::debug('consent:Database - No consent found.');
             return false;
         } else {
-            \SimpleSAML\Logger::debug('consent:Database - Consent found.');
+            SimpleSAML\Logger::debug('consent:Database - Consent found.');
             return true;
         }
     }
@@ -202,7 +198,7 @@ class Database extends \SimpleSAML\Module\consent\Store
      * @param string $destinationId A string which identifies the destination.
      * @param string $attributeSet  A hash which identifies the attributes.
      *
-     * @return bool True if consent is deleted, false otherwise.
+     * @return void|true True if consent is deleted.
      */
     public function saveConsent($userId, $destinationId, $attributeSet)
     {
@@ -211,32 +207,32 @@ class Database extends \SimpleSAML\Module\consent\Store
         assert(is_string($attributeSet));
 
         // Check for old consent (with different attribute set)
-        $st = $this->execute(
-            'UPDATE '.$this->table.' '.
-            'SET consent_date = '.$this->dateTime.', usage_date = '.$this->dateTime.', attribute = ? '.
+        $st = $this->_execute(
+            'UPDATE ' . $this->_table . ' ' .
+            'SET consent_date = ' . $this->_dateTime . ', usage_date = ' . $this->_dateTime . ', attribute = ? ' .
             'WHERE hashed_user_id = ? AND service_id = ?',
-            [$attributeSet, $userId, $destinationId]
+            array($attributeSet, $userId, $destinationId)
         );
 
         if ($st === false) {
-            return false;
+            return;
         }
 
         if ($st->rowCount() > 0) {
             // Consent has already been stored in the database
-            \SimpleSAML\Logger::debug('consent:Database - Updated old consent.');
-            return false;
+            SimpleSAML\Logger::debug('consent:Database - Updated old consent.');
+            return;
         }
 
         // Add new consent
-        $st = $this->execute(
-            'INSERT INTO '.$this->table.' ('.'consent_date, usage_date, hashed_user_id, service_id, attribute'.
-            ') '.'VALUES ('.$this->dateTime.', '.$this->dateTime.', ?, ?, ?)',
-            [$userId, $destinationId, $attributeSet]
+        $st = $this->_execute(
+            'INSERT INTO ' . $this->_table . ' (' . 'consent_date, usage_date, hashed_user_id, service_id, attribute' .
+            ') ' . 'VALUES (' . $this->_dateTime . ', ' . $this->_dateTime . ', ?, ?, ?)',
+            array($userId, $destinationId, $attributeSet)
         );
 
         if ($st !== false) {
-            \SimpleSAML\Logger::debug('consent:Database - Saved new consent.');
+            SimpleSAML\Logger::debug('consent:Database - Saved new consent.');
         }
         return true;
     }
@@ -257,22 +253,23 @@ class Database extends \SimpleSAML\Module\consent\Store
         assert(is_string($userId));
         assert(is_string($destinationId));
 
-        $st = $this->execute(
-            'DELETE FROM '.$this->table.' WHERE hashed_user_id = ? AND service_id = ?;',
-            [$userId, $destinationId]
+        $st = $this->_execute(
+            'DELETE FROM ' . $this->_table . ' WHERE hashed_user_id = ? AND service_id = ?;',
+            array($userId, $destinationId)
         );
 
         if ($st === false) {
-            return 0;
+            return;
         }
 
         if ($st->rowCount() > 0) {
-            \SimpleSAML\Logger::debug('consent:Database - Deleted consent.');
+            SimpleSAML\Logger::debug('consent:Database - Deleted consent.');
             return $st->rowCount();
+        } else {
+            SimpleSAML\Logger::warning(
+                'consent:Database - Attempted to delete nonexistent consent'
+            );
         }
-
-        \SimpleSAML\Logger::warning('consent:Database - Attempted to delete nonexistent consent');
-        return 0;
     }
 
 
@@ -287,22 +284,21 @@ class Database extends \SimpleSAML\Module\consent\Store
     {
         assert(is_string($userId));
 
-        $st = $this->execute(
-            'DELETE FROM '.$this->table.' WHERE hashed_user_id = ?',
-            [$userId]
+        $st = $this->_execute(
+            'DELETE FROM ' . $this->_table . ' WHERE hashed_user_id = ?',
+            array($userId)
         );
 
         if ($st === false) {
-            return 0;
+            return;
         }
 
         if ($st->rowCount() > 0) {
-            \SimpleSAML\Logger::debug('consent:Database - Deleted ('.$st->rowCount().') consent(s).');
+            SimpleSAML\Logger::debug('consent:Database - Deleted (' . $st->rowCount() . ') consent(s).');
             return $st->rowCount();
+        } else {
+            SimpleSAML\Logger::warning('consent:Database - Attempted to delete nonexistent consent');
         }
-
-        \SimpleSAML\Logger::warning('consent:Database - Attempted to delete nonexistent consent');
-        return 0;
     }
 
 
@@ -319,19 +315,19 @@ class Database extends \SimpleSAML\Module\consent\Store
     {
         assert(is_string($userId));
 
-        $ret = [];
+        $ret = array();
 
-        $st = $this->execute(
-            'SELECT service_id, attribute, consent_date, usage_date FROM '.$this->table.
+        $st = $this->_execute(
+            'SELECT service_id, attribute, consent_date, usage_date FROM ' . $this->_table .
             ' WHERE hashed_user_id = ?',
-            [$userId]
+            array($userId)
         );
 
         if ($st === false) {
-            return [];
+            return array();
         }
 
-        while ($row = $st->fetch(\PDO::FETCH_NUM)) {
+        while ($row = $st->fetch(PDO::FETCH_NUM)) {
             $ret[] = $row;
         }
 
@@ -348,32 +344,31 @@ class Database extends \SimpleSAML\Module\consent\Store
      * @param string $statement  The statement which should be executed.
      * @param array  $parameters Parameters for the statement.
      *
-     * @return \PDOStatement|false  The statement, or false if execution failed.
+     * @return PDOStatement|false  The statement, or false if execution failed.
      */
-    private function execute($statement, $parameters)
+    private function _execute($statement, $parameters)
     {
         assert(is_string($statement));
         assert(is_array($parameters));
 
-        $db = $this->getDB();
+        $db = $this->_getDB();
         if ($db === false) {
             return false;
         }
 
-        /** @var \PDOStatement|false $st */
         $st = $db->prepare($statement);
         if ($st === false) {
-            \SimpleSAML\Logger::error(
-                'consent:Database - Error preparing statement \''.
-                $statement.'\': '.self::formatError($db->errorInfo())
+            SimpleSAML\Logger::error(
+                'consent:Database - Error preparing statement \'' .
+                $statement . '\': ' . self::_formatError($db->errorInfo())
             );
             return false;
         }
 
         if ($st->execute($parameters) !== true) {
-            \SimpleSAML\Logger::error(
-                'consent:Database - Error executing statement \''.
-                $statement.'\': '.self::formatError($st->errorInfo())
+            SimpleSAML\Logger::error(
+                'consent:Database - Error executing statement \'' .
+                $statement . '\': ' . self::_formatError($st->errorInfo())
             );
             return false;
         }
@@ -394,45 +389,45 @@ class Database extends \SimpleSAML\Module\consent\Store
      */
     public function getStatistics()
     {
-        $ret = [];
+        $ret = array();
 
         // Get total number of consents
-        $st = $this->execute('SELECT COUNT(*) AS no FROM '.$this->table, []);
+        $st = $this->_execute('SELECT COUNT(*) AS no FROM '.$this->_table, array());
 
         if ($st === false) {
-            return [];
+            return array();
         }
 
-        if ($row = $st->fetch(\PDO::FETCH_NUM)) {
+        if ($row = $st->fetch(PDO::FETCH_NUM)) {
             $ret['total'] = $row[0];
         }
 
         // Get total number of users that has given consent
-        $st = $this->execute(
-            'SELECT COUNT(*) AS no '.
-            'FROM (SELECT DISTINCT hashed_user_id FROM '.$this->table.' ) AS foo',
-            []
+        $st = $this->_execute(
+            'SELECT COUNT(*) AS no ' .
+            'FROM (SELECT DISTINCT hashed_user_id FROM '.$this->_table.' ) AS foo',
+            array()
         );
 
         if ($st === false) {
-            return [];
+            return array();
         }
 
-        if ($row = $st->fetch(\PDO::FETCH_NUM)) {
+        if ($row = $st->fetch(PDO::FETCH_NUM)) {
             $ret['users'] = $row[0];
         }
 
         // Get total number of services that has been given consent to
-        $st = $this->execute(
-            'SELECT COUNT(*) AS no FROM (SELECT DISTINCT service_id FROM '.$this->table.') AS foo',
-            []
+        $st = $this->_execute(
+            'SELECT COUNT(*) AS no FROM (SELECT DISTINCT service_id FROM '.$this->_table.') AS foo',
+            array()
         );
 
         if ($st === false) {
-            return [];
+            return array();
         }
 
-        if ($row = $st->fetch(\PDO::FETCH_NUM)) {
+        if ($row = $st->fetch(PDO::FETCH_NUM)) {
             $ret['services'] = $row[0];
         }
 
@@ -443,27 +438,27 @@ class Database extends \SimpleSAML\Module\consent\Store
     /**
      * Get database handle.
      *
-     * @return \PDO|false Database handle, or false if we fail to connect.
+     * @return PDO|false Database handle, or false if we fail to connect.
      */
-    private function getDB()
+    private function _getDB()
     {
-        if ($this->db !== null) {
-            return $this->db;
+        if ($this->_db !== null) {
+            return $this->_db;
         }
 
-        $driver_options = [];
-        if (isset($this->timeout)) {
-            $driver_options[\PDO::ATTR_TIMEOUT] = $this->timeout;
+        $driver_options = array();
+        if (isset($this->_timeout)) {
+            $driver_options[PDO::ATTR_TIMEOUT] = $this->_timeout;
         }
-        if (isset($this->options)) {
-            $this->options = array_merge($driver_options, $this->options);
+        if (isset($this->_options)) {
+            $this->_options = array_merge($driver_options, $this->_options);
         } else {
-            $this->options = $driver_options;
+            $this->_options = $driver_options;
         }
 
-        $this->db = new \PDO($this->dsn, $this->username, $this->password, $this->options);
+        $this->_db = new PDO($this->_dsn, $this->_username, $this->_password, $this->_options);
 
-        return $this->db;
+        return $this->_db;
     }
 
 
@@ -476,12 +471,12 @@ class Database extends \SimpleSAML\Module\consent\Store
      *
      * @return string Error text.
      */
-    private static function formatError($error)
+    private static function _formatError($error)
     {
         assert(is_array($error));
         assert(count($error) >= 3);
 
-        return $error[0].' - '.$error[2].' ('.$error[1].')';
+        return $error[0] . ' - ' . $error[2] . ' (' . $error[1] . ')';
     }
 
 
@@ -492,9 +487,9 @@ class Database extends \SimpleSAML\Module\consent\Store
      */
     public function selftest()
     {
-        $st = $this->execute(
-            'SELECT * FROM '.$this->table.' WHERE hashed_user_id = ? AND service_id = ? AND attribute = ?',
-            ['test', 'test', 'test']
+        $st = $this->_execute(
+            'SELECT * FROM ' . $this->_table . ' WHERE hashed_user_id = ? AND service_id = ? AND attribute = ?',
+            array('test', 'test', 'test')
         );
 
         if ($st === false) {

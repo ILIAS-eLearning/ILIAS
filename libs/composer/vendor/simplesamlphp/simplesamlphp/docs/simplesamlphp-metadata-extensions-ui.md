@@ -23,72 +23,72 @@ the relevant entry in `authsources.php`.
 An example for an IdP:
 
     <?php
-    $metadata['entity-id-1'] = [
+    $metadata['entity-id-1'] = array(
         /* ... */
-        'UIInfo' => [
-            'DisplayName' => [
+        'UIInfo' => array(
+            'DisplayName' => array(
                 'en' => 'English name',
                 'es' => 'Nombre en Español',
-            ],
-            'Description' => [
+            ),
+            'Description' => array(
                 'en' => 'English description',
                 'es' => 'Descripción en Español',
-            ],
-            'InformationURL' => [
+            ),
+            'InformationURL' => array(
                 'en' => 'http://example.com/info/en',
                 'es' => 'http://example.com/info/es',
-            ],
-            'PrivacyStatementURL' => [
+            ),
+            'PrivacyStatementURL' => array(
                 'en' => 'http://example.com/privacy/en',
                 'es' => 'http://example.com/privacy/es',
-            ],
-            'Keywords' => [
-                'en' => ['communication', 'federated session'],
-                'es' => ['comunicación', 'sesión federated'],
-            ],
-            'Logo' => [
-                [
+            ),
+            'Keywords' => array(
+                'en' => array('communication', 'federated session'),
+                'es' => array('comunicación', 'sesión federated'),
+            ),
+            'Logo' => array(
+                array(
                     'url'    => 'http://example.com/logo1.png',
                     'height' => 200,
                     'width'  => 400,
                     'lang'   => 'en',
-                ],
-                [
+                ),
+                array(
                     'url'    => 'http://example.com/logo2.png',
                     'height' => 201,
                     'width'  => 401,
-                ],
-            ],
-        ],
-        'DiscoHints' => [
-            'IPHint'          => ['130.59.0.0/16', '2001:620::0/96'],
-            'DomainHint'      => ['example.com', 'www.example.com'],
-            'GeolocationHint' => ['geo:47.37328,8.531126', 'geo:19.34343,12.342514'],
-        ],
+                ),
+            ),
+        ),
+        'DiscoHints' => array(
+            'IPHint'          => array('130.59.0.0/16', '2001:620::0/96'),
+            'DomainHint'      => array('example.com', 'www.example.com'),
+            'GeolocationHint' => array('geo:47.37328,8.531126', 'geo:19.34343,12.342514'),
+        ),
         /* ... */
-    ];
+    );
 
 And for an SP it could look like this:
 
     <?php
-    $config = [
+    $config = array(
 
-        'default-sp' => [
+        'default-sp' => array(
             'saml:SP',
 
-            'UIInfo' => [
-                'DisplayName' => [
+            'UIInfo' => array(
+                'DisplayName' => array(
                     'en' => 'English name',
                     'es' => 'Nombre en Español'
-                ],
-                'Description' => [
+                ),
+                'Description' => array(
                     'en' => 'English description',
                     'es' => 'Descripción en Español'
-                ],
-            ],
+                ),
+            ),
             /* ... */
-        ],
-    ];
+        ),
+    );
 
 The OASIS specification primarily defines how an entity can communicate
 metadata related to IdP or service discovery and identification. There
@@ -106,52 +106,52 @@ about an IdP or SP. These properties are all children of the `UIInfo` key.
 *Note*: Most elements are localized strings that specify the language
 using the array key as the language-code:
 
-            'DisplayName' => [
+            'DisplayName' => array(
                 'en' => 'English name',
                 'es' => 'Nombre en Español',
-            ],
+            ),
 
 `DisplayName`
 :   The localized list of names for this entity
 
-            'DisplayName' => [
+            'DisplayName' => array(
                 'en' => 'English name',
                 'es' => 'Nombre en Español',
-            ],
+            ),
 
 `Description`
 :   The localized list of statements used to describe this entity
 
-            'Description' => [
+            'Description' => array(
                 'en' => 'English description',
                 'es' => 'Descripción en Español',
-            ],
+            ),
 
 `InformationURL`
 :   A localized list of URLs where more information about the entity is
     located.
 
-            'InformationURL' => [
+            'InformationURL' => array(
                 'en' => 'http://example.com/info/en',
                 'es' => 'http://example.com/info/es',
-            ],
+            ),
 
 `PrivacyStatementURL`
 :   A localized list of URLs where the entity's privacy statement is
     located.
 
-            'PrivacyStatementURL' => [
+            'PrivacyStatementURL' => array(
                 'en' => 'http://example.com/privacy/en',
                 'es' => 'http://example.com/privacy/es',
-            ],
+            ),
 
 `Keywords`
 :   A localized list of keywords used to describe the entity
 
-            'Keywords' => [
-                'en' => ['communication', 'federated session'],
-                'es' => ['comunicación', 'sesión federated'],
-            ],
+            'Keywords' => array(
+                'en' => array('communication', 'federated session'),
+                'es' => array('comunicación', 'sesión federated'),
+            ),
 
 :   *Note*: The `+` (plus) character is forbidden by specification from
     being part of a Keyword.
@@ -159,19 +159,19 @@ using the array key as the language-code:
 `Logo`
 :   The logos used to represent the entity
 
-            'Logo' => [
-                [
+            'Logo' => array(
+                array(
                     'url'    => 'http://example.com/logo1.png',
                     'height' => 200,
                     'width'  => 400,
                     'lang'   => 'en',
-                ],
-                [
+                ),
+                array(
                     'url'    => 'http://example.com/logo2.png',
                     'height' => 201,
                     'width'  => 401,
-                ],
-            ],
+                ),
+            ),
 
 :   An optional `lang` key containing a language-code is supported for
     localized logos.
@@ -188,20 +188,20 @@ key.
 :   This is a list of both IPv4 and IPv6 addresses in CIDR notation
     services by or associated with this entity.
 
-            'IPHint' => ['130.59.0.0/16', '2001:620::0/96'],
+            'IPHint' => array('130.59.0.0/16', '2001:620::0/96'),
 
 `DomainHint`
 :   This specifies a list of domain names serviced by or associated with
     this entity.
 
-            'DomainHint' => ['example.com', 'www.example.com'],
+            'DomainHint' => array('example.com', 'www.example.com'),
 
 `GeolocationHint`
 :   This specifies a list of geographic coordinates associated with, or
     serviced by, the entity. Coordinates are given in URI form using the
     geo URI scheme [RFC5870](http://www.ietf.org/rfc/rfc5870.txt).
 
-            'GeolocationHint' => ['geo:47.37328,8.531126', 'geo:19.34343,12.342514'],
+            'GeolocationHint' => array('geo:47.37328,8.531126', 'geo:19.34343,12.342514'),
 
 
 Generated XML Metadata Examples
@@ -209,52 +209,52 @@ Generated XML Metadata Examples
 
 If given the following configuration...
 
-    $metadata['https://www.example.com/saml/saml2/idp/metadata.php'] = [
+    $metadata['https://www.example.com/saml/saml2/idp/metadata.php'] = array(
         'host' => 'www.example.com',
         'certificate' => 'example.com.crt',
         'privatekey' => 'example.com.pem',
         'auth' => 'example-userpass',
 
-        'UIInfo' => [
-            'DisplayName' => [
+        'UIInfo' => array(
+            'DisplayName' => array(
                 'en' => 'English name',
                 'es' => 'Nombre en Español',
-            ],
-            'Description' => [
+            ),
+            'Description' => array(
                 'en' => 'English description',
                 'es' => 'Descripción en Español',
-            ],
-            'InformationURL' => [
+            ),
+            'InformationURL' => array(
                 'en' => 'http://example.com/info/en',
                 'es' => 'http://example.com/info/es',
-            ],
-            'PrivacyStatementURL' => [
+            ),
+            'PrivacyStatementURL' => array(
                 'en' => 'http://example.com/privacy/en',
                 'es' => 'http://example.com/privacy/es',
-            ],
-            'Keywords' => [
-                'en' => ['communication', 'federated session'],
-                'es' => ['comunicación', 'sesión federated'],
-            ],
-            'Logo' => [
-                [
+            ),
+            'Keywords' => array(
+                'en' => array('communication', 'federated session'),
+                'es' => array('comunicación', 'sesión federated'),
+            ),
+            'Logo' => array(
+                array(
                     'url'    => 'http://example.com/logo1.png',
                     'height' => 200,
                     'width'  => 400,
-                ],
-                [
+                ),
+                array(
                     'url'    => 'http://example.com/logo2.png',
                     'height' => 201,
                     'width'  => 401,
-                ],
-            ],
-        ],
-        'DiscoHints' => [
-            'IPHint'          => ['130.59.0.0/16', '2001:620::0/96'],
-            'DomainHint'      => ['example.com', 'www.example.com'],
-            'GeolocationHint' => ['geo:47.37328,8.531126', 'geo:19.34343,12.342514'],
-        ],
-    ];
+                ),
+            ),
+        ),
+        'DiscoHints' => array(
+            'IPHint'          => array('130.59.0.0/16', '2001:620::0/96'),
+            'DomainHint'      => array('example.com', 'www.example.com'),
+            'GeolocationHint' => array('geo:47.37328,8.531126', 'geo:19.34343,12.342514'),
+        ),
+    );
 
 ... will generate the following XML metadata:
 

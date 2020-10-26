@@ -1,14 +1,11 @@
 <?php
 
-namespace SimpleSAML\Module\cdc;
-
 /**
  * CDC server class.
  *
  * @package SimpleSAMLphp
  */
-
-class Server
+class sspmod_cdc_Server
 {
     /**
      * The domain.
@@ -48,17 +45,16 @@ class Server
      * Initialize a CDC server.
      *
      * @param string $domain  The domain we are a server for.
-     * @throws \SimpleSAML\Error\Exception
      */
     public function __construct($domain)
     {
         assert(is_string($domain));
 
-        $cdcConfig = \SimpleSAML\Configuration::getConfig('module_cdc.php');
+        $cdcConfig = SimpleSAML_Configuration::getConfig('module_cdc.php');
         $config = $cdcConfig->getConfigItem($domain, null);
 
         if ($config === null) {
-            throw new \SimpleSAML\Error\Exception('Unknown CDC domain: '.var_export($domain, true));
+            throw new SimpleSAML_Error_Exception('Unknown CDC domain: ' . var_export($domain, true));
         }
 
         $this->domain = $domain;
@@ -67,9 +63,7 @@ class Server
         $this->cookieLifetime = $config->getInteger('cookie.lifetime', 0);
 
         if ($this->key === 'ExampleSharedKey') {
-            throw new \SimpleSAML\Error\Exception(
-                'Key for CDC domain '.var_export($domain, true).' not changed from default.'
-            );
+            throw new SimpleSAML_Error_Exception('Key for CDC domain ' . var_export($domain, true) . ' not changed from default.');
         }
     }
 
@@ -78,7 +72,6 @@ class Server
      * Send a request to this CDC server.
      *
      * @param array $request  The CDC request.
-     * @return void
      */
     public function sendRequest(array $request)
     {
@@ -93,8 +86,7 @@ class Server
     /**
      * Parse and validate response received from a CDC server.
      *
-     * @return array|null  The response, or NULL if no response is received.
-     * @throws \SimpleSAML\Error\Exception
+     * @return array|NULL  The response, or NULL if no response is received.
      */
     public function getResponse()
     {
@@ -104,7 +96,7 @@ class Server
         }
 
         if ($response['domain'] !== $this->domain) {
-            throw new \SimpleSAML\Error\Exception('Response received from wrong domain.');
+            throw new SimpleSAML_Error_Exception('Response received from wrong domain.');
         }
 
         $this->validate('CDCResponse');
@@ -115,18 +107,16 @@ class Server
 
     /**
      * Parse and process a CDC request.
-     * @throws \SimpleSAML\Error\BadRequest
-     * @return void
      */
     public static function processRequest()
     {
         $request = self::get('CDCRequest');
         if ($request === null) {
-            throw new \SimpleSAML\Error\BadRequest('Missing "CDCRequest" parameter.');
+            throw new SimpleSAML_Error_BadRequest('Missing "CDCRequest" parameter.');
         }
 
         $domain = $request['domain'];
-        $server = new Server($domain);
+        $server = new sspmod_cdc_Server($domain);
 
         $server->validate('CDCRequest');
         $server->handleRequest($request);
@@ -137,22 +127,20 @@ class Server
      * Handle a parsed CDC requst.
      *
      * @param array $request
-     * @throws \SimpleSAML\Error\Exception
-     * @return void
      */
     private function handleRequest(array $request)
     {
         if (!isset($request['op'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing "op" in CDC request.');
+            throw new SimpleSAML_Error_BadRequest('Missing "op" in CDC request.');
         }
-        $op = (string) $request['op'];
+        $op = (string)$request['op'];
 
-        \SimpleSAML\Logger::info('Received CDC request with "op": '.var_export($op, true));
+        SimpleSAML\Logger::info('Received CDC request with "op": ' . var_export($op, true));
 
         if (!isset($request['return'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing "return" in CDC request.');
+            throw new SimpleSAML_Error_BadRequest('Missing "return" in CDC request.');
         }
-        $return = (string) $request['return'];
+        $return = (string)$request['return'];
 
         switch ($op) {
             case 'append':
@@ -169,14 +157,14 @@ class Server
         }
 
         if (is_string($response)) {
-            $response = [
+            $response = array(
                 'status' => $response,
-            ];
+            );
         }
 
         $response['op'] = $op;
         if (isset($request['id'])) {
-            $response['id'] = (string) $request['id'];
+            $response['id'] = (string)$request['id'];
         }
         $response['domain'] = $this->domain;
 
@@ -188,15 +176,14 @@ class Server
      * Handle an append request.
      *
      * @param array $request  The request.
-     * @throws \SimpleSAML\Error\BadRequest
-     * @return string The response.
+     * @return array  The response.
      */
     private function handleAppend(array $request)
     {
         if (!isset($request['entityID'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing entityID in append request.');
+            throw new SimpleSAML_Error_BadRequest('Missing entityID in append request.');
         }
-        $entityID = (string) $request['entityID'];
+        $entityID = (string)$request['entityID'];
 
         $list = $this->getCDC();
 
@@ -216,16 +203,16 @@ class Server
      * Handle a delete request.
      *
      * @param array $request  The request.
-     * @return string The response.
+     * @return array  The response.
      */
     private function handleDelete(array $request)
     {
-        $params = [
+        $params = array(
             'path' => '/',
-            'domain' => '.'.$this->domain,
+            'domain' => '.' . $this->domain,
             'secure' => true,
             'httponly' => false,
-        ];
+        );
 
         \SimpleSAML\Utils\HTTP::setCookie('_saml_idp', null, $params, false);
         return 'ok';
@@ -242,10 +229,10 @@ class Server
     {
         $list = $this->getCDC();
 
-        return [
+        return array(
             'status' => 'ok',
             'cdc' => $list,
-        ];
+        );
     }
 
 
@@ -253,8 +240,7 @@ class Server
      * Helper function for parsing and validating a CDC message.
      *
      * @param string $parameter  The name of the query parameter.
-     * @throws \SimpleSAML\Error\BadRequest
-     * @return array|null  The response, or NULL if no response is received.
+     * @return array|NULL  The response, or NULL if no response is received.
      */
     private static function get($parameter)
     {
@@ -263,32 +249,32 @@ class Server
         if (!isset($_REQUEST[$parameter])) {
             return null;
         }
-        $message = (string) $_REQUEST[$parameter];
+        $message = (string)$_REQUEST[$parameter];
 
         $message = @base64_decode($message);
         if ($message === false) {
-            throw new \SimpleSAML\Error\BadRequest('Error base64-decoding CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Error base64-decoding CDC message.');
         }
 
         $message = @json_decode($message, true);
         if ($message === false) {
-            throw new \SimpleSAML\Error\BadRequest('Error json-decoding CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Error json-decoding CDC message.');
         }
 
         if (!isset($message['timestamp'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing timestamp in CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Missing timestamp in CDC message.');
         }
-        $timestamp = (int) $message['timestamp'];
+        $timestamp = (int)$message['timestamp'];
 
         if ($timestamp + 60 < time()) {
-            throw new \SimpleSAML\Error\BadRequest('CDC signature has expired.');
+            throw new SimpleSAML_Error_BadRequest('CDC signature has expired.');
         }
         if ($timestamp - 60 > time()) {
-            throw new \SimpleSAML\Error\BadRequest('CDC signature from the future.');
+            throw new SimpleSAML_Error_BadRequest('CDC signature from the future.');
         }
 
         if (!isset($message['domain'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing domain in CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Missing domain in CDC message.');
         }
 
         return $message;
@@ -301,24 +287,22 @@ class Server
      * Will throw an exception if the message is invalid.
      *
      * @param string $parameter  The name of the query parameter.
-     * @throws \SimpleSAML\Error\BadRequest
-     * @return void
      */
     private function validate($parameter)
     {
         assert(is_string($parameter));
         assert(isset($_REQUEST[$parameter]));
 
-        $message = (string) $_REQUEST[$parameter];
+        $message = (string)$_REQUEST[$parameter];
 
         if (!isset($_REQUEST['Signature'])) {
-            throw new \SimpleSAML\Error\BadRequest('Missing Signature on CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Missing Signature on CDC message.');
         }
-        $signature = (string) $_REQUEST['Signature'];
+        $signature = (string)$_REQUEST['Signature'];
 
         $cSignature = $this->calcSignature($message);
         if ($signature !== $cSignature) {
-            throw new \SimpleSAML\Error\BadRequest('Invalid signature on CDC message.');
+            throw new SimpleSAML_Error_BadRequest('Invalid signature on CDC message.');
         }
     }
 
@@ -329,7 +313,6 @@ class Server
      * @param string $to  The URL the message should be delivered to.
      * @param string $parameter  The query parameter the message should be sent in.
      * @param array $message  The CDC message.
-     * @return void
      */
     private function send($to, $parameter, array $message)
     {
@@ -342,10 +325,10 @@ class Server
 
         $signature = $this->calcSignature($message);
 
-        $params = [
+        $params = array(
             $parameter => $message,
             'Signature' => $signature,
-        ];
+        );
 
         $url = \SimpleSAML\Utils\HTTP::addURLParameters($to, $params);
         if (strlen($url) < 2048) {
@@ -366,7 +349,7 @@ class Server
     {
         assert(is_string($rawMessage));
 
-        return sha1($this->key.$rawMessage.$this->key);
+        return sha1($this->key . $rawMessage . $this->key);
     }
 
 
@@ -378,17 +361,17 @@ class Server
     private function getCDC()
     {
         if (!isset($_COOKIE['_saml_idp'])) {
-            return [];
+            return array();
         }
 
-        $ret = (string) $_COOKIE['_saml_idp'];
+        $ret = (string)$_COOKIE['_saml_idp'];
         $ret = explode(' ', $ret);
         foreach ($ret as &$idp) {
             $idp = base64_decode($idp);
             if ($idp === false) {
                 // Not properly base64 encoded
-                \SimpleSAML\Logger::warning('CDC - Invalid base64-encoding of CDC entry.');
-                return [];
+                SimpleSAML\Logger::warning('CDC - Invalid base64-encoding of CDC entry.');
+                return array();
             }
         }
 
@@ -423,16 +406,14 @@ class Server
             $cookie = $tmp[1];
         }
 
-        $params = [
+        $params = array(
             'lifetime' => $this->cookieLifetime,
             'path' => '/',
-            'domain' => '.'.$this->domain,
+            'domain' => '.' . $this->domain,
             'secure' => true,
             'httponly' => false,
-        ];
+        );
 
         \SimpleSAML\Utils\HTTP::setCookie('_saml_idp', $cookie, $params, false);
-
-        return '_saml_idp';
     }
 }

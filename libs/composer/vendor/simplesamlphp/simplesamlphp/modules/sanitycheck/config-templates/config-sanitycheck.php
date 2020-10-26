@@ -1,9 +1,10 @@
 <?php
-/*
+/* 
  * The configuration of SimpleSAMLphp sanitycheck package
  */
 
-$config = [
+$config = array (
+
     /*
      * Do you want to generate statistics using the cron module? If so, specify which cron tag to use.
      * Examples: daily, weekly
@@ -11,4 +12,5 @@ $config = [
      *     'cron_tag' => null,
      */
     'cron_tag' => 'hourly',
-];
+
+);

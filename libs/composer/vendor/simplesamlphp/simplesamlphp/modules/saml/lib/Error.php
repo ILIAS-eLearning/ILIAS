@@ -1,16 +1,11 @@
 <?php
 
-namespace SimpleSAML\Module\saml;
-
-use SAML2\Constants;
-
 /**
  * Class for representing a SAML 2 error.
  *
  * @package SimpleSAMLphp
  */
-
-class Error extends \SimpleSAML\Error\Exception
+class sspmod_saml_Error extends SimpleSAML_Error_Exception
 {
     /**
      * The top-level status code.
@@ -38,13 +33,11 @@ class Error extends \SimpleSAML\Error\Exception
      * Create a SAML 2 error.
      *
      * @param string $status  The top-level status code.
-     * @param string|null $subStatus  The second-level status code.
-     * Can be NULL, in which case there is no second-level status code.
-     * @param string|null $statusMessage  The status message.
-     * Can be NULL, in which case there is no status message.
-     * @param \Exception|null $cause  The cause of this exception. Can be NULL.
+     * @param string|null $subStatus  The second-level status code. Can be NULL, in which case there is no second-level status code.
+     * @param string|null $statusMessage  The status message. Can be NULL, in which case there is no status message.
+     * @param Exception|null $cause  The cause of this exception. Can be NULL.
      */
-    public function __construct($status, $subStatus = null, $statusMessage = null, \Exception $cause = null)
+    public function __construct($status, $subStatus = null, $statusMessage = null, Exception $cause = null)
     {
         assert(is_string($status));
         assert($subStatus === null || is_string($subStatus));
@@ -104,28 +97,28 @@ class Error extends \SimpleSAML\Error\Exception
      * This function attempts to create a SAML2 error with the appropriate
      * status codes from an arbitrary exception.
      *
-     * @param \Exception $exception  The original exception.
-     * @return \SimpleSAML\Module\saml\Error  The new exception.
+     * @param Exception $exception  The original exception.
+     * @return sspmod_saml_Error  The new exception.
      */
-    public static function fromException(\Exception $exception)
+    public static function fromException(Exception $exception)
     {
-        if ($exception instanceof \SimpleSAML\Module\saml\Error) {
+        if ($exception instanceof sspmod_saml_Error) {
             // Return the original exception unchanged
             return $exception;
 
         // TODO: remove this branch in 2.0
-        } elseif ($exception instanceof \SimpleSAML\Error\NoPassive) {
+        } elseif ($exception instanceof SimpleSAML_Error_NoPassive) {
             $e = new self(
-                Constants::STATUS_RESPONDER,
-                Constants::STATUS_NO_PASSIVE,
+                \SAML2\Constants::STATUS_RESPONDER,
+                \SAML2\Constants::STATUS_NO_PASSIVE,
                 $exception->getMessage(),
                 $exception
-            );
+                );
         // TODO: remove this branch in 2.0
-        } elseif ($exception instanceof \SimpleSAML\Error\ProxyCountExceeded) {
+        } elseif ($exception instanceof SimpleSAML_Error_ProxyCountExceeded) {
             $e = new self(
-                Constants::STATUS_RESPONDER,
-                Constants::STATUS_PROXY_COUNT_EXCEEDED,
+                \SAML2\Constants::STATUS_RESPONDER,
+                \SAML2\Constants::STATUS_PROXY_COUNT_EXCEEDED,
                 $exception->getMessage(),
                 $exception
             );
@@ -135,7 +128,7 @@ class Error extends \SimpleSAML\Error\Exception
                 null,
                 get_class($exception) . ': ' . $exception->getMessage(),
                 $exception
-            );
+                );
         }
 
         return $e;
@@ -149,25 +142,25 @@ class Error extends \SimpleSAML\Error\Exception
      * If it is unable to create a more specific exception, it will return the current
      * object.
      *
-     * @see \SimpleSAML\Module\saml\Error::fromException()
+     * @see sspmod_saml_Error::fromException()
      *
-     * @return \SimpleSAML\Error\Exception  An exception representing this error.
+     * @return SimpleSAML_Error_Exception  An exception representing this error.
      */
     public function toException()
     {
         $e = null;
 
         switch ($this->status) {
-            case Constants::STATUS_RESPONDER:
+            case \SAML2\Constants::STATUS_RESPONDER:
                 switch ($this->subStatus) {
-                    case Constants::STATUS_NO_PASSIVE:
-                        $e = new \SimpleSAML\Module\saml\Error\NoPassive(
-                            Constants::STATUS_RESPONDER,
+                    case \SAML2\Constants::STATUS_NO_PASSIVE:
+                        $e = new SimpleSAML\Module\saml\Error\NoPassive(
+                            \SAML2\Constants::STATUS_RESPONDER,
                             $this->statusMessage
                         );
                         break;
                 }
-                break;
+            break;
         }
 
         if ($e === null) {

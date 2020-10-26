@@ -4,7 +4,7 @@
 The ``capitalize`` filter capitalizes a value. The first character will be
 uppercase, all others lowercase:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ 'my first car'|capitalize }}
 

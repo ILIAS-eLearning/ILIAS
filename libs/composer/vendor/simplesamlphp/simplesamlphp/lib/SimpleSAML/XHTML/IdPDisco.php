@@ -1,12 +1,5 @@
 <?php
 
-namespace SimpleSAML\XHTML;
-
-use SimpleSAML\Configuration;
-use SimpleSAML\Logger;
-use SimpleSAML\Metadata\MetaDataStorageHandler;
-use SimpleSAML\Session;
-use SimpleSAML\Utils;
 
 /**
  * This class implements a generic IdP discovery service, for use in various IdP
@@ -20,13 +13,13 @@ use SimpleSAML\Utils;
  * @author Andreas Åkre Solberg <andreas@uninett.no>, UNINETT AS.
  * @package SimpleSAMLphp
  */
-
-class IdPDisco
+class SimpleSAML_XHTML_IdPDisco
 {
+
     /**
      * An instance of the configuration class.
      *
-     * @var \SimpleSAML\Configuration
+     * @var SimpleSAML_Configuration
      */
     protected $config;
 
@@ -37,19 +30,22 @@ class IdPDisco
      */
     protected $instance;
 
+
     /**
      * An instance of the metadata handler, which will allow us to fetch metadata about IdPs.
      *
-     * @var \SimpleSAML\Metadata\MetaDataStorageHandler
+     * @var SimpleSAML_Metadata_MetaDataStorageHandler
      */
     protected $metadata;
+
 
     /**
      * The users session.
      *
-     * @var \SimpleSAML\Session
+     * @var SimpleSAML_Session
      */
     protected $session;
+
 
     /**
      * The metadata sets we find allowed entities in, in prioritized order.
@@ -57,6 +53,7 @@ class IdPDisco
      * @var array
      */
     protected $metadataSets;
+
 
     /**
      * The entity id of the SP which accesses this IdP discovery service.
@@ -80,6 +77,7 @@ class IdPDisco
      */
     protected $setIdPentityID = null;
 
+
     /**
      * The name of the query parameter which should contain the users choice of IdP.
      * This option default to 'entityID' for Shibboleth compatibility.
@@ -95,7 +93,7 @@ class IdPDisco
      *
      * @var array
      */
-    protected $scopedIDPList = [];
+    protected $scopedIDPList = array();
 
     /**
      * The URL the user should be redirected to after choosing an IdP.
@@ -113,16 +111,16 @@ class IdPDisco
      * @param array  $metadataSets Array with metadata sets we find remote entities in.
      * @param string $instance The name of this instance of the discovery service.
      *
-     * @throws \Exception If the request is invalid.
+     * @throws Exception If the request is invalid.
      */
     public function __construct(array $metadataSets, $instance)
     {
         assert(is_string($instance));
 
         // initialize standard classes
-        $this->config = Configuration::getInstance();
-        $this->metadata = MetaDataStorageHandler::getMetadataHandler();
-        $this->session = Session::getSessionFromRequest();
+        $this->config = SimpleSAML_Configuration::getInstance();
+        $this->metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+        $this->session = SimpleSAML_Session::getSessionFromRequest();
         $this->instance = $instance;
         $this->metadataSets = $metadataSets;
 
@@ -130,7 +128,7 @@ class IdPDisco
 
         // standard discovery service parameters
         if (!array_key_exists('entityID', $_GET)) {
-            throw new \Exception('Missing parameter: entityID');
+            throw new Exception('Missing parameter: entityID');
         } else {
             $this->spEntityId = $_GET['entityID'];
         }
@@ -141,12 +139,12 @@ class IdPDisco
             $this->returnIdParam = $_GET['returnIDParam'];
         }
 
-        $this->log('returnIdParam initially set to [' . $this->returnIdParam . ']');
+        $this->log('returnIdParam initially set to ['.$this->returnIdParam.']');
 
         if (!array_key_exists('return', $_GET)) {
-            throw new \Exception('Missing parameter: return');
+            throw new Exception('Missing parameter: return');
         } else {
-            $this->returnURL = Utils\HTTP::checkURLAllowed($_GET['return']);
+            $this->returnURL = \SimpleSAML\Utils\HTTP::checkURLAllowed($_GET['return']);
         }
 
         $this->isPassive = false;
@@ -155,7 +153,7 @@ class IdPDisco
                 $this->isPassive = true;
             }
         }
-        $this->log('isPassive initially set to [' . ($this->isPassive ? 'TRUE' : 'FALSE') . ']');
+        $this->log('isPassive initially set to ['.($this->isPassive ? 'TRUE' : 'FALSE').']');
 
         if (array_key_exists('IdPentityID', $_GET)) {
             $this->setIdPentityID = $_GET['IdPentityID'];
@@ -174,11 +172,10 @@ class IdPDisco
      * discovery service type.
      *
      * @param string $message The message which should be logged.
-     * @return void
      */
     protected function log($message)
     {
-        Logger::info('idpDisco.' . $this->instance . ': ' . $message);
+        SimpleSAML\Logger::info('idpDisco.'.$this->instance.': '.$message);
     }
 
 
@@ -190,11 +187,11 @@ class IdPDisco
      *
      * @param string $name The name of the cookie.
      *
-     * @return string|null The value of the cookie with the given name, or null if no cookie with that name exists.
+     * @return string The value of the cookie with the given name, or null if no cookie with that name exists.
      */
     protected function getCookie($name)
     {
-        $prefixedName = 'idpdisco_' . $this->instance . '_' . $name;
+        $prefixedName = 'idpdisco_'.$this->instance.'_'.$name;
         if (array_key_exists($prefixedName, $_COOKIE)) {
             return $_COOKIE[$prefixedName];
         } else {
@@ -211,21 +208,20 @@ class IdPDisco
      *
      * @param string $name The name of the cookie.
      * @param string $value The value of the cookie.
-     * @return void
      */
     protected function setCookie($name, $value)
     {
-        $prefixedName = 'idpdisco_' . $this->instance . '_' . $name;
+        $prefixedName = 'idpdisco_'.$this->instance.'_'.$name;
 
-        $params = [
+        $params = array(
             // we save the cookies for 90 days
             'lifetime' => (60 * 60 * 24 * 90),
             // the base path for cookies. This should be the installation directory for SimpleSAMLphp
             'path'     => $this->config->getBasePath(),
             'httponly' => false,
-        ];
+        );
 
-        Utils\HTTP::setCookie($prefixedName, $value, $params, false);
+        \SimpleSAML\Utils\HTTP::setCookie($prefixedName, $value, $params, false);
     }
 
 
@@ -253,12 +249,12 @@ class IdPDisco
             try {
                 $this->metadata->getMetaData($idp, $metadataSet);
                 return $idp;
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 // continue
             }
         }
 
-        $this->log('Unable to validate IdP entity id [' . $idp . '].');
+        $this->log('Unable to validate IdP entity id ['.$idp.'].');
 
         // the entity id wasn't valid
         return null;
@@ -270,7 +266,7 @@ class IdPDisco
      *
      * This function finds out which IdP the user has manually chosen, if any.
      *
-     * @return string|null The entity id of the IdP the user has chosen, or null if the user has made no choice.
+     * @return string The entity id of the IdP the user has chosen, or null if the user has made no choice.
      */
     protected function getSelectedIdP()
     {
@@ -293,7 +289,7 @@ class IdPDisco
          * back. Therefore we do some quick and dirty parsing of the query string.
          */
         $qstr = $_SERVER['QUERY_STRING'];
-        $matches = [];
+        $matches = array();
         if (preg_match('/(?:^|&)idp_([^=]+)=/', $qstr, $matches)) {
             return $this->validateIdP(urldecode($matches[1]));
         }
@@ -306,7 +302,7 @@ class IdPDisco
     /**
      * Retrieve the users saved choice of IdP.
      *
-     * @return string|null The entity id of the IdP the user has saved, or null if the user hasn't saved any choice.
+     * @return string The entity id of the IdP the user has saved, or null if the user hasn't saved any choice.
      */
     protected function getSavedIdP()
     {
@@ -332,7 +328,7 @@ class IdPDisco
     /**
      * Retrieve the previous IdP the user used.
      *
-     * @return string|null The entity id of the previous IdP the user used, or null if this is the first time.
+     * @return string The entity id of the previous IdP the user used, or null if this is the first time.
      */
     protected function getPreviousIdP()
     {
@@ -364,20 +360,20 @@ class IdPDisco
      * This function will first look at the previous IdP the user has chosen. If the user
      * hasn't chosen an IdP before, it will look at the IP address.
      *
-     * @return string|null The entity id of the IdP the user should most likely use.
+     * @return string The entity id of the IdP the user should most likely use.
      */
     protected function getRecommendedIdP()
     {
         $idp = $this->getPreviousIdP();
         if ($idp !== null) {
-            $this->log('Preferred IdP from previous use [' . $idp . '].');
+            $this->log('Preferred IdP from previous use ['.$idp.'].');
             return $idp;
         }
 
         $idp = $this->getFromCIDRhint();
 
         if (!empty($idp)) {
-            $this->log('Preferred IdP from CIDR hint [' . $idp . '].');
+            $this->log('Preferred IdP from CIDR hint ['.$idp.'].');
             return $idp;
         }
 
@@ -389,13 +385,12 @@ class IdPDisco
      * Save the current IdP choice to a cookie.
      *
      * @param string $idp The entityID of the IdP.
-     * @return void
      */
     protected function setPreviousIdP($idp)
     {
         assert(is_string($idp));
 
-        $this->log('Choice made [' . $idp . '] Setting cookie.');
+        $this->log('Choice made ['.$idp.'] Setting cookie.');
         $this->setCookie('lastidp', $idp);
     }
 
@@ -423,7 +418,7 @@ class IdPDisco
     /**
      * Determine which IdP the user should go to, if any.
      *
-     * @return string|null The entity id of the IdP the user should be sent to, or null if the user should choose.
+     * @return string The entity id of the IdP the user should be sent to, or null if the user should choose.
      */
     protected function getTargetIdP()
     {
@@ -447,7 +442,7 @@ class IdPDisco
         // check if the user has saved an choice earlier
         $idp = $this->getSavedIdP();
         if ($idp !== null) {
-            $this->log('Using saved choice [' . $idp . '].');
+            $this->log('Using saved choice ['.$idp.'].');
             return $idp;
         }
 
@@ -463,7 +458,7 @@ class IdPDisco
      */
     protected function getIdPList()
     {
-        $idpList = [];
+        $idpList = array();
         foreach ($this->metadataSets as $metadataSet) {
             $newList = $this->metadata->getList($metadataSet);
             /*
@@ -516,30 +511,29 @@ class IdPDisco
      */
     protected function start()
     {
-        $idp = $this->getTargetIdP();
+        $idp = $this->getTargetIdp();
         if ($idp !== null) {
             $extDiscoveryStorage = $this->config->getString('idpdisco.extDiscoveryStorage', null);
             if ($extDiscoveryStorage !== null) {
-                $this->log('Choice made [' . $idp . '] (Forwarding to external discovery storage)');
-                Utils\HTTP::redirectTrustedURL($extDiscoveryStorage, [
+                $this->log('Choice made ['.$idp.'] (Forwarding to external discovery storage)');
+                \SimpleSAML\Utils\HTTP::redirectTrustedURL($extDiscoveryStorage, array(
                     'entityID'      => $this->spEntityId,
                     'IdPentityID'   => $idp,
                     'returnIDParam' => $this->returnIdParam,
                     'isPassive'     => 'true',
                     'return'        => $this->returnURL
-                ]);
+                ));
             } else {
                 $this->log(
-                    'Choice made [' . $idp . '] (Redirecting the user back. returnIDParam='
-                    . $this->returnIdParam . ')'
+                    'Choice made ['.$idp.'] (Redirecting the user back. returnIDParam='.$this->returnIdParam.')'
                 );
-                Utils\HTTP::redirectTrustedURL($this->returnURL, [$this->returnIdParam => $idp]);
+                \SimpleSAML\Utils\HTTP::redirectTrustedURL($this->returnURL, array($this->returnIdParam => $idp));
             }
         }
 
         if ($this->isPassive) {
             $this->log('Choice not made. (Redirecting the user back without answer)');
-            Utils\HTTP::redirectTrustedURL($this->returnURL);
+            \SimpleSAML\Utils\HTTP::redirectTrustedURL($this->returnURL);
         }
     }
 
@@ -548,7 +542,6 @@ class IdPDisco
      * Handles a request to this discovery service.
      *
      * The IdP disco parameters should be set before calling this function.
-     * @return void
      */
     public function handleRequest()
     {
@@ -568,12 +561,12 @@ class IdPDisco
 
         if (sizeof($idpintersection) == 1) {
             $this->log(
-                'Choice made [' . $idpintersection[0] . '] (Redirecting the user back. returnIDParam=' .
-                $this->returnIdParam . ')'
+                'Choice made ['.$idpintersection[0].'] (Redirecting the user back. returnIDParam='.
+                $this->returnIdParam.')'
             );
-            Utils\HTTP::redirectTrustedURL(
+            \SimpleSAML\Utils\HTTP::redirectTrustedURL(
                 $this->returnURL,
-                [$this->returnIdParam => $idpintersection[0]]
+                array($this->returnIdParam => $idpintersection[0])
             );
         }
 
@@ -589,77 +582,17 @@ class IdPDisco
                 $templateFile = 'selectidp-links.php';
                 break;
             default:
-                throw new \Exception('Invalid value for the \'idpdisco.layout\' option.');
+                throw new Exception('Invalid value for the \'idpdisco.layout\' option.');
         }
 
-        $t = new Template($this->config, $templateFile, 'disco');
-
-        $fallbackLanguage = 'en';
-        $defaultLanguage = $this->config->getString('language.default', $fallbackLanguage);
-        $translator = $t->getTranslator();
-        $language = $translator->getLanguage()->getLanguage();
-        $tryLanguages = [0 => $language, 1 => $defaultLanguage, 2 => $fallbackLanguage];
-
-        $newlist = [];
-        foreach ($idpList as $entityid => $data) {
-            $newlist[$entityid]['entityid'] = $entityid;
-            foreach ($tryLanguages as $lang) {
-                if ($name = $this->getEntityDisplayName($data, $lang)) {
-                    $newlist[$entityid]['name'] = $name;
-                    break 1;
-                }
-            }
-            if (empty($newlist[$entityid]['name'])) {
-                $newlist[$entityid]['name'] = $entityid;
-            }
-            foreach ($tryLanguages as $lang) {
-                if (!empty($data['description'][$lang])) {
-                    $newlist[$entityid]['description'] = $data['description'][$lang];
-                    break 1;
-                }
-            }
-            if (!empty($data['icon'])) {
-                $newlist[$entityid]['icon'] = $data['icon'];
-                $newlist[$entityid]['iconurl'] = Utils\HTTP::resolveURL($data['icon']);
-            }
-        }
-        usort(
-            $newlist,
-            /**
-             * @param array $idpentry1
-             * @param array $idpentry2
-             * @return int
-             */
-            function (array $idpentry1, array $idpentry2) {
-                return strcasecmp($idpentry1['name'], $idpentry2['name']);
-            }
-        );
-
-        $t->data['idplist'] = $newlist;
+        $t = new SimpleSAML_XHTML_Template($this->config, $templateFile, 'disco');
+        $t->data['idplist'] = $idpList;
         $t->data['preferredidp'] = $preferredIdP;
         $t->data['return'] = $this->returnURL;
         $t->data['returnIDParam'] = $this->returnIdParam;
         $t->data['entityID'] = $this->spEntityId;
-        $t->data['urlpattern'] = htmlspecialchars(Utils\HTTP::getSelfURLNoQuery());
+        $t->data['urlpattern'] = htmlspecialchars(\SimpleSAML\Utils\HTTP::getSelfURLNoQuery());
         $t->data['rememberenabled'] = $this->config->getBoolean('idpdisco.enableremember', false);
         $t->show();
-    }
-
-
-    /**
-     * @param array $idpData
-     * @param string $language
-     * @return string|null
-     */
-    private function getEntityDisplayName(array $idpData, $language)
-    {
-        if (isset($idpData['UIInfo']['DisplayName'][$language])) {
-            return $idpData['UIInfo']['DisplayName'][$language];
-        } elseif (isset($idpData['name'][$language])) {
-            return $idpData['name'][$language];
-        } elseif (isset($idpData['OrganizationDisplayName'][$language])) {
-            return $idpData['OrganizationDisplayName'][$language];
-        }
-        return null;
     }
 }

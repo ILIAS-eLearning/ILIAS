@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Utilities;
 
 /**
@@ -15,22 +13,21 @@ class Certificate
     const CERTIFICATE_PATTERN = '/^-----BEGIN CERTIFICATE-----([^-]*)^-----END CERTIFICATE-----/m';
 
     /**
-     * @param string $certificate
+     * @param  $certificate
      *
      * @return bool
      */
-    public static function hasValidStructure(string $certificate) : bool
+    public static function hasValidStructure($certificate)
     {
         return !!preg_match(self::CERTIFICATE_PATTERN, $certificate);
     }
-
 
     /**
      * @param string $X509CertificateContents
      *
      * @return string
      */
-    public static function convertToCertificate(string $X509CertificateContents) : string
+    public static function convertToCertificate($X509CertificateContents)
     {
         return "-----BEGIN CERTIFICATE-----\n"
                 . chunk_split($X509CertificateContents, 64)

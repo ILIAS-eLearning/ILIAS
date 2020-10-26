@@ -1,7 +1,5 @@
 <?php
 
-namespace SimpleSAML\Module\ldap\Auth\Source;
-
 /**
  * LDAP authentication source.
  *
@@ -12,9 +10,9 @@ namespace SimpleSAML\Module\ldap\Auth\Source;
  *
  * @package SimpleSAMLphp
  */
-
-class LDAP extends \SimpleSAML\Module\core\Auth\UserPassBase
+class sspmod_ldap_Auth_Source_LDAP extends sspmod_core_Auth_UserPassBase
 {
+
     /**
      * A LDAP configuration object.
      */
@@ -35,10 +33,8 @@ class LDAP extends \SimpleSAML\Module\core\Auth\UserPassBase
         // Call the parent constructor first, as required by the interface
         parent::__construct($info, $config);
 
-        $this->ldapConfig = new \SimpleSAML\Module\ldap\ConfigHelper(
-            $config,
-            'Authentication source '.var_export($this->authId, true)
-        );
+        $this->ldapConfig = new sspmod_ldap_ConfigHelper($config,
+            'Authentication source ' . var_export($this->authId, true));
     }
 
 
@@ -57,4 +53,5 @@ class LDAP extends \SimpleSAML\Module\core\Auth\UserPassBase
 
         return $this->ldapConfig->login($username, $password, $sasl_args);
     }
+
 }

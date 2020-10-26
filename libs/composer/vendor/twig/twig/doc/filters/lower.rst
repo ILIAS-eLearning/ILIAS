@@ -3,7 +3,7 @@
 
 The ``lower`` filter converts a value to lowercase:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ 'WELCOME'|lower }}
 

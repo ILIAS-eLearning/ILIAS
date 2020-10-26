@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * Session storage in the data store.
  *
@@ -10,6 +11,7 @@ namespace SimpleSAML;
 
 class SessionHandlerStore extends SessionHandlerCookie
 {
+
     /**
      * The data store we save the session to.
      *
@@ -36,7 +38,7 @@ class SessionHandlerStore extends SessionHandlerCookie
      *
      * @param string|null $sessionId The ID of the session we should load, or null to use the default.
      *
-     * @return \SimpleSAML\Session|null The session object, or null if it doesn't exist.
+     * @return \SimpleSAML_Session|null The session object, or null if it doesn't exist.
      */
     public function loadSession($sessionId = null)
     {
@@ -52,7 +54,7 @@ class SessionHandlerStore extends SessionHandlerCookie
 
         $session = $this->store->get('session', $sessionId);
         if ($session !== null) {
-            assert($session instanceof Session);
+            assert($session instanceof \SimpleSAML_Session);
             return $session;
         }
 
@@ -63,20 +65,13 @@ class SessionHandlerStore extends SessionHandlerCookie
     /**
      * Save a session to the data store.
      *
-     * @param \SimpleSAML\Session $session The session object we should save.
-     * @return void
+     * @param \SimpleSAML_Session $session The session object we should save.
      */
-    public function saveSession(Session $session)
+    public function saveSession(\SimpleSAML_Session $session)
     {
-        if ($session->isTransient()) {
-            // transient session, nothing to save
-            return;
-        }
-
-        /** @var string $sessionId */
         $sessionId = $session->getSessionId();
 
-        $config = Configuration::getInstance();
+        $config = \SimpleSAML_Configuration::getInstance();
         $sessionDuration = $config->getInteger('session.duration', 8 * 60 * 60);
         $expire = time() + $sessionDuration;
 

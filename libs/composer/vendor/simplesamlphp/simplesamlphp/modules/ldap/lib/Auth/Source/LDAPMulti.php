@@ -1,7 +1,5 @@
 <?php
 
-namespace SimpleSAML\Module\ldap\Auth\Source;
-
 /**
  * LDAP authentication source.
  *
@@ -12,9 +10,9 @@ namespace SimpleSAML\Module\ldap\Auth\Source;
  *
  * @package SimpleSAMLphp
  */
-
-class LDAPMulti extends \SimpleSAML\Module\core\Auth\UserPassOrgBase
+class sspmod_ldap_Auth_Source_LDAPMulti extends sspmod_core_Auth_UserPassOrgBase
 {
+
     /**
      * An array with descriptions for organizations.
      */
@@ -45,29 +43,25 @@ class LDAPMulti extends \SimpleSAML\Module\core\Auth\UserPassOrgBase
         // Call the parent constructor first, as required by the interface
         parent::__construct($info, $config);
 
-        $cfgHelper = \SimpleSAML\Configuration::loadFromArray(
-            $config,
-            'Authentication source '.var_export($this->authId, true)
-        );
+        $cfgHelper = SimpleSAML_Configuration::loadFromArray($config,
+            'Authentication source ' . var_export($this->authId, true));
 
 
-        $this->orgs = [];
-        $this->ldapOrgs = [];
+        $this->orgs = array();
+        $this->ldapOrgs = array();
         foreach ($config as $name => $value) {
+
             if ($name === 'username_organization_method') {
                 $usernameOrgMethod = $cfgHelper->getValueValidate(
                     'username_organization_method',
-                    ['none', 'allow', 'force']
-                );
+                    array('none', 'allow', 'force'));
                 $this->setUsernameOrgMethod($usernameOrgMethod);
                 continue;
             }
 
             if ($name === 'include_organization_in_username') {
                 $this->includeOrgInUsername = $cfgHelper->getBoolean(
-                    'include_organization_in_username',
-                    false
-                );
+                    'include_organization_in_username', false);
                 continue;
             }
 
@@ -80,10 +74,9 @@ class LDAPMulti extends \SimpleSAML\Module\core\Auth\UserPassOrgBase
                 $this->orgs[$orgId] = $orgId;
             }
 
-            $orgCfg = new \SimpleSAML\Module\ldap\ConfigHelper(
-                $orgCfg,
-                'Authentication source '.var_export($this->authId, true).', organization '.var_export($orgId, true)
-            );
+            $orgCfg = new sspmod_ldap_ConfigHelper($orgCfg,
+                'Authentication source ' . var_export($this->authId, true) .
+                ', organization ' . var_export($orgId, true));
             $this->ldapOrgs[$orgId] = $orgCfg;
         }
     }
@@ -105,14 +98,14 @@ class LDAPMulti extends \SimpleSAML\Module\core\Auth\UserPassOrgBase
 
         if (!array_key_exists($org, $this->ldapOrgs)) {
             // The user has selected an organization which doesn't exist anymore.
-            \SimpleSAML\Logger::warning('Authentication source '.var_export($this->authId, true).
-                ': Organization seems to have disappeared while the user logged in.'.
-                ' Organization was '.var_export($org, true));
-            throw new \SimpleSAML\Error\Error('WRONGUSERPASS');
+            SimpleSAML\Logger::warning('Authentication source ' . var_export($this->authId, true) .
+                ': Organization seems to have disappeared while the user logged in.' .
+                ' Organization was ' . var_export($org, true));
+            throw new SimpleSAML_Error_Error('WRONGUSERPASS');
         }
 
         if ($this->includeOrgInUsername) {
-            $username = $username.'@'.$org;
+            $username = $username . '@' . $org;
         }
 
         return $this->ldapOrgs[$org]->login($username, $password, $sasl_args);

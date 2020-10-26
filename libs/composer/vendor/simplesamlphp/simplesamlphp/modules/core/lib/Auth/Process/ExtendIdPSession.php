@@ -1,61 +1,47 @@
 <?php
 
-namespace SimpleSAML\Module\core\Auth\Process;
-
-use SimpleSAML\Configuration;
-use SimpleSAML\Session;
-use SimpleSAML\SessionHandler;
-
 /**
  * Extend IdP session and cookies.
- */
-class ExtendIdPSession extends \SimpleSAML\Auth\ProcessingFilter
-{
-    /**
-     * @param array &$state
-     * @return void
-     */
-    public function process(&$state)
-    {
-        assert(is_array($state));
+*/
+class sspmod_core_Auth_Process_ExtendIdPSession extends SimpleSAML_Auth_ProcessingFilter {
 
-        if (empty($state['Expire']) || empty($state['Authority'])) {
-            return;
-        }
+	public function process(&$state) {
+		assert(is_array($state));
 
-        $now = time();
-        $delta = $state['Expire'] - $now;
+		if (empty($state['Expire']) || empty($state['Authority'])) {
+			return;
+		}
 
-        $globalConfig = Configuration::getInstance();
-        $sessionDuration = $globalConfig->getInteger('session.duration', 28800); // 8*60*60
+		$now = time();
+		$delta = $state['Expire'] - $now;
 
-        // Extend only if half of session duration already passed
-        if ($delta >= ($sessionDuration * 0.5)) {
-            return;
-        }
+		$globalConfig = SimpleSAML_Configuration::getInstance();
+		$sessionDuration = $globalConfig->getInteger('session.duration', 8*60*60);
 
-        // Update authority expire time
-        $session = Session::getSessionFromRequest();
-        $session->setAuthorityExpire($state['Authority']);
+		// Extend only if half of session duration already passed
+		if ($delta >= ($sessionDuration * 0.5)) {
+			return;
+		}
 
-        // Update session cookies duration
+		// Update authority expire time
+		$session = SimpleSAML_Session::getSessionFromRequest();
+		$session->setAuthorityExpire($state['Authority']);
 
-        // If remember me is active
-        $rememberMeExpire = $session->getRememberMeExpire();
-        if (
-            !empty($state['RememberMe'])
-            && $rememberMeExpire !== null
-            && $globalConfig->getBoolean('session.rememberme.enable', false)
-        ) {
-            $session->setRememberMeExpire();
-            return;
-        }
+		/* Update session cookies duration */
 
-        // Or if session lifetime is more than zero
-        $sessionHandler = SessionHandler::getSessionHandler();
-        $cookieParams = $sessionHandler->getCookieParams();
-        if ($cookieParams['lifetime'] > 0) {
-            $session->updateSessionCookies();
-        }
-    }
+		/* If remember me is active */
+		$rememberMeExpire = $session->getRememberMeExpire();
+		if (!empty($state['RememberMe']) && $rememberMeExpire !== NULL && $globalConfig->getBoolean('session.rememberme.enable', FALSE)) {
+			$session->setRememberMeExpire();
+			return;
+		}
+
+		/* Or if session lifetime is more than zero */
+		$sessionHandler = \SimpleSAML\SessionHandler::getSessionHandler();
+		$cookieParams = $sessionHandler->getCookieParams();
+		if ($cookieParams['lifetime'] > 0) {
+			$session->updateSessionCookies();
+		}
+	}
+
 }

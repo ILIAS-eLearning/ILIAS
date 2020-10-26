@@ -1,11 +1,13 @@
 <?php
-/*
+/* 
  * Configuration for the Cron module.
  */
 
-$config = [
-    'key' => 'secret',
-    'allowed_tags' => ['daily', 'hourly', 'frequent'],
-    'debug_message' => true,
-    'sendemail' => true,
-];
+$config = array (
+
+	'key' => 'secret',
+	'allowed_tags' => array('daily', 'hourly', 'frequent'),
+	'debug_message' => TRUE,
+	'sendemail' => TRUE,
+
+);

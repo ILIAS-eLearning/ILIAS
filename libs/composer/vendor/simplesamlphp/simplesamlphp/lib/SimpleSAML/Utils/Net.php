@@ -1,5 +1,4 @@
 <?php
-
 namespace SimpleSAML\Utils;
 
 /**
@@ -9,6 +8,7 @@ namespace SimpleSAML\Utils;
  */
 class Net
 {
+
     /**
      * Check whether an IP address is part of a CIDR.
      *
@@ -35,8 +35,8 @@ class Net
         list ($net, $mask) = explode('/', $cidr);
         $mask = intval($mask);
 
-        $ip_ip = [];
-        $ip_net = [];
+        $ip_ip = array();
+        $ip_net = array();
         if (strstr($ip, ':') || strstr($net, ':')) {
             // Validate IPv6 with inet_pton, convert to hex with bin2hex
             // then store as a long with hexdec

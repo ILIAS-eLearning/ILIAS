@@ -1,11 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2;
-
-use DOMElement;
-use Webmozart\Assert\Assert;
 
 /**
  * Base class for all SAML 2 response messages.
@@ -16,11 +11,11 @@ use Webmozart\Assert\Assert;
  * responses.
  *
  * The status code is represented as an array on the following form:
- * [
+ * array(
  *   'Code' => '<top-level status code>',
  *   'SubCode' => '<second-level status code>',
  *   'Message' => '<status message>',
- * ]
+ * )
  *
  * Only the 'Code' field is required. The others will be set to null if they
  * aren't present.
@@ -48,19 +43,19 @@ abstract class StatusResponse extends Message
     /**
      * Constructor for SAML 2 response messages.
      *
-     * @param string $tagName The tag name of the root element.
-     * @param \DOMElement|null $xml The input message.
+     * @param string          $tagName The tag name of the root element.
+     * @param \DOMElement|null $xml     The input message.
      * @throws \Exception
      */
-    protected function __construct(string $tagName, DOMElement $xml = null)
+    protected function __construct($tagName, \DOMElement $xml = null)
     {
         parent::__construct($tagName, $xml);
 
-        $this->status = [
+        $this->status = array(
             'Code' => Constants::STATUS_SUCCESS,
             'SubCode' => null,
             'Message' => null,
-        ];
+            );
 
         if ($xml === null) {
             return;
@@ -70,27 +65,26 @@ abstract class StatusResponse extends Message
             $this->inResponseTo = $xml->getAttribute('InResponseTo');
         }
 
-        /** @var \DOMElement[] $status */
         $status = Utils::xpQuery($xml, './saml_protocol:Status');
         if (empty($status)) {
             throw new \Exception('Missing status code on response.');
         }
+        $status = $status[0];
 
-        /** @var \DOMElement[] $statusCode */
-        $statusCode = Utils::xpQuery($status[0], './saml_protocol:StatusCode');
+        $statusCode = Utils::xpQuery($status, './saml_protocol:StatusCode');
         if (empty($statusCode)) {
             throw new \Exception('Missing status code in status element.');
         }
-        $this->status['Code'] = $statusCode[0]->getAttribute('Value');
+        $statusCode = $statusCode[0];
 
-        /** @var \DOMElement[] $subCode */
-        $subCode = Utils::xpQuery($statusCode[0], './saml_protocol:StatusCode');
+        $this->status['Code'] = $statusCode->getAttribute('Value');
+
+        $subCode = Utils::xpQuery($statusCode, './saml_protocol:StatusCode');
         if (!empty($subCode)) {
             $this->status['SubCode'] = $subCode[0]->getAttribute('Value');
         }
 
-        /** @var \DOMElement[] $message */
-        $message = Utils::xpQuery($status[0], './saml_protocol:StatusMessage');
+        $message = Utils::xpQuery($status, './saml_protocol:StatusMessage');
         if (!empty($message)) {
             $this->status['Message'] = trim($message[0]->textContent);
         }
@@ -100,13 +94,17 @@ abstract class StatusResponse extends Message
     /**
      * Determine whether this is a successful response.
      *
-     * @return bool true if the status code is success, false if not.
+     * @return boolean true if the status code is success, false if not.
      */
-    public function isSuccess() : bool
+    public function isSuccess()
     {
-        Assert::keyExists($this->status, "Code");
+        assert(array_key_exists("Code", $this->status));
 
-        return $this->status['Code'] === Constants::STATUS_SUCCESS;
+        if ($this->status['Code'] === Constants::STATUS_SUCCESS) {
+            return true;
+        }
+
+        return false;
     }
 
 
@@ -115,7 +113,7 @@ abstract class StatusResponse extends Message
      *
      * @return string|null The ID of the request.
      */
-    public function getInResponseTo() : ?string
+    public function getInResponseTo()
     {
         return $this->inResponseTo;
     }
@@ -125,10 +123,11 @@ abstract class StatusResponse extends Message
      * Set the ID of the request this is a response to.
      *
      * @param string|null $inResponseTo The ID of the request.
-     * @return void
      */
-    public function setInResponseTo(string $inResponseTo = null) : void
+    public function setInResponseTo($inResponseTo)
     {
+        assert(is_string($inResponseTo) || is_null($inResponseTo));
+
         $this->inResponseTo = $inResponseTo;
     }
 
@@ -138,7 +137,7 @@ abstract class StatusResponse extends Message
      *
      * @return array The status code.
      */
-    public function getStatus() : array
+    public function getStatus()
     {
         return $this->status;
     }
@@ -148,11 +147,10 @@ abstract class StatusResponse extends Message
      * Set the status code.
      *
      * @param array $status The status code.
-     * @return void
      */
-    public function setStatus(array $status) : void
+    public function setStatus(array $status)
     {
-        Assert::keyExists($status, "Code", 'Cannot set status without a Code key in the array.');
+        assert(array_key_exists("Code", $status));
 
         $this->status = $status;
         if (!array_key_exists('SubCode', $status)) {
@@ -169,7 +167,7 @@ abstract class StatusResponse extends Message
      *
      * @return \DOMElement This status response.
      */
-    public function toUnsignedXML() : DOMElement
+    public function toUnsignedXML()
     {
         $root = parent::toUnsignedXML();
 

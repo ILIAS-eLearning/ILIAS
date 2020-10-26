@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Configuration;
 
 /**
@@ -12,5 +10,5 @@ interface EntityIdProvider
     /**
      * @return null|string
      */
-    public function getEntityId() : ?string;
+    public function getEntityId();
 }

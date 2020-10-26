@@ -16,10 +16,11 @@ use LibXMLError;
 
 class Errors
 {
+
     /**
      * @var array This is an stack of error logs. The topmost element is the one we are currently working on.
      */
-    private static $errorStack = [];
+    private static $errorStack = array();
 
     /**
      * @var bool This is the xml error state we had before we began logging.
@@ -29,8 +30,6 @@ class Errors
 
     /**
      * Append current XML errors to the current stack level.
-     *
-     * @return void
      */
     private static function addErrors()
     {
@@ -47,8 +46,6 @@ class Errors
      *
      * A call to this function will begin a new error logging context. Every call must have
      * a corresponding call to end().
-     *
-     * @return void
      */
     public static function begin()
     {
@@ -70,7 +67,7 @@ class Errors
         }
 
         // Add a new level to the error stack
-        self::$errorStack[] = [];
+        self::$errorStack[] = array();
     }
 
 
@@ -81,10 +78,11 @@ class Errors
      */
     public static function end()
     {
+
         // Check whether the error access functions are present
         if (!function_exists('libxml_use_internal_errors')) {
             // Pretend that no errors occurred
-            return [];
+            return array();
         }
 
         // Add any errors which may have occurred
@@ -113,11 +111,8 @@ class Errors
     public static function formatError($error)
     {
         assert($error instanceof LibXMLError);
-        return 'level=' . $error->level
-            . ',code=' . $error->code
-            . ',line=' . $error->line
-            . ',col=' . $error->column
-            . ',msg=' . trim($error->message);
+        return 'level=' . $error->level . ',code='  . $error->code . ',line=' . $error->line . ',col=' . $error->column .
+            ',msg=' . trim($error->message);
     }
 
 

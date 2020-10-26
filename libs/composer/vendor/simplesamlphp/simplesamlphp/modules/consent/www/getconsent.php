@@ -6,10 +6,11 @@
  * authorizes the release of attributes.
  *
  * @package SimpleSAMLphp
- *
- * Explicit instruct consent page to send no-cache header to browsers to make
+ */
+/**
+ * Explicit instruct consent page to send no-cache header to browsers to make 
  * sure the users attribute information are not store on client disk.
- *
+ * 
  * In an vanilla apache-php installation is the php variables set to:
  *
  * session.cache_limiter = nocache
@@ -18,24 +19,22 @@
  */
 session_cache_limiter('nocache');
 
-$globalConfig = \SimpleSAML\Configuration::getInstance();
+$globalConfig = SimpleSAML_Configuration::getInstance();
 
-\SimpleSAML\Logger::info('Consent - getconsent: Accessing consent interface');
+SimpleSAML\Logger::info('Consent - getconsent: Accessing consent interface');
 
 if (!array_key_exists('StateId', $_REQUEST)) {
-    throw new \SimpleSAML\Error\BadRequest(
+    throw new SimpleSAML_Error_BadRequest(
         'Missing required StateId query parameter.'
     );
 }
 
 $id = $_REQUEST['StateId'];
-$state = \SimpleSAML\Auth\State::loadState($id, 'consent:request');
+$state = SimpleSAML_Auth_State::loadState($id, 'consent:request');
 
-if (is_null($state)) {
-    throw new \SimpleSAML\Error\NoState;
-} elseif (array_key_exists('core:SP', $state)) {
+if (array_key_exists('core:SP', $state)) {
     $spentityid = $state['core:SP'];
-} elseif (array_key_exists('saml:sp:State', $state)) {
+} else if (array_key_exists('saml:sp:State', $state)) {
     $spentityid = $state['saml:sp:State']['core:SP'];
 } else {
     $spentityid = 'UNKNOWN';
@@ -45,20 +44,20 @@ if (is_null($state)) {
 // The user has pressed the yes-button
 if (array_key_exists('yes', $_REQUEST)) {
     if (array_key_exists('saveconsent', $_REQUEST)) {
-        \SimpleSAML\Logger::stats('consentResponse remember');
+        SimpleSAML\Logger::stats('consentResponse remember');
     } else {
-        \SimpleSAML\Logger::stats('consentResponse rememberNot');
+        SimpleSAML\Logger::stats('consentResponse rememberNot');
     }
 
-    $statsInfo = [
+    $statsInfo = array(
         'remember' => array_key_exists('saveconsent', $_REQUEST),
-    ];
+    );
     if (isset($state['Destination']['entityid'])) {
         $statsInfo['spEntityID'] = $state['Destination']['entityid'];
     }
-    \SimpleSAML\Stats::log('consent:accept', $statsInfo);
+    SimpleSAML_Stats::log('consent:accept', $statsInfo);
 
-    if (array_key_exists('consent:store', $state)
+    if (   array_key_exists('consent:store', $state) 
         && array_key_exists('saveconsent', $_REQUEST)
         && $_REQUEST['saveconsent'] === '1'
     ) {
@@ -68,17 +67,18 @@ if (array_key_exists('yes', $_REQUEST)) {
         $targetedId = $state['consent:store.destination'];
         $attributeSet = $state['consent:store.attributeSet'];
 
-        \SimpleSAML\Logger::debug(
-            'Consent - saveConsent() : ['.$userId.'|'.$targetedId.'|'.$attributeSet.']'
-        );
+        SimpleSAML\Logger::debug(
+            'Consent - saveConsent() : [' . $userId . '|' .
+            $targetedId . '|' .  $attributeSet . ']'
+        );	
         try {
             $store->saveConsent($userId, $targetedId, $attributeSet);
-        } catch (\Exception $e) {
-            \SimpleSAML\Logger::error('Consent: Error writing to storage: '.$e->getMessage());
+        } catch (Exception $e) {
+            SimpleSAML\Logger::error('Consent: Error writing to storage: ' . $e->getMessage());
         }
     }
 
-    \SimpleSAML\Auth\ProcessingChain::resumeProcessing($state);
+    SimpleSAML_Auth_ProcessingChain::resumeProcessing($state);
 }
 
 // Prepare attributes for presentation
@@ -86,17 +86,17 @@ $attributes = $state['Attributes'];
 $noconsentattributes = $state['consent:noconsentattributes'];
 
 // Remove attributes that do not require consent
-foreach ($attributes as $attrkey => $attrval) {
+foreach ($attributes AS $attrkey => $attrval) {
     if (in_array($attrkey, $noconsentattributes, true)) {
         unset($attributes[$attrkey]);
     }
 }
-$para = [
+$para = array(
     'attributes' => &$attributes
-];
+);
 
 // Reorder attributes according to attributepresentation hooks
-\SimpleSAML\Module::callHooks('attributepresentation', $para);
+SimpleSAML\Module::callHooks('attributepresentation', $para);
 
 // Parse parameters
 if (array_key_exists('name', $state['Source'])) {
@@ -106,7 +106,6 @@ if (array_key_exists('name', $state['Source'])) {
 } else {
     $srcName = $state['Source']['entityid'];
 }
-
 if (array_key_exists('name', $state['Destination'])) {
     $dstName = $state['Destination']['name'];
 } elseif (array_key_exists('OrganizationDisplayName', $state['Destination'])) {
@@ -116,14 +115,14 @@ if (array_key_exists('name', $state['Destination'])) {
 }
 
 // Make, populate and layout consent form
-$t = new \SimpleSAML\XHTML\Template($globalConfig, 'consent:consentform.php');
+$t = new SimpleSAML_XHTML_Template($globalConfig, 'consent:consentform.php');
 $translator = $t->getTranslator();
 $t->data['srcMetadata'] = $state['Source'];
 $t->data['dstMetadata'] = $state['Destination'];
-$t->data['yesTarget'] = \SimpleSAML\Module::getModuleURL('consent/getconsent.php');
-$t->data['yesData'] = ['StateId' => $id];
-$t->data['noTarget'] = \SimpleSAML\Module::getModuleURL('consent/noconsent.php');
-$t->data['noData'] = ['StateId' => $id];
+$t->data['yesTarget'] = SimpleSAML\Module::getModuleURL('consent/getconsent.php');
+$t->data['yesData'] = array('StateId' => $id);
+$t->data['noTarget'] = SimpleSAML\Module::getModuleURL('consent/noconsent.php');
+$t->data['noData'] = array('StateId' => $id);
 $t->data['attributes'] = $attributes;
 $t->data['checked'] = $state['consent:checked'];
 $t->data['stateId'] = $id;
@@ -133,18 +132,18 @@ $dstName = htmlspecialchars(is_array($dstName) ? $translator->t($dstName) : $dst
 
 $t->data['consent_attributes_header'] = $translator->t(
     '{consent:consent:consent_attributes_header}',
-    ['SPNAME' => $dstName, 'IDPNAME' => $srcName]
+    array('SPNAME' => $dstName, 'IDPNAME' => $srcName)
 );
 
 $t->data['consent_accept'] = $translator->t(
     '{consent:consent:consent_accept}',
-    ['SPNAME' => $dstName, 'IDPNAME' => $srcName]
+    array('SPNAME' => $dstName, 'IDPNAME' => $srcName)
 );
 
 if (array_key_exists('descr_purpose', $state['Destination'])) {
     $t->data['consent_purpose'] = $translator->t(
         '{consent:consent:consent_purpose}',
-        [
+        array(
             'SPNAME' => $dstName,
             'SPDESC' => $translator->getPreferredTranslation(
                 \SimpleSAML\Utils\Arrays::arrayize(
@@ -152,7 +151,7 @@ if (array_key_exists('descr_purpose', $state['Destination'])) {
                     'en'
                 )
             ),
-        ]
+        )
     );
 }
 
@@ -160,12 +159,8 @@ $t->data['srcName'] = $srcName;
 $t->data['dstName'] = $dstName;
 
 // Fetch privacypolicy
-if (array_key_exists('UIInfo', $state['Destination']) && array_key_exists('PrivacyStatementURL', $state['Destination']['UIInfo']) && (!empty($state['Destination']['UIInfo']['PrivacyStatementURL']))) {
-    $privacypolicy = reset($state['Destination']['UIInfo']['PrivacyStatementURL']);
-} elseif (array_key_exists('privacypolicy', $state['Destination'])) {
+if (array_key_exists('privacypolicy', $state['Destination'])) {
     $privacypolicy = $state['Destination']['privacypolicy'];
-} elseif (array_key_exists('UIInfo', $state['Source']) && array_key_exists('PrivacyStatementURL', $state['Source']['UIInfo']) && (!empty($state['Source']['UIInfo']['PrivacyStatementURL']))) {
-    $privacypolicy = reset($state['Source']['UIInfo']['PrivacyStatementURL']);
 } elseif (array_key_exists('privacypolicy', $state['Source'])) {
     $privacypolicy = $state['Source']['privacypolicy'];
 } else {
@@ -174,7 +169,7 @@ if (array_key_exists('UIInfo', $state['Destination']) && array_key_exists('Priva
 if ($privacypolicy !== false) {
     $privacypolicy = str_replace(
         '%SPENTITYID%',
-        urlencode($spentityid),
+        urlencode($spentityid), 
         $privacypolicy
     );
 }
@@ -182,27 +177,30 @@ $t->data['sppp'] = $privacypolicy;
 
 // Set focus element
 switch ($state['consent:focus']) {
-    case 'yes':
-        $t->data['autofocus'] = 'yesbutton';
-        break;
-    case 'no':
-        $t->data['autofocus'] = 'nobutton';
-        break;
-    case null:
-    default:
-        break;
+case 'yes':
+    $t->data['autofocus'] = 'yesbutton';
+    break;
+case 'no':
+    $t->data['autofocus'] = 'nobutton';
+    break;
+case null:
+default:
+    break;
 }
 
-$t->data['usestorage'] = array_key_exists('consent:store', $state);
+if (array_key_exists('consent:store', $state)) {
+    $t->data['usestorage'] = true;
+} else {
+    $t->data['usestorage'] = false;
+}
 
 if (array_key_exists('consent:hiddenAttributes', $state)) {
     $t->data['hiddenAttributes'] = $state['consent:hiddenAttributes'];
 } else {
-    $t->data['hiddenAttributes'] = [];
+    $t->data['hiddenAttributes'] = array();
 }
 
 $t->data['attributes_html'] = present_attributes($t, $attributes, '');
-
 $t->show();
 
 
@@ -215,27 +213,23 @@ $t->show();
  *
  * @return string HTML representation of the attributes
  */
-function present_attributes(\SimpleSAML\XHTML\Template $t, array $attributes, $nameParent)
+function present_attributes($t, $attributes, $nameParent)
 {
     $translator = $t->getTranslator();
-
-    $alternate = ['odd', 'even'];
+    $alternate = array('odd', 'even');
     $i = 0;
     $summary = 'summary="'.$translator->t('{consent:consent:table_summary}').'"';
-
     if (strlen($nameParent) > 0) {
         $parentStr = strtolower($nameParent).'_';
         $str = '<table class="attributes" '.$summary.'>';
     } else {
         $parentStr = '';
-        $str = '<table id="table_with_attributes" class="attributes" '.$summary.'>';
+        $str = '<table id="table_with_attributes"  class="attributes" '.$summary.'>';
         $str .= "\n".'<caption>'.$translator->t('{consent:consent:table_caption}').'</caption>';
     }
-
     foreach ($attributes as $name => $value) {
         $nameraw = $name;
         $name = $translator->getAttributeTranslation($parentStr.$nameraw);
-
         if (preg_match('/^child_/', $nameraw)) {
             // insert child table
             $parentName = preg_replace('/^child_/', '', $nameraw);
@@ -245,19 +239,15 @@ function present_attributes(\SimpleSAML\XHTML\Template $t, array $attributes, $n
             }
         } else {
             // insert values directly
-
             $str .= "\n".'<tr class="'.$alternate[($i++ % 2)].
-                '"><td><span class="attrname">'.htmlspecialchars($name).'</span></td>';
-
+                '"><td><span class="attrname">'.htmlspecialchars($name).'</span>';
             $isHidden = in_array($nameraw, $t->data['hiddenAttributes'], true);
             if ($isHidden) {
                 $hiddenId = \SimpleSAML\Utils\Random::generateID();
-                $str .= '<td><span class="attrvalue hidden" id="hidden_'.$hiddenId.'">';
+                $str .= '<div class="attrvalue hidden" id="hidden_'.$hiddenId.'">';
             } else {
-                $hiddenId = '';
-                $str .= '<td><span class="attrvalue">';
+                $str .= '<div class="attrvalue">';
             }
-
             if (sizeof($value) > 1) {
                 // we hawe several values
                 $str .= '<ul>';
@@ -279,21 +269,19 @@ function present_attributes(\SimpleSAML\XHTML\Template $t, array $attributes, $n
                     $str .= htmlspecialchars($value[0]);
                 }
             } // end of if multivalue
-            $str .= '</span>';
-
+            $str .= '</div>';
             if ($isHidden) {
                 $str .= '<div class="attrvalue consent_showattribute" id="visible_'.$hiddenId.'">';
                 $str .= '... ';
                 $str .= '<a class="consent_showattributelink" href="javascript:SimpleSAML_show(\'hidden_'.$hiddenId;
                 $str .= '\'); SimpleSAML_hide(\'visible_'.$hiddenId.'\');">';
-                $str .= $translator->t('{consent:consent:show_attribute}');
+                $str .= $t->t('{consent:consent:show_attribute}');
                 $str .= '</a>';
                 $str .= '</div>';
             }
-
             $str .= '</td></tr>';
         }       // end else: not child table
     }   // end foreach
-    $str .= '</table>';
+    $str .= isset($attributes) ? '</table>' : '';
     return $str;
 }

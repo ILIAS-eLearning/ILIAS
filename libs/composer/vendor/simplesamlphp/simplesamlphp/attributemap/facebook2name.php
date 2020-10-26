@@ -1,5 +1,5 @@
 <?php
-$attributemap = [
+$attributemap = array(
 
     // Generated Facebook Attributes
     'facebook_user'        => 'eduPersonPrincipalName', // username OR uid @ facebook.com
@@ -15,4 +15,4 @@ $attributemap = [
     'facebook.profile_url' => 'labeledURI',
     'facebook.locale'      => 'preferredLanguage',
     'facebook.about_me'    => 'description',
-];
+);

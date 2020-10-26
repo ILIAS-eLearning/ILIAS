@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Response\Validation;
 
 use SAML2\Exception\InvalidArgumentException;
@@ -14,33 +12,32 @@ class Result
     /**
      * @var array
      */
-    private $errors = [];
-
+    private $errors = array();
 
     /**
-     * @param string $message
-     * @throws InvalidArgumentException
-     * @return void
+     * @param $message
      */
-    public function addError(string $message) : void
+    public function addError($message)
     {
+        if (!is_string($message)) {
+            throw InvalidArgumentException::invalidType('string', $message);
+        }
+
         $this->errors[] = $message;
     }
-
 
     /**
      * @return bool
      */
-    public function isValid() : bool
+    public function isValid()
     {
         return empty($this->errors);
     }
 
-
     /**
      * @return array
      */
-    public function getErrors() : array
+    public function getErrors()
     {
         return $this->errors;
     }

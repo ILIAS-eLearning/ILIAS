@@ -1,11 +1,8 @@
 <?php
 
-declare(strict_types=1);
-
 namespace SAML2\Assertion;
 
 use Psr\Log\LoggerInterface;
-
 use SAML2\Assertion;
 use SAML2\Assertion\Exception\InvalidAssertionException;
 use SAML2\Assertion\Exception\InvalidSubjectConfirmationException;
@@ -18,6 +15,9 @@ use SAML2\Response\Exception\UnencryptedAssertionFoundException;
 use SAML2\Signature\Validator;
 use SAML2\Utilities\ArrayCollection;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects) - due to all the named exceptions
+ */
 class Processor
 {
     /**
@@ -55,16 +55,6 @@ class Processor
      */
     private $logger;
 
-
-    /**
-     * @param Decrypter $decrypter
-     * @param Validator $signatureValidator
-     * @param AssertionValidator $assertionValidator
-     * @param SubjectConfirmationValidator $subjectConfirmationValidator
-     * @param Transformer $transformer
-     * @param IdentityProvider $identityProviderConfiguration
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         Decrypter $decrypter,
         Validator $signatureValidator,
@@ -83,48 +73,31 @@ class Processor
         $this->logger                        = $logger;
     }
 
-
     /**
-     * Decrypt assertions, or do nothing if assertions are already decrypted.
-     *
      * @param \SAML2\Utilities\ArrayCollection $assertions
-     * @return \SAML2\Utilities\ArrayCollection Collection of processed assertions
-     */
-    public function decryptAssertions(ArrayCollection $assertions)
-    {
-        $decrypted = new ArrayCollection();
-        foreach ($assertions->getIterator() as $assertion) {
-            $decrypted->add($this->decryptAssertion($assertion));
-        }
-
-        return $decrypted;
-    }
-
-    /**
-     * @param \SAML2\Utilities\ArrayCollection $assertions Collection of decrypted assertions
      *
-     * @return \SAML2\Utilities\ArrayCollection Collection of processed assertions
+     * @return \SAML2\Assertion[] Collection (\SAML2\Utilities\ArrayCollection) of processed assertions
      */
-    public function processAssertions(ArrayCollection $assertions) : ArrayCollection
+    public function processAssertions($assertions)
     {
         $processed = new ArrayCollection();
-        foreach ($assertions->getIterator() as $assertion) {
+        foreach ($assertions as $assertion) {
             $processed->add($this->process($assertion));
         }
 
         return $processed;
     }
 
-
     /**
      * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
+     *
      * @return \SAML2\Assertion
      */
-    public function process($assertion) : Assertion
+    public function process($assertion)
     {
         $assertion = $this->decryptAssertion($assertion);
 
-        if (!$assertion->wasSignedAtConstruction()) {
+        if (!$assertion->getWasSignedAtConstruction()) {
             $this->logger->info(sprintf(
                 'Assertion with id "%s" was not signed at construction, not verifying the signature',
                 $assertion->getId()
@@ -133,9 +106,7 @@ class Processor
             $this->logger->info(sprintf('Verifying signature of Assertion with id "%s"', $assertion->getId()));
 
             if (!$this->signatureValidator->hasValidSignature($assertion, $this->identityProviderConfiguration)) {
-                throw new InvalidSignatureException(
-                    sprintf('The assertion with id "%s" does not have a valid signature', $assertion->getId())
-                );
+                throw new InvalidSignatureException();
             }
         }
 
@@ -146,15 +117,15 @@ class Processor
         return $assertion;
     }
 
-
     /**
      * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
+     *
      * @return \SAML2\Assertion
      */
-    private function decryptAssertion($assertion) : Assertion
+    private function decryptAssertion($assertion)
     {
         if ($this->decrypter->isEncryptionRequired() && $assertion instanceof Assertion) {
-            throw new UnencryptedAssertionFoundException('The assertion should be encrypted, but it was not');
+            throw new UnencryptedAssertionFoundException();
         }
 
         if ($assertion instanceof Assertion) {
@@ -164,17 +135,15 @@ class Processor
         return $this->decrypter->decrypt($assertion);
     }
 
-
     /**
      * @param \SAML2\Assertion $assertion
-     * @return void
      */
-    public function validateAssertion(Assertion $assertion) : void
+    public function validateAssertion(Assertion $assertion)
     {
         $assertionValidationResult = $this->assertionValidator->validate($assertion);
         if (!$assertionValidationResult->isValid()) {
             throw new InvalidAssertionException(sprintf(
-                'Invalid Assertion in SAML Response, errors: "%s"',
+                'Invalid Assertion in SAML Response, erorrs: "%s"',
                 implode('", "', $assertionValidationResult->getErrors())
             ));
         }
@@ -192,12 +161,12 @@ class Processor
         }
     }
 
-
     /**
      * @param \SAML2\Assertion $assertion
+     *
      * @return \SAML2\Assertion
      */
-    private function transformAssertion(Assertion $assertion) : Assertion
+    private function transformAssertion(Assertion $assertion)
     {
         return $this->transformer->transform($assertion);
     }

@@ -1,16 +1,15 @@
 <?php
 
-namespace SimpleSAML\Error;
-
 /**
  * Class for creating exceptions from assertion failures.
  *
  * @author Olav Morken, UNINETT AS.
  * @package SimpleSAMLphp
  */
-
-class Assertion extends Exception
+class SimpleSAML_Error_Assertion extends SimpleSAML_Error_Exception
 {
+
+
     /**
      * The assertion which failed, or null if only an expression was passed to the
      * assert-function.
@@ -53,14 +52,13 @@ class Assertion extends Exception
      *
      * This function will register this assertion handler. If will not enable assertions if they are
      * disabled.
-     * @return void
      */
     public static function installHandler()
     {
 
         assert_options(ASSERT_WARNING, 0);
         assert_options(ASSERT_QUIET_EVAL, 0);
-        assert_options(ASSERT_CALLBACK, [Assertion::class, 'onAssertion']);
+        assert_options(ASSERT_CALLBACK, array('SimpleSAML_Error_Assertion', 'onAssertion'));
     }
 
 
@@ -72,7 +70,6 @@ class Assertion extends Exception
      * @param string $file  The file assert was called from.
      * @param int $line  The line assert was called from.
      * @param mixed $message  The expression which was passed to the assert-function.
-     * @return void
      */
     public static function onAssertion($file, $line, $message)
     {

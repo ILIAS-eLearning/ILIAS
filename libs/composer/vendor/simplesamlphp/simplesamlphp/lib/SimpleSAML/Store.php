@@ -2,14 +2,14 @@
 
 namespace SimpleSAML;
 
-use SimpleSAML\Error;
+use SimpleSAML\Error\CriticalConfigurationError;
 
 /**
  * Base class for data stores.
  *
  * @package SimpleSAMLphp
  */
-abstract class Store implements Utils\ClearableState
+abstract class Store
 {
     /**
      * Our singleton instance.
@@ -24,7 +24,7 @@ abstract class Store implements Utils\ClearableState
     /**
      * Retrieve our singleton instance.
      *
-     * @return \SimpleSAML\Store|false The data store, or false if it isn't enabled.
+     * @return false|\SimpleSAML\Store The data store, or false if it isn't enabled.
      *
      * @throws \SimpleSAML\Error\CriticalConfigurationError
      */
@@ -34,8 +34,11 @@ abstract class Store implements Utils\ClearableState
             return self::$instance;
         }
 
-        $config = Configuration::getInstance();
-        $storeType = $config->getString('store.type', 'phpsession');
+        $config = \SimpleSAML_Configuration::getInstance();
+        $storeType = $config->getString('store.type', null);
+        if ($storeType === null) {
+            $storeType = $config->getString('session.handler', 'phpsession');
+        }
 
         switch ($storeType) {
             case 'phpsession':
@@ -58,13 +61,12 @@ abstract class Store implements Utils\ClearableState
                 } catch (\Exception $e) {
                     $c = $config->toArray();
                     $c['store.type'] = 'phpsession';
-                    throw new Error\CriticalConfigurationError(
+                    throw new CriticalConfigurationError(
                         "Invalid 'store.type' configuration option. Cannot find store '$storeType'.",
                         null,
                         $c
                     );
                 }
-                /** @var \SimpleSAML\Store|false */
                 self::$instance = new $className();
         }
 
@@ -101,14 +103,4 @@ abstract class Store implements Utils\ClearableState
      * @param string $key The key.
      */
     abstract public function delete($type, $key);
-
-
-    /**
-     * Clear any SSP specific state, such as SSP environmental variables or cached internals.
-     * @return void
-     */
-    public static function clearInternalState()
-    {
-        self::$instance = null;
-    }
 }

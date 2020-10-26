@@ -11,30 +11,33 @@
 
 namespace Symfony\Component\Yaml\Tests;
 
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\Yaml\Yaml;
 
-class YamlTest extends TestCase
+class YamlTest extends \PHPUnit_Framework_TestCase
 {
     public function testParseAndDump()
     {
-        $data = ['lorem' => 'ipsum', 'dolor' => 'sit'];
+        $data = array('lorem' => 'ipsum', 'dolor' => 'sit');
         $yml = Yaml::dump($data);
         $parsed = Yaml::parse($yml);
         $this->assertEquals($data, $parsed);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The indentation must be greater than zero
+     */
     public function testZeroIndentationThrowsException()
     {
-        $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('The indentation must be greater than zero');
-        Yaml::dump(['lorem' => 'ipsum', 'dolor' => 'sit'], 2, 0);
+        Yaml::dump(array('lorem' => 'ipsum', 'dolor' => 'sit'), 2, 0);
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionMessage The indentation must be greater than zero
+     */
     public function testNegativeIndentationThrowsException()
     {
-        $this->expectException('InvalidArgumentException');
-        $this->expectExceptionMessage('The indentation must be greater than zero');
-        Yaml::dump(['lorem' => 'ipsum', 'dolor' => 'sit'], 2, -4);
+        Yaml::dump(array('lorem' => 'ipsum', 'dolor' => 'sit'), 2, -4);
     }
 }

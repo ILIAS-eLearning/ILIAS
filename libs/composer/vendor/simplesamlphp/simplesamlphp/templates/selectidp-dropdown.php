@@ -7,21 +7,20 @@ $this->data['header'] = $this->t($this->data['header']);
 $this->data['autofocus'] = 'dropdownlist';
 $this->includeAtTemplateBase('includes/header.php');
 
-$translator = $this->getTranslator();
 foreach ($this->data['idplist'] as $idpentry) {
     if (!empty($idpentry['name'])) {
-        $translator->includeInlineTranslation(
+        $this->getTranslator()->includeInlineTranslation(
             'idpname_'.$idpentry['entityid'],
             $idpentry['name']
         );
     } elseif (!empty($idpentry['OrganizationDisplayName'])) {
-        $translator->includeInlineTranslation(
+        $this->getTranslator()->includeInlineTranslation(
             'idpname_'.$idpentry['entityid'],
             $idpentry['OrganizationDisplayName']
         );
     }
     if (!empty($idpentry['description'])) {
-        $translator->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
+        $this->getTranslator()->includeInlineTranslation('idpdesc_'.$idpentry['entityid'], $idpentry['description']);
     }
 }
 ?>
@@ -34,8 +33,8 @@ foreach ($this->data['idplist'] as $idpentry) {
                value="<?php echo htmlspecialchars($this->data['returnIDParam']); ?>"/>
         <select id="dropdownlist" name="idpentityid">
             <?php
-            usort($this->data['idplist'], function($idpentry1, $idpentry2) {
-                return strcasecmp(
+            usort($this->data['idplist'], function ($idpentry1, $idpentry2) {
+                return strcmp(
                     $this->t('idpname_'.$idpentry1['entityid']),
                     $this->t('idpname_'.$idpentry2['entityid'])
                 );

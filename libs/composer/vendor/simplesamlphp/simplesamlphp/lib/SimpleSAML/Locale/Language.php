@@ -10,9 +10,7 @@
 
 namespace SimpleSAML\Locale;
 
-use SimpleSAML\Configuration;
-use SimpleSAML\Logger;
-use SimpleSAML\Utils;
+use SimpleSAML\Utils\HTTP;
 
 class Language
 {
@@ -20,12 +18,12 @@ class Language
     /**
      * This is the default language map. It is used to map languages codes from the user agent to other language codes.
      */
-    private static $defaultLanguageMap = ['nb' => 'no'];
+    private static $defaultLanguageMap = array('nb' => 'no');
 
     /**
      * The configuration to use.
      *
-     * @var \SimpleSAML\Configuration
+     * @var \SimpleSAML_Configuration
      */
     private $configuration;
 
@@ -79,7 +77,7 @@ class Language
      *
      * @var array
      */
-    public static $language_names = [
+    private $language_names = array(
         'no'    => 'Bokmål', // Norwegian Bokmål
         'nn'    => 'Nynorsk', // Norwegian Nynorsk
         'se'    => 'Sámegiella', // Northern Sami
@@ -120,34 +118,32 @@ class Language
         'ro'    => 'Românește', // Romanian
         'eu'    => 'Euskara', // Basque
         'af'    => 'Afrikaans', // Afrikaans
-        'zu'    => 'IsiZulu', // Zulu
-        'xh'    => 'isiXhosa', // Xhosa
-    ];
+    );
 
     /**
      * A mapping of SSP languages to locales
      *
      * @var array
      */
-    private $languagePosixMapping = [
+    private $languagePosixMapping = array(
         'no' => 'nb_NO',
         'nn' => 'nn_NO',
-    ];
+    );
 
 
     /**
      * Constructor
      *
-     * @param \SimpleSAML\Configuration $configuration Configuration object
+     * @param \SimpleSAML_Configuration $configuration Configuration object
      */
-    public function __construct(Configuration $configuration)
+    public function __construct(\SimpleSAML_Configuration $configuration)
     {
         $this->configuration = $configuration;
         $this->availableLanguages = $this->getInstalledLanguages();
         $this->defaultLanguage = $this->configuration->getString('language.default', 'en');
         $this->languageParameterName = $this->configuration->getString('language.parameter.name', 'language');
         $this->customFunction = $this->configuration->getArray('language.get_language_function', null);
-        $this->rtlLanguages = $this->configuration->getArray('language.rtl', []);
+        $this->rtlLanguages = $this->configuration->getArray('language.rtl', array());
         if (isset($_GET[$this->languageParameterName])) {
             $this->setLanguage(
                 $_GET[$this->languageParameterName],
@@ -160,17 +156,17 @@ class Language
     /**
      * Filter configured (available) languages against installed languages.
      *
-     * @return array The set of languages both in 'language.available' and self::$language_names.
+     * @return array The set of languages both in 'language.available' and $this->language_names.
      */
     private function getInstalledLanguages()
     {
-        $configuredAvailableLanguages = $this->configuration->getArray('language.available', ['en']);
-        $availableLanguages = [];
+        $configuredAvailableLanguages = $this->configuration->getArray('language.available', array('en'));
+        $availableLanguages = array();
         foreach ($configuredAvailableLanguages as $code) {
-            if (array_key_exists($code, self::$language_names) && isset(self::$language_names[$code])) {
+            if (array_key_exists($code, $this->language_names) && isset($this->language_names[$code])) {
                 $availableLanguages[] = $code;
             } else {
-                Logger::error("Language \"$code\" not installed. Check config.");
+                \SimpleSAML\Logger::error("Language \"$code\" not installed. Check config.");
             }
         }
         return $availableLanguages;
@@ -198,7 +194,6 @@ class Language
      *
      * @param string  $language Language code for the language to set.
      * @param boolean $setLanguageCookie Whether to set the language cookie or not. Defaults to true.
-     * @return void
      */
     public function setLanguage($language, $setLanguageCookie = true)
     {
@@ -236,7 +231,7 @@ class Language
         }
 
         // language is provided in a stored cookie
-        $languageCookie = self::getLanguageCookie();
+        $languageCookie = Language::getLanguageCookie();
         if ($languageCookie !== null) {
             $this->language = $languageCookie;
             return $languageCookie;
@@ -258,14 +253,14 @@ class Language
      *
      * @param string $code The ISO 639-2 code of the language.
      *
-     * @return string|null The localized name of the language.
+     * @return string The localized name of the language.
      */
     public function getLanguageLocalizedName($code)
     {
-        if (array_key_exists($code, self::$language_names) && isset(self::$language_names[$code])) {
-            return self::$language_names[$code];
+        if (array_key_exists($code, $this->language_names) && isset($this->language_names[$code])) {
+            return $this->language_names[$code];
         }
-        Logger::error("Name for language \"$code\" not found. Check config.");
+        \SimpleSAML\Logger::error("Name for language \"$code\" not found. Check config.");
         return null;
     }
 
@@ -284,12 +279,12 @@ class Language
     /**
      * This method returns the preferred language for the user based on the Accept-Language HTTP header.
      *
-     * @return string|null The preferred language based on the Accept-Language HTTP header,
-     * or null if none of the languages in the header is available.
+     * @return string The preferred language based on the Accept-Language HTTP header, or null if none of the languages
+     * in the header is available.
      */
     private function getHTTPLanguage()
     {
-        $languageScore = Utils\HTTP::getAcceptLanguage();
+        $languageScore = HTTP::getAcceptLanguage();
 
         // for now we only use the default language map. We may use a configurable language map in the future
         $languageMap = self::$defaultLanguageMap;
@@ -337,8 +332,7 @@ class Language
     /**
      * Return an alias for a language code, if any.
      *
-     * @param string $langcode
-     * @return string|null The alias, or null if the alias was not found.
+     * @return string The alias, or null if the alias was not found.
      */
     public function getLanguageCodeAlias($langcode)
     {
@@ -383,8 +377,8 @@ class Language
      */
     public static function getLanguageCookie()
     {
-        $config = Configuration::getInstance();
-        $availableLanguages = $config->getArray('language.available', ['en']);
+        $config = \SimpleSAML_Configuration::getInstance();
+        $availableLanguages = $config->getArray('language.available', array('en'));
         $name = $config->getString('language.cookie.name', 'language');
 
         if (isset($_COOKIE[$name])) {
@@ -403,30 +397,28 @@ class Language
      * specified is not in the list of available languages, or the headers have already been sent to the browser.
      *
      * @param string $language The language set by the user.
-     * @return void
      */
     public static function setLanguageCookie($language)
     {
         assert(is_string($language));
 
         $language = strtolower($language);
-        $config = Configuration::getInstance();
-        $availableLanguages = $config->getArray('language.available', ['en']);
+        $config = \SimpleSAML_Configuration::getInstance();
+        $availableLanguages = $config->getArray('language.available', array('en'));
 
         if (!in_array($language, $availableLanguages, true) || headers_sent()) {
             return;
         }
 
         $name = $config->getString('language.cookie.name', 'language');
-        $params = [
+        $params = array(
             'lifetime' => ($config->getInteger('language.cookie.lifetime', 60 * 60 * 24 * 900)),
             'domain'   => ($config->getString('language.cookie.domain', null)),
             'path'     => ($config->getString('language.cookie.path', '/')),
             'secure'   => ($config->getBoolean('language.cookie.secure', false)),
             'httponly' => ($config->getBoolean('language.cookie.httponly', false)),
-            'samesite' => ($config->getString('language.cookie.samesite', null)),
-        ];
+        );
 
-        Utils\HTTP::setCookie($name, $language, $params, false);
+        HTTP::setCookie($name, $language, $params, false);
     }
 }

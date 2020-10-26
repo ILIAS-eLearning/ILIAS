@@ -4,63 +4,37 @@ namespace Gettext\Generators;
 
 use Gettext\Translations;
 
-class Jed extends Generator implements GeneratorInterface
+class Jed extends PhpArray implements GeneratorInterface
 {
-    public static $options = [
-        'json' => 0,
-    ];
-
     /**
      * {@parentDoc}.
      */
-    public static function toString(Translations $translations, array $options = [])
+    public static function toString(Translations $translations)
     {
-        $domain = $translations->getDomain() ?: 'messages';
-        $options += static::$options;
+        $array = static::toArray($translations);
 
-        return json_encode([
-            $domain => [
-                '' => [
-                    'domain' => $domain,
-                    'lang' => $translations->getLanguage() ?: 'en',
-                    'plural-forms' => $translations->getHeader('Plural-Forms') ?: 'nplurals=2; plural=(n != 1);',
-                ],
-            ] + static::buildMessages($translations),
-        ], $options['json']);
+        return json_encode($array);
     }
 
     /**
-     * Generates an array with all translations.
-     *
-     * @param Translations $translations
-     *
-     * @return array
+     * {@parentdoc}.
      */
-    protected static function buildMessages(Translations $translations)
+    protected static function buildArray(Translations $translations)
     {
-        $pluralForm = $translations->getPluralForms();
-        $pluralSize = is_array($pluralForm) ? ($pluralForm[0] - 1) : null;
-        $messages = [];
-        $context_glue = '\u0004';
+        $array = array();
+
+        $context_glue = "\004";
 
         foreach ($translations as $translation) {
-            if ($translation->isDisabled()) {
-                continue;
-            }
+            $key = ($translation->hasContext() ? $translation->getContext().$context_glue : '').$translation->getOriginal();
 
-            $key = ($translation->hasContext() ? $translation->getContext().$context_glue : '')
-                .$translation->getOriginal();
-
-            if ($translation->hasPluralTranslations(true)) {
-                $message = $translation->getPluralTranslations($pluralSize);
-                array_unshift($message, $translation->getTranslation());
+            if ($translation->hasPluralTranslation()) {
+                $array[$key] = array_merge(array($translation->getTranslation()), $translation->getPluralTranslation());
             } else {
-                $message = [$translation->getTranslation()];
+                $array[$key] = array($translation->getTranslation());
             }
-
-            $messages[$key] = $message;
         }
 
-        return $messages;
+        return $array;
     }
 }

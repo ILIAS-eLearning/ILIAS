@@ -47,9 +47,9 @@ example authsources.php entry:
     'x509' => array(
         'authX509:X509userCert',
         'hostname' => 'ldaps://ldap.example.net',
-        'enable_tls' => false,
-        'attributes' => array('cn', 'uid', 'mail', 'ou', 'sn'),
-        'search.enable' => true,
+        'enable_tls' => FALSE,
+        'attributes' => array("cn", "uid", "mail", "ou", "sn"),
+        'search.enable' => TRUE,
         'search.attributes' => array('uid', 'mail'),
         'search.base' => 'dc=example,dc=net',
         'authX509:x509attributes' => array('UID' => 'uid'),
@@ -102,7 +102,8 @@ can hack your metadata/saml20-idp-hosted.php file that way:
             'authority'     =>      'login',
             'userid.attribute' =>   'uid',
             'logouttype'    =>      'iframe',
-            'attributes.NameFormat' => 'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
+            'attributes.NameFormat' =>
+                            'urn:oasis:names:tc:SAML:2.0:attrname-format:uri',
     )
 
 Checking certificate expiry

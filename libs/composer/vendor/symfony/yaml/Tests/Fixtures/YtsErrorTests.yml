@@ -22,4 +22,4 @@ yaml: |
     firstline: 1
     secondline: 2
 php: |
-  ['foo' => null, 'firstline' => 1, 'secondline' => 2]
+  array('foo' => null, 'firstline' => 1, 'secondline' => 2)

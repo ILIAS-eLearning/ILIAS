@@ -1,5 +1,5 @@
-SAML V2.0 Metadata Attribute Extensions
-=======================================
+SAML V2.0 Metadata Extensions for Login and Discovery User Interface
+=============================
 
 <!--
 	This file is written in Markdown syntax.
@@ -7,35 +7,35 @@ SAML V2.0 Metadata Attribute Extensions
 	http://daringfireball.net/projects/markdown/syntax
 -->
 
+  * Author: Timothy Ace [tace@synacor.com](mailto:tace@synacor.com)
+
 <!-- {{TOC}} -->
 
-This is a reference for the SimpleSAMLphp implementation of the [SAML
+This is a reference for the SimpleSAMLphp implemenation of the [SAML
 V2.0 Attribute Extensions](http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-attribute-ext.pdf)
-defined by OASIS. A common use case is adding entity attributes
-to the generated metadata.
+defined by OASIS.
 
-For an IdP `metadata/saml20-idp-hosted.php` entries are used to define the
-metadata extension items; for an SP they can be added to `config/authsources.php`.
-An example of this is:
+The `metadata/saml20-idp-hosted.php` entries are used to define the
+metadata extension items. An example of this is:
 
     <?php
-    $metadata['entity-id-1'] = [
+    $metadata['entity-id-1'] = array(
         /* ... */
-		'EntityAttributes' => [
-			'urn:simplesamlphp:v1:simplesamlphp' => ['is', 'really', 'cool'],
-			'{urn:simplesamlphp:v1}foo'          => ['bar'],
-		],
+		'EntityAttributes' => array(
+			'urn:simplesamlphp:v1:simplesamlphp' => array('is', 'really', 'cool'),
+			'{urn:simplesamlphp:v1}foo'          => array('bar'),
+		),
         /* ... */
-    ];
+    );
 
 The OASIS specification primarily defines how to include arbitrary
-`Attribute` and `Assertion` elements within the metadata for an entity.
+`Attribute` and `Assertion` elements within the metadata for an IdP.
 
 *Note*: SimpleSAMLphp does not support `Assertion` elements within the
 metadata at this time.
 
 Defining Attributes
--------------------
+--------------
 
 The `EntityAttributes` key is used to define the attributes in the
 metadata. Each item in the `EntityAttributes` array defines a new
@@ -43,9 +43,9 @@ metadata. Each item in the `EntityAttributes` array defines a new
 array. Each item in this array produces a separte `<AttributeValue>`
 element within the `<Attribute>` element.
 
-		'EntityAttributes' => [
-			'urn:simplesamlphp:v1:simplesamlphp' => ['is', 'really', 'cool'],
-		],
+		'EntityAttributes' => array(
+			'urn:simplesamlphp:v1:simplesamlphp' => array('is', 'really', 'cool'),
+		),
 
 This generates:
 
@@ -58,9 +58,9 @@ This generates:
 Each `<Attribute>` element requires a `NameFormat` attribute. This is
 specified using curly braces at the beginning of the key name:
 
-		'EntityAttributes' => [
-			'{urn:simplesamlphp:v1}foo' => ['bar'],
-		],
+		'EntityAttributes' => array(
+			'{urn:simplesamlphp:v1}foo' => array('bar'),
+		),
 
 This generates:
 
@@ -71,22 +71,22 @@ This generates:
 When the curly braces are omitted, the NameFormat is automatically set
 to "urn:oasis:names:tc:SAML:2.0:attrname-format:uri".
 
-Examples
---------
+Generated XML Metadata Examples
+----------------
 
 If given the following configuration...
 
-    $metadata['https://www.example.com/saml/saml2/idp/metadata.php'] = [
+    $metadata['https://www.example.com/saml/saml2/idp/metadata.php'] = array(
         'host' => 'www.example.com',
         'certificate' => 'example.com.crt',
         'privatekey' => 'example.com.pem',
         'auth' => 'example-userpass',
 
-		'EntityAttributes' => [
-			'urn:simplesamlphp:v1:simplesamlphp' => ['is', 'really', 'cool'],
-			'{urn:simplesamlphp:v1}foo'          => ['bar'],
-		],
-	];
+		'EntityAttributes' => array(
+			'urn:simplesamlphp:v1:simplesamlphp' => array('is', 'really', 'cool'),
+			'{urn:simplesamlphp:v1}foo'          => array('bar'),
+		),
+	);
 
 ... will generate the following XML metadata:
 
@@ -110,33 +110,3 @@ If given the following configuration...
 			<ds:X509Data>
             ...
 
-
-An example configuration to declare Géant Data Protection Code of Conduct
-entity category support for a service provider in `authsources.php`:
-
-    'saml:SP' => [
-        ...
-        'EntityAttributes' => [
-            'http://macedir.org/entity-category' => [
-                'http://www.geant.net/uri/dataprotection-code-of-conduct/v1'
-            ]
-        ],
-        'UIInfo' =>[
-                'DisplayName' => [
-                    'en' => 'English name',
-                    'es' => 'Nombre en Español',
-                ],
-                'Description' => [
-                    'en' => 'English description',
-                    'es' => 'Descripción en Español',
-                ],
-                'InformationURL' => [
-                    'en' => 'http://example.com/info/en',
-                    'es' => 'http://example.com/info/es',
-                ],
-                'PrivacyStatementURL' => [
-                    'en' => 'http://example.com/privacy/en',
-                    'es' => 'http://example.com/privacy/es',
-                ],
-        ]
-    ],

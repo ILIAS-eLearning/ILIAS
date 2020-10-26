@@ -1,7 +1,7 @@
 <?php
 
-$config = [
-    'example.org' => [
+$config = array(
+    'example.org' => array(
         /*
          * The shared key for this CDC server.
          */
@@ -18,5 +18,5 @@ $config = [
          * If this is 0, the cookie will expire when the browser is closed.
          */
         'cookie.lifetime' => 0,
-    ],
-];
+    ),
+);

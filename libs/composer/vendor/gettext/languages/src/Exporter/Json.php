@@ -1,22 +1,10 @@
 <?php
-
 namespace Gettext\Languages\Exporter;
 
 class Json extends Exporter
 {
     /**
-     * {@inheritdoc}
-     *
-     * @see \Gettext\Languages\Exporter\Exporter::getDescription()
-     */
-    public static function getDescription()
-    {
-        return 'Build a compressed JSON-encoded file';
-    }
-
-    /**
      * Return the options for json_encode.
-     *
      * @return int
      */
     protected static function getEncodeOptions()
@@ -31,11 +19,8 @@ class Json extends Exporter
 
         return $result;
     }
-
     /**
-     * {@inheritdoc}
-     *
-     * @see \Gettext\Languages\Exporter\Exporter::toStringDo()
+     * @see Exporter::toStringDo
      */
     protected static function toStringDo($languages)
     {
@@ -67,5 +52,12 @@ class Json extends Exporter
         }
 
         return json_encode($list, static::getEncodeOptions());
+    }
+    /**
+     * @see Exporter::getDescription
+     */
+    public static function getDescription()
+    {
+        return 'Build a compressed JSON-encoded file';
     }
 }

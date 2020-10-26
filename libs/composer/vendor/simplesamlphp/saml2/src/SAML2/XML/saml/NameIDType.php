@@ -6,11 +6,8 @@
  * @package simplesamlphp/saml2
  */
 
-declare(strict_types=1);
-
 namespace SAML2\XML\saml;
 
-use DOMElement;
 
 abstract class NameIDType extends BaseIDType
 {
@@ -30,7 +27,7 @@ abstract class NameIDType extends BaseIDType
      *
      * @see saml-core-2.0-os
      */
-    protected $Format = null;
+    public $Format = null;
 
     /**
      * A name identifier established by a service provider or affiliation of providers for the entity, if different from
@@ -42,14 +39,14 @@ abstract class NameIDType extends BaseIDType
      *
      * @see saml-core-2.0-os
      */
-    protected $SPProvidedID = null;
+    public $SPProvidedID = null;
 
     /**
      * The NameIDType complex type is used when an element serves to represent an entity by a string-valued name.
      *
-     * @var string
+     * @var string|null
      */
-    protected $value = '';
+    public $value = null;
 
 
     /**
@@ -57,7 +54,7 @@ abstract class NameIDType extends BaseIDType
      *
      * @param \DOMElement|null $xml The XML element we should load, if any.
      */
-    public function __construct(DOMElement $xml = null)
+    public function __construct(\DOMElement $xml = null)
     {
         parent::__construct($xml);
 
@@ -78,82 +75,52 @@ abstract class NameIDType extends BaseIDType
 
 
     /**
-     * Collect the value of the Format-property
+     * Create a \SAML2\XML\saml\NameID object from an array with its contents.
      *
-     * @return string|null
-     */
-    public function getFormat() : ?string
-    {
-        return $this->Format;
-    }
-
-
-    /**
-     * Set the value of the Format-property
+     * @param array $nameId An array whose keys correspond to the fields of a NameID.
+     * @return \SAML2\XML\saml\NameID The corresponding NameID object.
      *
-     * @param string|null $format
-     * @return void
-     */
-    public function setFormat(string $format = null) : void
-    {
-        $this->Format = $format;
-    }
-
-
-    /**
-     * Collect the value of the value-property
+     * @throws \InvalidArgumentException If the array does not contain the "Value" key.
      *
-     * @return string
+     * @deprecated
      */
-    public function getValue() : string
+    public static function fromArray(array $nameId)
     {
-        return $this->value;
-    }
+        $nid = new NameID();
+        if (!array_key_exists('Value', $nameId)) {
+            throw new \InvalidArgumentException('Missing "Value" in array, cannot create NameID from it.');
+        }
+        $nid->value = $nameId['Value'];
 
-
-    /**
-     * Set the value of the value-property
-     * @param string $value
-     *
-     * @return void
-     */
-    public function setValue(string $value) : void
-    {
-        $this->value = $value;
-    }
-
-
-    /**
-     * Collect the value of the SPProvidedID-property
-     *
-     * @return string|null
-     */
-    public function getSPProvidedID() : ?string
-    {
-        return $this->SPProvidedID;
-    }
-
-
-    /**
-     * Set the value of the SPProvidedID-property
-     *
-     * @param string|null $spProvidedID
-     * @return void
-     */
-    public function setSPProvidedID(string $spProvidedID = null) : void
-    {
-        $this->SPProvidedID = $spProvidedID;
+        if (array_key_exists('NameQualifier', $nameId) && $nameId['NameQualifier'] !== null) {
+            $nid->NameQualifier = $nameId['NameQualifier'];
+        }
+        if (array_key_exists('SPNameQualifier', $nameId) && $nameId['SPNameQualifier'] !== null) {
+            $nid->SPNameQualifier = $nameId['SPNameQualifier'];
+        }
+        if (array_key_exists('SPProvidedID', $nameId) && $nameId['SPProvidedId'] !== null) {
+            $nid->SPProvidedID = $nameId['SPProvidedID'];
+        }
+        if (array_key_exists('Format', $nameId) && $nameId['Format'] !== null) {
+            $nid->Format = $nameId['Format'];
+        }
+        return $nid;
     }
 
 
     /**
      * Convert this NameIDType to XML.
      *
-     * @param \DOMElement $parent The element we are converting to XML.
+     * @param \DOMElement $element The element we are converting to XML.
+     *
      * @return \DOMElement The XML element after adding the data corresponding to this NameIDType.
      */
-    public function toXML(DOMElement $parent = null) : DOMElement
+    public function toXML(\DOMElement $parent = null)
     {
+        assert(is_string($this->Format) || is_null($this->Format));
+        assert(is_string($this->SPProvidedID) || is_null($this->SPProvidedID));
+        assert(is_string($this->value));
+
         $element = parent::toXML($parent);
 
         if ($this->Format !== null) {

@@ -4,53 +4,47 @@ namespace Gettext\Extractors;
 
 use Gettext\Translations;
 use Gettext\Translation;
-use Gettext\Utils\HeadersExtractorTrait;
 
 /**
  * Class to get gettext strings from php files returning arrays.
  */
 class Po extends Extractor implements ExtractorInterface
 {
-    use HeadersExtractorTrait;
-
     /**
      * Parses a .po file and append the translations found in the Translations instance.
      *
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations, array $options = [])
+    public static function fromString($string, Translations $translations = null, $file = '')
     {
+        if ($translations === null) {
+            $translations = new Translations();
+        }
+
         $lines = explode("\n", $string);
         $i = 0;
 
-        $translation = $translations->createNewTranslation('', '');
+        $translation = new Translation('', '');
 
         for ($n = count($lines); $i < $n; ++$i) {
             $line = trim($lines[$i]);
-            $line = static::fixMultiLines($line, $lines, $i);
+
+            $line = self::fixMultiLines($line, $lines, $i);
 
             if ($line === '') {
                 if ($translation->is('', '')) {
-                    static::extractHeaders($translation->getTranslation(), $translations);
+                    self::parseHeaders($translation->getTranslation(), $translations);
                 } elseif ($translation->hasOriginal()) {
                     $translations[] = $translation;
                 }
 
-                $translation = $translations->createNewTranslation('', '');
+                $translation = new Translation('', '');
                 continue;
             }
 
             $splitLine = preg_split('/\s+/', $line, 2);
             $key = $splitLine[0];
             $data = isset($splitLine[1]) ? $splitLine[1] : '';
-
-            if ($key === '#~') {
-                $translation->setDisabled(true);
-
-                $splitLine = preg_split('/\s+/', $data, 2);
-                $key = $splitLine[0];
-                $data = isset($splitLine[1]) ? $splitLine[1] : '';
-            }
 
             switch ($key) {
                 case '#':
@@ -80,66 +74,58 @@ class Po extends Extractor implements ExtractorInterface
                     break;
 
                 case 'msgctxt':
-                    $translation = $translation->getClone(static::convertString($data));
+                    $translation = $translation->getClone(self::convertString($data));
                     $append = 'Context';
                     break;
 
                 case 'msgid':
-                    $translation = $translation->getClone(null, static::convertString($data));
+                    $translation = $translation->getClone(null, self::convertString($data));
                     $append = 'Original';
                     break;
 
                 case 'msgid_plural':
-                    $translation->setPlural(static::convertString($data));
+                    $translation->setPlural(self::convertString($data));
                     $append = 'Plural';
                     break;
 
                 case 'msgstr':
                 case 'msgstr[0]':
-                    $translation->setTranslation(static::convertString($data));
+                    $translation->setTranslation(self::convertString($data));
                     $append = 'Translation';
                     break;
 
                 case 'msgstr[1]':
-                    $translation->setPluralTranslations([static::convertString($data)]);
+                    $translation->setPluralTranslation(self::convertString($data), 0);
                     $append = 'PluralTranslation';
                     break;
 
                 default:
                     if (strpos($key, 'msgstr[') === 0) {
-                        $p = $translation->getPluralTranslations();
-                        $p[] = static::convertString($data);
-
-                        $translation->setPluralTranslations($p);
+                        $translation->setPluralTranslation(self::convertString($data), intval(substr($key, 7, -1)) - 1);
                         $append = 'PluralTranslation';
                         break;
                     }
 
                     if (isset($append)) {
                         if ($append === 'Context') {
-                            $translation = $translation->getClone($translation->getContext()
-                                ."\n"
-                                .static::convertString($data));
+                            $translation = $translation->getClone($translation->getContext()."\n".self::convertString($data));
                             break;
                         }
 
                         if ($append === 'Original') {
-                            $translation = $translation->getClone(null, $translation->getOriginal()
-                                ."\n"
-                                .static::convertString($data));
+                            $translation = $translation->getClone(null, $translation->getOriginal()."\n".self::convertString($data));
                             break;
                         }
 
                         if ($append === 'PluralTranslation') {
-                            $p = $translation->getPluralTranslations();
-                            $p[] = array_pop($p)."\n".static::convertString($data);
-                            $translation->setPluralTranslations($p);
+                            $key = count($translation->getPluralTranslation()) - 1;
+                            $translation->setPluralTranslation($translation->getPluralTranslation($key)."\n".self::convertString($data), $key);
                             break;
                         }
 
                         $getMethod = 'get'.$append;
                         $setMethod = 'set'.$append;
-                        $translation->$setMethod($translation->$getMethod()."\n".static::convertString($data));
+                        $translation->$setMethod($translation->$getMethod()."\n".self::convertString($data));
                     }
                     break;
             }
@@ -147,6 +133,46 @@ class Po extends Extractor implements ExtractorInterface
 
         if ($translation->hasOriginal() && !in_array($translation, iterator_to_array($translations))) {
             $translations[] = $translation;
+        }
+
+        return $translations;
+    }
+
+    /**
+     * Checks if it is a header definition line. Useful for distguishing between header definitions
+     * and possible continuations of a header entry.
+     *
+     * @param string $line Line to parse
+     *
+     * @return bool
+     */
+    private static function isHeaderDefinition($line)
+    {
+        return (bool) preg_match('/^[\w-]+:/', $line);
+    }
+
+    /**
+     * Parse the po headers.
+     *
+     * @param string       $headers
+     * @param Translations $translations
+     */
+    private static function parseHeaders($headers, Translations $translations)
+    {
+        $headers = explode("\n", $headers);
+        $currentHeader = null;
+
+        foreach ($headers as $line) {
+            $line = self::convertString($line);
+
+            if (self::isHeaderDefinition($line)) {
+                $header = array_map('trim', explode(':', $line, 2));
+                $currentHeader = $header[0];
+                $translations->setHeader($currentHeader, $header[1]);
+            } else {
+                $entry = $translations->getHeader($currentHeader);
+                $translations->setHeader($currentHeader, $entry.$line);
+            }
         }
     }
 
@@ -159,7 +185,7 @@ class Po extends Extractor implements ExtractorInterface
      *
      * @return string
      */
-    protected static function fixMultiLines($line, array $lines, &$i)
+    private static function fixMultiLines($line, array $lines, &$i)
     {
         for ($j = $i, $t = count($lines); $j < $t; ++$j) {
             if (substr($line, -1, 1) == '"'
@@ -195,7 +221,7 @@ class Po extends Extractor implements ExtractorInterface
 
         return strtr(
             $value,
-            [
+            array(
                 '\\\\' => '\\',
                 '\\a' => "\x07",
                 '\\b' => "\x08",
@@ -205,7 +231,7 @@ class Po extends Extractor implements ExtractorInterface
                 '\\f' => "\x0c",
                 '\\r' => "\r",
                 '\\"' => '"',
-            ]
+            )
         );
     }
 }

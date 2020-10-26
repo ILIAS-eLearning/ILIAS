@@ -1,14 +1,11 @@
 <?php
 
-namespace SimpleSAML\module\cdc\Auth\Process;
-
 /**
  * Filter for setting the SAML 2 common domain cookie.
  *
  * @package SimpleSAMLphp
  */
-
-class CDC extends \SimpleSAML\Auth\ProcessingFilter
+class sspmod_cdc_Auth_Process_CDC extends SimpleSAML_Auth_ProcessingFilter
 {
     /**
      * Our CDC domain.
@@ -21,7 +18,7 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
     /**
      * Our CDC client.
      *
-     * @var \SimpleSAML\Module\cdc\Client
+     * @var sspmod_cdc_Client
      */
     private $client;
 
@@ -38,11 +35,11 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
         assert(is_array($config));
 
         if (!isset($config['domain'])) {
-            throw new \SimpleSAML\Error\Exception('Missing domain option in cdc:CDC filter.');
+            throw new SimpleSAML_Error_Exception('Missing domain option in cdc:CDC filter.');
         }
-        $this->domain = (string) $config['domain'];
+        $this->domain = (string)$config['domain'];
 
-        $this->client = new \SimpleSAML\Module\cdc\Client($this->domain);
+        $this->client = new sspmod_cdc_Client($this->domain);
     }
 
 
@@ -50,26 +47,25 @@ class CDC extends \SimpleSAML\Auth\ProcessingFilter
      * Redirect to page setting CDC.
      *
      * @param array &$state  The request state.
-     * @return void
      */
     public function process(&$state)
     {
         assert(is_array($state));
 
         if (!isset($state['Source']['entityid'])) {
-            \SimpleSAML\Logger::warning('saml:CDC: Could not find IdP entityID.');
+            SimpleSAML\Logger::warning('saml:CDC: Could not find IdP entityID.');
             return;
         }
 
         // Save state and build request
-        $id = \SimpleSAML\Auth\State::saveState($state, 'cdc:resume');
+        $id = SimpleSAML_Auth_State::saveState($state, 'cdc:resume');
 
-        $returnTo = \SimpleSAML\Module::getModuleURL('cdc/resume.php', ['domain' => $this->domain]);
+        $returnTo = SimpleSAML\Module::getModuleURL('cdc/resume.php', array('domain' => $this->domain));
 
-        $params = [
+        $params = array(
             'id' => $id,
             'entityID' => $state['Source']['entityid'],
-        ];
+        );
         $this->client->sendRequest($returnTo, 'append', $params);
     }
 }

@@ -1,169 +1,143 @@
 <?php
 
-namespace SimpleSAML\Module\authfacebook\Auth\Source;
-
-use SimpleSAML\Auth;
-use SimpleSAML\Configuration;
-use SimpleSAML\Error;
-use SimpleSAML\Logger;
-use SimpleSAML\Module;
-use SimpleSAML\Utils;
-
 /**
  * Authenticate using Facebook Platform.
  *
  * @author Andreas Åkre Solberg, UNINETT AS.
  * @package SimpleSAMLphp
  */
-
-class Facebook extends \SimpleSAML\Auth\Source
-{
-    /**
-     * The string used to identify our states.
-     */
-    const STAGE_INIT = 'facebook:init';
+class sspmod_authfacebook_Auth_Source_Facebook extends SimpleSAML_Auth_Source {
 
 
-    /**
-     * The key of the AuthId field in the state.
-     */
-    const AUTHID = 'facebook:AuthId';
+	/**
+	 * The string used to identify our states.
+	 */
+	const STAGE_INIT = 'facebook:init';
 
 
-    /**
-     * Facebook App ID or API Key
-     */
-    private $api_key;
+	/**
+	 * The key of the AuthId field in the state.
+	 */
+	const AUTHID = 'facebook:AuthId';
 
 
-    /**
-     * Facebook App Secret
-     */
-    private $secret;
+	/**
+	 * Facebook App ID or API Key
+	 */
+	private $api_key;
 
 
-    /**
-     * Which additional data permissions to request from user
-     */
-    private $req_perms;
+	/**
+	 * Facebook App Secret
+	 */
+	private $secret;
 
 
-    /**
-     * A comma-separated list of user profile fields to request.
-     *
-     * Note that some user fields require appropriate permissions. For
-     * example, to retrieve the user's primary email address, "email" must
-     * be specified in both the req_perms and the user_fields parameter.
-     *
-     * When empty, only the app-specific user id and name will be returned.
-     *
-     * See the Graph API specification for all available user fields:
-     * https://developers.facebook.com/docs/graph-api/reference/v2.6/user
-     */
-    private $user_fields;
+	/**
+	 * Which additional data permissions to request from user
+	 */
+	private $req_perms;
 
 
-    /**
-     * Constructor for this authentication source.
-     *
-     * @param array $info  Information about this authentication source.
-     * @param array $config  Configuration.
-     */
-    public function __construct($info, $config)
-    {
-        assert(is_array($info));
-        assert(is_array($config));
-
-        // Call the parent constructor first, as required by the interface
-        parent::__construct($info, $config);
-
-        $cfgParse = Configuration::loadFromArray(
-            $config,
-            'authsources[' . var_export($this->authId, true) . ']'
-        );
-
-        $this->api_key = $cfgParse->getString('api_key');
-        $this->secret = $cfgParse->getString('secret');
-        $this->req_perms = $cfgParse->getString('req_perms', null);
-        $this->user_fields = $cfgParse->getString('user_fields', null);
-    }
+	/**
+	 * A comma-separated list of user profile fields to request.
+	 *
+	 * Note that some user fields require appropriate permissions. For
+	 * example, to retrieve the user's primary email address, "email" must
+	 * be specified in both the req_perms and the user_fields parameter.
+	 *
+	 * When empty, only the app-specific user id and name will be returned.
+	 *
+	 * See the Graph API specification for all available user fields:
+	 * https://developers.facebook.com/docs/graph-api/reference/v2.6/user
+	 */
+	private $user_fields;
 
 
-    /**
-     * Log-in using Facebook platform
-     *
-     * @param array &$state  Information about the current authentication.
-     * @return void
-     */
-    public function authenticate(&$state)
-    {
-        assert(is_array($state));
+	/**
+	 * Constructor for this authentication source.
+	 *
+	 * @param array $info  Information about this authentication source.
+	 * @param array $config  Configuration.
+	 */
+	public function __construct($info, $config) {
+		assert(is_array($info));
+		assert(is_array($config));
 
-        // We are going to need the authId in order to retrieve this authentication source later
-        $state[self::AUTHID] = $this->authId;
-        Auth\State::saveState($state, self::STAGE_INIT);
+		// Call the parent constructor first, as required by the interface
+		parent::__construct($info, $config);
 
-        $facebook = new Module\authfacebook\Facebook(
-            ['appId' => $this->api_key, 'secret' => $this->secret],
-            $state
-        );
-        $facebook->destroySession();
-
-        $linkback = Module::getModuleURL('authfacebook/linkback.php');
-        $url = $facebook->getLoginUrl(['redirect_uri' => $linkback, 'scope' => $this->req_perms]);
-        Auth\State::saveState($state, self::STAGE_INIT);
-
-        Utils\HTTP::redirectTrustedURL($url);
-    }
+		$cfgParse = SimpleSAML_Configuration::loadFromArray($config, 'authsources[' . var_export($this->authId, TRUE) . ']');
+		
+		$this->api_key = $cfgParse->getString('api_key');
+		$this->secret = $cfgParse->getString('secret');
+		$this->req_perms = $cfgParse->getString('req_perms', NULL);
+		$this->user_fields = $cfgParse->getString('user_fields', NULL);
+	}
 
 
-    /**
-     * @param array &$state
-     * @return void
-     */
-    public function finalStep(&$state)
-    {
-        assert(is_array($state));
+	/**
+	 * Log-in using Facebook platform
+	 *
+	 * @param array &$state  Information about the current authentication.
+	 */
+	public function authenticate(&$state) {
+		assert(is_array($state));
 
-        $facebook = new Module\authfacebook\Facebook(
-            ['appId' => $this->api_key, 'secret' => $this->secret],
-            $state
-        );
-        $uid = $facebook->getUser();
+		// We are going to need the authId in order to retrieve this authentication source later
+		$state[self::AUTHID] = $this->authId;
+		SimpleSAML_Auth_State::saveState($state, self::STAGE_INIT);
+		
+		$facebook = new sspmod_authfacebook_Facebook(array('appId' => $this->api_key, 'secret' => $this->secret), $state);
+		$facebook->destroySession();
 
-        $info = null;
-        if ($uid > 0) {
-            try {
-                $info = $facebook->api("/" . $uid . ($this->user_fields ? "?fields=" . $this->user_fields : ""));
-            } catch (\FacebookApiException $e) {
-                throw new Error\AuthSource($this->authId, 'Error getting user profile.', $e);
-            }
-        }
+		$linkback = SimpleSAML\Module::getModuleURL('authfacebook/linkback.php');
+		$url = $facebook->getLoginUrl(array('redirect_uri' => $linkback, 'scope' => $this->req_perms));
+		SimpleSAML_Auth_State::saveState($state, self::STAGE_INIT);
 
-        if (!isset($info)) {
-            throw new Error\AuthSource($this->authId, 'Error getting user profile.');
-        }
+		\SimpleSAML\Utils\HTTP::redirectTrustedURL($url);
+	}
+		
 
-        $attributes = [];
-        foreach ($info as $key => $value) {
-            if (is_string($value) && !empty($value)) {
-                $attributes['facebook.' . $key] = [(string) $value];
-            }
-        }
+	public function finalStep(&$state) {
+		assert(is_array($state));
 
-        if (array_key_exists('third_party_id', $info)) {
-            $attributes['facebook_user'] = [$info['third_party_id'] . '@facebook.com'];
-        } else {
-            $attributes['facebook_user'] = [$uid . '@facebook.com'];
-        }
+		$facebook = new sspmod_authfacebook_Facebook(array('appId' => $this->api_key, 'secret' => $this->secret), $state);
+		$uid = $facebook->getUser();
 
-        $attributes['facebook_targetedID'] = ['http://facebook.com!' . $uid];
-        $attributes['facebook_cn'] = [$info['name']];
+		if (isset($uid) && $uid) {
+			try {
+				$info = $facebook->api("/" . $uid . ($this->user_fields ? "?fields=" . $this->user_fields : ""));
+			} catch (FacebookApiException $e) {
+				throw new SimpleSAML_Error_AuthSource($this->authId, 'Error getting user profile.', $e);
+			}
+		}
 
-        Logger::debug('Facebook Returned Attributes: ' . implode(", ", array_keys($attributes)));
+		if (!isset($info)) {
+			throw new SimpleSAML_Error_AuthSource($this->authId, 'Error getting user profile.');
+		}
+		
+		$attributes = array();
+		foreach($info AS $key => $value) {
+			if (is_string($value) && !empty($value)) {
+				$attributes['facebook.' . $key] = array((string)$value);
+			}
+		}
 
-        $state['Attributes'] = $attributes;
+		if (array_key_exists('third_party_id', $info)) {
+			$attributes['facebook_user'] = array($info['third_party_id'] . '@facebook.com');
+		} else {
+			$attributes['facebook_user'] = array($uid . '@facebook.com');
+		}
 
-        $facebook->destroySession();
-    }
+		$attributes['facebook_targetedID'] = array('http://facebook.com!' . $uid);
+		$attributes['facebook_cn'] = array($info['name']);
+
+		SimpleSAML\Logger::debug('Facebook Returned Attributes: '. implode(", ", array_keys($attributes)));
+
+		$state['Attributes'] = $attributes;
+	
+		$facebook->destroySession();
+	}
+
 }

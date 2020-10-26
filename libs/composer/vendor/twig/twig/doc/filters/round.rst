@@ -1,9 +1,12 @@
 ``round``
 =========
 
+.. versionadded:: 1.15.0
+    The ``round`` filter was added in Twig 1.15.0.
+
 The ``round`` filter rounds a number to a given precision:
 
-.. code-block:: twig
+.. code-block:: jinja
 
     {{ 42.55|round }}
     {# outputs 43 #}

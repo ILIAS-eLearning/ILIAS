@@ -1,5 +1,6 @@
 <?php
 
+
 /**
  * This file is part of SimpleSAMLphp. See the file COPYING in the root of the distribution for licence information.
  *
@@ -13,10 +14,11 @@
 
 namespace SimpleSAML;
 
-use SimpleSAML\Utils;
+use SimpleSAML\Utils\HTTP;
 
 abstract class SessionHandlerCookie extends SessionHandler
 {
+
     /**
      * This variable contains the current session id.
      *
@@ -42,7 +44,7 @@ abstract class SessionHandlerCookie extends SessionHandler
         // call the constructor in the base class in case it should become necessary in the future
         parent::__construct();
 
-        $config = Configuration::getInstance();
+        $config = \SimpleSAML_Configuration::getInstance();
         $this->cookie_name = $config->getString('session.cookie.name', 'SimpleSAMLSessionID');
     }
 
@@ -55,7 +57,7 @@ abstract class SessionHandlerCookie extends SessionHandler
     public function newSessionId()
     {
         $this->session_id = self::createSessionID();
-        Session::createSession($this->session_id);
+        \SimpleSAML_Session::createSession($this->session_id);
 
         return $this->session_id;
     }
@@ -69,7 +71,7 @@ abstract class SessionHandlerCookie extends SessionHandler
     public function getCookieSessionId()
     {
         if ($this->session_id === null) {
-            if ($this->hasSessionCookie()) {
+            if (self::hasSessionCookie()) {
                 // attempt to retrieve the session id from the cookie
                 $this->session_id = $_COOKIE[$this->cookie_name];
             }
@@ -152,7 +154,6 @@ abstract class SessionHandlerCookie extends SessionHandler
      * @param string $sessionName The name of the session.
      * @param string|null $sessionID The session ID to use. Set to null to delete the cookie.
      * @param array|null $cookieParams Additional parameters to use for the session cookie.
-     * @return void
      *
      * @throws \SimpleSAML\Error\CannotSetCookie If we can't set the cookie.
      */
@@ -167,6 +168,6 @@ abstract class SessionHandlerCookie extends SessionHandler
             $params = $this->getCookieParams();
         }
 
-        Utils\HTTP::setCookie($sessionName, $sessionID, $params, true);
+        HTTP::setCookie($sessionName, $sessionID, $params, true);
     }
 }

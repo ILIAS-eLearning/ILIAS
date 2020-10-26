@@ -6,17 +6,27 @@ use Exception;
 use InvalidArgumentException;
 use Gettext\Translations;
 
-abstract class Extractor implements ExtractorInterface
+abstract class Extractor
 {
     /**
-     * {@inheritdoc}
+     * Extract the translations from a file.
+     *
+     * @param array|string      $file         A path of a file or files
+     * @param null|Translations $translations The translations instance to append the new translations.
+     *
+     * @return Translations
      */
-    public static function fromFile($file, Translations $translations, array $options = [])
+    public static function fromFile($file, Translations $translations = null)
     {
-        foreach (static::getFiles($file) as $file) {
-            $options['file'] = $file;
-            static::fromString(static::readFile($file), $translations, $options);
+        if ($translations === null) {
+            $translations = new Translations();
         }
+
+        foreach (self::getFiles($file) as $file) {
+            static::fromString(self::readFile($file), $translations, $file);
+        }
+
+        return $translations;
     }
 
     /**
@@ -41,20 +51,20 @@ abstract class Extractor implements ExtractorInterface
                 throw new InvalidArgumentException("'$file' is not a readable file");
             }
 
-            return [$file];
+            return array($file);
         }
 
         if (is_array($file)) {
-            $files = [];
+            $files = array();
 
             foreach ($file as $f) {
-                $files = array_merge($files, static::getFiles($f));
+                $files = array_merge($files, self::getFiles($f));
             }
 
             return $files;
         }
 
-        throw new InvalidArgumentException('The first argument must be string or array');
+        throw new InvalidArgumentException('The first argumet must be string or array');
     }
 
     /**

@@ -1,10 +1,8 @@
 <?php
-
 /**
  * Hook to add the modinfo module to the frontpage.
  *
  * @param array &$hookinfo  hookinfo
- * @return void
  */
 function sanitycheck_hook_sanitycheck(&$hookinfo)
 {

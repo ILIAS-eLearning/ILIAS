@@ -2,86 +2,65 @@
 
 namespace Gettext\Extractors;
 
-use Exception;
 use Gettext\Translations;
-use Gettext\Utils\FunctionsScanner;
+use Gettext\Utils\PhpFunctionsScanner;
 
 /**
  * Class to get gettext strings from php files returning arrays.
  */
-class PhpCode extends Extractor implements ExtractorInterface, ExtractorMultiInterface
+class PhpCode extends Extractor implements ExtractorInterface
 {
-    public static $options = [
-        // - false: to not extract comments
-        // - empty string: to extract all comments
-        // - non-empty string: to extract comments that start with that string
-        // - array with strings to extract comments format.
-        'extractComments' => false,
+    public static $functions = array(
+        'gettext' => '__',
+        '__' => '__',
+        '__e' => '__',
+        'ngettext' => 'n__',
+        'n__' => 'n__',
+        'n__e' => 'n__',
+        'pgettext' => 'p__',
+        'p__' => 'p__',
+        'p__e' => 'p__',
+        'dgettext' => 'd__',
+        'd__' => 'd__',
+        'd__e' => 'd__',
+        'dpgettext' => 'dp__',
+        'dp__' => 'dp__',
+        'dp__e' => 'dp__',
+        'npgettext' => 'np__',
+        'np__' => 'np__',
+        'np__e' => 'np__',
+        'dnpgettext' => 'dnp__',
+        'dnp__' => 'dnp__',
+        'dnp__e' => 'dnp__',
+    );
 
-        'constants' => [],
-
-        'functions' => [
-            'gettext' => 'gettext',
-            '__' => 'gettext',
-            'ngettext' => 'ngettext',
-            'n__' => 'ngettext',
-            'pgettext' => 'pgettext',
-            'p__' => 'pgettext',
-            'dgettext' => 'dgettext',
-            'd__' => 'dgettext',
-            'dngettext' => 'dngettext',
-            'dn__' => 'dngettext',
-            'dpgettext' => 'dpgettext',
-            'dp__' => 'dpgettext',
-            'npgettext' => 'npgettext',
-            'np__' => 'npgettext',
-            'dnpgettext' => 'dnpgettext',
-            'dnp__' => 'dnpgettext',
-            'noop' => 'noop',
-            'noop__' => 'noop',
-        ],
-    ];
-
-    protected static $functionsScannerClass = 'Gettext\Utils\PhpFunctionsScanner';
+    /**
+     * Set to:
+     * - false to not extract comments
+     * - empty string to extract all comments
+     * - non-empty string to extract comments that start with that string.
+     *
+     * @var string|false
+     */
+    public static $extractComments = false;
 
     /**
      * {@inheritdoc}
-     * @throws Exception
      */
-    public static function fromString($string, Translations $translations, array $options = [])
+    public static function fromString($string, Translations $translations = null, $file = '')
     {
-        static::fromStringMultiple($string, [$translations], $options);
-    }
-
-    /**
-     * @inheritDoc
-     * @throws Exception
-     */
-    public static function fromStringMultiple($string, array $translations, array $options = [])
-    {
-        $options += static::$options;
-
-        /** @var FunctionsScanner $functions */
-        $functions = new static::$functionsScannerClass($string);
-
-        if ($options['extractComments'] !== false) {
-            $functions->enableCommentsExtraction($options['extractComments']);
+        if ($translations === null) {
+            $translations = new Translations();
         }
 
-        $functions->saveGettextFunctions($translations, $options);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function fromFileMultiple($file, array $translations, array $options = [])
-    {
-        foreach (static::getFiles($file) as $file) {
-            $options['file'] = $file;
-            static::fromStringMultiple(static::readFile($file), $translations, $options);
+        $functions = new PhpFunctionsScanner($string);
+        if (self::$extractComments !== false) {
+            $functions->enableCommentsExtraction(self::$extractComments);
         }
-    }
+        $functions->saveGettextFunctions(self::$functions, $translations, $file);
 
+        return $translations;
+    }
 
     /**
      * Decodes a T_CONSTANT_ENCAPSED_STRING string.
@@ -97,51 +76,43 @@ class PhpCode extends Extractor implements ExtractorInterface, ExtractorMultiInt
         }
 
         if ($value[0] === "'") {
-            return strtr(substr($value, 1, -1), ['\\\\' => '\\', '\\\'' => '\'']);
+            return strtr(substr($value, 1, -1), array('\\\\' => '\\', '\\\'' => '\''));
         }
 
         $value = substr($value, 1, -1);
 
-        return preg_replace_callback(
-            '/\\\(n|r|t|v|e|f|\$|"|\\\|x[0-9A-Fa-f]{1,2}|u{[0-9a-f]{1,6}}|[0-7]{1,3})/',
-            function ($match) {
-                switch ($match[1][0]) {
-                    case 'n':
-                        return "\n";
-                    case 'r':
-                        return "\r";
-                    case 't':
-                        return "\t";
-                    case 'v':
-                        return "\v";
-                    case 'e':
-                        return "\e";
-                    case 'f':
-                        return "\f";
-                    case '$':
-                        return '$';
-                    case '"':
-                        return '"';
-                    case '\\':
-                        return '\\';
-                    case 'x':
-                        return chr(hexdec(substr($match[1], 1)));
-                    case 'u':
-                        return static::unicodeChar(hexdec(substr($match[1], 1)));
-                    default:
-                        return chr(octdec($match[1]));
-                }
-            },
-            $value
-        );
+        return preg_replace_callback('/\\\(n|r|t|v|e|f|\$|"|\\\|x[0-9A-Fa-f]{1,2}|u{[0-9a-f]{1,6}}|[0-7]{1,3})/', function ($match) {
+            switch ($match[1][0]) {
+                case 'n':
+                    return "\n";
+                case 'r':
+                    return "\r";
+                case 't':
+                    return "\t";
+                case 'v':
+                    return "\v";
+                case 'e':
+                    return "\e";
+                case 'f':
+                    return "\f";
+                case '$':
+                    return '$';
+                case '"':
+                    return '"';
+                case '\\':
+                    return '\\';
+                case 'x':
+                    return chr(hexdec(substr($match[0], 1)));
+                case 'u':
+                    return self::unicodeChar(hexdec(substr($match[0], 1)));
+                default:
+                    return chr(octdec($match[0]));
+            }
+        }, $value);
     }
 
-    /**
-     * @param $dec
-     * @return string|null
-     * @see http://php.net/manual/en/function.chr.php#118804
-     */
-    protected static function unicodeChar($dec)
+    //http://php.net/manual/en/function.chr.php#118804
+    private static function unicodeChar($dec)
     {
         if ($dec < 0x80) {
             return chr($dec);
@@ -149,22 +120,20 @@ class PhpCode extends Extractor implements ExtractorInterface, ExtractorMultiInt
 
         if ($dec < 0x0800) {
             return chr(0xC0 + ($dec >> 6))
-                . chr(0x80 + ($dec & 0x3f));
+                .chr(0x80 + ($dec & 0x3f));
         }
 
         if ($dec < 0x010000) {
             return chr(0xE0 + ($dec >> 12))
-                . chr(0x80 + (($dec >> 6) & 0x3f))
-                . chr(0x80 + ($dec & 0x3f));
+                    .chr(0x80 + (($dec >> 6) & 0x3f))
+                    .chr(0x80 + ($dec & 0x3f));
         }
 
         if ($dec < 0x200000) {
             return chr(0xF0 + ($dec >> 18))
-                . chr(0x80 + (($dec >> 12) & 0x3f))
-                . chr(0x80 + (($dec >> 6) & 0x3f))
-                . chr(0x80 + ($dec & 0x3f));
+                    .chr(0x80 + (($dec >> 12) & 0x3f))
+                    .chr(0x80 + (($dec >> 6) & 0x3f))
+                    .chr(0x80 + ($dec & 0x3f));
         }
-
-        return null;
     }
 }

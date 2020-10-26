@@ -54,6 +54,9 @@ msgstr "(kirjeldus puudub)"
 msgid "{consentAdmin:consentadmin:service_providers_for}"
 msgstr "Teenusepakkujad"
 
+msgid "{consentAdmin:consentadmin:sp_empty_name}"
+msgstr "(nimi määramata)"
+
 msgid "{consentAdmin:consentadmin:consentadmin_description2}"
 msgstr ""
 "<h3>Kuidas eemaldada nõusolekut</h3> Eemalda vastava teenusepakkuja "

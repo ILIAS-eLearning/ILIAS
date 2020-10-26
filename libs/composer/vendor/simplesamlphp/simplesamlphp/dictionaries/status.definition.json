@@ -5,6 +5,9 @@
 	"header_shib": {
 		"en": "Shibboleth demo"
 	},
+	"header_wsfed": {
+		"en": "WS-Fed SP Demo Example"
+	},
 	"header_diagnostics": {
 		"en": "SimpleSAMLphp Diagnostics"
 	},

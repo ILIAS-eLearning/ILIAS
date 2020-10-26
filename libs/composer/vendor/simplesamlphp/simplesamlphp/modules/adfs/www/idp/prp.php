@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ADFS PRP IDP protocol support for SimpleSAMLphp.
  *
@@ -7,16 +6,23 @@
  * @package SimpleSAMLphp
  */
 
-namespace SimpleSAML\Module\adfs;
+SimpleSAML\Logger::info('ADFS - IdP.prp: Accessing ADFS IdP endpoint prp');
 
-use SimpleSAML\Configuration;
-use SimpleSAML\Session;
-use Symfony\Component\HttpFoundation\Request;
+$metadata = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+$idpEntityId = $metadata->getMetaDataCurrentEntityID('adfs-idp-hosted');
+$idp = SimpleSAML_IdP::getById('adfs:' . $idpEntityId);
 
-$config = Configuration::getInstance();
-$session = Session::getSessionFromRequest();
-$request = Request::createFromGlobals();
-
-$controller = new AdfsController($config, $session);
-$t = $controller->prp($request);
-$t->send();
+if (isset($_GET['wa'])) {
+    if ($_GET['wa'] === 'wsignout1.0') {
+        sspmod_adfs_IdP_ADFS::receiveLogoutMessage($idp);
+    } else if ($_GET['wa'] === 'wsignin1.0') {
+        sspmod_adfs_IdP_ADFS::receiveAuthnRequest($idp);
+    }
+    assert(false);
+} elseif (isset($_GET['assocId'])) {
+    // logout response from ADFS SP
+    $assocId = $_GET['assocId']; // Association ID of the SP that sent the logout response
+    $relayState = $_GET['relayState']; // Data that was sent in the logout request to the SP. Can be null
+    $logoutError = null; // null on success, or an instance of a SimpleSAML_Error_Exception on failure.
+    $idp->handleLogoutResponse($assocId, $relayState, $logoutError);
+}

@@ -1,8 +1,5 @@
 <?php
-
 namespace SimpleSAML\Utils;
-
-use SimpleSAML\Error;
 
 /**
  * Attribute-related utility methods.
@@ -10,9 +7,9 @@ use SimpleSAML\Error;
  * @author Jaime Perez, UNINETT AS <jaime.perez@uninett.no>
  * @package SimpleSAML
  */
-
 class Attributes
 {
+
     /**
      * Look for an attribute in a normalized attributes array, failing if it's not there.
      *
@@ -24,24 +21,24 @@ class Attributes
      * $allow_multiple is set to true, the first value will be returned.
      *
      * @throws \InvalidArgumentException If $attributes is not an array or $expected is not a string.
-     * @throws \SimpleSAML\Error\Exception If the expected attribute was not found in the attributes array.
+     * @throws \SimpleSAML_Error_Exception If the expected attribute was not found in the attributes array.
      */
     public static function getExpectedAttribute($attributes, $expected, $allow_multiple = false)
     {
         if (!is_array($attributes)) {
             throw new \InvalidArgumentException(
-                'The attributes array is not an array, it is: ' . print_r($attributes, true) . '.'
+                'The attributes array is not an array, it is: '.print_r($attributes, true).'.'
             );
         }
 
         if (!is_string($expected)) {
             throw new \InvalidArgumentException(
-                'The expected attribute is not a string, it is: ' . print_r($expected, true) . '.'
+                'The expected attribute is not a string, it is: '.print_r($expected, true).'.'
             );
         }
 
         if (!array_key_exists($expected, $attributes)) {
-            throw new Error\Exception("No such attribute '" . $expected . "' found.");
+            throw new \SimpleSAML_Error_Exception("No such attribute '".$expected."' found.");
         }
         $attribute = $attributes[$expected];
 
@@ -50,10 +47,10 @@ class Attributes
         }
 
         if (count($attribute) === 0) {
-            throw new Error\Exception("Empty attribute '" . $expected . "'.'");
+            throw new \SimpleSAML_Error_Exception("Empty attribute '".$expected."'.'");
         } elseif (count($attribute) > 1) {
             if ($allow_multiple === false) {
-                throw new \SimpleSAML\Error\Exception(
+                throw new \SimpleSAML_Error_Exception(
                     'More than one value found for the attribute, multiple values not allowed.'
                 );
             }
@@ -83,14 +80,14 @@ class Attributes
     {
         if (!is_array($attributes)) {
             throw new \InvalidArgumentException(
-                'The attributes array is not an array, it is: ' . print_r($attributes, true) . '".'
+                'The attributes array is not an array, it is: '.print_r($attributes, true).'".'
             );
         }
 
-        $newAttrs = [];
+        $newAttrs = array();
         foreach ($attributes as $name => $values) {
             if (!is_string($name)) {
-                throw new \InvalidArgumentException('Invalid attribute name: "' . print_r($name, true) . '".');
+                throw new \InvalidArgumentException('Invalid attribute name: "'.print_r($name, true).'".');
             }
 
             $values = Arrays::arrayize($values);
@@ -98,7 +95,7 @@ class Attributes
             foreach ($values as $value) {
                 if (!is_string($value)) {
                     throw new \InvalidArgumentException(
-                        'Invalid attribute value for attribute ' . $name . ': "' . print_r($value, true) . '".'
+                        'Invalid attribute value for attribute '.$name.': "'.print_r($value, true).'".'
                     );
                 }
             }
@@ -129,6 +126,6 @@ class Attributes
             $defaultns = substr($name, 0, $slash);
             $name = substr($name, $slash + 1);
         }
-        return [htmlspecialchars($defaultns), htmlspecialchars($name)];
+        return array(htmlspecialchars($defaultns), htmlspecialchars($name));
     }
 }
