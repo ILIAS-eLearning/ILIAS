@@ -72,7 +72,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
                 $matches_filter = strpos($plugin_data[self::F_PLUGIN_ID], $active_filters[self::F_PLUGIN_ID]) !== false;
             }
             if (isset($active_filters[self::F_PLUGIN_ACTIVE])) {
-                $v              = (bool) $active_filters[self::F_PLUGIN_ACTIVE];
+                $v              = (int)$active_filters[self::F_PLUGIN_ACTIVE] === 1;
                 $matches_filter = $plugin_data[self::F_PLUGIN_ACTIVE] === $v && $matches_filter;
             }
             if (isset($active_filters[self::F_SLOT_NAME])) {
