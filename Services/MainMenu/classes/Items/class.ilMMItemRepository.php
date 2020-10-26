@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Identification\NullPluginIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\MainMenu\Provider\CustomMainBarProvider;
 
@@ -164,6 +165,9 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
                 continue;
             }
             if ($information->isChild()) {
+                if ($information->getType() === TopLinkItem::class) { // since these two types are identical (more or less), we truncate one
+                    continue;
+                }
                 $types[$information->getType()] = $information;
             }
         }
