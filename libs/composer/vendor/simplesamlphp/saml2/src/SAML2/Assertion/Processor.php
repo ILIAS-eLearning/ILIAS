@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SAML2\Assertion;
 
 use Psr\Log\LoggerInterface;
+
 use SAML2\Assertion;
 use SAML2\Assertion\Exception\InvalidAssertionException;
 use SAML2\Assertion\Exception\InvalidSubjectConfirmationException;
@@ -12,8 +13,8 @@ use SAML2\Assertion\Transformer\Transformer;
 use SAML2\Assertion\Validation\AssertionValidator;
 use SAML2\Assertion\Validation\SubjectConfirmationValidator;
 use SAML2\Configuration\IdentityProvider;
-use SAML2\EncryptedAssertion;
 use SAML2\Response\Exception\InvalidSignatureException;
+use SAML2\Response\Exception\UnencryptedAssertionFoundException;
 use SAML2\Signature\Validator;
 use SAML2\Utilities\ArrayCollection;
 
@@ -93,13 +94,7 @@ class Processor
     {
         $decrypted = new ArrayCollection();
         foreach ($assertions->getIterator() as $assertion) {
-            if ($assertion instanceof EncryptedAssertion) {
-                $decrypted->add($this->decryptAssertion($assertion));
-            } elseif ($assertion instanceof Assertion) {
-                $decrypted->add($assertion);
-            } else {
-                throw new InvalidAssertionException('The assertion must be of type: EncryptedAssertion or Assertion');
-            }
+            $decrypted->add($this->decryptAssertion($assertion));
         }
 
         return $decrypted;
@@ -107,6 +102,7 @@ class Processor
 
     /**
      * @param \SAML2\Utilities\ArrayCollection $assertions Collection of decrypted assertions
+     *
      * @return \SAML2\Utilities\ArrayCollection Collection of processed assertions
      */
     public function processAssertions(ArrayCollection $assertions) : ArrayCollection
@@ -121,11 +117,13 @@ class Processor
 
 
     /**
-     * @param \SAML2\Assertion $assertion
+     * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
      * @return \SAML2\Assertion
      */
-    public function process(Assertion $assertion): Assertion
+    public function process($assertion) : Assertion
     {
+        $assertion = $this->decryptAssertion($assertion);
+
         if (!$assertion->wasSignedAtConstruction()) {
             $this->logger->info(sprintf(
                 'Assertion with id "%s" was not signed at construction, not verifying the signature',
@@ -150,11 +148,19 @@ class Processor
 
 
     /**
-     * @param \SAML2\EncryptedAssertion $assertion
+     * @param \SAML2\Assertion|\SAML2\EncryptedAssertion $assertion
      * @return \SAML2\Assertion
      */
-    private function decryptAssertion(EncryptedAssertion $assertion): Assertion
+    private function decryptAssertion($assertion) : Assertion
     {
+        if ($this->decrypter->isEncryptionRequired() && $assertion instanceof Assertion) {
+            throw new UnencryptedAssertionFoundException('The assertion should be encrypted, but it was not');
+        }
+
+        if ($assertion instanceof Assertion) {
+            return $assertion;
+        }
+
         return $this->decrypter->decrypt($assertion);
     }
 

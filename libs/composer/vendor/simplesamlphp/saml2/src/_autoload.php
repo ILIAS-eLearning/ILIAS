@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 /**
- * Temporary autoloader to ensure compatibility with old, non-PSR-4 compliant classes.
+ * Temporary autoloader to ensure compatibility with old, non-PSR-2 compliant classes.
  *
  * @author Jaime Pérez Crespo <jaime.perez@uninett.no>
  * @package SimpleSAMLphp
  */
 
 /**
- * Autoload function that looks for classes migrated to PSR-4.
+ * Autoload function that looks for classes migrated to PSR-2.
  *
  * @param string $className Name of the class.
  * @return void

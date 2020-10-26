@@ -60,10 +60,10 @@ class HTTPPost extends Binding
      *
      * Throws an exception if it is unable receive the message.
      *
-     * @return \SAML2\Message The received message.
+     * @return \SAML2\Message|null The received message.
      * @throws \Exception
      */
-    public function receive(): Message
+    public function receive() : ?Message
     {
         if (array_key_exists('SAMLRequest', $_POST)) {
             $msgStr = $_POST['SAMLRequest'];

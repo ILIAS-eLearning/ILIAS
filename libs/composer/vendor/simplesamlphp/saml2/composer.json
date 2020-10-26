@@ -9,22 +9,22 @@
         }
     ],
     "require": {
-        "php": ">=7.1",
+        "php": ">=7.2",
         "ext-openssl": "*",
         "ext-dom": "*",
         "ext-zlib": "*",
 
-        "psr/log": "~1.1",
-        "robrichards/xmlseclibs": "^3.1.0",
-        "webmozart/assert": "^1.5"
+        "psr/log": "~1.0",
+        "robrichards/xmlseclibs": "^3.0",
+        "webmozart/assert": "^1.4"
     },
     "require-dev": {
         "mockery/mockery": "~1.2",
-        "phpunit/phpunit": "^7.5",
-        "simplesamlphp/simplesamlphp-test-framework": "~0.1.0",
-        "sensiolabs/security-checker": "~6.0",
+        "phpunit/phpunit": "^8.0",
+        "simplesamlphp/simplesamlphp-test-framework": "0.0.11",
+        "sensiolabs/security-checker": "~5.0",
         "sebastian/phpcpd": "~4.1",
-        "squizlabs/php_codesniffer": "~3.5"
+        "squizlabs/php_codesniffer": "~3.4"
     },
     "autoload": {
         "psr-4": {

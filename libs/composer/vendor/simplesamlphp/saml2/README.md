@@ -54,9 +54,7 @@ Example:
     // Set up an AuthnRequest
     $request = new SAML2\AuthnRequest();
     $request->setId($container->generateId());
-    $issuer = new SAML2\XML\saml\Issuer();
-    $issuer->setValue('https://sp.example.edu');
-    $request->setIssuer($issuer);
+    $request->setIssuer('https://sp.example.edu');
     $request->setDestination('https://idp.example.edu');
 
     // Send it off using the HTTP-Redirect binding

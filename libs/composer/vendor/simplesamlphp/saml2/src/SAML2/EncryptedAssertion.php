@@ -83,9 +83,6 @@ class EncryptedAssertion
             case XMLSecurityKey::AES128_CBC:
             case XMLSecurityKey::AES192_CBC:
             case XMLSecurityKey::AES256_CBC:
-            case XMLSecurityKey::AES128_GCM:
-            case XMLSecurityKey::AES192_GCM:
-            case XMLSecurityKey::AES256_GCM:
                 $symmetricKey = $key;
                 break;
 

@@ -37,7 +37,7 @@ final class DOMDocumentFactory
         libxml_clear_errors();
 
         $domDocument = self::create();
-        $options = LIBXML_DTDLOAD | LIBXML_DTDATTR | LIBXML_NONET | LIBXML_PARSEHUGE;
+        $options = LIBXML_DTDLOAD | LIBXML_DTDATTR | LIBXML_NONET;
         if (defined('LIBXML_COMPACT')) {
             $options |= LIBXML_COMPACT;
         }
