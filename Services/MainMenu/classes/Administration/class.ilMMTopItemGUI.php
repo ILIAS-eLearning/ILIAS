@@ -294,11 +294,16 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $form = $form->withRequest($this->http->request());
 
         $item = $this->getMMItemFromRequest();
-        if ($item->isInterchangeable()) {
-            $item->setParent($form->getData()[0]);
+        $data = $form->getData();
+        if ($item->isInterchangeable() && isset($data[0])) {
+            $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
+            $item->setParent($data[0]);
             $this->repository->updateItem($item);
+            ilUtil::sendSuccess($this->lng->txt('msg_moved'), true);
+        } else {
+            ilUtil::sendFailure($this->lng->txt('msg_not_moved'), true);
         }
-        ilUtil::sendSuccess($this->lng->txt('msg_moved'), true);
+
         $this->cancel();
     }
 
@@ -311,7 +316,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $f = $this->ui->factory();
 
         $parent = $f->input()->field()->select($this->lng->txt('select_parent'), $this->repository->getPossibleParentsForFormAndTable())->withRequired(true);
-//        $section = $f->input()->field()->group([$parent], $this->lng->txt('select_parent_header'));
+
         return $f->input()->container()->form()->standard($this->ctrl->getFormAction($this, self::CMD_MOVE), [$parent]);
     }
 }

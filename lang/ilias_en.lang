@@ -14950,6 +14950,7 @@ mme#:#move_to_item#:#Move to Items
 mme#:#move_to_top_item#:#Move to Top Items
 mme#:#select_parent#:#Select Parent
 mme#:#msg_moved#:#Item successfully moved
+mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
 mme#:#confirm_move#:#Would you like to move this Item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
