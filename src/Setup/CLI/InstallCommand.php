@@ -71,7 +71,7 @@ class InstallCommand extends Command
             "Install and Update ILIAS",
             false,
             $agent->getInstallObjective($config),
-            $agent->getUpdateObjective()
+            $agent->getUpdateObjective($config)
         );
         if (count($this->preconditions) > 0) {
             $objective = new ObjectiveWithPreconditions(

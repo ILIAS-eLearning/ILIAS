@@ -8056,7 +8056,7 @@ mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_signature#:#Signature
 mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To
-mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore. 
+mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 content#:#glo_quick_navigation#:#Quick Navigation
@@ -14946,6 +14946,12 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
 mme#:#type_repository_link#:#Repository-Link
+mme#:#move_to_item#:#Move to Items
+mme#:#move_to_top_item#:#Move to Top Items
+mme#:#select_parent#:#Select Parent
+mme#:#msg_moved#:#Item successfully moved
+mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
+mme#:#confirm_move#:#Would you like to move this Item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block

@@ -122,7 +122,7 @@ class ilMMAbstractItemGUI
         $get = $r->getQueryParams();
         $post = $r->getParsedBody();
 
-        if (!isset($post['cmd']) && isset($post['interruptive_items'])) {
+        if (isset($post['interruptive_items'])) {
             $string = $post['interruptive_items'][0];
             $identification = $this->unhash($string);
         } else {
@@ -130,22 +130,5 @@ class ilMMAbstractItemGUI
         }
 
         return $this->repository->getItemFacadeForIdentificationString($identification);
-    }
-
-
-    public function renderInterruptiveModal()
-    {
-        $f = $this->ui->factory();
-        $r = $this->ui->renderer();
-
-        $form_action = $this->ctrl->getFormActionByClass(self::class, self::CMD_DELETE);
-        $delete_modal = $f->modal()->interruptive(
-            $this->lng->txt("delete"),
-            $this->lng->txt(self::CMD_CONFIRM_DELETE),
-            $form_action
-        );
-
-        echo $r->render([$delete_modal]);
-        exit;
     }
 }

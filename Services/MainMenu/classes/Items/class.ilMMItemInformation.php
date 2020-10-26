@@ -72,8 +72,6 @@ class ilMMItemInformation implements ItemInformation
             $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
         }
 
-        // $item = $item->withTitle($item->getTitle() . "({$item->getProviderIdentification()->serialize()})"); // Activate for debugging in UI
-
         return $item;
     }
 
