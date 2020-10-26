@@ -96,12 +96,12 @@
 		"xh": "Grisi",
 		"ca": "Grècia"
 	},
-		"netherlands": {
-				"en": "The Netherlands",
-				"nl": "Nederland",
-				"de": "Niederlande",
-				"fr": "Les Pays-Bas"
-		},
+        "netherlands": {
+                "en": "The Netherlands",
+                "nl": "Nederland",
+                "de": "Niederlande",
+                "fr": "Les Pays-Bas"
+        },
 	"southafrica": {
 		"es": "Sud\u00e1frica",
 		"ru": "\u042e\u0436\u043d\u0430\u044f \u0410\u0444\u0440\u0438\u043a\u0430",
@@ -113,7 +113,6 @@
 		"el": "\u039d\u03cc\u03c4\u03b9\u03b1 \u0391\u03c6\u03c1\u03b9\u03ba\u03ae",
 		"xh": "uMzantsi Afrika",
 		"zu": "iNingizimu Afrika",
-		"st": "Afrika Boroa",
 		"ca": "Sud-Àfrica"
 	},
 	"edugain": {
@@ -140,7 +139,6 @@
 		"el": "\u0386\u03bb\u03bb\u03bf\u03b9 \u03c6\u03bf\u03c1\u03b5\u03af\u03c2",
 		"xh": "Ezahlukahlukeneyo",
 		"zu": "Ezihlukahlukene",
-		"st": "Fapakaneng",
 		"ca": "Altres"
 	},
 	"incommon": {
@@ -166,7 +164,6 @@
 		"nl": "Zoeken...",
 		"zu": "Ukucinga okukhulayo...",
 		"xh": "Ukhangelo oluqhubekayo...",
-		"st": "Patlo e Eketsang...",
 		"ca": "Cerca incremental..."
 	}
 }

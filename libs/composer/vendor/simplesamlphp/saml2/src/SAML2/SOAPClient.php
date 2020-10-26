@@ -32,9 +32,8 @@ class SOAPClient
      * @param \SAML2\Message $msg The request that should be sent.
      * @param \SimpleSAML\Configuration $srcMetadata The metadata of the issuer of the message.
      * @param \SimpleSAML\Configuration $dstMetadata The metadata of the destination of the message.
-     * @return \SAML2\Message The response we received.
      * @throws \Exception
-     * @return \SAML2\Message            The response we received.
+     * @return \SAML2\Message The response we received.
      *
      * @psalm-suppress UndefinedClass
      */
@@ -108,7 +107,7 @@ class SOAPClient
         $context = stream_context_create($ctxOpts);
 
         $options = [
-            'uri' => $issuer,
+            'uri' => $issuer->getValue(),
             'location' => $msg->getDestination(),
             'stream_context' => $context,
         ];

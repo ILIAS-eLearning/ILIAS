@@ -151,7 +151,7 @@ abstract class Binding
      * This function will extract the message from the current request.
      * An exception will be thrown if we are unable to process the message.
      *
-     * @return \SAML2\Message|null The received message.
+     * @return \SAML2\Message The received message.
      */
-    abstract public function receive() : ?Message;
+    abstract public function receive(): Message;
 }
