@@ -12,10 +12,12 @@ trait isInterchangeableItemTrait
     public function hasChanged() : bool
     {
         if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            return !($this->getParent() instanceof NullIdentification) && $this->getParent()->serialize() !== '';
-        } elseif ($this instanceof isChild && $this instanceof isInterchangeableItem) {
-            return $this->getParent() instanceof NullIdentification && $this->getParent()->serialize() === '';
+            $serialize = $this->getParent()->serialize();
+            return !$this->getParent() instanceof NullIdentification;
+        } elseif ($this instanceof isChild) {
+            return $this->getParent() instanceof NullIdentification && empty($this->getParent()->serialize());
         }
         return false;
     }
+
 }

@@ -3,7 +3,6 @@
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
@@ -148,7 +147,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
         // Override parent from configuration
         $this->map->walk(function (isItem &$item) {
-            if (($item instanceof isChild && $item->hasParent()) || $item instanceof isInterchangeableItem) {
+            if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
+                if ($item->getTitle() === 'Dashboard') {
+                    $x = 1;
+                }
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
@@ -206,13 +208,8 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function getItemsForUIRepresentation() : \Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
-            if ($item instanceof isInterchangeableItem && $item->hasChanged()) {
+            if ($item->isTop()) {
                 yield $item;
-                continue;
-            }
-            if ($item instanceof isTopItem) {
-                yield $item;
-                continue;
             }
         }
     }

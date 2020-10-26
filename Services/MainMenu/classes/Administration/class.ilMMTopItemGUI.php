@@ -289,11 +289,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
     private function move() : void
     {
-
         $form = $this->getMoveForm();
         $form = $form->withRequest($this->http->request());
 
         $item = $this->getMMItemFromRequest();
+
         $data = $form->getData();
         if ($item->isInterchangeable() && isset($data[0])) {
             $f = $this->repository->getItemFacadeForIdentificationString($data[0]);

@@ -114,8 +114,6 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             if (!$current_parent ||
                 $current_parent->getProviderIdentification()->serialize() !== $item_facade->getParentIdentificationString()) {
                 $current_parent = $this->item_repository->getSingleItem($item_facade->item()->getParent());
-                if ($current_parent instanceof Lost) {
-                }
                 $this->tpl->setVariable("PARENT_TITLE", $current_parent->getTitle());
                 $position = 1;
             }

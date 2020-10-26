@@ -8,4 +8,5 @@
 interface isInterchangeableItem extends isItem, isChild
 {
     public function hasChanged() : bool;
+
 }
