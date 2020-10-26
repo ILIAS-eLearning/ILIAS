@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ilLink;
@@ -21,6 +22,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
+    use isInterchangeableItemTrait;
 
     /**
      * @var int
@@ -41,7 +43,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -61,7 +63,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withAltText(string $alt_text) : RepositoryLink
     {
-        $clone = clone($this);
+        $clone           = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -89,7 +91,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withAction(string $action) : hasAction
     {
-        $clone = clone $this;
+        $clone         = clone $this;
         $clone->ref_id = (int) $action;
 
         return $clone;
@@ -101,7 +103,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function withRefId(int $ref_id) : RepositoryLink
     {
-        $clone = clone $this;
+        $clone         = clone $this;
         $clone->ref_id = $ref_id;
 
         return $clone;
@@ -135,4 +137,5 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return false;
     }
+
 }

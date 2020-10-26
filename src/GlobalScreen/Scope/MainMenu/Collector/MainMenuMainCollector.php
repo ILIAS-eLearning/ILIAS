@@ -148,21 +148,21 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
         // Override parent from configuration
         $this->map->walk(function (isItem &$item) {
-            if ($item instanceof isChild && $item->hasParent()) {
+            if (($item instanceof isChild && $item->hasParent()) || $item instanceof isInterchangeableItem) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
                     $item->overrideParent($parent->getProviderIdentification());
                 }
             }
-            if ($item instanceof isInterchangeableItem) {
+            /*if ($item instanceof isInterchangeableItem) {
                 $parent_identification = $this->information->getParent($item);
                 if (!$parent_identification instanceof NullIdentification) {
                     $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                     $parent->appendChild($item);
                 }
                 $item->overrideParent($parent_identification);
-            }
+            }*/
 
             return $item;
         });
@@ -206,10 +206,8 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function getItemsForUIRepresentation() : \Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
-            if ($item instanceof isInterchangeableItem) {
-                if ($item->getParent() instanceof NullIdentification) {
-                    yield $item;
-                }
+            if ($item instanceof isInterchangeableItem && $item->hasChanged()) {
+                yield $item;
                 continue;
             }
             if ($item instanceof isTopItem) {

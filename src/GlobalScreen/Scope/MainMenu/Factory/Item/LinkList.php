@@ -4,6 +4,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use InvalidArgumentException;
@@ -12,10 +14,12 @@ use InvalidArgumentException;
  * Class LinkList
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol
+class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol, isInterchangeableItem
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
+    use isInterchangeableItemTrait;
+
     /**
      * @var string
      */
@@ -35,7 +39,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -76,7 +80,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
                 throw new InvalidArgumentException("withLinks only accepts arrays of Links or a callable providing them");
             }
         }
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->links = $links;
 
         return $clone;
@@ -95,7 +99,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone = clone($this);
+        $clone                         = clone($this);
         $clone->supports_async_loading = $supported;
 
         return $clone;
@@ -108,4 +112,5 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->supports_async_loading;
     }
+
 }

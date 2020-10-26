@@ -1,12 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
@@ -18,6 +18,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
+    use isInterchangeableItemTrait;
 
     /**
      * @var bool
@@ -38,7 +39,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -58,7 +59,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withAction(string $action) : hasAction
     {
-        $clone = clone($this);
+        $clone         = clone($this);
         $clone->action = $action;
 
         return $clone;
@@ -78,7 +79,7 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone = clone $this;
+        $clone                     = clone $this;
         $clone->is_external_action = $is_external;
 
         return $clone;
@@ -91,6 +92,5 @@ class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTo
     {
         return $this->is_external_action;
     }
-
 
 }

@@ -143,7 +143,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
             $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE), $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
 
-            $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+            $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
 
             $delete_modal = "";
             if ($item_facade->isCustom()) {
@@ -163,7 +163,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                                       ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_MOVE), $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE), $action)
                                       ->withActionButtonLabel(ilMMSubItemGUI::CMD_MOVE)
                                       ->withAffectedItems([$ditem]);
-                $items[]    = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_MOVE), "")->withOnClick($m->getShowSignal());
+                $items[]    = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_MOVE . '_to_top_item'), "")->withOnClick($m->getShowSignal());
                 $move_modal = $renderer->render([$m]);
             }
 

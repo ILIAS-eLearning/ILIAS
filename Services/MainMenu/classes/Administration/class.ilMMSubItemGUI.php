@@ -15,7 +15,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
     const CMD_CREATE = 'subitem_create';
-    const CMD_CONFIRM_MOVE = 'confirmMove';
+    const CMD_CONFIRM_MOVE = 'confirm_move';
     const CMD_MOVE = 'move';
     const CMD_DELETE = 'subitem_delete';
     const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
@@ -269,7 +269,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
         $c->setConfirm($this->lng->txt(self::CMD_MOVE), self::CMD_MOVE);
         $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
-        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
+        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_MOVE));
 
         return $c->getHTML();
     }
@@ -282,7 +282,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
             $this->repository->updateItem($item);
         }
 
-        ilUtil::sendSuccess($this->lng->txt("msg_subitem_moved"), true);
+        ilUtil::sendSuccess($this->lng->txt("msg_moved"), true);
         $this->cancel();
     }
 }
