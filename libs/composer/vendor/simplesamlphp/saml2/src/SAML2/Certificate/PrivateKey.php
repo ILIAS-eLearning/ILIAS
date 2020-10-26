@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Certificate;
 
 use SAML2\Exception\InvalidArgumentException;
 
 class PrivateKey extends Key
 {
-    public static function create($keyContents, $passphrase = null)
+    /**
+     * @param string $keyContents
+     * @param string|null $passphrase
+     * @throws InvalidArgumentException
+     * @return PrivateKey
+     */
+    public static function create(string $keyContents, string $passphrase = null) : PrivateKey
     {
-        if (!is_string($keyContents)) {
-            throw InvalidArgumentException::invalidType('string', $keyContents);
-        }
-
-        if ($passphrase && !is_string($passphrase)) {
-            throw InvalidArgumentException::invalidType('string', $passphrase);
-        }
-
-        $keyData = array('PEM' => $keyContents, self::USAGE_ENCRYPTION => true);
+        $keyData = ['PEM' => $keyContents, self::USAGE_ENCRYPTION => true];
         if ($passphrase) {
             $keyData['passphrase'] = $passphrase;
         }
@@ -24,12 +24,20 @@ class PrivateKey extends Key
         return new self($keyData);
     }
 
-    public function getKeyAsString()
+
+    /**
+     * @return string
+     */
+    public function getKeyAsString() : string
     {
         return $this->keyData['PEM'];
     }
 
-    public function getPassphrase()
+
+    /**
+     * @return string|null
+     */
+    public function getPassphrase() : ?string
     {
         return isset($this->keyData['passphrase']) ? $this->keyData['passphrase'] : null;
     }

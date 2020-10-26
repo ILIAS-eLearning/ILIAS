@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2;
 
 /**
@@ -23,6 +25,16 @@ class Constants
      * Unspecified authentication context.
      */
     const AC_UNSPECIFIED = 'urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified';
+
+    /**
+     * Subject identifier attribute
+     */
+    const ATTR_SUBJECT_ID = 'urn:oasis:names:tc:SAML:attribute:subject-id';
+
+    /**
+     * Pairwise identifier attribute
+     */
+    const ATTR_PAIRWISE_ID = 'urn:oasis:names:tc:SAML:attribute:pairwise-id';
 
     /**
      * The URN for the HTTP-POST binding.
@@ -60,8 +72,8 @@ class Constants
     const CM_BEARER = 'urn:oasis:names:tc:SAML:2.0:cm:bearer';
 
     /**
-    * Holder-of-Key subject confirmation method.
-    */
+     * Holder-of-Key subject confirmation method.
+     */
     const CM_HOK = 'urn:oasis:names:tc:SAML:2.0:cm:holder-of-key';
 
     /**

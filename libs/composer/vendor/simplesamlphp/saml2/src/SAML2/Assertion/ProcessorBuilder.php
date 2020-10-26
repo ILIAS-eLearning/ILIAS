@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Assertion;
 
 use Psr\Log\LoggerInterface;
+
 use SAML2\Assertion\Transformer\DecodeBase64Transformer;
 use SAML2\Assertion\Transformer\NameIdDecryptionTransformer;
 use SAML2\Assertion\Transformer\TransformerChain;
@@ -28,11 +31,18 @@ use SAML2\Signature\Validator;
  * Simple Builder that allows to build a new Assertion Processor.
  *
  * This is an excellent candidate for refactoring towards dependency injection
- *
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ProcessorBuilder
 {
+    /**
+     * @param LoggerInterface $logger
+     * @param Validator $signatureValidator
+     * @param Destination $currentDestination
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @param Response $response
+     * @return Processor
+     */
     public static function build(
         LoggerInterface $logger,
         Validator $signatureValidator,
@@ -40,7 +50,7 @@ class ProcessorBuilder
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider,
         Response $response
-    ) {
+    ) : Processor {
         $keyloader = new PrivateKeyLoader();
         $decrypter = new Decrypter($logger, $identityProvider, $serviceProvider, $keyloader);
         $assertionValidator = self::createAssertionValidator($identityProvider, $serviceProvider);
@@ -69,10 +79,16 @@ class ProcessorBuilder
         );
     }
 
+
+    /**
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @return AssertionValidator
+     */
     private static function createAssertionValidator(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider
-    ) {
+    ) : AssertionValidator {
         $validator = new AssertionValidator($identityProvider, $serviceProvider);
         $validator->addConstraintValidator(new NotBefore());
         $validator->addConstraintValidator(new NotOnOrAfter());
@@ -82,12 +98,20 @@ class ProcessorBuilder
         return $validator;
     }
 
+
+    /**
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @param Destination $currentDestination
+     * @param Response $response
+     * @return SubjectConfirmationValidator
+     */
     private static function createSubjectConfirmationValidator(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider,
         Destination $currentDestination,
         Response $response
-    ) {
+    ) : SubjectConfirmationValidator {
         $validator = new SubjectConfirmationValidator($identityProvider, $serviceProvider);
         $validator->addConstraintValidator(
             new SubjectConfirmationMethod()
@@ -112,12 +136,19 @@ class ProcessorBuilder
         return $validator;
     }
 
+    /**
+     * @param LoggerInterface $logger
+     * @param PrivateKeyLoader $keyLoader
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @return TransformerChain
+     */
     private static function createAssertionTransformerChain(
         LoggerInterface $logger,
         PrivateKeyLoader $keyloader,
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider
-    ) {
+    ) : TransformerChain {
         $chain = new TransformerChain($identityProvider, $serviceProvider);
         $chain->addTransformerStep(new DecodeBase64Transformer());
         $chain->addTransformerStep(

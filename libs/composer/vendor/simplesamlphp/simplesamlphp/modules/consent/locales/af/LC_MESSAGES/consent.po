@@ -80,7 +80,7 @@ msgid "{consent:consent:noconsent_return}"
 msgstr "Keer terug na die toestemmingsbladsy"
 
 msgid "{consent:consent:yes}"
-msgstr "Ja, voortgaan"
+msgstr "Ja, gaan voort"
 
 msgid "{consent:consent:consent_attributes_header}"
 msgstr "Informasie wat gestuur sal word na SPNAME"

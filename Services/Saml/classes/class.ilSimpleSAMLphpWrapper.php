@@ -10,7 +10,7 @@ require_once 'Services/Saml/interfaces/interface.ilSamlAuth.php';
 class ilSimpleSAMLphpWrapper implements ilSamlAuth
 {
     /**
-     * @var SimpleSAML_Configuration
+     * @var SimpleSAML\Configuration
      */
     protected $config;
 
@@ -29,8 +29,8 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
     {
         $this->initConfigFiles($configurationPath);
 
-        SimpleSAML_Configuration::setConfigDir($configurationPath);
-        $this->config = SimpleSAML_Configuration::getInstance();
+        SimpleSAML\Configuration::setConfigDir($configurationPath);
+        $this->config = SimpleSAML\Configuration::getInstance();
 
         $sessionHandler = $this->config->getString('session.handler', false);
         $storageType = $this->config->getString('store.type', false);
@@ -89,7 +89,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
      */
     public function storeParam($key, $value)
     {
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = SimpleSAML\Session::getSessionFromRequest();
         $session->setData('ilias', $key, $value);
     }
 
@@ -98,7 +98,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
      */
     public function getParam($key)
     {
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = SimpleSAML\Session::getSessionFromRequest();
 
         $value = $session->getData('ilias', $key);
 
@@ -110,7 +110,7 @@ class ilSimpleSAMLphpWrapper implements ilSamlAuth
      */
     public function popParam($key)
     {
-        $session = SimpleSAML_Session::getSessionFromRequest();
+        $session = SimpleSAML\Session::getSessionFromRequest();
         $value = $this->getParam($key);
         $session->deleteData('ilias', $key);
 

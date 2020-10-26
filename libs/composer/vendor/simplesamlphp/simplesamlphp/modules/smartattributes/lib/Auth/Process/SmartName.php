@@ -1,21 +1,19 @@
 <?php
 
+namespace SimpleSAML\Module\smartattributes\Auth\Process;
+
 /**
  * Filter to set name in a smart way, based on available name attributes.
  *
  * @author Andreas Åkre Solberg, UNINETT AS.
  * @package SimpleSAMLphp
  */
-class sspmod_smartattributes_Auth_Process_SmartName extends SimpleSAML_Auth_ProcessingFilter
+class SmartName extends \SimpleSAML\Auth\ProcessingFilter
 {
     /**
-     * Attributes which should be added/appended.
-     *
-     * Assiciative array of arrays.
+     * @param array $attributes
+     * @return string|null
      */
-    private $attributes = array();
-
-
     private function getFullName($attributes)
     {
         if (isset($attributes['displayName'])) {
@@ -29,7 +27,7 @@ class sspmod_smartattributes_Auth_Process_SmartName extends SimpleSAML_Auth_Proc
         }
 
         if (isset($attributes['sn']) && isset($attributes['givenName'])) {
-            return $attributes['givenName'][0].' '.$attributes['sn'][0];
+            return $attributes['givenName'][0] . ' ' . $attributes['sn'][0];
         }
 
         if (isset($attributes['cn'])) {
@@ -49,11 +47,16 @@ class sspmod_smartattributes_Auth_Process_SmartName extends SimpleSAML_Auth_Proc
             if (isset($localname)) {
                 return $localname;
             }
-        }		
+        }
 
         return null;
     }
 
+
+    /**
+     * @param string $userid
+     * @return string|null
+     */
     private function getLocalUser($userid)
     {
         if (strpos($userid, '@') === false) {
@@ -66,24 +69,26 @@ class sspmod_smartattributes_Auth_Process_SmartName extends SimpleSAML_Auth_Proc
         return null;
     }
 
+
     /**
      * Apply filter to add or replace attributes.
      *
      * Add or replace existing attributes with the configured values.
      *
      * @param array &$request  The current request
+     * @return void
      */
     public function process(&$request)
     {
         assert(is_array($request));
         assert(array_key_exists('Attributes', $request));
 
-        $attributes =& $request['Attributes'];
+        $attributes = &$request['Attributes'];
 
         $fullname = $this->getFullName($attributes);
 
         if (isset($fullname)) {
-            $request['Attributes']['smartname-fullname'] = array($fullname);
+            $request['Attributes']['smartname-fullname'] = [$fullname];
         }
     }
 }

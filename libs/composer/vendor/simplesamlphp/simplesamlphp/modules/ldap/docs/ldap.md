@@ -43,6 +43,11 @@ authentication source:
 		'attributes' => NULL,
 
 		/*
+		 * Which attributes should be base64 encoded after retrieval from the LDAP server.
+		 */
+		'attributes.binary' => ['jpegPhoto', 'objectGUID', 'objectSid', 'mS-DS-ConsistencyGuid'],
+
+		/*
 		 * The pattern which should be used to create the user's DN given the username.
 		 * %username% in this pattern will be replaced with the user's username.
 		 *
@@ -100,7 +105,7 @@ You also need to update the `hostname` and `dnpattern` options. The
 `hostname` should be the hostname of your LDAP server, and the
 `dnpattern` should be a pattern which can be used to generate the `dn`
 of a user with a given username.
--
+
 All other options have default values, and are not required.
 
 ### Searching for a user ###

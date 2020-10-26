@@ -1,4 +1,5 @@
 <?php
+
 /**
  * A SAML error indicating that passive authentication cannot be used.
  *
@@ -10,7 +11,7 @@ namespace SimpleSAML\Module\saml\Error;
 
 use SAML2\Constants;
 
-class NoPassive extends \sspmod_saml_Error
+class NoPassive extends \SimpleSAML\Module\saml\Error
 {
     /**
      * NoPassive error constructor.

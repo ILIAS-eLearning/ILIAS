@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Utilities;
+
+use ArrayIterator;
+use Closure;
 
 use SAML2\Exception\RuntimeException;
 
 /**
  * Simple Array implementation of Collection.
- *
- * @SuppressWarnings(PHPMD.TooManyMethods) - it just has a large api.
  */
 class ArrayCollection implements Collection
 {
@@ -16,50 +19,86 @@ class ArrayCollection implements Collection
      */
     protected $elements;
 
-    public function __construct(array $elements = array())
+
+    /**
+     * ArrayCollection constructor.
+     *
+     * @param array $elements
+     */
+    public function __construct(array $elements = [])
     {
         $this->elements = $elements;
     }
 
-    public function add($element)
+
+    /**
+     * @param mixed $element
+     *
+     * @return void
+     */
+    public function add($element) : void
     {
         $this->elements[] = $element;
     }
 
+
+    /**
+     * @param mixed $key
+     *
+     * @return mixed|null
+     */
     public function get($key)
     {
         return isset($this->elements[$key]) ? $this->elements[$key] : null;
     }
 
-    public function filter(\Closure $f)
+
+    /**
+     * @param \Closure $f
+     *
+     * @return ArrayCollection
+     */
+    public function filter(Closure $f) : Collection
     {
         return new self(array_filter($this->elements, $f));
     }
 
-    public function set($key, $value)
+
+    /**
+     * @param mixed $key
+     * @param mixed $value
+     * @return void
+     */
+    public function set($key, $value) : void
     {
         $this->elements[$key] = $value;
     }
 
-    public function remove($element)
+
+    /**
+     * @param mixed $element
+     *
+     * @return void
+     */
+    public function remove($element) : void
     {
         $key = array_search($element, $this->elements);
-
         if ($key === false) {
-            return false;
+            return;
         }
-
-        $removed = $this->elements[$key];
         unset($this->elements[$key]);
-
-        return $removed;
     }
 
+
+    /**
+     * @throws RuntimeException
+     * @return bool|mixed
+     */
     public function getOnlyElement()
     {
         if ($this->count() !== 1) {
             throw new RuntimeException(sprintf(
-                __CLASS__ . '::' . __METHOD__ . ' requires that the collection has exactly one element, '
+                __CLASS__.'::'.__METHOD__.' requires that the collection has exactly one element, '
                 . '"%d" elements found',
                 $this->count()
             ));
@@ -68,47 +107,92 @@ class ArrayCollection implements Collection
         return reset($this->elements);
     }
 
+
+    /**
+     * @return bool|mixed
+     */
     public function first()
     {
         return reset($this->elements);
     }
 
+
+    /**
+     * @return bool|mixed
+     */
     public function last()
     {
         return end($this->elements);
     }
 
-    public function map(\Closure $function)
+
+    /**
+     * @param \Closure $function
+     *
+     * @return ArrayCollection
+     */
+    public function map(Closure $function) : ArrayCollection
     {
         return new self(array_map($function, $this->elements));
     }
 
-    public function count()
+
+    /**
+     * @return int
+     */
+    public function count() : int
     {
         return count($this->elements);
     }
 
-    public function getIterator()
+
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator() : ArrayIterator
     {
-        return new \ArrayIterator($this->elements);
+        return new ArrayIterator($this->elements);
     }
 
-    public function offsetExists($offset)
+
+    /**
+     * @param mixed $offset
+     *
+     * @return bool
+     */
+    public function offsetExists($offset) : bool
     {
         return isset($this->elements[$offset]);
     }
 
+
+    /**
+     * @param mixed $offset
+     *
+     * @return mixed
+     */
     public function offsetGet($offset)
     {
         return $this->elements[$offset];
     }
 
-    public function offsetSet($offset, $value)
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     * @return void
+     */
+    public function offsetSet($offset, $value) : void
     {
         $this->elements[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
+
+    /**
+     * @param $offset
+     * @return void
+     */
+    public function offsetUnset($offset) : void
     {
         unset($this->elements[$offset]);
     }

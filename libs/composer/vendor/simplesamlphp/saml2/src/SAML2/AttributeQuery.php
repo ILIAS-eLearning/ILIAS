@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2;
+
+use DOMElement;
 
 /**
  * Class for SAML 2 attribute query messages.
@@ -24,7 +28,7 @@ class AttributeQuery extends SubjectQuery
      *
      * @var array
      */
-    private $attributes;
+    private $attributes = [];
 
     /**
      * The NameFormat used on all attributes.
@@ -36,17 +40,18 @@ class AttributeQuery extends SubjectQuery
      */
     private $nameFormat;
 
+
     /**
      * Constructor for SAML 2 attribute query messages.
      *
      * @param \DOMElement|null $xml The input message.
      * @throws \Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = null)
     {
         parent::__construct('AttributeQuery', $xml);
 
-        $this->attributes = array();
+        $this->attributes = [];
         $this->nameFormat = Constants::NAMEFORMAT_UNSPECIFIED;
 
         if ($xml === null) {
@@ -54,6 +59,7 @@ class AttributeQuery extends SubjectQuery
         }
 
         $firstAttribute = true;
+        /** @var \DOMElement[] $attributes */
         $attributes = Utils::xpQuery($xml, './saml_assertion:Attribute');
         foreach ($attributes as $attribute) {
             if (!$attribute->hasAttribute('Name')) {
@@ -77,7 +83,7 @@ class AttributeQuery extends SubjectQuery
             }
 
             if (!array_key_exists($name, $this->attributes)) {
-                $this->attributes[$name] = array();
+                $this->attributes[$name] = [];
             }
 
             $values = Utils::xpQuery($attribute, './saml_assertion:AttributeValue');
@@ -87,25 +93,29 @@ class AttributeQuery extends SubjectQuery
         }
     }
 
+
     /**
      * Retrieve all requested attributes.
      *
      * @return array All requested attributes, as an associative array.
      */
-    public function getAttributes()
+    public function getAttributes() : array
     {
         return $this->attributes;
     }
+
 
     /**
      * Set all requested attributes.
      *
      * @param array $attributes All requested attributes, as an associative array.
+     * @return void
      */
-    public function setAttributes(array $attributes)
+    public function setAttributes(array $attributes) : void
     {
         $this->attributes = $attributes;
     }
+
 
     /**
      * Retrieve the NameFormat used on all attributes.
@@ -115,29 +125,30 @@ class AttributeQuery extends SubjectQuery
      *
      * @return string The NameFormat used on all attributes.
      */
-    public function getAttributeNameFormat()
+    public function getAttributeNameFormat() : string
     {
         return $this->nameFormat;
     }
+
 
     /**
      * Set the NameFormat used on all attributes.
      *
      * @param string $nameFormat The NameFormat used on all attributes.
+     * @return void
      */
-    public function setAttributeNameFormat($nameFormat)
+    public function setAttributeNameFormat(string $nameFormat) : void
     {
-        assert(is_string($nameFormat));
-
         $this->nameFormat = $nameFormat;
     }
+
 
     /**
      * Convert the attribute query message to an XML element.
      *
      * @return \DOMElement This attribute query.
      */
-    public function toUnsignedXML()
+    public function toUnsignedXML() : DOMElement
     {
         $root = parent::toUnsignedXML();
 
@@ -159,7 +170,12 @@ class AttributeQuery extends SubjectQuery
                     $type = null;
                 }
 
-                $attributeValue = Utils::addString($attribute, Constants::NS_SAML, 'saml:AttributeValue', $value);
+                $attributeValue = Utils::addString(
+                    $attribute,
+                    Constants::NS_SAML,
+                    'saml:AttributeValue',
+                    strval($value)
+                );
                 if ($type !== null) {
                     $attributeValue->setAttributeNS(Constants::NS_XSI, 'xsi:type', $type);
                 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Response\Validation;
 
 use SAML2\Response;
@@ -11,12 +13,22 @@ class Validator
      */
     protected $constraints;
 
-    public function addConstraintValidator(ConstraintValidator $constraint)
+
+    /**
+     * @param ConstraintValidator $constraint
+     * @return void
+     */
+    public function addConstraintValidator(ConstraintValidator $constraint) : void
     {
         $this->constraints[] = $constraint;
     }
 
-    public function validate(Response $response)
+
+    /**
+     * @param Response $response
+     * @return Result
+     */
+    public function validate(Response $response) : Result
     {
         $result = new Result();
         foreach ($this->constraints as $validator) {

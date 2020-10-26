@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Certificate;
 
 use RobRichards\XMLSecLibs\XMLSecurityKey;
+
+use SAML2\Certificate\PrivateKey;
 use SAML2\Configuration\DecryptionProvider;
 use SAML2\Configuration\PrivateKey as PrivateKeyConfiguration;
 use SAML2\Utilities\ArrayCollection;
@@ -14,31 +18,34 @@ class PrivateKeyLoader
      * Loads a private key based on the configuration given.
      *
      * @param \SAML2\Configuration\PrivateKey $key
-     *
      * @return \SAML2\Certificate\PrivateKey
      */
-    public function loadPrivateKey(PrivateKeyConfiguration $key)
+    public function loadPrivateKey(PrivateKeyConfiguration $key) : PrivateKey
     {
-        $privateKey = File::getFileContents($key->getFilePath());
+        if ($key->isFile()) {
+            $privateKey = File::getFileContents($key->getFilePath());
+        } else {
+            $privateKey = $key->getContents();
+        }
 
         return PrivateKey::create($privateKey, $key->getPassPhrase());
     }
 
+
     /**
      * @param \SAML2\Configuration\DecryptionProvider $identityProvider
      * @param \SAML2\Configuration\DecryptionProvider $serviceProvider
-     *
-     * @return \SAML2\Utilities\ArrayCollection
      * @throws \Exception
+     * @return \SAML2\Utilities\ArrayCollection
      */
     public function loadDecryptionKeys(
         DecryptionProvider $identityProvider,
         DecryptionProvider $serviceProvider
-    ) {
+    ) : ArrayCollection {
         $decryptionKeys = new ArrayCollection();
 
         $senderSharedKey = $identityProvider->getSharedKey();
-        if ($senderSharedKey) {
+        if ($senderSharedKey !== null) {
             $key = new XMLSecurityKey(XMLSecurityKey::AES128_CBC);
             $key->loadKey($senderSharedKey);
             $decryptionKeys->add($key);
@@ -59,15 +66,15 @@ class PrivateKeyLoader
         return $decryptionKeys;
     }
 
+
     /**
      * @param \SAML2\Certificate\PrivateKey $privateKey
-     *
-     * @return XMLSecurityKey
      * @throws \Exception
+     * @return \RobRichards\XMLSecLibs\XMLSecurityKey
      */
-    private function convertPrivateKeyToRsaKey(PrivateKey $privateKey)
+    private function convertPrivateKeyToRsaKey(PrivateKey $privateKey) : XMLSecurityKey
     {
-        $key        = new XMLSecurityKey(XMLSecurityKey::RSA_1_5, array('type' => 'private'));
+        $key = new XMLSecurityKey(XMLSecurityKey::RSA_1_5, ['type' => 'private']);
         $passphrase = $privateKey->getPassphrase();
         if ($passphrase) {
             $key->passphrase = $passphrase;

@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\XML\mdrpi;
+
+use DOMElement;
 
 use SAML2\Utils;
 
@@ -15,16 +19,16 @@ class RegistrationInfo
     /**
      * The identifier of the metadata registration authority.
      *
-     * @var string
+     * @var string|null
      */
-    public $registrationAuthority;
+    private $registrationAuthority = null;
 
     /**
      * The registration timestamp for the metadata, as a UNIX timestamp.
      *
      * @var int|null
      */
-    public $registrationInstant;
+    private $registrationInstant = null;
 
     /**
      * Link to registration policy for this metadata.
@@ -33,7 +37,8 @@ class RegistrationInfo
      *
      * @var array
      */
-    public $RegistrationPolicy = array();
+    private $RegistrationPolicy = [];
+
 
     /**
      * Create/parse a mdrpi:RegistrationInfo element.
@@ -41,14 +46,16 @@ class RegistrationInfo
      * @param \DOMElement|null $xml The XML element we should load.
      * @throws \Exception
      */
-    public function __construct(\DOMElement $xml = null)
+    public function __construct(DOMElement $xml = null)
     {
         if ($xml === null) {
             return;
         }
 
         if (!$xml->hasAttribute('registrationAuthority')) {
-            throw new \Exception('Missing required attribute "registrationAuthority" in mdrpi:RegistrationInfo element.');
+            throw new \Exception(
+                'Missing required attribute "registrationAuthority" in mdrpi:RegistrationInfo element.'
+            );
         }
         $this->registrationAuthority = $xml->getAttribute('registrationAuthority');
 
@@ -59,18 +66,84 @@ class RegistrationInfo
         $this->RegistrationPolicy = Utils::extractLocalizedStrings($xml, Common::NS_MDRPI, 'RegistrationPolicy');
     }
 
+
+    /**
+     * Collect the value of the RegistrationAuthority property
+     *
+     * @return string|null
+     */
+    public function getRegistrationAuthority() : ?string
+    {
+        return $this->registrationAuthority;
+    }
+
+
+    /**
+     * Set the value of the registrationAuthority property
+     *
+     * @param string $registrationAuthority
+     * @return void
+     */
+    public function setRegistrationAuthority(string $registrationAuthority) : void
+    {
+        $this->registrationAuthority = $registrationAuthority;
+    }
+
+
+    /**
+     * Collect the value of the registrationInstant property
+     *
+     * @return int|null
+     */
+    public function getRegistrationInstant() : ?int
+    {
+        return $this->registrationInstant;
+    }
+
+
+    /**
+     * Set the value of the registrationInstant property
+     *
+     * @param int|null $registrationInstant
+     * @return void
+     */
+    public function setRegistrationInstant(int $registrationInstant = null) : void
+    {
+        $this->registrationInstant = $registrationInstant;
+    }
+
+
+    /**
+     * Collect the value of the RegistrationPolicy property
+     *
+     * @return array
+     */
+    public function getRegistrationPolicy() : array
+    {
+        return $this->RegistrationPolicy;
+    }
+
+
+    /**
+     * Set the value of the RegistrationPolicy property
+     *
+     * @param array $registrationPolicy
+     * @return void
+     */
+    public function setRegistrationPolicy(array $registrationPolicy) : void
+    {
+        $this->RegistrationPolicy = $registrationPolicy;
+    }
+
+
     /**
      * Convert this element to XML.
      *
      * @param \DOMElement $parent The element we should append to.
      * @return \DOMElement
      */
-    public function toXML(\DOMElement $parent)
+    public function toXML(DOMElement $parent) : DOMElement
     {
-        assert(is_string($this->registrationAuthority));
-        assert(is_int($this->registrationInstant) || is_null($this->registrationInstant));
-        assert(is_array($this->RegistrationPolicy));
-
         if (empty($this->registrationAuthority)) {
             throw new \Exception('Missing required registration authority.');
         }

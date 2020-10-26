@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Assertion\Validation\ConstraintValidator;
 
 use SAML2\Assertion;
@@ -10,10 +12,15 @@ use SAML2\Utilities\Temporal;
 class NotBefore implements
     AssertionConstraintValidator
 {
-    public function validate(Assertion $assertion, Result $result)
+    /**
+     * @param Assertion $assertion
+     * @param Result $result
+     * @return void
+     */
+    public function validate(Assertion $assertion, Result $result) : void
     {
         $notBeforeTimestamp = $assertion->getNotBefore();
-        if ($notBeforeTimestamp && $notBeforeTimestamp > Temporal::getTime() + 60) {
+        if (($notBeforeTimestamp !== null) && ($notBeforeTimestamp > (Temporal::getTime() + 60))) {
             $result->addError(
                 'Received an assertion that is valid in the future. Check clock synchronization on IdP and SP.'
             );

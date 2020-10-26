@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2;
 
 /**
@@ -15,20 +17,24 @@ class HTTPPost extends Binding
      * Note: This function never returns.
      *
      * @param \SAML2\Message $message The message we should send.
+     * @return void
      */
-    public function send(Message $message)
+    public function send(Message $message) : void
     {
         if ($this->destination === null) {
             $destination = $message->getDestination();
+            if ($destination === null) {
+                throw new \Exception('Cannot send message, no destination set.');
+            }
         } else {
             $destination = $this->destination;
         }
         $relayState = $message->getRelayState();
 
         $msgStr = $message->toSignedXML();
-        $msgStr = $msgStr->ownerDocument->saveXML($msgStr);
 
         Utils::getContainer()->debugMessage($msgStr, 'out');
+        $msgStr = $msgStr->ownerDocument->saveXML($msgStr);
 
         $msgStr = base64_encode($msgStr);
 
@@ -38,7 +44,7 @@ class HTTPPost extends Binding
             $msgType = 'SAMLResponse';
         }
 
-        $post = array();
+        $post = [];
         $post[$msgType] = $msgStr;
 
         if ($relayState !== null) {
@@ -48,6 +54,7 @@ class HTTPPost extends Binding
         Utils::getContainer()->postRedirect($destination, $post);
     }
 
+
     /**
      * Receive a SAML 2 message sent using the HTTP-POST binding.
      *
@@ -56,24 +63,29 @@ class HTTPPost extends Binding
      * @return \SAML2\Message The received message.
      * @throws \Exception
      */
-    public function receive()
+    public function receive(): Message
     {
         if (array_key_exists('SAMLRequest', $_POST)) {
-            $msg = $_POST['SAMLRequest'];
+            $msgStr = $_POST['SAMLRequest'];
         } elseif (array_key_exists('SAMLResponse', $_POST)) {
-            $msg = $_POST['SAMLResponse'];
+            $msgStr = $_POST['SAMLResponse'];
         } else {
             throw new \Exception('Missing SAMLRequest or SAMLResponse parameter.');
         }
 
-        $msg = base64_decode($msg);
+        $msgStr = base64_decode($msgStr);
 
-        Utils::getContainer()->debugMessage($msg, 'in');
+        $xml = new \DOMDocument();
+        $xml->loadXML($msgStr);
+        $msgStr = $xml->saveXML();
 
-        $document = DOMDocumentFactory::fromString($msg);
-        $xml = $document->firstChild;
+        $document = DOMDocumentFactory::fromString($msgStr);
+        Utils::getContainer()->debugMessage($document->documentElement, 'in');
+        if (!$document->firstChild instanceof \DOMElement) {
+            throw new \Exception('Malformed SAML message received.');
+        }
 
-        $msg = Message::fromXML($xml);
+        $msg = Message::fromXML($document->firstChild);
 
         if (array_key_exists('RelayState', $_POST)) {
             $msg->setRelayState($_POST['RelayState']);

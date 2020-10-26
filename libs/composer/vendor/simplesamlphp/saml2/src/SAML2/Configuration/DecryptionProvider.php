@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Configuration;
 
 interface DecryptionProvider
@@ -7,23 +9,27 @@ interface DecryptionProvider
     /**
      * @return null|bool
      */
-    public function isAssertionEncryptionRequired();
+    public function isAssertionEncryptionRequired() : ?bool;
+
 
     /**
      * @return null|string
      */
-    public function getSharedKey();
+    public function getSharedKey() : ?string;
+
 
     /**
-     * @param string  $name     the name of the private key
-     * @param boolean $required whether or not the private key must exist
+     * @param string $name The name of the private key
+     * @param bool $required Whether or not the private key must exist
      *
      * @return mixed
      */
-    public function getPrivateKey($name, $required = false);
+    public function getPrivateKey(string $name, bool $required = null);
+
+
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getBlacklistedAlgorithms();
+    public function getBlacklistedAlgorithms() : ?array;
 }

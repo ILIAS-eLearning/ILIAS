@@ -2,31 +2,35 @@
 
 namespace SimpleSAML\IdP;
 
+use SimpleSAML\Auth;
+use SimpleSAML\Configuration;
+use SimpleSAML\Error;
+use SimpleSAML\IdP;
 use SimpleSAML\Module;
-use SimpleSAML\Utils\HTTP;
+use SimpleSAML\Utils;
+use SimpleSAML\XHTML\Template;
 
 /**
  * Class that handles iframe logout.
  *
  * @package SimpleSAMLphp
  */
+
 class IFrameLogoutHandler implements LogoutHandlerInterface
 {
-
     /**
      * The IdP we are logging out from.
      *
-     * @var \SimpleSAML_IdP
+     * @var \SimpleSAML\IdP
      */
     private $idp;
-
 
     /**
      * LogoutIFrame constructor.
      *
-     * @param \SimpleSAML_IdP $idp The IdP to log out from.
+     * @param \SimpleSAML\IdP $idp The IdP to log out from.
      */
-    public function __construct(\SimpleSAML_IdP $idp)
+    public function __construct(IdP $idp)
     {
         $this->idp = $idp;
     }
@@ -36,6 +40,7 @@ class IFrameLogoutHandler implements LogoutHandlerInterface
      *
      * @param array &$state The logout state.
      * @param string|null $assocId The SP we are logging out from.
+     * @return void
      */
     public function startLogout(array &$state, $assocId)
     {
@@ -48,7 +53,7 @@ class IFrameLogoutHandler implements LogoutHandlerInterface
         }
 
         foreach ($associations as $id => &$association) {
-            $idp = \SimpleSAML_IdP::getByState($association);
+            $idp = IdP::getByState($association);
             $association['core:Logout-IFrame:Name'] = $idp->getSPName($id);
             $association['core:Logout-IFrame:State'] = 'onhold';
         }
@@ -57,7 +62,7 @@ class IFrameLogoutHandler implements LogoutHandlerInterface
         if (!is_null($assocId)) {
             $spName = $this->idp->getSPName($assocId);
             if ($spName === null) {
-                $spName = array('en' => $assocId);
+                $spName = ['en' => $assocId];
             }
 
             $state['core:Logout-IFrame:From'] = $spName;
@@ -65,15 +70,15 @@ class IFrameLogoutHandler implements LogoutHandlerInterface
             $state['core:Logout-IFrame:From'] = null;
         }
 
-        $params = array(
-            'id' => \SimpleSAML_Auth_State::saveState($state, 'core:Logout-IFrame'),
-        );
+        $params = [
+            'id' => Auth\State::saveState($state, 'core:Logout-IFrame'),
+        ];
         if (isset($state['core:Logout-IFrame:InitType'])) {
             $params['type'] = $state['core:Logout-IFrame:InitType'];
         }
 
         $url = Module::getModuleURL('core/idp/logout-iframe.php', $params);
-        HTTP::redirectTrustedURL($url);
+        Utils\HTTP::redirectTrustedURL($url);
     }
 
 
@@ -84,36 +89,24 @@ class IFrameLogoutHandler implements LogoutHandlerInterface
      *
      * @param string $assocId The association that is terminated.
      * @param string|null $relayState The RelayState from the start of the logout.
-     * @param \SimpleSAML_Error_Exception|null $error The error that occurred during session termination (if any).
+     * @param \SimpleSAML\Error\Exception|null $error The error that occurred during session termination (if any).
+     * @return void
      */
-    public function onResponse($assocId, $relayState, \SimpleSAML_Error_Exception $error = null)
+    public function onResponse($assocId, $relayState, Error\Exception $error = null)
     {
         assert(is_string($assocId));
 
-        $spId = sha1($assocId);
         $this->idp->terminateAssociation($assocId);
 
-        $header = <<<HEADER
-<!DOCTYPE html>
-<html>
- <head>
-  <title>Logout response from %s</title>
-  <script>
-HEADER;
-        printf($header, htmlspecialchars(var_export($assocId, true)));
-        if ($error) {
-            $errorMsg = $error->getMessage();
-            echo('window.parent.logoutFailed("'.$spId.'", "'.addslashes($errorMsg).'");');
-        } else {
-            echo('window.parent.logoutCompleted("'.$spId.'");');
+        $config = Configuration::getInstance();
+
+        $t = new Template($config, 'IFrameLogoutHandler.tpl.php');
+        $t->data['assocId'] = var_export($assocId, true);
+        $t->data['spId'] = sha1($assocId);
+        if (!is_null($error)) {
+            $t->data['errorMsg'] = $error->getMessage();
         }
-        echo <<<FOOTER
-  </script>
- </head>
- <body>
- </body>
-</html>
-FOOTER;
-        exit(0);
+
+        $t->show();
     }
 }

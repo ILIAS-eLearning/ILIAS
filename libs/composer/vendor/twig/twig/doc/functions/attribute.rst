@@ -1,13 +1,10 @@
 ``attribute``
 =============
 
-.. versionadded:: 1.2
-    The ``attribute`` function was added in Twig 1.2.
-
 The ``attribute`` function can be used to access a "dynamic" attribute of a
 variable:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {{ attribute(object, method) }}
     {{ attribute(object, method, arguments) }}
@@ -16,7 +13,7 @@ variable:
 In addition, the ``defined`` test can check for the existence of a dynamic
 attribute:
 
-.. code-block:: jinja
+.. code-block:: twig
 
     {{ attribute(object, method) is defined ? 'Method exists' : 'Method does not exist' }}
 

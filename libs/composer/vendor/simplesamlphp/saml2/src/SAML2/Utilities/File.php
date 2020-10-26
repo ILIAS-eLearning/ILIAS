@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Utilities;
 
 use SAML2\Exception\InvalidArgumentException;
@@ -15,12 +17,8 @@ class File
      *
      * @return string
      */
-    public static function getFileContents($file)
+    public static function getFileContents(string $file) : string
     {
-        if (!is_string($file)) {
-            throw InvalidArgumentException::invalidType('string', $file);
-        }
-
         if (!is_readable($file)) {
             throw new RuntimeException(sprintf(
                 'File "%s" does not exist or is not readable',

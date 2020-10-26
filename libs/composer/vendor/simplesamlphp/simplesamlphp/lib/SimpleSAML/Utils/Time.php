@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Time-related utility methods.
  *
@@ -7,11 +8,12 @@
 
 namespace SimpleSAML\Utils;
 
+use SimpleSAML\Configuration;
+use SimpleSAML\Error;
 use SimpleSAML\Logger;
 
 class Time
 {
-
     /**
      * Whether the timezone has been initialized or not.
      *
@@ -44,7 +46,7 @@ class Time
      *
      * @author Olav Morken, UNINETT AS <olav.morken@uninett.no>
      *
-     * @throws \SimpleSAML_Error_Exception If the timezone set in the configuration is invalid.
+     * @throws \SimpleSAML\Error\Exception If the timezone set in the configuration is invalid.
      *
      * @return void
      */
@@ -54,12 +56,12 @@ class Time
             return;
         }
 
-        $globalConfig = \SimpleSAML_Configuration::getInstance();
+        $globalConfig = Configuration::getInstance();
 
         $timezone = $globalConfig->getString('timezone', null);
         if ($timezone !== null) {
             if (!date_default_timezone_set($timezone)) {
-                throw new \SimpleSAML_Error_Exception('Invalid timezone set in the "timezone" option in config.php.');
+                throw new Error\Exception('Invalid timezone set in the "timezone" option in config.php.');
             }
             self::$tz_initialized = true;
             return;
@@ -95,10 +97,10 @@ class Time
         }
 
         // parse the duration. We use a very strict pattern
-        $durationRegEx = '#^(-?)P(?:(?:(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)'.
+        $durationRegEx = '#^(-?)P(?:(?:(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+)' .
             '(?:[.,]\d+)?S)?)?)|(?:(\\d+)W))$#D';
         if (!preg_match($durationRegEx, $duration, $matches)) {
-            throw new \InvalidArgumentException('Invalid ISO 8601 duration: '.$duration);
+            throw new \InvalidArgumentException('Invalid ISO 8601 duration: ' . $duration);
         }
 
         $durYears = (empty($matches[2]) ? 0 : (int) $matches[2]);

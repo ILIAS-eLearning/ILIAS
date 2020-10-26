@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Signature;
 
 use Psr\Log\LoggerInterface;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
+
 use SAML2\SignedElement;
 
 abstract class AbstractChainedValidator implements ChainedValidator
@@ -13,26 +16,35 @@ abstract class AbstractChainedValidator implements ChainedValidator
      */
     protected $logger;
 
+
+    /**
+     * Constructor for AbstractChainedValidator
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
+
     /**
      * BC compatible version of the signature check
      *
      * @param \SAML2\SignedElement      $element
-     * @param \SAML2\Certificate\X509[] $pemCandidates
+     * @param \SAML2\Utilities\ArrayCollection $pemCandidates
      *
      * @throws \Exception
      *
      * @return bool
      */
-    protected function validateElementWithKeys(SignedElement $element, $pemCandidates)
-    {
+    protected function validateElementWithKeys(
+        SignedElement $element,
+        \SAML2\Utilities\ArrayCollection $pemCandidates
+    ) : bool {
         $lastException = null;
         foreach ($pemCandidates as $index => $candidateKey) {
-            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type' => 'public'));
+            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'public']);
             $key->loadKey($candidateKey->getCertificate());
 
             try {

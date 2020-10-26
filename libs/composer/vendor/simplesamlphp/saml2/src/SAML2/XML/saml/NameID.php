@@ -1,7 +1,8 @@
 <?php
 
-namespace SAML2\XML\saml;
+declare(strict_types=1);
 
+namespace SAML2\XML\saml;
 
 /**
  * Class representing the saml:NameID element.

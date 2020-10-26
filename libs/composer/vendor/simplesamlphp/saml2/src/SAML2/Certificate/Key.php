@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SAML2\Certificate;
 
 use SAML2\Certificate\Exception\InvalidKeyUsageException;
@@ -18,7 +20,8 @@ class Key implements \ArrayAccess
     /**
      * @var array
      */
-    protected $keyData = array();
+    protected $keyData = [];
+
 
     /**
      * @param array $keyData
@@ -31,13 +34,14 @@ class Key implements \ArrayAccess
         }
     }
 
+
     /**
      * Whether or not the key is configured to be used for usage given
      *
-     * @param  string $usage
+     * @param string $usage
      * @return bool
      */
-    public function canBeUsedFor($usage)
+    public function canBeUsedFor(string $usage) : bool
     {
         if (!in_array($usage, static::getValidKeyUsages(), true)) {
             throw new InvalidKeyUsageException($usage);
@@ -46,54 +50,79 @@ class Key implements \ArrayAccess
         return isset($this->keyData[$usage]) && $this->keyData[$usage];
     }
 
+
     /**
      * Returns the list of valid key usage options
      * @return array
      */
-    public static function getValidKeyUsages()
+    public static function getValidKeyUsages() : array
     {
-        return array(
+        return [
             self::USAGE_ENCRYPTION,
             self::USAGE_SIGNING
-        );
+        ];
     }
 
-    public function offsetExists($offset)
+
+    /**
+     * @param mixed $offset
+     * @throws InvalidArgumentException
+     * @return bool
+     *
+     * Type hint not possible due to upstream method signature
+     */
+    public function offsetExists($offset) : bool
     {
+        if (!is_string($offset)) {
+            throw InvalidArgumentException::invalidType('string', $offset);
+        }
         return array_key_exists($offset, $this->keyData);
     }
 
+
+    /**
+     * @param mixed $offset
+     * @throws InvalidArgumentException
+     * @return mixed
+     *
+     * Type hint not possible due to upstream method signature
+     */
     public function offsetGet($offset)
     {
-        $this->assertIsString($offset);
-
+        if (!is_string($offset)) {
+            throw InvalidArgumentException::invalidType('string', $offset);
+        }
         return $this->keyData[$offset];
     }
 
-    public function offsetSet($offset, $value)
-    {
-        $this->assertIsString($offset);
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     * @throws InvalidArgumentException
+     * @return void
+     */
+    public function offsetSet($offset, $value) : void
+    {
+        if (!is_string($offset)) {
+            throw InvalidArgumentException::invalidType('string', $offset);
+        }
         $this->keyData[$offset] = $value;
     }
 
-    public function offsetUnset($offset)
-    {
-        $this->assertIsString($offset);
-
-        unset($this->keyData[$offset]);
-    }
 
     /**
-     * Asserts that the parameter is of type string
-     * @param mixed $test
+     * @param mixed $offset
+     * @throws InvalidArgumentException
+     * @return void
      *
-     * @throws \Exception
+     * Type hint not possible due to upstream method signature
      */
-    protected function assertIsString($test)
+    public function offsetUnset($offset) : void
     {
-        if (!is_string($test)) {
-            throw InvalidArgumentException::invalidType('string', $test);
+        if (!is_string($offset)) {
+            throw InvalidArgumentException::invalidType('string', $offset);
         }
+        unset($this->keyData[$offset]);
     }
 }

@@ -30,6 +30,9 @@ msgstr "Zuid-Afrika"
 msgid "{discopower:tabs:kalmar}"
 msgstr "Kalmar"
 
+msgid "{discopower:tabs:netherlands}"
+msgstr "Nederland"
+
 msgid "{discopower:tabs:denmark}"
 msgstr "Denemarken"
 
@@ -53,6 +56,9 @@ msgstr "Noorwegen"
 
 msgid "{discopower:tabs:misc}"
 msgstr "Overige"
+
+msgid "{discopower:tabs:incremental_search}"
+msgstr "Zoeken"
 
 msgid "Sweden"
 msgstr "Zweden"

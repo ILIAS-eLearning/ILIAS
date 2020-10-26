@@ -29,10 +29,7 @@ indexes. Refer to the Riak documentation on how to enable an
 appropriate backend for use by this module. Currently the only
 storage backend that supports secondary indexes is leveldb.
 
-Next, you will need to install the Riak PHP Client library, available
-from https://github.com/basho/riak-php-client.
-
-Finally, you need to config SimpleSAMLphp to for the riak Store by
+Finally, you need to config SimpleSAMLphp to use the riak Store by
 enabling the following modules:
 
  1. cron
@@ -103,15 +100,14 @@ Configuring the riak module
 The riak module uses the following configuration options specified
 in `config/module_riak.php`. The defaults are listed:
 
-	$config = array(
-		'path' => 'riak-php-client/riak.php',
+	$config = [
 		'host' => 'localhost',
 		'port' => 8098,
 		'bucket' => 'SimpleSAMLphp',
-	);
+	];
 
 Finally, the module can be specified as the Store in `config/config.php`
 with the following setting:
 
-		'store.type' => 'riak:Store',
+		'store.type' => 'riak:Riak',
 

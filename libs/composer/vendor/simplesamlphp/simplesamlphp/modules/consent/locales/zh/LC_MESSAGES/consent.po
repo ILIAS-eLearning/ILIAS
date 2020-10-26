@@ -31,10 +31,10 @@ msgid "{consent:consent:consent_purpose}"
 msgstr "SPNAME的目的是SPDESC"
 
 msgid "{consent:consent:noconsent_goto_about}"
-msgstr "获取该服务的信息"
+msgstr "转到该服务的信息页面"
 
 msgid "{consent:consent:consent_header}"
-msgstr "同意开放个人信息"
+msgstr "同意释放个人信息"
 
 msgid "{consent:consent:show_hide_attributes}"
 msgstr "显示/隐藏属性"
@@ -49,7 +49,7 @@ msgid "{consent:consent:noconsent_title}"
 msgstr "未同意"
 
 msgid "{consent:consent:consent_accept}"
-msgstr "SPNAME请求的信息已经被传输出去"
+msgstr "SPNAME请求以下信息被传送。"
 
 msgid "{consent:consent:table_summary}"
 msgstr "当你登录时将要传输给服务的信息列表"
@@ -70,7 +70,7 @@ msgid "{consent:consent:consent_privacypolicy}"
 msgstr "该服务的隐私策略"
 
 msgid "{consent:consent:noconsent_text}"
-msgstr "你没有同意传输你的相关属性给服务提供者"
+msgstr "你没有同意传输你的相关属性给SPNAME"
 
 msgid "{consent:consent:noconsent_return}"
 msgstr "返回同意界面"
@@ -79,7 +79,7 @@ msgid "{consent:consent:yes}"
 msgstr "是的，继续"
 
 msgid "{consent:consent:consent_attributes_header}"
-msgstr "信息将会发送给SPNAME"
+msgstr "将会发送给SPNAME的信息"
 
 msgid "Service Providers for"
 msgstr "服务提供者给"
