@@ -8,7 +8,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\MainMenu\Storage\Services;
+use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
@@ -41,9 +41,10 @@ class ilMMItemInformation implements ItemInformation
      */
     public function __construct()
     {
+        global $DIC;
         $this->items        = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-        $this->storage      = new Services();
+        $this->storage      = $DIC['resource_storage'];
     }
 
     /**
@@ -128,16 +129,18 @@ class ilMMItemInformation implements ItemInformation
         if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
             global $DIC;
 
-            $ri = $this->storage->find($this->items[$id][self::ICON_ID]);
+            $ri = $this->storage->manage()->find($this->items[$id][self::ICON_ID]);
             if (!$ri) {
                 return $item;
             }
+
             try {
-                $stream = $this->storage->stream($ri)->getStream();
+                $stream = $this->storage->consume()->stream($ri)->getStream();
             } catch (FileNotFoundException $f) {
                 return $item;
             }
-            $data       = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $data = 'data:' . $this->storage->manage()->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();
