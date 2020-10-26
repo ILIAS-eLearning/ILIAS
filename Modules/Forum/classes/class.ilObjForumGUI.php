@@ -2632,16 +2632,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                     $oFDForum = $oForumObjects['file_obj'];
 
+                    $file2delete = $oReplyEditForm->getInput('del_file');
+                    if (is_array($file2delete) && count($file2delete)) {
+                        $oFDForum->unlinkFilesByMD5Filenames($file2delete);
+                    }
+
                     if ($this->objProperties->isFileUploadAllowed()) {
                         $file = $_FILES['userfile'];
                         if (is_array($file) && !empty($file)) {
                             $oFDForum->storeUploadedFile($file);
                         }
-                    }
-
-                    $file2delete = $oReplyEditForm->getInput('del_file');
-                    if (is_array($file2delete) && count($file2delete)) {
-                        $oFDForum->unlinkFilesByMD5Filenames($file2delete);
                     }
 
                     $GLOBALS['ilAppEventHandler']->raise(
@@ -2915,7 +2915,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             ]) ? ilForumProperties::VIEW_DATE : ilForumProperties::VIEW_TREE);
         }
         $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$currentViewMode]);
-        
+
         $numberOfPostings = 0;
 
         // get forum- and thread-data
