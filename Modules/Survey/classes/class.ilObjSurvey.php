@@ -6098,7 +6098,7 @@ class ilObjSurvey extends ilObject
         return false;
     }
     
-    public function sentReminder(array $a_recipient_ids)
+    protected function sentReminder(array $a_recipient_ids)
     {
         global $DIC;
 
