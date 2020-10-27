@@ -20,7 +20,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function getIterator()
     {
@@ -28,7 +28,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function count()
     {
@@ -36,7 +36,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function add(ilCronJobEntity $job) : void
     {
@@ -44,7 +44,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function filter(callable $callable) : ilCronJobCollection
     {
@@ -52,7 +52,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function slice(int $offset, ?int $length = null) : ilCronJobCollection
     {
@@ -60,7 +60,7 @@ class ilCronJobEntities implements ilCronJobCollection
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function toArray() : array
     {

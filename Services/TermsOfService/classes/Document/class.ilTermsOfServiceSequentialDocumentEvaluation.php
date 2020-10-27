@@ -38,7 +38,7 @@ class ilTermsOfServiceSequentialDocumentEvaluation implements ilTermsOfServiceDo
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     public function withContextUser(ilObjUser $user) : ilTermsOfServiceDocumentEvaluation
     {

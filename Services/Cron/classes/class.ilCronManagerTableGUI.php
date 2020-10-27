@@ -269,7 +269,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
     }
 
     /**
-     * @ineritdoc
+     * @inheritdoc
      */
     protected function fillRow($a_set)
     {

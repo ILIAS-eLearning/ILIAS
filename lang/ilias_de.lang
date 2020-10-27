@@ -9990,7 +9990,10 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_list_visibility_and_filter#:#Sichtbarkeit und Filter
+dcl#:#dcl_list_visibility_and_filter#:#Liste
+dcl#:#dcl_view_settings#:#Ansichtseinstellungen
+dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
+dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
@@ -10361,7 +10364,20 @@ dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_edit_entry_rules#:#Bearbeitung
+dcl#:#dcl_create_entry_rules#:#Erstellung
+dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
+dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
+dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
+dcl#:#dcl_tableview_locked#:#Gesperrt
+dcl#:#dcl_tableview_required#:#Verpflichtend
+dcl#:#dcl_tableview_default_value#:#Standardwert
+dcl#:#dcl_tableview_visible#:#Sichtbar
+dcl#:#dcl_tableview_not_visible#:#Nicht sichtbar
+dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
+dcl#:#dcl_tableview_locked_visible#:#Gesperrt & Sichtbar
+dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_tables#:#Tabellen löschen
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
@@ -14795,6 +14811,14 @@ copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
+copa#:#copa_prop_reading_time#:#Lesezeit
+copa#:#copa_value_reading_time_f_s#:#%s Minute
+copa#:#copa_value_reading_time_f_p#:#%s Minuten
+common#:#obj_cpad#:#Inhaltsseiten
+common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
+common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
+cpad#:#cpad_reading_time_status#:#Lesezeit
+cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten-Objekten ermittelt und agenzeigt.
 adve#:#adve_grp_copa#:#Inhaltsseiten
 common#:#msg_info_blacklisted#:#Bitte entschuldigen Sie!  Sie dürfen die Datei aus Sicherheitsgründen nicht hochladen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
@@ -15651,9 +15675,9 @@ lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeu
 lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_user_ident_real_email#:#E-Mail Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 lti#:#conf_user_name#:#Benutzername
@@ -15830,12 +15854,14 @@ cmix#:#conf_external_lrs#:#Externer LRS
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#conf_user_ident#:#Benutzeridentifikation
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
 cmix#:#conf_user_ident_real_email#:#E-Mail Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 cmix#:#conf_user_name#:#Benutzername

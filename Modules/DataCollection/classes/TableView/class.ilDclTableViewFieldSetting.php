@@ -74,6 +74,64 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_length           1
      */
     protected $filter_changeable;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $required_create;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $locked_create;
+    /**
+     * @var string
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           128
+     */
+    protected $default_value;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_is_notnull       true
+     * @db_length           1
+     */
+    protected $visible_create;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_is_notnull       true
+     * @db_length           1
+     */
+    protected $visible_edit;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $required_edit;
+    /**
+     * @var bool
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $locked_edit;
 
 
     /**
@@ -125,7 +183,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return boolean
      */
-    public function isVisible()
+    public function isVisibleInList()
     {
         return $this->visible;
     }
@@ -213,6 +271,192 @@ class ilDclTableViewFieldSetting extends ActiveRecord
 
 
     /**
+     * @return bool
+     */
+    public function isRequiredCreate()
+    {
+        return $this->required_create;
+    }
+
+
+    /**
+     * @param bool $required_create
+     */
+    public function setRequiredCreate($required_create)
+    {
+        $this->required_create = $required_create;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isLockedCreate()
+    {
+        return $this->locked_create;
+    }
+
+
+    /**
+     * @param bool $locked_create
+     */
+    public function setLockedCreate($locked_create)
+    {
+        $this->locked_create = $locked_create;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isRequiredEdit()
+    {
+        return $this->required_edit;
+    }
+
+
+    /**
+     * @param bool $required_edit
+     */
+    public function setRequiredEdit($required_edit)
+    {
+        $this->required_edit = $required_edit;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isLockedEdit()
+    {
+        return $this->locked_edit;
+    }
+
+
+    /**
+     * @param bool $locked_edit
+     */
+    public function setLockedEdit($locked_edit)
+    {
+        $this->locked_edit = $locked_edit;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDefaultValue()
+    {
+        return $this->default_value;
+    }
+
+
+    /**
+     * @param string $default_value
+     */
+    public function setDefaultValue($default_value)
+    {
+        $this->default_value = $default_value;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isVisibleCreate()
+    {
+        return $this->visible_create;
+    }
+
+
+    /**
+     * @param bool $visible_create
+     */
+    public function setVisibleCreate($visible_create)
+    {
+        $this->visible_create = $visible_create;
+    }
+
+
+    /**
+     * @param bool $not_visible_create
+     */
+    public function setNotVisibleCreate(bool $not_visible_create) : void
+    {
+        $this->visible_create = !$not_visible_create;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isNotVisibleCreate() : bool
+    {
+        return !$this->visible_create;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isVisibleEdit()
+    {
+        return $this->visible_edit;
+    }
+
+
+    /**
+     * @param bool $visible_edit
+     */
+    public function setVisibleEdit($visible_edit)
+    {
+        $this->visible_edit = $visible_edit;
+    }
+
+    /**
+     * @param bool $not_visible
+     */
+    public function setNotVisibleEdit(bool $not_visible) : void
+    {
+        $this->visible_edit = !$not_visible;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotVisibleEdit() : bool
+    {
+        return !$this->visible_edit;
+    }
+
+    /**
+     * @param bool $creation_mode
+     * @return bool
+     */
+    public function isVisibleInForm(bool $creation_mode) : bool
+    {
+        return $creation_mode ? $this->isVisibleCreate() : $this->isVisibleEdit();
+    }
+
+    /**
+     * @param bool $creation_mode
+     * @return bool
+     */
+    public function isLocked(bool $creation_mode) : bool
+    {
+        return $creation_mode ? $this->isLockedCreate() : $this->isLockedEdit();
+    }
+
+    /**
+     * @param bool $creation_mode
+     * @return bool
+     */
+    public function isRequired(bool $creation_mode) : bool
+    {
+        return $creation_mode ? $this->isRequiredCreate() : $this->isRequiredEdit();
+    }
+
+    /**
      * @param $field_name
      *
      * @return null|string
@@ -257,9 +501,15 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     {
         $this->setFilterChangeable($orig->isFilterChangeable());
         $this->setInFilter($orig->isInFilter());
-        $this->setVisible($orig->isVisible());
+        $this->setVisibleCreate($orig->isVisibleCreate());
+        $this->setVisibleEdit($orig->isVisibleEdit());
+        $this->setLockedCreate($orig->isLockedCreate());
+        $this->setLockedEdit($orig->isLockedEdit());
+        $this->setRequiredCreate($orig->isRequiredCreate());
+        $this->setRequiredEdit($orig->isRequiredEdit());
         $this->setFilterValue($orig->getFilterValue());
         $this->create();
+        return $this->getId();
     }
 
 

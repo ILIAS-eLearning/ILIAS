@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\MainMenu\Storage\Resource\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\ResourceStorage\Resource\Stakeholder\AbstractResourceStakeholder;
 
 /**
  * Class ilMMStorageStakeholder

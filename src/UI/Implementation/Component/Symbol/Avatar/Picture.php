@@ -3,7 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Avatar;
 
 class Picture extends Avatar implements C\Symbol\Avatar\Picture
 {

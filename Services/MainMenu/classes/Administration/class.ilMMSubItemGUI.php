@@ -15,7 +15,9 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
     const CMD_CREATE = 'subitem_create';
-    const CMD_DELETE = 'subitem_delete';
+    const CMD_CONFIRM_MOVE = 'confirm_move';
+    const CMD_MOVE = 'move';
+    const CMD_DELETE = 'delete';
     const CMD_CONFIRM_DELETE = 'subitem_confirm_delete';
     const CMD_EDIT = 'subitem_edit';
     const CMD_TRANSLATE = 'subitem_translate';
@@ -68,9 +70,18 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 $this->saveTable();
                 break;
             case self::CMD_CONFIRM_DELETE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
+            case self::CMD_CONFIRM_MOVE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
+                $this->access->checkAccessAndThrowException('write');
+
+                return $this->confirmMove();
+            case self::CMD_MOVE:
+                $this->access->checkAccessAndThrowException('write');
+                $this->move();
                 break;
             case self::CMD_DELETE:
                 $this->access->checkAccessAndThrowException('write');
@@ -78,10 +89,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 break;
             case self::CMD_CANCEL:
                 $this->cancel();
-                break;
-            case self::CMD_RENDER_INTERRUPTIVE:
-                $this->access->checkAccessAndThrowException('write');
-                $this->renderInterruptiveModal();
                 break;
         }
 
@@ -249,5 +256,35 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_DELETE));
 
         return $c->getHTML();
+    }
+
+    /**
+     * @return string
+     * @throws Throwable
+     */
+    private function confirmMove() : string
+    {
+        $this->ctrl->saveParameterByClass(self::class, self::IDENTIFIER);
+        $i = $this->getMMItemFromRequest();
+        $c = new ilConfirmationGUI();
+        $c->addItem(self::IDENTIFIER, $this->hash($i->getId()), $i->getDefaultTitle());
+        $c->setFormAction($this->ctrl->getFormActionByClass(self::class));
+        $c->setConfirm($this->lng->txt(self::CMD_MOVE), self::CMD_MOVE);
+        $c->setCancel($this->lng->txt(self::CMD_CANCEL), self::CMD_CANCEL);
+        $c->setHeaderText($this->lng->txt(self::CMD_CONFIRM_MOVE));
+
+        return $c->getHTML();
+    }
+
+    private function move() : void
+    {
+        $item = $this->getMMItemFromRequest();
+        if ($item->isInterchangeable()) {
+            $item->setParent('');
+            $this->repository->updateItem($item);
+        }
+
+        ilUtil::sendSuccess($this->lng->txt("msg_moved"), true);
+        $this->cancel();
     }
 }

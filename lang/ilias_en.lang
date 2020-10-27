@@ -8055,7 +8055,7 @@ mail#:#mail_system_sys_reply_to_addr#:#Reply-To
 mail#:#mail_system_sys_env_from_addr#:#Technical Sender
 mail#:#mail_system_sys_signature#:#Signature
 mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To
-mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore. 
+mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 content#:#glo_quick_navigation#:#Quick Navigation
@@ -10162,7 +10162,10 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
-dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
+dcl#:#dcl_list_visibility_and_filter#:#List
+dcl#:#dcl_view_settings#:#View Settings
+dcl#:#dcl_view_configuration#:#View Configuration
+dcl#:#dcl_configuration_complete#:#Configuration Complete
 dcl#:#dcl_add_new_field#:#Add New Field
 dcl#:#dcl_add_new_table#:#Add New Table
 dcl#:#dcl_add_new_view#:#Add New View
@@ -10214,8 +10217,21 @@ dcl#:#dcl_select#:#Select for Presentation
 dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_tableview#:#View
-dcl#:#dcl_detailed_view#:#Detailed View
+dcl#:#dcl_detailed_view#:#Single
+dcl#:#dcl_edit_entry_rules#:#Editing
+dcl#:#dcl_create_entry_rules#:#Creation
+dcl#:#dcl_tableview_copy#:#View successfully copied
+dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained letters. Please try again.
 dcl#:#dcl_tableview_add#:#Add New View
+dcl#:#dcl_tableview_fieldtitle#:#Field Title
+dcl#:#dcl_tableview_locked#:#Locked
+dcl#:#dcl_tableview_required#:#Required
+dcl#:#dcl_tableview_default_value#:#Default Value
+dcl#:#dcl_tableview_visible#:#Visible
+dcl#:#dcl_tableview_not_visible#:#Not Visible
+dcl#:#dcl_tableview_required_visible#:#Required & Visible
+dcl#:#dcl_tableview_locked_visible#:#Locked & Visible
+dcl#:#dcl_tableview_field_access#:#Field Access
 dcl#:#dcl_delete_views#:#Delete Views
 dcl#:#dcl_delete_tables#:#Delete Tables
 dcl#:#dcl_msg_tableview_updated#:#View updated
@@ -14783,6 +14799,14 @@ copa#:#copa_edit#:#Edit Content Page
 copa#:#obj_copa_duplicate#:#Duplicate Content Page
 copa#:#copa_btn_lp_toggle_state_completed#:#Set Not Completed
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
+copa#:#copa_prop_reading_time#:#Reading Time
+copa#:#copa_value_reading_time_f_s#:#%s Minute
+copa#:#copa_value_reading_time_f_p#:#%s Minutes
+common#:#obj_cpad#:#Content Pages
+common#:#obj_cpad_desc#:#Content Page Administration
+common#:#obj_cpad#_desc#:#Content Page Administration
+cpad#:#cpad_reading_time_status#:#Reading Time
+cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 adve#:#adve_grp_copa#:#Content Pages
 common#:#msg_info_blacklisted#:#The files cannot be uploaded due to security reasons.
 wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
@@ -14929,6 +14953,12 @@ mme#:#type_link#:#Link
 mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
 mme#:#type_repository_link#:#Repository-Link
+mme#:#move_to_item#:#Move to Items
+mme#:#move_to_top_item#:#Move to Top Items
+mme#:#select_parent#:#Select Parent
+mme#:#msg_moved#:#Item successfully moved
+mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
+mme#:#confirm_move#:#Would you like to move this Item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
@@ -15839,12 +15869,14 @@ cmix#:#conf_external_lrs#:#External LRS
 cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
 cmix#:#conf_user_ident#:#User identification
 cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.
 cmix#:#conf_user_ident_real_email#:#E-Mail Address
 cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
 cmix#:#conf_user_name#:#User name
