@@ -4786,3 +4786,58 @@ $ilCtrlStructureReader->getStructure();
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5700>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('cpad', 'ContentPageAdministration');
+?>
+<#5701>
+<?php
+if (!$ilDB->tableExists('content_page_metrics')) {
+    $fields = [
+        'content_page_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0,
+        ],
+        'page_id' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 4,
+            'default' => 0,
+        ],
+        'lang' => [
+            'type' => 'text',
+            'notnull' => true,
+            'length' => 2,
+            'default' => '-',
+        ],
+        'reading_time' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 2,
+            'default' => 0,
+        ]
+    ];
+
+    $ilDB->createTable('content_page_metrics', $fields);
+    $ilDB->addPrimaryKey('content_page_metrics', ['content_page_id', 'page_id', 'lang']);
+}
+?>
+<#5702>
+<?php
+$ilDB->manipulate(
+    '
+    DELETE
+    FROM content_page_data
+    WHERE NOT EXISTS(
+        SELECT od.obj_id FROM object_data od WHERE od.obj_id = content_page_data.content_page_id
+    )
+    '
+);
+?>
+<#5703>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

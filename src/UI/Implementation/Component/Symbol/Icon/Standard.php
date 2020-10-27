@@ -117,6 +117,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::WFE
         ,self::IASS
         ,self::COPA
+        ,self::CPAD
         ,self::BGTK
         ,self::MME
         ,self::PDFG
