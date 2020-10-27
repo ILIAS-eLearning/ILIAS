@@ -140,7 +140,11 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholder['USER_FIRSTNAME'] = $this->utilHelper->prepareFormOutput((trim($user->getFirstname())));
         $placeholder['USER_LASTNAME'] = $this->utilHelper->prepareFormOutput((trim($user->getLastname())));
         $placeholder['USER_TITLE'] = $this->utilHelper->prepareFormOutput((trim($user->getUTitle())));
-        $placeholder['USER_SALUTATION'] = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($user->getGender())));
+        $gender = $user->getGender();
+        if (!is_string($gender) || 0 === strlen(trim($gender))) {
+            $gender = 'n';
+        }
+        $placeholder['USER_SALUTATION'] = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
 
         $birthday = '';
         $dateObject = $user->getBirthday();
