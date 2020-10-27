@@ -1677,6 +1677,60 @@ pre code {
   padding-right: 15px;
 }
 .col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+.col-xs-1,
 .col-xs-2,
 .col-xs-3,
 .col-xs-4,
@@ -12011,47 +12065,25 @@ footer {
     display: none;
   }
 }
-/* flex grid support start, see http://www.bootply.com/126437 */
-/* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
-
-.row-flex, .row-flex > div[class*='col-'] {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-	flex:1 1 auto;
+/* flex grid support start */
+.row-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
 }
-
-
 .row-flex-wrap {
-	-webkit-flex-flow: row wrap;
-	align-content: flex-start;
-	flex:0;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  align-content: flex-start;
 }
-
-.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-	margin:-.2px;
-}
-
-.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
-	 width:100%;
- }
-
 .flex-col {
-	display: flex;
-	display: -webkit-flex;
-	flex: 1 100%;
-	flex-flow: column nowrap;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column nowrap;
+  height: 100%;
 }
-
-.flex-grow {
-	display: flex;
-	-webkit-flex: 2;
-	flex: 2;
-}
-
-*/
 /* flex grid support end */
 /* RTL review overwrite some specifics [bootstrap] styles
  *
