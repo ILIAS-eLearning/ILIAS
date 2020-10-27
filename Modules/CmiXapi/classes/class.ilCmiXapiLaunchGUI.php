@@ -189,4 +189,27 @@ class ilCmiXapiLaunchGUI
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
     }
+
+    protected function getLaunchData()
+    {
+        $launchMethod = "AnyWindow"; // $this->object->getLaunchMethod(),
+        $moveOn = "Completed";
+        return json_encode([
+            "contextTemplate" => [
+                "contextActivities" => [
+                    "grouping" => [
+                        "objectType" => "Activity",
+                        "id" => "http://course-repository.example.edu/identifiers/courses/02baafcf/aus/4c07"
+                    ]
+                ],
+                "extensions" => [
+                    "https://w3id.org/xapi/cmi5/context/extensions/sessionid" => "32e96d95-8e9c-4162-b3ac-66df22d171c5"
+                ]
+            ],
+            "launchMode" => $this->object->getLaunchMode(),
+//            "returnURL":
+            "launchMethod" => $launchMethod,
+            "moveOn" => $moveOn
+        ]);
+    }
 }

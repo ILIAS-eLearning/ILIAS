@@ -420,4 +420,27 @@ class ilCmiXapiLrsType
     {
         return 'Basic ' . base64_encode("{$lrsKey}:{$lrsSecret}");
     }
+
+    public static function getLaunchData($objId)
+    {
+        $launchMethod = "AnyWindow"; // $this->object->getLaunchMethod(),
+        $moveOn = "Completed";
+        $launchMode = "Normal";
+        return json_encode([
+            "contextTemplate" => [
+                "contextActivities" => [
+                    "grouping" => [
+                        "objectType" => "Activity",
+                        "id" => "http://course-repository.example.edu/identifiers/courses/02baafcf/aus/4c07"
+                    ]
+                ],
+                "extensions" => [
+                    "https://w3id.org/xapi/cmi5/context/extensions/sessionid" => "32e96d95-8e9c-4162-b3ac-66df22d171c5"
+                ]
+            ],
+            "launchMode" => $launchMode,
+            "launchMethod" => $launchMethod,
+            "moveOn" => $moveOn
+        ]);
+    }
 }

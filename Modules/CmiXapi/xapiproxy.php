@@ -8,6 +8,7 @@ use \GuzzleHttp\Client;
 use \GuzzleHttp\RequestOptions;
 use \GuzzleHttp\Psr7\Uri;
 use \Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use \GuzzleHttp\Exception\GuzzleException;
 
 // ToDo: json_decode(obj,true) as assoc array might be faster?
 $specificAllowedStatements = NULL;
@@ -21,6 +22,7 @@ $specificAllowedStatements = array(
 );
 */
 $replacedValues = NULL;
+
 /*
 $replacedValues = array(
   'timestamp' => '1970-01-01T00:00:00.000Z',
@@ -53,6 +55,7 @@ if (!empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW'])) {
 }
 
 require_once 'Modules/CmiXapi/classes/XapiProxy/DataService.php';
+
 \XapiProxy\DataService::initIlias($client);
 
 $dic = $GLOBALS['DIC'];
@@ -62,6 +65,7 @@ $log = ilLoggerFactory::getLogger('cmix');
 try {
     $authToken = ilCmiXapiAuthToken::getInstanceByToken($token);
     $lrsType = new ilCmiXapiLrsType($authToken->getLrsTypeId());
+    $objId = $authToken->getObjId();
 
     if (!$lrsType->isAvailable()) {
         throw new ilCmiXapiException(
@@ -78,41 +82,72 @@ ilCmiXapiUser::saveProxySuccess($authToken->getObjId(), $authToken->getUsrId());
 
 $request = $dic->http()->request();
 
-/*
- * async
+/**
+ * set all important params globally at once for multiple usage
  */
+$method = strtolower($request->getMethod());
+$log->debug("Request-Method: " . $method);
+$partsReg = '/^(.*?xapiproxy\.php)(\/([^\?]+)?\??.*)/';
+preg_match($partsReg, $request->getUri(), $cmdParts);
+$queryParams = $request->getQueryParams();
 
-handleRequest($request);
-
+try {
+    handleRequest($request);
+}
+catch(GuzzleException $e) { // ToDo: clean exception handling
+    $log->error($e->getMessage());
+}
 /**
  * handle main request
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
  */
 function handleRequest(ServerRequestInterface $request)
 {
-    global $log;
-    $method = strtolower($request->getMethod());
-    $log->debug("Request Method: " . $method);
-    $path = $request->getUri()->getPath();
-    switch ($method) {
-        case "post":
-        case "put":
-            if (preg_match('/\/statements$/',$path)) {
-                $log->debug("handle Post-Put statements " . $path);
-                handlePostPutRequest($request);
-            }
-            else {
-                handleProxy($request);
-            }
-            break;
-        default:
+    global $log, $cmdParts;
+
+    if (count($cmdParts) === 4) {
+        if ($cmdParts[3] === "statements") {
+            $log->debug("handleStatementsRequest");
+            handleStatementsRequest($request);
+        } elseif ($cmdParts[3] === "activities/state") {
+            $log->debug("handleStateRequest");
+            handleStateRequest($request);
+        } elseif ($cmdParts[3] === "agents/profile") {
+            $log->debug("handleProfileRequest");
+            handleProfileRequest($request);
+        } else {
+            $log->info("Not handled xApi Query: " . $cmdParts[3]);
             handleProxy($request);
+        }
+    } else {
+        $log->error("Wrong xApi Query: " . $request->getUri());
+        handleProxy($request);
+    }
+}
+
+/**
+ * handle statements request
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
+ */
+function handleStatementsRequest(ServerRequestInterface $request) {
+    global $method;
+    if ($method === "post" || $method === "put") {
+        handlePostPutStatementsRequest($request);
+    }
+    else {
+        // get Method is not handled yet
+        handleProxy($request);
     }
 }
 
 /**
  * handle request for body sniffing, only post put requests
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
  */
-function handlePostPutRequest(ServerRequestInterface $request)
+function handlePostPutStatementsRequest(ServerRequestInterface $request)
 {
     global $log;
     $body = $request->getBody()->getContents();
@@ -122,12 +157,11 @@ function handlePostPutRequest(ServerRequestInterface $request)
     }
     else {
         try {
-            $log->debug("handle statements");
-            $retarr = handleStatements($request, $body);
-            if (is_array($retarr)) {
-                //$log->debug("X: " . var_export($ret, TRUE));
-                $body = json_encode($retarr[0]); // new body with allowed statements
-                $fakePostBody = $retarr[1]; // fake post php array of ALL statments as if all statements were processed
+            $log->debug("process statements");
+            $retArr = processStatements($request, $body);
+            if (is_array($retArr)) {
+                $body = json_encode($retArr[0]); // new body with allowed statements
+                $fakePostBody = $retArr[1]; // fake post php array of ALL statments as if all statements were processed
             }
         }
         catch(Exception $e) {
@@ -151,11 +185,11 @@ function handlePostPutRequest(ServerRequestInterface $request)
 }
 
 /**
- * handle blocked request
+ * process statements
  * @param ServerRequestInterface $request
+ * @return array[]|null
  */
-
-function handleStatements(ServerRequestInterface $request, $body) {
+function processStatements(ServerRequestInterface $request, $body) {
     global $log, $specificAllowedStatements, $blockSubStatements;
     // everything is allowed
     if (!is_array($specificAllowedStatements) && !$blockSubStatements) {
@@ -172,10 +206,10 @@ function handleStatements(ServerRequestInterface $request, $body) {
             $log->debug("sub-statement is NOT allowed, fake response - " . $verb);
             fakeResponseBlocked(NULL);
         }
-		// $specificAllowedStatements
-		if (!is_array($specificAllowedStatements)) {
-			return NULL;
-		}
+        // $specificAllowedStatements
+        if (!is_array($specificAllowedStatements)) {
+            return NULL;
+        }
         if (in_array($verb,$specificAllowedStatements)) {
             $log->debug("statement is allowed, do nothing - " . $verb);
             return NULL;
@@ -219,79 +253,181 @@ function handleStatements(ServerRequestInterface $request, $body) {
     }
 }
 
-function fakeResponseBlocked($post=NULL) {
+/**
+ * @param $xapiStatement
+ * @throws ilDatabaseException
+ * @throws ilObjectNotFoundException
+ */
+function handleStatementEvaluation($xapiStatement)
+{
+    global $authToken, $log;
+
+    /* @var ilObjCmiXapi $object */
+    $object = ilObjectFactory::getInstanceByObjId($authToken->getObjId());
+
+    if( (string)$object->getLaunchMode() === (string)ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
+        // ToDo: check function hasContextActivitiesParentNotEqualToObject!
+        $statementEvaluation = new ilXapiStatementEvaluation($log, $object);
+        $statementEvaluation->evaluateStatement($xapiStatement, $authToken->getUsrId());
+
+        ilLPStatusWrapper::_updateStatus(
+            $authToken->getObjId(),
+            $authToken->getUsrId()
+        );
+    }
+}
+
+/**
+ * @param $obj
+ * @param $path
+ * @param $value
+ */
+function setValue(&$obj, $path, $value) {
     global $log;
-    $log->debug("fakeResponseFromBlockedRequest");
-    if ($post===NULL) {
-        $log->debug("post === NULL");
-        header('HTTP/1.1 204 No Content');
-        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
-        header('Access-Control-Allow-Credentials: true');
-        header('X-Experience-API-Version: 1.0.3');
-        exit;
+    $path_components = explode('.', $path);
+    if (count($path_components) == 1) {
+        if (property_exists($obj,$path_components[0])) {
+            $obj->{$path_components[0]} = $value;
+        }
     }
     else {
-        $ids = json_encode($post);
-        $log->debug("post: " . $ids);
-        header('HTTP/1.1 200 Ok');
-        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
-        header('Access-Control-Allow-Credentials: true');
-        header('X-Experience-API-Version: 1.0.3');
-        header('Content-Length: ' . strlen($ids));
-        header('Content-Type: application/json; charset=utf-8');
-        echo $ids;
-        exit;
+        if (property_exists($obj, $path_components[0])) {
+            setValue($obj->{array_shift($path_components)}, implode('.', $path_components), $value);
+        }
+    }
+}
+
+/**
+ * @param $obj
+ * @return bool
+ */
+function isSubStatementCheck($obj) {
+    global $log;
+    if (
+        isset($obj->context) &&
+        isset($obj->context->contextActivities) &&
+        is_array($obj->context->contextActivities->parent)
+    ) {
+        $log->debug("is Substatement");
+        return true;
+    }
+    else {
+        $log->debug("is not Substatement");
+        return false;
+    }
+}
+
+/**
+ * handle state request
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
+ */
+function handleStateRequest(ServerRequestInterface $request) {
+    global $method;
+    if ($method === "get") {
+        handleStateGetRequest($request);
+    }
+    else {
+        // post | put Methods are not handled yet
+        handleProxy($request);
+    }
+}
+
+/**
+ * handle state get request
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
+ */
+function handleStateGetRequest(ServerRequestInterface $request) {
+    global $log, $objId, $queryParams, $lrsType;
+    $stateId = strtolower($queryParams["stateId"]);
+    if ($stateId === "lms.launchdata") {
+        sendData($lrsType::getLaunchData($objId)); // ToDo: get real LaunchData
+    }
+    elseif ($stateId === "status") {
+        sendData("{\"completion\":null,\"success\":null,\"score\":null,\"launchModes\":[]}"); // ToDo: get real status
+    }
+    else {
+        $log->debug("not handled stateId: " . $stateId);
+        handleProxy($request);
+    }
+}
+
+/**
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
+ */
+function handleProfileRequest(ServerRequestInterface $request) {
+    global $method;
+    if ($method === "get") {
+        handleProfileGetRequest($request);
+    }
+    else {
+        // post | put Methods are not handled yet
+        handleProxy($request);
+    }
+}
+
+/**
+ * @param ServerRequestInterface $request
+ * @throws GuzzleException
+ */
+function handleProfileGetRequest(ServerRequestInterface $request) {
+    global $queryParams;
+    $profileId = strtolower($queryParams["profileId"]);
+    if ($profileId === "cmi5learnerpreferences") {
+        sendData("{\"languagePreference\":\"de-DE\",\"audioPreference\":\"on\"}"); // ToDo: get real preferences
+    }
+    else {
+        // not handled
+        $log->debug("not handled profileId: " . $profileId);
+        handleProxy($request);
     }
 }
 
 /**
  * handle proxy request
+ * @param ServerRequestInterface $request
+ * @param null                   $fakePostBody
  */
 function handleProxy(ServerRequestInterface $request, $fakePostBody = NULL)
 {
-    global $log, $authToken, $lrsType;
+    global $log, $lrsType, $cmdParts;
 
     $endpoint = $lrsType->getLrsEndpoint();
     $log->debug("Endpoint: " . $endpoint);
-    //$endpoint = "https://lrs.example.com/lrs.php";
     $auth = 'Basic ' . base64_encode($lrsType->getLrsKey() . ':' . $lrsType->getLrsSecret());
     $req_opts = array(
         RequestOptions::VERIFY => false,
-        RequestOptions::CONNECT_TIMEOUT => 5
+        RequestOptions::CONNECT_TIMEOUT => 7
     );
-    $full_uri = $request->getUri();
-    $serverParams = $request->getServerParams();
-    $queryParams = $request->getQueryParams();
-    $parts_reg = '/^(.*?xapiproxy\.php)(.+)/'; // ToDo: replace hard coded regex?
-    preg_match($parts_reg, $full_uri, $cmd_parts);
 
-    if (count($cmd_parts) === 3) { // should always
-        try {
-            $cmd = $cmd_parts[2];
-            $upstream = $endpoint . $cmd;
-            $uri = new Uri($upstream);
-            $changes = array(
-                'uri' => $uri,
-                'set_headers' => array('Cache-Control' => 'no-cache, no-store, must-revalidate', 'Authorization' => $auth)
-            );
-            $req = \GuzzleHttp\Psr7\modify_request($request, $changes);
-            $httpclient = new Client();
-            $promise = $httpclient->sendAsync($req, $req_opts);
-            $response = $promise->wait();
-            handleResponse($request, $response, $fakePostBody);
-        } catch (Exception $e) { // ToDo: Errorhandling
-            header("HTTP/1.1 500 XapiProxy Error");
-            echo "HTTP/1.1 500 XapiProxy Error";
-            exit;
-        }
-    } else {
-        $log->warning("Wrong command parts!");
-        header("HTTP/1.1 412 Wrong Request Parameter");
-        echo "HTTP/1.1 412 Wrong Request Parameter";
+    try {
+        $cmd = $cmdParts[2];
+        $upstream = $endpoint . $cmd;
+        $uri = new Uri($upstream);
+        $changes = array(
+            'uri' => $uri,
+            'set_headers' => array('Cache-Control' => 'no-cache, no-store, must-revalidate', 'Authorization' => $auth)
+        );
+        $req = \GuzzleHttp\Psr7\modify_request($request, $changes);
+        $httpclient = new Client();
+        $promise = $httpclient->sendAsync($req, $req_opts);
+        $response = $promise->wait();
+        handleResponse($request, $response, $fakePostBody);
+    } catch (Exception $e) { // ToDo: Errorhandling!
+        $log->error($e->getMessage());
+        header("HTTP/1.1 500 XapiProxy Error");
+        echo "HTTP/1.1 500 XapiProxy Error";
         exit;
     }
 }
 
+/**
+ * @param ServerRequestInterface $request
+ * @param ResponseInterface      $response
+ * @param null                   $fakePostBody
+ */
 function handleResponse(ServerRequestInterface $request, ResponseInterface $response, $fakePostBody = NULL)
 {
     global $log;
@@ -318,6 +454,40 @@ function handleResponse(ServerRequestInterface $request, ResponseInterface $resp
     }
 }
 
+/**
+ * @param null $post
+ */
+function fakeResponseBlocked($post=NULL) {
+    global $log;
+    $log->debug("fakeResponseFromBlockedRequest");
+    if ($post===NULL) {
+        $log->debug("post === NULL");
+        header('HTTP/1.1 204 No Content');
+        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+        header('Access-Control-Allow-Credentials: true');
+        header('X-Experience-API-Version: 1.0.3');
+        exit;
+    }
+    else {
+        $ids = json_encode($post);
+        $log->debug("post: " . $ids);
+        header('HTTP/1.1 200 Ok');
+        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+        header('Access-Control-Allow-Credentials: true');
+        header('X-Experience-API-Version: 1.0.3');
+        header('Content-Length: ' . strlen($ids));
+        header('Content-Type: application/json; charset=utf-8');
+        echo $ids;
+        exit;
+    }
+}
+
+/**
+ * @param $body
+ * @return false|string
+ * @throws ilDatabaseException
+ * @throws ilObjectNotFoundException
+ */
 function modifyBody($body)
 {
     global $log, $replacedValues;
@@ -355,64 +525,34 @@ function modifyBody($body)
     return json_encode($obj);
 }
 
-
-
-function handleStatementEvaluation($xapiStatement)
-{
-    global $authToken, $log;
-
-    /* @var ilObjCmiXapi $object */
-    $object = ilObjectFactory::getInstanceByObjId($authToken->getObjId());
-
-    if( (string)$object->getLaunchMode() === (string)ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
-        // ToDo: check function hasContextActivitiesParentNotEqualToObject!
-        $statementEvaluation = new ilXapiStatementEvaluation($log, $object);
-        $statementEvaluation->evaluateStatement($xapiStatement, $authToken->getUsrId());
-
-        ilLPStatusWrapper::_updateStatus(
-            $authToken->getObjId(),
-            $authToken->getUsrId()
-        );
-    }
-}
-
-function setValue(&$obj, $path, $value) {
+/**
+ * @param $obj
+ */
+function sendData($obj) {
     global $log;
-    $path_components = explode('.', $path);
-    if (count($path_components) == 1) {
-        if (property_exists($obj,$path_components[0])) {
-            $obj->{$path_components[0]} = $value;
-        }
-    }
-    else {
-        if (property_exists($obj, $path_components[0])) {
-            setValue($obj->{array_shift($path_components)}, implode('.', $path_components), $value);
-        }
-    }
+    $log->debug("senData: " . $obj);
+    header('HTTP/1.1 200 Ok');
+    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+    header('Access-Control-Allow-Credentials: true');
+    header('X-Experience-API-Version: 1.0.3');
+    header('Content-Length: ' . strlen($obj));
+    header('Content-Type: application/json; charset=utf-8');
+    echo $obj;
+    exit;
 }
 
-function isSubStatementCheck($obj) {
-    global $log;
-    if (
-        isset($obj->context) &&
-        isset($obj->context->contextActivities) &&
-        is_array($obj->context->contextActivities->parent)
-    ) {
-        $log->debug("is Substatement");
-        return true;
-    }
-    else {
-        $log->debug("is not Substatement");
-        return false;
-    }
-}
-
+/**
+ *
+ */
 function exitResponseError() {
     header("HTTP/1.1 412 Wrong Response");
     echo "HTTP/1.1 412 Wrong Response";
     exit;
 }
 
+/**
+ *
+ */
 function exitProxyError() {
     header("HTTP/1.1 500 XapiProxy Error (Ask For Logs)");
     echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
@@ -420,6 +560,9 @@ function exitProxyError() {
 }
 
 // use only for debugging states before ILIAS Init
+/**
+ * @param $txt
+ */
 function _log($txt)
 {
     if (DEVMODE) {
