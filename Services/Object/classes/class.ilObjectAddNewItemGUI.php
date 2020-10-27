@@ -129,17 +129,13 @@ class ilObjectAddNewItemGUI
         $ilSetting = $this->settings;
         
         $this->sub_objects = array();
-        
-        $settings_map = array("blog" => "blogs",
-                "file" => "files",
-                "tstv" => "certificates",
-                "excv" => "certificates",
-                "crsv" => "certificates",
-                "cmxv" => "certificates",
-                "ltiv" => "certificates",
-                "scov" => "certificates",
-                "webr" => "links");
-    
+
+        $settings_map = [
+            'blog' => 'blogs',
+            'file' => 'files',
+            'webr' => 'links',
+        ];
+
         $subtypes = $objDefinition->getCreatableSubObjects("wfld", ilObjectDefinition::MODE_WORKSPACE);
         if (count($subtypes) > 0) {
             foreach (array_keys($subtypes) as $type) {

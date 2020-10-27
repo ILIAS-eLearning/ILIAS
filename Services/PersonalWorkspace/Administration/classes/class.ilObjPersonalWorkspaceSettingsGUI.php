@@ -174,12 +174,6 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         $file_prop->setChecked(($ilSetting->get('disable_wsp_files') ? '0' : '1'));
         $wsp_prop->addSubItem($file_prop);
 
-        // Enable 'Certificates'
-        $cert_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_certificates'), 'cert');
-        $cert_prop->setValue('1');
-        $cert_prop->setChecked(($ilSetting->get('disable_wsp_certificates') ? '0' : '1'));
-        $wsp_prop->addSubItem($cert_prop);
-
         // Enable 'Links'
         $link_prop = new ilCheckboxInputGUI($lng->txt('pwsp_enable_wsp_links'), 'link');
         $link_prop->setValue('1');
@@ -223,14 +217,12 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         if (!$_POST["wsp"]) {
             $_POST["blog"] = 0;
             $_POST["file"] = 0;
-            $_POST["cert"] = 0;
             $_POST["link"] = 0;
         }
 
         $ilSetting->set('disable_personal_workspace', (int) ($_POST['wsp'] ? 0 : 1));
         $ilSetting->set('disable_wsp_blogs', (int) ($_POST['blog'] ? 0 : 1));
         $ilSetting->set('disable_wsp_files', (int) ($_POST['file'] ? 0 : 1));
-        $ilSetting->set('disable_wsp_certificates', (int) ($_POST['cert'] ? 0 : 1));
         $ilSetting->set('disable_wsp_links', (int) ($_POST['link'] ? 0 : 1));
         // $ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 

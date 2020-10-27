@@ -60,7 +60,6 @@ lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Ler
 common#:#obj_prss_desc#:#Persönliche Ressourcen administrieren
 common#:#obj_prss#:#Persönliche Ressourcen
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
-pwsp#:#pwsp_enable_wsp_certificates#:#Zertifikate aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
 dash#:#dash_main_panel#:#Hauptbereich
