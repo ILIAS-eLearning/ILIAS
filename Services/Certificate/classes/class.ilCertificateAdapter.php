@@ -254,13 +254,13 @@ abstract class ilCertificateAdapter
     {
         $old = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
-        
-        $gender = $a_user_data["gender"];
-        if (!is_string($gender) || 0 === strlen(trim($gender))) {
-            $gender = 'n';
+
+        $salutation = '';
+        $gender = $a_user_data['gender'];
+        if (is_string($gender) && strlen(trim($gender)) > 0 && strtolower($gender) !== 'n') {
+            $salutation = $this->lng->txt("salutation_" . $gender);
         }
-        $salutation = $this->lng->txt("salutation_" . $gender);
-        
+
         $birthday = "";
         if ($a_user_data["birthday"]) {
             $birthday = ilDatePresentation::formatDate(new ilDate($a_user_data["birthday"], IL_CAL_DATE));
