@@ -220,22 +220,24 @@ class ilRoleXmlImporter
         }
 
         $this->logger->debug('Searching already imported role by import_id: ' . $import_id);
-        $obj_id = ilObject::_lookupObjIdByImportId($import_id);
+        $obj_id = 0;
+        if ($import_id) {
+            $obj_id = ilObject::_lookupObjIdByImportId($import_id);
+        }
         $this->logger->debug('Found already imported obj_id: ' . $obj_id);
 
 
         if ($obj_id) {
             $this->role = ilObjectFactory::getInstanceByObjId($obj_id, false);
-            $this->role->setImportId((string) $import_id);
         }
         if (
             (!$this->getRole() instanceof ilObjRole) &&
             (!$this->getRole() instanceof ilObjRoleTemplate)
-        ){
+        ) {
             $this->logger->debug('Creating new role template');
             $this->role = new ilObjRoleTemplate();
-            $this->role->setImportId((string) $import_id);
         }
+        $this->role->setImportId((string) $import_id);
         return true;
     }
     
