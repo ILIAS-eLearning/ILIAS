@@ -334,7 +334,7 @@ class ilCertificateCron extends \ilCronJob
             $thumbnailImagePath
         );
 
-        $this->userRepository->save($userCertificate);
+        $persistedUserCertificate = $this->userRepository->save($userCertificate);
 
         $succeededGenerations[] = implode('/', [
             'obj_id: ' . $objId,
@@ -342,6 +342,12 @@ class ilCertificateCron extends \ilCronJob
         ]);
 
         $this->queueRepository->removeFromQueue($entry->getId());
+
+        $this->dic->event()->raise(
+            'Services/Certificate',
+            'certificateIssued',
+            ['certificate' => $persistedUserCertificate]
+        );
 
         return $succeededGenerations;
     }

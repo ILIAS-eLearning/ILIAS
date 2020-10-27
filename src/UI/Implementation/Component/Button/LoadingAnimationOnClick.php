@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component;
+namespace ILIAS\UI\Implementation\Component\Button;
 
 /**
  * Implements LoadingAnimationOnClick interface

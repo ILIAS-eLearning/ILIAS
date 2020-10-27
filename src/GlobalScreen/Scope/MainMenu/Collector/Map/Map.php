@@ -67,11 +67,7 @@ class Map implements Filterable, Walkable
     {
         $item = $this->raw->offsetGet($identification->serialize());
 
-        if ($item === null) {
-            return $this->getLostItem($identification);
-        }
-
-        return $item;
+        return $item ?? $this->getLostItem($identification);
     }
 
     /**
@@ -83,11 +79,7 @@ class Map implements Filterable, Walkable
         $this->applyFilters();
         $item = $this->filtered->offsetGet($identification->serialize());
 
-        if ($item === null) {
-            return $this->getLostItem($identification);
-        }
-
-        return $item;
+        return $item ?? $this->getLostItem($identification);
     }
 
     /**

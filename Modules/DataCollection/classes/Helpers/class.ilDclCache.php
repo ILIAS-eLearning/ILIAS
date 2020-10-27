@@ -317,9 +317,7 @@ class ilDclCache
         $field->setTitle($rec["title"]);
         $field->setDescription($rec["description"]);
         $field->setDatatypeId($rec["datatype_id"]);
-        $field->setRequired($rec["required"]);
         $field->setUnique($rec["is_unique"]);
-        $field->setLocked($rec["is_locked"]);
         $fields_cache[$rec["id"]] = $field;
 
         return $field;

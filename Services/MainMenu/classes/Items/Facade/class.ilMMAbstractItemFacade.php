@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
@@ -52,7 +53,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
     {
         $this->identification   = $identification;
-        $this->gs_item          = $collector->getSingleItemFromRaw($identification);
+        $this->gs_item          = $collector->getSingleItemFromFilter($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
         $this->mm_item          = ilMMItemStorage::register($this->gs_item);
     }
@@ -257,6 +258,14 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function setIsTopItm(bool $top_item)
     {
         // TODO: Implement setIsTopItm() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isInterchangeable() : bool
+    {
+        return $this->gs_item instanceof isInterchangeableItem;
     }
 
     /**

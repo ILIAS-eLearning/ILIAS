@@ -2,13 +2,14 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
 /**
  * Class Separator
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Separator extends AbstractChildItem implements hasTitle
+class Separator extends AbstractChildItem implements hasTitle, isChild
 {
 
     /**

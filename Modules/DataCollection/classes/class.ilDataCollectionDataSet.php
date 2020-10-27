@@ -536,6 +536,9 @@ class ilDataCollectionDataSet extends ilDataSet
                     'in_filter' => 'integer',
                     'filter_value' => 'text',
                     'filter_changeable' => 'integer',
+                    'required' => 'integer',
+                    'locked' => 'integer',
+                    'default_value' => 'text',
                 );
             case 'il_dcl_tfield_set':
                 return array(

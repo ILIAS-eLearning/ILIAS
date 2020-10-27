@@ -120,7 +120,7 @@ il.UI.Input = il.UI.Input || {};
 				if (file.hasOwnProperty('is_existing') && file.is_existing === true) {
 					disableForm();
 					var data = {};
-					data[settings.file_identifier_key] = file_id;
+					data[settings.file_identifier_key] = file.file_id;
 					$.get(settings.removal_url, data, function (response) {
 						enableForm();
 					});
