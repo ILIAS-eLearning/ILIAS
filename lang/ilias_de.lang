@@ -13836,6 +13836,8 @@ badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
+obj#:#obj_tool_ext_mail_subject_prefix#:#E-Mail Prefix
+obj#:#obj_tool_ext_mail_subject_prefix_info#:#Tragen Sie hier einen kurzen Text ein, der in die Betreffzeile von externen E-Mails in den Betreff aufgenommen wird. Dies erleichtert das Identifizieren von E-Mails aus unterschiedlichen Bereichen.
 badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_image_template_form#:#Bildvorlage
 badge#:#badge_image_from_upload#:#Bild hochlanden
