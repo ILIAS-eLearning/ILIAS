@@ -23,8 +23,18 @@ class ilDatabaseInitializedObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
+        // If there is no config for the database the existing config seems
+        // to be ok, and we can just connect.
+        $config = $environment->getConfigFor("database");
+        if (!$config) {
+            return [
+                new ilIniFilesLoadedObjective()
+            ];
+        }
+
         return [
-            new ilIniFilesLoadedObjective()
+            new ilDatabasePopulatedObjective($config),
+            new ilDatabaseConfigStoredObjective($config)
         ];
     }
 
