@@ -32,7 +32,7 @@
 		"enshrined/svg-sanitize": "^0.13.0"
 	},
 	"require-dev": {
-		"mikey179/vfsStream": "^1.6",
+		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^5.7",
 		"phpunit/php-code-coverage": "^4.0",
 		"mockery/mockery": "^0.9.9",
@@ -159,7 +159,7 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
-		"mikey179/vfsStream" : {
+		"mikey179/vfsstream" : {
 			"source": "https://github.com/mikey179/vfsStream",
 			"used_version": "v1.6.4",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
