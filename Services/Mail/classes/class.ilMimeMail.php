@@ -71,6 +71,9 @@ class ilMimeMail
     /** @var \ilSetting */
     protected $settings;
 
+    /** @var ilMailMimeSubjectBuilder */
+    protected $subjectBuilder;
+
     /**
      * ilMimeMail constructor.
      */
@@ -84,6 +87,8 @@ class ilMimeMail
             $factory = $DIC["mail.mime.transport.factory"];
             self::setDefaultTransport($factory->getTransport());
         }
+
+        $this->subjectBuilder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
     }
 
     /**
@@ -111,23 +116,13 @@ class ilMimeMail
     }
 
     /**
-     * @param string $subject Define the subject line of the email
-     * @param bool   $a_add_prefix
+     * @param string $subject
+     * @param bool   $addPrefix
+     * @param string $contextPrefix
      */
-    public function Subject($subject, $a_add_prefix = false)
+    public function Subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : void
     {
-        if ($a_add_prefix) {
-            // #9096
-            $subjectPrefix = $this->settings->get('mail_subject_prefix');
-            if (false === $subjectPrefix) {
-                $subjectPrefix = self::MAIL_SUBJECT_PREFIX;
-            }
-            if (strlen($subjectPrefix) > 0) {
-                $subject = $subjectPrefix . ' ' . $subject;
-            }
-        }
-
-        $this->subject = $subject;
+        $this->subject = $this->subjectBuilder->subject($subject, $addPrefix, $contextPrefix);
     }
 
     /**
