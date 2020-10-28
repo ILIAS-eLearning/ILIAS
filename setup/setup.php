@@ -41,22 +41,31 @@ if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
 if (php_sapi_name() === "cli") {
     require_once(__DIR__ . "/cli.php");
 } else {
+    header("Content-Type: text/plain");
+    echo <<<MSG
+Dear user,
 
-// ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
-    // the setup for the command line version of the setup.
-    function setup_exit($message)
-    {
-        echo "<pre>$message</pre>";
-        die();
-    }
+the GUI for the setup is abandoned as of ILIAS 7:
 
-    if (ini_get('session.save_handler') != 'files') {
-        throw new Exception("session.save_handler in php.ini must be configured to 'files'.");
-    }
+https://docu.ilias.de/goto_docu_wiki_wpage_6314_1357.html
+https://docu.ilias.de/goto_docu_wiki_wpage_6391_1357.html
+https://docu.ilias.de/goto_docu_wiki_wpage_6338_1357.html
 
-    chdir("..");
-    define('IL_INITIAL_WD', getcwd());
-    require_once "./setup/include/inc.setup_header.php";
+It is replaced by a command line implementation of the setup:
 
-    $setup = new ilSetupGUI();
+https://docu.ilias.de/goto_docu_wiki_wpage_5890_1357.html
+https://docu.ilias.de/goto_docu_wiki_wpage_6567_1357.html
+
+while the functionality for the maintenance mode and the multi-
+clients are removed completely as dicussed in the context of
+the Setup Revision:
+
+https://docu.ilias.de/goto_docu_wiki_wpage_4900_1357.html
+
+Have a look into a detailed documentation of the setup in the
+file setup/README.md or take a look into the ILIAS installation
+instructions at docs/configuration/install.md.
+
+Best regards!
+MSG;
 }
