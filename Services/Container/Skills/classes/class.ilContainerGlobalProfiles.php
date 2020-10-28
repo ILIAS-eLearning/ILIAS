@@ -22,44 +22,71 @@ class ilContainerGlobalProfiles
     /**
      * @var int object id
      */
-    protected $id;
+    protected $obj_id;
+
+    /**
+     * @var int $mem_rol_id
+     */
+    protected $mem_rol_id;
 
     /**
      * Constructor
      *
-     * @param ilContainer $a_obj
+     * @param int $a_obj_id
      */
-    public function __construct(ilContainer $a_obj)
+    public function __construct(int $a_obj_id)
     {
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->setObjId($a_obj_id);
 
-        if ($a_obj->getId() > 0) {
-            $member_id = (int) $a_obj->getDefaultMemberRole();
-            $this->setId($member_id);
+        if ($this->getObjId() > 0) {
+            $this->setMemberRoleId();
             $this->read();
         }
     }
 
     /**
-     * Set id
+     * Set object id
      *
-     * @param int $a_val object id
+     * @param int $a_obj_id object id
      */
-    public function setId(int $a_val)
+    protected function setObjId(int $a_obj_id)
     {
-        $this->id = $a_val;
+        $this->obj_id = $a_obj_id;
     }
 
     /**
-     * Get id
+     * Get object id
      *
      * @return int object id
      */
-    public function getId() : int
+    protected function getObjId() : int
     {
-        return $this->id;
+        return $this->obj_id;
+    }
+
+    /**
+     * Set member role id of object
+     *
+     * @param int $a_obj_id object id
+     */
+    protected function setMemberRoleId()
+    {
+        $refs = ilObject::_getAllReferences($this->getObjId());
+        $ref_id = end($refs);
+        $this->mem_rol_id = ilParticipants::getDefaultMemberRole($ref_id);
+    }
+
+    /**
+     * Get member role id of object
+     *
+     * @return int member role id
+     */
+    protected function getMemberRoleId() : int
+    {
+        return $this->mem_rol_id;
     }
 
     /**
@@ -105,15 +132,15 @@ class ilContainerGlobalProfiles
     /**
      * Read
      */
-    public function read()
+    protected function read()
     {
         $db = $this->db;
 
         $this->profiles = array();
-        $set = $db->query("SELECT spr.profile_id, spr.role_id FROM skl_profile_role spr INNER JOIN skl_profile sp " .
+        $set = $db->query("SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
             " ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id = 0 " .
-            " AND role_id  = " . $db->quote($this->getId(), "integer")
+            " AND role_id  = " . $db->quote($this->getMemberRoleId(), "integer")
         );
         while ($rec = $db->fetchAssoc($set)) {
             $this->profiles[$rec["profile_id"]] = $rec;
@@ -123,14 +150,14 @@ class ilContainerGlobalProfiles
     /**
      * Delete
      */
-    public function delete()
+    protected function delete()
     {
         $db = $this->db;
 
         $db->manipulate("DELETE spr FROM skl_profile_role spr INNER JOIN skl_profile sp " .
             " ON spr.profile_id = sp.id " .
             " WHERE sp.ref_id = 0 " .
-            " AND role_id = " . $db->quote($this->getId(), "integer")
+            " AND role_id = " . $db->quote($this->getMemberRoleId(), "integer")
         );
     }
 
@@ -145,7 +172,7 @@ class ilContainerGlobalProfiles
         foreach ($this->profiles as $p) {
             $db->manipulate("INSERT INTO skl_profile_role " .
                 "(role_id, profile_id) VALUES (" .
-                $db->quote($this->getId(), "integer") . "," .
+                $db->quote($this->getMemberRoleId(), "integer") . "," .
                 $db->quote($p["profile_id"], "integer") . ")");
         }
     }

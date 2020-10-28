@@ -100,8 +100,8 @@ class ilContSkillAdminGUI
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
-        $this->container_global_profiles = new ilContainerGlobalProfiles($this->container);
-        $this->container_local_profiles = new ilContainerLocalProfiles($this->container);
+        $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
+        $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
         $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->user_id = (int) $_GET["usr_id"];
