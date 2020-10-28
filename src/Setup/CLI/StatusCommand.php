@@ -64,7 +64,9 @@ class StatusCommand extends Command
         } else {
             $values = [];
         }
-        $values["config"] = $config;
+        if ($config) {
+            $values["config"] = $config;
+        }
         $metric = new Metrics\Metric(
             Metrics\Metric::STABILITY_MIXED,
             Metrics\Metric::TYPE_COLLECTION,
