@@ -135,6 +135,7 @@ class ilPersonalSkillsGUI
         $this->list_mode = $_GET["list_mode"];
 
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
+        $this->cont_profiles = array();
 
         $this->skill_tree = new ilSkillTree();
         
@@ -273,13 +274,21 @@ class ilPersonalSkillsGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (count($this->user_profiles) == 0) {
+        if (count($this->user_profiles) == 0 && count($this->cont_profiles) == 0) {
             return;
         }
         $current_prof_id = 0;
         if ((int) $_GET["profile_id"] > 0) {
             foreach ($this->user_profiles as $p) {
                 if ($p["id"] == (int) $_GET["profile_id"]) {
+                    $current_prof_id = (int) $_GET["profile_id"];
+                }
+            }
+        }
+
+        if ((int) $_GET["profile_id"] > 0 && $current_prof_id == 0) {
+            foreach ($this->cont_profiles as $p) {
+                if ($p["profile_id"] == (int) $_GET["profile_id"]) {
                     $current_prof_id = (int) $_GET["profile_id"];
                 }
             }
@@ -302,6 +311,19 @@ class ilPersonalSkillsGUI
     {
         $this->obj_id = $a_obj_id;
         $this->obj_skills = $a_skills;
+    }
+
+    /**
+     * Set object skill profiles
+     *
+     * @param ilContainerGlobalProfiles $a_g_profiles
+     * @param ilContainerLocalProfiles  $a_l_profils
+     */
+    public function setObjectSkillProfiles(
+        ilContainerGlobalProfiles $a_g_profiles,
+        ilContainerLocalProfiles $a_l_profils
+    ) {
+        $this->cont_profiles = array_merge($a_g_profiles->getProfiles(), $a_l_profils->getProfiles());
     }
 
     /**
@@ -1176,6 +1198,12 @@ class ilPersonalSkillsGUI
         foreach ($this->user_profiles as $p) {
             $options[$p["id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
         }
+
+        foreach ($this->cont_profiles as $p) {
+            $options[$p["profile_id"]] = $lng->txt("skmg_profile") . ": " . $p["title"];
+        }
+
+        asort($options);
 
         $si = new ilSelectInputGUI($lng->txt("skmg_profile"), "profile_id");
         $si->setOptions($options);

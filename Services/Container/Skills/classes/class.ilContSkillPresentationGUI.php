@@ -136,6 +136,7 @@ class ilContSkillPresentationGUI
         $gui->setHistoryView(true); // NOT IMPLEMENTED YET
         $skills = $this->container_skill_collector->getSkillsForPresentationGUI();
         $gui->setObjectSkills($this->container_skills->getId(), $skills);
+        $gui->setObjectSkillProfiles($this->container_global_profiles, $this->container_local_profiles);
         return $gui;
     }
 
