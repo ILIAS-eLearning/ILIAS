@@ -378,7 +378,7 @@ class ilMimeMail
             $this->images = array();
         }
 
-        foreach (new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file) {
+        foreach (new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|jpeg|gif|svg|png)$/i') as $file) {
             /**
              * @var $file \SplFileInfo
              */
