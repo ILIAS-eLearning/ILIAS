@@ -40,6 +40,9 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         }
 
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        if (!($db instanceof \ilDBInterface)) {
+            return;
+        }
         $this->il_setup_language->setDbHandler($db);
 
         // TODO: Remove this once ilSetupLanguage (or a successor) supports proper

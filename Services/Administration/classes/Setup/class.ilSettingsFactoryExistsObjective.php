@@ -32,6 +32,10 @@ class ilSettingsFactoryExistsObjective implements Setup\Objective
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
+        if (!($db instanceof \ilDBInterface)) {
+            throw new Setup\UnachievableException("Database does not exist.");
+        }
+
         return $environment
             ->withResource(
                 Setup\Environment::RESOURCE_SETTINGS_FACTORY,
