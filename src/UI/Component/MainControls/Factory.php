@@ -377,21 +377,30 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The System Info is a section on the page that informs the user about
-     *     information about the ILIAS system. This information can be of
-     *     different relevance, from neutral to breaking (see rules).
+     *     The System Info is a section of the standard page that informs the user
+     *     about information of the ILIAS system. This information can be of
+     *     different relevance (denotation), from neutral to breaking (see rules).
      *   composition: >
-     *     A system info is a horizontally arranged sequence of a headline, an information text and, if applicable, a close button.
-     *
+     *     A system info is a horizontally arranged sequence of a headline, an
+     *     information text and, if applicable, a close button.
      *     It can appear in three different colors, depending on its denotation:
-     *     - neutral: indicates a System Info that has only a neutral relevance for the users, e.g. that the installation is a test installation.
-     *     - important: indicates a System Info that should be seen by the users, but does not require immediate action by the user. For example "in 30 days your account will expire".
-     *     - breaking: indicates a system info that should be seen by the user immediately and usually requires quick action or indicates upcoming events such as "ILIAS will not be available tomorrow due to maintenance" or "Your account expires in 3 days".
-     *
+     *     - neutral: indicates a System Info that has only a neutral relevance
+     *       for the users, e.g. that the installation is a test installation.
+     *     - important: indicates a System Info that should be seen by the users,
+     *       but does not require immediate action by the user. For example
+     *       "in 30 days your account will expire".
+     *     - breaking: indicates a system info that should be seen by the user
+     *       immediately and usually requires quick action or indicates upcoming
+     *       events such as "ILIAS will not be available tomorrow due to
+     *       maintenance" or "Your account expires in 3 days".
      *   effect: >
-     *     By clicking (if there is one) the Close button, the user accepts the facts and does not wish to be informed further. The System Info containing the clicked Button
-     *
-     *     If the information text is longer than the available space on the page allows, it will be hidden and a More Glyph will be displayed. A click on this More Glyph displays the message in full, with the System Info automatically adjusting in height to match the content.
+     *     By clicking (if there is one) the Close button, the user accepts the
+     *     facts and does not wish to be informed further. The System Info
+     *     containing the clicked Button
+     *     If the information text is longer than the available space on the page
+     *     allows, it will be hidden and a More Glyph will be displayed. Clicking
+     *     the More Glyph displays the whole message, with the System Info
+     *     automatically adjusting in height to match the content.
      *   rivals:
      *     Mode Info: >
      *        use System Infos to output system-wide information. The Mode Info
@@ -402,10 +411,15 @@ interface Factory
      *   usage:
      *     1: There MAY be multiple System Infos on the page.
      *     2: The System Info MUST contain a headline summarize the information.
-     *     3: The System Info MUST contain an information text with additional information.
-     *     4: The System Info MAY contain a Close Button to dismiss and accept the notification.
-     *     5: If there is a Close Button in a System Info, clicking the Button MUST permanently close this System Info for the user.
-     *     6:
+     *     3: >
+     *         The System Info MUST contain an information text with additional
+     *         information.
+     *     4: >
+     *         The System Info MAY contain a Close Button to dismiss and accept
+     *         the notification.
+     *     5: >
+     *         If there is a Close Button in a System Info, clicking the Button
+     *         MUST permanently close this System Info for the user.
      *   interaction:
      *     1: An interaction with the user is not mandatory, unless the System Info
      *        provides such an interaction. In this case the user MUST be able to
