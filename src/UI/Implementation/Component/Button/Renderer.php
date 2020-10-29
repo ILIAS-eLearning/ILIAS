@@ -142,6 +142,7 @@ class Renderer extends AbstractComponentRenderer
         // This is required as the rendering seems to only create any output at all
         // if any var was set or block was touched.
         $tpl->setVariable("FORCE_RENDERING", "");
+        $tpl->setVariable("ARIA_LABEL", $this->txt("close"));
         $this->maybeRenderId($component, $tpl);
         return $tpl->get();
     }
