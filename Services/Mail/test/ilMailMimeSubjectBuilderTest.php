@@ -11,7 +11,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     /**
      * @return array<string, array<int, string>>
      */
-    public function globalSubjectOnlyPrefixProvider() : array
+    public function globalSubjectPrefixOnlyProvider() : array
     {
         return [
             'Global Prefix without Brackets' => ['docu', 'docu %s'],
@@ -20,20 +20,20 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     }
 
     /**
-     * @return array<string, array<int, string>>
+     * @return array<string, array<int, string|false>>
      */
-    public function subjectPrefixProvider() : array
+    public function subjectPrefixesProvider() : array
     {
         return [
             'Global Prefix without Brackets and Additional Context Prefix' => ['docu', 'Course', '[docu : Course] %s'],
             'Global Prefix with Brackets and Additional Context Prefix' => ['[docu]', 'Course', '[docu : Course] %s'],
             'Empty Global Prefix with Brackets and Additional Context Prefix' => [
-                '',
+                '',  // The administrator saved the global email settings form with an empty global subject prefix
                 'Course',
                 '[Course] %s'
             ],
             'Absent Global Prefix with Brackets and Additional Context Prefix' => [
-                false,
+                false, // The administrator did not save the global email settings form, yet
                 'Course',
                 '[' . self::DEFAULT_PREFIX . ' : Course] %s'
             ],
@@ -51,7 +51,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     }
 
     /**
-     * @dataProvider globalSubjectOnlyPrefixProvider
+     * @dataProvider globalSubjectPrefixOnlyProvider
      * @param string $globalPrefix
      * @param string $expectedSubject
      */
@@ -82,7 +82,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     }
 
     /**
-     * @dataProvider subjectPrefixProvider
+     * @dataProvider subjectPrefixesProvider
      * @param string|false $globalPrefix
      * @param string       $contextPrefix
      * @param string       $expectedSubject
