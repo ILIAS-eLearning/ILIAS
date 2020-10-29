@@ -36,7 +36,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 
         // Neutral
         $expected = <<<EOT
-		<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri=""><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+		<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
 EOT;
         $actual   = $r->render($system_info);
 
@@ -57,7 +57,7 @@ EOT;
         $system_info = $system_info->withDenotation(SystemInfo::DENOTATION_IMPORTANT);
         $actual      = $r->render($system_info);
         $expected    = <<<EOT
-		<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri=""><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+		<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -68,7 +68,7 @@ EOT;
         $system_info = $system_info->withDenotation(SystemInfo::DENOTATION_BREAKING);
         $actual      = $r->render($system_info);
         $expected    = <<<EOT
-	<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri=""><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+	<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -81,7 +81,7 @@ EOT;
         $system_info = $system_info->withIsDismissable(true)->withDismissAction($action)->withDenotation(SystemInfo::DENOTATION_NEUTRAL);
         $actual      = $r->render($system_info);
         $expected    = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span></div></div>
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span></div></div>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),

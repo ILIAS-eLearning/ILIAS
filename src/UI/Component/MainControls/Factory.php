@@ -425,10 +425,10 @@ interface Factory
      *        provides such an interaction. In this case the user MUST be able to
      *        close the info in its context by clicking on the Close Glyph.
      *   accessibility:
-     *     1: >
-     *         The System Info informs about an important circumstance, which must be
-     *         recognizable in particular also for persons with a handicap. A
-     *         role="alert" MUST be added to a System Info.
+     *     1: Breaking System Infos MUST have a role="alert".
+     *     2: Important and neutral System Infos MUST have an aria-live="polite".
+     *     3: The headline MUST be referenced by aria-labelledby
+     *     4: The information MUST be referenced by aria-describedby
      * ----
      * @return \ILIAS\UI\Component\MainControls\SystemInfo
      */

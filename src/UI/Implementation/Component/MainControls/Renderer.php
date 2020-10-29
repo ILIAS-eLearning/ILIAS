@@ -283,6 +283,15 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('HEADLINE', $component->getHeadLine());
         $tpl->setVariable('BODY', $component->getInformtationText());
         $tpl->setVariable('DENOTATION', $component->getDenotation());
+        switch ($component->getDenotation()) {
+            case Component\MainControls\SystemInfo::DENOTATION_NEUTRAL:
+            case Component\MainControls\SystemInfo::DENOTATION_IMPORTANT:
+                $tpl->setVariable('LIVE', 'aria-live="polite"');
+                break;
+            case Component\MainControls\SystemInfo::DENOTATION_BREAKING:
+                $tpl->setVariable('ROLE', 'role="alert"');
+                break;
+        }
         if ($component->isDismissable()) {
             $close  = $this->getUIFactory()->symbol()->glyph()->close("#");
             $signal = $component->getCloseSignal();
