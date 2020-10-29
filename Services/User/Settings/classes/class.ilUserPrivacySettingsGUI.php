@@ -209,62 +209,13 @@ class ilUserPrivacySettingsGUI
      */
     public function initPrivacySettingsForm()
     {
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $user = $this->user;
-        $settings = $this->settings;
+        $sections = [];
 
-        $fields = [];
-
-        // hide_own_online_status
-        if ($this->isAwarnessSettingVisible()) {
-            $lng->loadLanguageModule("awrn");
-
-            $default = ($this->settings->get('hide_own_online_status') == "n")
-                ? $this->lng->txt("user_awrn_show")
-                : $this->lng->txt("user_awrn_hide");
-
-            $options = array(
-                "x" => $this->lng->txt("user_awrn_default") . " (" . $default . ")",
-                "n" => $this->lng->txt("user_awrn_show"),
-                "y" => $this->lng->txt("user_awrn_hide")
-            );
-            $val = $user->prefs["hide_own_online_status"];
-            if ($val == "") {
-                $val = "x";
-            }
-            $fields["hide_own_online_status"] = $this->uiFactory->input()->field()->select(
-                $lng->txt("awrn_user_show"),
-                $options,
-                $lng->txt("awrn_hide_from_awareness_info")
-            )
-                                                  ->withValue($val)
-                                                  ->withRequired(true)
-                                                  ->withDisabled(
-                                                      $settings->get("usr_settings_disable_hide_own_online_status")
-                                                  );
-        }
-
-        // allow to contact me
-        if ($this->isContactSettingVisible()) {
-            $lng->loadLanguageModule('buddysystem');
-            $fields["bs_allow_to_contact_me"] = $this->uiFactory->input()->field()->checkbox(
-                $lng->txt("buddy_allow_to_contact_me"),
-                $lng->txt("buddy_allow_to_contact_me_info")
-            )
-                                                  ->withValue($user->prefs['bs_allow_to_contact_me'] == 'y')
-                                                  ->withDisabled(
-                                                      $settings->get('usr_settings_disable_bs_allow_to_contact_me')
-                                                  );
-        }
-
-        $sections = [
-            'sec' => $this->uiFactory->input()->field()->section($fields, $lng->txt('user_visibility_settings')),
-        ];
-
+        $this->populateWithAwarenessSettingsSection($sections);
+        $this->populateWithContactsSettingsSection($sections);
         $this->populateWithChatSettingsSection($sections);
 
-        $form_action = $ctrl->getLinkTarget($this, "savePrivacySettings");
+        $form_action = $this->ctrl->getLinkTarget($this, "savePrivacySettings");
 
         return $this->uiFactory->input()
             ->container()
@@ -307,6 +258,71 @@ class ilUserPrivacySettingsGUI
             $this->chatSettings->get('enable_osc', false) &&
             !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
         );
+    }
+
+    /**
+     * @param array $formSections
+     */
+    protected function populateWithAwarenessSettingsSection(array &$formSections) : void
+    {
+        if (!$this->isAwarnessSettingVisible()) {
+            return;
+        }
+
+        $this->lng->loadLanguageModule("awrn");
+
+        $default = ($this->settings->get('hide_own_online_status') == "n")
+            ? $this->lng->txt("user_awrn_show")
+            : $this->lng->txt("user_awrn_hide");
+
+        $options = array(
+            "x" => $this->lng->txt("user_awrn_default") . " (" . $default . ")",
+            "n" => $this->lng->txt("user_awrn_show"),
+            "y" => $this->lng->txt("user_awrn_hide")
+        );
+        $val = $this->user->prefs["hide_own_online_status"];
+        if ($val == "") {
+            $val = "x";
+        }
+
+        $fields["hide_own_online_status"] = $this->uiFactory->input()
+            ->field()
+            ->select(
+                $this->lng->txt("awrn_user_show"),
+                $options,
+                $this->lng->txt("awrn_hide_from_awareness_info")
+            )
+            ->withValue($val)
+            ->withRequired(true)
+            ->withDisabled(
+                $this->settings->get("usr_settings_disable_hide_own_online_status")
+            );
+
+        $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra_desc'));
+    }
+
+    /**
+     * @param array $formSections
+     */
+    protected function populateWithContactsSettingsSection(array &$formSections) : void
+    {
+        if (!$this->isContactSettingVisible()) {
+            return;
+        }
+
+        $this->lng->loadLanguageModule('buddysystem');
+        $fields["bs_allow_to_contact_me"] = $this->uiFactory->input()
+            ->field()
+            ->checkbox(
+                $this->lng->txt("buddy_allow_to_contact_me"),
+                $this->lng->txt("buddy_allow_to_contact_me_info")
+            )
+            ->withValue($this->user->prefs['bs_allow_to_contact_me'] == 'y')
+            ->withDisabled(
+                $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
+            );
+
+        $formSections['contacts_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('mm_contacts'));
     }
 
     /**
