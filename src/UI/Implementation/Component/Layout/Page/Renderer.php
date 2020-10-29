@@ -40,6 +40,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component->hasModeInfo()) {
             $tpl->setVariable('MODEINFO', $default_renderer->render($component->getModeInfo()));
         }
+        if ($component->hasSystemInfos()) {
+            $tpl->setVariable('SYSTEMINFOS', $default_renderer->render($component->getSystemInfos()));
+        }
 
         $breadcrumbs = $component->getBreadcrumbs();
         if ($breadcrumbs && $breadcrumbs->getItems()) {

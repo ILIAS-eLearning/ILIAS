@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\MainControls\SystemInfo;
 use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\MainControls\Metabar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
@@ -97,4 +98,18 @@ interface Standard extends Page, JavaScriptBindable
 
 
     public function hasModeInfo() : bool;
+
+    /**
+     * @param SystemInfo[] $system_infos
+     * @return Standard
+     */
+    public function withSystemInfos(array $system_infos) : Standard;
+
+    /**
+     * @return SystemInfo[]
+     */
+    public function getSystemInfos() : array;
+
+
+    public function hasSystemInfos() : bool;
 }
