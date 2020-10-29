@@ -65,8 +65,8 @@ grid-based layout
 	grid-gap: 0px;
 	-ms-grid-columns: auto 1fr;
     grid-template-columns: auto 1fr;
-	-ms-grid-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height auto 1fr;
-    grid-template-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height auto 1fr;
+	-ms-grid-rows: @il-standard-page-header-height auto @il-standard-page-breadcrumbs-height 1fr;
+    grid-template-rows: @il-standard-page-header-height auto @il-standard-page-breadcrumbs-height 1fr;
     height: 100%;
 	overflow: hidden;
 	width: 100%;
@@ -115,14 +115,14 @@ header {
 	z-index: @il-standard-page-zindex-header;
 }
 
-// headinfos
-div.il-head-infos {
+// system-infos
+div.il-system-infos {
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 2;
-	-ms-grid-row: 3;
+	-ms-grid-row: 2;
 	grid-column-start: 1;
 	grid-column-end: 3;
-	grid-row: 3;
+	grid-row: 2;
 	z-index: @il-standard-page-zindex-header;
 }
 
@@ -390,11 +390,12 @@ footer {
 	}
 
 	div.il-head-infos {
-		-ms-grid-column: 1;
-		-ms-grid-row: 2;
-		grid-column: 1;
-		grid-row: 2;
-		z-index: @il-standard-page-zindex-header;
+		//grid-column-end: 3;
+		//-ms-grid-column: 1;
+		//-ms-grid-row: 3;
+		//grid-column: 1;
+		//grid-row: 3;
+		//z-index: @il-standard-page-zindex-header;
 	}
 
 	// head-container with logo and metabar
@@ -556,9 +557,9 @@ footer {
 	}
 
 	.il-layout-page-content {
-		-ms-grid-column: 1;
+		-ms-grid-column: 2;
 		-ms-grid-row: 3;
-		grid-column: 1;
+		grid-column: 2;
 		grid-row: 3;
 		overflow: auto;
 	}

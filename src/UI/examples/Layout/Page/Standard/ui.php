@@ -50,7 +50,7 @@ if ($_GET['new_ui'] == '1') {
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
-        ->withHeadInfos(
+        ->withSystemInfos(
             [$f->mainControls()->headInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
                ->withIsDismissable(true)
                ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
