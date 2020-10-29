@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use Symfony\Component\Mime\Exception\LogicException;
 
 /**
  * An agent that is just a collection of some other agents.
@@ -35,6 +36,13 @@ class AgentCollection implements Agent
     public function getAgent(string $key) : ?Agent
     {
         return $this->agents[$key] ?? null;
+    }
+
+    public function withRemovedAgent(string $key) : AgentCollection
+    {
+        $clone = clone $this;
+        unset($clone->agents[$key]);
+        return $clone;
     }
 
     /**
@@ -167,15 +175,6 @@ class AgentCollection implements Agent
             throw new \InvalidArgumentException(
                 "Expected ConfigCollection for configuration."
             );
-        }
-    }
-
-    protected function getAgentsWithConfig() : \Traversable
-    {
-        foreach ($this->agents as $k => $c) {
-            if ($c->hasConfig()) {
-                yield $k => $c;
-            }
         }
     }
 }
