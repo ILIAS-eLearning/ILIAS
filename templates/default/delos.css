@@ -7883,10 +7883,10 @@ ul.dropdown-menu > li > .btn:focus {
   flex-direction: row;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
+  -ms-grid-row: 3;
   grid-column-start: 1;
   grid-column-end: 3;
-  grid-row: 2;
+  grid-row: 3;
   z-index: 998;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -8892,8 +8892,8 @@ grid-based layout
   grid-gap: 0px;
   -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
-  -ms-grid-rows: 60px 33px 1fr;
-  grid-template-rows: 60px 33px 1fr;
+  -ms-grid-rows: 60px auto 33px 1fr;
+  grid-template-rows: 60px auto 33px 1fr;
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8933,6 +8933,15 @@ header {
   grid-row: 1;
   z-index: 999;
 }
+div.il-system-infos {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
+  z-index: 999;
+}
 .header-inner {
   -ms-flex-align: center;
   align-items: center;
@@ -8964,9 +8973,9 @@ header {
 }
 nav.il-maincontrols {
   -ms-grid-column: 1;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 4;
   z-index: 997;
 }
 .il-maincontrols-mainbar {
@@ -9024,9 +9033,9 @@ main {
   -ms-grid-rows: 1fr auto;
   grid-template-rows: 1fr auto;
   -ms-grid-column: 2;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   overflow: auto;
 }
 /* Footer */
@@ -9069,8 +9078,8 @@ footer {
     grid-gap: 0px;
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 45px 1fr;
-    grid-template-rows: 45px 1fr;
+    -ms-grid-rows: 45px auto 1fr;
+    grid-template-rows: 45px auto 1fr;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -9105,9 +9114,9 @@ footer {
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
     -ms-grid-column: 1;
-    -ms-grid-row: 2;
+    -ms-grid-row: 3;
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
     height: 100%;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
@@ -9260,10 +9269,10 @@ footer {
     display: block;
   }
   .il-layout-page-content {
-    -ms-grid-column: 1;
-    -ms-grid-row: 2;
-    grid-column: 1;
-    grid-row: 2;
+    -ms-grid-column: 2;
+    -ms-grid-row: 3;
+    grid-column: 2;
+    grid-row: 3;
     overflow: auto;
   }
 }
@@ -10042,6 +10051,116 @@ footer {
   span.il-mode-info-content {
     display: block;
     width: 100%;
+  }
+}
+/*
+**************************************************************
+	System Infos
+	change the rule for &.full to
+
+		height: 100%;
+		position: fixed;
+		padding: 100px;
+		top: 0;
+		left: 0;
+		font-size: 2em;
+		line-height: 1.2em;
+
+	to show a fullscreen info
+**************************************************************
+*/
+.il-system-info {
+  width: 100%;
+  line-height: 20px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  height: calc(3px + 3px + 20px);
+  z-index: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.il-system-info.il-system-info-neutral {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #d2dae5;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #4c6586;
+}
+.il-system-info.il-system-info-neutral a.glyph {
+  color: #4c6586;
+}
+.il-system-info.il-system-info-important {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #fdd9be;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #d15c05;
+}
+.il-system-info.il-system-info-important a.glyph {
+  color: #d15c05;
+}
+.il-system-info.il-system-info-breaking {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #ec675e;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #ffffff;
+}
+.il-system-info.il-system-info-breaking a.glyph {
+  color: #ffffff;
+}
+.il-system-info.full {
+  height: auto;
+}
+.il-system-info div.il-system-info-content {
+  flex-grow: 4;
+  flex-shrink: 1;
+  flex-basis: auto;
+  overflow-y: hidden;
+}
+.il-system-info div.il-system-info-content span {
+  display: inline-block;
+}
+.il-system-info div.il-system-info-content span.il-system-info-headline {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 8px;
+}
+.il-system-info div.il-system-info-content span.il-system-info-more {
+  display: none;
+}
+.il-system-info div.il-system-info-actions {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 60px;
+  align-self: flex-end;
+  text-align: right;
+}
+.il-system-info:not(:first-child) {
+  border-top: none;
+}
+/*
+**************************************************************
+	Mobile Layout for System Info
+**************************************************************
+*/
+@media only screen and (max-width: 768px) {
+  .il-system_info {
+    border-top: none;
   }
 }
 .il-drilldown ul {
@@ -11339,6 +11458,12 @@ footer {
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
+/** headline text transform **/
+/** inline shadow of a message container **/
+/** border configuration, the color is automatically computed from the three color variants **/
+/** nagtive or positive contrast color for text and glyph **/
+/** contrast threshold for contrast color **/
+/** three color variants for neutral, important, breaking Head Infos **/
 .webui-popover-content {
   display: none;
 }

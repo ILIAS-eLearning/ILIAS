@@ -352,9 +352,15 @@ interface Factory
      *     The Mode Info MUST contain a title explaining the mode.
      *     The Mode Info MUST contain a Close Button to leave the
      *     mode.
+     *
      *   effect: >
      *      By clicking the Close Button, the user leaves the current
      *      (application wide) mode.
+     *
+     *   rivals:
+     *      System Info: >
+     *         use ModeInfo to indicate a certain state in a user context. The
+     *         SystemInfo on the other hand informs about system-wide information.
      *
      * context:
      *   - The Mode Info is used with the Standard Page.
@@ -368,10 +374,74 @@ interface Factory
      *     1: >
      *         The Mode Info informs about an important circumstance, which must be
      *         recognizable in particular also for persons with a handicap.
-     *
      * ----
-     *
      * @return \ILIAS\UI\Component\MainControls\ModeInfo
      */
     public function modeInfo(string $title, URI $close_action) : ModeInfo;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The System Info is a section of the standard page that informs the user
+     *     about the ILIAS system. This information can be of different relevance
+     *     (denotation), from neutral to breaking (see rules).
+     *
+     *   composition: >
+     *     A System Info is a horizontally arranged sequence of a headline, an
+     *     information text and, if applicable, a Close Button.
+     *     It can appear in three different colors, depending on its denotation:
+     *     - neutral: indicates a System Info that has only a neutral relevance
+     *       for the users, e.g. that the installation is a test installation.
+     *     - important: indicates a System Info that should be seen by the users,
+     *       but does not require immediate action by the user. For example
+     *       "in 30 days your account will expire".
+     *     - breaking: indicates a system info that should be seen by the user
+     *       immediately and usually requires quick action or indicates upcoming
+     *       events such as "ILIAS will not be available tomorrow due to
+     *       maintenance" or "Your account expires in 3 days".
+     *
+     *   effect: >
+     *     By clicking (if there is one) the Close Button, the user accepts the
+     *     facts and does not wish to be informed further. The System Info
+     *     containing the clicked Button should not appear anymore.
+     *     If the information text is longer than the available space on the page
+     *     allows, it will be hidden and a More Glyph will be displayed. Clicking
+     *     the More Glyph displays the whole message, with the System Info
+     *     automatically adjusting in height to match the content.
+     *
+     *   rivals:
+     *     Mode Info: >
+     *        use System Info to output system-wide information. The Mode Info
+     *        only informs about a state the user is in.
+     *
+     * context:
+     *   - The System Info is only used within the Standard Page.
+     *
+     * rules:
+     *   usage:
+     *     1: There MAY be multiple System Infos on the page.
+     *     2: The System Info MUST contain a headline summarizing the information.
+     *     3: >
+     *         The System Info MUST contain an information text with additional
+     *         information.
+     *     4: >
+     *         The System Info MAY contain a Close Button to dismiss and accept
+     *         the notification.
+     *     5: >
+     *         If there is a Close Button in a System Info, clicking the Button
+     *         MUST permanently close this System Info for the user.
+     *   interaction:
+     *     1: An interaction with the user is not mandatory, unless the System Info
+     *        provides such an interaction. In this case the user MUST be able to
+     *        close the info in its context by clicking on the Close Glyph.
+     *   accessibility:
+     *     1: Breaking System Infos MUST have a role="alert".
+     *     2: Important and neutral System Infos MUST have an aria-live="polite".
+     *     3: The headline MUST be referenced by aria-labelledby
+     *     4: The information MUST be referenced by aria-describedby
+     * ----
+     * @return \ILIAS\UI\Component\MainControls\SystemInfo
+     */
+    public function systemInfo(string $headline, string $information_text) : SystemInfo;
 }

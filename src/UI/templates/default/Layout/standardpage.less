@@ -65,8 +65,8 @@ grid-based layout
 	grid-gap: 0px;
 	-ms-grid-columns: auto 1fr;
     grid-template-columns: auto 1fr;
-	-ms-grid-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
-    grid-template-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
+	-ms-grid-rows: @il-standard-page-header-height auto @il-standard-page-breadcrumbs-height 1fr;
+    grid-template-rows: @il-standard-page-header-height auto @il-standard-page-breadcrumbs-height 1fr;
     height: 100%;
 	overflow: hidden;
 	width: 100%;
@@ -115,6 +115,17 @@ header {
 	z-index: @il-standard-page-zindex-header;
 }
 
+// system-infos
+div.il-system-infos {
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 2;
+	-ms-grid-row: 2;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row: 2;
+	z-index: @il-standard-page-zindex-header;
+}
+
 // head-container with logo pagetitle and metabar
 .header-inner {
 	-ms-flex-align: center;
@@ -152,9 +163,9 @@ header {
 // mainbar
 nav.il-maincontrols {
 	-ms-grid-column: 1;
-	-ms-grid-row: 3;
+	-ms-grid-row: 4;
 	grid-column: 1;
-	grid-row: 3;
+	grid-row: 4;
 	z-index: @il-standard-page-zindex-maincontrols;
 }
 
@@ -235,9 +246,9 @@ main {
 	-ms-grid-rows: 1fr auto;
 	grid-template-rows: 1fr auto;
 	-ms-grid-column: 2;
-	-ms-grid-row: 3;
+	-ms-grid-row: 4;
 	grid-column: 2;
-	grid-row: 3;
+	grid-row: 4;
 	overflow: auto;
 }
 
@@ -293,8 +304,8 @@ footer {
 		grid-gap: 0px;
 		-ms-grid-columns: 1fr;
 	    grid-template-columns: 1fr;
-		-ms-grid-rows: @il-standard-page-small-header-height 1fr;
-	    grid-template-rows: @il-standard-page-small-header-height 1fr;
+		-ms-grid-rows: @il-standard-page-small-header-height auto 1fr;
+	    grid-template-rows: @il-standard-page-small-header-height auto 1fr;
 	    height: 100%;
 		overflow: hidden;
 		width: 100%;
@@ -330,9 +341,9 @@ footer {
 			grid-template-columns: 1fr;
 			.nav.il-maincontrols {
 				-ms-grid-column: 1;
-				-ms-grid-row: 2;
+				-ms-grid-row: 3;
 				grid-column: 1;
-				grid-row: 2;
+				grid-row: 3;
 				height: 100%; // calc(100% - (@il-standard-page-small-header-height + @il-standard-page-breadcrumbs-height);
 				.il-maincontrols-mainbar {
 					-ms-grid-columns: 1fr;
@@ -537,10 +548,10 @@ footer {
 	}
 
 	.il-layout-page-content {
-		-ms-grid-column: 1;
-		-ms-grid-row: 2;
-		grid-column: 1;
-		grid-row: 2;
+		-ms-grid-column: 2;
+		-ms-grid-row: 3;
+		grid-column: 2;
+		grid-row: 3;
 		overflow: auto;
 	}
 }
