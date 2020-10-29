@@ -13820,7 +13820,7 @@ badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Activates badge management and badge assignments to members.
-obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Prefix
+obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
 obj#:#obj_tool_ext_mail_subject_prefix_info#:#Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier.
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_image_template_form#:#Image Template
