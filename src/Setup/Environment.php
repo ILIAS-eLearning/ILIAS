@@ -44,4 +44,5 @@ interface Environment
      * @return mixed
      */
     public function getConfigFor(string $component);
+    public function hasConfigFor(string $component) : bool;
 }
