@@ -4,13 +4,10 @@
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\Agent;
 use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 use ILIAS\Setup\NoConfirmationException;
 use Symfony\Component\Console\Command\Command;
