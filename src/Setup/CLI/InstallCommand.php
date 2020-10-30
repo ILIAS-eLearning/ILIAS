@@ -3,9 +3,8 @@
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
@@ -34,13 +33,12 @@ class InstallCommand extends Command
     protected $preconditions;
 
     /**
-     * @var callable $lazy_agent must return a Setup\Agent
      * @var Objective[] $preconditions will be achieved before command invocation
      */
-    public function __construct(callable $lazy_agent, ConfigReader $config_reader, array $preconditions)
+    public function __construct(AgentFinder $agent_finder, ConfigReader $config_reader, array $preconditions)
     {
         parent::__construct();
-        $this->lazy_agent = $lazy_agent;
+        $this->agent_finder = $agent_finder;
         $this->config_reader = $config_reader;
         $this->preconditions = $preconditions;
     }
@@ -51,6 +49,7 @@ class InstallCommand extends Command
         $this->addArgument("config", InputArgument::REQUIRED, "Configuration file for the installation");
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
+        $this->configureCommandForPlugins();
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -63,7 +62,7 @@ class InstallCommand extends Command
         $io->printLicenseMessage();
         $io->title("Install ILIAS");
 
-        $agent = $this->getAgent();
+        $agent = $this->getRelevantAgent($input);
 
         $config = $this->readAgentConfig($agent, $input);
 

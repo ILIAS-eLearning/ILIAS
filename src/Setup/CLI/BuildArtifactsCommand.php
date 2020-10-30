@@ -4,6 +4,7 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
@@ -27,19 +28,17 @@ class BuildArtifactsCommand extends Command
 
     protected static $defaultName = "build-artifacts";
 
-    /**
-     * @var callable $lazy_agent must return a Setup\Agent
-     */
-    public function __construct(callable $lazy_agent)
+    public function __construct(AgentFinder $agent_finder)
     {
         parent::__construct();
-        $this->lazy_agent = $lazy_agent;
+        $this->agent_finder = $agent_finder;
     }
 
     public function configure()
     {
         $this->setDescription("Build static artifacts from source");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
+        $this->configureCommandForPlugins();
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -48,7 +47,7 @@ class BuildArtifactsCommand extends Command
         $io->printLicenseMessage();
         $io->title("Building Static Artifacts for ILIAS");
 
-        $agent = $this->getAgent();
+        $agent = $this->getRelevantAgent($input);
 
         $objective = $agent->getBuildArtifactObjective();
 
