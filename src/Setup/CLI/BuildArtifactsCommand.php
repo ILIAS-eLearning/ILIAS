@@ -6,16 +6,11 @@ namespace ILIAS\Setup\CLI;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Setup\ObjectiveWithPreconditions;
 use ILIAS\Setup\NoConfirmationException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
