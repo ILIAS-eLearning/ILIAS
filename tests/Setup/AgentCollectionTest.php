@@ -303,4 +303,34 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($c4, $cb->getAgent("c4"));
         $this->assertNull($cb->getAgent("c5"));
     }
+
+    public function testWithAdditionalAgent()
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $ca = new Setup\AgentCollection(
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3]
+        );
+        $cb = $ca->withAdditionalAgent("c4", $c4);
+
+        $this->assertNotSame($ca, $cb);
+
+        $this->assertSame($c1, $ca->getAgent("c1"));
+        $this->assertSame($c2, $ca->getAgent("c2"));
+        $this->assertSame($c3, $ca->getAgent("c3"));
+        $this->assertNull($ca->getAgent("c4"));
+        $this->assertNull($ca->getAgent("c5"));
+
+        $this->assertSame($c1, $cb->getAgent("c1"));
+        $this->assertSame($c2, $cb->getAgent("c2"));
+        $this->assertSame($c3, $cb->getAgent("c3"));
+        $this->assertSame($c4, $cb->getAgent("c4"));
+        $this->assertNull($cb->getAgent("c5"));
+    }
 }
