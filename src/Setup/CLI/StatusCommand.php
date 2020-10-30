@@ -3,7 +3,7 @@
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
@@ -28,18 +28,16 @@ class StatusCommand extends Command
 
     protected static $defaultName = "status";
 
-    /**
-     * @var callable $lazy_agent must return a Setup\Agent
-     */
-    public function __construct(callable $lazy_agent)
+    public function __construct(AgentFinder $agent_finder)
     {
         parent::__construct();
-        $this->lazy_agent = $lazy_agent;
+        $this->agent_finder = $agent_finder;
     }
 
     public function configure()
     {
         $this->setDescription("Collect and show status information about the installation.");
+        $this->configureCommandForPlugins();
     }
 
 
@@ -51,8 +49,9 @@ class StatusCommand extends Command
 
         $environment = new ArrayEnvironment([]);
         $storage = new Metrics\ArrayStorage();
+        $agent = $this->getRelevantAgent($input);
         $objective = new Tentatively(
-            $this->getAgent()->getStatusObjective($storage)
+            $agent->getStatusObjective($storage)
         );
 
         $this->achieveObjective($objective, $environment);

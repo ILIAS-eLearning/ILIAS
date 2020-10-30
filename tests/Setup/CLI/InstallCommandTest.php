@@ -26,11 +26,10 @@ class InstallCommandTest extends TestCase
     {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
-        $agent = $this->createMock(Setup\Agent::class);
+        $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-        $command = new Setup\CLI\InstallCommand(function () use ($agent) {
-            return $agent;
-        }, $config_reader, []);
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $command = new Setup\CLI\InstallCommand($agent_finder, $config_reader, []);
 
         $tester = new CommandTester($command);
 
@@ -62,6 +61,12 @@ class InstallCommandTest extends TestCase
                     return "client_id";
                 }
             });
+
+        $agent_finder
+            ->expects($this->once())
+            ->method("getAgents")
+            ->with()
+            ->willReturn($agent);
 
         $agent
             ->expects($this->once())

@@ -18,6 +18,7 @@ class ImplementationOfInterfaceFinder
      * @var string[]
      */
     protected $ignore = [
+        '.*/src/',
         '.*/libs/',
         '.*/test/',
         '.*/tests/',
@@ -83,6 +84,7 @@ class ImplementationOfInterfaceFinder
                 $ignore
             )
         );
+
 
         foreach ($this->classmap as $class_name => $file_path) {
             $path = str_replace($this->root, "", realpath($file_path));
