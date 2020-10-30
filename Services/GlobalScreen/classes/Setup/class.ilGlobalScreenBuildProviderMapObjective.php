@@ -31,9 +31,11 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifa
             NotificationProvider::class,
         ];
 
+        $finder = new Setup\ImplementationOfInterfaceFinder();
         foreach ($i as $interface) {
-            $i = new Setup\ImplementationOfInterfaceFinder($interface);
-            $class_names[$interface] = iterator_to_array($i->getMatchingClassNames());
+            $class_names[$interface] = iterator_to_array(
+                $finder->getMatchingClassNames($interface)
+            );
         }
 
         return new Setup\Artifact\ArrayArtifact($class_names);
