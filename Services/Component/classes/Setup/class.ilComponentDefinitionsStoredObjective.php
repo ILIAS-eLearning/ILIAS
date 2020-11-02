@@ -45,7 +45,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilDatabaseInitializedObjective()
+            new \ilDatabaseUpdatedObjective()
         ];
     }
 
