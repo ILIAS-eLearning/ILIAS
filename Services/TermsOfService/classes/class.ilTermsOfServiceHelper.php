@@ -242,7 +242,7 @@ class ilTermsOfServiceHelper
         }
     }
 
-    public static function appendWithdrawalText($withdrawal_relogin) : string
+    public static function appendWithdrawalText(int $withdrawal_relogin) : string
     {
         $withdrawal_appendage_text = '';
         if ($withdrawal_relogin !== 0) {
