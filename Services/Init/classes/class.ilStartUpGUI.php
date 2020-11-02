@@ -1552,7 +1552,7 @@ class ilStartUpGUI
                 if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
                     $helper = new \ilTermsOfServiceHelper();
                     $helper->deleteAcceptanceHistoryByUser($this->user);
-                    ilUtil::redirect('logout.php');
+                    $this->ctrl->redirectToUrl('logout.php');
                 }
             }
 
