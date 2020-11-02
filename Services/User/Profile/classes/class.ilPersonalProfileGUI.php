@@ -560,7 +560,7 @@ class ilPersonalProfileGUI
             $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptanceLDAP]'));
         } else {
             $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptance]'));
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'withdrawAcceptance'));
         }
 
         $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
