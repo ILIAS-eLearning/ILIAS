@@ -1268,7 +1268,7 @@ class ilStartUpGUI
         }
 
         $withdrawal_appendage_text = ilTermsOfServiceHelper::appendWithdrawalText(
-            ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
+            (int) ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
         );
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
