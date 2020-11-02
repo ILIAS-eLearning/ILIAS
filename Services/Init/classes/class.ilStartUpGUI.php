@@ -1596,8 +1596,10 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('confirmAcceptance' == $this->ctrl->getCmd() ||
-            'getAcceptance' == $this->ctrl->getCmd()) {
+            if (
+                'confirmAcceptance' === $this->ctrl->getCmd() ||
+                'getAcceptance' === $this->ctrl->getCmd()
+            ) {
                 if ($accepted) {
                     $helper = new \ilTermsOfServiceHelper();
 
