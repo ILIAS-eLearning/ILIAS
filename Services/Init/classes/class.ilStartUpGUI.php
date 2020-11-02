@@ -1548,7 +1548,7 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('confirmWithdrawal' == $this->ctrl->getCmd()) {
+            if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
                 if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
                     $helper = new \ilTermsOfServiceHelper();
                     $helper->deleteAcceptanceHistoryByUser($this->user);
