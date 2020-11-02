@@ -869,3 +869,9 @@ if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#36>
+<?php
+if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
+    $ilDB->addIndex('tax_tree', ['child'], 'i1');
+}
+?>
