@@ -1549,7 +1549,7 @@ class ilStartUpGUI
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
             if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
-                if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
+                if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
                     $helper = new \ilTermsOfServiceHelper();
                     $helper->deleteAcceptanceHistoryByUser($this->user);
                     $this->ctrl->redirectToUrl('logout.php');
