@@ -1,13 +1,19 @@
 # Use the Command Line to Manage ILIAS
 
-The ILIAS command line app can be called via `php setup\setup.php`. It contains three
-commands to manage ILIAS installations:
+The ILIAS command line app can be called via `php setup\setup.php`. It contains four
+main commands to manage ILIAS installations:
 
 * `install` will [set an installation up](#install-ilias)
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
 * `reload-control-structure` [rebuilds structure information](#build-ilias-artifacts) of an installation
+
+`install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
+
+* `--skip <plugin name>` will exclude the named plugin from the command
+* `--no-plugins` will exclude all plugins from the command
+* `install <plugin name>` (or `update <plugin name>` respectively) will update or install the specified plugin
 
 `install` and `update` both require a [configuration file](#about-the-config-file)
 to do their job. The app also supports a `help` command that lists arguments and
@@ -16,7 +22,7 @@ options of the available commands.
 
 ## Install ILIAS
 
-To install ILIAS from the command line, call `php setup/setup.php install config.json"
+To install ILIAS with all plugins from the command line, call `php setup/setup.php install config.json`
 from within the ILIAS folder you checked out from GitHub (or downloaded from elsewhere).
 `config.json` can be the path to some [configuration file](#about-the-config-file)
 which does not need to reside in the ILIAS folder. Also, `setup/setup.php` could be
@@ -44,6 +50,13 @@ from the original config will be overwritten with `XYZ`. This allows to use one
 configuration for multiple setups and overwrite it from the CLI or even share
 configs without secrets.
 
+The setup will also install plugins of the installation, unless the plugin explicitely
+defines that it cannot be installed via CLI setup. If you still want to skip a plugin
+for installation, use the skip-option: `php setup/setup.php install --skip <plugin name> config.json`.
+The option can be repeated to cover multiple plugins. If you want to skip plugins
+alltogether, use the `--no-plugins` option. If you only want to install a specific
+plugin, use `php setup/setup.php install config.json <plugin name>`.
+
 
 ## Update ILIAS
 
@@ -52,12 +65,14 @@ from within your ILIAS folder. This will update the configuration of ILIAS accor
 to the provided configuration as well as update the database of the installation or
 do other necessary task for the update. This does not update the source code.
 
+Plugins are updated just as the core of ILIAS (if the plugin does not exclude itself),
+where the plugins can be controlled with the same options as for `install`.
+
 Sometimes it might happen that the database update steps detect some edge case
 or warn about a possible loss of data. In this case the update is aborted with
 a message and can be resumed after the messages was read carefully and acted
 upon. You may use the `--ignore-db-update-messages` at your own risk if you want
 to silence the messages.
-
 
 ## Report Status of ILIAS
 
@@ -72,6 +87,9 @@ The output of the command is formatted as YAML to be easily readable by people a
 machines. So we encourage you to use this command for monitoring your system and
 also request status information via our feature process that you are interested in.
 
+Like for `install` and `update`, plugins are included here, but can be controlled
+via options.
+
 
 ## Build ILIAS Artifacts
 
@@ -82,6 +100,9 @@ filesystem permissions later on, because the webserver will need to access the
 generated files. Please do not invoke this function unless it is explicitly stated
 in update or patch instructions or you know what you are doing.
 
+Like for `install` and `update`, plugins are included here, but can be controlled
+via options.
+
 
 ## Reload ILIAS Control Structure
 
@@ -89,7 +110,6 @@ The control structure captures information about components and GUIs of ILIAS
 in the database. Sometimes it might be necessary to refresh that information.
 Please do not invoke this function unless it is explicitly stated in update
 or patch instructions or you know what you are doing.
-
 
 ## About the Config File
 

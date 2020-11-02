@@ -18,11 +18,7 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 */
 class ilPluginSlot
 {
-
-    /**
-     * @var string
-     */
-    private $prefix = '';
+    protected $prefix = "";
 
     /**
     * Constructor
@@ -211,9 +207,6 @@ class ilPluginSlot
     */
     public function getPluginsInformation()
     {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
         // read plugins directory
         $pl_dir = $this->getPluginsDirectory();
 
@@ -228,53 +221,72 @@ class ilPluginSlot
             if ($file != "." and
                 $file != "..") {
                 // directories
-                if (@is_dir($pl_dir . "/" . $file) && substr($file, 0, 1) != "." &&
-                    $this->checkPluginPhpFileAvailability($file)
-                ) {
-                    $plugin = ilPlugin::lookupStoredData(
-                        $this->getComponentType(),
-                        $this->getComponentName(),
-                        $this->getSlotId(),
-                        $file
-                    );
-
-                    // create record in il_plugin table (if not existing)
-                    if (count($plugin) == 0) {
-                        ilPlugin::createPluginRecord(
-                            $this->getComponentType(),
-                            $this->getComponentName(),
-                            $this->getSlotId(),
-                            $file
-                        );
-                            
-                        $plugin = ilPlugin::lookupStoredData(
-                            $this->getComponentType(),
-                            $this->getComponentName(),
-                            $this->getSlotId(),
-                            $file
-                        );
-                    }
-
-                    $pdata = $ilPluginAdmin->getAllData(
-                        $this->getComponentType(),
-                        $this->getComponentName(),
-                        $this->getSlotId(),
-                        $file
-                    );
-
-                    $plugin = array_merge($plugin, $pdata);
-
-                    $plugin["name"] = $file;
-                    $plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
-                    $plugin["class_file_status"] = $this->checkClassFileAvailability($file);
-                    $plugin["class_file"] = $this->getPluginClassFileName($file);
-                    
+                $plugin = $this->readPluginInformation($pl_dir, $file);
+                if (!is_null($plugin)) {
                     $plugins[] = $plugin;
                 }
             }
         }
 
         return $plugins;
+    }
+
+    public function getPluginInformationFor(string $name) : ?array
+    {
+        $pl_dir = $this->getPluginsDirectory();
+
+        return $this->readPluginInformation($pl_dir, $name);
+    }
+
+    protected function readPluginInformation(string $pl_dir, string $file) : ?array
+    {
+        global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+        if (@is_dir($pl_dir . "/" . $file) && substr($file, 0, 1) != "." &&
+            $this->checkPluginPhpFileAvailability($file)
+        ) {
+            $plugin = ilPlugin::lookupStoredData(
+                $this->getComponentType(),
+                $this->getComponentName(),
+                $this->getSlotId(),
+                $file
+            );
+
+            // create record in il_plugin table (if not existing)
+            if (count($plugin) == 0) {
+                ilPlugin::createPluginRecord(
+                    $this->getComponentType(),
+                    $this->getComponentName(),
+                    $this->getSlotId(),
+                    $file
+                );
+
+                $plugin = ilPlugin::lookupStoredData(
+                    $this->getComponentType(),
+                    $this->getComponentName(),
+                    $this->getSlotId(),
+                    $file
+                );
+            }
+
+            $pdata = $ilPluginAdmin->getAllData(
+                $this->getComponentType(),
+                $this->getComponentName(),
+                $this->getSlotId(),
+                $file
+            );
+
+            $plugin = array_merge($plugin, $pdata);
+
+            $plugin["name"] = $file;
+            $plugin["plugin_php_file_status"] = $this->checkPluginPhpFileAvailability($file);
+            $plugin["class_file_status"] = $this->checkClassFileAvailability($file);
+            $plugin["class_file"] = $this->getPluginClassFileName($file);
+
+            return $plugin;
+        }
+        return null;
     }
     
     /**

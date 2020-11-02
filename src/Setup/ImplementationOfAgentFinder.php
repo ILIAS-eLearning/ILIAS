@@ -31,7 +31,7 @@ class ImplementationOfAgentFinder implements AgentFinder
     /**
      * @var \ilPluginRawReader|null
      */
-    //protected $plugin_raw_reader;
+    protected $plugin_raw_reader;
 
     /**
      * @var ImplementationOfInterfaceFinder|null
@@ -51,14 +51,14 @@ class ImplementationOfAgentFinder implements AgentFinder
         Data\Factory $data_factory,
         \ilSetupLanguage $lng,
         ImplementationOfInterfaceFinder $interface_finder,
-        //\ilPluginRawReader $plugin_raw_reader,
+        \ilPluginRawReader $plugin_raw_reader,
         array $predefined_agents = []
     ) {
         $this->refinery = $refinery;
         $this->data_factory = $data_factory;
         $this->lng = $lng;
         $this->interface_finder = $interface_finder;
-        //$this->plugin_raw_reader = $plugin_raw_reader;
+        $this->plugin_raw_reader = $plugin_raw_reader;
         $this->predefined_agents = $predefined_agents;
     }
 
@@ -72,7 +72,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         $agents = $this->getCoreAgents();
 
         // Get a list of existing plugins in the system.
-        $plugins = [];
+        $plugins = $this->plugin_raw_reader->getPluginNames();
 
         foreach ($plugins as $plugin_name) {
             $agents = $agents->withAdditionalAgent(
@@ -125,7 +125,40 @@ class ImplementationOfAgentFinder implements AgentFinder
      */
     public function getPluginAgent(string $name) : Agent
     {
-        throw new \LogicException("Not yet implemented.");
+        // TODO: This seems to be something that rather belongs to Services/Component/
+        // but we put it here anyway for the moment. This seems to be something that
+        // could go away when we unify Services/Modules/Plugins to one common concept.
+        $path = "[/]Customizing/global/plugins/*./*./" . $name . "/.*";
+        $agent_classes = iterator_to_array($this->interface_finder->getMatchingClassNames(
+            Agent::class,
+            [],
+            $path
+        ));
+
+        if (count($agent_classes) === 0) {
+            return new class($name) extends \ilPluginDefaultAgent {
+            };
+        }
+
+        $agents = [];
+        foreach ($agent_classes as $class_name) {
+            $agents[] = new $class_name(
+                $this->refinery,
+                $this->data_factory,
+                $this->lng
+            );
+        }
+
+        if (count($agents) === 1) {
+            return $agents[0];
+        }
+
+        return new AgentCollection(
+            $this->refinery,
+            $agents
+        );
+
+        return new \ilPluginDefaultAgent($name);
     }
 
     /**

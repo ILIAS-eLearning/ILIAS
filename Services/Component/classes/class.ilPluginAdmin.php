@@ -74,7 +74,6 @@ class ilPluginAdmin
             if (!is_file($plugin_php_file)) {
                 throw new ilPluginException("No plugin.php file found for Plugin :" . $a_pname . ".");
             }
-
             $plugin_db_data = ilPlugin::getPluginRecord($a_ctype, $a_cname, $a_slot_id, $a_pname);
             $plugin_data = $this->parsePluginPhp($plugin_php_file);
 
@@ -243,8 +242,9 @@ class ilPluginAdmin
             "ilias_max_version" => $ilias_max_version,
             "responsible" => $responsible,
             "responsible_mail" => $responsible_mail,
-            "learning_progress" => (bool) $learning_progress,
-            "supports_export" => (bool) $supports_export,
+            "learning_progress" => (bool) ($learning_progress ?? false),
+            "supports_export" => (bool) ($supports_export ?? false),
+            "supports_cli_setup" => (bool) ($supports_cli_setup ?? true)
         ];
 
         return $values;
@@ -513,7 +513,6 @@ class ilPluginAdmin
         return $this->data[$a_ctype][$a_cname][$a_slot_id][$a_pname]["supports_export"];
     }
 
-
     /**
      * Get info for all plugins.
      *
@@ -633,5 +632,56 @@ class ilPluginAdmin
                 yield $pl->getGlobalScreenProviderCollection();
             }
         }
+    }
+
+    public function getRawPluginDataFor(string $name) : ?array
+    {
+        $this->clearCachedData();
+
+        $modules = ilModule::getAvailableCoreModules();
+        $services = ilService::getAvailableCoreServices();
+
+        foreach ($this->getPluginSlots($modules, IL_COMP_MODULE) as $plugin_slot) {
+            $plugin = $plugin_slot->getPluginInformationFor($name);
+            if (!is_null($plugin)) {
+                return $plugin;
+            }
+        }
+
+        foreach ($this->getPluginSlots($services, IL_COMP_SERVICE) as $plugin_slot) {
+            $plugin = $plugin_slot->getPluginInformationFor($name);
+            if (!is_null($plugin)) {
+                return $plugin;
+            }
+        }
+
+        return null;
+    }
+
+    protected function getPluginSlots(array $components, string $type) : \Iterator
+    {
+        foreach ($this->getComponentSlotsByType($components, $type) as $slot) {
+            $subdir = (explode('/', $slot['component']))[1];
+            yield new ilPluginSlot($type, $subdir, $slot['id']);
+        }
+    }
+
+    protected function getComponentSlotsByType(array $components, string $type) : \Iterator
+    {
+        foreach ($components as $component) {
+            $component_slots = ilComponent::lookupPluginSlots($type, $component["subdir"]);
+            foreach ($component_slots as $component_slot) {
+                if (count($component_slot) > 0) {
+                    yield $component_slot;
+                }
+            }
+        }
+    }
+
+    final public function clearCachedData()
+    {
+        unset($this->data);
+        unset($this->got_data);
+        ilCachedComponentData::flush();
     }
 }
