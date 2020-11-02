@@ -1583,7 +1583,7 @@ class ilStartUpGUI
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    protected function showTermsOfService(bool $accepted = false)
+    protected function showTermsOfService(bool $accepted = false) : void
     {
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
