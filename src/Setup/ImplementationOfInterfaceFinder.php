@@ -45,13 +45,17 @@ class ImplementationOfInterfaceFinder
      * ignoring paths in self::$ignore and and the additional patterns provided.
      *
      * Patterns are regexps (without delimiters) to define complete paths on the
-     * filesystem to be ignored.
+     * filesystem to be ignored or selected.
      *
      * @param   string[] $additional_ignore
+     * @param   string $matching_path
      */
-    public function getMatchingClassNames(string $interface, array $additional_ignore = []) : \Iterator
-    {
-        foreach ($this->getAllClassNames($additional_ignore) as $class_name) {
+    public function getMatchingClassNames(
+        string $interface,
+        array $additional_ignore = [],
+        string $matching_path = null
+    ) : \Iterator {
+        foreach ($this->getAllClassNames($additional_ignore, $matching_path) as $class_name) {
             try {
                 $r = new \ReflectionClass($class_name);
                 if ($r->isInstantiable() && $r->implementsInterface($interface)) {
@@ -66,7 +70,7 @@ class ImplementationOfInterfaceFinder
     /**
      * @param   string[] $additional_ignore
      */
-    protected function getAllClassNames(array $additional_ignore) : \Iterator
+    protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
     {
         $ignore = array_merge($this->ignore, $additional_ignore);
 
@@ -84,10 +88,16 @@ class ImplementationOfInterfaceFinder
                 $ignore
             )
         );
+        if ($matching_path) {
+            $matching_path = str_replace('/', '(/|\\\\)', $matching_path);
+        }
 
 
         foreach ($this->classmap as $class_name => $file_path) {
             $path = str_replace($this->root, "", realpath($file_path));
+            if ($matching_path && !preg_match("#^" . $matching_path . "$#", $path)) {
+                continue;
+            }
             if (!preg_match("#^" . $regexp . "$#", $path)) {
                 yield $class_name;
             }
