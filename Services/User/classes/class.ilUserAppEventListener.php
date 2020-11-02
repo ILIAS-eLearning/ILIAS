@@ -26,9 +26,14 @@ class ilUserAppEventListener implements ilAppEventListener
             );
 
             $user = new ilObjUser($a_parameter['event']->getUsrId());
-            if($shouldDeleteAccountOnWithdrawal == 1 &&
-                ($user->getAuthMode() == AUTH_LOCAL || $user->getAuthMode() == 'default')
-            ) {
+            if ($shouldDeleteAccountOnWithdrawal == 1)
+                $defaultAuth = AUTH_LOCAL;
+                if ($DIC['ilSetting']->get('auth_mode')) {
+                    $defaultAuth = $DIC['ilSetting']->get('auth_mode');
+                }
+
+                if ($user->getAuthMode() != AUTH_LDAP
+                    || ($user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP) ) {
                 $user->delete();
             }
         }

@@ -192,7 +192,7 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
                     $footer = $footer->withAdditionalModalAndTrigger(
                         $f->modal()->roundtrip(
                             $entity->getTitle(),
-                            $f->legacy( $entity->getText() . $tos_gui->getWithdrawalSectionForModal()->get() )
+                            $f->legacy($entity->getText() . $tos_gui->getWithdrawalSectionForModal()->get())
                         ),
                         $f->button()->shy($this->dic->language()->txt('usr_agreement'), '#')
                     );

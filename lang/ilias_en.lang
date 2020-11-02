@@ -1965,6 +1965,8 @@ common#:#deny_usr_agreement#:#Do not accept terms of service?
 common#:#deny_usr_agreement_btn#:#Not Accept
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
+common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nKind regards\n\n
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)

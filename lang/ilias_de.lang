@@ -2363,6 +2363,9 @@ common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
 common#:#deny_usr_agreement_btn#:#Ablehnen
 common#:#withdrawal_complete_deleted#:#Widerrufsvorgang abgeschlossen. Der Nutzeraccount wurde gelöscht.
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang abgeschlossen. Zur Löschung des Accounts bitte Kontakt zu Ihrer Organisation aufnehmen.
+common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsbedingungen
+common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,\n\n hiermit widerrufe ich mein Einverständnis in die Nutzungsbedingungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.\n\nMit freundlichen Grüßen\n\n
+common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:\n\n
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.

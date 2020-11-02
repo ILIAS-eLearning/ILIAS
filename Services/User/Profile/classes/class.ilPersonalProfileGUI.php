@@ -11,6 +11,11 @@
  */
 class ilPersonalProfileGUI
 {
+    /**
+     * @var ilAppEventHandler
+     */
+    private $eventHandler;
+
     public $tpl;
 
     /**
@@ -61,6 +66,7 @@ class ilPersonalProfileGUI
         $this->setting = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
+        $this->eventHandler = $DIC['ilAppEventHandler'];
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
@@ -95,7 +101,7 @@ class ilPersonalProfileGUI
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        
+
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
@@ -534,9 +540,28 @@ class ilPersonalProfileGUI
         $this->tabs->clearSubTabs();
         $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
+        $defaultAuth = AUTH_LOCAL;
+        if ($this->setting->get('auth_mode')) {
+            $defaultAuth = $this->setting->get('auth_mode');
+        }
+
         $tpl = new \ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
-        $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
-        $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this));
+        /** @var ilObjUser $user */
+        $user = $GLOBALS['DIC']->user();
+        if ( $user->getAuthMode() == AUTH_LDAP
+            || ( $user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP) )
+        {
+            $message = nl2br(
+                $this->lng->txt('withdrawal_mail_info')
+                . $this->lng->txt('withdrawal_mail_text')
+            );
+
+            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $message);
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptanceLDAP]'));
+        } else {
+            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptance]'));
+        }
 
         $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
         $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
@@ -555,15 +580,14 @@ class ilPersonalProfileGUI
 
     protected function withdrawAcceptance() : void
     {
-        global $DIC;
-        $document = $this->termsOfServiceEvaluation->document();
         $helper = new \ilTermsOfServiceHelper();
-        $helper->resetAcceptance($this->user, $document);
+        $helper->resetAcceptance($this->user);
 
-        $shouldDeleteAccountOnWithdrawal = $DIC->settings()->get(
+        $shouldDeleteAccountOnWithdrawal = $this->setting->get(
             'tos_withdrawal_usr_deletion',
             false
         );
+
         if($shouldDeleteAccountOnWithdrawal == 1 &&
             ($this->user->getAuthMode() == AUTH_LOCAL || $this->user->getAuthMode() == 'default')
         ) {
@@ -572,14 +596,59 @@ class ilPersonalProfileGUI
             $accdel = 0;
         }
 
-            $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
-        $ilAppEventHandler->raise('Services/TermsOfService', 'ilTermsOfServiceEventWithdrawn', ['event' => $domainEvent]);
+        $this->eventHandler->raise(
+            'Services/TermsOfService',
+            'ilTermsOfServiceEventWithdrawn',
+            ['event' => $domainEvent]
+        );
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
 
         ilUtil::redirect("login.php?wdtdel=".$accdel."&cmd=force_login");
+    }
+
+    protected function withdrawAcceptanceLDAP() : void
+    {
+        $document = $this->termsOfServiceEvaluation->document();
+        $helper = new \ilTermsOfServiceHelper();
+        $helper->resetAcceptance($this->user);
+
+        /** @var ilObjUser $user */
+        $user = $GLOBALS['DIC']->user();
+        $mail = new ilMail($user->getId()); // default sender
+
+        $subject = $this->lng->txt('withdrawal_mail_subject');
+        $message  = "\n\n";
+        $message .= $this->lng->txt('withdrawal_mail_subject');
+        $message .= "\n\n";
+        $message .= $this->lng->txt('withdrawal_mail_text');
+        $message .= "\n\n";
+        $message .= "Name: " . $user->getFullname() . "\n\n";
+        $message .= "(Login: " . $user->getLogin() . " )\n\n";
+        $message .= $mail->appendInstallationSignature(true);
+
+        $mail->enqueue(
+            $GLOBALS['DIC']->settings()->get('admin_mail'),
+            '',
+            '',
+            $subject,
+            $message,
+            []
+        );
+
+        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
+        $this->eventHandler->raise(
+            'Services/TermsOfService',
+            'ilTermsOfServiceEventWithdrawn',
+            ['event' => $domainEvent]
+        );
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $GLOBALS['DIC']['ilAuthSession']->logout();
+
+        ilUtil::redirect("login.php?wdtdel=0&cmd=force_login");
     }
 
     /**

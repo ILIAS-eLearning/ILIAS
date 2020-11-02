@@ -236,12 +236,8 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        if(array_key_exists('wdtdel', $this->httpRequest->getQueryParams())) {
-            if($this->httpRequest->getQueryParams()['wdtdel'] == 1) {
-                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_deleted'));
-            } else {
-                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_redirect'));
-            }
+        if (array_key_exists('wdtdel', $this->httpRequest->getQueryParams())) {
+            ilTermsOfServiceHelper::setWithdrawalInfo($this->httpRequest);
         }
 
         self::printToGlobalTemplate($tpl);
@@ -1271,20 +1267,12 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
-
-        $withdrawal_appendage_text = '';
-        $withdrawal_relogin = ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0);
-        if($withdrawal_relogin !== 0) {
-            $withdrawal_appendage_text = '<br /><br />';
-            if($withdrawal_relogin == 'internal') {
-                $withdrawal_appendage_text .= $lng->txt('withdraw_consent_description_internal');
-            } else {
-                $withdrawal_appendage_text .= $lng->txt('withdraw_consent_description_external');
-            }
-        }
+        $withdrawal_appendage_text = ilTermsOfServiceHelper::appendWithdrawalText(
+            ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
+        );
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
-        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text").$withdrawal_appendage_text);
+        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text") . $withdrawal_appendage_text);
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
@@ -1316,15 +1304,8 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-
-        if(isset($_GET['withdraw_consent'])) {
-            //handling withdrawal of consent request to be able to catch it on relog
-            $user->writePref('consent_withdrawal_requested', 1);
-            if(ilSession::get('used_external_auth')) {
-                $this->ctrl->setParameter($this, 'withdrawal_relogin_content', 'external');
-            } else {
-                $this->ctrl->setParameter($this, 'withdrawal_relogin_content', 'internal');
-            }
+        if (null != $this->httpRequest->getAttribute('withdraw_consent')) {
+            ilTermsOfServiceHelper::handleWithdrawalRequest($user, $this);
         }
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
@@ -1543,24 +1524,23 @@ class ilStartUpGUI
     /**
      * Get terms of service
      */
-    protected function getAcceptance()
+    protected function getAcceptance() : void
     {
         $this->showTermsOfService();
     }
 
-    protected function confirmAcceptance()
+    protected function confirmAcceptance() : void
     {
         $this->showTermsOfService(true);
     }
 
-    // Show terms of service and modal to confirm withdrawal
-    protected function confirmWithdrawal()
+    protected function confirmWithdrawal() : void
     {
         if (!$this->user->getId()) {
             $this->user->setId(ANONYMOUS_USER_ID);
         }
         $back_to_login = false;
-        if($this->user->getPref('consent_withdrawal_requested') != 1) {
+        if ($this->user->getPref('consent_withdrawal_requested') != 1) {
             $back_to_login = true;
         }
         $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
@@ -1572,17 +1552,17 @@ class ilStartUpGUI
                 if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
                     $helper = new \ilTermsOfServiceHelper();
                     $helper->deleteAcceptanceHistoryByUser($this->user);
-                        ilUtil::redirect('logout.php');
-                    }
+                    ilUtil::redirect('logout.php');
                 }
+            }
 
-                $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-                $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
-                $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
-                $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+            $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+            $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+            $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 
-                $tpl->setPermanentLink('usr', null, 'agreement');
-                $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+            $tpl->setPermanentLink('usr', null, 'agreement');
+            $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
         } else {
             $tpl->setVariable(
                 'TERMS_OF_SERVICE_CONTENT',
@@ -1644,7 +1624,6 @@ class ilStartUpGUI
                         )
                     )
                 );
-                //$tpl->setVariable('TXT_NEGATIVE_SUBMIT', $this->lng->txt('deny_usr_agreement_btn'));
             }
 
             $tpl->setPermanentLink('usr', null, 'agreement');
