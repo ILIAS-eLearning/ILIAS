@@ -16220,3 +16220,5 @@ survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#mainbar_more_label#:#Mehr
+lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
+lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
