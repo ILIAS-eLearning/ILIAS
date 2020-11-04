@@ -43,16 +43,19 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     /**
      * @inheritdoc
      */
-    protected function getMailContextOptions()
+    protected function getMailContextOptions() : array
     {
-        $context_options = [];
+        $context_options = [
+            ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
+            'ref_id' => $this->getParentObject()->getRefId(),
+            'ts' => time(),
+            ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(
+                $this->getParentObject()->getId(),
+                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX,
+                ''
+            ),
+        ];
 
-        $context_options =
-            [
-                ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
-                'ref_id' => $this->getParentObject()->getRefId(),
-                'ts' => time()
-            ];
         return $context_options;
     }
 
