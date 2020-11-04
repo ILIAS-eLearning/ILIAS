@@ -99,7 +99,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // This is a list of all agent classes in the system (which we don't want to ignore).
         $agent_classes = $this->interface_finder->getMatchingClassNames(
             Agent::class,
-            ["[/]Customizing/.*]"]
+            ["[/]Customizing/.*"]
         );
         foreach ($agent_classes as $class_name) {
             $agents = $agents->withAdditionalAgent(
@@ -128,7 +128,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify Services/Modules/Plugins to one common concept.
-        $path = "[/]Customizing/global/plugins/*./*./" . $name . "/.*";
+        $path = "[/]Customizing/global/plugins/.*/.*/" . $name . "/.*";
         $agent_classes = iterator_to_array($this->interface_finder->getMatchingClassNames(
             Agent::class,
             [],
