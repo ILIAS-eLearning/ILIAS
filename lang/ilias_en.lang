@@ -16247,3 +16247,29 @@ lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 common#:#back_to_course#:#Back to Course
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+common#:#obj_peac#:#Accordion
+common#:#obj_peadl#:#Advanced List
+common#:#obj_peadt#:#Advanced Table
+common#:#obj_pecd#:#Code
+common#:#obj_pech#:#Consultation Hour
+common#:#obj_pecl#:#Column Layout
+common#:#obj_peclp#:#Clipboard
+common#:#obj_pecom#:#Competences
+common#:#obj_pecrs#:#Course
+common#:#obj_pecrt#:#Certificate
+common#:#obj_pecs#:#Content Snippet
+common#:#obj_pedt#:#Data Table
+common#:#obj_pefl#:#File List
+common#:#obj_peim#:#interactive Media
+common#:#obj_pelh#:#Learning History
+common#:#obj_pemed#:#Image/Audio/Video
+common#:#obj_pemp#:#Map
+common#:#obj_pepd#:#Personal Data
+common#:#obj_pepe#:#Plugin Element
+common#:#obj_pepl#:#Page List
+common#:#obj_peplh#:#Placeholder
+common#:#obj_pequ#:#Questions
+common#:#obj_perl#:#Ressource List
+common#:#obj_pesc#:#Section
+common#:#obj_petmp#:#Page Template
+common#:#obj_peusr#:#User

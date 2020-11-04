@@ -130,6 +130,32 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::CMIS
         ,self::TASK
         ,self::REP
+        ,self::PEAC
+        ,self::PEADL
+        ,self::PEADT
+        ,self::PECD
+        ,self::PECH
+        ,self::PECL
+        ,self::PECLP
+        ,self::PECOM
+        ,self::PECRS
+        ,self::PECRT
+        ,self::PECS
+        ,self::PEDT
+        ,self::PEFL
+        ,self::PEIM
+        ,self::PELH
+        ,self::PEMED
+        ,self::PEMP
+        ,self::PEPD
+        ,self::PEPE
+        ,self::PEPL
+        ,self::PEPLH
+        ,self::PEQU
+        ,self::PERL
+        ,self::PESC
+        ,self::PETMP
+        ,self::PEUSR
     );
 
     public function __construct($name, $aria_label, $size, $is_disabled)
