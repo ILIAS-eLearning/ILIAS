@@ -4851,3 +4851,18 @@ if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
     $ilDB->addIndex('tax_tree', ['child'], 'i1');
 }
 ?>
+<#5706>
+<?php
+if (!$ilDB->tableColumnExists("skl_profile", "ref_id")) {
+    $ilDB->addTableColumn("skl_profile", "ref_id", array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 4
+    ));
+}
+?>
+<#5707>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
