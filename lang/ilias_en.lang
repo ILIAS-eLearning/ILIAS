@@ -16212,3 +16212,5 @@ survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#mainbar_more_label#:#More
+common#:#obj_wbdv#:#WebDAV
+common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.

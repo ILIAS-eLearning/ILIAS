@@ -16213,3 +16213,5 @@ survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#mainbar_more_label#:#Mehr
+common#:#obj_wbdv#:#WebDAV
+common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
