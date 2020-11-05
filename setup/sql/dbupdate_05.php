@@ -4888,3 +4888,12 @@ if ($ilDB->tableExists('skl_usage')) {
     }
 }
 ?>
+<#5709>
+<?php
+if (!$db->tableColumnExists('file_data', 'rid')) {
+    $db->addTableColumn('file_data', 'rid', [
+        'type' => 'text',
+        'length' => 255
+    ]);
+}
+?>
