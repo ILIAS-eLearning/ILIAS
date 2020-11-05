@@ -5,7 +5,7 @@
 include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
-* Class ilObjLinkResourceGUI
+* Class ilLinkResourceItems
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$

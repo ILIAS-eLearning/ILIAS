@@ -7917,10 +7917,17 @@ webr#:#webr_edit_settings#:#Edit Settings
 webr#:#webr_inactive_success#:#The chosen link is deactivated.
 webr#:#webr_link_added#:#A new link has been created.
 webr#:#webr_link_target#:#Weblink Target
-webr#:#webr_link_title#:#Weblink Name
+webr#:#webr_link_title#:#Weblink Name / Weblink List Name
+webr#:#webr_link_type_single#:#Single Weblink
+webr#:#webr_link_type_list#:#Weblink List
+webr#:#webr_list_added#:#A new weblink list has been created.
 webr#:#webr_list_desc#:#Description of Weblink List
+webr#:#webr_list_set#:#The weblink has been set to a weblink list.
 webr#:#webr_list_title#:#Title of Weblink List
 webr#:#webr_new_link#:#Add New Weblink
+webr#:#webr_new_list#:#Add New Weblink List
+webr#:#webr_new_list_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
+webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
@@ -16247,3 +16254,29 @@ lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 common#:#back_to_course#:#Back to Course
 skmg#:#skmg_context_global#:#Global
 skmg#:#skmg_context_local#:#Local
+common#:#obj_peac#:#Accordion
+common#:#obj_peadl#:#Advanced List
+common#:#obj_peadt#:#Advanced Table
+common#:#obj_pecd#:#Code
+common#:#obj_pech#:#Consultation Hour
+common#:#obj_pecl#:#Column Layout
+common#:#obj_peclp#:#Clipboard
+common#:#obj_pecom#:#Competences
+common#:#obj_pecrs#:#Course
+common#:#obj_pecrt#:#Certificate
+common#:#obj_pecs#:#Content Snippet
+common#:#obj_pedt#:#Data Table
+common#:#obj_pefl#:#File List
+common#:#obj_peim#:#interactive Media
+common#:#obj_pelh#:#Learning History
+common#:#obj_pemed#:#Image/Audio/Video
+common#:#obj_pemp#:#Map
+common#:#obj_pepd#:#Personal Data
+common#:#obj_pepe#:#Plugin Element
+common#:#obj_pepl#:#Page List
+common#:#obj_peplh#:#Placeholder
+common#:#obj_pequ#:#Questions
+common#:#obj_perl#:#Ressource List
+common#:#obj_pesc#:#Section
+common#:#obj_petmp#:#Page Template
+common#:#obj_peusr#:#User

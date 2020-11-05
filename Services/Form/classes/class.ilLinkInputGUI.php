@@ -16,6 +16,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 {
     const EXTERNAL_LINK_MAX_LENGTH = 200;
 
+    const LIST = "list";
     const BOTH = "both";
     const INT = "int";
     const EXT = "ext";
@@ -59,9 +60,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     }
     
     /**
-     * Set allowed link types (BOTH, INT, EXT)
+     * Set allowed link types (LIST, BOTH, INT, EXT)
      *
-     * @param string $a_val self::BOTH|self::INT|self::EXT
+     * @param string $a_val self::LIST|self::BOTH|self::INT|self::EXT
      */
     public function setAllowedLinkTypes($a_val)
     {
@@ -69,9 +70,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     }
     
     /**
-     * Get allowed link types (BOTH, INT, EXT)
+     * Get allowed link types (LIST, BOTH, INT, EXT)
      *
-     * @return string self::BOTH|self::INT|self::EXT
+     * @return string self::LIST|self::BOTH|self::INT|self::EXT
      */
     public function getAllowedLinkTypes()
     {
@@ -256,6 +257,10 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         // return false;
         
         if ($this->getRequired()) {
+            if ($_POST[$this->getPostVar() . "_mode_type"] == "list") {
+                return true;
+            }
+
             switch ($_POST[$this->getPostVar() . "_mode"]) {
                 case "ext":
                     if (!$_POST[$this->getPostVar()]) {
@@ -310,7 +315,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         $ilCtrl = $this->ctrl;
         
         // parse settings
-        $has_int = $has_ext = $has_radio = false;
+        $has_int = $has_ext = $has_radio = $has_list = false;
         switch ($this->getAllowedLinkTypes()) {
             case self::EXT:
                 $has_ext = true;
@@ -324,6 +329,13 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 $has_int = true;
                 $has_ext = true;
                 $has_radio = true;
+                break;
+
+            case self::LIST:
+                $has_int = true;
+                $has_ext = true;
+                $has_radio = true;
+                $has_list = true;
                 break;
         }
         if (!$this->getRequired()) {
@@ -390,6 +402,27 @@ class ilLinkInputGUI extends ilFormPropertyGUI
             }
         }
 
+        // list mode
+        if ($has_list) {
+            $mode_type = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode_type");
+            $mode_single = new ilRadioOption($lng->txt("webr_link_type_single"), "single");
+            $mode_type->addOption($mode_single);
+            $mode_list = new ilRadioOption($lng->txt("webr_link_type_list"), "list");
+            $mode_type->addOption($mode_list);
+            $mode = new ilRadioGroupInputGUI($lng->txt("webr_link_target"), $this->getPostVar()."_mode");
+            if (!$this->getRequired()) {
+                $no = new ilRadioOption($lng->txt("form_no_link"), "no");
+                $mode->addOption($no);
+            }
+            $ext = new ilRadioOption($lng->txt("form_link_external"), "ext");
+            $ext->addSubItem($ti);
+            $int = new ilRadioOption($lng->txt("form_link_internal"), "int");
+            $int->addSubItem($ne);
+            $mode->addOption($ext);
+            $mode->addOption($int);
+            $mode_single->addSubItem($mode);
+        }
+
         // value
         $value = $this->getValue();
         if ($value) {
@@ -438,6 +471,9 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                     '<div class="help-block">' . $ne->getInfo() . '</div>';
             }
         }
+        if ($has_list) {
+            $html = $mode_type->render();
+        }
 
         // js for internal link
         if ($has_int) {
@@ -453,7 +489,8 @@ class ilLinkInputGUI extends ilFormPropertyGUI
     public function getContentOutsideFormTag()
     {
         if ($this->getAllowedLinkTypes() == self::INT ||
-            $this->getAllowedLinkTypes() == self::BOTH) {
+            $this->getAllowedLinkTypes() == self::BOTH ||
+            $this->getAllowedLinkTypes() == self::LIST) {
             // as the ajax-panel uses a form it has to be outside of the parent form!
             return ilInternalLinkGUI::getInitHTML("");
         }
