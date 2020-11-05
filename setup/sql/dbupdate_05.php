@@ -4782,3 +4782,10 @@ if (!$ilDB->tableExists('il_dcl_stloc3_default')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5699>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('wbdv', 'WebDAV');
+$ilCtrlStructureReader->getStructure();
+// END MME
+?>
