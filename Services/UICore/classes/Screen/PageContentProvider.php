@@ -181,23 +181,8 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
 
             $footer = $f->mainControls()->footer($links, $text);
 
-            if (
-                !$this->dic->user()->isAnonymous() &&
-                (int) $this->dic->user()->getId() > 0 &&
-                $this->dic->user()->getAgreeDate()) {
-                $helper = new \ilTermsOfServiceHelper();
-                $entity = $helper->getCurrentAcceptanceForUser($this->dic->user());
-                if ($entity->getId()) {
-                    $tos_gui = new \ilObjTermsOfServiceGUI();
-                    $footer = $footer->withAdditionalModalAndTrigger(
-                        $f->modal()->roundtrip(
-                            $entity->getTitle(),
-                            $f->legacy($entity->getText() . $tos_gui->getWithdrawalSectionForModal()->get())
-                        ),
-                        $f->button()->shy($this->dic->language()->txt('usr_agreement'), '#')
-                    );
-                }
-            }
+            $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+            $footer = $tos_withdrawal_helper->modifyFooter($footer);
 
             if (self::$perma_link !== "") {
                 $footer = $footer->withPermanentURL(new URI(self::$perma_link));

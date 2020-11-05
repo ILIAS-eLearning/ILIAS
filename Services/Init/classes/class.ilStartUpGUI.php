@@ -39,6 +39,8 @@ class ilStartUpGUI
     /** @var ServerRequestInterface*/
     protected $httpRequest;
 
+    /** @var \ILIAS\DI\Container $dic */
+    protected $dic;
     /**
      * ilStartUpGUI constructor.
      * @param \ilObjUser|null              $user
@@ -53,6 +55,8 @@ class ilStartUpGUI
         ServerRequestInterface $httpRequest = null
     ) {
         global $DIC;
+
+        $this->dic = $DIC;
 
         if ($user === null) {
             $user = $DIC->user();
@@ -1611,15 +1615,15 @@ class ilStartUpGUI
                         ilUtil::redirect('index.php?target=' . $_GET['target'] . '&client_id=' . CLIENT_ID);
                     }
                 }
-                global $DIC;
+
                 $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
                 $tpl->setVariable('TXT_ACCEPT', $this->lng->txt('accept_usr_agreement_btn'));
                 $tpl->setVariable('DENY_TERMS_OF_SERVICE', $this->lng->txt('deny_usr_agreement'));
                 $tpl->setVariable('DENIAL_BUTTON',
-                    $DIC->ui()->renderer()->render(
-                        $DIC->ui()->factory()->button()->standard(
-                            $DIC->language()->txt('deny_usr_agreement_btn'),
+                    $this->dic->ui()->renderer()->render(
+                        $this->dic->ui()->factory()->button()->standard(
+                            $this->dic->language()->txt('deny_usr_agreement_btn'),
                             'logout.php?withdraw_consent'
                         )
                     )

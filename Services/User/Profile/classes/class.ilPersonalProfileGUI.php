@@ -540,34 +540,10 @@ class ilPersonalProfileGUI
         $this->tabs->clearSubTabs();
         $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
-        $defaultAuth = AUTH_LOCAL;
-        if ($this->setting->get('auth_mode')) {
-            $defaultAuth = $this->setting->get('auth_mode');
-        }
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        $content = $tos_withdrawal_helper->getConsentWithdrawalConfirmation();
 
-        $tpl = new \ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
-        /** @var ilObjUser $user */
-        $user = $GLOBALS['DIC']->user();
-        if ( $user->getAuthMode() == AUTH_LDAP
-            || ( $user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP) )
-        {
-            $message = nl2br(
-                $this->lng->txt('withdrawal_mail_info')
-                . $this->lng->txt('withdrawal_mail_text')
-            );
-
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $message);
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptanceLDAP]'));
-        } else {
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptance]'));
-        }
-
-        $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
-        $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
-        $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
-
-        $this->tpl->setContent($tpl->get());
+        $this->tpl->setContent($content);
         $this->tpl->setPermanentLink('usr', null, 'agreement');
         $this->tpl->printToStdout();
     }
