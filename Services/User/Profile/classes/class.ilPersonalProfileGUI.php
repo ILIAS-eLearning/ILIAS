@@ -582,7 +582,7 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
 
-        ilUtil::redirect("login.php?wdtdel=".$accdel."&cmd=force_login");
+        $this->ctrl::redirectToUrl('login.php?wdtdel=".$accdel."&cmd=force_login');
     }
 
     protected function withdrawAcceptanceLDAP() : void
@@ -624,7 +624,7 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
 
-        ilUtil::redirect("login.php?wdtdel=0&cmd=force_login");
+        $this->ctrl->redirectToUrl('login.php?wdtdel=0&cmd=force_login');
     }
 
     /**

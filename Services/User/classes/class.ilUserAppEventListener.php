@@ -26,7 +26,7 @@ class ilUserAppEventListener implements ilAppEventListener
             );
 
             $user = new ilObjUser($a_parameter['event']->getUsrId());
-            if ($shouldDeleteAccountOnWithdrawal == 1)
+            if ((bool) $shouldDeleteAccountOnWithdrawal)
                 $defaultAuth = AUTH_LOCAL;
                 if ($DIC['ilSetting']->get('auth_mode')) {
                     $defaultAuth = $DIC['ilSetting']->get('auth_mode');

@@ -265,9 +265,13 @@ class ilTermsOfServiceHelper
         }
 
         $external = false;
-        if ($user->getAuthMode() == AUTH_PROVIDER_LTI || $user->getAuthMode() == AUTH_ECS
-            || ( $user->getAuthMode() == 'default' && $defaultAuth == AUTH_PROVIDER_LTI )
-            || ( $user->getAuthMode() == 'default' && $defaultAuth == AUTH_ECS) ) {
+        if (
+            $user->getAuthMode() == AUTH_PROVIDER_LTI ||
+            $user->getAuthMode() == AUTH_ECS || (
+                $user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI
+            ) || (
+                $user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+            ) {
             $external = true;
         }
         $user->writePref('consent_withdrawal_requested', 1);

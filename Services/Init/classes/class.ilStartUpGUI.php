@@ -1272,7 +1272,7 @@ class ilStartUpGUI
         }
 
         $withdrawal_appendage_text = ilTermsOfServiceHelper::appendWithdrawalText(
-            ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
+            (int) ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
         );
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
@@ -1552,11 +1552,11 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('confirmWithdrawal' == $this->ctrl->getCmd()) {
-                if (isset($_POST['status']) && 'withdrawn' == $_POST['status']) {
+            if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
+                if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
                     $helper = new \ilTermsOfServiceHelper();
                     $helper->deleteAcceptanceHistoryByUser($this->user);
-                    ilUtil::redirect('logout.php');
+                    $this->ctrl->redirectToUrl('logout.php');
                 }
             }
 
@@ -1587,7 +1587,7 @@ class ilStartUpGUI
      * @throws ilTermsOfServiceNoSignableDocumentFoundException
      * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    protected function showTermsOfService(bool $accepted = false)
+    protected function showTermsOfService(bool $accepted = false) : void
     {
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
@@ -1600,8 +1600,10 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('confirmAcceptance' == $this->ctrl->getCmd() ||
-            'getAcceptance' == $this->ctrl->getCmd()) {
+            if (
+                'confirmAcceptance' === $this->ctrl->getCmd() ||
+                'getAcceptance' === $this->ctrl->getCmd()
+            ) {
                 if ($accepted) {
                     $helper = new \ilTermsOfServiceHelper();
 

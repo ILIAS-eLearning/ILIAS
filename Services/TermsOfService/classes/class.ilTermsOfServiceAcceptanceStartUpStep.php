@@ -38,9 +38,11 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
         $cmd = $this->dic->ctrl()->getCmd();
         return (
             strtolower($this->dic->ctrl()->getCmdClass()) === 'ilstartupgui' &&
-            ( strtolower($this->dic->ctrl()->getCmd()) === 'getacceptance' ||
-              strtolower($this->dic->ctrl()->getCmd()) === 'confirmacceptance' ||
-              strtolower($this->dic->ctrl()->getCmd()) === 'confirmwithdrawal' )
+            (
+                strtolower($this->dic->ctrl()->getCmd()) === 'getacceptance' ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'confirmacceptance' ||
+                strtolower($this->dic->ctrl()->getCmd()) === 'confirmwithdrawal' 
+            )
         );
     }
 
