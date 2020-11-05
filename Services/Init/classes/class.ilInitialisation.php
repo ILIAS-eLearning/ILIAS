@@ -17,7 +17,7 @@ use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
-use ILIAS\ResourceStorage\LockHandler\LockHandlerilDB;
+use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 
 require_once("libs/composer/vendor/autoload.php");
 

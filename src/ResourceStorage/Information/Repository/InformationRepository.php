@@ -4,7 +4,7 @@ namespace ILIAS\ResourceStorage\Information\Repository;
 
 use ILIAS\ResourceStorage\Information\Information;
 use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\LockHandler\LockingRepository;
+use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**
  * Interface InformationRepository

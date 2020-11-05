@@ -12,7 +12,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-use ILIAS\ResourceStorage\LockHandler\LockHandler;
+use ILIAS\ResourceStorage\Lock\LockHandler;
 
 /**
  * Class Services

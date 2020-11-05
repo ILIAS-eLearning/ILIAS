@@ -4,7 +4,7 @@ namespace ILIAS\ResourceStorage\Stakeholder\Repository;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
-use ILIAS\ResourceStorage\LockHandler\LockingRepository;
+use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**
  * Interface StakeholderRepository

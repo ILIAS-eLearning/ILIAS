@@ -6,7 +6,7 @@ use Generator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\StorableResource;
-use ILIAS\ResourceStorage\LockHandler\LockingRepository;
+use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**
  * Interface ResourceRepository

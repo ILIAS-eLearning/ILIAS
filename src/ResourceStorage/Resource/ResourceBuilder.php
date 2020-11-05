@@ -14,7 +14,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-use ILIAS\ResourceStorage\LockHandler\LockHandler;
+use ILIAS\ResourceStorage\Lock\LockHandler;
 
 /**
  * Class ResourceBuilder
