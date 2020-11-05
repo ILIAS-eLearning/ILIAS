@@ -20,25 +20,21 @@ interface Factory
      *      Mode View Controls enable the switching between different aspects of some data. The different modes are mutually
      *      exclusive and can therefore not be activated at once.
      *   composition: >
-     *      Mode View Controls are composed of Buttons switching between active and inactive states.
+     *      Mode View Controls are composed of Buttons switching between active/engaged and inactive states.
      *   effect: >
-     *      Clicking on an inactive Button turns this button active and all other inactive. Clicking on an active button
-     *      has no effect.
-     *
+     *      Clicking on an inactive Button turns this button active/engaged and all other inactive.
+     *      Clicking on an active/engaged button has no effect.
      * rules:
      *   usage:
-     *      1: Exactly one Button MUST always be active.
+     *      1: Exactly one Button MUST always be active/engaged.
      *   accessibility:
      *      1: The HTML container enclosing the buttons of the Mode View Control MUST cary the role-attribute "group".
      *      2: The HTML container enclosing the buttons of the Mode View Control MUST set an aria-label describing the element. Eg. "Mode View Control"
      *      3: The Buttons of the Mode View Control MUST set an aria-label clearly describing what the button shows if clicked. E.g. "List View", "Month View", ...
-     *      4: The currently active Button must be labeled by setting aria-checked to "true".
-     *
      * ---
      * @param    array $labelled_actions Set of labelled actions (string|string)[]. The label of the action is used as key, the action itself as value.
      *          The first of the actions will be activated by default.
      * @param string $aria_label Defines the functionality.
-     *
      * @return \ILIAS\UI\Component\ViewControl\Mode
      */
     public function mode($labelled_actions, $aria_label);

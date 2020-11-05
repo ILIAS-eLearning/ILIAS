@@ -9,6 +9,6 @@ use \ILIAS\UI\Component\Counter\Counter;
 /**
  * This describes a standard button.
  */
-interface Primary extends Button, LoadingAnimationOnClick, Engageable
+interface Primary extends Button, LoadingAnimationOnClick
 {
 }

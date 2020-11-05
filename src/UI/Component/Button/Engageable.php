@@ -4,14 +4,11 @@
 
 namespace ILIAS\UI\Component\Button;
 
+use ILIAS\UI\Component\Component;
 /**
- * A Button can be stateful; when engaged, the state MUST be refelected
- * in the "aria-pressed"-, respectively the "aria-checked"-attribute.
- * If the Button is not stateful (which is the default), the aria-attribute can
- * be omitted.
- * https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
+ * Engegaeble Components can cary the engaged state.
  */
-interface Engageable
+interface Engageable extends Component
 {
     /**
      * Returns whether the button is stateful or not.

@@ -16,7 +16,6 @@ class Toggle extends Button implements C\Button\Toggle
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
-    use Engageable;
 
     /**
      * @var string|null

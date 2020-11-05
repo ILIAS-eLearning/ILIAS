@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Signal;
 /**
  * This describes commonalities between standard and primary buttons.
  */
-interface Button extends Component, JavaScriptBindable, Clickable, Hoverable
+interface Button extends Component, JavaScriptBindable, Clickable, Hoverable, Engageable
 {
     /**
      * Get the label on the button.

@@ -57,10 +57,10 @@ class Renderer extends AbstractComponentRenderer
             //At this point we don't have an specific text for the button aria label. component->getAriaLabel gets the main viewcontrol aria label.
             $button = $f->button()->standard($label, $action)->withAriaLabel($label);
             if ($activate_first_item) {
-                $button = $button->withEngagedState(true)->withUnavailableAction();
+                $button = $button->withEngagedState(true);
                 $activate_first_item = false;
             } elseif ($active == $label) {
-                $button = $button->withEngagedState(true)->withUnavailableAction();
+                $button = $button->withEngagedState(true);
             } else {
                 $button = $button->withEngagedState(false);
             }
@@ -73,8 +73,6 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderSection(Component\ViewControl\Section $component, RendererInterface $default_renderer)
     {
-        $f = $this->getUIFactory();
-
         $tpl = $this->getTemplate("tpl.section.html", true, true);
 
         // render middle button
