@@ -3,45 +3,20 @@
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\HTTP\Response\ResponseHeader;
-use ILIAS\ResourceStorage\StorableResource;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
  * Class InlineConsumer
- *
  * @package ILIAS\ResourceStorage\Consumer
  */
-class InlineConsumer implements DeliveryConsumer
+class InlineConsumer extends BaseConsumer implements DeliveryConsumer
 {
-
-    /**
-     * @var StorageHandler
-     */
-    private $storage_handler;
-    /**
-     * @var StorableResource
-     */
-    private $resource;
-
-
-    /**
-     * DownloadConsumer constructor.
-     *
-     * @param StorableResource $resource
-     * @param StorageHandler   $storage_handler
-     */
-    public function __construct(StorableResource $resource, StorageHandler $storage_handler)
-    {
-        $this->resource = $resource;
-        $this->storage_handler = $storage_handler;
-    }
-
 
     public function run() : void
     {
         global $DIC;
 
-        $revision = $this->resource->getCurrentRevision();
+        $revision = $this->getRevision();
+
         $file_name = $revision->getInformation()->getTitle();
         $mime_type = $revision->getInformation()->getMimeType();
 

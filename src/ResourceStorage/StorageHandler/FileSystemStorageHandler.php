@@ -4,10 +4,12 @@ namespace ILIAS\ResourceStorage\StorageHandler;
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\Location;
 use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Identification\UniqueIDIdentificationGenerator;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorableResource;
@@ -81,6 +83,27 @@ class FileSystemStorageHandler implements StorageHandler
         global $DIC;
 
         $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location, self::DATA);
+
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function storeStream(FileStreamRevision $revision) : bool
+    {
+        try {
+
+            if ($revision->keepOriginal()) {
+                $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $revision->getStream());
+
+            }else {
+                $this->fs->rename(LegacyPathHelper::createRelativePath($revision->getStream()->getMetadata('uri')), $this->getRevisionPath($revision) . '/' . self::DATA);
+//                $this->fs->delete();
+            }
+        } catch (\Throwable $t) {
+            return false;
+        }
 
         return true;
     }

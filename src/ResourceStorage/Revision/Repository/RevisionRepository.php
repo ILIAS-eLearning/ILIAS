@@ -2,18 +2,21 @@
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\LockHandler\LockingRepository;
 
 /**
  * Class RevisionARRepository
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface RevisionRepository
+interface RevisionRepository extends LockingRepository
 {
 
     /**
@@ -23,6 +26,8 @@ interface RevisionRepository
      * @return UploadedFileRevision
      */
     public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision;
+
+    public function blankFromStream(StorableResource $resource, FileStream $stream, bool $keep_original = false) : FileStreamRevision;
 
 
     /**

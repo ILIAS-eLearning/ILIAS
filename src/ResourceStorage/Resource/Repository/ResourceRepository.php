@@ -6,13 +6,14 @@ use Generator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\LockHandler\LockingRepository;
 
 /**
  * Interface ResourceRepository
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ResourceRepository
+interface ResourceRepository extends LockingRepository
 {
 
     /**

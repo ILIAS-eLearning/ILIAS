@@ -5,7 +5,7 @@ namespace ILIAS\ResourceStorage\Manager;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Resource\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\StorableResource;
 
@@ -42,6 +42,7 @@ class Manager
     {
         if ($result->isOK()) {
             $resource = $this->resource_builder->new($result);
+            $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
 
@@ -75,6 +76,8 @@ class Manager
 
             $resource = $this->resource_builder->get($identification);
             $revision = $this->resource_builder->append($resource, $result);
+            $resource->addStakeholder($stakeholder);
+
             $this->resource_builder->store($resource);
 
             return $revision;

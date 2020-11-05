@@ -6,7 +6,6 @@ use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Interface StreamConsumer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface StreamConsumer

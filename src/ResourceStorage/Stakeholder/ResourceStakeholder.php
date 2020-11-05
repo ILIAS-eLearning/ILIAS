@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Resource\Stakeholder;
+namespace ILIAS\ResourceStorage\Stakeholder;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 

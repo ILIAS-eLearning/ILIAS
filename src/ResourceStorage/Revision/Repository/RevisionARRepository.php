@@ -2,9 +2,11 @@
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
@@ -12,16 +14,18 @@ use ILIAS\ResourceStorage\StorableResource;
 
 /**
  * Class RevisionARRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class RevisionARRepository implements RevisionRepository
 {
+    public function getNameForLocking() : string
+    {
+        return (new ARRevision())->getConnectorContainerName();
+    }
 
     /**
      * @param StorableResource $resource
      * @param UploadResult     $result
-     *
      * @return UploadedFileRevision
      */
     public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision
@@ -33,6 +37,17 @@ class RevisionARRepository implements RevisionRepository
         return $revision;
     }
 
+    public function blankFromStream(
+        StorableResource $resource,
+        FileStream $stream,
+        bool $keep_original = false
+    ) : FileStreamRevision {
+        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+        $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setVersionNumber($new_version_number);
+
+        return $revision;
+    }
 
     /**
      * @param Revision $revision
@@ -44,7 +59,6 @@ class RevisionARRepository implements RevisionRepository
         $ar->setAvailable($revision->isAvailable());
         $ar->update();
     }
-
 
     /**
      * @inheritDoc
@@ -60,7 +74,6 @@ class RevisionARRepository implements RevisionRepository
         return $collection;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -73,10 +86,8 @@ class RevisionARRepository implements RevisionRepository
         }
     }
 
-
     /**
      * @param Revision $revision
-     *
      * @return string
      */
     private function getInternalID(Revision $revision) : string
@@ -84,10 +95,8 @@ class RevisionARRepository implements RevisionRepository
         return $revision->getIdentification()->serialize() . '_' . (string) $revision->getVersionNumber();
     }
 
-
     /**
      * @param Revision $revision
-     *
      * @return ARRevision
      */
     private function getAR(Revision $revision) : ARRevision
@@ -103,7 +112,6 @@ class RevisionARRepository implements RevisionRepository
 
         return $ar;
     }
-
 
     private function getRevisionFromAR(ARRevision $AR_revision) : Revision
     {

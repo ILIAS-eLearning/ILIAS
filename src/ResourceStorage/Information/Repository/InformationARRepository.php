@@ -8,11 +8,15 @@ use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Interface InformationRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class InformationARRepository implements InformationRepository
 {
+
+    public function getNameForLocking() : string
+    {
+        return (new ARInformation())->getConnectorContainerName();
+    }
 
     /**
      * @inheritDoc
@@ -21,7 +25,6 @@ class InformationARRepository implements InformationRepository
     {
         return new FileInformation();
     }
-
 
     /**
      * @inheritDoc
@@ -42,7 +45,6 @@ class InformationARRepository implements InformationRepository
         $r->update();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -61,7 +63,6 @@ class InformationARRepository implements InformationRepository
         return $i;
     }
 
-
     public function delete(Information $information, Revision $revision) : void
     {
         $internal = $this->getInternalID($revision);
@@ -71,10 +72,8 @@ class InformationARRepository implements InformationRepository
         }
     }
 
-
     /**
      * @param Revision $revision
-     *
      * @return string
      */
     protected function getInternalID(Revision $revision) : string

@@ -3,14 +3,18 @@
 namespace ILIAS\ResourceStorage\Resource;
 
 use Generator;
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\LockHandler\LockHandler;
 
 /**
  * Class ResourceBuilder
@@ -36,6 +40,14 @@ class ResourceBuilder
      * @var StorageHandler
      */
     private $storage_handler;
+    /**
+     * @var StakeholderRepository
+     */
+    private $stakeholder_repository;
+    /**
+     * @var LockHandler
+     */
+    private $lock_handler;
 
     /**
      * ResourceBuilder constructor.
@@ -43,13 +55,22 @@ class ResourceBuilder
      * @param RevisionRepository    $revision_repository
      * @param ResourceRepository    $resource_repository
      * @param InformationRepository $information_repository
+     * @param StakeholderRepository $stakeholder_repository
      */
-    public function __construct(StorageHandler $storage_handler, RevisionRepository $revision_repository, ResourceRepository $resource_repository, InformationRepository $information_repository)
-    {
-        $this->storage_handler        = $storage_handler;
-        $this->revision_repository    = $revision_repository;
-        $this->resource_repository    = $resource_repository;
+    public function __construct(
+        StorageHandler $storage_handler,
+        RevisionRepository $revision_repository,
+        ResourceRepository $resource_repository,
+        InformationRepository $information_repository,
+        StakeholderRepository $stakeholder_repository,
+        LockHandler $lock_handler
+    ) {
+        $this->storage_handler = $storage_handler;
+        $this->revision_repository = $revision_repository;
+        $this->resource_repository = $resource_repository;
         $this->information_repository = $information_repository;
+        $this->stakeholder_repository = $stakeholder_repository;
+        $this->lock_handler = $lock_handler;
     }
 
     /**
@@ -60,6 +81,13 @@ class ResourceBuilder
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
         return $this->append($resource, $result);
+    }
+
+    public function newFromStream(FileStream $stream, bool $keep_original = false) : StorableResource
+    {
+        $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+
+        return $this->appendFromStream($resource, $stream, $keep_original);
     }
 
     /**
@@ -82,6 +110,21 @@ class ResourceBuilder
         return $resource;
     }
 
+    public function appendFromStream(
+        StorableResource $resource,
+        FileStream $stream,
+        bool $keep_original = false,
+        int $explicit_version_number = null
+    ) : StorableResource {
+        $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
+        $info = $revision->getInformation();
+        $info->setTitle(basename($stream->getMetadata('uri')));
+        $resource->addRevision($revision);
+        $resource->setStorageID($this->storage_handler->getID());
+
+        return $resource;
+    }
+
     public function has(ResourceIdentification $identification) : bool
     {
         return $this->resource_repository->has($identification) && $this->storage_handler->has($identification);
@@ -92,15 +135,32 @@ class ResourceBuilder
      */
     public function store(StorableResource $resource) : void
     {
-        $this->resource_repository->store($resource);
+        $r = $this->lock_handler->lockTables([
+            $this->resource_repository->getNameForLocking(),
+            $this->revision_repository->getNameForLocking(),
+            $this->information_repository->getNameForLocking(),
+            $this->stakeholder_repository->getNameForLocking(),
 
-        foreach ($resource->getAllRevisions() as $revision) {
-            if ($revision instanceof UploadedFileRevision) {
-                $this->storage_handler->storeUpload($revision);
+        ], function () use ($resource) {
+            $this->resource_repository->store($resource);
+
+            foreach ($resource->getAllRevisions() as $revision) {
+                if ($revision instanceof UploadedFileRevision) {
+                    $this->storage_handler->storeUpload($revision);
+                }
+                if ($revision instanceof FileStreamRevision) {
+                    $this->storage_handler->storeStream($revision);
+                }
+                $this->revision_repository->store($revision);
+                $this->information_repository->store($revision->getInformation(), $revision);
             }
-            $this->revision_repository->store($revision);
-            $this->information_repository->store($revision->getInformation(), $revision);
-        }
+
+            foreach ($resource->getStakeholders() as $stakeholder) {
+                $this->stakeholder_repository->register($resource->getIdentification(), $stakeholder);
+            }
+        });
+
+        $r->runAndUnlock();
     }
 
     /**
@@ -125,6 +185,10 @@ class ResourceBuilder
         foreach ($resource->getAllRevisions() as $revision) {
             $information = $this->information_repository->get($revision);
             $revision->setInformation($information);
+        }
+
+        foreach ($this->stakeholder_repository->getStakeholders($resource->getIdentification()) as $s) {
+            $resource->addStakeholder($s);
         }
 
         return $resource;
