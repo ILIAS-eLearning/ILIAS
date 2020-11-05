@@ -32,6 +32,7 @@ function base()
                 . '  .demo_class_for_tags_color{background-color: #ff0000 !important; color: contrast(#ff0000) !important;}'
                 . '  .demo_class_for_tags_bold{font-weight: bold;}'
                 . '</style>';
+    $tag = $tag->withRelevance($tag::REL_VERYLOW);
     $buffer[] = $renderer->render(
         $tag->withClasses(array('demo_class_for_tags_color'))
     );

@@ -150,7 +150,7 @@ interface Factory
      *      bear text.
      *   effect: >
      *      On-click, the action indicated by the button is carried out.
-     *      A stateful button will indicate its state by an aria-attribute.
+     *      A stateful button will indicate its state with the engaged state.
      *   rivals:
      *      glyph: >
      *          Glyphs are used if the enclosing Container Collection can not provide
@@ -159,13 +159,11 @@ interface Factory
      *      links: >
      *          Links are used to trigger Interactions that do not change the systems
      *          status. They are usually contained inside a Navigational Collection.
-     *
      * background: >
      *      Wording rules have been inspired by the iOS Human Interface Guidelines
      *      (UI-Elements->Controls->System Button)
-     *
      *      Style rules have been inspired from the GNOME Human Interface Guidelines->Buttons.
-     *
+     *      Concerning aria-roles, see: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/button_role
      * rules:
      *   usage:
      *      1: >
@@ -180,6 +178,9 @@ interface Factory
      *      1: >
      *           If Text is used inside a Button, the Button MUST be at least six characters
      *           wide.
+     *      2: >
+     *           The Button MUST be designed in a way it is perceived as important and active,
+     *           but not clickable, if the Button is engaged.
      *   wording:
      *      1: >
      *           The caption of a Button SHOULD contain no more than two words.
@@ -210,6 +211,10 @@ interface Factory
      *      4: >
      *           All Buttons visible in a view MUST be accessible by keyboard by using the
      *           ‘Tab’-Key.
+     *      5: >
+     *          The engaged state MUST be reflected in the "aria-pressed" -, respectively
+     *          the "aria-checked"-attribute if active.
+     *          If the Button is not engaged (which is the default), the aria-attribute can be omitted.
      * ---
      * @return  \ILIAS\UI\Component\Button\Factory
      */

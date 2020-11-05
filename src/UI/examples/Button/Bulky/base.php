@@ -18,9 +18,7 @@ function base()
 
     return $renderer->render([
         $button,
-        $button->withEngagedState(true),
         $f->divider()->horizontal(),
-        $button2,
-        $button2->withEngagedState(true),
+        $button2
     ]);
 }

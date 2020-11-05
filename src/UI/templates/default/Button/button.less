@@ -41,9 +41,9 @@ input.btn{
     &:hover,
     &:active,
     &.active {
-      background-color: @il-disabled-btn-bg;
-      border-color: @il-disabled-btn-border;
-      color: @il-disabled-btn-color;
+      background-color: @il-engaged-btn-bg;
+      color: @il-engaged-btn-color;
+      cursor: default;
     }
   }
 }
@@ -78,26 +78,31 @@ a[disabled], a fieldset[disabled] & {
     margin: @btn-tag-margin;
     border-radius: @btn-tag-border-radius;
 
-	&.btn-tag-relevance-verylow {
-		background-color: @btn-tag-bg-relevance-verylow;
-		color: @btn-tag-fg-relevance-verylow;
-	}
-	&.btn-tag-relevance-low {
+  &.btn-tag-relevance-verylow {
+    border-color: @btn-tag-bg-relevance-verylow;
+    background-color: @btn-tag-bg-relevance-verylow;
+    color: @btn-tag-fg-relevance-verylow;
+  }
+  &.btn-tag-relevance-low {
+    border-color: @btn-tag-bg-relevance-low;
     background-color: @btn-tag-bg-relevance-low;
     color: @btn-tag-fg-relevance-low;
-	}
-	&.btn-tag-relevance-middle {
+  }
+  &.btn-tag-relevance-middle {
+    border-color: @btn-tag-bg-relevance-middle;
     background-color: @btn-tag-bg-relevance-middle;
     color: @btn-tag-fg-relevance-middle;
-	}
-	&.btn-tag-relevance-high {
+  }
+  &.btn-tag-relevance-high {
+    border-color: @btn-tag-bg-relevance-high;
     background-color: @btn-tag-bg-relevance-high;
     color: @btn-tag-fg-relevance-high;
-	}
-	&.btn-tag-relevance-veryhigh {
+  }
+  &.btn-tag-relevance-veryhigh {
+    border-color: @btn-tag-bg;
     background-color: @btn-tag-bg-relevance-veryhigh;
     color: @btn-tag-fg-relevance-veryhigh;
-	}
+  }
 }
 
 // shy buttons

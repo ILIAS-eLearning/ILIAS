@@ -141,7 +141,7 @@ class ilCalendarHeaderNavigationGUI
             $b2 = $ui->factory()->button()->standard(
                 $lng->txt("today"),
                 $this->ctrl->getLinkTarget($this->cmdClass, $this->cmd)
-            )->withUnavailableAction();
+            )->withEngagedState(true);
         } else {
             $b2 = $ui->factory()->button()->standard(
                 $lng->txt("today"),

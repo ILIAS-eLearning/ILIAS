@@ -13,8 +13,6 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class Bulky extends Button implements C\Button\Bulky
 {
-    use Engageable;
-
     // allowed ARIA roles
     const MENUITEM = 'menuitem';
 
