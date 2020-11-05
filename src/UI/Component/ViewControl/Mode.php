@@ -12,14 +12,14 @@ use \ILIAS\UI\Component\Component;
 interface Mode extends Component
 {
     /**
-     * set the currently active Button by label.
+     * set the currently active/engaged Button by label.
      *
      * @param string $label. The label of the button to activate
      */
     public function withActive($label);
 
     /**
-     * get the label of the currently active button of the mode control
+     * get the label of the currently active/engaged button of the mode control
      *
      * @return string the label of the currently active button of the mode control
      */

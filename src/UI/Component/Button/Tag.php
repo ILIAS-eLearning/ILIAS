@@ -3,8 +3,6 @@
 
 namespace ILIAS\UI\Component\Button;
 
-use \ILIAS\UI\Component\Counter\Counter;
-
 /**
  * This describes a tag(-button).
  */

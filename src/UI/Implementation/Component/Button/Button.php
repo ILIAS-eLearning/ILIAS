@@ -18,6 +18,7 @@ abstract class Button implements C\Button\Button
     use ComponentHelper;
     use JavaScriptBindable;
     use Triggerer;
+    use Engageable;
 
     /**
      * @var string

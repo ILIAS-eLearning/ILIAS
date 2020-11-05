@@ -7452,9 +7452,9 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.btn-tag.engaged:active,
 .btn.engaged.active,
 .btn.btn-tag.engaged.active {
-  background-color: #b0b0b0;
-  border-color: #e0e0e0;
-  color: white;
+  background-color: white;
+  color: #333333;
+  cursor: default;
 }
 button > .glyphicon {
   pointer-events: none;
@@ -7486,22 +7486,27 @@ a fieldset[disabled] .active {
   border-radius: 3px;
 }
 .btn-tag.btn-tag-relevance-verylow {
+  border-color: #b0b0b0;
   background-color: #b0b0b0;
   color: #000000;
 }
 .btn-tag.btn-tag-relevance-low {
+  border-color: #a5b8ba;
   background-color: #a5b8ba;
   color: #000000;
 }
 .btn-tag.btn-tag-relevance-middle {
+  border-color: #95c5ca;
   background-color: #95c5ca;
   color: #000000;
 }
 .btn-tag.btn-tag-relevance-high {
+  border-color: #85d1da;
   background-color: #85d1da;
   color: #000000;
 }
 .btn-tag.btn-tag-relevance-veryhigh {
+  border-color: #75deea;
   background-color: #75deea;
   color: #000000;
 }

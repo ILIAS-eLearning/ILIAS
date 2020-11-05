@@ -10,5 +10,4 @@ use ILIAS\UI\Implementation\Component\Button\LoadingAnimationOnClick;
 class Primary extends Button implements C\Button\Primary
 {
     use LoadingAnimationOnClick;
-    use Engageable;
 }

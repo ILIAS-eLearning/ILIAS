@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Signal;
 /**
  * This describes a toggle button.
  */
-interface Toggle extends Button, Engageable
+interface Toggle extends Button
 {
     /**
      * Get the action of the Toggle Button when it is set from off to on.

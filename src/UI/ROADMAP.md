@@ -90,18 +90,6 @@ With ILIAS 7 or later versions, FileInput (or specific variants thereof) can hav
 - Preview of uploaded images
 - Crop functionality for images
 
-### Engaged Buttons (advanced, ~4h)
-
-The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)
-introduced the notion of an "engaged" button, i.e. a button that somehow indicates
-an active state. The general [Buttons](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Button.php)
-acquired a similar, but less explicit functionality via the `withAriaChecked` method
-due to the [observation that some users of button (i.e. view mode control) need to
-indicate which button is "checked"](https://github.com/ILIAS-eLearning/ILIAS/pull/567).
-These two functions should be deduplicated in favour of the "engaged"-naming. I.e. it
-should be possible to tag buttons `withEngagedState` in general, the aria label should then
-be set accordingly without an explicit `withAriaChecked`.
-
 ### PHP 7 Typehints (beginner, ~2h)
 
 ILIAS supported PHP 5.6 when the UI-Framework was first introduced. In the meantime
