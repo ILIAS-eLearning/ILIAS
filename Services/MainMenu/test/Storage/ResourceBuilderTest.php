@@ -21,6 +21,7 @@ use Psr\Http\Message\UploadedFileInterface;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Lock\LockHandlerResult;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 
 class DummyIDGenerator implements IdentificationGenerator
 {
@@ -151,13 +152,32 @@ class ResourceBuilderTest extends TestCase
         $this->assertEquals($file_size, $revision->getInformation()->getSize());
 
         // Store it
-        // $this->resource_repository->expects($this->once())->method('store')->with($resource);
-        // $this->storage_handler->expects($this->once())->method('storeUpload')->with($revision);
-        // $this->revision_repository->expects($this->once())->method('store')->with($revision);
-        // $this->information_repository->expects($this->once())->method('store')->with($revision->getInformation(), $revision);
+        $this->resource_repository->expects($this->once())->method('store')->with($resource);
+        $this->storage_handler->expects($this->once())->method('storeUpload')->with($revision);
+        $this->revision_repository->expects($this->once())->method('store')->with($revision);
+        $this->information_repository->expects($this->once())->method('store')->with($revision->getInformation(), $revision);
 
         $locking_result = $this->createMock(LockHandlerResult::class);
-        $locking_result->expects($this->once())->method('runAndUnlock');
+        $locking_result->expects($this->once())->method('runAndUnlock')->willReturnCallback(
+            function () use ($resource) {
+                $this->resource_repository->store($resource);
+
+                foreach ($resource->getAllRevisions() as $revision) {
+                    if ($revision instanceof UploadedFileRevision) {
+                        $this->storage_handler->storeUpload($revision);
+                    }
+                    if ($revision instanceof FileStreamRevision) {
+                        $this->storage_handler->storeStream($revision);
+                    }
+                    $this->revision_repository->store($revision);
+                    $this->information_repository->store($revision->getInformation(), $revision);
+                }
+
+                foreach ($resource->getStakeholders() as $stakeholder) {
+                    $this->stakeholder_repository->register($resource->getIdentification(), $stakeholder);
+                }
+            }
+        );
 
         $this->locking->expects($this->once())->method('lockTables')->willReturn($locking_result);
         $this->resource_builder->store($resource);
