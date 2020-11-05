@@ -383,9 +383,9 @@
 		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
-			"used_version": "v4.2",
+			"used_version": "v4.4.16",
 			"added_by": "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update": "2019-04-29",
+			"last_update": "2020-11-05",
 			"last_update_by": "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-01"
