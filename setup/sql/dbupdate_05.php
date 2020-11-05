@@ -4897,3 +4897,34 @@ if (!$ilDB->tableColumnExists('file_data', 'rid')) {
     ]);
 }
 ?>
+<#5710>
+<?php
+$fields = array(
+    'internal' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'identification' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'stakeholder_id' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'stakeholder_class' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_resource_stakeh')) {
+    $ilDB->createTable('il_resource_stakeh', $fields);
+    $ilDB->addPrimaryKey('il_resource_stakeh', array( 'internal' ));
+
+}
+?>
