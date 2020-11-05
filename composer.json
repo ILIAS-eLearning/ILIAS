@@ -183,10 +183,10 @@
 		},
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
-			"used_version" : "v3.0.2",
+			"used_version" : "v3.3.0",
 			"wrapped_by" : "ILIAS\\DIC\\Container",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update" : "2016-02-29",
+			"last_update" : "2020-11-05",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
