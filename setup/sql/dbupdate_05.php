@@ -5007,3 +5007,13 @@ if ($ilDB->tableExists('webr_lists')) {
 
 }
 ?>
+<#5713>
+<?php
+if (!$ilDB->tableColumnExists('il_resource_info', 'creation_date')) {
+    $ilDB->addTableColumn('il_resource_info', 'creation_date', array(
+        'type' => 'integer',
+        'length' => '8',
+        'default' => 0
+    ));
+}
+?>
