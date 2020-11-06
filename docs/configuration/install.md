@@ -154,13 +154,13 @@ We RECOMMEND to clone from GitHub as this will offer some kind of autoupdate for
 <a name="git-clonecheckout"></a>
 ## Git Clone/Checkout
 
-To checkout the ILIAS release 6 in ```/var/www/html/ilias/``` use the following commands:
+To checkout the ILIAS release 7 in ```/var/www/html/ilias/``` use the following commands:
 
 ```
 cd /var/www/html/
 git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
 cd ilias
-git checkout release_6
+git checkout release_7
 chown www-data:www-data /var/www/html/ilias -R
 ```
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories.
@@ -565,11 +565,11 @@ To apply a major update (e.g. v5.4.0 to 6.0) please check that your OS has the [
 
 ```
 git fetch
-git checkout release_6
+git checkout release_7
 composer install --no-dev
 ```
 
-Replace ```release_6``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
+Replace ```release_7``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
@@ -659,15 +659,15 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | Package        | Version                     |
 |----------------|-----------------------------|
 | Distribution   | Ubuntu 20.04 LTS            |
-| MariaDB        | 10.3                        |
-| PHP            | 7.4                         |
-| Nginx          | 1.16                        |
+| MariaDB        | 10.0.38                     |
+| PHP            | 7.3                         |
+| Apache2        | 2.4.18                      |
 | zip            | 3.0                         |
 | unzip          | 6.00                        |
-| JDK            | OpenJDK 11                  |
-| Node.js        | 12 LTS                      |
+| JDK            | OpenJDK 8                   |
+| Node.js        | 10.23.0                     |
 | wkhtmltopdf    | 0.12.5                      |
-| Ghostscript    | 9.51                        |
-| Imagemagick    | 6.9.10-23 Q16               |
+| Ghostscript    | 9.26                        |
+| Imagemagick    | 6.8.9-9 Q16                 |
 
 Please note: Shibboleth won't work with Nginx.
