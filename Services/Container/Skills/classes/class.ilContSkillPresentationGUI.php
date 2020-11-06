@@ -108,6 +108,7 @@ class ilContSkillPresentationGUI
 
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");
+        $this->setPermanentLink();
 
         switch ($next_class) {
             case "ilpersonalskillsgui":
@@ -119,6 +120,18 @@ class ilContSkillPresentationGUI
                     $this->$cmd();
                 }
         }
+    }
+
+    /**
+     * Set permanent link
+     * @param
+     * @return
+     */
+    protected function setPermanentLink()
+    {
+        $type = $this->container->getType();
+        $ref_id = $this->container->getRefId();
+        $this->tpl->setPermanentLink($type, "", $ref_id . "_comp", "", "");
     }
 
     /**
@@ -168,4 +181,30 @@ class ilContSkillPresentationGUI
 
         return $objects;
     }
+
+    /**
+     * Is container skill presentation accessible
+     * @param $ref_id
+     * @return bool
+     */
+    public static function isAccessible($ref_id)
+    {
+        global $DIC;
+
+        $access = $DIC->access();
+
+        $obj_id = ilObject::_lookupObjId($ref_id);
+        if ($access->checkAccess('read', '', $ref_id) && ilContainer::_lookupContainerSetting(
+                $obj_id,
+                ilObjectServiceSettingsGUI::SKILLS,
+                false
+            )) {
+            $skmg_set = new ilSetting("skmg");
+            if ($skmg_set->get("enable_skmg")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

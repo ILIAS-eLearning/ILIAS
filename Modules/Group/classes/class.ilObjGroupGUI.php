@@ -1464,6 +1464,10 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "members");
         }
 
+        if ($a_add == "comp" && ilContSkillPresentationGUI::isAccessible($a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "competences");
+        }
+
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target);
         } else {
