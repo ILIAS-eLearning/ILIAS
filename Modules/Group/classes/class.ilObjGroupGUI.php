@@ -663,7 +663,8 @@ class ilObjGroupGUI extends ilContainerGUI
                     ilObjectServiceSettingsGUI::TAG_CLOUD,
                     ilObjectServiceSettingsGUI::BADGES,
                     ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                 )
             );
 
@@ -1759,7 +1760,8 @@ class ilObjGroupGUI extends ilContainerGUI
                         ilObjectServiceSettingsGUI::TAG_CLOUD,
                         ilObjectServiceSettingsGUI::BADGES,
                         ilObjectServiceSettingsGUI::SKILLS,
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                        ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                     )
                 );
 

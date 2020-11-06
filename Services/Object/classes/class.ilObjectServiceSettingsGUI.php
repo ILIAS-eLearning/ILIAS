@@ -36,6 +36,7 @@ class ilObjectServiceSettingsGUI
     const SKILLS = 'cont_skills';
     const FILTER = 'filter';
     const BOOKING = 'cont_bookings';
+    public const EXTERNAL_MAIL_PREFIX = 'mail_external_prefix';
 
     private $gui = null;
     private $modes = array();
@@ -307,6 +308,14 @@ class ilObjectServiceSettingsGUI
             $form->addItem($book);
         }
 
+        if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
+            $externalMailPrefix = new ilTextInputGUI($lng->txt('obj_tool_ext_mail_subject_prefix'), self::EXTERNAL_MAIL_PREFIX);
+            $externalMailPrefix->setMaxLength(255);
+            $externalMailPrefix->setInfo($lng->txt('obj_tool_ext_mail_subject_prefix_info'));
+            $externalMailPrefix->setValue(ilContainer::_lookupContainerSetting($a_obj_id, self::EXTERNAL_MAIL_PREFIX, ''));
+            $form->addItem($externalMailPrefix);
+        }
+
         return $form;
     }
 
@@ -422,6 +431,10 @@ class ilObjectServiceSettingsGUI
             include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::FILTER, (int) $form->getInput(self::FILTER));
             ilContainer::_writeContainerSetting($a_obj_id, "filter_show_empty", (int) $form->getInput("filter_show_empty"));
+        }
+
+        if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
+            ilContainer::_writeContainerSetting($a_obj_id, self::EXTERNAL_MAIL_PREFIX, $form->getInput(self::EXTERNAL_MAIL_PREFIX));
         }
 
         return true;
