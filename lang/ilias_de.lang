@@ -16277,3 +16277,5 @@ common#:#obj_perl#:#Materalienliste
 common#:#obj_pesc#:#Block
 common#:#obj_petmp#:#Seitenvorlage
 common#:#obj_peusr#:#Benutzer
+survey#:#svy_compress_view#:#Komprimierte Sicht
+survey#:#svy_compress_view_info#:#Alle Single-Choice Fragen eines Fragenblocks mit gleicher Antwortskalierung werden matrixartig dargestellt.

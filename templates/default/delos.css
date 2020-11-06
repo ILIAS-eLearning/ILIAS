@@ -18320,6 +18320,19 @@ div.ilSurveyPageEditActionMenu {
   float: right;
   margin: 3px;
 }
+.il-svy-qst-compressed .questionTitle {
+  display: none;
+}
+.il-svy-qst-compressed tr:first-child td {
+  visibility: hidden;
+  height: 1px;
+  line-height: 1px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#il-svy-output-form table td p {
+  hyphens: auto;
+}
 /* Modules/MediaPool */
 #ilMepPreviewContent {
   margin: 0;

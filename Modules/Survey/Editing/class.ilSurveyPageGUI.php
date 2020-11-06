@@ -1354,7 +1354,6 @@ class ilSurveyPageGUI
         $ilCtrl->setParameter($this, "pgov", "");
 
         $this->renderToolbar($pages);
-
         if ($pages) {
             $ttpl = new ilTemplate("tpl.il_svy_svy_page_view.html", true, true, "Modules/Survey");
             $ttpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this));
@@ -1470,6 +1469,7 @@ class ilSurveyPageGUI
         $first_question = $a_questions;
         $first_question = array_shift($first_question);
 
+        $compress_view = false;
         if ($first_question["questionblock_id"]) {
             $menu = array();
 
@@ -1493,6 +1493,10 @@ class ilSurveyPageGUI
                 false,
                 $block_status
             );
+
+            if (count($a_questions) > 1) {
+                $compress_view = $first_question["questionblock_compress_view"];
+            }
         }
 
 
@@ -1533,7 +1537,8 @@ class ilSurveyPageGUI
                 $this->object->getShowQuestionTitles(),
                 $question["questionblock_show_questiontext"],
                 null,
-                $this->object->getSurveyId()
+                $this->object->getSurveyId(),
+                $compress_view
             );
 
             $menu = array();

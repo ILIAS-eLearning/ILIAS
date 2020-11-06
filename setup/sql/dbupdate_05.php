@@ -5024,3 +5024,15 @@ if (!$ilDB->tableColumnExists('il_resource_revision', 'owner_id')) {
     ));
 }
 ?>
+<#5714>
+<?php
+
+if (!$ilDB->tableColumnExists('svy_qblk', 'compress_view')) {
+    $ilDB->addTableColumn('svy_qblk', 'compress_view', array(
+        "type" => "integer",
+        "length" => 1,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+?>

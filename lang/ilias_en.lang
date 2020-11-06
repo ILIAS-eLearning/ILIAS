@@ -16282,3 +16282,5 @@ common#:#obj_perl#:#Ressource List
 common#:#obj_pesc#:#Section
 common#:#obj_petmp#:#Page Template
 common#:#obj_peusr#:#User
+survey#:#svy_compress_view#:#Compressed View
+survey#:#svy_compress_view_info#:#If activated, all single choice questions with similar scales will be presented matrix-like.

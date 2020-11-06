@@ -603,7 +603,7 @@ abstract class SurveyQuestionGUI
     // EXECUTION
     //
     
-    abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null);
+    abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false);
     
     /**
     * Creates the HTML output of the question material(s)

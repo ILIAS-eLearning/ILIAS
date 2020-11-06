@@ -1,0 +1,35 @@
+<!-- BEGIN question_data -->
+<!-- BEGIN questiontitle -->
+<div class="questionTitle">{QUESTION_TITLE}</div>
+<!-- END questiontitle -->
+{ERROR_MESSAGE}
+<table class="nobackground" style="width:100%;">
+	<tr>
+		<td style="width:30%;">
+		</td>
+		<!-- BEGIN text_outer_col -->
+		<!-- BEGIN text_col -->
+		<td style="width:{PERC}%;" class="nobackground{COLCLASS}" align="center"><label for="{QUESTION_ID}_{VALUE_SC}"><b>{TEXT_SC}</b></label></td>
+		<!-- END text_col -->
+		<!-- END text_outer_col -->
+</tr>
+	<tr>
+		<td style="width:30%;">
+			<p>{QUESTIONTEXT}<span class="obligatory">{OBLIGATORY_TEXT}</span></p>
+		</td>
+		<!-- BEGIN radio_col -->
+		<td class="nobackground{COLCLASS}" align="center"><input type="radio" name="{QUESTION_ID}_value" value="{VALUE_SC}" id="{QUESTION_ID}_{VALUE_SC}"{CHECKED_SC} />
+
+			<!-- BEGIN other -->
+		<br/><input type="text" class="form-control" style="width:100%;" name="{OTHER_Q_ID}_{VALUE_SC}_other" {OTHER_VALUE}/>
+		<!-- END other -->
+		</td>
+		<!-- END radio_col -->
+	</tr>
+</table>
+<!-- BEGIN material -->
+<p>
+{TEXT_MATERIAL}
+</p>
+<!-- END material -->
+<!-- END question_data -->
