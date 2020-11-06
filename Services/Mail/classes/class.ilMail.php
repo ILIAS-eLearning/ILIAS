@@ -9,7 +9,8 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
  */
 class ilMail
 {
-    const ILIAS_HOST = 'ilias';
+    public const ILIAS_HOST = 'ilias';
+    public const PROP_CONTEXT_SUBJECT_PREFIX = 'subject_prefix';
 
     /** @var ilLanguage */
     protected $lng;
@@ -1442,7 +1443,7 @@ class ilMail
         $mailer = new ilMimeMail();
         $mailer->From($this->senderFactory->getSenderByUsrId((int) $this->user_id));
         $mailer->To($to);
-        $mailer->Subject($subject, true);
+        $mailer->Subject($subject, true, (string) ($this->contextParameters[self::PROP_CONTEXT_SUBJECT_PREFIX] ?? ''));
         $mailer->Body($message);
 
         if ($cc) {
