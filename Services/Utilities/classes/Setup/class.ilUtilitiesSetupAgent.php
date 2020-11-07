@@ -76,4 +76,12 @@ class ilUtilitiesSetupAgent implements Setup\Agent
     {
         return new ilUtilitiesMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

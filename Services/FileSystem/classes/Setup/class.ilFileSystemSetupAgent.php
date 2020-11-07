@@ -74,4 +74,12 @@ class ilFileSystemSetupAgent implements Setup\Agent
     {
         return new ilFileSystemMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

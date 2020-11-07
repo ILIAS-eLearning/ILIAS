@@ -19,7 +19,7 @@ class IOWrapper implements AdminInteraction
     const ELLIPSIS = "...";
 
     /**
-     * @var	InputInterface
+     * @var    InputInterface
      */
     protected $in;
 
@@ -29,7 +29,7 @@ class IOWrapper implements AdminInteraction
     protected $out;
 
     /**
-     * @var	SymfonyStyle
+     * @var    SymfonyStyle
      */
     protected $style;
 
@@ -56,11 +56,34 @@ class IOWrapper implements AdminInteraction
     }
 
     // Implementation of AdminInteraction
+    public function startProgress(int $max) : void
+    {
+        $this->style->progressStart($max);
+    }
+
+    public function advanceProgress() : void
+    {
+        $this->style->progressAdvance();
+    }
+
+    public function stopProgress() : void
+    {
+        $this->style->progressFinish();
+    }
 
     public function inform(string $message) : void
     {
         $this->outputInObjective();
         $this->style->note($message);
+    }
+
+    public function confirmExplicit(string $message, string $type_text_to_confirm) : bool
+    {
+        $this->outputInObjective();
+
+        return $this->style->ask($message, null, static function (string $input) use ($type_text_to_confirm) : bool {
+            return $type_text_to_confirm === $input;
+        });
     }
 
     public function confirmOrDeny(string $message) : bool

@@ -84,4 +84,12 @@ class ilMediaObjectSetupAgent implements Setup\Agent
     {
         return new ilMediaObjectMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

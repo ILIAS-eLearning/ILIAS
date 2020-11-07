@@ -74,4 +74,12 @@ class ilPDFGenerationSetupAgent implements Setup\Agent
     {
         return new ilPDFGenerationMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

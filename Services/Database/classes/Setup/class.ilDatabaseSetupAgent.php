@@ -95,4 +95,12 @@ class ilDatabaseSetupAgent implements Setup\Agent
     {
         return new ilDatabaseMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

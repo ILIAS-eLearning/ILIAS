@@ -4,8 +4,6 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 use Symfony\Component\Mime\Exception\LogicException;
@@ -177,6 +175,24 @@ class AgentCollection implements Agent
                 array_values($this->agents)
             ))
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        $migrations = [];
+        foreach ($this->agents as $agent_key => $agent) {
+            foreach ($agent->getMigrations() as $migration) {
+                /**
+                 * @var $migration Migration
+                 */
+                $migrations[$agent_key . "." . $migration->getKey()] = $migration;
+            }
+        }
+
+        return $migrations;
     }
 
     protected function checkConfig(Config $config)

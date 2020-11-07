@@ -74,4 +74,12 @@ class ilMathJaxSetupAgent implements Setup\Agent
     {
         return new ilMathJaxMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

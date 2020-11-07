@@ -1,13 +1,18 @@
 <?php
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\UI;
+use ILIAS\Setup;
 
-class ilMailSetupAgent implements Setup\Agent
+class ilFileObjectMigrationAgent implements Setup\Agent
 {
+
+    protected $refinery;
+
+    public function __construct(Refinery\Factory $refinery)
+    {
+        $this->refinery = $refinery;
+    }
+
     /**
      * @inheritdoc
      */
@@ -29,10 +34,7 @@ class ilMailSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilFileSystemComponentDataDirectoryCreatedObjective(
-            'mail',
-            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
-        );
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -64,6 +66,8 @@ class ilMailSetupAgent implements Setup\Agent
      */
     public function getMigrations() : array
     {
-        return [];
+        return [
+            new ilFileObjectToStorageMigration()
+        ];
     }
 }
