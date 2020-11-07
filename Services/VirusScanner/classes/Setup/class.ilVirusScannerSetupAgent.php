@@ -76,4 +76,12 @@ class ilVirusScannerSetupAgent implements Setup\Agent
     {
         return new ilVirusScannerMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

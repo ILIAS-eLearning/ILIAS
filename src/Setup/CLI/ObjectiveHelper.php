@@ -17,7 +17,7 @@ trait ObjectiveHelper
         Objective $objective,
         Environment $environment,
         IOWrapper $io = null
-    ) {
+    ) : Environment {
         $iterator = new ObjectiveIterator($environment, $objective);
 
         while ($iterator->valid()) {
@@ -44,5 +44,7 @@ trait ObjectiveHelper
             }
             $iterator->next();
         }
+
+        return $environment;
     }
 }

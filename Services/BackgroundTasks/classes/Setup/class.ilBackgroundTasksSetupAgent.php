@@ -75,4 +75,12 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     {
         return new ilBackgroundTasksMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

@@ -124,4 +124,12 @@ class ilSetupAgent implements Setup\Agent
     {
         return new ilSetupMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

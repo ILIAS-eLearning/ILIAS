@@ -103,4 +103,12 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     {
         return new ilGlobalCacheMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

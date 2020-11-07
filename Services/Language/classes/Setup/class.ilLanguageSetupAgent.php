@@ -98,4 +98,12 @@ class ilLanguageSetupAgent implements Setup\Agent
     {
         return new ilLanguageMetricsCollectedObjective($storage, $this->il_setup_language);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }
