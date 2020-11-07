@@ -57,6 +57,11 @@ interface StorableResource
     public function addRevision(Revision $revision) : void;
 
     /**
+     * @param Revision $revision
+     */
+    public function replaceRevision(Revision $revision) : void;
+
+    /**
      * @param RevisionCollection $collection
      */
     public function setRevisions(RevisionCollection $collection) : void;
@@ -70,4 +75,9 @@ interface StorableResource
      * @param string $storage_id
      */
     public function setStorageID(string $storage_id) : void;
+
+    /**
+     * @return int
+     */
+    public function getMaxRevision() : int;
 }

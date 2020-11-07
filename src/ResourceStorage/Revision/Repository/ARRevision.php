@@ -6,7 +6,6 @@ use ActiveRecord;
 
 /**
  * Class ARRevision
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ARRevision extends ActiveRecord
@@ -20,10 +19,8 @@ class ARRevision extends ActiveRecord
         return 'il_resource_revision';
     }
 
-
     /**
      * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -33,15 +30,20 @@ class ARRevision extends ActiveRecord
     protected $internal;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
      */
     protected $identification;
     /**
+     * @var string
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     256
+     */
+    protected $title;
+    /**
      * @var bool
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -49,13 +51,18 @@ class ARRevision extends ActiveRecord
     protected $available;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
     protected $version_number;
-
+    /**
+     * @var int
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     8
+     */
+    protected $owner_id;
 
     /**
      * @return string
@@ -65,10 +72,8 @@ class ARRevision extends ActiveRecord
         return $this->internal;
     }
 
-
     /**
      * @param string $internal
-     *
      * @return ARRevision
      */
     public function setInternal(string $internal) : ARRevision
@@ -78,7 +83,6 @@ class ARRevision extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -87,10 +91,8 @@ class ARRevision extends ActiveRecord
         return $this->identification;
     }
 
-
     /**
      * @param string $identification
-     *
      * @return ARRevision
      */
     public function setIdentification(string $identification) : ARRevision
@@ -100,7 +102,6 @@ class ARRevision extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return bool
      */
@@ -109,10 +110,8 @@ class ARRevision extends ActiveRecord
         return (bool) $this->available;
     }
 
-
     /**
      * @param bool $available
-     *
      * @return ARRevision
      */
     public function setAvailable(bool $available) : ARRevision
@@ -122,7 +121,6 @@ class ARRevision extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return int
      */
@@ -131,10 +129,8 @@ class ARRevision extends ActiveRecord
         return (int) $this->version_number;
     }
 
-
     /**
      * @param int $version_number
-     *
      * @return ARRevision
      */
     public function setVersionNumber(int $version_number) : ARRevision
@@ -143,4 +139,41 @@ class ARRevision extends ActiveRecord
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getOwnerId() : int
+    {
+        return (int) $this->owner_id;
+    }
+
+    /**
+     * @param int $owner_id
+     * @return ARRevision
+     */
+    public function setOwnerId(int $owner_id) : ARRevision
+    {
+        $this->owner_id = $owner_id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title ?? '';
+    }
+
+    /**
+     * @param string $title
+     * @return ARRevision
+     */
+    public function setTitle(string $title) : ARRevision
+    {
+        $this->title = $title;
+        return $this;
+    }
+
 }

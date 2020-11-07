@@ -86,7 +86,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         if ($id === null) {
             return new BasicFileInfoResult($this->getFileIdentifierParameterName(), 'unknown', 'unknown', 0, 'unknown');
         }
-        $r = $this->storage->manage()->getRevision($id)->getInformation();
+        $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
 
         return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(), $r->getSize(), $r->getMimeType());
     }
@@ -100,7 +100,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
             if ($id === null) {
                 continue;
             }
-            $r = $this->storage->manage()->getRevision($id)->getInformation();
+            $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
 
             $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, $r->getTitle(), $r->getSize(), $r->getMimeType());
         }

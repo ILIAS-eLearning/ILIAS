@@ -137,7 +137,7 @@ class ilMMItemInformation implements ItemInformation
             } catch (FileNotFoundException $f) {
                 return $item;
             }
-            $data = 'data:' . $this->storage->manage()->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $data = 'data:' . $this->storage->manage()->getCurrentRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
 
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {

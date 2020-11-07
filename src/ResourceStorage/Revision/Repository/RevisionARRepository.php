@@ -57,6 +57,8 @@ class RevisionARRepository implements RevisionRepository
         $ar = $this->getAR($revision);
         $ar->setVersionNumber($revision->getVersionNumber());
         $ar->setAvailable($revision->isAvailable());
+        $ar->setOwnerId($revision->getOwnerId());
+        $ar->setTitle($revision->getTitle());
         $ar->update();
     }
 
@@ -107,6 +109,9 @@ class RevisionARRepository implements RevisionRepository
             $ar = new ARRevision();
             $ar->setInternal($primary);
             $ar->setIdentification($revision->getIdentification()->serialize());
+            $ar->setOwnerId($revision->getOwnerId());
+            $ar->setTitle($revision->getTitle());
+            $ar->setAvailable(true);
             $ar->create();
         }
 
@@ -117,6 +122,11 @@ class RevisionARRepository implements RevisionRepository
     {
         $r = new FileRevision(new ResourceIdentification($AR_revision->getIdentification()));
         $r->setVersionNumber($AR_revision->getVersionNumber());
+        $r->setOwnerId($AR_revision->getOwnerId());
+        $r->setTitle($AR_revision->getTitle());
+        if (!$AR_revision->isAvailable()) {
+            $r->setUnavailable();
+        }
 
         return $r;
     }

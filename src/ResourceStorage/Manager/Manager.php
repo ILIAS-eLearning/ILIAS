@@ -30,6 +30,9 @@ class Manager
         $this->resource_builder = $b;
     }
 
+
+    // Identifications
+
     /**
      * this is the fast-lane: in most cases you want to store a uploaded file in
      * the storage and use it's identification.
@@ -38,8 +41,11 @@ class Manager
      * @param string|null         $title
      * @return ResourceIdentification
      */
-    public function upload(UploadResult $result, ResourceStakeholder $stakeholder, string $title = null) : ResourceIdentification
-    {
+    public function upload(
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $title = null
+    ) : ResourceIdentification {
         if ($result->isOK()) {
             $resource = $this->resource_builder->new($result);
             $resource->addStakeholder($stakeholder);
@@ -62,44 +68,51 @@ class Manager
         return null;
     }
 
+    // Resources
+
+    public function getResource(ResourceIdentification $i) : StorableResource
+    {
+        return $this->resource_builder->get($i);
+    }
+
     public function remove(ResourceIdentification $identification) : void
     {
         $this->resource_builder->remove($this->resource_builder->get($identification));
     }
 
-    public function appendNewVersion(ResourceIdentification $identification, UploadResult $result, ResourceStakeholder $stakeholder) : StorableResource
-    {
+    // Revision
+
+    public function appendNewRevision(
+        ResourceIdentification $identification,
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
         if ($result->isOK()) {
             if (!$this->resource_builder->has($identification)) {
                 throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
             }
 
             $resource = $this->resource_builder->get($identification);
-            $revision = $this->resource_builder->append($resource, $result);
+            $this->resource_builder->append($resource, $result, $revision_title);
             $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
 
-            return $revision;
+            return $resource->getCurrentRevision();
         }
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
-    public function getRevision(ResourceIdentification $identification) : Revision
+    public function getCurrentRevision(ResourceIdentification $identification) : Revision
     {
         return $this->resource_builder->get($identification)->getCurrentRevision();
     }
 
-    /**
-     * @return Generator|ResourceIdentification[]
-     */
-    public function getAll() : \Generator
+    public function updateRevision(Revision $revision) : bool
     {
-        foreach ($this->resource_builder->getAll() as $item) {
-            /**
-             * @var $item StorableResource
-             */
-            yield $item->getIdentification();
-        }
+        $resource = $this->resource_builder->get($revision->getIdentification());
+        $this->resource_builder->store($resource);
     }
+
 }

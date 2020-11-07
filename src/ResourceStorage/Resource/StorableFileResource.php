@@ -103,6 +103,14 @@ class StorableFileResource implements StorableResource
     /**
      * @inheritDoc
      */
+    public function replaceRevision(Revision $revision) : void
+    {
+        $this->revisions->replaceSingleRevision($revision);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function setRevisions(RevisionCollection $collection) : void
     {
         $this->revisions = $collection;
@@ -150,4 +158,13 @@ class StorableFileResource implements StorableResource
     {
         $this->storage_id = $storage_id;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMaxRevision() : int
+    {
+        return $this->revisions->getMax();
+    }
+
 }

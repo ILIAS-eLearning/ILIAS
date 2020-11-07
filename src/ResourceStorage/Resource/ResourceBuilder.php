@@ -48,6 +48,10 @@ class ResourceBuilder
      * @var LockHandler
      */
     private $lock_handler;
+    /**
+     * @var StorableResource[]
+     */
+    protected $resource_cache = [];
 
     /**
      * ResourceBuilder constructor.
@@ -90,11 +94,22 @@ class ResourceBuilder
         return $this->appendFromStream($resource, $stream, $keep_original);
     }
 
+    public function newBlank() : StorableResource
+    {
+        $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
+        $resource->setStorageID($this->storage_handler->getID());
+
+        return $resource;
+    }
+
     /**
      * @inheritDoc
      */
-    public function append(StorableResource $resource, UploadResult $result) : StorableResource
-    {
+    public function append(
+        StorableResource $resource,
+        UploadResult $result,
+        string $revision_title = null
+    ) : StorableResource {
         $revision = $this->revision_repository->blank($resource, $result);
 
         $info = $revision->getInformation();
@@ -102,7 +117,9 @@ class ResourceBuilder
         $info->setMimeType($result->getMimeType());
         $info->setSize($result->getSize());
         $info->setCreationDate(new \DateTimeImmutable());
+
         $revision->setInformation($info);
+        $revision->setTitle($revision_title ?? $result->getName());
 
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
@@ -114,11 +131,18 @@ class ResourceBuilder
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false,
-        int $explicit_version_number = null
+        string $revision_title = null
     ) : StorableResource {
         $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
+        $path = $stream->getMetadata('uri');
+        $file_name = basename($path);
+
         $info = $revision->getInformation();
-        $info->setTitle(basename($stream->getMetadata('uri')));
+        $info->setTitle($file_name);
+        $info->setMimeType(mime_content_type($path));
+        $info->setCreationDate(new \DateTimeImmutable());
+
+        $revision->setTitle($revision_title ?? $file_name);
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
 
@@ -168,9 +192,14 @@ class ResourceBuilder
      */
     public function get(ResourceIdentification $identification) : StorableResource
     {
+        if (isset($this->resource_cache[$identification->serialize()])) {
+            return $this->resource_cache[$identification->serialize()];
+        }
         $resource = $this->resource_repository->get($identification);
 
-        return $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
+        $this->resource_cache[$identification->serialize()] = $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
+
+        return $this->resource_cache[$identification->serialize()];
     }
 
     /**

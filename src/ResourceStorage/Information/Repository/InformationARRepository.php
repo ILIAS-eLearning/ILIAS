@@ -42,6 +42,7 @@ class InformationARRepository implements InformationRepository
         $r->setTitle($information->getTitle());
         $r->setMimeType($information->getMimeType());
         $r->setSize($information->getSize());
+        $r->setCreationDate($information->getCreationDate()->getTimestamp());
         $r->update();
     }
 
@@ -58,6 +59,7 @@ class InformationARRepository implements InformationRepository
             $i->setTitle($r->getTitle());
             $i->setSize($r->getSize());
             $i->setMimeType($r->getMimeType());
+            $i->setCreationDate((new \DateTimeImmutable())->setTimestamp($r->getCreationDate() ?? 0));
         }
 
         return $i;
