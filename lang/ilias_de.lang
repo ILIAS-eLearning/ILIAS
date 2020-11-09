@@ -14,10 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-obj#:#obj_fallback_lang#:#Standardsprache
-obj#:#obj_set_fallback_lang#:#Standardsprache setzen
-obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
-rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
+rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
 rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
@@ -5091,11 +5088,6 @@ content#:#cont_maintenance#:#Wartung
 content#:#cont_manifest#:#Manifest
 content#:#cont_map_file_not_generated#:#Die Imagemap-Datei konnte leider nicht generiert werden.
 content#:#cont_marker#:#Markierungspunkt
-<<<<<<< HEAD
-=======
-content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
-content#:#cont_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
->>>>>>> 2fd97caa47... fallback language for learning modules
 content#:#cont_mastery_score#:#adlcp:masteryscore
 content#:#cont_max_time_allowed#:#adlcp:maxtimeallowed
 content#:#cont_Media#:#Medien (Standard)
@@ -5398,12 +5390,6 @@ content#:#cont_tracking_bysco#:#Nach Kapiteln
 content#:#cont_tracking_byuser#:#Nach Benutzern
 content#:#cont_tracking_data#:#Protokolldaten
 content#:#cont_tracking_items#:#Protokollierte Inhalte
-<<<<<<< HEAD
-=======
-content#:#cont_tracking_modify#:#Daten modifizieren
-content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
-content#:#cont_transl_master_language_not_allowed#:#Um eine Übersetzung zu importieren, müssen Sie zumindest eine zusätzliche Sprache unter "Einstellungen" » "Mehrsprachigkeit" aktivieren.
->>>>>>> 2fd97caa47... fallback language for learning modules
 content#:#cont_tree_fixed#:#Die Lernmodulstruktur wurde repariert.
 content#:#cont_tries_remaining#:#Verbleibende Versuche
 content#:#cont_trigger_area#:#Bereich für Auslöser
@@ -7119,26 +7105,12 @@ mep#:#mep_file#:#Datei
 mep#:#mep_folder#:#Ordner
 mep#:#mep_format#:#Format
 mep#:#mep_import#:#Medienpool importieren
-<<<<<<< HEAD
-=======
-mep#:#mep_import_lang#:#Zielsprache
-mep#:#mep_import_trans#:#Übersetzung importieren
-mep#:#mep_master_language_only#:#Basissprache für Übersetzung - Master
-mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
-mep#:#mep_media_files#:#Mediendateien
-mep#:#mep_media_subtitles#:#Untertitel
-mep#:#mep_mob#:#Medienobjekt
->>>>>>> 2fd97caa47... fallback language for learning modules
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
 mep#:#mep_page_properties#:#Eigenschaften des Bausteins
 mep#:#mep_sel_upload_dir_files#:#Wählen Sie Dateien / Verzeichnisse aus.
 mep#:#mep_thumbnail#:#Miniaturbild
 mep#:#mep_title_and_description#:#Titel und Beschreibung
-<<<<<<< HEAD
-=======
-mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
->>>>>>> 2fd97caa47... fallback language for learning modules
 mep#:#mep_unknown#:#Unbekannt
 mep#:#mep_up_dir_copy#:#Dateien aus Upload-Verzeichnis kopieren (Erhält Dateien in Upload-Verzeichnis)
 mep#:#mep_up_dir_move#:#Dateien aus Upload-Verzeichnis verschieben (Schneller)
@@ -7841,203 +7813,6 @@ notes#:#notes_note_deleted#:#Die Notiz wurde gelöscht
 notes#:#notes_notes_deleted#:#Die Notizen wurden gelöscht.
 notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_show_comments#:#Kommentare anzeigen
-<<<<<<< HEAD
-=======
-notes#:#notes_sort_asc#:#Aufsteigend sortieren
-notes#:#notes_sort_desc#:#Absteigend sortieren
-noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
-noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
-noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
-noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
-obj#:#cont_skll_published#:#Alle Kompetenzzuweisungen wurden veröffentlicht.
-obj#:#cont_skll_published_some_not#:#Alle gegebenen Kompetenzzuweisungen wurden veröffentlicht. Zu einigen Benutzern konnten keine Kompetenzen veröffentlicht werden, da keine Zuweisungen vorlagen.
-obj#:#edit_questions#:#Fragen bearbeiten
-obj#:#obj_activate_content_lang#:#Mehrsprachigkeit für Seiteneditor aktivieren
-obj#:#obj_activate_multilang#:#Mehrsprachigkeit aktivieren
-obj#:#obj_activation#:#Aktivierung
-obj#:#obj_activation_list_gui#:#Verfügbarkeit
-obj#:#obj_add_languages#:#Sprachen hinzufügen
-obj#:#obj_additional_langs#:#Zusätzliche Sprachen
-obj#:#obj_cont_transl_deactivated#:#Die Unterstützung für mehrsprachige Inhalte im Seiteneditor wurde deaktiviert.
-obj#:#obj_copy_progress#:#Fortschritt des Kopierens
-obj#:#obj_deactivate_content_lang#:#Mehrsprachigkeit für Seiteneditor deaktivieren.
-obj#:#obj_deactivate_content_transl_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte im Seiteneditor wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
-obj#:#obj_deactivate_multilang#:#Mehrsprachigkeit deaktivieren
-obj#:#obj_deactivate_multilang_conf#:#Wollen Sie die Unterstützung für mehrsprachige Inhalte wirklich deaktivieren? Nur die Inhalte der Standardsprache werden verfügbar bleiben.
-obj#:#obj_features#:#Zusätzliche Funktionen
-obj#:#obj_import_file_error#:#Die Datei konnte nicht importiert werden. Bitte stellen Sie sicher, dass es sich um eine ILIAS-Exportdatei (XML-Export) des gleichen Objekttyps handelt und der Dateiname unverändert ist. Fehlermeldung:
-obj#:#obj_insert_into_clipboard#:#In Zwischenablage einfügen
-obj#:#obj_inserted_clipboard#:#Die Objekte wurden in die Zwischenablage eingefügt
-obj#:#obj_master_lang#:#Basissprache
-obj#:#obj_more_translations#:#Weitere Übersetzungen
-obj#:#obj_multilang_deactivated#:#Die Unterstützung für mehrsprachige Inhalte wurde deaktiviert.
-obj#:#obj_multilang_title_descr_only#:#Die Mehrsprachigkeit ist nur für Titel und Beschreibung aktiviert. Die Unterstützung für Inhalte im Seiteneditor ("Seite gestalten") kann separat aktiviert werden.
-obj#:#obj_multilinguality#:#Mehrsprachigkeit
-obj#:#obj_orgunit_positions#:#Zugriffsregelungen nach Organisationseinheiten
-obj#:#obj_orgunit_positions_info#:#Wenn aktiviert, können zusätzliche Zugriffsregelungen über Positionen in Organisationseinheiten vergeben werden.
-obj#:#obj_permission_settings#:#Rechteeinstellungen
-obj#:#obj_presentation#:#Darstellung
-obj#:#obj_select_master_lang#:#Bitte wählen Sie die Basissprach aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Basissprache kann anschließend nicht geändert werden.
-obj#:#obj_settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
-obj#:#obj_show_header_actions#:#Aktionen im Header anzeigen
-obj#:#obj_show_title_and_icon#:#Titel und Icon anzeigen
-obj#:#obj_target_location#:#Zielordner
-obj#:#obj_tile_image#:#Kachelbild
-obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten Container (Kategorie, Kurs, Gruppe, ...) die Kachelansicht ausgewählt wurde.
-obj#:#obj_tool_setting_badges#:#Badges
-obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
-obj#:#obj_tool_setting_info_tab#:#Info-Reiter
-obj#:#obj_tool_setting_info_tab_info#:#Der Reiter "Info" wird angezeigt.
-obj#:#obj_tool_setting_skills#:#Kompetenzen
-obj#:#obj_tool_setting_skills_info#:#Die Funktion ermöglicht es Kompetenzen auszuwählen und Mitgliedern Kompetenzausprägungen zuzuweisen.
-obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
-obj#:#obj_tool_setting_tag_cloud_info#:#Es wird eine Tag Cloud im Block "Auswahl nach Themen" im Reiter "Inhalt" angezeigt.
-obj#:#obj_tool_setting_taxonomies#:#Taxonomien
-obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
-obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
-obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
-obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
-obj#:#svy_results#:#Ergebnisse
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
-objref#:#objref_edit_ref#:#Ziel des Links
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
-orgu#:#Actions#:#Aktionen
-orgu#:#add_position#:#Position hinzufügen
-orgu#:#authorities#:#Befugnisse
-orgu#:#authority#:#Befugnisse
-orgu#:#backto_staff#:#Zurück zu Personen
-orgu#:#change_to_employee#:#Zu Angestellten wechseln
-orgu#:#change_to_superior#:#Zu Vorgesetzten wechseln
-orgu#:#confirm_deletion_and_assign#:#Löschen und Benutzer zuweisen
-orgu#:#confirm_deletion_button#:#Löschen
-orgu#:#deassign_user_successful#:#Benutzer wurde erfolgreich ausgetragen.
-orgu#:#edit_translations#:#Titel und Beschreibung
-orgu#:#employee#:#Mitarbeiter
-orgu#:#ext_id#:#Externe ID
-orgu#:#ext_id_updated#:#Die externe ID wurde erfolgreich bearbeitet.n, da die Daten anonymisiert gespeichert werden.
-orgu#:#form_title_org_default_permissions_update#:#Standardrechte
-orgu#:#il_orgu_employee#:#Mitarbeiter
-orgu#:#il_orgu_superior#:#Vorgesetzte
-orgu#:#import_failed#:#Der Import ist fehlgeschlagen. Stellen Sie sicher, dass die Datei im XML-Format geschrieben ist und eine valide Struktur aufweist.
-orgu#:#import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu erstellt: %s, Bearbeitet/Verschoben: %s, Gelöscht: %s.
-orgu#:#import_terminated_with_errors#:#Der Import hat Fehler erkannt.
-orgu#:#import_terminated_with_warnings#:#Der Import hat Warnungen erzeugt
-orgu#:#import_xml_file#:#Import-Datei
-orgu#:#local_other_roles#:#Weitere lokale Rollen %s
-orgu#:#local_staff#:#Mitarbeiter %s
-orgu#:#msg_assignment_to_employee_done#:#Zuweisung zur Position Mitarbeiter durchgeführt
-orgu#:#msg_confirm_d_ua#:#Wollen Sie folgende Benutzer der Position Mitarbeiter in ihrer jeweiligen Organisationseinheit zuweisen?
-orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?
-orgu#:#msg_confirm_remove_user#:#Möchten Sie den folgenden Benutzer wirklich aus der Position %s entfernen?
-orgu#:#msg_deleted#:#Gelöscht
-orgu#:#msg_position_created#:#Position wurde erstellt.
-orgu#:#msg_position_udpated#:#Position updated
-orgu#:#msg_position_updated#:#Position wurde aktualisiert.
-orgu#:#msg_success_permission_saved#:#Rechte wurden gespeichert.
-orgu#:#no_assignment#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Benutzerzuweisung gefunden werden.
-orgu#:#no_orgunit#:#Bitte prüfen Sie Ihre XML-Datei. Es konnte keine Organisationseinheit gefunden werden.
-orgu#:#no_roles#:#Es gibt keine weiteren lokalen Rollen an dieser Stelle.
-orgu#:#not_movable_to_subtree#:#Eine Organisationseinheit kann nicht in ihre eigenen Untereinheiten eingeteilt werden, dies würde eine Schlaufe bilden.
-orgu#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
-orgu#:#org_op_access_results#:#Zugriff auf Ergebnisse
-orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
-orgu#:#org_op_manage_members#:#Mitglieder bearbeiten
-orgu#:#org_op_manage_participants#:#Teilnehmer verwalten
-orgu#:#org_op_read_learning_progress#:#Lernfortschritt von anderen Benutzern einsehen
-orgu#:#org_op_score_participants#:#Teilnehmer bewerten
-orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen
-orgu#:#org_unit_not_found#:#Die Organisationseinheit wurde nicht gefunden.
-orgu#:#orgu_add#:#Organisationseinheit hinzufügen
-orgu#:#orgu_adv_settings#:#Erweiterte Einstellungen
-orgu#:#orgu_already_deleted#:#Das Objekt wurde bereits gelöscht.
-orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
-orgu#:#orgu_enable_my_staff_info#:#Die Ansicht ‘Meine Mitarbeiter’ zeigt die Lernfortschritte der eigenen Mitarbeiter an.
-orgu#:#orgu_global_set_form#:#Globale Einstellungen
-orgu#:#orgu_global_set_positions#:#Anzeige von Benutzerdaten nach Positionen in Organisationseinheiten
-orgu#:#orgu_global_set_positions_type_active#:#Positionen in:
-orgu#:#orgu_global_set_type_changeable#:#Verhalten neuer Objekte
-orgu#:#orgu_global_set_type_changeable_no#:#Positionen sind im Objekt nicht deaktivierbar
-orgu#:#orgu_global_set_type_changeable_object#:#Änderbare Einstellung im Objekt
-orgu#:#orgu_global_set_type_default#:#Standardwert
-orgu#:#orgu_global_set_type_default_info#:#Positionen sind im Reiter 'Einstellungen' des Objektes standardmäßig aktiviert.
-orgu#:#orgu_import#:#Organisationseinheit importieren
-orgu#:#orgu_new#:#Neue Organisationseinheit
-orgu#:#orgu_orgu_type#:#Organisationseinheitentyp
-orgu#:#orgu_settings#:#Organisationseinheiten Einstellungen
-orgu#:#orgu_staff#:#Beschäftigte
-orgu#:#orgu_staff_deassign#:#Diese Benutzer aus der Rolle wirklich entfernen?
-orgu#:#orgu_type#:#Organisationseinheitentyp
-orgu#:#orgu_type_add#:#Organisationseinheitentyp hinzufügen
-orgu#:#orgu_type_assign_amd_sets#:#Benutzerdefinierte Metadaten zuweisen
-orgu#:#orgu_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadaten
-orgu#:#orgu_type_custom_icon#:#Benutzerdefiniertes Icon für diesen Organisationseinheitentyp
-orgu#:#orgu_type_custom_icon_info#:#Alle Organisationseinheiten mit diesem Typ werden mit diesem Icon dargestellt
-orgu#:#orgu_type_edit#:#Organisationseinheitentyp bearbeiten
-orgu#:#orgu_type_msg_assign_amd_prevented#:#Hinzufügen von Erweiterten Metadaten verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_deassign_amd_prevented#:#Entfernen Erweiterter Metadaten verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_deleted#:#Organisationseinheitentyp wurde gelöscht
-orgu#:#orgu_type_msg_deletion_prevented#:#Löschen verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_error_custom_icon#:#Icon konnte nicht gespeichert werden
-orgu#:#orgu_type_msg_missing_title#:#Es muss ein Titel für die Standardsprache angegeben werden
-orgu#:#orgu_type_msg_missing_title_default_language#:#Standardsprache und der Titel für die Standardsprache müssen ausgefüllt werden
-orgu#:#orgu_type_msg_setting_default_lang_prevented#:#'%' als Standardsprache nicht möglich, verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_setting_member_prevented#:#Zuweisen von '%s' verhindert durch folgende Plugins: %s
-orgu#:#orgu_type_msg_unable_delete#:#Der Typ kann nicht gelöscht werden, da er noch folgenden Organisationseinheiten zugewiesen ist: %s
-orgu#:#orgu_type_msg_updating_prevented#:#Aktualisieren des Objekts verhindert durch folgende Plugins: %s
-orgu#:#orgu_types#:#Typen
-orgu#:#orgunit_position_permissions_not_active_for#:#Das Überschreiben der Zugriffsregelung für die Positionen darf nicht lokal vorgenommen werden für den Typ:
-orgu#:#ou_external_id_exists#:#Eine Organisationseinheit mit der Externen ID existiert bereits auf ILIAS.
-orgu#:#ou_id_not_valid#:#Die Import-ID konnte nicht gefunden werden.
-orgu#:#ou_more_than_one_match_found#:#Mehr als ein Treffer wurde gefunden.
-orgu#:#ou_parent_id_not_valid#:#Die ou_parent_id konnte nicht gefunden werden.
-orgu#:#over#:#über
-orgu#:#over_-1#:#Alle
-orgu#:#placeholder#:#...
-orgu#:#positions#:#Positionen
-orgu#:#rec_staff#:#Mitarbeiter %s und nachfolgend
-orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
-orgu#:#remove_user#:#Entfernen
-orgu#:#scope#:#in
-orgu#:#scope_1#:#eigener Organisationseinheit
-orgu#:#scope_2#:#untergeordneten Organisationseinheiten
-orgu#:#scope_3#:#allen Organisationseinheiten
-orgu#:#show_learning_progress#:#Zeige Lernfortschritt
-orgu#:#simple_import#:#Einfacher XML-Import
-orgu#:#simple_user_import#:#XML-Benutzerzuweisung
-orgu#:#simple_xls#:#Einfacher Excel-Export
-orgu#:#simple_xml#:#Einfacher XML-Export
-orgu#:#Staff#:#Mitarbeiter
-orgu#:#superior#:#Vorgesetzter
-orgu#:#user_assignments#:#Benutzerzuweisung
-orgu#:#user_changed_successful#:#Der Benutzer wurde erfolgreich umgeschrieben.
-orgu#:#user_import_successful#:#Der Import wurde erfolgreich durchgeführt. Neu zugeordnet: %s, Zuordnung entfernt: %s.
-orgu#:#users_successfuly_added#:#Der Benutzer wurde erfolgreich eingetragen.
-orgu#:#view_learning_progress#:#Lernfortschritt einsehen
-orgu#:#view_learning_progress_rec#:#Lernfortschritt rekursiv einsehen
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
-pd#:#block_show_chatviewer#:#Chatviewer anzeigen
-pd#:#block_show_pdbookm#:#Bookmarks anzeigen
-pd#:#block_show_pdcal#:#Kalender anzeigen
-pd#:#block_show_pdfrmpostdraft#:#Beitragsentwürfe anzeigen
-pd#:#block_show_pdmail#:#Mail anzeigen
-pd#:#block_show_pdnews#:#Neuigkeiten anzeigen
-pd#:#block_show_pdnotes#:#Notizen anzeigen
-pd#:#block_show_pdportf#:#Portfolios anzeigen
-pd#:#block_show_pdsysmess#:#Systemnachrichten anzeigen
-pd#:#block_show_pdtag#:#Tags anzeigen
-pd#:#block_show_x#:#%s anzeigen
-pd#:#pd_achievements#:#Lernerfolge
-pd#:#pd_bookmarks#:#Bookmarks
-pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
-pd#:#pd_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
-pd#:#pd_download_last_export_file#:#Aktuelle Exportdatei herunterladen
-pd#:#pd_enable_block_moving#:#'Verschieben der Blöcke' aktivieren
-pd#:#pd_enable_block_moving_info#:#Erlaube Benutzern, ihren Persönlichen Schreibtisch anzupassen.
-pd#:#pd_enable_bookmarks#:#Bookmarks aktivieren
->>>>>>> 2fd97caa47... fallback language for learning modules
 pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
