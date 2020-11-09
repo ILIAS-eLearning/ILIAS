@@ -794,13 +794,11 @@ class ilMembershipGUI
     }
 
     /**
-     * Get mail context options
      * @return array
      */
-    protected function getMailContextOptions()
+    protected function getMailContextOptions() : array
     {
-        $context_options = [];
-        return $context_options;
+        return [];
     }
 
     

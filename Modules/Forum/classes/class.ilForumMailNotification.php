@@ -51,7 +51,7 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @inheritdoc
      */
-    protected function initMail()
+    protected function initMail() : ilMail
     {
         $mail = parent::initMail();
         $this->logger->debug('Initialized mail service');

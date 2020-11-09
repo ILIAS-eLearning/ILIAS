@@ -266,16 +266,14 @@ class ilSessionMembershipGUI extends ilMembershipGUI
     /**
      * @inheritdoc
      */
-    protected function getMailContextOptions()
+    protected function getMailContextOptions() : array
     {
-        $context_options = [];
+        $context_options = [
+            ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
+            'ref_id' => $this->getParentObject()->getRefId(),
+            'ts' => time()
+        ];
 
-        $context_options =
-            [
-                ilMailFormCall::CONTEXT_KEY => ilSessionMailTemplateParticipantContext::ID,
-                'ref_id' => $this->getParentObject()->getRefId(),
-                'ts' => time()
-            ];
         return $context_options;
     }
 }
