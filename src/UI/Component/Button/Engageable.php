@@ -6,7 +6,7 @@ namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Component;
 /**
- * Engegaeble Components can cary the engaged state.
+ * Engageable Components have an "engaged" state and will be displayed accordingly.
  */
 interface Engageable extends Component
 {
