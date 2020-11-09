@@ -49,7 +49,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         return $footer;
     }
 
-    public function getConsentWithdrawalConfirmation()
+    public function getConsentWithdrawalConfirmation() : string
     {
         $defaultAuth = AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
@@ -59,24 +59,25 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $tpl = new \ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
         /** @var ilObjUser $user */
         $user = $GLOBALS['DIC']->user();
-        if ( $user->getAuthMode() == AUTH_LDAP
-            || ( $user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP) )
-        {
+        if (
+            $user->getAuthMode() == AUTH_LDAP ||
+            ($user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP)
+        ) {
             $message = nl2br(
-                $this->lng->txt('withdrawal_mail_info')
-                . $this->lng->txt('withdrawal_mail_text')
+                $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text')
             );
 
             $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $message);
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptanceLDAP]'));
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'cmd[withdrawAcceptanceLDAP]'));
         } else {
             $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this,'cmd[withdrawAcceptance]'));
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'cmd[withdrawAcceptance]'));
         }
 
         $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
         $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
         $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
+
         return $tpl->get();
     }
 }

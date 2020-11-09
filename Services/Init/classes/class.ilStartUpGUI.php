@@ -240,9 +240,7 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        if (array_key_exists('wdtdel', $this->httpRequest->getQueryParams())) {
-            ilTermsOfServiceHelper::setWithdrawalInfo($this->httpRequest);
-        }
+        ilTermsOfServiceHelper::setWithdrawalInfo($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
     }

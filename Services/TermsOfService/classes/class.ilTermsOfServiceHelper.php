@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class ilTermsOfServiceHelper
  * @author Michael Jansen <mjansen@databay.de>
@@ -235,10 +237,12 @@ class ilTermsOfServiceHelper
      */
     public static function setWithdrawalInfo(ServerRequestInterface $httpRequest) : void
     {
-        if ($httpRequest->getQueryParams()['wdtdel'] == 1) {
-            ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_deleted'));
-        } else {
-            ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_redirect'));
+        if (isset($httpRequest->getQueryParams()['wdtdel'])) {
+            if ($httpRequest->getQueryParams()['wdtdel'] == 1) {
+                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_deleted'));
+            } else {
+                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_redirect'));
+            }
         }
     }
 
@@ -256,7 +260,7 @@ class ilTermsOfServiceHelper
         return $withdrawal_appendage_text;
     }
 
-    public static function handleWithdrawalRequest(ilObjUser $user, $gui_class) : void
+    public static function handleWithdrawalRequest(ilObjUser $user, object $gui_class) : void
     {
         global $DIC;
         $defaultAuth = AUTH_LOCAL;
@@ -267,14 +271,15 @@ class ilTermsOfServiceHelper
         $external = false;
         if (
             $user->getAuthMode() == AUTH_PROVIDER_LTI ||
-            $user->getAuthMode() == AUTH_ECS || (
-                $user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI
-            ) || (
-                $user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
-            ) {
+            $user->getAuthMode() == AUTH_ECS ||
+            ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
+            ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+        ) {
             $external = true;
         }
+
         $user->writePref('consent_withdrawal_requested', 1);
+
         if ($external) {
             $DIC->ctrl->setParameter($gui_class, 'withdrawal_relogin_content', 'external');
         } else {
