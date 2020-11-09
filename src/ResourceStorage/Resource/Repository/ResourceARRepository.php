@@ -5,7 +5,7 @@ namespace ILIAS\ResourceStorage\Resource\Repository;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class ResourceARRepository

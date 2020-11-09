@@ -3,7 +3,7 @@
 namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\Filesystem\Stream\FileStream;
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**

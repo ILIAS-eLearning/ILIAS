@@ -5,7 +5,7 @@ namespace ILIAS\ResourceStorage\Resource\Repository;
 use Generator;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**

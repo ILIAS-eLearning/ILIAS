@@ -6,7 +6,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
-use ILIAS\ResourceStorage\StorableResource;
 
 /**
  * Class StorableFileResource

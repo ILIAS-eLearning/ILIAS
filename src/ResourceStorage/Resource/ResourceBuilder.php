@@ -11,7 +11,6 @@ use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
@@ -136,10 +135,10 @@ class ResourceBuilder
         $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
         $path = $stream->getMetadata('uri');
         $file_name = basename($path);
-
         $info = $revision->getInformation();
         $info->setTitle($file_name);
         $info->setMimeType(mime_content_type($path));
+        $info->setSize($stream->getSize());
         $info->setCreationDate(new \DateTimeImmutable());
 
         $revision->setTitle($revision_title ?? $file_name);

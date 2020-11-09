@@ -35,7 +35,7 @@ class RevisionCollection
     public function add(Revision $revision) : void
     {
         if ($this->identification->serialize() !== $revision->getIdentification()->serialize()) {
-            throw new NonMatchingIdentificationException("Can't add Revision sice it'ss not the same ResourceIdentification");
+            throw new NonMatchingIdentificationException("Can't add Revision since it's not the same ResourceIdentification");
         }
         foreach ($this->revisions as $r) {
             if ($r->getVersionNumber() === $revision->getVersionNumber()) {
