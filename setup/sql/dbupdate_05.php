@@ -5046,3 +5046,17 @@ if (!$ilDB->tableColumnExists('il_resource_revision', 'title')) {
     ));
 }
 ?>
+<#5716>
+<?php
+if (!$ilDB->tableColumnExists('obj_content_master_lng', 'fallback_lang')) {
+    $ilDB->addTableColumn(
+        'obj_content_master_lng',
+        'fallback_lang',
+        array(
+            "type" => "text",
+            "notnull" => false,
+            "length" => 2
+        )
+    );
+}
+?>

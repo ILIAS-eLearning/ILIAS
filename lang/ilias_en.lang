@@ -141,6 +141,9 @@ crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonne
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
 crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+obj#:#obj_fallback_lang#:#Default Language
+obj#:#obj_set_fallback_lang#:#Set default language
+obj#:#obj_select_one_language#:#Please select one language
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
 crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
 meta#:#udf_type_address#:#Address

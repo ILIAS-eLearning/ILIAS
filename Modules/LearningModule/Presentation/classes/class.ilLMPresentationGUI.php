@@ -2987,6 +2987,9 @@ class ilLMPresentationGUI
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPage($a_id, 0, $this->lang);
         }
+        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->ot->getFallbackLanguage())) {
+            return new ilLMPage($a_id, 0, $this->ot->getFallbackLanguage());
+        }
         return new ilLMPage($a_id);
     }
 
