@@ -4902,22 +4902,22 @@ if (!$ilDB->tableColumnExists('file_data', 'rid')) {
 $fields = array(
     'internal' => array(
         'type' => 'text',
-        'length' => '256',
+        'length' => 255,
 
     ),
     'identification' => array(
         'type' => 'text',
-        'length' => '256',
+        'length' => 255,
 
     ),
     'stakeholder_id' => array(
         'type' => 'text',
-        'length' => '256',
+        'length' => 255,
 
     ),
     'stakeholder_class' => array(
         'type' => 'text',
-        'length' => '256',
+        'length' => 255,
 
     ),
 
@@ -5041,7 +5041,7 @@ if (!$ilDB->tableColumnExists('svy_qblk', 'compress_view')) {
 if (!$ilDB->tableColumnExists('il_resource_revision', 'title')) {
     $ilDB->addTableColumn('il_resource_revision', 'title', array(
         'type' => 'text',
-        'length' => '256',
+        'length' => 255,
         'default' => '-'
     ));
 }
