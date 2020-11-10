@@ -5320,3 +5320,7 @@ if($ilDB->tableExists('cmix_settings'))
     }
 }
 ?>
+<#5719>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
