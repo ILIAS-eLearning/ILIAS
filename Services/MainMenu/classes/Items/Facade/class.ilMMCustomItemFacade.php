@@ -20,6 +20,14 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      */
     protected $action = '';
     /**
+     * @var bool
+     */
+    protected $role_based_visibility = false;
+    /**
+     * @var array
+     */
+    protected $global_role_ids = [];
+    /**
      * @var string
      */
     protected $type = '';
@@ -40,6 +48,10 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
             if ($this->custom_item_storage->getType()) {
                 $this->type = $this->custom_item_storage->getType();
             }
+            $this->role_based_visibility = $this->custom_item_storage->hasRoleBasedVisibility();
+            if ($this->custom_item_storage->hasRoleBasedVisibility()) {
+                $this->global_role_ids = $this->custom_item_storage->getGlobalRoleIDs();
+            }
         }
     }
 
@@ -55,6 +67,10 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
                 $default_title = ilMMItemTranslationStorage::getDefaultTranslation($this->identification());
                 $mm->setDefaultTitle($default_title);
                 $mm->setType($this->getType());
+                $mm->setRoleBasedVisibility($this->role_based_visibility);
+                if($this->role_based_visibility) {
+                    $mm->setGlobalRoleIDs($this->global_role_ids);
+                }
                 $mm->update();
             }
         }
@@ -160,6 +176,42 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     public function setType(string $type)
     {
         $this->type = $type;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasRoleBasedVisibility() : bool
+    {
+        return $this->role_based_visibility;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setRoleBasedVisibility(bool $role_based_visibility)
+    {
+        $this->role_based_visibility = $role_based_visibility;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getGlobalRoleIDs() : array
+    {
+        return $this->global_role_ids;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setGlobalRoleIDs(array $global_role_ids)
+    {
+        $this->global_role_ids = $global_role_ids;
     }
 
 

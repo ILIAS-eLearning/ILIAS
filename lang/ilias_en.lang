@@ -14976,6 +14976,9 @@ mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Actions
 mme#:#sub_icon#:#Icon
 mme#:#sub_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
+mme#:#sub_role_based_visibility#:#Visibility for roles
+mme#:#sub_role_based_visibility_byline#:#Choose global roles which can see this item. If not activated, the item is always shown.
+mme#:#sub_global_roles#:#Global Roles
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)

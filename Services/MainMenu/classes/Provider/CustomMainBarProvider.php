@@ -32,6 +32,7 @@ use ilMMTypeHandlerLink;
 use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
+use ilObjMainMenuAccess;
 
 /**
  * Class CustomMainBarProvider
@@ -46,6 +47,10 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      */
     private $access_helper;
     /**
+     * @var ilObjMainMenuAccess
+     */
+    private $mm_access;
+    /**
      * @var \ILIAS\DI\Container
      */
     protected $dic;
@@ -57,6 +62,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->mm_access = new ilObjMainMenuAccess();
         $this->access_helper = BasicAccessCheckClosures::getInstance();
     }
 
@@ -71,7 +77,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
          */
         $top_items = [];
         foreach (ilMMCustomItemStorage::where(['top_item' => true])->get() as $item) {
-            $top_items[] = $this->getSingleCustomItem($item, true);
+            if($this->mm_access->isCurrentUserAllowedToSeeCustomItem($item)) {
+                $top_items[] = $this->getSingleCustomItem($item, true);
+            }
         }
 
         return $top_items;
@@ -88,7 +96,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
          */
         $items = [];
         foreach (ilMMCustomItemStorage::where(['top_item' => false])->get() as $item) {
-            $items[] = $this->getSingleCustomItem($item, true);
+            if($this->mm_access->isCurrentUserAllowedToSeeCustomItem($item)) {
+                $items[] = $this->getSingleCustomItem($item, true);
+            }
         }
 
         return $items;

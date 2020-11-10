@@ -14957,6 +14957,9 @@ mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Aktionen
 mme#:#sub_icon#:#Icon
 mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
+mme#:#sub_role_based_visibility#:#Sichtbarkeit für Rollen
+mme#:#sub_role_based_visibility_byline#:#Globale Rollen wählen, welche dieses Item sehen können. Wenn nicht aktiviert, wird das Item immer angezeigt.
+mme#:#sub_global_roles#:#Globale Rollen
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)

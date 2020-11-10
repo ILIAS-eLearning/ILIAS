@@ -5397,3 +5397,19 @@ require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::addAdminNode('fils', 'File Services');
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5726>
+<?php
+if (!$ilDB->tableColumnExists('il_mm_custom_items', 'role_based_visibility')) {
+    $ilDB->addTableColumn("il_mm_custom_items", "role_based_visibility", array(
+        "type" => "integer",
+        'length' => 1,
+        "default" => 0
+    ));
+}
+if (!$ilDB->tableColumnExists('il_mm_custom_items', 'global_role_ids')) {
+    $ilDB->addTableColumn("il_mm_custom_items", "global_role_ids", array(
+        "type" => "text",
+        'length' => 4000
+    ));
+}
+?>
