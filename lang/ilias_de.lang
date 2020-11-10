@@ -1922,6 +1922,7 @@ assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und akt
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
+assessment#:#autosavecontent#:#Inhalt Autosave
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
