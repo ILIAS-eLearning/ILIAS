@@ -76,6 +76,14 @@ abstract class ilMembershipRegistrationSettingsGUI
             $opt_dir = new ilRadioOption($this->txt('reg_direct'), ilMembershipRegistrationSettings::TYPE_DIRECT);
             $opt_dir->setInfo($this->txt('reg_direct_info'));
             $reg_type->addOption($opt_dir);
+
+            // cannot participate
+            $cannot_participate = new ilCheckboxInputGUI(
+                $this->txt('reg_cannot_participate'),
+                'show_cannot_participate_direct'
+            );
+            $cannot_participate->setValue(1);
+            $opt_dir->addSubItem($cannot_participate);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD, $this->getOptions())) {
             $opt_pass = new ilRadioOption($this->txt('reg_pass'), ilMembershipRegistrationSettings::TYPE_PASSWORD);
@@ -91,6 +99,23 @@ abstract class ilMembershipRegistrationSettingsGUI
         if (in_array(ilMembershipRegistrationSettings::TYPE_REQUEST, $this->getOptions())) {
             $opt_req = new ilRadioOption($this->txt('reg_request'), ilMembershipRegistrationSettings::TYPE_REQUEST, $this->txt('reg_request_info'));
             $reg_type->addOption($opt_req);
+
+            // cannot participate
+            $cannot_participate = new ilCheckboxInputGUI(
+                $this->txt('reg_cannot_participate'),
+                'show_cannot_participate_request'
+            );
+            $cannot_participate->setValue(1);
+            $opt_req->addSubItem($cannot_participate);
+
+        }
+        if (in_array(ilMembershipRegistrationSettings::TYPE_TUTOR, $this->getOptions())) {
+            $opt_tutor = new ilRadioOption(
+                $this->txt('reg_tutor'),
+                ilMembershipRegistrationSettings::TYPE_TUTOR,
+                $this->txt('reg_tutor_info')
+            );
+            $reg_type->addOption($opt_tutor);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_NONE, $this->getOptions())) {
             $opt_deact = new ilRadioOption($this->txt('reg_disabled'), ilMembershipRegistrationSettings::TYPE_NONE, $this->txt('reg_disabled_info'));

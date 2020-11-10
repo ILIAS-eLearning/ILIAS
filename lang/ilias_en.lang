@@ -12531,15 +12531,19 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 crs#:#crs_mem_tbl_header#:#Course Participants
 grp#:#grp_mem_tbl_header#:#Group Participants
+sess#:#sess_reg_tutor#:#No Registration Possible
+sess#:#sess_reg_tutor_info#:#Users cannot register for this session on their own. Only administrators can register users.
+sess#:#sess_reg_cannot_participate#:#Cannot Participate
+sess#:#sess_reg_cannot_participate_info#:#Users can indicate that they cannot participate in the session.
 sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
 sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
-sess#:#sess_reg_disabled#:#No Registration Necessary
+sess#:#sess_reg_disabled#:#Without Registration
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
-sess#:#sess_reg_disabled_info#:#Users do not need to register to participate in session.
+sess#:#sess_reg_disabled_info#:#Registion options are not offered for this session.
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate in session.

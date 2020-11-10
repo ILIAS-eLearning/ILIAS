@@ -12493,6 +12493,10 @@ crs#:#crs_mem_tbl_header#:#Kursteilnehmer
 grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
+sess#:#sess_reg_tutor#:#Keine Anmeldung notwendig
+sess#:#sess_reg_tutor_info#:#Die Anmeldung durch Benutzer ist inaktiv. Lediglich Administratoren können Benutzer anmelden.
+sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
+sess#:#sess_reg_cannot_participate_info#:#Benutzer haben auf der "Info-Seite" die Möglichkeit, ihre Teilnahme abzusagen.
 sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde abgesagt.
 sess#:#sess_bt_refuse#:#Teilnahme absagen
 sess#:#sess_part_table_excused#:#Abgesagt
@@ -12502,9 +12506,9 @@ sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
 sess#:#sess_reg_direct_info#:#Benutzer müssen auf „Anmelden“ klicken, wenn Sie an dieser Sitzung teilnehmen möchten.
 sess#:#sess_reg_request#:#Teilnahme beantragen
-sess#:#sess_reg_disabled#:#Keine Anmeldung erforderlich
+sess#:#sess_reg_disabled#:#Ohne Anmeldung
 sess#:#sess_reg_request_info#:#Eine Teilnahme an der Sitzung erfordert die Zustimmung durch einen Administrator.
-sess#:#sess_reg_disabled_info#:#Für diesen Sitzungstermin ist eine Anmeldung nicht erforderlich.
+sess#:#sess_reg_disabled_info#:#Optionen zur Anmeldung von Benutzern zur Sitzung werden nicht angeboten.
 sess#:#sess_reg_max_members_short#:#Begrenzte Teilnehmeranzahl
 sess#:#sess_reg_max_members#:#Maximale Anzahl
 sess#:#sess_reg_max_members_info#:#Ist die maximale Teilnehmeranzahl erreicht, ist eine Anmeldung nicht mehr möglich.
