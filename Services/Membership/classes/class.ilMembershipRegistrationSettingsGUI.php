@@ -82,7 +82,7 @@ abstract class ilMembershipRegistrationSettingsGUI
                 $this->txt('reg_cannot_participate'),
                 'show_cannot_participate_direct'
             );
-            $cannot_participate->setInfo('reg_cannot_participate_info');
+            $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
             $cannot_participate->setValue(1);
             $opt_dir->addSubItem($cannot_participate);
         }
@@ -106,7 +106,7 @@ abstract class ilMembershipRegistrationSettingsGUI
                 $this->txt('reg_cannot_participate'),
                 'show_cannot_participate_request'
             );
-            $cannot_participate->setInfo('reg_cannot_participate_info');
+            $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
             $cannot_participate->setValue(1);
             $opt_req->addSubItem($cannot_participate);
 
