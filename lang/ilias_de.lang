@@ -12493,7 +12493,7 @@ crs#:#crs_mem_tbl_header#:#Kursteilnehmer
 grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
-sess#:#sess_reg_tutor#:#Keine Anmeldung notwendig
+sess#:#sess_reg_tutor#:#Keine Anmeldung möglich
 sess#:#sess_reg_tutor_info#:#Die Anmeldung durch Benutzer ist inaktiv. Lediglich Administratoren können Benutzer anmelden.
 sess#:#sess_reg_cannot_participate#:#Teilnahme absagen
 sess#:#sess_reg_cannot_participate_info#:#Benutzer haben auf der "Info-Seite" die Möglichkeit, ihre Teilnahme abzusagen.
