@@ -286,7 +286,12 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->setInfo($DIC->language()->txt('conf_user_name_info'));
         $item->setRequired(false);
         $form->addItem($item);
+
         
+
+
+
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_setting_conf'), 'force_privacy_setting');
         $op = new ilRadioOption($DIC->language()->txt('conf_privacy_setting_default'), 0);
         $item->addOption($op);
