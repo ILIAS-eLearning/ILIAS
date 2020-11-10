@@ -2,6 +2,11 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\HTTPServices;
+use ILIAS\DI\UIServices;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+
 /**
  * Tagging slate UI
  *
@@ -21,19 +26,24 @@ class ilTaggingSlateContentGUI
     protected $user;
 
     /**
-     * @var \ILIAS\DI\UIServices
+     * @var UIServices
      */
     protected $ui;
 
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
 
     /**
-     * @var \ilAccessHandler
+     * @var ilAccessHandler
      */
     protected $access;
+
+    /**
+     * @var HTTPServices
+     */
+    protected $http;
 
 
     /**
@@ -48,6 +58,7 @@ class ilTaggingSlateContentGUI
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+        $this->http = $DIC->http();
 
         $this->lng->loadLanguageModule("tagging");
 
@@ -120,13 +131,14 @@ class ilTaggingSlateContentGUI
         }
         return $tpl->get();
     }
-    
+
 
     /**
      * show resources
      *
      * @param
      * @return string
+     * @throws ResponseSendingException
      */
     protected function showResourcesForTag()
     {
@@ -175,19 +187,11 @@ class ilTaggingSlateContentGUI
         ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
-        /*
-        if ($unaccessible)
-        {
-            $tpl->setCurrentBlock("no_access");
-            $tpl->setVariable("SOME_OBJ_WITHOUT_ACCESS", $lng->txt("tag_some_obj_tagged_without_access"));
-            $ilCtrl->saveParameter($this, "tag");
-            $tpl->setVariable("HREF_REMOVE_TAGS", $ilCtrl->getLinkTarget($this, "removeTagsWithoutAccess"));
-            $tpl->setVariable("REMOVE_TAGS", $lng->txt("tag_remove_tags_of_obj_without_access"));
-            $tpl->parseCurrentBlock();
-        }*/
-
-        echo $ui->renderer()->renderAsync([$back_button, $panel]);
-        exit;
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($ui->renderer()->renderAsync([$back_button, $panel]))
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**

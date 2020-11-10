@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilTaggingSlateContentMenuGUI;
 
 /**
  * Class TaggingMainBarProvider
@@ -39,7 +40,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSupportsAsynchronousLoading(true)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () {
-                    $tag_ui = new \ilTaggingSlateContentGUI();
+                    $tag_ui = new ilTaggingSlateContentMenuGUI();
 
                     return $this->dic->ui()->factory()->legacy($tag_ui->render());
                 })
