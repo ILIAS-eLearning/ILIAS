@@ -8,6 +8,7 @@ use ILIAS\DI\Container;
 use ilSession;
 use ilTermsOfServiceAcceptanceStartUpStep;
 use ilForcedUserPasswordChangeStartUpStep;
+use ilTermsOfServiceWithdrawalStartUpStep;
 use ilUserProfileStartUpStep;
 use SplQueue;
 
@@ -35,6 +36,9 @@ class StartUpSequenceDispatcher
     protected function initSequence() : void
     {
         $this->sequence = new SplQueue();
+        $this->sequence->push(new ilTermsOfServiceWithdrawalStartUpStep(
+            $this->dic
+        ));
         $this->sequence->push(new ilTermsOfServiceAcceptanceStartUpStep(
             $this->dic
         ));

@@ -1954,6 +1954,23 @@ cntr#:#cntr_view_simple#:#Simple View
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
+common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
+common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
+common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
+common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
+common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
+common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
+common#:#withdraw#:#Withdraw
+common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
+common#:#withdraw_usr_agreement#:#Withdraw
+common#:#accept_usr_agreement_btn#:#Accept
+common#:#deny_usr_agreement#:#Do not accept terms of service?
+common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
+common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nKind regards\n\n
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -10822,6 +10839,8 @@ tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selecte
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
 tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal 
+tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings

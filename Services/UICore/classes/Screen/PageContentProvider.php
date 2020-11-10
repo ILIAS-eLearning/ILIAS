@@ -181,6 +181,9 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
 
             $footer = $f->mainControls()->footer($links, $text);
 
+            $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+            $footer = $tos_withdrawal_helper->modifyFooter($footer);
+
             if (self::$perma_link !== "") {
                 $footer = $footer->withPermanentURL(new URI(self::$perma_link));
             }

@@ -2349,6 +2349,24 @@ cntr#:#edit_questions#:#Fragen bearbeiten
 common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
+common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
+common#:#withdraw_consent_description_internal#:#Bitte loggen Sie sich wieder ein um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herkunftsinstallation zurück und loggen Sie sich erneut ein um den Widerrufsvorgang abzuschließen.
+common#:#withdraw_consent#:#Einverständnis widerrufen
+common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen wird Ihr Account gelöscht.
+common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Authorisierungssystem und teilen Sie Ihre Absicht mit.
+common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsbedingungen
+common#:#withdraw#:#Widerruf
+common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsbedingungen
+common#:#withdraw_usr_agreement#:#Widerrufen
+common#:#accept_usr_agreement_btn#:#Zustimmen
+common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
+common#:#deny_usr_agreement_btn#:#Ablehnen
+common#:#withdrawal_complete_deleted#:#Widerrufsvorgang abgeschlossen. Der Nutzeraccount wurde gelöscht.
+common#:#withdrawal_complete_redirect#:#Widerrufsvorgang abgeschlossen. Zur Löschung des Accounts bitte Kontakt zu Ihrer Organisation aufnehmen.
+common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsbedingungen
+common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,\n\n hiermit widerrufe ich mein Einverständnis in die Nutzungsbedingungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.\n\nMit freundlichen Grüßen\n\n
+common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:\n\n
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
@@ -10840,6 +10858,8 @@ tos#:#tos_crit_type_usr_country_info#:#Das Dokument muss akzeptiert werden, wenn
 tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht möglich, da in dieser Installation keine Benutzervereinbarung angeboten wird. Bitte kontaktieren Sie Ihren <a href="%1$s">Systemadministrator</a> für weitere Informationen.
 tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
 tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall, und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu aktepzieren.
+tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
+tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos. 
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
