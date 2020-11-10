@@ -12543,7 +12543,7 @@ sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in s
 sess#:#sess_reg_request#:#Apply for Participation
 sess#:#sess_reg_disabled#:#Without Registration
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
-sess#:#sess_reg_disabled_info#:#Registion options are not offered for this session.
+sess#:#sess_reg_disabled_info#:#Registration options are not offered for this session.
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate in session.
