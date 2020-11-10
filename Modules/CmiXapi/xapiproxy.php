@@ -12,23 +12,9 @@ use \GuzzleHttp\Exception\GuzzleException;
 
 // ToDo: json_decode(obj,true) as assoc array might be faster?
 $specificAllowedStatements = NULL;
-/*
-$specificAllowedStatements = array(
-    "http://adlnet.gov/expapi/verbs/completed",
-    "http://adlnet.gov/expapi/verbs/passed",
-    "http://adlnet.gov/expapi/verbs/initialized",
-    "http://adlnet.gov/expapi/verbs/terminated",
-    "http://adlnet.gov/expapi/verbs/launched"
-);
-*/
+
 $replacedValues = NULL;
 
-/*
-$replacedValues = array(
-  'timestamp' => '1970-01-01T00:00:00.000Z',
-  'result.duration' => 'PT00.000S'
-);
-*/
 $blockSubStatements = false;
 
 // check options requests
@@ -64,6 +50,8 @@ $log = ilLoggerFactory::getLogger('cmix');
 
 try {
     $authToken = ilCmiXapiAuthToken::getInstanceByToken($token);
+    $lrsType = getLrsTypeAndMoreByToken($token);
+    // one query would be better
     $lrsType = new ilCmiXapiLrsType($authToken->getLrsTypeId());
     $objId = $authToken->getObjId();
 
@@ -568,4 +556,78 @@ function _log($txt)
     if (DEVMODE) {
         file_put_contents("xapilog.txt", $txt . "\n", FILE_APPEND);
     }
+}
+
+function getLrsTypeAndMoreByToken($token)
+{
+    global $replacedValues, $specificAllowedStatements, $blockSubStatements, $DIC; /** @var Container $DIC */
+    $type_id = null;
+    $lrs = null;
+
+    $db = $DIC->database();
+    $query ="SELECT cmix_settings.lrs_type_id,
+					cmix_settings.only_moveon, 
+					cmix_settings.achieved, 
+					cmix_settings.answered, 
+					cmix_settings.completed, 
+					cmix_settings.failed, 
+					cmix_settings.initialized, 
+					cmix_settings.passed, 
+					cmix_settings.progressed, 
+					cmix_settings.satisfied, 
+					cmix_settings.c_terminated, 
+					cmix_settings.hide_data, 
+					cmix_settings.c_timestamp, 
+					cmix_settings.duration, 
+					cmix_settings.no_substatements 
+			FROM cmix_settings, cmix_token 
+			WHERE cmix_settings.obj_id = cmix_token.obj_id AND cmix_token.token = " . $db->quote($token, 'text');
+    $res = $db->query($query);
+    while ($row = $db->fetchObject($res))
+    {
+        $type_id = $row->type_id;
+        if ($type_id) {
+            $lrs = new ilXapiCmi5Type($type_id);
+        }
+        if ((bool)$row->only_moveon) {
+            if ((bool)$row->achieved) {
+                $specificAllowedStatements[] = "https://w3id.org/xapi/dod-isd/verbs/achieved";
+            }
+            if ((bool)$row->answered) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/answered";
+                $specificAllowedStatements[] = "https://w3id.org/xapi/dod-isd/verbs/answered";
+            }
+            if ((bool)$row->completed) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/completed";
+                $specificAllowedStatements[] = "https://w3id.org/xapi/dod-isd/verbs/completed";
+            }
+            if ((bool)$row->failed) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/failed";
+            }
+            if ((bool)$row->initialized) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/initialized";
+                $specificAllowedStatements[] = "https://w3id.org/xapi/dod-isd/verbs/initialized";
+            }
+            if ((bool)$row->passed) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/passed";
+            }
+            if ((bool)$row->progressed) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/progressed";
+            }
+            if ((bool)$row->satisfied) {
+                $specificAllowedStatements[] = "https://w3id.org/xapi/adl/verbs/satisfied";
+            }
+            if ((bool)$row->c_terminated) {
+                $specificAllowedStatements[] = "http://adlnet.gov/expapi/verbs/terminated";
+            }
+        }
+        if ((bool)$row->hide_data) {
+            if ((bool)$row->c_timestamp) $replacedValues['timestamp'] = '1970-01-01T00:00:00.000Z';
+            if ((bool)$row->duration) $replacedValues['result.duration'] = 'PT00.000S';
+        }
+        if ((bool)$row->no_substatements) {
+            $blockSubStatements = true;
+        }
+    }
+    return $lrs;
 }
