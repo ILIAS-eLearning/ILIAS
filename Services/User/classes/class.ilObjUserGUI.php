@@ -1337,31 +1337,8 @@ class ilObjUserGUI extends ilObjectGUI
                 }
                 $wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc") . '<br>' . $info_text);
             }
-            
-            // disk usage
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            $du_info = ilDiskQuotaHandler::getFilesizeByTypeAndOwner($this->object->getId());
-            $disk_usage = new ilNonEditableValueGUI($lng->txt("disk_usage"), "disk_usage");
-            if (!sizeof($du_info)) {
-                $disk_usage->setValue($lng->txt('unknown'));
-            } else {
-                $disk_usage->setValue(ilUtil::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
-                $info = '<table class="il_user_quota_disk_usage_overview">';
-                // write the count and size of each object type
-                foreach ($du_info as $detail_data) {
-                    $info .= '<tr>' .
-                        '<td class="std">' . $detail_data['count'] . '</td>' .
-                        '<td class="std">' . $lng->txt("obj_" . $detail_data["src_type"]) . '</td>' .
-                        '<td class="std">' . ilUtil::formatSize($detail_data['filesize'], 'short') . '</td>' .
-                        '</tr>'
-                        ;
-                }
-                $info .= '</table>';
-                $disk_usage->setInfo($info);
-            }
-            $this->form_gui->addItem($disk_usage);
         }
-         
+
         // personal data
         if (
             $this->isSettingChangeable('gender') or

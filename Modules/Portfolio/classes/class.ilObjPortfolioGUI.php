@@ -894,14 +894,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             }
             $form->addItem($skills);
         }
-        
-        if ($quota_sum) {
-            if (!ilDiskQuotaHandler::isUploadPossible($quota_sum)) {
-                ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
-                $this->ctrl->redirect($this, "create");
-            }
-        }
-        
         // no dialog needed, go ahead
         if (!$has_form_content) {
             return;
@@ -1084,13 +1076,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                         }
                         $skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
                         break;
-                }
-            }
-
-            if ($quota_sum) {
-                if (!ilDiskQuotaHandler::isUploadPossible($quota_sum)) {
-                    ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
-                    $this->ctrl->redirect($this, "create");
                 }
             }
 

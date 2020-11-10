@@ -25,16 +25,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     public function create()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $this->lng->loadLanguageModule("file");
-                ilUtil::sendFailure($this->lng->txt("personal_workspace_quota_exceeded_warning"), true);
-                $this->ctrl->redirect($this, "cancel");
-            }
-        }
-        
+
         $this->lng->loadLanguageModule("ltiv");
         
         $DIC->tabs()->setBackTarget(

@@ -26,15 +26,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
 
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $this->lng->loadLanguageModule("file");
-                ilUtil::sendFailure($this->lng->txt("personal_resources_quota_exceeded_warning"), true);
-                $this->ctrl->redirect($this, "cancel");
-            }
-        }
-
         $this->lng->loadLanguageModule("scov");
 
         $ilTabs->setBackTarget(
