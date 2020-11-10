@@ -16249,6 +16249,22 @@ survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#mainbar_more_label#:#More
+common#:#obj_fils#:#File Services
+common#:#obj_fils_desc#:#Configuration of File Service Settings.
+fils#:#file_services#:#File Services
+fils#:#file_services_description#:#Configuration of File Service Settings.
+fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)
+fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
+fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)
+fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.
+fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)
+fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.
+fils#:#file_suffix_overall_positive#:#Overall Positive List
+fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
+fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
+fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
+common#:#file_objects#:#File Objects
+common#:#preview_renderers#:#Preview Renderers
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 common#:#back_to_course#:#Back to Course

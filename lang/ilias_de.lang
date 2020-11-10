@@ -16244,6 +16244,22 @@ survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#mainbar_more_label#:#Mehr
+common#:#obj_fils#:#Datei-Services
+common#:#obj_fils_desc#:#Konfiguration der Datei-Service Einstellungen.
+fils#:#file_services#:#Datei-Services
+fils#:#file_services_description#:#Konfiguration der Datei-Service Einstellungen.
+fils#:#file_suffix_default_positive#:#Dateiendungen: Positivliste (Ausgangsliste)
+fils#:#file_suffix_default_positive_info#:#Voreingestellte Ausgangsliste für akzeptierte Dateiendungen.
+fils#:#file_suffix_custom_negative#:#Dateiendungen: Negativliste (Anpassungen)
+fils#:#file_suffix_custom_negative_info#:#Diese Dateiendungen werden aus der obigen Positivliste entfernt.
+fils#:#file_suffix_custom_positive#:#Dateiendungen: Positivliste (Anpassungen)
+fils#:#file_suffix_custom_positive_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
+fils#:#file_suffix_overall_positive#:#Effektive Positivliste
+fils#:#file_suffix_overall_positive_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
+fils#:#file_suffix_custom_expl_negative#:#Verbotene Dateiendungen
+fils#:#file_suffix_custom_expl_negative_info#:#Dateien mit diesen Endungen werden beim Upload nicht akzeptiert.
+common#:#file_objects#:#Datei-Objekte
+common#:#preview_renderers#:#Vorschau-Renderer
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 common#:#back_to_course#:#Zurück zum Kurs

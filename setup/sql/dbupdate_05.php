@@ -5017,3 +5017,9 @@ if (!$ilDB->tableColumnExists('il_resource_info', 'creation_date')) {
     ));
 }
 ?>
+<#5714>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('fils', 'File Services');
+$ilCtrlStructureReader->getStructure();
+?>

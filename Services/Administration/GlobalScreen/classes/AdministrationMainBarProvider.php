@@ -195,7 +195,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         // admin menu layout
         $layout = array(
             "maintenance" =>
-                array("adm", "lngf", "hlps", "wfe", "pdfg", 'logs', 'sysc', "recf", "root"),
+                array("adm", "lngf", "hlps", "wfe", "pdfg", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
                 array("mme", "stys", "adve", "accs"),
             "user_administration" =>
