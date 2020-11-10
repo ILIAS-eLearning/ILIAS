@@ -10515,10 +10515,14 @@ dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_url#:#URL or E-Mail
 dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar
+dateplaner#:#cal_setting_global_crs_act#:#Activation in Courses
+dateplaner#:#cal_setting_global_grp_act#:#Activation in Groups
+dateplaner#:#cal_setting_global_crs_act_info#:#If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings.
+dateplaner#:#cal_setting_global_grp_act_info#:#If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings.
 dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses
 dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups
-dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings.
-dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.
+dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, a calendar block is shown in courses by default. In any case the calendar block can be enabled/disabled in the course settings.
+dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, a calendar block is shown in groups by default. In any case the calendar block can be enabled/disabled in the group settings.
 dcl#:#dcl_edit_table#:#Edit Table Settings
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
 dcl#:#dcl_legend_placeholders#:#Placeholders
@@ -10537,7 +10541,8 @@ dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module
-common#:#obj_tool_setting_calendar#:#Calendar
+common#:#obj_tool_setting_calendar#:#Calendar Block
+common#:#obj_tool_setting_calendar_active#:#Calendar
 crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group
@@ -12060,7 +12065,8 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The ‘Info’ tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
-common#:#obj_tool_setting_calendar_info#:#A calendar is available and the ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.

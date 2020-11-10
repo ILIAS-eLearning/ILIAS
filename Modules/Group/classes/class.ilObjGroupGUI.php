@@ -242,7 +242,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $this,
                     $this->object->getId(),
                     array(
-                            ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+                            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION
                         )
                 );
                 $this->ctrl->forwardCommand($service);
@@ -672,7 +672,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->object->getId(),
                 $form,
                 array(
-                    ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                     ilObjectServiceSettingsGUI::USE_NEWS,
                     ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                     ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
@@ -1799,7 +1799,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->object->getId(),
                 $form,
                 array(
-                        ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                        ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                         ilObjectServiceSettingsGUI::USE_NEWS,
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                         ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,

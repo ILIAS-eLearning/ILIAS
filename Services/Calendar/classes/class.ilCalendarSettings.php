@@ -86,6 +86,8 @@ class ilCalendarSettings
     
     private $course_cal_enabled = true;
     private $group_cal_enabled = true;
+    private $course_cal_visible = true;
+    private $group_cal_visible = true;
     
     private $webcal_sync = false;
     private $webcal_sync_hours = 2;
@@ -118,7 +120,6 @@ class ilCalendarSettings
      * @access public
      * @static
      * @return ilCalendarSettings
-     * @return ilCalendarSettings
      */
     public static function _getInstance()
     {
@@ -129,8 +130,26 @@ class ilCalendarSettings
     }
     
     /**
-     *
-     * @param type $a_obj_id
+     * @param int $obj_id
+     * @return bool
+     */
+    public static function lookupCalendarContentPresentationEnabled(int $obj_id) : bool
+    {
+        if (!self::lookupCalendarActivated($obj_id)) {
+            return false;
+        }
+        $settings = self::_getInstance();
+        $type = ilObject::_lookupType($obj_id);
+        $default = $settings->isObjectCalendarVisible($type);
+        return ilContainer::_lookupContainerSetting(
+            $obj_id,
+            'cont_show_calendar', // @todo create ilContainer constant
+            $default
+        );
+    }
+
+    /**
+     * @param int $a_obj_id
      */
     public static function lookupCalendarActivated($a_obj_id)
     {
@@ -156,7 +175,7 @@ class ilCalendarSettings
         include_once './Services/Container/classes/class.ilContainer.php';
         return ilContainer::_lookupContainerSetting(
             $a_obj_id,
-            'cont_show_calendar',
+            'cont_activation_calendar',
             $gl_activated
             );
     }
@@ -522,6 +541,27 @@ class ilCalendarSettings
         return $this->course_cal_enabled;
     }
     
+    public function isCourseCalendarVisible() : bool
+    {
+        return $this->course_cal_visible;
+    }
+
+    public function setCourseCalendarVisible(bool $status)
+    {
+        $this->course_cal_visible = $status;
+    }
+
+    public function isObjectCalendarVisible(string $type) : bool
+    {
+        switch ($type) {
+            case 'crs':
+                return $this->isCourseCalendarVisible();
+            case 'grp':
+                return $this->isGroupCalendarVisible();
+        }
+        return false;
+    }
+    
     public function enableGroupCalendar($a_stat)
     {
         $this->group_cal_enabled = $a_stat;
@@ -530,6 +570,16 @@ class ilCalendarSettings
     public function isGroupCalendarEnabled()
     {
         return $this->group_cal_enabled;
+    }
+    
+    public function isGroupCalendarVisible() : bool
+    {
+        return $this->group_cal_visible;
+    }
+
+    public function setGroupCalendarVisible(bool $status)
+    {
+        $this->group_cal_visible = $status;
     }
     
     public function enableWebCalSync($a_stat)
@@ -605,7 +655,9 @@ class ilCalendarSettings
         $this->storage->set('consultation_hours', (int) $this->areConsultationHoursEnabled());
         $this->storage->set('cg_registration', (int) $this->isCGRegistrationEnabled());
         $this->storage->set('course_cal', (int) $this->isCourseCalendarEnabled());
+        $this->storage->set('course_cal_visible', (int) $this->isCourseCalendarVisible());
         $this->storage->set('group_cal', (int) $this->isGroupCalendarEnabled());
+        $this->storage->set('group_cal_visisble', (int) $this->isGroupCalendarVisible());
         $this->storage->set('notification_user', (int) $this->isUserNotificationEnabled());
         $this->storage->set('webcal_sync', (int) $this->isWebCalSyncEnabled());
         $this->storage->set('webcal_sync_hours', (int) $this->getWebCalSyncHours());
@@ -640,7 +692,9 @@ class ilCalendarSettings
         $this->enableConsultationHours($this->storage->get('consultation_hours', $this->areConsultationHoursEnabled()));
         $this->enableCGRegistration($this->storage->get('cg_registration', $this->isCGRegistrationEnabled()));
         $this->enableCourseCalendar($this->storage->get('course_cal', $this->isCourseCalendarEnabled()));
+        $this->setCourseCalendarVisible($this->storage->get('course_cal_vis', $this->isCourseCalendarVisible()));
         $this->enableGroupCalendar($this->storage->get('group_cal', $this->isGroupCalendarEnabled()));
+        $this->setGroupCalendarVisible($this->storage->get('group_cal_vis', $this->isGroupCalendarVisible()));
         $this->enableUserNotification($this->storage->get('notification_user', $this->isUserNotificationEnabled()));
         $this->enableWebCalSync($this->storage->get('webcal_sync', $this->isWebCalSyncEnabled()));
         $this->setWebCalSyncHours($this->storage->get('webcal_sync_hours', $this->getWebCalSyncHours()));

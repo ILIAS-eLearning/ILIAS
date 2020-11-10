@@ -64,7 +64,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         $this->dic = $DIC;
         $this->error = $DIC['ilErr'];
-        ;
         $this->rbacsystem = $this->dic->rbac()->system();
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('dateplaner');
@@ -174,8 +173,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->settings->setDefaultDateFormat((int) $_POST['default_date_format']);
         $this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
         $this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
-        $this->settings->enableCourseCalendar((int) $_POST['visible_crs']);
-        $this->settings->enableGroupCalendar((int) $_POST['visible_grp']);
+        $this->settings->enableCourseCalendar((int) $_POST['enabled_crs']);
+        $this->settings->setCourseCalendarVisible((int) $_POST['visible_crs']);
+        $this->settings->enableGroupCalendar((int) $_POST['enabled_grp']);
+        $this->settings->setGroupCalendarVisible((int) $_POST['visible_grp']);
         $this->settings->setDefaultDayStart((int) $_POST['dst']);
         $this->settings->setDefaultDayEnd((int) $_POST['den']);
         $this->settings->enableSynchronisationCache((bool) $_POST['sync_cache']);
@@ -381,19 +382,36 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $rep->setTitle($GLOBALS['DIC']['lng']->txt('cal_setting_global_vis_repos'));
         $this->form->addItem($rep);
         
+        $crs_active = new ilCheckboxInputGUI(
+            $this->lng->txt('cal_setting_global_crs_act'),
+            'enabled_crs'
+        );
+        $crs_active->setInfo($this->lng->txt('cal_setting_global_crs_act_info'));
+        $crs_active->setValue(1);
+        $crs_active->setChecked($this->settings->isCourseCalendarEnabled());
+        $this->form->addItem($crs_active);
+
         $crs = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis'), 'visible_crs');
         $crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
         $crs->setValue(1);
-        $crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
-        $crs->setChecked($this->settings->isCourseCalendarEnabled());
-        $this->form->addItem($crs);
+        $crs->setChecked($this->settings->isCourseCalendarVisible());
+        $crs_active->addSubItem($crs);
+
+        $grp_active = new ilCheckboxInputGUI(
+            $this->lng->txt('cal_setting_global_grp_act'),
+            'enabled_grp'
+        );
+        $grp_active->setInfo($this->lng->txt('cal_setting_global_grp_act_info'));
+        $grp_active->setValue(1);
+        $grp_active->setChecked($this->settings->isGroupCalendarEnabled());
+        $this->form->addItem($grp_active);
 
         $grp = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis'), 'visible_grp');
         $grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
         $grp->setValue(1);
         $grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
-        $grp->setChecked($this->settings->isGroupCalendarEnabled());
-        $this->form->addItem($grp);
+        $grp->setChecked($this->settings->isGroupCalendarVisible());
+        $grp_active->addSubItem($grp);
         
         // Notifications
         $not = new ilFormSectionHeaderGUI();
@@ -483,7 +501,14 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
                 
                 $fields = array();
                 
-                $subitems = array('cal_setting_global_crs_vis' => array($this->settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+                $subitems = array(
+                    'cal_setting_global_crs_act' => [
+                        $this->settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'cal_setting_global_crs_vis' =>
+                        array($this->settings->isCourseCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+
+                );
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
                         
                 $subitems = array(
@@ -502,7 +527,15 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
                 
                 $fields = array();
                 
-                $subitems = array('cal_setting_global_grp_vis' => array($this->settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+                $subitems = array(
+                    'cal_setting_global_grp_act' => [
+                        $this->settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'cal_setting_global_grp_vis' =>
+                        array($this->settings->isGroupCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+
+                );
+
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
                 
                 $subitems = array(
