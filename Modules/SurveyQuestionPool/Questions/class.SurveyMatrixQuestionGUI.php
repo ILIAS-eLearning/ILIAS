@@ -560,7 +560,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     *
     * @access public
     */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
+    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
     {
         $layout = $this->object->getLayout();
         $neutralstyle = "3px solid #808080";

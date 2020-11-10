@@ -38,9 +38,8 @@ class ilInstallationInformationStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesLoadedObjective(),
             new \ilSettingsFactoryExistsObjective()
         ];
     }

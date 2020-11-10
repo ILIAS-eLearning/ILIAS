@@ -239,4 +239,20 @@ class ilGroupMembershipGUI extends ilMembershipGUI
         }
         return [];
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getMailContextOptions() : array
+    {
+        $context_options = [
+            ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(
+                $this->getParentObject()->getId(),
+                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX,
+                ''
+            ),
+        ];
+
+        return $context_options;
+    }
 }

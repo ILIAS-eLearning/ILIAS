@@ -57,6 +57,12 @@ interface ControlBuilder
     public function generic(string $label, string $command, int $parameter = null) : ControlBuilder;
 
     /**
+     * A genericWithSignal will trigger the Signal rather than refreshing the View.
+     *
+     */
+    public function genericWithSignal(string $label, UI\Component\Signal $signal) : ControlBuilder;
+
+    /**
      * A toggle can be used to switch some behaviour in the view on or of.
      */
     public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder;

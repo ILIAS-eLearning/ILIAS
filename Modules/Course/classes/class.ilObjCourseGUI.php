@@ -1002,7 +1002,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getId(),
             $form,
             array(
-                ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                 ilObjectServiceSettingsGUI::USE_NEWS,
                 ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
                 ilObjectServiceSettingsGUI::TAG_CLOUD,
@@ -1010,7 +1010,8 @@ class ilObjCourseGUI extends ilContainerGUI
                 ilObjectServiceSettingsGUI::BADGES,
                 ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
                 ilObjectServiceSettingsGUI::SKILLS,
-                ilObjectServiceSettingsGUI::BOOKING
+                ilObjectServiceSettingsGUI::BOOKING,
+                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
             )
         );
         
@@ -1475,7 +1476,7 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->object->getId(),
             $form,
             array(
-                    ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                     ilObjectServiceSettingsGUI::USE_NEWS,
                     ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
                     ilObjectServiceSettingsGUI::TAG_CLOUD,
@@ -1483,7 +1484,8 @@ class ilObjCourseGUI extends ilContainerGUI
                     ilObjectServiceSettingsGUI::BADGES,
                     ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
                     ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::BOOKING
+                    ilObjectServiceSettingsGUI::BOOKING,
+                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                 )
             );
 
@@ -2144,21 +2146,13 @@ class ilObjCourseGUI extends ilContainerGUI
         }
 
         // skills
-        include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-        if ($ilAccess->checkAccess('read', '', $this->ref_id) && ilContainer::_lookupContainerSetting(
-            $this->object->getId(),
-            ilObjectServiceSettingsGUI::SKILLS,
-            false
-        )) {
-            $skmg_set = new ilSetting("skmg");
-            if ($skmg_set->get("enable_skmg")) {
-                $this->tabs_gui->addTarget(
-                    "obj_tool_setting_skills",
-                    $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
-                    "",
-                    array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
-                );
-            }
+        if (ilContSkillPresentationGUI::isAccessible($this->ref_id)) {
+            $this->tabs_gui->addTarget(
+                "obj_tool_setting_skills",
+                $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+                "",
+                array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
+            );
         }
 
         // booking
@@ -2521,7 +2515,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     $this,
                     $this->object->getId(),
                     array(
-                            ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+                            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION
                         )
                 );
                 $this->ctrl->forwardCommand($service);
@@ -2830,7 +2824,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        
+
         include_once './Services/Membership/classes/class.ilMembershipRegistrationCodeUtils.php';
         if (substr($a_add, 0, 5) == 'rcode') {
             if ($ilUser->getId() == ANONYMOUS_USER_ID) {
@@ -2851,6 +2845,10 @@ class ilObjCourseGUI extends ilContainerGUI
         
         if ($a_add == "mem" && $ilAccess->checkAccess("manage_members", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target, "members");
+        }
+
+        if ($a_add == "comp" && ilContSkillPresentationGUI::isAccessible($a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "competences");
         }
 
         if ($ilAccess->checkAccess("read", "", $a_target)) {

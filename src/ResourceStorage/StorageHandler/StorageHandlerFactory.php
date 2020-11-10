@@ -2,7 +2,7 @@
 
 namespace ILIAS\ResourceStorage\StorageHandler;
 
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class StorageHandlerFactory

@@ -22,7 +22,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         return new \ILIAS\UI\Implementation\Component\Counter\Factory();
     }
 
-    public static $canonical_css_classes = array( G\Glyph::SETTINGS => "glyphicon glyphicon-cog"
+    public static $canonical_css_classes = array(
+        G\Glyph::SETTINGS => "glyphicon glyphicon-cog"
         , G\Glyph::EXPAND => "glyphicon glyphicon-triangle-right"
         , G\Glyph::COLLAPSE => "glyphicon glyphicon-triangle-bottom"
         , G\Glyph::ADD => "glyphicon glyphicon-plus-sign"
@@ -39,6 +40,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::TAG => "glyphicon glyphicon-tag"
         , G\Glyph::NOTE => "glyphicon glyphicon-pushpin"
         , G\Glyph::COMMENT => "glyphicon glyphicon-comment"
+        , G\Glyph::BRIEFCASE => "glyphicon glyphicon-briefcase"
         , G\Glyph::LIKE => "glyphicon il-glyphicon-like"
         , G\Glyph::LOVE => "glyphicon il-glyphicon-love"
         , G\Glyph::DISLIKE => "glyphicon il-glyphicon-dislike"
@@ -46,6 +48,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::ASTOUNDED => "glyphicon il-glyphicon-astounded"
         , G\Glyph::SAD => "glyphicon il-glyphicon-sad"
         , G\Glyph::ANGRY => "glyphicon il-glyphicon-angry"
+        , G\Glyph::EYEOPEN => "glyphicon glyphicon-eye-open"
+        , G\Glyph::EYECLOSED => "glyphicon glyphicon-eye-close"
         , G\Glyph::ATTACHMENT => "glyphicon glyphicon-paperclip"
         , G\Glyph::RESET => "glyphicon glyphicon-repeat"
         , G\Glyph::APPLY => "glyphicon glyphicon-ok"
@@ -59,10 +63,15 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::LANGUAGE => "glyphicon glyphicon-lang"
         , G\Glyph::LOGIN => "glyphicon glyphicon-login"
         , G\Glyph::LOGOUT => "glyphicon glyphicon-logout"
+        , G\Glyph::BULLETLIST => "glyphicon glyphicon-bulletlist"
+        , G\Glyph::NUMBEREDLIST => "glyphicon glyphicon-numberedlist"
+        , G\Glyph::LISTINDENT => "glyphicon glyphicon-listindent"
+        , G\Glyph::LISTOUTDENT => "glyphicon glyphicon-listoutdent"
+        , G\Glyph::FILTER => "glyphicon glyphicon-filter"
     );
 
     public static $aria_labels = array(
-          G\Glyph::SETTINGS => "settings"
+        G\Glyph::SETTINGS => "settings"
         , G\Glyph::EXPAND => "expand_content"
         , G\Glyph::COLLAPSE => "collapse_content"
         , G\Glyph::ADD => "add"
@@ -79,6 +88,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::TAG => "tags"
         , G\Glyph::NOTE => "notes"
         , G\Glyph::COMMENT => "comments"
+        , G\Glyph::BRIEFCASE => "briefcase"
         , G\Glyph::LIKE => "like"
         , G\Glyph::LOVE => "love"
         , G\Glyph::DISLIKE => "dislike"
@@ -86,6 +96,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::ASTOUNDED => "astounded"
         , G\Glyph::SAD => "sad"
         , G\Glyph::ANGRY => "angry"
+        , G\Glyph::EYEOPEN => "eyeopened"
+        , G\Glyph::EYECLOSED => "eyeclosed"
         , G\Glyph::ATTACHMENT => "attachment"
         , G\Glyph::RESET => "reset"
         , G\Glyph::APPLY => "apply"
@@ -99,6 +111,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::LANGUAGE => "switch_language"
         , G\Glyph::LOGIN => "log_in"
         , G\Glyph::LOGOUT => "log_out"
+        , G\Glyph::BULLETLIST => "bulletlist"
+        , G\Glyph::NUMBEREDLIST => "numberedlist"
+        , G\Glyph::LISTINDENT => "listindent"
+        , G\Glyph::LISTOUTDENT => "listoutdent"
+        , G\Glyph::FILTER => "filter"
     );
 
     /**
@@ -168,9 +185,7 @@ class GlyphTest extends ILIAS_UI_TestBase
     {
         $gf = $this->getGlyphFactory();
 
-        $g = $gf
-            ->mail()
-            ;
+        $g = $gf->mail();
         $g2 = $g->withHighlight();
 
         $this->assertFalse($g->isHighlighted());
@@ -287,44 +302,9 @@ class GlyphTest extends ILIAS_UI_TestBase
 
     public function glyph_type_provider()
     {
-        return array( array(G\Glyph::SETTINGS)
-            , array(G\Glyph::EXPAND)
-            , array(G\Glyph::COLLAPSE)
-            , array(G\Glyph::ADD)
-            , array(G\Glyph::REMOVE)
-            , array(G\Glyph::UP)
-            , array(G\Glyph::DOWN)
-            , array(G\Glyph::BACK)
-            , array(G\Glyph::NEXT)
-            , array(G\Glyph::SORT_ASCENDING)
-            , array(G\Glyph::SORT_DESCENDING)
-            , array(G\Glyph::USER)
-            , array(G\Glyph::MAIL)
-            , array(G\Glyph::NOTIFICATION)
-            , array(G\Glyph::TAG)
-            , array(G\Glyph::NOTE)
-            , array(G\Glyph::COMMENT)
-            , array(G\Glyph::LIKE)
-            , array(G\Glyph::LOVE)
-            , array(G\Glyph::DISLIKE)
-            , array(G\Glyph::LAUGH)
-            , array(G\Glyph::ASTOUNDED)
-            , array(G\Glyph::SAD)
-            , array(G\Glyph::ANGRY)
-            , array(G\Glyph::ATTACHMENT)
-            , array(G\Glyph::RESET)
-            , array(G\Glyph::APPLY)
-            , array(G\Glyph::SEARCH)
-            , array(G\Glyph::HELP)
-            , array(G\Glyph::CALENDAR)
-            , array(G\Glyph::TIME)
-            , array(G\Glyph::CLOSE)
-            , array(G\Glyph::MORE)
-            , array(G\Glyph::DISCLOSURE)
-            , array(G\Glyph::LANGUAGE)
-            , array(G\Glyph::LOGIN)
-            , array(G\Glyph::LOGOUT)
-            );
+        $glyph_reflection = new ReflectionClass(G\Glyph::class);
+        $constant_values = array_values($glyph_reflection->getConstants());
+        return array_map(function ($val) {return [$val];}, $constant_values);
     }
 
     public function counter_type_provider()

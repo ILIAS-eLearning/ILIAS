@@ -377,7 +377,7 @@ il.Object = {
 		this.url_rating = url;
 	},
 			
-	saveRating: function(mark) {		
+	saveRating: function(mark) {
 		il.Util.sendAjaxGetRequestToUrl(this.url_rating + "&rating=" + mark, {}, {url_redraw: this.url_redraw_ah}, this.redrawAfterRating);
 	},
 			

@@ -855,11 +855,6 @@ class ilObjBlog extends ilObject2
     
     protected function handleQuotaUpdate()
     {
-        ilDiskQuotaHandler::handleUpdatedSourceObject(
-            $this->getType(),
-            $this->getId(),
-            ilUtil::dirsize($this->initStorage($this->getId())),
-            array($this->getId())
-        );
+
     }
 }

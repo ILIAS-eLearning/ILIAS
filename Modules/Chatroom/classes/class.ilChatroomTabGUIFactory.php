@@ -89,11 +89,6 @@ class ilChatroomTabGUIFactory
                         'lng' => 'client_settings',
                         'link' => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-clientsettings'),
                         'permission' => 'read'
-                    ),
-                    'serversettings' => array(
-                        'lng' => 'server_settings',
-                        'link' => $DIC->ctrl()->getLinkTargetByClass('ilObjChatroomAdminGUI', 'view-serversettings'),
-                        'permission' => 'read'
                     )
                 )
             ),
@@ -146,9 +141,6 @@ class ilChatroomTabGUIFactory
         } elseif ($command == 'settings_general') {
             $commandParts[0] = 'settings';
             $commandParts[1] = 'settings';
-        } elseif ($command == 'view_savesettings') {
-            $commandParts[0] = 'view';
-            $commandParts[1] = 'serversettings';
         } elseif ($command == 'view_saveclientsettings') {
             $commandParts[0] = 'view';
             $commandParts[1] = 'clientsettings';

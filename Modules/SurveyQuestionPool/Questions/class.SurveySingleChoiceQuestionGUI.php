@@ -213,13 +213,21 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
     *
     * @access public
     */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
+    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
     {
-        $template = new ilTemplate("tpl.il_svy_out_sc.html", true, true, "Modules/SurveyQuestionPool");
-        $template->setCurrentBlock("material");
-        $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
-        $template->parseCurrentBlock();
-        switch ($this->object->orientation) {
+        $orientation = $this->object->orientation;
+        $template_file = "tpl.il_svy_out_sc.html";
+        if ($compress_view && $orientation == 1) {
+            $template_file = "tpl.il_svy_out_sc_comp.html";
+            $orientation = 3;
+        }
+        $template = new ilTemplate($template_file, true, true, "Modules/SurveyQuestionPool");
+        if ($this->getMaterialOutput() != "") {
+            $template->setCurrentBlock("material");
+            $template->setVariable("TEXT_MATERIAL", $this->getMaterialOutput());
+            $template->parseCurrentBlock();
+        }
+        switch ($orientation) {
             case 0:
                 // vertical orientation
                 for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
@@ -362,6 +370,68 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
                 $template->setVariable("SELECT_OPTION", $this->lng->txt("select_option"));
                 $template->setVariable("TEXT_SELECTION", $this->lng->txt("selection"));
                 $template->parseCurrentBlock();
+                break;
+            case 3:
+                // horizontal orientation, compressed
+                for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+                    $cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Horizontal orientation (compressed) - Original NEUTRAL scale = " . $cat->scale . " If(scale) scale -1 else i. The new scale value is = " . $debug_scale);
+
+                    if ($cat->other) {
+                        $template->setCurrentBlock("other");
+                        $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
+                        $template->setVariable("OTHER_Q_ID", $this->object->getId());
+                        if (is_array($working_data)) {
+                            foreach ($working_data as $value) {
+                                if (strlen($value["value"])) {
+                                    if ($value["value"] == $cat->scale - 1 && strlen($value['textanswer'])) {
+                                        $template->setVariable("OTHER_VALUE", ' value="' . ilUtil::prepareFormOutput($value['textanswer']) . '"');
+                                    }
+                                }
+                            }
+                        }
+                        $template->parseCurrentBlock();
+                    }
+
+
+                    $template->setCurrentBlock("radio_col");
+                    if ($cat->neutral) {
+                        $template->setVariable('COLCLASS', ' neutral');
+                    }
+                    $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
+                    $template->setVariable("QUESTION_ID", $this->object->getId());
+                    if (is_array($working_data)) {
+                        foreach ($working_data as $value) {
+                            if (strcmp($value["value"], "") != 0) {
+                                if ($value["value"] == $cat->scale - 1) {
+                                    if (!$value['uncheck']) {
+                                        $template->setVariable("CHECKED_SC", " checked=\"checked\"");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $template->parseCurrentBlock();
+                }
+                $perc = round(70 / $this->object->categories->getCategoryCount(), 2);
+                for ($i = 0; $i < $this->object->categories->getCategoryCount(); $i++) {
+                    $cat = $this->object->categories->getCategory($i);
+
+                    $debug_scale = ($cat->scale) ? ($cat->scale - 1) : $i;
+                    $this->log->debug("Horizontal orientation - Original scale = " . $cat->scale . " If(scale) scale -1 else i. The new scale value is = " . $debug_scale);
+
+                    $template->setCurrentBlock("text_col");
+                    if ($cat->neutral) {
+                        $template->setVariable('COLCLASS', ' neutral');
+                    }
+                    $template->setVariable("VALUE_SC", ($cat->scale) ? ($cat->scale - 1) : $i);
+                    $template->setVariable("TEXT_SC", ilUtil::prepareFormOutput($cat->title));
+                    $template->setVariable("PERC", $perc);
+                    $template->setVariable("QUESTION_ID", $this->object->getId());
+                    $template->parseCurrentBlock();
+                }
                 break;
         }
         if ($question_title) {

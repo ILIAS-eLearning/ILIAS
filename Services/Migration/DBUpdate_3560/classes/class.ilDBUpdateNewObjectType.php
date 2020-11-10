@@ -304,7 +304,7 @@ class ilDBUpdateNewObjectType
             ' WHERE operation = ' . $ilDB->quote($a_operation, 'text');
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        return $row['ops_id'];
+        return $row['ops_id'] ?? null;
     }
     
     /**
@@ -362,7 +362,7 @@ class ilDBUpdateNewObjectType
             ' AND title = ' . $ilDB->quote($a_type, 'text');
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
-        return $row['obj_id'];
+        return $row['obj_id'] ?? null;
     }
     
     /**

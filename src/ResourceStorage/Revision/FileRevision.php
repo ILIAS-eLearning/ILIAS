@@ -8,7 +8,6 @@ use ILIAS\ResourceStorage\Information\Information;
 
 /**
  * Class FileRevision
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class FileRevision implements Revision
@@ -30,18 +29,23 @@ class FileRevision implements Revision
      * @var FileInformation
      */
     protected $information;
-
+    /**
+     * @var int
+     */
+    protected $owner_id = 0;
+    /**
+     * @var string
+     */
+    protected $title = '';
 
     /**
      * Revision constructor.
-     *
      * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
         $this->identification = $identification;
     }
-
 
     /**
      * @inheritDoc
@@ -51,7 +55,6 @@ class FileRevision implements Revision
         return $this->identification;
     }
 
-
     /**
      * @param int $version_number
      */
@@ -60,12 +63,10 @@ class FileRevision implements Revision
         $this->version_number = $version_number;
     }
 
-
     public function getVersionNumber() : int
     {
         return $this->version_number;
     }
-
 
     /**
      * @inheritDoc
@@ -75,7 +76,6 @@ class FileRevision implements Revision
         return $this->information ?? new FileInformation();
     }
 
-
     /**
      * @param Information $information
      */
@@ -83,7 +83,6 @@ class FileRevision implements Revision
     {
         $this->information = $information;
     }
-
 
     /**
      * @inheritDoc
@@ -93,7 +92,6 @@ class FileRevision implements Revision
         $this->available = false;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -101,4 +99,41 @@ class FileRevision implements Revision
     {
         return $this->available;
     }
+
+    /**
+     * @return int
+     */
+    public function getOwnerId() : int
+    {
+        return $this->owner_id;
+    }
+
+    /**
+     * @param int $owner_id
+     * @return FileRevision
+     */
+    public function setOwnerId(int $owner_id) : FileRevision
+    {
+        $this->owner_id = $owner_id;
+        return $this;
+    }
+
+    /**
+     * @param string $title
+     * @return $this|Revision
+     */
+    public function setTitle(string $title) : Revision
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
 }

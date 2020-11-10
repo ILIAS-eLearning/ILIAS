@@ -2,7 +2,7 @@
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 
 /**

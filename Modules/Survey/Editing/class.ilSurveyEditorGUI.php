@@ -962,7 +962,12 @@ class ilSurveyEditorGUI
             $toggle_blocktitle->setChecked(true);
             $toggle_questiontitle->setChecked(true);
         }
-        
+
+        $compress_view = new ilCheckboxInputGUI($this->lng->txt("svy_compress_view"), "compress_view");
+        $compress_view->setInfo($this->lng->txt("svy_compress_view_info"));
+        $compress_view->setChecked($questionblock["compress_view"]);
+        $form->addItem($compress_view);
+
         $form->addCommandButton("saveDefineQuestionblock", $this->lng->txt("save"));
         $form->addCommandButton("questions", $this->lng->txt("cancel"));
         
@@ -998,19 +1003,22 @@ class ilSurveyEditorGUI
             $title = $form->getInput("title");
             $show_questiontext = $form->getInput("show_questiontext");
             $show_blocktitle = $form->getInput("show_blocktitle") ;
+            $compress_view = $form->getInput("compress_view") ;
             if ($block_id) {
                 $this->object->modifyQuestionblock(
                     $block_id,
                     $title,
                     $show_questiontext,
-                    $show_blocktitle
+                    $show_blocktitle,
+                    $compress_view
                 );
             } elseif ($q_ids) {
                 $this->object->createQuestionblock(
                     $title,
                     $show_questiontext,
                     $show_blocktitle,
-                    $q_ids
+                    $q_ids,
+                    $compress_view
                 );
             }
             

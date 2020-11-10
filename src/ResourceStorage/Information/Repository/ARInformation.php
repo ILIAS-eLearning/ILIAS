@@ -6,7 +6,6 @@ use ActiveRecord;
 
 /**
  * Class ARInformation
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ARInformation extends ActiveRecord
@@ -20,10 +19,8 @@ class ARInformation extends ActiveRecord
         return 'il_resource_info';
     }
 
-
     /**
      * @var string
-     *
      * @con_is_primary true
      * @con_is_unique  true
      * @con_has_field  true
@@ -33,7 +30,6 @@ class ARInformation extends ActiveRecord
     protected $internal;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
@@ -41,7 +37,6 @@ class ARInformation extends ActiveRecord
     protected $identification;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
@@ -49,7 +44,6 @@ class ARInformation extends ActiveRecord
     protected $title;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     64
@@ -57,7 +51,6 @@ class ARInformation extends ActiveRecord
     protected $suffix;
     /**
      * @var string
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
@@ -65,13 +58,18 @@ class ARInformation extends ActiveRecord
     protected $mime_type;
     /**
      * @var int
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
     protected $size;
-
+    /**
+     * @var int
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_length     8
+     */
+    protected $creation_date;
 
     /**
      * @return string
@@ -81,10 +79,8 @@ class ARInformation extends ActiveRecord
         return $this->internal;
     }
 
-
     /**
      * @param string $internal
-     *
      * @return ARInformation
      */
     public function setInternal(string $internal) : ARInformation
@@ -94,7 +90,6 @@ class ARInformation extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -103,10 +98,8 @@ class ARInformation extends ActiveRecord
         return $this->identification;
     }
 
-
     /**
      * @param string $identification
-     *
      * @return ARInformation
      */
     public function setIdentification(string $identification) : ARInformation
@@ -116,7 +109,6 @@ class ARInformation extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -125,10 +117,8 @@ class ARInformation extends ActiveRecord
         return $this->title;
     }
 
-
     /**
      * @param string $title
-     *
      * @return ARInformation
      */
     public function setTitle(string $title) : ARInformation
@@ -138,7 +128,6 @@ class ARInformation extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -147,10 +136,8 @@ class ARInformation extends ActiveRecord
         return $this->suffix;
     }
 
-
     /**
      * @param string $suffix
-     *
      * @return ARInformation
      */
     public function setSuffix(string $suffix) : ARInformation
@@ -160,7 +147,6 @@ class ARInformation extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return string
      */
@@ -169,10 +155,8 @@ class ARInformation extends ActiveRecord
         return $this->mime_type;
     }
 
-
     /**
      * @param string $mime_type
-     *
      * @return ARInformation
      */
     public function setMimeType(string $mime_type) : ARInformation
@@ -182,7 +166,6 @@ class ARInformation extends ActiveRecord
         return $this;
     }
 
-
     /**
      * @return int
      */
@@ -191,10 +174,8 @@ class ARInformation extends ActiveRecord
         return (int) $this->size;
     }
 
-
     /**
      * @param int $size
-     *
      * @return ARInformation
      */
     public function setSize(int $size) : ARInformation
@@ -203,4 +184,23 @@ class ARInformation extends ActiveRecord
 
         return $this;
     }
+
+    /**
+     * @return int
+     */
+    public function getCreationDate() : int
+    {
+        return $this->creation_date;
+    }
+
+    /**
+     * @param int $creation_date
+     * @return ARInformation
+     */
+    public function setCreationDate(int $creation_date) : ARInformation
+    {
+        $this->creation_date = $creation_date;
+        return $this;
+    }
+
 }

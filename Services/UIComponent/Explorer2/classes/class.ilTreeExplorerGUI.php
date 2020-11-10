@@ -253,7 +253,6 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
                 $final_childs[$k] = $c;
             }
         }
-        
         return $final_childs;
     }
 

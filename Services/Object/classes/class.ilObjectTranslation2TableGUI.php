@@ -23,7 +23,9 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
      */
     protected $access;
 
-    
+    protected $fallback_mode = false;
+    protected $fallback_lang = "";
+
     /**
     * Constructor
     */
@@ -32,7 +34,9 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $a_parent_cmd,
         $a_incl_desc = true,
         $a_base_cmd = "HeaderTitle",
-        $a_master_lang = ""
+        $a_master_lang = "",
+        $a_fallback_mode = false,
+        $a_fallback_lang = ""
     ) {
         global $DIC;
 
@@ -45,6 +49,8 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $this->incl_desc = $a_incl_desc;
         $this->base_cmd = $a_base_cmd;
         $this->master_lang = $a_master_lang;
+        $this->fallback_mode = $a_fallback_mode;
+        $this->fallback_lang = $a_fallback_lang;
 
         $this->setLimit(9999);
         
@@ -73,6 +79,9 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->addMultiCommand("delete" . $this->base_cmd . "s", $lng->txt("remove"));
+        if ($this->fallback_mode) {
+            $this->addMultiCommand("setFallback", $lng->txt("obj_set_fallback_lang"));
+        }
         if ($this->dataExists()) {
             $this->addCommandButton("save" . $this->base_cmd . "s", $lng->txt("save"));
         }
@@ -86,7 +95,6 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->nr++;
-
 
         if (!$a_set["default"] && $a_set["lang"] != $this->master_lang) {
             $this->tpl->setCurrentBlock("cb");
@@ -103,6 +111,9 @@ class ilObjectTranslation2TableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         } elseif ($a_set["lang"] == $this->master_lang) {
             $this->tpl->setVariable("MASTER_LANG", $lng->txt("obj_master_lang"));
+        }
+        if ($this->master_lang != "" && $a_set["lang"] == $this->fallback_lang) {
+            $this->tpl->setVariable("FALLBACK_LANG", $lng->txt("obj_fallback_lang"));
         }
 
         if ($this->incl_desc) {

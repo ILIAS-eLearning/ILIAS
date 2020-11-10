@@ -48,6 +48,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     private $current_container_setting;
 
     /**
+     * @var ilObjCourse
+     */
+    private $course_obj;
+
+    /**
      * @var |null | \ilLogger
      */
     private $log = null;
@@ -298,6 +303,18 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'WelcomeMail':
                 if (array_key_exists('status', $a_attribs)) {
                     $this->course_obj->setAutoNotification((bool) $a_attribs['status']);
+                }
+                break;
+
+            case 'SessionLimit':
+                if (isset($a_attribs['active'])) {
+                    $this->course_obj->enableSessionLimit((bool) $a_attribs['active']);
+                }
+                if (isset($a_attribs['previous'])) {
+                    $this->course_obj->setNumberOfPreviousSessions((int) $a_attribs['previous']);
+                }
+                if (isset($a_attribs['next'])) {
+                    $this->course_obj->setNumberOfNextSessions((int) $a_attribs['next']);
                 }
                 break;
         }

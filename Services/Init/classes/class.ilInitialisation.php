@@ -16,6 +16,8 @@ use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
 use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
 use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
+use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -196,7 +198,9 @@ class ilInitialisation
                 new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
                 new RevisionARRepository(),
                 new ResourceARRepository(),
-                new InformationARRepository()
+                new InformationARRepository(),
+                new StakeholderARRepository(),
+                new LockHandlerilDB($c->database())
             );
         };
     }

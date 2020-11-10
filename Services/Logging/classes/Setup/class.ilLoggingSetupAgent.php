@@ -30,14 +30,6 @@ class ilLoggingSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
@@ -54,11 +46,7 @@ class ilLoggingSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Logging",
-            false,
-            new ilLoggingConfigStoredObjective($config)
-        );
+        return new ilLoggingConfigStoredObjective($config);
     }
 
     /**
@@ -66,6 +54,9 @@ class ilLoggingSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if ($config !== null) {
+            return new ilLoggingConfigStoredObjective($config);
+        }
         return new Setup\Objective\NullObjective();
     }
 
@@ -75,5 +66,21 @@ class ilLoggingSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilLoggingMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

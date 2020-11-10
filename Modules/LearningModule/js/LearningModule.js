@@ -206,7 +206,11 @@ console.log(href);
 				il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
 			}
 		}
-	}
+	},
+
+  openMenuLink: function(url) {
+    window.open(url, '_blank');
+  }
 };
 
 $(function() {

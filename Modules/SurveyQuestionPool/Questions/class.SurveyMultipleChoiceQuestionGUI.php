@@ -274,7 +274,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     *
     * @access public
     */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
+    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
     {
         $template = new ilTemplate("tpl.il_svy_out_mc.html", true, true, "Modules/SurveyQuestionPool");
         $template->setCurrentBlock("material");

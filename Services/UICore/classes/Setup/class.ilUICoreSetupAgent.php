@@ -26,14 +26,6 @@ class ilUICoreSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException(self::class . " has no Config.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         throw new \LogicException(self::class . " has no Config.");
@@ -61,5 +53,21 @@ class ilUICoreSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

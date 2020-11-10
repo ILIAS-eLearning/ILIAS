@@ -45,14 +45,6 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
@@ -81,7 +73,7 @@ class ilSetupAgent implements Setup\Agent
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
-                new ilSetupConfigStoredObjective($config),
+                new ilSetupConfigStoredObjective($config, true),
                 $config->getRegisterNIC()
                         ? new ilNICKeyRegisteredObjective($config)
                         : new ilNICKeyStoredObjective($config)
@@ -111,6 +103,9 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if ($config !== null) {
+            return new ilSetupConfigStoredObjective($config);
+        }
         return new Setup\Objective\NullObjective();
     }
 
@@ -120,5 +115,21 @@ class ilSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilSetupMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

@@ -34,12 +34,6 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->assertTrue($this->obj->hasConfig());
     }
 
-    public function testGetConfigInput() : void
-    {
-        $this->expectException(\LogicException::class);
-        $this->obj->getConfigInput();
-    }
-
     public function testGetArrayToConfigTransformationWithDefaultLanguage() : void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
@@ -77,15 +71,18 @@ class ilLanguageSetupAgentTest extends TestCase
 
     public function testGetUpdateObjective() : void
     {
-        $result = $this->obj->getUpdateObjective();
+        $setup_conf_mock = $this->createMock(\ilLanguageSetupConfig::class);
+        $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
 
-        $this->assertInstanceOf(NullObjective::class, $result);
+        $this->assertEquals('Complete objectives from Services/Language', $objective_collection->getLabel());
+        $this->assertFalse($objective_collection->isNotable());
+        $this->assertEquals(3, count($objective_collection->getObjectives()));
     }
 
 
     public function testGetBuildArtifactObjective() : void
     {
-        $result = $this->obj->getUpdateObjective();
+        $result = $this->obj->getBuildArtifactObjective();
 
         $this->assertInstanceOf(NullObjective::class, $result);
     }

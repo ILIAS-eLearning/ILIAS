@@ -1157,7 +1157,7 @@ class ilObjCmiXapi extends ilObject2
         // delete entire directory and its content
 		$dirUtil = new ilCmiXapiContentUploadImporter($this);
 		$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
-        if (@is_dir($thisDir)) {
+        if (is_dir($thisDir)) {
             ilUtil::delDir($thisDir);
         }
 

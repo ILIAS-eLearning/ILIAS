@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
 use ILIAS\Setup\NoConfirmationException;
 use Symfony\Component\Console\Command\Command;
@@ -34,13 +33,12 @@ class UpdateCommand extends Command
     protected $preconditions;
 
     /**
-     * @var callable $lazy_agent must return a Setup\Agent
      * @var Objective[] $preconditions will be achieved before command invocation
      */
-    public function __construct(callable $lazy_agent, ConfigReader $config_reader, array $preconditions)
+    public function __construct(AgentFinder $agent_finder, ConfigReader $config_reader, array $preconditions)
     {
         parent::__construct();
-        $this->lazy_agent = $lazy_agent;
+        $this->agent_finder = $agent_finder;
         $this->config_reader = $config_reader;
         $this->preconditions = $preconditions;
     }
@@ -52,6 +50,7 @@ class UpdateCommand extends Command
         $this->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
         $this->addOption("ignore-db-update-messages", null, InputOption::VALUE_NONE, "Ignore messages from the database update steps.");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
+        $this->configureCommandForPlugins();
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -66,9 +65,13 @@ class UpdateCommand extends Command
         $io->printLicenseMessage();
         $io->title("Update ILIAS");
 
-        $agent = $this->getAgent();
+        $agent = $this->getRelevantAgent($input);
 
-        $config = $this->readAgentConfig($agent, $input);
+        if ($input->getArgument("config")) {
+            $config = $this->readAgentConfig($agent, $input);
+        } else {
+            $config = null;
+        }
 
         $objective = $agent->getUpdateObjective($config);
         if (count($this->preconditions) > 0) {
@@ -81,7 +84,9 @@ class UpdateCommand extends Command
         $environment = new ArrayEnvironment([
             Environment::RESOURCE_ADMIN_INTERACTION => $io
         ]);
-        $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
+        if ($config) {
+            $environment = $this->addAgentConfigsToEnvironment($agent, $config, $environment);
+        }
 
         try {
             $this->achieveObjective($objective, $environment, $io);

@@ -66,4 +66,11 @@ class ArrayEnvironmentTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->environment->getConfigFor("foofoo");
     }
+
+    public function testHasConfigFor() : void
+    {
+        $env = $this->environment->withConfigFor("foo", "BAR");
+        $this->assertTrue($env->hasConfigFor("foo"));
+        $this->assertFalse($env->hasConfigFor("bar"));
+    }
 }

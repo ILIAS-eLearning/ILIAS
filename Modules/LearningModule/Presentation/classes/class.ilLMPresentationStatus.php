@@ -60,7 +60,7 @@ class ilLMPresentationStatus
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
                 $this->lang = $this->requested_transl;
-            } elseif (isset($langs[$this->user->getCurrentLanguage()])) {
+            } else {
                 $this->lang = $this->user->getCurrentLanguage();
             }
             if ($this->lang == $this->ot->getMasterLanguage()) {
@@ -143,6 +143,10 @@ class ilLMPresentationStatus
             $ot = $this->ot;
             $data = $ot->getLanguages();
             $ltitle = $data[$this->lang]["title"];
+            if ($ltitle != "") {
+                return $ltitle;
+            }
+            $ltitle = $data[$ot->getFallbackLanguage()]["title"];
             if ($ltitle != "") {
                 return $ltitle;
             }

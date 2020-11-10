@@ -9,7 +9,6 @@ use ILIAS\ResourceStorage\Information\Information;
 
 /**
  * Class NullRevision
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class NullRevision implements Revision
@@ -20,17 +19,14 @@ class NullRevision implements Revision
      */
     private $identification;
 
-
     /**
      * NullRevision constructor.
-     *
      * @param ResourceIdentification $identification
      */
     public function __construct(ResourceIdentification $identification)
     {
         $this->identification = $identification;
     }
-
 
     /**
      * @inheritDoc
@@ -40,7 +36,6 @@ class NullRevision implements Revision
         return $this->identification;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -48,7 +43,6 @@ class NullRevision implements Revision
     {
         return 0;
     }
-
 
     /**
      * @inheritDoc
@@ -58,7 +52,6 @@ class NullRevision implements Revision
         return new DateTimeImmutable();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -67,17 +60,14 @@ class NullRevision implements Revision
         return new FileInformation();
     }
 
-
     public function setInformation(Information $information)
     {
     }
-
 
     public function setUnavailable() : void
     {
         // do nothing
     }
-
 
     /**
      * @inheritDoc
@@ -86,4 +76,20 @@ class NullRevision implements Revision
     {
         return false;
     }
+
+    public function getOwnerId() : int
+    {
+        return 0;
+    }
+
+    public function setTitle(string $title) : Revision
+    {
+        // do nothing
+    }
+
+    public function getTitle() : string
+    {
+        return '';
+    }
+
 }

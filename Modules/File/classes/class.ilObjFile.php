@@ -1523,23 +1523,7 @@ class ilObjFile extends ilObject2
 
     protected static function handleQuotaUpdate(ilObjFile $a_file)
     {
-        include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
-        $mob = new ilObjMediaObject();
 
-        // file itself could be workspace item
-        $parent_obj_ids = array($a_file->getId());
-
-        foreach ($a_file->getUsages() as $item) {
-            $parent_obj_id = $mob->getParentObjectIdForUsage($item);
-            if ($parent_obj_id
-                && !in_array($parent_obj_id, $parent_obj_ids)
-            ) {
-                $parent_obj_ids[] = $parent_obj_id;
-            }
-        }
-
-        include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-        ilDiskQuotaHandler::handleUpdatedSourceObject($a_file->getType(), $a_file->getId(), $a_file->getDiskUsage(), $parent_obj_ids);
     }
 
 

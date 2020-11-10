@@ -66,7 +66,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                 return !$this->dic->user()->isAnonymous();
             })
             ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->search())
-            ->withTitle("Search")
+            ->withTitle($this->dic->language()->txt("Search"))
             ->withPosition(1)
             ->withAvailableCallable(
                 function () {

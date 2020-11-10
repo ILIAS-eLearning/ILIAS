@@ -8,6 +8,7 @@ use ILIAS\KioskMode\TOCBuilder;
 use ILIAS\KioskMode\URLBuilder;
 
 use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Class LSControlBuilder
@@ -222,6 +223,13 @@ class LSControlBuilder implements ControlBuilder
     {
         $cmd = $this->url_builder->getHref($command, $parameter);
         $this->controls[] = $this->ui_factory->button()->standard($label, $cmd);
+        return $this;
+    }
+
+    public function genericWithSignal(string $label, Signal $signal) : ControlBuilder
+    {
+        $this->controls[] = $this->ui_factory->button()->standard($label, '')
+            ->withOnClick($signal);
         return $this;
     }
 

@@ -67,7 +67,6 @@ class ReloadControlStructureCommand extends Command
             ),
             new \ilComponentDefinitionsStoredObjective(false)
         );
-        $objective = $this->getUpdateObjective($config);
         if (count($this->preconditions) > 0) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,

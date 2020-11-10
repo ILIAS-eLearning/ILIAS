@@ -46,7 +46,8 @@ class ilSessionDataSet extends ilDataSet
      */
     public function getSupportedVersions()
     {
-        return array("4.1.0", "5.0.0", "5.1.0", '5.4.0');
+        return ['7.0'];
+        //return array("4.1.0", "5.0.0", "5.1.0", '5.4.0', '7.0');
     }
     
     /**
@@ -154,6 +155,32 @@ class ilSessionDataSet extends ilDataSet
                         'ShowMembers' => 'integer',
                         'Type' => 'integer'
                     );
+                case "7.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "Location" => "text",
+                        "TutorName" => "text",
+                        "TutorEmail" => "text",
+                        "TutorPhone" => "text",
+                        "Details" => "text",
+                        "Registration" => "integer",
+                        "EventStart" => "text",
+                        "EventEnd" => "text",
+                        "StartingTime" => "integer",
+                        "EndingTime" => "integer",
+                        "Fulltime" => "integer",
+                        "LimitedRegistration" => "integer",
+                        "WaitingList" => "integer",
+                        "AutoWait" => "integer",
+                        "LimitUsers" => "integer",
+                        "MinUsers" => "integer",
+                        'MailMembers' => 'integer',
+                        'ShowMembers' => 'integer',
+                        'Type' => 'integer',
+                        'ShowCannotPart' => 'integer'
+                    );
             }
         }
 
@@ -163,6 +190,7 @@ class ilSessionDataSet extends ilDataSet
                 case "5.0.0":
                 case "5.1.0":
                 case "5.4.0":
+                case '7.0':
                     return array(
                         "SessionId" => "integer",
                         "ItemId" => "text",
@@ -228,6 +256,21 @@ class ilSessionDataSet extends ilDataSet
                         " reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, " .
                         " reg_limit_users limit_users, reg_min_users min_users, " .
                         " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members " .
+                        " FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) " .
+                        " JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  " .
+                        " JOIN object_description odes ON (ev.obj_id = odes.obj_id) " .
+                        "WHERE " .
+                        $ilDB->in("ev.obj_id", $a_ids, false, "integer"));
+
+                    $this->readDidacticTemplateType($a_ids);
+                    break;
+                case "7.0":
+                    $this->getDirectDataFromQuery($q = "SELECT ev.obj_id id, od.title title, odes.description description, " .
+                        " location, tutor_name, tutor_email, tutor_phone, details, reg_type registration, " .
+                        " reg_limited limited_registration, reg_waiting_list waiting_list, reg_auto_wait auto_wait, " .
+                        " reg_limit_users limit_users, reg_min_users min_users, " .
+                        " e_start event_start, e_end event_end, starting_time, ending_time, fulltime, mail_members, show_members " .
+                        " show_cannot_part " .
                         " FROM event ev JOIN object_data od ON (ev.obj_id = od.obj_id) " .
                         " JOIN event_appointment ea ON (ev.obj_id = ea.event_id)  " .
                         " JOIN object_description odes ON (ev.obj_id = odes.obj_id) " .
@@ -347,11 +390,16 @@ class ilSessionDataSet extends ilDataSet
                         }
                         break;
                     case '5.4.0':
+                    case '7.0':
                         if (isset($a_rec['MailMembers'])) {
                             $newObj->setMailToMembersType($a_rec['MailMembers']);
                         }
                         if (isset($a_rec['ShowMembers'])) {
                             $newObj->setShowMembers($a_rec['ShowMembers']);
+                        }
+                        if (isset($a_rec['ShowCannotPart'])) {
+                            $newObj->enableCannotParticipateOption((bool) $a_rec['show_cannot_part']);
+                            break;
                         }
                         $this->applyDidacticTemplate($newObj, $a_rec['Type']);
                         break;

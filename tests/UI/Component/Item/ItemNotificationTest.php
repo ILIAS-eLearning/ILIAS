@@ -209,9 +209,8 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 				<h4 class="il-item-notification-title">
 					<a href="">TestLink</a>
 				</h4>
-				<button type="button" class="close" data-dismiss="modal" id="id">
+				<button type="button" class="close" aria-label="close" id="id">
 					<span aria-hidden="true">&times;</span>
-					<span class="sr-only">Close</span>
 				</button>
 				<div class="il-item-description">description</div>
 				<div class="dropdown">

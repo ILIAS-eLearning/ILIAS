@@ -2000,7 +2000,7 @@ class ilObjSurvey extends ilObject
     * @param array $questions An array with the database id's of the question block questions
     * @access public
     */
-    public function createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions)
+    public function createQuestionblock($title, $show_questiontext, $show_blocktitle, $questions, $compress_view = false)
     {
         $ilDB = $this->db;
         
@@ -2013,9 +2013,9 @@ class ilObjSurvey extends ilObject
         $next_id = $ilDB->nextId('svy_qblk');
         $affectedRows = $ilDB->manipulateF(
             "INSERT INTO svy_qblk (questionblock_id, title, show_questiontext," .
-            " show_blocktitle, owner_fi, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
-            array('integer','text','text','text','integer','integer'),
-            array($next_id, $title, $show_questiontext, $show_blocktitle, $ilUser->getId(), time())
+            " show_blocktitle, owner_fi, tstamp, compress_view) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            array('integer','text','text','text','integer','integer','integer'),
+            array($next_id, $title, $show_questiontext, $show_blocktitle, $ilUser->getId(), time(), $compress_view)
         );
         if ($affectedRows) {
             $questionblock_id = $next_id;
@@ -2041,14 +2041,14 @@ class ilObjSurvey extends ilObject
     * @param string $title The title of the question block
     * @access public
     */
-    public function modifyQuestionblock($questionblock_id, $title, $show_questiontext, $show_blocktitle)
+    public function modifyQuestionblock($questionblock_id, $title, $show_questiontext, $show_blocktitle, $compress_view = false)
     {
         $ilDB = $this->db;
         $affectedRows = $ilDB->manipulateF(
             "UPDATE svy_qblk SET title = %s, show_questiontext = %s," .
-            " show_blocktitle = %s WHERE questionblock_id = %s",
-            array('text','text','text','integer'),
-            array($title, $show_questiontext, $show_blocktitle, $questionblock_id)
+            " show_blocktitle = %s, compress_view = %s WHERE questionblock_id = %s",
+            array('text','text','text','integer', 'integer'),
+            array($title, $show_questiontext, $show_blocktitle, $compress_view, $questionblock_id)
         );
     }
     
@@ -2260,6 +2260,7 @@ class ilObjSurvey extends ilObject
                 $all_questions[$question_id]["questionblock_id"] = $questionblocks[$question_id]['questionblock_id'];
                 $all_questions[$question_id]["questionblock_show_questiontext"] = $questionblocks[$question_id]['show_questiontext'];
                 $all_questions[$question_id]["questionblock_show_blocktitle"] = $questionblocks[$question_id]['show_blocktitle'];
+                $all_questions[$question_id]["questionblock_compress_view"] = $questionblocks[$question_id]['compress_view'];
                 $currentblock = $questionblocks[$question_id]['questionblock_id'];
                 $constraints = $this->getConstraints($question_id);
                 $all_questions[$question_id]["constraints"] = $constraints;
@@ -2270,6 +2271,7 @@ class ilObjSurvey extends ilObject
                 $all_questions[$question_id]["questionblock_id"] = "";
                 $all_questions[$question_id]["questionblock_show_questiontext"] = 1;
                 $all_questions[$question_id]["questionblock_show_blocktitle"] = 1;
+                $all_questions[$question_id]["questionblock_compress_view"] = false;
                 $currentblock = "";
                 $constraints = $this->getConstraints($question_id);
                 $all_questions[$question_id]["constraints"] = $constraints;

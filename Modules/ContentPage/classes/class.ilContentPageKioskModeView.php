@@ -83,13 +83,13 @@ class ilContentPageKioskModeView extends ilKioskModeView
      */
     public function buildControls(State $state, ControlBuilder $builder)
     {
-        $this->builtLearningProgressToggleControl($builder);
+        $this->buildLearningProgressToggleControl($builder);
     }
 
     /**
      * @param ControlBuilder $builder
      */
-    protected function builtLearningProgressToggleControl(ControlBuilder $builder)
+    protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
         if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
@@ -122,7 +122,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     /**
      * @param string $command
      */
-    protected function toggleLearningProgress(string $command)
+    protected function toggleLearningProgress(string $command) : void
     {
         if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
@@ -191,7 +191,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     /**
      * Renders the content style of a ContentPage object into main template
      */
-    protected function renderContentStyle()
+    protected function renderContentStyle() : void
     {
         $this->mainTemplate->addCss(ilObjStyleSheet::getSyntaxStylePath());
         $this->mainTemplate->addCss(

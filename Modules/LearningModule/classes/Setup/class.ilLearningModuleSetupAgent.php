@@ -19,14 +19,6 @@ class ilLearningModuleSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Agent has no config.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         throw new \LogicException("Agent has no config.");
@@ -37,14 +29,9 @@ class ilLearningModuleSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+        return new ilFileSystemComponentDataDirectoryCreatedObjective(
             'lm_data',
             ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
-        );
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Modules/LearningModule",
-            false,
-            $dir_objective
         );
     }
 
@@ -62,5 +49,21 @@ class ilLearningModuleSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

@@ -5,24 +5,19 @@ namespace ILIAS\ResourceStorage\Resource\Repository;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Resource\ResourceNotFoundException;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class ResourceARRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ResourceARRepository implements ResourceRepository
 {
 
-    /**
-     * @inheritDoc
-     */
-    public function __construct()
+    public function getNameForLocking() : string
     {
-//        ARResource::installDB();
+        return (new ARResource())->getConnectorContainerName();
     }
-
 
     /**
      * @inheritDoc
@@ -31,7 +26,6 @@ class ResourceARRepository implements ResourceRepository
     {
         return new StorableFileResource($identification);
     }
-
 
     /**
      * @inheritDoc
@@ -45,7 +39,6 @@ class ResourceARRepository implements ResourceRepository
         return $r;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -53,7 +46,6 @@ class ResourceARRepository implements ResourceRepository
     {
         return ARResource::find($identification->serialize()) instanceof ARResource;
     }
-
 
     /**
      * @inheritDoc
@@ -65,11 +57,9 @@ class ResourceARRepository implements ResourceRepository
         $ar->update();
     }
 
-
     /**
      * @param ResourceIdentification $identification
      * @param bool                   $create_if_not_existing
-     *
      * @return ARResource
      * @throws ResourceNotFoundException
      */
@@ -88,7 +78,6 @@ class ResourceARRepository implements ResourceRepository
         return $ar;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -99,7 +88,6 @@ class ResourceARRepository implements ResourceRepository
             $ar->delete();
         }
     }
-
 
     /**
      * @inheritDoc
@@ -113,7 +101,6 @@ class ResourceARRepository implements ResourceRepository
             yield $this->getResourceFromAR($item);
         }
     }
-
 
     public function getResourceFromAR(ARResource $AR_resource) : StorableResource
     {

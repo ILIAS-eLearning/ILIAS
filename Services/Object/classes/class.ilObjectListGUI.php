@@ -2782,7 +2782,6 @@ class ilObjectListGUI
     public static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url, $a_tpl = null)
     {
         global $DIC;
-
         $tpl = $DIC["tpl"];
         
         if (is_null($a_tpl)) {

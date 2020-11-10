@@ -154,7 +154,7 @@ final class Metric
         return $this->value;
     }
 
-    public function getDescription() : string
+    public function getDescription() : ?string
     {
         return $this->description;
     }
@@ -212,5 +212,63 @@ final class Metric
             $res .= "    ";
         }
         return $res;
+    }
+
+    /**
+     * The extracted part will be the first entry of the array, the second will be
+     * the rest of the metrics.
+     *
+     * @return (Metric|null)[]
+     */
+    public function extractByStability(string $stability) : array
+    {
+        if ($stability === self::STABILITY_MIXED) {
+            throw new \LogicException("Can not extract by mixed.");
+        }
+
+        if ($this->getStability() === $stability) {
+            return [$this, null];
+        }
+        if ($this->getType() !== self::TYPE_COLLECTION) {
+            return [null, $this];
+        }
+
+        // Now, this is a mixed collection. We need to go down.
+        $values = $this->getValue();
+        $extracted = [];
+        $rest = [];
+        foreach ($values as $k => $v) {
+            list($e, $r) = $v->extractByStability($stability);
+            if ($e !== null) {
+                $extracted[$k] = $e;
+            }
+            if ($r !== null) {
+                $rest[$k] = $r;
+            }
+        }
+
+        if (count($extracted)) {
+            $extracted = new Metric(
+                $stability,
+                self::TYPE_COLLECTION,
+                $extracted,
+                $this->getDescription()
+            );
+        } else {
+            $extracted = null;
+        }
+
+        if (count($rest)) {
+            $rest = new Metric(
+                $this->getStability(),
+                self::TYPE_COLLECTION,
+                $rest,
+                $this->getDescription()
+            );
+        } else {
+            $rest = null;
+        }
+
+        return [$extracted, $rest];
     }
 }

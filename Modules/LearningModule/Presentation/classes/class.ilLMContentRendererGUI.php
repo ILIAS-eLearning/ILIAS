@@ -278,6 +278,7 @@ class ilLMContentRendererGUI
 
         // @todo 6.0 (factor this out (maybe to ilLMPageGUI)
         $this->parent_gui->basicPageGuiInit($page_object_gui);
+
         $page_object = $page_object_gui->getPageObject();
         $page_object->buildDom();
         $page_object->registerOfflineHandler($this);

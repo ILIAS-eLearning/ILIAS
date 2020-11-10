@@ -1337,31 +1337,8 @@ class ilObjUserGUI extends ilObjectGUI
                 }
                 $wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc") . '<br>' . $info_text);
             }
-            
-            // disk usage
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            $du_info = ilDiskQuotaHandler::getFilesizeByTypeAndOwner($this->object->getId());
-            $disk_usage = new ilNonEditableValueGUI($lng->txt("disk_usage"), "disk_usage");
-            if (!sizeof($du_info)) {
-                $disk_usage->setValue($lng->txt('unknown'));
-            } else {
-                $disk_usage->setValue(ilUtil::formatSize(ilDiskQuotaHandler::getFilesizeByOwner($this->object->getId())));
-                $info = '<table class="il_user_quota_disk_usage_overview">';
-                // write the count and size of each object type
-                foreach ($du_info as $detail_data) {
-                    $info .= '<tr>' .
-                        '<td class="std">' . $detail_data['count'] . '</td>' .
-                        '<td class="std">' . $lng->txt("obj_" . $detail_data["src_type"]) . '</td>' .
-                        '<td class="std">' . ilUtil::formatSize($detail_data['filesize'], 'short') . '</td>' .
-                        '</tr>'
-                        ;
-                }
-                $info .= '</table>';
-                $disk_usage->setInfo($info);
-            }
-            $this->form_gui->addItem($disk_usage);
         }
-         
+
         // personal data
         if (
             $this->isSettingChangeable('gender') or
@@ -2018,116 +1995,9 @@ class ilObjUserGUI extends ilObjectGUI
         include_once("./Services/User/classes/class.ilRoleAssignmentTableGUI.php");
         $tab = new ilRoleAssignmentTableGUI($this, "roleassignment");
 
-        // now get roles depending on filter settings
-        $role_list = $rbacreview->getRolesByFilter($tab->filter["role_filter"], $this->object->getId());
-        $assigned_roles = $rbacreview->assignedRoles($this->object->getId());
-
-        $counter = 0;
-
-        include_once('./Services/AccessControl/classes/class.ilObjRole.php');
-        
-        $records = array();
-        foreach ($role_list as $role) {
-            // fetch context path of role
-            $rolf = $rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
-
-            // only list roles that are not set to status "deleted"
-            if ($rbacreview->isDeleted($rolf[0])) {
-                continue;
-            }
-
-            // build context path
-            $path = "";
-
-            if ($this->tree->isInTree($rolf[0])) {
-                if ($rolf[0] == ROLE_FOLDER_ID) {
-                    $path = $this->lng->txt("global");
-                } else {
-                    $tmpPath = $this->tree->getPathFull($rolf[0]);
-
-                    // count -1, to exclude the role folder itself
-                    /*for ($i = 1; $i < (count($tmpPath)-1); $i++)
-                    {
-                        if ($path != "")
-                        {
-                            $path .= " > ";
-                        }
-
-                        $path .= $tmpPath[$i]["title"];
-                    }*/
-
-                    $path = $tmpPath[count($tmpPath) - 1]["title"];
-                }
-            } else {
-                $path = "<b>Rolefolder " . $rolf[0] . " not found in tree! (Role " . $role["obj_id"] . ")</b>";
-            }
-
-            $disabled = false;
-
-            // disable checkbox for system role for the system user
-            if (($this->object->getId() == SYSTEM_USER_ID and $role["obj_id"] == SYSTEM_ROLE_ID)
-                or (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId())) and $role["obj_id"] == SYSTEM_ROLE_ID)) {
-                $disabled = true;
-            }
-            
-            // protected admin role
-            if ($role['obj_id'] == SYSTEM_ROLE_ID && !$rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)) {
-                include_once './Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
-                if (ilSecuritySettings::_getInstance()->isAdminRoleProtected()) {
-                    $disabled = true;
-                }
-            }
-
-            if (substr($role["title"], 0, 3) == "il_") {
-                if (!$assignable) {
-                    $rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
-                    $rolf2 = $rolf_arr[0];
-                } else {
-                    $rolf2 = $rolf;
-                }
-
-                $parent_node = $this->tree->getNodeData($rolf2);
-
-                $role["description"] = $this->lng->txt("obj_" . $parent_node["type"]) . "&nbsp;(#" . $parent_node["obj_id"] . ")";
-            }
-
-            $role_ids[$counter] = $role["obj_id"];
-
-            $result_set[$counter][] = $checkbox = ilUtil::formCheckBox(in_array($role["obj_id"], $assigned_roles), "role_id[]", $role["obj_id"], $disabled) . "<input type=\"hidden\" name=\"role_id_ctrl[]\" value=\"" . $role["obj_id"] . "\"/>";
-            $this->ctrl->setParameterByClass("ilobjrolegui", "ref_id", $rolf[0]);
-            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $role["obj_id"]);
-            $result_set[$counter][] = $link = "<a href=\"" . $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm") . "\">" . ilObjRole::_getTranslation($role["title"]) . "</a>";
-            $title = ilObjRole::_getTranslation($role["title"]);
-            $result_set[$counter][] = $role["description"];
-
-            // Add link to objector local Rores
-            if ($role["role_type"] == "local") {
-                // Get Object to the role
-                $obj_id = $rbacreview->getObjectOfRole($role["rol_id"]);
-
-                $obj_type = ilObject::_lookupType($obj_id);
-
-                $ref_ids = ilObject::_getAllReferences($obj_id);
-
-                foreach ($ref_ids as $ref_id) {
-                }
-
-                require_once("./Services/Link/classes/class.ilLink.php");
-    
-                $result_set[$counter][] = $context = "<a href='" . ilLink::_getLink($ref_id, ilObject::_lookupType($obj_id)) . "' target='_top'>" . $path . "</a>";
-            } else {
-                $result_set[$counter][] = $path;
-                $context = $path;
-            }
-
-            $records[] = array("path" => $path, "description" => $role["description"],
-                "context" => $context, "checkbox" => $checkbox,
-                "role" => $link, "title" => $title);
-            ++$counter;
-        }
 
         if (true) {
-            $tab->setData($records);
+            $tab->parse((int) $this->object->getId());
             $this->tpl->setVariable("ROLES_TABLE", $tab->getHTML());
             return;
         }
@@ -2346,7 +2216,7 @@ class ilObjUserGUI extends ilObjectGUI
         $body .= ($usr_lang->txt("reg_mail_body_text3") . "\n");
         $body .= $this->object->getProfileAsString($usr_lang);
 
-        $mmail->Subject($subject);
+        $mmail->Subject($subject, true);
         $mmail->Body($body);
         $mmail->Send();
 

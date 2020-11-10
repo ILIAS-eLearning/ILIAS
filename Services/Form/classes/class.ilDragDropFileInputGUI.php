@@ -77,17 +77,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
     {
         $lng = $this->lng;
 
-        $quota_exceeded = $quota_legend = false;
-        if (self::$check_wsp_quota) {
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $lng->loadLanguageModule("file");
-                return $lng->txt("personal_resources_quota_exceeded_warning");
-            } else {
-                $quota_legend = ilDiskQuotaHandler::getStatusLegend();
-            }
-        }
-
         // make sure jQuery is loaded
         iljQueryUtil::initjQuery();
         

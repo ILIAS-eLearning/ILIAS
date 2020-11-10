@@ -6,7 +6,6 @@ use DateTimeImmutable;
 
 /**
  * Class Information
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class FileInformation implements Information
@@ -33,8 +32,6 @@ class FileInformation implements Information
      */
     protected $creation_date;
 
-
-
     /**
      * @return string
      */
@@ -43,19 +40,16 @@ class FileInformation implements Information
         return $this->title;
     }
 
-
     /**
      * @param string $title
-     *
      * @return FileInformation
      */
-    public function setTitle(string $title) : FileInformation
+    public function setTitle(string $title) : Information
     {
         $this->title = $title;
 
         return $this;
     }
-
 
     /**
      * @return string
@@ -65,19 +59,16 @@ class FileInformation implements Information
         return $this->suffix;
     }
 
-
     /**
      * @param string $suffix
-     *
      * @return FileInformation
      */
-    public function setSuffix(string $suffix) : FileInformation
+    public function setSuffix(string $suffix) : Information
     {
         $this->suffix = $suffix;
 
         return $this;
     }
-
 
     /**
      * @return string
@@ -87,10 +78,8 @@ class FileInformation implements Information
         return $this->mime_type;
     }
 
-
     /**
      * @param string $mime_type
-     *
      * @return FileInformation
      */
     public function setMimeType(string $mime_type) : FileInformation
@@ -100,7 +89,6 @@ class FileInformation implements Information
         return $this;
     }
 
-
     /**
      * @return int
      */
@@ -109,10 +97,8 @@ class FileInformation implements Information
         return $this->size;
     }
 
-
     /**
      * @param int $size
-     *
      * @return FileInformation
      */
     public function setSize(int $size) : FileInformation
@@ -122,7 +108,6 @@ class FileInformation implements Information
         return $this;
     }
 
-
     /**
      * @return DateTimeImmutable
      */
@@ -130,7 +115,6 @@ class FileInformation implements Information
     {
         return $this->creation_date;
     }
-
 
     /**
      * @param DateTimeImmutable $creation_date

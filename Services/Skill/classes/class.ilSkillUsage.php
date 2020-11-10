@@ -284,4 +284,64 @@ class ilSkillUsage implements ilSkillUsageInfo
         
         return $lng->txt("skmg_usage_type_info_" . $a_type);
     }
+
+    /**
+     * @param int $a_skill_id
+     * @param int $a_tref_id
+     * @return array
+     */
+    public function getAssignedObjectsForSkill(int $a_skill_id, int $a_tref_id) : array
+    {
+        //$objects = $this->getAllUsagesInfoOfSubtree($a_skill_id, $a_tref_id);
+        $objects = self::getUsages($a_skill_id, $a_tref_id);
+
+        return $objects;
+    }
+
+    /**
+     * @param int $a_template_id
+     * @return array
+     */
+    public function getAssignedObjectsForSkillTemplate(int $a_template_id) : array
+    {
+        $usages = $this->getAllUsagesOfTemplate($a_template_id);
+        $obj_usages = array_column($usages, "gen");
+        foreach ($obj_usages as $obj) {
+            $objects["objects"] = array_column($obj, "key");
+        }
+
+        return $objects["objects"];
+    }
+
+    /**
+     * @param int $a_profile_id
+     * @return array
+     */
+    public function getAssignedObjectsForSkillProfile(int $a_profile_id) : array
+    {
+        $profile = new ilSkillProfile($a_profile_id);
+        $skills = $profile->getSkillLevels();
+        $objects = array();
+
+        // usages for skills within skill profile
+        foreach ($skills as $skill) {
+            $obj_usages = self::getUsages($skill["base_skill_id"], $skill["tref_id"]);
+            foreach ($obj_usages as $id) {
+                if (!in_array($id, $objects)) {
+                    $objects[] = $id;
+                }
+            }
+        }
+
+        // courses and groups which are using skill profile
+        $roles = $profile->getAssignedRoles();
+        foreach ($roles as $role) {
+            if (($role["object_type"] == "crs" || $role["object_type"] == "grp")
+                && !in_array($role["object_id"], $objects)) {
+                $objects[] = $role["object_id"];
+            }
+        }
+
+        return $objects;
+    }
 }

@@ -26,6 +26,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CONFIRM_RESTORE = 'confirmRestore';
     const CMD_UPLOAD = 'upload';
+    const CMD_SELECT_PARENT = 'selectParent';
+    const CMD_MOVE = 'move';
 
     private function dispatchCommand($cmd)
     {
@@ -62,6 +64,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
                 break;
             case self::CMD_CONFIRM_DELETE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
@@ -73,25 +76,21 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 $this->cancel();
                 break;
             case self::CMD_CONFIRM_RESTORE:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
                 return $this->confirmRestore();
-                break;
             case self::CMD_RESTORE:
                 $this->access->checkAccessAndThrowException('write');
 
-                return $this->restore();
+                $this->restore();
                 break;
-            case self::CMD_RENDER_INTERRUPTIVE:
+            case self::CMD_SELECT_PARENT:
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
                 $this->access->checkAccessAndThrowException('write');
-                $this->renderInterruptiveModal();
-                break;
-            case self::CMD_UPLOAD:
+                return $this->selectParent();
+            case self::CMD_MOVE:
                 $this->access->checkAccessAndThrowException('write');
-                return $this->upload();
-                break;
-            case 'download':
-                $this->access->checkAccessAndThrowException('write');
-                return $this->download();
+                $this->move();
                 break;
         }
 
@@ -278,5 +277,46 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
 
         $this->cancel();
+    }
+
+    private function selectParent() : string
+    {
+        $form = $this->getMoveForm();
+
+        return $this->ui->renderer()->render($form);
+
+    }
+
+    private function move() : void
+    {
+        $form = $this->getMoveForm();
+        $form = $form->withRequest($this->http->request());
+
+        $item = $this->getMMItemFromRequest();
+
+        $data = $form->getData();
+        if ($item->isInterchangeable() && isset($data[0])) {
+            $f = $this->repository->getItemFacadeForIdentificationString($data[0]);
+            $item->setParent($data[0]);
+            $this->repository->updateItem($item);
+            ilUtil::sendSuccess($this->lng->txt('msg_moved'), true);
+        } else {
+            ilUtil::sendFailure($this->lng->txt('msg_not_moved'), true);
+        }
+
+        $this->cancel();
+    }
+
+    /**
+     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     */
+    private function getMoveForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    {
+        $this->ctrl->saveParameter($this, self::IDENTIFIER);
+        $f = $this->ui->factory();
+
+        $parent = $f->input()->field()->select($this->lng->txt('select_parent'), $this->repository->getPossibleParentsForFormAndTable())->withRequired(true);
+
+        return $f->input()->container()->form()->standard($this->ctrl->getFormAction($this, self::CMD_MOVE), [$parent]);
     }
 }
