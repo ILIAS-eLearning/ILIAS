@@ -181,7 +181,7 @@ class ilObjWebDAV extends ilObject
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
-        $settings = new ilSetting('file_access');
+        $settings = new ilSetting('webdav');
 
         // Clear any old error messages
         $ilClientIniFile->error(null);
@@ -209,7 +209,7 @@ class ilObjWebDAV extends ilObject
         parent::read();
 
         global $DIC;
-        $settings = new ilSetting('file_access');
+        $settings = new ilSetting('webdav');
         $ilClientIniFile = $DIC['ilClientIniFile'];
         $this->webdavEnabled = $ilClientIniFile->readVariable('file_access', 'webdav_enabled') == '1';
         // default_value = 1 for versionigEnabled because it was already standard before ilias5.4

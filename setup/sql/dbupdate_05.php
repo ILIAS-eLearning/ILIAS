@@ -5403,3 +5403,18 @@ require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 ilDBUpdateNewObjectType::addAdminNode('wbdv', 'WebDAV');
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5727>
+<?php
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'custom_webfolder_instructions']
+    ]);
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'custom_webfolder_instructions_enabled']
+    ]);
+?>
