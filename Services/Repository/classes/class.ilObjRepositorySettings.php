@@ -15,8 +15,7 @@ class ilObjRepositorySettings extends ilObject
 {
     const NEW_ITEM_GROUP_TYPE_GROUP = 1;
     const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
-
-
+    
     /**
     * Constructor
     * @access	public
@@ -28,7 +27,6 @@ class ilObjRepositorySettings extends ilObject
         $this->type = "reps";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
 
     public function delete()
     {

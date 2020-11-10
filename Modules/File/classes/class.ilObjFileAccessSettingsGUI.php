@@ -35,7 +35,6 @@
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
-    const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
     const CMD_EDIT_SETTINGS = 'editSettings';
     const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
 
