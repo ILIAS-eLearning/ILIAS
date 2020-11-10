@@ -106,6 +106,7 @@ class ilObjCmiXapi extends ilObject2
     const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
     const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
     const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
+    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
     
     /**
      * @var string
@@ -1156,7 +1157,7 @@ class ilObjCmiXapi extends ilObject2
         // delete entire directory and its content
 		$dirUtil = new ilCmiXapiContentUploadImporter($this);
 		$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
-        if (@is_dir($thisDir)) {
+        if (is_dir($thisDir)) {
             ilUtil::delDir($thisDir);
         }
 
