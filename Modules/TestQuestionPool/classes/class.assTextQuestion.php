@@ -146,7 +146,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             $this->matchcondition = (strlen($data['matchcondition'])) ? $data['matchcondition'] : 0;
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             $this->setKeywordRelation(($data['keyword_relation']));
-            
+
             try {
                 $this->setAdditionalContentEditingMode($data['add_cont_edit_mode']);
             } catch (ilTestQuestionPoolException $e) {
@@ -1037,5 +1037,45 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $text = str_replace("\n", "", $text);
         
         return ilStr::strLen($text);
+    }
+    
+    public function countWords($text)
+    {
+        $text = str_replace('&nbsp;', ' ', $text);
+        
+        $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
+        
+        $text = preg_replace('/^\s*/m', '', $text);
+        $text = preg_replace('/\s*$/m', '', $text);
+        $text = preg_replace('/\s+/m', ' ', $text);
+
+        return count(explode(' ', $text));
+    }
+
+    public function getLatestAutosaveContent($active_id)
+    {
+        $question_fi = $this->getId();
+
+        // Do we have an unauthorized result?
+        $cntresult = $this->db->query('
+            SELECT count(solution_id) cnt
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+        );
+        $row = $this->db->fetchAssoc($cntresult);
+        if($row['cnt'] > 0 ) {
+            $tresult = $this->db->query('
+            SELECT value1
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+            );
+            $trow = $this->db->fetchAssoc($tresult);
+            return $trow['value1'];
+        }
+        return '';
     }
 }
