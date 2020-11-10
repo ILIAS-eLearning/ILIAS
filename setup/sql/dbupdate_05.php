@@ -5391,3 +5391,9 @@ if (!$ilDB->tableColumnExists('grp_settings', 'session_next')) {
     ));
 }
 ?>
+<#5725>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('fils', 'File Services');
+$ilCtrlStructureReader->getStructure();
+?>
