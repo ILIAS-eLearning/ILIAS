@@ -5324,3 +5324,21 @@ if($ilDB->tableExists('cmix_settings'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5720>
+<?php
+if (!$ilDB->tableColumnExists('usr_starting_point', 'calendar_view')) {
+    $ilDB->addTableColumn("usr_starting_point", "calendar_view", array(
+        "type" => ilDBConstants::T_INTEGER,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+
+if (!$ilDB->tableColumnExists('usr_starting_point', 'calendar_period')) {
+    $ilDB->addTableColumn("usr_starting_point", "calendar_period", array(
+        "type" => ilDBConstants::T_INTEGER,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+?>

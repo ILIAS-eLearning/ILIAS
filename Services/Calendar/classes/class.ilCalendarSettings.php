@@ -43,6 +43,11 @@ class ilCalendarSettings
     const DATE_FORMAT_DMY = 1;
     const DATE_FORMAT_YMD = 2;
     const DATE_FORMAT_MDY = 3;
+
+    public const DEFAULT_CAL_DAY = 1;
+    public const DEFAULT_CAL_WEEK = 2;
+    public const DEFAULT_CAL_MONTH = 3;
+    public const DEFAULT_CAL_LIST = 4;
     
     const TIME_FORMAT_24 = 1;
     const TIME_FORMAT_12 = 2;
@@ -65,6 +70,8 @@ class ilCalendarSettings
     private $cal_settings_id = 0;
     
     private $consultation_hours = false;
+    private $default_cal = self::DEFAULT_CAL_LIST;
+    private $default_period = 2;
     
     private $cache_enabled = true;
     private $cache_minutes = 1;
@@ -234,6 +241,39 @@ class ilCalendarSettings
     public function getDefaultWeekStart()
     {
         return $this->week_start;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getDefaultCal() : int
+    {
+        return $this->default_cal;
+    }
+
+    /**
+     * @param int $default_cal
+     */
+    public function setDefaultCal(int $default_cal) : void
+    {
+        $this->default_cal = $default_cal;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultPeriod() : int
+    {
+        return $this->default_period;
+    }
+
+    /**
+     * @param int $default_period
+     */
+    public function setDefaultPeriod(int $default_period) : void
+    {
+        $this->default_period = $default_period;
     }
     
     /**
@@ -571,6 +611,8 @@ class ilCalendarSettings
         $this->storage->set('webcal_sync_hours', (int) $this->getWebCalSyncHours());
         $this->storage->set('show_weeks', (int) $this->getShowWeeks());
         $this->storage->set('batch_files', (int) $this->isBatchFileDownloadsEnabled());
+        $this->storage->set('default_calendar_view', (int) $this->getDefaultCal());
+        $this->storage->set('default_period', (int) $this->getDefaultPeriod());
     }
 
     /**
@@ -604,6 +646,8 @@ class ilCalendarSettings
         $this->setWebCalSyncHours($this->storage->get('webcal_sync_hours', $this->getWebCalSyncHours()));
         $this->setShowWeeks($this->storage->get('show_weeks', $this->getShowWeeks()));
         $this->enableBatchFileDownloads($this->storage->get('batch_files', $this->isBatchFileDownloadsEnabled()));
+        $this->setDefaultCal($this->storage->get('default_calendar_view', $this->getDefaultCal()));
+        $this->setDefaultPeriod($this->storage->get('default_period', $this->getDefaultPeriod()));
     }
     
     /**

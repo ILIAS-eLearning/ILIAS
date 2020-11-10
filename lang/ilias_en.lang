@@ -5181,6 +5181,7 @@ dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
 dateplaner#:#cal_def_week_start#:#Default Week Start
+dateplaner#:#cal_def_view#:#Default Calendar View
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
@@ -9172,6 +9173,7 @@ skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following co
 forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted
 dateplaner#:#cal_cache_settings#:#Cache
+dateplaner#:#cal_default_settings#:#Default settings
 dateplaner#:#cal_milestone_settings#:#Milestones
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.

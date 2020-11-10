@@ -5999,6 +5999,7 @@ dateplaner#:#cal_def_time_format_info#:#Bitte wählen Sie ein Format für die Ei
 dateplaner#:#cal_def_timezone#:#Default-Zeitzone
 dateplaner#:#cal_def_timezone_info#:#Bitte wählen Sie eine Zeitzone für die Anzeige von Terminen aus.
 dateplaner#:#cal_def_week_start#:#Default-Wochenbeginn
+dateplaner#:#cal_def_view#:#Default-Kalenderansicht
 dateplaner#:#cal_default_calendar#:#Persönliche Termine
 dateplaner#:#cal_del_app_sure#:#Sind Sie sicher, dass Sie die folgenden Termine löschen möchten?
 dateplaner#:#cal_del_cal_sure#:#Möchten Sie wirklich die ausgewählten Kalender löschen?
@@ -6028,6 +6029,7 @@ dateplaner#:#cal_grp_notification_sub#:#Terminänderung in Gruppe "%s"
 dateplaner#:#cal_in#:#im
 dateplaner#:#cal_last#:#Letzten
 dateplaner#:#cal_manage#:#Kalender verwalten
+dateplaner#:#cal_default_settings#:#Standardwerte
 dateplaner#:#cal_milestone_settings#:#Meilensteine
 dateplaner#:#cal_month_overview#:#Monatsübersicht
 dateplaner#:#cal_month_s#:#Monat(e)
