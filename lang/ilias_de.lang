@@ -5891,6 +5891,8 @@ crs#:#tutor_email#:#E-Mail
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Telefon
 crs#:#user_fields#:#Benutzerdaten
+dateplaner#:#cal_app_other_materials_num#:#Weitere Materialien anzeigen
+dateplaner#:#cal_materials#:#Materialien
 dateplaner#:#add_appointment#:#Termin hinzufügen
 dateplaner#:#app_consultation_hours#:#Sprechstundenverwaltung
 dateplaner#:#app_day#:#Tag

@@ -5131,6 +5131,8 @@ crs#:#tutor_email#:#E-Mail
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#user_fields#:#User Fields
+dateplaner#:#cal_app_other_materials_num#:#View other materials
+dateplaner#:#cal_materials#:#Materials
 dateplaner#:#add_appointment#:#Add Appointment
 dateplaner#:#app_day#:#Day
 dateplaner#:#app_month#:#Month
