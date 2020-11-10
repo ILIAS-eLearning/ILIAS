@@ -1,14 +1,20 @@
 <tr class="{CSS_ROW}">
-<td class="std">
-{CHECKBOX}
-</td>
-<td class="std">
-{ROLE}
-</td>
-<td class="std">
-{DESCRIPTION}
-</td>
-<td class="std">
-{CONTEXT}
-</td>
+    <td class="std">
+        <!-- BEGIN editable -->
+        <input type="checkbox" name="role_id[]" value="{VAL_ID}" {VAL_CHECKED} {VAL_DISABLED} />
+        <input type="hidden" name="role_id_ctrl[]" value="{VAL_ID}" />
+        <!-- END editable -->
+    </td>
+    <td class="std">
+        {ROLE}
+    </td>
+    <td class="std">
+        {DESCRIPTION}
+    </td>
+    <td class="std">
+        {CONTEXT}
+    </td>
+    <td class="std">
+        {PATH}
+    </td>
 </tr>
