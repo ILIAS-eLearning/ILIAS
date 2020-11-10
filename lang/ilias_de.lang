@@ -16279,3 +16279,31 @@ common#:#obj_petmp#:#Seitenvorlage
 common#:#obj_peusr#:#Benutzer
 survey#:#svy_compress_view#:#Komprimierte Sicht
 survey#:#svy_compress_view_info#:#Alle Single-Choice Fragen eines Fragenblocks mit gleicher Antwortskalierung werden matrixartig dargestellt.
+cmix#:#only_moveon_label#:#Nur Daten zum Lernerfolg speichern
+cmix#:#only_moveon_info#:#Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden nur Statements mit definierten Verben im Learning Record Store gespeichert (WhiteList). Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären. Das sichert in der Regel die Ablauffähigkeit, sollte jedoch mit dem Content-Anbieter abgesprochen sein.
+cmix#:#achieved_label#:#Statements mit dem Verb 'achieved'
+cmix#:#achieved_info#:#Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen.
+cmix#:#answered_label#:#Statements mit dem Verb 'answered'
+cmix#:#answered_info#:#Auf eine Frage wurde geantwortet - wobei das Objekt im Allgemeinen eine Aktivität ist, die die Frage repräsentiert. Der Text der Antwort ist oft in der Antwort innerhalb des Ergebnisses enthalten.
+cmix#:#completed_label#:#Statements mit dem Verb 'completed'
+cmix#:#completed_info#:#Die Aktivität wurde normal beendet oder abgeschlossen.
+cmix#:#failed_label#:#Statements mit dem Verb 'failed'
+cmix#:#failed_info#:#Die Aktivität wurde nicht erfolgreich bestanden bis zu einem vorher festgelegten Grad an Zufriedenheit.
+cmix#:#initialized_label#:#Statements mit dem Verb 'initialized'
+cmix#:#initialized_info#:#Die Aktivität wurde erfolgreich begonnen.
+cmix#:#passed_label#:#Statements mit dem Verb 'passed'
+cmix#:#passed_info#:#Die Aktivität wurde bis zu einem vorher festgelegten Grad der Zufriedenheit erfolgreich bestanden.
+cmix#:#progressed_label#:#Statements mit dem Verb 'progressed'
+cmix#:#progressed_info#:#Bezeichnet einen Wert, der angibt, wie weit ein Akteur in einer Aktivität fortgeschritten ist oder sich durch eine Aktivität bewegt hat.
+cmix#:#satisfied_label#:#Statements mit dem Verb 'satisfied'
+cmix#:#satisfied_info#:#Zeigt an, dass die Kriterien des Objekts oder der Aktivität erfüllt wurden.
+cmix#:#terminated_label#:#Statements mit dem Verb 'terminated'
+cmix#:#terminated_info#:#Die Aktivität wurde erfolgreich beendet.
+cmix#:#hide_data_label#:#Daten schwärzen
+cmix#:#hide_data_info#:#Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden bestimmte Daten in Statements mit unkenntlich gemachten Werten im Learning Record Store gespeichert.
+cmix#:#timestamp_label#:#Zeitstempel 'timestamp'
+cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
+cmix#:#duration_label#:#Zeitdauer 'duration'
+cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt.
+cmix#:#no_substatements_label#:#Substatements nicht speichern
+cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.

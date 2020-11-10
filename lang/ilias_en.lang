@@ -16287,3 +16287,31 @@ common#:#obj_petmp#:#Page Template
 common#:#obj_peusr#:#User
 survey#:#svy_compress_view#:#Compressed View
 survey#:#svy_compress_view_info#:#If activated, all single choice questions with similar scales will be presented matrix-like.
+cmix#:#only_moveon_label#:#Save learning success data only
+cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.
+cmix#:#achieved_label#:#Statements with the verb 'achieved'
+cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
+cmix#:#answered_label#:#Statements with the verb 'answered'
+cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.
+cmix#:#completed_label#:#Statements with the verb 'completed'
+cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.
+cmix#:#failed_label#:#Statements with the verb 'failed'
+cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
+cmix#:#initialized_label#:#Statements with the verb 'initialized'
+cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.
+cmix#:#passed_label#:#Statements with the verb 'passed'
+cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
+cmix#:#progressed_label#:#Statements with the verb 'progressed'
+cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
+cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
+cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.
+cmix#:#terminated_label#:#Statements with the verb 'terminated'
+cmix#:#terminated_info#:#Indicates that the actor successfully ended an activity.
+cmix#:#hide_data_label#:#Blacken data
+cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.
+cmix#:#timestamp_label#:#Timestamp
+cmix#:#timestamp_info#:#The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp.
+cmix#:#duration_label#:#Duration
+cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
+cmix#:#no_substatements_label#:#Do not store substatements
+cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
