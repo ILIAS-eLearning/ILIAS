@@ -73,25 +73,25 @@ class ilObjMainMenuAccess extends ilObjectAccess
         return $roles;
     }
 
-
     /**
      * @param ilMMCustomItemStorage $item
-     *
-     * @return bool
+     * @return Closure
      */
-    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item) {
-        $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
-        if(!$item->hasRoleBasedVisibility()) {
-            return true;
-        }
-        if($item->hasRoleBasedVisibility() AND !empty($item->getGlobalRoleIDs())) {
-            foreach ($roles_of_current_user as $role_of_current_user) {
-                if (in_array($role_of_current_user, $item->getGlobalRoleIDs())) {
-                    return true;
+    public function isCurrentUserAllowedToSeeCustomItem(ilMMCustomItemStorage $item) : Closure
+    {
+        return function () use ($item): bool {
+            $roles_of_current_user = $this->rbacreview->assignedGlobalRoles($this->user->getId());
+            if (!$item->hasRoleBasedVisibility()) {
+                return true;
+            }
+            if ($item->hasRoleBasedVisibility() && !empty($item->getGlobalRoleIDs())) {
+                foreach ($roles_of_current_user as $role_of_current_user) {
+                    if (in_array($role_of_current_user, $item->getGlobalRoleIDs())) {
+                        return true;
+                    }
                 }
             }
-        }
-        return false;
+            return false;
+        };
     }
-
 }
