@@ -240,7 +240,8 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        ilTermsOfServiceHelper::setWithdrawalInfo($this->httpRequest);
+        $tos_withdrawal_helper = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tos_withdrawal_helper->setWithdrawalInfo($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1269,8 +1270,9 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
-        $withdrawal_appendage_text = ilTermsOfServiceHelper::appendWithdrawalText(
-            (int) ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        $withdrawal_appendage_text = $tos_withdrawal_helper->appendWithdrawalText(
+            ($this->httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0)
         );
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
@@ -1306,8 +1308,9 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-        if (isset($this->httpRequest->getQueryParameters()['withdraw_consent'])) {
-            ilTermsOfServiceHelper::handleWithdrawalRequest($user, $this);
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        if (isset($this->httpRequest->getQueryParams()['withdraw_consent'])) {
+            $tos_withdrawal_helper->handleWithdrawalRequest($user, $this);
         }
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
