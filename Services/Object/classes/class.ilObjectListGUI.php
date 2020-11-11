@@ -3259,9 +3259,10 @@ class ilObjectListGUI
      */
     public function getTypeIcon()
     {
-        return ilObject::_getIcon(
-            $this->obj_id,
-            'small',
+        return ilObject::getIconForReference(
+            (int) $this->ref_id,
+            (int) $this->obj_id,
+            (string) 'small',
             $this->getIconImageType()
         );
     }

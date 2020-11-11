@@ -1985,18 +1985,19 @@ class ilObject
     }
 
     /**
-     * Get icon for repository item.
-     *
-     * @param    int            object id
-     * @param    string        size (big, small, tiny)
-     * @param    string        object type
-     * @param    boolean        true: offline, false: online
+     * @param int    $a_ref_id
+     * @param int    $a_obj_id
+     * @param string $a_size
+     * @param string $a_type
+     * @param bool   $a_offline
+     * @return mixed|string
      */
-    public static function _getIcon(
-        $a_obj_id = "",
-        $a_size = "big",
-        $a_type = "",
-        $a_offline = false
+    public static function getIconForReference(
+        int $a_ref_id,
+        int $a_obj_id,
+        string $a_size,
+        string $a_type = '',
+        bool $a_offline = false
     ) {
         global $DIC;
 
@@ -2006,11 +2007,11 @@ class ilObject
         if ($a_obj_id == "" && $a_type == "") {
             return "";
         }
-        
+
         if ($a_type == "") {
             $a_type = ilObject::_lookupType($a_obj_id);
         }
-        
+
         if ($a_size == "") {
             $a_size = "big";
         }
@@ -2027,6 +2028,17 @@ class ilObject
                 return $filename . '?tmp=' . filemtime($filename);
             }
         }
+        if ($a_obj_id) {
+            $dtpl_icon_factory = ilDidacticTemplateIconFactory::getInstance();
+            if ($a_ref_id) {
+                $path = $dtpl_icon_factory->getIconPathForReference((int) $a_ref_id);
+            } else {
+                $path = $dtpl_icon_factory->getIconPathForObject((int) $a_obj_id);
+            }
+            if ($path) {
+                return $path . '?tmp=' . filemtime($path);
+            }
+        }
 
         if (!$a_offline) {
             if ($objDefinition->isPluginTypeName($a_type)) {
@@ -2040,11 +2052,34 @@ class ilObject
                 }
                 return ilUtil::getImagePath("icon_cmps.svg");
             }
-            
+
             return ilUtil::getImagePath("icon_" . $a_type . ".svg");
         } else {
             return "./images/icon_" . $a_type . ".svg";
         }
+    }
+
+    /**
+     * Get icon for repository item.
+     *
+     * @param    int            object id
+     * @param    string        size (big, small, tiny)
+     * @param    string        object type
+     * @param    boolean        true: offline, false: online
+     */
+    public static function _getIcon(
+        $a_obj_id = "",
+        $a_size = "big",
+        $a_type = "",
+        $a_offline = false
+    ) {
+        return self::getIconForReference(
+            0,
+            (int) $a_obj_id,
+            (string) $a_size,
+            (string) $a_type,
+            (bool) $a_offline
+        );
     }
 
     /**

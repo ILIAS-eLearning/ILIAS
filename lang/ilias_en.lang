@@ -14132,6 +14132,13 @@ exc#:#exc_settings_feedback_file#:#By File
 mem#:#mem_print_view_form#:#Default Settings for Print View
 mem#:#mem_settings_tab_print_view#:#Print View Settings
 mem#:#mem_settings_tab_settings#:#General Settings
+didactic#:#didactic_global#:#Global
+didactic#:#didactic_filter_with_icon#:#with Icon
+didactic#:#didactic_filter_without_icon#:#without Icon
+didactic#:#didactic_local#:#Local
+didactic#:#didactic_icon#:#Icon
+didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.
+didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.
 didactic#:#activate_local_didactic_template#:#Scope of Application
 didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations

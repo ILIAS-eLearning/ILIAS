@@ -78,7 +78,8 @@ class ilDidacticTemplateCopier
         $copy->save();
         $this->new_tpl_id = $copy->getId();
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+        // copy icon
+        $copy->getIconHandler()->copy($orig);
         foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($this->getTemplateId()) as $action) {
             $action->setTemplateId($this->getNewTemplateId());
             $new = clone $action;
