@@ -567,13 +567,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $objs = array();
 
-        // begin-patch filemanager
-        include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
-        if (in_array('parent', (array) $types)) {
-            $objs[] = $target_obj;
-        }
-        // end-patch filemanager
-
         foreach ($tree->getChilds($ref_id, 'title') as $child) {
             if ($all or in_array($child['type'], $types)) {
                 if ($tmp = ilObjectFactory::getInstanceByRefId($child['ref_id'], false)) {
@@ -585,11 +578,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         include_once './webservice/soap/classes/class.ilObjectXMLWriter.php';
 
         $xml_writer = new ilObjectXMLWriter();
-        // begin-patch filemanager
-        if (ilFMSettings::getInstance()->isEnabled()) {
-            $xml_writer->enableReferences(false);
-        }
-        // end-patch filemanager
         $xml_writer->enablePermissionCheck(true);
         $xml_writer->setObjects($objs);
         $xml_writer->enableOperations(true);
