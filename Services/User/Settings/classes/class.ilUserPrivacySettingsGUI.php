@@ -298,7 +298,7 @@ class ilUserPrivacySettingsGUI
                 $this->settings->get("usr_settings_disable_hide_own_online_status")
             );
 
-        $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra_desc'));
+        $formSections['awrn_sec'] = $this->uiFactory->input()->field()->section($fields, $this->lng->txt('obj_awra'));
     }
 
     /**
