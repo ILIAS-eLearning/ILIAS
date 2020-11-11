@@ -176,17 +176,18 @@ class ilInitialisation
                 define("IL_VIRUS_SCAN_COMMAND", $ilIliasIniFile->readVariable("tools", "scancommand"));
                 define("IL_VIRUS_CLEAN_COMMAND", $ilIliasIniFile->readVariable("tools", "cleancommand"));
                 break;
+            case "icap":
+                define("IL_VIRUS_SCANNER", "icap");
+                define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "i_cap_host"));
+                define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
+                define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
+                define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
+                break;
 
             default:
                 define("IL_VIRUS_SCANNER", "None");
                 break;
         }
-        define("IL_SCANNER_TYPE", $ilIliasIniFile->readVariable("tools", "scanner_type"));
-        define("IL_ICAP", $ilIliasIniFile->readVariable("tools", "i_cap"));
-        define("IL_ICAP_HOST", $ilIliasIniFile->readVariable("tools", "i_cap_host"));
-        define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
-        define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
-        define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
         define("IL_VIRUS_CLEAN_COMMAND", '');
 
         include_once './Services/Calendar/classes/class.ilTimeZone.php';

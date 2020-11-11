@@ -13,13 +13,13 @@ class ilVirusScannerFactory
     {
         $vs = null;
 
-        if (IL_SCANNER_TYPE == "1") {
+        if (IL_VIRUS_SCANNER == "icap") {
             if (strlen(IL_ICAP_CLIENT) > 0) {
                 $vs = new ilVirusScannerICapClient('', '');
             } else {
                 $vs = new ilVirusScannerICapRemoteAvClient('', '');
             }
-        } elseif (IL_SCANNER_TYPE == 0) {
+        } else {
             switch (IL_VIRUS_SCANNER) {
                 case "Sophos":
                     $vs = new ilVirusScannerSophos(IL_VIRUS_SCAN_COMMAND, IL_VIRUS_CLEAN_COMMAND);
