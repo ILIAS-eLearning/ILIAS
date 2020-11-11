@@ -60,6 +60,9 @@ class ilForumPostDraft
      * @var int
      */
     protected $notify = 0;
+    /**
+     * @var int
+     */
     protected $post_notify = 0;
     
     /**
@@ -384,7 +387,52 @@ class ilForumPostDraft
             self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()] = $tmp_obj;
         }
     }
+
+    /**
+     * @param int $user_id
+     * @param int $thread_id
+     * @param int $sorting
+     * @return ilForumPostDraft[]
+     */
+    public static function readSortedDrafts(int $user_id, int $thread_id, int $sorting = ilForumProperties::VIEW_DATE_ASC) : array
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
     
+        $drafts = [];
+    
+        $order_statement = ' ';
+        $order_direction = ' ';
+    
+        if ($sorting != ilForumProperties::VIEW_TREE) {
+            $order_statement = ' ORDER BY post_date ';
+            $order_direction = 'ASC';
+            if ($sorting == ilForumProperties::VIEW_DATE_DESC) {
+                $order_direction = 'DESC';
+            }
+        }
+        $res = $ilDB->queryF(
+            'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s AND thread_id = %s' .
+            $order_statement . $order_direction,
+            ['integer', 'integer'],
+            [$user_id, $thread_id]
+        );
+    
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $draft = new ilForumPostDraft();
+            self::populateWithDatabaseRecord($draft, $row);
+            $drafts[] = $draft;
+            self::$instances[$user_id][$thread_id][$draft->getPostId()][] = $draft;
+        }
+    
+        if ($sorting == ilForumProperties::VIEW_TREE) {
+            return self::$instances[$user_id][$thread_id];
+        } else {
+            return $drafts;
+        }
+        return [];
+    }
+
     /**
      * @param int $user_id
      * @return \ilForumPostDraft[]
