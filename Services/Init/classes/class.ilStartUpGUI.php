@@ -1306,7 +1306,7 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-        if (isset($this->httpRequest->getQueryParameters()['withdraw_consent'])) {
+        if (isset($this->httpRequest->getQueryParams()['withdraw_consent'])) {
             ilTermsOfServiceHelper::handleWithdrawalRequest($user, $this);
         }
 
