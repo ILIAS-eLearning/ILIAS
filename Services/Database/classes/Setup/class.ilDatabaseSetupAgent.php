@@ -30,14 +30,6 @@ class ilDatabaseSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("NYI!");
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
@@ -66,7 +58,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
             "Complete objectives from Services\Database",
             false,
             new ilDatabaseConfigStoredObjective($config),
-            new \ilDatabaseUpdatedObjective($config)
+            new \ilDatabasePopulatedObjective($config),
+            new \ilDatabaseUpdatedObjective()
         );
     }
 
@@ -75,7 +68,16 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilDatabaseUpdatedObjective($config, false);
+        $p = [];
+        if ($config !== null) {
+            $p[] = new \ilDatabaseConfigStoredObjective($config);
+        }
+        $p[] = new \ilDatabaseUpdatedObjective();
+        return new Setup\ObjectiveCollection(
+            "Complete objectives from Services\Database",
+            false,
+            ...$p
+        );
     }
 
     /**
@@ -84,5 +86,13 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilDatabaseMetricsCollectedObjective($storage);
     }
 }

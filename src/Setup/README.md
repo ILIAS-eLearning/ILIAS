@@ -24,6 +24,11 @@ There are special kinds of `Objective`s tailored to match certain use cases.
 [`Artifact`](./Artifact.php) somewhere. Look into the [according section](#on-artifacts)
 to find out how to use them.
 
+For the `status` command of the setup, the kernel of a framework for metrics is
+[included](./Metrics/README.md) here. This is kept a little separate from the rest
+of the setup, because we might want to detach this some day.
+
+
 ## More Details, Please!
 
 ### On Config

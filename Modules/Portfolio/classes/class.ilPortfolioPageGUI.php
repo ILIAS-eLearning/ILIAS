@@ -405,6 +405,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             return $this->createPersistentCertificateUrl($a_id, $userCertificateRepository, $url);
         }
 
+        if (!ilObject::_exists($a_id)) {
+            return $this->lng->txt('deleted');
+        }
+
         $class = "ilObj" . $objDefinition->getClassName($a_type) . "GUI";
         $verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 

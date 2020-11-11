@@ -26,8 +26,7 @@ require_once(__DIR__ . "/classes/class.ilIniFilesLoadedObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyRegisteredObjective.php");
 require_once(__DIR__ . "/classes/class.ilNICKeyStoredObjective.php");
 require_once(__DIR__ . "/classes/class.ilSetupConfigStoredObjective.php");
-require_once(__DIR__ . "/classes/class.ilSetupPasswordManager.php");
-require_once(__DIR__ . "/classes/class.ilSetupPasswordEncoderFactory.php");
+require_once(__DIR__ . "/classes/class.ilSetupMetricsCollectedObjective.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
@@ -68,7 +67,8 @@ function build_container_for_setup(string $executed_in_directory)
             $c["command.install"],
             $c["command.update"],
             $c["command.build-artifacts"],
-            $c["command.reload-control-structure"]
+            $c["command.reload-control-structure"],
+            $c["command.status"]
         );
     };
     $c["command.install"] = function ($c) {
@@ -87,16 +87,17 @@ function build_container_for_setup(string $executed_in_directory)
     };
     $c["command.build-artifacts"] = function ($c) {
         return new \ILIAS\Setup\CLI\BuildArtifactsCommand(
-            $c["agent"],
-            $c["config_reader"],
-            []// TODO: $c["common_preconditions"]
+            $c["agent"]
         );
     };
     $c["command.reload-control-structure"] = function ($c) {
         return new \ILIAS\Setup\CLI\ReloadControlStructureCommand(
-            $c["agent"],
-            $c["config_reader"],
             $c["common_preconditions"]
+        );
+    };
+    $c["command.status"] = function ($c) {
+        return new \ILIAS\Setup\CLI\StatusCommand(
+            $c["agent"]
         );
     };
 
@@ -110,7 +111,6 @@ function build_container_for_setup(string $executed_in_directory)
     $c["agent"] = function ($c) {
         return function () use ($c) {
             return new ILIAS\Setup\AgentCollection(
-                $c["ui.field_factory"],
                 $c["refinery"],
                 $c["agents"]
             );
@@ -126,8 +126,7 @@ function build_container_for_setup(string $executed_in_directory)
     $c["common_agent"] = function ($c) {
         return new \ilSetupAgent(
             $c["refinery"],
-            $c["data_factory"],
-            $c["password_manager"]
+            $c["data_factory"]
         );
     };
 
@@ -152,83 +151,6 @@ function build_container_for_setup(string $executed_in_directory)
         return $agents;
     };
 
-    $c["ui.field_factory"] = function ($c) {
-        return new class implements FieldFactory {
-            public function text($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function numeric($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function group(array $inputs, string $label = '')
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function section(array $inputs, $label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function dependantGroup(array $inputs)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function optionalGroup(array $inputs, string $label, string $byline = null) : \ILIAS\UI\Component\Input\Field\OptionalGroup
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function switchableGroup(array $inputs, string $label, string $byline = null) : \ILIAS\UI\Component\Input\Field\SwitchableGroup
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function checkbox($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function tag(string $label, array $tags, $byline = null) : Tag
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function password($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function select($label, array $options, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function textarea($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function radio($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function multiSelect($label, array $options, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function dateTime($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function duration($label, $byline = null)
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function file(UploadHandler $handler, string $label, string $byline = null) : File
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-            public function viewControl() : ViewControlFactory
-            {
-                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
-            }
-        };
-    };
-
     $c["refinery"] = function ($c) {
         return new ILIAS\Refinery\Factory(
             $c["data_factory"],
@@ -248,15 +170,6 @@ function build_container_for_setup(string $executed_in_directory)
         return new \ILIAS\Setup\CLI\ConfigReader(
             $executed_in_directory
         );
-    };
-
-    $c["password_manager"] = function ($c) {
-        return new \ilSetupPasswordManager([
-            'password_encoder' => 'bcryptphp',
-            'encoder_factory' => new \ilSetupPasswordEncoderFactory([
-                'default_password_encoder' => 'bcryptphp'
-            ])
-        ]);
     };
 
     return $c;

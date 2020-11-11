@@ -17,6 +17,7 @@ interface Environment
     const RESOURCE_ILIAS_INI = "resource_ilias_ini";
     const RESOURCE_CLIENT_INI = "resource_client_ini";
     const RESOURCE_SETTINGS_FACTORY = "resource_settings_factory";
+    const RESOURCE_CLIENT_ID = "resource_client_id";
 
     /**
      * Consumers of this method should check if the result is what they expect,
@@ -43,4 +44,5 @@ interface Environment
      * @return mixed
      */
     public function getConfigFor(string $component);
+    public function hasConfigFor(string $component) : bool;
 }

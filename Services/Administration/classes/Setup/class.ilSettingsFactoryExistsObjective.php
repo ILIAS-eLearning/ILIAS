@@ -23,15 +23,18 @@ class ilSettingsFactoryExistsObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $db_config = $environment->getConfigFor("database");
         return [
-            new ilDatabasePopulatedObjective($db_config)
+            new ilDatabaseInitializedObjective()
         ];
     }
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+
+        if (!($db instanceof \ilDBInterface)) {
+            throw new Setup\UnachievableException("Database does not exist.");
+        }
 
         return $environment
             ->withResource(

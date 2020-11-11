@@ -144,6 +144,12 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
 
+        $cb = new ilCheckboxInputGUI($this->lng->txt('adm_acc_ctrl_cpt_enable'), 'acc_ctrl_cpt_status');
+        $cb->setValue(1);
+        $cb->setChecked(ilObjAccessibilitySettings::getControlConceptStatus());
+        $cb->setInfo($this->lng->txt('adm_acc_ctrl_cpt_desc'));
+        $this->form->addItem($cb);
+
         $ti = new ilTextInputGUI($this->lng->txt("adm_accessibility_contacts"), "accessibility_support_contacts");
         $ti->setMaxLength(500);
         $ti->setValue(ilAccessibilitySupportContacts::getList());
@@ -184,6 +190,8 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 
         $this->getSettingsForm();
         if ($this->form->checkInput()) {
+            // Accessibility Control Concept status
+            ilObjAccessibilitySettings::saveControlConceptStatus((bool) $this->form->getInput('acc_ctrl_cpt_status'));
             // Accessibility support contacts
             ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
 

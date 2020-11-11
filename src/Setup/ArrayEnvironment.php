@@ -76,4 +76,12 @@ class ArrayEnvironment implements Environment
         }
         return $this->configs[$component];
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasConfigFor(string $component) : bool
+    {
+        return isset($this->configs[$component]);
+    }
 }

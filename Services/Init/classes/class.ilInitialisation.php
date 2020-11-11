@@ -3,13 +3,19 @@
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -187,6 +193,21 @@ class ilInitialisation
         $tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
         define("IL_TIMEZONE", $tz);
     }
+
+    protected static function initResourceStorage() : void
+    {
+        global $DIC;
+
+        $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
+            return new \ILIAS\ResourceStorage\Services(
+                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                new RevisionARRepository(),
+                new ResourceARRepository(),
+                new InformationARRepository()
+            );
+        };
+    }
+
 
     /**
      * Bootstraps the ILIAS filesystem abstraction.
@@ -1168,6 +1189,8 @@ class ilInitialisation
         self::determineClient();
 
         self::bootstrapFilesystems();
+
+        self::initResourceStorage();
 
         self::initClientIniFile();
 

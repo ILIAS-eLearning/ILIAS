@@ -273,10 +273,6 @@ class ilDclFieldEditGUI
         }
         $this->form->addItem($edit_datatype);
 
-        // Required
-        $cb = new ilCheckboxInputGUI($lng->txt("dcl_field_required"), "required");
-        $this->form->addItem($cb);
-
         //Unique
         $cb = new ilCheckboxInputGUI($lng->txt("dcl_unique"), "unique");
         $cb->setInfo($lng->txt('dcl_unique_desc'));
@@ -316,7 +312,6 @@ class ilDclFieldEditGUI
             $this->field_obj->setTitle($title);
             $this->field_obj->setDescription($this->form->getInput("description"));
             $this->field_obj->setDatatypeId($this->form->getInput("datatype"));
-            $this->field_obj->setRequired($this->form->getInput("required"));
             $this->field_obj->setUnique($this->form->getInput("unique"));
 
             if ($a_mode == "update") {

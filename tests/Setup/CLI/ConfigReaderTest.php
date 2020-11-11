@@ -95,4 +95,30 @@ class ConfigReaderTest extends TestCase
         $result = $cr->_applyOverwrites($array, $overwrites);
         $this->assertEquals($expected, $result);
     }
+
+    public function testApplyOverwritesToUnsetField() : void
+    {
+        $cr = new class() extends Setup\CLI\ConfigReader {
+            public function _applyOverwrites($j, $o)
+            {
+                return $this->applyOverwrites($j, $o);
+            }
+        };
+
+        $array = [
+        ];
+        $overwrites = [
+            "1.1.1" => "foo",
+        ];
+        $expected = [
+            "1" => [
+                "1" => [
+                    "1" => "foo"
+                ],
+            ]
+        ];
+
+        $result = $cr->_applyOverwrites($array, $overwrites);
+        $this->assertEquals($expected, $result);
+    }
 }

@@ -44,9 +44,10 @@ class ilPortfolioPageConfig extends ilPageConfig
         $this->setIntLinkHelpDefaultType("PortfolioPage");
         $this->setEnablePCType("Profile", true);
         $this->setEditLockSupport(false);
-        
-        if (!$ilSetting->get('disable_wsp_certificates')) {
-            $this->setEnablePCType("Verification", true);
+
+        $validator = new ilCertificateActiveValidator();
+        if (true === $validator->validate()) {
+             $this->setEnablePCType("Verification", true);
         }
         $skmg_set = new ilSetting("skmg");
         if ($skmg_set->get("enable_skmg")) {

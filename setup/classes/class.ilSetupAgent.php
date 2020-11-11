@@ -26,19 +26,12 @@ class ilSetupAgent implements Setup\Agent
      */
     protected $data;
 
-    /**
-     * @var \ilSetupPasswordManager
-     */
-    protected $password_manager;
-
     public function __construct(
         Refinery\Factory $refinery,
-        Data\Factory $data,
-        \ilSetupPasswordManager $password_manager
+        Data\Factory $data
     ) {
         $this->refinery = $refinery;
         $this->data = $data;
-        $this->password_manager = $password_manager;
     }
 
     /**
@@ -52,22 +45,12 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            $password = $this->refinery->to()->data("password");
             $datetimezone = $this->refinery->to()->toNew(\DateTimeZone::class);
             return new \ilSetupConfig(
                 $data["client_id"],
-                $password->transform($data["master_password"]),
                 $datetimezone->transform([$data["server_timezone"] ?? "UTC"]),
                 $data["register_nic"] ?? false
             );
@@ -90,7 +73,7 @@ class ilSetupAgent implements Setup\Agent
                 new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
                 new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
-                new ilSetupConfigStoredObjective($config, $this->password_manager),
+                new ilSetupConfigStoredObjective($config, true),
                 $config->getRegisterNIC()
                         ? new ilNICKeyRegisteredObjective($config)
                         : new ilNICKeyStoredObjective($config)
@@ -120,6 +103,9 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
+        if ($config !== null) {
+            return new ilSetupConfigStoredObjective($config);
+        }
         return new Setup\Objective\NullObjective();
     }
 
@@ -129,5 +115,13 @@ class ilSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilSetupMetricsCollectedObjective($storage);
     }
 }

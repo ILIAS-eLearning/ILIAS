@@ -60,7 +60,6 @@ lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Ler
 common#:#obj_prss_desc#:#Persönliche Ressourcen administrieren
 common#:#obj_prss#:#Persönliche Ressourcen
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
-pwsp#:#pwsp_enable_wsp_certificates#:#Zertifikate aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
 pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
 dash#:#dash_main_panel#:#Hauptbereich
@@ -1034,7 +1033,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurie
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
@@ -9991,7 +9990,10 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_list_visibility_and_filter#:#Sichtbarkeit und Filter
+dcl#:#dcl_list_visibility_and_filter#:#Liste
+dcl#:#dcl_view_settings#:#Ansichtseinstellungen
+dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
+dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
 dcl#:#dcl_record#:#Eintrag
 dcl#:#dcl_add_new_field#:#Feld hinzufügen
 dcl#:#dcl_add_new_table#:#Neue Tabelle hinzufügen
@@ -10362,7 +10364,20 @@ dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
+dcl#:#dcl_edit_entry_rules#:#Bearbeitung
+dcl#:#dcl_create_entry_rules#:#Erstellung
+dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
+dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
+dcl#:#dcl_tableview_fieldtitle#:#Feld-Titel
+dcl#:#dcl_tableview_locked#:#Gesperrt
+dcl#:#dcl_tableview_required#:#Verpflichtend
+dcl#:#dcl_tableview_default_value#:#Standardwert
+dcl#:#dcl_tableview_visible#:#Sichtbar
+dcl#:#dcl_tableview_not_visible#:#Nicht sichtbar
+dcl#:#dcl_tableview_required_visible#:#Verpflichtend & Sichtbar
+dcl#:#dcl_tableview_locked_visible#:#Gesperrt & Sichtbar
+dcl#:#dcl_tableview_field_access#:#Zugriffsrecht
 dcl#:#dcl_delete_views#:#Ansichten löschen
 dcl#:#dcl_delete_tables#:#Tabellen löschen
 dcl#:#dcl_msg_tableview_updated#:#Ansicht aktualisiert
@@ -13367,6 +13382,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
+adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur Info Barrierefreit im Footer.
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
@@ -14794,6 +14811,14 @@ copa#:#copa_edit#:#Inhaltsseite bearbeiten
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
+copa#:#copa_prop_reading_time#:#Lesezeit
+copa#:#copa_value_reading_time_f_s#:#%s Minute
+copa#:#copa_value_reading_time_f_p#:#%s Minuten
+common#:#obj_cpad#:#Inhaltsseiten
+common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
+common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
+cpad#:#cpad_reading_time_status#:#Lesezeit
+cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten-Objekten ermittelt und agenzeigt.
 adve#:#adve_grp_copa#:#Inhaltsseiten
 common#:#msg_info_blacklisted#:#Bitte entschuldigen Sie!  Sie dürfen die Datei aus Sicherheitsgründen nicht hochladen.
 wiki#:#wiki_change_notification_body_new#:#die folgende Wiki-Seite wurde neu angelegt
@@ -15650,9 +15675,9 @@ lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeu
 lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_user_ident_real_email#:#E-Mail Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 lti#:#conf_user_name#:#Benutzername
@@ -15829,12 +15854,14 @@ cmix#:#conf_external_lrs#:#Externer LRS
 cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
 cmix#:#conf_user_ident#:#Benutzeridentifikation
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
 cmix#:#conf_user_ident_real_email#:#E-Mail Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 cmix#:#conf_user_name#:#Benutzername

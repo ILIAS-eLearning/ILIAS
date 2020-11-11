@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
@@ -84,24 +85,14 @@ class FactoryImplTest extends TestCase
     }
 
 
-    public function testTopItemConstraints()
+    public function testInterchangeableContraints()
     {
-        $this->assertInstanceOf(isTopItem::class, $this->factory->topLinkItem($this->id));
-        $this->assertInstanceOf(isTopItem::class, $this->factory->topParentItem($this->id));
-        $this->assertNotInstanceOf(isTopItem::class, $this->factory->complex($this->id));
-        $this->assertNotInstanceOf(isTopItem::class, $this->factory->link($this->id));
-        $this->assertNotInstanceOf(isTopItem::class, $this->factory->repositoryLink($this->id));
-        $this->assertNotInstanceOf(isTopItem::class, $this->factory->separator($this->id));
+        $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->topLinkItem($this->id));
+        $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->topParentItem($this->id));
+        $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->complex($this->id));
+        $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->link($this->id));
+        $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->repositoryLink($this->id));
+        $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->separator($this->id));
     }
 
-
-    public function testChildConstraints()
-    {
-        $this->assertNotInstanceOf(isChild::class, $this->factory->topLinkItem($this->id));
-        $this->assertNotInstanceOf(isChild::class, $this->factory->topParentItem($this->id));
-        $this->assertInstanceOf(isChild::class, $this->factory->complex($this->id));
-        $this->assertInstanceOf(isChild::class, $this->factory->link($this->id));
-        $this->assertInstanceOf(isChild::class, $this->factory->repositoryLink($this->id));
-        $this->assertInstanceOf(isChild::class, $this->factory->separator($this->id));
-    }
 }

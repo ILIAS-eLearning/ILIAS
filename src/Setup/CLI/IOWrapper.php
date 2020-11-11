@@ -29,12 +29,6 @@ class IOWrapper implements AdminInteraction
     protected $out;
 
     /**
-     * @var bool
-     */
-    protected $say_yes;
-
-
-    /**
      * @var	SymfonyStyle
      */
     protected $style;
@@ -54,12 +48,11 @@ class IOWrapper implements AdminInteraction
      */
     protected $output_in_objective = false;
 
-    public function __construct(InputInterface $in, OutputInterface $out, bool $say_yes = false)
+    public function __construct(InputInterface $in, OutputInterface $out)
     {
         $this->in = $in;
         $this->out = $out;
         $this->style = new SymfonyStyle($in, $out);
-        $this->say_yes = $say_yes;
     }
 
     // Implementation of AdminInteraction
@@ -73,7 +66,7 @@ class IOWrapper implements AdminInteraction
     public function confirmOrDeny(string $message) : bool
     {
         $this->outputInObjective();
-        if (!$this->say_yes) {
+        if (!$this->shouldSayYes()) {
             return $this->style->confirm($message, false);
         } else {
             $this->inform("Automatically confirmed:\n\n$message");
@@ -82,6 +75,24 @@ class IOWrapper implements AdminInteraction
     }
 
     // For CLI-Setup
+
+    public function printLicenseMessage() : void
+    {
+        if ($this->shouldSayYes() || ($this->in->hasOption("no-interaction") && $this->in->getOption("no-interaction"))) {
+            return;
+        }
+        $this->text(
+            "   ILIAS Copyright (C) 1998-2019 ILIAS Open Source e.V. - GPLv3\n\n" .
+            "This program comes with ABSOLUTELY NO WARRANTY. This is free software,\n" .
+            "and you are welcome to redistribute it under certain conditions. Look\n" .
+            "into the LICENSE file for details."
+        );
+    }
+
+    protected function shouldSayYes() : bool
+    {
+        return $this->in->getOption("yes") ?? false;
+    }
 
     public function title(string $title) : void
     {
