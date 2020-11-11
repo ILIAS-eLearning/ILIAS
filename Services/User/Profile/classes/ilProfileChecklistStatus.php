@@ -188,8 +188,8 @@ class ilProfileChecklistStatus
                     }
                     if ($this->areOnScreenChatOptionsVisible()) {
                         $status[] = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
-                            ? $lng->txt("chat_osc_receives_msg")
-                            : $lng->txt("chat_osc_not_receives_msg");
+                            ? $lng->txt("chat_use_osc")
+                            : $lng->txt("chat_not_use_osc");
                     }
                     $details = implode(",<br>", $status);
                 } else {
