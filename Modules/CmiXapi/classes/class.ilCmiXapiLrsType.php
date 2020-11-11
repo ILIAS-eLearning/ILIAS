@@ -66,7 +66,49 @@ class ilCmiXapiLrsType
      * @var bool
      */
     protected $bypassProxyEnabled = false;
-    
+
+    /** @var bool $only_moveon */
+    protected $only_moveon = false;
+
+    /** @var bool $achieved */
+    protected $achieved = true;
+
+    /** @var bool $answered */
+    protected $answered = true;
+
+    /** @var bool $completed */
+    protected $completed = true;
+
+    /** @var bool $failed */
+    protected $failed = true;
+
+    /** @var bool $initialized */
+    protected $initialized = true;
+
+    /** @var bool $passed */
+    protected $passed = true;
+
+    /** @var bool $progressed */
+    protected $progressed = true;
+
+    /** @var bool $satisfied */
+    protected $satisfied = true;
+
+    /** @var bool $terminated */
+    protected $terminated = true;
+
+    /** @var bool $hide_data */
+    protected $hide_data = false;
+
+    /** @var bool $timestamp */
+    protected $timestamp = false;
+
+    /** @var bool $duration */
+    protected $duration = true;
+
+    /** @var bool $no_substatements */
+    protected $no_substatements = false;
+
     /**
      * Constructor
      */
@@ -223,7 +265,231 @@ class ilCmiXapiLrsType
     {
         return $this->user_name;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function getOnlyMoveon(): bool
+    {
+        return $this->only_moveon;
+    }
+
+    /**
+     * @param bool $only_moveon
+     */
+    public function setOnlyMoveon(bool $only_moveon)
+    {
+        $this->only_moveon = $only_moveon;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAchieved(): bool
+    {
+        return $this->achieved;
+    }
+
+    /**
+     * @param bool $achieved
+     */
+    public function setAchieved(bool $achieved)
+    {
+        $this->achieved = $achieved;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAnswered(): bool
+    {
+        return $this->answered;
+    }
+
+    /**
+     * @param bool $answered
+     */
+    public function setAnswered(bool $answered)
+    {
+        $this->answered = $answered;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCompleted(): bool
+    {
+        return $this->completed;
+    }
+
+    /**
+     * @param bool $completed
+     */
+    public function setCompleted(bool $completed)
+    {
+        $this->completed = $completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFailed(): bool
+    {
+        return $this->failed;
+    }
+
+    /**
+     * @param bool $failed
+     */
+    public function setFailed(bool $failed)
+    {
+        $this->failed = $failed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialized
+     */
+    public function setInitialized(bool $initialized)
+    {
+        $this->initialized = $initialized;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPassed(): bool
+    {
+        return $this->passed;
+    }
+
+    /**
+     * @param bool $passed
+     */
+    public function setPassed(bool $passed)
+    {
+        $this->passed = $passed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getProgressed(): bool
+    {
+        return $this->progressed;
+    }
+
+    /**
+     * @param bool $progressed
+     */
+    public function setProgressed(bool $progressed)
+    {
+        $this->progressed = $progressed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSatisfied(): bool
+    {
+        return $this->satisfied;
+    }
+
+    /**
+     * @param bool $satisfied
+     */
+    public function setSatisfied(bool $satisfied)
+    {
+        $this->satisfied = $satisfied;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTerminated(): bool
+    {
+        return $this->terminated;
+    }
+
+    /**
+     * @param bool $terminated
+     */
+    public function setTerminated(bool $terminated)
+    {
+        $this->terminated = $terminated;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHideData(): bool
+    {
+        return $this->hide_data;
+    }
+
+    /**
+     * @param bool $hide_data
+     */
+    public function setHideData(bool $hide_data)
+    {
+        $this->hide_data = $hide_data;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTimestamp(): bool
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param bool $timestamp
+     */
+    public function setTimestamp(bool $timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDuration(): bool
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param bool $duration
+     */
+    public function setDuration(bool $duration)
+    {
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNoSubstatements(): bool
+    {
+        return $this->no_substatements;
+    }
+
+    /**
+     * @param bool $no_substatements
+     */
+    public function setNoSubstatements(bool $no_substatements)
+    {
+        $this->no_substatements = $no_substatements;
+    }
+
     /**
      * @return bool
      */
@@ -335,7 +601,21 @@ class ilCmiXapiLrsType
             $this->setRemarks($row->remarks);
             
             $this->setBypassProxyEnabled((bool) $row->bypass_proxy);
-            
+            $this->setOnlyMoveon((bool)$row->only_moveon);
+            $this->setAchieved((bool)$row->achieved);
+            $this->setAnswered((bool)$row->answered);
+            $this->setCompleted((bool)$row->completed);
+            $this->setFailed((bool)$row->failed);
+            $this->setInitialized((bool)$row->initialized);
+            $this->setPassed((bool)$row->passed);
+            $this->setProgressed((bool)$row->progressed);
+            $this->setSatisfied((bool)$row->satisfied);
+            $this->setTerminated((bool)$row->c_terminated);
+            $this->setHideData((bool)$row->hide_data);
+            $this->setTimestamp((bool)$row->c_timestamp);
+            $this->setDuration((bool)$row->duration);
+            $this->setNoSubstatements((bool)$row->no_substatements);
+
             return true;
         }
         
@@ -385,7 +665,21 @@ class ilCmiXapiLrsType
                 'force_privacy_settings' => array('integer', (int) $this->getForcePrivacySettings()),
                 'privacy_comment_default' => array('text', $this->getPrivacyCommentDefault()),
                 'external_lrs' => array('integer', $this->getExternalLrs()),
-                'bypass_proxy' => array('integer', (int) $this->isBypassProxyEnabled())
+                'bypass_proxy' => array('integer', (int) $this->isBypassProxyEnabled()),
+                'only_moveon' => array('integer', (int)$this->getOnlyMoveon()),
+                'achieved' => array('integer', (int)$this->getAchieved()),
+                'answered' => array('integer', (int)$this->getAnswered()),
+                'completed' => array('integer', (int)$this->getCompleted()),
+                'failed' => array('integer', (int)$this->getFailed()),
+                'initialized' => array('integer', (int)$this->getInitialized()),
+                'passed' => array('integer', (int)$this->getPassed()),
+                'progressed' => array('integer', (int)$this->getProgressed()),
+                'satisfied' => array('integer', (int)$this->getSatisfied()),
+                'c_terminated' => array('integer', (int)$this->getTerminated()),
+                'hide_data' => array('integer', (int)$this->getHideData()),
+                'c_timestamp' => array('integer', (int)$this->getTimestamp()),
+                'duration' => array('integer', (int)$this->getDuration()),
+                'no_substatements' => array('integer', (int)$this->getNoSubstatements())
             )
         );
         
