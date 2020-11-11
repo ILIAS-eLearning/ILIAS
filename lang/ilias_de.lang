@@ -2673,6 +2673,8 @@ common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintreten.
 common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
+chatroom#:#chat_use_osc#:#Nutzt On-Screen-Chat
+chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
