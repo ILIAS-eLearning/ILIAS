@@ -8,6 +8,13 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
     public function testGetPlaceholderValues()
     {
+        $customUserFieldsPlaceholderValues = $this->getMockBuilder("ilObjectCustomUserFieldsPlaceholderValues")
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $customUserFieldsPlaceholderValues->method('getPlaceholderValues')
+                                 ->willReturn(array());
+
         $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
              ->disableOriginalConstructor()
              ->getMock();
@@ -57,6 +64,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             ->willReturn('2018-09-10 10:32:00');
 
         $valuesObject = new ilCoursePlaceholderValues(
+            $customUserFieldsPlaceholderValues,
             $defaultPlaceholderValues,
             $language,
             $objectHelper,
@@ -79,6 +87,18 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 
     public function testGetPreviewPlaceholderValues()
     {
+        $customUserFieldsPlaceholderValues = $this->getMockBuilder("ilObjectCustomUserFieldsPlaceholderValues")
+              ->disableOriginalConstructor()
+              ->getMock();
+
+        $customUserFieldsPlaceholderValues->method('getPlaceholderValuesForPreview')
+             ->willReturn(
+                 array(
+                     'SOME_PLACEHOLDER' => 'ANYTHING',
+                     'SOME_OTHER_PLACEHOLDER' => '2018-09-10',
+                 )
+             );
+
         $defaultPlaceholderValues = $this->getMockBuilder('ilDefaultPlaceholderValues')
             ->disableOriginalConstructor()
             ->getMock();
@@ -123,6 +143,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
             });
 
         $valuesObject = new ilCoursePlaceholderValues(
+            $customUserFieldsPlaceholderValues,
             $defaultPlaceholderValues,
             $language,
             $objectHelper,
