@@ -5417,4 +5417,10 @@ $ilDB->update('settings',
         'module' => ['text', 'file_access'],
         'keyword' => ['text', 'custom_webfolder_instructions_enabled']
     ]);
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'webdav_versioning_enabled']
+    ]);
 ?>
