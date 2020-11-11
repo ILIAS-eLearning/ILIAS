@@ -189,7 +189,7 @@ class ilObjWebDAV extends ilObject
         if (!$ilClientIniFile->groupExists('file_access')) {
             $ilClientIniFile->addGroup('file_access');
         }
-        $ilClientIniFile->setVariable('file_access', 'webdav_enabled', $this->webdavEnabled ? '1' : '0');
+        $settings->set('webdav_enabled', $this->webdavEnabled ? '1' : '0');
         $settings->set('webdav_versioning_enabled', $this->webdavVersioningEnabled ? '1' : '0');
         $ilClientIniFile->setVariable('file_access', 'webdav_actions_visible', $this->webdavActionsVisible ? '1' : '0');
         $ilClientIniFile->write();
@@ -211,7 +211,7 @@ class ilObjWebDAV extends ilObject
         global $DIC;
         $settings = new ilSetting('webdav');
         $ilClientIniFile = $DIC['ilClientIniFile'];
-        $this->webdavEnabled = $ilClientIniFile->readVariable('file_access', 'webdav_enabled') == '1';
+        $this->webdavEnabled = $settings->get('webdav_enabled', '0') == '1';
         // default_value = 1 for versionigEnabled because it was already standard before ilias5.4
         $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '1') == '1';
         $this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access', 'webdav_actions_visible') == '1';

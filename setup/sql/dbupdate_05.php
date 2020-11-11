@@ -5424,7 +5424,6 @@ $ilDB->update('settings',
         'keyword' => ['text', 'webdav_versioning_enabled']
     ]);
 ?>
-
 <#5728>
 <?php
 if (!$ilDB->tableColumnExists('didactic_tpl_settings','icon_ide')) {
@@ -5465,4 +5464,18 @@ if ($ilDB->tableExists('pdfgen_renderer')) {
 <?php
 $disk_quota_settings = new ilSetting('disk_quota');
 $disk_quota_settings->deleteAll();
+?>
+<#5732>
+<?php
+// Get settings
+$settings = new ilSetting('webdav');
+
+// Get client ini
+$ini_file = CLIENT_WEB_DIR . "/client.ini.php";
+$ilClientIniFile = new ilIniFile($ini_file);
+$ilClientIniFile->read();
+
+// Migrate value 'webdav_enabled from client.ini to database
+$webdav_enabled = $ilClientIniFile->readVariable('file_access', 'webdav_enabled') == '1';
+$settings->set('webdav_enabled', $webdav_enabled ? '1' : '0');
 ?>
