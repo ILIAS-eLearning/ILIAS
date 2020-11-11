@@ -179,7 +179,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *icap_host* host adress of the icap scanner
   * *icap_port* port if the icap scanner
   * *icap_service_name* serivce name of the icap scanner
-  * *icap_client_path* path to the c-icap-client
+  * *icap_client_path* path to the `c-icap-client`, if this is left empty, a php client will be used
 
 
 
