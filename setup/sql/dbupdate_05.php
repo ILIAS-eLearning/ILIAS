@@ -5466,3 +5466,34 @@ if ($ilDB->tableExists('pdfgen_renderer')) {
 $disk_quota_settings = new ilSetting('disk_quota');
 $disk_quota_settings->deleteAll();
 ?>
+<#5733>
+<?php
+if ($ilDB->tableExists('il_disk_quota')) {
+    $ilDB->dropTable('il_disk_quota');
+}
+?>
+<#5734>
+<?php
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'disk_quota');
+}
+
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'wsp_disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'wsp_disk_quota');
+}
+?>
+<#5735>
+<?php
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'disk_quota');
+}
+
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'wsp_disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'wsp_disk_quota');
+}
+?>
+<#5736>
+<?php
+$ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['rep_disk_quota',]);
+$ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['pwsp_recalc_quota',]);
+?>
