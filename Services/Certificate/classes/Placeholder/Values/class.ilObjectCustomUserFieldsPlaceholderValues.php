@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderValues
+class ilObjectCustomUserFieldsPlaceholderValues implements ilCertificatePlaceholderValues
 {
     /**
      * @var array
@@ -17,23 +17,16 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
     private $objectHelper;
 
     /**
-     * @var ilUserDefinedFields|null|object
-     */
-    private $userDefinedFieldsObject;
-
-    /**
      * @var ilCertificateUtilHelper
      */
     private $ilUtilHelper;
 
     /**
      * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilUserDefinedFields|null $userDefinedFieldsObject
      * @param ilCertificateUtilHelper|null $ilUtilHelper
      */
     public function __construct(
         ilCertificateObjectHelper $objectHelper = null,
-        ilUserDefinedFields $userDefinedFieldsObject = null,
         ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         $this->placeholder = array();
@@ -42,11 +35,6 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             $objectHelper = new ilCertificateObjectHelper();
         }
         $this->objectHelper = $objectHelper;
-
-        if (null === $userDefinedFieldsObject) {
-            $userDefinedFieldsObject = ilUserDefinedFields::_getInstance();
-        }
-        $this->userDefinedFieldsObject = $userDefinedFieldsObject;
 
         if (null === $ilUtilHelper) {
             $ilUtilHelper = new ilCertificateUtilHelper();
@@ -62,36 +50,30 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * data could not be determined or the user did NOT
      * achieve the certificate.
      *
-     * @param int $userId
-     * @param int $objId
+     * @param int $user_id
+     * @param int $obj_id
      * @throws ilInvalidCertificateException
      * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilException
      */
-    public function getPlaceholderValues(int $userId, int $objId) : array
+    public function getPlaceholderValues(int $user_id, int $obj_id) : array
     {
         /** @var ilObjUser $user */
-        $user = $this->objectHelper->getInstanceByObjId($userId);
+        $user = $this->objectHelper->getInstanceByObjId($user_id);
         if (!$user instanceof ilObjUser) {
-            throw new ilException('The entered id: ' . $userId . ' is not an user object');
+            throw new ilException('The entered id: ' . $user_id . ' is not an user object');
         }
 
-        $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
+        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
+        $field_values = ilCourseUserData::_getValuesByObjId($obj_id);
 
         $placeholder = array();
-        foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
+        foreach ($course_defined_fields as $key => $field) {
+            $field_id = $field->getId();
 
-                $userDefinedData = $user->getUserDefinedData();
+            $placeholderText = '+' . str_replace(' ', '_', ilStr::strToUpper($field->getName()));
 
-                $userDefinedFieldValue = '';
-                if (isset($userDefinedData['f_' . $field['field_id']])) {
-                    $userDefinedFieldValue = $this->ilUtilHelper->prepareFormOutput($userDefinedData['f_' . $field['field_id']]);
-                }
-
-                $placeholder[$placeholderText] = $userDefinedFieldValue;
-            }
+            $placeholder[$placeholderText] = !empty($field_values[$user_id][$field_id]) ? $field_values[$user_id][$field_id] : "";
         }
 
         return $placeholder;
@@ -102,23 +84,25 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
      *
-     * @param int $userId
-     * @param int $objId
+     * @param int $user_id
+     * @param int $obj_id
      * @return array - [PLACEHOLDER] => 'dummy value'
      * @throws ilException
      * @throws ilInvalidCertificateException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
+    public function getPlaceholderValuesForPreview(int $user_id, int $obj_id) : array
     {
-        $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        $course_defined_fields = ilCourseDefinedFieldDefinition::_getFields($obj_id);
 
         $placeholder = array();
-        foreach ($userDefinedFields as $field) {
-            if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
+        foreach ($course_defined_fields as $key => $field) {
+            $placeholderText = '+' . str_replace(' ', '_', ilStr::strToUpper($field->getName()));
 
-                $placeholder[$placeholderText] = $field['field_name'];
-            }
+            $placeholder[$placeholderText] = $placeholderText . '_' . ilStr::strToUpper($lng->txt('value'));
         }
 
         return $placeholder;
