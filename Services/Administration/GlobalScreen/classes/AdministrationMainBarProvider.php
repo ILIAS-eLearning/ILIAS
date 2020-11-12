@@ -205,7 +205,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "achievements" =>
                 array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
-                array("mail", "cadm", "nwss", "coms"),
+                array("mail", "cadm", "nwss", "coms", "adn"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>

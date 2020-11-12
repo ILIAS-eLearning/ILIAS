@@ -10,7 +10,7 @@ use ILIAS\UI\Factory as UIFactory;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractBaseNotification implements isItem
+abstract class AbstractBaseNotification implements isStandardItem
 {
 
     /**
