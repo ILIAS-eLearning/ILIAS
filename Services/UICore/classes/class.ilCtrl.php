@@ -922,20 +922,32 @@ class ilCtrl
         $_GET["cmdNode"] = "";
         $this->initializeMemberVariables();
     }
-    
+
     /**
      * Determines current get/post command
      *
-     * @param	string		default command
-     * @param	array		safe commands: for these commands no token
-     *						is checked for post requests
+     * @param string $a_default_cmd
+     * @param array $safePostCommands For these commands no token is checked for HTTP POST requests
+     * @param array $unsafeGetCommands An array of unsafe commands for HTTP GET requests, where a CSRF token is verified in consequence
+     * @return string
      */
-    public function getCmd($a_default_cmd = "", $a_safe_commands = "")
+    public function getCmd($a_default_cmd = '', array $safePostCommands = [], array $unsafeGetCommands = []) : string
     {
         $cmd = "";
-        if (isset($_GET["cmd"])) {
-            $cmd = $_GET["cmd"];
+        if (isset($_GET['cmd'])) {
+            $cmd = $_GET['cmd'];
+            if ($unsafeGetCommands !== [] && in_array($cmd, $unsafeGetCommands)) {
+                if ($this->verified_cmd !== '') {
+                    return $this->verified_cmd;
+                } else {
+                    if (!$this->verifyToken()) {
+                        return $a_default_cmd;
+                    }
+                }
+                $this->verified_cmd = $cmd;
+            }
         }
+
         if ($cmd == "post") {
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
 //                reset($_POST["cmd"]);
@@ -947,7 +959,7 @@ class ilCtrl
                 return $this->verified_cmd;
             } else {
                 if (!$this->verifyToken() &&
-                    (!is_array($a_safe_commands) || !in_array($cmd, $a_safe_commands))) {
+                    (!is_array($safePostCommands) || !in_array($cmd, $safePostCommands))) {
                     return $a_default_cmd;
                 }
             }
@@ -1415,7 +1427,13 @@ class ilCtrl
             $amp = "&";
             $script .= $amp . "cmdMode=asynch";
         }
-        
+
+        $script = ilUtil::appendUrlParameterString(
+            $script,
+            self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
+            $xml_style
+        );
+
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
         }
