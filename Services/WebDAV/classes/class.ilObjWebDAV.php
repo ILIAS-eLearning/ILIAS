@@ -92,40 +92,6 @@ class ilObjWebDAV extends ilObject
     }
 
     /**
-     * Gets the defaultWebfolderInstructions property.
-     * This is a read only property. The text is retrieved from $lng.
-     *
-     * @return    String    value
-     */
-    public function getDefaultWebfolderInstructions()
-    {
-        return self::_getDefaultWebfolderInstructions();
-    }
-
-    /**
-     * Gets the customWebfolderInstructionsEnabled property.
-     *
-     * @return    boolean    value
-     */
-    public function isCustomWebfolderInstructionsEnabled()
-    {
-        return $this->customWebfolderInstructionsEnabled;
-    }
-
-    /**
-     * Sets the customWebfolderInstructionsEnabled property.
-     *
-     * @param boolean new value.
-     *
-     * @return    void
-     */
-    public function setCustomWebfolderInstructionsEnabled($newValue)
-    {
-        $this->customWebfolderInstructionsEnabled = $newValue;
-    }
-
-
-    /**
      * create
      *
      * note: title, description and type should be set when this function is called
