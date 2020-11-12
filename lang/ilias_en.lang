@@ -1967,10 +1967,11 @@ common#:#withdraw_usr_agreement#:#Withdraw
 common#:#accept_usr_agreement_btn#:#Accept
 common#:#deny_usr_agreement#:#Do not accept terms of service?
 common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#withdrawal_complete#:#Withdrawal of consent complete.
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nKind regards\n\n
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nName: %1$s\Login:%2$s\nExternal Account: %3$s\n\nKind regards\n\n%1$s
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)

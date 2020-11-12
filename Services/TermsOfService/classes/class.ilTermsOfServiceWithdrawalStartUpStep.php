@@ -6,6 +6,7 @@ use ILIAS\Init\StartupSequence\StartUpSequenceStep;
 
 /**
  * Class ilTermsOfServiceWithdrawalStartUpStep
+ * @author Maximilian Becker <mbecker@databay.de>
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilTermsOfServiceWithdrawalStartUpStep extends StartUpSequenceStep

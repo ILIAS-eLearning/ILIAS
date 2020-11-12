@@ -20,22 +20,29 @@ class ilUserAppEventListener implements ilAppEventListener
         if ('Services/TermsOfService' === $a_component && ilTermsOfServiceEventWithdrawn::class === $a_event) {
             global $DIC;
 
-            $shouldDeleteAccountOnWithdrawal = $DIC->settings()->get(
-                'tos_withdrawal_usr_deletion',
-                false
+            /** @var ilObjUser $user */
+            $user = $a_parameter['event']->getUser();
+
+            $defaultAuth = AUTH_LOCAL;
+            if ($DIC['ilSetting']->get('auth_mode')) {
+                $defaultAuth = $DIC['ilSetting']->get('auth_mode');
+            }
+            $isLdapUser = (
+                $user->getAuthMode() == AUTH_LDAP ||
+                ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
             );
 
-            $user = new ilObjUser($a_parameter['event']->getUsrId());
-            if ((bool) $shouldDeleteAccountOnWithdrawal) {
-                $defaultAuth = AUTH_LOCAL;
-                if ($DIC['ilSetting']->get('auth_mode')) {
-                    $defaultAuth = $DIC['ilSetting']->get('auth_mode');
-                }
-
-                if (
-                    $user->getAuthMode() != AUTH_LDAP ||
-                    ($user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP)
-                ) {
+            if ($isLdapUser) {
+                $mail = new ilTermsOfServiceWithdrawnMimeMail();
+                $mail->setAdditionalInformation(['user' => $user]);
+                $mail->setRecipients([$DIC->settings()->get('admin_mail')]);
+                $mail->send();
+            } else {
+                $shouldDeleteAccountOnWithdrawal = $DIC->settings()->get(
+                    'tos_withdrawal_usr_deletion',
+                    false
+                );
+                if ((bool) $shouldDeleteAccountOnWithdrawal) {
                     $user->delete();
                 }
             }
