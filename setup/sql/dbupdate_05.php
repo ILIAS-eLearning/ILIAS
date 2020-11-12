@@ -5461,3 +5461,8 @@ if ($ilDB->tableExists('pdfgen_renderer')) {
     $ilDB->manipulate($query);
 }
 ?>
+<#5732>
+<?php
+$disk_quota_settings = new ilSetting('disk_quota');
+$disk_quota_settings->deleteAll();
+?>
