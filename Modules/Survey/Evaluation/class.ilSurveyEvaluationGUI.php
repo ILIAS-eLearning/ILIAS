@@ -1704,7 +1704,6 @@ class ilSurveyEvaluationGUI
         $url = $this->ctrl->getLinkTarget($this, "renderChartOnly", "", false, false);
         $this->ctrl->setParameter($this, "qid", "");
 
-        include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
         $file = $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid);
 
         $this->callPhantom($url, "png", $file . ".png");
@@ -1729,7 +1728,6 @@ class ilSurveyEvaluationGUI
         }
 
         // parse answer data in evaluation results
-        include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             if ($qid == $qdata["question_id"]) {
                 $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
