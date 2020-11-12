@@ -1899,20 +1899,57 @@ class ilObjMediaObject extends ilObject
      * @param
      * @return
      */
-    public function generatePreviewPic($a_width, $a_height)
+    public function generatePreviewPic($a_width, $a_height, $sec = 1)
     {
         $item = $this->getMediaItem("Standard");
 
-        if ($item->getLocationType() == "LocalFile" &&
-            is_int(strpos($item->getFormat(), "image/"))) {
-            $dir = ilObjMediaObject::_getDirectory($this->getId());
-            $file = $dir . "/" .
-                $item->getLocation();
-            if (is_file($file)) {
-                if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
-                    ilUtil::execConvert(ilUtil::escapeShellArg($file) . "[0] -geometry " . $a_width . "x" . $a_height . "^ -gravity center -extent " . $a_width . "x" . $a_height . " PNG:" . $dir . "/mob_vpreview.png");
-                } else {
-                    ilUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
+        if ($item->getLocationType() == "LocalFile") {
+            if (is_int(strpos($item->getFormat(), "image/"))) {
+                $dir = ilObjMediaObject::_getDirectory($this->getId());
+                $file = $dir . "/" .
+                    $item->getLocation();
+                if (is_file($file)) {
+                    if (ilUtil::isConvertVersionAtLeast("6.3.8-3")) {
+                        ilUtil::execConvert(
+                            ilUtil::escapeShellArg(
+                                $file
+                            ) . "[0] -geometry " . $a_width . "x" . $a_height . "^ -gravity center -extent " . $a_width . "x" . $a_height . " PNG:" . $dir . "/mob_vpreview.png"
+                        );
+                    } else {
+                        ilUtil::convertImage($file, $dir . "/mob_vpreview.png", "PNG", $a_width . "x" . $a_height);
+                    }
+                }
+            }
+
+            if (is_int(strpos($item->getFormat(), "video/"))) {
+                try {
+                    if ($sec < 0) {
+                        $sec = 0;
+                    }
+                    if ($this->getVideoPreviewPic() != "") {
+                        $this->removeAdditionalFile($this->getVideoPreviewPic(true));
+                    }
+                    include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
+                    $med = $this->getMediaItem("Standard");
+                    $mob_file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $med->getLocation();
+                    ilFFmpeg::extractImage(
+                        $mob_file,
+                        "mob_vpreview.png",
+                        ilObjMediaObject::_getDirectory($this->getId()),
+                        $sec
+                    );
+                } catch (ilException $e) {
+                    $ret = ilFFmpeg::getLastReturnValues();
+
+                    $message = '';
+                    if (is_array($ret) && count($ret) > 0) {
+                        $message = "\n" . implode("\n", $ret);
+                    }
+
+                    /** @var ilLogger $logger */
+                    $logger = $GLOBALS['DIC']->logger()->mob();
+                    $logger->warning($e->getMessage() . $message);
+                    $logger->logStack(ilLogLevel::WARNING);
                 }
             }
         }
