@@ -5465,7 +5465,7 @@ if ($ilDB->tableExists('pdfgen_renderer')) {
 $disk_quota_settings = new ilSetting('disk_quota');
 $disk_quota_settings->deleteAll();
 ?>
-<#5732>
+<#5733>
 <?php
 // Get settings
 $settings = new ilSetting('webdav');
