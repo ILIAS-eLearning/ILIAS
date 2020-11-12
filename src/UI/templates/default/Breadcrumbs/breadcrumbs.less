@@ -10,10 +10,10 @@
 	flex-direction: row;
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 2;
-	-ms-grid-row: 2;
+	-ms-grid-row: 3;
 	grid-column-start: 1;
 	grid-column-end: 3;
-	grid-row: 2;
+	grid-row: 3;
 	z-index: @il-standard-page-zindex-breadcrumbs;
 	.shadow-bottom();
 
@@ -41,7 +41,7 @@
 		}
 
 		&>span+span:before {
-			content: " \e606";
+			content: @breadcrumb-separator;
 			color: @il-standard-page-breadcrumbs-divider-color;
 			padding: 8px 10px;
 			font-family: "il-icons";

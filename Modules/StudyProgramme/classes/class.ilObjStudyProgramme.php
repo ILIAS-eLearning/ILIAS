@@ -601,6 +601,21 @@ class ilObjStudyProgramme extends ilContainer
         return $ret;
     }
 
+    public function getAllPrgChildren() : array
+    {
+        $ret = [];
+        $this->applyToSubTreeNodes(
+            function (ilObjStudyProgramme $prg) use (&$ret) {
+                if ($prg->getId() == $this->getId()) {
+                    return;
+                }
+                $ret[] = $prg;
+            },
+            false
+        );
+        return $ret;
+    }
+
     /**
      * Get all ilObjStudyProgrammes that are direct children of this
      * object.
@@ -1539,6 +1554,7 @@ class ilObjStudyProgramme extends ilContainer
             $course_ref->create();
             $course_ref->createReference();
             $course_ref->putInTree($prg->getRefId());
+            $course_ref->setPermissions($crs_ref_id);
             $course_ref->setTargetId(ilObject::_lookupObjectId($crs_ref_id));
             $course_ref->update();
         }

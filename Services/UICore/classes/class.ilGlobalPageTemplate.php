@@ -219,9 +219,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     /**
      * @inheritDoc
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title, $hidden = false)
     {
-        $this->legacy_content_template->setTitle((string) $a_title);
+        $this->legacy_content_template->setTitle((string) $a_title, $hidden);
 
         $short_title = (string) $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
@@ -614,8 +614,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))) {
-            $_SESSION["post_vars"] = $_POST;
-
             // referer is modified if query string contains cmd=gateway and $_POST is not empty.
             // this is a workaround to display formular again in case of error and if the referer points to another page
             $url_parts = @parse_url($_SERVER["REQUEST_URI"]);

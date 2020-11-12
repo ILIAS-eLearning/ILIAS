@@ -24,9 +24,8 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new ilIniFilesPopulatedObjective($common_config),
+            new ilIniFilesLoadedObjective(),
             new ilDatabaseExistsObjective($this->config)
         ];
     }
@@ -48,5 +47,22 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
         }
 
         return $environment;
+    }
+
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+
+        $port = $this->config->getPort() ?? "";
+        $pass = $this->config->getPassword() ? $this->config->getPassword()->toString() : "";
+
+        return
+            $client_ini->readVariable("db", "type") !== $this->config->getType() ||
+            $client_ini->readVariable("db", "host") !== $this->config->getHost() ||
+            $client_ini->readVariable("db", "name") !== $this->config->getDatabase() ||
+            $client_ini->readVariable("db", "user") !== $this->config->getUser() ||
+            $client_ini->readVariable("db", "port") !== $port ||
+            $client_ini->readVariable("dv", "pass") !== $pass
+        ;
     }
 }

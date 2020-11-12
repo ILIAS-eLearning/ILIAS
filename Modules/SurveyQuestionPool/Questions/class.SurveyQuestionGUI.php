@@ -603,7 +603,7 @@ abstract class SurveyQuestionGUI
     // EXECUTION
     //
     
-    abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null);
+    abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false);
     
     /**
     * Creates the HTML output of the question material(s)
@@ -902,7 +902,7 @@ abstract class SurveyQuestionGUI
             $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
                 
             $opt = new ilRadioOption($phrase_array["title"], $phrase_id);
-            $opt->setInfo(join($categories, ","));
+            $opt->setInfo(join(",", $categories));
             $group->addOption($opt);
             
             if ($phrase_array["org_title"] == "dp_standard_numbers") {

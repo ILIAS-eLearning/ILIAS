@@ -50,6 +50,10 @@ if ($_GET['new_ui'] == '1') {
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
+        ->withSystemInfos(
+            [$f->mainControls()->headInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
+               ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
+        )
     ->withUIDemo(true);
 
     echo $renderer->render($page);
@@ -189,8 +193,7 @@ function pagedemoMainbar($f, $r)
     );
 
     $mainbar = $f->mainControls()->mainbar()
-        ->withToolsButton($tools_btn)
-        ->withMoreButton($more_btn);
+        ->withToolsButton($tools_btn);
 
     $entries = [];
     $entries['repository'] = getDemoEntryRepository($f);

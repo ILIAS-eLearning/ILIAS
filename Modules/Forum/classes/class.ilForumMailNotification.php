@@ -51,7 +51,7 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @inheritdoc
      */
-    protected function initMail()
+    protected function initMail() : ilMail
     {
         $mail = parent::initMail();
         $this->logger->debug('Initialized mail service');
@@ -277,17 +277,21 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @return string
      */
-    private function getSecurePostMessage()
+    private function getPostMessage() : string
     {
         $pos_message = $this->provider->getPostMessage();
-        if (strip_tags($pos_message) != $pos_message) {
+        if (strip_tags($pos_message) !== $pos_message) {
             $pos_message = preg_replace("/\n/i", "", $pos_message);
+            $pos_message = preg_replace("/<li([^>]*)>/i", "\n<li$1>", $pos_message);
+            $pos_message = preg_replace("/<\/ul([^>]*)>(?!\s*?(<p|<ul))/i", "</ul$1>\n", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
             $pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
+
             return $pos_message;
         }
-        return strip_tags($pos_message);
+
+        return $pos_message;
     }
 
     /**
@@ -372,7 +376,7 @@ class ilForumMailNotification extends ilMailNotification
         $this->appendBody($this->getLanguageText('frm_noti_message'));
         $this->appendBody("\n");
 
-        $message = strip_tags($this->getSecurePostMessage());
+        $message = strip_tags($this->getPostMessage());
 
         if ($this->provider->getPostCensored() == 1) {
             $message = $this->provider->getCensorshipComment();

@@ -31,19 +31,11 @@ class ilSystemFolderSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new \ilSystemFolderSetupConfig(
-                $data["client"]["name"],
+                $data["client"]["name"] ?? null,
                 $data["client"]["description"] ?? null,
                 $data["client"]["institution"] ?? null,
                 $data["contact"]["firstname"],
@@ -66,11 +58,7 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Modules/SystemFolder",
-            false,
-            new ilInstallationInformationStoredObjective($config)
-        );
+        return new ilInstallationInformationStoredObjective($config);
     }
 
     /**
@@ -78,7 +66,10 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        if ($config !== null) {
+            return new ilInstallationInformationStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -86,6 +77,22 @@ class ilSystemFolderSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilSystemFolderMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

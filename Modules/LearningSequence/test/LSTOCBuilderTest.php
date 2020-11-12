@@ -36,14 +36,14 @@ class LSTOCBuilderTest extends TestCase
         $expected = [
             "label" => "","command" => "","parameter" => null,"state" => null,"childs" => [
                 ["label" => "node1","command" => "","parameter" => null,"state" => null,"childs" => [
-                    ["label" => "item1.1","command" => "","parameter" => 1,"state" => null],
-                    ["label" => "item1.2","command" => "","parameter" => 2,"state" => null]
+                    ["label" => "item1.1","command" => "","parameter" => 1,"state" => null,"current" => false],
+                    ["label" => "item1.2","command" => "","parameter" => 2,"state" => null,"current" => false]
                 ]],
-            ["label" => "item2","command" => "","parameter" => 3,"state" => null],
+            ["label" => "item2","command" => "","parameter" => 3,"state" => null, "current" => false],
             ["label" => "node3","command" => "","parameter" => null,"state" => null,"childs" => [
-                ["label" => "item3.1","command" => "","parameter" => 4,"state" => null],
+                ["label" => "item3.1","command" => "","parameter" => 4,"state" => null,"current" => false],
                 ["label" => "node3.2","command" => "","parameter" => 5,"state" => null,"childs" => [
-                    ["label" => "item3.2.1","command" => "","parameter" => 6,"state" => null]
+                    ["label" => "item3.2.1","command" => "","parameter" => 6,"state" => null,"current" => false]
                 ]
             ]]]]];
 

@@ -2782,7 +2782,6 @@ class ilObjectListGUI
     public static function prepareJsLinks($a_redraw_url, $a_notes_url, $a_tags_url, $a_tpl = null)
     {
         global $DIC;
-
         $tpl = $DIC["tpl"];
         
         if (is_null($a_tpl)) {
@@ -3260,9 +3259,10 @@ class ilObjectListGUI
      */
     public function getTypeIcon()
     {
-        return ilObject::_getIcon(
-            $this->obj_id,
-            'small',
+        return ilObject::getIconForReference(
+            (int) $this->ref_id,
+            (int) $this->obj_id,
+            (string) 'small',
             $this->getIconImageType()
         );
     }

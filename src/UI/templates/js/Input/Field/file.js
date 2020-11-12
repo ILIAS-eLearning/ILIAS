@@ -25,7 +25,7 @@ il.UI.Input = il.UI.Input || {};
 		};
 
 		var debug = function (string) {
-			console.log(string);
+			// console.log(string);
 		}
 
 
@@ -37,10 +37,12 @@ il.UI.Input = il.UI.Input || {};
 
 			var container = '#' + container_id;
 			var dropzone = container + ' .il-input-file-dropzone';
-			var input_template = $(container + ' .il-input-file-template').clone();
+			var preview_template = $(container + ' .il-input-file-template').clone();
 			$(container + ' .il-input-file-template').remove();
+			var input_template = $(container + ' .input-template').clone();
+			$(container + ' .input-template').remove();
 
-			debug(input_template.html());
+			debug(preview_template.html());
 
 			var myDropzone = new Dropzone(dropzone, {
 				url:                   encodeURI(settings.upload_url),
@@ -49,7 +51,7 @@ il.UI.Input = il.UI.Input || {};
 				maxFiles:              settings.max_files,
 				dictDefaultMessage:    '',
 				previewsContainer:     container + ' .il-input-file-filelist',
-				previewTemplate:       input_template.html(),
+				previewTemplate:       preview_template.html(),
 				clickable:             container + ' .il-input-file-dropzone button',
 				autoProcessQueue:      true,
 				uploadMultiple:        false,
@@ -71,7 +73,7 @@ il.UI.Input = il.UI.Input || {};
 
 				files.file_id = new_file_id;
 
-				// $(container).append(clone);
+				$(container).append(clone);
 			};
 
 			var successFromResponse = function (files, response) {
@@ -118,7 +120,7 @@ il.UI.Input = il.UI.Input || {};
 				if (file.hasOwnProperty('is_existing') && file.is_existing === true) {
 					disableForm();
 					var data = {};
-					data[settings.file_identifier_key] = file_id;
+					data[settings.file_identifier_key] = file.file_id;
 					$.get(settings.removal_url, data, function (response) {
 						enableForm();
 					});

@@ -13,7 +13,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
  *
  * @version    $Id$
  *
- * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI,, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilGroupRegistrationGUI, ilPermissionGUI, ilInfoScreenGUI, ilLearningProgressGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilPublicUserProfileGUI, ilObjCourseGroupingGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilCourseContentGUI, ilColumnGUI, ilContainerPageGUI, ilObjectCopyGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilObjectCustomUserFieldsGUI, ilMemberAgreementGUI, ilExportGUI, ilMemberExportGUI
@@ -242,7 +242,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $this,
                     $this->object->getId(),
                     array(
-                            ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY
+                            ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION
                         )
                 );
                 $this->ctrl->forwardCommand($service);
@@ -575,6 +575,15 @@ class ilObjGroupGUI extends ilContainerGUI
                 ilLoggerFactory::getLogger('grp')->info('Switched group type from ' . $old_type . ' to ' . $new_type);
             }
             
+            // Additional checks: both tile and session limitation activated (not supported)
+            if (
+                $form->getInput('sl') == "1" &&
+                $form->getInput('list_presentation') == "tile") {
+                $form->setValuesByPost();
+                ilUtil::sendFailure($this->lng->txt('crs_tile_and_session_limit_not_supported'));
+                return $this->editObject($form);
+            }
+
             $old_autofill = $this->object->hasWaitingListAutoFill();
 
             $this->object->setTitle(ilUtil::stripSlashes($form->getInput('title')));
@@ -592,6 +601,13 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->object->setMailToMembersType((int) $form->getInput('mail_type'));
             $this->object->setShowMembers((int) $form->getInput('show_members'));
             $this->object->setAutoNotification((bool) $form->getInput('auto_notification'));
+
+            // session limit
+            $this->object->enableSessionLimit((int) $form->getInput('sl'));
+            $session_sp = $form->getInput('sp');
+            $this->object->setNumberOfPreviousSessions(is_numeric($session_sp) ? (int) $session_sp : -1);
+            $session_sn = $form->getInput('sn');
+            $this->object->setNumberOfnextSessions(is_numeric($session_sn) ? (int) $session_sn : -1);
 
             // period
             $grp_period = $form->getItemByPostVar("period");
@@ -656,14 +672,15 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->object->getId(),
                 $form,
                 array(
-                    ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                    ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                     ilObjectServiceSettingsGUI::USE_NEWS,
                     ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                     ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
                     ilObjectServiceSettingsGUI::TAG_CLOUD,
                     ilObjectServiceSettingsGUI::BADGES,
                     ilObjectServiceSettingsGUI::SKILLS,
-                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+                    ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                    ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                 )
             );
 
@@ -1464,6 +1481,10 @@ class ilObjGroupGUI extends ilContainerGUI
             ilObjectGUI::_gotoRepositoryNode($a_target, "members");
         }
 
+        if ($a_add == "comp" && ilContSkillPresentationGUI::isAccessible($a_target)) {
+            ilObjectGUI::_gotoRepositoryNode($a_target, "competences");
+        }
+
         if ($ilAccess->checkAccess("read", "", $a_target)) {
             ilObjectGUI::_gotoRepositoryNode($a_target);
         } else {
@@ -1718,6 +1739,36 @@ class ilObjGroupGUI extends ilContainerGUI
             $opt->setInfo($this->lng->txt('cntr_view_info_sessions'));
             $view_type->addOption($opt);
             
+            // Limited sessions
+            $this->lng->loadLanguageModule('crs');
+            $sess = new ilCheckboxInputGUI($this->lng->txt('sess_limit'), 'sl');
+            $sess->setValue(1);
+            $sess->setChecked($this->object->isSessionLimitEnabled());
+            $sess->setInfo($this->lng->txt('sess_limit_info'));
+
+            $prev = new ilNumberInputGUI($this->lng->txt('sess_num_prev'), 'sp');
+            $prev->setMinValue(0);
+            $prev->setValue(
+                $this->object->getNumberOfPreviousSessions() == -1 ?
+                    '' :
+                    $this->object->getNumberOfPreviousSessions()
+            );
+            $prev->setSize(2);
+            $prev->setMaxLength(3);
+            $sess->addSubItem($prev);
+
+            $next = new ilNumberInputGUI($this->lng->txt('sess_num_next'), 'sn');
+            $next->setMinValue(0);
+            $next->setValue(
+                $this->object->getNumberOfNextSessions() == -1 ?
+                    '' :
+                    $this->object->getNumberOfNextSessions()
+            );
+            $next->setSize(2);
+            $next->setMaxLength(3);
+            $sess->addSubItem($next);
+            $opt->addSubItem($sess);
+
             $opt = new ilRadioOption($this->lng->txt('cntr_view_simple'), ilContainer::VIEW_SIMPLE);
             $opt->setInfo($this->lng->txt('grp_view_info_simple'));
             $view_type->addOption($opt);
@@ -1748,14 +1799,15 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->object->getId(),
                 $form,
                 array(
-                        ilObjectServiceSettingsGUI::CALENDAR_VISIBILITY,
+                        ilObjectServiceSettingsGUI::CALENDAR_CONFIGURATION,
                         ilObjectServiceSettingsGUI::USE_NEWS,
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                         ilObjectServiceSettingsGUI::AUTO_RATING_NEW_OBJECTS,
                         ilObjectServiceSettingsGUI::TAG_CLOUD,
                         ilObjectServiceSettingsGUI::BADGES,
                         ilObjectServiceSettingsGUI::SKILLS,
-                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
+                        ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
+                        ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                     )
                 );
 

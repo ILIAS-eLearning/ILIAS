@@ -30,14 +30,6 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     /**
      * @inheritdocs
      */
-    public function getConfigInput(Setup\Config $config = null) : ILIAS\UI\Component\Input\Field\Input
-    {
-        throw new \LogicException(self::class . " has no Config.");
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function getArrayToConfigTransformation() : Transformation
     {
         throw new \LogicException(self::class . " has no Config.");
@@ -48,7 +40,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -56,7 +48,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -65,5 +57,21 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
     public function getBuildArtifactObjective() : Setup\Objective
     {
         return new \ilGlobalScreenBuildProviderMapObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

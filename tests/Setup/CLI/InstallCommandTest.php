@@ -5,25 +5,35 @@
 namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 
-class InstallCommandTest extends \PHPUnit\Framework\TestCase
+class InstallCommandTest extends TestCase
 {
     public function testBasicFunctionality()
     {
+        $this->basicFunctionality(false);
+    }
+
+    public function testBasicFunctionalityAlreadyAchieved()
+    {
+        $this->basicFunctionality(true);
+    }
+
+    public function basicFunctionality(bool $is_applicable) : void
+    {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
-        $agent = $this->createMock(Setup\Agent::class);
+        $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-        $command = new Setup\CLI\InstallCommand(function () use ($agent) {
-            return $agent;
-        }, $config_reader, []);
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $command = new Setup\CLI\InstallCommand($agent_finder, $config_reader, []);
 
         $tester = new CommandTester($command);
 
-        $config = $this->createMock(Setup\Config::class);
+        $config = $this->createMock(Setup\ConfigCollection::class);
         $config_file = "config_file";
         $config_file_content = ["config_file"];
 
@@ -41,10 +51,22 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
             ->with($config_file, $config_overwrites)
             ->willReturn($config_file_content);
 
-        $agent
+        $config
             ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(true);
+            ->method("getConfig")
+            ->with("common")
+            ->willReturn(new class implements Setup\Config {
+                public function getClientId() : string
+                {
+                    return "client_id";
+                }
+            });
+
+        $agent_finder
+            ->expects($this->once())
+            ->method("getAgents")
+            ->with()
+            ->willReturn($agent);
 
         $agent
             ->expects($this->once())
@@ -65,23 +87,36 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase
             ->expects($this->never())
             ->method("getBuildArtifactObjective")
             ->with()
-            ->willReturn(new Setup\NullObjective());
+            ->willReturn(new Setup\Objective\NullObjective());
 
         $agent
             ->expects($this->once())
             ->method("getUpdateObjective")
-            ->with($config)
-            ->willReturn(new Setup\NullObjective());
+            ->with()
+            ->willReturn(new Setup\Objective\NullObjective());
 
         $objective
             ->expects($this->once())
             ->method("getPreconditions")
             ->willReturn([]);
 
+        $expects = $this->never();
+        $return = false;
+
+        if ($is_applicable) {
+            $expects = $this->once();
+            $return = true;
+        }
+
         $objective
-            ->expects($this->once())
+            ->expects($expects)
             ->method("achieve")
             ->willReturn($env);
+
+        $objective
+            ->expects($this->once())
+            ->method("isApplicable")
+            ->willReturn($return);
         
         $tester->execute([
             "config" => $config_file,

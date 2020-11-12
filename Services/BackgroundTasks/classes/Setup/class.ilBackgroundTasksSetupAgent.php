@@ -31,14 +31,6 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
@@ -54,11 +46,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/BackgroundTasks",
-            false,
-            new ilBackgroundTasksConfigStoredObjective($config)
-        );
+        return new ilBackgroundTasksConfigStoredObjective($config);
     }
 
     /**
@@ -66,7 +54,10 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        if ($config !== null) {
+            return new ilBackgroundTasksConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -74,6 +65,22 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilBackgroundTasksMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

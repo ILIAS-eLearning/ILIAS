@@ -33,14 +33,21 @@ class ilNICKeyStoredObjective extends ilSetupObjective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
 
-        if ($settings->get("nic_key")) {
-            return $environment;
-        }
-
         $nic_key = $this->generateNICKey();
         $settings->set("nic_key", $nic_key);
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings = $factory->settingsFor("common");
+
+        return !(bool) $settings->get("nic_key");
     }
 
     protected function generateNICKey()

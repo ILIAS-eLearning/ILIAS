@@ -4,76 +4,85 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
-use ILIAS\Setup\AgentCollection;
 use ILIAS\Setup\ArrayEnvironment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
-use ILIAS\Setup\AchievementTracker;
+use ILIAS\Setup\Objective\ObjectiveWithPreconditions;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Reload Control Structure command.
  */
-class ReloadControlStructureCommand extends BaseCommand
+class ReloadControlStructureCommand extends Command
 {
+    use ObjectiveHelper;
+
     protected static $defaultName = "reload-control-structure";
+
+    /**
+     * var Objective[]
+     */
+    protected $preconditions;
+
+    /**
+     * @var Objective[] $preconditions will be achieved before command invocation
+     */
+    public function __construct(array $preconditions)
+    {
+        parent::__construct();
+        $this->preconditions = $preconditions;
+    }
+
 
     public function configure()
     {
-        parent::configure();
         $this->setDescription("Reloads the control structure of the installation.");
+        $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
     }
 
-    protected function printIntroMessage(IOWrapper $io)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-        $io->title("Reloading control structure of ILIAS");
-    }
+        $io = new IOWrapper($input, $output);
+        $io->printLicenseMessage();
+        $io->title("Reload Control Structure of ILIAS");
 
-    protected function printOutroMessage(IOWrapper $io)
-    {
-        $io->success("Control structure reloaded. Thanks and have fun!");
-    }
-
-    protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io) : Environment
-    {
-        $environment = new ArrayEnvironment([
-            Environment::RESOURCE_ADMIN_INTERACTION => $io,
-            // TODO: This needs to be implemented correctly...
-            Environment::RESOURCE_ACHIEVEMENT_TRACKER => new class implements AchievementTracker {
-                public function trackAchievementOf(Objective $objective) : void
-                {
-                }
-                public function isAchieved(Objective $objective) : bool
-                {
-                    return false;
-                }
-            }
-        ]);
-
-        if ($agent instanceof AgentCollection && $config) {
-            foreach ($config->getKeys() as $k) {
-                $environment = $environment->withConfigFor($k, $config->getConfig($k));
-            }
-        }
-
-        return $environment;
-    }
-
-    protected function getObjective(Agent $agent, ?Config $config) : Objective
-    {
         // ATTENTION: This is not how we want to do this in general during the
         // setup, stuff should use Dependency Injection. However, since we
         // currently won't get there with the control structure but still need
         // a quick way to reload it, we do it anyway.
-        return new ObjectiveCollection(
-            "Install and update ILIAS",
+        //
+        // Also, there probably will be more commands that Agents of components
+        // will want to offer (e.g. flush global cache). So we should think of
+        // some general mechanism some time.
+        $objective = new ObjectiveCollection(
+            "Reload Control Structure of ILIAS",
             false,
             new \ilCtrlStructureStoredObjective(
                 new \ilCtrlStructureReader()
             ),
             new \ilComponentDefinitionsStoredObjective(false)
         );
+        if (count($this->preconditions) > 0) {
+            $objective = new ObjectiveWithPreconditions(
+                $objective,
+                ...$this->preconditions
+            );
+        }
+
+        $environment = new ArrayEnvironment([
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
+        ]);
+
+        try {
+            $this->achieveObjective($objective, $environment, $io);
+            $io->success("Control structure reloaded. Thanks and have fun!");
+        } catch (NoConfirmationException $e) {
+            $io->error("Aborting Reload of Control Structure, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
+        }
     }
 }

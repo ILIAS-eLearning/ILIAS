@@ -47,7 +47,7 @@ class ilCronManager implements \ilCronManagerInterface
             'Verification of last run datetime (read from database): %s',
             ilDatePresentation::formatDate(
                 new ilDateTime(ilSetting::_lookupValue('common', 'last_cronjob_start_ts'), IL_CAL_UNIX)
-        )
+            )
         ));
         ilDatePresentation::setUseRelativeDates((bool) $useRelativeDates);
 
@@ -371,8 +371,9 @@ class ilCronManager implements \ilCronManagerInterface
             " WHERE job_id = " . $ilDB->quote($a_job->getId(), "text");
         $set = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($set);
-        $job_exists = ($row["job_id"] == $a_job->getId());
-        $schedule_type = $row["schedule_type"];
+        $job_id = $row['job_id'] ?? null;
+        $job_exists = ($job_id == $a_job->getId());
+        $schedule_type = $row["schedule_type"] ?? null;
 
         if ($job_exists && (
             $row['component'] != $a_component ||

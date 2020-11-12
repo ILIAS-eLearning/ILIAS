@@ -114,8 +114,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $link_id = $link['id'];
             
             $tmp = $link;
-            $tmp['title'] = $_POST['links'][$link_id]['tit'];
-            $tmp['description'] = $_POST['links'][$link_id]['des'];
+            $tmp['title'] = $_POST['links'][$link_id]['title'];
+            $tmp['description'] = $_POST['links'][$link_id]['desc'];
             $tmp['target'] = $_POST['links'][$link_id]['tar'];
             $tmp['valid'] = $_POST['links'][$link_id]['vali'];
             $tmp['disable_check'] = $_POST['links'][$link_id]['che'];

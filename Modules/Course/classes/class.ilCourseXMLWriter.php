@@ -382,14 +382,18 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlElement('MinMembers', null, (int) $this->course_obj->getSubscriptionMinMembers());
         
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
-
-        // cognos-blu-patch: begin
-        $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
-
         if ($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
-        // cognos-blu-patch: end
+
+        $this->xmlElement(
+            'SessionLimit',
+            [
+                'active' => $this->course_obj->isSessionLimitEnabled() ? 1 : 0,
+                'previous' => $this->course_obj->getNumberOfPreviousSessions(),
+                'next' => $this->course_obj->getNumberOfNextSessions()
+            ]
+        );
 
         $this->xmlElement(
             'WelcomeMail',

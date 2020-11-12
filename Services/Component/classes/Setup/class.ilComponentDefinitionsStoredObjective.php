@@ -44,9 +44,8 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $config = $environment->getConfigFor('database');
         return [
-            new \ilDatabaseUpdatedObjective($config, $this->populate_before)
+            new \ilDatabaseUpdatedObjective()
         ];
     }
 
@@ -69,7 +68,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
-        $GLOBALS["DIC"]["ilClientIniFile"] = $ini;
+        $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["ilObjDataCache"] = null;
         $GLOBALS["DIC"]["lng"] = new class() {
@@ -142,5 +141,13 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         $GLOBALS["DIC"] = $DIC;
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
     }
 }

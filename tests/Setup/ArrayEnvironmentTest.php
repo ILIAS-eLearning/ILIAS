@@ -5,9 +5,15 @@
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\TestCase;
 
-class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase
+class ArrayEnvironmentTest extends TestCase
 {
+    /**
+     * @var Setup\ArrayEnvironment
+     */
+    protected $environment;
+
     public function setUp() : void
     {
         $this->environment = new Setup\ArrayEnvironment([
@@ -16,14 +22,14 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase
         ]);
     }
 
-    public function testGetResource()
+    public function testGetResource() : void
     {
         $this->assertEquals("FOO", $this->environment->getResource("foo"));
         $this->assertEquals("BAR", $this->environment->getResource("bar"));
         $this->assertNull($this->environment->getResource("baz"));
     }
 
-    public function testWithResource()
+    public function testWithResource() : void
     {
         $env = $this->environment->withResource("baz", "BAZ");
 
@@ -32,7 +38,7 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("BAZ", $env->getResource("baz"));
     }
 
-    public function testSetResourceRejectsDuplicates()
+    public function testSetResourceRejectsDuplicates() : void
     {
         $this->expectException(\RuntimeException::class);
 
@@ -40,24 +46,31 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase
         $env->withResource("baz", "BAZ");
     }
 
-    public function testConfigFor()
+    public function testConfigFor() : void
     {
         $env = $this->environment->withConfigFor("foo", "BAR");
         $this->assertEquals("BAR", $env->getConfigFor("foo"));
     }
 
-    public function testDuplicateConfigFor()
+    public function testDuplicateConfigFor() : void
     {
         $this->expectException(\RuntimeException::class);
-        $env = $this->environment
+        $this->environment
             ->withConfigFor("foo", "BAR")
-            ->withConfigFor("foo", "BAZ");
+            ->withConfigFor("foo", "BAZ")
+        ;
     }
 
-    public function testWrongConfigId()
+    public function testWrongConfigId() : void
     {
         $this->expectException(\RuntimeException::class);
-        $env = $this->environment
-            ->getConfigFor("foofoo");
+        $this->environment->getConfigFor("foofoo");
+    }
+
+    public function testHasConfigFor() : void
+    {
+        $env = $this->environment->withConfigFor("foo", "BAR");
+        $this->assertTrue($env->hasConfigFor("foo"));
+        $this->assertFalse($env->hasConfigFor("bar"));
     }
 }

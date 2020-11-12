@@ -34,9 +34,8 @@ class ilBackgroundTasksConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new ilIniFilesPopulatedObjective($common_config)
+            new ilIniFilesLoadedObjective()
         ];
     }
 
@@ -56,5 +55,19 @@ class ilBackgroundTasksConfigStoredObjective implements Setup\Objective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return
+            !$ini->groupExists("background_tasks") ||
+            $ini->readVariable("background_tasks", "concurrency") !== $this->config->getType() ||
+            $ini->readVariable("background_tasks", "number_of_concurrent_tasks") !== $this->config->getMaxCurrentTasks()
+        ;
     }
 }

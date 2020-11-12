@@ -494,7 +494,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function query($query)
     {
         global $DIC;
-        $ilBench = $DIC['ilBench'];
+        $ilBench = $DIC['ilBench'] ?? null;
 
         $query = $this->appendLimit($query);
 
@@ -735,7 +735,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function manipulate($query)
     {
         global $DIC;
-        $ilBench = $DIC['ilBench'];
+        $ilBench = $DIC['ilBench'] ?? null;
         try {
             $query = $this->sanitizeMB4StringIfNotSupported($query);
             if ($ilBench instanceof ilBenchmark) {
@@ -883,7 +883,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
     public function addFulltextIndex($a_table, $a_fields, $a_name = "in")
     {
         $i_name = $this->constraintName($a_table, $a_name) . "_idx";
-        $f_str = implode($a_fields, ",");
+        $f_str = implode(",", $a_fields);
         $q = "ALTER TABLE $a_table ADD FULLTEXT $i_name ($f_str)";
         $this->query($q);
     }

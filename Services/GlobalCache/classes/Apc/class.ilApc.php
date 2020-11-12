@@ -77,18 +77,20 @@ class ilApc extends ilGlobalCacheService
         if ($complete) {
             return apcu_clear_cache();
         }
-
-        $key_prefix = $this->returnKey('');
-        $apcu_iterator = new APCUIterator();
-        $apcu_iterator->rewind();
-        while ($current_key = $apcu_iterator->key()) {
-            // "begins with"
-            if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
-                $this->delete($current_key);
+        if (extension_loaded('ext-apcu')) {
+            $key_prefix = $this->returnKey('');
+            $apcu_iterator = new APCUIterator();
+            $apcu_iterator->rewind();
+            while ($current_key = $apcu_iterator->key()) {
+                // "begins with"
+                if (substr($current_key, 0, strlen($key_prefix)) === $key_prefix) {
+                    $this->delete($current_key);
+                }
+                $apcu_iterator->next();
             }
-            $apcu_iterator->next();
+            return true;
         }
-        return true;
+        return false;
     }
 
 

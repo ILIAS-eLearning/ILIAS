@@ -71,6 +71,9 @@ class ilMimeMail
     /** @var \ilSetting */
     protected $settings;
 
+    /** @var ilMailMimeSubjectBuilder */
+    protected $subjectBuilder;
+
     /**
      * ilMimeMail constructor.
      */
@@ -84,6 +87,8 @@ class ilMimeMail
             $factory = $DIC["mail.mime.transport.factory"];
             self::setDefaultTransport($factory->getTransport());
         }
+
+        $this->subjectBuilder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
     }
 
     /**
@@ -111,23 +116,13 @@ class ilMimeMail
     }
 
     /**
-     * @param string $subject Define the subject line of the email
-     * @param bool   $a_add_prefix
+     * @param string $subject
+     * @param bool   $addPrefix
+     * @param string $contextPrefix
      */
-    public function Subject($subject, $a_add_prefix = false)
+    public function Subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : void
     {
-        if ($a_add_prefix) {
-            // #9096
-            $subjectPrefix = $this->settings->get('mail_subject_prefix');
-            if (false === $subjectPrefix) {
-                $subjectPrefix = self::MAIL_SUBJECT_PREFIX;
-            }
-            if (strlen($subjectPrefix) > 0) {
-                $subject = $subjectPrefix . ' ' . $subject;
-            }
-        }
-
-        $this->subject = $subject;
+        $this->subject = $this->subjectBuilder->subject($subject, $addPrefix, $contextPrefix);
     }
 
     /**
@@ -324,7 +319,7 @@ class ilMimeMail
 
         if (strip_tags($this->body, '<b><u><i><a>') == $this->body) {
             // Let's assume(!) that there is no HTML (except certain tags, e.g. used for object title formatting, where the consumer is not aware of this), so convert "\n" to "<br>"
-            $this->finalBodyAlt = $this->body;
+            $this->finalBodyAlt = strip_tags($this->body);
             $this->body = \ilUtil::makeClickable(nl2br($this->body));
         } else {
             // if there is HTML, convert "<br>" to "\n" and strip tags for plain text alternative
@@ -378,7 +373,7 @@ class ilMimeMail
             $this->images = array();
         }
 
-        foreach (new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|svg|png)$/i') as $file) {
+        foreach (new \RegexIterator(new \DirectoryIterator($directory), '/\.(jpg|jpeg|gif|svg|png)$/i') as $file) {
             /**
              * @var $file \SplFileInfo
              */

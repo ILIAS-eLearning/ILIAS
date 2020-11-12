@@ -3,7 +3,7 @@
 use ILIAS\Setup;
 use ILIAS\UI\Implementation\Crawler as Crawler;
 
-class ilKitchenSinkDataCollectedObjective extends Setup\BuildArtifactObjective
+class ilKitchenSinkDataCollectedObjective extends Setup\Artifact\BuildArtifactObjective
 {
     public function __construct()
     {
@@ -20,6 +20,6 @@ class ilKitchenSinkDataCollectedObjective extends Setup\BuildArtifactObjective
     public function build() : Setup\Artifact
     {
         $crawler = new Crawler\FactoriesCrawler();
-        return new Setup\ArrayArtifact($crawler->crawlFactory($this->crawler_path)->jsonSerialize());
+        return new Setup\Artifact\ArrayArtifact($crawler->crawlFactory($this->crawler_path)->jsonSerialize());
     }
 }

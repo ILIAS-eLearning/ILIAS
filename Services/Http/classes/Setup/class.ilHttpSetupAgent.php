@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -26,14 +26,6 @@ class ilHttpSetupAgent implements Setup\Agent
     public function hasConfig() : bool
     {
         return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
     }
 
     /**
@@ -71,10 +63,15 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Http",
-            false,
-            new ilHttpConfigStoredObjective($config)
+        $http_config_stored = new ilHttpConfigStoredObjective($config);
+
+        if (!$config->isProxyEnabled()) {
+            return $http_config_stored;
+        }
+
+        return new Setup\Objective\ObjectiveWithPreconditions(
+            $http_config_stored, 
+            new ProxyConnectableCondition($config)
         );
     }
 
@@ -83,7 +80,10 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        if ($config !== null) {
+            return new ilHttpConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -91,6 +91,22 @@ class ilHttpSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilHttpMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

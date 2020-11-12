@@ -307,6 +307,15 @@ class ilObjStudyProgrammeTest extends TestCase
         $this->assertEquals(0, count($children[0]->getChildren()));
     }
 
+    public function testTreeGetAllPrgChildren()
+    {
+        $this->createSmallTree();
+        $this->assertEquals(
+            4,
+            $this->root_object->getAllPrgChildren()
+        );
+    }
+
     /**
      * Test getParent on ilObjStudyProgramme
      *

@@ -371,15 +371,15 @@ abstract class ilMailNotification
     /**
      * @return ilMail
      */
-    protected function initMail()
+    protected function initMail() : ilMail
     {
         return $this->mail = new ilMail($this->getSender());
     }
 
     /**
-     * @return ilMail|null
+     * @return ilMail
      */
-    protected function getMail()
+    protected function getMail() : ilMail
     {
         return is_object($this->mail) ? $this->mail : $this->initMail();
     }

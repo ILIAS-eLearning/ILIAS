@@ -27,6 +27,8 @@ class ilStartingPoint
     protected $rule_type;
     protected $rule_options; // array serialized in db
     protected $id;
+    protected $calendar_view;
+    protected $calendar_period;
 
     /**
      * Constructor
@@ -61,6 +63,8 @@ class ilStartingPoint
             $this->setPosition($point['position']);
             $this->setStartingObject($point['starting_object']);
             $this->setRuleType($point['rule_type']);
+            $this->setCalendarView($point['calendar_view']);
+            $this->setCalendarPeriod($point['calendar_period']);
         }
     }
 
@@ -163,6 +167,45 @@ class ilStartingPoint
         $this->rule_options = $a_rule_options;
     }
 
+    /**
+     * Gets calendar view
+     *
+     * @return int
+     */
+    public function getCalendarView() : int
+    {
+        return $this->calendar_view;
+    }
+
+    /**
+     * Sets calendar view
+     *
+     * @param int $calendar_view
+     */
+    public function setCalendarView(int $calendar_view) : void
+    {
+        $this->calendar_view = $calendar_view;
+    }
+
+    /**
+     * Gets calendar Period
+     *
+     * @return int
+     */
+    public function getCalendarPeriod() : int
+    {
+        return $this->calendar_period;
+    }
+
+    /**
+     * Sets calendar Period
+     *
+     * @param int $calendar_period
+     */
+    public function setCalendarPeriod(int $calendar_period) : void
+    {
+        $this->calendar_period = $calendar_period;
+    }
 
     /**
      * Gets the rule options
@@ -194,6 +237,8 @@ class ilStartingPoint
                 "position" => $point["position"],
                 "starting_point" => $point['starting_point'],
                 "starting_object" => $point['starting_object'],
+                "calendar_view"   => $point['calendar_view'],
+                "calendar_period"   => $point['calendar_period'],
                 "rule_type" => $point['rule_type'],
                 "rule_options" => $point['rule_options']
             );
@@ -243,6 +288,8 @@ class ilStartingPoint
                 "id" => $sp['id'],
                 "starting_point" => $sp['starting_point'],
                 "starting_object" => $sp['starting_object'],
+                "calendar_view"   => $sp['calendar_view'],
+                "calendar_period"   => $sp['calendar_period'],
                 "position" => $sp['position'],
                 "role_id" => $options['role_id'],
 
@@ -306,12 +353,14 @@ class ilStartingPoint
                     $this->getStartingObject(),
                     $position,
                     $this->getRuleType(),
-                    $this->getRuleOptions()
+                    $this->getRuleOptions(),
+                    $this->getCalendarView(),
+                    $this->getCalendarPeriod()
                 );
 
         $ilDB->manipulateF(
-            "INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options) VALUES (%s, %s, %s, %s, %s, %s)",
-            array('integer', 'integer', 'integer', 'integer', 'integer', 'text'),
+            "INSERT INTO usr_starting_point (id, starting_point, starting_object, position, rule_type, rule_options, calendar_view, calendar_period) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
+            array(ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER),
             $values
         );
     }
@@ -331,11 +380,13 @@ class ilStartingPoint
 				starting_object = %s,
 				position = %s,
 				rule_type = %s,
-				rule_options = %s
+				rule_options = %s,
+				calendar_view = %s,
+				calendar_period = %s
 			WHERE id = %s',
-            array('integer', 'integer', 'integer', 'integer', 'text', 'integer'),
+            array(ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_TEXT, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER, ilDBConstants::T_INTEGER),
             array($this->getStartingPoint(), $this->getStartingObject(), $this->getPosition(),
-                    $this->getRuleType(), $this->getRuleOptions(), $this->id)
+                    $this->getRuleType(), $this->getRuleOptions(), $this->getCalendarView(), $this->getCalendarPeriod(), $this->id)
         );
     }
 

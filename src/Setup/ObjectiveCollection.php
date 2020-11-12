@@ -4,8 +4,6 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI;
-
 /**
  * A objective collection is a objective that is achieved once all subobjectives are achieved.
  */
@@ -90,5 +88,13 @@ class ObjectiveCollection implements Objective
     public function achieve(Environment $environment) : Environment
     {
         return $environment;
+    }
+
+    /**
+     * @inheritdocs
+     */
+    public function isApplicable(Environment $environment) : bool
+    {
+        return false;
     }
 }

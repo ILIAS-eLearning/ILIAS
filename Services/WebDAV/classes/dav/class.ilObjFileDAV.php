@@ -41,7 +41,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function __construct(ilObjFile $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
-        $settings = new ilSetting('file_access');
+        $settings = new ilSetting('webdav');
         $this->versioning_enabled = (bool) $settings->get('webdav_versioning_enabled', true);
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }

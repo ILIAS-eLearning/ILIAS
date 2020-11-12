@@ -27,9 +27,8 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesLoadedObjective(),
             new \ilSettingsFactoryExistsObjective()
         ];
     }
@@ -49,5 +48,20 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $settings = $factory->settingsFor("common");
+
+        return
+            $settings->get("language") !== $this->config->getDefaultLanguage() ||
+            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage()
+        ;
     }
 }

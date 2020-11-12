@@ -1,10 +1,9 @@
 <?php
 
-use ILIAS\MainMenu\Storage\Resource\Stakeholder\AbstractResourceStakeholder;
+use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
 /**
  * Class ilMMStorageStakeholder
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMStorageStakeholder extends AbstractResourceStakeholder

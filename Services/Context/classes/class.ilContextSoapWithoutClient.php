@@ -110,4 +110,12 @@ class ilContextSoapWithoutClient implements ilContextTemplate
     {
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function modifyHttpPath(string $httpPath) : string
+    {
+        return $httpPath;
+    }
 }

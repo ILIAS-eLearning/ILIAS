@@ -91,7 +91,7 @@
 	//@Todo, this is a fix for #27705. Note the similarities to the back button above from the notification center.
 	//@Todo This should be probably refactored into a named Back Button Component or similar for slates. The usage of
 	//@Todo ID as selector tag also hints to an issue concerning the unique usage of this code here.
-	#il-tag-slate-container{
+	#il-tag-slate-container, #ilHelpPanel{
 		.btn-bulky{
 			.glyph{
 				:before{
@@ -136,7 +136,7 @@
 }
 
 .il-maincontrols-slate-content {
-	p, h1, h2, h3, h4, li {
+	p, h1, h2, h3, li {
 		padding: @il-slate-content-padding @il-slate-content-padding*2;
 	}
 	li.jstree-node {

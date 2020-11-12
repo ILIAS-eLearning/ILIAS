@@ -49,6 +49,11 @@ class ilLMNavigationStatus
     protected $lm_set;
 
     /**
+     * @var int
+     */
+    protected $requested_back_page;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -56,7 +61,8 @@ class ilLMNavigationStatus
         $request_obj_id,
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
-        ilSetting $lm_set
+        ilSetting $lm_set,
+        $requested_back_page
     ) {
         $this->user = $user;
         $this->requested_obj_id = (int) $request_obj_id;
@@ -64,6 +70,7 @@ class ilLMNavigationStatus
         $this->lm = $lm;
         $this->lm_set = $lm_set;
         $this->current_page_id;
+        $this->requested_back_page = (int) $requested_back_page;
 
         $this->determineStatus();
     }
@@ -186,4 +193,136 @@ class ilLMNavigationStatus
 
         $this->current_page_id = $page_id;
     }
+
+    /**
+     * Get back link page id
+     * @return int
+     */
+    public function getBackPageId() : int
+    {
+        $page_id = $this->current_page_id;
+
+        if (empty($page_id)) {
+            return 0;
+        }
+
+        $back_pg = $this->requested_back_page;
+
+        // process navigation for free page
+        if (!$this->lm_tree->isInTree($page_id)) {
+            return $back_pg;
+        }
+        return $back_pg;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSuccessorPageId(): int
+    {
+        $page_id = $this->current_page_id;
+        $user_id = $this->user->getId();
+
+        // determine successor page_id
+        $found = false;
+
+        // empty chapter
+        if ($this->chapter_has_no_active_page &&
+            ilLMObject::_lookupType($this->requested_obj_id) == "st") {
+            $c_id = $this->requested_obj_id;
+        } else {
+            if ($this->deactivated_page) {
+                $c_id = $this->requested_obj_id;
+            } else {
+                $c_id = $page_id;
+            }
+        }
+        while (!$found) {
+            $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
+            $c_id = $succ_node["obj_id"];
+
+            $active = ilLMPage::_lookupActive(
+                $c_id,
+                $this->lm->getType(),
+                $this->lm_set->get("time_scheduled_page_activation")
+            );
+
+            if ($succ_node["obj_id"] > 0 &&
+                $user_id == ANONYMOUS_USER_ID &&
+                ($this->lm->getPublicAccessMode() == "selected" &&
+                    !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
+                $found = false;
+            } else {
+                if ($succ_node["obj_id"] > 0 && !$active) {
+                    // look, whether activation data should be shown
+                    $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
+                    if ($act_data["show_activation_info"] &&
+                        (ilUtil::now() < $act_data["activation_start"])) {
+                        $found = true;
+                    } else {
+                        $found = false;
+                    }
+                } else {
+                    $found = true;
+                }
+            }
+        }
+        if (is_array($succ_node)) {
+            return (int) $succ_node["obj_id"];
+        }
+
+        return 0;
+    }
+
+    /**
+     * Get predecessor page id
+     * @return int
+     */
+    public function getPredecessorPageId(): int
+    {
+        $page_id = $this->current_page_id;
+        $user_id = $this->user->getId();
+
+        // determine predecessor page id
+        $found = false;
+        if ($this->deactivated_page) {
+            $c_id = $this->requested_obj_id;
+        } else {
+            $c_id = $page_id;
+        }
+        while (!$found) {
+            $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
+            $c_id = $pre_node["obj_id"];
+            $active = ilLMPage::_lookupActive(
+                $c_id,
+                $this->lm->getType(),
+                $this->lm_set->get("time_scheduled_page_activation")
+            );
+            if ($pre_node["obj_id"] > 0 &&
+                $user_id == ANONYMOUS_USER_ID &&
+                ($this->lm->getPublicAccessMode() == "selected" &&
+                    !ilLMObject::_isPagePublic($pre_node["obj_id"]))) {
+                $found = false;
+            } else {
+                if ($pre_node["obj_id"] > 0 && !$active) {
+                    // look, whether activation data should be shown
+                    $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
+                    if ($act_data["show_activation_info"] &&
+                        (ilUtil::now() < $act_data["activation_start"])) {
+                        $found = true;
+                    } else {
+                        $found = false;
+                    }
+                } else {
+                    $found = true;
+                }
+            }
+        }
+        if (is_array($pre_node)) {
+            return (int) $pre_node["obj_id"];
+        }
+
+        return 0;
+    }
+
 }

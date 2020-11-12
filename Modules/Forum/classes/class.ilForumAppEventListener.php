@@ -491,7 +491,7 @@ class ilForumAppEventListener implements ilAppEventListener
                 implode(', ', $recipients)
             ));
 
-            $mailNotification = new ilMailEventNotificationSender($provider, $logger);
+            $mailNotification = new ilForumMailEventNotificationSender($provider, $logger);
             $mailNotification->setType($notificationTypes);
             $mailNotification->setRecipients($recipients);
             $mailNotification->send();

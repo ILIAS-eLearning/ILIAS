@@ -4,49 +4,57 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
+use ILIAS\Setup\NoConfirmationException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Installation command.
  */
-class BuildArtifactsCommand extends BaseCommand
+class BuildArtifactsCommand extends Command
 {
+    use HasAgent;
+    use ObjectiveHelper;
+
     protected static $defaultName = "build-artifacts";
+
+    public function __construct(AgentFinder $agent_finder)
+    {
+        parent::__construct();
+        $this->agent_finder = $agent_finder;
+    }
 
     public function configure()
     {
-        $this
-            ->setDescription("Build static artifacts from source")
-            ->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
+        $this->setDescription("Build static artifacts from source");
+        $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
+        $this->configureCommandForPlugins();
     }
 
-    protected function printIntroMessage(IOWrapper $io)
+    public function execute(InputInterface $input, OutputInterface $output)
     {
-        $io->title("Building static artifacts");
-    }
+        $io = new IOWrapper($input, $output);
+        $io->printLicenseMessage();
+        $io->title("Building Static Artifacts for ILIAS");
 
-    protected function printOutroMessage(IOWrapper $io)
-    {
-        $io->success("All static artifacts are build!");
-    }
+        $agent = $this->getRelevantAgent($input);
 
-    protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config
-    {
-        return null;
-    }
+        $objective = $agent->getBuildArtifactObjective();
 
-    protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io)
-    {
-        return new ArrayEnvironment([]);
-    }
+        $environment = new ArrayEnvironment([
+            Environment::RESOURCE_ADMIN_INTERACTION => $io
+        ]);
 
-    protected function getObjective(Agent $agent, ?Config $config) : Objective
-    {
-        return $agent->getBuildArtifactObjective();
+        try {
+            $this->achieveObjective($objective, $environment, $io);
+            $io->success("All static artifacts are build!");
+        } catch (NoConfirmationException $e) {
+            $io->error("Aborting Installation, a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
+        }
     }
 }

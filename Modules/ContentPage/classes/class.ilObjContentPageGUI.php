@@ -1,6 +1,11 @@
 <?php
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
+use ILIAS\ContentPage\PageMetrics\PageMetricsService;
+use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
+use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
+
 /**
  * Class ilObjContentPageGUI
  * @ilCtrl_isCalledBy ilObjContentPageGUI: ilRepositoryGUI
@@ -19,60 +24,30 @@
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
+    /** @var \Psr\Http\Message\ServerRequestInterface */
     protected $request;
-
-    /**
-     * @var ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
+    /** @var ilAccessHandler */
     protected $access;
-
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting */
     protected $settings;
-
-    /**
-     * @var ilTabsGUI
-     */
+    /** @var ilTabsGUI */
     protected $tabs;
-
-    /**
-     * @var ilObjUser
-     */
+    /** @var ilObjUser */
     protected $user;
-
-    /**
-     * @var ilObjectService
-     */
+    /** @var ilObjectService */
     protected $obj_service;
-
-    /**
-     * @var ilNavigationHistory
-     */
+    /** @var ilNavigationHistory */
     protected $navHistory;
-
-    /**
-     * @var ilErrorHandling
-     */
+    /** @var ilErrorHandling */
     protected $error;
-
-    /**
-     * @var \ILIAS\DI\Container
-     */
+    /** @var \ILIAS\DI\Container */
     protected $dic;
-
-    /**
-     * @var bool|string
-     */
+    /** @var bool|string */
     protected $infoScreenEnabled = false;
+    /** @var PageMetricsService */
+    private $pageMetricsService;
 
     /**
      * @inheritdoc
@@ -105,13 +80,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 true
             );
         }
+
+        $this->pageMetricsService = new PageMetricsService(
+            new PageMetricsRepositoryImp($DIC->database()),
+            $DIC->refinery()
+        );
     }
 
     /**
-     * Deep link
      * @param string $target
      */
-    public static function _goto($target)
+    public static function _goto(string $target) : void
     {
         global $DIC;
 
@@ -251,12 +230,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     false
                 );
                 $style_gui->omitLocator();
-                if ($cmd == 'create' || $_GET['new_type'] == 'sty') {
+                if ($cmd === 'create' || $_GET['new_type'] === 'sty') {
                     $style_gui->setCreationMode(true);
                 }
+
+                if ($cmd === 'confirmedDelete') {
+                    $this->object->setStyleSheetId(0);
+                    $this->object->update();
+                }
+
                 $ret = $this->ctrl->forwardCommand($style_gui);
 
-                if ($cmd == 'save' || $cmd == 'copyStyle' || $cmd == 'importStyle') {
+                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
                     $styleId = $ret;
                     $this->object->setStyleSheetId($styleId);
                     $this->object->update();
@@ -296,6 +281,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->object,
                     $this->user
                 );
+
+                $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
+                    $this->pageMetricsService->store(
+                        new StorePageMetricsCommand(
+                            (int) $this->object->getId(),
+                            $event->page()->getLanguage()
+                        )
+                    );
+                });
+
                 $pageContent = $forwarder->forward();
                 if (strlen($pageContent) > 0) {
                     $this->tpl->setContent($pageContent);
@@ -395,10 +390,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return null;
     }
 
-    /**
-     *
-     */
-    public function addToNavigationHistory()
+    public function addToNavigationHistory() : void
     {
         if (!$this->getCreationMode()) {
             if ($this->checkPermissionBool('read')) {
@@ -411,10 +403,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     *
-     */
-    public function renderHeaderActions()
+    public function renderHeaderActions() : void
     {
         if (!$this->getCreationMode()) {
             if ($this->checkPermissionBool('read')) {
@@ -424,10 +413,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     }
 
     /**
-     *
      * @throws ilCtrlException
      */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         if (!$this->infoScreenEnabled) {
             return;
@@ -451,7 +439,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
      * Sub tab configuration of the settings area
      * @param string $activeTab
      */
-    protected function setSettingsSubTabs($activeTab)
+    protected function setSettingsSubTabs(string $activeTab) : void
     {
         if ($this->checkPermissionBool('write')) {
             $this->tabs->addSubTab(
@@ -503,7 +491,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
      *
      * @throws ilCtrlException
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd('showSummary');
         $this->ctrl->setCmdClass('ilinfoscreengui');
@@ -534,7 +522,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * Sub tab configuration of the content area
      */
-    protected function setContentSubTabs()
+    protected function setContentSubTabs() : void
     {
         if ($this->checkPermissionBool('write')) {
             $this->tabs->addSubTab(
@@ -582,7 +570,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return '';
     }
 
-    protected function initStyleSheets()
+    protected function initStyleSheets() : void
     {
         $this->tpl->setVariable(
             'LOCATION_CONTENT_STYLESHEET',
@@ -671,7 +659,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * @throws ilObjectException
      */
-    protected function editStyleProperties()
+    protected function editStyleProperties() : void
     {
         $this->checkPermission('write');
 
@@ -740,35 +728,25 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         return $form;
     }
 
-    /**
-     * Create Style
-     */
-    protected function createStyle()
+    protected function createStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'create');
     }
 
-    /**
-     * Edit Style
-     */
-    protected function editStyle()
+    protected function editStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
     }
 
-    /**
-     * Delete Style
-     */
-    protected function deleteStyle()
+    protected function deleteStyle() : void
     {
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'delete');
     }
 
     /**
-     * Save style settings
      * @throws ilObjectException
      */
-    protected function saveStyleSettings()
+    protected function saveStyleSettings() : void
     {
         $this->checkPermission('write');
 

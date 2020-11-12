@@ -23,7 +23,10 @@ class ilObjectServiceSettingsGUI
     // accessing these, see ilObjectDataSet (changes should be
     // made there accordingly)
 
-    const CALENDAR_VISIBILITY = 'cont_show_calendar';
+    public const CALENDAR_CONFIGURATION = 'cont_cal_configuration';
+    public const CALENDAR_VISIBILITY = 'cont_show_calendar';
+    public const CALENDAR_ACTIVATION = 'cont_activation_calendar';
+
     const NEWS_VISIBILITY = 'cont_show_news';
     const USE_NEWS = 'cont_use_news';
     const AUTO_RATING_NEW_OBJECTS = 'cont_auto_rate_new_obj';
@@ -36,6 +39,7 @@ class ilObjectServiceSettingsGUI
     const SKILLS = 'cont_skills';
     const FILTER = 'filter';
     const BOOKING = 'cont_bookings';
+    public const EXTERNAL_MAIL_PREFIX = 'mail_external_prefix';
 
     private $gui = null;
     private $modes = array();
@@ -105,17 +109,27 @@ class ilObjectServiceSettingsGUI
         }
         
         // calendar
-        if (in_array(self::CALENDAR_VISIBILITY, $services)) {
-            include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
-            if (ilCalendarSettings::_getInstance()->isEnabled()) {
-                // Container tools (calendar, news, ... activation)
-                $cal = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_calendar'), self::CALENDAR_VISIBILITY);
-                $cal->setValue(1);
-                include_once './Services/Calendar/classes/class.ilObjCalendarSettings.php';
-                $cal->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
-                //$cal->setOptionTitle($lng->txt('obj_tool_setting_calendar'));
-                $cal->setInfo($lng->txt('obj_tool_setting_calendar_info'));
-                $form->addItem($cal);
+        if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
+            $settings = ilCalendarSettings::_getInstance();
+            if ($settings->isEnabled()) {
+                $active = new ilCheckboxInputGUI(
+                    $lng->txt('obj_tool_setting_calendar_active'),
+                    self::CALENDAR_ACTIVATION
+                );
+                $active->setValue(1);
+                $active->setChecked(ilCalendarSettings::lookupCalendarActivated($a_obj_id));
+                $active->setInfo($lng->txt('obj_tool_setting_calendar_active_info'));
+
+                $visible = new ilCheckboxInputGUI(
+                    $lng->txt('obj_tool_setting_calendar'),
+                    self::CALENDAR_VISIBILITY
+                );
+                $visible->setValue(1);
+                $visible->setChecked(ilCalendarSettings::lookupCalendarContentPresentationEnabled($a_obj_id));
+                $visible->setInfo($lng->txt('obj_tool_setting_calendar_info'));
+                $active->addSubItem($visible);
+
+                $form->addItem($active);
             }
         }
         
@@ -307,6 +321,14 @@ class ilObjectServiceSettingsGUI
             $form->addItem($book);
         }
 
+        if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
+            $externalMailPrefix = new ilTextInputGUI($lng->txt('obj_tool_ext_mail_subject_prefix'), self::EXTERNAL_MAIL_PREFIX);
+            $externalMailPrefix->setMaxLength(255);
+            $externalMailPrefix->setInfo($lng->txt('obj_tool_ext_mail_subject_prefix_info'));
+            $externalMailPrefix->setValue(ilContainer::_lookupContainerSetting($a_obj_id, self::EXTERNAL_MAIL_PREFIX, ''));
+            $form->addItem($externalMailPrefix);
+        }
+
         return $form;
     }
 
@@ -329,14 +351,23 @@ class ilObjectServiceSettingsGUI
         }
         
         // calendar
-        if (in_array(self::CALENDAR_VISIBILITY, $services)) {
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
+        if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
             if (ilCalendarSettings::_getInstance()->isEnabled()) {
-                include_once './Services/Container/classes/class.ilContainer.php';
-                ilContainer::_writeContainerSetting($a_obj_id, self::CALENDAR_VISIBILITY, (int) $form->getInput(self::CALENDAR_VISIBILITY));
+
+                $active = (int) $form->getInput(self::CALENDAR_ACTIVATION);
+                $visible = (int) $form->getInput(self::CALENDAR_VISIBILITY);
+                ilContainer::_writeContainerSetting(
+                    $a_obj_id,
+                    self::CALENDAR_ACTIVATION,
+                    $active
+                );
+                ilContainer::_writeContainerSetting(
+                    $a_obj_id,
+                    self::CALENDAR_VISIBILITY,
+                    $active ? $visible : 0
+                );
             }
         }
-        
         // news
         if (in_array(self::USE_NEWS, $services)) {
             include_once './Services/Container/classes/class.ilContainer.php';
@@ -422,6 +453,10 @@ class ilObjectServiceSettingsGUI
             include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::FILTER, (int) $form->getInput(self::FILTER));
             ilContainer::_writeContainerSetting($a_obj_id, "filter_show_empty", (int) $form->getInput("filter_show_empty"));
+        }
+
+        if (in_array(self::EXTERNAL_MAIL_PREFIX, $services)) {
+            ilContainer::_writeContainerSetting($a_obj_id, self::EXTERNAL_MAIL_PREFIX, $form->getInput(self::EXTERNAL_MAIL_PREFIX));
         }
 
         return true;

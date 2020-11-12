@@ -71,6 +71,21 @@ class ilCalendarPresentationGUI
     protected $seed;
 
     /**
+     * @var int
+     */
+    protected $cal_view;
+
+    /**
+     * @var int
+     */
+    protected $cal_period;
+
+    /**
+     * @var ilCalendarSettings
+     */
+    protected $cal_settings;
+
+    /**
      * Constructor
      *
      * @access public
@@ -95,10 +110,12 @@ class ilCalendarPresentationGUI
         $this->ref_id = $a_ref_id;
         $this->category_id = $_GET["category_id"];
         $this->ctrl->setParameter($this, 'category_id', $_REQUEST['category_id']);
+        $this->cal_settings = ilCalendarSettings::_getInstance();
 
         // show back to pd
         $this->ctrl->saveParameter($this, 'backpd');
-        
+
+        $this->initCalendarView();
         
         include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
@@ -166,6 +183,23 @@ class ilCalendarPresentationGUI
             }
         }
     }
+
+    /**
+     * Initialises calendar view according to given settings
+     */
+    protected function initCalendarView()
+    {
+        global $DIC;
+
+        $request = $DIC->http()->request();
+
+        if (!empty($request->getQueryParams()["cal_view"])) {
+            $this->cal_view = $request->getQueryParams()["cal_view"];
+        } else {
+            $this->cal_view = $this->cal_settings->getDefaultCal();
+        }
+
+    }
     
     /**
      * Execute command
@@ -190,6 +224,8 @@ class ilCalendarPresentationGUI
 
         $this->initSeed();
         $this->prepareOutput();
+
+        $this->help->setScreenIdComponent("cal");
         
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
@@ -425,8 +461,24 @@ class ilCalendarPresentationGUI
     public function readLastClass()
     {
         $ilUser = $this->user;
-        
-        return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarinboxgui';
+
+        switch ($this->cal_view) {
+            case ilCalendarSettings::DEFAULT_CAL_DAY:
+                $class = "ilcalendardaygui";
+                break;
+            case ilCalendarSettings::DEFAULT_CAL_WEEK:
+                $class = "ilcalendarweekgui";
+                break;
+            case ilCalendarSettings::DEFAULT_CAL_MONTH:
+                $class = "ilcalendarmonthgui";
+                break;
+            case ilCalendarSettings::DEFAULT_CAL_LIST:
+            default:
+                $class = "ilcalendarinboxgui";
+                break;
+        }
+
+        return $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : $class;
     }
     
     public function setCmdClass($a_class)
@@ -481,12 +533,6 @@ class ilCalendarPresentationGUI
                 break;
                 
             case 'ilcalendarinboxgui':
-                #21479
-                if ($view_option = $_GET['cal_agenda_per']) {
-                    ilSession::set("cal_list_view", $view_option);
-                } elseif ($view_option = ilSession::get('cal_list_view')) {
-                    ilSession::set("cal_list_view", $view_option);
-                }
                 $ilUser->writePref('cal_last_class', $a_class);
                 $_SESSION['cal_last_tab'] = 'cal_upcoming_events_header';
                 $this->setCmdClass('ilcalendarinboxgui');
@@ -496,22 +542,6 @@ class ilCalendarPresentationGUI
                 return $inbox_gui;
                 break;
         }
-    }
-    
-    /**
-     * forward to last presentation class
-     *
-     * @access protected
-     * @param
-     * @return
-     */
-    protected function loadHistory()
-    {
-        $ilUser = $this->user;
-        
-        $this->ctrl->setCmd('');
-        $history = $ilUser->getPref('cal_last_class') ? $ilUser->getPref('cal_last_class') : 'ilcalendarmonthgui';
-        $this->forwardToClass($history);
     }
     
     /**
@@ -707,9 +737,6 @@ class ilCalendarPresentationGUI
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        $ilHelp = $this->help;
-
-        $ilHelp->setScreenIdComponent("cal");
 
         if ($this->category_id) {
             $this->addCategoryTabs();

@@ -5,6 +5,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
 /**
@@ -13,10 +16,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
+class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
+    use isInterchangeableItemTrait;
 
     /**
      * @var bool
@@ -41,7 +45,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -61,7 +65,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withAltText(string $alt_text) : Link
     {
-        $clone = clone($this);
+        $clone           = clone($this);
         $clone->alt_text = $alt_text;
 
         return $clone;
@@ -81,7 +85,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withAction(string $action) : hasAction
     {
-        $clone = clone($this);
+        $clone         = clone($this);
         $clone->action = $action;
 
         return $clone;
@@ -101,7 +105,7 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
      */
     public function withIsLinkToExternalAction(bool $is_external) : hasAction
     {
-        $clone = clone $this;
+        $clone                     = clone $this;
         $clone->is_external_action = $is_external;
 
         return $clone;
@@ -114,4 +118,5 @@ class Link extends AbstractChildItem implements hasTitle, hasAction, hasSymbol
     {
         return $this->is_external_action;
     }
+
 }

@@ -11793,7 +11793,7 @@ assessment#:#qpl_qst_skl_selection_for_question_header#:#Compence Assignments fo
 assessment#:#tst_skl_level_thresholds_missing#:#There are missing thresholds for the relevant competences!###23 12 2015 new variable
 assessment#:#tst_skl_level_thresholds_link#:#Configure Competence-Thresholds###23 12 2015 new variable
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Please consider that competence results from a single test has a limited significance. The more information is collected per competence, the merrier valid the significance will be. Should there are single competences without any entry, there is to less information collected.###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#grading_obligations_listlabel#:#Compulsory Questions###23 12 2015 new variable
 assessment#:#grading_obligations_answered_listentry#:#Answered###23 12 2015 new variable
 assessment#:#grading_obligations_missing_listentry#:#Open###23 12 2015 new variable

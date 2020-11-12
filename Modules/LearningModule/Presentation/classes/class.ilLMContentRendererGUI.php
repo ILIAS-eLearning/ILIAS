@@ -278,6 +278,7 @@ class ilLMContentRendererGUI
 
         // @todo 6.0 (factor this out (maybe to ilLMPageGUI)
         $this->parent_gui->basicPageGuiInit($page_object_gui);
+
         $page_object = $page_object_gui->getPageObject();
         $page_object->buildDom();
         $page_object->registerOfflineHandler($this);
@@ -313,8 +314,8 @@ class ilLMContentRendererGUI
             );
 
             // track access
-            if ($ilUser->getId() != ANONYMOUS_USER_ID && $page_id != 0 && !$this->offline) {
-                $this->tracker->trackAccess($page_id);
+            if ($page_id != 0 && !$this->offline) {
+                $this->tracker->trackAccess($page_id, $ilUser->getId());
             }
         } else {
             $page_object_gui->setEnabledPageFocus(false);

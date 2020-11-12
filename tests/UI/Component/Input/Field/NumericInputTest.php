@@ -22,7 +22,7 @@ class NumericInputTest extends ILIAS_UI_TestBase
     protected function buildFactory()
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->getLanguage();
         return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
             new SignalGenerator(),
             $df,
@@ -131,5 +131,55 @@ class NumericInputTest extends ILIAS_UI_TestBase
                     . "	<div class=\"col-sm-9\">" . "		<input type=\"number\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />"
                     . "		" . "		" . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
+    }
+
+    public function testNullValue()
+    {
+        $f = $this->buildFactory();
+        $post_data = new DefInputData(['name_0' => null]);
+        $field = $f->numeric('')->withNameFrom($this->name_source);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertNull($value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isError());
+        return $field;
+    }
+
+    /**
+     * @depends testNullValue
+     */
+    public function testEmptyValue($field)
+    {
+        $post_data = new DefInputData(['name_0' => '']);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertNull($value->value());
+
+        $field_required = $field_required->withInput($post_data);
+        $value = $field_required->getContent();
+        $this->assertTrue($value->isError());
+    }
+
+    /**
+     * @depends testNullValue
+     */
+    public function testZeroIsValidValue($field)
+    {
+        $post_data = new DefInputData(['name_0' => 0]);
+        $field_required = $field->withRequired(true);
+
+        $value = $field->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOk());
+        $this->assertEquals(0, $value->value());
+
+        $value = $field_required->withInput($post_data)->getContent();
+        $this->assertTrue($value->isOK());
+        $this->assertEquals(0, $value->value());
     }
 }

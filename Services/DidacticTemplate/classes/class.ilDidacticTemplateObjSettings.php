@@ -131,6 +131,25 @@ class ilDidacticTemplateObjSettings
         return $assignments;
     }
 
+    /**
+     * @param int[] $template_ids
+     * @return array
+     */
+    public static function getAssignmentsForTemplates(array $template_ids) : array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'select * from didactic_tpl_objs ' .
+            'where ' . $db->in('tpl_id', $template_ids, false, ilDBConstants::T_INTEGER);
+        $res = $db->query($query);
+        $assignments = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $assignments[$row->tpl_id][] = $row->ref_id;
+        }
+        return $assignments;
+    }
+
 
     /**
      * transfer auto generated flag if source is auto generated

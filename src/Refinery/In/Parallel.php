@@ -11,10 +11,13 @@ namespace ILIAS\Refinery\In;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 class Parallel implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
+
     /**
      * @var Transformation[]
      */
@@ -51,13 +54,5 @@ class Parallel implements Transformation
         }
 
         return $results;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

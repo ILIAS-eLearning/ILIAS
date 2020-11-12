@@ -71,6 +71,12 @@ class ilSessionExporter extends ilXmlExporter
             "component" => "Services/Object",
             "entity" => "service_settings",
             "ids" => $a_ids);
+
+        // tile image
+        $deps[] = array(
+            "component" => "Services/Object",
+            "entity" => "tile",
+            "ids" => $a_ids);
         
         return $deps;
     }
@@ -147,6 +153,12 @@ class ilSessionExporter extends ilXmlExporter
             "5.4.0" => array(
                 "namespace" => "http://www.ilias.de/Modules/Session/sess/5_1",
                 "xsd_file" => "ilias_sess_5_1.xsd",
+                "uses_dataset" => true,
+                "min" => "5.4.0",
+                "max" => ""),
+            "7.0" => array(
+                "namespace" => "http://www.ilias.de/Modules/Session/sess/7",
+                "xsd_file" => "ilias_sess_7.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
                 "max" => ""),

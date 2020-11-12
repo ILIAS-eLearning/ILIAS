@@ -8,12 +8,13 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
 {
     public function getHash() : string
     {
+        $pw = $this->config->getPassword();
         return hash("sha256", implode("-", [
             self::class,
             $this->config->getHost(),
             $this->config->getPort(),
             $this->config->getUser(),
-            $this->config->getPassword()->toString()
+            $pw ? $pw->toString() : ""
         ]));
     }
 
@@ -53,5 +54,13 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
             );
         }
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return true;
     }
 }

@@ -5,12 +5,13 @@
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\TestCase;
 
-class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase
+class ObjectiveCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testGetObjectives()
+    public function testGetObjectives() : void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -21,7 +22,7 @@ class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$g1, $g2, $g3], $c->getObjectives());
     }
 
-    public function testGetHash()
+    public function testGetHash() : void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -40,13 +41,13 @@ class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($c1->getHash(), $c3->getHash());
     }
 
-    public function testGetLabel()
+    public function testGetLabel() : void
     {
         $c = new Setup\ObjectiveCollection("LABEL", false);
         $this->assertEquals("LABEL", $c->getLabel());
     }
 
-    public function testIsNotable()
+    public function testIsNotable() : void
     {
         $c1 = new Setup\ObjectiveCollection("", false);
         $c2 = new Setup\ObjectiveCollection("", true);
@@ -54,7 +55,7 @@ class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($c2->isNotable());
     }
 
-    public function testGetPreconditions()
+    public function testGetPreconditions() : void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();
@@ -69,7 +70,7 @@ class ObjectiveCollectionTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    public function testAchieve()
+    public function testAchieve() : void
     {
         $g1 = $this->newObjective();
         $g2 = $this->newObjective();

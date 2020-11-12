@@ -23,8 +23,7 @@ function buildMainbar($f, $r)
     );
 
     $mainbar = $f->mainControls()->mainbar()
-        ->withToolsButton($tools_btn)
-        ->withMoreButton($more_btn);
+        ->withToolsButton($tools_btn);
 
     $entries = [];
     $entries['repository'] = getDemoEntryRepository($f);

@@ -20,9 +20,14 @@ and finally the objective itself.
 
 There are special kinds of `Objective`s tailored to match certain use cases.
 
-* [**BuildArtifactObjective**](./BuildArtifactObjective.php) allows to create an
+* [**BuildArtifactObjective**](Objective/BuildArtifactObjective.php) allows to create an
 [`Artifact`](./Artifact.php) somewhere. Look into the [according section](#on-artifacts)
 to find out how to use them.
+
+For the `status` command of the setup, the kernel of a framework for metrics is
+[included](./Metrics/README.md) here. This is kept a little separate from the rest
+of the setup, because we might want to detach this some day.
+
 
 ## More Details, Please!
 
@@ -70,17 +75,19 @@ provides an agent for the setup: [`ilDatabaseSetupAgent`](Services/Database/clas
 ### On Objective
 
 Objectives are the core of the whole matter. An `Objective` describes a state of
-the system that an agent wants to achieve. Any `Objective` may have preconditions,
-which are other objectives. Once the preconditions are achieved, the objective
-itself may be achieved. This might use stuff from the environment but also add
-stuff to the environment. The [agent from the database service](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
+the system that an agent wants to achieve. An objective might or might not be
+applicable for the current state of the system, which means that it might not
+be required to be achieved. Any `Objective` may have preconditions, which are
+other objectives. Once the preconditions are achieved, the objective itself may
+be achieved. This might use stuff from the environment but also add stuff to
+the environment. The [agent from the database service](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php),
 for example, has the [objective to create a populated database](Services/Database/classes/Setup/class.ilDatabasePopulatedObjective.php).
 This has the precondition [that the database exists](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php),
 which in turn requires [that the database server is connectable](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php).
 
 This yields a directed graph of objectives, where (hopefully) some objectives do
 not have any preconditions. These can be achieved, which prepares the environment
-for other objectives to be achieable, until all objectives are achieved and the
+for other objectives to be achievable, until all objectives are achieved and the
 setup is completed.
 
 ### On Artifact
@@ -91,7 +98,7 @@ Which GlobalScreen-providers exist to build the screen? Which instances of
 WebAccessChecker are available. Since this information can be derived statically
 for any given state of source code, it would be inefficient to derive it dynamically.
 
-The [`BuildArtifactObjective`](./BuildArtifactObjective.php) allows to create source-code
+The [`BuildArtifactObjective`](Objective/BuildArtifactObjective.php) allows to create source-code
 files based on the current state of the code and store them in the ILIAS-filesystem-
 structure for later use.
 

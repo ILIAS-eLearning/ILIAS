@@ -48,4 +48,19 @@ class ilMakeInstallationAccessibleObjective extends ilSetupObjective
 
         return $environment;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $settings = $factory->settingsFor("common");
+        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+
+        return
+            $settings->get("setup_ok") != 1 ||
+            $client_ini->readVariable("client", "access") != true
+        ;
+    }
 }

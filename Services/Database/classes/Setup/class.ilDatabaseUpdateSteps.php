@@ -3,8 +3,6 @@
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup\Environment;
-use ILIAS\Setup\CallableObjective;
-use ILIAS\Setup\NullObjective;
 use ILIAS\Setup\Objective;
 
 /**
@@ -39,7 +37,7 @@ abstract class ilDatabaseUpdateSteps implements Objective
     protected $base;
 
     /**
-     * @param \ilObjective $base for the update steps, i.e. the objective that should
+     * @param Objective $base for the update steps, i.e. the objective that should
      *                           have been reached before the steps of this class can
      *                           even begin. Most probably this should be
      *                           \ilDatabasePopulatedObjective.
@@ -110,6 +108,14 @@ abstract class ilDatabaseUpdateSteps implements Objective
     final public function achieve(Environment $environment) : Environment
     {
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    final public function isApplicable(Environment $environment) : bool
+    {
+        return true;
     }
 
     /**

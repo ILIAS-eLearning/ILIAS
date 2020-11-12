@@ -326,6 +326,11 @@ class Container extends \Pimple\Container
         return new SkillService();
     }
 
+    public function resourceStorage() : \ILIAS\ResourceStorage\Services
+    {
+        return $this['resource_storage'];
+    }
+
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

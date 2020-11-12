@@ -119,7 +119,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     /**
     * Creates the question output form for the learner
     */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null)
+    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
     {
         $template = new ilTemplate("tpl.il_svy_out_text.html", true, true, "Modules/SurveyQuestionPool");
         $template->setCurrentBlock("material_text");

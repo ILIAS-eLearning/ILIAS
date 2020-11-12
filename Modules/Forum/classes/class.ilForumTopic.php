@@ -647,7 +647,6 @@ class ilForumTopic
                 $news_item = new ilNewsItem($news_id);
                 $news_item->setContextObjId($new_obj_id);
                 $news_item->update();
-                //echo "<br>-".$post["pos_pk"]."-".$old_obj_id."-".$new_obj_id."-";
             }
             
             return count($nodes);

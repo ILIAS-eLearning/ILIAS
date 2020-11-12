@@ -45,6 +45,7 @@ class ilAccessibilityControlConceptGUI
         $lng = $DIC->language();
         $http = $DIC->http();
         $user = $DIC->user();
+        $settings = $DIC->settings();
         $accessibilityEvaluation = $DIC['acc.document.evaluator'];
 
         $this->ctrl = $ilCtrl;
@@ -52,6 +53,7 @@ class ilAccessibilityControlConceptGUI
         $this->lng = $lng;
         $this->http = $http;
         $this->user = $user;
+        $this->settings = $settings;
         $this->accessibilityEvaluation = $accessibilityEvaluation;
 
         $this->user->setLanguage($this->lng->getLangKey());
@@ -102,6 +104,9 @@ class ilAccessibilityControlConceptGUI
             $this->user->setId(ANONYMOUS_USER_ID);
         }
 
+        $this->tpl->loadStandardTemplate();
+        $this->tpl->setTitle($this->lng->txt("accessibility_control_concept"));
+
         $tpl = $this->initTemplate('tpl.view_accessibility_control_concept.html');
 
         $handleDocument = $this->accessibilityEvaluation->hasDocument();
@@ -109,11 +114,14 @@ class ilAccessibilityControlConceptGUI
             $document = $this->accessibilityEvaluation->document();
             $tpl->setVariable('ACCESSIBILITY_CONTROL_CONCEPT_CONTENT', $document->content());
         } else {
+            $mails = (ilAccessibilitySupportContacts::getMailsToAddress() != "")
+                ? ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress())
+                : $this->settings->get("admin_email");
             $tpl->setVariable(
                 'ACCESSIBILITY_CONTROL_CONCEPT_CONTENT',
                 sprintf(
                     $this->lng->txt('no_accessibility_control_concept_description'),
-                    'mailto:' . ilUtil::prepareFormOutput(ilAccessibilitySupportContacts::getMailsToAddress())
+                    'mailto:' . $mails
                 )
             );
         }
@@ -130,6 +138,10 @@ class ilAccessibilityControlConceptGUI
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
+
+        if (!ilObjAccessibilitySettings::getControlConceptStatus()) {
+            return "";
+        }
 
         return $ilCtrl->getLinkTargetByClass("ilaccessibilitycontrolconceptgui");
     }

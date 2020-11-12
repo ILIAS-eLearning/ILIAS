@@ -17,6 +17,56 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     protected $offline;
 
     /**
+     * @var bool
+     */
+    protected $embed_mode;
+
+    /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilLMTree
+     */
+    protected $lm_tree;
+
+    /**
+     * @var ilObjLearningModule
+     */
+    protected $lm;
+
+    /**
+     * @var int
+     */
+    protected $current_page;
+
+    /**
+     * @var string
+     */
+    protected $back_pg;
+
+    /**
+     * @var string
+     */
+    protected $from_page;
+
+    /**
+     * @var bool
+     */
+    protected $export_all_languages;
+
+    /**
+     * @var string
+     */
+    protected $lang;
+
+    /**
+     * @var string
+     */
+    protected $export_format;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -30,7 +80,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         bool $offline,
         string $export_format,
         bool $export_all_languages,
-        ilCtrl $ctrl = null
+        ilCtrl $ctrl = null,
+        $embed_mode = false
     ) {
         global $DIC;
 
@@ -48,6 +99,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         $this->requested_ref_id = $ref_id;
         $this->offline = $offline;
         $this->export_format = $export_format;
+        $this->embed_mode = $embed_mode;
     }
 
     /**
@@ -98,8 +150,23 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             }
         }
 
-        // handle online links
-        if (!$this->offline) {
+        // handle kiosk mode links
+        if ($this->embed_mode && in_array($a_cmd, ["downloadFile", "download_paragraph", "fullscreen"])) {
+            $this->ctrl->setParameterByClass(\ilLMPresentationGUI::class, "ref_id", $this->lm->getRefId());
+            $base = $this->ctrl->getLinkTargetByClass([
+                \ilLMPresentationGUI::class, \ilLMPageGUI::class
+            ]);
+            switch($a_cmd) {
+                case "downloadFile":
+                    return $base."&cmd=downloadFile";
+                case "download_paragraph":
+                    return $base."&cmd=download_paragraph";
+                case "fullscreen":
+                    return $base."&cmd=displayMediaFullscreen";
+            }
+            return "";
+            // handle online links
+        } else if (!$this->offline) {
             if ($this->from_page == "") {
                 // added if due to #23216 (from page has been set in lots of usual navigation links)
                 if (!in_array($a_frame, array("", "_blank"))) {
@@ -119,6 +186,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             if ($a_srcstring != "") {
                 $this->ctrl->setParameterByClass(self::TARGET_GUI, "srcstring", $a_srcstring);
             }
+            $this->ctrl->setParameterByClass(self::TARGET_GUI, "ref_id", $this->lm->getRefId());
             switch ($a_cmd) {
                 case "fullscreen":
                     $link = $this->ctrl->getLinkTargetByClass(self::TARGET_GUI, "fullscreen", "", false, false);
@@ -216,7 +284,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     break;
             }
         }
-
         $this->ctrl->clearParametersByClass(self::TARGET_GUI);
 
         return $link;
@@ -329,6 +396,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                             if ($lm_id == "") {
                                 $href = "";
                             }
+                            if ($this->embed_mode) {
+                                $ltarget = "_blank";
+                            }
                         } else {
                             if (!$this->offline) {
                                 if ($type == "PageObject") {
@@ -344,7 +414,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 }
                             }
                             $ltarget = "";
-                            if ($targetframe == "New") {
+                            if ($targetframe == "New" || $this->embed_mode) {
                                 $ltarget = "_blank";
                             }
                         }
@@ -372,6 +442,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         if ($this->offline) {
                             $href = "media_" . $target_id . ".html";
                         } else {
+                            $this->ctrl->setParameterByClass("illmpagegui", "ref_id", $this->lm->getRefId());
                             $this->ctrl->setParameterByClass("illmpagegui", "mob_id", $target_id);
                             $href = $this->ctrl->getLinkTargetByClass(
                                 "illmpagegui",
@@ -393,38 +464,48 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                             $href = ILIAS_HTTP_PATH . "/goto.php?target=" . $obj_type . "_" . $target_id . "&amp;client_id=" . CLIENT_ID;
                         }
                         $ltarget = ilFrameTargetInfo::_getFrame("MainContent");
+                        if ($this->embed_mode) {
+                            $ltarget = "_blank";
+                        }
                         break;
 
                     case "WikiPage":
                         $href = ilWikiPage::getGotoForWikiPageTarget($target_id);
+                        if ($this->embed_mode) {
+                            $ltarget = "_blank";
+                        }
                         break;
 
                     case "File":
                         if (!$this->offline) {
-                            $ilCtrl->setParameter($this, "obj_id", $this->current_page);
-                            $ilCtrl->setParameter($this, "file_id", "il__file_" . $target_id);
-                            $href = $ilCtrl->getLinkTarget(
-                                $this,
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "file_id", "il__file_" . $target_id);
+                            $href = $ilCtrl->getLinkTargetByClass(
+                                self::TARGET_GUI,
                                 "downloadFile",
                                 "",
                                 false,
                                 true
                             );
-                            $ilCtrl->setParameter($this, "file_id", "");
-                            $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "file_id", "");
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "obj_id", $_GET["obj_id"]);
                         }
                         break;
 
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
                         if ($obj_type == "usr") {
-                            $back = $this->ctrl->getLinkTarget(
-                                $this,
-                                "layout",
-                                "",
-                                false,
-                                true
-                            );
+
+                            if (!$this->embed_mode) {
+                                $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->current_page);
+                                $back = $this->ctrl->getLinkTargetByClass(
+                                    self::TARGET_GUI,
+                                    "layout",
+                                    "",
+                                    false,
+                                    true
+                                );
+                            }
                             //var_dump($back); exit;
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
                             $this->ctrl->setParameterByClass(

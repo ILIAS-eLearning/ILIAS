@@ -138,7 +138,7 @@ class ilCachedComponentData
             $parent = $rec['parent'];
             $this->subobj_for_parent[$parent][] = $rec;
         }
-        $set = $ilDB->query('SELECT DISTINCT(id) AS sid, parent, il_object_def.* FROM il_object_def, il_object_subobj WHERE NOT (system = 1) AND NOT (sideblock = 1) AND subobj = id');
+        $set = $ilDB->query('SELECT DISTINCT(id) AS sid, parent, il_object_def.* FROM il_object_def, il_object_subobj WHERE NOT (' . $ilDB->quoteIdentifier('system') . ' = 1) AND NOT (sideblock = 1) AND subobj = id');
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->grouped_rep_obj_types[$rec['parent']][] = $rec;
         }
@@ -467,7 +467,7 @@ class ilCachedComponentData
      */
     public function lookupActivePluginsBySlotId($slot_id)
     {
-        if (is_array($this->il_plugin_active[$slot_id])) {
+        if (isset($this->il_plugin_active[$slot_id]) && is_array($this->il_plugin_active[$slot_id])) {
             return $this->il_plugin_active[$slot_id];
         } else {
             return array();
@@ -590,7 +590,7 @@ class ilCachedComponentData
      */
     public function lookupPluginSlotByComponent($component)
     {
-        if (is_array($this->il_pluginslot_by_comp[$component])) {
+        if (isset($this->il_pluginslot_by_comp[$component]) && is_array($this->il_pluginslot_by_comp[$component])) {
             return $this->il_pluginslot_by_comp[$component];
         }
 

@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\DirectoryCreatedObjective implements Setup\Objective
+class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective\DirectoryCreatedObjective implements Setup\Objective
 {
     const DATADIR = 1;
     const WEBDIR = 2;
@@ -29,6 +29,8 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Directory
         string $component_dir,
         int $base_location = self::DATADIR
     ) {
+        parent::__construct($component_dir);
+
         $this->component_dir = $component_dir;
         $this->base_location = $base_location;
     }
@@ -69,5 +71,14 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Directory
     {
         $this->path = $this->buildPath($environment);
         return parent::achieve($environment);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $this->path = $this->buildPath($environment);
+        return parent::isApplicable($environment);
     }
 }

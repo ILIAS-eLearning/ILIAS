@@ -74,16 +74,6 @@ class ilPersonalSettingsGUI
                 $this->ctrl->forwardCommand(new ilMailOptionsGUI());
                 break;
 
-            case 'ilpersonalchatsettingsformgui':
-                $this->__initSubTabs($this->ctrl->getCmd());
-                $this->setHeader();
-
-                $DIC->tabs()->activateTab('chat_settings');
-
-                $chatSettingsGui = new ilPersonalChatSettingsFormGUI();
-                $this->ctrl->forwardCommand($chatSettingsGui);
-                break;
-
             default:
                 $cmd = $this->ctrl->getCmd("showGeneralSettings");
                 $this->$cmd();
@@ -145,16 +135,6 @@ class ilPersonalSettingsGUI
                 $this->ctrl->getLinkTargetByClass('ilMailOptionsGUI'),
                 "",
                 array('ilMailOptionsGUI')
-            );
-        }
-
-        $chatSettingsGui = new ilPersonalChatSettingsFormGUI();
-        if ($chatSettingsGui->isAccessible()) {
-            $ilTabs->addTarget(
-                'chat_settings',
-                $this->ctrl->getLinkTarget($chatSettingsGui, 'showChatOptions'),
-                '',
-                ['ilPersonalChatSettingsFormGUI']
             );
         }
 

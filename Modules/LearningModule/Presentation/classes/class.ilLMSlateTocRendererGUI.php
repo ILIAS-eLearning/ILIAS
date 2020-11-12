@@ -38,4 +38,15 @@ class ilLMSlateTocRendererGUI
         //if (!$exp->handleCommand())
         return $exp->getHTML();
     }
+
+    /**
+     * Render into ls toc
+     * @param
+     */
+    public function renderLSToc(\LSTOCBuilder $toc)
+    {
+        $fac = new ilLMTOCExplorerGUIFactory();
+        $exp = $fac->getExplorer($this->service, "ilTOC");
+        $exp->renderLSToc($toc);
+    }
 }

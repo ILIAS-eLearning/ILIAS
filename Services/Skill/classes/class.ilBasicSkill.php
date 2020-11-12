@@ -307,7 +307,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_status = ilBasicSkill::ACHIEVED,
         bool $a_force = false,
         bool $a_self_eval = false,
-        string $a_unique_identifier = ""
+        string $a_unique_identifier = "",
+        float $a_next_level_fulfilment = 0.0
     ) {
         global $DIC;
 
@@ -330,10 +331,18 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             }
         }
 
+        //next level percentage fulfilment value must be >=0 and <1
+        if (!($a_next_level_fulfilment >= 0) || !($a_next_level_fulfilment < 1)) {
+            throw new \UnexpectedValueException(
+                "Next level fulfilment must be equal to or greater than 0 and less than 1, '" .
+                $a_next_level_fulfilment . "' given."
+            );
+        }
+
         $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
         $repository->writeUserSkillLevelStatus($skill_id, $trigger_ref_id, $trigger_obj_id, $trigger_title,
             $trigger_type, $update, $status_date, $a_level_id, $a_user_id, $a_tref_id, $a_self_eval,
-            $a_unique_identifier);
+            $a_unique_identifier, $a_next_level_fulfilment);
     }
 
     public static function removeAllUserSkillLevelStatusOfObject(

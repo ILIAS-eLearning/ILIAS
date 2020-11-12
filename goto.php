@@ -70,7 +70,7 @@ if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
             ), true);
         }
     
-        ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
+        ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
     }
 }
 

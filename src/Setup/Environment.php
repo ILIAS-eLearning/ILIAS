@@ -14,10 +14,11 @@ interface Environment
     // new identifiers, though, to be open for extensions and the future.
     const RESOURCE_DATABASE = "resource_database";
     const RESOURCE_ADMIN_INTERACTION = "resource_admin_interaction";
-    const RESOURCE_ACHIEVEMENT_TRACKER = "resource_achievement_tracker";
     const RESOURCE_ILIAS_INI = "resource_ilias_ini";
     const RESOURCE_CLIENT_INI = "resource_client_ini";
     const RESOURCE_SETTINGS_FACTORY = "resource_settings_factory";
+    const RESOURCE_CLIENT_ID = "resource_client_id";
+    const RESOURCE_PLUGIN_ADMIN = "resource_plugin_admin";
 
     /**
      * Consumers of this method should check if the result is what they expect,
@@ -44,4 +45,5 @@ interface Environment
      * @return mixed
      */
     public function getConfigFor(string $component);
+    public function hasConfigFor(string $component) : bool;
 }

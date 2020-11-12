@@ -11,6 +11,7 @@ namespace ILIAS\Refinery;
 
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
+use ILIAS\Refinery\ByTrying;
 
 class Factory
 {
@@ -45,6 +46,22 @@ class Factory
     public function to() : To\Group
     {
         return new To\Group($this->dataFactory);
+    }
+
+    /**
+     * Combined validations and transformations for primitive data types that
+     * establish a baseline for further constraints and more complex transformations.
+     *
+     * Other then the `to`-group, the `kindlyTo` transformation attempts to implement
+     * [Postels Law](https://en.wikipedia.org/wiki/Robustness_principle) by being
+     * reasonably liberal when interpreting data. Look into the various transformations
+     * in the group for detailed information what works exactly.
+     *
+     * @return KindlyTo\Group
+     */
+    public function kindlyTo() : KindlyTo\Group
+    {
+        return new KindlyTo\Group($this->dataFactory);
     }
 
     /**
@@ -158,5 +175,14 @@ class Factory
     public function uri() : URI\Group
     {
         return new URI\Group();
+    }
+
+    /**
+     * Accepts Transformations and uses first successful one.
+     * @param Transformation[] $transformations
+     */
+    public function byTrying(array $transformations) : ByTrying
+    {
+        return new ByTrying($transformations, $this->dataFactory, $this->language);
     }
 }

@@ -527,7 +527,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function setTitleAndDescription()
     {
-        if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+        if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+            $this->tpl->setTitle($this->object->getTitle(), true);
+        } else {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
     
@@ -1601,7 +1603,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $_POST["id"][0]);
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         } else {
-            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($_POST["id"], "_"));
+            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $_POST["id"]));
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
 
@@ -2288,7 +2290,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             } else {
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($ref_ids, "_"));
+                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
 
@@ -3194,14 +3196,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 
-        // begin-patch fm
-        include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
-        if (ilFMSettings::getInstance()->isEnabled()) {
-            if ($lg instanceof ilObjectListGUI) {
-                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'fileManagerLaunch'), 'fm_start', '_blank');
-            }
-        }
-        // end-patch fm
         return $lg;
     }
 
@@ -3791,5 +3785,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 )
             );
         }
+    }
+
+    /**
+     * Redirect to competences
+     */
+    public function competencesObject()
+    {
+        $ctrl = $this->ctrl;
+
+        $ctrl->redirectByClass(["ilContainerSkillGUI", "ilContSkillPresentationGUI"]);
     }
 }

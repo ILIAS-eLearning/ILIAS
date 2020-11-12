@@ -4,17 +4,17 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
-use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Button\Bulky as IBulky;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate as ISlate;
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
+use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -43,6 +43,9 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($component instanceof ModeInfo) {
             return $this->renderModeInfo($component, $default_renderer);
+        }
+        if ($component instanceof Component\MainControls\SystemInfo) {
+            return $this->renderSystemInfo($component, $default_renderer);
         }
     }
 
@@ -85,7 +88,7 @@ class Renderer extends AbstractComponentRenderer
                    function ($id) use ($mb_id) {
                        return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
                    }
-                )
+               )
                 ->withOnClick($trigger_signal);
 
             $tpl->setCurrentBlock("tool_removal");
@@ -124,11 +127,10 @@ class Renderer extends AbstractComponentRenderer
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
-
             } else {
                 //add Links/Buttons as toplevel entries
                 $pos = array_search($k, array_keys($entries));
-                $mb_id = '0:' .$pos;
+                $mb_id = '0:' . $pos;
                 $is_tool = false;
             }
 
@@ -162,17 +164,16 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
         $tpl->setVariable("ARIA_LABEL", $this->txt('mainbar_aria_label'));
-
+        $more_btn_label = $this->txt('mainbar_more_label');
         //add "more"-slate
         $more_slate = $f->maincontrols()->slate()->combined(
-            $component->getMoreButton()->getLabel(),
+            $more_btn_label,
             $f->symbol()->glyph()->more()
         )->withAriaRole(ISlate::MENU);
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
             $more_slate
         );
-
         $component = $this->calculateMainBarTreePosition("0", $component);
 
         $mb_entries = [
@@ -272,6 +273,47 @@ class Renderer extends AbstractComponentRenderer
         $action = $base_URI . '?' . $query;
         $close = $this->getUIFactory()->symbol()->glyph()->close($action);
         $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
+
+        return $tpl->get();
+    }
+
+    protected function renderSystemInfo(Component\MainControls\SystemInfo $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.system_info.html", true, true);
+        $tpl->setVariable('HEADLINE', $component->getHeadLine());
+        $tpl->setVariable('BODY', $component->getInformationText());
+        $tpl->setVariable('DENOTATION', $component->getDenotation());
+        switch ($component->getDenotation()) {
+            case Component\MainControls\SystemInfo::DENOTATION_NEUTRAL:
+            case Component\MainControls\SystemInfo::DENOTATION_IMPORTANT:
+                $tpl->setVariable('LIVE', 'aria-live="polite"');
+                break;
+            case Component\MainControls\SystemInfo::DENOTATION_BREAKING:
+                $tpl->setVariable('ROLE', 'role="alert"');
+                break;
+        }
+        if ($component->isDismissable()) {
+            $close = $this->getUIFactory()->symbol()->glyph()->close("#");
+            $signal = $component->getCloseSignal();
+            $close = $close->withOnClick($signal);
+            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close));
+            $tpl->setVariable('CLOSE_URI', (string) $component->getDismissAction());
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($signal) {
+                return "$(document).on('{$signal}', function() { il.UI.maincontrols.system_info.close('{$id}'); });";
+            });
+        }
+
+        $more = $this->getUIFactory()->symbol()->glyph()->more("#");
+        $tpl->setVariable('MORE_BUTTON', $default_renderer->render($more));
+
+        $component = $component->withAdditionalOnLoadCode(function ($id) {
+            return "il.UI.maincontrols.system_info.init('{$id}')";
+        });
+
+
+        $id = $this->bindJavaScript($component);
+        $tpl->setVariable('ID', $id);
+
 
         return $tpl->get();
     }
@@ -393,10 +435,11 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/MainControls/mainbar.js');
+        $registry->register('./src/UI/templates/js/MainControls/dist/mainbar.js');
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
         $registry->register('./src/GlobalScreen/Client/dist/GS.js');
         $registry->register('./src/UI/templates/js/MainControls/footer.js');
+        $registry->register('./src/UI/templates/js/MainControls/system_info.js');
     }
 
     /**
@@ -408,7 +451,8 @@ class Renderer extends AbstractComponentRenderer
             MetaBar::class,
             MainBar::class,
             Footer::class,
-            ModeInfo::class
+            ModeInfo::class,
+            Component\MainControls\SystemInfo::class
         );
     }
 }

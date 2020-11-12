@@ -36,7 +36,7 @@ class ilDatabaseSetupConfig implements Setup\Config
     protected $create_database;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $collation;
 
@@ -51,7 +51,7 @@ class ilDatabaseSetupConfig implements Setup\Config
     protected $password;
 
     /**
-     * @var	string
+     * @var	string|null
      */
     protected $path_to_db_dump;
 
@@ -160,14 +160,15 @@ class ilDatabaseSetupConfig implements Setup\Config
                     case "port":
                         return $this->config->getPort();
                     case "pass":
-                        return $this->config->getPassword()->toString();
+                        $pw = $this->config->getPassword();
+                        return $pw ? $pw->toString() : null;
                     case "name":
                         return $this->config->getDatabase();
                     case "type":
                         return $this->config->getType();
                     default:
                         throw new \LogicException(
-                            "Cannot provide variable '$a_varname'"
+                            "Cannot provide variable '$a_var_name'"
                         );
                 }
             }

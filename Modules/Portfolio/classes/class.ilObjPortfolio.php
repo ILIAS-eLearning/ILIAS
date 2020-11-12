@@ -201,13 +201,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
     
     protected function handleQuotaUpdate()
     {
-        ilDiskQuotaHandler::handleUpdatedSourceObject(
-            $this->getType(),
-            $this->getId(),
-            ilUtil::dirsize($this->initStorage($this->getId())),
-            array($this->getId()),
-            true
-        );
+
     }
     
     public static function getAvailablePortfolioLinksForUserIds(array $a_owner_ids, $a_back_url = null)

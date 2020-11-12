@@ -3,13 +3,21 @@
 
 // TODO:
 use ILIAS\BackgroundTasks\Dependencies\DependencyMap\BaseDependencyMap;
+use ILIAS\DI\Container;
 use ILIAS\Filesystem\Provider\FilesystemFactory;
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
+use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\Processor\BlacklistExtensionPreProcessor;
 use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
+use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -181,6 +189,23 @@ class ilInitialisation
         define("IL_TIMEZONE", $tz);
     }
 
+    protected static function initResourceStorage() : void
+    {
+        global $DIC;
+
+        $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
+            return new \ILIAS\ResourceStorage\Services(
+                new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
+                new RevisionARRepository(),
+                new ResourceARRepository(),
+                new InformationARRepository(),
+                new StakeholderARRepository(),
+                new LockHandlerilDB($c->database())
+            );
+        };
+    }
+
+
     /**
      * Bootstraps the ILIAS filesystem abstraction.
      * The bootstrapped abstraction are:
@@ -342,14 +367,7 @@ class ilInitialisation
             }
         }
 
-        $iliasHttpPath = implode('', [$protocol, $host, $uri]);
-        if (ilContext::getType() == ilContext::CONTEXT_APACHE_SSO) {
-            $iliasHttpPath = dirname($iliasHttpPath);
-        } elseif (ilContext::getType() === ilContext::CONTEXT_SAML) {
-            if (strpos($iliasHttpPath, '/Services/Saml/lib/') !== false && strpos($iliasHttpPath, '/metadata.php') === false) {
-                $iliasHttpPath = substr($iliasHttpPath, 0, strpos($iliasHttpPath, '/Services/Saml/lib/'));
-            }
-        }
+        $iliasHttpPath = ilContext::modifyHttpPath(implode('', [$protocol, $host, $uri]));
 
         $f = new \ILIAS\Data\Factory();
         $uri = $f->uri(ilUtil::removeTrailingPathSeparators($iliasHttpPath));
@@ -789,6 +807,7 @@ class ilInitialisation
             }
             // init console log handler
             ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+            \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();
@@ -1145,15 +1164,6 @@ class ilInitialisation
         );
         $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));
 
-        // :TODO: obsolete?
-        // PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, "errorHandler"));
-
-        // workaround: load old post variables if error handler 'message' was called
-        include_once "Services/Authentication/classes/class.ilSession.php";
-        if (ilSession::get("message")) {
-            $_POST = ilSession::get("post_vars");
-        }
-
         self::removeUnsafeCharacters();
 
         self::initIliasIniFile();
@@ -1176,6 +1186,8 @@ class ilInitialisation
         self::determineClient();
 
         self::bootstrapFilesystems();
+
+        self::initResourceStorage();
 
         self::initClientIniFile();
 

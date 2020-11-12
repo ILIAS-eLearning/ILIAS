@@ -55,18 +55,42 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         
         $this->ctrl->saveParameter($this, "cal_agenda_per");
 
-        //$qp = $DIC->http()->request()->getQueryParams();
-        #21479
-        $qp = $_GET;
+        $this->initPeriod();
+
+        $this->ctrl->setParameterByClass("ilcalendarinboxgui", "seed", $this->seed->get(IL_CAL_DATE));
+
+        $this->initEndPeriod();
+
+    }
+
+    /**
+     * Initialises time Period for calendar list view
+     */
+    protected function initPeriod()
+    {
+        global $DIC;
+
+        $cal_setting = ilCalendarSettings::_getInstance();
+
+        $qp = $DIC->http()->request()->getQueryParams();
         if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
             $this->period = $qp["cal_agenda_per"];
-        } elseif ($period = ilSession::get('cal_list_view')) {
-            $this->period = $period;
+        } elseif (!empty($this->user->getPref('cal_list_view'))) {
+            $this->period = intval($this->user->getPref('cal_list_view'));
+        } else {
+            $this->period = $cal_setting->getDefaultPeriod();
         }
 
-        $get_seed = $qp["seed"];
-        $this->ctrl->setParameterByClass("ilcalendarinboxgui", "seed", $this->seed->get(IL_CAL_DATE));
+        $this->user->writePref('cal_list_view', $this->period);
+    }
+
+    /**
+     * Initialises end date for calendar list view
+     */
+    protected function initEndPeriod()
+    {
         $end_date = clone $this->seed;
+
         switch ($this->period) {
             case self::PERIOD_DAY:
                 $end_date->increment(IL_CAL_DAY, 1);
@@ -315,14 +339,18 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
      */
     public static function getPeriod()
     {
-        #21479
-        $qp = $_GET;
+        global $DIC;
+
+        $settings = ilCalendarSettings::_getInstance();
+        $ilUser   = $DIC->user();
+
+        $qp = $DIC->http()->request()->getQueryParams();
         if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
             return $qp["cal_agenda_per"];
-        } elseif ($period = ilSession::get('cal_list_view')) {
+        } elseif ($period = $ilUser->getPref('cal_list_view')) {
             return $period;
         } else {
-            return self::PERIOD_WEEK;
+            return $settings->getDefaultPeriod();
         }
     }
 }

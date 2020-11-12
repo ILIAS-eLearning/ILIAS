@@ -26,14 +26,14 @@
 	},
 	"require": {
 		"php": "^7.3",
-		"cweagans/composer-patches": "~1.0",
+		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
 		"technosophos/libris": "^2.0.2",
-		"ezyang/htmlpurifier": "4.12.0",
-		"phpmailer/phpmailer": "^6.1.4",
+		"ezyang/htmlpurifier": "4.13.0",
+		"phpmailer/phpmailer": "^6.1",
 		"geshi/geshi": "^1.0.9",
-		"tecnickcom/tcpdf": "^6.2.26",
+		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
 		"symfony/yaml": "^3.4",
 		"imsglobal/lti": "^3.0.2",
@@ -75,6 +75,7 @@
 			"ILIAS\\" : "./src"
 		},
 		"classmap": [
+			"./Customizing/global/plugins",
 			"./Services/",
 			"./Modules",
 			"./libs/ilias"
@@ -82,16 +83,17 @@
 		"exclude-from-classmap": [
 			"./Services/Migration",
 			"./*/*/lib", "./*/*/test",
-			"./Services/CAS/phpcas"
+			"./Services/CAS/phpcas",
+			"./Customizing/**/vendor"
 		]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",
-			"used_version" : "v1.0",
+			"used_version" : "v1.7",
 			"wrapped_by" : "",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2016-06-02",
+			"last_update" : "2020-10-15",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -108,10 +110,10 @@
 		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.1.14",
+			"used_version" : "v2.9.1",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2018-01-18",
+			"last_update" : "2020-11-05",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -129,20 +131,20 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.12.0",
+			"used_version" : "v4.13.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2019-10-31",
+			"last_update" : "2020-10-15",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
 		"phpmailer/phpmailer" : {
 			"source" : "https://github.com/PHPMailer/PHPMailer",
-			"used_version" : "v6.1.4",
+			"used_version" : "v6.1.8",
 			"wrapped_by" : "Services/Mail",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2020-02-28",
+			"last_update" : "2020-10-15",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -171,20 +173,20 @@
 		},
 		"tecnickcom/tcpdf" : {
 			"source" : "https://github.com/tecnickcom/TCPDF",
-			"used_version" : "v6.2.26",
+			"used_version" : "v6.3.5",
 			"wrapped_by" : "Services/PDFGeneration",
 			"added_by" : "Maximilian Becker <mbecker@databay.de>",
-			"last_update" : "2016-06-02",
+			"last_update" : "2020-10-15",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
-			"used_version" : "v3.0.2",
+			"used_version" : "v3.3.0",
 			"wrapped_by" : "ILIAS\\DIC\\Container",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update" : "2016-02-29",
+			"last_update" : "2020-11-05",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -281,10 +283,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.18.6",
+			"used_version": "v1.18.8",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2020-04-23",
+			"last_update": "2020-10-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -381,9 +383,9 @@
 		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
-			"used_version": "v4.2",
+			"used_version": "v4.4.16",
 			"added_by": "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update": "2019-04-29",
+			"last_update": "2020-11-05",
 			"last_update_by": "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-01"

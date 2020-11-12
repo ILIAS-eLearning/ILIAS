@@ -13,10 +13,12 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
 class BooleanTransformation implements Transformation
 {
     use DeriveApplyToFromTransform;
+    use DeriveInvokeFromTransform;
 
     /**
      * @inheritdoc
@@ -30,13 +32,5 @@ class BooleanTransformation implements Transformation
             );
         }
         return (bool) $from;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
     }
 }

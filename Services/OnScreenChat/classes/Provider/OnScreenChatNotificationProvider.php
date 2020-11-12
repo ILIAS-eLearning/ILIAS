@@ -83,8 +83,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ->standard(
                         $this->dic->language()->txt('chat_osc_dont_accept_msg_link_txt'),
                         $this->dic->ctrl()->getLinkTargetByClass(
-                            ['ilDashboardGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'],
-                            'showChatOptions'
+                            ['ilDashboardGUI', 'ilPersonalProfileGUI', 'ilUserPrivacySettingsGUI'],
+                            'showPrivacySettings'
                         )
                     )
                     ->withOpenInNewViewport(true)

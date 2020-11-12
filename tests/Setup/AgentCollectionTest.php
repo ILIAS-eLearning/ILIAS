@@ -6,18 +6,17 @@ namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
+use PHPUnit\Framework\TestCase;
 
-class AgentCollectionTest extends \PHPUnit\Framework\TestCase
+class AgentCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testHasConfig()
+    public function testHasConfig() : void
     {
-        $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
@@ -30,11 +29,11 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $c3->method("hasConfig")->willReturn(false);
         $c4->method("hasConfig")->willReturn(false);
 
-        $col1 = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1]);
-        $col2 = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1, "c2" => $c2]);
-        $col3 = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1, "c3" => $c3]);
-        $col4 = new Setup\AgentCollection($ff, $refinery, ["c3" => $c3]);
-        $col5 = new Setup\AgentCollection($ff, $refinery, ["c3" => $c3, "c4" => $c4]);
+        $col1 = new Setup\AgentCollection($refinery, ["c1" => $c1]);
+        $col2 = new Setup\AgentCollection($refinery, ["c1" => $c1, "c2" => $c2]);
+        $col3 = new Setup\AgentCollection($refinery, ["c1" => $c1, "c3" => $c3]);
+        $col4 = new Setup\AgentCollection($refinery, ["c3" => $c3]);
+        $col5 = new Setup\AgentCollection($refinery, ["c3" => $c3, "c4" => $c4]);
 
         $this->assertTrue($col1->hasConfig());
         $this->assertTrue($col2->hasConfig());
@@ -43,123 +42,8 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($col5->hasConfig());
     }
 
-    public function testGetConfigInput()
+    public function testGetArrayToConfigTransformation() : void
     {
-        $ff = $this->createMock(FieldFactory::class);
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-
-        $c1 = $this->newAgent();
-        $c2 = $this->newAgent();
-        $c3 = $this->newAgent();
-
-        $inp1 = $this->newInput();
-        $inp3 = $this->newInput();
-        $group = $this->newInput();
-
-        foreach ([$c1,$c3] as $c) {
-            $c
-                ->expects($this->once())
-                ->method("hasConfig")
-                ->willReturn(true);
-        }
-        $c2
-            ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(false);
-        $c1
-            ->expects($this->once())
-            ->method("getConfigInput")
-            ->willReturn($inp1);
-        $c2
-            ->expects($this->never())
-            ->method("getConfigInput");
-        $c3
-            ->expects($this->once())
-            ->method("getConfigInput")
-            ->willReturn($inp3);
-
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
-
-        $ff
-            ->expects($this->once())
-            ->method("group")
-            ->with(["c1" => $inp1, "c3" => $inp3])
-            ->willReturn($group);
-
-        $group
-            ->expects($this->once())
-            ->method("withAdditionalTransformation")
-            ->with($this->callback(function (Transformation $t) {
-                $conf1 = $this->newConfig();
-                $conf3 = $this->newConfig();
-                $res = $t->transform(["c1" => $conf1, "c3" => $conf3]);
-                $this->assertInstanceOf(Setup\ConfigCollection::class, $res);
-                $this->assertEquals(["c1", "c3"], $res->getKeys());
-                $this->assertEquals($conf1, $res->getConfig("c1"));
-                $this->assertEquals($conf3, $res->getConfig("c3"));
-                return true;
-            }))
-            ->willReturn($group);
-
-        $res = $col->getConfigInput();
-
-        $this->assertEquals($group, $res);
-    }
-
-    public function testGetConfigInputUsesSuppliedConfig()
-    {
-        $ff = $this->createMock(FieldFactory::class);
-        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
-
-        $c1 = $this->newAgent();
-        $c2 = $this->newAgent();
-        $c3 = $this->newAgent();
-
-        $inp = $this->newInput();
-
-        $conf1 = $this->newConfig();
-        $conf3 = $this->newConfig();
-
-        foreach ([$c1,$c3] as $c) {
-            $c
-                ->method("hasConfig")
-                ->willReturn(true);
-        }
-        $c2
-            ->method("hasConfig")
-            ->willReturn(false);
-        $c1
-            ->expects($this->once())
-            ->method("getConfigInput")
-            ->with($conf1)
-            ->willReturn($inp);
-        $c2
-            ->expects($this->never())
-            ->method("getConfigInput");
-        $c3
-            ->expects($this->once())
-            ->method("getConfigInput")
-            ->with($conf3)
-            ->willReturn($inp);
-
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
-
-        $ff
-            ->method("group")
-            ->willReturn($inp);
-
-        $inp
-            ->method("withAdditionalTransformation")
-            ->willReturn($inp);
-
-        $conf = new Setup\ConfigCollection(["c1" => $conf1, "c3" => $conf3]);
-
-        $col->getConfigInput($conf);
-    }
-
-    public function testGetArrayToConfigTransformation()
-    {
-        $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
@@ -200,7 +84,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
                 return $conf3;
             }));
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
         $trafo = $col->getArrayToConfigTransformation();
         $conf = $trafo($arr);
 
@@ -210,9 +94,8 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-    public function testArrayToConfigTransformationAllowsUnsetFields()
+    public function testArrayToConfigTransformationAllowsUnsetFields() : void
     {
-        $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
@@ -253,7 +136,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
                 return $conf3;
             }));
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2,"c3" => $c3]);
         $trafo = $col->getArrayToConfigTransformation();
         $conf = $trafo($arr);
 
@@ -263,10 +146,8 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($conf3, $conf->getConfig("c3"));
     }
 
-
-    public function testGetInstallObjective()
+    public function testGetInstallObjective() : void
     {
-        $ff = $this->createMock(FieldFactory::class);
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
@@ -297,7 +178,7 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->with()
             ->willReturn($g2);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2]);
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
         $conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
         $g = $col->getInstallObjective($conf);
@@ -306,9 +187,42 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([$g1, $g2], $g->getObjectives());
     }
 
-    public function testGetUpdateObjective()
+    public function testGetUpdateObjective() : void
     {
-        $ff = $this->createMock(FieldFactory::class);
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+        $storage = $this->createMock(Setup\Metrics\Storage::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+
+        $g1 = $this->newObjective();
+        $g2 = $this->newObjective();
+
+        $s1 = new Setup\Metrics\StorageOnPathWrapper("c1", $storage);
+        $s2 = new Setup\Metrics\StorageOnPathWrapper("c2", $storage);
+
+        $c1
+            ->expects($this->once())
+            ->method("getStatusObjective")
+            ->with($s1)
+            ->willReturn($g1);
+        $c2
+            ->expects($this->once())
+            ->method("getStatusObjective")
+            ->with($s2)
+            ->willReturn($g2);
+
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
+        $conf = new Setup\ConfigCollection(["c1" => $conf1]);
+
+        $g = $col->getStatusObjective($storage);
+
+        $this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
+        $this->assertEquals([$g1, $g2], $g->getObjectives());
+    }
+
+    public function testGetCollectMetricsObjective() : void
+    {
         $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
         $c1 = $this->newAgent();
@@ -321,15 +235,6 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
 
         $c1
             ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(true);
-        $c2
-            ->expects($this->once())
-            ->method("hasConfig")
-            ->willReturn(false);
-
-        $c1
-            ->expects($this->once())
             ->method("getUpdateObjective")
             ->with($conf1)
             ->willReturn($g1);
@@ -339,12 +244,93 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase
             ->with()
             ->willReturn($g2);
 
-        $col = new Setup\AgentCollection($ff, $refinery, ["c1" => $c1,"c2" => $c2]);
+        $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
         $conf = new Setup\ConfigCollection(["c1" => $conf1]);
 
         $g = $col->getUpdateObjective($conf);
 
         $this->assertInstanceOf(Setup\ObjectiveCollection::class, $g);
         $this->assertEquals([$g1, $g2], $g->getObjectives());
+    }
+
+    public function testGetAgent()
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $c = new Setup\AgentCollection(
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3, "c4" => $c4]
+        );
+
+        $this->assertSame($c1, $c->getAgent("c1"));
+        $this->assertSame($c2, $c->getAgent("c2"));
+        $this->assertSame($c3, $c->getAgent("c3"));
+        $this->assertSame($c4, $c->getAgent("c4"));
+        $this->assertNull($c->getAgent("c5"));
+    }
+
+    public function testWithRemovedAgent()
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $ca = new Setup\AgentCollection(
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3, "c4" => $c4]
+        );
+        $cb = $ca->withRemovedAgent("c2");
+
+        $this->assertNotSame($ca, $cb);
+
+        $this->assertSame($c1, $ca->getAgent("c1"));
+        $this->assertSame($c2, $ca->getAgent("c2"));
+        $this->assertSame($c3, $ca->getAgent("c3"));
+        $this->assertSame($c4, $ca->getAgent("c4"));
+        $this->assertNull($ca->getAgent("c5"));
+
+        $this->assertSame($c1, $cb->getAgent("c1"));
+        $this->assertNull($cb->getAgent("c2"));
+        $this->assertSame($c3, $cb->getAgent("c3"));
+        $this->assertSame($c4, $cb->getAgent("c4"));
+        $this->assertNull($cb->getAgent("c5"));
+    }
+
+    public function testWithAdditionalAgent()
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $ca = new Setup\AgentCollection(
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3]
+        );
+        $cb = $ca->withAdditionalAgent("c4", $c4);
+
+        $this->assertNotSame($ca, $cb);
+
+        $this->assertSame($c1, $ca->getAgent("c1"));
+        $this->assertSame($c2, $ca->getAgent("c2"));
+        $this->assertSame($c3, $ca->getAgent("c3"));
+        $this->assertNull($ca->getAgent("c4"));
+        $this->assertNull($ca->getAgent("c5"));
+
+        $this->assertSame($c1, $cb->getAgent("c1"));
+        $this->assertSame($c2, $cb->getAgent("c2"));
+        $this->assertSame($c3, $cb->getAgent("c3"));
+        $this->assertSame($c4, $cb->getAgent("c4"));
+        $this->assertNull($cb->getAgent("c5"));
     }
 }

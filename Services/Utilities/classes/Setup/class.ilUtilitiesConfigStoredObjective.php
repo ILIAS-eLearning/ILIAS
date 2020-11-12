@@ -38,9 +38,8 @@ class ilUtilitiesConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new ilIniFilesPopulatedObjective($common_config)
+            new ilIniFilesLoadedObjective()
         ];
     }
 
@@ -57,5 +56,19 @@ class ilUtilitiesConfigStoredObjective implements Setup\Objective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return
+            $ini->readVariable("tools", "convert") !== $this->config->getPathToConvert() ||
+            $ini->readVariable("tools", "zip") !== $this->config->getPathToZip() ||
+            $ini->readVariable("tools", "unzip") !== $this->config->getPathToUnzip()
+        ;
     }
 }

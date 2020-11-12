@@ -106,6 +106,7 @@ class ilObjCmiXapi extends ilObject2
     const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
     const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
     const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
+    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
     
     /**
      * @var string
@@ -141,7 +142,49 @@ class ilObjCmiXapi extends ilObject2
      * @var bool
      */
     protected $bypassProxyEnabled;
-    
+
+    /** @var bool $only_moveon */
+    protected $only_moveon = false;
+
+    /** @var bool $achieved */
+    protected $achieved = true;
+
+    /** @var bool $answered */
+    protected $answered = true;
+
+    /** @var bool $completed */
+    protected $completed = true;
+
+    /** @var bool $failed */
+    protected $failed = true;
+
+    /** @var bool $initialized */
+    protected $initialized = true;
+
+    /** @var bool $passed */
+    protected $passed = true;
+
+    /** @var bool $progressed */
+    protected $progressed = true;
+
+    /** @var bool $satisfied */
+    protected $satisfied = true;
+
+    /** @var bool $terminated */
+    protected $terminated = true;
+
+    /** @var bool $hide_data */
+    protected $hide_data = false;
+
+    /** @var bool $timestamp */
+    protected $timestamp = false;
+
+    /** @var bool $duration */
+    protected $duration = true;
+
+    /** @var bool $no_substatements */
+    protected $no_substatements = false;
+
     /**
      * ilObjCmiXapi constructor.
      * @param int $a_id
@@ -525,7 +568,231 @@ class ilObjCmiXapi extends ilObject2
     {
         $this->userName = $userName;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function getOnlyMoveon(): bool
+    {
+        return $this->only_moveon;
+    }
+
+    /**
+     * @param bool $only_moveon
+     */
+    public function setOnlyMoveon(bool $only_moveon)
+    {
+        $this->only_moveon = $only_moveon;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAchieved(): bool
+    {
+        return $this->achieved;
+    }
+
+    /**
+     * @param bool $achieved
+     */
+    public function setAchieved(bool $achieved)
+    {
+        $this->achieved = $achieved;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getAnswered(): bool
+    {
+        return $this->answered;
+    }
+
+    /**
+     * @param bool $answered
+     */
+    public function setAnswered(bool $answered)
+    {
+        $this->answered = $answered;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getCompleted(): bool
+    {
+        return $this->completed;
+    }
+
+    /**
+     * @param bool $completed
+     */
+    public function setCompleted(bool $completed)
+    {
+        $this->completed = $completed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getFailed(): bool
+    {
+        return $this->failed;
+    }
+
+    /**
+     * @param bool $failed
+     */
+    public function setFailed(bool $failed)
+    {
+        $this->failed = $failed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialized
+     */
+    public function setInitialized(bool $initialized)
+    {
+        $this->initialized = $initialized;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPassed(): bool
+    {
+        return $this->passed;
+    }
+
+    /**
+     * @param bool $passed
+     */
+    public function setPassed(bool $passed)
+    {
+        $this->passed = $passed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getProgressed(): bool
+    {
+        return $this->progressed;
+    }
+
+    /**
+     * @param bool $progressed
+     */
+    public function setProgressed(bool $progressed)
+    {
+        $this->progressed = $progressed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSatisfied(): bool
+    {
+        return $this->satisfied;
+    }
+
+    /**
+     * @param bool $satisfied
+     */
+    public function setSatisfied(bool $satisfied)
+    {
+        $this->satisfied = $satisfied;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTerminated(): bool
+    {
+        return $this->terminated;
+    }
+
+    /**
+     * @param bool $terminated
+     */
+    public function setTerminated(bool $terminated)
+    {
+        $this->terminated = $terminated;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHideData(): bool
+    {
+        return $this->hide_data;
+    }
+
+    /**
+     * @param bool $hide_data
+     */
+    public function setHideData(bool $hide_data)
+    {
+        $this->hide_data = $hide_data;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getTimestamp(): bool
+    {
+        return $this->timestamp;
+    }
+
+    /**
+     * @param bool $timestamp
+     */
+    public function setTimestamp(bool $timestamp)
+    {
+        $this->timestamp = $timestamp;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDuration(): bool
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @param bool $duration
+     */
+    public function setDuration(bool $duration)
+    {
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getNoSubstatements(): bool
+    {
+        return $this->no_substatements;
+    }
+
+    /**
+     * @param bool $no_substatements
+     */
+    public function setNoSubstatements(bool $no_substatements)
+    {
+        $this->no_substatements = $no_substatements;
+    }
+
     /**
      * @return string
      */
@@ -641,6 +908,22 @@ class ilObjCmiXapi extends ilObject2
             
             $this->setUserIdent($row['user_ident']);
             $this->setUserName($row['user_name']);
+
+            $this->setOnlyMoveon((bool) $row['only_moveon']);
+            $this->setAchieved((bool) $row['achieved']);
+            $this->setAnswered((bool) $row['answered']);
+            $this->setCompleted((bool) $row['completed']);
+            $this->setFailed((bool) $row['failed']);
+            $this->setInitialized((bool) $row['initialized']);
+            $this->setPassed((bool) $row['passed']);
+            $this->setProgressed((bool) $row['progressed']);
+            $this->setSatisfied((bool) $row['satisfied']);
+            $this->setTerminated((bool) $row['c_terminated']);
+            $this->setHideData((bool) $row['hide_data']);
+            $this->setTimestamp((bool) $row['c_timestamp']);
+            $this->setDuration((bool) $row['duration']);
+            $this->setNoSubstatements((bool) $row['no_substatements']);
+
             $this->setUserPrivacyComment($row['usr_privacy_comment']);
             
             $this->setStatementsReportEnabled((bool) $row['show_statements']);
@@ -677,7 +960,7 @@ class ilObjCmiXapi extends ilObject2
             'lrs_type_id' => ['integer', $this->getLrsTypeId()],
             'content_type' => ['text', $this->getContentType()],
             'source_type' => ['text', $this->getSourceType()],
-            'activity_id' => ['text', $this->getActivityId()], // TODO: needs unique constraint, right?
+            'activity_id' => ['text', $this->getActivityId()],
             'instructions' => ['text', $this->getInstructions()],
             'launch_url' => ['text', $this->getLaunchUrl()],
             'auth_fetch_url' => ['integer', (int) $this->isAuthFetchUrlEnabled()],
@@ -698,7 +981,21 @@ class ilObjCmiXapi extends ilObject2
             'highscore_wtime' => ['integer', (int) $this->getHighscoreWTime()],
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
-            'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()]
+            'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()],
+            'only_moveon' => ['integer', (int)$this->getOnlyMoveon()],
+            'achieved' => ['integer', (int)$this->getAchieved()],
+            'answered' => ['integer', (int)$this->getAnswered()],
+            'completed' => ['integer', (int)$this->getCompleted()],
+            'failed' => ['integer', (int)$this->getFailed()],
+            'initialized' => ['integer', (int)$this->getInitialized()],
+            'passed' => ['integer', (int)$this->getPassed()],
+            'progressed' => ['integer', (int)$this->getProgressed()],
+            'satisfied' => ['integer', (int)$this->getSatisfied()],
+            'c_terminated' => ['integer', (int)$this->getTerminated()],
+            'hide_data' => ['integer', (int)$this->getHideData()],
+            'c_timestamp' => ['integer', (int)$this->getTimestamp()],
+            'duration' => ['integer', (int)$this->getDuration()],
+            'no_substatements' => ['integer', (int)$this->getNoSubstatements()]
         ]);
         
         $this->saveRepositoryActivationSettings();
@@ -752,14 +1049,63 @@ class ilObjCmiXapi extends ilObject2
         
         $query = "
 			UPDATE {$tableName}
-			SET user_ident = %s, user_name = %s
-			WHERE lrs_type_id = %s
+			SET user_ident = %s, 
+                user_name = %s, 
+                only_moveon = %s, 
+                achieved = %s, 
+                answered = %s, 
+                completed = %s, 
+                failed = %s, 
+                initialized = %s, 
+                passed = %s, 
+                progressed = %s, 
+                satisfied = %s, 
+                c_terminated = %s, 
+                hide_data = %s, 
+                c_timestamp = %s, 
+                duration = %s, 
+                no_substatements = %s
+            WHERE lrs_type_id = %s
 		";
         
         $DIC->database()->manipulateF(
             $query,
-            ['text', 'text', 'integer'],
-            [$lrsType->getUserIdent(), $lrsType->getUserName(), $lrsType->getTypeId()]
+            ['text',
+             'text',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer',
+             'integer'
+            ],
+            [$lrsType->getUserIdent(),
+             $lrsType->getUserName(),
+             $lrsType->getOnlyMoveon(),
+             $lrsType->getAchieved(),
+             $lrsType->getAnswered(),
+             $lrsType->getCompleted(),
+             $lrsType->getFailed(),
+             $lrsType->getInitialized(),
+             $lrsType->getPassed(),
+             $lrsType->getProgressed(),
+             $lrsType->getSatisfied(),
+             $lrsType->getTerminated(),
+             $lrsType->getHideData(),
+             $lrsType->getTimestamp(),
+             $lrsType->getDuration(),
+             $lrsType->getNoSubstatements(),
+             $lrsType->getTypeId()
+            ]
         );
     }
     
@@ -1082,8 +1428,115 @@ class ilObjCmiXapi extends ilObject2
             'highscore_wtime' => (int) $this->getHighscoreWTime(),
             'highscore_own_table' => (int) $this->getHighscoreOwnTable(),
             'highscore_top_table' => (int) $this->getHighscoreTopTable(),
-            'highscore_top_num' => (int) $this->getHighscoreTopNum()
+            'highscore_top_num' => (int) $this->getHighscoreTopNum(),
+            'only_moveon' => (int) $this->getOnlyMoveon(),
+            'achieved' => (int) $this->getAchieved(),
+            'answered' => (int) $this->getAnswered(),
+            'completed' => (int) $this->getCompleted(),
+            'failed' => (int) $this->getFailed(),
+            'initialized' => (int) $this->getInitialized(),
+            'passed' => (int) $this->getPassed(),
+            'progressed' => (int) $this->getProgressed(),
+            'satisfied' => (int) $this->getSatisfied(),
+            'c_terminated' => (int) $this->getTerminated(),
+            'hide_data' => (int) $this->getHideData(),
+            'c_timestamp' => (int) $this->getTimestamp(),
+            'duration' => (int) $this->getDuration(),
+            'no_substatements' => (int) $this->getNoSubstatements()
+			//'bypass_proxy' => (int) $this->isBypassProxyEnabled()
         ];
         return $mapping;
     }
+	
+	 /**
+     * Clone object
+     *
+     * @access public
+     * @param int ref_id of target container
+     * @param int copy id
+     * @return object new cmix object
+     */
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    {
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$this->cloneMetaData($new_obj);
+
+		$new_obj->setLrsTypeId($this->getLrsTypeId());
+		$new_obj->setContentType($this->getContentType());
+		$new_obj->setSourceType($this->getSourceType());
+		$new_obj->setActivityId($this->getActivityId());
+		$new_obj->setInstructions($this->getInstructions());
+		$new_obj->setLaunchUrl($this->getLaunchUrl());
+		$new_obj->setAuthFetchUrlEnabled($this->isAuthFetchUrlEnabled());
+		$new_obj->setLaunchMethod($this->getLaunchMethod());
+		$new_obj->setLaunchMode($this->getLaunchMode());
+		$new_obj->setMasteryScore($this->getMasteryScore());
+		$new_obj->setKeepLpStatusEnabled($this->isKeepLpStatusEnabled());
+		$new_obj->setUserIdent($this->getUserIdent());
+		$new_obj->setUserName($this->getUserName());
+		$new_obj->setUserPrivacyComment($this->getUserPrivacyComment());
+		$new_obj->setStatementsReportEnabled($this->isStatementsReportEnabled());
+		$new_obj->setXmlManifest($this->getXmlManifest());
+		$new_obj->setVersion($this->getVersion());
+		$new_obj->setHighscoreEnabled($this->getHighscoreEnabled());
+		$new_obj->setHighscoreAchievedTS($this->getHighscoreAchievedTS());
+		$new_obj->setHighscorePercentage($this->getHighscorePercentage());
+		$new_obj->setHighscoreWTime($this->getHighscoreWTime());
+		$new_obj->setHighscoreOwnTable($this->getHighscoreOwnTable());
+		$new_obj->setHighscoreTopTable($this->getHighscoreTopTable());
+		$new_obj->setHighscoreTopNum($this->getHighscoreTopNum());
+		$new_obj->setBypassProxyEnabled($this->isBypassProxyEnabled());
+        $new_obj->setOnlyMoveon($this->getOnlyMoveon());
+        $new_obj->setAchieved($this->getAchieved());
+        $new_obj->setAnswered($this->getAnswered());
+        $new_obj->setCompleted($this->getCompleted());
+        $new_obj->setFailed($this->getFailed());
+        $new_obj->setInitialized($this->getInitialized());
+        $new_obj->setPassed($this->getPassed());
+        $new_obj->setProgressed($this->getProgressed());
+        $new_obj->setSatisfied($this->getSatisfied());
+        $new_obj->setTerminated($this->getTerminated());
+        $new_obj->setHideData($this->getHideData());
+        $new_obj->setTimestamp($this->getTimestamp());
+        $new_obj->setDuration($this->getDuration());
+        $new_obj->setNoSubstatements($this->getNoSubstatements());
+        $new_obj->update();
+		
+		if ($this->getSourceType() == self::SRC_TYPE_LOCAL) {
+		    $dirUtil = new ilCmiXapiContentUploadImporter($new_obj);
+			$dirUtil->ensureCreatedObjectDirectory();
+			$newDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+			$dirUtil = new ilCmiXapiContentUploadImporter($this);
+			$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+			ilUtil::rCopy($thisDir, $newDir);
+		}
+	}
+
+    protected function doDelete()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        // delete file data entry
+        $q = "DELETE FROM cmix_settings WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
+        $this->ilias->db->query($q);
+
+        // delete history entries
+        require_once("./Services/History/classes/class.ilHistory.php");
+        ilHistory::_removeEntriesForObject($this->getId());
+
+        
+        // delete entire directory and its content
+		$dirUtil = new ilCmiXapiContentUploadImporter($this);
+		$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+        if (is_dir($thisDir)) {
+            ilUtil::delDir($thisDir);
+        }
+
+        // delete meta data
+        $this->deleteMetaData();
+    }
+
+
 }

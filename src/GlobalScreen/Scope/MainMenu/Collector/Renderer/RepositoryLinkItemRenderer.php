@@ -3,6 +3,7 @@
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 
@@ -18,6 +19,10 @@ class RepositoryLinkItemRenderer extends BaseTypeRenderer
      */
     public function getComponentWithContent(isItem $item) : Component
     {
-        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()));
+        if ($item instanceof isInterchangeableItem && !$item->getParent()) {
+            return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()));
+        } else {
+            return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()));
+        }
     }
 }

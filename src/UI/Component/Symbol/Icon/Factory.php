@@ -12,22 +12,23 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *    Standard Icons represent ILIAS Objects. In their outlined version, they are used to be layered upon a picture or
-     *    if the Standard Icon should not catch too much of the users attention.
+     *    Standard Icons represent ILIAS Objects, Services or ideas.
      *   composition: >
      *     A Standard Icon is displayed as a block-element with a background-graphic.
-     *     By default, a fallback icon will be rendered; this is until a
-     *     background image is defined in the icon's CSS-class. The outlined version is the silhouette of the Standard Icon.
-     *     This outlined version therefore attracts less attention.
+     *     By default, a fallback icon will be rendered; this is until a background image
+     *     is defined in the icon's CSS-class. The outlined icon is reduced to its minimal
+     *     form, expressing essential characteristics. The filled version is a colored
+     *     representation of the outlined version and therefore attracts more attention.
+     *     Note that in some cases, the outlined and the filled version might look the same
      *   rivals:
      *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
-     *
      * rules:
      *   usage:
      *     1: If they are layered upon a picture, the outlined version MUST be used.
      *     2:  >
-     *        In any other case, the non-outlined version SHOULD be used except for scenarios where the icon should
-     *        not draw too much attention.
+     *        In any other case, the outlined version SHOULD be used except for scenarios
+     *        where the icon should draw much more attention.
+     *     3: For drawing much more attention the filled version SHOULD be used.
      *   style:
      *     1: CSS-Filters MAY be used for Standard Icons in their outlined version to manipulate the stroke to fit the context.
      *     2: >
@@ -36,7 +37,6 @@ interface Factory
      *   accessibility:
      *     1: Icons MUST have aria-labels.
      * ---
-     *
      * @param   string $name
      * @param   string $aria_label
      * @param   string $size

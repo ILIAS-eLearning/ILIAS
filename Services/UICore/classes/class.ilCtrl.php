@@ -88,6 +88,20 @@ class ilCtrl
     protected $module_dir;
 
     /**
+     * Flags nested getHTML processing from other nodes
+     *
+     * @var bool
+     */
+    protected $use_current_to_determine_next = false;
+
+    /**
+     * Current base class for nested getHTML processing
+     *
+     * @var string
+     */
+    protected $inner_base_class = "";
+
+    /**
      * control class constructor
      */
     public function __construct()
@@ -221,13 +235,27 @@ class ilCtrl
      * @return string
      * @throws ilCtrlException
      */
-    public function getHTML($a_gui_object, array $a_parameters = null)
+    public function getHTML($a_gui_object, array $a_parameters = null, array $class_path = [])
     {
         $class = strtolower(get_class($a_gui_object));
 
-        $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
-        $nr = $nr["node_id"];
+        if (count($class_path) > 0) {
+            $class_path = array_merge($class_path, [$class]);
+            $p = $this->getParameterArrayByClass($class_path);
+            $nr = $p["cmdNode"];
+            $baseclass = $p["baseClass"];
+            $this->inner_base_class =  $p["cmdNode"];
+        } else {
+            $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
+            $nr = $nr["node_id"];
+        }
         if ($nr != "") {
+            $current_inner_base_class = $this->inner_base_class;
+            $this->use_current_to_determine_next = true;
+
+            if ($baseclass != $_GET["baseClass"]) {
+                $this->inner_base_class = $baseclass;
+            }
             $current_node = $this->current_node;
             
             // set current node to new gui class
@@ -247,6 +275,8 @@ class ilCtrl
             
             // reset current node
             $this->current_node = $current_node;
+            $this->inner_base_class = $current_inner_base_class;
+            $this->use_current_to_determine_next = false;
             
             // return block
             return $html;
@@ -411,11 +441,11 @@ class ilCtrl
         // otherwise certain problem will be extremely hard to track down...
 
         error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ")");
+            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ")");
             
         include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
-            "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ").");
+            "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ").");
     }
 
     /**
@@ -744,7 +774,12 @@ class ilCtrl
      */
     public function getNextClass($a_gui_class = null)
     {
-        $cmdNode = $this->getCmdNode();
+        if ($this->use_current_to_determine_next) {
+            $cmdNode = $this->current_node;
+        } else {
+            $cmdNode = $this->getCmdNode();
+        }
+
         if ($cmdNode == "") {
             return ($class = $this->checkLPSettingsForward($a_gui_class, $cmdNode))
                 ? $class
@@ -852,6 +887,19 @@ class ilCtrl
         $this->target_script = $a_target_script;
     }
 
+    /**
+     * Get readable node
+     * @param
+     * @return
+     */
+    protected function getReadableNode($node)
+    {
+        return implode(":",
+            array_map(function($cid) {
+                return $this->getClassForCid($cid);
+            }, explode(":", $node))
+        );
+    }
 
     /**
      * Get target script name
@@ -1544,6 +1592,11 @@ class ilCtrl
             return array();
         }
 
+        $current_base_class = $_GET["baseClass"];
+        if ($this->use_current_to_determine_next && $this->inner_base_class != "") {
+            $current_base_class = $this->inner_base_class;
+        }
+
         if (!is_array($a_class)) {
             $a_class = array($a_class);
         }
@@ -1566,7 +1619,7 @@ class ilCtrl
         // append parameters of parent classes
         foreach ($path as $node_id) {
             $class = ($node_id == "")
-                ? strtolower($_GET["baseClass"])
+                ? strtolower($current_base_class)
                 : $this->getClassForCid($this->getCurrentCidOfNode($node_id));
             if (isset($this->save_parameter[$class]) && is_array($this->save_parameter[$class])) {
                 foreach ($this->save_parameter[$class] as $par) {
@@ -1592,7 +1645,7 @@ class ilCtrl
         $params["cmdClass"] = $target_class;
         $params["cmdNode"] = $nr;
         if ($new_baseclass == "") {
-            $params["baseClass"] = $_GET["baseClass"];
+            $params["baseClass"] = $current_base_class;
         } else {
             $params["baseClass"] = $new_baseclass;
         }
@@ -1741,6 +1794,15 @@ class ilCtrl
     {
         $class_ids = explode(":", $a_node);
         return $class_ids[count($class_ids) - 2];
+    }
+
+    /**
+     * Get last class id of node
+     */
+    private function getCidOfNode($a_node)
+    {
+        $class_ids = explode(":", $a_node);
+        return $class_ids[count($class_ids) - 1];
     }
 
     /**

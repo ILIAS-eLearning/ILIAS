@@ -26,7 +26,7 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
      */
     public function getLabel() : string
     {
-        return "Confirm that an existing installation should be overwritten if applicable.";
+        return "Confirm that an existing installation should be overwritten.";
     }
 
     /**
@@ -58,14 +58,22 @@ class ilOverwritesExistingInstallationConfirmed extends ilSetupObjective
 
         $message =
             "An installation already seems to exist in this location. Using this command\n" .
-            "might change your installation in unexpected ways. Are you sure that you\n" .
-            "want to proceed?";
+            "might change your installation in unexpected ways. Also, the command might not\n".
+            "work as expected. Are you sure that you want to proceed anyway?";
 
         if (!$admin_interaction->confirmOrDeny($message)) {
             throw new Setup\NoConfirmationException($message);
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        return $this->iniExists() || $this->clientIniExists();
     }
 
     public function iniExists()

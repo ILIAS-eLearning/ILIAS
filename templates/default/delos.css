@@ -1677,6 +1677,60 @@ pre code {
   padding-right: 15px;
 }
 .col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
+  position: relative;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+  width: 100%;
+}
+.col-xs-1,
 .col-xs-2,
 .col-xs-3,
 .col-xs-4,
@@ -4796,7 +4850,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   display: inline-block;
 }
 .breadcrumb > li + li:before {
-  content: "»\00a0";
+  content: " \e606\00a0";
   padding: 0 5px;
   color: #557196;
 }
@@ -6867,6 +6921,14 @@ button.close {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.panel .panel-heading.ilHeader h2,
+.panel .panel-heading.ilBlockHeader h2,
+.panel .panel-heading.ilHeader h2.ilHeader,
+.panel .panel-heading.ilBlockHeader h2.ilHeader {
+  margin: 0;
+  color: #707070;
+  font-size: 19px;
+}
 .panel .panel-heading.ilHeader h3,
 .panel .panel-heading.ilBlockHeader h3,
 .panel .panel-heading.ilHeader h3.ilHeader,
@@ -6943,6 +7005,9 @@ button.close {
 .panel-secondary .panel-heading.ilHeader {
   padding: 6px 12px;
 }
+.panel-secondary .panel-heading.ilHeader h2.ilHeader {
+  font-size: 17px;
+}
 .panel-secondary .panel-heading.ilHeader h3.ilHeader {
   font-size: 17px;
 }
@@ -6951,6 +7016,9 @@ button.close {
 }
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
+}
+.panel-secondary .panel-body .il-item-group h3 {
+  padding: 6px 12px;
 }
 .panel-secondary .panel-body .il-item-group h4 {
   padding: 6px 12px;
@@ -6964,7 +7032,7 @@ button.close {
 .panel-secondary .panel-body .il-item-group .il-item .media-right {
   vertical-align: middle;
 }
-.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .il-panel-listing-std-container > h2,
 .panel-secondary .panel-body h4 {
   display: block;
   padding: 6px 0;
@@ -6997,7 +7065,7 @@ button.close {
   background-color: #f9f9f9;
   margin-bottom: 20px;
 }
-.il-panel-listing-std-container > h3 {
+.il-panel-listing-std-container > h2 {
   color: #707070;
   font-size: 19px;
   font-weight: 600;
@@ -7526,7 +7594,7 @@ a fieldset[disabled] .active {
   background: #909090;
   border: 1px solid #bfbfbf;
 }
-h6.il-divider {
+h4.il-divider {
   padding: 3px 6px;
   background-color: #ececec;
   display: block;
@@ -7548,7 +7616,7 @@ hr.il-divider-with-label {
 .dropdown hr {
   margin: 6px 0;
 }
-.dropdown h6 {
+.dropdown h4 {
   margin: 3px 0;
 }
 ul.dropdown-menu {
@@ -7607,13 +7675,14 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item:after {
   clear: both;
 }
-.il-item h5 {
+.il-item h4 {
+  padding-top: 0;
   margin: 0;
   font-size: 14px;
   float: left;
 }
-.il-item h5 .btn-link,
-.il-item h5 a {
+.il-item h4 .btn-link,
+.il-item h4 a {
   font-size: inherit;
   line-height: 1.42857143;
 }
@@ -7655,7 +7724,7 @@ ul.dropdown-menu > li > .btn:focus {
   clear: both;
   background-color: #f9f9f9;
 }
-.il-item-group > h4 {
+.il-item-group > h3 {
   float: left;
   color: #707070;
   font-size: 17px;
@@ -7814,10 +7883,10 @@ ul.dropdown-menu > li > .btn:focus {
   flex-direction: row;
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
+  -ms-grid-row: 3;
   grid-column-start: 1;
   grid-column-end: 3;
-  grid-row: 2;
+  grid-row: 3;
   z-index: 998;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -8823,8 +8892,8 @@ grid-based layout
   grid-gap: 0px;
   -ms-grid-columns: auto 1fr;
   grid-template-columns: auto 1fr;
-  -ms-grid-rows: 60px 33px 1fr;
-  grid-template-rows: 60px 33px 1fr;
+  -ms-grid-rows: 60px auto 33px 1fr;
+  grid-template-rows: 60px auto 33px 1fr;
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8864,6 +8933,15 @@ header {
   grid-row: 1;
   z-index: 999;
 }
+div.il-system-infos {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
+  z-index: 999;
+}
 .header-inner {
   -ms-flex-align: center;
   align-items: center;
@@ -8895,9 +8973,9 @@ header {
 }
 nav.il-maincontrols {
   -ms-grid-column: 1;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 4;
   z-index: 997;
 }
 .il-maincontrols-mainbar {
@@ -8955,9 +9033,9 @@ main {
   -ms-grid-rows: 1fr auto;
   grid-template-rows: 1fr auto;
   -ms-grid-column: 2;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   overflow: auto;
 }
 /* Footer */
@@ -9000,8 +9078,8 @@ footer {
     grid-gap: 0px;
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 45px 1fr;
-    grid-template-rows: 45px 1fr;
+    -ms-grid-rows: 45px auto 1fr;
+    grid-template-rows: 45px auto 1fr;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -9036,9 +9114,9 @@ footer {
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols {
     -ms-grid-column: 1;
-    -ms-grid-row: 2;
+    -ms-grid-row: 3;
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 3;
     height: 100%;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
@@ -9191,10 +9269,10 @@ footer {
     display: block;
   }
   .il-layout-page-content {
-    -ms-grid-column: 1;
-    -ms-grid-row: 2;
-    grid-column: 1;
-    grid-row: 2;
+    -ms-grid-column: 2;
+    -ms-grid-row: 3;
+    grid-column: 2;
+    grid-row: 3;
     overflow: auto;
   }
 }
@@ -9214,8 +9292,13 @@ footer {
   html body .il-layout-page header,
   html body .il-layout-page .il-maincontrols,
   html body .il-layout-page .breadcrumbs,
-  html body .il-layout-page footer {
-    display: none;
+  html body .il-layout-page footer,
+  html body .il-layout-page .ilFileDropTargetOverlay {
+    display: none !important;
+  }
+  html body .il-layout-page-content,
+  html body .il-layout-page-content div {
+    display: block;
   }
 }
 .il-maincontrols-slate.disengaged {
@@ -9305,18 +9388,21 @@ footer {
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky {
   padding: 6px;
   text-align: center;
   text-transform: uppercase;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .glyph :before,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky .glyph :before {
   content: " \e605";
   font-family: "il-icons";
   font-size: 1.7rem;
   margin-right: 10px;
 }
-.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label {
+.il-maincontrols-slate #il-tag-slate-container .btn-bulky .bulky-label,
+.il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
 .il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
@@ -9335,7 +9421,6 @@ footer {
 .il-maincontrols-slate-content h1,
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
-.il-maincontrols-slate-content h4,
 .il-maincontrols-slate-content li {
   padding: 10px 20px;
 }
@@ -9968,6 +10053,116 @@ footer {
     width: 100%;
   }
 }
+/*
+**************************************************************
+	System Infos
+	change the rule for &.full to
+
+		height: 100%;
+		position: fixed;
+		padding: 100px;
+		top: 0;
+		left: 0;
+		font-size: 2em;
+		line-height: 1.2em;
+
+	to show a fullscreen info
+**************************************************************
+*/
+.il-system-info {
+  width: 100%;
+  line-height: 20px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  height: calc(3px + 3px + 20px);
+  z-index: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.il-system-info.il-system-info-neutral {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #d2dae5;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #4c6586;
+}
+.il-system-info.il-system-info-neutral a.glyph {
+  color: #4c6586;
+}
+.il-system-info.il-system-info-important {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #fdd9be;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #d15c05;
+}
+.il-system-info.il-system-info-important a.glyph {
+  color: #d15c05;
+}
+.il-system-info.il-system-info-breaking {
+  -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+  background-color: #ec675e;
+  border-top: #ddd none;
+  border-bottom: #ddd none;
+  border-left: #ddd none;
+  border-right: #ddd none;
+  color: #ffffff;
+}
+.il-system-info.il-system-info-breaking a.glyph {
+  color: #ffffff;
+}
+.il-system-info.full {
+  height: auto;
+}
+.il-system-info div.il-system-info-content {
+  flex-grow: 4;
+  flex-shrink: 1;
+  flex-basis: auto;
+  overflow-y: hidden;
+}
+.il-system-info div.il-system-info-content span {
+  display: inline-block;
+}
+.il-system-info div.il-system-info-content span.il-system-info-headline {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 8px;
+}
+.il-system-info div.il-system-info-content span.il-system-info-more {
+  display: none;
+}
+.il-system-info div.il-system-info-actions {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 60px;
+  align-self: flex-end;
+  text-align: right;
+}
+.il-system-info:not(:first-child) {
+  border-top: none;
+}
+/*
+**************************************************************
+	Mobile Layout for System Info
+**************************************************************
+*/
+@media only screen and (max-width: 768px) {
+  .il-system_info {
+    border-top: none;
+  }
+}
 .il-drilldown ul {
   list-style: none;
   padding: 0;
@@ -10169,8 +10364,35 @@ footer {
 .icon.wfe .abbreviation,
 .icon.iass .abbreviation,
 .icon.copa .abbreviation,
+.icon.cpad .abbreviation,
 .icon.lso .abbreviation,
-.icon.bgtk .abbreviation {
+.icon.bgtk .abbreviation,
+.icon.peac .abbreviation,
+.icon.peadl .abbreviation,
+.icon.peadt .abbreviation,
+.icon.pecd .abbreviation,
+.icon.pech .abbreviation,
+.icon.pecl .abbreviation,
+.icon.peclp .abbreviation,
+.icon.pecom .abbreviation,
+.icon.pecrs .abbreviation,
+.icon.pecrt .abbreviation,
+.icon.pecs .abbreviation,
+.icon.pedt .abbreviation,
+.icon.pefl .abbreviation,
+.icon.peim .abbreviation,
+.icon.pelh .abbreviation,
+.icon.pemed .abbreviation,
+.icon.pemp .abbreviation,
+.icon.pepd .abbreviation,
+.icon.pepe .abbreviation,
+.icon.pepl .abbreviation,
+.icon.peplh .abbreviation,
+.icon.pequ .abbreviation,
+.icon.perl .abbreviation,
+.icon.pesc .abbreviation,
+.icon.petmp .abbreviation,
+.icon.peusr .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -10491,6 +10713,9 @@ footer {
 .icon.copa {
   background-image: url("images/icon_copa.svg");
 }
+.icon.cpad {
+  background-image: url("images/icon_cpad.svg");
+}
 .icon.lso {
   background-image: url("images/icon_lso.svg");
 }
@@ -10529,6 +10754,84 @@ footer {
 }
 .icon.rep {
   background-image: url("images/icon_rep.svg");
+}
+.icon.peac {
+  background-image: url("images/icon_peac.svg");
+}
+.icon.peadl {
+  background-image: url("images/icon_peadl.svg");
+}
+.icon.peadt {
+  background-image: url("images/icon_peadt.svg");
+}
+.icon.pecd {
+  background-image: url("images/icon_pecd.svg");
+}
+.icon.pech {
+  background-image: url("images/icon_pech.svg");
+}
+.icon.pecl {
+  background-image: url("images/icon_pecl.svg");
+}
+.icon.peclp {
+  background-image: url("images/icon_peclp.svg");
+}
+.icon.pecom {
+  background-image: url("images/icon_pecom.svg");
+}
+.icon.pecrs {
+  background-image: url("images/icon_pecrs.svg");
+}
+.icon.pecrt {
+  background-image: url("images/icon_pecrt.svg");
+}
+.icon.pecs {
+  background-image: url("images/icon_pecs.svg");
+}
+.icon.pedt {
+  background-image: url("images/icon_pedt.svg");
+}
+.icon.pefl {
+  background-image: url("images/icon_pefl.svg");
+}
+.icon.peim {
+  background-image: url("images/icon_peim.svg");
+}
+.icon.pelh {
+  background-image: url("images/icon_pelh.svg");
+}
+.icon.pemed {
+  background-image: url("images/icon_pemed.svg");
+}
+.icon.pemp {
+  background-image: url("images/icon_pemp.svg");
+}
+.icon.pepd {
+  background-image: url("images/icon_pepd.svg");
+}
+.icon.pepe {
+  background-image: url("images/icon_pepe.svg");
+}
+.icon.pepl {
+  background-image: url("images/icon_pepl.svg");
+}
+.icon.peplh {
+  background-image: url("images/icon_peplh.svg");
+}
+.icon.pequ {
+  background-image: url("images/icon_pequ.svg");
+}
+.icon.perl {
+  background-image: url("images/icon_perl.svg");
+}
+.icon.pesc {
+  background-image: url("images/icon_pesc.svg");
+}
+.icon.petmp {
+  background-image: url("images/icon_petmp.svg");
+}
+.icon.peusr {
+  background-image: url("images/icon_peusr.svg");
 }
 .icon.outlined {
   filter: brightness(0);
@@ -10854,6 +11157,9 @@ footer {
 .icon.outlined.copa {
   background-image: url("images/outlined/icon_copa.svg");
 }
+.icon.outlined.cpad {
+  background-image: url("images/outlined/icon_cpad.svg");
+}
 .icon.outlined.lso {
   background-image: url("images/outlined/icon_lso.svg");
 }
@@ -10892,6 +11198,84 @@ footer {
 }
 .icon.outlined.rep {
   background-image: url("images/outlined/icon_rep.svg");
+}
+.icon.outlined.peac {
+  background-image: url("images/outlined/icon_peac.svg");
+}
+.icon.outlined.peadl {
+  background-image: url("images/outlined/icon_peadl.svg");
+}
+.icon.outlined.peadt {
+  background-image: url("images/outlined/icon_peadt.svg");
+}
+.icon.outlined.pecd {
+  background-image: url("images/outlined/icon_pecd.svg");
+}
+.icon.outlined.pech {
+  background-image: url("images/outlined/icon_pech.svg");
+}
+.icon.outlined.pecl {
+  background-image: url("images/outlined/icon_pecl.svg");
+}
+.icon.outlined.peclp {
+  background-image: url("images/outlined/icon_peclp.svg");
+}
+.icon.outlined.pecom {
+  background-image: url("images/outlined/icon_pecom.svg");
+}
+.icon.outlined.pecrs {
+  background-image: url("images/outlined/icon_pecrs.svg");
+}
+.icon.outlined.pecrt {
+  background-image: url("images/outlined/icon_pecrt.svg");
+}
+.icon.outlined.pecs {
+  background-image: url("images/outlined/icon_pecs.svg");
+}
+.icon.outlined.pedt {
+  background-image: url("images/outlined/icon_pedt.svg");
+}
+.icon.outlined.pefl {
+  background-image: url("images/outlined/icon_pefl.svg");
+}
+.icon.outlined.peim {
+  background-image: url("images/outlined/icon_peim.svg");
+}
+.icon.outlined.pelh {
+  background-image: url("images/outlined/icon_pelh.svg");
+}
+.icon.outlined.pemed {
+  background-image: url("images/outlined/icon_pemed.svg");
+}
+.icon.outlined.pemp {
+  background-image: url("images/outlined/icon_pemp.svg");
+}
+.icon.outlined.pepd {
+  background-image: url("images/outlined/icon_pepd.svg");
+}
+.icon.outlined.pepe {
+  background-image: url("images/outlined/icon_pepe.svg");
+}
+.icon.outlined.pepl {
+  background-image: url("images/outlined/icon_pepl.svg");
+}
+.icon.outlined.peplh {
+  background-image: url("images/outlined/icon_peplh.svg");
+}
+.icon.outlined.pequ {
+  background-image: url("images/outlined/icon_pequ.svg");
+}
+.icon.outlined.perl {
+  background-image: url("images/outlined/icon_perl.svg");
+}
+.icon.outlined.pesc {
+  background-image: url("images/outlined/icon_pesc.svg");
+}
+.icon.outlined.petmp {
+  background-image: url("images/outlined/icon_petmp.svg");
+}
+.icon.outlined.peusr {
+  background-image: url("images/outlined/icon_peusr.svg");
 }
 .glyph {
   color: #557196;
@@ -11032,6 +11416,26 @@ footer {
 .il-tree li.il-tree-node.expandable > .node-line:before {
   font-family: il-icons;
   content: "\e606";
+}
+.glyphicon-bulletlist:before {
+  font-family: il-icons;
+  content: "\e900";
+}
+.glyphicon-numberedlist:before {
+  font-family: il-icons;
+  content: "\e901";
+}
+.glyphicon-listindent:before {
+  font-family: il-icons;
+  content: "\e902";
+}
+.glyphicon-listoutdent:before {
+  font-family: il-icons;
+  content: "\e903";
+}
+.glyphicon-filter:before {
+  font-family: il-icons;
+  content: "\e904";
 }
 .glyphicon-user:before {
   font-family: il-icons;
@@ -11256,6 +11660,12 @@ footer {
 /* @il-highlight-bg: lighten(@brand-secondary, 44%); */
 /* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
+/** headline text transform **/
+/** inline shadow of a message container **/
+/** border configuration, the color is automatically computed from the three color variants **/
+/** nagtive or positive contrast color for text and glyph **/
+/** contrast threshold for contrast color **/
+/** three color variants for neutral, important, breaking Head Infos **/
 .webui-popover-content {
   display: none;
 }
@@ -11982,47 +12392,25 @@ footer {
     display: none;
   }
 }
-/* flex grid support start, see http://www.bootply.com/126437 */
-/* deactivated flex grid, since grids in grids will not work correctly width:100%; and flex:1 1 auto; seem to be problems
-
-.row-flex, .row-flex > div[class*='col-'] {
-	display: -webkit-box;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: -webkit-flex;
-	display: flex;
-	flex:1 1 auto;
+/* flex grid support start */
+.row-flex {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
 }
-
-
 .row-flex-wrap {
-	-webkit-flex-flow: row wrap;
-	align-content: flex-start;
-	flex:0;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  align-content: flex-start;
 }
-
-.row-flex > div[class*='col-'], .container-flex > div[class*='col-'] {
-	margin:-.2px;
-}
-
-.container-flex > div[class*='col-'] div,.row-flex > div[class*='col-'] div {
-	 width:100%;
- }
-
 .flex-col {
-	display: flex;
-	display: -webkit-flex;
-	flex: 1 100%;
-	flex-flow: column nowrap;
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: column nowrap;
+  height: 100%;
 }
-
-.flex-grow {
-	display: flex;
-	-webkit-flex: 2;
-	flex: 2;
-}
-
-*/
 /* flex grid support end */
 /* RTL review overwrite some specifics [bootstrap] styles
  *
@@ -12691,7 +13079,7 @@ div.il_ContainerItemCommands2 {
 div.il_ContainerItemCommands {
   padding: 2px 0;
 }
-h4.il_ContainerItemTitle {
+h3.il_ContainerItemTitle {
   padding: 0;
   margin: 0;
   font-weight: normal;
@@ -12789,7 +13177,7 @@ h1.ilHeader {
     padding-top: 5px;
   }
 }
-h3.ilHeader {
+h2.ilHeader {
   font-weight: normal;
   padding: 0;
   margin: 0;
@@ -17295,6 +17683,13 @@ div.ilBlockHeaderBig,
 td.ilBlockHeaderBig {
   font-size: 100%;
 }
+h2.ilBlockHeader {
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  display: inline;
+}
 h3.ilBlockHeader {
   font-weight: 600;
   margin: 0;
@@ -17375,7 +17770,7 @@ div.ilInfoScreenSec {
   padding: 0;
   margin-bottom: 20px;
 }
-div.ilInfoScreenSec h3.ilHeader {
+div.ilInfoScreenSec h2.ilHeader {
   margin-bottom: 5px;
   display: block;
   /* margin: 10px 0;
@@ -17924,6 +18319,19 @@ div.ilSurveyPageEditAreaDragging {
 div.ilSurveyPageEditActionMenu {
   float: right;
   margin: 3px;
+}
+.il-svy-qst-compressed .questionTitle {
+  display: none;
+}
+.il-svy-qst-compressed tr:first-child td {
+  visibility: hidden;
+  height: 1px;
+  line-height: 1px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+#il-svy-output-form table td p {
+  hyphens: auto;
 }
 /* Modules/MediaPool */
 #ilMepPreviewContent {
@@ -19094,6 +19502,9 @@ span.ilProfileBadge .modal .img-responsive {
 .ilLSOKioskModeNavigation {
   margin-bottom: 10px;
   background-color: #e0e0e0;
+}
+.ilLSOKioskModeNavigation .navbar-form {
+  line-height: 25px;
 }
 .ilLSOKioskTopBarControls {
   float: left;

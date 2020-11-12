@@ -74,5 +74,17 @@ class ilContainerImporter extends ilXmlImporter
                 }
             }
         }
+
+        // skills
+        $new_crs_obj_id = end($a_mapping->getMappingsOfEntity('Modules/Course', 'crs'));
+        $new_crs_ref_id = ilObject::_getAllReferences($new_crs_obj_id);
+        $new_crs_ref_id = end($new_crs_ref_id);
+
+        $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
+        foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
+            $prof = new ilSkillProfile($new_prof_id);
+            $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
+            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($new_crs_ref_id));
+        }
     }
 }

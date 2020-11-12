@@ -54,6 +54,10 @@ abstract class ilPlugin
      * @var ProviderCollection
      */
     protected $provider_collection;
+    /**
+     * @var string
+     */
+    protected $message;
 
 
     public function __construct()

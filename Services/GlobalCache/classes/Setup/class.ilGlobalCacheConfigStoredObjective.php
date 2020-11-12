@@ -34,9 +34,8 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new ilIniFilesPopulatedObjective($common_config),
+            new ilIniFilesLoadedObjective()
         ];
     }
 
@@ -51,5 +50,14 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        // The effort to check the whole ini file is too big here.
+        return true;
     }
 }

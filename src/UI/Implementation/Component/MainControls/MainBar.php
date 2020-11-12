@@ -197,24 +197,6 @@ class MainBar implements MainControls\MainBar
     /**
      * @inheritdoc
      */
-    public function withMoreButton(Button\Bulky $button) : MainControls\MainBar
-    {
-        $clone = clone $this;
-        $clone->more_button = $button;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getMoreButton() : Button\Bulky
-    {
-        return $this->more_button;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getEntryClickSignal() : Signal
     {
         return $this->entry_click_signal;

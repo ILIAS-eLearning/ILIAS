@@ -775,7 +775,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      *
      * Will override the header_page_title.
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title, $hidden = false)
     {
         $this->title = $a_title;
         $this->header_page_title = $a_title;
@@ -1564,8 +1564,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))
         ) {
-            $_SESSION["post_vars"] = $_POST;
-
             // referer is modified if query string contains cmd=gateway and $_POST is not empty.
             // this is a workaround to display formular again in case of error and if the referer points to another page
             $url_parts = @parse_url($_SERVER["REQUEST_URI"]);

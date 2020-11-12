@@ -252,6 +252,9 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             $this->addUsageTab($ilTabs);
             //			}
 
+            // assigned objects
+            $this->addObjectsTab($ilTabs);
+
             $ilTabs->activateTab($a_tab);
 
             parent::setTitleIcon();
@@ -355,5 +358,29 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         }
 
         $tpl->setContent($html);
+    }
+
+    /**
+     * Show assigned objects
+     */
+    public function showObjects()
+    {
+        $tpl = $this->tpl;
+
+        // (a) referenced skill template in main tree
+        if ($this->tref_id > 0) {
+            return parent::showObjects();
+        }
+
+        // (b) skill template in templates view
+
+        $this->setTabs("objects");
+
+        $usage_info = new ilSkillUsage();
+        $objects = $usage_info->getAssignedObjectsForSkillTemplate($this->base_skill_id);
+
+        $tab = new ilSkillAssignedObjectsTableGUI($this, "showObjects", $objects);
+
+        $tpl->setContent($tab->getHTML());
     }
 }

@@ -19,9 +19,15 @@ class ilSkillProfile implements ilSkillUsageInfo
      */
     protected $lng;
 
+    /**
+     * @var ilRbacReview
+     */
+    protected $review;
+
     protected $id;
     protected $title;
     protected $description;
+    protected $ref_id = 0;
     protected $skill_level = array();
     
     /**
@@ -35,6 +41,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
+        $this->review = $DIC->rbac()->review();
         if ($a_id > 0) {
             $this->setId($a_id);
             $this->read();
@@ -99,6 +106,22 @@ class ilSkillProfile implements ilSkillUsageInfo
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * @param int $a_val ref id
+     */
+    public function setRefId($a_val)
+    {
+        $this->ref_id = $a_val;
+    }
+
+    /**
+     * @return int ref id
+     */
+    public function getRefId()
+    {
+        return $this->ref_id;
     }
     
     /**
@@ -168,6 +191,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
+        $this->setRefId($rec["ref_id"]);
         
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_level " .
@@ -193,10 +217,11 @@ class ilSkillProfile implements ilSkillUsageInfo
         // profile
         $this->setId($ilDB->nextId("skl_profile"));
         $ilDB->manipulate("INSERT INTO skl_profile " .
-            "(id, title, description) VALUES (" .
+            "(id, title, description, ref_id) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
             $ilDB->quote($this->getTitle(), "text") . "," .
-            $ilDB->quote($this->getDescription(), "text") .
+            $ilDB->quote($this->getDescription(), "text") . "," .
+            $ilDB->quote($this->getRefId(), "integer") .
             ")");
         
         // profile levels
@@ -226,7 +251,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             "UPDATE skl_profile SET " .
             " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
             " description = " . $ilDB->quote($this->getDescription(), "text") .
-            " WHERE id = " . $ilDB->quote($this->getId(), "integer")
+            " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
+            " AND ref_id = " . $ilDB->quote($this->getRefId(), "integer")
             );
         
         // profile levels
@@ -262,18 +288,44 @@ class ilSkillProfile implements ilSkillUsageInfo
     public function delete()
     {
         $ilDB = $this->db;
+
+        // TODO: Split the deletions when refactoring to repository pattern
         
         // profile levels
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
             );
+
+        // profile users
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_user WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
+
+        // profile roles
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_role WHERE " .
+            " profile_id = " . $ilDB->quote($this->getId(), "integer")
+        );
         
         // profile
         $ilDB->manipulate(
             "DELETE FROM skl_profile WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
             );
+    }
+
+    public static function deleteProfilesFromObject(int $a_ref_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile WHERE " .
+            " ref_id = " . $ilDB->quote($a_ref_id, "integer")
+        );
     }
 
     /**
@@ -366,6 +418,55 @@ class ilSkillProfile implements ilSkillUsageInfo
         
         return $profiles;
     }
+
+    /**
+     * Get global profiles
+     *
+     * @return array
+     */
+    public static function getGlobalProfiles()
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_profile " .
+            " WHERE ref_id = 0 " .
+            " ORDER BY title "
+        );
+        $profiles = array();
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[$rec["id"]] = $rec;
+        }
+
+        return $profiles;
+    }
+
+    /**
+     * Get local profiles of object
+     *
+     * @param int $a_ref_id
+     * @return array
+     */
+    public static function getLocalProfiles(int $a_ref_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $set = $ilDB->query(
+            "SELECT * FROM skl_profile " .
+            " WHERE ref_id = " . $a_ref_id .
+            " ORDER BY title "
+        );
+        $profiles = array();
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[$rec["id"]] = $rec;
+        }
+
+        return $profiles;
+    }
     
     /**
      * Lookup
@@ -396,6 +497,29 @@ class ilSkillProfile implements ilSkillUsageInfo
     public static function lookupTitle($a_id)
     {
         return self::lookup($a_id, "title");
+    }
+
+    public static function lookupRefId($a_id)
+    {
+        return self::lookup($a_id, "ref_id");
+    }
+
+    /**
+     * Update the old ref id with the new ref id after import
+     *
+     * @param int $a_new_ref_id
+     */
+    public function updateRefIdAfterImport(int $a_new_ref_id)
+    {
+        $ilDB = $this->db;
+
+        $ilDB->update(
+            "skl_profile",
+            array(
+                "ref_id" => array("integer", $a_new_ref_id)),
+            array(
+                "id" => array("integer", $this->getId()))
+        );
     }
     
     ////
@@ -567,6 +691,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         $ilDB = $this->db;
         $lng = $this->lng;
+        $review = $this->review;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_role " .
@@ -574,14 +699,28 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $roles = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $name = ilObjRole::_lookupTitle($rec["role_id"]);
+            $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
+            // get object of role
+            $obj_id = ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
+            // get title of object if course or group
+            $obj_title = "";
+            $obj_type = "";
+            if (ilObject::_lookupType($obj_id) == "crs" || ilObject::_lookupType($obj_id) == "grp") {
+                $obj_title = ilObject::_lookupTitle($obj_id);
+                $obj_type = ilObject::_lookupType($obj_id);
+            }
+
             $roles[$rec["role_id"]] = array(
                 "type" => $type,
                 "name" => $name,
-                "id" => $rec["role_id"]
+                "id" => $rec["role_id"],
+                "object_title" => $obj_title,
+                "object_type" => $obj_type,
+                "object_id" => $obj_id
             );
         }
+
         return $roles;
     }
 

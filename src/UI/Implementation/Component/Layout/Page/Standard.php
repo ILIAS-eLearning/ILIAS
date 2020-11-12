@@ -3,15 +3,17 @@
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
-use ILIAS\UI\Component\Layout\Page;
-use ILIAS\UI\Component\MainControls\ModeInfo;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\MainControls\MetaBar;
-use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\MainControls\HeadInfo;
+use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\ModeInfo;
+use ILIAS\UI\Component\MainControls\SystemInfo;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Page
@@ -20,6 +22,7 @@ class Standard implements Page\Standard
 {
     use ComponentHelper;
     use JavaScriptBindable;
+
     /**
      * @var ModeInfo|null
      */
@@ -33,11 +36,11 @@ class Standard implements Page\Standard
      */
     private $metabar;
     /**
-     * @var	MainBar|null
+     * @var    MainBar|null
      */
     private $mainbar;
     /**
-     * @var	Breadcrumbs|null
+     * @var    Breadcrumbs|null
      */
     private $breadcrumbs;
     /**
@@ -45,7 +48,7 @@ class Standard implements Page\Standard
      */
     private $logo;
     /**
-     * @var	footer|null
+     * @var    footer|null
      */
     private $footer;
     /**
@@ -57,21 +60,21 @@ class Standard implements Page\Standard
      */
     private $view_title;
     /**
-     * @var	string
+     * @var    string
      */
     private $title;
     /**
-     * @var	bool
+     * @var    bool
      */
     private $with_headers = true;
     /**
      * @var    bool
      */
     private $ui_demo = false;
+    protected $system_infos = [];
 
     /**
      * Standard constructor.
-     *
      * @param array            $content
      * @param MetaBar|null     $metabar
      * @param MainBar|null     $mainbar
@@ -124,7 +127,6 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -145,7 +147,6 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -154,7 +155,6 @@ class Standard implements Page\Standard
         return ($this->metabar instanceof MetaBar);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -162,7 +162,6 @@ class Standard implements Page\Standard
     {
         return ($this->mainbar instanceof MainBar);
     }
-
 
     /**
      * @inheritDoc
@@ -188,7 +187,6 @@ class Standard implements Page\Standard
         return $this->content;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -196,7 +194,6 @@ class Standard implements Page\Standard
     {
         return $this->metabar;
     }
-
 
     /**
      * @inheritdoc
@@ -206,7 +203,6 @@ class Standard implements Page\Standard
         return $this->mainbar;
     }
 
-
     /**
      * @inheritdoc
      */
@@ -214,7 +210,6 @@ class Standard implements Page\Standard
     {
         return $this->breadcrumbs;
     }
-
 
     /**
      * @inheritdoc
@@ -233,8 +228,7 @@ class Standard implements Page\Standard
     }
 
     /**
-     * @param    bool $use_headers
-     *
+     * @param bool $use_headers
      * @return    Page
      */
     public function withHeaders($use_headers) : Page
@@ -243,7 +237,6 @@ class Standard implements Page\Standard
         $clone->with_headers = $use_headers;
         return $clone;
     }
-
 
     /**
      * @return    bool
@@ -295,7 +288,6 @@ class Standard implements Page\Standard
         return $this->short_title;
     }
 
-
     public function withViewTitle(string $title) : Page\Standard
     {
         $clone = clone $this;
@@ -307,7 +299,6 @@ class Standard implements Page\Standard
     {
         return $this->view_title;
     }
-
 
     public function withModeInfo(ModeInfo $mode_info) : \ILIAS\UI\Component\Layout\Page\Standard
     {
@@ -321,7 +312,6 @@ class Standard implements Page\Standard
         return $this->mode_info;
     }
 
-
     public function hasModeInfo() : bool
     {
         return $this->mode_info instanceof ModeInfo;
@@ -332,5 +322,23 @@ class Standard implements Page\Standard
         $clone = clone $this;
         $clone->footer = null;
         return $clone;
+    }
+
+    public function withSystemInfos(array $system_infos) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $this->checkArgListElements("system_infos", $system_infos, [SystemInfo::class]);
+        $clone = clone $this;
+        $clone->system_infos = $system_infos;
+        return $clone;
+    }
+
+    public function getSystemInfos() : array
+    {
+        return $this->system_infos;
+    }
+
+    public function hasSystemInfos() : bool
+    {
+        return count($this->system_infos) > 0;
     }
 }

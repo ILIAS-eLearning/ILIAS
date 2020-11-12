@@ -26,19 +26,12 @@ class ilSetupAgent implements Setup\Agent
      */
     protected $data;
 
-    /**
-     * @var \ilSetupPasswordManager
-     */
-    protected $password_manager;
-
     public function __construct(
         Refinery\Factory $refinery,
-        Data\Factory $data,
-        \ilSetupPasswordManager $password_manager
+        Data\Factory $data
     ) {
         $this->refinery = $refinery;
         $this->data = $data;
-        $this->password_manager = $password_manager;
     }
 
     /**
@@ -52,22 +45,12 @@ class ilSetupAgent implements Setup\Agent
     /**
      * @inheritdoc
      */
-    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
-    {
-        throw new \LogicException("Not yet implemented.");
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            $password = $this->refinery->to()->data("password");
             $datetimezone = $this->refinery->to()->toNew(\DateTimeZone::class);
             return new \ilSetupConfig(
                 $data["client_id"],
-                $password->transform($data["master_password"]),
                 $datetimezone->transform([$data["server_timezone"] ?? "UTC"]),
                 $data["register_nic"] ?? false
             );
@@ -79,18 +62,18 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveWithPreconditions(
+        return new Setup\Objective\ObjectiveWithPreconditions(
             new \ilMakeInstallationAccessibleObjective($config),
             new \ilOverwritesExistingInstallationConfirmed($config),
             new Setup\ObjectiveCollection(
                 "Complete common ILIAS objectives.",
                 false,
-                new Setup\PHPVersionCondition("7.2.0"),
-                new Setup\PHPExtensionLoadedCondition("dom"),
-                new Setup\PHPExtensionLoadedCondition("xsl"),
-                new Setup\PHPExtensionLoadedCondition("gd"),
+                new Setup\Condition\PHPVersionCondition("7.2.0"),
+                new Setup\Condition\PHPExtensionLoadedCondition("dom"),
+                new Setup\Condition\PHPExtensionLoadedCondition("xsl"),
+                new Setup\Condition\PHPExtensionLoadedCondition("gd"),
                 $this->getPHPMemoryLimitCondition(),
-                new ilSetupConfigStoredObjective($config, $this->password_manager),
+                new ilSetupConfigStoredObjective($config, true),
                 $config->getRegisterNIC()
                         ? new ilNICKeyRegisteredObjective($config)
                         : new ilNICKeyStoredObjective($config)
@@ -100,7 +83,7 @@ class ilSetupAgent implements Setup\Agent
 
     protected function getPHPMemoryLimitCondition() : Setup\Objective
     {
-        return new Setup\ExternalConditionObjective(
+        return new Setup\Condition\ExternalConditionObjective(
             "PHP memory limit >= " . self::PHP_MEMORY_LIMIT,
             function (Setup\Environment $env) : bool {
                 $limit = ini_get("memory_limit");
@@ -120,7 +103,10 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\NullObjective();
+        if ($config !== null) {
+            return new ilSetupConfigStoredObjective($config);
+        }
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -128,6 +114,22 @@ class ilSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\NullObjective();
+        return new Setup\Objective\NullObjective();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    {
+        return new ilSetupMetricsCollectedObjective($storage);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
     }
 }

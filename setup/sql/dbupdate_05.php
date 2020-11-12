@@ -301,139 +301,152 @@ if (!$ilDB->tableExists('frm_thread_tree_mig')) {
 ?>
 <#5453>
 <?php
-$query = "
-	SELECT frmpt.thr_fk
-	FROM frm_posts_tree frmpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
-	WHERE frmpt.parent_pos = 0
-	GROUP BY frmpt.thr_fk
-	HAVING COUNT(frmpt.fpt_pk) > 1
-";
-$ignoredThreadIds = [];
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-    $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+$setting = new ilSetting();
+
+$alreadyMigrated = false;
+$last54Hotfix = $setting->get('db_hotfixes_5_4', null);
+if (is_numeric($last54Hotfix) && $last54Hotfix >= 26) {
+    $alreadyMigrated = true;
+}
+if (!$alreadyMigrated) {
+    $alreadyMigrated = (bool) $setting->get('ilfrmtreemigr', false);
 }
 
-$step = 5453;
+if (!$alreadyMigrated) {
+    $query = "
+        SELECT frmpt.thr_fk
+        FROM frm_posts_tree frmpt
+        INNER JOIN frm_posts fp ON fp.pos_pk = frmpt.pos_fk
+        WHERE frmpt.parent_pos = 0
+        GROUP BY frmpt.thr_fk
+        HAVING COUNT(frmpt.fpt_pk) > 1
+    ";
+    $ignoredThreadIds = [];
+    $res = $ilDB->query($query);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ignoredThreadIds[$row['thr_fk']] = $row['thr_fk'];
+    }
 
-$query = "
-	SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
-	FROM frm_posts_tree fpt
-	INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
-	LEFT JOIN frm_thread_tree_mig ON frm_thread_tree_mig.thread_id = fpt.thr_fk
-	WHERE fpt.parent_pos = 0 AND fpt.depth = 1 AND frm_thread_tree_mig.thread_id IS NULL
-";
-$res = $ilDB->query($query);
-while ($row = $ilDB->fetchAssoc($res)) {
-    $GLOBALS['ilLog']->info(sprintf(
-        "Started migration of thread with id %s",
-        $row['thr_fk']
-    ));
-    if (isset($ignoredThreadIds[$row['thr_fk']])) {
-        $GLOBALS['ilLog']->warning(sprintf(
-            "Cannot migrate forum tree for thread id %s in database update step %s",
+    $step = 5453;
+
+    $query = "
+        SELECT fp.*, fpt.fpt_pk, fpt.thr_fk, fpt.lft, fpt.rgt, fpt.fpt_date
+        FROM frm_posts_tree fpt
+        INNER JOIN frm_posts fp ON fp.pos_pk = fpt.pos_fk
+        LEFT JOIN frm_thread_tree_mig ON frm_thread_tree_mig.thread_id = fpt.thr_fk
+        WHERE fpt.parent_pos = 0 AND fpt.depth = 1 AND frm_thread_tree_mig.thread_id IS NULL
+    ";
+    $res = $ilDB->query($query);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $GLOBALS['ilLog']->info(sprintf(
+            "Started migration of thread with id %s",
+            $row['thr_fk']
+        ));
+        if (isset($ignoredThreadIds[$row['thr_fk']])) {
+            $GLOBALS['ilLog']->warning(sprintf(
+                "Cannot migrate forum tree for thread id %s in database update step %s",
+                $row['thr_fk'],
+                $step
+            ));
+            continue;
+        }
+
+        // Create space for a new root node, increment depth of all nodes, increment lft and rgt values
+        $ilDB->manipulateF(
+            "
+                UPDATE frm_posts_tree
+                SET
+                    lft = lft + 1,
+                    rgt = rgt + 1,
+                    depth = depth + 1
+                WHERE thr_fk = %s
+            ",
+            ['integer'],
+            [$row['thr_fk']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created gaps in tree for thread with id %s in database update step %s",
             $row['thr_fk'],
             $step
         ));
-        continue;
+
+        // Create a posting as new root
+        $postId = $ilDB->nextId('frm_posts');
+        $ilDB->insert('frm_posts', array(
+            'pos_pk' => array('integer', $postId),
+            'pos_top_fk' => array('integer', $row['pos_top_fk']),
+            'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
+            'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
+            'pos_usr_alias' => array('text', $row['pos_usr_alias']),
+            'pos_subject' => array('text', $row['pos_subject']),
+            'pos_message' => array('clob', $row['pos_message']),
+            'pos_date' => array('timestamp', $row['pos_date']),
+            'pos_update' => array('timestamp', null),
+            'update_user' => array('integer', 0),
+            'pos_cens' => array('integer', 0),
+            'notify' => array('integer', 0),
+            'import_name' => array('text', (string) $row['import_name']),
+            'pos_status' => array('integer', 1),
+            'pos_author_id' => array('integer', (int) $row['pos_author_id']),
+            'is_author_moderator' => array('integer', $row['is_author_moderator']),
+            'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
+        ));
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created new root posting with id %s in thread with id %s in database update step %s",
+            $postId,
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
+        $nextId = $ilDB->nextId('frm_posts_tree');
+        $ilDB->manipulateF(
+            '
+            INSERT INTO frm_posts_tree
+            (
+                fpt_pk,
+                thr_fk,
+                pos_fk,
+                parent_pos,
+                lft,
+                rgt,
+                depth,
+                fpt_date
+            ) VALUES (%s, %s, %s, %s,  %s,  %s, %s, %s)',
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'],
+            [$nextId, $row['thr_fk'], $postId, 0, 1, $row['rgt'] + 2, 1, $row['fpt_date']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Created new tree root with id %s in thread with id %s in database update step %s",
+            $nextId,
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Set parent_pos for old root
+        $ilDB->manipulateF(
+            "
+                UPDATE frm_posts_tree
+                SET
+                    parent_pos = %s
+                WHERE thr_fk = %s AND fpt_pk = %s
+            ",
+            ['integer', 'integer', 'integer'],
+            [$postId, $row['thr_fk'], $row['fpt_pk']]
+        );
+        $GLOBALS['ilLog']->info(sprintf(
+            "Set parent to %s for posting with id %s in thread with id %s in database update step %s",
+            $postId,
+            $row['fpt_pk'],
+            $row['thr_fk'],
+            $step
+        ));
+
+        // Mark as migrated
+        $ilDB->insert('frm_thread_tree_mig', array(
+            'thread_id' => array('integer', $row['thr_fk'])
+        ));
     }
-
-    // Create space for a new root node, increment depth of all nodes, increment lft and rgt values
-    $ilDB->manipulateF(
-        "
-			UPDATE frm_posts_tree
-			SET
-				lft = lft + 1,
-				rgt = rgt + 1,
-				depth = depth + 1
-			WHERE thr_fk = %s
-		",
-        ['integer'],
-        [$row['thr_fk']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created gaps in tree for thread with id %s in database update step %s",
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Create a posting as new root
-    $postId = $ilDB->nextId('frm_posts');
-    $ilDB->insert('frm_posts', array(
-        'pos_pk' => array('integer', $postId),
-        'pos_top_fk' => array('integer', $row['pos_top_fk']),
-        'pos_thr_fk' => array('integer', $row['pos_thr_fk']),
-        'pos_display_user_id' => array('integer', $row['pos_display_user_id']),
-        'pos_usr_alias' => array('text', $row['pos_usr_alias']),
-        'pos_subject' => array('text', $row['pos_subject']),
-        'pos_message' => array('clob', $row['pos_message']),
-        'pos_date' => array('timestamp', $row['pos_date']),
-        'pos_update' => array('timestamp', null),
-        'update_user' => array('integer', 0),
-        'pos_cens' => array('integer', 0),
-        'notify' => array('integer', 0),
-        'import_name' => array('text', (string) $row['import_name']),
-        'pos_status' => array('integer', 1),
-        'pos_author_id' => array('integer', (int) $row['pos_author_id']),
-        'is_author_moderator' => array('integer', $row['is_author_moderator']),
-        'pos_activation_date' => array('timestamp', $row['pos_activation_date'])
-    ));
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created new root posting with id %s in thread with id %s in database update step %s",
-        $postId,
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Insert the new root and, set dept = 1, lft = 1, rgt = <OLR_ROOT_RGT> + 2
-    $nextId = $ilDB->nextId('frm_posts_tree');
-    $ilDB->manipulateF(
-        '
-		INSERT INTO frm_posts_tree
-		(
-			fpt_pk,
-			thr_fk,
-			pos_fk,
-			parent_pos,
-			lft,
-			rgt,
-			depth,
-			fpt_date
-		) VALUES (%s, %s, %s, %s,  %s,  %s, %s, %s)',
-        ['integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'],
-        [$nextId, $row['thr_fk'], $postId, 0, 1, $row['rgt'] + 2, 1, $row['fpt_date']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Created new tree root with id %s in thread with id %s in database update step %s",
-        $nextId,
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Set parent_pos for old root
-    $ilDB->manipulateF(
-        "
-			UPDATE frm_posts_tree
-			SET
-				parent_pos = %s
-			WHERE thr_fk = %s AND fpt_pk = %s
-		",
-        ['integer', 'integer', 'integer'],
-        [$nextId, $row['thr_fk'], $row['fpt_pk']]
-    );
-    $GLOBALS['ilLog']->info(sprintf(
-        "Set parent to %s for posting with id %s in thread with id %s in database update step %s",
-        $nextId,
-        $row['fpt_pk'],
-        $row['thr_fk'],
-        $step
-    ));
-
-    // Mark as migrated
-    $ilDB->insert('frm_thread_tree_mig', array(
-        'thread_id' => array('integer', $row['thr_fk'])
-    ));
 }
 ?>
 <#5454>
@@ -1610,11 +1623,11 @@ $ltiTypeId = ilDBUpdateNewObjectType::getObjectTypeId('lti');
 
 if (!$ltiTypeId) {
     // add basic object type
-    
+
     $ltiTypeId = ilDBUpdateNewObjectType::addNewType('lti', 'LTI Consumer Object');
-    
+
     // common rbac operations
-    
+
     $rbacOperations = array(
         ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
         ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
@@ -1623,30 +1636,30 @@ if (!$ltiTypeId) {
         ilDBUpdateNewObjectType::RBAC_OP_DELETE,
         ilDBUpdateNewObjectType::RBAC_OP_COPY
     );
-    
+
     ilDBUpdateNewObjectType::addRBACOperations($ltiTypeId, $rbacOperations);
-    
+
     // lp rbac operations
-    
+
     $operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
     ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
-    
+
     $operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
     ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
-    
+
     // custom rbac operations
-    
+
     $operationId = ilDBUpdateNewObjectType::addCustomRBACOperation(
         'read_outcomes',
         'Access Outcomes',
         'object',
         '2250'
     );
-    
+
     ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
-    
+
     // add create operation for relevant container types
-    
+
     // (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
     $parentTypes = array('root', 'cat', 'crs', 'fold', 'grp');
     // (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
@@ -1668,11 +1681,11 @@ $cmixTypeId = ilDBUpdateNewObjectType::getObjectTypeId('cmix');
 
 if (!$cmixTypeId) {
     // add basic object type
-    
+
     $cmixTypeId = ilDBUpdateNewObjectType::addNewType('cmix', 'cmi5/xAPI Object');
-    
+
     // common rbac operations
-    
+
     $rbacOperations = array(
         ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
         ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
@@ -1681,24 +1694,24 @@ if (!$cmixTypeId) {
         ilDBUpdateNewObjectType::RBAC_OP_DELETE,
         ilDBUpdateNewObjectType::RBAC_OP_COPY
     );
-    
+
     ilDBUpdateNewObjectType::addRBACOperations($cmixTypeId, $rbacOperations);
-    
+
     // lp rbac operations
-    
+
     $operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
     ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
-    
+
     $operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
     ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
-    
+
     // custom rbac operations
-    
+
     $operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_outcomes');
     ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
-    
+
     // add create operation for relevant container types
-    
+
     // (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
     $parentTypes = array('root', 'cat', 'crs', 'fold', 'grp');
     // (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
@@ -2063,7 +2076,7 @@ if (!$ilDB->tableExists('cmix_users')) {
             'notnull' => false
         )
     ));
-    
+
     $ilDB->addPrimaryKey('cmix_users', array('obj_id', 'usr_id'));
 }
 
@@ -2430,7 +2443,7 @@ if (!$ilDB->tableExists('lti_consumer_settings')) {
             'notnull' => false
         )
     ));
-    
+
     $ilDB->addPrimaryKey('lti_consumer_settings', array('obj_id'));
 }
 
@@ -4312,7 +4325,7 @@ if (!$idx) {
     $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
     $setting->set('ilfrmreadidx1', 1);
 }
-?> 
+?>
 <#5666>
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
@@ -4449,5 +4462,977 @@ if (!$ilDB->tableColumnExists('skl_user_has_level', 'next_level_fulfilment')) {
         "notnull" => true,
         "default" => 0.0
     ));
+}
+?>
+<#5678>
+<?php
+if (!$ilDB->indexExistsByFields('booking_object', array('pool_id'))) {
+    $ilDB->addIndex('booking_object', array('pool_id'), 'i1');
+}
+?>
+<#5679>
+<?php
+if (!$ilDB->indexExistsByFields('il_object_subobj', array('subobj'))) {
+    $ilDB->addIndex('il_object_subobj', array('subobj'), 'i1');
+}
+?>
+<#5680>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5681>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'default_value')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'default_value',
+        array(
+            'type'    => 'text',
+            'length'  => 255,
+            'notnull' => false
+        )
+    );
+}
+?>
+<#5682>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'required_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5683>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'locked_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5684>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_create')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'visible_create',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5685>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'visible_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'visible_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5686>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'required_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'required_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5687>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tview_set', 'locked_edit')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tview_set',
+        'locked_edit',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5688>
+<?php
+if ($ilDB->tableColumnExists('il_dcl_field', 'required')) {
+    // Migration
+    $res = $ilDB->query("SELECT id, required FROM il_dcl_field");
+    while ($rec = $ilDB->fetchAssoc($res)) {
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET required_create = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['required'], $rec['id'])
+        );
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET required_edit = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['required'], $rec['id'])
+        );
+    }
+
+    $ilDB->dropTableColumn('il_dcl_field', 'required');
+}
+?>
+<#5689>
+<?php
+if ($ilDB->tableColumnExists('il_dcl_field', 'is_locked')) {
+    // Migration
+    $res = $ilDB->query("SELECT id, is_locked FROM il_dcl_field");
+    while ($rec = $ilDB->fetchAssoc($res)) {
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET locked_create = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['is_locked'], $rec['id'])
+        );
+        $ilDB->queryF(
+            "UPDATE il_dcl_tview_set SET locked_edit = %s WHERE field = %s",
+            array('integer', 'text'),
+            array($rec['is_locked'], $rec['id'])
+        );
+    }
+
+    $ilDB->dropTableColumn('il_dcl_field', 'is_locked');
+}
+?>
+<#5690>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_vs')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_vs',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 1
+        )
+    );
+}
+?>
+<#5691>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_c')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_c',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5692>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_e')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_e',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5693>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_o')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_o',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5694>
+<?php
+if (!$ilDB->tableColumnExists('il_dcl_tableview', 'step_s')) {
+    $ilDB->addTableColumn(
+        'il_dcl_tableview',
+        'step_s',
+        array(
+            'type'    => 'integer',
+            'length'  => 1,
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5695>
+<?php
+$fields = array(
+    'id'       => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'tview_set_id' => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'value'      => array(
+        'type'   => 'text',
+        'length' => '4000',
+
+    )
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc1_default')) {
+    $ilDB->createTable('il_dcl_stloc1_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc1_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc1_default");
+}
+?>
+<#5696>
+<?php
+$fields = array(
+    'id'       => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'tview_set_id' => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    ),
+    'value'      => array(
+        'type'   => 'integer',
+        'length' => '4',
+
+    )
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc2_default')) {
+    $ilDB->createTable('il_dcl_stloc2_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc2_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc2_default");
+}
+?>
+<#5697>
+<?php
+$fields = array(
+    'id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+    ),
+    'tview_set_id' => array(
+        'type' => 'integer',
+        'length' => 4,
+        'notnull' => true
+    ),
+    'value' => array(
+        'type' => 'timestamp',
+        'notnull' => true
+    ),
+);
+
+if (!$ilDB->tableExists('il_dcl_stloc3_default')) {
+    $ilDB->createTable('il_dcl_stloc3_default', $fields);
+    $ilDB->addPrimaryKey('il_dcl_stloc3_default', array('id'));
+    $ilDB->createSequence("il_dcl_stloc3_default");
+}
+?>
+<#5698>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5699>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5700>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('cpad', 'ContentPageAdministration');
+?>
+<#5701>
+<?php
+if (!$ilDB->tableExists('content_page_metrics')) {
+    $fields = [
+        'content_page_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0,
+        ],
+        'page_id' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 4,
+            'default' => 0,
+        ],
+        'lang' => [
+            'type' => 'text',
+            'notnull' => true,
+            'length' => 2,
+            'default' => '-',
+        ],
+        'reading_time' => [
+            'type' => 'integer',
+            'notnull' => true,
+            'length' => 2,
+            'default' => 0,
+        ]
+    ];
+
+    $ilDB->createTable('content_page_metrics', $fields);
+    $ilDB->addPrimaryKey('content_page_metrics', ['content_page_id', 'page_id', 'lang']);
+}
+?>
+<#5702>
+<?php
+$ilDB->manipulate(
+    '
+    DELETE
+    FROM content_page_data
+    WHERE NOT EXISTS(
+        SELECT od.obj_id FROM object_data od WHERE od.obj_id = content_page_data.content_page_id
+    )
+    '
+);
+?>
+<#5703>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5704>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5705>
+<?php
+if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
+    $ilDB->addIndex('tax_tree', ['child'], 'i1');
+}
+?>
+<#5706>
+<?php
+if (!$ilDB->tableColumnExists("skl_profile", "ref_id")) {
+    $ilDB->addTableColumn("skl_profile", "ref_id", array(
+        "type" => "integer",
+        "notnull" => true,
+        "default" => 0,
+        "length" => 4
+    ));
+}
+?>
+<#5707>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5708>
+<?php
+if ($ilDB->tableExists('cont_skills')) {
+    $set = $ilDB->query(
+        "SELECT id, skill_id, tref_id FROM cont_skills"
+    );
+}
+
+if ($ilDB->tableExists('skl_usage')) {
+    while ($rec = $ilDB->fetchAssoc($set)) {
+        $ilDB->replace(
+            'skl_usage',
+            array(
+                'obj_id' => array('integer', $rec['id']),
+                'skill_id' => array('integer', $rec['skill_id']),
+                'tref_id' => array('integer', $rec['tref_id'])
+            ),
+            array()
+        );
+    }
+}
+?>
+<#5709>
+<?php
+if (!$ilDB->tableColumnExists('file_data', 'rid')) {
+    $ilDB->addTableColumn('file_data', 'rid', [
+        'type' => 'text',
+        'length' => 255
+    ]);
+}
+?>
+<#5710>
+<?php
+$fields = array(
+    'internal' => array(
+        'type' => 'text',
+        'length' => 255,
+
+    ),
+    'identification' => array(
+        'type' => 'text',
+        'length' => 255,
+
+    ),
+    'stakeholder_id' => array(
+        'type' => 'text',
+        'length' => 255,
+
+    ),
+    'stakeholder_class' => array(
+        'type' => 'text',
+        'length' => 255,
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_resource_stakeh')) {
+    $ilDB->createTable('il_resource_stakeh', $fields);
+    $ilDB->addPrimaryKey('il_resource_stakeh', array( 'internal' ));
+
+}
+?>
+<#5711>
+<?php
+if (!$ilDB->tableExists('webr_lists')) {
+    $fields = [
+        'webr_id' => [
+            'type'    => 'integer',
+            'length'  => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'title' => [
+            'type'     => 'text',
+            'length'   => 127,
+            'notnull'  => false
+        ],
+        'description' => [
+            'type'     => 'text',
+            'length'   => 4000,
+            'notnull'  => false
+        ],
+        'create_date' => [
+            'type'     => 'integer',
+            'length'   => 4,
+            'notnull'  => true,
+            'default'  => 0
+        ],
+        'last_update' => [
+            'type'     => 'integer',
+            'length'   => 4,
+            'notnull'  => true,
+            'default'  => 0
+        ]
+    ];
+    $ilDB->createTable('webr_lists', $fields);
+    $ilDB->addPrimaryKey('webr_lists', ['webr_id']);
+}
+?>
+<#5712>
+<?php
+if ($ilDB->tableExists('webr_lists')) {
+    $res_lists = $ilDB->query("
+        SELECT *
+        FROM object_data o, webr_lists l
+        WHERE o.type = 'webr'
+        AND o.obj_id = l.webr_id
+    ");
+
+    $res_items = $ilDB->query("
+        SELECT *
+        FROM object_data o
+        WHERE
+            (SELECT COUNT(*) 
+            FROM webr_items w
+            WHERE w.webr_id = o.obj_id) <> 1
+        AND o.type = 'webr'
+    ");
+
+    $webr_ids = [];
+    while ($row_lists = $ilDB->fetchAssoc($res_lists)) {
+        $webr_ids[] = $row_lists['webr_id'];
+    }
+
+    while ($row_items = $ilDB->fetchAssoc($res_items)) {
+        if (!in_array($row_items['obj_id'], $webr_ids)) {
+            $ilDB->manipulate(
+                "INSERT INTO webr_lists (webr_id, title, description, create_date, last_update)" .
+                " VALUES (" .
+                $ilDB->quote($row_items['obj_id'], "integer") .
+                "," . $ilDB->quote($row_items['title'], "text") .
+                "," . $ilDB->quote($row_items['description'], "text") .
+                "," . $ilDB->quote(time(), "integer") .
+                "," . $ilDB->quote(time(), "integer") .
+                ")"
+            );
+        }
+    }
+
+}
+?>
+<#5713>
+<?php
+if (!$ilDB->tableColumnExists('il_resource_info', 'creation_date')) {
+    $ilDB->addTableColumn('il_resource_info', 'creation_date', array(
+        'type' => 'integer',
+        'length' => '8',
+        'default' => 0
+    ));
+}
+if (!$ilDB->tableColumnExists('il_resource_revision', 'owner_id')) {
+    $ilDB->addTableColumn('il_resource_revision', 'owner_id', array(
+        'type' => 'integer',
+        'length' => '8',
+        'default' => 0
+    ));
+}
+?>
+<#5714>
+<?php
+
+if (!$ilDB->tableColumnExists('svy_qblk', 'compress_view')) {
+    $ilDB->addTableColumn('svy_qblk', 'compress_view', array(
+        "type" => "integer",
+        "length" => 1,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+?>
+<#5715>
+<?php
+if (!$ilDB->tableColumnExists('il_resource_revision', 'title')) {
+    $ilDB->addTableColumn('il_resource_revision', 'title', array(
+        'type' => 'text',
+        'length' => 255,
+        'default' => '-'
+    ));
+}
+?>
+<#5716>
+<?php
+if (!$ilDB->tableColumnExists('obj_content_master_lng', 'fallback_lang')) {
+    $ilDB->addTableColumn(
+        'obj_content_master_lng',
+        'fallback_lang',
+        array(
+            "type" => "text",
+            "notnull" => false,
+            "length" => 2
+        )
+    );
+}
+?>
+<#5717>
+<?php
+if($ilDB->tableExists('cmix_lrs_types'))
+{
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'only_moveon') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'only_moveon', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'achieved') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'achieved', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'answered') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'answered', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'completed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'completed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'failed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'failed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'initialized') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'initialized', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'passed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'passed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'progressed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'progressed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'satisfied') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_terminated') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'c_terminated', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'hide_data') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'hide_data', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_timestamp') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'c_timestamp', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'duration') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'duration', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'no_substatements') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'no_substatements', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+}
+?>
+<#5718>
+<?php
+if($ilDB->tableExists('cmix_settings'))
+{
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'only_moveon') ) {
+        $ilDB->addTableColumn('cmix_settings', 'only_moveon', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'achieved') ) {
+        $ilDB->addTableColumn('cmix_settings', 'achieved', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'answered') ) {
+        $ilDB->addTableColumn('cmix_settings', 'answered', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'completed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'completed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'failed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'failed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'initialized') ) {
+        $ilDB->addTableColumn('cmix_settings', 'initialized', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'passed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'passed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'progressed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'progressed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'satisfied') ) {
+        $ilDB->addTableColumn('cmix_settings', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_terminated') ) {
+        $ilDB->addTableColumn('cmix_settings', 'c_terminated', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'hide_data') ) {
+        $ilDB->addTableColumn('cmix_settings', 'hide_data', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_timestamp') ) {
+        $ilDB->addTableColumn('cmix_settings', 'c_timestamp', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'duration') ) {
+        $ilDB->addTableColumn('cmix_settings', 'duration', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'no_substatements') ) {
+        $ilDB->addTableColumn('cmix_settings', 'no_substatements', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+}
+?>
+<#5719>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5720>
+<?php
+if (!$ilDB->tableColumnExists('usr_starting_point', 'calendar_view')) {
+    $ilDB->addTableColumn("usr_starting_point", "calendar_view", array(
+        "type" => ilDBConstants::T_INTEGER,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+
+if (!$ilDB->tableColumnExists('usr_starting_point', 'calendar_period')) {
+    $ilDB->addTableColumn("usr_starting_point", "calendar_period", array(
+        "type" => ilDBConstants::T_INTEGER,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+?>
+<#5721>
+<?php
+
+if (!$ilDB->tableColumnExists('event', 'show_cannot_part')) {
+    $ilDB->addTableColumn(
+        'event',
+        'show_cannot_part',
+        [
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#5722>
+<?php
+if (!$ilDB->tableColumnExists('grp_settings', 'session_limit')) {
+    $ilDB->addTableColumn("grp_settings", "session_limit", array(
+        "type" => "integer",
+        'length' => 1,
+        "notnull" => true,
+        "default" => 0
+    ));
+}
+?>
+<#5723>
+<?php
+if (!$ilDB->tableColumnExists('grp_settings', 'session_prev')) {
+    $ilDB->addTableColumn("grp_settings", "session_prev", array(
+        "type" => "integer",
+        'length' => 8,
+        "notnull" => true,
+        "default" => -1
+    ));
+}
+?>
+<#5724>
+<?php
+if (!$ilDB->tableColumnExists('grp_settings', 'session_next')) {
+    $ilDB->addTableColumn("grp_settings", "session_next", array(
+        "type" => "integer",
+        'length' => 8,
+        "notnull" => true,
+        "default" => -1
+    ));
+}
+?>
+<#5725>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('fils', 'File Services');
+$ilCtrlStructureReader->getStructure();
+?>
+<#5726>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('wbdv', 'WebDAV');
+$ilCtrlStructureReader->getStructure();
+?>
+<#5727>
+<?php
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'custom_webfolder_instructions']
+    ]);
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'custom_webfolder_instructions_enabled']
+    ]);
+$ilDB->update('settings',
+    ['module' => ['text', 'webdav']],
+    [
+        'module' => ['text', 'file_access'],
+        'keyword' => ['text', 'webdav_versioning_enabled']
+    ]);
+?>
+
+<#5728>
+<?php
+if (!$ilDB->tableColumnExists('didactic_tpl_settings','icon_ide')) {
+    $ilDB->addTableColumn('didactic_tpl_settings', 'icon_ide', [
+        'type' => ilDBConstants::T_TEXT,
+        'length' => 64,
+        'notnull' => false,
+        'default' => ''
+    ]);
 }
 ?>

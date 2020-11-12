@@ -53,6 +53,23 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     {
         parent::__construct();
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function initMail() : ilMail
+    {
+        parent::initMail();
+        $this->mail = $this->mail->withContextParameters([
+            ilMail::PROP_CONTEXT_SUBJECT_PREFIX => ilContainer::_lookupContainerSetting(
+                ilObject::_lookupObjId($this->getRefId()),
+                ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX,
+                ''
+            ),
+        ]);
+
+        return $this->mail;
+    }
     
     /**
      * Force sending mail independent from global setting

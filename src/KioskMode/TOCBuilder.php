@@ -42,7 +42,8 @@ interface TOCBuilder
      * The $parameter can be used to pass additional information to View::updateGet
      * if required, e.g. about a chapter in the content.
      *
-     * @param	mixed $state one of the LP_ constants from TOCBuilder
+     * @param mixed $state one of the LP_ constants from TOCBuilder
+     * @param bool $current is this the currently active item?
      */
-    public function item(string $label, int $parameter, $state = null) : TOCBuilder;
+    public function item(string $label, int $parameter, $state = null, bool $current = false) : TOCBuilder;
 }

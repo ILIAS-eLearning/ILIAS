@@ -12,7 +12,7 @@ use ILIAS\Setup;
  *
  * @package ILIAS\GlobalScreen\BootLoader
  */
-class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjective
+class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifactObjective
 {
     public function getArtifactPath() : string
     {
@@ -31,11 +31,13 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjecti
             NotificationProvider::class,
         ];
 
+        $finder = new Setup\ImplementationOfInterfaceFinder();
         foreach ($i as $interface) {
-            $i = new Setup\ImplementationOfInterfaceFinder($interface);
-            $class_names[$interface] = iterator_to_array($i->getMatchingClassNames());
+            $class_names[$interface] = iterator_to_array(
+                $finder->getMatchingClassNames($interface)
+            );
         }
 
-        return new Setup\ArrayArtifact($class_names);
+        return new Setup\Artifact\ArrayArtifact($class_names);
     }
 }

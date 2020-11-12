@@ -37,11 +37,15 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
     {
         $common_config = $environment->getConfigFor("common");
         return [
-            new Setup\DirectoryCreatedObjective($this->config->getDataDir()),
-
-            new Setup\DirectoryCreatedObjective($this->config->getWebDir()),
-            new Setup\DirectoryCreatedObjective($this->config->getWebDir() . "/" . $common_config->getClientId()),
-            new Setup\DirectoryCreatedObjective($this->config->getDataDir() . "/" . $common_config->getClientId())
+            new ilIniFilesPopulatedObjective($common_config),
+            new Setup\Objective\DirectoryCreatedObjective($this->config->getDataDir()),
+            new Setup\Objective\DirectoryCreatedObjective($this->config->getWebDir()),
+            new Setup\Objective\DirectoryCreatedObjective(
+                $this->config->getWebDir() . "/" . $common_config->getClientId()
+            ),
+            new Setup\Objective\DirectoryCreatedObjective(
+                $this->config->getDataDir() . "/" . $common_config->getClientId()
+            )
         ];
     }
 
@@ -56,5 +60,15 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
         }
 
         return $environment;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isApplicable(Setup\Environment $environment) : bool
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+
+        return $ini->readVariable("clients", "datadir") !== $this->config->getDataDir();
     }
 }

@@ -127,6 +127,8 @@ class ilNote
     
     public function getObject()
     {
+        // note: any changes here will currently influence
+        // the parameters of all observers!
         return array("rep_obj_id" => $this->rep_obj_id,
             "obj_id" => $this->obj_id,
             "obj_type" => $this->obj_type,

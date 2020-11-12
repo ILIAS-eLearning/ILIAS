@@ -472,7 +472,7 @@ EOT;
         $sg = $f->switchableGroup([$group1,$group2], $label, $byline);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($sg->withValue(1));
+        $html = $r->render($sg->withValue('1'));
 
         $expected = <<<EOT
 		<div class="form-group row">

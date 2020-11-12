@@ -12,12 +12,70 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### All UI-Elements Step 1
+
+The UI-Framework attempts to be the source for all visual elements in ILIAS and
+thus supersede the current templating. The challenge is two-fold: on the one hand
+the required elements need to be implemented in the UI-framework, on the other
+hand the Components need to use the UI-framework for their actual rendering. 
+
+Not all Components have the same priority. Highest on our list are Components that 
+are needed on every screen to render ILIAS with an empty content section (such as Tabs). 
+Next are Components, that are needed in many use cases and therefore have a very high
+grade of re-use (such as the Toolbar). Due to major work done for ILIAS 6, such as the Standard Layout 
+Component, Meta Bar and Main Bar we are now able to promote further Components to our list of short 
+term tasks, see below. Note that the names given here, are only the names of the task and must not necessarily 
+reflect the names of the resulting Components. 
+
+Further note that we desperately search developers and UX designers willing
+to work creating those missing Components. If you are interested, drop a mail to the
+coordinators, so they can get you geared up for the work. For all Components we highly
+recommend starting with a Workshop with the UI Components coordinators to align various visions
+and concepts of the given Component. The following items have the highest priority on 
+our list of short term tasks.
+
+#### Outer Content (advanced, variable)
+This Component is basically what could be hooked into the [Standard Layout](Component/Layout/Page/Factory.php) as
+content (currently provided as array of Legacy Components). Most Probably it should be able to hold the title section 
+(not yet part of the UI Components, see below), the Tabs (not yet Part of the UI Components, see below) and the
+Inner Content holding the workspace for the current context (not yet Part of the UI Components, see below).
+
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+
+#### Title Section (advanced, variable)
+This Component will probably hold the Icon, title, description and the actions (maybe along with the used glyphs) of the 
+current context. Note that a major part of the work for this components will be to setup a comprehensive set of rules on 
+when to provide an Icon, restrictions of the Title (lengths, nouns vs verbs etc.), restrictions of the description 
+(lengths, when to use etc.) and nature, amount of the actions etc. Note that there is pre-existing work on those 
+subjects: [Feature Wiki](https://docu.ilias.de/goto_docu_wiki_wpage_6080_1357.html). 
+However, this has not been decided yet and is thus most certainly up for discussion.
+
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+
+#### Tabs and Sub Tabs (advanced, variable)
+Note that a major part of the work for this Components will be to setup a comprehensive set of rules on the naming of 
+Tabs and Sub Tabs (noun vs verbs, length, amount of words etc.) and rules for the usage of Tabs vs Sub Tabs vs Sections
+in Forms shown in Tabs. Also, one would have to look into the issue that currently "<-- Back" actions are mixed into 
+the Tabs. We will need to decide, whether we will still use this concept in the future.
+
+Note; One important aspect here, will be to clarify at some point the relation to the [Global Screen](../GlobalScreen). 
+
+#### Inner Content
+This will most probably mainly contain an array of Components used in the Content Section. An interesting 
+point here will be the question, whether this Component should also offer something like withToolbar, to make sure 
+only one or no Toolbar can be provided and whether there would be different types of Inner Content Components (such as 
+one with a Sidebar).
+
+#### Toolbar
+This Component will probably need to be designed as new Input Container. An important part of the work here will be to 
+devise a set of rules of what the toolbar should be used for and what not.
+
 ### Simple usage of demo-page in examples  (beginner, ~4h)
-To show how a UI-Component looks loke in the page context (esp. for 
+To show how a UI-Component looks like in the page context (esp. for 
 Components from the MainControls) a simple "framework" to use a Demo-Page
 in the examples would be helpful.
 
-### Improving FileInput and Dropzones (advanced, vaiable)
+### Improving FileInput and Dropzones (advanced, variable)
 General Dropzone functionality:
 ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
 
@@ -130,18 +188,6 @@ base class and removed on `Field\Select` and `Field\Text`.
 
 New inputs must already implement the methods.
 
-### Remove `MainControl\MainBar::withMoreButton` and `::getMoreButton` (beginner, ~2h)
-
-Currently these two methods offer the possibility for a customization where none
-is required. The more button might be styled via css or exchange of images, but
-we do not need to exchange it programmatically.
-
-### Add symbol for more and use it in the More-Button (beginner, ~2h)
-
-Currently the symbol for the more button is pulled from the examples directory of
-the UI-framework. The image-file should be moved to a proper location and possibly
-become part of the UI-framework as a proper glyph.
-
 ### Create a `Group`-family in `Input\Field` (beginner, ~2h)
 
 Currently `Input\Field` contains various group inputs, where the different inputs
@@ -199,8 +245,16 @@ a < div > element is used. This level seems redundant and not giving any advanta
 over just starting with < body >. We should remove the < div > element, but must
 keep the functionalities, which are coupled to the "class"-attribute of the element.
 
+### Complete rendering-tests for Inputs (beginner):
+The UI Inputs do not all have a rendering test.
+Add, where missing, and refine existing.
 
 ## Long Term
+
+### All UI-Elements Step 2
+
+As mentioned above, the UI-Framework attempts to be the source for all visual elements in ILIAS and
+thus supersede the current templating. There is much work remaining, even if the components listed above are implemented. 
 
 ### Glyphs as Toggle
 
@@ -258,14 +312,6 @@ and Item. This tension should be resolved by clearifing the roles of the two
 elements Item and Card or unify them into a common concept. This will help
 developers to pick the right tool for their job as well as clarify the future
 development of the two concepts.
-
-
-### All UI-Elements
-
-The UI-Framework attempts to be the source for all visual elements in ILIAS and
-thus supersede the current templating. The challenge is two-fold: on the one hand
-the required elements need to be implemented in the UI-framework, on the other
-hand the components need to use the UI-framework for their actual rendering. 
 
 
 ### Define JS-Patterns for the UI-Framework

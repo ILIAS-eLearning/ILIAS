@@ -633,14 +633,14 @@ class ilObjLanguage extends ilObject
             $a_remarks = substr($a_remarks, 0, 250);
         }
         if ($a_remarks == '') {
-            unset($a_remarks);
+            $a_remarks = null;
         }
 
         if (isset($a_value)) {
             $a_value = substr($a_value, 0, 4000);
         }
         if ($a_value == '') {
-            unset($a_value);
+            $a_value = null;
         }
 
         $ilDB->replace(

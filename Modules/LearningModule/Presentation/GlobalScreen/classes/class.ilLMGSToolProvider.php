@@ -15,6 +15,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
     const SHOW_TOC_TOOL = 'show_toc_tool';
+    const SHOW_LINK_SLATES = 'show_link_slates';
     const LM_QUERY_PARAMS = 'lm_query_params';
     const LM_OFFLINE = 'lm_offline';
 
@@ -34,7 +35,6 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
         global $DIC;
-
         $lng = $DIC->language();
         $access = $DIC->access();
         
@@ -42,22 +42,25 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
+        $iff = function ($id) {
+            return $this->identification_provider->contextAwareIdentifier($id);
+        };
+        $l = function (string $content) {
+            return $this->dic->ui()->factory()->legacy($content);
+        };
+
         if ($additional_data->is(self::SHOW_TOC_TOOL, true)) {
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
-            
+
             if (!$access->checkAccess("read", "", $ref_id)) {
                 return $tools;
             }
             
 
             $tools[] = $this->getTocTool($additional_data);
+        }
 
+        if ($additional_data->is(self::SHOW_LINK_SLATES, true)) {
             $title = $lng->txt("obj_glo");
             $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_glo.svg"), $title);
             $identification = $iff("lm_glossary");
@@ -133,7 +136,6 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
                 ->withSymbol($icon)
                 ->withPosition(13);
         }
-
         return $tools;
     }
 
@@ -198,14 +200,13 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     private function getToc($additional_data) : string
     {
         global $DIC;
-
         // get params via additional_data, set query params
         $params = $additional_data->get(self::LM_QUERY_PARAMS);
         $offline = $additional_data->is(self::LM_OFFLINE, true);
+
         if (!is_array($params)) {
             $params = $_GET;
         }
-
         try {
             $service = new ilLMPresentationService($DIC->user(), $params, $offline);
             $renderer = new ilLMSlateTocRendererGUI($service);

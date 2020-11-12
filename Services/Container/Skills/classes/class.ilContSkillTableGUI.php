@@ -34,10 +34,30 @@ class ilContSkillTableGUI extends ilTable2GUI
     protected $container_skills;
 
     /**
+     * @var ilContainerGlobalProfiles
+     */
+    protected $container_global_profiles;
+
+    /**
+     * @var ilContainerLocalProfiles
+     */
+    protected $container_local_profiles;
+
+    /**
+     * @var ilContSkillCollector
+     */
+    protected $container_skill_collector;
+
+    /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilContainerSkills $a_cont_skills)
-    {
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        ilContainerSkills $a_cont_skills,
+        ilContainerGlobalProfiles $a_cont_glb_profiles,
+        ilContainerLocalProfiles $a_cont_lcl_profiles
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -47,6 +67,14 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->skill_tree = new ilSkillTree();
 
         $this->container_skills = $a_cont_skills;
+        $this->container_global_profiles = $a_cont_glb_profiles;
+        $this->container_local_profiles = $a_cont_lcl_profiles;
+
+        $this->container_skill_collector = new ilContSkillCollector(
+            $this->container_skills,
+            $this->container_global_profiles,
+            $this->container_local_profiles
+        );
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getSkills());
@@ -55,6 +83,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("cont_skill"), "", "1");
         $this->addColumn($this->lng->txt("cont_path"), "", "1");
+        $this->addColumn($this->lng->txt("cont_skill_profile"), "", "1");
         
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_skill_row.html", "Services/Container/Skills");
@@ -72,18 +101,7 @@ class ilContSkillTableGUI extends ilTable2GUI
      */
     public function getSkills()
     {
-        $skills = array();
-        foreach ($this->container_skills->getSkills() as $sk) {
-            $skills[] = array(
-                "skill_id" => $sk["skill_id"],
-                "tref_id" => $sk["tref_id"],
-                "title" => ilBasicSkill::_lookupTitle($sk["skill_id"], $sk["tref_id"])
-            );
-        }
-
-        // order skills per virtual skill tree
-        $vtree = new ilVirtualSkillTree();
-        $skills = $vtree->getOrderedNodeset($skills, "skill_id", "tref_id");
+        $skills = $this->container_skill_collector->getSkillsForTableGUI();
 
         return $skills;
     }
@@ -98,10 +116,17 @@ class ilContSkillTableGUI extends ilTable2GUI
         $skill_tree = $this->skill_tree;
 
         $tpl->setVariable("TITLE", $a_set["title"]);
-        $tpl->setVariable("ID", $a_set["skill_id"] . ":" . $a_set["tref_id"]);
 
-        $path = $this->getParentObject()->getPathString($a_set["skill_id"], $a_set["tref_id"]);
-
+        $path = $this->getParentObject()->getPathString($a_set["base_skill_id"], $a_set["tref_id"]);
         $tpl->setVariable("PATH", $path);
+
+        if ($a_set["profile"] != null) {
+            $tpl->setVariable("PROFILE", $a_set["profile"]);
+        }
+        else {
+            $tpl->setCurrentBlock("checkbox");
+            $tpl->setVariable("ID", $a_set["base_skill_id"] . ":" . $a_set["tref_id"]);
+            $tpl->parseCurrentBlock();
+        }
     }
 }

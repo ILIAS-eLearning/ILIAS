@@ -5,12 +5,13 @@
 namespace ILIAS\Tests\Setup;
 
 use ILIAS\Setup;
+use PHPUnit\Framework\TestCase;
 
-class ConfigCollectionTest extends \PHPUnit\Framework\TestCase
+class ConfigCollectionTest extends TestCase
 {
     use Helper;
 
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -21,7 +22,7 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf(Setup\Config::class, $c);
     }
 
-    public function testGetConfig()
+    public function testGetConfig() : void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -34,7 +35,7 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($c3, $c->getConfig("c3"));
     }
 
-    public function testGetKeys()
+    public function testGetKeys() : void
     {
         $c1 = $this->newConfig();
         $c2 = $this->newConfig();
@@ -43,5 +44,18 @@ class ConfigCollectionTest extends \PHPUnit\Framework\TestCase
         $c = new Setup\ConfigCollection(["c1" => $c1, "c2" => $c2, "c3" => $c3]);
 
         $this->assertEquals(["c1", "c2", "c3"], $c->getKeys());
+    }
+
+    public function testMaybeGetConfig() : void
+    {
+        $c1 = $this->newConfig();
+        $c2 = $this->newConfig();
+        $c3 = $this->newConfig();
+
+        $c = new Setup\ConfigCollection(["c1" => $c1, "c2" => $c2]);
+
+        $this->assertEquals($c1, $c->maybeGetConfig("c1"));
+        $this->assertEquals($c2, $c->maybeGetConfig("c2"));
+        $this->assertEquals(null, $c->maybeGetConfig("c3"));
     }
 }

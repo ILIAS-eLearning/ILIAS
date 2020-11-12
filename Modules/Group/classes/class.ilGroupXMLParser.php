@@ -264,8 +264,21 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 } else {
                     $this->sort = $a_attribs;
                 }
-
                 break;
+
+
+            case 'SessionLimit':
+                if (isset($a_attribs['active'])) {
+                    $this->group_data['session_limit'] = (bool) $a_attribs['active'];
+                }
+                if (isset($a_attribs['previous'])) {
+                    $this->group_data['session_previous'] = (int) $a_attribs['previous'];
+                }
+                if (isset($a_attribs['next'])) {
+                    $this->group_data['session_next'] = (int) $a_attribs['next'];
+                }
+                break;
+
             
             case 'WaitingListAutoFill':
             case 'CancellationEnd':
@@ -378,6 +391,10 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             
             case 'mailMembersType':
                 $this->group_data['mail_members_type'] = (int) $this->cdata;
+                break;
+
+            case 'ViewMode':
+                $this->group_data['view_mode'] = (int) $this->cdata;
                 break;
                 
         }
@@ -522,6 +539,18 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         $this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
         $this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
         $this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
+        if (isset($this->group_data['view_mode'])) {
+            $this->group_obj->setViewMode((int) $this->group_data['view_mode']);
+        }
+        if (isset($this->group_data['session_limit'])) {
+            $this->group_obj->enableSessionLimit((bool) $this->group_data['session_limit']);
+        }
+        if (isset($this->group_data['session_previous'])) {
+            $this->group_obj->setNumberOfPreviousSessions((int) $this->group_data['session_previous']);
+        }
+        if (isset($this->group_data['session_next'])) {
+            $this->group_obj->setNumberOfNextSessions((int) $this->group_data['session_next']);
+        }
         $this->group_obj->update();
 
         // ASSIGN ADMINS/MEMBERS

@@ -13,11 +13,6 @@ class ilSetupConfig implements Setup\Config
     protected $client_id;
 
     /**
-     * @var	Password
-     */
-    protected $master_password;
-
-    /**
      * @var \DateTimeZone
      */
     protected $server_timezone;
@@ -29,7 +24,6 @@ class ilSetupConfig implements Setup\Config
 
     public function __construct(
         string $client_id,
-        Password $master_password,
         \DateTimeZone $server_timezone,
         bool $register_nic
     ) {
@@ -39,7 +33,6 @@ class ilSetupConfig implements Setup\Config
             );
         }
         $this->client_id = $client_id;
-        $this->master_password = $master_password;
         $this->server_timezone = $server_timezone;
         $this->register_nic = $register_nic;
     }
@@ -47,11 +40,6 @@ class ilSetupConfig implements Setup\Config
     public function getClientId() : string
     {
         return $this->client_id;
-    }
-
-    public function getMasterPassword() : Password
-    {
-        return $this->master_password;
     }
 
     public function getServerTimeZone() : \DateTimeZone
