@@ -623,6 +623,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $ni->setValue($aset->get("block_mode_minutes"));
         $cb->addSubItem($ni);
 
+        // autosave
+        $as = new ilNumberInputGUI($this->lng->txt("adve_autosave"), "autosave");
+        $as->setSuffix($this->lng->txt("seconds"));
+        $as->setMaxLength(5);
+        $as->setSize(5);
+        $as->setInfo($this->lng->txt("adve_autosave_info"));
+        $as->setValue($aset->get("autosave"));
+        $form->addItem($as);
+
         // auto url linking
         $cb = new ilCheckboxInputGUI($this->lng->txt("adve_auto_url_linking"), "auto_url_linking");
         $cb->setChecked($aset->get("auto_url_linking"));
@@ -701,6 +710,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 $aset->set("block_mode_minutes", 0);
             }
             $aset->set("auto_url_linking", $_POST["auto_url_linking"]);
+
+            $aset->set("autosave", $_POST["autosave"]);
 
             $def = new ilCOPageObjDef();
             foreach ($def->getDefinitions() as $key => $def) {

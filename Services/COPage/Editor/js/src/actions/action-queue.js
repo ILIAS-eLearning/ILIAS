@@ -5,9 +5,10 @@
  */
 export default class ActionQueue {
 
-  actions = [];
+  //actions = [];
 
   constructor() {
+    this.actions = [];
   }
 
   /**

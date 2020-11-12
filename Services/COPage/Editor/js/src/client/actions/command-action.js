@@ -9,22 +9,11 @@ import Action from "../../actions/action.js";
 export default class CommandAction extends Action {
 
   /**
-   * @type {Object}
+   * @param {string} component
+   * @param {string} type
+   * @param {Object} params
    */
-  data = {};
-
-  /**
-   */
-  constructor(component, type, data = {}) {
-    super(component, type);
-    this.data = data;
+  constructor(component, type, params = {}) {
+    super(component, type, params);
   }
-
-  /**
-   * @returns {Object}
-   */
-  getData () {
-    return this.data;
-  }
-
 }

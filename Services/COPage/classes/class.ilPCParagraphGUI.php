@@ -51,18 +51,9 @@ class ilPCParagraphGUI extends ilPageContentGUI
             "Headline1" => $lng->txt("cont_Headline1"),
             "Headline2" => $lng->txt("cont_Headline2"),
             "Headline3" => $lng->txt("cont_Headline3"),
-            "Citation" => $lng->txt("cont_Citation"),
-            "Mnemonic" => $lng->txt("cont_Mnemonic"),
-            "Example" => $lng->txt("cont_Example"),
-            "Additional" => $lng->txt("cont_Additional"),
-            "Attention" => $lng->txt("cont_Attention"),
-            "Confirmation" => $lng->txt("cont_Confirmation"),
-            "Information" => $lng->txt("cont_Information"),
-            "Link" => $lng->txt("cont_Link"),
-            "Literature" => $lng->txt("cont_Literature"),
-            "Separator" => $lng->txt("cont_Separator"),
-            "StandardCenter" => $lng->txt("cont_StandardCenter"),
-            "Remark" => $lng->txt("cont_Remark"),
+            "Book" => $lng->txt("cont_Book"),
+            "Numbers" => $lng->txt("cont_Numbers"),
+            "Verse" => $lng->txt("cont_Verse"),
             "List" => $lng->txt("cont_List"),
             "TableContent" => $lng->txt("cont_TableContent")
         );
@@ -354,10 +345,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
     /**
      * Prepare content for js output
      */
-    public static function xml2outputJS($s_text, $char, $a_pc_id)
+    public static function xml2outputJS($s_text)
     {
-        //		$s_text = "<div class='ilc_text_block_".$char."' id='$a_pc_id'>".$s_text."</div>";
-        $s_text = $s_text;
         // lists
         $s_text = str_replace(
             array("<SimpleBulletList>", "</SimpleBulletList>"),

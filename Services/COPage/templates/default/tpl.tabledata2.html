@@ -1,3 +1,4 @@
+<div id="copg-ed-table-area">
 <style type="text/css">
 #tinytarget_ifr {
     border: 2px solid #FFBB88 !important;
@@ -8,24 +9,24 @@
 <input type="hidden" id="dtform_type" name="type" value="" />
 <input type="hidden" id="dtform_command" name="action" value="" />
 <input type="hidden" id="dtform_nr" name="id" value="" />
-<table style="border-collapse:collapse;" id="ed_datatable">
+<table id="ed_datatable" data-copg-ed-type="data-table" data-pcid="{PCID}" data-hierid="{HIERID}">
 <!-- BEGIN row -->
 <tr>
 	<!-- BEGIN empty_td -->
-	<td style="border: 1px solid #CCCCCC;">&nbsp;</td>
+	<th>&nbsp;</th>
 	<!-- END  empty_td -->
 	<!-- BEGIN col_icon -->
-	<td style="text-align: center; border: 1px solid #CCCCCC;">
-		<img src="{COL_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{COL_ONCLICK}');" border="0" />
-	</td>
+	<th data-copg-ed-type="data-column-head" data-nr="{NR_COLUMN}" data-caption="{COLUMN_CAPTION}" data-pcid="{PCID_COLUMN}">
+
+	</th>
 	<!-- END col_icon -->
 	<!-- BEGIN row_icon -->
-	<td style="vertical-align: middle; border: 1px solid #CCCCCC;">
-		<img src="{ROW_ICON}" onclick="current_row_col = {NR}; doMouseClick(event, '{ROW_ONCLICK}');" border="0" />
-	</td>
+	<th data-copg-ed-type="data-row-head" data-nr="{NR_ROW}" data-caption="{ROW_CAPTION}" data-pcid="{PCID_ROW}">
+
+	</th>
 	<!-- END row_icon -->
 	<!-- BEGIN cell -->
-	<td {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" style="border: 1px solid #CCCCCC;" onclick="ilCOPage.editTD('{PAR_TA_ID}');">
+	<td {COLSPAN} {ROWSPAN} id="td_{PAR_TA_ID}" <!-- BEGIN cell_type -->data-copg-ed-type="data-cell"<!-- END cell_type --> data-row="{PAR_ROW}" data-column="{PAR_COLUMN}">
 	<div id="div_{PAR_TA_ID}" style="padding:3px 10px;">{PAR_TA_CONTENT}</div><!-- td_div_end -->
 	</td>
 	<!-- END cell -->
@@ -34,34 +35,15 @@
 </table>
 </form>
 
-<!-- BEGIN menu -->
-<div class="ilOverlay il_editmenu ilNoDisplay" id="{TYPE}_menu_{MOVE}">
-<!-- BEGIN menu_item -->
-<a href="#" class="ilGroupedListLE" onMouseOver="M_in(this);" onMouseOut="M_out(this);" onClick="ilCOPage.handleDataTableCommand('{TYPE}', '{CMD}');">{MENU_ITEM_TITLE}</a>
-<!-- END menu_item -->
-</div>
-<!-- END menu -->
-
-<!-- data table command form -->
-<!-- <form style="visibility:hidden;" name="dtform" id="dtform" method="post" action="{FORMACTION2}">
-<input type="hidden" id="dtform_type" name="type" value="" />
-<input type="hidden" id="dtform_command" name="action" value="" />
-<input type="hidden" id="dtform_nr" name="id" value="" />
-</form> -->
-{IL_TINY_MENU}
 <!-- BEGIN int_link_prep -->
 {INT_LINK_PREP}
-<script>
-	$("#ilEditorPanel").parent().appendTo("body");
-</script>
 <!-- END int_link_prep -->
-<form name="ajaxform" id="ajaxform" method="post" action="{WYSIWYG_ACTION}">
-<input type="hidden" id="ajaxform_target" name="target[]" value="" />
-<input type="hidden" id="ajaxform_cmd" name="" value="" />
-<input type="hidden" id="ajaxform_exec" name="" value="Ok" />
-<input type="hidden" id="ajaxform_content" name="ajaxform_content" />
-<input type="hidden" id="ajaxform_char" name="ajaxform_char" />
-<input type="hidden" id="ajaxform_hier_id" name="ajaxform_hier_id" />
-</form>
-<form name="ajaxform2" id="ajaxform2" method="post" action="{WYSIWYG_ACTION}">
-</form>
+</div>
+
+<!-- BEGIN script -->
+<script type="module">
+	import editor from './Services/COPage/Editor/js/src/editor.js';
+	window.il.copg = window.il.copg || {};
+	window.il.copg.editor = editor;
+</script>
+<!-- END script -->

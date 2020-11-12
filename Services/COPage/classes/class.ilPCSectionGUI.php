@@ -23,7 +23,7 @@ class ilPCSectionGUI extends ilPageContentGUI
     * Constructor
     * @access	public
     */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
+    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
     {
         global $DIC;
 
@@ -33,6 +33,26 @@ class ilPCSectionGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         
         $this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
+    }
+
+    /**
+     * Get HTML
+     * @param array $params
+     * @return string
+     */
+    public function getHTML(array $params)
+    {
+        if ($params["form"] == true) {
+            $insert = (bool) !($this->content_obj);
+            $form = $this->initForm($insert);
+            $form->setShowTopButtons(false);
+            $html = $params["ui_wrapper"]->getRenderedForm(
+                $form,
+                $params["buttons"]
+            );
+            return $html;
+        }
+        return "";
     }
 
     /**
@@ -53,6 +73,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
             "Attention" => $lng->txt("cont_Attention"),
             "Background" => $lng->txt("cont_Background"),
+            "Citation" => $lng->txt("cont_Citation"),
             "Confirmation" => $lng->txt("cont_Confirmation"),
             "Information" => $lng->txt("cont_Information"),
             "Interaction" => $lng->txt("cont_Interaction"),
@@ -167,7 +188,6 @@ class ilPCSectionGUI extends ilPageContentGUI
             $this->lng->txt("cont_characteristic"),
             "characteristic"
         );
-            
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
             if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != "")) {

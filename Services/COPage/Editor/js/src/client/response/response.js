@@ -8,12 +8,12 @@ export default class Response {
   /**
    * @type {Action}
    */
-  action;
+  //  action;
 
   /**
    * @type {Object}
    */
-  payload;
+//  payload;
 
   /**
    * @param {Action} action

@@ -135,4 +135,21 @@ class ilCOPagePCDef
             return in_array($a_class_name, self::$pc_gui_classes);
         }
     }
+
+    /**
+     * Get instance
+     *
+     * @param string $a_name
+     * @return mixed|null
+     */
+    public static function getPCEditorInstanceByName($a_name)
+    {
+        $pc_def = self::getPCDefinitionByName($a_name);
+        $pc_class = "ilPC" . $pc_def["name"] . "EditorGUI";
+        if (class_exists($pc_class)) {
+            return new $pc_class();
+        }
+        return null;
+    }
+
 }

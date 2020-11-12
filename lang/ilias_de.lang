@@ -5333,8 +5333,7 @@ content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_second#:#Zweite
-content#:#cont_sel_el_copied_use_paste#:#Die ausgewählten Elemente wurden kopiert. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
-content#:#cont_sel_el_cut_use_paste#:#Die ausgewählten Elemente wurden ausgeschnitten. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
+content#:#cont_sel_el_use_paste#:#Die ausgewählten Elemente sind nun in der Zwischenablage. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
 content#:#cont_select#:#Auswählen
 content#:#cont_select_file#:#Datei auswählen
 content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
@@ -16379,3 +16378,19 @@ cmix#:#duration_label#:#Zeitdauer 'duration'
 cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt.
 cmix#:#no_substatements_label#:#Substatements nicht speichern
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
+content#:#cont_delete_content#:#Inhalte löschen
+adve#:#adve_autosave#:#Intervall automatisches Speichern
+adve#:#adve_autosave_info#:#Textinhalte werden in diesem Intervall automatisch gespeichert. Kürzere Intervalle führen zu höherer Serverlast und geringerer Systemperformanz.
+content#:#cont_edit_comp#:#Bearbeitungsmodus
+content#:#cont_edit_multi#:#Mehrfachauswahl
+content#:#cont_block_format#:#Blockformat
+content#:#cont_upload_file#:#Datei hochladen
+content#:#cont_add_url#:#URL angeben
+content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
+content#:#cont_choose_from_pool#:#Aus Medienpool
+content#:#cont_choose_media_pool#:#Medienpool auswählen
+content#:#cont_no_block#:#Kein Block
+content#:#cont_show_fullscreen#:#Vollbild anzeigen
+content#:#cont_advanced_settings#:#Erweiterte Einstellungen
+content#:#cont_table_edit_cells#:#Zellen editieren
+content#:#cont_last_update#:#Zuletzt gespeichert

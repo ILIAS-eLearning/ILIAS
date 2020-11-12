@@ -495,4 +495,14 @@ abstract class ilPageContent
     public static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
     {
     }
+
+    /**
+     * Get model
+     * @return null|\stdClass
+     */
+    public function getModel()
+    {
+        return null;
+    }
+
 }

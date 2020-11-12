@@ -4707,15 +4707,15 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link, e.g.:
+content#:#cont_text_iln#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
 content#:#cont_text_placehl#:#Text Placeholder
-content#:#cont_text_quot#:#Quotation:
-content#:#cont_text_str#:#Strong Text:
-content#:#cont_text_tex#:#LaTeX Code:
-content#:#cont_text_xln#:#External Link:
+content#:#cont_text_quot#:#Quotation
+content#:#cont_text_str#:#Strong Text
+content#:#cont_text_tex#:#LaTeX Code
+content#:#cont_text_xln#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
@@ -9735,8 +9735,7 @@ rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 content#:#cont_ed_copy#:#Copy
 content#:#cont_ed_cut#:#Cut
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select ‘Paste’.
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select ‘Paste’.
+content#:#cont_sel_el_use_paste#:#Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’.
 survey#:#survey_question_editor_settings_template#:#List View (in Tab ‘Questions’)
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
 rbac#:#rbac_precondition_source#:#Condition Trigger
@@ -16424,3 +16423,20 @@ adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user w
 adn#:#msg_form_button_updateAndStay#:#Save and Stay
 adn#:#common_actions#:#Actions
 adn#:#common_add_msg#:#Add Notification
+content#:#cont_link_user#:#User Link
+content#:#cont_delete_content#:#Delete Content
+adve#:#adve_autosave#:#Automatic Saving Intervall
+adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
+content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_multi#:#Selection
+content#:#cont_block_format#:#Section Format
+content#:#cont_upload_file#:#Upload File
+content#:#cont_add_url#:#From URL
+content#:#cont_url_info#:#URL of a media file or Youtube URL.
+content#:#cont_choose_from_pool#:#Select from Media Pool
+content#:#cont_choose_media_pool#:#Select Pool
+content#:#cont_no_block#:#No Section
+content#:#cont_show_fullscreen#:#Show Fullscreen
+content#:#cont_advanced_settings#:#Advanced Settings
+content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_last_update#:#Last Update

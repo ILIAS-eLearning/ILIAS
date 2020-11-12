@@ -57,16 +57,6 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getContent() : string
     {
-        $lng = $this->dic->language();
-        $lng->loadLanguageModule("content");
-        $tpl = new ilTemplate("tpl.editor_slate.html", true, true, "Services/COPage");
-        $tpl->setCurrentBlock("help");
-        $tpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
-        $tpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
-        $tpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
-        $tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
-        $tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
-        $tpl->parseCurrentBlock();
-        return $tpl->get();
+        return "<div id='copg-editor-slate-content'></div>";
     }
 }

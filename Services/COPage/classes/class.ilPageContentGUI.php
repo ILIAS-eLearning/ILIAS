@@ -186,7 +186,7 @@ class ilPageContentGUI
     /**
     * Get characteristics of current style
     */
-    protected function getCharacteristicsOfCurrentStyle($a_type)
+    public function getCharacteristicsOfCurrentStyle($a_type)
     {
         if ($this->getStyleId() > 0 &&
             ilObject::_lookupType($this->getStyleId()) == "sty") {
@@ -636,4 +636,29 @@ class ilPageContentGUI
         }
         return array();
     }
+
+    /**
+     * Redirect to parent
+     * @param string $hier_id
+     */
+    protected function redirectToParent($hier_id = "")
+    {
+        $ilCtrl = $this->ctrl;
+        if ($hier_id == "") {
+            $hier_id = $this->hier_id;
+        }
+        $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
+        $ilCtrl->returnToParent($this, "add".$pcid);
+    }
+
+    protected function getParentReturn($hier_id = "")
+    {
+        if ($hier_id == "") {
+            $hier_id = $this->hier_id;
+        }
+        $ilCtrl = $this->ctrl;
+        $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
+        return $ilCtrl->getParentReturn($this)."#add".$pcid;
+    }
+
 }
