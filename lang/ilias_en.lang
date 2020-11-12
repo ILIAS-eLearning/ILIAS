@@ -2450,19 +2450,6 @@ common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
 common#:#disable#:#disable
 common#:#disabled#:#Disabled
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".
-common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".
-common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.
-common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent
-common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.
-common#:#disk_quota_reminder_mail#:#Reminder mail
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.
-common#:#disk_quota_report#:#Disk Quota Report
-common#:#disk_quota#:#Disk Quota
-common#:#disk_usage_details#:#Disk Usage Details
-common#:#disk_usage#:#Disk Usage
 common#:#domain#:#Domain
 common#:#down#:#Down
 common#:#download_all_returned_files#:#Download all Submissions
@@ -2487,7 +2474,6 @@ common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
 common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
