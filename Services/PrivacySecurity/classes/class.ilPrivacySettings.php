@@ -61,6 +61,11 @@ class ilPrivacySettings
     private $export_scorm;
 
     /**
+     * @var bool
+     */
+    private $comments_export;
+
+    /**
      * Private constructor: use _getInstance()
      *
      * @access private
@@ -395,6 +400,7 @@ class ilPrivacySettings
         $this->settings->set('ps_export_scorm', (bool) $this->enabledExportSCORM());
 
         $this->settings->set('participants_list_courses', (bool) $this->participantsListInCoursesEnabled());
+        $this->settings->set('comments_export', (bool) $this->enabledCommentsExport());
     }
     /**
      * read settings
@@ -431,6 +437,7 @@ class ilPrivacySettings
         $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', 0);
         $this->export_scorm = (bool) $this->settings->get('ps_export_scorm', false);
         $this->enableParticipantsListInCourses((bool) $this->settings->get('participants_list_courses', $this->participantsListInCoursesEnabled()));
+        $this->enableCommentsExport((bool) $this->settings->get('comments_export', false));
     }
 
     /**
@@ -461,4 +468,23 @@ class ilPrivacySettings
     {
         $this->export_scorm = (bool) $a_status;
     }
+
+    /**
+     * Enable comments export
+     * @param bool $a_status
+     */
+    public function enableCommentsExport($a_status)
+    {
+        $this->comments_export = (bool) $a_status;
+    }
+
+    /**
+     * Enable comments export
+     * @return bool
+     */
+    public function enabledCommentsExport(): bool
+    {
+        return $this->comments_export;
+    }
+
 }

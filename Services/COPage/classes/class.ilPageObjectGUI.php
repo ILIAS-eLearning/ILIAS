@@ -3114,7 +3114,7 @@ class ilPageObjectGUI
      * @param bool $a_enable_notes_deletion
      * @return string
      */
-    public function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false, $a_callback = null)
+    public function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false, $a_callback = null, $export = false)
     {
         include_once("Services/Notes/classes/class.ilNoteGUI.php");
 
@@ -3138,7 +3138,7 @@ class ilPageObjectGUI
                 $a_content_object->getParentType()
             );
         }
-    
+
         if ($a_enable_private_notes) {
             $notes_gui->enablePrivateNotes();
         }
@@ -3147,6 +3147,9 @@ class ilPageObjectGUI
             if ((bool) $a_enable_notes_deletion) {
                 $notes_gui->enablePublicNotesDeletion(true);
             }
+        }
+        if ($export) {
+            $notes_gui->setExportMode();
         }
         
         if ($a_callback) {

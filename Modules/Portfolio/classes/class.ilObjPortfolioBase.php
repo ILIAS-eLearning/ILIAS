@@ -9,6 +9,10 @@
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
+    /**
+     * @var \ilSetting
+     */
+    protected $setting;
 
     /**
      * Constructor
@@ -17,6 +21,8 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
         global $DIC;
         parent::__construct($a_id, $a_reference);
+
+        $this->setting = $DIC->settings();
 
         $this->db = $DIC->database();
     }
@@ -28,8 +34,8 @@ abstract class ilObjPortfolioBase extends ilObject2
     protected $img; // [string]
     protected $ppic; // [string]
     protected $style; // [bool]
-    
-    
+
+
     //
     // PROPERTIES
     //

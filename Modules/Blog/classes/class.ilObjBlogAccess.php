@@ -117,4 +117,30 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 
         return false;
     }
+
+    /**
+     * Is comments export possible?
+     *
+     * @param int $blog_id
+     * @return bool
+     */
+    public static function isCommentsExportPossible($blog_id)
+    {
+        global $DIC;
+
+        $setting = $DIC->settings();
+        $privacy = ilPrivacySettings::_getInstance();
+        if ($setting->get("disable_comments")) {
+            return false;
+        }
+        if (!$privacy->enabledCommentsExport()) {
+            return false;
+        }
+        if (!ilNote::commentsActivated($blog_id, 0, "blog")) {
+            return false;
+        }
+        return true;
+
+    }
+
 }

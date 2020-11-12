@@ -16420,3 +16420,8 @@ content#:#cont_show_fullscreen#:#Show Fullscreen
 content#:#cont_advanced_settings#:#Advanced Settings
 content#:#cont_table_edit_cells#:#Edit Cells
 content#:#cont_last_update#:#Last Update
+common#:#enable_comments_export#:#Enable Comments Export
+note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_html_export_include_comments#:#Should comments be included in the export?
+wiki#:#wiki_incl_comments#:#including comments
+blog#:#blog_incl_comments#:#including comments

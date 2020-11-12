@@ -30,6 +30,11 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     protected $link_md_values = false;
 
     /**
+     * @var \ilSetting
+     */
+    protected $setting;
+
+    /**
     * Constructor
     * @access	public
     * @param	integer	reference_id or object_id
@@ -42,6 +47,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->type = "wiki";
+        $this->setting = $DIC->settings();
         parent::__construct($a_id, $a_call_by_reference);
     }
 
@@ -1078,14 +1084,14 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      * @param
      * @return
      */
-    public function initUserHTMLExport()
+    public function initUserHTMLExport($with_comments = false)
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
         include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
-        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser, $with_comments);
         $user_export->initUserHTMLExport();
     }
 
@@ -1095,14 +1101,14 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      * @param
      * @return
      */
-    public function startUserHTMLExport()
+    public function startUserHTMLExport($with_comments = false)
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
         include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
-        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser, $with_comments);
         $user_export->startUserHTMLExport();
     }
 
@@ -1111,29 +1117,29 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
      *
      * @return array progress info
      */
-    public function getUserHTMLExportProgress()
+    public function getUserHTMLExportProgress($with_comments = false)
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
         include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
-        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
+        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser, $with_comments);
         return $user_export->getProgress();
     }
 
     /**
      * Send user html export file
      */
-    public function deliverUserHTMLExport()
+    public function deliverUserHTMLExport($with_comments = false)
     {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
         include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 
-        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser);
-        return $user_export->deliverFile();
+        $user_export = new ilWikiUserHTMLExport($this, $ilDB, $ilUser, $with_comments);
+        $user_export->deliverFile();
     }
     
     
@@ -1153,4 +1159,26 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
         return $a_value;
     }
+
+    /**
+     * Is export possible
+     * @return bool
+     */
+    public function isCommentsExportPossible()
+    {
+        $setting = $this->setting;
+        $privacy = ilPrivacySettings::_getInstance();
+        if ($setting->get("disable_comments")) {
+            return false;
+        }
+
+        if (!$this->getPublicNotes()) {
+            return false;
+        }
+        if (!$privacy->enabledCommentsExport()) {
+            return false;
+        }
+        return true;
+    }
+
 }

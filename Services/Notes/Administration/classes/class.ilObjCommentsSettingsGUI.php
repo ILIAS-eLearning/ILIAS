@@ -181,6 +181,14 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         )
             ->withValue((string) $setting->get("comments_noti_recip"));
 
+        $privacy = ilPrivacySettings::_getInstance();
+        $subfields["enable_comments_export"] = $f->input()->field()->checkbox(
+            $lng->txt("enable_comments_export"),
+            $lng->txt("note_enable_comments_export_info")
+        )
+            ->withValue((bool) $privacy->enabledCommentsExport());
+
+
         $fields["enable_comments"] = $f->input()->field()->optionalGroup(
             $subfields,
             $lng->txt("note_enable_comments"),
@@ -218,9 +226,28 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
                 $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
 
+                $privacy = ilPrivacySettings::_getInstance();
+                $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
+                $privacy->save();
+
                 ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");
     }
+
+    public function addToExternalSettingsForm($a_form_id)
+    {
+        switch ($a_form_id) {
+            case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
+
+                $privacy = ilPrivacySettings::_getInstance();
+
+                $fields = array('enable_comments_export' => array($privacy->enabledCommentsExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+
+                return array(array("editSettings", $fields));
+        }
+    }
+
+
 }

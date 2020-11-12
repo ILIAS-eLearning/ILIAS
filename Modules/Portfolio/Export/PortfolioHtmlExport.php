@@ -74,6 +74,11 @@ class PortfolioHtmlExport
     protected $active_tab;
 
     /**
+     * @var bool
+     */
+    protected $include_comments = false;
+
+    /**
      * constructor
      * @param \ilObjPortfolioBaseGUI $portfolio_gui
      */
@@ -98,6 +103,15 @@ class PortfolioHtmlExport
             \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
             true
         );
+    }
+
+    /**
+     * Include comments
+     * @param bool $a_include_comments
+     */
+    public function includeComments($a_include_comments)
+    {
+        $this->include_comments = $a_include_comments;
     }
 
     /**
@@ -161,6 +175,8 @@ class PortfolioHtmlExport
         // export pages
         $this->exportHTMLPages();
 
+        $this->exportUserImages();
+
         // add js/images/file to zip
         // note: only files are still used for certificate files
         $images = $files = $js_files = [];
@@ -179,6 +195,17 @@ class PortfolioHtmlExport
         $this->co_page_html_export->exportPageElements();
 
         return $this->zipPackage();
+    }
+
+    /**
+     * Export user images
+     */
+    protected function exportUserImages()
+    {
+        if ($this->include_comments) {
+            $user_export = new \ILIAS\Notes\Export\UserImageExporter();
+            $user_export->exportUserImagesForRepObjId($this->target_dir, $this->portfolio->getId());
+        }
     }
 
     /**
@@ -333,7 +360,12 @@ class PortfolioHtmlExport
             true,
             "Modules/Portfolio"
         );
+
+        $comments = ($this->include_comments)
+            ? $pgui->getCommentsHTMLExport()
+            : "";
         $ep_tpl->setVariable("PAGE_CONTENT", $page_content);
+        $ep_tpl->setVariable("COMMENTS", $comments);
 
         $material = $pgui->getExportMaterial();
         $this->export_material[] = $material;

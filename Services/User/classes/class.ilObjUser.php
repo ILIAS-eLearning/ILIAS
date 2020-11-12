@@ -3745,7 +3745,8 @@ class ilObjUser extends ilObject
         $a_usr_id,
         $a_size = "small",
         $a_force_pic = false,
-        $a_prevent_no_photo_image = false
+        $a_prevent_no_photo_image = false,
+        $html_export = false
     ) {
         $define = new ilUserAvatarResolver((int) $a_usr_id);
         $define->setForcePicture($a_force_pic);

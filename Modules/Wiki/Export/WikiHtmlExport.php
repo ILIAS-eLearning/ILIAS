@@ -4,9 +4,8 @@
 
 namespace ILIAS\Wiki\Export;
 
-/**
+use ILIAS\User\Export\UserHtmlExport;/**
  * Wiki HTML exporter class
- *
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class WikiHtmlExport
@@ -37,7 +36,9 @@ class WikiHtmlExport
     protected $wiki;
 
     const MODE_DEFAULT = "html";
+    const MODE_COMMENTS = "html_comments";
     const MODE_USER = "user_html";
+    const MODE_USER_COMMENTS = "user_html_comments";
 
     /**
      * @var string
@@ -131,9 +132,9 @@ class WikiHtmlExport
         include_once './Services/MathJax/classes/class.ilMathJax.php';
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
-        if ($this->getMode() == self::MODE_USER) {
+        if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
-            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser);
+            $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
         }
 
         $ascii_name = str_replace(" ", "_", \ilUtil::getASCIIFilename($this->wiki->getTitle()));
@@ -144,11 +145,11 @@ class WikiHtmlExport
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
 
-        if ($this->getMode() == self::MODE_USER) {
+        if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             \ilUtil::delDir($exp_dir, true);
         }
 
-        if ($this->getMode() == self::MODE_USER) {
+        if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             $subdir = $ascii_name;
         } else {
             $subdir = $this->wiki->getType() . "_" . $this->wiki->getId();
@@ -173,11 +174,12 @@ class WikiHtmlExport
         $this->log->debug("export pages");
         $global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
         $this->exportHTMLPages();
+        $this->exportUserImages();
 
         $this->export_util->exportResourceFiles($global_screen, $this->export_dir);
 
         $date = time();
-        $zip_file_name = ($this->getMode() == self::MODE_USER)
+        $zip_file_name = (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS]))
             ? $ascii_name . ".zip"
             : $date . "__" . IL_INST_ID . "__" . $this->wiki->getType() . "_" . $this->wiki->getId() . ".zip";
 
@@ -187,6 +189,10 @@ class WikiHtmlExport
             $zip_file = \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki") .
                 "/" . $zip_file_name;
             $this->log->debug("zip: " . $zip_file);
+            //var_dump($zip_file);
+            //exit;
+            $this->log->debug("zip, export dir: ".$this->export_dir);
+            $this->log->debug("zip, export file: ".$zip_file);
             \ilUtil::zip($this->export_dir, $zip_file);
             \ilUtil::delDir($this->export_dir);
         }
@@ -217,7 +223,7 @@ class WikiHtmlExport
                 $this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
             }
 
-            if ($this->getMode() == self::MODE_USER) {
+            if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
                 $cnt++;
                 $this->log->debug("update status: " . $cnt);
                 $this->user_html_exp->updateStatus((int) (50 / count($pages) * $cnt), \ilWikiUserHTMLExport::RUNNING);
@@ -227,13 +233,24 @@ class WikiHtmlExport
     }
 
     /**
+     * Export user images
+     */
+    protected function exportUserImages()
+    {
+        if (in_array($this->getMode(), [self::MODE_COMMENTS, self::MODE_USER_COMMENTS])) {
+            $user_export = new \ILIAS\Notes\Export\UserImageExporter();
+            $user_export->exportUserImagesForRepObjId($this->export_dir, $this->wiki->getId());
+        }
+    }
+
+    /**
      * Callback for updating the export status during elements export (media objects, files, ...)
      *
      * @param
      */
     public function updateUserHTMLStatusForPageElements($a_total, $a_cnt)
     {
-        if ($this->getMode() == self::MODE_USER) {
+        if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
             $this->user_html_exp->updateStatus((int) 50 + (50 / count($a_total) * $a_cnt), \ilWikiUserHTMLExport::RUNNING);
         }
     }
@@ -271,7 +288,7 @@ class WikiHtmlExport
         $page_content = $wpg_gui->showPage();
 
         // export template: page content
-        $this->log->debug("init page gui");
+        $this->log->debug("init page gui-".$this->getMode()."-");
         $ep_tpl = new \ilTemplate(
             "tpl.export_page.html",
             true,
@@ -279,7 +296,12 @@ class WikiHtmlExport
             "Modules/Wiki"
         );
         $ep_tpl->setVariable("PAGE_CONTENT", $page_content);
-        
+
+        $comments = (in_array($this->getMode(), [self::MODE_USER_COMMENTS, self::MODE_COMMENTS]))
+            ? $wpg_gui->getCommentsHTMLExport()
+            : "";
+        $ep_tpl->setVariable("COMMENTS", $comments);
+
         // export template: right content
         include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
         $bl = new \ilWikiImportantPagesBlockGUI();

@@ -46,6 +46,7 @@ class ilAdministrationSettingsFormHandler
     const SETTINGS_PORTFOLIO = "prfa";
     const SETTINGS_LP_COMPLETION_STATUS = "trac";
     const SETTINGS_LEARNINGSEQUENCE = "lsos";
+    const SETTINGS_COMMENTS = "coms";
 
     const VALUE_BOOL = "bool";
     
@@ -104,7 +105,7 @@ class ilAdministrationSettingsFormHandler
                 break;
             
             case self::FORM_PRIVACY:
-                $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES);
+                $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES, self::SETTINGS_COMMENTS);
                 break;
             
             case self::FORM_LP:
