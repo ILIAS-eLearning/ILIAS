@@ -21,6 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * @classDescription Settings for members view
  * @author Stefan Meyer <meyer@leifos.com>
@@ -28,6 +30,23 @@
  */
 class ilMemberViewSettings
 {
+    public const SESSION_MEMBER_VIEW_CONTAINER = 'member_view_container';
+
+    /**
+     * @var ilLogger
+     */
+    protected $logger;
+
+    /**
+     * @var RequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+
     /**
      * @var ilTree
      */
@@ -38,18 +57,38 @@ class ilMemberViewSettings
      */
     protected $settings;
 
+    /**
+     * @var ilMemberViewSettings
+     */
     private static $instance = null;
-    
+
+    /**
+     * @var bool
+     */
     private $active = false;
+
+    /**
+     * @var bool
+     */
     private $enabled = false;
+
+    /**
+     * @var null | int
+     */
     private $container = null;
+
+    /**
+     * @var int[]
+     */
     private $container_items = array();
-    
+
+    /**
+     * @var int
+     */
     private $current_ref_id = 0;
     
     /**
      * Constructor (singleton)
-     * @return
      */
     private function __construct()
     {
@@ -57,6 +96,9 @@ class ilMemberViewSettings
 
         $this->tree = $DIC->repositoryTree();
         $this->settings = $DIC->settings();
+        $this->request = $DIC->http()->request();
+        $this->ctrl = $DIC->ctrl();
+        $this->logger = $DIC->logger()->cont();
         $this->read();
     }
 
@@ -71,35 +113,31 @@ class ilMemberViewSettings
         }
         return self::$instance = new ilMemberViewSettings();
     }
-    
+
     /**
-     * Returns $container.
-     * @see ilMemberView::$container
+     * @return int|null
      */
-    public function getContainer()
+    public function getContainer() : ?int
     {
         return $this->container;
     }
-    
+
     /**
-     * Get current ref_id of request
-     * @return type
+     * @return int
      */
-    public function getCurrentRefId()
+    public function getCurrentRefId() : int
     {
         return $this->current_ref_id;
     }
-    
+
     /**
-     * Sets $container.
-     * @param object $container
-     * @see ilMemberView::$container
+     * @param int $container
      */
-    public function setContainer($container)
+    public function setContainer(int $container)
     {
         $this->container = $container;
-        $_SESSION['member_view_container'] = $this->container;
-        $_SESSION['il_cont_admin_panel'] = false;
+        ilSession::set(self::SESSION_MEMBER_VIEW_CONTAINER, $this->container);
+        ilSession::set('il_cont_admin_panel', false);
     }
 
     /**
@@ -137,16 +175,15 @@ class ilMemberViewSettings
      * @param int $a_ref_id
      * @return bool
      */
-    public function isActiveForRefId($a_ref_id)
+    public function isActiveForRefId(int $a_ref_id) : bool
     {
         if (!$this->active || !(int) $a_ref_id) {
-            // Not active
             return false;
         }
         
-        if (!in_array($a_ref_id, $this->container_items) and
+        if (
+            !in_array($a_ref_id, $this->container_items) &&
             $this->getContainer() != $a_ref_id) {
-            // outside of course
             return false;
         }
         return true;
@@ -154,11 +191,9 @@ class ilMemberViewSettings
     
     /**
      * Enable member view for this session and container.
-     * @return
-     * @param int $a_ref_id Reference Id of course or group
-     * @exception IllegalArgumentException Thrown if reference id is not a course or group
+     * @param int $a_ref_id
      */
-    public function activate($a_ref_id)
+    public function activate(int $a_ref_id) : void
     {
         $this->active = true;
         $this->setContainer($a_ref_id);
@@ -168,58 +203,63 @@ class ilMemberViewSettings
      * Deactivate member view
      * @return
      */
-    public function deactivate()
+    public function deactivate() : void
     {
         $this->active = false;
         $this->container = null;
-        unset($_SESSION['member_view_container']);
+        ilSession::clear(self::SESSION_MEMBER_VIEW_CONTAINER);
     }
     
     /**
      * Toggle activation status
-     * @return
-     * @param int $a_ref_id
+     * @param int  $a_ref_id
      * @param bool $a_activation
      */
-    public function toggleActivation($a_ref_id, $a_activation)
+    public function toggleActivation(int $a_ref_id, bool $a_activation) : void
     {
         if ($a_activation) {
-            return $this->activate($a_ref_id);
+            $this->activate($a_ref_id);
         } else {
-            return $this->deactivate($a_ref_id);
+            $this->deactivate($a_ref_id);
         }
     }
     
     /**
      * Check if members view is enabled in the administration
-     * @return bool active
+     * @return bool
      */
-    public function isEnabled()
+    public function isEnabled() : bool
     {
         return (bool) $this->enabled;
     }
     
     /**
      * Read settings
-     * @return void
      */
-    protected function read()
+    protected function read() : void
     {
-        $ilSetting = $this->settings;
-        $tree = $this->tree;
-        
-        $this->findEffectiveRefId();
+        $current_ref_id = $this->findEffectiveRefId();
         
         // member view is always enabled
         // (2013-06-18, http://www.ilias.de/docu/goto_docu_wiki_1357_Reorganising_Administration.html)
-        
+
         // $this->enabled = $ilSetting->get('preview_learner');
         $this->enabled = true;
-        
-        if (isset($_SESSION['member_view_container'])) {
+
+        if (ilSession::get(self::SESSION_MEMBER_VIEW_CONTAINER)) {
             $this->active = true;
-            $this->container = (int) $_SESSION['member_view_container'];
-            $this->container_items = $tree->getSubTreeIds($this->getContainer());
+            $this->container = (int) ilSession::get(self::SESSION_MEMBER_VIEW_CONTAINER);
+            $this->container_items = $this->tree->getSubTreeIds($this->getContainer());
+
+            // deactivate if out of scope
+            if (
+                $this->getCurrentRefId() &&
+                !in_array($this->getCurrentRefId(), $this->container_items) &&
+                $this->getCurrentRefId() != $this->getContainer()
+            ) {
+                $this->deactivate();
+            }
+
         }
     }
     
@@ -228,13 +268,21 @@ class ilMemberViewSettings
      */
     protected function findEffectiveRefId()
     {
-        if ((int) $_GET['ref_id']) {
-            return $this->current_ref_id = (int) $_GET['ref_id'];
+        if ($this->ctrl->isAsynch()) {
+            // Ignore asynchronous requests
+            return;
         }
-        
-        $target_arr = explode('_', (string) $_GET['target']);
-        if (isset($target_arr[1]) and (int) $target_arr[1]) {
-            $this->current_ref_id = (int) $target_arr[1];
+
+        $ref_id = (int) $this->request->getQueryParams()['ref_id'] ?? 0;
+        if ($ref_id) {
+            return $this->current_ref_id = $ref_id;
+        }
+        $target_str = (string) $this->request->getQueryParams()['target'] ?? '';
+        if (strlen($target_str)) {
+            $target_arr = explode('_', (string) $target_str);
+            if (isset($target_arr[1]) && (int) $target_arr[1]) {
+                $this->current_ref_id = (int) $target_arr[1];
+            }
         }
     }
 }
