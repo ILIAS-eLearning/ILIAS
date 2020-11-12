@@ -240,8 +240,8 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        $tos_withdrawal_helper = new ilTermsOfServiceWithdrawalGUIHelper();
-        $tos_withdrawal_helper->setWithdrawalInfo($this->httpRequest);
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui->setWithdrawalInfoForLoginScreen($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1270,13 +1270,13 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
-        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
-        $withdrawal_appendage_text = $tos_withdrawal_helper->appendWithdrawalText(
-            ($this->httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0)
-        );
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
-        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text") . $withdrawal_appendage_text);
+        $tpl->setVariable(
+            "TXT_LOGOUT_TEXT",
+            $lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
+        );
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
@@ -1308,10 +1308,8 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
-        if (isset($this->httpRequest->getQueryParams()['withdraw_consent'])) {
-            $tos_withdrawal_helper->handleWithdrawalRequest($user, $this);
-        }
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $user, $this);
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
