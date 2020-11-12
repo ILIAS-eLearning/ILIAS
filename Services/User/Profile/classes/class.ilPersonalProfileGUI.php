@@ -571,18 +571,13 @@ class ilPersonalProfileGUI
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
-        $shouldDeleteAccountOnWithdrawal = $this->setting->get(
-            'tos_withdrawal_usr_deletion',
-            false
-        );
-
         $withdrawalType = 0;
         if (
             $this->user->getAuthMode() == AUTH_LDAP ||
             ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
         ) {
             $withdrawalType = 2;
-        } elseif ($shouldDeleteAccountOnWithdrawal) {
+        } elseif ((bool) $this->setting->get('tos_withdrawal_usr_deletion', false)) {
             $withdrawalType = 1;
         }
 

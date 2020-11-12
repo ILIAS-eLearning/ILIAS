@@ -32,12 +32,12 @@ class ilTermsOfServiceWithdrawnMimeMail extends ilMimeMailNotification
 
             $this->setSubject($this->getLanguage()->txt('withdrawal_mail_subject'));
 
-            $body = sprintf(
+            $body = str_ireplace("[BR]", "\n", sprintf(
                 $this->getLanguage()->txt('withdrawal_mail_text'),
                 $subjectUser->getFullname(),
                 $subjectUser->getLogin(),
                 $subjectUser->getExternalAccount()
-            );
+            ));
             $this->appendBody($body);
             $this->appendBody(ilMail::_getInstallationSignature());
 

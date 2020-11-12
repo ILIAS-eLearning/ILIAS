@@ -1961,7 +1961,6 @@ common#:#withdraw_consent#:#Withdraw Acceptance
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
-common#:#withdraw#:#Withdraw
 common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
 common#:#withdraw_usr_agreement#:#Withdraw
 common#:#accept_usr_agreement_btn#:#Accept
@@ -1971,7 +1970,9 @@ common#:#withdrawal_complete#:#Withdrawal of consent complete.
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login:%2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access

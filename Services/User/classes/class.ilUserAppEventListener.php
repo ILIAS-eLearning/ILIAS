@@ -37,14 +37,8 @@ class ilUserAppEventListener implements ilAppEventListener
                 $mail->setAdditionalInformation(['user' => $user]);
                 $mail->setRecipients([$DIC->settings()->get('admin_mail')]);
                 $mail->send();
-            } else {
-                $shouldDeleteAccountOnWithdrawal = $DIC->settings()->get(
-                    'tos_withdrawal_usr_deletion',
-                    false
-                );
-                if ((bool) $shouldDeleteAccountOnWithdrawal) {
-                    $user->delete();
-                }
+            } elseif ((bool) $DIC->settings()->get('tos_withdrawal_usr_deletion', false)) {
+                $user->delete();
             }
         }
     }

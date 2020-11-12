@@ -99,32 +99,51 @@ class ilTermsOfServiceWithdrawalGUIHelper
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
-        $tpl = new ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
-
-        $confirmCommand = 'withdrawAcceptance';
-        $cancelCommand = 'cancelWithdrawal';
-
-        if (
+        $isLdapUser = (
             $this->user->getAuthMode() == AUTH_LDAP ||
             ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
-        ) {
-            $message = nl2br(
-                $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text')
+        );
+
+        $question = $this->lng->txt('withdrawal_sure_account');
+        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', false))  {
+            $question = $this->lng->txt('withdrawal_sure_account_deletion');
+        }
+
+        $confirmation = $this->uiFactory->messageBox()->confirmation($question)->withButtons([
+            $this->uiFactory->button()->standard(
+                $this->lng->txt('confirm'),
+                $this->ctrl->getFormAction($parentObject, 'withdrawAcceptance')
+            ),
+            $this->uiFactory->button()->standard(
+                $this->lng->txt('cancel'),
+                $this->ctrl->getFormAction($parentObject, 'cancelWithdrawal')
+            ),
+        ]);
+
+        if ($isLdapUser) {
+            $message = nl2br(str_ireplace("[BR]", "\n", sprintf(
+                $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text'),
+                $this->user->getFullname(),
+                $this->user->getLogin(),
+                $this->user->getExternalAccount()
+            )));
+
+            $panelContent = $this->uiFactory->legacy(
+                $this->uiRenderer->render([
+                    $confirmation,
+                    $this->uiFactory->divider()->horizontal(),
+                    $this->uiFactory->legacy($message)
+                ])
             );
 
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $message);
+            $content = $this->uiRenderer->render(
+                $this->uiFactory->panel()->standard($this->lng->txt('withdraw_usr_agreement'), $panelContent)
+            );
         } else {
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
+            $content = $this->uiRenderer->render($confirmation);
         }
-        $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($parentObject, $confirmCommand));
-        $tpl->setVariable('CMD_CONFIRM', $confirmCommand);
-        $tpl->setVariable('CMD_CANCEL', $cancelCommand);
 
-        $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
-        $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
-        $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
-
-        return $tpl->get();
+        return $content;
     }
 
     /**
