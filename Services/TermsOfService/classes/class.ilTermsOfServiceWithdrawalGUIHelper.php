@@ -95,9 +95,9 @@ class ilTermsOfServiceWithdrawalGUIHelper
     {
         if (isset($httpRequest->getQueryParams()['wdtdel'])) {
             if ($httpRequest->getQueryParams()['wdtdel'] == 1) {
-                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_deleted'));
+                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_deleted'));
             } else {
-                ilUtil::sendInfo($GLOBALS['lng']->txt('withdrawal_complete_redirect'));
+                ilUtil::sendInfo($this->lng->txt('withdrawal_complete_redirect'));
             }
         }
     }
@@ -108,9 +108,9 @@ class ilTermsOfServiceWithdrawalGUIHelper
         if ($withdrawal_relogin !== 0) {
             $withdrawal_appendage_text = '<br /><br />';
             if ($withdrawal_relogin == 'internal') {
-                $withdrawal_appendage_text .= $GLOBALS['lng']->txt('withdraw_consent_description_internal');
+                $withdrawal_appendage_text .= $this->lng->txt('withdraw_consent_description_internal');
             } else {
-                $withdrawal_appendage_text .= $GLOBALS['lng']->txt('withdraw_consent_description_external');
+                $withdrawal_appendage_text .= $this->lng->txt('withdraw_consent_description_external');
             }
         }
         return $withdrawal_appendage_text;
