@@ -5447,3 +5447,17 @@ if ($ilDB->tableExists('pdfgen_map')) {
     $ilDB->manipulate($query);
 }
 ?>
+<#5730>
+<?php
+if ($ilDB->tableExists('pdfgen_renderer_avail')) {
+    $query = 'DELETE FROM pdfgen_renderer_avail WHERE service = "Test" AND renderer = "PhantomJS" ';
+    $ilDB->manipulate($query);
+}
+?>
+<#5731>
+<?php
+if ($ilDB->tableExists('pdfgen_renderer')) {
+    $query = 'DELETE FROM pdfgen_renderer WHERE renderer = "PhantomJS" ';
+    $ilDB->manipulate($query);
+}
+?>
