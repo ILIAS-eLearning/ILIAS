@@ -541,7 +541,7 @@ class ilPersonalProfileGUI
         $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
         $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
-        $content = $tos_withdrawal_helper->getConsentWithdrawalConfirmation();
+        $content = $tos_withdrawal_helper->getConsentWithdrawalConfirmation($this);
 
         $this->tpl->setContent($content);
         $this->tpl->setPermanentLink('usr', null, 'agreement');
