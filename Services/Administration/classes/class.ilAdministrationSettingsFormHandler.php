@@ -107,10 +107,6 @@ class ilAdministrationSettingsFormHandler
                 $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES);
                 break;
             
-            case self::FORM_FILES_QUOTA:
-                $types = array(self::SETTINGS_PR);
-                break;
-            
             case self::FORM_LP:
                 $types = array(self::SETTINGS_REPOSITORY);
                 break;
