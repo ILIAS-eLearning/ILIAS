@@ -38,7 +38,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
     protected $help;
 
     
-    private $additionalPurposes = array("VideoPortable", "AudioPortable");
+    //private $additionalPurposes = array("VideoPortable", "AudioPortable");
+    private $additionalPurposes = [];
     private $purposeSuffixes = array();
     private $mimeTypes = array();
         
@@ -83,7 +84,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         foreach (ilMimeTypeUtil::getExt2MimeMap() as $mt) {
-            $this->mimeTypes[$mt] = $mt;
+//            $this->mimeTypes[$mt] = $mt;
         }
         asort($this->mimeTypes);
     }
@@ -509,8 +510,13 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $clearCheckBox->setTitle($lng->txt("mcst_clear_purpose_title"));
                 $this->form_gui->addItem($clearCheckBox);
             } else {
-                
+
+                //
+                $ne = new ilNonEditableValueGUI($lng->txt("mcst_mimetype"), "mimetype_" . $purpose);
+                $this->form_gui->addItem($ne);
+
                 // mime type selection
+                /*
                 $mimeTypeSelection = new ilSelectInputGUI();
                 $mimeTypeSelection->setPostVar("mimetype_" . $purpose);
                 $mimeTypeSelection->setTitle($lng->txt("mcst_mimetype"));
@@ -518,7 +524,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $options = array("" => $lng->txt("mcst_automatic_detection"));
                 $options = array_merge($options, $this->mimeTypes);
                 $mimeTypeSelection->setOptions($options);
-                $this->form_gui->addItem($mimeTypeSelection);
+                $this->form_gui->addItem($mimeTypeSelection);*/
                 
                 // preview picure
                 $pp = new ilImageFileInputGUI($lng->txt("mcst_preview_picture"), "preview_pic");
@@ -761,12 +767,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         
         // check if not automatic mimetype detection
-        if ($_POST["mimetype_" . $purpose] != "") {
-            $mediaItem->setFormat($_POST["mimetype_" . $purpose]);
-        } elseif ($mediaItem->getLocation() != "") {
+//        if ($_POST["mimetype_" . $purpose] != "") {
+//            $mediaItem->setFormat($_POST["mimetype_" . $purpose]);
+//        } elseif ($mediaItem->getLocation() != "") {
             $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType == "Reference"));
             $mediaItem->setFormat($format);
-        }
+//        }
 
         if (isset($file)) {
             // get mime type, if not already set!

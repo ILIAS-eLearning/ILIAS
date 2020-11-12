@@ -18,7 +18,8 @@ class ilObjMediaCast extends ilObject
      */
     protected $user;
 
-    public static $purposes = array("Standard", "VideoAlternative", "VideoPortable", "AudioPortable");
+    //public static $purposes = array("Standard", "VideoAlternative", "VideoPortable", "AudioPortable");
+    public static $purposes = array("Standard");
     protected $online = false;
     protected $publicfiles = false;
     protected $downloadable = true;

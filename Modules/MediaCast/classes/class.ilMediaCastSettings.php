@@ -32,6 +32,17 @@
 */
 class ilMediaCastSettings
 {
+    private  $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
+    private $supported_mime_types = [
+        "video/mp4" => "video/mp4",
+        "audio/mpeg" => "audio/mpeg",
+        "image/jpeg" => "image/jpeg",
+        "image/png" => "image/png",
+        "image/gif" => "image/gif",
+        "image/svg+xml" => "image/svg+xml"
+    ];
+
+
     private static $instance = null;
     private $defaultAccess = "users";
     private $purposeSuffixes = array();
@@ -138,12 +149,21 @@ class ilMediaCastSettings
     {
         foreach ($this->purposeSuffixes as $purpose => $filetypes) {
             if ($this->storage->get($purpose . "_types") != false) {
-                $this->purposeSuffixes[$purpose] = explode(",", $this->storage->get($purpose . "_types"));
+                $sf = explode(",", $this->storage->get($purpose . "_types"));
+                $sf = array_filter($sf, function ($c) {
+                    return in_array($c, $this->supported_suffixes);
+                });
+                $this->purposeSuffixes[$purpose] = $sf;
             }
         }
         $this->setDefaultAccess($this->storage->get("defaultaccess"));
         if ($this->storage->get("mimetypes")) {
-            $this->setMimeTypes(explode(",", $this->storage->get("mimetypes")));
+            $mt = explode(",", $this->storage->get("mimetypes"));
+            $mt = array_filter($mt, function ($c) {
+                return in_array($c, $this->supported_mime_types);
+            });
+
+            $this->setMimeTypes($mt);
         }
     }
     
@@ -159,13 +179,13 @@ class ilMediaCastSettings
         include_once('./Modules/MediaCast/classes/class.ilObjMediaCast.php');
         $this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
                
-        $this->purposeSuffixes["Standard"] = array("mp3","flv","mp4","mov","wmv","gif","png", "jpg", "jpeg");
-        $this->purposeSuffixes["AudioPortable"] = array("mp3");
-        $this->purposeSuffixes["VideoPortable"] = array("mp4","mov");
+        $this->purposeSuffixes["Standard"] = $this->supported_suffixes;
+        //$this->purposeSuffixes["AudioPortable"] = array("mp3");
+        //$this->purposeSuffixes["VideoPortable"] = array("mp4","mov");
         $this->setDefaultAccess("users");
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $mimeTypes = array_unique(array_values(ilMimeTypeUtil::getExt2MimeMap()));
         sort($mimeTypes);
-        $this->setMimeTypes($mimeTypes);
+        $this->setMimeTypes($this->supported_mime_types);
     }
 }
