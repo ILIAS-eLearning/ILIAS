@@ -596,7 +596,7 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
 
-        $this->ctrl::redirectToUrl('login.php?tos_withdrawal_type=' . $withdrawalType . '&cmd=force_login');
+        $this->ctrl->redirectToUrl('login.php?tos_withdrawal_type=' . $withdrawalType . '&cmd=force_login');
     }
 
     /**
