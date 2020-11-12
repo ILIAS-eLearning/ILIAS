@@ -46,6 +46,10 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         $ini->setVariable("tools", "vscantype", $this->config->getVirusScanner());
         $ini->setVariable("tools", "scancommand", $this->config->getPathToScan());
         $ini->setVariable("tools", "cleancommand", $this->config->getPathToClean());
+        $ini->setVariable("tools", "icap_host", $this->config->getIcapHost());
+        $ini->setVariable("tools", "icap_port", $this->config->getIcapPort());
+        $ini->setVariable("tools", "icap_service_name", $this->config->getIcapServiceName());
+        $ini->setVariable("tools", "icap_client_path", $this->config->getIcapClientPath());
 
         if (!$ini->write()) {
             throw new Setup\UnachievableException("Could not write ilias.ini.php");
@@ -64,7 +68,11 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
         return
             $ini->readVariable("tools", "vscantype") !== $this->config->getVirusScanner() ||
             $ini->readVariable("tools", "scancommand") !== $this->config->getPathToScan() ||
-            $ini->readVariable("tools", "cleancommand") !== $this->config->getPathToClean()
+            $ini->readVariable("tools", "cleancommand") !== $this->config->getPathToClean() ||
+            $ini->readVariable("tools", "icap_host") !== $this->config->getIcapHost() ||
+            $ini->readVariable("tools", "icap_port") !== $this->config->getIcapPort() ||
+            $ini->readVariable("tools", "icap_service_name") !== $this->config->getIcapServiceName() ||
+            $ini->readVariable("tools", "icap_client_path") !== $this->config->getIcapClientPath()
         ;
     }
 }

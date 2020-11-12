@@ -3767,7 +3767,7 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        if (IL_VIRUS_SCANNER != "None") {
+        if (IL_VIRUS_SCANNER != "None" || strlen(IL_ICAP_HOST) !== 0) {
             require_once("./Services/VirusScanner/classes/class.ilVirusScannerFactory.php");
             $vs = ilVirusScannerFactory::_getInstance();
             if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
