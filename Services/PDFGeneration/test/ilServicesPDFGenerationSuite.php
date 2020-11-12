@@ -21,12 +21,6 @@ class ilServicesPDFGenerationSuite extends TestSuite
         require_once __DIR__ . '/ilPdfGeneratorConstantsTest.php';
         $suite->addTestSuite('ilPdfGeneratorConstantsTest');
 
-        require_once __DIR__ . '/ilPhantomJSRendererTest.php';
-        $suite->addTestSuite('ilPhantomJSRendererTest');
-
-        require_once __DIR__ . '/ilPhantomJSRendererUiTest.php';
-        $suite->addTestSuite('ilPhantomJSRendererUiTest');
-
         return $suite;
     }
 }

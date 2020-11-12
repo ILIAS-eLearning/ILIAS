@@ -5436,3 +5436,28 @@ if (!$ilDB->tableColumnExists('didactic_tpl_settings','icon_ide')) {
     ]);
 }
 ?>
+<#5729>
+<?php
+if ($ilDB->tableExists('pdfgen_map')) {
+    $query = 'UPDATE pdfgen_map SET selected = "WkhtmlToPdf" WHERE selected = "PhantomJS" AND purpose = "PrintViewOfQuestions" AND service = "Test" ';
+    $ilDB->manipulate($query);
+    $query = 'UPDATE pdfgen_map SET selected = "WkhtmlToPdf" WHERE selected = "PhantomJS" AND purpose = "UserResult" AND service = "Test" ';
+    $ilDB->manipulate($query);
+    $query = 'UPDATE pdfgen_map SET preferred = "WkhtmlToPdf" WHERE service = "Test" ';
+    $ilDB->manipulate($query);
+}
+?>
+<#5730>
+<?php
+if ($ilDB->tableExists('pdfgen_renderer_avail')) {
+    $query = 'DELETE FROM pdfgen_renderer_avail WHERE service = "Test" AND renderer = "PhantomJS" ';
+    $ilDB->manipulate($query);
+}
+?>
+<#5731>
+<?php
+if ($ilDB->tableExists('pdfgen_renderer')) {
+    $query = 'DELETE FROM pdfgen_renderer WHERE renderer = "PhantomJS" ';
+    $ilDB->manipulate($query);
+}
+?>

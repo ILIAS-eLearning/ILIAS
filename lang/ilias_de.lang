@@ -14398,7 +14398,6 @@ pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
 pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
 pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
 pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand

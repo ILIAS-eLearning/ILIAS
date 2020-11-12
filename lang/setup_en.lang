@@ -635,5 +635,3 @@ terminated_waiting_tasks#:#Terminated waiting tasks successfully.
 kill_waiting_tasks#:#Terminate tasks in the queue.
 system_styles#:#System Styles
 not_enabled#:#Disabled
-phantomjs_path#:#Path to phantomjs
-phantomjs_path_comment#:#Optional to create PDFs, e.g. '/usr/bin/phantomjs'
