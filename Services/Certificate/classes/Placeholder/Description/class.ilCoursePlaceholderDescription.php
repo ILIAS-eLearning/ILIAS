@@ -12,6 +12,10 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     private $defaultPlaceHolderDescriptionObject;
 
     /**
+     * @var ilObjectCustomUserFieldsPlaceholderDescription
+     */
+    private $customUserFieldsPlaceholderDescriptionObject;
+    /**
      * @var ilLanguage|null
      */
     private $language;
@@ -22,15 +26,18 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     private $placeholder;
 
     /**
+     * @param int $objectId
      * @param ilDefaultPlaceholderDescription|null           $defaultPlaceholderDescriptionObject
      * @param ilLanguage|null                                $language
      * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
+     * @param ilObjectCustomUserFieldsPlaceholderDescription|null $customUserFieldsPlaceholderDescriptionObject
      */
     public function __construct(
-        $objectId,
+        int $objectId,
         ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -45,9 +52,12 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-        $customUserFieldsPlaceHolderDescriptionObject = new ilObjectCustomUserFieldsPlaceholderDescription($objectId);
+        if (null === $customUserFieldsPlaceholderDescriptionObject) {
+            $customUserFieldsPlaceholderDescriptionObject = new ilObjectCustomUserFieldsPlaceholderDescription($objectId);
+        }
+        $this->customUserFieldsPlaceholderDescriptionObject = $customUserFieldsPlaceholderDescriptionObject;
 
-        $customUserFieldsPlaceholderHtmlDescription = $customUserFieldsPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        $customUserFieldsPlaceholderHtmlDescription = $this->customUserFieldsPlaceHolderDescriptionObject->getPlaceholderDescriptions();
         $defaultPlaceholderDescription = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
         $this->placeholder = array_merge($defaultPlaceholderDescription, $customUserFieldsPlaceholderHtmlDescription);

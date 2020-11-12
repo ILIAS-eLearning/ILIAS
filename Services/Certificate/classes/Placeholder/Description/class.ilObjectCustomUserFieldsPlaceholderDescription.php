@@ -4,16 +4,30 @@
 
 class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
+    /**
+     * @var array
+     */
     private $placeholder;
+
+    /**
+     * @var int
+     */
+    private $objectId;
 
     /**
      * @param int $objectId
      */
-    public function __construct($objectId)
+    public function __construct(int $objectId)
     {
         $this->placeholder = array();
+        $this->objectId    = $objectId;
 
-        $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($objectId);
+        $this->initPlaceholders();
+    }
+
+    private function initPlaceholders()
+    {
+        $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($this->objectId);
 
         foreach ($courseDefinedFields as $field) {
             $name = $field->getName();
