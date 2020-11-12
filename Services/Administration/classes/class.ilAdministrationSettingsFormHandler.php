@@ -13,7 +13,7 @@ class ilAdministrationSettingsFormHandler
     
     const FORM_PRIVACY = 1;
     const FORM_SECURITY = 2;
-    const FORM_FILES_QUOTA = 3;
+    //Not used aymore: const FORM_FILES_QUOTA = 3;
     const FORM_LP = 4;
     const FORM_MAIL = 5;
     const FORM_COURSE = 6;

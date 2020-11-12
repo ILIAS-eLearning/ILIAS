@@ -1454,7 +1454,6 @@ class ilObjSystemFolderGUI extends ilObjectGUI
      * cron_lucene_index => obsolete
      * forum_notification => migrated
      * mail_notification => migrated
-     * disk_quota/enabled => migrated
      * crsgrp_ntf => migrated
      * cron_upd_adrbook => migrated
      */

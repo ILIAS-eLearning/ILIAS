@@ -292,22 +292,6 @@ class ilObjRoleGUI extends ilObjectGUI
         #$pro->setInfo($this->lng->txt('role_protext_permission_info'));
         $this->form->addItem($pro);
         
-        if (ilDiskQuotaActivationChecker::_isActive()) {
-            $quo = new ilNumberInputGUI($this->lng->txt('disk_quota'), 'disk_quota');
-            $quo->setMinValue(0);
-            $quo->setSize(4);
-            $quo->setInfo($this->lng->txt('enter_in_mb_desc') . '<br />' . $this->lng->txt('disk_quota_on_role_desc'));
-            $this->form->addItem($quo);
-        }
-        if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-            $this->lng->loadLanguageModule("file");
-            $wquo = new ilNumberInputGUI($this->lng->txt('personal_resources_disk_quota'), 'wsp_disk_quota');
-            $wquo->setMinValue(0);
-            $wquo->setSize(4);
-            $wquo->setInfo($this->lng->txt('enter_in_mb_desc') . '<br />' . $this->lng->txt('disk_quota_on_role_desc'));
-            $this->form->addItem($wquo);
-        }
-            
         return true;
     }
     
@@ -327,8 +311,6 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         $role->setAllowRegister($this->form->getInput('reg'));
         $role->toggleAssignUsersStatus($this->form->getInput('la'));
-        $role->setDiskQuota(ilUtil::MB2Bytes($this->form->getInput('disk_quota')));
-        $role->setPersonalWorkspaceDiskQuota(ilUtil::MB2Bytes($this->form->getInput('wsp_disk_quota')));
         return true;
     }
     
@@ -348,12 +330,6 @@ class ilObjRoleGUI extends ilObjectGUI
         $data['ilias_id'] = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($role->getId()) . '_' . $role->getId();
         $data['reg'] = $role->getAllowRegister();
         $data['la'] = $role->getAssignUsersStatus();
-        if (ilDiskQuotaActivationChecker::_isActive()) {
-            $data['disk_quota'] = ilUtil::Bytes2MB($role->getDiskQuota());
-        }
-        if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-            $data['wsp_disk_quota'] = ilUtil::Bytes2MB($role->getPersonalWorkspaceDiskQuota());
-        }
         $data['pro'] = $rbacreview->isProtected($this->obj_ref_id, $role->getId());
         
         $this->form->setValuesByArray($data);
