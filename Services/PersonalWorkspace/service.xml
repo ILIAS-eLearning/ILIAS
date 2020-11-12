@@ -4,9 +4,6 @@
 	<baseclasses>
 		<baseclass name="ilSharedResourceGUI" dir="classes" />
 	</baseclasses>
-	<crons>
-		<cron id="pwsp_recalc_quota" class="ilCronPersonalWorkspaceRecalculateQuota" />
-	</crons>
 	<object id="prss" class_name="PersonalWorkspaceSettings" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
 		<parent id="adm" max="1">adm</parent>
