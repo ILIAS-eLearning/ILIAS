@@ -124,7 +124,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                             break;
                     }
                 }
-
                 $this->prepareOutput();
                 $this->handleCommand($cmd);
                 break;

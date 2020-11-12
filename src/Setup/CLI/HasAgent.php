@@ -4,6 +4,10 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentFinder;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Add this to an Command that has an agent.
@@ -11,24 +15,40 @@ use ILIAS\Setup\Agent;
 trait HasAgent
 {
     /**
-     * @var callable
+     * @var AgentFinder
      */
-    protected $lazy_agent = null;
+    protected $agent_finder = null;
 
-    /**
-     * @var Agent|null
-     */
-    protected $agent = null;
-
-    protected function getAgent() : Agent
+    protected function configureCommandForPlugins()
     {
-        if ($this->agent !== null) {
-            return $this->agent;
+        $this->addArgument("plugin-name", InputArgument::OPTIONAL, "Name of the plugin to run the command for.");
+        $this->addOption("no-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");
+        $this->addOption("skip", null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, "Skip plugin with the supplied <plugin-name> when running the command.");
+    }
+
+    protected function getRelevantAgent(InputInterface $input) : Agent
+    {
+        if (!$this->agent_finder) {
+            throw new \LogicException(
+                "\$this->agent_finder needs to intialized with an AgentFinder."
+            );
         }
-        if (!is_callable($this->lazy_agent)) {
-            throw new \LogicException("\$this->lazy_agent not initialized properly.");
+
+        if ($input->getOption("no-plugins")) {
+            // The agents of the core are in all folders but the customizing folder.
+            return $this->agent_finder->getCoreAgents();
         }
-        $this->agent = ($this->lazy_agent)();
-        return $this->agent;
+
+        $plugin_name = $input->getArgument("plugin-name");
+        if ($plugin_name) {
+            return $this->agent_finder->getPluginAgent($plugin_name);
+        }
+
+        $agents = $this->agent_finder->getAgents();
+        foreach (($input->getOption("skip") ?? []) as $plugin_name) {
+            $agents = $agents->withRemovedAgent(strtolower($plugin_name));
+        }
+
+        return $agents;
     }
 }

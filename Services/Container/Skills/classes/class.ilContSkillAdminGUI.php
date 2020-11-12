@@ -7,6 +7,7 @@
  *
  * @author Alex Killing <killing@leifos.de>
  * @ingroup ServicesContainer
+ * @ilCtrl_Calls ilContSkillAdminGUI: ilSkillProfileGUI
  */
 class ilContSkillAdminGUI
 {
@@ -46,6 +47,21 @@ class ilContSkillAdminGUI
     protected $container_skills;
 
     /**
+     * @var ilContainerGlobalProfiles
+     */
+    protected $container_global_profiles;
+
+    /**
+     * @var ilContainerLocalProfiles
+     */
+    protected $container_local_profiles;
+
+    /**
+     * @var ilSkillManagementSettings
+     */
+    protected $skmg_settings;
+
+    /**
      * @var ilToolbarGUI
      */
     protected $toolbar;
@@ -54,6 +70,11 @@ class ilContSkillAdminGUI
      * @var ilAccessHandler
      */
     protected $access;
+
+    /**
+     * @var array
+     */
+    protected $params;
 
     /**
      * Constructor
@@ -79,8 +100,17 @@ class ilContSkillAdminGUI
 
         include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
+        $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
+        $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
+        $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->user_id = (int) $_GET["usr_id"];
+
+        $this->ctrl->saveParameter($this, "profile_id");
+        $this->params = $this->ctrl->getParameterArray($this);
+
+        $this->lng->loadLanguageModule("skmg");
+        $this->lng->loadLanguageModule("error");
     }
 
     /**
@@ -92,11 +122,20 @@ class ilContSkillAdminGUI
         $cmd = $this->ctrl->getCmd("listMembers");
     
         switch ($next_class) {
+            case "ilskillprofilegui":
+                $profile_gui = new ilSkillProfileGUI();
+                $this->ctrl->setReturn($this, "listProfiles");
+                $ret = $this->ctrl->forwardCommand($profile_gui);
+                break;
             default:
                 if (
                     ($this->access->checkAccess("write", "", $this->ref_id) &&
                         in_array($cmd, array("listCompetences", "settings", "saveSettings", "selectSkill",
-                        "saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill")))
+                        "saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill",
+                        "listProfiles", "saveSelectedProfile", "confirmRemoveSelectedGlobalProfiles",
+                        "removeSelectedGlobalProfiles", "confirmRemoveSingleGlobalProfile", "removeSingleGlobalProfile",
+                        "confirmDeleteSingleLocalProfile", "deleteSingleLocalProfile",
+                        "confirmDeleteSelectedLocalProfiles", "deleteSelectedLocalProfiles")))
                     ||
                     ($this->access->checkAccess("grade", "", $this->ref_id) &&
                         in_array($cmd, array("listMembers", "assignCompetences",
@@ -355,7 +394,13 @@ class ilContSkillAdminGUI
 
         // table
         include_once("./Services/Container/Skills/classes/class.ilContSkillTableGUI.php");
-        $tab = new ilContSkillTableGUI($this, "listCompetences", $this->container_skills);
+        $tab = new ilContSkillTableGUI(
+            $this,
+            "listCompetences",
+            $this->container_skills,
+            $this->container_global_profiles,
+            $this->container_local_profiles
+        );
 
         $tpl->setContent($tab->getHTML());
     }
@@ -388,6 +433,7 @@ class ilContSkillAdminGUI
 
         $this->container_skills->addSkill((int) $s[0], (int) $s[1]);
         $this->container_skills->save();
+        ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1]);
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
@@ -402,6 +448,9 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("competences");
 
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -437,10 +486,307 @@ class ilContSkillAdminGUI
                 $this->container_skills->removeSkill($s[0], $s[1]);
             }
             $this->container_skills->save();
+            ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
         }
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
         $ctrl->redirect($this, "listCompetences");
+    }
+
+
+    //// MANAGE PROFILES
+
+    /**
+     * Select competence profiles
+     */
+    public function listProfiles()
+    {
+        $tpl = $this->tpl;
+        $tabs = $this->tabs;
+        $toolbar = $this->toolbar;
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+
+        $tabs->activateSubTab("profiles");
+
+        $options = array();
+        $options[0] = $lng->txt("please_select");
+
+        $selectable_profiles = array();
+        $all_profiles = ilSkillProfile::getGlobalProfiles();
+        $selected_profiles = $this->container_global_profiles->getProfiles();
+        foreach ($all_profiles as $id => $profile) {
+            if (!array_key_exists($id, $selected_profiles)) {
+                $selectable_profiles[$id] = $profile;
+            }
+        }
+
+        foreach ($selectable_profiles as $profile) {
+            $options[$profile["id"]] = $profile["title"];
+        }
+
+        if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
+            $select = new ilSelectInputGUI($lng->txt("skmg_profile"), "p_id");
+            $select->setOptions($options);
+            $select->setValue(0);
+            $toolbar->addInputItem($select, true);
+
+            $button = ilSubmitButton::getInstance();
+            $button->setCaption("cont_add_global_profile");
+            $button->setCommand("saveSelectedProfile");
+            $toolbar->addButtonInstance($button);
+        }
+
+        if ($this->skmg_settings->getLocalAssignmentOfProfiles()
+            && $this->skmg_settings->getAllowLocalProfiles()) {
+            $toolbar->addSeparator();
+        }
+
+        if ($this->skmg_settings->getAllowLocalProfiles()) {
+            $button = ilLinkButton::getInstance();
+            $button->setCaption("cont_add_local_profile");
+            $button->setUrl($ctrl->getLinkTargetByClass("ilskillprofilegui", "createLocal"));
+            $toolbar->addButtonInstance($button);
+        }
+
+        $toolbar->setFormAction($ctrl->getFormAction($this));
+
+        // table
+        $tab = new ilContProfileTableGUI(
+            $this,
+            "listProfiles",
+            $this->container_global_profiles,
+            $this->container_local_profiles
+        );
+
+        $tpl->setContent($tab->getHTML());
+    }
+
+    /**
+     * Save selected profile
+     */
+    public function saveSelectedProfile()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $profile_id = (int) $_POST["p_id"];
+
+        if (!$profile_id > 0) {
+            ilUtil::sendInfo($lng->txt("cont_skill_no_profile_selected"), true);
+            $ctrl->redirect($this, "listProfiles");
+        }
+
+        $this->container_global_profiles->addProfile((int) $profile_id);
+        $this->container_global_profiles->save();
+
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $ctrl->redirect($this, "listProfiles");
+    }
+
+    /**
+     * Confirm removal for selected global profiles
+     */
+    public function confirmRemoveSelectedGlobalProfiles()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
+
+        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $ctrl->redirect($this, "listProfiles");
+        } else {
+            $cgui = new ilConfirmationGUI();
+            $cgui->setFormAction($ctrl->getFormAction($this));
+            $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profiles_from_list"));
+            $cgui->setCancel($lng->txt("cancel"), "listProfiles");
+            $cgui->setConfirm($lng->txt("remove"), "removeSelectedGlobalProfiles");
+
+            foreach ($_POST["id"] as $i) {
+                if (ilSkillProfile::lookupRefId($i) > 0) {
+                    ilUtil::sendInfo($lng->txt("cont_skill_removal_not_possible"), true);
+                    $ctrl->redirect($this, "listProfiles");
+                }
+                $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
+            }
+
+            $tpl->setContent($cgui->getHTML());
+        }
+    }
+
+    /**
+     * Remove global profiles from course selection
+     */
+    public function removeSelectedGlobalProfiles()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        if (is_array($_POST["id"]) && count($_POST["id"]) > 0) {
+            foreach ($_POST["id"] as $id) {
+                $this->container_global_profiles->removeProfile($id);
+            }
+            $this->container_global_profiles->save();
+        }
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $ctrl->redirect($this, "listProfiles");
+    }
+
+    /**
+     * Confirm removal for single global profile
+     */
+    public function confirmRemoveSingleGlobalProfile()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
+
+        $profile_id = (int) $this->params["profile_id"];
+
+        if (!$profile_id > 0) {
+            ilUtil::sendFailure($lng->txt("error_sry_error"), true);
+            $ctrl->redirect($this, "listProfiles");
+        } else {
+            $cgui = new ilConfirmationGUI();
+            $cgui->setFormAction($ctrl->getFormAction($this));
+            $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profile_from_list"));
+            $cgui->setCancel($lng->txt("cancel"), "listProfiles");
+            $cgui->setConfirm($lng->txt("remove"), "removeSingleGlobalProfile");
+            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+
+            $tpl->setContent($cgui->getHTML());
+        }
+    }
+
+    /**
+     * Remove single global profile from course
+     */
+    public function removeSingleGlobalProfile()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $profile_id = (int) $this->params["profile_id"];
+
+        if ($profile_id > 0) {
+            $this->container_global_profiles->removeProfile($profile_id);
+            $this->container_global_profiles->save();
+        }
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $ctrl->redirect($this, "listProfiles");
+    }
+
+    /**
+     * Confirm deletion for selected local profiles
+     */
+    public function confirmDeleteSelectedLocalProfiles()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
+
+        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+            ilUtil::sendInfo($lng->txt("no_checkbox"), true);
+            $ctrl->redirect($this, "listProfiles");
+        } else {
+            $cgui = new ilConfirmationGUI();
+            $cgui->setFormAction($ctrl->getFormAction($this));
+            $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profiles_from_list"));
+            $cgui->setCancel($lng->txt("cancel"), "listProfiles");
+            $cgui->setConfirm($lng->txt("delete"), "deleteSelectedLocalProfiles");
+
+            foreach ($_POST["id"] as $i) {
+                if (!ilSkillProfile::lookupRefId($i) > 0) {
+                    ilUtil::sendInfo($lng->txt("cont_skill_deletion_not_possible"), true);
+                    $ctrl->redirect($this, "listProfiles");
+                }
+                $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
+            }
+
+            $tpl->setContent($cgui->getHTML());
+        }
+    }
+
+    /**
+     * Delete local profiles from course selection
+     */
+    public function deleteSelectedLocalProfiles()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        if (is_array($_POST["id"]) && count($_POST["id"]) > 0) {
+            foreach ($_POST["id"] as $id) {
+                if (ilSkillProfile::lookupRefId($id) > 0) {
+                    $prof = new ilSkillProfile($id);
+                    $prof->delete();
+                }
+            }
+        }
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $ctrl->redirect($this, "listProfiles");
+    }
+
+    /**
+     * Confirm deletion for single local profile
+     */
+    public function confirmDeleteSingleLocalProfile()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+        $tpl = $this->tpl;
+        $tabs = $this->tabs;
+
+        $tabs->activateSubTab("profiles");
+
+        $profile_id = (int) $this->params["profile_id"];
+
+        if (!$profile_id > 0) {
+            ilUtil::sendFailure($lng->txt("error_sry_error"), true);
+            $ctrl->redirect($this, "listProfiles");
+        } else {
+            $cgui = new ilConfirmationGUI();
+            $cgui->setFormAction($ctrl->getFormAction($this));
+            $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
+            $cgui->setCancel($lng->txt("cancel"), "listProfiles");
+            $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
+            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+
+            $tpl->setContent($cgui->getHTML());
+        }
+    }
+
+    /**
+     * Delete single local profile from course
+     */
+    public function deleteSingleLocalProfile()
+    {
+        $lng = $this->lng;
+        $ctrl = $this->ctrl;
+
+        $profile_id = (int) $this->params["profile_id"];
+
+        if ($profile_id > 0) {
+            $prof = new ilSkillProfile($profile_id);
+            $prof->delete();
+        }
+        ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+
+        $ctrl->redirect($this, "listProfiles");
     }
 
 

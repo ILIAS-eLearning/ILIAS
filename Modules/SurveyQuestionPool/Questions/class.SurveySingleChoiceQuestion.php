@@ -667,4 +667,23 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         return false;
     }
 
+    public static function compressable($id1, $id2) {
+        $q1 = SurveyQuestion::_instanciateQuestion($id1);
+        $q2 = SurveyQuestion::_instanciateQuestion($id2);
+        if (self::getCompressCompareString($q1) == self::getCompressCompareString($q2)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getCompressCompareString($q)
+    {
+        $str = "";
+        for ($i = 0; $i < $q->categories->getCategoryCount(); $i++) {
+            $cat = $q->categories->getCategory($i);
+            $str.= ":".$cat->scale.":".$cat->title;
+        }
+        return $str;
+    }
+
 }

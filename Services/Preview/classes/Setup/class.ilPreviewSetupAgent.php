@@ -74,4 +74,12 @@ class ilPreviewSetupAgent implements Setup\Agent
     {
         return new ilPreviewMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

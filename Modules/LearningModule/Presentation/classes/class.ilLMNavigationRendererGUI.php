@@ -66,6 +66,11 @@ class ilLMNavigationRendererGUI
     protected $lang;
 
     /**
+     * @var ilLMNavigationStatus
+     */
+    protected $navigation_status;
+
+    /**
      * Constructor
      */
     public function __construct(
@@ -92,7 +97,7 @@ class ilLMNavigationRendererGUI
         $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
         $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
         $this->linker = $service->getLinker();
-
+        $this->navigation_status = $service->getNavigationStatus();
         $this->requested_obj_id = $requested_obj_id;
         $back_pg = explode(":", $requested_back_pg);
         $this->requested_back_pg = (int) $back_pg[0];
@@ -139,43 +144,22 @@ class ilLMNavigationRendererGUI
             return "";
         }
 
-        $back_pg = $this->requested_back_pg;
-        $frame = $this->requested_frame;
-
         // process navigation for free page
-        if (!$this->lm_tree->isInTree($page_id)) {
-            if ($this->offline || $back_pg == 0) {
-                return "";
-            }
-
-            if (!$this->lm->cleanFrames()) {
-                // @todo 6.0 (move link stuff to separate class)
-                $back_href =
-                    $this->linker->getLink(
-                        "layout",
-                        $back_pg,
-                        $frame,
-                        "",
-                        "reduce"
-                    );
-                $back_target = "";
-            } else {
-                $back_href =
-                    $this->linker->getLink(
-                        "layout",
-                        $back_pg,
-                        "",
-                        "",
-                        "reduce"
-                    );
-                $back_target = 'target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
-            }
+        $back_pg = $this->navigation_status->getBackPageId();
+        if ($back_pg > 0) {
+            $back_href =
+                $this->linker->getLink(
+                    "layout",
+                    $back_pg,
+                    "",
+                    "",
+                    "reduce"
+                );
             $back_img =
                 ilUtil::getImagePath("nav_arr2_L.png", false, "output", $this->offline);
             $tpl->setCurrentBlock("ilLMNavigation_Prev");
             $tpl->setVariable("IMG_PREV", $back_img);
             $tpl->setVariable("HREF_PREV", $back_href);
-            $tpl->setVariable("FRAME_PREV", $back_target);
             $tpl->setVariable("TXT_PREV", $this->lng->txt("back"));
             $tpl->setVariable("ALT_PREV", $this->lng->txt("back"));
             $tpl->setVariable(
@@ -187,96 +171,11 @@ class ilLMNavigationRendererGUI
                 : ilUtil::getImagePath("spacer.png"));
             $tpl->parseCurrentBlock();
         } else {
-            // determine successor page_id
-            $found = false;
-
-            // empty chapter
-            if ($this->chapter_has_no_active_page &&
-                ilLMObject::_lookupType($this->requested_obj_id) == "st") {
-                $c_id = $this->requested_obj_id;
-            } else {
-                if ($this->deactivated_page) {
-                    $c_id = $this->requested_obj_id;
-                } else {
-                    $c_id = $page_id;
-                }
-            }
-            while (!$found) {
-                $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-                $c_id = $succ_node["obj_id"];
-
-                $active = ilLMPage::_lookupActive(
-                    $c_id,
-                    $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
-                );
-
-                if ($succ_node["obj_id"] > 0 &&
-                    $ilUser->getId() == ANONYMOUS_USER_ID &&
-                    ($this->lm->getPublicAccessMode() == "selected" &&
-                        !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
-                    $found = false;
-                } else {
-                    if ($succ_node["obj_id"] > 0 && !$active) {
-                        // look, whether activation data should be shown
-                        $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
-                        if ($act_data["show_activation_info"] &&
-                            (ilUtil::now() < $act_data["activation_start"])) {
-                            $found = true;
-                        } else {
-                            $found = false;
-                        }
-                    } else {
-                        $found = true;
-                    }
-                }
-            }
-
-            // determine predecessor page id
-            $found = false;
-            if ($this->deactivated_page) {
-                $c_id = $this->requested_obj_id;
-            } else {
-                $c_id = $page_id;
-            }
-            while (!$found) {
-                $pre_node = $this->lm_tree->fetchPredecessorNode($c_id, "pg");
-                $c_id = $pre_node["obj_id"];
-                $active = ilLMPage::_lookupActive(
-                    $c_id,
-                    $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
-                );
-                if ($pre_node["obj_id"] > 0 &&
-                    $ilUser->getId() == ANONYMOUS_USER_ID &&
-                    ($this->lm->getPublicAccessMode() == "selected" &&
-                        !ilLMObject::_isPagePublic($pre_node["obj_id"]))) {
-                    $found = false;
-                } else {
-                    if ($pre_node["obj_id"] > 0 && !$active) {
-                        // look, whether activation data should be shown
-                        $act_data = ilLMPage::_lookupActivationData((int) $pre_node["obj_id"], $this->lm->getType());
-                        if ($act_data["show_activation_info"] &&
-                            (ilUtil::now() < $act_data["activation_start"])) {
-                            $found = true;
-                        } else {
-                            $found = false;
-                        }
-                    } else {
-                        $found = true;
-                    }
-                }
-            }
-
-
-            // Determine whether the view of a learning resource should
-            // be shown in the frameset of ilias, or in a separate window.
-            $showViewInFrameset = true;
-
-            if ($pre_node != "") {
+            $pre_id = $this->navigation_status->getPredecessorPageId();
+            if ($pre_id > 0) {
                 // get presentation title
                 $prev_title = ilLMPageObject::_getPresentationTitle(
-                    $pre_node["obj_id"],
+                    $pre_id,
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
                     $this->lm_set->get("time_scheduled_page_activation"),
@@ -293,18 +192,18 @@ class ilLMNavigationRendererGUI
                     $prev_href =
                         $this->linker->getLink(
                             "layout",
-                            $pre_node["obj_id"],
+                            $pre_id,
                             $this->requested_frame
                         );
                     $prev_target = "";
                 } else {
-                    if ($showViewInFrameset && !$this->offline) {
+                    if (!$this->offline) {
                         $prev_href =
-                            $this->linker->getLink("layout", $pre_node["obj_id"]);
+                            $this->linker->getLink("layout", $pre_id);
                         $prev_target = 'target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $prev_href =
-                            $this->linker->getLink("layout", $pre_node["obj_id"]);
+                            $this->linker->getLink("layout", $pre_id);
                         $prev_target = 'target="_top" ';
                     }
                 }
@@ -323,10 +222,12 @@ class ilLMNavigationRendererGUI
                     ilAccessKeyGUI::getAttribute(ilAccessKey::PREVIOUS)
                 );
             }
-            if ($succ_node != "") {
+
+            $succ_id = $this->navigation_status->getSuccessorPageId();
+            if ($succ_id > 0) {
                 // get presentation title
                 $succ_title = ilLMPageObject::_getPresentationTitle(
-                    $succ_node["obj_id"],
+                    $succ_id,
                     $this->lm->getPageHeader(),
                     $this->lm->isActiveNumbering(),
                     $this->lm_set->get("time_scheduled_page_activation"),
@@ -342,18 +243,18 @@ class ilLMNavigationRendererGUI
                     $succ_href =
                         $this->linker->getLink(
                             "layout",
-                            $succ_node["obj_id"],
+                            $succ_id,
                             $this->requested_frame
                         );
                     $succ_target = "";
                 } else {
                     if (!$this->offline) {
                         $succ_href =
-                            $this->linker->getLink("layout", $succ_node["obj_id"]);
+                            $this->linker->getLink("layout", $succ_id);
                         $succ_target = ' target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $succ_href =
-                            $this->linker->getLink("layout", $succ_node["obj_id"]);
+                            $this->linker->getLink("layout", $succ_id);
                         $succ_target = ' target="_top" ';
                     }
                 }
@@ -376,7 +277,7 @@ class ilLMNavigationRendererGUI
                 // check if successor page is not restricted
                 if (!$this->offline) {
                     if ($this->lm->getRestrictForwardNavigation()) {
-                        if ($this->tracker->hasPredIncorrectAnswers($succ_node["obj_id"])) {
+                        if ($this->tracker->hasPredIncorrectAnswers($succ_id)) {
                             $this->main_tpl->addOnLoadCode("$('.ilc_page_rnav_RightNavigation').addClass('ilNoDisplay');");
                         }
                     }

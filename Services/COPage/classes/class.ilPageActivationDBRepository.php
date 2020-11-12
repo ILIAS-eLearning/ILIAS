@@ -34,12 +34,31 @@ class ilPageActivationDBRepository
      */
     public function get(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "")
     {
-        $db = $this->db;
+
 
         // language must be set at least to "-"
         if ($lang == "") {
             $lang = "-";
         }
+
+        $active = [];
+
+        // for special languages initialize with master language
+        if ($lang != "-") {
+            foreach ($this->getData($parent_type, $ids, $check_scheduled_activation, "-") as $k => $v) {
+                $active[$k] = $v;
+            }
+        }
+
+        foreach ($this->getData($parent_type, $ids, $check_scheduled_activation, $lang) as $k => $v) {
+            $active[$k] = $v;
+        }
+
+        return $active;
+    }
+
+    protected function getData(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "") {
+        $db = $this->db;
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .
             $db->in("page_id", $ids, false, "integer") .

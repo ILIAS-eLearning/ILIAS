@@ -20,6 +20,10 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
      */
     private $gs;
 
+    /**
+     * @var \ilLanguage
+     */
+    private $lng;
 
     /**
      * BaseMetaBarItemRenderer constructor.
@@ -28,6 +32,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     {
         global $DIC;
         $this->gs = $DIC->globalScreen();
+        $this->lng = $DIC->language();
         parent::__construct();
     }
 
@@ -41,7 +46,7 @@ class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements 
     {
         $f = $this->ui->factory();
 
-        $center = $f->mainControls()->slate()->combined("Notification Center", $item->getSymbol())
+        $center = $f->mainControls()->slate()->combined($this->lng->txt("noc"), $item->getSymbol())
             ->withEngaged(false);
 
         foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {

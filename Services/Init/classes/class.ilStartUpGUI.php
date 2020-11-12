@@ -39,6 +39,8 @@ class ilStartUpGUI
     /** @var ServerRequestInterface*/
     protected $httpRequest;
 
+    /** @var \ILIAS\DI\Container $dic */
+    protected $dic;
     /**
      * ilStartUpGUI constructor.
      * @param \ilObjUser|null              $user
@@ -53,6 +55,8 @@ class ilStartUpGUI
         ServerRequestInterface $httpRequest = null
     ) {
         global $DIC;
+
+        $this->dic = $DIC;
 
         if ($user === null) {
             $user = $DIC->user();
@@ -235,6 +239,9 @@ class ilStartUpGUI
         if (strlen($page_editor_html)) {
             $tpl->setVariable('LPE', $page_editor_html);
         }
+
+        $tos_withdrawal_helper = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tos_withdrawal_helper->setWithdrawalInfo($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1263,8 +1270,13 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        $withdrawal_appendage_text = $tos_withdrawal_helper->appendWithdrawalText(
+            ($this->httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0)
+        );
+
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
-        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text"));
+        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text") . $withdrawal_appendage_text);
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
@@ -1295,6 +1307,11 @@ class ilStartUpGUI
         );
 
         $user_language = $user->getLanguage();
+
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        if (isset($this->httpRequest->getQueryParams()['withdraw_consent'])) {
+            $tos_withdrawal_helper->handleWithdrawalRequest($user, $this);
+        }
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -1512,15 +1529,66 @@ class ilStartUpGUI
     /**
      * Get terms of service
      */
-    protected function getAcceptance()
+    protected function getAcceptance() : void
     {
         $this->showTermsOfService();
     }
 
+    protected function confirmAcceptance() : void
+    {
+        $this->showTermsOfService(true);
+    }
+
+    protected function confirmWithdrawal() : void
+    {
+        if (!$this->user->getId()) {
+            $this->user->setId(ANONYMOUS_USER_ID);
+        }
+        $back_to_login = false;
+        if ($this->user->getPref('consent_withdrawal_requested') != 1) {
+            $back_to_login = true;
+        }
+        $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
+
+        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+        if ($handleDocument) {
+            $document = $this->termsOfServiceEvaluation->document();
+            if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
+                if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
+                    $helper = new \ilTermsOfServiceHelper();
+                    $helper->deleteAcceptanceHistoryByUser($this->user);
+                    $this->ctrl->redirectToUrl('logout.php');
+                }
+            }
+
+            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+            $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+            $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+            $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+
+            $tpl->setPermanentLink('usr', null, 'agreement');
+            $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+        } else {
+            $tpl->setVariable(
+                'TERMS_OF_SERVICE_CONTENT',
+                sprintf(
+                    $this->lng->txt('no_agreement_description'),
+                    'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
+                )
+            );
+        }
+
+        self::printToGlobalTemplate($tpl);
+    }
+
     /**
      * Show terms of service
+     * @param bool $accepted
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     * @throws ilTermsOfServiceNoSignableDocumentFoundException
+     * @throws ilTermsOfServiceUnexpectedCriteriaBagContentException
      */
-    protected function showTermsOfService()
+    protected function showTermsOfService(bool $accepted = false) : void
     {
         $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
 
@@ -1533,8 +1601,11 @@ class ilStartUpGUI
         $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
-            if ('getAcceptance' == $this->ctrl->getCmd()) {
-                if (isset($_POST['status']) && 'accepted' == $_POST['status']) {
+            if (
+                'confirmAcceptance' === $this->ctrl->getCmd() ||
+                'getAcceptance' === $this->ctrl->getCmd()
+            ) {
+                if ($accepted) {
                     $helper = new \ilTermsOfServiceHelper();
 
                     $helper->trackAcceptance($this->user, $document);
@@ -1549,9 +1620,17 @@ class ilStartUpGUI
                 }
 
                 $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-                $tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
-                $tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+                $tpl->setVariable('TXT_ACCEPT', $this->lng->txt('accept_usr_agreement_btn'));
+                $tpl->setVariable('DENY_TERMS_OF_SERVICE', $this->lng->txt('deny_usr_agreement'));
+                $tpl->setVariable('DENIAL_BUTTON',
+                    $this->dic->ui()->renderer()->render(
+                        $this->dic->ui()->factory()->button()->standard(
+                            $this->dic->language()->txt('deny_usr_agreement_btn'),
+                            'logout.php?withdraw_consent'
+                        )
+                    )
+                );
             }
 
             $tpl->setPermanentLink('usr', null, 'agreement');

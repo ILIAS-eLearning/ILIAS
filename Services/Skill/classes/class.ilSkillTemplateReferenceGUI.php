@@ -110,6 +110,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             // usage
             $this->addUsageTab($ilTabs);
 
+            // assigned objects
+            if ($obj_type != "sctp") {
+                $this->addObjectsTab($ilTabs);
+            }
+
             // back link
             /*
                         $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
@@ -379,5 +384,22 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             $table = new ilSkillLevelTableGUI((int) $sk_id, $this, "edit", $this->node_object->getId());
             $tpl->setContent($table->getHTML());
         }
+    }
+
+    /**
+     * Show assigned objects
+     */
+    public function showObjects()
+    {
+        $tpl = $this->tpl;
+
+        $this->setTabs("objects");
+
+        $usage_info = new ilSkillUsage();
+        $objects = $usage_info->getAssignedObjectsForSkill($this->base_skill_id, $this->tref_id);
+
+        $tab = new ilSkillAssignedObjectsTableGUI($this, "showObjects", $objects);
+
+        $tpl->setContent($tab->getHTML());
     }
 }

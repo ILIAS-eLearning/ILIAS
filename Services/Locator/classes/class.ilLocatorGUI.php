@@ -108,14 +108,8 @@ class ilLocatorGUI
         if ($a_ref_id == 0) {
             $a_ref_id = $_GET["ref_id"];
         }
-        
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
-        if (ilMemberViewSettings::getInstance()->isActive() and $a_ref_id != ROOT_FOLDER_ID) {
-            $a_start = ilMemberViewSettings::getInstance()->getContainer();
-        } else {
-            $a_start = ROOT_FOLDER_ID;
-        }
-        
+
+        $a_start = ROOT_FOLDER_ID;
         if ($a_ref_id > 0) {
             $path = $tree->getPathFull($a_ref_id, $a_start);
 

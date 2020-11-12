@@ -509,97 +509,19 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $a_get_single = 0,
         \ilContainerUserFilter $container_user_filter = null
     ) {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $access = $DIC->access();
-
         // Caching
         if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
-        
+
         // Results are stored in $this->items
         parent::getSubItems($a_admin_panel_enabled, $a_include_side_block, $a_get_single);
-        
-        $limit_sess = false;
-        if (!$a_admin_panel_enabled &&
-            !$a_include_side_block &&
-            $this->items['sess'] &&
-            is_array($this->items['sess']) &&
-            $this->isSessionLimitEnabled() &&
-            $this->getViewMode() == ilContainer::VIEW_SESSIONS) { // #16686
-            $limit_sess = true;
-        }
-        
-        if (!$limit_sess) {
-            return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
-        }
-                
-        
-        // do session limit
-    
-        // @todo move to gui class
-        if (isset($_GET['crs_prev_sess'])) {
-            $ilUser->writePref('crs_sess_show_prev_' . $this->getId(), (string) (int) $_GET['crs_prev_sess']);
-        }
-        if (isset($_GET['crs_next_sess'])) {
-            $ilUser->writePref('crs_sess_show_next_' . $this->getId(), (string) (int) $_GET['crs_next_sess']);
-        }
-
-        $session_rbac_checked = [];
-        foreach ($this->items['sess'] as $session_tree_info) {
-            if ($access->checkAccess('visible', '', $session_tree_info['ref_id'])) {
-                $session_rbac_checked[] = $session_tree_info;
-            }
-        }
-        $sessions = ilUtil::sortArray($session_rbac_checked, 'start', 'ASC', true, false);
-        //$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
-        $today = new ilDate(date('Ymd', time()), IL_CAL_DATE);
-        $previous = $current = $next = array();
-        foreach ($sessions as $key => $item) {
-            $start = new ilDateTime($item['start'], IL_CAL_UNIX);
-            $end = new ilDateTime($item['end'], IL_CAL_UNIX);
-            
-            if (ilDateTime::_within($today, $start, $end, IL_CAL_DAY)) {
-                $current[] = $item;
-            } elseif (ilDateTime::_before($start, $today, IL_CAL_DAY)) {
-                $previous[] = $item;
-            } elseif (ilDateTime::_after($start, $today, IL_CAL_DAY)) {
-                $next[] = $item;
-            }
-        }
-        $num_previous_remove = max(
-            count($previous) - $this->getNumberOfPreviousSessions(),
-            0
+        $this->items = ilContainerSessionsContentGUI::prepareSessionPresentationLimitation(
+            $this->items,
+            $this,
+            (bool) $a_admin_panel_enabled,
+            (bool) $a_include_side_block
         );
-        while ($num_previous_remove--) {
-            if (!$ilUser->getPref('crs_sess_show_prev_' . $this->getId())) {
-                array_shift($previous);
-            }
-            $this->items['sess_link']['prev']['value'] = 1;
-        }
-        
-        $num_next_remove = max(
-            count($next) - $this->getNumberOfNextSessions(),
-            0
-        );
-        while ($num_next_remove--) {
-            if (!$ilUser->getPref('crs_sess_show_next_' . $this->getId())) {
-                array_pop($next);
-            }
-            // @fixme
-            $this->items['sess_link']['next']['value'] = 1;
-        }
-        
-        $sessions = array_merge($previous, $current, $next);
-        $this->items['sess'] = $sessions;
-        
-        // #15389 - see ilContainer::getSubItems()
-        include_once('Services/Container/classes/class.ilContainerSorting.php');
-        $sort = ilContainerSorting::_getInstance($this->getId());
-        $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block] = $sort->sortItems($this->items);
-        
         return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }
     

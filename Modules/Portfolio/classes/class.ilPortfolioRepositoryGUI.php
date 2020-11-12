@@ -198,7 +198,7 @@ class ilPortfolioRepositoryGUI
         $ilToolbar->addButtonInstance($button);
         $portfolio_list = $this->getPortfolioList();
 
-        $tpl->setContent($portfolio_list . ilDiskQuotaHandler::getStatusLegend());
+        $tpl->setContent($portfolio_list);
     }
 
     /**

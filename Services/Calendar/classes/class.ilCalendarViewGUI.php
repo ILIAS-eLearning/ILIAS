@@ -467,7 +467,7 @@ class ilCalendarViewGUI
                 break;
             case self::CAL_PRESENTATION_AGENDA_LIST:
                 $bucket_title .= " " . $this->seed->get(IL_CAL_DATE);
-                $get_list_option = ilSession::get('cal_list_view');
+                $get_list_option = intval($this->user->getPref('cal_list_view'));
                 switch ($get_list_option) {
                     case ilCalendarAgendaListGUI::PERIOD_DAY:
                         break;

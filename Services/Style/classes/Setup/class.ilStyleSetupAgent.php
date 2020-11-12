@@ -75,4 +75,12 @@ class ilStyleSetupAgent implements Setup\Agent
     {
         return new ilStyleMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

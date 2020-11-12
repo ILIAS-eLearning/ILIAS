@@ -356,16 +356,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $lng = $this->lng;
         
         $quota_exceeded = $quota_legend = false;
-        if (self::$check_wsp_quota) {
-            include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $lng->loadLanguageModule("file");
-                $quota_exceeded = $lng->txt("personal_resources_quota_exceeded_warning");
-            } else {
-                $quota_legend = ilDiskQuotaHandler::getStatusLegend();
-            }
-        }
-                
+
         $f_tpl = new ilTemplate("tpl.prop_file.html", true, true, "Services/Form");
         
         

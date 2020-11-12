@@ -13,6 +13,7 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
      */
     protected function getSubTableName()
     {
+        // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();
     }
     
@@ -54,7 +55,8 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         $ilDB = $DIC['ilDB'];
         
         // :TODO: build diff, save difference
-        
+        // is this in use? Cannot
+        /*
         $ilDB->manipulate("DELETE FROM " . $this->getSubTableName() .
             " WHERE " . $this->buildPrimaryWhere());
         
@@ -63,6 +65,7 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
             
             $ilDB->insert($this->getSubTableName(), $fields);
         }
+        */
     }
         
     /**
@@ -77,8 +80,11 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
+        // is this in use? Cannot
+        /*
         $ilDB->manipulate("DELETE FROM " . $this->getSubTableName() .
             " WHERE " . $this->buildPrimaryWhere());
+        */
     }
 }

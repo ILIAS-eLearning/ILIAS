@@ -29,6 +29,13 @@ class ilSessionMembershipRegistrationSettingsGUI extends ilMembershipRegistratio
     public function setFormValues(ilPropertyFormGUI $form)
     {
         $form->getItemByPostVar('registration_type')->setValue($this->getCurrentObject()->getRegistrationType());
+
+        if ($this->getCurrentObject()->isCannotParticipateOptionEnabled()) {
+            $form->getItemByPostVar('show_cannot_participate_direct')->setChecked(true);
+            $form->getItemByPostVar('show_cannot_participate_request')->setChecked(true);
+        }
+
+
         $form->getItemByPostVar('registration_membership_limited')->setChecked($this->getCurrentObject()->isRegistrationUserLimitEnabled());
 
         $notificationCheckBox = $form->getItemByPostVar('registration_notification');

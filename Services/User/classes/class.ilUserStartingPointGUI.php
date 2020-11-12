@@ -37,6 +37,7 @@ class ilUserStartingPointGUI
         $this->ctrl = $ilCtrl;
         $this->parent_ref_id = $a_parent_ref_id;
         $this->lng->loadLanguageModule("administration");
+        $this->lng->loadLanguageModule("dateplaner");
     }
     public function &executeCommand()
     {
@@ -194,6 +195,44 @@ class ilUserStartingPointGUI
         $valid = array_keys(ilUserUtil::getPossibleStartingPoints());
         foreach (ilUserUtil::getPossibleStartingPoints(true) as $value => $caption) {
             $opt = new ilRadioOption($caption, $value);
+
+            if ($value === ilUserUtil::START_PD_CALENDAR) {
+
+                $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
+                $default_cal_view->setRequired(true);
+
+                $option = new ilRadioOption($this->lng->txt("day"), ilCalendarSettings::DEFAULT_CAL_DAY);
+                $default_cal_view->addOption($option);
+                $option = new ilRadioOption($this->lng->txt("week"), ilCalendarSettings::DEFAULT_CAL_WEEK);
+                $default_cal_view->addOption($option);
+                $option = new ilRadioOption($this->lng->txt("month"), ilCalendarSettings::DEFAULT_CAL_MONTH);
+                $default_cal_view->addOption($option);
+
+                $option = new ilRadioOption($this->lng->txt("cal_list"), ilCalendarSettings::DEFAULT_CAL_LIST);
+
+                $cal_periods = new ilSelectInputGUI($this->lng->txt("cal_list"), "user_cal_period");
+                $cal_periods->setOptions([
+                    ilCalendarAgendaListGUI::PERIOD_DAY  => "1 " . $this->lng->txt("day"),
+                    ilCalendarAgendaListGUI::PERIOD_WEEK => "1 " . $this->lng->txt("week"),
+                    ilCalendarAgendaListGUI::PERIOD_MONTH => "1 " . $this->lng->txt("month"),
+                    ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => "6 " . $this->lng->txt("months")
+                ]);
+                $cal_periods->setRequired(true);
+
+
+                if(isset($st_point)) {
+                    $default_cal_view->setValue($st_point->getCalendarView());
+                    $cal_periods->setValue($st_point->getCalendarPeriod());
+                } else {
+                    $default_cal_view->setValue(ilUserUtil::getCalendarView());
+                    $cal_periods->setValue(ilUserUtil::getCalendarPeriod());
+                }
+                $option->addSubItem($cal_periods);
+                $default_cal_view->addOption($option);
+
+                $opt->addSubItem($default_cal_view);
+            }
+
             $si->addOption($opt);
 
             if (!in_array($value, $valid)) {
@@ -302,6 +341,8 @@ class ilUserStartingPointGUI
                 $starting_point->setRuleOptions(serialize($rules));
 
                 $obj_id = $form->getInput('start_object');
+                $cal_view = $form->getInput("user_calendar_view");
+                $cal_period = $form->getInput("user_cal_period");
                 if ($obj_id && ($starting_point->getStartingPoint() == ilUserUtil::START_REPOSITORY_OBJ)) {
                     if (ilObject::_lookupObjId($obj_id) && !$tree->isDeleted($obj_id)) {
                         $starting_point->setStartingObject($obj_id);
@@ -313,11 +354,26 @@ class ilUserStartingPointGUI
                     $starting_point->setStartingObject(0);
                 }
 
+                if (!empty($cal_view) && !empty($cal_period) && ($starting_point->getStartingPoint() == ilUserUtil::START_PD_CALENDAR)) {
+                   $starting_point->setCalendarView($cal_view);
+                   $starting_point->setCalendarPeriod($cal_period);
+                } else {
+                    $starting_point->setCalendarView(0);
+                    $starting_point->setCalendarPeriod(0);
+                }
+
                 if ($start_point_id) {
                     $starting_point->update();
                 } else {
                     $starting_point->save();
                 }
+            } else if(!empty($form->getInput("user_calendar_view")) && !empty($form->getInput("user_cal_period"))) {
+                $calendar_info = [
+                    "user_calendar_view" => $form->getInput("user_calendar_view"),
+                    "user_cal_period"    => $form->getInput("user_cal_period")
+                ];
+                ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'), $calendar_info);
+                ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             } else {  //default
                 ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'));
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

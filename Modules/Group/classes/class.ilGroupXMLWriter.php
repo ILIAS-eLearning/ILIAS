@@ -295,6 +295,16 @@ class ilGroupXMLWriter extends ilXmlWriter
     {
         $this->xmlElement('showMembers', null, $this->group_obj->getShowMembers());
         $this->xmlElement('admissionNotification', null, $this->group_obj->getAutoNotification() ? 1 : 0);
+
+        $this->xmlElement('ViewMode', null, ilObjGroup::lookupViewMode($this->group_obj->getId()));
+        $this->xmlElement(
+            'SessionLimit',
+            [
+                'active' => $this->group_obj->isSessionLimitEnabled() ? 1 : 0,
+                'previous' => $this->group_obj->getNumberOfPreviousSessions(),
+                'next' => $this->group_obj->getNumberOfNextSessions()
+            ]
+        );
     }
 
     public function __buildAdmin()

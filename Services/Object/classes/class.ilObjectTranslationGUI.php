@@ -38,6 +38,11 @@ class ilObjectTranslationGUI
 
     protected $obj_trans;
     protected $title_descr_only = true;
+
+    /**
+     * @var bool 
+     */
+    protected $fallback_lang_mode = true;
     
     /**
      * Constructor
@@ -83,6 +88,25 @@ class ilObjectTranslationGUI
     }
 
     /**
+     * Set enable fallback language
+     * @param bool $a_val 
+     */
+    function setEnableFallbackLanguage($a_val)
+    {
+        $this->fallback_lang_mode = $a_val;
+    }
+
+    /**
+     * Get enable fallback language
+     * @return bool 
+     */
+    function getEnableFallbackLanguage()
+    {
+        return $this->fallback_lang_mode;
+    }
+    
+
+    /**
      * Execute command
      */
     public function executeCommand()
@@ -95,7 +119,7 @@ class ilObjectTranslationGUI
                 if (in_array($cmd, array("listTranslations", "saveTranslations",
                     "addTranslation", "deleteTranslations", "activateContentMultilinguality",
                     "confirmRemoveLanguages", "removeLanguages", "confirmDeactivateContentMultiLang", "saveLanguages",
-                    "saveContentTranslationActivation", "deactivateContentMultiLang", "addLanguages"))) {
+                    "saveContentTranslationActivation", "deactivateContentMultiLang", "addLanguages", "setFallback"))) {
                     $this->$cmd();
                 }
                 break;
@@ -153,7 +177,9 @@ class ilObjectTranslationGUI
             "listTranslations",
             true,
             "Translation",
-            $this->obj_trans->getMasterLanguage()
+            $this->obj_trans->getMasterLanguage(),
+            $this->fallback_lang_mode,
+            $this->obj_trans->getFallbackLanguage()
         );
         if ($a_get_post_values) {
             $vals = array();
@@ -488,7 +514,7 @@ class ilObjectTranslationGUI
             $langs = $this->obj_trans->getLanguages();
             foreach ($langs as $k => $l) {
                 if (in_array($l, $_POST["lang"])) {
-                    $this->obj_trans->removeLanguage();
+                    $this->obj_trans->removeLanguage($l);
                 }
             }
             $this->obj_trans->save();
@@ -496,4 +522,30 @@ class ilObjectTranslationGUI
         }
         $ilCtrl->redirect($this, "listTranslations");
     }
-}
+
+    /**
+     * Save translations
+     */
+    public function setFallback()
+    {
+        $lng = $this->lng;
+        $ilCtrl = $this->ctrl;
+        // default language set?
+        if (!isset($_POST["check"]) || count ($_POST["check"]) !== 1) {
+            ilUtil::sendFailure($this->lng->txt("obj_select_one_language"));
+            $this->listTranslations(true);
+            return;
+        }
+
+        $fallback_lang = $_POST["lang"][key($_POST["check"])];
+        if ($fallback_lang != $this->obj_trans->getFallbackLanguage()) {
+            $this->obj_trans->setFallbackLanguage($fallback_lang);
+        } else {
+            $this->obj_trans->setFallbackLanguage("");
+        }
+        $this->obj_trans->save();
+        ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
+        $ilCtrl->redirect($this, "listTranslations");
+    }
+
+    }

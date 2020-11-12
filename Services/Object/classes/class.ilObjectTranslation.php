@@ -21,6 +21,10 @@
  *   setting the master language (in obj_content_master_lng). Modules that use
  *   this mode will not get informed about this, so they can not internally
  *   assign existing content to the master lang
+ * - If translation for content is activated additionally a fallback language
+ *   can be defined. Users will be presented their language, if content available
+ *   otherwise the fallback language, if content is available, otherwise the
+ *   master language
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -34,6 +38,7 @@ class ilObjectTranslation
     protected $languages = array();
     protected $content_activated = false;
     protected static $instances = array();
+    protected $fallback_language = "";
 
     /**
      * Constructor
@@ -134,6 +139,25 @@ class ilObjectTranslation
     {
         return $this->languages;
     }
+
+    /**
+     * Set fallback language
+     * @param string $a_val 
+     */
+    function setFallbackLanguage($a_val)
+    {
+        $this->fallback_language = $a_val;
+    }
+
+    /**
+     * Get fallback language
+     * @return string 
+     */
+    function getFallbackLanguage()
+    {
+        return $this->fallback_language;
+    }
+    
 
     /**
      * Add language
@@ -280,6 +304,7 @@ class ilObjectTranslation
         );
         if ($rec = $this->db->fetchAssoc($set)) {
             $this->setMasterLanguage($rec["master_lang"]);
+            $this->setFallbackLanguage($rec["fallback_lang"]);
             $this->setContentActivated(true);
         } else {
             $this->setContentActivated(false);
@@ -330,11 +355,11 @@ class ilObjectTranslation
 
         if ($this->getMasterLanguage() != "") {
             $this->db->manipulate("INSERT INTO obj_content_master_lng " .
-                "(obj_id, master_lang) VALUES (" .
+                "(obj_id, master_lang, fallback_lang) VALUES (" .
                 $this->db->quote($this->getObjId(), "integer") . "," .
-                $this->db->quote($this->getMasterLanguage(), "text") .
+                $this->db->quote($this->getMasterLanguage(), "text") . "," .
+                $this->db->quote($this->getFallbackLanguage(), "text") .
                 ")");
-
             // ensure that an entry for the master language exists and is the default
             if (!isset($this->languages[$this->getMasterLanguage()])) {
                 $this->languages[$this->getMasterLanguage()] = array("title" => "",
@@ -372,6 +397,7 @@ class ilObjectTranslation
     {
         $target_ml = new ilObjectTranslation($a_obj_id);
         $target_ml->setMasterLanguage($this->getMasterLanguage());
+        $target_ml->setFallbackLanguage($this->getFallbackLanguage());
         $target_ml->setLanguages($this->getLanguages());
         $target_ml->save();
         return $target_ml;
@@ -398,6 +424,11 @@ class ilObjectTranslation
                 return "-";
             }
             return $a_lang;
+        }
+        if ($this->getContentActivated() &&
+            isset($langs[$this->getFallbackLanguage()]) &&
+            ilPageObject::_exists($a_parent_type, $this->getObjId(), $this->getFallbackLanguage())) {
+            return $this->getFallbackLanguage();
         }
         return "-";
     }

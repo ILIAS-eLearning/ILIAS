@@ -3196,14 +3196,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
 
-        // begin-patch fm
-        include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
-        if (ilFMSettings::getInstance()->isEnabled()) {
-            if ($lg instanceof ilObjectListGUI) {
-                $lg->addCustomCommand($this->ctrl->getLinkTarget($this, 'fileManagerLaunch'), 'fm_start', '_blank');
-            }
-        }
-        // end-patch fm
         return $lg;
     }
 
@@ -3793,5 +3785,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 )
             );
         }
+    }
+
+    /**
+     * Redirect to competences
+     */
+    public function competencesObject()
+    {
+        $ctrl = $this->ctrl;
+
+        $ctrl->redirectByClass(["ilContainerSkillGUI", "ilContSkillPresentationGUI"]);
     }
 }

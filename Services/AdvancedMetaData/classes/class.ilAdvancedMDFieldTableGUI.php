@@ -36,7 +36,12 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 {
     protected $permissions; // [ilAdvancedMDPermissionHelper]
     protected $may_edit_pos; // [bool]
-    
+
+    /**
+     * @var string
+     */
+    protected $active_language;
+
     /**
      * Constructor
      *
@@ -45,7 +50,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
      * @param string parent command
      *
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_may_edit_pos)
+    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_may_edit_pos, string $active_language)
     {
         global $DIC;
 
@@ -56,7 +61,8 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->ctrl = $ilCtrl;
         $this->permissions = $a_permissions;
         $this->may_edit_pos = (bool) $a_may_edit_pos;
-        
+        $this->active_language = $active_language;
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', 'f', 1);
         $this->addColumn($this->lng->txt('position'), 'position', "5%");
@@ -128,14 +134,17 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
     {
         $counter = 0;
         foreach ($a_definitions as $definition) {
+
+            $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($definition->getRecordId());
+
             $tmp_arr['position'] = ++$counter * 10;
             $tmp_arr['id'] = $definition->getFieldId();
-            $tmp_arr['title'] = $definition->getTitle();
-            $tmp_arr['description'] = $definition->getDescription();
+            $tmp_arr['title'] = $field_translations->getTitleForLanguage($definition->getFieldId(), $this->active_language);
+            $tmp_arr['description'] = $field_translations->getDescriptionForLanguage($definition->getFieldId(), $this->active_language);
             $tmp_arr['fields'] = array();
             $tmp_arr['searchable'] = $definition->isSearchable();
             $tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());
-            $tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI();
+            $tmp_arr['properties'] = $definition->getFieldDefinitionForTableGUI($this->active_language);
             $tmp_arr['supports_search'] = $definition->isSearchSupported();
             
             $tmp_arr['perm'] = $this->permissions->hasPermissions(
@@ -150,6 +159,8 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
             
             $defs_arr[] = $tmp_arr;
         }
+
+
         $this->setData($defs_arr ? $defs_arr : array());
     }
 }

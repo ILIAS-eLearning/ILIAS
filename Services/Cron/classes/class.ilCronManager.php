@@ -371,8 +371,9 @@ class ilCronManager implements \ilCronManagerInterface
             " WHERE job_id = " . $ilDB->quote($a_job->getId(), "text");
         $set = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($set);
-        $job_exists = ($row["job_id"] == $a_job->getId());
-        $schedule_type = $row["schedule_type"];
+        $job_id = $row['job_id'] ?? null;
+        $job_exists = ($job_id == $a_job->getId());
+        $schedule_type = $row["schedule_type"] ?? null;
 
         if ($job_exists && (
             $row['component'] != $a_component ||

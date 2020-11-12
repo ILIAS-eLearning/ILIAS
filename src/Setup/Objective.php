@@ -58,7 +58,8 @@ interface Objective
     /**
      * Get to know whether the objective is applicable.
      *
-     * Don't change the environment or act on services in the environment.
+     * Don't change the environment or cause changes on services in the environment.
+     * Just check if this objective needs to be achieved, either currently or at all.
      * In case of doubt whether the objective is applicable or not return true.
      */
     public function isApplicable(Environment $environment) : bool;

@@ -534,14 +534,6 @@ class ilObjMediaObject extends ilObject
         // but this would lead to "quota-breaches" when the pool item is deleted
         // and "suddenly" all workspace owners get filesize added to their
         // respective quotas, regardless of current status
-        
-        include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-        ilDiskQuotaHandler::handleUpdatedSourceObject(
-            $a_mob->getType(),
-            $a_mob->getId(),
-            ilUtil::dirSize($a_mob->getDataDirectory()),
-            $parent_obj_ids
-        );
     }
 
     /**

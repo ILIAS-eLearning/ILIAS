@@ -831,6 +831,27 @@
 @avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
 
 
+//== System Info
+//
+//##
+/** headline text transform **/
+@il-standard-page-system-info-headline-transform: uppercase;
+@il-standard-page-system-info-headline-font-weight: bold;
+/** inline shadow of a message container **/
+@il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
+/** border configuration, the color is automatically computed from the three color variants **/
+@il-standard-page-system-info-border-color: #ddd;
+@il-standard-page-system-info-border-top-and-bottom: none;
+@il-standard-page-system-info-border-left-and-right: none;
+/** nagtive or positive contrast color for text and glyph **/
+@il-standard-page-system-info-contrast: 45%;
+/** contrast threshold for contrast color **/
+@il-standard-page-system-info-contrast-threshold: 43%;
+/** three color variants for neutral, important, breaking Head Infos **/
+@il-standard-page-system-info-color-variant-neutral: lighten(@brand-primary, 45%); // looks nice with @il-mainbar-btn-bg-color as well
+@il-standard-page-system-info-color-variant-important: lighten(@brand-danger, 30%);
+@il-standard-page-system-info-color-variant-breaking: rgb(236, 103, 94);
+
 //== View Control
 //
 //##

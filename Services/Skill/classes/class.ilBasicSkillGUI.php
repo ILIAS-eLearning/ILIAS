@@ -603,6 +603,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             // usage
             $this->addUsageTab($ilTabs);
 
+            // assigned objects
+            $this->addObjectsTab($ilTabs);
+
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
                 "obj_id",

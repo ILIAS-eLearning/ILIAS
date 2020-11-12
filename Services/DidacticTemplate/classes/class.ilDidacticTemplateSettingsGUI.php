@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\RequestInterface;
+
 include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
 
 /**
@@ -37,6 +39,16 @@ class ilDidacticTemplateSettingsGUI
     private $ctrl;
 
     /**
+     * @var ilObjectDefinition
+     */
+    private $objDefinition;
+
+    /**
+     * @var RequestInterface
+     */
+    private $request;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj)
@@ -48,6 +60,8 @@ class ilDidacticTemplateSettingsGUI
         $this->lng = $this->dic->language();
         $this->rbacsystem = $this->dic->rbac()->system();
         $this->ctrl = $this->dic->ctrl();
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->request = $DIC->http()->request();
 
         if (isset($_REQUEST["tplid"])) {
             $this->initObject($_REQUEST["tplid"]);
@@ -123,6 +137,10 @@ class ilDidacticTemplateSettingsGUI
      */
     protected function overview()
     {
+        global $DIC;
+
+        $tpl = $DIC->ui()->mainTemplate();
+
         if ($this->rbacsystem->checkAccess('write', $_REQUEST["ref_id"])) {
             $this->dic->toolbar()->addButton(
                 $this->lng->txt('didactic_import_btn'),
@@ -130,13 +148,43 @@ class ilDidacticTemplateSettingsGUI
             );
         }
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsTableGUI.php';
+        $filter = new ilDidacticTemplateSettingsTableFilter($this->ctrl->getFormAction($this, 'overview'));
+        $filter->init();
+
+
         $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview');
         $table->init();
-        $table->parse();
+        $table->parse($filter);
 
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+        $tpl->setContent(
+            $filter->render() . '' . $table->getHTML()
+        );
     }
+
+    /**
+     * Apply table filter
+     */
+    public function applyFilter()
+    {
+        $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview');
+        $table->init();
+        $table->resetOffset();
+        $table->writeFilterToSession();
+        $this->overview();
+    }
+
+    /**
+     * Reset filter
+     */
+    public function resetFilter()
+    {
+        $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview');
+        $table->init();
+        $table->resetOffset();
+        $table->resetFilter();
+        $this->overview();
+    }
+
 
     /**
      * Show template import form
@@ -147,9 +195,9 @@ class ilDidacticTemplateSettingsGUI
     {
         global $DIC;
 
-        $ilTabs = $DIC['ilTabs'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
+        $ilTabs = $DIC->tabs();
+        $ilCtrl = $DIC->ctrl();
+
         if (isset($_REQUEST["tplid"])) {
             $this->setEditTabs('import');
         } else {
@@ -185,9 +233,15 @@ class ilDidacticTemplateSettingsGUI
         $form->addCommandButton('overview', $this->lng->txt('cancel'));
 
         $file = new ilFileInputGUI($this->lng->txt('import_file'), 'file');
-        $file->setSuffixes(array('xml'));
+        $file->setSuffixes(['xml']);
         $file->setRequired(true);
         $form->addItem($file);
+
+        $icon = new ilImageFileInputGUI($this->lng->txt('icon'), 'icon');
+        $icon->setAllowDeletion(false);
+        $icon->setSuffixes(['svg']);
+        $icon->setInfo($this->lng->txt('didactic_icon_info'));
+        $form->addItem($icon);
 
         $created = true;
 
@@ -208,12 +262,12 @@ class ilDidacticTemplateSettingsGUI
             $ilCtrl->redirect($this, "overview");
         }
 
-        $edit = isset($_REQUEST['tplid']);
-
+        $edit = $this->request->getQueryParams()['tplid'] ?? false;
         if ($edit) {
-            $form = $this->createImportForm();
-        } else {
+            $this->initObject($this->request->getQueryParams()['tplid']);
             $form = $this->editImportForm();
+        } else {
+            $form = $this->createImportForm();
         }
 
 
@@ -222,15 +276,14 @@ class ilDidacticTemplateSettingsGUI
             $form->setValuesByPost();
 
             if ($edit) {
-                $this->showEditImportForm();
+                $this->showEditImportForm($form);
             } else {
                 $this->showImportForm($form);
             }
+            return;
         }
 
         // Do import
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateImport.php';
-        
         $import = new ilDidacticTemplateImport(ilDidacticTemplateImport::IMPORT_FILE);
 
         $file = $form->getInput('file');
@@ -246,9 +299,12 @@ class ilDidacticTemplateSettingsGUI
 
         try {
             $settings = $import->import();
-
             if ($edit) {
                 $this->editImport($settings);
+            } else {
+                if ($settings->hasIconSupport($this->objDefinition)) {
+                    $settings->getIconHandler()->handleUpload($DIC->upload(), $_FILES['icon']['tmp_name']);
+                }
             }
         } catch (ilDidacticTemplateImportException $e) {
             ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
@@ -307,15 +363,30 @@ class ilDidacticTemplateSettingsGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
 
+        $tpl_id = $this->request->getQueryParams()['tplid'] ?? 0;
+        $this->ctrl->saveParameter($this, 'tplid');
+
+
         if (!$ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
             $this->ctrl->redirect($this, "overview");
         }
 
-        $temp = new ilDidacticTemplateSetting((int) $_REQUEST['tplid']);
+        $temp = new ilDidacticTemplateSetting((int) $tpl_id);
         $form = $this->initEditTemplate($temp);
 
         if ($form->checkInput()) {
-            //change default entrys if translation is active
+
+            $tmp_file = $_FILES['icon']['tmp_name'];
+            $upload_element = $form->getItemByPostVar('icon');
+            if (
+                (strlen($tmp_file) || (!strlen($tmp_file) && $temp->getIconIdentifier())) &&
+                !$this->objDefinition->isContainer($form->getInput('type')) &&
+                !$upload_element->getDeletionFlag()
+            ) {
+                $icon = $form->getItemByPostVar('icon')->setAlert($this->lng->txt('didactic_icon_error'));
+                return $this->handleUpdateFailure($form);
+            }
+            //change default entries if translation is active
             if (count($lang = $temp->getTranslationObject()->getLanguages())) {
                 $temp->getTranslationObject()->setDefaultTitle($form->getInput('title'));
                 $temp->getTranslationObject()->setDefaultDescription($form->getInput('description'));
@@ -343,11 +414,20 @@ class ilDidacticTemplateSettingsGUI
             $temp->setExclusive((bool) $form->getInput('exclusive_template'));
 
             $temp->update();
-            
+
+            $upload = $form->getItemByPostVar('icon');
+            if ($upload->getDeletionFlag()) {
+                $temp->getIconHandler()->delete();
+            }
+            $temp->getIconHandler()->handleUpload($DIC->upload(), $_FILES['icon']['tmp_name']);
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this, 'overview');
         }
+        $this->handleUpdateFailure($form);
+    }
 
+    protected function handleUpdateFailure(ilPropertyFormGUI $form)
+    {
         ilUtil::sendFailure($this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->editTemplate($form);
@@ -414,6 +494,14 @@ class ilDidacticTemplateSettingsGUI
         $desc->setRows(3);
         $desc->setDisabled($set->isAutoGenerated());
         $form->addItem($desc);
+
+
+        $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'),'icon');
+        $icon->setImage($set->getIconHandler()->getAbsolutePath());
+        $icon->setInfo($this->lng->txt('didactic_icon_info'));
+        $icon->getAllowDeletion(true);
+        $icon->setSuffixes(['svg']);
+        $form->addItem($icon);
 
         // info
         $info = new ilTextAreaInputGUI($this->lng->txt('didactic_install_info'), 'info');
@@ -721,12 +809,12 @@ class ilDidacticTemplateSettingsGUI
         }
     }
 
-    public function showEditImportForm()
+    public function showEditImportForm(ilPropertyFormGUI $form = null)
     {
         $this->setEditTabs("import");
-
-        $form = $this->editImportForm();
-        
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->editImportForm();
+        }
         $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
     }
 
@@ -745,7 +833,8 @@ class ilDidacticTemplateSettingsGUI
         $form->addCommandButton('overview', $this->lng->txt('cancel'));
 
         $file = new ilFileInputGUI($this->lng->txt('didactic_template_update_import'), 'file');
-        $file->setSuffixes(array('xml'));
+        $file->setRequired(true);
+        $file->setSuffixes(['xml']);
         $file->setInfo($this->lng->txt('didactic_template_update_import_info'));
         $form->addItem($file);
 

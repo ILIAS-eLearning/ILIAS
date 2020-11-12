@@ -687,6 +687,19 @@ class ilDashboardGUI
      */
     public function jumpToCalendar()
     {
+        global $DIC;
+        $request = $DIC->http()->request();
+
+        if ($request->getQueryParams()["cal_view"]) {
+            $cal_view = $request->getQueryParams()["cal_view"];
+            $this->ctrl->setParameter($this, "cal_view", $cal_view);
+        }
+
+        if (!empty($request->getQueryParams()["cal_agenda_per"])) {
+            $cal_period = $request->getQueryParams()["cal_agenda_per"];
+            $this->ctrl->setParameter($this, "cal_agenda_per", $cal_period);
+        }
+
         $this->ctrl->redirectByClass("ilcalendarpresentationgui");
     }
 

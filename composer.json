@@ -110,10 +110,10 @@
 		},
 		"filp/whoops" : {
 			"source" : "github.com/filp/whoops",
-			"used_version" : "v2.1.14",
+			"used_version" : "v2.9.1",
 			"wrapped_by" : null,
 			"added_by" : "Denis Klöpfer <denis.kloepfer@concepts-and-training.de>",
-			"last_update" : "2018-01-18",
+			"last_update" : "2020-11-05",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -183,10 +183,10 @@
 		},
 		"pimple/pimple" : {
 			"source" : "https://github.com/silexphp/Pimple.git",
-			"used_version" : "v3.0.2",
+			"used_version" : "v3.3.0",
 			"wrapped_by" : "ILIAS\\DIC\\Container",
 			"added_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update" : "2016-02-29",
+			"last_update" : "2020-11-05",
 			"last_update_by" : "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -383,9 +383,9 @@
 		},
 		"symfony/console": {
 			"source": "https://github.com/symfony/console",
-			"used_version": "v4.2",
+			"used_version": "v4.4.16",
 			"added_by": "Richard Klees <richard.klees@concepts-and-training.de>",
-			"last_update": "2019-04-29",
+			"last_update": "2020-11-05",
 			"last_update_by": "Richard Klees <richard.klees@concepts-and-training.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2019-07-01"

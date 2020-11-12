@@ -1144,4 +1144,137 @@ interface Factory
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function logout(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Bullet List Glyph is used to indicate the possibility to group related content together
+     *       and organize vertically, when you don’t need to convey a specific order for list items.
+     *   composition: >
+     *       The Bullet List Glyph uses the glyphicon-listbullet.
+     *   effect: >
+     *       Clicking this glyph will group a list of entries with bullet points.
+     *   rivals:
+     *       Numbered List Glyph: The Numbered Glyph will group a list of entries with enumeration number.
+     *
+     * context:
+     *    - The Bullet List Glyph appears in the ILIAS Page Editor.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Bullet Point List'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function bulletlist(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Numbered List Glyph is used to indicate the possibility to group related content together
+     *       and organize vertically, where you need to convey a priority, hierarchy,
+     *       or sequence between list items.
+     *   composition: >
+     *       The Numbered List Glyph uses the glyphicon-listnumbered.
+     *   effect: >
+     *       Clicking this glyph will group a list of entries with enumeration number.
+     *   rivals:
+     *       Bullet List Glyph: The Bullet Glyph will group a list of entries with bullet points.
+     *
+     * context:
+     *    - The Numbered List Glyph appears in the ILIAS Page Editor.
+     *
+     * rules:
+     *   usage:
+     *       1: The Logout Glyph MUST be displayed if the user is logged in.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Numbered List'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function numberedlist(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Indent Glyph is used to define the gradation of a structured list.
+     *       It leads to an increased indentation and thus gives the impression of a
+     *       subordinate level.
+     *   composition: >
+     *       The Indent List Glyph uses the glyphicon-listindent.
+     *   effect: >
+     *       Clicking this glyph will intend the content to the next subordinate level of the list.
+     *   rivals:
+     *       Outdent Glyph: The Outend Glyph will reduce the indent to the next superordinate level of the list.
+     *
+     * context:
+     *    - The Indent Glyph appears in the ILIAS Page Editor.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Increase Indent'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function listindent(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Outdent Glyph is used to define the gradation of a structured list.
+     *       It leads to a decreased indentation and thus gives the impression of a superordinate level.
+     *   composition: >
+     *       The Outdent List Glyph uses the glyphicon-listoutdent.
+     *   effect: >
+     *       Clicking this glyph will outdent the content to the next superordinate level of the list.
+     *   rivals:
+     *       Indent Glyph: The Indent Glyph will increase the indentation to the next subordinate level of the list.
+     *
+     * context:
+     *    -  The Outdent List Glyph appears in the ILIAS Page Editor.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Decrease Indent'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function listoutdent(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Filter Glyph is used to trigger a filter action.
+     *   composition: >
+     *       The Filter Glyph uses the glyphicon-filter.
+     *   effect: >
+     *       Clicking this glyph will filter a list of entries.
+     *   rivals:
+     *       Search Glyph: The Search Glyph will open a search dialog  or will generate a list of entries according to the search input.
+     *
+     * context:
+     *    -  The Filter Glyph appears in the Who-is-online-Tool.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Filter'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function filter(string $action = null) : Glyph;
 }

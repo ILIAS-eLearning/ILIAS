@@ -199,9 +199,20 @@ class ilSkillDataSet extends ilDataSet
                 case "5.1.0":
                 case "7.0":
                     return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text"
+                    );
+            }
+        }
+        if ($a_entity == "skl_local_prof") {
+            switch ($a_version) {
+                case "7.0":
+                    return array(
                             "Id" => "integer",
                             "Title" => "text",
-                            "Description" => "text"
+                            "Description" => "text",
+                            "RefId" => "integer"
                     );
             }
         }
@@ -346,6 +357,34 @@ class ilSkillDataSet extends ilDataSet
             }
         }
 
+        if ($a_entity == "skl_local_prof") {
+            switch ($a_version) {
+                case "7.0":
+                    foreach ($a_ids as $obj_id) {
+                        $obj_ref_id = ilObject::_getAllReferences($obj_id);
+                        $obj_ref_id = end($obj_ref_id);
+                        $profiles = ilSkillProfile::getLocalProfiles($obj_ref_id);
+                        foreach ($profiles as $p) {
+                            $profile_ids[] = $p["id"];
+                        }
+                        $set = $ilDB->query(
+                            "SELECT * FROM skl_profile " .
+                            " WHERE ". $ilDB->in("id", $profile_ids, false, "integer")
+                        );
+                        while ($rec = $ilDB->fetchAssoc($set)) {
+                            $this->data[] = [
+                                "Id" => $rec["id"],
+                                "Title" => $rec["title"],
+                                "Description" => $rec["description"],
+                                "RefId" => $obj_ref_id
+                            ];
+                        }
+                    }
+                    break;
+
+            }
+        }
+
         if ($a_entity == "skl_prof_level") {
             switch ($a_version) {
                 case "5.1.0":
@@ -431,6 +470,7 @@ class ilSkillDataSet extends ilDataSet
                 return $deps;
 
             case "skl_prof":
+            case "skl_local_prof":
                 $deps["skl_prof_level"]["ids"][] = $a_rec["Id"];
                 return $deps;
         }
@@ -562,8 +602,19 @@ class ilSkillDataSet extends ilDataSet
                 $a_mapping->addMapping("Services/Skill", "skl_prof", $a_rec["Id"], $prof->getId());
                 break;
 
+            case "skl_local_prof":
+                $prof = new ilSkillProfile();
+                $prof->setTitle($a_rec["Title"]);
+                $prof->setDescription($a_rec["Description"]);
+                $prof->setRefId($a_rec["RefId"]);
+                $prof->create();
+                $a_mapping->addMapping("Services/Skill", "skl_local_prof", $a_rec["Id"], $prof->getId());
+                break;
+
             case "skl_prof_level":
-                $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"]);
+                $profile_id = (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
+                    ? (int) $a_mapping->getMapping("Services/Skill", "skl_prof", $a_rec["ProfileId"])
+                    : (int) $a_mapping->getMapping("Services/Skill", "skl_local_prof", $a_rec["ProfileId"]);
                 if ($profile_id > 0) {
                     $prof = new ilSkillProfile($profile_id);
                     $level_id_data = ilBasicSkill::getLevelIdForImportId($this->getCurrentInstallationId(), $a_rec["LevelId"]);

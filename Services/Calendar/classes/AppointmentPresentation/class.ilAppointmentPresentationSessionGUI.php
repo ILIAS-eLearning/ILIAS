@@ -100,8 +100,45 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
             }
         }
 
+        $others = $this->getOtherMaterials();
+        if (count($others)) {
+            $refs = ilObject::_getAllReferences($this->getObjIdForAppointment());
+            $ref_id = end($refs);
+            $materials_link = $r->render(
+                $f->link()->standard(
+                    $this->lng->txt('cal_app_other_materials_num'),
+                    ilLink::_getLink($ref_id)
+                )
+            );
+            $this->addInfoProperty(
+                $this->lng->txt('cal_materials'),
+                $materials_link
+            );
+        }
         $this->addAction($this->lng->txt("sess_open"), ilLink::_getStaticLink($ref_id));
 
         $this->addMetaData('sess', $this->getObjIdForAppointment());
+    }
+
+    /**
+     * @return int[]
+     */
+    protected function getOtherMaterials() : array
+    {
+        global $DIC;
+
+        $event_items = new ilEventItems($this->getObjIdForAppointment());
+        $others = [];
+        foreach ($event_items->getItems() as $ref_id) {
+
+            $type = ilObject::_lookupType($ref_id, true);
+            if ($type == 'file') {
+                continue;
+            }
+            if ($this->access->checkAccess('read', '', $ref_id)) {
+                $others[] = $ref_id;
+            }
+        }
+        return $others;
     }
 }

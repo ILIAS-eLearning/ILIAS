@@ -4,8 +4,8 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI;
 use ILIAS\Refinery\Transformation;
+use ILIAS\UI;
 
 /**
  * A agent is some component that performs part of the setup process.
@@ -71,4 +71,13 @@ interface Agent
      * This is supposed to inform about any kind of metrics regarding the component.
      */
     public function getStatusObjective(Metrics\Storage $storage) : Objective;
+
+    /**
+     * Get a named map of migrations available for this Agent.
+     *
+     * Should also return Migrations that have run completely.
+     *
+     * @return array<string,Migration>|Migration[]
+     */
+    public function getMigrations() : array;
 }

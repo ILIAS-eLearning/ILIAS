@@ -264,6 +264,25 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt("skmg_hide_profile_self_eval_info"));
         $cb_prop->setChecked($skmg_set->getHideProfileBeforeSelfEval());
         $form->addItem($cb_prop);
+
+        // Allow local assignment of global profiles
+        $cb_prop = new ilCheckboxInputGUI(
+            $lng->txt("skmg_local_assignment_profiles"),
+            "local_assignment_profiles"
+        );
+        $cb_prop->setValue("1");
+        $cb_prop->setChecked($skmg_set->getLocalAssignmentOfProfiles());
+        $form->addItem($cb_prop);
+
+        // Allow creation of local profiles
+        $cb_prop = new ilCheckboxInputGUI(
+            $lng->txt("skmg_allow_local_profiles"),
+            "allow_local_profiles"
+        );
+        $cb_prop->setValue("1");
+        $cb_prop->setInfo($lng->txt("skmg_allow_local_profiles_info"));
+        $cb_prop->setChecked($skmg_set->getAllowLocalProfiles());
+        $form->addItem($cb_prop);
         
         // command buttons
         if ($this->checkPermissionBool("write")) {
@@ -288,7 +307,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $skmg_set = new ilSkillManagementSettings();
         $skmg_set->activate((int) $_POST["enable_skmg"]);
         $skmg_set->setHideProfileBeforeSelfEval((int) $_POST["hide_profile_self_eval"]);
-        
+        $skmg_set->setLocalAssignmentOfProfiles((int) $_POST["local_assignment_profiles"]);
+        $skmg_set->setAllowLocalProfiles((int) $_POST["allow_local_profiles"]);
+
         ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
         
         $ilCtrl->redirect($this, "editSettings");

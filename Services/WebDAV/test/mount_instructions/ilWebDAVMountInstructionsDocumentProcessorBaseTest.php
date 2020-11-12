@@ -5,11 +5,9 @@ use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
 {
-
     private function createDocumentProcessorBaseObject()
     {
-        return new class extends ilWebDAVMountInstructionsDocumentProcessorBase
-        {
+        return new class extends ilWebDAVMountInstructionsDocumentProcessorBase {
             public function processMountInstructions(string $a_raw_mount_instructions) : array
             {
                 return null;

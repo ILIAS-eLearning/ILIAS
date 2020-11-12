@@ -64,7 +64,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         $this->dic = $DIC;
         $this->error = $DIC['ilErr'];
-        ;
         $this->rbacsystem = $this->dic->rbac()->system();
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('dateplaner');
@@ -174,8 +173,10 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->settings->setDefaultDateFormat((int) $_POST['default_date_format']);
         $this->settings->setDefaultTimeFormat((int) $_POST['default_time_format']);
         $this->settings->setEnableGroupMilestones((int) $_POST['enable_grp_milestones']);
-        $this->settings->enableCourseCalendar((int) $_POST['visible_crs']);
-        $this->settings->enableGroupCalendar((int) $_POST['visible_grp']);
+        $this->settings->enableCourseCalendar((int) $_POST['enabled_crs']);
+        $this->settings->setCourseCalendarVisible((int) $_POST['visible_crs']);
+        $this->settings->enableGroupCalendar((int) $_POST['enabled_grp']);
+        $this->settings->setGroupCalendarVisible((int) $_POST['visible_grp']);
         $this->settings->setDefaultDayStart((int) $_POST['dst']);
         $this->settings->setDefaultDayEnd((int) $_POST['den']);
         $this->settings->enableSynchronisationCache((bool) $_POST['sync_cache']);
@@ -190,6 +191,8 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $this->settings->setWebCalSyncHours((int) $_POST['webcal_hours']);
         $this->settings->setShowWeeks((int) $_POST['show_weeks']);
         $this->settings->enableBatchFileDownloads((bool) $_POST['batch_files']);
+        $this->settings->setDefaultCal((int) $_POST['default_calendar_view']);
+        $this->settings->setDefaultPeriod((int) $_POST['default_period']);
 
         if (((int) $_POST['den']) < (int) $_POST['dst']) {
             ilUtil::sendFailure($this->lng->txt('cal_dstart_dend_warn'));
@@ -238,6 +241,38 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $check->setValue(1);
         $check->setChecked($this->settings->isEnabled() ? true : false);
         $this->form->addItem($check);
+
+        // show weeks
+        $cb = new ilCheckboxInputGUI($this->lng->txt("cal_def_show_weeks"), "show_weeks");
+        $cb->setInfo($this->lng->txt("cal_show_weeks_info"));
+        $cb->setValue(1);
+        $cb->setChecked($this->settings->getShowWeeks());
+        $this->form->addItem($cb);
+
+        $sync = new ilCheckboxInputGUI($this->lng->txt('cal_webcal_sync'), 'webcal');
+        $sync->setValue(1);
+        $sync->setChecked($this->settings->isWebCalSyncEnabled());
+        $sync->setInfo($this->lng->txt('cal_webcal_sync_info'));
+
+        $sync_min = new ilNumberInputGUI('', 'webcal_hours');
+        $sync_min->setSize(2);
+        $sync_min->setMaxLength(3);
+        $sync_min->setValue($this->settings->getWebCalSyncHours());
+        $sync_min->setSuffix($this->lng->txt('hours'));
+        $sync->addSubItem($sync_min);
+
+        $this->form->addItem($sync);
+
+        //Batch File Downloads in Calendar
+        $batch_files_download = new ilCheckboxInputGUI($this->lng->txt('cal_batch_file_downloads'), "batch_files");
+        $batch_files_download->setValue(1);
+        $batch_files_download->setChecked($this->settings->isBatchFileDownloadsEnabled());
+        $batch_files_download->setInfo($this->lng->txt('cal_batch_file_downloads_info'));
+        $this->form->addItem($batch_files_download);
+
+        $def = new ilFormSectionHeaderGUI();
+        $def->setTitle($this->lng->txt('cal_default_settings'));
+        $this->form->addItem($def);
         
         $server_tz = new ilNonEditableValueGUI($this->lng->txt('cal_server_tz'));
         $server_tz->setValue(ilTimeZone::_getDefaultTimeZone());
@@ -278,13 +313,32 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         $this->form->addItem($radio);
 
-        // show weeks
-        $cb = new ilCheckboxInputGUI($this->lng->txt("cal_def_show_weeks"), "show_weeks");
-        $cb->setInfo($this->lng->txt("cal_show_weeks_info"));
-        $cb->setValue(1);
-        $cb->setChecked($this->settings->getShowWeeks());
-        $this->form->addItem($cb);
+        $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'default_calendar_view');
 
+        $option = new ilRadioOption($this->lng->txt("day"), ilCalendarSettings::DEFAULT_CAL_DAY);
+        $default_cal_view->addOption($option);
+        $option = new ilRadioOption($this->lng->txt("week"), ilCalendarSettings::DEFAULT_CAL_WEEK);
+        $default_cal_view->addOption($option);
+        $option = new ilRadioOption($this->lng->txt("month"), ilCalendarSettings::DEFAULT_CAL_MONTH);
+        $default_cal_view->addOption($option);
+
+        $option = new ilRadioOption($this->lng->txt("cal_list"), ilCalendarSettings::DEFAULT_CAL_LIST);
+
+        $list_views = new ilSelectInputGUI($this->lng->txt("cal_list"), "default_period");
+        $list_views->setOptions([
+            ilCalendarAgendaListGUI::PERIOD_DAY  => "1 " . $this->lng->txt("day"),
+            ilCalendarAgendaListGUI::PERIOD_WEEK => "1 " . $this->lng->txt("week"),
+            ilCalendarAgendaListGUI::PERIOD_MONTH => "1 " . $this->lng->txt("month"),
+            ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => "6 " . $this->lng->txt("months")
+        ]);
+
+
+        $list_views->setValue($this->settings->getDefaultPeriod());
+        $option->addSubItem($list_views);
+        $default_cal_view->addOption($option);
+        $default_cal_view->setValue($this->settings->getDefaultCal());
+
+        $this->form->addItem($default_cal_view);
 
         // Day start
         $day_start = new ilSelectInputGUI($this->lng->txt('cal_def_day_start'), 'dst');
@@ -300,27 +354,6 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         );
         $day_end->setValue($this->settings->getDefaultDayEnd());
         $this->form->addItem($day_end);
-        
-        $sync = new ilCheckboxInputGUI($this->lng->txt('cal_webcal_sync'), 'webcal');
-        $sync->setValue(1);
-        $sync->setChecked($this->settings->isWebCalSyncEnabled());
-        $sync->setInfo($this->lng->txt('cal_webcal_sync_info'));
-        
-        $sync_min = new ilNumberInputGUI('', 'webcal_hours');
-        $sync_min->setSize(2);
-        $sync_min->setMaxLength(3);
-        $sync_min->setValue($this->settings->getWebCalSyncHours());
-        $sync_min->setSuffix($this->lng->txt('hours'));
-        $sync->addSubItem($sync_min);
-        
-        $this->form->addItem($sync);
-
-        //Batch File Downloads in Calendar
-        $batch_files_download = new ilCheckboxInputGUI($this->lng->txt('cal_batch_file_downloads'), "batch_files");
-        $batch_files_download->setValue(1);
-        $batch_files_download->setChecked($this->settings->isBatchFileDownloadsEnabled());
-        $batch_files_download->setInfo($this->lng->txt('cal_batch_file_downloads_info'));
-        $this->form->addItem($batch_files_download);
 
         // enable milestone planning in groups
         $mil = new ilFormSectionHeaderGUI();
@@ -349,22 +382,36 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
         $rep->setTitle($GLOBALS['DIC']['lng']->txt('cal_setting_global_vis_repos'));
         $this->form->addItem($rep);
         
+        $crs_active = new ilCheckboxInputGUI(
+            $this->lng->txt('cal_setting_global_crs_act'),
+            'enabled_crs'
+        );
+        $crs_active->setInfo($this->lng->txt('cal_setting_global_crs_act_info'));
+        $crs_active->setValue(1);
+        $crs_active->setChecked($this->settings->isCourseCalendarEnabled());
+        $this->form->addItem($crs_active);
+
         $crs = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis'), 'visible_crs');
         $crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
         $crs->setValue(1);
-        $crs->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_crs_vis_info'));
-        $crs->setChecked($this->settings->isCourseCalendarEnabled());
-        $this->form->addItem($crs);
+        $crs->setChecked($this->settings->isCourseCalendarVisible());
+        $crs_active->addSubItem($crs);
+
+        $grp_active = new ilCheckboxInputGUI(
+            $this->lng->txt('cal_setting_global_grp_act'),
+            'enabled_grp'
+        );
+        $grp_active->setInfo($this->lng->txt('cal_setting_global_grp_act_info'));
+        $grp_active->setValue(1);
+        $grp_active->setChecked($this->settings->isGroupCalendarEnabled());
+        $this->form->addItem($grp_active);
 
         $grp = new ilCheckboxInputGUI($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis'), 'visible_grp');
         $grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
         $grp->setValue(1);
         $grp->setInfo($GLOBALS['DIC']['lng']->txt('cal_setting_global_grp_vis_info'));
-        $grp->setChecked($this->settings->isGroupCalendarEnabled());
-        $this->form->addItem($grp);
-
-        
-        
+        $grp->setChecked($this->settings->isGroupCalendarVisible());
+        $grp_active->addSubItem($grp);
         
         // Notifications
         $not = new ilFormSectionHeaderGUI();
@@ -454,7 +501,14 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
                 
                 $fields = array();
                 
-                $subitems = array('cal_setting_global_crs_vis' => array($this->settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+                $subitems = array(
+                    'cal_setting_global_crs_act' => [
+                        $this->settings->isCourseCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'cal_setting_global_crs_vis' =>
+                        array($this->settings->isCourseCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+
+                );
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
                         
                 $subitems = array(
@@ -473,7 +527,15 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
                 
                 $fields = array();
                 
-                $subitems = array('cal_setting_global_grp_vis' => array($this->settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
+                $subitems = array(
+                    'cal_setting_global_grp_act' => [
+                        $this->settings->isGroupCalendarEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'cal_setting_global_grp_vis' =>
+                        array($this->settings->isGroupCalendarVisible(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+
+                );
+
                 $fields['cal_setting_global_vis_repos'] = array(null, null, $subitems);
                 
                 $subitems = array(

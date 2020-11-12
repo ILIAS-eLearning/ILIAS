@@ -33,12 +33,15 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+
+
         parent::__construct();
                         
         $this->record = $a_record;
         $this->callback = $a_decorator_callback;
-        
-        $this->setTitle($this->record->getTitle());
+
+        $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
+        $this->setTitle($translations->getTitleForLanguage($this->lng->getLangKey()));
         $this->setBlockId("advmd_" . $this->record->getRecordId());
         $this->setEnableNumInfo(false);
         $this->allow_moving = false;
@@ -124,8 +127,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
         $defs = $this->values->getDefinitions();
         foreach ($this->values->getADTGroup()->getElements() as $element_id => $element) {
+
+            $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($defs[$element_id]->getRecordId());
+
             $btpl->setCurrentBlock("item");
-            $btpl->setVariable("CAPTION", $defs[$element_id]->getTitle());
+            $btpl->setVariable("CAPTION", $field_translations->getTitleForLanguage($element_id, $this->lng->getLangKey()));
             if ($element->isNull()) {
                 $value = "-";
             } else {

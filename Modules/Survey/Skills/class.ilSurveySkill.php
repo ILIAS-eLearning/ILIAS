@@ -307,11 +307,22 @@ class ilSurveySkill
             
             $skthr = new ilSurveySkillThresholds($this->survey);
             $thresholds = $skthr->getThresholds();
+            $previous = 0;
+            $previous_t = 0;
             foreach ($skills[$k]["level_data"] as $l) {
                 $t = $thresholds[$l["id"]][$s["tref_id"]];
                 if ($t > 0 && $mean_sum >= $t) {
                     $skills[$k]["new_level"] = $l["title"];
                     $skills[$k]["new_level_id"] = $l["id"];
+                } else if ($t > 0 && $mean_sum < $t) {
+                    // first unfulfilled level
+                    if ($previous == $skills[$k]["new_level_id"] && !isset($skills[$k]["next_level_perc"])) {
+                        $skills[$k]["next_level_perc"] = 1 / ($t - $previous_t) * ($mean_sum - $previous_t);
+                    }
+                }
+                if ($t > 0) {
+                    $previous = $l["id"];
+                    $previous_t = $t;
                 }
             }
         }
@@ -370,7 +381,10 @@ class ilSurveySkill
                     $this->survey->getRefId(),
                     $nl["tref_id"],
                     ilBasicSkill::ACHIEVED,
-                    true
+                    true,
+                    false,
+                    "",
+                    $nl["next_level_perc"]
                 );
 
                 if ($nl["tref_id"] > 0) {
@@ -403,7 +417,9 @@ class ilSurveySkill
                         $nl["tref_id"],
                         ilBasicSkill::ACHIEVED,
                         true,
-                        1
+                        1,
+                        "",
+                        $nl["next_level_perc"]
                     );
 
                     if ($nl["tref_id"] > 0) {

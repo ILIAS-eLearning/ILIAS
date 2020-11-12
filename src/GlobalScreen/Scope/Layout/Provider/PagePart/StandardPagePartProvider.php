@@ -10,20 +10,19 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ilUtil;
 use ilUserUtil;
+use ilUtil;
 
 /**
  * Class StandardPagePartProvider
- *
  * @internal
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StandardPagePartProvider implements PagePartProvider
 {
     use isSupportedTrait;
     use SlateSessionStateCode;
+
     /**
      * @var Legacy
      */
@@ -37,7 +36,6 @@ class StandardPagePartProvider implements PagePartProvider
      */
     protected $ui;
 
-
     /**
      * @inheritDoc
      */
@@ -48,7 +46,6 @@ class StandardPagePartProvider implements PagePartProvider
         $this->gs = $DIC->globalScreen();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -56,7 +53,6 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return $this->content ?? $this->ui->factory()->legacy("");
     }
-
 
     /**
      * @inheritDoc
@@ -67,7 +63,7 @@ class StandardPagePartProvider implements PagePartProvider
         if (!$this->gs->collector()->metaBar()->hasItems()) {
             return null;
         }
-        $f = $this->ui->factory();
+        $f        = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
         foreach ($this->gs->collector()->metaBar()->getItemsForUIRepresentation() as $item) {
@@ -80,7 +76,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $meta_bar;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -91,14 +86,14 @@ class StandardPagePartProvider implements PagePartProvider
             return null;
         }
 
-        $f = $this->ui->factory();
+        $f        = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
         foreach ($this->gs->collector()->mainmenu()->getItemsForUIRepresentation() as $item) {
             /**
              * @var $component Combined
              */
-            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
+            $component  = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
             $identifier = $this->hash($item->getProviderIdentification()->serialize());
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -111,7 +106,7 @@ class StandardPagePartProvider implements PagePartProvider
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
-            $main_bar = $main_bar->withToolsButton($tools_button);
+            $main_bar     = $main_bar->withToolsButton($tools_button);
             /**
              * @var $main_bar MainBar
              */
@@ -121,7 +116,7 @@ class StandardPagePartProvider implements PagePartProvider
                 }
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
 
-                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
+                $identifier   = $this->hash($tool->getProviderIdentification()->serialize());
                 $close_button = null;
                 if ($tool->hasCloseCallback()) {
                     $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
@@ -141,7 +136,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $main_bar;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -151,7 +145,7 @@ class StandardPagePartProvider implements PagePartProvider
         // something like GlobalScreen\Scope\Locator\Item
         global $DIC;
 
-        $f = $this->ui->factory();
+        $f      = $this->ui->factory();
         $crumbs = [];
         foreach ($DIC['ilLocator']->getItems() as $item) {
             $crumbs[] = $f->link()->standard($item['title'], $item["link"]);
@@ -160,23 +154,36 @@ class StandardPagePartProvider implements PagePartProvider
         return $f->breadcrumbs($crumbs);
     }
 
-
     /**
      * @inheritDoc
      */
     public function getLogo() : ?Image
     {
-        $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+        $std_logo      = ilUtil::getImagePath("HeaderIcon.svg");
         $std_logo_link = ilUserUtil::getStartingPointAsUrl();
         if (!$std_logo_link) {
             $std_logo_link = "./goto.php?target=root_1";
         }
 
         return $this->ui->factory()->image()
-            ->standard($std_logo, "ILIAS")
-            ->withAction($std_logo_link);
+                        ->standard($std_logo, "ILIAS")
+                        ->withAction($std_logo_link);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getSystemInfos() : array
+    {
+        $system_infos = [];
+
+        foreach ($this->gs->collector()->notifications()->getAdministrativeNotifications() as $adn) {
+            $system_infos[] = $adn->getRenderer($this->ui->factory())->getNotificationComponentForItem($adn);
+        }
+
+        return $system_infos;
+
+    }
 
     /**
      * @inheritDoc
@@ -186,7 +193,6 @@ class StandardPagePartProvider implements PagePartProvider
         return $this->ui->factory()->mainControls()->footer([]);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -195,7 +201,6 @@ class StandardPagePartProvider implements PagePartProvider
         return 'title';
     }
 
-
     /**
      * @inheritDoc
      */
@@ -203,7 +208,6 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return 'short';
     }
-
 
     /**
      * @inheritDoc

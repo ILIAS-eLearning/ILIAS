@@ -975,8 +975,7 @@ class ilColumnGUI
             } elseif ($ilSetting->get("block_activated_" . $a_type)) {
                 return true;
             } elseif ($a_type == 'cal') {
-                include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
-                return ilCalendarSettings::lookupCalendarActivated($GLOBALS['ilCtrl']->getContextObjId());
+                return ilCalendarSettings::lookupCalendarContentPresentationEnabled($ilCtrl->getContextObjId());
             } elseif ($a_type == 'pdcal') {
                 if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
                     return false;

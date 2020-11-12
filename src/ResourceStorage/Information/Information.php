@@ -6,7 +6,6 @@ use DateTimeImmutable;
 
 /**
  * Class Information
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface Information
@@ -17,24 +16,20 @@ interface Information
      */
     public function getTitle() : string;
 
-
     /**
      * @return string
      */
     public function getSuffix() : string;
-
 
     /**
      * @return string
      */
     public function getMimeType() : string;
 
-
     /**
      * @return int
      */
     public function getSize() : int;
-
 
     /**
      * @return DateTimeImmutable

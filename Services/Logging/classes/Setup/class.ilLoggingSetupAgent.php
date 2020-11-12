@@ -75,4 +75,12 @@ class ilLoggingSetupAgent implements Setup\Agent
     {
         return new ilLoggingMetricsCollectedObjective($storage);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }

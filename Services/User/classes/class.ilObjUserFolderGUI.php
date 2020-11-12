@@ -52,7 +52,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule("user");
-
+        $this->lng->loadLanguageModule('tos');
         $ilCtrl->saveParameter(
             $this,
             "letter"
@@ -2094,6 +2094,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             'user_reactivate_code' => (int) $ilSetting->get('user_reactivate_code'),
             'user_own_account' => (int) $ilSetting->get('user_delete_own_account'),
             'user_own_account_email' => $ilSetting->get('user_delete_own_account_email'),
+            'tos_withdrawal_usr_deletion' => (bool) $ilSetting->get('tos_withdrawal_usr_deletion'),
 
             'session_handling_type' => $ilSetting->get(
                 'session_handling_type',
@@ -2244,6 +2245,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $ilSetting->set(
                     'user_delete_own_account_email',
                     $this->form->getInput('user_own_account_email')
+                );
+                $ilSetting->set(
+                    'tos_withdrawal_usr_deletion',
+                    (string) ((int) $this->form->getInput('tos_withdrawal_usr_deletion'))
                 );
 
                 $ilSetting->set(
@@ -2444,6 +2449,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "user_own_account_email"
         );
         $own->addSubItem($own_email);
+
+        $withdrawalProvokesDeletion = new ilCheckboxInputGUI(
+            $this->lng->txt('tos_withdrawal_usr_deletion'),
+            'tos_withdrawal_usr_deletion'
+        );
+        $withdrawalProvokesDeletion->setInfo($this->lng->txt('tos_withdrawal_usr_deletion_info'));
+        $withdrawalProvokesDeletion->setValue('1');
+        $this->form->addItem($withdrawalProvokesDeletion);
 
         // BEGIN SESSION SETTINGS
 
@@ -4148,6 +4161,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
     public function addToExternalSettingsForm($a_form_id)
     {
+        global $DIC;
+
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_SECURITY:
 
@@ -4188,6 +4203,18 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $fields['ps_security_protection'] = array(null, null, $subitems);
 
                 return array(array("generalSettings", $fields));
+                
+            case ilAdministrationSettingsFormHandler::FORM_TOS:
+                return [
+                    [
+                        'generalSettings', [
+                            'tos_withdrawal_usr_deletion' => $DIC->settings()->get(
+                                'tos_withdrawal_usr_deletion',
+                                false
+                            ) ? $DIC->language()->txt('enabled') : $DIC->language()->txt('disabled'),
+                        ]
+                    ],
+                ];
         }
     }
 

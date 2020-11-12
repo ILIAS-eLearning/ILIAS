@@ -14,6 +14,18 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+meta#:#md_adv_field_list#:#Fields
+meta#:#md_adv_record_lng_table#:#Language Managment
+meta#:#md_adv_record_lng_table_lng#:#Language
+meta#:#md_adv_record_lng_table_default#:#Default
+meta#:#md_adv_record_lng_table_active#:#Active
+meta#:#md_adv_record_lng_table_inst#:#Installed
+meta#:#md_adv_record_activate_languages#:#Activate Languages
+meta#:#md_aria_language_selection#:#Language Selection
+meta#:#md_adv_int_current#:#Current Language:
+meta#:#md_adv_int_default#:#Default Language:
+meta#:#md_adv_int_translation_info#:#Translation:
+meta#:#md_adn_int_error_no_default#:#Please select on activated language als "Default-Language".
 sess#:#sess_title#:#Title of Session
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
@@ -141,6 +153,9 @@ crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonne
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
 crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+obj#:#obj_fallback_lang#:#Default Language
+obj#:#obj_set_fallback_lang#:#Set default language
+obj#:#obj_select_one_language#:#Please select one language
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
 crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
 meta#:#udf_type_address#:#Address
@@ -1951,6 +1966,23 @@ cntr#:#cntr_view_simple#:#Simple View
 common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
+common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
+common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
+common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
+common#:#withdraw_consent#:#Withdraw Acceptance
+common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
+common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
+common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
+common#:#withdraw#:#Withdraw
+common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
+common#:#withdraw_usr_agreement#:#Withdraw
+common#:#accept_usr_agreement_btn#:#Accept
+common#:#deny_usr_agreement#:#Do not accept terms of service?
+common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
+common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nKind regards\n\n
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -2248,6 +2280,8 @@ common#:#chat_enter_public_room#:#Public Chat
 common#:#chat_invite_public_room_tooltip#:#Invite to public chat.
 common#:#chat_invite_public_room#:#Public Chat
 chatroom#:#chat_settings#:#Chat Settings
+chatroom#:#chat_use_osc#:#Using On-Screen-Chat
+chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 common#:#chat_users_active#:#Active users
 common#:#check_all#:#Check all
 common#:#check_langfile#:#Please check your language file
@@ -5111,6 +5145,8 @@ crs#:#tutor_email#:#E-Mail
 crs#:#tutor_name#:#Name
 crs#:#tutor_phone#:#Phone
 crs#:#user_fields#:#User Fields
+dateplaner#:#cal_app_other_materials_num#:#View other materials
+dateplaner#:#cal_materials#:#Materials
 dateplaner#:#add_appointment#:#Add Appointment
 dateplaner#:#app_day#:#Day
 dateplaner#:#app_month#:#Month
@@ -5161,6 +5197,7 @@ dateplaner#:#cal_def_time_format#:#Default Time Format
 dateplaner#:#cal_def_timezone_info#:#Please choose a default timezone for the presentation of appointments.
 dateplaner#:#cal_def_timezone#:#Default Timezone
 dateplaner#:#cal_def_week_start#:#Default Week Start
+dateplaner#:#cal_def_view#:#Default Calendar View
 dateplaner#:#cal_default_calendar#:#Personal Appointments
 dateplaner#:#cal_del_app_sure#:#Do you really want to delete the selected appointments?
 dateplaner#:#cal_del_cal_sure#:#Do you really want to delete the chosen calendars?
@@ -7917,10 +7954,17 @@ webr#:#webr_edit_settings#:#Edit Settings
 webr#:#webr_inactive_success#:#The chosen link is deactivated.
 webr#:#webr_link_added#:#A new link has been created.
 webr#:#webr_link_target#:#Weblink Target
-webr#:#webr_link_title#:#Weblink Name
+webr#:#webr_link_title#:#Weblink Name / Weblink List Name
+webr#:#webr_link_type_single#:#Single Weblink
+webr#:#webr_link_type_list#:#Weblink List
+webr#:#webr_list_added#:#A new weblink list has been created.
 webr#:#webr_list_desc#:#Description of Weblink List
+webr#:#webr_list_set#:#The weblink has been set to a weblink list.
 webr#:#webr_list_title#:#Title of Weblink List
 webr#:#webr_new_link#:#Add New Weblink
+webr#:#webr_new_list#:#Add New Weblink List
+webr#:#webr_new_list_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
+webr#:#webr_set_to_list#:#Set to Weblink List
 webr#:#webr_sort_manual#:#Sort Manually
 webr#:#webr_sort_title#:#Titles in Alphabetical Order
 webr#:#webr_sorting#:#Weblink Sorting
@@ -9145,6 +9189,7 @@ skmg#:#skmg_really_remove_skills#:#Do you really want to remove the following co
 forum#:#mark_moderator_posts#:#Mark moderator posts
 forum#:#mark_moderator_posts_desc#:#If activated moderator posts will be highlighted
 dateplaner#:#cal_cache_settings#:#Cache
+dateplaner#:#cal_default_settings#:#Default settings
 dateplaner#:#cal_milestone_settings#:#Milestones
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#tst_set_offline_due_to_switched_question_set_type_setting#:#The test has been set to offline, because the test mode setting has been changed. You have to set a new test mode relating question config before the test can be set to online again.
@@ -10484,10 +10529,14 @@ dcl#:#dcl_limit_start#:#Start
 dcl#:#dcl_limit_end#:#End
 dcl#:#dcl_url#:#URL or E-Mail
 dateplaner#:#cal_setting_global_vis_repos#:#Repository Calendar
+dateplaner#:#cal_setting_global_crs_act#:#Activation in Courses
+dateplaner#:#cal_setting_global_grp_act#:#Activation in Groups
+dateplaner#:#cal_setting_global_crs_act_info#:#If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings.
+dateplaner#:#cal_setting_global_grp_act_info#:#If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings.
 dateplaner#:#cal_setting_global_crs_vis#:#Show in Courses
 dateplaner#:#cal_setting_global_grp_vis#:#Show in Groups
-dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, the calendar is shown in shown in courses by default. In any case the calendar presentation can be enabled/disabled in the course settings.
-dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, the calendar is shown in shown in groups by default. In any case the calendar presentation can be enabled/disabled in the group settings.
+dateplaner#:#cal_setting_global_crs_vis_info#:#If enabled, a calendar block is shown in courses by default. In any case the calendar block can be enabled/disabled in the course settings.
+dateplaner#:#cal_setting_global_grp_vis_info#:#If enabled, a calendar block is shown in groups by default. In any case the calendar block can be enabled/disabled in the group settings.
 dcl#:#dcl_edit_table#:#Edit Table Settings
 dcl#:#dcl_msg_table_edited#:#Table Settings saved
 dcl#:#dcl_legend_placeholders#:#Placeholders
@@ -10506,7 +10555,8 @@ dcl#:#dcl_prop_expression#:#Expression
 dcl#:#dcl_prop_expression_info#:#Supported operators: <b>%s</b><br>Supported functions: <b>%s</b><br>Use brackets <b>‘(’, ‘)’</b> to group calculations.<br>Concatenate strings and placeholders with &: <b>‘The result is ’ & [[Int 1]] * [[Int2]]</b><br>Using functions: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>Available fields (click on title to copy field inside expression):<br>%s
 dcl#:#dcl_error_parsing_expression#:#Error parsing expression
 dcl#:#dcl_display_action_menu#:#Enable possibility to copy or link the referenced module
-common#:#obj_tool_setting_calendar#:#Calendar
+common#:#obj_tool_setting_calendar#:#Calendar Block
+common#:#obj_tool_setting_calendar_active#:#Calendar
 crs#:#crs_copy#:#Copy Course
 cat#:#cat_copy#:#Copy Category
 grp#:#grp_copy#:#Copy Group
@@ -10812,6 +10862,8 @@ tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selecte
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
 tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal 
+tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
@@ -11081,6 +11133,7 @@ survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_select_appraisee#:#Select
 survey#:#survey_360_appraisee#:#Appraisee
 skmg#:#skmg_skill_profiles#:#Profiles
+skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
@@ -12026,7 +12079,8 @@ rbac#:#il_orgu_employee#:#Organisational Unit Employee
 rbac#:#il_orgu_superior#:#Organisational Unit Superior
 obj#:#obj_tool_setting_info_tab_info#:#The ‘Info’ tab will be displayed.
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
-common#:#obj_tool_setting_calendar_info#:#A calendar is available and the ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
+common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
 obj#:#obj_presentation#:#Presentation
 mcst#:#mcst_webfeed#:#RSS Web Feed
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
@@ -12055,6 +12109,7 @@ skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resou
 skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
 skmg#:#skmg_usage_obj_profiles#:#Profile(s)
+skmg#:#skmg_assigned_objects#:#Assigned Objects
 rbac#:#rbac_create_bibl#:#Create Bibliography
 rbac#:#rbac_create_cld#:#Create Cloud Object
 prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.
@@ -12496,15 +12551,19 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 crs#:#crs_mem_tbl_header#:#Course Participants
 grp#:#grp_mem_tbl_header#:#Group Participants
+sess#:#sess_reg_tutor#:#No Registration Possible
+sess#:#sess_reg_tutor_info#:#Users cannot register for this session on their own. Only administrators can register users.
+sess#:#sess_reg_cannot_participate#:#Cannot Participate
+sess#:#sess_reg_cannot_participate_info#:#Users can indicate that they cannot participate in the session.
 sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
 sess#:#sess_reg_direct_info#:#User has to click ‘Attend’ to participate in session
 sess#:#sess_reg_request#:#Apply for Participation
-sess#:#sess_reg_disabled#:#No Registration Necessary
+sess#:#sess_reg_disabled#:#Without Registration
 sess#:#sess_reg_request_info#:#An administrator has to decide upon each user's apply for participating in session.
-sess#:#sess_reg_disabled_info#:#Users do not need to register to participate in session.
+sess#:#sess_reg_disabled_info#:#Registration options are not offered for this session.
 sess#:#sess_reg_max_members_short#:#Number of Members
 sess#:#sess_reg_max_members#:#Limited Number of Members
 sess#:#sess_reg_max_members_info#:#Define the maximum number of users that can participate in session.
@@ -13820,6 +13879,8 @@ badge#:#badge_user_profile#:#User Profil
 badge#:#badge_badge#:#Badge
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Activates badge management and badge assignments to members.
+obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix
+obj#:#obj_tool_ext_mail_subject_prefix_info#:#Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier.
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_image_template_form#:#Image Template
 badge#:#badge_image_from_upload#:#Upload Image
@@ -14083,6 +14144,13 @@ exc#:#exc_settings_feedback_file#:#By File
 mem#:#mem_print_view_form#:#Default Settings for Print View
 mem#:#mem_settings_tab_print_view#:#Print View Settings
 mem#:#mem_settings_tab_settings#:#General Settings
+didactic#:#didactic_global#:#Global
+didactic#:#didactic_filter_with_icon#:#with Icon
+didactic#:#didactic_filter_without_icon#:#without Icon
+didactic#:#didactic_local#:#Local
+didactic#:#didactic_icon#:#Icon
+didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.
+didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.
 didactic#:#activate_local_didactic_template#:#Scope of Application
 didactic#:#effective_form#:#Template Effective From
 didactic#:#more_translations#:#More Translations
@@ -14352,7 +14420,6 @@ pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
 pdfgen#:#print_media_info#:#Use print media-type instead of screen
 pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
 pdfgen#:#page_settings#:#Page Settings
-pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_size#:#Pagesize
 pdfgen#:#margin#:#Margin 345
 pdfgen#:#header_type#:#Header
@@ -14505,6 +14572,9 @@ skmg#:#skmg_assigned_profiles#:#Assigned Profiles
 skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
+skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
+skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
+skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
 skmg#:#skmg_suggested#:#Suggested Resource
 skmg#:#skmg_lp_triggers_level#:#Triggered by Completion
 skmg#:#skmg_save_settings#:#Save Settings
@@ -14633,6 +14703,18 @@ cont#:#cont_really_remove_skill_from_course#:#Do you really want to remove these
 cont#:#cont_assign_skills#:#Assign Competences
 cont#:#cont_skill_do_not_set#:#Do not set
 cont#:#cont_skill_no_skill#:#No value (Reset)
+cont#:#cont_skill_profiles#:#Assigned Profiles of Members
+cont#:#cont_skill_profile#:#Profile
+cont#:#cont_add_global_profile#:#Add Global Profile
+cont#:#cont_add_local_profile#:#Add Local Profile
+cont#:#cont_skill_assigned_profiles#:#Profile Selection
+cont#:#cont_skill_no_profile_selected#:#Please select a profile.
+cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?
+cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?
+cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?
+cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?
+cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.
+cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.
 cont#:#cont_mem_skills#:#Competences
 cont#:#cont_published#:#Published
 cont#:#cont_assign_competence#:#Assign Competences to Members
@@ -16225,3 +16307,120 @@ survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
 common#:#mainbar_more_label#:#More
+common#:#obj_wbdv#:#WebDAV
+common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.
+common#:#obj_fils#:#File Services
+common#:#obj_fils_desc#:#Configuration of File Service Settings.
+fils#:#file_services#:#File Services
+fils#:#file_services_description#:#Configuration of File Service Settings.
+fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)
+fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.
+fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)
+fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.
+fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)
+fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.
+fils#:#file_suffix_overall_positive#:#Overall Positive List
+fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.
+fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes
+fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.
+common#:#file_objects#:#File Objects
+common#:#preview_renderers#:#Preview Renderers
+lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
+lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
+common#:#back_to_course#:#Back to Course
+skmg#:#skmg_context_global#:#Global
+skmg#:#skmg_context_local#:#Local
+common#:#obj_peac#:#Accordion
+common#:#obj_peadl#:#Advanced List
+common#:#obj_peadt#:#Advanced Table
+common#:#obj_pecd#:#Code
+common#:#obj_pech#:#Consultation Hour
+common#:#obj_pecl#:#Column Layout
+common#:#obj_peclp#:#Clipboard
+common#:#obj_pecom#:#Competences
+common#:#obj_pecrs#:#Course
+common#:#obj_pecrt#:#Certificate
+common#:#obj_pecs#:#Content Snippet
+common#:#obj_pedt#:#Data Table
+common#:#obj_pefl#:#File List
+common#:#obj_peim#:#interactive Media
+common#:#obj_pelh#:#Learning History
+common#:#obj_pemed#:#Image/Audio/Video
+common#:#obj_pemp#:#Map
+common#:#obj_pepd#:#Personal Data
+common#:#obj_pepe#:#Plugin Element
+common#:#obj_pepl#:#Page List
+common#:#obj_peplh#:#Placeholder
+common#:#obj_pequ#:#Questions
+common#:#obj_perl#:#Ressource List
+common#:#obj_pesc#:#Section
+common#:#obj_petmp#:#Page Template
+common#:#obj_peusr#:#User
+survey#:#svy_compress_view#:#Compressed View
+survey#:#svy_compress_view_info#:#If activated, all single choice questions with similar scales will be presented matrix-like.
+cmix#:#only_moveon_label#:#Save learning success data only
+cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.
+cmix#:#achieved_label#:#Statements with the verb 'achieved'
+cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
+cmix#:#answered_label#:#Statements with the verb 'answered'
+cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.
+cmix#:#completed_label#:#Statements with the verb 'completed'
+cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.
+cmix#:#failed_label#:#Statements with the verb 'failed'
+cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
+cmix#:#initialized_label#:#Statements with the verb 'initialized'
+cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.
+cmix#:#passed_label#:#Statements with the verb 'passed'
+cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
+cmix#:#progressed_label#:#Statements with the verb 'progressed'
+cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
+cmix#:#satisfied_label#:#Statements with the verb 'satisfied'
+cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.
+cmix#:#terminated_label#:#Statements with the verb 'terminated'
+cmix#:#terminated_info#:#Indicates that the actor successfully ended an activity.
+cmix#:#hide_data_label#:#Blacken data
+cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.
+cmix#:#timestamp_label#:#Timestamp
+cmix#:#timestamp_info#:#The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp.
+cmix#:#duration_label#:#Duration
+cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
+cmix#:#no_substatements_label#:#Do not store substatements
+cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
+adn#:#administrative_notification#:#Administrative Notifications
+adn#:#administrative_notification_description#:#Create system-wide Notifications
+common#:#obj_adn#:#Administrative Notifications
+adn#:#main#:#Notifications
+adn#:#msg_title#:#Title
+adn#:#msg_type#:#Denotation
+adn#:#msg_type_during_event#:#Denotation during Event
+adn#:#msg_type_1#:#Neutral
+adn#:#msg_type_2#:#Important
+adn#:#msg_type_3#:#Breaking
+adn#:#msg_event_start#:#Event start
+adn#:#msg_event_end#:#Event end
+adn#:#msg_display_start#:#Display start
+adn#:#msg_display_end#:#Display end
+adn#:#msg_permanent#:#Display
+adn#:#msg_permanent_no#:#Show temporary
+adn#:#msg_permanent_yes#:#Show permanent
+adn#:#msg_table_title#:#Messages
+adn#:#msg_body#:#Body
+adn#:#msg_event_date#:#Event date
+adn#:#msg_display_date#:#Duration display
+adn#:#msg_form_button_save#:#Save
+adn#:#msg_form_button_update#:#Update
+adn#:#msg_form_button_cancel#:#Cancel
+adn#:#msg_form_button_delete#:#Delete
+adn#:#msg_form_title#:#Compose message
+adn#:#msg_success_created#:#Notification created.
+adn#:#msg_success_updated#:#Notification updated.
+adn#:#msg_success_deleted#:#Notification deleted.
+adn#:#msg_dismissable#:#Dismissable
+adn#:#msg_limit_to_roles#:#Limit to Roles
+adn#:#msg_limited_to_role_ids#:#Roles
+adn#:#msg_reset_dismiss#:#Reset for all users
+adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.
+adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user won't see this notification again.
+adn#:#msg_form_button_updateAndStay#:#Save and Stay
+adn#:#common_actions#:#Actions
+adn#:#common_add_msg#:#Add Notification

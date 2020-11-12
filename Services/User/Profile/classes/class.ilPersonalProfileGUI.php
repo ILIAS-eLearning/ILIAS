@@ -11,6 +11,11 @@
  */
 class ilPersonalProfileGUI
 {
+    /**
+     * @var ilAppEventHandler
+     */
+    private $eventHandler;
+
     public $tpl;
 
     /**
@@ -61,6 +66,7 @@ class ilPersonalProfileGUI
         $this->setting = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
+        $this->eventHandler = $DIC['ilAppEventHandler'];
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
@@ -95,7 +101,7 @@ class ilPersonalProfileGUI
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        
+
         $next_class = $this->ctrl->getNextClass();
 
         switch ($next_class) {
@@ -527,7 +533,100 @@ class ilPersonalProfileGUI
         $this->tpl->setPermanentLink('usr', null, 'agreement');
         $this->tpl->printToStdout();
     }
-    
+
+    protected function showConsentWithdrawalConfirmation() : void
+    {
+        $this->tabs->clearTargets();
+        $this->tabs->clearSubTabs();
+        $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
+
+        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
+        $content = $tos_withdrawal_helper->getConsentWithdrawalConfirmation($this);
+
+        $this->tpl->setContent($content);
+        $this->tpl->setPermanentLink('usr', null, 'agreement');
+        $this->tpl->printToStdout();
+    }
+
+    protected function cancelWithdrawal() : void
+    {
+        $this->user->writePref('consent_withdrawal_requested', 0);
+        ilInitialisation::redirectToStartingPage();
+    }
+
+    protected function withdrawAcceptance() : void
+    {
+        $helper = new \ilTermsOfServiceHelper();
+        $helper->resetAcceptance($this->user);
+
+        $shouldDeleteAccountOnWithdrawal = $this->setting->get(
+            'tos_withdrawal_usr_deletion',
+            false
+        );
+
+        if($shouldDeleteAccountOnWithdrawal == 1 &&
+            ($this->user->getAuthMode() == AUTH_LOCAL || $this->user->getAuthMode() == 'default')
+        ) {
+            $accdel = 1;
+        } else {
+            $accdel = 0;
+        }
+
+        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
+        $this->eventHandler->raise(
+            'Services/TermsOfService',
+            'ilTermsOfServiceEventWithdrawn',
+            ['event' => $domainEvent]
+        );
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $GLOBALS['DIC']['ilAuthSession']->logout();
+
+        $this->ctrl::redirectToUrl('login.php?wdtdel=".$accdel."&cmd=force_login');
+    }
+
+    protected function withdrawAcceptanceLDAP() : void
+    {
+        $document = $this->termsOfServiceEvaluation->document();
+        $helper = new \ilTermsOfServiceHelper();
+        $helper->resetAcceptance($this->user);
+
+        /** @var ilObjUser $user */
+        $user = $GLOBALS['DIC']->user();
+        $mail = new ilMail($user->getId()); // default sender
+
+        $subject = $this->lng->txt('withdrawal_mail_subject');
+        $message  = "\n\n";
+        $message .= $this->lng->txt('withdrawal_mail_subject');
+        $message .= "\n\n";
+        $message .= $this->lng->txt('withdrawal_mail_text');
+        $message .= "\n\n";
+        $message .= "Name: " . $user->getFullname() . "\n\n";
+        $message .= "(Login: " . $user->getLogin() . " )\n\n";
+        $message .= $mail->appendInstallationSignature(true);
+
+        $mail->enqueue(
+            $GLOBALS['DIC']->settings()->get('admin_mail'),
+            '',
+            '',
+            $subject,
+            $message,
+            []
+        );
+
+        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
+        $this->eventHandler->raise(
+            'Services/TermsOfService',
+            'ilTermsOfServiceEventWithdrawn',
+            ['event' => $domainEvent]
+        );
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $GLOBALS['DIC']['ilAuthSession']->logout();
+
+        $this->ctrl->redirectToUrl('login.php?wdtdel=0&cmd=force_login');
+    }
+
     /**
      * Add location fields to form if activated
      *

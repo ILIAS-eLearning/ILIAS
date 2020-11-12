@@ -12,17 +12,16 @@ class BuildArtifactsCommandTest extends TestCase
 {
     public function testBasicFunctionality() : void
     {
-        $agent = $this->createMock(Setup\Agent::class);
-        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-        $command = new Setup\CLI\BuildArtifactsCommand(function () use ($agent) {
-            return $agent;
-        });
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
 
-        $tester = new CommandTester($command);
+        $agent = $this->createMock(Setup\AgentCollection::class);
+        $agent_finder
+            ->expects($this->once())
+            ->method("getAgents")
+            ->with()
+            ->willReturn($agent);
 
         $objective = $this->createMock(Setup\Objective::class);
-        $env = $this->createMock(Setup\Environment::class);
-
         $agent
             ->expects($this->once())
             ->method("getBuildArtifactObjective")
@@ -37,14 +36,17 @@ class BuildArtifactsCommandTest extends TestCase
         $objective
             ->expects($this->once())
             ->method("achieve")
-            ->willReturn($env);
+            ->will($this->returnCallback(function (Setup\Environment $e) {
+                return $e;
+            }));
 
         $objective
             ->expects($this->once())
             ->method("isApplicable")
             ->willReturn(true);
 
-        $tester->execute([
-        ]);
+        $command = new Setup\CLI\BuildArtifactsCommand($agent_finder);
+        $tester = new CommandTester($command);
+        $tester->execute([]);
     }
 }

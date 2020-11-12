@@ -31,6 +31,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         LSUrlBuilder $url_builder,
         ilCtrl $il_ctrl
     ) {
+        parent::__construct("lsq_toc", null, "");
         $this->url_builder = $url_builder;
         $this->ctrl = $il_ctrl; //ilExplorerBaseGUI needs ctrl...
         $this->setSkipRootNode(false);
@@ -85,7 +86,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     public function getChildsOfNode($a_parent_node_id)
     {
         $parent_node = $this->nodes[$a_parent_node_id];
-        return $parent_node['childs'];
+        return (array) $parent_node['childs'];
     }
 
     /**

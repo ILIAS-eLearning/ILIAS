@@ -4,13 +4,14 @@ namespace ILIAS\ResourceStorage\Information\Repository;
 
 use ILIAS\ResourceStorage\Information\Information;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**
  * Interface InformationRepository
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface InformationRepository
+interface InformationRepository extends LockingRepository
 {
 
     /**

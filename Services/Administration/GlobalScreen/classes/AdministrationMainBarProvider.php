@@ -195,7 +195,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         // admin menu layout
         $layout = array(
             "maintenance" =>
-                array("adm", "lngf", "hlps", "wfe", "pdfg", 'logs', 'sysc', "recf", "root"),
+                array("adm", "lngf", "hlps", "wfe", "pdfg", 'fils', 'logs', 'sysc', "recf", "root"),
             "layout_and_navigation" =>
                 array("mme", "stys", "adve", "accs"),
             "user_administration" =>
@@ -205,11 +205,11 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "achievements" =>
                 array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
-                array("mail", "cadm", "nwss", "coms"),
+                array("mail", "cadm", "nwss", "coms", "adn"),
             "search_and_find" =>
                 array("seas", "mds", "taxs"),
             "extending_ilias" =>
-                array('ecss', "ltis", "cmis", "cmps", "extt"),
+                array('ecss', "ltis", "wbdv", "cmis", "cmps", "extt"),
             "repository_and_objects" =>
                 array("reps", "crss", "grps", "prgs", "bibs", "blga", "cpad", "chta", "facs", "frma", "lrss",
                     "mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),

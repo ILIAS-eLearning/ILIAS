@@ -5,6 +5,8 @@ require_once "Services/ADT/classes/class.ilADTDefinition.php";
 
 class ilADTFactory
 {
+    public const TYPE_LOCALIZED_TEXT = 'LocalizedText';
+
     protected static $instance; // [ilADTFactory]
     
     /**
@@ -39,7 +41,7 @@ class ilADTFactory
         return array(
             "Float", "Integer", "Location", "Text", "Boolean",
             "MultiText", "Date", "DateTime", "Enum", "MultiEnum", "Group",
-            'ExternalLink','InternalLink'
+            'ExternalLink','InternalLink', self::TYPE_LOCALIZED_TEXT
         );
     }
     

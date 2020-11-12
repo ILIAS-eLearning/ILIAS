@@ -87,6 +87,11 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::LANGUAGE
         , self::LOGIN
         , self::LOGOUT
+        , self::BULLETLIST
+        , self::NUMBEREDLIST
+        , self::LISTINDENT
+        , self::LISTOUTDENT
+        , self::FILTER
         );
 
 

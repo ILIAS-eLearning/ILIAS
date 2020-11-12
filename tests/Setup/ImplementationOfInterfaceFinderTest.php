@@ -11,7 +11,7 @@ class ImplementationOfInterfaceFinderForTest extends ImplementationOfInterfaceFi
 {
     public $class_names = [];
 
-    protected function getAllClassNames() : \Iterator
+    protected function getAllClassNames(array $additional_ignore) : \Iterator
     {
         foreach ($this->class_names as $name) {
             yield $name;
@@ -42,40 +42,40 @@ class ImplementationOfInterfaceFinderTest extends TestCase
 {
     public function testWithTestInterface1()
     {
-        $finder = new ImplementationOfInterfaceFinderForTest(TestInterface1::class);
+        $finder = new ImplementationOfInterfaceFinderForTest();
         $finder->class_names = [
             TestClass1::class,
             TestClass2::class,
             TestClass3::class
         ];
         $expected = [TestClass1::class, TestClass3::class];
-        $result = iterator_to_array($finder->getMatchingClassNames());
+        $result = iterator_to_array($finder->getMatchingClassNames(TestInterface1::class));
         $this->assertEquals($expected, $result);
     }
 
     public function testWithTestInterface2()
     {
-        $finder = new ImplementationOfInterfaceFinderForTest(TestInterface2::class);
+        $finder = new ImplementationOfInterfaceFinderForTest();
         $finder->class_names = [
             TestClass1::class,
             TestClass2::class,
             TestClass3::class
         ];
         $expected = [TestClass2::class, TestClass3::class];
-        $result = iterator_to_array($finder->getMatchingClassNames());
+        $result = iterator_to_array($finder->getMatchingClassNames(TestInterface2::class));
         $this->assertEquals($expected, $result);
     }
 
     public function testWithTestInterface3()
     {
-        $finder = new ImplementationOfInterfaceFinderForTest(TestInterface3::class);
+        $finder = new ImplementationOfInterfaceFinderForTest();
         $finder->class_names = [
             TestClass1::class,
             TestClass2::class,
             TestClass3::class
         ];
         $expected = [];
-        $result = iterator_to_array($finder->getMatchingClassNames());
+        $result = iterator_to_array($finder->getMatchingClassNames(TestInterface3::class));
         $this->assertEquals($expected, $result);
     }
 }

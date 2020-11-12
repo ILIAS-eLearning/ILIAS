@@ -460,4 +460,68 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     {
         return (bool) $this->complete_tree["visibility"][$a_node["child"]];
     }
+
+    //
+    // Learning Sequence TOC
+    //
+
+    /**
+     * Render into ls toc
+     * @param
+     * @return
+     */
+    public function renderLSToc(\LSTOCBuilder $toc)
+    {
+        $this->renderLSTocNode($toc, null);
+
+        /*$toc->node('node1')
+        ->item('item1.1', 1)
+        ->item('item1.2', 11)
+        ->end();
+        $toc->item('item2', 111);
+        $toc->node('node3', 1111)
+        ->item('item3.1', 2)
+        ->node('node3.2')
+        ->item('item3.2.1', 122)
+        ->end()
+        ->end()
+        ->end();*/
+    }
+
+    /**
+     * Render node
+     * @param ilLSTOCGUI $toc
+     * @param null       $current_node
+     */
+    protected function renderLSTocNode(\LSTOCBuilder $toc, $current_node = null)
+    {
+        $root = false;
+        if ($current_node == 0) {
+            $root = true;
+            $current_node = $this->tree->getNodeData($this->tree->readRootId());
+        }
+
+        $children = $this->getChildren($current_node);
+        if (count($children) > 0) {
+            if ($root) {
+                $node_toc = $toc;
+            } else {
+                // current workaround
+                $lp = LSTOCBuilder::LP_IN_PROGRESS;
+                $node_icon = $this->getNodeIcon($current_node);
+                if (strpos($node_icon, "complete")) {
+                    $lp = LSTOCBuilder::LP_COMPLETED;
+                }
+
+                $node_toc = $toc->node($current_node["title"], $current_node["child"], $lp);
+            }
+            foreach ($this->getChildren($current_node) as $child) {
+                $this->renderLSTocNode($node_toc, $child);
+            }
+            $node_toc->end();
+        } else {
+            $highlight = $this->isNodeHighlighted($current_node);
+            $toc->item($current_node["title"], $current_node["child"], null, $highlight);
+        }
+    }
 }

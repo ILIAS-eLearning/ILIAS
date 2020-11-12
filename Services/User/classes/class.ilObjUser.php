@@ -1421,11 +1421,7 @@ class ilObjUser extends ilObject
         include_once "./Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         $tree = new ilWorkspaceTree($this->getId());
         $tree->cascadingDelete();
-        
-        // remove disk quota entries
-        include_once "./Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-        ilDiskQuotaHandler::deleteByOwner($this->getId());
-        
+
         // remove reminder entries
         require_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.php';
         ilCronDeleteInactiveUserReminderMail::removeSingleUserFromTable($this->getId());

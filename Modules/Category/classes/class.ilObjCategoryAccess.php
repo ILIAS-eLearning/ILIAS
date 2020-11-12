@@ -32,19 +32,7 @@ class ilObjCategoryAccess extends ilObjectAccess
     {
         $commands = array();
         $commands[] = array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true);
-        
 
-        // begin-patch fm
-        include_once './Services/WebServices/FileManager/classes/class.ilFMSettings.php';
-        if (ilFMSettings::getInstance()->isEnabled()) {
-            $commands[] = array(
-                'permission' => 'read',
-                'cmd' => 'fileManagerLaunch',
-                'lang_var' => 'fm_start',
-                'enable_anonymous' => false
-            );
-        }
-        // end-patch fm
 
         // BEGIN WebDAV
         require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');

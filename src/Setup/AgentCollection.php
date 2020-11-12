@@ -4,10 +4,9 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
-use ILIAS\UI\Component\Input\Field\Input as Input;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
+use Symfony\Component\Mime\Exception\LogicException;
 
 /**
  * An agent that is just a collection of some other agents.
@@ -35,6 +34,23 @@ class AgentCollection implements Agent
     public function getAgent(string $key) : ?Agent
     {
         return $this->agents[$key] ?? null;
+    }
+
+    public function withRemovedAgent(string $key) : AgentCollection
+    {
+        $clone = clone $this;
+        unset($clone->agents[$key]);
+        return $clone;
+    }
+
+    public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
+    {
+        if (isset($this->agents[$key])) {
+            throw new \LogicException("An agent with the name '$name' already exists.");
+        }
+        $clone = clone $this;
+        $clone->agents[$key] = $agent;
+        return $clone;
     }
 
     /**
@@ -161,21 +177,30 @@ class AgentCollection implements Agent
         );
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        $migrations = [];
+        foreach ($this->agents as $agent_key => $agent) {
+            foreach ($agent->getMigrations() as $migration) {
+                /**
+                 * @var $migration Migration
+                 */
+                $migrations[$agent_key . "." . $migration->getKey()] = $migration;
+            }
+        }
+
+        return $migrations;
+    }
+
     protected function checkConfig(Config $config)
     {
         if (!($config instanceof ConfigCollection)) {
             throw new \InvalidArgumentException(
                 "Expected ConfigCollection for configuration."
             );
-        }
-    }
-
-    protected function getAgentsWithConfig() : \Traversable
-    {
-        foreach ($this->agents as $k => $c) {
-            if ($c->hasConfig()) {
-                yield $k => $c;
-            }
         }
     }
 }

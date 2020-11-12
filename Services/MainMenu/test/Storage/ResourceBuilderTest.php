@@ -18,22 +18,23 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UploadedFileInterface;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
+use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Lock\LockHandlerResult;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 
 class DummyIDGenerator implements IdentificationGenerator
 {
     private $id = 'dummy';
 
-
     /**
      * DummyIDGenerator constructor.
-     *
      * @param string $id
      */
     public function __construct(string $id)
     {
         $this->id = $id;
     }
-
 
     /**
      * @inheritDoc
@@ -46,7 +47,6 @@ class DummyIDGenerator implements IdentificationGenerator
 
 /**
  * Class ResourceBuilderTest
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ResourceBuilderTest extends TestCase
@@ -84,7 +84,14 @@ class ResourceBuilderTest extends TestCase
      * @var ResourceBuilder
      */
     private $resource_builder;
-
+    /**
+     * @var StakeholderRepository|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $stakeholder_repository;
+    /**
+     * @var LockHandler|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $locking;
 
     /**
      * @inheritDoc
@@ -97,16 +104,19 @@ class ResourceBuilderTest extends TestCase
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
         $this->information_repository = $this->createMock(InformationRepository::class);
+        $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
+        $this->locking = $this->createMock(LockHandler::class);
         $this->resource_builder = new ResourceBuilder(
             $this->storage_handler,
             $this->revision_repository,
             $this->resource_repository,
-            $this->information_repository
+            $this->information_repository,
+            $this->stakeholder_repository,
+            $this->locking
         );
         $this->information = $this->createMock(Information::class);
         $this->revision = $this->createMock(Revision::class);
     }
-
 
     public function testNewResource() : void
     {
@@ -120,17 +130,17 @@ class ResourceBuilderTest extends TestCase
         $result = $this->getUploadResult($file_name, $file_mime_type, $file_size);
 
         $this->storage_handler->expects($this->once())
-            ->method('getIdentificationGenerator')
-            ->willReturn($r);
+                              ->method('getIdentificationGenerator')
+                              ->willReturn($r);
 
         $this->resource_repository->expects($this->once())
-            ->method('blank')
-            ->with($identification)
-            ->willReturn(new StorableFileResource($identification));
+                                  ->method('blank')
+                                  ->with($identification)
+                                  ->willReturn(new StorableFileResource($identification));
 
         $this->revision_repository->expects($this->once())
-            ->method('blank')
-            ->willReturn(new UploadedFileRevision($identification, $result));
+                                  ->method('blank')
+                                  ->willReturn(new UploadedFileRevision($identification, $result));
 
         $resource = $this->resource_builder->new($result);
         $revision = $resource->getCurrentRevision();
@@ -146,9 +156,32 @@ class ResourceBuilderTest extends TestCase
         $this->storage_handler->expects($this->once())->method('storeUpload')->with($revision);
         $this->revision_repository->expects($this->once())->method('store')->with($revision);
         $this->information_repository->expects($this->once())->method('store')->with($revision->getInformation(), $revision);
+
+        $locking_result = $this->createMock(LockHandlerResult::class);
+        $locking_result->expects($this->once())->method('runAndUnlock')->willReturnCallback(
+            function () use ($resource) {
+                $this->resource_repository->store($resource);
+
+                foreach ($resource->getAllRevisions() as $revision) {
+                    if ($revision instanceof UploadedFileRevision) {
+                        $this->storage_handler->storeUpload($revision);
+                    }
+                    if ($revision instanceof FileStreamRevision) {
+                        $this->storage_handler->storeStream($revision);
+                    }
+                    $this->revision_repository->store($revision);
+                    $this->information_repository->store($revision->getInformation(), $revision);
+                }
+
+                foreach ($resource->getStakeholders() as $stakeholder) {
+                    $this->stakeholder_repository->register($resource->getIdentification(), $stakeholder);
+                }
+            }
+        );
+
+        $this->locking->expects($this->once())->method('lockTables')->willReturn($locking_result);
         $this->resource_builder->store($resource);
     }
-
 
     /**
      * @return UploadResult

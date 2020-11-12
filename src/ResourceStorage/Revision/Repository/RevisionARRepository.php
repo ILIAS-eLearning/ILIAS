@@ -2,26 +2,30 @@
 
 namespace ILIAS\ResourceStorage\Revision\Repository;
 
+use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
-use ILIAS\ResourceStorage\StorableResource;
+use ILIAS\ResourceStorage\Resource\StorableResource;
 
 /**
  * Class RevisionARRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class RevisionARRepository implements RevisionRepository
 {
+    public function getNameForLocking() : string
+    {
+        return (new ARRevision())->getConnectorContainerName();
+    }
 
     /**
      * @param StorableResource $resource
      * @param UploadResult     $result
-     *
      * @return UploadedFileRevision
      */
     public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision
@@ -33,6 +37,17 @@ class RevisionARRepository implements RevisionRepository
         return $revision;
     }
 
+    public function blankFromStream(
+        StorableResource $resource,
+        FileStream $stream,
+        bool $keep_original = false
+    ) : FileStreamRevision {
+        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+        $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setVersionNumber($new_version_number);
+
+        return $revision;
+    }
 
     /**
      * @param Revision $revision
@@ -42,9 +57,10 @@ class RevisionARRepository implements RevisionRepository
         $ar = $this->getAR($revision);
         $ar->setVersionNumber($revision->getVersionNumber());
         $ar->setAvailable($revision->isAvailable());
+        $ar->setOwnerId($revision->getOwnerId());
+        $ar->setTitle($revision->getTitle());
         $ar->update();
     }
-
 
     /**
      * @inheritDoc
@@ -60,7 +76,6 @@ class RevisionARRepository implements RevisionRepository
         return $collection;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -73,10 +88,8 @@ class RevisionARRepository implements RevisionRepository
         }
     }
 
-
     /**
      * @param Revision $revision
-     *
      * @return string
      */
     private function getInternalID(Revision $revision) : string
@@ -84,10 +97,8 @@ class RevisionARRepository implements RevisionRepository
         return $revision->getIdentification()->serialize() . '_' . (string) $revision->getVersionNumber();
     }
 
-
     /**
      * @param Revision $revision
-     *
      * @return ARRevision
      */
     private function getAR(Revision $revision) : ARRevision
@@ -98,17 +109,24 @@ class RevisionARRepository implements RevisionRepository
             $ar = new ARRevision();
             $ar->setInternal($primary);
             $ar->setIdentification($revision->getIdentification()->serialize());
+            $ar->setOwnerId($revision->getOwnerId());
+            $ar->setTitle($revision->getTitle());
+            $ar->setAvailable(true);
             $ar->create();
         }
 
         return $ar;
     }
 
-
     private function getRevisionFromAR(ARRevision $AR_revision) : Revision
     {
         $r = new FileRevision(new ResourceIdentification($AR_revision->getIdentification()));
         $r->setVersionNumber($AR_revision->getVersionNumber());
+        $r->setOwnerId($AR_revision->getOwnerId());
+        $r->setTitle($AR_revision->getTitle());
+        if (!$AR_revision->isAvailable()) {
+            $r->setUnavailable();
+        }
 
         return $r;
     }

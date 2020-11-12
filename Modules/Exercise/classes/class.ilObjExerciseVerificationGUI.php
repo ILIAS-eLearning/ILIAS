@@ -22,14 +22,6 @@ class ilObjExerciseVerificationGUI extends ilObject2GUI
     public function create()
     {
         $ilTabs = $this->tabs_gui;
-        
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                $this->lng->loadLanguageModule("file");
-                ilUtil::sendFailure($this->lng->txt("personal_resources_quota_exceeded_warning"), true);
-                $this->ctrl->redirect($this, "cancel");
-            }
-        }
 
         $this->lng->loadLanguageModule("excv");
 

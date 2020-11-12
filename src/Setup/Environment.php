@@ -18,6 +18,7 @@ interface Environment
     const RESOURCE_CLIENT_INI = "resource_client_ini";
     const RESOURCE_SETTINGS_FACTORY = "resource_settings_factory";
     const RESOURCE_CLIENT_ID = "resource_client_id";
+    const RESOURCE_PLUGIN_ADMIN = "resource_plugin_admin";
 
     /**
      * Consumers of this method should check if the result is what they expect,

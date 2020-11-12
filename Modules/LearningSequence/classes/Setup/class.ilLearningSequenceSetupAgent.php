@@ -58,4 +58,12 @@ class ilLearningSequenceSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getMigrations() : array
+    {
+        return [];
+    }
 }
