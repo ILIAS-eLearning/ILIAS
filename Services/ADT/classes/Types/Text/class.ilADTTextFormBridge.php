@@ -7,7 +7,22 @@ class ilADTTextFormBridge extends ilADTFormBridge
     protected $multi; // [bool]
     protected $multi_rows; // [int]
     protected $multi_cols; // [int]
-        
+
+    /**
+     * @var ilLanguage|null
+     */
+    private $language = null;
+
+    public function __construct(ilADT $a_adt)
+    {
+        global $DIC;
+
+        parent::__construct($a_adt);
+        $this->language = $DIC->language();
+        $this->language->loadLanguageModule('meta');
+    }
+
+
     //
     // properties
     //
@@ -45,14 +60,21 @@ class ilADTTextFormBridge extends ilADTFormBridge
     {
         return ($a_adt instanceof ilADTText);
     }
-    
-    public function addToForm()
+
+    /**
+     * @param string $title
+     * @param string $element_id
+     * @param string $value
+     * @param bool   $is_translation
+     * @param string $language
+     */
+    protected function addElementToForm(string $title, string $element_id, string $value, bool $is_translation = false,  string $language = '')
     {
         $def = $this->getADT()->getCopyOfDefinition();
-        
+
         if (!$this->isMulti()) {
-            $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
-                        
+            $text = new ilTextInputGUI($title, $element_id);
+
             if ($def->getMaxLength()) {
                 $max = $def->getMaxLength();
                 $size = $text->getSize();
@@ -64,7 +86,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
                 }
             }
         } else {
-            $text = new ilTextAreaInputGUI($this->getTitle(), $this->getElementId());
+            $text = new ilTextAreaInputGUI($title, $element_id);
             if ($this->multi_rows) {
                 $text->setRows($this->multi_rows);
             }
@@ -77,19 +99,25 @@ class ilADTTextFormBridge extends ilADTFormBridge
                 $text->setMaxNumOfChars($max);
             }
         }
-        
         $this->addBasicFieldProperties($text, $def);
-    
-        $text->setValue($this->getADT()->getText());
-        
+
+        if ($is_translation) {
+            $text->setInfo($this->language->txt('md_adv_int_translation_info') . ' ' . $this->language->txt('meta_l_' . $language));
+            $text->setRequired(false);
+        }
+        $text->setValue($value);
         $this->addToParentElement($text);
     }
-    
+
+    public function addToForm()
+    {
+        $this->addElementToForm($this->getADT()->getText(), $this->getElementId(), $this->getTitle());
+    }
+
     public function importFromPost()
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setText($this->getForm()->getInput($this->getElementId()));
-    
         $field = $this->getForm()->getItemByPostvar($this->getElementId());
         $field->setValue($this->getADT()->getText());
     }

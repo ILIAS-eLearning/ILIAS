@@ -29,6 +29,10 @@ class ilAdvancedMDRecord
     protected $active;
     protected $title;
     protected $description;
+    /**
+     * @var string
+     */
+    protected $language_default;
     protected $obj_types = array();
     protected $db = null;
     protected $parent_obj; // [int]
@@ -454,6 +458,19 @@ class ilAdvancedMDRecord
             "WHERE record_id = " . $ilDB->quote($a_record_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
+
+    /**
+     * @param string $language_code
+     */
+    public function setDefaultLanguage(string $language_code)
+    {
+        $this->language_default = $language_code;
+    }
+
+    public function getDefaultLanguage() :string
+    {
+        return (string) $this->language_default;
+    }
     
     
     /**
@@ -532,14 +549,15 @@ class ilAdvancedMDRecord
         // Save import id if given
         $next_id = $ilDB->nextId('adv_md_record');
         
-        $query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description,parent_obj) " .
+        $query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description,parent_obj,lang_default) " .
             "VALUES(" .
             $ilDB->quote($next_id, 'integer') . ", " .
             $this->db->quote($this->getImportId(), 'text') . ", " .
             $this->db->quote($this->isActive(), 'integer') . ", " .
             $this->db->quote($this->getTitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .
-            $this->db->quote($this->getParentObject(), 'integer') . " " .
+            $this->db->quote($this->getParentObject(), 'integer') . ", " .
+            $this->db->quote((string) $this->getDefaultLanguage(), ilDBConstants::T_TEXT) .
             ")";
         $res = $ilDB->manipulate($query);
         $this->record_id = $next_id;
@@ -589,7 +607,8 @@ class ilAdvancedMDRecord
             "SET active = " . $this->db->quote($this->isActive(), 'integer') . ", " .
             "title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
             "description = " . $this->db->quote($this->getDescription(), 'text') . ", " .
-            'gpos = ' . $this->db->quote($this->getGlobalPosition(), 'integer') . ' ' .
+            'gpos = ' . $this->db->quote($this->getGlobalPosition(), 'integer') . ', ' .
+            'lang_default = ' . $this->db->quote($this->getDefaultLanguage(), ilDBConstants::T_TEXT) . ' ' .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
                 
@@ -832,7 +851,10 @@ class ilAdvancedMDRecord
             'id' => $this->generateImportId()));
         $writer->xmlElement('Title', null, $this->getTitle());
         $writer->xmlElement('Description', null, $this->getDescription());
-        
+
+        $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->getRecordId());
+        $translations->toXML($writer);
+
         foreach ($this->getAssignedObjectTypes() as $obj_type) {
             $optional = array("optional" => $obj_type["optional"]);
             if ($obj_type["sub_type"] == "") {
@@ -885,6 +907,7 @@ class ilAdvancedMDRecord
             $this->setDescription($row->description);
             $this->setParentObject($row->parent_obj);
             $this->setGlobalPosition((int) $row->gpos);
+            $this->setDefaultLanguage((string) $row->lang_default);
         }
         $query = "SELECT * FROM adv_md_record_objs " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";

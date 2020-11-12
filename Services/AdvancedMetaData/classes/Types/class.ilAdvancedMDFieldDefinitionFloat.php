@@ -47,8 +47,8 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
         $def->setMin($this->getMin());
         $def->setMax($this->getMax());
         $def->setDecimals($this->getDecimals());
-        $def->setSuffix($this->getSuffix());
-    
+        $def->setSuffix(isset($this->getSuffixTranslations()[$this->language]) ?  $this->getSuffixTranslations()[$this->language] : $this->getSuffix());
+
         return $def;
     }
     
@@ -95,31 +95,31 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
         return $def;
     }
     
-    public function getFieldDefinitionForTableGUI()
+    public function getFieldDefinitionForTableGUI(string $content_language)
     {
         global $DIC;
 
         $lng = $DIC['lng'];
     
-        $res = parent::getFieldDefinitionForTableGUI();
+        $res = parent::getFieldDefinitionForTableGUI($content_language);
         $res[$lng->txt("md_adv_number_decimals")] = $this->getDecimals();
         return $res;
     }
-    
+
     /**
      * Add input elements to definition form
-     *
      * @param ilPropertyFormGUI $a_form
-     * @param bool $a_disabled
+     * @param bool              $a_disabled
+     * @param string            $language
      */
-    public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+    public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false, string $language = '')
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         
         // #32
-        parent::addCustomFieldToDefinitionForm($a_form, $a_disabled);
+        parent::addCustomFieldToDefinitionForm($a_form, $a_disabled, $language);
         
         $decimals = new ilNumberInputGUI($lng->txt("md_adv_number_decimals"), "dec");
         $decimals->setRequired(true);
@@ -131,15 +131,15 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
             $decimals->setDisabled(true);
         }
     }
-    
+
     /**
      * Import custom  post values from definition form
-     *
      * @param ilPropertyFormGUI $a_form
+     * @param string            $language
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
-        parent::importCustomDefinitionFormPostValues($a_form);
+        parent::importCustomDefinitionFormPostValues($a_form, $language);
         
         $this->setDecimals($a_form->getInput("dec"));
     }

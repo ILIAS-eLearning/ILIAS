@@ -32,7 +32,10 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             $this->elements[$name]->setPrimary($this->getPrimary());
         }
     }
-    
+
+    /**
+     * @return ilADTDBBridge[]
+     */
     public function getElements()
     {
         $this->prepareElements();
@@ -101,6 +104,30 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             $element->afterUpdate();
         }
     }
+
+    /**
+     * @param string $field_type
+     * @param string $field_name
+     * @param int    $field_id
+     */
+    public function afterUpdateElement(string $field_type, string $field_name, int $field_id)
+    {
+        $element = $this->getElement($field_id);
+        if (!$element) {
+            return;
+        }
+        $element->setPrimary(
+            array_merge(
+                $this->getPrimary(),
+                [
+                     $field_name => [$field_type,$field_id]
+                ]
+            )
+        );
+        $element->setElementId($field_id);
+        $element->afterUpdate();
+    }
+
 
     public function afterDelete()
     {

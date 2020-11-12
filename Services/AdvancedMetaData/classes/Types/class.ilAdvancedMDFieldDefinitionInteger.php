@@ -16,6 +16,8 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     protected $min; // [integer]
     protected $max; // [integer]
     protected $suffix; // [string]
+
+    protected $suffix_translations = [];
     
     //
     // generic types
@@ -30,20 +32,46 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     {
         return false;
     }
-    
-    
+
+    /**
+     * @return array
+     */
+    public function getSuffixTranslations()
+    {
+        return $this->suffix_translations;
+    }
+
+    /**
+     * @param string $language
+     * @param string $suffix
+     */
+    public function setSuffixTranslation(string $language, string $suffix)
+    {
+        $this->suffix_translations[$language] = $suffix;
+    }
+
+    /**
+     * @param array $suffix_translations
+     */
+    public function setSuffixTranslations(array $suffix_translations)
+    {
+        $this->suffix_translations = $suffix_translations;
+    }
+
     //
     // ADT
     //
-    
+
+    /**
+     * @return ilADTDefinition
+     * @throws Exception
+     */
     protected function initADTDefinition()
     {
-        $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Integer");
-
+        $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
         $def->setMin($this->getMin());
         $def->setMax($this->getMax());
-        $def->setSuffix($this->getSuffix());
-        
+        $def->setSuffix(isset($this->getSuffixTranslations()[$this->language]) ?  $this->getSuffixTranslations()[$this->language] : $this->getSuffix());
         return $def;
     }
     
@@ -131,6 +159,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $this->setMin($a_def["min"]);
         $this->setMax($a_def["max"]);
         $this->setSuffix($a_def["suffix"]);
+        $this->setSuffixTranslations(isset($a_def['suffix_translations']) ? $a_def['suffix_translations'] : []);
     }
     
     protected function getFieldDefinition()
@@ -138,11 +167,12 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         return array(
             "min" => $this->getMin(),
             "max" => $this->getMax(),
-            "suffix" => $this->getSuffix()
+            "suffix" => $this->getSuffix(),
+            'suffix_translations' => $this->getSuffixTranslations()
         );
     }
     
-    public function getFieldDefinitionForTableGUI()
+    public function getFieldDefinitionForTableGUI(string $content_language)
     {
         global $DIC;
 
@@ -157,19 +187,24 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
             $res[$lng->txt("md_adv_number_max")] = $this->getMax();
         }
         if ($this->getSuffix()) {
-            $res[$lng->txt("md_adv_number_suffix")] = $this->getSuffix();
+            if ($this->useDefaultLanguageMode($content_language)) {
+                $suffix = $this->getSuffix();
+            } else {
+                $suffix = $this->getSuffixTranslations()[$content_language] ?? '';
+            }
+            $res[$lng->txt("md_adv_number_suffix")] = $suffix;
         }
         
         return $res;
     }
-    
+
     /**
      * Add input elements to definition form
-     *
      * @param ilPropertyFormGUI $a_form
-     * @param bool $a_disabled
+     * @param bool              $a_disabled
+     * @param string            $language
      */
-    public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+    public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false, string $language = '')
     {
         global $DIC;
 
@@ -186,7 +221,13 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
         $a_form->addItem($max);
         
         $suffix = new ilTextInputGUI($lng->txt("md_adv_number_suffix"), "suffix");
-        $suffix->setValue($this->getSuffix());
+        if ($this->useDefaultLanguageMode($language)) {
+            $suffix->setValue($this->getSuffix());
+        } else {
+            $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id)->getDefaultLanguage();
+            $suffix->setInfo($default_language . ': ' . $this->getSuffix());
+            $suffix->setValue(isset($this->getSuffixTranslations()[$language]) ? $this->getSuffixTranslations()[$language] : '');
+        }
         $suffix->setSize(10);
         $a_form->addItem($suffix);
                 
@@ -196,22 +237,27 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
             $suffix->setDisabled(true);
         }
     }
-    
+
     /**
      * Import custom post values from definition form
-     *
      * @param ilPropertyFormGUI $a_form
+     * @param string            $language
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
         $min = $a_form->getInput("min");
         $this->setMin(($min !== "") ? $min : null);
         
         $max = $a_form->getInput("max");
         $this->setMax(($max !== "") ? $max : null);
-        
-        $suffix = $a_form->getInput("suffix");
-        $this->setSuffix(($suffix !== "") ? $suffix : null);
+
+        if ($this->useDefaultLanguageMode($language)) {
+            $suffix = $a_form->getInput("suffix");
+            $this->setSuffix(($suffix !== "") ? $suffix : null);
+        } else {
+            $suffix = $a_form->getInput('suffix');
+            $this->setSuffixTranslation($language, $suffix);
+        }
     }
     
     
