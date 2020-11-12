@@ -66,10 +66,6 @@ class ilObjFileGUI extends ilObject2GUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        if ($this->id_type == self::WORKSPACE_NODE_ID) {
-            ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
-        }
-
         if (!$this->getCreationMode()) {
             if ($this->id_type == self::REPOSITORY_NODE_ID
                 && $this->checkPermissionBool("read")

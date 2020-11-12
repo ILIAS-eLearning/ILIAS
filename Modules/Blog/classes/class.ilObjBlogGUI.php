@@ -365,8 +365,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         
         $blga_set = new ilSetting("blga");
         if ($blga_set->get("banner")) {
-            ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
-            
             $dimensions = " (" . $blga_set->get("banner_width") . "x" .
                 $blga_set->get("banner_height") . ")";
             

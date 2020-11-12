@@ -1613,7 +1613,6 @@ class ilObjUserGUI extends ilObjectGUI
     }
 
 
-    // BEGIN DiskQuota: Allow administrators to edit user picture
     /**
     * upload user image
     *
@@ -1735,7 +1734,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->editObject();
     }
-    // END DiskQuota: Allow administrators to edit user picture
 
     /**
     * assign users to role

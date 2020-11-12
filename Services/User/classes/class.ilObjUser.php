@@ -2209,7 +2209,6 @@ class ilObjUser extends ilObject
         return $this->approve_date;
     }
 
-    // BEGIN DiskQuota: show when user accepted user agreement
     /**
     * get the date when the user accepted the user agreement
     * @access   public
@@ -2229,7 +2228,6 @@ class ilObjUser extends ilObject
     {
         $this->agree_date = $a_str;
     }
-    // END DiskQuota: show when user accepted user agreement
 
     /**
     * set user active state and updates system fields appropriately
