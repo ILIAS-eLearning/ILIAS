@@ -5857,3 +5857,15 @@ $ilDB->update(
     ]
 );
 ?>
+<#5751>
+<?php
+if (!$ilDB->tableColumnExists('media_item', 'duration')) {
+    $ilDB->addTableColumn('media_item', 'duration', array(
+        "type" => "integer",
+        "notnull" => true,
+        "length" => 4,
+        "default" => 0
+    ));
+}
+
+?>

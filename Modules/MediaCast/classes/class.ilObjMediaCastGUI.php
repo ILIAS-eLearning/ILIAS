@@ -11,7 +11,7 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 * @version $Id$
 *
 * @ilCtrl_Calls ilObjMediaCastGUI: ilPermissionGUI, ilInfoScreenGUI, ilExportGUI
-* @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI
+* @ilCtrl_Calls ilObjMediaCastGUI: ilCommonActionDispatcherGUI, ilMediaCreationGUI
 * @ilCtrl_Calls ilObjMediaCastGUI: ilLearningProgressGUI, ilObjectCopyGUI
 * @ilCtrl_IsCalledBy ilObjMediaCastGUI: ilRepositoryGUI, ilAdministrationGUI
 */
@@ -98,6 +98,23 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->prepareOutput();
   
         switch ($next_class) {
+
+            case "ilmediacreationgui":
+                $this->ctrl->setReturn($this, "listItems");
+                $ilTabs->activateTab("content");
+                $this->addContentSubTabs("manage");
+                $creation = new ilMediaCreationGUI([ilMediaCreationGUI::TYPE_ALL], function($mob_id) {
+                    $this->afterUpload($mob_id);
+                }, function($mob_id, $long_desc) {
+                    $this->afterUrlSaving($mob_id, $long_desc);
+                },function($mob_ids) {
+                    $this->afterPoolInsert($mob_ids);
+                });
+                $creation->setAllSuffixes($this->purposeSuffixes["Standard"]);
+                $creation->setAllMimeTypes($this->mimeTypes);
+                $this->ctrl->forwardCommand($creation);
+                break;
+
             case "ilinfoscreengui":
                 if (!$this->checkPermissionBool("read")) {
                     $this->checkPermission("visible");
@@ -218,7 +235,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $table_gui->setData($med_items);
         
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$a_presentation_mode) {
-            $ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTarget($this, "addCastItem"));
+            $ilToolbar->addButton($lng->txt("add"), $this->ctrl->getLinkTargetByClass("ilMediaCreationGUI", ""));
             
             $table_gui->addMultiCommand("confirmDeletionItems", $lng->txt("delete"));
             $table_gui->setSelectAllCheckbox("item_id");
@@ -1767,4 +1784,78 @@ class ilObjMediaCastGUI extends ilObjectGUI
         }
         exit;
     }
+
+    /**
+     *
+     * @param
+     * @return
+     */
+    protected function handlePlayerCompletedEventObject()
+    {
+        $mob_id = (int) $_GET["mob_id"];
+        if ($mob_id > 0) {
+            $ilUser = $this->user;
+            $this->object->handleLPUpdate($ilUser->getId(), $mob_id);
+        }
+        exit;
+    }
+
+    /**
+     * After mob upload
+     * @param $mob_id
+     */
+    protected function afterUpload($mob_id) {
+        $mob = new ilObjMediaObject($mob_id);
+        $med_item = $mob->getMediaItem("Standard");
+        $med_item->determineDuration();
+
+        $this->addMobsToCast([$mob_id]);
+    }
+
+    /**
+     * After mob upload
+     * @param $mob_id
+     * @param $long_desc
+     */
+    protected function afterUrlSaving($mob_id, $long_desc) {
+        $this->addMobsToCast([$mob_id], $long_desc);
+    }
+
+    /**
+     * After mob upload
+     * @param array $mob_ids
+     * @param string $long_desc
+     */
+    protected function addMobsToCast($mob_ids, $long_desc = "") {
+        $ctrl = $this->ctrl;
+        $user = $this->user;
+
+        $item_ids = [];
+        foreach ($mob_ids as $mob_id) {
+            $item_ids[] = $this->object->addMobToCast($mob_id, $user->getId(), $long_desc);
+        }
+
+        if (count($item_ids) == 1) {
+            $ctrl->setParameter($this, "item_id", $item_ids[0]);
+            $ctrl->setParameter($this, "pupose", "Standard");
+            $ctrl->redirect($this, "editCastItem");
+        }
+        $ctrl->redirect($this, "listItems");
+    }
+
+
+    /**
+     * After pool insert
+     * @param $mob_ids
+     */
+    protected function afterPoolInsert($mob_ids)
+    {
+        $this->addMobsToCast($mob_ids);
+    }
+
+    protected function handleAutoplayTriggerObject () {
+        $this->user->writePref("mcst_autoplay", (int) $_GET["autoplay"]);
+        exit;
+    }
+
 }

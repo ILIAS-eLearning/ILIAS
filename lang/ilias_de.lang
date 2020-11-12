@@ -16379,3 +16379,8 @@ note#:#note_enable_comments_export_info#:#Erlaubt innerhalb von Objekten wie Por
 note#:#note_html_export_include_comments#:#Sollen die Kommentare mit exportiert werden?
 wiki#:#wiki_incl_comments#:#inklusive Kommentare
 blog#:#blog_incl_comments#:#inklusive Kommentare
+mob#:#mob_upload_file#:#Datei hochladen
+mob#:#mob_external_url#:#Externe URL
+mob#:#mob_choose_from_pool#:#Aus Medienpool
+mob#:#mob_url#:#URL
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.

@@ -439,7 +439,19 @@ class ilObjMediaCast extends ilObject
             $ilDB->manipulate($sql);
         }
     }
-    
+
+    /**
+     * Copy order
+     */
+    protected function copyOrder($newObj, $mapping)
+    {
+        $items = [];
+        foreach ($this->readOrder() as $i) {
+            $items[] = $mapping[$i];
+        }
+        $newObj->saveOrder($items);
+    }
+
     /**
      * Clone media cast
      *
@@ -472,10 +484,10 @@ class ilObjMediaCast extends ilObject
         ilBlockSetting::_write("news", "keep_rss_min", $keeprss, 0, $new_obj->getId());
 
         // copy items
-        $this->copyItems($new_obj);
+        $mapping = $this->copyItems($new_obj);
+        $this->copyOrder($new_obj, $mapping);
         
-        // copy order!?
-        
+
         // clone LP settings
         include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
@@ -502,14 +514,15 @@ class ilObjMediaCast extends ilObject
     public function copyItems($a_new_obj)
     {
         $ilUser = $this->user;
-        
+
+        $item_mapping = [];
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         foreach ($this->readItems(true) as $item) {
             // copy media object
             $mob_id = $item["mob_id"];
             $mob = new ilObjMediaObject($mob_id);
             $new_mob = $mob->duplicate();
-            
+
             // copy news item
             // create new media cast item
             include_once("./Services/News/classes/class.ilNewsItem.php");
@@ -525,7 +538,9 @@ class ilObjMediaCast extends ilObject
             $mc_item->setVisibility($item["visibility"]);
             $mc_item->create();
             $this->mob_mapping[$mob_id] = $new_mob->getId();
+            $item_mapping[$item["id"]] = $mc_item->getId();
         }
+        return $item_mapping;
     }
     
     public function handleLPUpdate($a_user_id, $a_mob_id)
@@ -543,4 +558,63 @@ class ilObjMediaCast extends ilObject
         require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);
     }
+
+    /**
+     * Add mob to cast
+     * @param        $mob_id
+     * @param        $user_id
+     * @param string $long_desc
+     */
+    public function addMobToCast($mob_id, $user_id, $long_desc = "")
+    {
+        $mob = new ilObjMediaObject($mob_id);
+        $news_set = new ilSetting("news");
+        $enable_internal_rss = $news_set->get("enable_rss_for_internal");
+
+        // create new media cast item
+        $mc_item = new ilNewsItem();
+        $mc_item->setMobId($mob->getId());
+        $mc_item->setContentType(NEWS_AUDIO);
+        $mc_item->setContextObjId($this->getId());
+        $mc_item->setContextObjType($this->getType());
+        $mc_item->setUserId($user_id);
+        $med_item = $mob->getMediaItem("Standard");
+        $mc_item->setPlaytime($this->getPlaytimeForSeconds($med_item->getDuration()));
+        $mc_item->setTitle($mob->getTitle());
+        $mc_item->setContent($mob->getLongDescription());
+        if ($long_desc != "") {
+            $mc_item->setContent($long_desc);
+        }
+        $mc_item->setLimitation(false);
+        // @todo handle visibility
+        $mc_item->create();
+
+        $lp = ilObjectLP::getInstance($this->getId());
+
+        // see ilLPListOfSettingsGUI assign
+        $collection = $lp->getCollectionInstance();
+        if ($collection && $collection->hasSelectableItems()) {
+            $collection->activateEntries([$mob_id]);
+            $lp->resetCaches();
+            ilLPStatusWrapper::_refreshStatus($this->getId());
+        }
+        return $mc_item->getId();
+    }
+
+    /**
+     * Get playtime for seconds
+     * @param int
+     * @return string
+     */
+    protected function getPlaytimeForSeconds(int $seconds)
+    {
+        $hours = floor($seconds/3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $seconds = $seconds % 60;
+        $duration = str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" .
+            str_pad($minutes, 2, "0", STR_PAD_LEFT) . ":" .
+            str_pad($seconds, 2, "0", STR_PAD_LEFT);
+        return $duration;
+    }
+
 }
