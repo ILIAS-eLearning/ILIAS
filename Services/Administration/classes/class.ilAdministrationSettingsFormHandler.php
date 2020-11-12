@@ -13,7 +13,7 @@ class ilAdministrationSettingsFormHandler
     
     const FORM_PRIVACY = 1;
     const FORM_SECURITY = 2;
-    const FORM_FILES_QUOTA = 3;
+    //Not used aymore: const FORM_FILES_QUOTA = 3;
     const FORM_LP = 4;
     const FORM_MAIL = 5;
     const FORM_COURSE = 6;
@@ -46,6 +46,7 @@ class ilAdministrationSettingsFormHandler
     const SETTINGS_PORTFOLIO = "prfa";
     const SETTINGS_LP_COMPLETION_STATUS = "trac";
     const SETTINGS_LEARNINGSEQUENCE = "lsos";
+    const SETTINGS_COMMENTS = "coms";
 
     const VALUE_BOOL = "bool";
     
@@ -104,11 +105,7 @@ class ilAdministrationSettingsFormHandler
                 break;
             
             case self::FORM_PRIVACY:
-                $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES);
-                break;
-            
-            case self::FORM_FILES_QUOTA:
-                $types = array(self::SETTINGS_PR);
+                $types = array(self::SETTINGS_ROLE, self::SETTINGS_FORUM, self::SETTINGS_LRES, self::SETTINGS_COMMENTS);
                 break;
             
             case self::FORM_LP:

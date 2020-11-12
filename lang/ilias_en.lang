@@ -379,8 +379,6 @@ forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
-common#:#pwsp_recalculate_disk_quota#:#Personal Resources: Recalculation of Disk Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal resources.
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_behaviour#:#Block Behaviour
@@ -1973,16 +1971,19 @@ common#:#withdraw_consent#:#Withdraw Acceptance
 common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
 common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
 common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
-common#:#withdraw#:#Withdraw
 common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
 common#:#withdraw_usr_agreement#:#Withdraw
 common#:#accept_usr_agreement_btn#:#Accept
 common#:#deny_usr_agreement#:#Do not accept terms of service?
 common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#withdrawal_complete#:#Withdrawal of consent complete.
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,\n\nI hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.\n\nKind regards\n\n
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
 common#:#access_free_granted#:#Set the selected user(s) to unlimited access
 common#:#access_from#:#Access (from)
@@ -2462,19 +2463,6 @@ common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
 common#:#disable_hide_user_toggle#:#Member is allowed to deactivate
 common#:#disable#:#disable
 common#:#disabled#:#Disabled
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".
-common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".
-common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.
-common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent
-common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.
-common#:#disk_quota_reminder_mail#:#Reminder mail
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.
-common#:#disk_quota_report#:#Disk Quota Report
-common#:#disk_quota#:#Disk Quota
-common#:#disk_usage_details#:#Disk Usage Details
-common#:#disk_usage#:#Disk Usage
 common#:#domain#:#Domain
 common#:#down#:#Down
 common#:#download_all_returned_files#:#Download all Submissions
@@ -2499,7 +2487,6 @@ common#:#email#:#E-Mail
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enable_custom_icons#:#Enable custom icons
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails
 common#:#enable_download_folder_info#:#Enables a download option inside the action drop-down of folders.
 common#:#enable_download_folder#:#"Download Action for Folders" enabled
 common#:#enable_fora_statistics_desc#:#If disabled, nobody is able to access the forum statistics.
@@ -2647,7 +2634,6 @@ common#:#filetype#:#File Type
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#filter_users_with_access#:#Only users with access
 common#:#filter_users_with_disk_usage#:#Only users with disk space used
-common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded
 common#:#filter_users_without_access#:#Only users without access
 common#:#filter_users_without_disk_usage#:#Only users with no disk space used
 common#:#filter#:#Filter
@@ -4707,15 +4693,15 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link, e.g.:
+content#:#cont_text_iln#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
 content#:#cont_text_placehl#:#Text Placeholder
-content#:#cont_text_quot#:#Quotation:
-content#:#cont_text_str#:#Strong Text:
-content#:#cont_text_tex#:#LaTeX Code:
-content#:#cont_text_xln#:#External Link:
+content#:#cont_text_quot#:#Quotation
+content#:#cont_text_str#:#Strong Text
+content#:#cont_text_tex#:#LaTeX Code
+content#:#cont_text_xln#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
@@ -8527,14 +8513,8 @@ common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status is not displayed and does not influence parent objects.
 common#:#cronjob_last_start#:#Last Start of the Cron Job
-common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
-common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
-common#:#disk_quota_summary_rctp#:#Recipients
-common#:#disk_quota_summary_rctp_desc#:#Enter the user names (comma-separated) of those users who shall receive a daily report with users currently exceeding the disk quota.
-common#:#disk_quota_exceeded_headline#:#The following users have exceeded their disk quota:
 common#:#usrf_profile_link#:#Link to user profile
 common#:#currently_used_disk_space#:#Currently used disk space
-common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota
 common#:#cronjob_last_start_unknown#:#Indeterminate
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.
@@ -9736,8 +9716,7 @@ rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 content#:#cont_ed_copy#:#Copy
 content#:#cont_ed_cut#:#Cut
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select ‘Paste’.
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select ‘Paste’.
+content#:#cont_sel_el_use_paste#:#Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’.
 survey#:#survey_question_editor_settings_template#:#List View (in Tab ‘Questions’)
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
 rbac#:#rbac_precondition_source#:#Condition Trigger
@@ -11273,7 +11252,6 @@ registration#:#registration_codes_override_global_info#:#These settings may be o
 crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-file#:#repository_disk_quota#:#Soft Disk Quota for Repository
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
@@ -12152,7 +12130,6 @@ ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
-file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and e-mails will be sent to administrators and users optionally.
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
@@ -14862,6 +14839,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
@@ -14997,6 +14975,9 @@ mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Actions
 mme#:#sub_icon#:#Icon
 mme#:#sub_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
+mme#:#sub_role_based_visibility#:#Visibility for roles
+mme#:#sub_role_based_visibility_byline#:#Choose global roles which can see this item. If not activated, the item is always shown.
+mme#:#sub_global_roles#:#Global Roles
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
@@ -15606,8 +15587,6 @@ svy#:#svy_status_finished#:#Finished
 svy#:#svy_users_invited#:#Users have been invited.
 svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
-file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
-file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 common#:#personal_resources#:#Personal Resources
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
@@ -16425,3 +16404,25 @@ adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user w
 adn#:#msg_form_button_updateAndStay#:#Save and Stay
 adn#:#common_actions#:#Actions
 adn#:#common_add_msg#:#Add Notification
+content#:#cont_link_user#:#User Link
+content#:#cont_delete_content#:#Delete Content
+adve#:#adve_autosave#:#Automatic Saving Intervall
+adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
+content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_multi#:#Selection
+content#:#cont_block_format#:#Section Format
+content#:#cont_upload_file#:#Upload File
+content#:#cont_add_url#:#From URL
+content#:#cont_url_info#:#URL of a media file or Youtube URL.
+content#:#cont_choose_from_pool#:#Select from Media Pool
+content#:#cont_choose_media_pool#:#Select Pool
+content#:#cont_no_block#:#No Section
+content#:#cont_show_fullscreen#:#Show Fullscreen
+content#:#cont_advanced_settings#:#Advanced Settings
+content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_last_update#:#Last Update
+common#:#enable_comments_export#:#Enable Comments Export
+note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.
+note#:#note_html_export_include_comments#:#Should comments be included in the export?
+wiki#:#wiki_incl_comments#:#including comments
+blog#:#blog_incl_comments#:#including comments

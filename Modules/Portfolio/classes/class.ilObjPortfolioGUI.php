@@ -114,8 +114,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 if ($this->determinePageCall()) {
                     // only in edit mode
                     $this->addLocator();
-                                        
-                    ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
                 }
                 $this->handlePageCall($cmd);
                 break;
@@ -827,10 +825,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         }
             
         $has_form_content = false;
-                
-        $check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
-        $quota_sum = 0;
-                            
+
         $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
         $skill_ids = array();
         
@@ -842,9 +837,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                     $source_page->buildDom(true);
                     $skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
 
-                    if ($check_quota) {
-                        $quota_sum += $source_page->getPageDiskSize();
-                    }
                     if (sizeof($skill_ids)) {
                         $has_form_content = true;
                     }
@@ -1052,10 +1044,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 }
             }
 
-            //quota manipulation
-            $check_quota = (int) ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
-            $quota_sum = 0;
-
             //skills manipulation
             $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
             $skill_ids = array();
@@ -1071,9 +1059,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                     case ilPortfolioTemplatePage::TYPE_PAGE:
                         $source_page = new ilPortfolioTemplatePage($page["id"]);
                         $source_page->buildDom(true);
-                        if ($check_quota) {
-                            $quota_sum += $source_page->getPageDiskSize();
-                        }
                         $skill_ids = $this->getSkillsToPortfolioAssignment($pskills, $skill_ids, $source_page);
                         break;
                 }

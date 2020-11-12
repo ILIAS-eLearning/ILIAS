@@ -497,6 +497,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // page content
         $this->setOutputMode(ilPageObjectGUI::PRESENTATION);
+        $this->showEditToolbar();
         $this->setRenderPageContainer(true);
         $wtpl->setVariable("PAGE", $this->showPage());
 
@@ -1461,4 +1462,19 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ilUtil::deliverFile($submitted["filename"], $title);
         }
     }
+
+    /**
+     * @return string
+     */
+    public function getCommentsHTMLExport()
+    {
+        return $this->getNotesHTML($this->getPageObject(),
+            false,
+            ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
+            false,
+            null,
+            true
+        );
+    }
+
 }

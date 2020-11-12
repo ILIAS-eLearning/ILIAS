@@ -32,10 +32,10 @@ use ilMMTypeHandlerLink;
 use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
+use ilObjMainMenuAccess;
 
 /**
  * Class CustomMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements StaticMainMenuProvider
@@ -46,10 +46,13 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
      */
     private $access_helper;
     /**
+     * @var ilObjMainMenuAccess
+     */
+    private $mm_access;
+    /**
      * @var \ILIAS\DI\Container
      */
     protected $dic;
-
 
     /**
      * @inheritDoc
@@ -57,9 +60,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->mm_access = new ilObjMainMenuAccess();
         $this->access_helper = BasicAccessCheckClosures::getInstance();
     }
-
 
     /**
      * @return TopParentItem[]
@@ -77,7 +80,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $top_items;
     }
 
-
     /**
      * @return isItem[]
      */
@@ -94,18 +96,18 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $items;
     }
 
-
     /**
      * @param ilMMCustomItemStorage $storage
      * @param bool                  $register
-     *
      * @return isItem
      */
     public function getSingleCustomItem(ilMMCustomItemStorage $storage, $register = false) : isItem
     {
         $identification = $this->globalScreen()->identification()->core($this)->identifier($storage->getIdentifier());
 
-        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification)->withVisibilityCallable($this->access_helper->isUserLoggedIn());
+        $item = $this->globalScreen()->mainBar()->custom($storage->getType(), $identification)->withVisibilityCallable(
+            $this->mm_access->isCurrentUserAllowedToSeeCustomItem($storage)
+        );
 
         if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
             $item = $item->withTitle($storage->getDefaultTitle());
@@ -123,8 +125,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
             if ($parent_identification) {
                 $item = $item->withParent(
                     $this->globalScreen()
-                        ->identification()
-                        ->fromSerializedIdentification($parent_identification)
+                         ->identification()
+                         ->fromSerializedIdentification($parent_identification)
                 );
             }
         }
@@ -136,7 +138,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $item;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -144,20 +145,26 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     {
         $c = new TypeInformationCollection();
         // TopParentItem
-        $c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class), new TopParentItemRenderer()));
+        $c->add(new TypeInformation(TopParentItem::class, $this->translateType(TopParentItem::class),
+            new TopParentItemRenderer()));
         // TopLinkItem
-        $c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class), new TopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
+        $c->add(new TypeInformation(TopLinkItem::class, $this->translateType(TopLinkItem::class),
+            new TopLinkItemRenderer(), new ilMMTypeHandlerTopLink()));
         // Link
-        $c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new LinkItemRenderer(), new ilMMTypeHandlerLink()));
+        $c->add(new TypeInformation(Link::class, $this->translateType(Link::class), new LinkItemRenderer(),
+            new ilMMTypeHandlerLink()));
 
         // LinkList
-        $link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class), new LinkListItemRenderer());
+        $link_list = new TypeInformation(LinkList::class, $this->translateType(LinkList::class),
+            new LinkListItemRenderer());
         $link_list->setCreationPrevented(true);
         $c->add($link_list);
         // Separator
-        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), new SeparatorItemRenderer(), new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
+        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class),
+            new SeparatorItemRenderer(), new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
         // RepositoryLink
-        $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), new RepositoryLinkItemRenderer(), new ilMMTypeHandlerRepositoryLink()));
+        $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class),
+            new RepositoryLinkItemRenderer(), new ilMMTypeHandlerRepositoryLink()));
         // Lost
         $lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new LostItemRenderer());
         $lost->setCreationPrevented(true);
@@ -170,10 +177,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $c;
     }
 
-
     /**
      * @param string $type
-     *
      * @return string
      */
     private function translateType(string $type) : string
@@ -184,10 +189,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         return $this->dic->language()->txt("type_" . strtolower($last_part));
     }
 
-
     /**
      * @param string $type
-     *
      * @return string
      */
     private function translateByline(string $type) : string
@@ -197,7 +200,6 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
 
         return $this->dic->language()->txt("type_" . strtolower($last_part) . "_info");
     }
-
 
     /**
      * @inheritDoc

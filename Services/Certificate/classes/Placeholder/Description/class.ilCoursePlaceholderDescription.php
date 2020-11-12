@@ -12,6 +12,10 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     private $defaultPlaceHolderDescriptionObject;
 
     /**
+     * @var ilObjectCustomUserFieldsPlaceholderDescription
+     */
+    private $customUserFieldsPlaceholderDescriptionObject;
+    /**
      * @var ilLanguage|null
      */
     private $language;
@@ -22,14 +26,18 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
     private $placeholder;
 
     /**
+     * @param int $objectId
      * @param ilDefaultPlaceholderDescription|null           $defaultPlaceholderDescriptionObject
      * @param ilLanguage|null                                $language
      * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
+     * @param ilObjectCustomUserFieldsPlaceholderDescription|null $customUserFieldsPlaceholderDescriptionObject
      */
     public function __construct(
+        int $objectId,
         ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ilLanguage $language = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null,
+        ilObjectCustomUserFieldsPlaceholderDescription $customUserFieldsPlaceholderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -44,7 +52,15 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
-        $this->placeholder = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        if (null === $customUserFieldsPlaceholderDescriptionObject) {
+            $customUserFieldsPlaceholderDescriptionObject = new ilObjectCustomUserFieldsPlaceholderDescription($objectId);
+        }
+        $this->customUserFieldsPlaceholderDescriptionObject = $customUserFieldsPlaceholderDescriptionObject;
+
+        $customUserFieldsPlaceholderHtmlDescription = $this->customUserFieldsPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        $defaultPlaceholderDescription = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+
+        $this->placeholder = array_merge($defaultPlaceholderDescription, $customUserFieldsPlaceholderHtmlDescription);
         $this->placeholder['COURSE_TITLE'] = $this->language->txt('crs_title');
         $this->placeholder['DATE_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_date_completed'));
         $this->placeholder['DATETIME_COMPLETED'] = ilUtil::prepareFormOutput($language->txt('certificate_ph_datetime_completed'));

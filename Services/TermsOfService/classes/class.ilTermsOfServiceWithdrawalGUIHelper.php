@@ -1,123 +1,203 @@
-<?php
+<?php declare(strict_types=1);
 
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 
+/**
+ * Class ilTermsOfServiceWithdrawalGUIHelper
+ * @author Maximilian Becker <mbecker@databay.de>
+ */
 class ilTermsOfServiceWithdrawalGUIHelper
 {
     /** @var ilLanguage $lng */
     protected $lng;
-
     /** @var ilCtrl $ctrl */
     protected $ctrl;
-
     /** @var ilSetting $setting */
     protected $setting;
-
     /** @var ilTemplate $tpl */
     protected $tpl;
-
     /** @var ilObjUser $user */
     protected $user;
-
     /** @var Factory $factory */
-    protected $factory;
+    protected $uiFactory;
+    /** @var Renderer $renderer */
+    protected $uiRenderer;
 
+    /**
+     * ilTermsOfServiceWithdrawalGUIHelper constructor.
+     */
     public function __construct()
     {
         global $DIC;
+
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->setting = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->user = $DIC->user();
-        $this->factory = $DIC->ui()->factory();
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
     }
 
-    public function modifyFooter($footer)
+    /**
+     * @return ilTemplate
+     */
+    private function getWithdrawalSectionForModal() : ilTemplate
+    {
+        $template = new ilTemplate('tpl.tos_withdrawal_section.html', true, true, 'Services/TermsOfService');
+        $template->setVariable('TXT_TOS_WITHDRAWAL_HEADLINE', $this->lng->txt('withdraw_consent_header'));
+        $template->setVariable('TXT_TOS_WITHDRAWAL', $this->lng->txt('withdraw_consent_description'));
+        $template->setVariable(
+            'BTN_TOS_WITHDRAWAL',
+            $this->uiRenderer->render(
+                $this->uiFactory->button()->standard($this->lng->txt('withdraw_consent'), 'logout.php?withdraw_consent')
+            )
+        );
+
+        return $template;
+    }
+
+    /**
+     * @param Footer $footer
+     * @return Footer
+     * @throws ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    public function modifyFooter(Footer $footer) : Footer
     {
         if (
             !$this->user->isAnonymous() &&
             (int) $this->user->getId() > 0 &&
-            $this->user->getAgreeDate()) {
-            $helper = new \ilTermsOfServiceHelper();
+            $this->user->getAgreeDate()
+        ) {
+            $helper = new ilTermsOfServiceHelper();
             $entity = $helper->getCurrentAcceptanceForUser($this->user);
             if ($entity->getId()) {
-                $tos_gui = new \ilObjTermsOfServiceGUI();
                 $footer = $footer->withAdditionalModalAndTrigger(
-                    $this->factory->modal()->roundtrip(
+                    $this->uiFactory->modal()->roundtrip(
                         $entity->getTitle(),
-                        $this->factory->legacy($entity->getText() . $tos_gui->getWithdrawalSectionForModal()->get())
+                        $this->uiFactory->legacy($entity->getText() . $this->getWithdrawalSectionForModal()->get())
                     ),
-                    $this->factory->button()->shy($this->lng->txt('usr_agreement'), '#')
+                    $this->uiFactory->button()->shy($this->lng->txt('usr_agreement'), '#')
                 );
             }
         }
+
         return $footer;
     }
 
-    public function getConsentWithdrawalConfirmation(ilPersonalProfileGUI $parent_object) : string
+    /**
+     * @param object $parentObject
+     * @return string
+     */
+    public function getConsentWithdrawalConfirmation(object $parentObject) : string
     {
         $defaultAuth = AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
         }
 
-        $tpl = new \ilTemplate('tpl.withdraw_terms_of_service.html', true, true, 'Services/TermsOfService');
-        /** @var ilObjUser $user */
-        $user = $GLOBALS['DIC']->user();
-        if (
-            $user->getAuthMode() == AUTH_LDAP ||
-            ($user->getAuthMode() == 'default' && $defaultAuth == AUTH_LDAP)
-        ) {
-            $message = nl2br(
-                $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text')
-            );
+        $isLdapUser = (
+            $this->user->getAuthMode() == AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+        );
 
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $message);
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($parent_object, 'cmd[withdrawAcceptanceLDAP]'));
-        } else {
-            $tpl->setVariable('TERMS_OF_SERVICE_WITHDRAWAL_CONTENT', $this->lng->txt('withdraw_consent_info'));
-            $tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($parent_object, 'cmd[withdrawAcceptance]'));
+        $question = $this->lng->txt('withdrawal_sure_account');
+        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', false))  {
+            $question = $this->lng->txt('withdrawal_sure_account_deletion');
         }
 
-        $tpl->setVariable('WITHDRAW_TERMS_OF_SERVICE', $this->lng->txt('withdraw_usr_agreement'));
-        $tpl->setVariable('TXT_WITHDRAW', $this->lng->txt('withdraw'));
-        $tpl->setVariable('TXT_CANCEL', $this->lng->txt('cancel'));
+        $confirmation = $this->uiFactory->messageBox()->confirmation($question)->withButtons([
+            $this->uiFactory->button()->standard(
+                $this->lng->txt('confirm'),
+                $this->ctrl->getFormAction($parentObject, 'withdrawAcceptance')
+            ),
+            $this->uiFactory->button()->standard(
+                $this->lng->txt('cancel'),
+                $this->ctrl->getFormAction($parentObject, 'cancelWithdrawal')
+            ),
+        ]);
 
-        return $tpl->get();
+        if ($isLdapUser) {
+            $message = nl2br(str_ireplace("[BR]", "\n", sprintf(
+                $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text'),
+                $this->user->getFullname(),
+                $this->user->getLogin(),
+                $this->user->getExternalAccount()
+            )));
+
+            $panelContent = $this->uiFactory->legacy(
+                $this->uiRenderer->render([
+                    $confirmation,
+                    $this->uiFactory->divider()->horizontal(),
+                    $this->uiFactory->legacy($message)
+                ])
+            );
+
+            $content = $this->uiRenderer->render(
+                $this->uiFactory->panel()->standard($this->lng->txt('withdraw_usr_agreement'), $panelContent)
+            );
+        } else {
+            $content = $this->uiRenderer->render($confirmation);
+        }
+
+        return $content;
     }
 
     /**
      * @param RequestInterface $httpRequest
      */
-    public function setWithdrawalInfo(RequestInterface $httpRequest) : void
+    public function setWithdrawalInfoForLoginScreen(RequestInterface $httpRequest) : void
     {
-        if (isset($httpRequest->getQueryParams()['wdtdel'])) {
-            if ($httpRequest->getQueryParams()['wdtdel'] == 1) {
+        if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
+            $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];
+            if (1 === $withdrawalType) {
                 ilUtil::sendInfo($this->lng->txt('withdrawal_complete_deleted'));
-            } else {
+            } elseif (2 === $withdrawalType) {
                 ilUtil::sendInfo($this->lng->txt('withdrawal_complete_redirect'));
-            }
-        }
-    }
-
-    public function appendWithdrawalText(string $withdrawal_relogin) : string
-    {
-        $withdrawal_appendage_text = '';
-        if ($withdrawal_relogin !== 0) {
-            $withdrawal_appendage_text = '<br /><br />';
-            if ($withdrawal_relogin == 'internal') {
-                $withdrawal_appendage_text .= $this->lng->txt('withdraw_consent_description_internal');
             } else {
-                $withdrawal_appendage_text .= $this->lng->txt('withdraw_consent_description_external');
+                ilUtil::sendInfo($this->lng->txt('withdrawal_complete'));
             }
         }
-        return $withdrawal_appendage_text;
     }
 
-    public function handleWithdrawalRequest(ilObjUser $user, object $gui_class) : void
+    /**
+     * @param RequestInterface $httpRequest
+     * @return string
+     */
+    public function getWithdrawalTextForLogoutScreen(RequestInterface $httpRequest) : string
     {
+        $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
+
+        $text = '';
+        if ($withdrawalStatus !== 0) {
+            $text = $this->uiRenderer->render($this->uiFactory->divider()->horizontal());
+            if ($withdrawalStatus === 'internal') {
+                $text .= $this->lng->txt('withdraw_consent_description_internal');
+            } else {
+                $text .= $this->lng->txt('withdraw_consent_description_external');
+            }
+        }
+
+        return $text;
+    }
+
+    /**
+     * @param RequestInterface $httpRequest
+     * @param ilObjUser $user
+     * @param object $guiClass
+     */
+    public function handleWithdrawalLogoutRequest(
+        RequestInterface $httpRequest,
+        ilObjUser $user,
+        object $guiClass
+    ) : void {
+        if (!isset($httpRequest->getQueryParams()['withdraw_consent'])) {
+            return;
+        }
+
         $defaultAuth = AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {
             $defaultAuth = $this->setting->get('auth_mode');
@@ -136,9 +216,9 @@ class ilTermsOfServiceWithdrawalGUIHelper
         $user->writePref('consent_withdrawal_requested', 1);
 
         if ($external) {
-            $this->ctrl->setParameter($gui_class, 'withdrawal_relogin_content', 'external');
+            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'external');
         } else {
-            $this->ctrl->setParameter($gui_class, 'withdrawal_relogin_content', 'internal');
+            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'internal');
         }
     }
 }

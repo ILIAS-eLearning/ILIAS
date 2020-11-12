@@ -726,7 +726,6 @@ class ilPCFileListGUI extends ilPageContentGUI
         $fileObj->setFileSize($_FILES["file"]["size"]);
         $fileObj->setMode("filelist");
         $fileObj->create();
-        $fileObj->raiseUploadError(false);
         // upload file to filesystem
         $fileObj->createDirectory();
 

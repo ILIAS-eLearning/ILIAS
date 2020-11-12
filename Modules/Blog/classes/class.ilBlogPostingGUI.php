@@ -207,7 +207,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     public function preview($a_mode = null)
     {
         global $DIC;
-
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilSetting = $this->settings;
@@ -623,7 +622,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
     }
     
-    protected function getActivationCaptions()
+    public function getActivationCaptions()
     {
         $lng = $this->lng;
         
@@ -909,4 +908,14 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     {
         return $this->lng->txt("blog_draft_text");
     }
+
+    /**
+     * @return string
+     */
+    public function getCommentsHTMLExport()
+    {
+        return $this->getNotesHTML($this->getBlogPosting(),
+            false, $this->enable_public_notes, false, null, true);
+    }
+
 }

@@ -69,7 +69,7 @@ class ilCertificateGUIFactory
             case 'crs':
                 $hasAdditionalElements = true;
 
-                $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
+                $placeholderDescriptionObject = new ilCoursePlaceholderDescription($objectId);
                 $placeholderValuesObject = new ilCoursePlaceholderValues();
 
 

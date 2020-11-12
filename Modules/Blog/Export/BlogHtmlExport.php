@@ -77,6 +77,11 @@ class BlogHtmlExport
     protected $keywords;
 
     /**
+     * @var bool
+     */
+    protected $include_comments = false;
+
+    /**
      * constructor
      * @param \ilObjBlogGUI $blog_gui
      * @param string $exp_dir
@@ -109,6 +114,15 @@ class BlogHtmlExport
     }
 
     /**
+     * Include comments
+     * @param bool $a_include_comments
+     */
+    public function includeComments($a_include_comments)
+    {
+        $this->include_comments = $a_include_comments;
+    }
+
+    /**
      * Initialize directories
      */
     protected function initDirectories()
@@ -137,10 +151,24 @@ class BlogHtmlExport
         // export pages
         $this->exportHTMLPages();
 
+        // export comments user images
+        $this->exportUserImages();
+
         $this->export_util->exportResourceFiles();
         $this->co_page_html_export->exportPageElements();
 
         return $this->zipPackage();
+    }
+
+    /**
+     * Export user images
+     */
+    protected function exportUserImages()
+    {
+        if ($this->include_comments) {
+            $user_export = new \ILIAS\Notes\Export\UserImageExporter();
+            $user_export->exportUserImagesForRepObjId($this->target_dir, $this->blog->getId());
+        }
     }
 
     /**
@@ -169,12 +197,14 @@ class BlogHtmlExport
     {
         // zip it all
         $date = time();
-        $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), "html", "blog") .
+        $type = ($this->include_comments)
+            ? "html_comments"
+            : "html";
+        $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), $type, "blog") .
             "/" . $date . "__" . IL_INST_ID . "__" .
             $this->blog->getType() . "_" . $this->blog->getId() . ".zip";
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
-
         return $zip_file;
     }
 
@@ -274,6 +304,10 @@ class BlogHtmlExport
                     $tpl = call_user_func($a_tpl_callback);
                 }
 
+                $comments = ($this->include_comments)
+                    ? $blp_gui->getCommentsHTMLExport()
+                    : "";
+
                 // posting nav
                 $nav = $this->blog_gui->renderNavigation(
                     "",
@@ -283,7 +317,7 @@ class BlogHtmlExport
                     $page["id"]
                 );
 
-                $this->writeExportFile($file, $tpl, $page_content, $nav, $back);
+                $this->writeExportFile($file, $tpl, $page_content, $nav, $back, $comments);
 
                 $this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
             }
@@ -367,7 +401,7 @@ class BlogHtmlExport
      * @throws \ILIAS\UI\NotImplementedException
      * @throws \ilTemplateException
      */
-    protected function writeExportFile(string $a_file, \ilGlobalPageTemplate $a_tpl, string $a_content, string $a_right_content = "", bool $a_back = false)
+    protected function writeExportFile(string $a_file, \ilGlobalPageTemplate $a_tpl, string $a_content, string $a_right_content = "", bool $a_back = false, $comments = "")
     {
         $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
@@ -384,6 +418,7 @@ class BlogHtmlExport
         );
         if ($a_back) {
             $ep_tpl->setVariable("PAGE_CONTENT", $a_content);
+            $ep_tpl->setVariable("COMMENTS", $comments);
         } else {
             $ep_tpl->setVariable("LIST", $a_content);
         }

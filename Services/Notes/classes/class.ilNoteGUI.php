@@ -95,6 +95,13 @@ class ilNoteGUI
     protected $no_actions = false;
 
     /**
+	 * @var bool
+	 */
+	protected $enable_sorting = true;
+
+	protected $user_img_export_html = false;
+
+	/**
     * constructor, specifies notes set
     *
     * @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
@@ -591,7 +598,7 @@ class ilNoteGUI
         $anch = $this->anchor_jump
             ? "notes_top"
             : "";
-        if (!$this->only_latest) {
+        if (!$this->only_latest && !$this->hide_new_form) {
             $tpl->setVariable("FORMACTION", $ilCtrl->getFormAction($this, "getNotesHTML", $anch));
             if ($this->ajax) {
                 $os = "onsubmit = \"ilNotes.cmdAjaxForm(event, '" .
@@ -698,7 +705,7 @@ class ilNoteGUI
             $reldates = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             
-            if (sizeof($notes) && !$this->only_latest) {
+            if (sizeof($notes) && !$this->only_latest && $this->enable_sorting) {
                 if ((int) $_SESSION["comments_sort_asc"] == 1) {
                     $sort_txt = $lng->txt("notes_sort_desc");
                     $sort_cmd = "listSortDesc";
@@ -778,7 +785,7 @@ class ilNoteGUI
                         $tpl->setCurrentBlock("user_img");
                         $tpl->setVariable(
                             "USR_IMG",
-                            ilObjUser::_getPersonalPicturePath($note->getAuthor(), "xsmall")
+                            ilObjUser::_getPersonalPicturePath($note->getAuthor(), "xsmall", false, false, $this->user_img_export_html)
                         );
                         $tpl->setVariable("USR_ALT", $lng->txt("user_image") . ": " .
                             ilObjUser::_lookupLogin($note->getAuthor()));
@@ -1835,6 +1842,17 @@ class ilNoteGUI
     }
 
     /**
+	 * Set export mode
+	 */
+	public function setExportMode()
+	{
+		$this->hide_new_form = true;
+		$this->no_actions = true;
+		$this->enable_sorting = false;
+        $this->user_img_export_html = true;
+	}
+
+	/**
      * Update widget
      *
      * @param

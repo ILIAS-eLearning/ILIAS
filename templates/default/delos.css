@@ -12681,6 +12681,11 @@ body.mceContentBody {
 body#tinymce {
   background-color: white;
 }
+html.il-no-tiny-bg body#tinymce {
+  background-color: transparent;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
 .ilHidden {
   visibility: hidden;
 }
@@ -14533,7 +14538,6 @@ button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
   padding: 1px 5px;
-  color: #b6b6b6;
   text-align: center;
   font-size: 12px;
   background-color: transparent;
@@ -14542,12 +14546,14 @@ button.copg-add.dropdown-toggle.btn:hover {
   height: 30px;
   border: 0;
 }
-button.copg-add.dropdown-toggle.btn .glyphicon,
-button.copg-add.dropdown-toggle.btn:focus .glyphicon,
-button.copg-add.dropdown-toggle.btn:hover .glyphicon {
+button.copg-add.dropdown-toggle.btn .glyphicon-plus,
+button.copg-add.dropdown-toggle.btn:focus .glyphicon-plus,
+button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus,
+#copg-editor-help .glyphicon-plus {
   border-radius: 50%;
   background-color: #f3f3f3;
   padding: 4px;
+  color: #b6b6b6;
 }
 button.copg-add.dropdown-toggle.btn:hover {
   background-color: #f3f3f3;
@@ -14588,7 +14594,8 @@ div.il_editarea {
   border: 2px solid transparent;
   min-height: 20px;
 }
-div.il_editarea:hover {
+div.il_editarea:hover,
+#tinytarget_ifr {
   border: 2px solid #4c6586;
 }
 div.ilc_page_Page > div.il_editarea_disabled {
@@ -14646,8 +14653,10 @@ div.ilEditLabel {
   border: 0;
   height: 15px;
   display: none;
+  z-index: 1;
 }
-div.il_editarea:hover > div.ilEditLabel {
+div.il_editarea:hover > div.ilEditLabel,
+.copg-ghost-wrapper div.ilEditLabel {
   display: block;
 }
 div.il_editarea_selected:hover > div.ilEditLabel {
@@ -14673,25 +14682,48 @@ div.ilEditVAccordICont {
   padding: 10px;
   background-color: white;
 }
-div.ilTinyMenuSection {
+.ilTinyMenuSection .dropdown,
+.il-copg-button-group .dropdown {
+  display: inline-block;
+}
+.ilTinyMenuSection .dropdown-menu .btn,
+.il-copg-button-group .dropdown-menu .btn {
+  border: 0;
+}
+.ilTinyMenuSection .btn svg {
+  fill: white;
+  margin: -8px;
+}
+div.ilTinyMenuSection,
+.il-copg-button-group {
   float: left;
   white-space: nowrap;
   /* border-right: 1px solid #e0e0e0; */
   /* padding: 0 10px 4px 0; */
   margin-right: 10px;
+  margin: 10px 10px 10px 0;
 }
-div.ilTinyMenuSection p {
-  margin: 20px 0 5px 0;
+div.ilTinyMenuSection p,
+.il-copg-button-group p {
+  margin-bottom: 5px;
   padding: 2px 5px;
   background-color: #efefef;
 }
 @media only screen and (max-width: 768px) {
-  div.ilTinyMenuSection {
+  div.ilTinyMenuSection,
+  .il-copg-button-group {
     height: 28px;
     margin: 3px 3px 3px 0px;
     padding: 0 10px 0 0;
     border-right: 0 none;
   }
+}
+div.il-copg-button-group ul.dropdown-menu {
+  right: auto;
+}
+div.il-copg-button-group-wide {
+  width: 100%;
+  float: none;
 }
 [dir="rtl"] div.ilTinyMenuSection {
   float: right;
@@ -14745,9 +14777,6 @@ div.ilTinyMenuSection p {
 }
 #iltinymenu a.btn {
   min-width: 30px;
-}
-#iltinymenu_bd {
-  padding: 10px;
 }
 #ilsaving {
   position: fixed;
@@ -14913,9 +14942,6 @@ a.nostyle:hover {
 #error_panel_c {
   z-index: 2000 !important;
 }
-#ilPageEditLegend {
-  padding: 10px;
-}
 #ilPageEditLegend > div {
   margin: 5px 0;
 }
@@ -14988,11 +15014,6 @@ div.ilc_question_SingleChoice .ilc_qanswer_Answer > div:first-child,
 div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
   padding-right: 10px;
 }
-@media only screen and (max-width: 768px) {
-  .ilTinyInfo {
-    display: none;
-  }
-}
 div.ilCOPGMediaPrint {
   background-color: #f9f9f9 !important;
   position: relative !important;
@@ -15009,12 +15030,111 @@ div.ilCOPGMediaPrint {
   margin: 0;
   border: 0;
 }
-#ilAdvSelListTable_style_selection,
-#ilTinyMenuButtons ul.dropdown-menu {
+.ilTinyParagraphClassSelector ul.dropdown-menu,
+.ilSectionClassSelector ul.dropdown-menu {
+  right: auto;
+}
+#il_prop_cont_characteristic ul.dropdown-menu {
   right: auto;
 }
 #iltinymenu .dropdown-menu li {
   padding: 0;
+}
+#tinytarget_ifr > body#tinymce {
+  background-color: inherit;
+}
+#tinytarget_ifr {
+  background-color: transparent;
+}
+#tinytarget_div {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+#tinytarget_div div.tox-edit-area {
+  background-color: transparent;
+}
+#tinytarget_div .tox-tinymce {
+  border: 0;
+  background-color: transparent;
+}
+.copg-ghost-wrapper {
+  min-height: 20px;
+  position: relative;
+  /* important for the absolute positioned tinytarget_div */
+}
+.copg-input-ghost {
+  visibility: hidden;
+  min-width: 100px;
+}
+#copg-editor-slate-content {
+  padding: 15px;
+}
+#copg-editor-slate-content p {
+  padding: 0;
+  margin: 5px 0;
+}
+#copg-editor-slate-content p.ilTinyInfo {
+  padding: 2px;
+}
+@media only screen and (max-width: 768px) {
+  #copg-editor-slate-content p.ilTinyInfo {
+    display: none;
+  }
+}
+#copg-editor-slate-content div.alert {
+  margin: 10px 0;
+}
+#copg-editor-slate-content form .ilFormHeader {
+  padding: 10px;
+}
+#copg-editor-slate-content form .ilFormHeader h3.ilHeader {
+  font-size: 14px;
+}
+#copg-editor-slate-content form .col-sm-3,
+#copg-editor-slate-content form .col-sm-9 {
+  width: 100%;
+}
+#copg-editor-slate-content form .control-label {
+  text-align: left;
+  font-weight: bold;
+}
+p#copg-auto-save {
+  padding: 0;
+  margin: -5px 0 0 0;
+}
+.copg-edit-container {
+  border: 1px dashed #d0d0d0;
+}
+/* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
+#il_EditPage [data-copg-ed-type="add-area"] {
+  position: relative;
+}
+#il_EditPage [data-copg-ed-type="add-area"] > .dropdown {
+  overflow: hidden;
+  position: static;
+}
+#il_EditPage [data-copg-ed-type="add-area"] > .dropdown > ul {
+  position: absolute;
+  z-index: 10;
+}
+#ed_datatable {
+  background-color: #ffffff;
+}
+#ed_datatable th {
+  background-color: #fbfbfb;
+}
+#ed_datatable th .dropdown button {
+  background-color: #fbfbfb;
+  text-align: center;
+  color: #303030;
+  width: 100%;
+  border: 0;
+}
+#ed_datatable th,
+#ed_datatable td {
+  border: 1px solid #CCCCCC;
 }
 /* Services/Calendar */
 td.even {
@@ -19705,3 +19825,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */

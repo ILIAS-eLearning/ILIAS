@@ -52,6 +52,11 @@ class ilObjWikiGUI extends ilObjectGUI
     protected $ui;
 
     /**
+     * @var bool
+     */
+    protected $req_with_comments = false;
+
+    /**
     * Constructor
     * @access public
     */
@@ -87,6 +92,8 @@ class ilObjWikiGUI extends ilObjectGUI
         if ($_GET["page"] != "") {
             $ilCtrl->setParameter($this, "page", ilWikiUtil::makeUrlTitle($_GET["page"]));
         }
+
+        $this->req_with_comments = (bool) $_GET["with_comments"];
     }
     
     public function executeCommand()
@@ -221,6 +228,9 @@ class ilObjWikiGUI extends ilObjectGUI
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $exp_gui->addFormat("html", "", $this, "exportHTML");
+                if ($this->object->isCommentsExportPossible()) {
+                    $exp_gui->addFormat("html_comments", "HTML (" . $this->lng->txt("wiki_incl_comments") . ")", $this, "exportHTML");
+                }
                 $ret = $this->ctrl->forwardCommand($exp_gui);
 //				$this->tpl->show();
                 break;
@@ -2049,6 +2059,12 @@ class ilObjWikiGUI extends ilObjectGUI
     public function exportHTML()
     {
         $cont_exp = new Export\WikiHtmlExport($this->object);
+
+        $format = explode("_", $_POST["format"]);
+        if ($format[1] == "comments") {
+            $cont_exp->setMode(Export\WikiHtmlExport::MODE_COMMENTS);
+        }
+
         $cont_exp->buildExportFile();
     }
     
@@ -2215,9 +2231,9 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function initUserHTMLExportObject()
     {
-        $this->log->debug("init");
+        $this->log->debug("init: ".$this->req_with_comments);
         $this->checkPermission("wiki_html_export");
-        $this->object->initUserHTMLExport();
+        $this->object->initUserHTMLExport($this->req_with_comments);
     }
 
     /**
@@ -2225,9 +2241,9 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function startUserHTMLExportObject()
     {
-        $this->log->debug("start");
+        $this->log->debug("start: ".$this->req_with_comments);
         $this->checkPermission("wiki_html_export");
-        $this->object->startUserHTMLExport();
+        $this->object->startUserHTMLExport($this->req_with_comments);
     }
 
     /**
@@ -2235,9 +2251,9 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function getUserHTMLExportProgressObject()
     {
-        $this->log->debug("get progress");
+        $this->log->debug("get progress: ".$this->req_with_comments);
         $this->checkPermission("wiki_html_export");
-        $p = $this->object->getUserHTMLExportProgress();
+        $p = $this->object->getUserHTMLExportProgress($this->req_with_comments);
 
         include_once("./Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php");
         $pb = ilProgressBar::getInstance();
@@ -2260,6 +2276,16 @@ class ilObjWikiGUI extends ilObjectGUI
         $this->log->debug("download");
         $this->checkPermission("wiki_html_export");
         $this->object->deliverUserHTMLExport();
+    }
+
+    /**
+     * Download user html export file
+     */
+    public function downloadUserHTMLExportWithCommentsObject()
+    {
+        $this->log->debug("download");
+        $this->checkPermission("wiki_html_export");
+        $this->object->deliverUserHTMLExport(true);
     }
 
     /**

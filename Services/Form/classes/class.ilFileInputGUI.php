@@ -521,15 +521,4 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $html = $this->render("toolbar");
         return $html;
     }
-    
-    public static function setPersonalWorkspaceQuotaCheck($a_value)
-    {
-        if ((bool) $a_value) {
-            if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-                self::$check_wsp_quota = true;
-                return;
-            }
-        }
-        self::$check_wsp_quota = false;
-    }
 }

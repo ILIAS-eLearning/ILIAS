@@ -17,6 +17,8 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
  * Class ilPageContentProvider
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Michael Jansen <mjansen@databay.de>
+ * @author Maximilian Becker <mbecker@databay.de>
  */
 class PageContentProvider extends AbstractModificationProvider implements ModificationProvider
 {
@@ -181,8 +183,8 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
 
             $footer = $f->mainControls()->footer($links, $text);
 
-            $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
-            $footer = $tos_withdrawal_helper->modifyFooter($footer);
+            $tosWithdrawalGui = new \ilTermsOfServiceWithdrawalGUIHelper();
+            $footer = $tosWithdrawalGui->modifyFooter($footer);
 
             if (self::$perma_link !== "") {
                 $footer = $footer->withPermanentURL(new URI(self::$perma_link));

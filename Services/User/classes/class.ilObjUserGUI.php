@@ -456,12 +456,6 @@ class ilObjUserGUI extends ilObjectGUI
                 $userObj->setLanguage($_POST["language"]);
             }
 
-            // Set disk quota
-            if (ilDiskQuotaActivationChecker::_isActive()) {
-                // The disk quota is entered in megabytes but stored in bytes
-                $userObj->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
-            }
-            
             if ($this->isSettingChangeable('skin_style')) {
                 //set user skin and style
                 $sknst = explode(":", $_POST["skin_style"]);
@@ -857,15 +851,6 @@ class ilObjUserGUI extends ilObjectGUI
                 $this->object->setLanguage($this->form_gui->getInput('language'));
             }
 
-            if (ilDiskQuotaActivationChecker::_isActive()) {
-                // set disk quota
-                $this->object->setPref("disk_quota", ilUtil::MB2Bytes($_POST["disk_quota"]));
-            }
-            if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-                // set personal workspace disk quota
-                $this->object->setPref("wsp_disk_quota", ilUtil::MB2Bytes($_POST["wsp_disk_quota"]));
-            }
-
             if ($this->isSettingChangeable('skin_style')) {
                 //set user skin and style
                 $sknst = explode(":", $_POST["skin_style"]);
@@ -988,33 +973,6 @@ class ilObjUserGUI extends ilObjectGUI
         $data["time_limit_until"] = $this->object->getTimeLimitUntil()
             ? new ilDateTime($this->object->getTimeLimitUntil(), IL_CAL_UNIX)
             : null;
-    
-        
-        // BEGIN DiskQuota, Show disk space used
-        if (ilDiskQuotaActivationChecker::_isActive()) {
-            $data["disk_quota"] = ilUtil::Bytes2MB($this->object->getDiskQuota());
-        }
-        if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-            $data["wsp_disk_quota"] = ilUtil::Bytes2MB($this->object->getPersonalWorkspaceDiskQuota());
-        }
-        // W. Randelshofer 2008-09-09: Deactivated display of disk space usage,
-        // because determining the disk space usage may take several minutes.
-        /*
-        require_once "Modules/File/classes/class.ilObjFileAccess.php";
-        require_once "Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php";
-        require_once "Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php";
-        require_once "Services/Mail/classes/class.ilObjMailAccess.php";
-        require_once "Modules/Forum/classes/class.ilObjForumAccess.php";
-        require_once "Modules/MediaCast/classes/class.ilObjMediaCastAccess.php";
-        $data["disk_space_used"] =
-            ilObjFileAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-            ilObjFileBasedLMAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-            ilObjSAHSLearningModuleAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-            ilObjMailAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-            ilObjForumAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>'.
-            ilObjMediaCastAccess::_getDiskSpaceUsedBy($this->object->getId(), true).'<br>';
-        */
-        // END DiskQuota, Show disk space used
 
         // personal data
         $data["gender"] = $this->object->getGender();
@@ -1229,115 +1187,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         //		$this->form_gui->addItem($ac);
         $this->form_gui->addItem($radg);
-
-        if (ilDiskQuotaActivationChecker::_isActive()) {
-            $lng->loadLanguageModule("file");
-            
-            $quota_head = new ilFormSectionHeaderGUI();
-            $quota_head->setTitle($lng->txt("repository_disk_quota"));
-            $this->form_gui->addItem($quota_head);
-            
-            // disk quota
-            $disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "disk_quota");
-            $disk_quota->setSize(10);
-            $disk_quota->setMaxLength(11);
-            $disk_quota->setInfo($this->lng->txt("enter_in_mb_desc"));
-            $this->form_gui->addItem($disk_quota);
-
-            if ($a_mode == "edit") {
-                // show which disk quota is in effect, and explain why
-                $dq_info = ilDiskQuotaChecker::_lookupDiskQuota($this->object->getId());
-                if ($dq_info['user_disk_quota'] > $dq_info['role_disk_quota']) {
-                    $info_text = sprintf(
-                        $lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-                        ilUtil::formatSize($dq_info['user_disk_quota'], 'short'),
-                        ilUtil::formatSize($dq_info['role_disk_quota'], 'short'),
-                        $dq_info['role_title']
-                    );
-                } elseif (is_infinite($dq_info['role_disk_quota'])) {
-                    $info_text = sprintf($lng->txt('disk_quota_is_unlimited_by_1'), $dq_info['role_title']);
-                } else {
-                    $info_text = sprintf(
-                        $lng->txt('disk_quota_is_1_by_2'),
-                        ilUtil::formatSize($dq_info['role_disk_quota'], 'short'),
-                        $dq_info['role_title']
-                    );
-                }
-                $disk_quota->setInfo($this->lng->txt("enter_in_mb_desc") . '<br>' . $info_text);
-
-
-                // disk usage
-                $du_info = ilDiskQuotaChecker::_lookupDiskUsage($this->object->getId());
-                $disk_usage = new ilNonEditableValueGUI($lng->txt("disk_usage"), "disk_usage");
-                if ($du_info['last_update'] === null) {
-                    $disk_usage->setValue($lng->txt('unknown'));
-                } else {
-                    $disk_usage->setValue(ilUtil::formatSize($du_info['disk_usage'], 'short'));
-                    $info = '<table class="il_user_quota_disk_usage_overview">';
-                    // write the count and size of each object type
-                    foreach ($du_info['details'] as $detail_data) {
-                        $info .= '<tr>' .
-                            '<td class="std">' . $detail_data['count'] . '</td>' .
-                            '<td class="std">' . $lng->txt($detail_data['type']) . '</td>' .
-                            '<td class="std">' . ilUtil::formatSize($detail_data['size'], 'short') . '</td>' .
-                            '</tr>'
-                            ;
-                    }
-                    $info .= '</table>';
-                    $info .= '<br>' . $this->lng->txt('last_update') . ': ' .
-                        ilDatePresentation::formatDate(new ilDateTime($du_info['last_update'], IL_CAL_DATETIME));
-                    $disk_usage->setInfo($info);
-                }
-                $this->form_gui->addItem($disk_usage);
-
-                // date when the last disk quota reminder was sent to the user
-                if (true || $dq_info['last_reminder']) {
-                    $reminder = new ilNonEditableValueGUI($lng->txt("disk_quota_last_reminder_sent"), "last_reminder");
-                    $reminder->setValue(
-                        ilDatePresentation::formatDate(new ilDateTime($dq_info['last_reminder'], IL_CAL_DATETIME))
-                    );
-                    $reminder->setInfo($this->lng->txt("disk_quota_last_reminder_sent_desc"));
-                    $this->form_gui->addItem($reminder);
-                }
-            }
-        }
-        
-        if (ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive()) {
-            $lng->loadLanguageModule("file");
-        
-            $quota_head = new ilFormSectionHeaderGUI();
-            $quota_head->setTitle($lng->txt("personal_resources_disk_quota"));
-            $this->form_gui->addItem($quota_head);
-            
-            // personal workspace disk quota
-            $wsp_disk_quota = new ilTextInputGUI($lng->txt("disk_quota"), "wsp_disk_quota");
-            $wsp_disk_quota->setSize(10);
-            $wsp_disk_quota->setMaxLength(11);
-            $wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc"));
-            $this->form_gui->addItem($wsp_disk_quota);
-            
-            if ($a_mode == "edit") {
-                // show which disk quota is in effect, and explain why
-                $dq_info = ilDiskQuotaChecker::_lookupPersonalWorkspaceDiskQuota($this->object->getId());
-                if ($dq_info['user_wsp_disk_quota'] > $dq_info['role_wsp_disk_quota']) {
-                    $info_text = sprintf(
-                        $lng->txt('disk_quota_is_1_instead_of_2_by_3'),
-                        ilUtil::formatSize($dq_info['user_wsp_disk_quota'], 'short'),
-                        ilUtil::formatSize($dq_info['role_wsp_disk_quota'], 'short'),
-                        $dq_info['role_title']
-                    );
-                } elseif (is_infinite($dq_info['role_wsp_disk_quota'])) {
-                    $info_text = sprintf($lng->txt('disk_quota_is_unlimited_by_1'), $dq_info['role_title']);
-                } else {
-                    $info_text = sprintf(
-                        $lng->txt('disk_quota_is_1_by_2'),
-                        ilUtil::formatSize($dq_info['role_wsp_disk_quota'], 'short'),
-                        $dq_info['role_title']
-                    );
-                }
-                $wsp_disk_quota->setInfo($this->lng->txt("enter_in_mb_desc") . '<br>' . $info_text);
-            }
-        }
 
         // personal data
         if (
@@ -1764,7 +1613,6 @@ class ilObjUserGUI extends ilObjectGUI
     }
 
 
-    // BEGIN DiskQuota: Allow administrators to edit user picture
     /**
     * upload user image
     *
@@ -1886,7 +1734,6 @@ class ilObjUserGUI extends ilObjectGUI
 
         $this->editObject();
     }
-    // END DiskQuota: Allow administrators to edit user picture
 
     /**
     * assign users to role

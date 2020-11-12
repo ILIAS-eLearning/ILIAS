@@ -64,6 +64,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
      */
     protected $adv_subtype = null;
 
+    /**
+     * @var \ILIAS\MediaObjects\MediaType\MediaType
+     */
+    protected $media_type;
 
     public $ctrl;
     public $header;
@@ -83,6 +87,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->user = $DIC->user();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
+        $this->media_type = new ILIAS\MediaObjects\MediaType\MediaType();
 
         $this->ctrl = $ilCtrl;
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -413,7 +418,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->form_gui->addItem($caption);*/
         
         // text representation (alt text)
-        if ($a_mode == "edit" && is_int(strpos($std_item->getFormat(), "image"))) {
+        if ($a_mode == "edit" && $this->media_type->usesAltTextProperty($std_item->getFormat())) {
             $ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "text_representation");
             $ta->setCols(30);
             $ta->setRows(2);
@@ -423,8 +428,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         // standard parameters
         if ($a_mode == "edit" &&
-            !in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
-            if (ilObjMediaObject::_useAutoStartParameterOnly(
+            $this->media_type->usesParameterProperty($std_item->getFormat())) {
+            if ($this->media_type->usesAutoStartParameterOnly(
                 $std_item->getLocation(),
                 $std_item->getFormat()
             )) {	// autostart
@@ -533,7 +538,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->form_gui->addItem($caption);*/
         
         // text representation (alt text)
-        if ($a_mode == "edit" && $this->object->hasFullscreenItem() && is_int(strpos($std_item->getFormat(), "image"))) {
+        if ($a_mode == "edit" && $this->object->hasFullscreenItem() && $this->media_type->usesAltTextProperty($std_item->getFormat())) {
             $ta = new ilTextAreaInputGUI($lng->txt("text_repr"), "full_text_representation");
             $ta->setCols(30);
             $ta->setRows(2);
@@ -544,8 +549,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         
         // fullscreen parameters
         if ($a_mode == "edit" && $this->object->hasFullscreenItem() &&
-            !in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
-            if (ilObjMediaObject::_useAutoStartParameterOnly(
+            $this->media_type->usesParameterProperty($full_item->getFormat())) {
+            if ($this->media_type->usesAutoStartParameterOnly(
                 $full_item->getLocation(),
                 $full_item->getFormat()
             )) {
@@ -618,7 +623,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $values["standard_caption"] = $std_item->getCaption();
         $values["text_representation"] = $std_item->getTextRepresentation();
-        if (ilObjMediaObject::_useAutoStartParameterOnly(
+        if ($this->media_type->usesAutoStartParameterOnly(
             $std_item->getLocation(),
             $std_item->getFormat()
         )) {
@@ -656,7 +661,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $values["full_width_height"]["height"] = $orig_size["height"];
             }
             $values["full_caption"] = $full_item->getCaption();
-            if (ilObjMediaObject::_useAutoStartParameterOnly(
+            if ($this->media_type->usesAutoStartParameterOnly(
                 $full_item->getLocation(),
                 $full_item->getFormat()
             )) {
@@ -1080,8 +1085,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $std_item->setTextRepresentation(ilUtil::stripSlashes($_POST["text_representation"]));
             
             // set parameters
-            if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
-                if (ilObjMediaObject::_useAutoStartParameterOnly(
+            if ($this->media_type->usesParameterProperty($std_item->getFormat())) {
+                if ($this->media_type->usesAutoStartParameterOnly(
                     $std_item->getLocation(),
                     $std_item->getFormat()
                 )) {
@@ -1207,8 +1212,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
                 
                 // set parameters
-                if (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())) {
-                    if (ilObjMediaObject::_useAutoStartParameterOnly(
+                if ($this->media_type->usesParameterProperty($std_item->getFormat())) {
+                    if ($this->media_type->usesAutoStartParameterOnly(
                         $std_item->getLocation(),
                         $std_item->getFormat()
                     )) {
@@ -1837,13 +1842,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $full_item = $this->object->getMediaItem("Fullscreen");
             $mset = new ilSetting("mobs");
             if ($mset->get("file_manager_always") ||
-                (!in_array($std_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes()) ||
-                (is_object($full_item) && !in_array($full_item->getFormat(), ilObjMediaObject::_getSimpleMimeTypes())))
-                ) {
-                //				$ilTabs->addTarget("cont_files",
-                //					$this->ctrl->getLinkTarget($this, "editFiles"), "editFiles",
-                //					get_class($this));
-                    
+                ($this->media_type->usesParameterProperty($std_item->getFormat()) ||
+                    (is_object($full_item) && $this->media_type->usesParameterProperty($full_item->getFormat())))
+            ) {
                 $this->tabs_gui->addTarget(
                     "cont_files",
                     $this->ctrl->getLinkTargetByClass(

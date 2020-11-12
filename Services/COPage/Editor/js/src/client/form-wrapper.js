@@ -32,6 +32,7 @@ export default {
       }
     }
     document.body.appendChild(form);
+    //console.log(form);
     form.submit();
   }
 

@@ -179,9 +179,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         return $form;
     }
 
-    /**
-     *
-     */
     protected function saveSettings() : void
     {
         if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
@@ -201,9 +198,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     *
-     */
     protected function showMissingDocuments() : void
     {
         if ($this->object->getStatus()) {
@@ -215,9 +209,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         }
     }
 
-    /**
-     *
-     */
     protected function settings() : void
     {
         if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
@@ -228,23 +219,5 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
 
         $form = $this->getSettingsForm();
         $this->tpl->setContent($form->getHTML());
-    }
-
-    /**
-     * @return ilTemplate
-     */
-    public function getWithdrawalSectionForModal() : ilTemplate
-    {
-        $template = new ilTemplate('tpl.tos_withdrawal_section.html', true, true, 'Services/TermsOfService');
-        $template->setVariable('TXT_TOS_WITHDRAWAL_HEADLINE', $this->dic->language()->txt('withdraw_consent_header'));
-        $template->setVariable('TXT_TOS_WITHDRAWAL', $this->dic->language()->txt('withdraw_consent_description'));
-        $template->setVariable(
-            'BTN_TOS_WITHDRAWAL',
-            $this->dic->ui()->renderer()->render(
-                $this->dic->ui()->factory()->button()->standard($this->dic->language()->txt('withdraw_consent'), 'logout.php?withdraw_consent')
-            )
-        );
-
-        return $template;
     }
 }

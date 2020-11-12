@@ -587,14 +587,6 @@ class ilInfoScreenGUI
             }
         }
 
-        // disk usage
-        if ($ilUser->getId() != ANONYMOUS_USER_ID &&
-            ilDiskQuotaActivationChecker::_isActive()) {
-            $size = $a_obj->getDiskUsage();
-            if ($size !== null) {
-                $this->addProperty($lng->txt("disk_usage"), ilUtil::formatSize($size, 'long'));
-            }
-        }
         // change event
         require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         if (ilChangeEvent::_isActive()) {

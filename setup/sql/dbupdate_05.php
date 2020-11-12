@@ -5788,4 +5788,72 @@ if (!$ilDB->tableExists('adv_md_values_ltext')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5744>
+<?php
+if ($ilDB->tableExists('il_disk_quota')) {
+    $ilDB->dropTable('il_disk_quota');
+}
+?>
+<#5745>
+<?php
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'disk_quota');
+}
 
+if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'wsp_disk_quota')) {
+    $ilDB->dropTableColumn('role_data', 'wsp_disk_quota');
+}
+?>
+<#5746>
+<?php
+$ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['rep_disk_quota',]);
+$ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['pwsp_recalc_quota',]);
+?>
+<#5747>
+<?php
+if (!$ilDB->tableColumnExists('il_mm_custom_items', 'role_based_visibility')) {
+    $ilDB->addTableColumn("il_mm_custom_items", "role_based_visibility", array(
+        "type" => "integer",
+        'length' => 1,
+        "default" => 0
+    ));
+}
+if (!$ilDB->tableColumnExists('il_mm_custom_items', 'global_role_ids')) {
+    $ilDB->addTableColumn("il_mm_custom_items", "global_role_ids", array(
+        "type" => "text",
+        'length' => 4000
+    ));
+}
+?>
+<#5748>
+<?php
+if (!$ilDB->tableColumnExists('wiki_user_html_export', 'with_comments')) {
+    $ilDB->addTableColumn(
+        'wiki_user_html_export',
+        'with_comments',
+        array(
+            "type" => "integer",
+            "notnull" => true,
+            "length" => 1,
+            "default" => 0
+        )
+    );
+}
+?>
+<#5749>
+<?php
+$ilDB->dropPrimaryKey('wiki_user_html_export');
+$ilDB->addPrimaryKey('wiki_user_html_export', ['wiki_id', 'with_comments']);
+?>
+<#5750>
+<?php
+$ilDB->update(
+    "wiki_user_html_export",
+    [
+        "start_ts" => ["timestamp", "1980-01-01 12:00:00"]
+    ],
+    [
+        "1" => ["integer", 1]
+    ]
+);
+?>

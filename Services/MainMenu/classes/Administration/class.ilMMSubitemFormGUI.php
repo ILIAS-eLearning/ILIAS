@@ -20,6 +20,7 @@ class ilMMSubitemFormGUI
     const F_PARENT = "parent";
     const F_ACTIVE = "active";
     const F_ICON = "icon";
+    const F_ROLE_BASED_VISIBILITY = "role_based_visibility";
     /**
      * @var ilMMItemRepository
      */
@@ -131,6 +132,24 @@ class ilMMSubitemFormGUI
         $active                = $active->withValue($this->item_facade->isActivated());
         $items[self::F_ACTIVE] = $active;
 
+        // ROLE BASED VISIBILITY
+        $access                         = new ilObjMainMenuAccess();
+        $value_role_based_visibility    = NULL;
+        if($this->item_facade->hasRoleBasedVisibility() AND !empty($this->item_facade->getGlobalRoleIDs())) {
+            $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
+        }
+        $role_based_visibility = $f()->field()->optionalGroup(
+            [
+                $f()->field()->multiSelect(
+                    $txt('sub_global_roles'),
+                    $access->getGlobalRoles()
+                )->withRequired(true)
+            ],
+            $txt('sub_role_based_visibility'),
+            $txt('sub_role_based_visibility_byline')
+        )->withValue($value_role_based_visibility);
+        $items[self::F_ROLE_BASED_VISIBILITY] = $role_based_visibility;
+
         // RETURN FORM
         if ($this->item_facade->isEmpty()) {
             $section    = $f()->field()->section($items, $txt(ilMMSubItemGUI::CMD_ADD), "");
@@ -157,6 +176,10 @@ class ilMMSubitemFormGUI
         $this->item_facade->setAction((string) $data[0]['action']);
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
+        $this->item_facade->setRoleBasedVisibility((bool) $data[0][self::F_ROLE_BASED_VISIBILITY]);
+        if((bool) $data[0][self::F_ROLE_BASED_VISIBILITY] AND (bool) !empty($data[0][self::F_ROLE_BASED_VISIBILITY])) {
+            $this->item_facade->setGlobalRoleIDs((array) $data[0][self::F_ROLE_BASED_VISIBILITY][0]);
+        }
         if ((string) $data[0][self::F_PARENT]) {
             $this->item_facade->setParent((string) $data[0][self::F_PARENT]);
         }

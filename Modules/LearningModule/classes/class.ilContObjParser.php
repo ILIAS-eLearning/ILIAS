@@ -366,7 +366,6 @@ class ilContObjParser extends ilMDSaxParser
                     ilUtil::rCopy(realpath($source_dir), realpath($target_dir));
                 }
             }
-            $test = $file_obj->determineFilesize();
             $file_obj->update();
         }
     }

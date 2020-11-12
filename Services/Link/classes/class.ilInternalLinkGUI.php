@@ -802,7 +802,6 @@ class ilInternalLinkGUI
             $fileObj->create();
             // upload file to filesystem
             $fileObj->createDirectory();
-            $fileObj->raiseUploadError(false);
             $fileObj->getUploadFile(
                 $_FILES["link_file"]["tmp_name"],
                 $_FILES["link_file"]["name"]

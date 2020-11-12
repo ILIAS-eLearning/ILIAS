@@ -193,9 +193,13 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *path_to_zip*" to zip files
   * *path_to_unzip*" to unzip files
 * *virusscanner* configuration
-  * *virusscanner* to be used. Either `none`, `sophos`, `antivir` or `clamav`
+  * *virusscanner* to be used. Either `none`, `sophos`, `antivir`, `clamav` or `icap`
   * *path_to_scan* command of the scanner
   * *path_to_clean* command of the scanner
+  * *icap_host* host adress of the icap scanner
+  * *icap_port* port if the icap scanner
+  * *icap_service_name* serivce name of the icap scanner
+  * *icap_client_path* path to the `c-icap-client`, if this is left empty, a php client will be used
 * *privacysecurity*
   * *https_enabled* forces https on login page
 * *webservices*

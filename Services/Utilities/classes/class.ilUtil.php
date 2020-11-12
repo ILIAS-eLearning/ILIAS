@@ -3767,7 +3767,7 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        if (IL_VIRUS_SCANNER != "None") {
+        if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_ICAP_HOST') && strlen(IL_ICAP_HOST) !== 0)) {
             require_once("./Services/VirusScanner/classes/class.ilVirusScannerFactory.php");
             $vs = ilVirusScannerFactory::_getInstance();
             if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
@@ -4599,10 +4599,8 @@ class ilUtil
     {
         $size = 0;
         if (!is_dir($directory)) {
-            // BEGIN DiskQuota Suppress PHP warning when attempting to determine
             //       dirsize of non-existing directory
             $size = @filesize($directory);
-            // END DiskQuota Suppress PHP warning.
             return ($size === false) ? -1 : $size;
         }
         if ($DIR = opendir($directory)) {
@@ -4613,9 +4611,7 @@ class ilUtil
                 if (is_file($directory . DIRECTORY_SEPARATOR . $dirfile)) {
                     $size += filesize($directory . DIRECTORY_SEPARATOR . $dirfile);
                 } elseif (is_dir($directory . DIRECTORY_SEPARATOR . $dirfile)) {
-                    // BEGIN DiskQuota: dirsize is not a global function anymore
                     $dirSize = ilUtil::dirsize($directory . DIRECTORY_SEPARATOR . $dirfile);
-                    // END DiskQuota: dirsize is not a global function anymore
                     if ($dirSize >= 0) {
                         $size += $dirSize;
                     } else {

@@ -300,16 +300,16 @@ class ilObjMediaObject extends ilObject
      * get item for media purpose
      *
      * @param string $a_purpose
-     * @return ilMediaItem
+     * @return ilMediaItem|null
      */
-    public function &getMediaItem($a_purpose)
+    public function getMediaItem($a_purpose): ?ilMediaItem
     {
         foreach ($this->media_items as $media_item) {
             if ($media_item->getPurpose() == $a_purpose) {
                 return $media_item;
             }
         }
-        return false;
+        return null;
     }
 
 
@@ -477,10 +477,11 @@ class ilObjMediaObject extends ilObject
             $this->updateMetaData();
         }
         
-        ilMediaItem::deleteAllItemsOfMob($this->getId());
-
         // iterate all items
         $media_items = $this->getMediaItems();
+
+        ilMediaItem::deleteAllItemsOfMob($this->getId());
+
         $j = 1;
         foreach ($media_items as $key => $val) {
             $item = $media_items[$key];
@@ -1571,40 +1572,9 @@ class ilObjMediaObject extends ilObject
         return array("width" => $width, "height" => $height, "info" => $info);
     }
 
-    /**
-    * Get simple mime types that deactivate parameter property
-    * files tab in ILIAS
-    */
-    public static function _getSimpleMimeTypes()
-    {
-        return array("image/x-ms-bmp", "image/gif", "image/jpeg", "image/x-portable-bitmap",
-            "image/png", "image/psd", "image/tiff", "application/pdf");
-    }
-    
     public function getDataDirectory()
     {
         return ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->getId();
-    }
-
-    /**
-    * Check whether only autostart parameter should be supported (instead
-    * of parameters input field.
-    *
-    * This should be the same behaviour as mp3/flv in page.xsl
-    */
-    public static function _useAutoStartParameterOnly($a_loc, $a_format)
-    {
-        $lpath = pathinfo($a_loc);
-        if ($lpath["extension"] == "mp3" && $a_format == "audio/mpeg") {
-            return true;
-        }
-        if ($lpath["extension"] == "flv") {
-            return true;
-        }
-        if (in_array($a_format, array("video/mp4", "video/webm"))) {
-            return true;
-        }
-        return false;
     }
 
     /**
