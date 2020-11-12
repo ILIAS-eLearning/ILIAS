@@ -5,7 +5,6 @@ use ILIAS\UI\Component\Layout\Page\Page;
 
 /**
  * Interface PageBuilder
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class StandardPageBuilder implements PageBuilder
@@ -16,7 +15,6 @@ class StandardPageBuilder implements PageBuilder
      */
     protected $ui;
 
-
     /**
      * StandardPageBuilder constructor.
      */
@@ -26,24 +24,22 @@ class StandardPageBuilder implements PageBuilder
         $this->ui = $DIC->ui();
     }
 
-
     /**
      * @param PagePartProvider $parts
-     *
      * @return Page
      */
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
-        $main_bar = $parts->getMainBar();
-        $meta_bar = $parts->getMetaBar();
+        $main_bar     = $parts->getMainBar();
+        $meta_bar     = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
-        $footer = $parts->getFooter();
-        $title = $parts->getTitle();
-        $short_title = $parts->getShortTitle();
-        $view_title = $parts->getViewTitle();
+        $footer       = $parts->getFooter();
+        $title        = $parts->getTitle();
+        $short_title  = $parts->getShortTitle();
+        $view_title   = $parts->getViewTitle();
 
-        return $this->ui->factory()->layout()->page()->standard(
+        $standard = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
             $meta_bar,
             $main_bar,
@@ -54,5 +50,7 @@ class StandardPageBuilder implements PageBuilder
             $short_title,
             $view_title
         );
+
+        return $standard->withSystemInfos($parts->getSystemInfos());
     }
 }

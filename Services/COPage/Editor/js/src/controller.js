@@ -8,7 +8,7 @@ export default class Controller {
   /**
    * @type {UI}
    */
-  ui;
+  //ui;
 
   constructor(ui) {
     this.ui = ui;

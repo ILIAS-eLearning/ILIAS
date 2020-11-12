@@ -53,7 +53,6 @@ button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
 	padding: 1px 5px;
-	color: #b6b6b6;
 	text-align: center;
 	font-size: @font-size-small;
 	background-color: transparent;
@@ -61,11 +60,18 @@ button.copg-add.dropdown-toggle.btn:hover {
 	width: 100%;
 	height: 30px;
 	border: 0;
+}
 
-	.glyphicon {
+button.copg-add.dropdown-toggle.btn,
+button.copg-add.dropdown-toggle.btn:focus,
+button.copg-add.dropdown-toggle.btn:hover,
+#copg-editor-help {
+
+	.glyphicon-plus {
 		border-radius: 50%;
 		background-color: #f3f3f3;
 		padding: 4px;
+		color: #b6b6b6;
 	}
 }
 
@@ -115,7 +121,7 @@ div.il_editarea {
 	min-height: 20px;
 }
 
-div.il_editarea:hover {
+div.il_editarea:hover, #tinytarget_ifr {
 	border: 2px solid @brand-primary;
 }
 
@@ -187,9 +193,10 @@ div.ilEditLabel {
 	border: 0;
 	height: 15px;
 	display: none;
+	z-index: 1;
 }
 
-div.il_editarea:hover > div.ilEditLabel {
+div.il_editarea:hover > div.ilEditLabel, .copg-ghost-wrapper div.ilEditLabel {
 	display: block;
 }
 
@@ -222,15 +229,28 @@ div.ilEditVAccordICont {
 	background-color: white;
 }
 
-div.ilTinyMenuSection {
+.ilTinyMenuSection .dropdown, .il-copg-button-group .dropdown {
+	display:inline-block;
+}
+.ilTinyMenuSection .dropdown-menu .btn, .il-copg-button-group .dropdown-menu .btn {
+	border: 0;
+}
+
+.ilTinyMenuSection .btn svg {
+	fill: white;
+	margin: -8px;
+}
+
+div.ilTinyMenuSection, .il-copg-button-group {
 	float: left;
 	white-space: nowrap;
 	/* border-right: 1px solid #e0e0e0; */
 	/* padding: 0 10px 4px 0; */
 	margin-right: 10px;
+	margin: 10px 10px 10px 0;
 
 	p {
-		margin: 20px 0 5px 0;
+		margin-bottom: 5px;
 		padding: 2px 5px;
 		background-color: darken(@il-secondary-container-bg, 4%);
 	}
@@ -241,6 +261,15 @@ div.ilTinyMenuSection {
 		padding: 0 10px 0 0;
 		border-right: 0 none;
 	}
+}
+
+div.il-copg-button-group ul.dropdown-menu {
+	right: auto;
+}
+
+div.il-copg-button-group-wide {
+	width: 100%;
+	float: none;
 }
 
 [dir="rtl"] div.ilTinyMenuSection {
@@ -306,7 +335,6 @@ div.ilTinyMenuSection {
 }
 
 #iltinymenu_bd {
-	padding: 10px;
 }
 
 #ilsaving {
@@ -505,7 +533,6 @@ a.nostyle:hover {
 }
 
 #ilPageEditLegend {
-	padding: 10px;
 	> div {
 		margin: 5px 0;
 	}
@@ -593,11 +620,6 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
 	padding-right: 10px;
 }
 
-.ilTinyInfo {
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		display: none;
-	}
-}
 
 div.ilCOPGMediaPrint {
 	background-color: @il-secondary-container-bg !important;
@@ -617,10 +639,131 @@ div.ilCOPGMediaPrint {
 	border: 0;
 }
 
-#ilAdvSelListTable_style_selection, #ilTinyMenuButtons ul.dropdown-menu {
+.ilTinyParagraphClassSelector ul.dropdown-menu, .ilSectionClassSelector ul.dropdown-menu {
 	right: auto;
 }
 
+#il_prop_cont_characteristic ul.dropdown-menu {
+	right: auto;
+}
+
+
 #iltinymenu .dropdown-menu li {
 	padding: 0;
+}
+
+#tinytarget_ifr > body#tinymce {
+	background-color: inherit;
+}
+
+#tinytarget_ifr {
+	background-color: transparent;
+}
+
+#tinytarget_div {
+
+	position: absolute;
+	top:0;
+	width: 100%;
+	height: 100%;
+
+	div.tox-edit-area {
+		background-color: transparent;
+	}
+
+	.tox-tinymce {
+		border: 0;
+		background-color: transparent;
+	}
+}
+
+.copg-ghost-wrapper {
+	min-height: 20px;
+	position: relative;		/* important for the absolute positioned tinytarget_div */
+}
+
+.copg-input-ghost {
+	visibility: hidden;
+	min-width: 100px;
+}
+
+#copg-editor-slate-content {
+	padding: 15px;
+
+	p {
+		padding: 0;
+		margin: 5px 0;
+	}
+
+	p.ilTinyInfo {
+		padding: 2px;
+		@media only screen and (max-width: @grid-float-breakpoint-max) {
+			display: none;
+		}
+	}
+
+	div.alert {
+		margin: 10px 0;
+	}
+	form {
+		.ilFormHeader {
+			padding: 10px;
+
+			h3.ilHeader {
+				font-size: @font-size-base;
+			}
+		}
+		.col-sm-3, .col-sm-9 {
+			width: 100%;
+		}
+		.control-label {
+			text-align: left;
+			font-weight: bold;
+		}
+		.ilFormFooter {
+		}
+	}
+}
+
+p#copg-auto-save {
+	padding: 0;
+	margin: -5px 0 0 0;
+}
+
+.copg-edit-container {
+	border: 1px dashed #d0d0d0;
+}
+
+/* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
+#il_EditPage [data-copg-ed-type="add-area"] {
+	position: relative;
+
+	> .dropdown {
+		overflow: hidden;
+		position: static;
+		> ul {
+			position: absolute;
+			z-index: 10;
+		}
+	}
+}
+
+#ed_datatable {
+
+	background-color: #ffffff;
+
+	th {
+		background-color: #fbfbfb;
+		.dropdown button {
+			background-color: #fbfbfb;
+			text-align: center;
+			color: #303030;
+			width: 100%;
+			border: 0;
+		}
+	}
+
+	th, td {
+		border: 1px solid #CCCCCC;
+	}
 }

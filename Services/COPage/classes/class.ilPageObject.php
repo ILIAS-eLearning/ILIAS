@@ -796,7 +796,7 @@ abstract class ilPageObject
         }
         include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $node_name = $cont_node->node_name();
-        if ($node_name == "PageObject") {
+        if (in_array($node_name, ["PageObject", "TableRow"])) {
             return null;
         }
         if ($node_name == "PageContent") {
@@ -874,6 +874,41 @@ abstract class ilPageObject
     }
 
     /**
+     * Get content object for pc id
+     * @param
+     * @return
+     */
+    public function getContentObjectForPcId($pcid)
+    {
+        $hier_ids = $this->getHierIdsForPCIds([$pcid]);
+        return $this->getContentObject($hier_ids[$pcid], $pcid);
+    }
+
+    /**
+     * Get parent content object for pc id
+     *
+     * @param string $pcid
+     * @return ilPageContent|null
+     */
+    public function getParentContentObjectForPcId($pcid)
+    {
+        $content_object = $this->getContentObjectForPcId($pcid);
+        $node = $content_object->getNode();
+        $node = $node->parent_node();
+        while($node) {
+            if ($node->node_name() == "PageContent") {
+                $pcid = $node->get_attribute("PCID");
+                if ($pcid != "") {
+                    return $this->getContentObjectForPcId($pcid);
+                }
+            }
+            $node = $node->parent_node();
+        }
+        return null;
+    }
+
+
+    /**
      * Get content node from dom
      * @param string $a_hier_id hierarchical ID
      * @param string $a_pc_id   page content ID
@@ -903,6 +938,7 @@ abstract class ilPageObject
             }
         }
     }
+
 
     /**
      * Get content node from dom
@@ -1381,6 +1417,24 @@ abstract class ilPageObject
         return "";
     }
 
+    public function getParagraphForPCID($pcid)
+    {
+        if ($this->dom) {
+            require_once("./Services/COPage/classes/class.ilPCParagraph.php");
+            $xpc = xpath_new_context($this->dom);
+            $path = "//PageContent[@PCID='".$pcid."']/Paragraph[1]";
+            $res = xpath_eval($xpc, $path);
+            if (count($res->nodeset) > 0) {
+                $cont_node = $res->nodeset[0]->parent_node();
+                $par = new ilPCParagraph($this);
+                $par->setNode($cont_node);
+                return $par;
+            }
+        }
+        return null;
+    }
+
+
     /**
      * Set content of paragraph
      * @param string $a_hier_id Hier ID
@@ -1841,6 +1895,38 @@ abstract class ilPageObject
         return $ret;
     }
 
+    public function getHierIdForPcId($pcid)
+    {
+        $hier_ids = $this->getHierIdsForPCIds([$pcid]);
+        return $hier_ids[$pcid];
+    }
+
+    /**
+     * Get hier ids for a set of pc ids
+     */
+    public function getPCIdsForHierIds($hier_ids)
+    {
+        if (!is_array($hier_ids) || count($hier_ids) == 0) {
+            return [];
+        }
+        $ret = [];
+        $this->addHierIDs();
+        if (is_object($this->dom)) {
+            $xpc = xpath_new_context($this->dom);
+            $path = "//*[@HierId]";
+            $res = xpath_eval($xpc, $path);
+            for ($i = 0; $i < count($res->nodeset); $i++) {    // should only be 1
+                $hier_id = $res->nodeset[$i]->get_attribute("HierId");
+                if (in_array($hier_id, $hier_ids)) {
+                    $ret[$hier_id] = $res->nodeset[$i]->get_attribute("PCID");
+                }
+            }
+            unset($xpc);
+        }
+        return $ret;
+    }
+
+
     /**
      * add file sizes
      */
@@ -1864,7 +1950,7 @@ abstract class ilPageObject
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
                         require_once("./Modules/File/classes/class.ilObjFile.php");
-                        $size = ilObjFile::_lookupFileSize($id);
+                        $size = ilObjFileAccess::_lookupFileSize($a_id);
                     }
                 }
             }
@@ -3470,7 +3556,6 @@ abstract class ilPageObject
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
-
         // @todo: try to generalize
         if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
             ($curr_name == "ListItem") || ($curr_name == "Section")
@@ -5105,4 +5190,46 @@ abstract class ilPageObject
     {
         return $this->getParentId();
     }
+
+    /**
+     * Get page component model
+     * @return array
+     * @throws ilCOPageUnknownPCTypeException
+     */
+    public function getPCModel()
+    {
+        $model = [];
+        foreach ($this->getAllPCIds() as $pc_id) {
+            $co = $this->getContentObjectForPcId($pc_id);
+            if ($co !== null && $co !== false) {
+                $co_model = $co->getModel();
+                if ($co_model !== null) {
+                    $model[$pc_id] = $co_model;
+                }
+            }
+        }
+        return $model;
+    }
+
+    /**
+     * Assign characteristic
+     */
+    public function assignCharacteristic($targets, $char_par, $char_sec)
+    {
+        if (is_array($targets)) {
+            foreach ($targets as $t) {
+                $tarr = explode(":", $t);
+                $cont_obj = $this->getContentObject($tarr[0], $tarr[1]);
+                if (is_object($cont_obj) && $cont_obj->getType() == "par") {
+                    $cont_obj->setCharacteristic($char_par);
+                }
+                if (is_object($cont_obj) && $cont_obj->getType() == "sec") {
+                    $cont_obj->setCharacteristic($char_sec);
+                }
+            }
+            return $this->update();
+        }
+        return true;
+    }
+
 }

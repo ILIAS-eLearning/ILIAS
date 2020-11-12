@@ -1,6 +1,8 @@
 <?php
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\Forbidden;
+use ILIAS\DI\Container;
+use ILIAS\Filesystem\Stream\Streams;
 
 /**
  * Class ilObjFileDAV
@@ -21,7 +23,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @var $obj ilObjFile
      */
     protected $obj;
-    
+
     /**
      * We need to keep track of versioning.
      *
@@ -41,7 +43,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function __construct(ilObjFile $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
-        $settings = new ilSetting('file_access');
+        $settings = new ilSetting('webdav');
         $this->versioning_enabled = (bool) $settings->get('webdav_versioning_enabled', true);
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
@@ -116,7 +118,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         return ilFileUtils::getValidFilename($this->obj->getTitle());
     }
-    
+
     /**
      * Returns the mime-type for a file
      *
@@ -126,9 +128,9 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getContentType()
     {
-        return  $this->obj->guessFileType();
+        return  $this->obj->getFileType();
     }
-    
+
     /**
      * Returns the ETag for a file
      *
@@ -150,12 +152,12 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 fileinode($path) .
                 filesize($path) .
                 filemtime($path)
-                ) . '"';
+            ) . '"';
         }
-        
+
         return null;
     }
-    
+
     /**
      * Returns the size of the node, in bytes
      *
@@ -200,50 +202,18 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $this->obj->deleteVersions();
             $this->obj->clearDataDirectory();
         }
-        $this->obj->setFileName($this->getName());
-        $file_dest_path = $this->getPathToFile();
+        $stream = Streams::ofResource($a_data);
+        $this->obj->appendStream($stream, $this->obj->getTitle());
 
-        // If dir does not exist yet -> create it
-        if (!file_exists($file_dest_path)) {
-            ilUtil::makeDirParents($this->getPathToDirectory());
-        }
-        
-        $written_length = $this->uploadFile($a_data, $file_dest_path);
-              
-        if ($written_length > ilUtil::getUploadSizeLimitBytes()) {
-            $this->deleteObjOrVersion();
-            throw new Exception\Forbidden('File is too big');
-        }
-        
-        // Security checks
-        $this->checkForVirus($file_dest_path);
+        // TODO filename is "input" and metadata etc.
 
-        // Set last meta data
-        $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
-        $this->obj->setFileSize($written_length);
         if ($this->obj->update()) {
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);
             ilPreview::createPreview($this->obj, true);
         }
     }
 
-    /**
-     * Write given data (as string) to the given file
-     *
-     * @param string|resource $a_data
-     * @param string $file_dest_path
-     * @throws Exception\Forbidden
-     * @return number $written_length
-     */
-    protected function uploadFile($a_data, string $file_dest_path)
-    {
-        $written_length = file_put_contents($file_dest_path, $a_data);
-        if ($written_length === false && strlen($a_data) > 0) {
-            throw new Exception\Forbidden('Forbidden to write file');
-        }
-        return $written_length;
-    }
-    
+
     protected function getPathToDirectory()
     {
         return $this->obj->getDirectory($this->obj->getVersion());
@@ -267,7 +237,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         // For the case of forbidden file-extensions, ::getValidFilename($path) returns the path with the .sec extension
         return ilFileUtils::getValidFilename($path);
     }
-    
+
     protected function checkForVirus(string $file_dest_path)
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
@@ -288,8 +258,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         // file to test, if the user has write permissions and the second one to upload the original file.
         if ($this->obj->getFileSize() > 0) {
             // Stolen from ilObjFile->addFileVersion
-            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
-            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
+//            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
+//            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
         }
     }
 
@@ -310,7 +280,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 
         $this->obj->addNewsNotification("file_updated");
     }
-    
+
     /**
      * Delete an object if there is no other version in it otherwise delete version.
      */

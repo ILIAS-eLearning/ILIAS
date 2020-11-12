@@ -623,7 +623,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
     }
     
-    protected function getActivationCaptions()
+    public function getActivationCaptions()
     {
         $lng = $this->lng;
         

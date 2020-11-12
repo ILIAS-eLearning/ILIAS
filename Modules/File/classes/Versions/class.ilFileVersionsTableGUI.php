@@ -1,12 +1,9 @@
 <?php
 
-use ILIAS\Data\DataSize;
 use ILIAS\DI\Container;
-use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * Class ilFileVersionsTableGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileVersionsTableGUI extends ilTable2GUI
@@ -28,11 +25,13 @@ class ilFileVersionsTableGUI extends ilTable2GUI
      * @var ilObjFile
      */
     private $file;
-
+    /**
+     * @var bool
+     */
+    protected $has_been_migrated = false;
 
     /**
      * ilFileVersionsTableGUI constructor.
-     *
      * @param ilFileVersionsGUI $calling_gui_class
      * @param string            $a_parent_cmd
      */
@@ -46,6 +45,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->file = $calling_gui_class->getFile();
         $this->current_version = (int) $this->file->getVersion();
         $this->max_version = (int) $this->file->getMaxVersion();
+        $this->has_been_migrated = !is_null($calling_gui_class->getFile()->getResourceId());
 
         // General
         $this->setPrefix("versions");
@@ -59,13 +59,16 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setTitle($this->dic->language()->txt("versions"));
 
         // Form
-        $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
-        $this->setSelectAllCheckbox("hist_id[]");
-        $this->addColumn("", "", "1", true);
-        $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
-        $this->addMultiCommand(ilFileVersionsGUI::CMD_ROLLBACK_VERSION, $this->dic->language()->txt("file_rollback"));
+        if ($this->has_been_migrated) {
+            $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
+            $this->setSelectAllCheckbox("hist_id[]");
+            $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
+            $this->addMultiCommand(ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
+                $this->dic->language()->txt("file_rollback"));
+        }
 
         // Columns
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->dic->language()->txt("version"), "", "1");
         $this->addColumn($this->dic->language()->txt("date"));
         $this->addColumn($this->dic->language()->txt("file_uploaded_by"));
@@ -78,14 +81,19 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-
-    private function initData()
+    private function initData() : void
     {
-        $versions = $this->file->getVersions();
+        $versions = [];
+        foreach ($this->file->getVersions() as $version) {
+            $versions[] = $version->getArrayCopy();
+        }
+        usort($versions, static function (array $i1, array $i2) : bool {
+            return $i1['version'] < $i2['version'];
+        });
+
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
     }
-
 
     protected function fillRow($a_set)
     {
@@ -102,13 +110,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $username = trim($name["title"] . " " . $name["firstname"] . " " . $name["lastname"]);
 
         // get file size
-        $directory = LegacyPathHelper::createRelativePath($this->file->getDirectory($version));
-        $filepath = ilFileUtils::getValidFilename(rtrim($directory, "/") . "/" . $filename); // TODO remove after migration to filesystem
-        $filesize = 0;
-        if ($this->dic->filesystem()->storage()->has($filepath)) {
-            $size = $filesize = $this->dic->filesystem()->storage()->getSize($filepath, DataSize::Byte);
-            $filesize = $size->getSize();
-        }
+        $filesize = $a_set["size"];
 
         // get action text
         $action = $this->dic->language()->txt("file_version_" . $a_set["action"]); // create, replace, new_version, rollback
@@ -126,9 +128,11 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId($hist_id);
         $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->addItem($this->dic->language()->txt("delete"), "", $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DELETE_VERSIONS));
+        $actions->addItem($this->dic->language()->txt("delete"), "",
+            $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DELETE_VERSIONS));
         if ($this->current_version !== (int) $version) {
-            $actions->addItem($this->dic->language()->txt("file_rollback"), "", $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION));
+            $actions->addItem($this->dic->language()->txt("file_rollback"), "",
+                $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION));
         }
 
         // reset history parameter
@@ -136,13 +140,18 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
         // fill template
         $this->tpl->setVariable("TXT_VERSION", $version);
-        $this->tpl->setVariable("TXT_DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_DATETIME)));
+        $this->tpl->setVariable("TXT_DATE",
+            ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_DATETIME)));
         $this->tpl->setVariable("TXT_UPLOADED_BY", $username);
         $this->tpl->setVariable("DL_LINK", $link);
         $this->tpl->setVariable("TXT_FILENAME", $filename);
         $this->tpl->setVariable("TXT_FILESIZE", ilUtil::formatSize($filesize));
 
         // columns depending on confirmation
+
+        if (!$this->has_been_migrated) {
+            $this->tpl->setVariable("DISABLED", 'disabled');
+        }
 
         $this->tpl->setCurrentBlock("version_selection");
         $this->tpl->setVariable("OBJ_ID", $hist_id);
@@ -153,7 +162,11 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("version_actions");
-        $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+        if ($this->has_been_migrated) {
+            $this->tpl->setVariable("ACTIONS", $actions->getHTML());
+        } else {
+            $this->tpl->setVariable("ACTIONS", "&nbsp;");
+        }
         $this->tpl->parseCurrentBlock();
     }
 }

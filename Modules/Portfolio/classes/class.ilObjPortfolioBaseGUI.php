@@ -207,8 +207,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $prfa_set = new ilSetting("prfa");
         if ($prfa_set->get("banner")) {
-            ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
-
             $dimensions = " (" . $prfa_set->get("banner_width") . "x" .
                 $prfa_set->get("banner_height") . ")";
 

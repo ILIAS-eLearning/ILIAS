@@ -159,39 +159,14 @@ class ilPCGridGUI extends ilPageContentGUI
             $post_layout_template = (int) $_POST["layout_template"];
             $this->content_obj = new ilPCGrid($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-
-            switch ($post_layout_template) {
-                case self::TEMPLATE_TWO_COLUMN:
-                    $this->content_obj->addGridCell(12, 6, 6, 6);
-                    $this->content_obj->addGridCell(12, 6, 6, 6);
-                    break;
-
-                case self::TEMPLATE_THREE_COLUMN:
-                    $this->content_obj->addGridCell(12, 4, 4, 4);
-                    $this->content_obj->addGridCell(12, 4, 4, 4);
-                    $this->content_obj->addGridCell(12, 4, 4, 4);
-                    break;
-
-                case self::TEMPLATE_MAIN_SIDE:
-                    $this->content_obj->addGridCell(12, 6, 8, 9);
-                    $this->content_obj->addGridCell(12, 6, 4, 3);
-                    break;
-
-                case self::TEMPLATE_TWO_BY_TWO:
-                    $this->content_obj->addGridCell(12, 6, 6, 3);
-                    $this->content_obj->addGridCell(12, 6, 6, 3);
-                    $this->content_obj->addGridCell(12, 6, 6, 3);
-                    $this->content_obj->addGridCell(12, 6, 6, 3);
-                    break;
-
-
-                case self::TEMPLATE_MANUAL:
-                    for ($i = 0; $i < (int) $_POST["number_of_cells"]; $i++) {
-                        $this->content_obj->addGridCell($_POST["s"], $_POST["m"], $_POST["l"], $_POST["xl"]);
-                    }
-                    break;
-            }
-
+            $this->content_obj->applyTemplate(
+                $post_layout_template,
+                (int) $_POST["number_of_cells"],
+                $_POST["s"],
+                $_POST["m"],
+                $_POST["l"],
+                $_POST["xl"]
+            );
             $this->updated = $this->pg_obj->update();
 
             if ($this->updated === true) {

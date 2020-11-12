@@ -32,13 +32,12 @@
  * @ilCtrl_Calls ilObjFileAccessSettingsGUI: ilPermissionGUI
  *
  * @extends      ilObjectGUI
- * @package      webdav
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
     const CMD_EDIT_SETTINGS = 'editSettings';
     const CMD_SHOW_PREVIEW_RENDERERS = 'showPreviewRenderers';
-    const CMD_EDIT_WEBDAV_SETTINGS = 'editWebDAVSettings';
+
     /**
      * @var \ilSetting
      */
@@ -88,31 +87,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
-
-            case 'ilwebdavmountinstructionsuploadgui':
-                $document_gui = new ilWebDAVMountInstructionsUploadGUI(
-                    $this->object,
-                    $this->tpl,
-                    $this->user,
-                    $this->ctrl,
-                    $this->lng,
-                    $DIC->rbac()->system(),
-                    $DIC['ilErr'],
-                    $DIC->logger()->root(),
-                    $this->toolbar,
-                    $DIC->http(),
-                    $DIC->ui()->factory(),
-                    $DIC->ui()->renderer(),
-                    $DIC->filesystem(),
-                    $DIC->upload(),
-                    new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
-                );
-                $this->tabs_gui->setTabActive('webdav');
-                $this->addWebDAVSubTabs();
-                $this->tabs_gui->setSubTabActive('webdav_upload_instructions');
-                $this->ctrl->forwardCommand($document_gui);
-                break;
-
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = self::CMD_EDIT_SETTINGS;
@@ -145,8 +119,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS),
                 array(self::CMD_EDIT_SETTINGS, "view")
             );
-
-            $this->tabs_gui->addTarget('webdav', $this->ctrl->getLinkTarget($this, "editWebDAVSettings"), array("editWebDAVSettings", "view"));
         }
         if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget("perm_settings", $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"), array(), 'ilpermissiongui');
@@ -354,105 +326,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         // set content
         $tpl->setContent($table->getHTML());
-    }
-
-
-    protected function initWebDAVSettingsForm()
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($DIC->ctrl()->getFormAction($this));
-        $form->setTitle($lng->txt("settings"));
-
-        // Enable webdav
-        $cb_prop = new ilCheckboxInputGUI($lng->txt("enable_webdav"), "enable_webdav");
-        $cb_prop->setValue('1');
-        $cb_prop->setChecked($this->object->isWebdavEnabled());
-        $form->addItem($cb_prop);
-
-        // Enable versioning
-        $cb_prop = new ilCheckboxInputGUI($lng->txt("webdav_enable_versioning"), "enable_versioning_webdav");
-        $cb_prop->setValue('1');
-        $cb_prop->setInfo($lng->txt("webdav_versioning_info"));
-        $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
-        $form->addItem($cb_prop);
-
-        // command buttons
-        $form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
-        $form->addCommandButton('view', $lng->txt('cancel'));
-
-        return $form;
-    }
-
-    protected function addWebDAVSubTabs()
-    {
-        $this->tabs_gui->addSubTabTarget(
-            "webdav_general_settings",
-            $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
-            array(self::CMD_EDIT_WEBDAV_SETTINGS, "view")
-            );
-        $this->tabs_gui->addSubTabTarget(
-            "webdav_upload_instructions",
-            $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
-            "view"
-            );
-    }
-
-    /**
-     * Edit settings.
-     */
-    public function editWebDAVSettings()
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilErr = $DIC['ilErr'];
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $this->tabs_gui->setTabActive('webdav');
-        $this->addWebDAVSubTabs();
-
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($lng->txt("no_permission"), $ilErr->WARNING);
-        }
-
-        $form = $this->initWebDAVSettingsForm();
-
-        $tpl->setContent($form->getHTML());
-    }
-
-
-    /**
-     * Save settings
-     */
-    public function saveWebDAVSettings()
-    {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
-            ilUtil::sendFailure($DIC->language()->txt('no_permission'), true);
-            $DIC->ctrl()->redirect($this, self::CMD_EDIT_WEBDAV_SETTINGS);
-        }
-
-        $form = $this->initWebDAVSettingsForm();
-        if ($form->checkInput()) {
-            $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
-            $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
-            $this->object->update();
-            ilUtil::sendSuccess($lng->txt('settings_saved'), true);
-            $ilCtrl->redirect($this, self::CMD_EDIT_WEBDAV_SETTINGS);
-        } else {
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
-        }
     }
 
 

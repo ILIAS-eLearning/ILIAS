@@ -65,10 +65,10 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      * @param int $userId
      * @param int $objId
      * @throws ilInvalidCertificateException
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilException
      */
-    public function getPlaceholderValues(int $userId, int $objId)
+    public function getPlaceholderValues(int $userId, int $objId) : array
     {
         /** @var ilObjUser $user */
         $user = $this->objectHelper->getInstanceByObjId($userId);
@@ -81,7 +81,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
         $placeholder = array();
         foreach ($userDefinedFields as $field) {
             if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', strtoupper($field['field_name']));
+                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
 
                 $userDefinedData = $user->getUserDefinedData();
 
@@ -104,18 +104,18 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
      *
      * @param int $userId
      * @param int $objId
-     * @return void
+     * @return array - [PLACEHOLDER] => 'dummy value'
      * @throws ilException
      * @throws ilInvalidCertificateException
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $userDefinedFields = $this->userDefinedFieldsObject->getDefinitions();
 
         $placeholder = array();
         foreach ($userDefinedFields as $field) {
             if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', strtoupper($field['field_name']));
+                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
 
                 $placeholder[$placeholderText] = $field['field_name'];
             }

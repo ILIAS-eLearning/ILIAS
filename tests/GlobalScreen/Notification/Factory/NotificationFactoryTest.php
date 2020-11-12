@@ -21,8 +21,9 @@ class NotificationFactoryTest extends BaseNotificationSetUp
         $this->assertEquals(
             $methods,
             [
-                0 => 'standard',
-                1 => 'standardGroup',
+                0 => 'administrative',
+                1 => 'standard',
+                2 => 'standardGroup',
             ]
         );
     }

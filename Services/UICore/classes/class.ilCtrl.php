@@ -1491,7 +1491,7 @@ class ilCtrl
      *
      * Only used in getParentReturn.
      */
-    protected function getParentReturnByClass($a_class)
+    public function getParentReturnByClass($a_class)
     {
         $a_class = strtolower($a_class);
         $ret_class = $this->searchReturnClass($a_class);

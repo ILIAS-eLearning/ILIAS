@@ -347,7 +347,6 @@ interface Factory
      *   purpose: >
      *     The Mode Info is a section on a page that informs the user that he is
      *     in a certain mode (e.g. in the preview as a member of a course).
-     *
      *   composition: >
      *     The Mode Info MUST contain a title explaining the mode.
      *     The Mode Info MUST contain a Close Button to leave the
@@ -364,7 +363,6 @@ interface Factory
      *
      * context:
      *   - The Mode Info is used with the Standard Page.
-     *
      * rules:
      *   usage:
      *     1: The Mode Info is unique for the page - there MUST be not more than one.

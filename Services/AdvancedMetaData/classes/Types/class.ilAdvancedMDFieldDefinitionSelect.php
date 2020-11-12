@@ -16,7 +16,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     protected $options = [];
     protected $confirm_objects = [];
     protected $confirmed_objects; // [array]
-    
+
+    protected $option_translations = [];
+
     const REMOVE_ACTION_ID = "-iladvmdrm-";
     
     
@@ -38,10 +40,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Enum");
         $def->setNumeric(false);
-        
+
         $options = $this->getOptions();
-        $def->setOptions(array_combine($options, $options));
-        
+        $translated_options = [];
+        if (isset($this->getOptionTranslations()[$this->language])) {
+            $translated_options = $this->getOptionTranslations()[$this->language];
+        }
+        $def->setOptions(array_replace($options, $translated_options));
         return $def;
     }
     
@@ -79,43 +84,90 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     {
         return $this->options;
     }
-    
-    
-    //
-    // definition (NOT ADT-based)
-    //
-    
+
+    public function getOptionTranslations()
+    {
+        return $this->option_translations;
+    }
+
+    /**
+     * @param string $language
+     */
+    public function getOptionTranslation(string $language)
+    {
+        if (isset($this->getOptionTranslations()[$language])) {
+            return $this->getOptionTranslations()[$language];
+        }
+        return [];
+    }
+
+    /**
+     * @param array $translations
+     */
+    public function setOptionTranslations(array $translations)
+    {
+        $this->option_translations = $translations;
+    }
+
+    /**
+     * @param array $a_def
+     */
     protected function importFieldDefinition(array $a_def)
     {
-        $this->setOptions($a_def);
+        if (isset($a_def['options'])) {
+            $this->setOptions((array) $a_def['options']);
+            $this->setOptionTranslations((array) $a_def['option_translations']);
+        }
+        else {
+            $this->setOptions($a_def);
+        }
     }
-    
+
+    /**
+     * @return array
+     */
     protected function getFieldDefinition()
     {
-        return $this->options;
+        return [
+            'options' => (array) $this->getOptions(),
+            'option_translations' => (array) $this->getOptionTranslations()
+        ];
     }
     
-    public function getFieldDefinitionForTableGUI()
+    public function getFieldDefinitionForTableGUI(string $content_language)
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
-        return array($lng->txt("meta_advmd_select_options") => implode(",", $this->getOptions()));
+
+        if (strlen($content_language)) {
+            $options = $this->getOptionTranslation($content_language);
+        } else {
+            $options = $this->getOptions();
+        }
+        return [
+            $lng->txt("meta_advmd_select_options") => implode(",", $options)
+        ];
     }
-    
+
     /**
      * Add input elements to definition form
-     *
      * @param ilPropertyFormGUI $a_form
-     * @param bool $a_disabled
+     * @param bool              $a_disabled
+     * @param string            $language
+     * @throws ilFormException
      */
-    protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+    protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false, string $language = '')
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
+        if (!$this->useDefaultLanguageMode($language)) {
+            return $this->addCustomFieldToDefinitionFormInTranslationMode($a_form, $a_disabled, $language);
+        }
+
+        // if not the default language is chosen => no add/remove; no sorting
         $field = new ilTextInputGUI($lng->txt("meta_advmd_select_options"), "opts");
         $field->setRequired(true);
         $field->setMulti(true, true);
@@ -130,6 +182,41 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         
         if ($a_disabled) {
             $field->setDisabled(true);
+        }
+    }
+
+    /**
+     * @param ilPropertyFormGUI $form
+     * @param bool              $disabled
+     * @param string            $language
+     */
+    protected function addCustomFieldToDefinitionFormInTranslationMode(ilPropertyFormGUI $form, bool $disabled, string $language = '')
+    {
+        global $DIC;
+
+        $lng = $DIC->language();
+
+        $default_language = ilAdvancedMDRecord::_getInstanceByRecordId($this->record_id)->getDefaultLanguage();
+
+        $translation = $this->getOptionTranslation($language);
+
+        $first = true;
+        foreach ($this->getOptions() as $index => $option)
+        {
+            $title = '';
+            if ($first) {
+                $title = $lng->txt("meta_advmd_select_options");
+            }
+            $text = new ilTextInputGUI($title, 'opts__' . $language . '__' . (string) $index);
+            if (isset($translation[$index])) {
+                $text->setValue($translation[$index]);
+            };
+            $text->setInfo($default_language . ': ' . $option);
+            $text->setMaxLength(255);
+            $text->setRequired(true);
+
+            $first = false;
+            $form->addItem($text);
         }
     }
     
@@ -183,14 +270,19 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             return $res;
         }
     }
-    
+
     /**
      * Import custom post values from definition form
-     *
      * @param ilPropertyFormGUI $a_form
+     * @param string            $language
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
+        if (!$this->useDefaultLanguageMode($language)) {
+            return $this->importTranslatedFormPostValues($a_form, $language);
+        }
+
+
         $old = $this->getOptions();
         $new = $a_form->getInput("opts");
         
@@ -214,6 +306,22 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         }
         
         $this->setOptions($new);
+    }
+
+    /**
+     * @param ilPropertyFormGUI $form
+     * @param string            $language
+     */
+    protected function importTranslatedFormPostValues(ilPropertyFormGUI $form, string $language)
+    {
+        $translated_options = [];
+        foreach ($this->getOptions() as $idx => $value) {
+            $value = $form->getInput('opts__' . $language . '__' . (string) $idx);
+            $translated_options[] = trim($value);
+        }
+        $translations = $this->getOptionTranslations();
+        $translations[$language] = $translated_options;
+        $this->setOptionTranslations($translations);
     }
     
     public function importDefinitionFormPostValuesNeedsConfirmation()

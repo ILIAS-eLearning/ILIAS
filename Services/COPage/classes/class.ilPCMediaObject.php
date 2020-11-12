@@ -26,6 +26,11 @@ class ilPCMediaObject extends ilPageContent
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
+
+    /**
+     * @var ilObjMediaObject
+     */
+    protected $mediaobject;
     
     /**
     * Init page content component.
@@ -89,7 +94,7 @@ class ilPCMediaObject extends ilPageContent
     *
     * @return	object	Media Object
     */
-    public function getMediaObject()
+    public function getMediaObject(): ilObjMediaObject
     {
         return $this->mediaobject;
     }
@@ -482,4 +487,31 @@ class ilPCMediaObject extends ilPageContent
 
         return $js_files;
     }
+
+    /**
+     * @return ilMediaAliasItem
+     */
+    public function getStandardMediaAliasItem(): ilMediaAliasItem {
+        $std_alias_item = new ilMediaAliasItem(
+            $this->dom,
+            $this->getHierId(),
+            "Standard",
+            $this->getPcId()
+        );
+        return $std_alias_item;
+    }
+
+    /**
+     * @return ilMediaAliasItem
+     */
+    public function getFullscreenMediaAliasItem(): ilMediaAliasItem {
+        $std_alias_item = new ilMediaAliasItem(
+            $this->dom,
+            $this->getHierId(),
+            "Fullscreen",
+            $this->getPcId()
+        );
+        return $std_alias_item;
+    }
+
 }

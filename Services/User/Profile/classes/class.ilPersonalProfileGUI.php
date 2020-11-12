@@ -540,8 +540,8 @@ class ilPersonalProfileGUI
         $this->tabs->clearSubTabs();
         $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
-        $tos_withdrawal_helper = new \ilTermsOfServiceWithdrawalGUIHelper();
-        $content = $tos_withdrawal_helper->getConsentWithdrawalConfirmation();
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $content = $tosWithdrawalGui->getConsentWithdrawalConfirmation($this);
 
         $this->tpl->setContent($content);
         $this->tpl->setPermanentLink('usr', null, 'agreement');
@@ -550,29 +550,38 @@ class ilPersonalProfileGUI
 
     protected function cancelWithdrawal() : void
     {
-        $this->user->writePref('consent_withdrawal_requested', 0);
-        ilInitialisation::redirectToStartingPage();
+        $this->user->deletePref('consent_withdrawal_requested');
+
+        if (ilSession::get('orig_request_target')) {
+            $target = ilSession::get('orig_request_target');
+            ilSession::set('orig_request_target', '');
+            $this->ctrl->redirectToUrl($target);
+        } else {
+            ilInitialisation::redirectToStartingPage();
+        }
     }
 
     protected function withdrawAcceptance() : void
     {
-        $helper = new \ilTermsOfServiceHelper();
+        $helper = new ilTermsOfServiceHelper();
         $helper->resetAcceptance($this->user);
 
-        $shouldDeleteAccountOnWithdrawal = $this->setting->get(
-            'tos_withdrawal_usr_deletion',
-            false
-        );
-
-        if($shouldDeleteAccountOnWithdrawal == 1 &&
-            ($this->user->getAuthMode() == AUTH_LOCAL || $this->user->getAuthMode() == 'default')
-        ) {
-            $accdel = 1;
-        } else {
-            $accdel = 0;
+        $defaultAuth = AUTH_LOCAL;
+        if ($this->setting->get('auth_mode')) {
+            $defaultAuth = $this->setting->get('auth_mode');
         }
 
-        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
+        $withdrawalType = 0;
+        if (
+            $this->user->getAuthMode() == AUTH_LDAP ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_LDAP)
+        ) {
+            $withdrawalType = 2;
+        } elseif ((bool) $this->setting->get('tos_withdrawal_usr_deletion', false)) {
+            $withdrawalType = 1;
+        }
+
+        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user);
         $this->eventHandler->raise(
             'Services/TermsOfService',
             'ilTermsOfServiceEventWithdrawn',
@@ -582,49 +591,7 @@ class ilPersonalProfileGUI
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
 
-        $this->ctrl::redirectToUrl('login.php?wdtdel=".$accdel."&cmd=force_login');
-    }
-
-    protected function withdrawAcceptanceLDAP() : void
-    {
-        $document = $this->termsOfServiceEvaluation->document();
-        $helper = new \ilTermsOfServiceHelper();
-        $helper->resetAcceptance($this->user);
-
-        /** @var ilObjUser $user */
-        $user = $GLOBALS['DIC']->user();
-        $mail = new ilMail($user->getId()); // default sender
-
-        $subject = $this->lng->txt('withdrawal_mail_subject');
-        $message  = "\n\n";
-        $message .= $this->lng->txt('withdrawal_mail_subject');
-        $message .= "\n\n";
-        $message .= $this->lng->txt('withdrawal_mail_text');
-        $message .= "\n\n";
-        $message .= "Name: " . $user->getFullname() . "\n\n";
-        $message .= "(Login: " . $user->getLogin() . " )\n\n";
-        $message .= $mail->appendInstallationSignature(true);
-
-        $mail->enqueue(
-            $GLOBALS['DIC']->settings()->get('admin_mail'),
-            '',
-            '',
-            $subject,
-            $message,
-            []
-        );
-
-        $domainEvent = new ilTermsOfServiceEventWithdrawn($this->user->getId());
-        $this->eventHandler->raise(
-            'Services/TermsOfService',
-            'ilTermsOfServiceEventWithdrawn',
-            ['event' => $domainEvent]
-        );
-
-        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $GLOBALS['DIC']['ilAuthSession']->logout();
-
-        $this->ctrl->redirectToUrl('login.php?wdtdel=0&cmd=force_login');
+        $this->ctrl->redirectToUrl('login.php?tos_withdrawal_type=' . $withdrawalType . '&cmd=force_login');
     }
 
     /**

@@ -22,7 +22,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
 
         foreach ($userDefinedFields as $field) {
             if ($field['certificate']) {
-                $placeholderText = '#' . str_replace(' ', '_', strtoupper($field['field_name']));
+                $placeholderText = '#' . str_replace(' ', '_', ilStr::strToUpper($field['field_name']));
 
                 $this->placeholder[$placeholderText] = $field['field_name'];
             }
@@ -33,9 +33,9 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
      * This method MUST return an array containing an array with
      * the the description as array value.
      *
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
-    public function getPlaceholderDescriptions()
+    public function getPlaceholderDescriptions() : array
     {
         return $this->placeholder;
     }
@@ -43,7 +43,7 @@ class ilUserDefinedFieldsPlaceholderDescription implements ilCertificatePlacehol
     /**
      * @return string - HTML that can used to be displayed in the GUI
      */
-    public function createPlaceholderHtmlDescription()
+    public function createPlaceholderHtmlDescription() : string
     {
         $template = new ilTemplate(
             'tpl.common_desc.html',

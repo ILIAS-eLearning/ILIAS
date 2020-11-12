@@ -29,7 +29,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjfilegui";
 
         // general commands array
-        include_once('./Modules/File/classes/class.ilObjFileAccess.php');
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
@@ -46,7 +45,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         $frame = "";
         switch ($a_cmd) {
             case 'sendfile':
-                require_once('Modules/File/classes/class.ilObjFileAccess.php');
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
                 }
@@ -71,8 +69,6 @@ class ilObjFileListGUI extends ilObjectListGUI
      */
     public function getIconImageType()
     {
-        include_once('Modules/File/classes/class.ilObjFileAccess.php');
-
         return ilObjFileAccess::_isFileInline($this->title) ? $this->type . '_inline' : $this->type;
     }
 

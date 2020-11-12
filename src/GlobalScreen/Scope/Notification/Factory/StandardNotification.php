@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Item\Notification as NotificationItem;
  *
  * @author Timon Amstutz
  */
-class StandardNotification extends AbstractBaseNotification implements isItem, hasAmount
+class StandardNotification extends AbstractBaseNotification implements isStandardItem, hasAmount
 {
 
     /**

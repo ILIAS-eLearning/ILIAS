@@ -54,6 +54,25 @@ class ilDidacticTemplateSettings
     }
 
     /**
+     * @return string[]
+     * @throws ilDatabaseException
+     */
+    public static function lookupAssignedObjectTypes() : array
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $query = 'select distinct (obj_type) from didactic_tpl_sa ' .
+            'group by obj_type';
+        $res = $db->query($query);
+        $types = [];
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $types[] = $row->obj_type;
+        }
+        return $types;
+    }
+
+    /**
      * Get templates
      * @return ilDidacticTemplateSetting[]
      */

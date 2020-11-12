@@ -423,6 +423,10 @@ class ilTabsGUI
             "frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
     }
 
+    public function removeNonTabbedLinks() {
+        $this->non_tabbed_link = [];
+    }
+
     /**
      * get tabs code as html
      * @param bool $a_get_sub_tabs choose tabs or sub tabs

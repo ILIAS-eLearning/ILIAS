@@ -14,6 +14,18 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+meta#:#md_adv_field_list#:#Datenfelder
+meta#:#md_adv_record_lng_table#:#Sprachenverwaltung
+meta#:#md_adv_record_lng_table_lng#:#Sprache
+meta#:#md_adv_record_lng_table_default#:#Default
+meta#:#md_adv_record_lng_table_active#:#Aktiv
+meta#:#md_adv_record_lng_table_inst#:#Installiert
+meta#:#md_adv_record_activate_languages#:#Sprachen aktivieren
+meta#:#md_aria_language_selection#:#Sprachauswahl
+meta#:#md_adv_int_current#:#Aktuelle Sprache:
+meta#:#md_adv_int_default#:#Standardsprache:
+meta#:#md_adv_int_translation_info#:#Übersetzung:
+meta#:#md_adn_int_error_no_default#:#Bitte wählen Sie eine aktivierte Sprache als "Default-Sprache" aus.
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
@@ -240,6 +252,10 @@ meta#:#meta_local#:#Lokal
 meta#:#udf_type_externallink#:#Externer Link
 meta#:#udf_type_internallink#:#Interner Link
 didactic#:#didactic_scope_list_header#:#Beschränkt auf:
+didactic#:#didactic_global#:#Global
+didactic#:#didactic_filter_with_icon#:#mit Symbol
+didactic#:#didactic_filter_without_icon#:#ohne Symbol
+didactic#:#didactic_local#:#Lokal
 meta#:#md_adv_scope_list_header#:#Beschränkt auf:
 didactic#:#didactic_scope#:#Gültigkeitsbereich
 sess#:#sess_mem_tbl_header#:#Sitzungsteilnehmer
@@ -274,8 +290,6 @@ forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
-common#:#pwsp_recalculate_disk_quota#:#Persönlicher Ressourcen: Neuberechnung Disk-Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für die persönlichen Ressourcen neu.
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 itgr#:#itgr_behaviour#:#Verhalten
@@ -2355,18 +2369,20 @@ common#:#withdraw_consent_description_external#:#Bitte kehren Sie zu Ihrer Herku
 common#:#withdraw_consent#:#Einverständnis widerrufen
 common#:#withdraw_consent_info_internal#:#Wenn Sie hier bestätigen wird Ihr Account gelöscht.
 common#:#withdraw_consent_info_external#:#Bitte benachrichtigen Sie den zuständigen Administrator Ihres Authorisierungssystem und teilen Sie Ihre Absicht mit.
-common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsbedingungen
-common#:#withdraw#:#Widerruf
-common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsbedingungen
+common#:#withdraw_consent_description#:#Widerrufen Sie hier die Zustimmung zu den Nutzungsvereinbarungen
+common#:#withdraw_consent_info#:#Widerrufen der Zustimmung zu den Nutzungsvereinbarungen
 common#:#withdraw_usr_agreement#:#Widerrufen
 common#:#accept_usr_agreement_btn#:#Zustimmen
 common#:#deny_usr_agreement#:#Nutzungsvereinbarung ablehnen?
 common#:#deny_usr_agreement_btn#:#Ablehnen
+common#:#withdrawal_complete#:#Widerrufsvorgang abgeschlossen.
 common#:#withdrawal_complete_deleted#:#Widerrufsvorgang abgeschlossen. Der Nutzeraccount wurde gelöscht.
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang abgeschlossen. Zur Löschung des Accounts bitte Kontakt zu Ihrer Organisation aufnehmen.
-common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsbedingungen
-common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,\n\n hiermit widerrufe ich mein Einverständnis in die Nutzungsbedingungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.\n\nMit freundlichen Grüßen\n\n
-common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:\n\n
+common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
+common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
+common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis in die Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
+common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#access#:#Zugriff
 common#:#access_expired#:#abgelaufen
 common#:#access_free_granted#:#Unbeschränkten Zugriff für die ausgewählten Benutzer aktivieren.
@@ -2673,6 +2689,8 @@ common#:#chat_enter_public_room#:#Öffentl. Chat
 common#:#chat_enter_public_room_tooltip#:#In den öffentlichen Chatraum eintreten.
 common#:#chat_invite_public_room_tooltip#:#In den öffentlichen Chatraum einladen.
 chatroom#:#chat_settings#:#Chat-Einstellungen
+chatroom#:#chat_use_osc#:#Nutzt On-Screen-Chat
+chatroom#:#chat_not_use_osc#:#Nutzt On-Screen-Chat nicht
 common#:#chat_users_active#:#Aktive Benutzer
 common#:#check#:#Prüfen
 assessment#:#submit_and_check#:#Antwort speichern und Rückmeldung anfordern
@@ -2886,23 +2904,6 @@ common#:#disable_check#:#Nicht überprüfen
 common#:#disable_ext_lang_maint#:#Eweiterte Sprachenverwaltung deaktivieren
 common#:#disable_hide_user_toggle#:#Mitglied darf Benachrichtigung deaktivieren
 common#:#disabled#:#Ausgeschaltet
-common#:#disk_quota#:#Disk-Quota
-common#:#disk_quota_exceeded_headline#:#die folgenden Benutzer haben ihr Disk-Quota überschritten:
-common#:#disk_quota_is_1_by_2#:#Die effektive Disk-Quota ist %1$s aufgrund der Mitgliedschaft in Rolle "%2$s".
-common#:#disk_quota_is_1_instead_of_2_by_3#:#Die effektive Disk-Quota ist %1$s wie definiert in diesem Benutzerkonto. Die Disk-Quota durch Rollenzugehörigkeit wäre %2$s über Rolle "%3$s" gewesen.
-common#:#disk_quota_is_unlimited_by_1#:#Die effektive Disk-Quota ist unbegrenzt aufgrund Mitgliedschaft in Rolle "%1$s".
-common#:#disk_quota_last_reminder_sent#:#Letzte Quota-Erinnerung zugestellt
-common#:#disk_quota_last_reminder_sent_desc#:#Datum, an dem der Benutzer zum letzten Mal wegen Überschreitung der Disk-Quota eine Erinnerungsnachricht erhalten hat.
-common#:#disk_quota_on_role_desc#:#Die Disk-Quota einer Rolle wirkt sich auf alle Benutzerkonten aus, welche dieser Rolle zugeordnet sind.
-common#:#disk_quota_reminder_mail#:#Erinnerungsnachricht
-common#:#disk_quota_reminder_mail_desc#:#Die Disk-Quota Erinnerungsnachricht wird an alle aktiven Benutzer versandt, die Ihre Disk-Quota überschritten haben. Der Versand erfolgt einmal täglich. Benutzer die bereits eine Erinnerungsnachricht erhalten haben, erhalten diese alle 7 Tage erneut, bis dass ihre Disk-Quota wieder unterschritten wird.
-common#:#disk_quota_report#:#Disk-Quota-Bericht
-common#:#disk_quota_report_not_run_yet#:#Keine Disk-Quota-Berichte vorhanden. Der tägliche Cron-Job zur Ermittlung der Speicherverwendung muss zuerst ausgeführt werden.
-common#:#disk_quota_summary_rctp#:#Empfänger der Zusammenfassung
-common#:#disk_quota_summary_rctp_desc#:#Tragen Sie hier kommasepariert die Benutzernamen jener Personen ein, an die ILIAS täglich eine Zusammenfassung der überschrittenen Disk-Quotas senden soll.
-common#:#disk_quota_summary_subject#:#Zusammenfassung von überschrittenen Disk-Quotas
-common#:#disk_usage#:#Speicherverwendung
-common#:#disk_usage_details#:#Einzelheiten zur Speicherverwendung
 common#:#domain#:#Domäne
 common#:#down#:#Runter
 common#:#download#:#Download
@@ -2932,9 +2933,6 @@ common#:#enable_course_group_notifications#:#Tägliche Mail über Neuigkeiten au
 common#:#enable_course_group_notifications_desc#:#Bei Aktivierung können Teilnehmer eine Zusammenfassung der News abonnieren.
 common#:#enable_custom_icons#:#Anpassbare Symbole aktivieren
 common#:#enable_custom_icons_info#:#Damit können Sie eigene Symbole (Icons) für einzelne Container-Objekte und die Inhaltsseite definieren. Die entsprechenden Bilddateien laden Sie in den Eigenschaften der Objekte hoch.
-common#:#enable_disk_quota_reminder_mail#:#Sende Disk-Quota-Erinnerungsnachrichten
-common#:#enable_disk_quota_summary_mail#:#Sende Disk-Quota-Zusammenfassungen
-common#:#enable_disk_quota_summary_mail_desc#:#Durch das Aktivieren ist es möglich, bestimmten Benutzern eine tägliche Benachrichtigung über die überschrittenen Disk-Quotas zukommen zu lassen.
 common#:#enable_download_folder#:#«Herunterladen Aktion für Ordner» aktivieren
 common#:#enable_download_folder_info#:#Aktiviert eine Herunterladen-Option im Aktionen-Dropdown von Ordnern.
 common#:#enable_fora_statistics#:#Forenstatistik aktivieren
@@ -3087,7 +3085,6 @@ common#:#fill_out_all_required_fields#:#Bitte füllen Sie alle benötigten Felde
 common#:#filter#:#Filter:
 common#:#filter_users_with_access#:#Nur Benutzer mit Zugriff
 common#:#filter_users_with_disk_usage#:#Nur Benutzer die Speicherplatz belegen
-common#:#filter_users_with_exceeded_disk_quota#:#Nur Benutzer, die ihre Disk-Quota überschreiten
 common#:#filter_users_without_access#:#Nur Benutzer ohne Zugriff
 common#:#filter_users_without_disk_usage#:#Nur Benutzer die keinen Speicherplatz belegen
 common#:#first#:#An den Anfang
@@ -5315,8 +5312,7 @@ content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
 content#:#cont_second#:#Zweite
-content#:#cont_sel_el_copied_use_paste#:#Die ausgewählten Elemente wurden kopiert. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
-content#:#cont_sel_el_cut_use_paste#:#Die ausgewählten Elemente wurden ausgeschnitten. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
+content#:#cont_sel_el_use_paste#:#Die ausgewählten Elemente sind nun in der Zwischenablage. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
 content#:#cont_select#:#Auswählen
 content#:#cont_select_file#:#Datei auswählen
 content#:#cont_select_from_upload_dir#:#-- Wählen Sie aus dem Upload-Verzeichnis --
@@ -11250,7 +11246,6 @@ registration#:#registration_codes_override_global_info#:#Diese Einstellungen wer
 crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Wollen Sie wirklich die Mitgliedschaft für die folgenden Kurse und Gruppen beenden?
-file#:#repository_disk_quota#:#Disk-Quota für Magazin
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
@@ -12053,7 +12048,6 @@ blog#:#blog_posting_not_found#:#Der Beitrag ist nicht verfügbar.
 ldap#:#ldap_choose_role#:#Rolle auswählen
 rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
-file#:#repository_disk_quota_info#:#Wenn aktiviert, werden für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
 survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
@@ -14125,6 +14119,9 @@ exc#:#exc_settings_feedback_file#:#Datei
 mem#:#mem_print_view_form#:#Standardeinstellungen für Druckansicht
 mem#:#mem_settings_tab_print_view#:#Einstellungen Druckansicht
 mem#:#mem_settings_tab_settings#:#Allgemeine Einstellungen
+didactic#:#didactic_icon#:#Icon
+didactic#:#didactic_icon_info#:#Das Icon wird für alle Objekte angezeigt, die diese Vorlagen anwenden. "Angepasste Icons" der Objekte überschreiben das Icon der Vorlage. Icons können nur für Container-Objekte (wie zum Beispiel Kurs und Kategorien) konfiguriert werden.
+didactic#:#didactic_icon_error#:#Icons können nur für Container-Objekte genutzt werden.
 didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
@@ -14389,7 +14386,6 @@ pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
 pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
 pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
 pdfgen#:#page_settings#:#Seiteneinstellungen
-pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand
@@ -14851,6 +14847,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
@@ -15571,8 +15568,6 @@ svy#:#svy_status_finished#:#Beendet
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
 common#:#personal_resources#:#Persönliche Ressourcen
 file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
@@ -16283,6 +16278,8 @@ survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#mainbar_more_label#:#Mehr
+common#:#obj_wbdv#:#WebDAV
+common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
 common#:#obj_fils#:#Datei-Services
 common#:#obj_fils_desc#:#Konfiguration der Datei-Service Einstellungen.
 fils#:#file_services#:#Datei-Services
@@ -16360,3 +16357,19 @@ cmix#:#duration_label#:#Zeitdauer 'duration'
 cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt.
 cmix#:#no_substatements_label#:#Substatements nicht speichern
 cmix#:#no_substatements_info#:#Mit dieser Option, die nur für den ILIAS LRS-Proxy zur Verfügung steht, kann die Speicherung von untergeordneten Statements unterdrückt werden. Dies kann z.B. die Beantwortung einzelner Aufgaben in einem Test beeinflussen. Dem Content wird mitgeteilt, dass die Statements gespeichert worden wären.
+content#:#cont_delete_content#:#Inhalte löschen
+adve#:#adve_autosave#:#Intervall automatisches Speichern
+adve#:#adve_autosave_info#:#Textinhalte werden in diesem Intervall automatisch gespeichert. Kürzere Intervalle führen zu höherer Serverlast und geringerer Systemperformanz.
+content#:#cont_edit_comp#:#Bearbeitungsmodus
+content#:#cont_edit_multi#:#Mehrfachauswahl
+content#:#cont_block_format#:#Blockformat
+content#:#cont_upload_file#:#Datei hochladen
+content#:#cont_add_url#:#URL angeben
+content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
+content#:#cont_choose_from_pool#:#Aus Medienpool
+content#:#cont_choose_media_pool#:#Medienpool auswählen
+content#:#cont_no_block#:#Kein Block
+content#:#cont_show_fullscreen#:#Vollbild anzeigen
+content#:#cont_advanced_settings#:#Erweiterte Einstellungen
+content#:#cont_table_edit_cells#:#Zellen editieren
+content#:#cont_last_update#:#Zuletzt gespeichert

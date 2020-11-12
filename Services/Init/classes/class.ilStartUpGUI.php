@@ -240,7 +240,8 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        ilTermsOfServiceHelper::setWithdrawalInfo($this->httpRequest);
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui->setWithdrawalInfoForLoginScreen($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
     }
@@ -1269,12 +1270,13 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
-        $withdrawal_appendage_text = ilTermsOfServiceHelper::appendWithdrawalText(
-            (int) ($DIC->http()->request()->getQueryParams()['withdrawal_relogin_content'] ?? 0)
-        );
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
-        $tpl->setVariable("TXT_LOGOUT_TEXT", $lng->txt("logout_text") . $withdrawal_appendage_text);
+        $tpl->setVariable(
+            "TXT_LOGOUT_TEXT",
+            $lng->txt("logout_text") . $tosWithdrawalGui->getWithdrawalTextForLogoutScreen($this->httpRequest)
+        );
         $tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&cmd=force_login&lang=" . $lng->getLangKey());
 
@@ -1306,9 +1308,8 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-        if (isset($this->httpRequest->getQueryParameters()['withdraw_consent'])) {
-            ilTermsOfServiceHelper::handleWithdrawalRequest($user, $this);
-        }
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $user, $this);
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();

@@ -497,6 +497,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // page content
         $this->setOutputMode(ilPageObjectGUI::PRESENTATION);
+        $this->showEditToolbar();
         $this->setRenderPageContainer(true);
         $wtpl->setVariable("PAGE", $this->showPage());
 
