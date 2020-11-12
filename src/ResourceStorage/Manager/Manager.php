@@ -8,6 +8,7 @@ use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\Filesystem\Stream\FileStream;
 
 /**
  * Class StorageManager
@@ -57,6 +58,19 @@ class Manager
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    public function stream(
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $title = null
+    ) : ResourceIdentification {
+        $resource = $this->resource_builder->newFromStream($stream);
+        $resource->addStakeholder($stakeholder);
+
+        $this->resource_builder->store($resource);
+
+        return $resource->getIdentification();
+    }
+
     public function find(string $identification) : ?ResourceIdentification
     {
         $resource_identification = new ResourceIdentification($identification);
@@ -104,6 +118,25 @@ class Manager
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    public function appendNewRevisionFromStream(
+        ResourceIdentification $identification,
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
+        if (!$this->resource_builder->has($identification)) {
+            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+        }
+
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->appendFromStream($resource, $stream, true, $revision_title);
+        $resource->addStakeholder($stakeholder);
+
+        $this->resource_builder->store($resource);
+
+        return $resource->getCurrentRevision();
+    }
+
     public function getCurrentRevision(ResourceIdentification $identification) : Revision
     {
         return $this->resource_builder->get($identification)->getCurrentRevision();
@@ -111,8 +144,9 @@ class Manager
 
     public function updateRevision(Revision $revision) : bool
     {
-        $resource = $this->resource_builder->get($revision->getIdentification());
-        $this->resource_builder->store($resource);
+        $this->resource_builder->storeRevision($revision);
+
+        return true;
     }
 
 }

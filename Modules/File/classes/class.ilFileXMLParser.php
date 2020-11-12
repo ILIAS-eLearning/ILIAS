@@ -82,14 +82,6 @@ class ilFileXMLParser extends ilSaxParser
     /**
      * @var int
      */
-    protected $rollback_version = null;
-    /**
-     * @var int
-     */
-    protected $rollback_user_id = null;
-    /**
-     * @var int
-     */
     protected $max_version = null;
     /**
      * @var int
@@ -197,8 +189,6 @@ class ilFileXMLParser extends ilSaxParser
                 $this->file->setVersion($a_attribs["version"]); // Selected version
                 $this->file->setMaxVersion($a_attribs["max_version"]);
                 $this->file->setAction($a_attribs["action"]);
-                $this->file->setRollbackVersion($a_attribs["rollback_version"]);
-                $this->file->setRollbackUserId($a_attribs["rollback_user_id"]);
                 break;
             case 'Content': // Old import files
             case 'Version':
@@ -247,8 +237,6 @@ class ilFileXMLParser extends ilSaxParser
                     $this->date = $a_attribs["date"];
                     $this->usr_id = $a_attribs["usr_id"];
                     $this->action = $a_attribs["action"];
-                    $this->rollback_version = $a_attribs["rollback_version"];
-                    $this->rollback_user_id = $a_attribs["rollback_user_id"];
                 } else {
                     // Old import files
                     //$this->version = $this->file->getVersion();
@@ -360,8 +348,6 @@ class ilFileXMLParser extends ilSaxParser
                     "date" => $this->date,
                     "usr_id" => $this->usr_id,
                     "action" => $this->action,
-                    "rollback_version" => $this->rollback_version,
-                    "rollback_user_id" => $this->rollback_user_id,
                 ];
                 $this->version = null;
                 $this->date = null;
@@ -435,18 +421,15 @@ class ilFileXMLParser extends ilSaxParser
             ilFileUtils::rename($version["tmpFilename"], $filename);
 
             // Add version history
-            if ($version["rollback_version"] != "" and $version["rollback_version"] != null
-                and $version["rollback_user_id"] != "" and $version["rollback_user_id"] != null
-            ) {
-                ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . "," . $version["version"] . "," . $version["max_version"]
-                    . "|" . $version["rollback_version"] . "|" . $version["rollback_user_id"]);
+
+            if ($version["action"] != "" and $version["action"] != null) {
+                ilHistory::_createEntry($this->file->getId(), $version["action"],
+                    basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
             } else {
-                if ($version["action"] != "" and $version["action"] != null) {
-                    ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
-                } else {
-                    ilHistory::_createEntry($this->file->getId(), "new_version", basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
-                }
+                ilHistory::_createEntry($this->file->getId(), "new_version",
+                    basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
             }
+
         }
     }
 
@@ -459,19 +442,13 @@ class ilFileXMLParser extends ilSaxParser
     public function updateFileContents()
     {
         if ($this->setFileContents()) {
-            require_once("./Services/History/classes/class.ilHistory.php");
-            if ($this->file->getRollbackVersion() != "" and $this->file->getRollbackVersion() != null
-                and $this->file->getRollbackUserId() != "" and $this->file->getRollbackUserId() != null
-            ) {
-                ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion()
-                    . "|" . $this->file->getRollbackVersion() . "|" . $this->file->getRollbackUserId());
-            } else {
+
                 if ($this->file->getAction() != "" and $this->file->getAction() != null) {
                     ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
                 } else {
                     ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
                 }
-            }
+
             $this->file->addNewsNotification("file_updated");
         }
     }

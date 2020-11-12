@@ -5,7 +5,6 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
 
 /**
  * Class ilFileVersionsGUI
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileVersionsGUI
@@ -62,11 +61,13 @@ class ilFileVersionsGUI
      * @var ilObjFile
      */
     private $file;
-
+    /**
+     * @var bool
+     */
+    protected $has_been_migrated = false;
 
     /**
      * ilFileVersionsGUI constructor.
-     *
      * @param ilObjFile $file
      */
     public function __construct(ilObjFile $file)
@@ -82,8 +83,8 @@ class ilFileVersionsGUI
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
         $this->wsp_access = new ilWorkspaceAccessHandler();
+        $this->has_been_migrated = !is_null($file->getResourceId());
     }
-
 
     public function executeCommand()
     {
@@ -115,7 +116,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
-                // no break
+            // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -128,30 +129,35 @@ class ilFileVersionsGUI
         }
     }
 
-
     private function index()
     {
         // Buttons
-        $add_version = ilLinkButton::getInstance();
-        $add_version->setCaption('file_new_version');
-        $add_version->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_NEW_VERSION));
-        $this->toolbar->addButtonInstance($add_version);
+        if ($this->has_been_migrated) {
+            $add_version = ilLinkButton::getInstance();
+            $add_version->setCaption('file_new_version');
+            $add_version->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_NEW_VERSION));
+            $this->toolbar->addButtonInstance($add_version);
 
-        $replace_version = ilLinkButton::getInstance();
-        $replace_version->setCaption('replace_file');
-        $replace_version->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_REPLACING_VERSION));
-        $this->toolbar->addButtonInstance($replace_version);
+            $replace_version = ilLinkButton::getInstance();
+            $replace_version->setCaption('replace_file');
+            $replace_version->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_REPLACING_VERSION));
+            $this->toolbar->addButtonInstance($replace_version);
+        } else {
+            ilUtil::sendInfo($this->lng->txt('not_yet_migrated'));
+        }
 
         $table = new ilFileVersionsTableGUI($this, self::CMD_DEFAULT);
         $this->tpl->setContent($table->getHTML());
     }
-
 
     /**
      * @param int $mode
      */
     private function addVersion($mode = ilFileVersionFormGUI::MODE_ADD)
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT));
 
@@ -160,15 +166,16 @@ class ilFileVersionsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
     /**
      * @param int $mode
-     *
      * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
     private function saveVersion($mode = ilFileVersionFormGUI::MODE_ADD)
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         $form = new ilFileVersionFormGUI($this, $mode);
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
@@ -177,7 +184,6 @@ class ilFileVersionsGUI
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }
-
 
     private function downloadVersion()
     {
@@ -188,9 +194,11 @@ class ilFileVersionsGUI
         }
     }
 
-
     private function deleteVersions()
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         $version_ids = $this->getVersionIdsFromRequest();
 
         if (count($version_ids) < 1) {
@@ -253,9 +261,11 @@ class ilFileVersionsGUI
         }
     }
 
-
     private function rollbackVersion()
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         $version_ids = $this->getVersionIdsFromRequest();
 
         // more than one entry selected?
@@ -271,9 +281,11 @@ class ilFileVersionsGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-
     private function confirmDeleteVersions()
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         // delete versions after confirmation
         if (is_array($_POST[self::HIST_ID]) && count($_POST[self::HIST_ID]) > 0) {
             $this->file->deleteVersions($_POST[self::HIST_ID]);
@@ -284,9 +296,11 @@ class ilFileVersionsGUI
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
-
     private function confirmDeleteFile()
     {
+        if(!$this->has_been_migrated) {
+            return;
+        }
         global $DIC;
 
         $parent_id = $DIC->repositoryTree()->getParentId($this->ref_id);
@@ -299,7 +313,6 @@ class ilFileVersionsGUI
         $this->ctrl->redirectByClass(ilRepositoryGUI::class);
     }
 
-
     /**
      * @return ilObjFile
      */
@@ -307,7 +320,6 @@ class ilFileVersionsGUI
     {
         return $this->file;
     }
-
 
     /**
      * @return array
@@ -328,10 +340,8 @@ class ilFileVersionsGUI
         return $version_ids;
     }
 
-
     /**
      * @param array $version_ids
-     *
      * @return array
      */
     private function getVersionsToKeep(array $version_ids) : array
@@ -359,14 +369,11 @@ class ilFileVersionsGUI
         return $versions_to_keep;
     }
 
-
     /**
      * bugfix mantis 26007:
      * this function was created to ensure that the access check not only works for repository objects
      * but for workspace objects too
-     *
      * @param string $a_permission
-     *
      * @return bool
      */
     private function hasPermission($a_permission)

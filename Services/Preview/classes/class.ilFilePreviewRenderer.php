@@ -44,8 +44,6 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
             $filename = $_FILES['file']['name'];
         } elseif (isset($_FILES['upload_files']['name'])) {
             $filename = $_FILES['upload_files']['name'];
-        } else {
-            $filename = ilObjFile::_lookupFileName($preview->getObjId());
         }
         $ext = ilObjFileAccess::_getFileExtension($filename);
         

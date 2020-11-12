@@ -14,6 +14,7 @@ use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Class ResourceBuilder
@@ -133,15 +134,17 @@ class ResourceBuilder
         string $revision_title = null
     ) : StorableResource {
         $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
-        $path = $stream->getMetadata('uri');
-        $file_name = basename($path);
         $info = $revision->getInformation();
-        $info->setTitle($file_name);
-        $info->setMimeType(mime_content_type($path));
-        $info->setSize($stream->getSize());
+        $path = $stream->getMetadata('uri');
+        if ($path && $path !== 'php://input') {
+            $file_name = basename($path);
+            $info->setTitle($file_name);
+            $info->setMimeType(mime_content_type($path));
+            $info->setSize($stream->getSize());
+        }
         $info->setCreationDate(new \DateTimeImmutable());
 
-        $revision->setTitle($revision_title ?? $file_name);
+        $revision->setTitle($revision_title ?? $file_name ?? 'stream');
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
 
@@ -168,14 +171,7 @@ class ResourceBuilder
             $this->resource_repository->store($resource);
 
             foreach ($resource->getAllRevisions() as $revision) {
-                if ($revision instanceof UploadedFileRevision) {
-                    $this->storage_handler->storeUpload($revision);
-                }
-                if ($revision instanceof FileStreamRevision) {
-                    $this->storage_handler->storeStream($revision);
-                }
-                $this->revision_repository->store($revision);
-                $this->information_repository->store($revision->getInformation(), $revision);
+                $this->storeRevision($revision);
             }
 
             foreach ($resource->getStakeholders() as $stakeholder) {
@@ -184,6 +180,18 @@ class ResourceBuilder
         });
 
         $r->runAndUnlock();
+    }
+
+    public function storeRevision(Revision $revision) : void
+    {
+        if ($revision instanceof UploadedFileRevision) {
+            $this->storage_handler->storeUpload($revision);
+        }
+        if ($revision instanceof FileStreamRevision) {
+            $this->storage_handler->storeStream($revision);
+        }
+        $this->revision_repository->store($revision);
+        $this->information_repository->store($revision->getInformation(), $revision);
     }
 
     /**
