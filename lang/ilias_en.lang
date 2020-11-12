@@ -367,8 +367,6 @@ forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
-common#:#pwsp_recalculate_disk_quota#:#Personal Resources: Recalculation of Disk Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal resources.
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_behaviour#:#Block Behaviour
@@ -2621,7 +2619,6 @@ common#:#filetype#:#File Type
 common#:#fill_out_all_required_fields#:#Please fill out all required fields
 common#:#filter_users_with_access#:#Only users with access
 common#:#filter_users_with_disk_usage#:#Only users with disk space used
-common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded
 common#:#filter_users_without_access#:#Only users without access
 common#:#filter_users_without_disk_usage#:#Only users with no disk space used
 common#:#filter#:#Filter
@@ -8500,14 +8497,8 @@ common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
 common#:#sess_mode#:#Session Mode
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status is not displayed and does not influence parent objects.
 common#:#cronjob_last_start#:#Last Start of the Cron Job
-common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary
-common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.
-common#:#disk_quota_summary_rctp#:#Recipients
-common#:#disk_quota_summary_rctp_desc#:#Enter the user names (comma-separated) of those users who shall receive a daily report with users currently exceeding the disk quota.
-common#:#disk_quota_exceeded_headline#:#The following users have exceeded their disk quota:
 common#:#usrf_profile_link#:#Link to user profile
 common#:#currently_used_disk_space#:#Currently used disk space
-common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota
 common#:#cronjob_last_start_unknown#:#Indeterminate
 trac#:#trac_lp_determination_tutor#:#Display of objects in learning progress
 trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to the learning progress status.
@@ -11246,7 +11237,6 @@ registration#:#registration_codes_override_global_info#:#These settings may be o
 crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-file#:#repository_disk_quota#:#Soft Disk Quota for Repository
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
@@ -12125,7 +12115,6 @@ ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
 skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
-file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and e-mails will be sent to administrators and users optionally.
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
@@ -15579,8 +15568,6 @@ svy#:#svy_status_finished#:#Finished
 svy#:#svy_users_invited#:#Users have been invited.
 svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
-file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
-file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
 common#:#personal_resources#:#Personal Resources
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
