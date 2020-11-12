@@ -35,7 +35,10 @@ class ilUploadDirFilesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
 
         $mset = new ilSetting("mobs");
-        $this->upload_dir = trim($mset->get("upload_dir"));
+
+        $import_directory_factory = new ilImportDirectoryFactory();
+        $mob_import_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
+        $this->upload_dir = $mob_import_directory->getAbsolutePath();
 
         //var_dump($_POST);
         parent::__construct($a_parent_obj, $a_parent_cmd);

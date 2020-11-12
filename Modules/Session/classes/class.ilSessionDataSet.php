@@ -360,9 +360,6 @@ class ilSessionDataSet extends ilDataSet
                     $newObj = new ilObjSession();
                     $newObj->setType("sess");
                     $newObj->create(true);
-                    $newObj->createReference();
-                    $newObj->putInTree($this->target_id);
-                    $newObj->setPermissions($this->target_id);
                 }
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setDescription($a_rec["Description"]);

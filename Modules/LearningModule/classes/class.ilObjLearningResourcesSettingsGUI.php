@@ -170,15 +170,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $cb_prop->setChecked($lm_set->get("html_export_ids"));
         $form->addItem($cb_prop);
 
-        // Upload dir for learning resources
-        $tx_prop = new ilTextInputGUI(
-            $lng->txt("cont_upload_dir"),
-            "cont_upload_dir"
-        );
-        $tx_prop->setInfo($lng->txt("cont_upload_dir_info"));
-        $tx_prop->setValue($lm_set->get("cont_upload_dir"));
-        $form->addItem($tx_prop);
-
         // scormDebugger activation
         $cb_prop = new ilCheckboxInputGUI($lng->txt("scormdebug_global_activate"), "scormdebug_global_activate");
         $cb_prop->setInfo($lng->txt("scormdebug_global_activate_info"));
@@ -260,10 +251,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $lm_set->set(
             "html_export_ids",
             ilUtil::stripSlashes($_POST["html_export_ids"])
-        );
-        $lm_set->set(
-            "cont_upload_dir",
-            ilUtil::stripSlashes($_POST["cont_upload_dir"])
         );
         $lm_set->setScormDebug(
             "scormdebug_global_activate",

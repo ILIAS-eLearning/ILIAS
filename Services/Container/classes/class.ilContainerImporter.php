@@ -14,6 +14,10 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilContainerImporter extends ilXmlImporter
 {
+    /**
+     * @var string
+     */
+    private $structure_xml;
 
     /**
      * @var ilLogger
@@ -34,6 +38,7 @@ class ilContainerImporter extends ilXmlImporter
     {
         include_once './Services/Container/classes/class.ilContainerXmlParser.php';
 
+        $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
         $this->cont_log->debug('Using id: ' . $a_id);
         
@@ -46,6 +51,7 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function finalProcessing($a_mapping)
     {
+        $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
         include_once('./Services/COPage/classes/class.ilPageObject.php');
         $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
@@ -85,6 +91,47 @@ class ilContainerImporter extends ilXmlImporter
             $prof = new ilSkillProfile($new_prof_id);
             $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
             $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($new_crs_ref_id));
+        }
+    }
+
+    /**
+     * @param string $xml
+     */
+    protected function handleOfflineStatus(string $xml, ilImportMapping $mapping)
+    {
+        libxml_use_internal_errors(true);
+        $root = simplexml_load_string($xml);
+        if ($root === false) {
+            $errors = '';
+            foreach (libxml_get_errors() as $err) {
+                $errors .= $err->code . '<br/>';
+            }
+            $this->cont_log->error($xml);
+            $this->cont_log->error('Cannot parse xml: ' . $errors);
+        }
+        foreach ($root->xpath('//Item') as $item) {
+            $ref_id = 0;
+            $offline = null;
+            foreach ($item->attributes() as $name => $value) {
+                if ((string) $name == 'Offline') {
+                    $offline = $value;
+                }
+                if ((string) $name == 'RefId') {
+                    $ref_id = (string) $value;
+                }
+            }
+            if (is_null($offline)) {
+                $this->cont_log->debug('No offline handling for ref_id: ' . $ref_id);
+                continue;
+            }
+            $new_ref_id = $mapping->getMapping('Services/Container', 'refs', $ref_id);
+            $obj = ilObjectFactory::getInstanceByRefId($new_ref_id, false);
+            if (!$obj instanceof ilObject) {
+                $this->cont_log->warning('Cannot create instance for ref_id: ' . $new_ref_id);
+                continue;
+            }
+            $obj->setOfflineStatus($offline == '0' ? false : true);
+            $obj->update();
         }
     }
 }

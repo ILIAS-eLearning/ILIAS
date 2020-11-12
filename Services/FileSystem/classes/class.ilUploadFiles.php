@@ -54,12 +54,15 @@ class ilUploadFiles
 
         $lm_set = new ilSetting("lm");
         $upload_dir = $lm_set->get("cont_upload_dir");
-        
-        if (is_dir($upload_dir) and is_readable($upload_dir)) {
-            return $upload_dir;
-        } else {
+
+        $web_directory = $DIC->filesystem()->storage();
+        $import_file_factory = new ilImportDirectoryFactory($web_directory);
+        try {
+            $scorm_import_directory = $import_file_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_SAHS);
+        } catch (InvalidArgumentException $e) {
             return '';
         }
+        return $scorm_import_directory->getAbsolutePath();
     }
     
     /**

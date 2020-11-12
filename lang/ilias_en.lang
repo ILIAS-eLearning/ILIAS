@@ -8270,6 +8270,7 @@ content#:#cont_download_no_menu#:#Download will not be available to users since 
 content#:#cont_download_no_download#:#Download will not be available to users, since the download feature is not activated.
 content#:#cont_no_download_file_available#:#There is currently no public download file available.
 content#:#htlm_import#:#Import HTML Learning Module
+content#:#lm_import#:#Import ILIAS Learning Module
 content#:#cont_selection#:#Selection
 wiki#:#wiki_whole_wiki#:#Whole Wiki
 wiki#:#wiki_selected_pages#:#Selected Pages

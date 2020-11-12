@@ -352,9 +352,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                     $ilCtrl->getLinkTarget($this, "listMedia")
                 );
                 $mset = new ilSetting("mobs");
-                if (trim($mset->get("upload_dir")) != "") {
-                    include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-                    $fs_gui = new ilFileSystemGUI($mset->get("upload_dir"));
+                $import_directory_factory = new ilImportDirectoryFactory();
+                $mob_import_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
+                if ($mob_import_directory->exists()) {
+                    $fs_gui = new ilFileSystemGUI($mob_import_directory->getAbsolutePath());
                     $fs_gui->setPostDirPath(true);
                     $fs_gui->setTableId("mepud" . $this->object->getId());
                     $fs_gui->setAllowFileCreation(false);
@@ -600,8 +601,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $lng->txt("mep_create_folder"),
                 $ilCtrl->getLinkTarget($this, "createFolderForm")
             );
-                        
-            if (trim($mset->get("upload_dir")) != "" && ilMainMenuGUI::_checkAdministrationPermission()) {
+
+            $upload_factory = new ilImportDirectoryFactory();
+            $media_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
+            if ($media_upload->exists() && ilMainMenuGUI::_checkAdministrationPermission()) {
                 $ilToolbar->addButton(
                     $lng->txt("mep_create_from_upload_dir"),
                     $ilCtrl->getLinkTargetByClass("ilfilesystemgui", "listFiles")
@@ -1821,7 +1824,10 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->checkPermission("write");
 
         $mset = new ilSetting("mobs");
-        $upload_dir = trim($mset->get("upload_dir"));
+
+        $import_directory_factory = new ilImportDirectoryFactory();
+        $mob_import_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_MOB);
+        $upload_dir = $mob_import_directory->getAbsolutePath();
 
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 

@@ -1081,36 +1081,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     */
     public function initImportForm($a_new_type)
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
-        $form = new ilPropertyFormGUI();
-    
-        $new_type = $_POST["new_type"] ? $_POST["new_type"] : $_GET["new_type"];
-        $this->ctrl->setParameter($this, "new_type", $new_type);
-        
-        $form->setTarget(ilFrameTargetInfo::_getFrame("MainContent"));
-        $form->setTableWidth("600px");
-        
-        // import file
-        //$fi = new ilFileInputGUI($this->lng->txt("file"), "xmldoc");
-        $fi = new ilFileInputGUI($this->lng->txt("file"), "importfile");
-        $fi->setSuffixes(array("zip"));
-        $fi->setRequired(true);
-        $fi->setSize(30);
-        $form->addItem($fi);
-        
+        $form = parent::initImportForm($a_new_type);
+
         // validation
         $cb = new ilCheckboxInputGUI($this->lng->txt("cont_validate_file"), "validate");
         $cb->setInfo($this->lng->txt(""));
         $form->addItem($cb);
-        
-        $form->addCommandButton("importFile", $lng->txt("import"));
-        $form->addCommandButton("cancel", $lng->txt("cancel"));
-                    
-        $form->setTitle($this->lng->txt("import_" . $new_type));
-        $form->setFormAction($ilCtrl->getFormAction($this));
-
         return $form;
     }
     

@@ -5482,6 +5482,7 @@ content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definition
 content#:#glo_usages#:#Glossar wird verwendet in...
 content#:#glo_used_in_scorm#:#Das Glossar wird vom SCORM-Modul verwendet. Wenn das Glossar gelöscht wird, können Verlinkungen zum Glossar nicht mehr aufgelöst werden.
 content#:#htlm_import#:#HTML-Lernmodul importieren
+content#:#lm_import#:#ILIAS-Lernmodul importieren
 content#:#import_sco_object#:#SCO importieren
 content#:#lm_menu_edit_entry#:#Menüeintrag bearbeiten
 content#:#lm_menu_entry_target#:#Ziel

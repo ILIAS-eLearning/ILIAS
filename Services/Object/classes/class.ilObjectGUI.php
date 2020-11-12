@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
 * Class ilObjectGUI
@@ -12,6 +13,9 @@
 */
 class ilObjectGUI
 {
+    protected const UPLOAD_TYPE_LOCAL = 1;
+    protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
+
     /**
      * @var ilErrorHandling
      */
@@ -134,6 +138,11 @@ class ilObjectGUI
     protected $favourites;
 
     /**
+     * @var ServerRequestInterface
+     */
+    protected $request;
+
+    /**
     * Constructor
     * @access	public
     * @param	array	??
@@ -144,6 +153,7 @@ class ilObjectGUI
     {
         global $DIC;
 
+        $this->request = $DIC->http()->request();
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->access = $DIC->access();
@@ -1282,17 +1292,58 @@ class ilObjectGUI
      */
     protected function initImportForm($a_new_type)
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+        global $DIC;
+
+        $import_directory_factory = new ilImportDirectoryFactory();
+        $export_directory = $import_directory_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
+        $upload_files = $export_directory->getFilesFor((int) $DIC->user()->getId(), (string) $a_new_type);
+        $has_upload_files = false;
+        if (count($upload_files)) {
+            $has_upload_files = true;
+        }
+
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "importFile"));
         $form->setTitle($this->lng->txt($a_new_type . "_import"));
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
-        $form->addItem($fi);
+        if ($has_upload_files) {
+            $this->lng->loadLanguageModule('content');
+            $option = new ilRadioGroupInputGUI(
+                $this->lng->txt('cont_choose_file_source'),
+                'upload_type'
+            );
+            $option->setValue(self::UPLOAD_TYPE_LOCAL);
+            $form->addItem($option);
+
+            $direct = new ilRadioOption(
+                $this->lng->txt('cont_choose_local'),
+                self::UPLOAD_TYPE_LOCAL
+            );
+            $option->addOption($direct);
+
+            $direct->addSubItem($fi);
+            $upload = new ilRadioOption(
+                $this->lng->txt('cont_choose_upload_dir'),
+                self::UPLOAD_TYPE_UPLOAD_DIRECTORY
+            );
+            $option->addOption($upload);
+            $files = new ilSelectInputGUI(
+                $this->lng->txt('cont_choose_upload_dir'),
+                'uploadFile'
+            );
+            $upload_files[''] = $this->lng->txt('cont_select_from_upload_dir');
+            $files->setOptions($upload_files);
+            $files->setRequired(true);
+            $upload->addSubItem($files);
+        }
+
+        if (!$has_upload_files) {
+            $form->addItem($fi);
+        }
 
         $form->addCommandButton("importFile", $this->lng->txt("import"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -1305,6 +1356,10 @@ class ilObjectGUI
      */
     protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
+        global $DIC;
+
+        $user = $DIC->user();
+
         $objDefinition = $this->objDefinition;
         $tpl = $this->tpl;
         $ilErr = $this->ilErr;
@@ -1313,6 +1368,7 @@ class ilObjectGUI
             $parent_id = $_GET["ref_id"];
         }
         $new_type = $_REQUEST["new_type"];
+        $upload_type = $this->request->getParsedBody()['upload_type'] ?? self::UPLOAD_TYPE_LOCAL;
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         if (!$this->checkPermissionBool("create", "", $new_type)) {
@@ -1335,12 +1391,30 @@ class ilObjectGUI
             }
 
             try {
-                $new_id = $imp->importObject(
-                    null,
-                    $_FILES["importfile"]["tmp_name"],
-                    $_FILES["importfile"]["name"],
-                    $new_type
-                );
+
+                if ($upload_type == self::UPLOAD_TYPE_LOCAL) {
+                    $new_id = $imp->importObject(
+                        null,
+                        $_FILES["importfile"]["tmp_name"],
+                        $_FILES["importfile"]["name"],
+                        $new_type
+                    );
+                } else {
+                    $hash = $this->request->getParsedBody()['uploadFile'] ?? '';
+                    $upload_factory = new ilImportDirectoryFactory();
+                    $export_upload = $upload_factory->getInstanceForComponent(ilImportDirectoryFactory::TYPE_EXPORT);
+                    $file = $export_upload->getAbsolutePathForHash($user->getId(), $new_type, $hash);
+
+                    $new_id = $imp->importObject(
+                        null,
+                        $file,
+                        basename($file),
+                        $new_type,
+                        '',
+                        true
+                    );
+                }
+
             } catch (ilException $e) {
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
                 if (!$a_catch_errors) {

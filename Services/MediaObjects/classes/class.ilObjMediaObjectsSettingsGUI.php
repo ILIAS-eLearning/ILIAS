@@ -152,8 +152,7 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
             $mset->set("file_manager_always", $_POST["file_manager_always"]);
             $mset->set("restricted_file_types", $_POST["restricted_file_types"]);
             $mset->set("black_list_file_types", $_POST["black_list_file_types"]);
-            $mset->set("upload_dir", $_POST["mob_upload_dir"]);
-            
+
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
         }
@@ -197,14 +196,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $ta->setInfo($this->lng->txt("mobs_black_list_file_types_info"));
         $this->form->addItem($ta);
 
-        // Upload dir for learning resources
-        $tx_prop = new ilTextInputGUI(
-            $lng->txt("mob_upload_dir"),
-            "mob_upload_dir"
-        );
-        $tx_prop->setInfo($lng->txt("mob_upload_dir_info"));
-        $this->form->addItem($tx_prop);
-
         if ($ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $this->form->addCommandButton("saveSettings", $lng->txt("save"));
         }
@@ -225,7 +216,6 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         $values["file_manager_always"] = $mset->get("file_manager_always");
         $values["restricted_file_types"] = $mset->get("restricted_file_types");
         $values["black_list_file_types"] = $mset->get("black_list_file_types");
-        $values["mob_upload_dir"] = $mset->get("upload_dir");
 
         $this->form->setValuesByArray($values);
     }

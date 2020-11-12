@@ -323,6 +323,7 @@ class ilImport
                 $parser = new ilExportFileParser($dir . "/" . $expfile["path"], $this, "processItemXml");
             } catch (Exception $e) {
                 $this->log->error("Import failed: " . $e->getMessage());
+                $this->log->error('XML failed: ' . file_get_contents($dir . '/' . $expfile['path']));
                 throw $e;
             }
         }
