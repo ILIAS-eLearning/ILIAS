@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\UI\Component\MainControls\Slate\Notification as NotificationSlate;
 use ILIAS\UI\Component\Item\Notification as NotificationItem;
+use ILIAS\UI\Implementation\Component\MainControls\SystemInfo;
 
 /**
  * Interface NotificationRenderer
@@ -19,7 +20,7 @@ interface NotificationRenderer
      * Returns the UI Component for the past item
      *
      * @param isItem $item
-     * @return NotificationItem|NotificationSlate
+     * @return NotificationItem|NotificationSlate|SystemInfo
      */
     public function getNotificationComponentForItem(isItem $item);
 }

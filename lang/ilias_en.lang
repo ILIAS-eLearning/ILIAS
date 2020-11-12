@@ -14,6 +14,18 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+meta#:#md_adv_field_list#:#Fields
+meta#:#md_adv_record_lng_table#:#Language Managment
+meta#:#md_adv_record_lng_table_lng#:#Language
+meta#:#md_adv_record_lng_table_default#:#Default
+meta#:#md_adv_record_lng_table_active#:#Active
+meta#:#md_adv_record_lng_table_inst#:#Installed
+meta#:#md_adv_record_activate_languages#:#Activate Languages
+meta#:#md_aria_language_selection#:#Language Selection
+meta#:#md_adv_int_current#:#Current Language:
+meta#:#md_adv_int_default#:#Default Language:
+meta#:#md_adv_int_translation_info#:#Translation:
+meta#:#md_adn_int_error_no_default#:#Please select on activated language als "Default-Language".
 sess#:#sess_title#:#Title of Session
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
@@ -4678,15 +4690,15 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link, e.g.:
+content#:#cont_text_iln#:#Internal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
 content#:#cont_text_placehl#:#Text Placeholder
-content#:#cont_text_quot#:#Quotation:
-content#:#cont_text_str#:#Strong Text:
-content#:#cont_text_tex#:#LaTeX Code:
-content#:#cont_text_xln#:#External Link:
+content#:#cont_text_quot#:#Quotation
+content#:#cont_text_str#:#Strong Text
+content#:#cont_text_tex#:#LaTeX Code
+content#:#cont_text_xln#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
@@ -9700,8 +9712,7 @@ rbac#:#rbac_copy_finished#:#Finished copying.
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
 content#:#cont_ed_copy#:#Copy
 content#:#cont_ed_cut#:#Cut
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select ‘Paste’.
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select ‘Paste’.
+content#:#cont_sel_el_use_paste#:#Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’.
 survey#:#survey_question_editor_settings_template#:#List View (in Tab ‘Questions’)
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?
 rbac#:#rbac_precondition_source#:#Condition Trigger
@@ -16347,3 +16358,58 @@ cmix#:#duration_label#:#Duration
 cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.
 cmix#:#no_substatements_label#:#Do not store substatements
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
+adn#:#administrative_notification#:#Administrative Notifications
+adn#:#administrative_notification_description#:#Create system-wide Notifications
+common#:#obj_adn#:#Administrative Notifications
+adn#:#main#:#Notifications
+adn#:#msg_title#:#Title
+adn#:#msg_type#:#Denotation
+adn#:#msg_type_during_event#:#Denotation during Event
+adn#:#msg_type_1#:#Neutral
+adn#:#msg_type_2#:#Important
+adn#:#msg_type_3#:#Breaking
+adn#:#msg_event_start#:#Event start
+adn#:#msg_event_end#:#Event end
+adn#:#msg_display_start#:#Display start
+adn#:#msg_display_end#:#Display end
+adn#:#msg_permanent#:#Display
+adn#:#msg_permanent_no#:#Show temporary
+adn#:#msg_permanent_yes#:#Show permanent
+adn#:#msg_table_title#:#Messages
+adn#:#msg_body#:#Body
+adn#:#msg_event_date#:#Event date
+adn#:#msg_display_date#:#Duration display
+adn#:#msg_form_button_save#:#Save
+adn#:#msg_form_button_update#:#Update
+adn#:#msg_form_button_cancel#:#Cancel
+adn#:#msg_form_button_delete#:#Delete
+adn#:#msg_form_title#:#Compose message
+adn#:#msg_success_created#:#Notification created.
+adn#:#msg_success_updated#:#Notification updated.
+adn#:#msg_success_deleted#:#Notification deleted.
+adn#:#msg_dismissable#:#Dismissable
+adn#:#msg_limit_to_roles#:#Limit to Roles
+adn#:#msg_limited_to_role_ids#:#Roles
+adn#:#msg_reset_dismiss#:#Reset for all users
+adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.
+adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user won't see this notification again.
+adn#:#msg_form_button_updateAndStay#:#Save and Stay
+adn#:#common_actions#:#Actions
+adn#:#common_add_msg#:#Add Notification
+content#:#cont_link_user#:#User Link
+content#:#cont_delete_content#:#Delete Content
+adve#:#adve_autosave#:#Automatic Saving Intervall
+adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
+content#:#cont_edit_comp#:#Editing
+content#:#cont_edit_multi#:#Selection
+content#:#cont_block_format#:#Section Format
+content#:#cont_upload_file#:#Upload File
+content#:#cont_add_url#:#From URL
+content#:#cont_url_info#:#URL of a media file or Youtube URL.
+content#:#cont_choose_from_pool#:#Select from Media Pool
+content#:#cont_choose_media_pool#:#Select Pool
+content#:#cont_no_block#:#No Section
+content#:#cont_show_fullscreen#:#Show Fullscreen
+content#:#cont_advanced_settings#:#Advanced Settings
+content#:#cont_table_edit_cells#:#Edit Cells
+content#:#cont_last_update#:#Last Update

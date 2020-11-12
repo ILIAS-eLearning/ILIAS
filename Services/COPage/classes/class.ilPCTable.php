@@ -70,6 +70,74 @@ class ilPCTable extends ilPageContent
     }
 
     /**
+     * Get cell text of row $i and cell $j
+     */
+    public function getCellText($i, $j)
+    {
+        $cell_par = $this->getCellNode($i, $j);
+
+        if (is_object($cell_par)) {
+            $content = "";
+            $childs = $cell_par->child_nodes();
+            for ($i = 0; $i < count($childs); $i++) {
+                $content .= $this->dom->dump_node($childs[$i]);
+            }
+            return $content;
+        } else {
+            return "";
+        }
+    }
+
+    /**
+     * Get cell paragraph node of row $i and cell $j
+     */
+    public function getCellNode($i, $j)
+    {
+        $xpc = xpath_new_context($this->dom);
+        $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
+            "/Table/TableRow[$i+1]/TableData[$j+1]/PageContent[1]/Paragraph[1]";
+        //echo "<br>++".$path;
+        //]--//PageContent[@HierId='3']/Table/TableRow[+1]/TableData[0 style=+1]/PageContent[1]/Paragraph[1]
+        $res = xpath_eval($xpc, $path);
+
+        if (is_object($res->nodeset[0])) {
+            return $res->nodeset[0];
+        } else {		// no node -> delete all childs and create paragraph
+            $xpc2 = xpath_new_context($this->dom);
+            $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
+                "/Table/TableRow[" . ($i + 1) . "]/TableData[" . ($j + 1) . "]";
+            //$path2 = "//PageContent";
+
+            $res2 = xpath_eval($xpc2, $path2);
+
+            $td_node = $res2->nodeset[0];
+
+            if (is_object($td_node)) {
+                // delete children of paragraph node
+                $children = $td_node->child_nodes();
+                for ($i = 0; $i < count($children); $i++) {
+                    $td_node->remove_child($children[$i]);
+                }
+
+                // create page content and paragraph node here.
+                $pc_node = $this->createPageContentNode(false);
+                $pc_node = $td_node->append_child($pc_node);
+                $par_node = $this->dom->create_element("Paragraph");
+                $par_node = $pc_node->append_child($par_node);
+                $par_node->set_attribute("Characteristic", "TableContent");
+                $par_node->set_attribute(
+                    "Language",
+                    $this->getLanguage()
+                );
+
+                return $par_node;
+            }
+        }
+
+        return "";
+    }
+
+    /**
     * add rows to table
     */
     public function addRows($a_nr_rows, $a_nr_cols)
@@ -941,4 +1009,39 @@ class ilPCTable extends ilPageContent
             $node->removeAttribute("Id");
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModel()
+    {
+        $model = new \stdClass();
+
+        $rows = $this->tab_node->child_nodes();
+
+        $y = 0;
+        foreach ($rows as $row) {
+            if ($row->node_name() == "TableRow") {
+                $x = 0;
+                $cells = $row->child_nodes();
+                foreach ($cells as $cell) {
+                    if ($cell->node_name() == "TableData") {
+
+                        $text = ilPCParagraph::xml2output(
+                            $this->getCellText($y, $x),
+                            true,
+                            false
+                        );
+                        $text = ilPCParagraphGUI::xml2outputJS($text);
+                        $model->content[$y][$x] = $text;
+                    }
+                    $x++;
+                }
+                $y++;
+            }
+        }
+
+        return $model;
+    }
+
 }

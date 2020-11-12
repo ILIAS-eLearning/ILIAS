@@ -12,6 +12,11 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     private $defaultPlaceHolderValuesObject;
 
     /**
+     * @var ilObjectCustomUserFieldsPlaceholderValues
+     */
+    private $customUserFieldsPlaceholderValuesObject;
+
+    /**
      * @var ilLanguage|null
      */
     private $language;
@@ -42,6 +47,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     private $lpStatusHelper;
 
     /**
+     * @param ilObjectCustomUserFieldsPlaceholderValues|null    $customUserFieldsPlaceholderValues
      * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
      * @param ilLanguage|null $language
      * @param ilCertificateObjectHelper|null $objectHelper
@@ -51,6 +57,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * @param ilCertificateLPStatusHelper|null $lpStatusHelper
      */
     public function __construct(
+        ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValues = null,
         ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
         ilLanguage $language = null,
         ilCertificateObjectHelper $objectHelper = null,
@@ -70,6 +77,10 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
 
+        if (null === $customUserFieldsPlaceholderValues) {
+            $customUserFieldsPlaceholderValues = new ilObjectCustomUserFieldsPlaceholderValues();
+        }
+
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
         }
@@ -85,8 +96,6 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->ilUtilHelper = $ilUtilHelper;
 
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
-
         if (null === $dateHelper) {
             $dateHelper = new ilCertificateDateHelper();
         }
@@ -97,6 +106,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         }
         $this->lpStatusHelper = $lpStatusHelper;
 
+        $this->customUserFieldsPlaceholderValuesObject = $customUserFieldsPlaceholderValues;
         $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
     }
 
@@ -121,7 +131,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * achieve the certificate.
      * @param $userId
      * @param $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
@@ -130,7 +140,10 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
-        $placeholders['COURSE_TITLE'] = $this->ilUtilHelper->prepareFormOutput($courseObject->getTitle());
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
+
+        $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
+
         $completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
         if (!$this->hasCompletionDate($completionDate)) {
             $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
@@ -152,11 +165,15 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      * that is used to create a preview certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+        $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+
+        $placeholders = array_merge($placeholders, $customUserFieldsPlaceholders);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

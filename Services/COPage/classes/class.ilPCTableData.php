@@ -193,7 +193,6 @@ class ilPCTableData extends ilPageContent
         $parts = explode("_", $hier_id);
         $col_nr = array_pop($parts);
         $col_nr--;
-
         $parent_tr = $td->parent_node();
         $parent_table = $parent_tr->parent_node();
 

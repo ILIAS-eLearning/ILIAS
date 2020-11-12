@@ -5424,7 +5424,6 @@ $ilDB->update('settings',
         'keyword' => ['text', 'webdav_versioning_enabled']
     ]);
 ?>
-
 <#5728>
 <?php
 if (!$ilDB->tableColumnExists('didactic_tpl_settings','icon_ide')) {
@@ -5468,11 +5467,334 @@ $disk_quota_settings->deleteAll();
 ?>
 <#5733>
 <?php
+// Get settings
+$settings = new ilSetting('webdav');
+
+// Get client ini
+$ini_file = CLIENT_WEB_DIR . "/client.ini.php";
+$ilClientIniFile = new ilIniFile($ini_file);
+$ilClientIniFile->read();
+
+// Migrate value 'webdav_enabled from client.ini to database
+$webdav_enabled = $ilClientIniFile->readVariable('file_access', 'webdav_enabled') == '1';
+$settings->set('webdav_enabled', $webdav_enabled ? '1' : '0');
+?>
+<#5734>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+ilDBUpdateNewObjectType::addAdminNode('adn', 'Administrative Notifications');
+
+$ilCtrlStructureReader->getStructure();
+?>
+<#5735>
+<?php
+$fields = array(
+    'id' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'title' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'body' => array(
+        'type' => 'clob',
+
+    ),
+    'event_start' => array(
+        'type' => 'timestamp',
+
+    ),
+    'event_end' => array(
+        'type' => 'timestamp',
+
+    ),
+    'display_start' => array(
+        'type' => 'timestamp',
+
+    ),
+    'display_end' => array(
+        'type' => 'timestamp',
+
+    ),
+    'type' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'type_during_event' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'dismissable' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'permanent' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'allowed_users' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'parent_id' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'create_date' => array(
+        'type' => 'timestamp',
+
+    ),
+    'last_update' => array(
+        'type' => 'timestamp',
+
+    ),
+    'created_by' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'last_update_by' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'active' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'limited_to_role_ids' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'limit_to_roles' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'interruptive' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'link' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+    'link_type' => array(
+        'type' => 'integer',
+        'length' => '1',
+
+    ),
+    'link_target' => array(
+        'type' => 'text',
+        'length' => '256',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_adn_notifications')) {
+    $ilDB->createTable('il_adn_notifications', $fields);
+    $ilDB->addPrimaryKey('il_adn_notifications', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_adn_notifications')) {
+        $ilDB->createSequence('il_adn_notifications');
+    }
+
+}
+?>
+<#5736>
+<?php
+$fields = array(
+    'id' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'usr_id' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+    'notification_id' => array(
+        'type' => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (! $ilDB->tableExists('il_adn_dismiss')) {
+    $ilDB->createTable('il_adn_dismiss', $fields);
+    $ilDB->addPrimaryKey('il_adn_dismiss', array( 'id' ));
+
+    if (! $ilDB->sequenceExists('il_adn_dismiss')) {
+        $ilDB->createSequence('il_adn_dismiss');
+    }
+}
+?>
+<#5737>
+<?php
+
+if (!$ilDB->tableExists('adv_md_record_int')) {
+    $ilDB->createTable('adv_md_record_int', [
+        'record_id' => [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 4,
+            'notnull' => true
+        ],
+        'title' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => false,
+            'length' => 128
+        ],
+        'description' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => false,
+            'length' => 4000
+        ],
+        'lang_code' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => true,
+            'length' => 5
+        ],
+        'lang_default' => [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true
+        ]
+    ]);
+    $ilDB->addPrimaryKey('adv_md_record_int', ['record_id', 'lang_code']);
+}
+?>
+
+<#5738>
+<?php
+
+if (!$ilDB->tableExists('adv_md_field_int')) {
+    $ilDB->createTable('adv_md_field_int', [
+        'field_id' => [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 4,
+            'notnull' => true
+        ],
+        'title' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => false,
+            'length' => 128
+        ],
+        'description' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => false,
+            'length' => 4000
+        ],
+        'lang_code' => [
+            'type' => ilDBConstants::T_TEXT,
+            'notnull' => true,
+            'length' => 5
+        ],
+        'lang_default' => [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true
+        ]
+    ]);
+    $ilDB->addPrimaryKey('adv_md_field_int', ['field_id', 'lang_code']);
+}
+?>
+<#5739>
+<?php
+
+if ($ilDB->tableColumnExists('adv_md_record_int', 'lang_default')) {
+    $ilDB->dropTableColumn('adv_md_record_int', 'lang_default');
+}
+?>
+<#5740>
+<?php
+
+if ($ilDB->tableColumnExists('adv_md_field_int', 'lang_default')) {
+    $ilDB->dropTableColumn('adv_md_field_int', 'lang_default');
+}
+?>
+
+<#5741>
+<?php
+
+if (!$ilDB->tableColumnExists('adv_md_record','lang_default')) {
+    $ilDB->addTableColumn('adv_md_record', 'lang_default', [
+        'type' => 'text',
+        'notnull' => false,
+        'length' => 2,
+        'default' => ''
+    ]);
+
+}
+?>
+<#5742>
+<?php
+
+if (!$ilDB->tableExists('adv_md_values_ltext')) {
+    $ilDB->createTable('adv_md_values_ltext', [
+        'obj_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'sub_type' => [
+            'type' => 'text',
+            'length' => 10,
+            'notnull' => true,
+            'default' => "-"
+        ],
+        'sub_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'field_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'value_index' => [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => 16,
+            'notnull' => true,
+        ],
+        'value' => [
+            'type' => ilDBConstants::T_TEXT,
+            'length' => 4000,
+            'notnull' => false
+        ]
+    ]);
+
+    $ilDB->addPrimaryKey('adv_md_values_ltext', array('obj_id', 'sub_type', 'sub_id', 'field_id', 'value_index'));
+}
+?>
+<#5743>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5744>
+<?php
 if ($ilDB->tableExists('il_disk_quota')) {
     $ilDB->dropTable('il_disk_quota');
 }
 ?>
-<#5734>
+<#5745>
 <?php
 if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'disk_quota')) {
     $ilDB->dropTableColumn('role_data', 'disk_quota');
@@ -5482,8 +5804,9 @@ if ($ilDB->tableExists('role_data') && $ilDB->tableColumnExists('role_data', 'ws
     $ilDB->dropTableColumn('role_data', 'wsp_disk_quota');
 }
 ?>
-<#5735>
+<#5746>
 <?php
 $ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['rep_disk_quota',]);
 $ilDB->manipulateF('DELETE FROM cron_job WHERE job_id = %s', ['text',], ['pwsp_recalc_quota',]);
 ?>
+

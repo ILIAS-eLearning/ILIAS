@@ -8,31 +8,34 @@ export default class Action {
   /**
    * @type {string}
    */
-  component;
+  //component;
 
   /**
    * @type {string}
    */
-  type;
+  //type;
 
   /**
    * @type {number}
    */
-  static next_id = 1;
+  //  static next_id = 1;
 
   /**
    * @type {number}
    */
-  id;
+//  id;
 
   /**
    * @param {string} component
    * @param {string} type
+   * @param {Object} params
    */
-  constructor(component, type) {
+  constructor(component, type, params= {}) {
     this.component = component;
     this.type = type;
-    this.id = Action.next_id++;       // maybe switch to uuid in the future
+    //this.id = Action.next_id++;       // maybe switch to uuid in the future
+    this.id = 1;
+    this.params = params;
   }
 
   /**
@@ -55,4 +58,12 @@ export default class Action {
   getId() {
     return this.id;
   }
+
+  /**
+   * @returns {Object}
+   */
+  getParams () {
+    return this.params;
+  }
+
 }

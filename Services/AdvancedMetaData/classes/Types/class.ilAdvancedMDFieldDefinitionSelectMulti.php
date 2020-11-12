@@ -25,31 +25,36 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
     }
     
     
-    //
-    // ADT
-    //
-    
+
     protected function initADTDefinition()
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");
         $def->setNumeric(false);
-        
+
         $options = $this->getOptions();
-        $def->setOptions(array_combine($options, $options));
-        
-        // see ilAdvancedMDValues::getActiveRecord()
-        // using ilADTMultiEnumDBBridge::setFakeSingle()
-        
+        $translated_options = [];
+        if (isset($this->getOptionTranslations()[$this->language])) {
+            $translated_options = $this->getOptionTranslations()[$this->language];
+        }
+        $def->setOptions(array_replace($options, $translated_options));
         return $def;
     }
+
     
     
     //
     // definition (NOT ADT-based)
     //
-    
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form)
+
+    /**
+     * @param ilPropertyFormGUI $a_form
+     * @param string            $language
+     */
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
     {
+        if (!$this->useDefaultLanguageMode($language)) {
+            return $this->importTranslatedFormPostValues($a_form, $language);
+        }
         $old = $this->getOptions();
         $new = $a_form->getInput("opts");
         

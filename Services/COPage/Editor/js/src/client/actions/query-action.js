@@ -8,24 +8,12 @@ import Action from "../../actions/action.js";
 export default class QueryAction extends Action {
 
   /**
-   * @type {Object}
-   */
-  params = {};
-
-  /**
    * @param {string} component
    * @param {string} type
    * @param {Object} params
    */
   constructor(component, type, params = {}) {
-    super(component, type);
-    this.params = params;
+    super(component, type, params);
   }
 
-  /**
-   * @returns {Object}
-   */
-  getParams () {
-    return this.params;
-  }
 }

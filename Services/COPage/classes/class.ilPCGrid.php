@@ -91,6 +91,55 @@ class ilPCGrid extends ilPageContent
     }
 
     /**
+     * @param $post_layout_template
+     * @param $number_of_cells
+     * @param $s
+     * @param $m
+     * @param $l
+     * @param $xl
+     */
+    public function applyTemplate(
+        int $post_layout_template,
+        int $number_of_cells,
+        $s,
+        $m,
+        $l,
+        $xl)
+    {
+        switch ($post_layout_template) {
+            case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
+                $this->addGridCell(12, 6, 6, 6);
+                $this->addGridCell(12, 6, 6, 6);
+                break;
+
+            case ilPCGridGUI::TEMPLATE_THREE_COLUMN:
+                $this->addGridCell(12, 4, 4, 4);
+                $this->addGridCell(12, 4, 4, 4);
+                $this->addGridCell(12, 4, 4, 4);
+                break;
+
+            case ilPCGridGUI::TEMPLATE_MAIN_SIDE:
+                $this->addGridCell(12, 6, 8, 9);
+                $this->addGridCell(12, 6, 4, 3);
+                break;
+
+            case ilPCGridGUI::TEMPLATE_TWO_BY_TWO:
+                $this->addGridCell(12, 6, 6, 3);
+                $this->addGridCell(12, 6, 6, 3);
+                $this->addGridCell(12, 6, 6, 3);
+                $this->addGridCell(12, 6, 6, 3);
+                break;
+
+
+            case ilPCGridGUI::TEMPLATE_MANUAL:
+                for ($i = 0; $i < (int) $number_of_cells; $i++) {
+                    $this->addGridCell($s, $m, $l, $xl);
+                }
+                break;
+        }
+    }
+
+    /**
      * Set attribute of grid tag
      *
      * @param string $a_attr	attribute name

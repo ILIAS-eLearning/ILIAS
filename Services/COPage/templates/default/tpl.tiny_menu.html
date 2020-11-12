@@ -1,113 +1,32 @@
-<div id="iltinymenu" style="display:none;">
+<div id="iltinymenu">
 <div style="position:relative;">
 <div id="iltinymenu_bd">
-<div id="ilsaving" class="ilHighlighted ilNoDisplay">{TXT_SAVING}</div>
 <div id="ilTinyMenuButtons">
 	<div>
 		{SPLIT_BUTTON}
 		{SAVE_DROPDOWN}
-	<a class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdCancel(); return false;" >&nbsp;{TXT_CANCEL}&nbsp;</a>
-	<!-- BEGIN debug_ghost -->
-	<a onClick="ilCOPage.switchDebugGhost(); return false;" >DebugG</a>
-	<a onClick="ilCOPage.debugContent(); return false;" >Content</a>
-	<a onClick="ilCOPage.splitBR(); return false;" >SplitBR</a>
-	<a href="#" onClick="ilCOPage.setParagraphClass(); return false;" >SP</a>
-	<a href="#" onClick="ilCOPage.cmdNewParagraph(); return false;" >NP</a>
-	<!-- END debug_ghost -->
+		{CANCEL_BUTTON}
 	</div>
 </div>
+<p id="copg-auto-save" class="subtitle">&nbsp;</p>
 <!-- BEGIN par_edit -->
-<div class="ilTinyMenuSection">
+<div class="ilTinyMenuSection ilTinyParagraphClassSelector">
 	<p class="ilTinyInfo small">{TXT_PAR_FORMAT}</p>
 	{STYLE_SELECTOR}
-	<!-- BEGIN new_par -->
-	<!-- &nbsp;<a id="il_edm_newpar" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdNewParagraph(); return false;" >&nbsp;{IMG_NEWPAR}&nbsp;</a> -->
-	<!-- END new_par -->
 </div>
 <!-- END par_edit -->
+<div class="ilClearFloat"></div>
+<!-- BEGIN section -->
 <div class="ilTinyMenuSection">
-	<p class="ilTinyInfo small">{TXT_CHAR_FORMAT}</p>
-	<!-- BEGIN bb_str_button -->
-	<a id="il_edm_cc_str"  class="btn btn-sm btn-default" href="#" accesskey="b" onClick="ilCOPage.cmdSpan('Strong'); return false;" ><span class="ilc_text_inline_Strong">{CC_STR}</span></a>
-	<!-- END bb_str_button -->
-	<!-- BEGIN bb_emp_button -->
-	<a id="il_edm_cc_emp"  class="btn btn-sm btn-default" href="#" accesskey="e" onClick="ilCOPage.cmdSpan('Emph'); return false;"  ><span class="ilc_text_inline_Emph">{CC_EMP}</span></a>
-	<!-- END bb_emp_button -->
-	<!-- BEGIN bb_imp_button -->
-	<a id="il_edm_cc_imp"  class="btn btn-sm btn-default" href="#" accesskey="m" onClick="ilCOPage.cmdSpan('Important'); return false;" ><span class="ilc_text_inline_Important">{CC_IMP}</span></a>
-	<!-- END bb_imp_button -->
-	<!-- BEGIN bb_sup_button -->
-	<a id="il_edm_cc_sup"  class="btn btn-sm btn-default" href="#" accesskey="m" onClick="ilCOPage.cmdSup(); return false;" ><i class="mce-ico mce-i-superscript"></i><!-- {CC_SUP} --></a>
-	<!-- END bb_sup_button -->
-	<!-- BEGIN bb_sub_button -->
-	<a id="il_edm_cc_sub"  class="btn btn-sm btn-default" href="#" accesskey="m" onClick="ilCOPage.cmdSub(); return false;" ><i class="mce-ico mce-i-subscript"></i><!-- {CC_SUB} --></a>
-	<!-- END bb_sub_button -->
-	<!-- BEGIN bb_com_button -->
-	<a id="il_edm_cc_com"  class="btn btn-sm btn-default" href="#" accesskey="c" onClick="ilCOPage.cmdSpan('Comment'); return false;" ><span class="ilc_text_inline_Comment">{CC_COM}</span></a>
-	<!-- END bb_com_button -->
-	<!-- BEGIN bb_quot_button -->
-	<a id="il_edm_cc_quot"  class="btn btn-sm btn-default" href="#" accesskey="q" onClick="ilCOPage.cmdSpan('Quotation'); return false;" ><span class="ilc_text_inline_Quotation">{CC_QUOT}</span></a>
-	<!-- END bb_quot_button -->
-	<!-- BEGIN bb_acc_button -->
-	<a id="il_edm_cc_acc" class="btn btn-sm btn-default" href="#" accesskey="a" onClick="ilCOPage.cmdSpan('Accent'); return false;" ><span class="ilc_text_inline_Accent">{CC_ACC}</span></a>
-	<!-- END bb_acc_button -->
-	<!-- BEGIN bb_code_button -->
-	<a id="il_edm_cc_code" class="btn btn-sm btn-default" href="#" accesskey="d" onClick="ilCOPage.cmdCode(); return false;" ><code>{CC_CODE}</code></a>
-	<!-- END bb_code_button -->
-	{CHAR_STYLE_SELECTOR}
-	<!-- BEGIN rformat_button -->
-	<a id="il_edm_rformat" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdRemoveFormat(); return false;" ><i class="mce-ico mce-i-removeformat"></i></a>
-	<!-- END rformat_button -->
+	<p class="ilTinyInfo small">{TXT_SECTION}</p>
+	<!-- BEGIN button -->{BUTTON}<!-- END button -->
 </div>
-<div class="ilTinyMenuSection">
-	<p class="ilTinyInfo small">{TXT_LISTS}</p>
-	<!-- BEGIN blist_button -->
-	<a id="il_edm_blist" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdBList(); return false;" ><i class="mce-ico mce-i-bullist"></i></a>
-	<!-- END blist_button -->
-	<!-- BEGIN nlist_button -->
-	<a id="il_edm_nlist" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdNList(); return false;" ><i class="mce-ico mce-i-numlist"></i></a>
-	<!-- END nlist_button -->
-	<!-- BEGIN list_outdent -->
-	<a id="ilOutdentBut" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdListOutdent(); return false;" ><i class="mce-ico mce-i-outdent"></i></a>
-	<!-- END list_outdent -->
-	<!-- BEGIN list_indent -->
-	<a id="ilIndentBut" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdListIndent(); return false;" ><i class="mce-ico mce-i-indent"></i></a>
-	<!-- END list_indent -->
+<!-- END section -->
+<div class="ilClearFloat"></div>
+<div class="ilTinyMenuSection ilSectionClassSelector">
+	<p class="ilTinyInfo small">{TXT_BLOCK}</p>
+	{BLOCK_STYLE_SELECTOR}
 </div>
-<div class="ilTinyMenuSection">
-	<p class="ilTinyInfo small">{TXT_LINKS}</p>
-	<!-- BEGIN bb_wikilink_button2 -->
-	<a id="il_edm_wlinkd" class="btn btn-sm btn-default" href="#" onClick="il.Wiki.Edit.openLinkDialog('{WIKI_BUTTON2_URL}'); return false;" ><i class="mce-ico mce-i-link"></i> {TXT_WIKI_BUTTON2}</a>
-	<!-- END bb_wikilink_button2 -->
-	<!-- BEGIN bb_wikilink_button -->
-	<a id="il_edm_wlink" class="btn btn-sm btn-default" href="#" accesskey="w" name="addbbcode14" onClick="ilCOPage.cmdWikiLink(); return false;" >[[{TXT_WLN2}]]</a>
-	<!-- END bb_wikilink_button -->
-	<!-- BEGIN bb_xln_button -->
-	<a id="il_edm_xlink" class="btn btn-sm btn-default" href="#" accesskey="x" name="addbbcode14" onClick="ilCOPage.cmdExtLink(); return false;" >{CC_XLN}</a>
-	<!-- END bb_xln_button -->
-	<!-- BEGIN bb_ilink_button -->
-	<a id="iosEditInternalLinkTrigger" class="btn btn-sm btn-default" href="#" accesskey="i" >iln</a>
-	<!-- END bb_ilink_button -->
-	<!-- BEGIN bb_ulink_button -->
-	<a id="il_edm_ulink" class="btn btn-sm btn-default" href="#" onClick="ilCOPage.cmdUserLink(); return false;" ><span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>
-	<!-- END bb_ulink_button -->
-</div>
-<div class="ilTinyMenuSection last">
-	<p class="ilTinyInfo small">{TXT_MORE_FUNCTIONS}</p>
-	<!-- BEGIN bb_kw_button -->
-	<a id="il_edm_kw"  class="btn btn-sm btn-default" href="#" accesskey="k" onClick="ilCOPage.cmdKeyword(); return false;" >{CC_KW}</a>
-	<!-- END bb_kw_button -->
-	<!-- BEGIN bb_tex_button -->
-	<a id="il_edm_tex"  class="btn btn-sm btn-default" href="#" accesskey="t" onClick="ilCOPage.cmdTex(); return false;" ><span>{CC_TEX}</span></a>
-	<!-- END bb_tex_button -->
-	<!-- BEGIN bb_fn_button -->
-	<a id="il_edm_fn" class="btn btn-sm btn-default" href="#" accesskey="f" name="addbbcode10" onClick="ilCOPage.cmdFn(); return false;" >{CC_FN}</a>
-	<!-- END bb_fn_button -->
-	<!-- BEGIN bb_anc_button -->
-	<a id="il_edm_anc" class="btn btn-sm btn-default" href="#" accesskey="n" name="addbbcode22" onClick="ilCOPage.cmdAnc(); return false;" >{CC_ANC}</a>
-	<!-- END bb_anc_button -->
-</div>
-<div style="clear:both; float:none;"></div>
 </div>
 </div>
 </div>

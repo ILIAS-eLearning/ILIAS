@@ -167,6 +167,13 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 $this->getCurrentRecord()->setActive($a_attribs['active']);
                 $this->getCurrentRecord()->setImportId($a_attribs['id']);
                 $this->getCurrentRecord()->setAssignedObjectTypes(array());
+
+                if (isset($a_attribs['defaultLanguage'])) {
+                    $language = (string) $a_attribs['defaultLanguage'];
+                    if (ilLanguage::lookupId($language)) {
+                        $this->getCurrentRecord()->setDefaultLanguage($language);
+                    }
+                }
                 break;
                 
             case 'Title':

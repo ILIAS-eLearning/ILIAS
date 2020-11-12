@@ -1077,7 +1077,10 @@ class ilObjFileGUI extends ilObject2GUI
         $response->fileType = $type;
         $response->fileUnzipped = $extract;
         $response->error = null;
-
+        if($item->getStatus()->getCode() === ProcessingStatus::REJECTED){
+            $response->error = $item->getStatus()->getMessage();
+            return $response;
+        }
         // extract archive?
         if ($extract) {
             $zip_file = $filename;

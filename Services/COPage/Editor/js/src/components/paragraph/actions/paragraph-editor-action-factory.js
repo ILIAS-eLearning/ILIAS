@@ -1,0 +1,203 @@
+/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+import EditorAction from "../../../actions/editor-action.js";
+import ACTIONS from "./paragraph-action-types.js";
+
+/**
+ * COPage action factory
+ *
+ */
+export default class ParagraphEditorActionFactory {
+
+  //COMPONENT = "Paragraph";
+
+  /**
+   * @type {EditorActionFactory}
+   */
+  //editorActionFactory;
+
+  /**
+   *
+   * @param {EditorActionFactory} editorActionFactory
+   */
+  constructor(editorActionFactory) {
+    this.COMPONENT = "Paragraph";
+    this.editorActionFactory = editorActionFactory;
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  selectionFormat(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_FORMAT, {
+      format: format
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  selectionRemoveFormat() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_REMOVE_FORMAT);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  selectionKeyword() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_KEYWORD);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  selectionTex() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_TEX);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  selectionAnchor() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_ANCHOR);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listBullet() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_BULLET);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listNumber() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_NUMBER);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listOutdent() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_OUTDENT);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  listIndent() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_INDENT);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  linkWikiSelection() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_WIKI_SELECTION);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  linkWiki() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_WIKI);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  linkInternal() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_INTERNAL);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  linkExternal() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_EXTERNAL);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  linkUser() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_USER);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  saveReturn(text, characteristic) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SAVE_RETURN, {
+        text: text,
+        characteristic: characteristic
+      });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  paragraphClass(characteristic) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PARAGRAPH_CLASS, {
+      characteristic: characteristic
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  autoSave(text, characteristic) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.AUTO_SAVE, {
+      text: text,
+      characteristic: characteristic
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  autoInsertPostProcessing() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.AUTO_INSERT_POST, {
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  splitPostProcessing() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SPLIT_POST, {
+    });
+  }
+
+  splitParagraph(pcid, text, characteristic, contents) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SPLIT_PARAGRAPH, {
+      pcid: pcid,
+      text: text,
+      characteristic: characteristic,
+      contents: contents
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+  sectionClass(parText, parCharacteristic, oldSectionCharacteristic, newSectionCharacteristic) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SECTION_CLASS, {
+      parText: parText,
+      parCharacteristic: parCharacteristic,
+      oldSectionCharacteristic: oldSectionCharacteristic,
+      newSectionCharacteristic: newSectionCharacteristic
+    });
+  }
+
+  mergePrevious(pcid, newPreviousContent, previousPcid) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.MERGE_PREVIOUS, {
+      pcid: pcid,
+      previousPcid: previousPcid,
+      newPreviousContent: newPreviousContent
+    });
+  }
+
+
+}

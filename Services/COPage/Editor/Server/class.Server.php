@@ -6,6 +6,12 @@ namespace ILIAS\COPage\Editor\Server;
 
 use \Psr\Http\Message;
 use ILIAS\DI\Exceptions\Exception;
+use ILIAS\COPage\Editor\Components\Page;
+use ILIAS\COPage\Editor\Components\Paragraph;
+use ILIAS\COPage\Editor\Components\Grid;
+use ILIAS\COPage\Editor\Components\Section;
+use ILIAS\COPage\Editor\Components\MediaObject;
+use ILIAS\COPage\Editor\Components\Table;
 
 /**
  * Page editor json server
@@ -49,9 +55,19 @@ class Server
     public function reply()
     {
         $query = $this->request->getQueryParams();
-        $body = $this->request->getParsedBody();
-        $action_handler = $this->getActionHandlerForQuery($query);
-        $response = $action_handler->handle($query, $body);
+
+        if (is_array($_POST) && count($_POST) > 0) {
+            $body = $this->request->getParsedBody();
+        } else {
+            $body = json_decode($this->request->getBody()->getContents(), true);
+        }
+        if (isset($query["component"])) {
+            $action_handler = $this->getActionHandlerForQuery($query);
+            $response = $action_handler->handle($query);
+        } else {
+            $action_handler = $this->getActionHandlerForCommand($query, $body);
+            $response = $action_handler->handle($query, $body);
+        }
         $response->send();
     }
 
@@ -63,18 +79,51 @@ class Server
     protected function getActionHandlerForQuery($query)
     {
         $handler = null;
-        if (isset($query["action"]) && is_int(strpos($query["action"], "."))) {
-            $action_arr = explode(".", $query["action"]);
 
-            switch ($action_arr[0]) {
-                case "ui":
-                    $handler = new UIActionHandler($this->page_gui);
-                    break;
-            }
+        switch ($query["component"]) {
+            case "Page":
+                $handler = new Page\PageQueryActionHandler($this->page_gui);
+                break;
         }
 
         if ($handler === null) {
             throw new Exception("Unknown Action ".((string) $query));
+        }
+        return $handler;
+    }
+
+    /**
+     * Get action handler for query
+     * @param
+     * @return
+     */
+    protected function getActionHandlerForCommand($query, $body)
+    {
+        $handler = null;
+
+        switch ($body["component"]) {
+            case "Paragraph":
+                $handler = new Paragraph\ParagraphCommandActionHandler($this->page_gui);
+                break;
+            case "Page":
+                $handler = new Page\PageCommandActionHandler($this->page_gui);
+                break;
+            case "Grid":
+                $handler = new Grid\GridCommandActionHandler($this->page_gui);
+                break;
+            case "Section":
+                $handler = new Section\SectionCommandActionHandler($this->page_gui);
+                break;
+            case "MediaObject":
+                $handler = new MediaObject\MediaObjectCommandActionHandler($this->page_gui);
+                break;
+            case "Table":
+                $handler = new Table\TableCommandActionHandler($this->page_gui);
+                break;
+        }
+
+        if ($handler === null) {
+            throw new Exception("Unknown component ".((string) $body["component"]));
         }
         return $handler;
     }

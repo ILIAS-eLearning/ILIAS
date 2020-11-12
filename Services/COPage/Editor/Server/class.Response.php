@@ -49,5 +49,4 @@ class Response
         $http->sendResponse();
         exit;
     }
-
 }

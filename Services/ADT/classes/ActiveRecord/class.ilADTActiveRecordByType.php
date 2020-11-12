@@ -95,7 +95,8 @@ class ilADTActiveRecordByType
             "datetime" => array("DateTime"),
             "location" => array("Location"),
             'extlink' => ['ExternalLink'],
-            'intlink' => ['InternalLink']
+            'intlink' => ['InternalLink'],
+            'ltext' => ['LocalizedText']
         );
     }
     
@@ -157,6 +158,14 @@ class ilADTActiveRecordByType
                     $a_element_id . '_value' => $a_row['value'],
                     $a_element_id . '_title' => $a_row['title']
                 ];
+                break;
+
+            case 'ltext':
+                return [
+                    $a_element_id . '_language' => $a_row['value_index'],
+                    $a_element_id . '_translation' => $a_row['value']
+                ];
+                break;
 
             default:
                 if ($a_row[self::SINGLE_COLUMN_NAME] !== null) {
@@ -312,6 +321,7 @@ class ilADTActiveRecordByType
         // update/insert in sub tables
         if (sizeof($tmp)) {
             foreach ($tmp as $table => $elements) {
+
                 foreach ($elements as $element_id => $fields) {
                     if (isset($existing[$table][$element_id])) {
                         // update
@@ -325,10 +335,17 @@ class ilADTActiveRecordByType
                         $fields = array_merge($this->properties->getPrimary(), $fields);
                         $ilDB->insert($table, $fields);
                     }
+
+                    $this->properties->afterUpdateElement(
+                        ilDBConstants::T_INTEGER,
+                        'field_id',
+                        (int) $element_id
+                    );
+
+
                 }
             }
         }
-        
         // remove all existing values that are now null
         if (sizeof($existing)) {
             foreach ($existing as $table => $element_ids) {
@@ -575,7 +592,7 @@ class ilADTActiveRecordByType
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // using DB only, no object instances required
         
         $where = self::buildPartialPrimaryWhere($a_primary);

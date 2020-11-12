@@ -150,7 +150,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 fileinode($path) .
                 filesize($path) .
                 filemtime($path)
-                ) . '"';
+            ) . '"';
         }
         
         return null;

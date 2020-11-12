@@ -275,12 +275,16 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $media_item->setPurpose("Standard");
         
         $file = $mob_dir . "/" . $_FILES['image_file']['name'];
-        ilUtil::moveUploadedFile(
-            $_FILES['image_file']['tmp_name'],
-            $_FILES['image_file']['name'],
-            $file
-        );
-
+        try{
+            ilUtil::moveUploadedFile(
+                $_FILES['image_file']['tmp_name'],
+                $_FILES['image_file']['name'],
+                $file
+            );
+        } catch(ilException $e){
+            ilUtil::sendFailure($this->lng->txt("file_is_infected"), true);
+            return;
+        }
         // get mime type
         $format = ilObjMediaObject::getMimeType($file);
         $location = $_FILES['image_file']['name'];

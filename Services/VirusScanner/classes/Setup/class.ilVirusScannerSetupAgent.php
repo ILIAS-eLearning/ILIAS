@@ -37,7 +37,11 @@ class ilVirusScannerSetupAgent implements Setup\Agent
             return new \ilVirusScannerSetupConfig(
                 $data["virusscanner"] ?? \ilVirusScannerSetupConfig::VIRUS_SCANNER_NONE,
                 $data["path_to_scan"] ?? null,
-                $data["path_to_clean"] ?? null
+                $data["path_to_clean"] ?? null,
+                $data["icap_host"] ?? null,
+                $data["icap_port"] ?? null,
+                $data["icap_service_name"] ?? null,
+                $data["icap_client_path"] ?? null,
             );
         });
     }
