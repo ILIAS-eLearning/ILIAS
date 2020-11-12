@@ -87,21 +87,21 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $this->type = "wbdv";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
-        $this->ctrl             = $DIC['ilCtrl'];
-        $this->db               = $DIC->database();
-        $this->error_handling   = $DIC["ilErr"];
-        $this->filesystem       = $DIC->filesystem();
-        $this->http             = $DIC->http();
-        $this->lng              = $DIC->language();
-        $this->logger           = $DIC->logger()->root();
-        $this->rbacsystem       = $DIC['rbacsystem'];
-        $this->settings         = $DIC['ilSetting'];
-        $this->tabs             = $DIC['ilTabs'];
-        $this->tpl              = $DIC['tpl'];
-        $this->tree             = $DIC['tree'];
-        $this->ui_factory       = $DIC->ui()->factory();
-        $this->ui_renderer      = $DIC->ui()->renderer();
-        $this->upload           = $DIC->upload();
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->db = $DIC->database();
+        $this->error_handling = $DIC["ilErr"];
+        $this->filesystem = $DIC->filesystem();
+        $this->http = $DIC->http();
+        $this->lng = $DIC->language();
+        $this->logger = $DIC->logger()->root();
+        $this->rbacsystem = $DIC['rbacsystem'];
+        $this->settings = $DIC['ilSetting'];
+        $this->tabs = $DIC['ilTabs'];
+        $this->tpl = $DIC['tpl'];
+        $this->tree = $DIC['tree'];
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->upload = $DIC->upload();
     }
 
 
