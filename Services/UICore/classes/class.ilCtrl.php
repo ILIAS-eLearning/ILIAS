@@ -936,7 +936,7 @@ class ilCtrl
         $cmd = "";
         if (isset($_GET['cmd'])) {
             $cmd = $_GET['cmd'];
-            if ($unsafeGetCommands !== [] && in_array($cmd, $unsafeGetCommands)) {
+            if (in_array($cmd, $unsafeGetCommands)) {
                 if ($this->verified_cmd !== '') {
                     return $this->verified_cmd;
                 } elseif (!$this->verifyToken()) {
