@@ -14389,7 +14389,7 @@ style#:#manage_system_styles#:#System-Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 auth#:#auth_saml#:#SAML
 common#:#auth_saml#:#SAML
-common#:#saml_log_in#:#Login
+common#:#saml_log_in#:#Anmelde
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
