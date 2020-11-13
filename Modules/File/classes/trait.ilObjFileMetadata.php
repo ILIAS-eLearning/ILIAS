@@ -7,6 +7,11 @@
 trait ilObjFileMetadata
 {
     /**
+     * @var bool
+     */
+    protected $no_meta_data_creation;
+
+    /**
      * The basic properties of a file object are stored in table object_data.
      * This is not sufficient for a file object. Therefore we create additional
      * properties in table file_data.

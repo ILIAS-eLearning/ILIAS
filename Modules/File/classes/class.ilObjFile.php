@@ -1,12 +1,11 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Filesystem\Util\LegacyPathHelper;
-use ILIAS\FileUpload\Location;
 use ILIAS\DI\Container;
 use ILIAS\File\Sanitation\FilePathSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\ResourceStorage\Revision\Revision;
 
 /**
  * Class ilObjFile
@@ -19,6 +18,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 {
     use ilObjFileMetadata;
     use ilObjFileUsages;
+    use ilObjFilePreviewHandler;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -27,10 +27,21 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var ilObjFileImplementationInterface
      */
     protected $implementation;
+
+    /**
+     * @var int
+     */
+    protected $page_count = 0;
     /**
      * @var bool
      */
-    protected $no_meta_data_creation;
+    protected $rating = false;
+    /**
+     * @var \ilLogger
+     */
+    protected $log;
+
+// ABSTRACT
     /**
      * @var string
      */
@@ -46,18 +57,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     /**
      * @var int
      */
-    protected $page_count = 0;
-    /**
-     * @var bool
-     */
-    protected $rating = false;
-    /**
-     * @var \ilLogger
-     */
-    protected $log;
-    /**
-     * @var int
-     */
     protected $version = 1;
     /**
      * @var int
@@ -67,6 +66,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var string
      */
     protected $action;
+// ABSTRACT
+
     /**
      * @var string|null
      */
@@ -80,56 +81,71 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var \ILIAS\ResourceStorage\Manager\Manager
      */
     protected $manager;
+    /**
+     * @var \ILIAS\FileUpload\FileUpload
+     */
+    protected $upload;
+    /**
+     * @var ilObjFileStakeholder
+     */
+    protected $stakeholder;
 
     /**
      * ilObjFile constructor.
      * @param int  $a_id                ID of the object, ref_id or obj_id possible
      * @param bool $a_call_by_reference defines the $a_id a ref_id
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
-    {
-        global $DIC;
-        /**
-         * @var $DIC Container
-         */
-        $this->manager =  $DIC->resourceStorage()->manage();
-        $this->version = 0;
-        $this->max_version = 0;
-
-
-        $this->log = ilLoggerFactory::getLogger('file');
-
-        parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    public function appendStream(FileStream $stream, string $title, bool $keep_existing = true) : int
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
         /**
          * @var $DIC Container
          */
         $this->manager = $DIC->resourceStorage()->manage();
+        $this->stakeholder = new ilObjFileStakeholder();
+        $this->upload = $DIC->upload();
+        $this->version = 0;
+        $this->max_version = 0;
+        $this->log = ilLoggerFactory::getLogger('file');
+
+        parent::__construct($a_id, $a_call_by_reference);
+    }
+
+    private function updateObjectFromRevision(Revision $r) : void
+    {
+        $this->setTitle($r->getTitle());
+        $this->setVersion($r->getVersionNumber());
+        $this->update();
+        $this->createPreview();
+        $this->addNewsNotification("file_updated");
+    }
+
+    public function appendStream(FileStream $stream, string $title, bool $keep_existing = true) : int
+    {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
-            $revision = $this->manager->appendNewRevisionFromStream($i, $stream, new ilObjFileStakeholder(), $title);
+            $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
-            $i = $this->manager->stream($stream, new ilObjFileStakeholder(), $title);
+            $i = $this->manager->stream($stream, $this->stakeholder, $title);
             $revision = $this->manager->getCurrentRevision($i);
             $this->setResourceId($i->serialize());
         }
-
-        $revision->getInformation()->setTitle('this is a title.docx');
-        $this->manager->updateRevision($revision);
-
-        $this->setTitle($title);
-        $this->setVersion($revision->getVersionNumber());
-        $this->update();
+        $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
     }
 
-    private function appendUpload(UploadResult $result, bool $keep_existing = true) : int
+    public function appendUpload(UploadResult $result, string $title, bool $keep_existing = true) : int
     {
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $revision = $this->manager->appendNewRevision($i, $result, $this->stakeholder, $title);
+        } else {
+            $i = $this->manager->upload($result, $this->stakeholder, $title);
+            $revision = $this->manager->getCurrentRevision($i);
+            $this->setResourceId($i->serialize());
+        }
+        $this->updateObjectFromRevision($revision);
 
+        return $revision->getVersionNumber();
     }
 
     /**
@@ -492,9 +508,30 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return null;
     }
 
-    public function getUploadFile($a_upload_file, $a_filename, $a_prevent_preview = false)
+    private function prepareUpload() : void
     {
-        return null;
+        if (true !== $this->upload->hasBeenProcessed()) {
+            if (defined('PATH_TO_GHOSTSCRIPT') && PATH_TO_GHOSTSCRIPT !== "") {
+                $this->upload->register(new ilCountPDFPagesPreProcessors());
+            }
+
+            $this->upload->process();
+        }
+    }
+
+    /**
+     * @description This Method is used to append a fileupload by it's POST-name to the current ilObjFile
+     */
+    public function getUploadFile($a_upload_file, string $title, bool $a_prevent_preview = false) : bool
+    {
+        $this->prepareUpload($a_prevent_preview);
+
+        $results = $this->upload->getResults();
+        $upload = $results[$a_upload_file];
+
+        $this->appendUpload($upload, $title);
+
+        return true;
     }
 
     public function addNewsNotification($a_lang_var)
@@ -533,21 +570,14 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @param $a_filename
      * @return bool
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     * @deprecated
      */
     public function addFileVersion($a_upload_file, $a_filename)
     {
-        /**
-         * @var $DIC Container
-         */
-        global $DIC;
-        $id = $DIC->resourceStorage()->manage()->find($this->getResourceId());
-        if ($id) {
-            $upload = $DIC->upload()->getResults()[$a_upload_file];
-            $DIC->resourceStorage()->manage()->appendNewRevision($id, $upload, new ilObjFileStakeholder(),
-                $a_filename);
-        }
-        $this->addNewsNotification("file_updated");
-//        $this->createPreview($this->getVersion() > 1);
+        $this->prepareUpload();
+
+        $upload = $this->upload->getResults()[$a_upload_file];
+        $this->appendUpload($upload, $a_filename);
 
         return true;
     }
@@ -559,8 +589,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         $this->implementation->clearDataDirectory();
     }
-
-    // FSX
 
     /**
      * @ineritdoc
