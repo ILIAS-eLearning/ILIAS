@@ -790,6 +790,9 @@ class ilRepositorySearchGUI
         }
         $found_query = false;
         foreach ((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value) {
+            if ($field === 'recurse') {
+                continue;
+            }
             if (trim(ilUtil::stripSlashes($value))) {
                 $found_query = true;
                 break;
