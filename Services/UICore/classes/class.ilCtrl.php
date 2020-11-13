@@ -939,11 +939,10 @@ class ilCtrl
             if ($unsafeGetCommands !== [] && in_array($cmd, $unsafeGetCommands)) {
                 if ($this->verified_cmd !== '') {
                     return $this->verified_cmd;
-                } else {
-                    if (!$this->verifyToken()) {
-                        return $a_default_cmd;
-                    }
+                } elseif (!$this->verifyToken()) {
+                    return $a_default_cmd;
                 }
+
                 $this->verified_cmd = $cmd;
             }
         }
@@ -954,16 +953,12 @@ class ilCtrl
             }
             $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 
-            // verify command
             if ($this->verified_cmd != "") {
                 return $this->verified_cmd;
-            } else {
-                if (!$this->verifyToken() &&
-                    (!is_array($safePostCommands) || !in_array($cmd, $safePostCommands))) {
-                    return $a_default_cmd;
-                }
+            } elseif (!in_array($cmd, $safePostCommands) && !$this->verifyToken()) {
+                return $a_default_cmd;
             }
-            
+
             $this->verified_cmd = $cmd;
             if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
                 $cmd = key($_POST["table_top_cmd"]);
