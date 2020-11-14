@@ -220,5 +220,18 @@ class UIWrapper
         return $ui->renderer()->renderAsync($l);
     }
 
+    /**
+     * Get rendered icon
+     * @param
+     * @return
+     */
+    public function getRenderedIcon($type)
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $r = $ui->renderer();
+        $i = $f->symbol()->icon()->standard($type, $type, 'medium');
+        return $r->render($i);
+    }
 
 }

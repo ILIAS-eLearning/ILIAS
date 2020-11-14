@@ -29,7 +29,8 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
         $form = $this->getCreationForm($page_gui, $ui_wrapper);
 
         return [
-            "creation_form" => $form
+            "creation_form" => $form,
+            "icon" => $ui_wrapper->getRenderedIcon("pecl")
         ];
     }
 

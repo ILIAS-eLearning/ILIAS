@@ -240,6 +240,7 @@ export default class PageUIActionHandler {
           this.ui.disableDragDrop();
           break;
       }
+      this.ui.markCurrent();
     }
   }
 
