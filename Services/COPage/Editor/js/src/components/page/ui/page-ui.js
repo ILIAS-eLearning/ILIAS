@@ -116,6 +116,7 @@ export default class PageUI {
     this.initMultiSelection();
     this.initComponentEditing();
     this.showEditPage();
+    this.markCurrent();
   }
 
   /**
@@ -126,6 +127,7 @@ export default class PageUI {
     this.initDragDrop();
     this.initMultiSelection();
     this.initComponentEditing();
+    this.markCurrent();
   }
 
   addComponentUI(cname, ui) {
@@ -583,6 +585,20 @@ export default class PageUI {
     });
   }
 
+  markCurrent() {
+    const editContainer = document.getElementById("il_EditPage");
+    editContainer.setAttribute("class", "copg-state-" + this.model.getState());
+
+    document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(el => {
+      const pcid = el.dataset.pcid;
+      if (this.model.getCurrentPCId() === pcid && this.model.getState() === this.model.STATE_COMPONENT) {
+        el.classList.add("copg-current-edit");
+      } else {
+        el.classList.remove("copg-current-edit");
+      }
+    });
+  }
+
   // default callback for successfull ajax request, reloads page content
   handlePageReloadResponse(result)
   {
@@ -629,11 +645,20 @@ export default class PageUI {
 
   showGenericCreationForm() {
     const model = this.model;
+
+    let content = this.model.getCurrentPCName();
+
+    if (this.uiModel.components[this.model.getCurrentPCName()] &&
+      this.uiModel.components[this.model.getCurrentPCName()].icon) {
+      content = "<div class='copg-new-content-placeholder'>" + this.uiModel.components[this.model.getCurrentPCName()].icon +
+        "<div>" + this.model.getCurrentPCName() + "</div></div>";
+    }
+
     this.pageModifier.insertComponentAfter(
       model.getCurrentInsertPCId(),
       model.getCurrentPCId(),
       this.model.getCurrentPCName(),
-      this.model.getCurrentPCName(),
+      content,
       this.model.getCurrentPCName()
     );
     this.toolSlate.setContentFromComponent(this.model.getCurrentPCName(), "creation_form");

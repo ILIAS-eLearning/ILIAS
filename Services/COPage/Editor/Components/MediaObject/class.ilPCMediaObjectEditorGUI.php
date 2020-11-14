@@ -24,7 +24,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
-            "creation_form" => $acc->getHTML()
+            "creation_form" => $acc->getHTML(),
+            "icon" => $ui_wrapper->getRenderedIcon("pemed")
         ];
     }
 
