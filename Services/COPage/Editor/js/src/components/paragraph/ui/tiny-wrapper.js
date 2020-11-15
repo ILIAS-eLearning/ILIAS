@@ -290,7 +290,20 @@ export default class TinyWrapper {
       // backspace (8) -> merge with previous
       if ([8].includes(ev.keyCode)) {
         if (wrapper.mergePrevious) {
+          let dom = tiny.dom;
+
+          // add split point
+          let sp = dom.create("span", {class: 'split-point'}, " ");
+          tiny.selection.setNode(sp);
+
           wrapper.mergeCallback(wrapper, true);
+
+          // select and remove splitpoint
+          dom = tiny.dom;
+          sp = tiny.dom.select('span.split-point');
+          tiny.selection.select(sp[0]);
+          dom.remove(sp[0]);
+
         }
       }
 
@@ -299,7 +312,19 @@ export default class TinyWrapper {
         if (currentRng.collapsed &&
           currentRng.startOffset === currentRng.endOffset &&
           wrapper.mergeNextContent === wrapper.getText()) {
+
+          // add split point
+          let dom = tiny.dom;
+          let sp = dom.create("span", {class: 'split-point'}, " ");
+          tiny.selection.setNode(sp);
+
           wrapper.mergeCallback(wrapper, false);
+
+          // select and remove splitpoint
+          dom = tiny.dom;
+          sp = tiny.dom.select('span.split-point');
+          tiny.selection.select(sp[0]);
+          dom.remove(sp[0]);
         }
       }
 
@@ -497,6 +522,7 @@ export default class TinyWrapper {
   }
 
   initInsert(content_element, after_init, after_keyup, previous, next) {
+    const wrapper = this;
     this.log('tiny-wrapper.initInsert');
 
     this.setGhostAt(content_element);
@@ -706,14 +732,26 @@ export default class TinyWrapper {
     const content_el = document.querySelector("main.il-layout-page-content");
     const tiny_rect = tiny_el.getBoundingClientRect();
 
+    let scroll = false;
+
     // if end of tiny is not visible
     if (tiny_rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) {
-      content_el.scrollTop = tiny_el.offsetTop - 20;
+      scroll = true;
+    }
+
+    // if top is not at least 30px over bottom
+    if (tiny_rect.top + 50 > (window.innerHeight || document.documentElement.clientHeight)) {
+      scroll = true;
     }
 
     // if top of tiny is not visible
     if (content_el.scrollTop > tiny_el.offsetTop - 20) {
+      scroll = true;
+    }
+
+    if (scroll) {
       content_el.scrollTop = tiny_el.offsetTop - 20;
+      this.autoResize();
     }
   }
 
