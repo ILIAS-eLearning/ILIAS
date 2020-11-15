@@ -478,6 +478,7 @@ export default class TinyWrapper {
   }
 
   initEdit(content_element, text, characteristic, after_init, after_keyup, previous, next) {
+    const wrapper = this;
     this.log('tiny-wrapper.initEdit');
 
     this.setGhostAt(content_element);
@@ -485,11 +486,13 @@ export default class TinyWrapper {
     if (!this.tiny) {
       this.createTextAreaForTiny();
       this.lib.init(this.getConfig(() => {
-              after_init();
+        after_init();
+        wrapper.autoScroll();
       }, after_keyup, previous, next));
     } else {
       this.showAfter(content_element);
       after_init();
+      wrapper.autoScroll();
     }
   }
 
@@ -499,11 +502,15 @@ export default class TinyWrapper {
     this.setGhostAt(content_element);
     if (!this.tiny) {
       this.createTextAreaForTiny();
-      this.lib.init(this.getConfig(after_init, after_keyup, previous, next));
+      this.lib.init(this.getConfig(() => {
+        after_init();
+        wrapper.autoScroll();
+      }, after_keyup, previous, next));
     } else {
       this.showAfter(content_element);
       this.initContent("<p></p>", 'ilc_text_block_Standard');
       after_init();
+      wrapper.autoScroll();
     }
   }
 
@@ -670,7 +677,7 @@ export default class TinyWrapper {
       back_reg.height);
 
     if (!this.current_td) {
-      this.autoScroll();
+//      this.autoScroll();
     }
 
     // force redraw for webkit based browsers (ILIAS chrome bug #0010871)
@@ -695,33 +702,18 @@ export default class TinyWrapper {
 
   // scrolls position of editor under editor menu
   autoScroll() {
-    this.log('tiny-wrapper.autoScroll (deactivated)');
-    return;                                               // MISSING
+    const tiny_el = document.getElementById("tinytarget_div");
+    const content_el = document.querySelector("main.il-layout-page-content");
+    const tiny_rect = tiny_el.getBoundingClientRect();
 
-    let tiny_reg, menu_reg, cl_reg, diff;
+    // if end of tiny is not visible
+    if (tiny_rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) {
+      content_el.scrollTop = tiny_el.offsetTop - 20;
+    }
 
-    //var tinyifr = document.getElementById("tinytarget_parent");
-    let tinyifr = document.getElementById("tinytarget_ifr");
-    let menu = document.getElementById('iltinymenu');
-    let fc = document.getElementById('fixed_content');
-
-    if (tinyifr && menu) {
-
-      if ($(fc).css("position") === "static") {
-        tiny_reg = YAHOO.util.Region.getRegion(tinyifr);
-        menu_reg = YAHOO.util.Region.getRegion(menu);
-        //console.log(tiny_reg);
-        //console.log(menu_reg);
-        cl_reg = YAHOO.util.Dom.getClientRegion();
-        //console.log(cl_reg);
-        //console.log(-20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
-        window.scrollTo(0, -20 + tiny_reg.y - (menu_reg.height + menu_reg.y - cl_reg.top));
-      } else {
-        diff = Math.floor($(menu).offset().top + $(menu).height()  + 20 - $(tinyifr).offset().top);
-        if (diff > 1 || diff < -1) {
-          $(fc).scrollTop($(fc).scrollTop() - diff);
-        }
-      }
+    // if top of tiny is not visible
+    if (content_el.scrollTop > tiny_el.offsetTop - 20) {
+      content_el.scrollTop = tiny_el.offsetTop - 20;
     }
   }
 
