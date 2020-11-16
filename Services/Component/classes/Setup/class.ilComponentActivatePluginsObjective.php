@@ -47,13 +47,8 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $setup_config = $environment->getConfigFor('common');
-        $db_config = $environment->getConfigFor('database');
-
         return [
-            new \ilIniFilesPopulatedObjective($setup_config),
-            new \ilDatabasePopulatedObjective($db_config),
-            new \ilComponentPluginAdminInitObjective()
+            new \ilComponentUpdatePluginObjective($this->plugin_name)
         ];
     }
 
