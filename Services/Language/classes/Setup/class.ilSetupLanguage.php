@@ -592,7 +592,7 @@ class ilSetupLanguage extends ilLanguage
 
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
-                        $local_value = $local_changes[$separated[0]][$separated[1]];
+                        $local_value = $local_changes[$separated[0]][$separated[1]] ?? null;
                     } else {
                         $local_value = null;
                     }

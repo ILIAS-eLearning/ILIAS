@@ -582,7 +582,7 @@ class ilLanguage
             return false;
         }
 
-        if (DEVMODE) {
+        if (defined("DEVMODE") && DEVMODE) {
             return true;
         }
 
