@@ -1648,6 +1648,70 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->logObject();
     }
 
+    public function rsvConfirmDeleteObject()
+    {
+        if (!$this->checkPermissionBool("write")) {
+            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+            $this->ctrl->redirect($this, 'log');
+        }
+
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "log")
+        );
+
+        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
+        $conf = new ilConfirmationGUI();
+        $conf->setFormAction($this->ctrl->getFormAction($this, 'rsvDelete'));
+        $conf->setHeaderText($this->lng->txt('book_confirm_delete'));
+        $conf->setConfirm($this->lng->txt('book_set_delete'), 'rsvDelete');
+        $conf->setCancel($this->lng->txt('cancel'), 'log');
+
+        list($obj_id, $user_id, $from, $to) = explode("_", $_GET['reservation_id']);
+        $ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
+        $rsv = new ilBookingReservation($ids[0]);
+        $obj = new ilBookingObject($rsv->getObjectId());
+
+        $details = sprintf($this->lng->txt('X_reservations_of'), count($ids)) . ' ' . $obj->getTitle();
+        if ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+            $details .= ", " . ilDatePresentation::formatPeriod(
+                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
+                );
+        }
+
+        $conf->addItem('rsv_ids', implode(',', $ids), $details);
+        $this->tpl->setContent($conf->getHTML());
+    }
+
+    public function rsvDeleteObject()
+    {
+        global $DIC;
+        if ($DIC->http()->request()->getParsedBody()['rsv_ids']) {
+            include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
+            foreach (explode(',', $DIC->http()->request()->getParsedBody()['rsv_ids']) as $id) {
+                $obj = new ilBookingReservation($id);
+                if (!$this->checkPermissionBool("write")) {
+                    ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
+                    $this->ctrl->redirect($this, 'log');
+                }
+                if ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+                    $cal_entry_id = $obj->getCalendarEntry();
+                    if ($cal_entry_id) {
+                        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
+                        $entry = new ilCalendarEntry($cal_entry_id);
+                        $entry->delete();
+                    }
+                }
+                $obj->delete();
+            }
+        }
+
+        ilUtil::sendSuccess($this->lng->txt('reservation_deleted'));
+        $this->logObject();
+    }
+
     public function rsvInUseObject()
     {
         $this->checkPermission("write");
