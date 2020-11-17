@@ -1714,7 +1714,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         if (
             $this->isWritingWithPseudonymAllowed() &&
-            in_array($this->requestAction, array('showreply', 'ready_showreply'))
+            in_array($this->requestAction, array('showreply', 'ready_showreply', 'editdraft'))
         ) {
             $oAnonymousNameGUI = new ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
             $oAnonymousNameGUI->setMaxLength(64);
