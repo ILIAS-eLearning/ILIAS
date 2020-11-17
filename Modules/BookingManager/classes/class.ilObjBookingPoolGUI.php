@@ -1689,23 +1689,33 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     public function rsvDeleteObject()
     {
         global $DIC;
-        if ($DIC->http()->request()->getParsedBody()['rsv_ids']) {
+        $get = $DIC->http()->request()->getParsedBody()['rsv_ids'];
+        if ($get) {
             include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
-            foreach (explode(',', $DIC->http()->request()->getParsedBody()['rsv_ids']) as $id) {
-                $obj = new ilBookingReservation($id);
-                if (!$this->checkPermissionBool("write")) {
+            foreach (explode(',', $get) as $id) {
+                $res = new ilBookingReservation($id);
+                $obj = new ilBookingObject($res->getObjectId());
+                $ref_ids = ilObject::_getAllReferences($obj->getPoolId());
+                $access = false;
+                foreach ($ref_ids as $ref_id) {
+                    if ($this->access->checkAccess("write", "", $ref_id)) {
+                        $access = true;
+                        break;
+                    }
+                }
+                if (!$access) {
                     ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
                 if ($this->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
-                    $cal_entry_id = $obj->getCalendarEntry();
+                    $cal_entry_id = $res->getCalendarEntry();
                     if ($cal_entry_id) {
                         include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
                         $entry = new ilCalendarEntry($cal_entry_id);
                         $entry->delete();
                     }
                 }
-                $obj->delete();
+                $res->delete();
             }
         }
 
