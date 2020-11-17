@@ -494,13 +494,7 @@ class ilForumPostDraft
             'frm_posts_drafts',
             array(
             'post_subject' => array('text', $this->getPostSubject()),
-            'post_message' => array('clob', $this->getPostMessage()),
-            'notify' => array('integer', $this->getNotify()),
-            'post_notify' => array('integer', $this->getPostNotify()),
-            'post_update' => array('timestamp', date("Y-m-d H:i:s")),
-            'update_user_id' => array('integer', $this->getUpdateUserId()),
-            'post_user_alias' => array('text', $this->getPostUserAlias()),
-            'pos_display_usr_id' => array('integer', $this->getPostDisplayUserId())
+            'post_message' => array('clob', $this->getPostMessage())
         ),
             array('draft_id' => array('integer', $this->getDraftId()))
         );
