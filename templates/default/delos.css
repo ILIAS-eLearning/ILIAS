@@ -13406,6 +13406,11 @@ span.ilIcalIcon {
   background-color: white;
   background-position: 15px 8px;
   background-size: 20px 20px;
+  border: 0;
+}
+.il_VAccordionHead {
+  display: block;
+  width: 100%;
 }
 .il_VAccordionInnerContainer {
   margin-bottom: 10px;
@@ -17523,13 +17528,18 @@ div.ilRatingOverlay {
 .ilExcAssignmentHead img {
   display: block;
   float: left;
+  margin-top: 4px;
 }
-.ilExcAssignmentHead h3 {
+.ilExcAssignmentHead .ilAssignmentHeader {
   padding: 0;
-  margin: 4px 0 0 25px;
+  margin: 1px 0 0 25px;
   font-size: 16px;
 }
-.ilExcAssignmentHead > div {
+.ilExcAssignmentHead,
+.ilAssignmentHeader {
+  display: block;
+}
+.ilExAssignmentHeadProperty {
   margin: 4px 0 0 25px;
   font-size: 12px;
 }
@@ -19372,4 +19382,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: 0.25em;
 }
-/*# sourceMappingURL=delos.css.map */
