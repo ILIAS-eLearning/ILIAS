@@ -341,6 +341,11 @@ html.ilc_Fullscreen, body.ilc_Fullscreen {
 	margin: 0;
 	padding: 0;
 	height: 100%;
+	overflow: auto;
+	td > div, td > div > figure > div > iframe {
+		height: 100%;
+		width: 100%;
+	}
 }
 
 div.ilLMMenu {
@@ -540,11 +545,15 @@ div.ilCOPGMediaPrint {
 }
 
 /* fullscreen iframe */
-#il-copg-mob-fullscreen {
+.il-copg-mob-fullscreen {
 	width: 100%;
 	padding: 0;
 	margin: 0;
 	border: 0;
+}
+
+.il-copg-mob-fullscreen-modal .modal-dialog {
+	width:95%;
 }
 
 #ilAdvSelListTable_style_selection, #ilTinyMenuButtons ul.dropdown-menu {

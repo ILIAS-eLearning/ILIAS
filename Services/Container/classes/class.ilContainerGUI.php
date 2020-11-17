@@ -352,7 +352,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setFileDownloadLink("");
-        $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
