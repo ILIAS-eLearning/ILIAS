@@ -494,7 +494,8 @@ class ilForumPostDraft
             'frm_posts_drafts',
             array(
             'post_subject' => array('text', $this->getPostSubject()),
-            'post_message' => array('clob', $this->getPostMessage())
+            'post_message' => array('clob', $this->getPostMessage()),
+            'post_user_alias' => array('text', $this->getPostUserAlias())
         ),
             array('draft_id' => array('integer', $this->getDraftId()))
         );
