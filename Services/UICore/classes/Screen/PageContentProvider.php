@@ -183,7 +183,7 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
 
             $footer = $f->mainControls()->footer($links, $text);
 
-            $tosWithdrawalGui = new \ilTermsOfServiceWithdrawalGUIHelper();
+            $tosWithdrawalGui = new \ilTermsOfServiceWithdrawalGUIHelper($this->dic->user());
             $footer = $tosWithdrawalGui->modifyFooter($footer);
 
             if (self::$perma_link !== "") {
