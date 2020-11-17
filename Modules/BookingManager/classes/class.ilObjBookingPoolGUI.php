@@ -1650,6 +1650,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
     public function rsvConfirmDeleteObject()
     {
+        global $DIC;
         if (!$this->checkPermissionBool("write")) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->redirect($this, 'log');
@@ -1668,7 +1669,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $conf->setConfirm($this->lng->txt('book_set_delete'), 'rsvDelete');
         $conf->setCancel($this->lng->txt('cancel'), 'log');
 
-        list($obj_id, $user_id, $from, $to) = explode("_", $_GET['reservation_id']);
+        list($obj_id, $user_id, $from, $to) = explode("_", $DIC->http()->request()->getQueryParams()['reservation_id']);
         $ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
         $rsv = new ilBookingReservation($ids[0]);
         $obj = new ilBookingObject($rsv->getObjectId());
