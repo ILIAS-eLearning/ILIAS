@@ -1695,15 +1695,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             foreach (explode(',', $get) as $id) {
                 $res = new ilBookingReservation($id);
                 $obj = new ilBookingObject($res->getObjectId());
-                $ref_ids = ilObject::_getAllReferences($obj->getPoolId());
-                $access = false;
-                foreach ($ref_ids as $ref_id) {
-                    if ($this->access->checkAccess("write", "", $ref_id)) {
-                        $access = true;
-                        break;
-                    }
-                }
-                if (!$access) {
+                if ($obj->getPoolId() != $this->object->getId() || !$this->checkPermissionBool("write")) {
                     ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
