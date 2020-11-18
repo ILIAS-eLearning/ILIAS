@@ -8419,6 +8419,9 @@ rbac#:#cat_administrate_users#:#Administrate Local User Accounts
 rbac#:#edit_permission#:#Change Permissions
 rbac#:#edit_event#:#Edit Calendar
 book#:#book_set_cancel#:#Cancel Reservation
+book#:#reservation_deleted#:#Reservation deleted
+book#:#X_reservations_of#:#%s reservations of
+book#:#book_set_delete#:#Delete
 rbac#:#book_edit_permission#:#User can change permission settings for booking pool
 rbac#:#book_visible#:#Booking pool is visible
 rbac#:#book_read#:#User can book resources / objects in booking pool
