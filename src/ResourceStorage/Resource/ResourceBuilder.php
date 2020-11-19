@@ -16,6 +16,7 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
+use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
 
 /**
  * Class ResourceBuilder
@@ -88,11 +89,14 @@ class ResourceBuilder
         return $this->append($resource, $result, $title);
     }
 
-    public function newFromStream(FileStream $stream, bool $keep_original = false) : StorableResource
-    {
+    public function newFromStream(
+        FileStream $stream,
+        string $title = null,
+        bool $keep_original = false
+    ) : StorableResource {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->appendFromStream($resource, $stream, $keep_original);
+        return $this->appendFromStream($resource, $stream, $keep_original, $title);
     }
 
     public function newBlank() : StorableResource
@@ -183,6 +187,29 @@ class ResourceBuilder
         $r->runAndUnlock();
     }
 
+    public function clone(StorableResource $resource) : StorableResource
+    {
+        $new_resource = $this->newBlank();
+        foreach ($resource->getStakeholders() as $stakeholder) {
+            $stakeholder = clone $stakeholder;
+            $new_resource->addStakeholder($stakeholder);
+        }
+
+        foreach ($resource->getAllRevisions() as $revision) {
+            $stream = new FileStreamConsumer($resource, $this->storage_handler);
+            $stream->setRevisionNumber($revision->getVersionNumber());
+            $cloned_revision = new FileStreamRevision($new_resource->getIdentification(), $stream->getStream(), true);
+            $cloned_revision->setTitle($revision->getTitle());
+            $cloned_revision->setOwnerId($revision->getOwnerId());
+            $cloned_revision->setVersionNumber($revision->getVersionNumber());
+            $cloned_revision->setInformation($revision->getInformation());
+            $new_resource->addRevision($cloned_revision);
+        }
+        $this->store($new_resource);
+        return $new_resource;
+
+    }
+
     public function storeRevision(Revision $revision) : void
     {
         if ($revision instanceof UploadedFileRevision) {
@@ -237,7 +264,6 @@ class ResourceBuilder
     public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
     {
 //        $resource->getStakeholders()
-
 
         foreach ($resource->getAllRevisions() as $revision) {
             $this->information_repository->delete($revision->getInformation(), $revision);
