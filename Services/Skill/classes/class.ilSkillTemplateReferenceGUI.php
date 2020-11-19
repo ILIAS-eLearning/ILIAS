@@ -200,20 +200,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $this->form->addItem($ne);
             }
         }
-        
-        // order nr
-        $ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
-        $ni->setInfo($lng->txt("skmg_order_nr_info"));
-        $ni->setMaxLength(6);
-        $ni->setSize(6);
-        $ni->setRequired(true);
-        if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
-            $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
-            $ni->setValue($max + 10);
-        }
-        $this->form->addItem($ni);
 
         // template
         $options = array(
@@ -266,7 +252,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $values["description"] = $this->node_object->getDescription();
         $values["selectable"] = $this->node_object->getSelfEvaluation();
         $values["status"] = $this->node_object->getStatus();
-        $values["order_nr"] = $this->node_object->getOrderNr();
         $this->form->setValuesByArray($values);
     }
 
@@ -279,12 +264,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             return;
         }
 
+        $tree = new ilSkillTree();
+
         $sktr = new ilSkillTemplateReference();
         $sktr->setTitle($_POST["title"]);
         $sktr->setDescription($_POST["description"]);
         $sktr->setSkillTemplateId($_POST["skill_template_id"]);
         $sktr->setSelfEvaluation($_POST["selectable"]);
-        $sktr->setOrderNr($_POST["order_nr"]);
+        $sktr->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $sktr->setStatus($_POST["status"]);
         $sktr->create();
         ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
@@ -331,7 +318,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             $this->node_object->setTitle($_POST["title"]);
             $this->node_object->setDescription($_POST["description"]);
             $this->node_object->setSelfEvaluation($_POST["selectable"]);
-            $this->node_object->setOrderNr($_POST["order_nr"]);
             $this->node_object->setStatus($_POST["status"]);
             $this->node_object->update();
 

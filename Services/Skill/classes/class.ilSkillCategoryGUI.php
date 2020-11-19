@@ -205,20 +205,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
         $ta->setRows(5);
         $this->form->addItem($ta);
-        
-        // order nr
-        $ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
-        $ni->setInfo($lng->txt("skmg_order_nr_info"));
-        $ni->setMaxLength(6);
-        $ni->setSize(6);
-        $ni->setRequired(true);
-        if ($a_mode == "create") {
-            include_once("./Services/Skill/classes/class.ilSkillTree.php");
-            $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr((int) $_GET["obj_id"]);
-            $ni->setValue($max + 10);
-        }
-        $this->form->addItem($ni);
 
         // status
         $this->addStatusInput($this->form);
@@ -253,10 +239,13 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             return;
         }
         include_once "Services/Skill/classes/class.ilSkillCategory.php";
+        
+        $tree = new ilSkillTree();
+
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getDescription("description"));
-        $it->setOrderNr($this->form->getInput("order_nr"));
+        $it->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->setStatus($_POST["status"]);
         $it->create();
@@ -271,7 +260,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $values = array();
         $values["title"] = $this->node_object->getTitle();
         $values["description"] = $this->node_object->getDescription();
-        $values["order_nr"] = $this->node_object->getOrderNr();
         $values["self_eval"] = $this->node_object->getSelfEvaluation();
         $values["status"] = $this->node_object->getStatus();
         $this->form->setValuesByArray($values);
@@ -288,7 +276,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setOrderNr($this->form->getInput("order_nr"));
         $this->node_object->setSelfEvaluation($_POST["self_eval"]);
         $this->node_object->setStatus($_POST["status"]);
         $this->node_object->update();
