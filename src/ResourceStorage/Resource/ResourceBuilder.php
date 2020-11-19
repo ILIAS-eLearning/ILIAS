@@ -233,8 +233,11 @@ class ResourceBuilder
     /**
      * @param StorableResource $resource
      */
-    public function remove(StorableResource $resource) : void
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
     {
+//        $resource->getStakeholders()
+
+
         foreach ($resource->getAllRevisions() as $revision) {
             $this->information_repository->delete($revision->getInformation(), $revision);
             $this->revision_repository->delete($revision);

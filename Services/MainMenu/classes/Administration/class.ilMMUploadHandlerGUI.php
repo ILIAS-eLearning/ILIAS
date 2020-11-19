@@ -71,7 +71,7 @@ class ilMMUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id !== null) {
-            $this->storage->manage()->remove($id);
+            $this->storage->manage()->remove($id, $this->stakeholder);
 
             return new BasicHandlerResult($this->getFileIdentifierParameterName(), HandlerResultInterface::STATUS_OK, $identifier, 'file deleted');
         } else {

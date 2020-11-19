@@ -444,20 +444,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doDelete()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
 
         // delete file data entry
-        $q = "DELETE FROM file_data WHERE file_id = " . $ilDB->quote($this->getId(), 'integer');
-        $this->ilias->db->query($q);
+        $DIC->database()->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
 
         // delete history entries
-        require_once("./Services/History/classes/class.ilHistory.php");
         ilHistory::_removeEntriesForObject($this->getId());
-
-        // delete entire directory and its content
-        if (@is_dir($this->getDirectory())) {
-            ilUtil::delDir($this->getDirectory());
-        }
 
         // delete meta data
         if ($this->getMode() != self::MODE_FILELIST) {
@@ -466,6 +458,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // delete preview
         $this->deletePreview();
+
+        // delete resource
+        $this->manager->remove($this->manager->find($this->getResourceId()), $this->stakeholder);
     }
 
     /**

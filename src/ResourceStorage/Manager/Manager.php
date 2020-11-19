@@ -89,9 +89,9 @@ class Manager
         return $this->resource_builder->get($i);
     }
 
-    public function remove(ResourceIdentification $identification) : void
+    public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder) : void
     {
-        $this->resource_builder->remove($this->resource_builder->get($identification));
+        $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
     }
 
     // Revision
