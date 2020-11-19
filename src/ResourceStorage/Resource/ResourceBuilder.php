@@ -62,6 +62,7 @@ class ResourceBuilder
      * @param ResourceRepository    $resource_repository
      * @param InformationRepository $information_repository
      * @param StakeholderRepository $stakeholder_repository
+     * @param LockHandler           $lock_handler
      */
     public function __construct(
         StorageHandler $storage_handler,
@@ -79,6 +80,9 @@ class ResourceBuilder
         $this->lock_handler = $lock_handler;
     }
 
+    //
+    // Methods to create new Resources (from an Upload, a Stream od just a blank one)
+    //
     /**
      * @inheritDoc
      */
@@ -107,6 +111,10 @@ class ResourceBuilder
         return $resource;
     }
 
+    //
+    // Methods to append something to an existing resource
+    //
+
     /**
      * @inheritDoc
      */
@@ -120,6 +128,7 @@ class ResourceBuilder
         $info = $revision->getInformation();
         $info->setTitle($result->getName());
         $info->setMimeType($result->getMimeType());
+        $info->setSuffix(pathinfo($result->getName(), PATHINFO_EXTENSION));
         $info->setSize($result->getSize());
         $info->setCreationDate(new \DateTimeImmutable());
 
@@ -144,10 +153,11 @@ class ResourceBuilder
         if ($path && $path !== 'php://input') {
             $file_name = basename($path);
             $info->setTitle($file_name);
+            $info->setSuffix(pathinfo($file_name, PATHINFO_EXTENSION));
             $info->setMimeType(mime_content_type($path));
             $info->setSize($stream->getSize());
+            $info->setCreationDate(new \DateTimeImmutable(filectime($path)));
         }
-        $info->setCreationDate(new \DateTimeImmutable());
 
         $revision->setTitle($revision_title ?? $file_name ?? 'stream');
         $resource->addRevision($revision);
@@ -156,6 +166,11 @@ class ResourceBuilder
         return $resource;
     }
 
+    /**
+     * @param ResourceIdentification $identification
+     * @return bool
+     * @description check if a resource exists
+     */
     public function has(ResourceIdentification $identification) : bool
     {
         return $this->resource_repository->has($identification) && $this->storage_handler->has($identification);
@@ -163,6 +178,7 @@ class ResourceBuilder
 
     /**
      * @param StorableResource $resource
+     * @description after you have modified a resource, you can store it here
      */
     public function store(StorableResource $resource) : void
     {
@@ -187,6 +203,11 @@ class ResourceBuilder
         $r->runAndUnlock();
     }
 
+    /**
+     * @param StorableResource $resource
+     * @return StorableResource
+     * @description Clone anexisting resource with all it's revisions, stakeholders and information
+     */
     public function clone(StorableResource $resource) : StorableResource
     {
         $new_resource = $this->newBlank();
@@ -210,6 +231,10 @@ class ResourceBuilder
 
     }
 
+    /**
+     * @description  Store one Revision
+     * @param Revision $revision
+     */
     public function storeRevision(Revision $revision) : void
     {
         if ($revision instanceof UploadedFileRevision) {
@@ -223,7 +248,10 @@ class ResourceBuilder
     }
 
     /**
-     * @inheritDoc
+     * @param ResourceIdentification $identification
+     * @return StorableResource
+     * @throws ResourceNotFoundException
+     * @description Get a Resource out of a Identification
      */
     public function get(ResourceIdentification $identification) : StorableResource
     {
@@ -235,6 +263,45 @@ class ResourceBuilder
         $this->resource_cache[$identification->serialize()] = $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
 
         return $this->resource_cache[$identification->serialize()];
+    }
+
+    /**
+     * @description Reve a complete revision. if there are other Stakeholder, only your stakeholder gets removed
+     * @param StorableResource    $resource
+     * @param ResourceStakeholder $stakeholder
+     */
+    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
+    {
+        $this->stakeholder_repository->deregister($resource->getIdentification(), $stakeholder);
+        if (count($resource->getStakeholders()) > 1) {
+            return;
+        }
+
+        foreach ($resource->getAllRevisions() as $revision) {
+            $this->deleteRevision($revision);
+        }
+        $this->storage_handler->deleteResource($resource);
+        $this->resource_repository->delete($resource);
+    }
+
+    private function deleteRevision(Revision $revision) : void
+    {
+        $this->storage_handler->deleteRevision($revision);
+        $this->information_repository->delete($revision->getInformation(), $revision);
+        $this->revision_repository->delete($revision);
+    }
+
+    /**
+     * @return Generator
+     */
+    public function getAll() : Generator
+    {
+        /**
+         * @var $resource StorableResource
+         */
+        foreach ($this->resource_repository->getAll() as $resource) {
+            yield $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
+        }
     }
 
     /**
@@ -256,33 +323,5 @@ class ResourceBuilder
         }
 
         return $resource;
-    }
-
-    /**
-     * @param StorableResource $resource
-     */
-    public function remove(StorableResource $resource, ResourceStakeholder $stakeholder) : void
-    {
-//        $resource->getStakeholders()
-
-        foreach ($resource->getAllRevisions() as $revision) {
-            $this->information_repository->delete($revision->getInformation(), $revision);
-            $this->revision_repository->delete($revision);
-        }
-        $this->storage_handler->deleteResource($resource);
-        $this->resource_repository->delete($resource);
-    }
-
-    /**
-     * @return Generator
-     */
-    public function getAll() : Generator
-    {
-        /**
-         * @var $resource StorableResource
-         */
-        foreach ($this->resource_repository->getAll() as $resource) {
-            yield $this->populateNakedResourceWithRevisionsAndStakeholders($resource);
-        }
     }
 }
