@@ -317,3 +317,19 @@ div.il_editarea {
 img.spacer {
 	display: block;
 }
+
+/* ------------------ visually distinguishable numeric input fields --------------
+	Styles related to https://mantis.ilias.de/view.php?id=26494
+ */
+.ilcqinput_NumericInput {
+	background: #E0FAFA;
+}
+
+.ilcqinput_NumericInput+span:after {
+	content: " (!) ";
+	color: green;
+}
+
+.ilcqinput_NumericInputInvalid {
+	background: red;
+}
