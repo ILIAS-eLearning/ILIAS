@@ -111,10 +111,10 @@ class ilIndividualAssessmentDataSet extends ilDataSet
                             'id' => $iass_id,
                             'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'content' => $settings->content(),
-                            'recordTemplate' => $settings->recordTemplate(),
-                            'eventTimePlaceRequired' => (int) $settings->eventTimePlaceRequired(),
-                            'file_required' => (int) $settings->fileRequired(),
+                            'content' => $settings->getContent(),
+                            'recordTemplate' => $settings->getRecordTemplate(),
+                            'eventTimePlaceRequired' => (int) $settings->isEventTimePlaceRequired(),
+                            'file_required' => (int) $settings->isFileRequired(),
                             "contact" => $info->getContact(),
                             "responsibility" => $info->getResponsibility(),
                             "phone" => $info->getPhone(),
@@ -170,7 +170,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
                     $rec['phone'],
                     $rec['mails'],
                     $rec['consultation_hours']
-                                                               );
+                );
 
                 $newObj->setTitle($rec["title"]);
                 $newObj->setDescription($rec["description"]);
