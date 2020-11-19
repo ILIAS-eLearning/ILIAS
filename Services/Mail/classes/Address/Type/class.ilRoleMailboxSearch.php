@@ -85,7 +85,7 @@ class ilRoleMailboxSearch
         $role_ids = array();
         foreach ($parsedList as $address) {
             $local_part = $address->getMailbox();
-            if (strpos($local_part, '#') !== 0 && !($local_part{0} == '"' && $local_part{1} == "#")) {
+            if (strpos($local_part, '#') !== 0 && !($local_part[0] == '"' && $local_part[1] == "#")) {
                 // A local-part which doesn't start with a '#' doesn't denote a role.
                 // Therefore we can skip it.
                 continue;
@@ -94,7 +94,7 @@ class ilRoleMailboxSearch
             $local_part = substr($local_part, 1);
 
             /* If role contains spaces, eg. 'foo role', double quotes are added which have to be removed here.*/
-            if ($local_part{0} == '#' && $local_part{strlen($local_part) - 1} == '"') {
+            if ($local_part[0] == '#' && $local_part[strlen($local_part) - 1] == '"') {
                 $local_part = substr($local_part, 1);
                 $local_part = substr($local_part, 0, strlen($local_part) - 1);
             }
