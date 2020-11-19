@@ -15,6 +15,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 
 /**
  * Class ResourceBuilder
@@ -80,11 +81,11 @@ class ResourceBuilder
     /**
      * @inheritDoc
      */
-    public function new(UploadResult $result) : StorableResource
+    public function new(UploadResult $result, string $title = null) : StorableResource
     {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->append($resource, $result);
+        return $this->append($resource, $result, $title);
     }
 
     public function newFromStream(FileStream $stream, bool $keep_original = false) : StorableResource

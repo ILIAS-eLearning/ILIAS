@@ -48,9 +48,8 @@ class Manager
         string $title = null
     ) : ResourceIdentification {
         if ($result->isOK()) {
-            $resource = $this->resource_builder->new($result);
+            $resource = $this->resource_builder->new($result, $title);
             $resource->addStakeholder($stakeholder);
-
             $this->resource_builder->store($resource);
 
             return $resource->getIdentification();
