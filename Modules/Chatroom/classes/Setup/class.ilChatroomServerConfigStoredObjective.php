@@ -61,7 +61,10 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
 
-        $chat_admin = ilChatroomAdmin::getDefaultConfiguration();
+        $objIds = ilObject::_getObjectsByType('chta');
+        $objId = current($objIds);
+
+        $chat_admin = new ilChatroomAdmin($objId);
         $settings = $chat_admin->loadGeneralSettings();
 
         $settings['address'] = $this->config->getAddress();
