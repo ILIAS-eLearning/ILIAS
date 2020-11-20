@@ -62,11 +62,11 @@ class ilTermsOfServiceHelper
     }
 
     /**
-     * @param bool $status
+     * @return bool
      */
-    public static function setStatus(bool $status) : void
+    public function isGloballyEnabled() : bool
     {
-        (new static())->tos->setReevaluateOnLogin($status);
+        return $this->tos->getStatus();
     }
 
     /**
@@ -147,6 +147,20 @@ class ilTermsOfServiceHelper
 
     /**
      * @param ilObjUser $user
+     * @return bool
+     */
+    public function isIncludedUser(ilObjUser $user) : bool
+    {
+        return (
+            'root' !== $user->getLogin() &&
+            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID]) &&
+            !$user->isAnonymous() &&
+            (int) $user->getId() > 0
+        );
+    }
+
+    /**
+     * @param ilObjUser $user
      * @param ilLogger $logger
      * @return bool
      */
@@ -158,9 +172,16 @@ class ilTermsOfServiceHelper
             $user->getId()
         ));
 
-        if (!$this->tos->getStatus()) {
+        if (!$this->isGloballyEnabled()) {
             $logger->debug(sprintf(
                 'Terms of Service disabled, resigning not required ...'
+            ));
+            return false;
+        }
+
+        if (!$this->isIncludedUser($user)) {
+            $logger->debug(sprintf(
+                'User is not included for Terms of Service acceptance, resigning not required ...'
             ));
             return false;
         }

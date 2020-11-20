@@ -240,7 +240,7 @@ class ilStartUpGUI
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $tosWithdrawalGui->setWithdrawalInfoForLoginScreen($this->httpRequest);
 
         self::printToGlobalTemplate($tpl);
@@ -1003,7 +1003,8 @@ class ilStartUpGUI
             $this->user->setId(ANONYMOUS_USER_ID);
         }
 
-        if (\ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
+        $helper = new ilTermsOfServiceHelper();
+        if ($helper->isGloballyEnabled() && $this->termsOfServiceEvaluation->hasDocument()) {
             $utpl = new ilTemplate('tpl.login_terms_of_service_link.html', true, true, 'Services/Init');
             $utpl->setVariable('TXT_TERMS_OF_SERVICE', $this->lng->txt('usr_agreement'));
             $utpl->setVariable('LINK_TERMS_OF_SERVICE', $this->ctrl->getLinkTarget($this, 'showTermsOfService'));
@@ -1270,7 +1271,7 @@ class ilStartUpGUI
             $this->ctrl->setParameter($this, "client_id", "");
         }
 
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
 
         $tpl->setVariable("TXT_PAGEHEADLINE", $lng->txt("logout"));
         $tpl->setVariable(
@@ -1308,8 +1309,8 @@ class ilStartUpGUI
 
         $user_language = $user->getLanguage();
 
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
-        $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $user, $this);
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($user);
+        $tosWithdrawalGui->handleWithdrawalLogoutRequest($this->httpRequest, $this);
 
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
@@ -1548,13 +1549,13 @@ class ilStartUpGUI
         }
         $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
-        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+        $helper = new ilTermsOfServiceHelper();
+        $handleDocument = $helper->isGloballyEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
             if ('confirmWithdrawal' === $this->ctrl->getCmd()) {
                 if (isset($this->httpRequest->getParsedBody()['status']) && 'withdrawn' === $this->httpRequest->getParsedBody()['status']) {
-                    $helper = new \ilTermsOfServiceHelper();
-                    $helper->deleteAcceptanceHistoryByUser($this->user);
+                    $helper->deleteAcceptanceHistoryByUser((int) $this->user->getId());
                     $this->ctrl->redirectToUrl('logout.php');
                 }
             }
@@ -1596,7 +1597,8 @@ class ilStartUpGUI
 
         $tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
-        $handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
+        $helper = new ilTermsOfServiceHelper();
+        $handleDocument = $helper->isGloballyEnabled() && $this->termsOfServiceEvaluation->hasDocument();
         if ($handleDocument) {
             $document = $this->termsOfServiceEvaluation->document();
             if (
@@ -1604,8 +1606,6 @@ class ilStartUpGUI
                 'getAcceptance' === $this->ctrl->getCmd()
             ) {
                 if ($accepted) {
-                    $helper = new \ilTermsOfServiceHelper();
-
                     $helper->trackAcceptance($this->user, $document);
 
                     if (ilSession::get('orig_request_target')) {
