@@ -7,7 +7,7 @@ main commands to manage ILIAS installations:
 * `update` will [update an installation](#update-ilias)
 * `status` will [report status of an installation](#report-status-of-ilias)
 * `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
-* `reload-control-structure` [rebuilds structure information](#build-ilias-artifacts) of an installation
+* `reload-control-structure` [rebuilds structure information](#reload-ilias-control-structure) of an installation
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
@@ -37,7 +37,7 @@ you will have to type `yes` (or `no`, of course). These checks can be overwritte
 with the `--yes` option, which confirm any assumption for you automatically.
 
 There might be cases where the setup aborts for some reasons. These reasons might
-require further actions on your side which the setup can not perform. Make sure you
+require further actions on your side which the setup cannot perform. Make sure you
 read messages from the setup carefully and act accordingly. If you do not change the
 config file, it is safe to execute the installation process a second time for the
 same installation a during the initial setup process.
@@ -70,15 +70,15 @@ where the plugins can be controlled with the same options as for `install`.
 
 Sometimes it might happen that the database update steps detect some edge case
 or warn about a possible loss of data. In this case the update is aborted with
-a message and can be resumed after the messages was read carefully and acted
+a message and can be resumed after the messages were read carefully and acted
 upon. You may use the `--ignore-db-update-messages` at your own risk if you want
 to silence the messages.
 
 ## Report Status of ILIAS
 
-Via `php setup/setup.php status` you can get a status of your ILIAS instalaltion.
+Via `php setup/setup.php status` you can get a status of your ILIAS installation.
 The command uses a best effort approach, so according to the status of your
-system the output might contain more or less fields. When calling this for an
+system the output might contain more or less fields. When calling this for a
 system where ILIAS was not installed, for example, the output only contains the
 information that ilias is not installed. The command also reports on the configuration
 of the installation.
@@ -114,7 +114,7 @@ or patch instructions or you know what you are doing.
 ## About the Config File
 
 The config file is a json file with the following structure. **Mandatory fields
-are printed bold**, all other fields might be ommitted. A minimal example is
+are printed bold**, all other fields might be omitted. A minimal example is
 [here](minimal-config.json).
 
 * **common** settings relevant for the complete installation 
@@ -173,7 +173,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *path_to_lessc* to compile less to css
 * **systemfolder** settings for Module/SystemFolder
   * *client* information
-    * *name* of the ILIASinstallation
+    * *name* of the ILIAS installation
     * *description* of the installation
     * *institution* that provides the installation
   * **contact** to a person behind the installation
@@ -196,9 +196,9 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *virusscanner* to be used. Either `none`, `sophos`, `antivir`, `clamav` or `icap`
   * *path_to_scan* command of the scanner
   * *path_to_clean* command of the scanner
-  * *icap_host* host adress of the icap scanner
+  * *icap_host* host address of the icap scanner
   * *icap_port* port if the icap scanner
-  * *icap_service_name* serivce name of the icap scanner
+  * *icap_service_name* service name of the icap scanner
   * *icap_client_path* path to the `c-icap-client`, if this is left empty, a php client will be used
 * *privacysecurity*
   * *https_enabled* forces https on login page
