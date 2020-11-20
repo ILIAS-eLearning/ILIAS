@@ -36,6 +36,12 @@ class ilPersonalProfileGUI
     /** @var \ilTermsOfServiceDocumentEvaluation */
     protected $termsOfServiceEvaluation;
 
+    /** @var \ilTermsOfServiceHelper */
+    protected $termsOfServiceHelper;
+
+    /** @var ilErrorHandling */
+    protected $errorHandler;
+
     /**
      * @var ilProfileChecklistGUI
      */
@@ -52,11 +58,13 @@ class ilPersonalProfileGUI
     protected $checklist_status;
 
     /**
-    * constructor
+     * constructor
      * @param \ilTermsOfServiceDocumentEvaluation|null $termsOfServiceEvaluation
-    */
+     * @param ilTermsOfServiceHelper|null $termsOfServiceHelper
+     */
     public function __construct(
-        \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null
+        \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
+        \ilTermsOfServiceHelper $termsOfServiceHelper = null
     ) {
         global $DIC;
 
@@ -66,12 +74,17 @@ class ilPersonalProfileGUI
         $this->setting = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
+        $this->errorHandler = $DIC['ilErr'];
         $this->eventHandler = $DIC['ilAppEventHandler'];
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
         }
         $this->termsOfServiceEvaluation = $termsOfServiceEvaluation;
+        if ($termsOfServiceHelper === null) {
+            $termsOfServiceHelper = new ilTermsOfServiceHelper();
+        }
+        $this->termsOfServiceHelper = $termsOfServiceHelper;
 
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
         $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
@@ -536,11 +549,18 @@ class ilPersonalProfileGUI
 
     protected function showConsentWithdrawalConfirmation() : void
     {
+        if (
+            !$this->user->getPref('consent_withdrawal_requested') ||
+            !$this->termsOfServiceHelper->isIncludedUser($this->user)
+        ) {
+            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+        }
+
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
         $this->tpl->setTitle($this->lng->txt('withdraw_consent'));
 
-        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper();
+        $tosWithdrawalGui = new ilTermsOfServiceWithdrawalGUIHelper($this->user);
         $content = $tosWithdrawalGui->getConsentWithdrawalConfirmation($this);
 
         $this->tpl->setContent($content);
@@ -550,6 +570,10 @@ class ilPersonalProfileGUI
 
     protected function cancelWithdrawal() : void
     {
+        if (!$this->termsOfServiceHelper->isIncludedUser($this->user)) {
+            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+        }
+
         $this->user->deletePref('consent_withdrawal_requested');
 
         if (ilSession::get('orig_request_target')) {
@@ -563,8 +587,13 @@ class ilPersonalProfileGUI
 
     protected function withdrawAcceptance() : void
     {
-        $helper = new ilTermsOfServiceHelper();
-        $helper->resetAcceptance($this->user);
+        if (
+            !$this->user->getPref('consent_withdrawal_requested') ||
+            !$this->termsOfServiceHelper->isIncludedUser($this->user)
+        ) {
+            $this->errorHandler->raiseError($this->lng->txt('permission_denied'), $this->errorHandler->MESSAGE);
+        }
+        $this->termsOfServiceHelper->resetAcceptance($this->user);
 
         $defaultAuth = AUTH_LOCAL;
         if ($this->setting->get('auth_mode')) {

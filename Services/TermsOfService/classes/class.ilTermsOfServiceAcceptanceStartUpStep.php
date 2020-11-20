@@ -35,7 +35,6 @@ class ilTermsOfServiceAcceptanceStartUpStep extends StartUpSequenceStep
      */
     public function isInFulfillment() : bool
     {
-        $cmd = $this->dic->ctrl()->getCmd();
         return (
             strtolower($this->dic->ctrl()->getCmdClass()) === 'ilstartupgui' &&
             (

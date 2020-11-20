@@ -25,21 +25,26 @@ class ilTermsOfServiceWithdrawalGUIHelper
     protected $uiFactory;
     /** @var Renderer $renderer */
     protected $uiRenderer;
+    /** @var ilTermsOfServiceHelper */
+    protected $tosHelper;
 
     /**
      * ilTermsOfServiceWithdrawalGUIHelper constructor.
+     * @param ilObjUser $subjectUser
      */
-    public function __construct()
+    public function __construct(ilObjUser $subjectUser)
     {
         global $DIC;
+
+        $this->user = $subjectUser;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->setting = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
-        $this->user = $DIC->user();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
+        $this->tosHelper = new ilTermsOfServiceHelper();
     }
 
     /**
@@ -68,12 +73,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
     public function modifyFooter(Footer $footer) : Footer
     {
         if (
-            !$this->user->isAnonymous() &&
-            (int) $this->user->getId() > 0 &&
+            $this->tosHelper->isGloballyEnabled() &&
+            $this->tosHelper->isIncludedUser($this->user) &&
             $this->user->getAgreeDate()
         ) {
-            $helper = new ilTermsOfServiceHelper();
-            $entity = $helper->getCurrentAcceptanceForUser($this->user);
+            $entity = $this->tosHelper->getCurrentAcceptanceForUser($this->user);
             if ($entity->getId()) {
                 $footer = $footer->withAdditionalModalAndTrigger(
                     $this->uiFactory->modal()->roundtrip(
@@ -87,6 +91,68 @@ class ilTermsOfServiceWithdrawalGUIHelper
 
         return $footer;
     }
+
+    /**
+     * @param RequestInterface $httpRequest
+     * @param object $guiClass
+     */
+    public function handleWithdrawalLogoutRequest(
+        RequestInterface $httpRequest,
+        object $guiClass
+    ) : void {
+        if (!isset($httpRequest->getQueryParams()['withdraw_consent'])) {
+            return;
+        }
+
+        if (!$this->tosHelper->isGloballyEnabled() || !$this->tosHelper->isIncludedUser($this->user)) {
+            return;
+        }
+
+        $defaultAuth = AUTH_LOCAL;
+        if ($this->setting->get('auth_mode')) {
+            $defaultAuth = $this->setting->get('auth_mode');
+        }
+
+        $external = false;
+        if (
+            $this->user->getAuthMode() == AUTH_PROVIDER_LTI ||
+            $this->user->getAuthMode() == AUTH_ECS ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
+            ($this->user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
+        ) {
+            $external = true;
+        }
+
+        $this->user->writePref('consent_withdrawal_requested', 1);
+
+        if ($external) {
+            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'external');
+        } else {
+            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'internal');
+        }
+    }
+
+    /**
+     * @param RequestInterface $httpRequest
+     * @return string
+     */
+    public function getWithdrawalTextForLogoutScreen(RequestInterface $httpRequest) : string
+    {
+        $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
+
+        $text = '';
+        if ($withdrawalStatus !== 0) {
+            $text = $this->uiRenderer->render($this->uiFactory->divider()->horizontal());
+            if ($withdrawalStatus === 'internal') {
+                $text .= $this->lng->txt('withdraw_consent_description_internal');
+            } else {
+                $text .= $this->lng->txt('withdraw_consent_description_external');
+            }
+        }
+
+        return $text;
+    }
+
 
     /**
      * @param object $parentObject
@@ -160,65 +226,6 @@ class ilTermsOfServiceWithdrawalGUIHelper
             } else {
                 ilUtil::sendInfo($this->lng->txt('withdrawal_complete'));
             }
-        }
-    }
-
-    /**
-     * @param RequestInterface $httpRequest
-     * @return string
-     */
-    public function getWithdrawalTextForLogoutScreen(RequestInterface $httpRequest) : string
-    {
-        $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
-
-        $text = '';
-        if ($withdrawalStatus !== 0) {
-            $text = $this->uiRenderer->render($this->uiFactory->divider()->horizontal());
-            if ($withdrawalStatus === 'internal') {
-                $text .= $this->lng->txt('withdraw_consent_description_internal');
-            } else {
-                $text .= $this->lng->txt('withdraw_consent_description_external');
-            }
-        }
-
-        return $text;
-    }
-
-    /**
-     * @param RequestInterface $httpRequest
-     * @param ilObjUser $user
-     * @param object $guiClass
-     */
-    public function handleWithdrawalLogoutRequest(
-        RequestInterface $httpRequest,
-        ilObjUser $user,
-        object $guiClass
-    ) : void {
-        if (!isset($httpRequest->getQueryParams()['withdraw_consent'])) {
-            return;
-        }
-
-        $defaultAuth = AUTH_LOCAL;
-        if ($this->setting->get('auth_mode')) {
-            $defaultAuth = $this->setting->get('auth_mode');
-        }
-
-        $external = false;
-        if (
-            $user->getAuthMode() == AUTH_PROVIDER_LTI ||
-            $user->getAuthMode() == AUTH_ECS ||
-            ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_PROVIDER_LTI) ||
-            ($user->getAuthMode() === 'default' && $defaultAuth == AUTH_ECS)
-        ) {
-            $external = true;
-        }
-
-        $user->writePref('consent_withdrawal_requested', 1);
-
-        if ($external) {
-            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'external');
-        } else {
-            $this->ctrl->setParameter($guiClass, 'withdrawal_relogin_content', 'internal');
         }
     }
 }
