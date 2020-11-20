@@ -114,7 +114,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function updateObjectFromRevision(Revision $r) : void
     {
         $this->setTitle($r->getTitle());
+        $this->setFileName($r->getTitle());
         $this->setVersion($r->getVersionNumber());
+        $this->setFileSize($r->getInformation()->getSize());
+        $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
         $this->createPreview();
         $this->addNewsNotification("file_updated");
@@ -354,46 +357,53 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
-    protected function doCloneObject($a_new_obj, $a_target_id, $a_copy_id = 0)
+    protected function doCloneObject($new_object, $a_target_id, $a_copy_id = 0)
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $a_new_obj->createDirectory();
-        $this->cloneMetaData($a_new_obj);
-
-        // Copy all file versions
-        ilUtil::rCopy($this->getDirectory(), $a_new_obj->getDirectory());
+        /**
+         * @var $new_object ilObjFile
+         */
+        $this->cloneMetaData($new_object);
 
         // object created now copy other settings
-        $query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,rating,f_mode) VALUES ("
-            . $ilDB->quote($a_new_obj->getId(), 'integer') . ","
-            . $ilDB->quote($this->getFileName(), 'text') . ","
-            . $ilDB->quote($this->getFileType(), 'text') . ","
-            . $ilDB->quote((int) $this->getFileSize(), 'integer') . ", "
-            . $ilDB->quote($this->getVersion(), 'integer') . ", "
-            . $ilDB->quote($this->hasRating(), 'integer') . ", "
-            . $ilDB->quote($this->getMode(), 'text') . ")";
-        $res = $ilDB->manipulate($query);
+        $this->db->manipulateF(
+            "INSERT INTO file_data (file_id, file_name, file_type, file_size, version, rating, f_mode) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+            [
+                'integer', // file_id
+                'text', // file_name
+                'text', // file_type
+                'integer', // file_size
+                'integer', // version
+                'integer', // rating
+                'integer' // f_mode
+            ],
+            [
+                (int) $new_object->getId(),
+                $this->getFileName(),
+                $this->getFileType(),
+                (int) $this->getFileSize(),
+                (int) $this->getVersion(),
+                (int) $this->hasRating(),
+                (int) $this->getMode()
+            ]
+        );
+
+        // Copy Resource
+        $new_resource_identification = $this->manager->clone($this->manager->find($this->resource_id));
+        $new_object->setResourceId($new_resource_identification->serialize());
+        $new_object->update();
 
         // copy all previews
-        require_once("./Services/Preview/classes/class.ilPreview.php");
-        ilPreview::copyPreviews($this->getId(), $a_new_obj->getId());
-
-        // copy history entries
-        require_once("./Services/History/classes/class.ilHistory.php");
-        ilHistory::_copyEntriesForObject($this->getId(), $a_new_obj->getId());
+        ilPreview::copyPreviews($this->getId(), $new_object->getId());
 
         // Copy learning progress settings
-        include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
-        $obj_settings->cloneSettings($a_new_obj->getId());
+        $obj_settings->cloneSettings($new_object->getId());
         unset($obj_settings);
 
         // add news notification
-        $a_new_obj->addNewsNotification("file_created");
+        $new_object->addNewsNotification("file_created");
 
-        return $a_new_obj;
+        return $new_object;
     }
 
     protected function doUpdate()
@@ -444,20 +454,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doDelete()
     {
         global $DIC;
-        $ilDB = $DIC['ilDB'];
 
         // delete file data entry
-        $q = "DELETE FROM file_data WHERE file_id = " . $ilDB->quote($this->getId(), 'integer');
-        $this->ilias->db->query($q);
+        $DIC->database()->manipulateF("DELETE FROM file_data WHERE file_id = %s", ['integer'], [$this->getId()]);
 
         // delete history entries
-        require_once("./Services/History/classes/class.ilHistory.php");
         ilHistory::_removeEntriesForObject($this->getId());
-
-        // delete entire directory and its content
-        if (@is_dir($this->getDirectory())) {
-            ilUtil::delDir($this->getDirectory());
-        }
 
         // delete meta data
         if ($this->getMode() != self::MODE_FILELIST) {
@@ -466,6 +468,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
         // delete preview
         $this->deletePreview();
+
+        // delete resource
+        $this->manager->remove($this->manager->find($this->getResourceId()), $this->stakeholder);
     }
 
     /**

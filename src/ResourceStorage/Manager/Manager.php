@@ -48,9 +48,8 @@ class Manager
         string $title = null
     ) : ResourceIdentification {
         if ($result->isOK()) {
-            $resource = $this->resource_builder->new($result);
+            $resource = $this->resource_builder->new($result, $title);
             $resource->addStakeholder($stakeholder);
-
             $this->resource_builder->store($resource);
 
             return $resource->getIdentification();
@@ -63,7 +62,7 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $title = null
     ) : ResourceIdentification {
-        $resource = $this->resource_builder->newFromStream($stream);
+        $resource = $this->resource_builder->newFromStream($stream, $title);
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);
@@ -89,9 +88,16 @@ class Manager
         return $this->resource_builder->get($i);
     }
 
-    public function remove(ResourceIdentification $identification) : void
+    public function remove(ResourceIdentification $identification, ResourceStakeholder $stakeholder) : void
     {
-        $this->resource_builder->remove($this->resource_builder->get($identification));
+        $this->resource_builder->remove($this->resource_builder->get($identification), $stakeholder);
+    }
+
+    public function clone(ResourceIdentification $identification) : ResourceIdentification
+    {
+        $resource = $this->resource_builder->clone($this->resource_builder->get($identification));
+
+        return $resource->getIdentification();
     }
 
     // Revision

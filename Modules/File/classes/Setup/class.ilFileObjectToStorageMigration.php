@@ -161,7 +161,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 $this->resource_builder->appendFromStream($resource,
                     Streams::ofResource(fopen($version->getPath(), 'rb')),
                     $this->keep_originals,
-                    $version->getVersion()
+                    $version->getTitle()
                 );
             } catch (Throwable $t) {
                 $status = 'failed';

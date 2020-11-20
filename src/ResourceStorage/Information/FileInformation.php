@@ -113,7 +113,7 @@ class FileInformation implements Information
      */
     public function getCreationDate() : DateTimeImmutable
     {
-        return $this->creation_date;
+        return $this->creation_date ?? new DateTimeImmutable();
     }
 
     /**

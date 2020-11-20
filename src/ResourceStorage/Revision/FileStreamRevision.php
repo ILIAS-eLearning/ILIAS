@@ -27,11 +27,10 @@ class FileStreamRevision extends FileRevision implements Revision
      */
     public function __construct(ResourceIdentification $identification, FileStream $stream, bool $keep_original = false)
     {
-        $this->stream        = $stream;
+        $this->stream = $stream;
         $this->keep_original = $keep_original;
         parent::__construct($identification);
         $information = new FileInformation();
-        $information->setTitle(basename($stream->getMetadata('uri')));
         $this->setInformation($information);
     }
 

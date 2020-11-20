@@ -13,7 +13,6 @@ use ILIAS\ResourceStorage\Lock\LockingRepository;
 
 /**
  * Class RevisionARRepository
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface RevisionRepository extends LockingRepository
@@ -22,27 +21,26 @@ interface RevisionRepository extends LockingRepository
     /**
      * @param StorableResource $resource
      * @param UploadResult     $result
-     *
      * @return UploadedFileRevision
      */
     public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision;
 
-    public function blankFromStream(StorableResource $resource, FileStream $stream, bool $keep_original = false) : FileStreamRevision;
-
+    public function blankFromStream(
+        StorableResource $resource,
+        FileStream $stream,
+        bool $keep_original = false
+    ) : FileStreamRevision;
 
     /**
      * @param Revision $revision
      */
     public function store(Revision $revision) : void;
 
-
     /**
      * @param StorableResource $resource
-     *
      * @return RevisionCollection
      */
     public function get(StorableResource $resource) : RevisionCollection;
-
 
     /**
      * @param Revision $revision

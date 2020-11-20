@@ -222,43 +222,39 @@ class ilObjFileGUI extends ilObject2GUI
 
         // Form valid, proceed
 
-
-
-
         /**
          * @var $DIC Container
          */
         global $DIC;
 
         $upload = $DIC->upload();
-        $storage = $DIC->resourceStorage();
+        $post = $DIC->http()->request()->getParsedBody();
 
         if (!$upload->hasBeenProcessed()) {
             $upload->process();
+        }
 
-            foreach ($upload->getResults() as $result) {
-                $resource_id = $storage->manage()->upload($result, new ilObjFileStakeholder());
-                $revision = $storage->manage()->getCurrentRevision($resource_id);
+        foreach ($upload->getResults() as $result) {
+            // Create new FileObject
+            $file = new ilObjFile();
+            $this->object_id = $file->create();
+            $this->putObjectInTree($file, $this->parent_id);
+            $this->handleAutoRating($file);
+            ilChangeEvent::_recordWriteEvent($file->getId(), $DIC->user()->getId(), 'create');
 
-                $file = new ilObjFile();
-                $file->setResourceId($resource_id->serialize());
-                $file->setTitle($revision->getInformation()->getTitle());
-//                $file->setDescription($revision->getInformation()->getTitle());
-                $file->setFileName($revision->getInformation()->getTitle());
-                $file->setFileSize($revision->getInformation()->getSize());
-                $file->setFileType($revision->getInformation()->getMimeType());
-                $this->object_id = $file->create();
-                $this->putObjectInTree($file, $this->parent_id);
-                $this->handleAutoRating($file);
-                ilChangeEvent::_recordWriteEvent($file->getId(), $DIC->user()->getId(), 'create');
+            // Append Upload
+            $title = $post['title'];
+            $description = $post['description'];
+            $file->appendUpload($result, $title ?? $result->getName());
+            $file->setDescription($description);
+            $file->update();
 
-                $response->fileName = $file->getFileName();
-                $response->fileSize = $file->getFileSize();
-                $response->fileType = $file->getFileType();
+            $response->fileName = $file->getFileName();
+            $response->fileSize = $file->getFileSize();
+            $response->fileType = $file->getFileType();
 //                $response->fileUnzipped = $extract;
-                $response->error = null;
-                $send_respose($response);
-            }
+            $response->error = null;
+            $send_respose($response);
         }
 
     }

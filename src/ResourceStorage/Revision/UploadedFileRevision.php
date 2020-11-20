@@ -30,6 +30,7 @@ class UploadedFileRevision extends FileRevision implements Revision
         $information = new FileInformation();
         $information->setTitle($result->getName());
         $information->setMimeType($result->getMimeType());
+        $information->setSuffix(pathinfo($result->getName(), PATHINFO_EXTENSION));
         $information->setSize($result->getSize());
         $information->setCreationDate(new \DateTimeImmutable());
         $this->setInformation($information);
