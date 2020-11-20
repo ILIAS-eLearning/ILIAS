@@ -161,7 +161,11 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        if ($config === null) {
+            return new Setup\Objective\NullObjective();
+        }
+
+        return new ilChatroomServerConfigStoredObjective($config);
     }
 
     /**
