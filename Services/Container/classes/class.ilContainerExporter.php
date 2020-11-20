@@ -101,7 +101,12 @@ class ilContainerExporter extends ilXmlExporter
             "entity" => "skl_local_prof",
             "ids" => $a_ids);
 
-        //var_dump($res); exit;
+        // news settings
+        $res[] = [
+            "component" => "Services/News",
+            "entity" => "news_settings",
+            "ids" => $a_ids
+        ];
 
         return $res;
     }

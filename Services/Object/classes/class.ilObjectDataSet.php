@@ -349,7 +349,7 @@ class ilObjectDataSet extends ilDataSet
      * @param $old_id
      * @return mixed
      */
-    protected function getNewObjId($a_mapping, $old_id)
+    public function getNewObjId($a_mapping, $old_id)
     {
         global $DIC;
         
