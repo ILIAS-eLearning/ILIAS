@@ -89,6 +89,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         //$this->settings = $DIC->settings();
         //$this->rbacreview = $DIC->rbac()->review();
         $this->toolbar = $DIC->toolbar();
+        $this->request = $DIC->http()->request();
 
 
         $params = array();
