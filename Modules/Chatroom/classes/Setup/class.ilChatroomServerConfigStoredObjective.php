@@ -37,12 +37,9 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
-        $db_config = $environment->getConfigFor("database");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
-            new \ilDatabasePopulatedObjective($db_config),
-            new \ilDatabaseUpdatedObjective($db_config)
+            new \ilIniFilesLoadedObjective(),
+            new \ilDatabaseInitializedObjective()
         ];
     }
 
@@ -71,14 +68,14 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $settings['cert'] = $this->config->getCert();
         $settings['key'] = $this->config->getKey();
         $settings['dhparam'] = $this->config->getDhparam();
-        $settings['log'] = (int)$this->config->getLog();
+        $settings['log'] = (int) $this->config->getLog();
         $settings['log_level'] = $this->config->getLogLevel();
         $settings['error_log'] = $this->config->getErrorLog();
-        $settings['ilias_proxy'] = (int)$this->config->hasIliasProxy();
+        $settings['ilias_proxy'] = (int) $this->config->hasIliasProxy();
         $settings['ilias_url'] = $this->config->getIliasUrl();
-        $settings['client_proxy'] = (int)$this->config->hasClientProxy();
+        $settings['client_proxy'] = (int) $this->config->hasClientProxy();
         $settings['client_url'] = $this->config->getClientUrl();
-        $settings['deletion_mode'] = (int)$this->config->hasDeletionMode();
+        $settings['deletion_mode'] = (int) $this->config->hasDeletionMode();
         $settings['deletion_unit'] = $this->config->getDeletionUnit();
         $settings['deletion_value'] = $this->config->getDeletionValue();
         $settings['deletion_time'] = $this->config->getDeletionTime();
