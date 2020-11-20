@@ -65,6 +65,10 @@ class ilChatroomSetupAgent implements Setup\Agent
         $intervals = self::$INTERVALS;
         // TODO: clean this up
         return $this->refinery->custom()->transformation(function ($data) use ($levels, $intervals) {
+            if (is_null($data)) {
+                return null;
+            }
+
             $protocol = 'http://';
             if (isset($data['https']) && count($data['https']) > 0) {
                 $protocol = 'https://';
@@ -145,11 +149,11 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\ObjectiveCollection(
-            "Complete objectives from Services/Chatroom",
-            false,
-            new ilChatroomServerConfigStoredObjective($config)
-        );
+        if ($config === null) {
+            return new Setup\Objective\NullObjective();
+        }
+
+        return new ilChatroomServerConfigStoredObjective($config);
     }
 
     /**
