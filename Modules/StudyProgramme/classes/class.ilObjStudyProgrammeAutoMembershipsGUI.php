@@ -245,7 +245,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             (is_null($src_type) || $src_type == "") ||
             (is_null($src_id) || $src_id == 0)
         ) {
-            return;
+            ilUtil::sendFailure($this->txt('no_srctype_or_id'), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
         }
 
         if (in_array($src_type, self::$switch_to_ref_id)) {
@@ -265,6 +266,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     protected function deleteConfirmation()
