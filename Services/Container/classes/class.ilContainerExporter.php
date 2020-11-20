@@ -96,7 +96,7 @@ class ilContainerExporter extends ilXmlExporter
             "ids" => $a_ids);
 
         // news settings
-        $deps[] = [
+        $res[] = [
             "component" => "Services/News",
             "entity" => "news_settings",
             "ids" => $a_ids
