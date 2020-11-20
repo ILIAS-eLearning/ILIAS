@@ -57,6 +57,13 @@ class ilForumExporter extends ilXmlExporter
             );
         }
 
+        // news settings
+        $res[] = [
+            "component" => "Services/News",
+            "entity" => "news_settings",
+            "ids" => $a_ids
+        ];
+
         return $res;
     }
 
