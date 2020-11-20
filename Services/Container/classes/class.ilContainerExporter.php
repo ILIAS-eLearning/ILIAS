@@ -95,6 +95,13 @@ class ilContainerExporter extends ilXmlExporter
             "entity" => "common",
             "ids" => $a_ids);
 
+        // news settings
+        $res[] = [
+            "component" => "Services/News",
+            "entity" => "news_settings",
+            "ids" => $a_ids
+        ];
+
         return $res;
     }
     
