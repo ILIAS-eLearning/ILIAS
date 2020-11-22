@@ -147,7 +147,7 @@ class ilPCMap extends ilPageContent
     public function setLayout($a_width, $a_height, $a_horizontal_align)
     {
         if (is_object($this->map_node)) {
-            ilDomUtil::setFirstOptionalElement(
+            ilDOMUtil::setFirstOptionalElement(
                 $this->dom,
                 $this->map_node,
                 "Layout",
@@ -218,7 +218,7 @@ class ilPCMap extends ilPageContent
     public function setCaption($a_caption)
     {
         if (is_object($this->map_node)) {
-            ilDomUtil::setFirstOptionalElement(
+            ilDOMUtil::setFirstOptionalElement(
                 $this->dom,
                 $this->map_node,
                 "MapCaption",
