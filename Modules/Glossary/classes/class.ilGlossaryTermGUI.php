@@ -563,7 +563,7 @@ class ilGlossaryTermGUI
             $this->ctrl->getLinkTarget($this, "deleteDefinition")
         );
         $dtpl->parseCurrentBlock();
-        
+
         $this->tpl->setContent($dtpl->get());
     }
 
