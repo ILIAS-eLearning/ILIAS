@@ -101,18 +101,27 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             {
             }
         };
-        define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
-        define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+        if (!defined("CLIENT_DATA_DIR")) {
+            define("CLIENT_DATA_DIR", $ini->readVariable("clients", "datadir") . "/" . $client_id);
+        }
+        if (!defined("CLIENT_WEB_DIR")) {
+            define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+        }
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
         }
         if (!defined("ILIAS_LOG_ENABLED")) {
             define("ILIAS_LOG_ENABLED", false);
         }
-        define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
-        define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
-        define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
-
+        if (!defined("ROOT_FOLDER_ID")) {
+            define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
+        }
+        if (!defined("ROLE_FOLDER_ID")) {
+            define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));
+        }
+        if (!defined("SYSTEM_FOLDER_ID")) {
+            define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));
+        }
 
         $db_update = new class($db, $client_ini) extends ilDBUpdate {
             public function loadXMLInfo()
