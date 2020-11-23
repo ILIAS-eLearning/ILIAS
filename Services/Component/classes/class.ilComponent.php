@@ -257,15 +257,19 @@ abstract class ilComponent
     final public static function checkVersionNumber($a_ver)
     {
         $parts = explode(".", $a_ver);
-        
-        if (count($parts) != 3) {
-            return "Version Number does not conform to format a.b.c";
+
+        if (count($parts) < 2 || count($parts) > 3) {
+            return "Version number does not conform to format a.b or a.b.c";
         }
         
-        if (!is_numeric($parts[0]) || !is_numeric($parts[1]) || !is_numeric($parts[2])) {
-            return "Not all version number parts a.b.c are numeric.";
+        if (!is_numeric($parts[0]) || !is_numeric($parts[1])) {
+            return "Not all version number parts a.b or a.b.c are numeric.";
         }
-        
+
+        if (isset($parts[2]) && !is_numeric($parts[2])) {
+            return "Not all version number parts a.b.c are numeric.";    
+        }
+
         return $parts;
     }
 
@@ -273,36 +277,22 @@ abstract class ilComponent
     {
         $a_arr1 = ilComponent::checkVersionNumber($a_ver1);
         $a_arr2 = ilComponent::checkVersionNumber($a_ver2);
+
         if (is_array($a_arr1) && is_array($a_arr2)) {
-            return ilComponent::isVersionGreater($a_arr1, $a_arr2);
+            return ilComponent::isVersionGreater($a_ver1, $a_ver2);
         } else {
             return false;
         }
     }
 
     /**
-    * Check whether version number is greater than another version number
-    *
-    * @param	$a_ver1		array	version number as array as returned by checkVersionNumber()
-    * @param	$a_ver2		array	version number as array as returned by checkVersionNumber()
-    *
-    * $return	boolean		true, if $a_ver1 is greater than $a_ver2
-    */
-    final public static function isVersionGreater($a_ver1, $a_ver2)
+     * @param string $version1
+     * @param string $version2
+     * @return bool
+     */
+    final public static function isVersionGreater(string $version1, string $version2) : bool
     {
-        if ($a_ver1[0] > $a_ver2[0]) {
-            return true;
-        } elseif ($a_ver1[0] < $a_ver2[0]) {
-            return false;
-        } elseif ($a_ver1[1] > $a_ver2[1]) {
-            return true;
-        } elseif ($a_ver1[1] < $a_ver2[1]) {
-            return false;
-        } elseif ($a_ver1[2] > $a_ver2[2]) {
-            return true;
-        }
-
-        return false;
+        return version_compare($version1, $version2, '>');
     }
     
     /**

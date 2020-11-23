@@ -76,7 +76,11 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
         }
 
         try {
+            /**
+             * @var $parser ilContainerReferenceXmlParser
+             */
             $parser = $this->initParser($a_xml);
+            $parser->setImportMapping($a_mapping);
             $parser->setReference($this->getReference());
             $parser->setMode(ilContainerReferenceXmlParser::MODE_UPDATE);
             $parser->startParsing();

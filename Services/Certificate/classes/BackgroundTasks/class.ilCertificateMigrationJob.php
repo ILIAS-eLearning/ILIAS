@@ -144,9 +144,25 @@ class ilCertificateMigrationJob extends AbstractJob
             foreach ($this->types as $type) {
                 $this->logger->info(sprintf('Start preparing "%s" certificates', $type));
 
-                $class = 'il' . ucfirst($type) . 'PlaceholderValues';
+                switch ($type) {
+                    case 'test':
+                        $class = ilTestPlaceholderValues::class;
+                        break;
+
+                    case 'scorm':
+                        $class = ilScormPlaceholderValues::class;
+                        break;
+
+                    case 'exercise':
+                        $class = ilExercisePlaceholderValues::class;
+                        break;
+
+                    case 'course':
+                        $class = ilCoursePlaceholderValues::class;
+                        break;
+                }
                 $placeholder_values = new $class();
-                
+
                 foreach ($certificates[$type] as $certificate_id) {
                     if (\ilCertificate::isObjectActive($certificate_id)) {
                         try {

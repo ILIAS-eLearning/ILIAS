@@ -20,7 +20,6 @@ class ilLSPlayer
     const LSO_CMD_SUSPEND = 'lsosuspend';
     const LSO_CMD_FINISH = 'lsofinish';
 
-
     public function __construct(
         int $lso_ref_id,
         string $lso_title,
@@ -76,13 +75,20 @@ class ilLSPlayer
             }
         }
 
+        $command = $_GET[self::PARAM_LSO_COMMAND];
+        $param = (int) $_GET[self::PARAM_LSO_PARAMETER];
+
+        while ($current_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+            $prev_item = $this->getNextItem($current_item, -1);
+            if ($prev_item === $current_item) {
+                throw new \Exception("Cannot view first LSO-item", 1);
+            }
+            $current_item = $prev_item;
+        }
+
         $view = $this->view_factory->getViewFor($current_item);
         $state = $current_item->getState();
         $state = $this->updateViewState($state, $view, $get, $post);
-
-        //now, digest parameter:
-        $command = $_GET[self::PARAM_LSO_COMMAND];
-        $param = (int) $_GET[self::PARAM_LSO_PARAMETER];
 
         switch ($command) {
             case self::LSO_CMD_SUSPEND:
@@ -92,11 +98,14 @@ class ilLSPlayer
                 return 'EXIT::' . $command;
             case self::LSO_CMD_NEXT:
                 $next_item = $this->getNextItem($current_item, $param);
+                if ($next_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+                    $next_item = $current_item;
+                }
                 break;
             case self::LSO_CMD_GOTO:
                 list($position, $next_item) = $this->findItemByRefId($param);
                 break;
-            default: //view-internal / unknown command
+            default:
                 $next_item = $current_item;
         }
         //write State to DB

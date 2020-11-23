@@ -781,7 +781,7 @@ assessment#:#log_user_answered_question#:#Пользователь ответи�
 assessment#:#log_user_entered_values#:#Введенные пользователем значения
 assessment#:#log_user_not_entered_values#:#Пользователь не ввел значений
 assessment#:#log_user_solution_willingly_deleted#:#User deleted the answer.
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Long Menu Text
 assessment#:#mailnottype#:#Send notification even if a user finishes a test pass
@@ -15123,3 +15123,10 @@ form#:#form_date_aria_desc#:#The following input format is required:###31 07 202
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
 common#:#logo#:#ILIAS Logo###31 07 2020 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+common#:#obj_lsos#:#Learning Sequences###23 10 2020 new variable
+common#:#obj_lsos_desc#:#Learning Sequence Administration###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable

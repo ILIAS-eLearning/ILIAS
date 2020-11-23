@@ -12489,7 +12489,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -15124,3 +15124,10 @@ form#:#form_date_aria_desc#:#The following input format is required:###31 07 202
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###31 07 2020 new variable
 common#:#logo#:#ILIAS Logo###31 07 2020 new variable
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+common#:#obj_lsos#:#Learning Sequences###23 10 2020 new variable
+common#:#obj_lsos_desc#:#Learning Sequence Administration###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable

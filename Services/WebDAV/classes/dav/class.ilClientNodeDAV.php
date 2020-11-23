@@ -191,7 +191,7 @@ class ilClientNodeDAV implements Sabre\DAV\ICollection
      */
     protected function checkIfRefIdIsValid($ref_id)
     {
-        if ($ref_id > 0 && $this->repo_helper->objectWithRefIdExists($ref_id) && $this->dav_helper->isDAVableObject($ref_id, true)) {
+        if ($ref_id > 0 && $this->repo_helper->objectWithRefIdExists($ref_id) && $this->dav_helper->isDAVableObject($ref_id, true, false)) {
             return $ref_id;
         }
     }

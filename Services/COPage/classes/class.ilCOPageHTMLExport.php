@@ -262,8 +262,11 @@ class ilCOPageHTMLExport
             if (is_int(strpos($p, "ExtLink"))) {
                 copy($p, $this->js_dir . '/ilExtLink.js');
             }
-            if (is_int(strpos($p, "linkify"))) {
-                copy($p, $this->js_dir . '/linkify.js');
+            if (is_int(strpos($p, "linkify.min.js"))) {
+                copy($p, $this->js_dir . '/linkify.min.js');
+            }
+            if (is_int(strpos($p, "linkify-jquery.min.js"))) {
+                copy($p, $this->js_dir . '/linkify-jquery.min.js');
             }
         }
 
