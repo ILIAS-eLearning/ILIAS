@@ -143,5 +143,4 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 
         return $this->helper->getAmountOfItems();
     }
-
 }
