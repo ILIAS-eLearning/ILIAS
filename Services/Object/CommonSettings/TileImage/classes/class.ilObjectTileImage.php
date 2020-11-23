@@ -86,7 +86,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
      */
     public function delete()
     {
-        if ($this->exists()) {
+        if ($this->web->hasDir($this->getRelativeDirectory())) {
             try {
                 $this->web->deleteDir($this->getRelativeDirectory());
             } catch (\Exception $e) {

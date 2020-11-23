@@ -78,6 +78,8 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilSetting = $DIC['ilSetting'];
         $ilTabs = $DIC['ilTabs'];
+		
+		$obj_service = $this->getObjectService();
 
         $lng->loadLanguageModule("style");
 
@@ -201,6 +203,9 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cb->setChecked($this->object->getAutoContinue());
         $cb->setInfo($this->lng->txt("cont_sc_auto_continue_info"));
         $this->form->addItem($cb);
+
+        // tile image
+        $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
         //
         // scorm options
@@ -564,6 +569,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     {
         $this->object->setTitle($_POST["Fobject_title"]);
         $this->object->setDescription($_POST["Fobject_description"]);
+		
+		$obj_service = $this->getObjectService();
+		$this->properties();
+        $this->form->checkInput();
 
         //check if OfflineMode-Zip has to be created
         $tmpOfflineMode = ilUtil::yn2tf($_POST["cobj_offline_mode"]);
@@ -613,6 +622,10 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $this->object->setIdSetting($_POST["id_setting"]);
         $this->object->setNameSetting($_POST["name_setting"]);
         $this->object->update();
+		
+		// tile image
+		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
         ilUtil::sendInfo($this->lng->txt("msg_obj_modified"), true);
         $this->ctrl->redirect($this, "properties");
     }

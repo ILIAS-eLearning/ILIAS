@@ -12,6 +12,7 @@ addons:
     packages:
     - unzip
 install:
+- composer self-update --1
 - cd ./libs/composer && composer install && cd ../..
 env:
   global:

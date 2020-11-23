@@ -1903,7 +1903,7 @@ auth#:#auth_auth_settings#:#Einstellungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Loginversuche deaktiviert.
+auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen zu vieler falscher Loginversuche deaktiviert.
 auth#:#auth_info_add#:#Wählen Sie diese Einstellung, falls Sie sich noch nie für ILIAS registriert haben. In diesem Fall wird ein neues Benutzerkonto angelegt.
 auth#:#auth_info_migrate#:#Wenn Sie bereits ein ILIAS-Benutzerkonto besitzen, geben Sie bitte den Benutzernamen und das Passwort ein, um Ihre persönlichen Daten (Mails, Testergebnisse ...) zu übernehmen.
 auth#:#auth_ldap_server_ds#:#LDAP-Server
@@ -2413,6 +2413,9 @@ book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
 book#:#book_schedules#:#Zeitpläne
 book#:#book_set_cancel#:#Stornieren
+book#:#reservation_deleted#:#Reservierung gelöscht
+book#:#X_reservations_of#:#%s Reservierungen von
+book#:#book_set_delete#:#Löschen
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
 book#:#book_your_reservations#:#Ihre Reservierungen
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
@@ -3671,7 +3674,7 @@ common#:#flatview#:#Baumansicht aus
 common#:#fm_start#:#Mit Dateimanager öffnen
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt   
+common#:#fold_added#:#Ordner angelegt
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_new#:#Neuen Ordner anlegen
@@ -4875,7 +4878,7 @@ common#:#salutation#:#Anrede
 common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#salutation_n#:#Keine Angabe
-common#:#saml_log_in#:#Login
+common#:#saml_log_in#:#Anmelden
 common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#save#:#Speichern

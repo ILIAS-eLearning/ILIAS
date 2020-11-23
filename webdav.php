@@ -12,6 +12,7 @@
 // -----------------------------------------------------
 // Retrieve the client id from PATH_INFO
 // Component 1 contains the ILIAS client_id.
+require_once("Services/Init/classes/class.ilInitialisation.php");
 $path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);
@@ -48,12 +49,10 @@ if (!ilDAVActivationChecker::_isActive()) {
 
 if (!$show_mount_instr) {
     // Launch the WebDAV Server
-    include_once "Services/WebDAV/classes/class.ilWebDAVRequestHandler.php";
     $server =  ilWebDAVRequestHandler::getInstance();
     $server->handleRequest();
 } else {
     // Show mount isntructions page for WebDAV
-    include_once "Services/WebDAV/classes/class.ilWebDAVMountInstructionsGUI.php";
     $mount_gui = new ilWebDAVMountInstructionsGUI();
     $mount_gui->showMountInstructionPage();
 }

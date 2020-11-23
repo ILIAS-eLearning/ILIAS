@@ -133,6 +133,30 @@ class ilUserCertificate
     }
 
     /**
+     * @param int $id
+     * @return $this
+     */
+    public function withId(int $id) : self
+    {
+        $clone = clone $this;
+        $clone->id = $id;
+
+        return $clone;
+    }
+
+    /**
+     * @param int $version
+     * @return $this
+     */
+    public function withVersion(int $version) : self
+    {
+        $clone = clone $this;
+        $clone->version = $version;
+
+        return $clone;
+    }
+
+    /**
      * @return int
      */
     public function getPatternCertificateId() : int

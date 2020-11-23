@@ -2511,7 +2511,8 @@
         "keywords": [
             "i18n",
             "text"
-        ]
+        ],
+        "abandoned": true
     },
     {
         "name": "twig/twig",
