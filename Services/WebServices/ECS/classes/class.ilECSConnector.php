@@ -50,6 +50,11 @@ class ilECSConnector
     protected $settings;
 
     protected $header_strings = array();
+
+    /**
+     * @var ilLogger
+     */
+    protected $logger;
     
     /**
      * Constructor
@@ -60,11 +65,14 @@ class ilECSConnector
      */
     public function __construct(ilECSSetting $settings = null)
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->wsrv();
         if ($settings) {
             $this->settings = $settings;
         } else {
-            $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Using deprecated call');
-            $GLOBALS['DIC']['ilLog']->logStack();
+            $this->logger->warning('Using deprecated call.');
+            $this->logger->logStack(ilLogLevel::WARNING);
         }
     }
 
@@ -569,7 +577,7 @@ class ilECSConnector
     {
         try {
             $this->curl = new ilCurlConnection($this->settings->getServerURI() . $this->path_postfix);
-            $this->curl->init(false);
+            $this->curl->init(true);
             $this->curl->setOpt(CURLOPT_HTTPHEADER, array(0 => 'Accept: application/json'));
             $this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
             $this->curl->setOpt(CURLOPT_VERBOSE, 1);
