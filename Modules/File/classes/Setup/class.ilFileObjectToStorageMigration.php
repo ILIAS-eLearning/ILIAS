@@ -99,7 +99,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         $DIC['ilBench'] = null;
 
         if (!$this->helper instanceof ilFileObjectToStorageMigrationHelper) {
-
             $legacy_files_dir = "{$data_dir}/{$client_id}/ilFile";
             if (!defined("CLIENT_DATA_DIR")) {
                 define('CLIENT_DATA_DIR', "{$data_dir}/{$client_id}");
@@ -110,9 +109,12 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             if (!defined("ILIAS_ABSOLUTE_PATH")) {
                 define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
             }
-
-            define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
-            define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+            if (!defined("ILIAS_WEB_DIR")) {
+                define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
+            }
+            if (!defined("CLIENT_WEB_DIR")) {
+                define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
+            }
 
             if (!is_readable($legacy_files_dir)) {
                 throw new Exception("{$legacy_files_dir} is not readable, abort...");
@@ -158,7 +160,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             try {
                 $status = 'success';
                 $aditional_info = '';
-                $this->resource_builder->appendFromStream($resource,
+                $this->resource_builder->appendFromStream(
+                    $resource,
                     Streams::ofResource(fopen($version->getPath(), 'rb')),
                     $this->keep_originals,
                     $version->getVersion()
@@ -176,7 +179,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 $status,
                 $aditional_info
             );
-
         }
 
         $this->resource_builder->store($resource);
@@ -187,7 +189,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         );
 
         $item->tearDown();
-
     }
 
     private function logMigratedFile(
@@ -243,5 +244,4 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     {
         return 'fileobject_to_storage';
     }
-
 }
