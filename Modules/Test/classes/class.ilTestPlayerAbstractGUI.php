@@ -1483,6 +1483,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("USER_REMAINING_TIME", sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left));
         $this->tpl->parseCurrentBlock();
 
+        // jQuery is required by tpl.workingtime.js
+        require_once "./Services/jQuery/classes/class.iljQueryUtil.php";
+        iljQueryUtil::initjQuery();
         $template = new ilTemplate("tpl.workingtime.js", true, true, 'Modules/Test');
         $template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
         $template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
