@@ -175,7 +175,6 @@ var Conversation = function Conversation(id, participants)
 			}
 
 			let id = val.id;
-
 			if (typeof val.getId === 'function') {
 				id = val.getId();
 			}
@@ -184,7 +183,21 @@ var Conversation = function Conversation(id, participants)
 				return false;
 			}
 
-			if (id.toString() === participant.getId().toString()) {
+			if (typeof participant.getId !== 'function') {
+				Container.getLogger().warn(
+					"Invalid participant object: Type = %s / Variable = %s",
+					typeof participant,
+					JSON.stringify(participant)
+				);
+				return false;
+			}
+
+			let participantId = participant.getId();
+			if (typeof participantId === "undefined") {
+				return false;
+			}
+
+			if (id.toString() === participantId.toString()) {
 				return true;
 			}
 

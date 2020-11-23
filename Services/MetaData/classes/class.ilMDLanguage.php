@@ -85,7 +85,6 @@ class ilMDLanguage extends ilMDBase
         
         $fields = $this->__getFields();
         $fields['meta_language_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_language'));
-        
         if ($this->db->insert('il_meta_language', $fields)) {
             $this->setMetaId($next_id);
             return $this->getMetaId();

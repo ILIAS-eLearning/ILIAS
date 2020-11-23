@@ -292,6 +292,7 @@ class ilLMPresentationGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
+        $ilErr = $this->error;
 
         // check read permission and parent conditions
         // todo: replace all this by ilAccess call

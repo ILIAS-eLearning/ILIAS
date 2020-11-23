@@ -20,7 +20,7 @@ class ilNewsDataSet extends ilDataSet
      */
     public function getSupportedVersions()
     {
-        return array("4.1.0");
+        return array("5.4.0", "4.1.0");
     }
     
     /**
@@ -45,6 +45,7 @@ class ilNewsDataSet extends ilDataSet
         if ($a_entity == "news") {
             switch ($a_version) {
                 case "4.1.0":
+                case "5.4.0":
                     return array(
                         "Id" => "integer",
                         "Title" => "text",
@@ -61,6 +62,20 @@ class ilNewsDataSet extends ilDataSet
                         "MobId" => "integer",
                         "Playtime" => "text"
                         );
+            }
+        }
+        if ($a_entity == "news_settings") {
+            switch ($a_version) {
+                case "5.4.0":
+                    return array(
+                        "ObjId" => "integer",
+                        "PublicFeed" => "integer",
+                        "DefaultVisibility" => "text",
+                        "KeepRssMin" => "integer",
+                        "HideNewsPerDate" => "integer",
+                        "HideNewsDate" => "text",
+                        "PublicNotifications" => "integer"
+                    );
             }
         }
     }
@@ -82,6 +97,7 @@ class ilNewsDataSet extends ilDataSet
         if ($a_entity == "news") {
             switch ($a_version) {
                 case "4.1.0":
+                case "5.4.0":
                     $this->getDirectDataFromQuery("SELECT id, title, content, priority," .
                         " context_obj_id, context_obj_type, context_sub_obj_id, context_sub_obj_type, " .
                         " content_type, visibility, content_long, content_is_lang_var, mob_id, playtime" .
@@ -91,6 +107,23 @@ class ilNewsDataSet extends ilDataSet
                     break;
             }
         }
+
+        if ($a_entity == "news_settings") {
+            switch ($a_version) {
+                case "5.4.0":
+                    foreach ($a_ids as $obj_id) {
+                        $this->data[$obj_id]["ObjId"] = $obj_id;
+                        $this->data[$obj_id]["PublicFeed"] = ilBlockSetting::_lookup("news", "public_feed", 0, $obj_id);
+                        $this->data[$obj_id]["KeepRssMin"] = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $obj_id);
+                        $this->data[$obj_id]["DefaultVisibility"] = ilBlockSetting::_lookup("news", "default_visibility", 0, $obj_id);
+                        $this->data[$obj_id]["HideNewsPerDate"] = (int) ilBlockSetting::_lookup("news", "hide_news_per_date", 0, $obj_id);
+                        $this->data[$obj_id]["HideNewsDate"] = ilBlockSetting::_lookup("news", "hide_news_date", 0, $obj_id);
+                        $this->data[$obj_id]["PublicNotifications"] = (int) ilBlockSetting::_lookup("news", "public_notifications", 0, $obj_id);
+                    }
+                    break;
+            }
+        }
+
     }
     
     /**
@@ -143,6 +176,32 @@ class ilNewsDataSet extends ilDataSet
                 $newObj->create();
                 $a_mapping->addMapping("Services/News", "news", $a_rec["Id"], $newObj->getId());
                 break;
+
+            case "news_settings":
+
+                $dummy_dataset = new ilObjectDataSet();
+                $new_obj_id = $dummy_dataset->getNewObjId($a_mapping,  $a_rec["ObjId"]);
+
+                if ($new_obj_id > 0 && $a_schema_version == "5.4.0") {
+                    foreach ([
+                        "public_feed" => "PublicFeed",
+                        "keep_rss_min" => "KeepRssMin",
+                        "default_visibility" => "DefaultVisibility",
+                        "hide_news_per_date" => "HideNewsPerDate",
+                        "hide_news_date" => "HideNewsDate",
+                        "public_notifications" => "PublicNotifications"
+                         ] as $set => $field) {
+                        ilBlockSetting::_write(
+                            "news",
+                            $set,
+                            $a_rec[$field],
+                            0,
+                            $new_obj_id
+                        );
+                    }
+                }
+                break;
+
         }
     }
 }
