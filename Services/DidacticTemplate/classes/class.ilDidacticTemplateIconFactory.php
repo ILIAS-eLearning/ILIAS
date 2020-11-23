@@ -75,7 +75,7 @@ class ilDidacticTemplateIconFactory
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
 
-        if (!$this->supportsCustomIcon($type)) {
+        if (strlen($type) || !$this->supportsCustomIcon($type)) {
             return '';
         }
         $assigned_template = $this->findAssignedTemplate($ref_id);
