@@ -2,7 +2,7 @@
 
 This library contains interfaces, base classes and utilities for the setup.
 
-The setup is build around four main concepts:
+The setup is build around four concepts:
 
 * [**Config**](./Config.php) - Some options or configuration for the setup process
 that a user can or must set.
@@ -18,8 +18,12 @@ basically needs to ask an agent for an objective for a fresh installation (or th
 update of an installation) and then successively achieve all the preconditions
 and finally the objective itself.
 
-There are special kinds of `Objective`s tailored to match certain use cases.
+There are special kinds of `Objective`s and supporting classes that are tailored to
+match certain use cases.
 
+* A [**Migration**](Migration.php) is a potentially long running operation that can be
+broken into discrete steps. Other than database updates, it is supposed to run in the
+background, even when the installation is online again.
 * [**BuildArtifactObjective**](Objective/BuildArtifactObjective.php) allows to create an
 [`Artifact`](./Artifact.php) somewhere. Look into the [according section](#on-artifacts)
 to find out how to use them.
@@ -53,7 +57,6 @@ an expected config
 }
 
 
-
 ### On Environment
 
 This basically is a key-value map as well, but with resources as values. It acts
@@ -64,6 +67,7 @@ little, the environment is designed as an extensible registry that will get
 filled during the setup process. Look into [`ilDatabaseExistsObjective::achieve`](Services/Database/classes/Setup/class.ilDatabaseExistsObjective.php)
 to see how the environment is used during the setup process.
 
+
 ### On Agent
 
 An `Agent` is what every ILIAS-component needs to implement if it wants to take
@@ -71,6 +75,7 @@ part in the setup process. An agent needs to tell how to build a configuration
 from an array or by an input from the UI framework. It also needs to provide an
 objective for the setup or for an update. As expected, the database-service
 provides an agent for the setup: [`ilDatabaseSetupAgent`](Services/Database/classes/Setup/class.ilDatabaseSetupAgent.php).
+
 
 ### On Objective
 
@@ -89,6 +94,27 @@ This yields a directed graph of objectives, where (hopefully) some objectives do
 not have any preconditions. These can be achieved, which prepares the environment
 for other objectives to be achievable, until all objectives are achieved and the
 setup is completed.
+
+
+### On Migration
+
+Sometimes an update of an installation requires more work than simply downloading
+fresh code and updating the database schema. When, e.g., the certificates where
+moved to a new persistant storage model, a lot of data needed to be shuffled around.
+This operation would potentially take a lot of time and thus was offloaded to be
+triggered by single users.
+
+The setup offers functionality for components to encapsulate these kind of operations
+to allow administrators to monitor and also run them in a principled way. `Agent`s
+therefore can implement the [`getMigrations`](`src/Setup/Agent.php#L82`) method to
+make these [`Migration`s](src/Setup/Migration.php) available in the setup.
+
+The general idea is, that a migration is an operation that can be broken into discrete
+steps which can be executed even if the installation is online after update again.
+These steps can then be triggered via the CLI and also be monitored there. It is well
+possible, that there are also other means to trigger the steps, such as an interaction
+by the user. The first user of the migrations is the [`FileObject`](Modules/File/classes/Setup/class.ilFileObjectToStorageMigration.php).
+
 
 ### On Artifact
 

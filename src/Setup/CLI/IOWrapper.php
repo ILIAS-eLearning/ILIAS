@@ -80,10 +80,18 @@ class IOWrapper implements AdminInteraction
     public function confirmExplicit(string $message, string $type_text_to_confirm) : bool
     {
         $this->outputInObjective();
-
-        return $this->style->ask($message, null, static function (string $input) use ($type_text_to_confirm) : bool {
-            return $type_text_to_confirm === $input;
-        });
+        if (!$this->shouldSayYes()) {
+            return $this->style->ask(
+                $message,
+                null,
+                function (string $input) use ($type_text_to_confirm) : bool {
+                    return $type_text_to_confirm === $input;
+                }
+            );
+        } else {
+            $this->inform("Automatically confirmed:\n\n$message");
+            return true;
+        }
     }
 
     public function confirmOrDeny(string $message) : bool
