@@ -99,7 +99,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         $DIC['ilBench'] = null;
 
         if (!$this->helper instanceof ilFileObjectToStorageMigrationHelper) {
-
             $legacy_files_dir = "{$data_dir}/{$client_id}/ilFile";
             if (!defined("CLIENT_DATA_DIR")) {
                 define('CLIENT_DATA_DIR', "{$data_dir}/{$client_id}");
@@ -158,7 +157,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             try {
                 $status = 'success';
                 $aditional_info = '';
-                $this->resource_builder->appendFromStream($resource,
+                $this->resource_builder->appendFromStream(
+                    $resource,
                     Streams::ofResource(fopen($version->getPath(), 'rb')),
                     $this->keep_originals,
                     $version->getTitle()
@@ -176,7 +176,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 $status,
                 $aditional_info
             );
-
         }
 
         $this->resource_builder->store($resource);
@@ -187,7 +186,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         );
 
         $item->tearDown();
-
     }
 
     private function logMigratedFile(
@@ -235,13 +233,4 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         }
         return $resource;
     }
-
-    /**
-     * @inheritDoc
-     */
-    public function getKey() : string
-    {
-        return 'fileobject_to_storage';
-    }
-
 }

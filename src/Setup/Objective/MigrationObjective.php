@@ -71,14 +71,15 @@ class MigrationObjective implements Setup\Objective
          * @var $io Setup\CLI\IOWrapper
          */
         $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        $key = (new \ReflectionClass($this->migration))->getShortName();
         $confirmation = $io->confirmExplicit(
             "Do you really want to run the following migration? Make sure you have a backup\n" .
             "of all your data. You will run this migration on your own risk.\n\n" .
-            "Please type '{$this->migration->getKey()}' to confirm and start.",
-            $this->migration->getKey()
+            "Please type '$key' to confirm and start.",
+            $key
         );
         if (!$confirmation) {
-            $io->error("{$this->migration->getKey()} aborted.");
+            $io->error("Migration '$key' aborted.");
             return $environment;
         }
         $io->inform("Preparing Migration, this may take a while.");
