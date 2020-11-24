@@ -21,7 +21,7 @@ trait HasAgent
 
     protected function configureCommandForPlugins()
     {
-        $this->addArgument("plugin-name", InputArgument::OPTIONAL, "Name of the plugin to run the command for.");
+        $this->addOption("plugin", null, InputOption::VALUE_REQUIRED, "Name of the plugin to run the command for.");
         $this->addOption("no-plugins", null, InputOption::VALUE_NONE, "Ignore all plugins when running the command.");
         $this->addOption("skip", null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, "Skip plugin with the supplied <plugin-name> when running the command.");
     }
@@ -39,7 +39,7 @@ trait HasAgent
             return $this->agent_finder->getCoreAgents();
         }
 
-        $plugin_name = $input->getArgument("plugin-name");
+        $plugin_name = $input->getOption("plugin");
         if ($plugin_name) {
             return $this->agent_finder->getPluginAgent($plugin_name);
         }
