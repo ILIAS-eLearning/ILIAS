@@ -188,11 +188,18 @@ class AgentCollection implements Agent
                 /**
                  * @var $migration Migration
                  */
-                $migrations[$agent_key . "." . $migration->getKey()] = $migration;
+                $key = (new \ReflectionClass($migration))->getShortName();
+                $migrations[$agent_key . "." . $key] = $migration;
             }
         }
 
         return $migrations;
+    }
+
+    protected function getKey(Setup\Migration $migration) : string
+    {
+        $names = explode("\\", get_class($migration));
+        return array_pop($names);
     }
 
     protected function checkConfig(Config $config)

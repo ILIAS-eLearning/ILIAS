@@ -12,14 +12,9 @@ interface Migration // extends Objective
     public const INFINITE = -1;
 
     /**
-     * @return string a meaningful name for your migration.
+     * @return string - a meaningful and concise description for your migration.
      */
     public function getLabel() : string;
-
-    /**
-     * @return string
-     */
-    public function getKey() : string;
 
     /**
      * Tell the default amount of steps to be executed for one run of the migration.
