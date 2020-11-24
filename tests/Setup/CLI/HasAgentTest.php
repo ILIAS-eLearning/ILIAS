@@ -81,13 +81,9 @@ class HasAgentTest extends TestCase
             ->method("getOption")
             ->will($this->returnValueMap([
                 ["no-plugins", null],
+                ["plugin", "foobar"],
                 ["skip", null]
             ]));
-
-        $ii
-            ->method("getArgument")
-            ->with("plugin-name")
-            ->willReturn("foobar");
 
         $this->agent_finder
             ->expects($this->once())
