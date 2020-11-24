@@ -66,7 +66,7 @@ class ilChatroomSetupAgent implements Setup\Agent
         // TODO: clean this up
         return $this->refinery->custom()->transformation(function ($data) use ($levels, $intervals) {
             if (is_null($data)) {
-                return null;
+                return new Setup\NullConfig();
             }
 
             $protocol = 'http://';
@@ -149,7 +149,9 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config === null) {
+        // null would not be valid here, because this agents strictly wants to have
+        // a config.
+        if ($config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();
         }
 
@@ -161,7 +163,9 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config === null) {
+        // null would be valid here, because our user might just not have passed
+        // one during update.
+        if ($config === null || $config instanceof Setup\NullConfig) {
             return new Setup\Objective\NullObjective();
         }
 
