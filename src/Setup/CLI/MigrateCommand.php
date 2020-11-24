@@ -44,8 +44,12 @@ class MigrateCommand extends Command
         $this->setDescription("Starts and manages migrations needed after an update of ILIAS");
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the installation.");
         $this->addOption("run", "R", InputOption::VALUE_REQUIRED, "Run the migration with the name given.");
-        $this->addOption("steps", "S", InputOption::VALUE_REQUIRED,
-            "Run the selected migration with X steps. Pass " . Migration::INFINITE . " for all remaining steps.");
+        $this->addOption(
+            "steps",
+            "S",
+            InputOption::VALUE_REQUIRED,
+            "Run the selected migration with X steps. Pass " . Migration::INFINITE . " for all remaining steps."
+        );
         $this->configureCommandForPlugins();
     }
 
@@ -114,7 +118,7 @@ class MigrateCommand extends Command
 
         $io->inform("There are {$count} to run:");
         foreach ($migrations as $migration_key => $migration) {
-            $env = $this->prepareEnvironmentForMigration($env, $migration, $io);
+            $env = $this->prepareEnvironmentForMigration($env, $migration);
             $migration->prepare($env);
             $steps = $migration->getRemainingAmountOfSteps();
             $status = $steps === 0 ? "[done]" : "[remaining steps: {$steps}]";
@@ -125,8 +129,7 @@ class MigrateCommand extends Command
 
     protected function prepareEnvironmentForMigration(
         Environment $environment,
-        Migration $migration,
-        IOWrapper $io
+        Migration $migration
     ) : Environment {
         $preconditions = $migration->getPreconditions($environment);
         if (count($preconditions) > 0) {
@@ -135,7 +138,7 @@ class MigrateCommand extends Command
                 ...$preconditions
             );
 
-            $environment = $this->achieveObjective($objective, $environment, $io);
+            $environment = $this->achieveObjective($objective, $environment);
         }
 
         return $environment;
