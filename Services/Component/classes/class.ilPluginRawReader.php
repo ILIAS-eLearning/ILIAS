@@ -22,4 +22,10 @@ class ilPluginRawReader
             }
         }
     }
+
+    public function hasPlugin($name) : bool
+    {
+        $names = iterator_to_array($this->getPluginNames());
+        return in_array($name, $names);
+    }
 }
