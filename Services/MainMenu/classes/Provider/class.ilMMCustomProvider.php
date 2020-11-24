@@ -40,7 +40,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
          */
         $top_items = [];
         foreach (ilMMCustomItemStorage::where(['top_item' => true])->get() as $item) {
-            $top_items[] = $this->getSingleCustomItem($item, true);
+            $top_items[] = $this->getSingleCustomItem($item, false);
         }
 
         return $top_items;
@@ -57,7 +57,7 @@ class ilMMCustomProvider extends AbstractStaticMainMenuProvider implements Stati
          */
         $items = [];
         foreach (ilMMCustomItemStorage::where(['top_item' => false])->get() as $item) {
-            $items[] = $this->getSingleCustomItem($item, true);
+            $items[] = $this->getSingleCustomItem($item, false);
         }
 
         return $items;
