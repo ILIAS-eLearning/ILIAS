@@ -125,6 +125,12 @@ class ImplementationOfAgentFinder implements AgentFinder
      */
     public function getPluginAgent(string $name) : Agent
     {
+        if (!$this->plugin_raw_reader->hasPlugin($name)) {
+            throw new \InvalidArgumentException(
+                "Cannot find plugin with name '$name'"
+            );
+        }
+
         // TODO: This seems to be something that rather belongs to Services/Component/
         // but we put it here anyway for the moment. This seems to be something that
         // could go away when we unify Services/Modules/Plugins to one common concept.
