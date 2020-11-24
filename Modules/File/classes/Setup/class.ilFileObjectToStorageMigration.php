@@ -88,10 +88,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
          * @var $client_id  string
          */
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
-        $client_id = $client_ini->readVariable('client', 'name');
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $data_dir = $ilias_ini->readVariable('clients', 'datadir');
 
         global $DIC;
