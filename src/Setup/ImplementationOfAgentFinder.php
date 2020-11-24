@@ -157,8 +157,6 @@ class ImplementationOfAgentFinder implements AgentFinder
             $this->refinery,
             $agents
         );
-
-        return new \ilPluginDefaultAgent($name);
     }
 
     /**
