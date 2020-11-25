@@ -16370,36 +16370,37 @@ cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. Th
 cmix#:#no_substatements_label#:#Do not store substatements
 cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.
 adn#:#administrative_notification#:#Administrative Notifications
-adn#:#administrative_notification_description#:#Create system-wide Notifications
+adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 common#:#obj_adn#:#Administrative Notifications
 adn#:#main#:#Notifications
-adn#:#msg_title#:#Title
-adn#:#msg_type#:#Denotation
-adn#:#msg_type_during_event#:#Denotation during Event
-adn#:#msg_type_1#:#Neutral
+adn#:#msg_title#:#Headline
+adn#:#msg_type#:#Importance
+adn#:#msg_type_during_event#:#Importance of Event
+adn#:#msg_type_1#:#Notice
 adn#:#msg_type_2#:#Important
-adn#:#msg_type_3#:#Breaking
-adn#:#msg_event_start#:#Event start
-adn#:#msg_event_end#:#Event end
-adn#:#msg_display_start#:#Display start
-adn#:#msg_display_end#:#Display end
+adn#:#msg_type_3#:#Breaking News
+adn#:#msg_event_start#:#Event Starts
+adn#:#msg_event_end#:#Event Ends
+adn#:#msg_display_start#:#Displayed From
+adn#:#msg_display_end#:#Until
 adn#:#msg_permanent#:#Display
-adn#:#msg_permanent_no#:#Show temporary
-adn#:#msg_permanent_yes#:#Show permanent
-adn#:#msg_table_title#:#Messages
+adn#:#msg_permanent_no#:#Show Temporarily
+adn#:#msg_permanent_yes#:#Show Permanently
+adn#:#msg_table_title#:#Notifications
 adn#:#msg_body#:#Body
 adn#:#msg_event_date#:#Event date
-adn#:#msg_display_date#:#Duration display
+adn#:#msg_display_date#:#Displayed
 adn#:#msg_form_button_save#:#Save
 adn#:#msg_form_button_update#:#Update
 adn#:#msg_form_button_cancel#:#Cancel
 adn#:#msg_form_button_delete#:#Delete
-adn#:#msg_form_title#:#Compose message
-adn#:#msg_success_created#:#Notification created.
-adn#:#msg_success_updated#:#Notification updated.
-adn#:#msg_success_deleted#:#Notification deleted.
+adn#:#msg_form_button_reset#:#Reset
+adn#:#msg_form_title#:#Compose Notification
+adn#:#msg_success_created#:#Notification created
+adn#:#msg_success_updated#:#Notification updated
+adn#:#msg_success_deleted#:#Notification deleted
 adn#:#msg_dismissable#:#Dismissable
-adn#:#msg_limit_to_roles#:#Limit to Roles
+adn#:#msg_limit_to_roles#:#Role-sensitive Presentation
 adn#:#msg_limited_to_role_ids#:#Roles
 adn#:#msg_reset_dismiss#:#Reset for all users
 adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.
