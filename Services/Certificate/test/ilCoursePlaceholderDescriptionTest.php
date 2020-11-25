@@ -31,7 +31,6 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $customUserPlaceholderObject = $this->getMockBuilder("ilObjectCustomUserFieldsPlaceholderDescription")
                                             ->disableOriginalConstructor()
-//                                            ->setMethodsExcept(["getPlaceholderDescriptions"])
                                             ->getMock();
 
         $customUserPlaceholderObject->method("getPlaceholderDescriptions")
