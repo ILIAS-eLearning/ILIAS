@@ -39,6 +39,10 @@ a.ilc_page_lnavlink_LeftNavigationLink {
   background-position: left center;
   color: #FFFFFF;
 }
+a.ilc_page_lnavlink_LeftNavigationLink:hover {
+  color: #d9e0e9;
+  text-decoration: none;
+}
 a.ilc_marker_Marker {
   position: absolute;
   width: 24px;
@@ -46,15 +50,19 @@ a.ilc_marker_Marker {
   display: block;
   cursor: pointer;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin.svg");
 }
 a.ilc_marker_Marker:hover {
-  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin_on.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/icon_pin_on.svg");
   background-repeat: no-repeat;
 }
 a.ilc_page_rnavlink_RightNavigationLink {
   background-position: left center;
   color: #FFFFFF;
+}
+a.ilc_page_rnavlink_RightNavigationLink:hover {
+  color: #d9e0e9;
+  text-decoration: none;
 }
 a.ilc_rte_mlink_RTELink {
   height: 50px;
@@ -98,7 +106,7 @@ a.ilc_section_Additional {
   margin-bottom: 10px;
   margin-top: 10px;
   padding-left: 60px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/additional.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/additional.svg");
   background-repeat: no-repeat;
   background-position: 12px center;
   background-color: #f5f7fa;
@@ -117,7 +125,7 @@ a.ilc_section_AdvancedKnowledge {
   padding-top: 20px;
   padding-right: 20px;
   padding-left: 60px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/advknowledge.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/advknowledge.svg");
   background-repeat: no-repeat;
 }
 div.ilc_qanswer_Answer {
@@ -136,7 +144,7 @@ a.ilc_section_Attention {
   padding-right: 20px;
   padding-bottom: 20px;
   padding-left: 60px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/attention.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/attention.svg");
 }
 div.ilc_section_Background,
 a.ilc_section_Background {
@@ -164,6 +172,7 @@ div.ilc_page_bnav_BottomNavigation {
   padding-right: 5px;
   color: #2e3c50;
   padding-top: 15px;
+  background-image: url("../../../libs/ilias/Style/basic_style/images/header.png");
   border-right-width: 1px;
   border-style: none;
   border-left-width: 1px;
@@ -185,7 +194,7 @@ a.ilc_section_Confirmation {
   background-repeat: no-repeat;
   background-position: 10px;
   background-color: #f0f7ea;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/checked.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/checked.svg");
   padding-left: 60px;
   padding-right: 20px;
   padding-bottom: 20px;
@@ -197,7 +206,7 @@ div.ilc_section_Citation,
 body.ilc_section_Citation {
   background-repeat: no-repeat;
   background-position: 12px center;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/citation.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/citation.svg");
   background-color: #f5f7fa;
   padding-left: 60px;
   margin-bottom: 10px;
@@ -221,7 +230,7 @@ div.ilc_qover_Correct {
   background-position: 10px;
   padding-left: 60px;
   padding-bottom: 20px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/correct.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/correct.svg");
   padding-right: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -239,14 +248,14 @@ a.ilc_section_Example {
   padding-top: 20px;
   margin-bottom: 10px;
   margin-top: 10px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/example.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/example.svg");
   background-repeat: no-repeat;
 }
 div.ilc_section_Excursus,
 a.ilc_section_Excursus {
   background-position: 10px center;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/excursus.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/excursus.svg");
   padding-bottom: 20px;
   padding-top: 20px;
   margin-left: 2em;
@@ -262,7 +271,7 @@ a.ilc_section_Excursus {
 div.ilc_qfeedr_FeedbackRight {
   background-repeat: no-repeat;
   background-position: 10px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/correct.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/correct.svg");
   padding-right: 160px;
   padding-bottom: 20px;
   padding-left: 60px;
@@ -274,7 +283,7 @@ div.ilc_qfeedr_FeedbackRight {
 }
 div.ilc_qfeedw_FeedbackWrong {
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/exclamation.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/exclamation.svg");
   padding-right: 160px;
   background-position: 24px;
   padding-bottom: 20px;
@@ -307,7 +316,7 @@ div.ilc_flist_head_FileListHeading {
   background-position: 10px;
   margin-top: 0px;
   background-color: #4C6586;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/download.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/download.svg");
   font-weight: bold;
   color: #FFFFFF;
   text-align: left;
@@ -389,7 +398,7 @@ div.ilc_qover_Incorrect {
   padding-bottom: 20px;
   background-position: 24px;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/exclamation.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/exclamation.svg");
   padding-left: 60px;
   padding-top: 20px;
   border-style: none;
@@ -404,7 +413,7 @@ a.ilc_section_Information {
   padding-bottom: 20px;
   padding-left: 60px;
   background-color: #f5f7fa;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/information.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/information.svg");
   background-repeat: no-repeat;
   background-position: 10px;
 }
@@ -417,7 +426,7 @@ a.ilc_section_Interaction {
   background-position: 12px;
   background-color: #f5f7fa;
   padding-left: 60px;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/interaction.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/interaction.svg");
   padding-bottom: 20px;
   padding-right: 20px;
   margin-bottom: 10px;
@@ -448,7 +457,7 @@ a.ilc_section_Link {
   border-color: #4C6586;
   border-style: dashed;
   background-color: #FFFFFF;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/link.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/link.svg");
   background-repeat: no-repeat;
   background-position: 10px;
 }
@@ -461,7 +470,7 @@ div.ilc_section_Literature,
 a.ilc_section_Literature {
   background-position: 10px center;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/literature.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/literature.svg");
   background-color: #f5f7fa;
   padding-left: 60px;
   padding-bottom: 20px;
@@ -480,7 +489,7 @@ div.ilc_section_Mnemonic,
 a.ilc_section_Mnemonic {
   background-repeat: no-repeat;
   background-position: 14px center;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/mnemonic.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/mnemonic.svg");
   padding-left: 60px;
   padding-bottom: 20px;
   padding-right: 20px;
@@ -520,7 +529,7 @@ a.ilc_section_Remark {
   text-align: left;
   background-color: #f5f7fa;
   border-style: none;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/remark.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/remark.svg");
 }
 div.ilc_page_rnav_RightNavigation {
   font-weight: bold;
@@ -563,7 +572,7 @@ div.ilc_question_Standard {
   background-repeat: no-repeat;
   padding-top: 30px;
   box-shadow: 0 3px 3px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.12);
-  background-image: url("../../../libs/ilias/Style/basic_style/images/question_mark_transp_big.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/question_mark_transp_big.svg");
   margin-bottom: 10px;
   margin-top: 20px;
   color: #2e3c50;
@@ -740,7 +749,7 @@ img.ilc_page_lnavimage_LeftNavigationImage {
   font-size: 120%;
   background-position: left center;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/play-button_left_white.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/play-button_left_white.svg");
   width: 20px;
   height: 20px;
 }
@@ -754,7 +763,7 @@ img.ilc_page_rnavimage_RightNavigationImage {
   font-size: 120%;
   margin-left: 5px;
   background-repeat: no-repeat;
-  background-image: url("../../../libs/ilias/Style/basic_style/images/play-button_right_white.png");
+  background-image: url("../../../libs/ilias/Style/basic_style/images/play-button_right_white.svg");
   width: 20px;
   background-position: 0px center;
 }
@@ -1071,4 +1080,3 @@ div.ilc_va_iheada_VAccordIHeadActive {
 div.ilc_va_iheada_VAccordIHeadActive:hover {
   color: #909090;
 }
-/*# sourceMappingURL=content.css.map */
