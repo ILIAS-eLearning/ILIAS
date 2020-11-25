@@ -152,6 +152,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
+        return; // currently disbled due to problem with syncing versions!
         /**
          * @var $db ilDBInterface
          */
@@ -219,6 +220,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
+        return 0; // currently disbled due to problem with syncing versions!
         return $this->helper->getAmountOfItems();
     }
 
