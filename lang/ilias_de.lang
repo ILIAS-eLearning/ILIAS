@@ -16393,7 +16393,7 @@ common#:#obj_adn#:#Ankündigungen
 adn#:#main#:#Ankündigungen
 adn#:#msg_title#:#Titel
 adn#:#msg_type#:#Wichtigkeit
-adn#:#msg_type_during_event#:#Wichtigkeit der Ankündigung
+adn#:#msg_type_during_event#:#Während Ereignis
 adn#:#msg_type_1#:#Hinweis
 adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung

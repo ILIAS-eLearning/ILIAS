@@ -16375,7 +16375,7 @@ common#:#obj_adn#:#Administrative Notifications
 adn#:#main#:#Notifications
 adn#:#msg_title#:#Headline
 adn#:#msg_type#:#Importance
-adn#:#msg_type_during_event#:#Importance of Event
+adn#:#msg_type_during_event#:#During Event
 adn#:#msg_type_1#:#Notice
 adn#:#msg_type_2#:#Important
 adn#:#msg_type_3#:#Breaking News
