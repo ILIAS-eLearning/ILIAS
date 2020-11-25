@@ -16401,7 +16401,7 @@ adn#:#msg_event_start#:#Beginn
 adn#:#msg_event_end#:#Ende
 adn#:#msg_display_start#:#Anzeige ab
 adn#:#msg_display_end#:#Anzeige bis
-adn#:#msg_permanent#:#Anzeige
+adn#:#msg_permanent#:#Anzeigedauer
 adn#:#msg_permanent_no#:#Zeitlich begrenzt
 adn#:#msg_permanent_yes#:#Permanent
 adn#:#msg_table_title#:#Ankündigungen
