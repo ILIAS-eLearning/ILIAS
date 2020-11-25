@@ -1560,13 +1560,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     /**
      * Output of a summary of all test questions for test participants
      */
-    public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false)
+    public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsInfo = false, $obligationsFilter = false)
     {
         if ($fullpage) {
             $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
         }
-        
-        if ($obligationsNotAnswered) {
+
+        $obligationsFulfilled = \ilObjTest::allObligationsAnswered(
+            $this->object->getId(),
+            $this->testSession->getActiveId(),
+            $this->testSession->getPass()
+        );
+
+        if ($obligationsInfo && $this->object->areObligationsEnabled() && !$obligationsFulfilled) {
             ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
         }
         
@@ -1591,7 +1597,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             
             $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
             $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
-            $table_gui->setObligationsNotAnswered($obligationsNotAnswered);
+            $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);
             $table_gui->setShowObligationsEnabled($this->object->areObligationsEnabled());
             $table_gui->setObligationsFilterEnabled($obligationsFilter);
             $table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
