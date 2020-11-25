@@ -7,6 +7,7 @@
 
 namespace ILIAS\Tests\Refinery;
 
+use ilGlobalTemplateInterface;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 
 require_once('./libs/composer/vendor/autoload.php');
