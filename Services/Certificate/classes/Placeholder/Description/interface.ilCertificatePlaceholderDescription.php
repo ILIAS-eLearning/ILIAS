@@ -17,5 +17,5 @@ interface ilCertificatePlaceholderDescription
     /**
      * @return string - HTML that can used to be displayed in the GUI
      */
-    public function createPlaceholderHtmlDescription();
+    public function createPlaceholderHtmlDescription() : string;
 }
