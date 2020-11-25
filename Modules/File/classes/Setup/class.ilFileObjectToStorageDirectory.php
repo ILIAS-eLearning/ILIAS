@@ -35,10 +35,14 @@ class ilFileObjectToStorageDirectory
         $history_data = [];
         foreach ($info as $i) {
             $parsed_info = ilObjFileImplementationLegacy::parseInfoParams($i);
-            $history_data[$parsed_info['version']] = $parsed_info;
+            $version = (int) $parsed_info['version'];
+            $history_data[$version] = $parsed_info;
+            $history_data[$version]['owner_id'] = (int) $i['user_id'];
+            $history_data[$version]['date'] = (string) $i['date'];
+            $history_data[$version]['action'] = (string) $i['action'];
         }
 
-        usort($history_data, static function ($v1, $v2) {
+        uasort($history_data, static function ($v1, $v2) {
             return (int) $v2["version"] - (int) $v1["version"];
         });
         return $history_data;
@@ -63,10 +67,11 @@ class ilFileObjectToStorageDirectory
 
         foreach ($g as $item) {
             $version = (int) $item[1];
-            $title = $history_data['filename'] ?? $item[2];
-            $action = $history_data['action'] ?? '';
+            $title = $history_data[$version]['filename'] ?? $item[2];
+            $action = $history_data[$version]['action'] ?? 'create';
+            $owner = $history_data[$version]['owner_id'] ?? 6;
 
-            yield new ilFileObjectToStorageVersion($version, $item[0], $title, $title, $action);
+            yield new ilFileObjectToStorageVersion($version, $item[0], $title, $title, $action, $owner);
 
         }
     }

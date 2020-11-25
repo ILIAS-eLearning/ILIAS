@@ -9,12 +9,28 @@ use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
  */
 class ilObjFileStakeholder extends AbstractResourceStakeholder
 {
+    protected $owner = 6;
+
+    /**
+     * ilObjFileStakeholder constructor.
+     * @param int $owner
+     */
+    public function __construct(int $owner = 6)
+    {
+        $this->owner = $owner;
+    }
+
     /**
      * @inheritDoc
      */
     public function getId() : string
     {
         return 'file_obj';
+    }
+
+    public function getOwnerOfNewResources() : int
+    {
+        return $this->owner;
     }
 
 }

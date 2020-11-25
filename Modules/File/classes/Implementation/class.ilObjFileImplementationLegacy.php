@@ -251,16 +251,9 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
 
         $version_objects = [];
         foreach ($versions as $version) {
-            /*
-            $directory = LegacyPathHelper::createRelativePath($this->file->getDirectory($version));
-            $filepath = ilFileUtils::getValidFilename(rtrim($directory,
-                    "/") . "/" . $filename); // TODO remove after migration to filesystem
-            $filesize = 0;
-            if ($this->dic->filesystem()->storage()->has($filepath)) {
-                $size = $filesize = $this->dic->filesystem()->storage()->getSize($filepath, DataSize::Byte);
-                $filesize = $size->getSize();
-            }*/
-
+            $file = $this->getDirectory($version["version"]) . "/" . $version["filename"];
+            $filesize = @filesize($file);
+            $version['size'] = $filesize;
             $version_objects[] = new ilObjFileVersion($version);
         }
 

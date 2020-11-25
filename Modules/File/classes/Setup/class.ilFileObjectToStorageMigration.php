@@ -119,6 +119,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 throw new Exception("{$legacy_files_dir} is not readable, abort...");
             }
 
+            if (!is_writable("{$data_dir}/{$client_id}/storage")) {
+                throw new Exception("storage directory is not writable, abort...");
+            }
+
             $this->migration_log_handle = fopen($legacy_files_dir . "/" . self::MIGRATION_LOG_CSV, "a");
 
             $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, self::FILE_PATH_REGEX);
@@ -163,7 +167,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                     $resource,
                     Streams::ofResource(fopen($version->getPath(), 'rb')),
                     $this->keep_originals,
-                    $version->getTitle()
+                    $version->getTitle(),
+                    $version->getOwner()
                 );
             } catch (Throwable $t) {
                 $status = 'failed';
@@ -188,6 +193,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         );
 
         $item->tearDown();
+
     }
 
     private function logMigratedFile(

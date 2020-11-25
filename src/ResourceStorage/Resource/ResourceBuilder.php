@@ -86,21 +86,22 @@ class ResourceBuilder
     /**
      * @inheritDoc
      */
-    public function new(UploadResult $result, string $title = null) : StorableResource
+    public function new(UploadResult $result, string $title = null, int $owner_id = null) : StorableResource
     {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->append($resource, $result, $title);
+        return $this->append($resource, $result, $title, $owner_id);
     }
 
     public function newFromStream(
         FileStream $stream,
+        bool $keep_original = false,
         string $title = null,
-        bool $keep_original = false
+        int $ownner_id = null
     ) : StorableResource {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->appendFromStream($resource, $stream, $keep_original, $title);
+        return $this->appendFromStream($resource, $stream, $keep_original, $title, $ownner_id);
     }
 
     public function newBlank() : StorableResource
@@ -121,7 +122,8 @@ class ResourceBuilder
     public function append(
         StorableResource $resource,
         UploadResult $result,
-        string $revision_title = null
+        string $revision_title = null,
+        int $owner_id = null
     ) : StorableResource {
         $revision = $this->revision_repository->blank($resource, $result);
 
@@ -134,6 +136,7 @@ class ResourceBuilder
 
         $revision->setInformation($info);
         $revision->setTitle($revision_title ?? $result->getName());
+        $revision->setOwnerId($owner_id ?? 6);
 
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
@@ -145,7 +148,8 @@ class ResourceBuilder
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false,
-        string $revision_title = null
+        string $revision_title = null,
+        int $owner_id = null
     ) : StorableResource {
         $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
         $info = $revision->getInformation();
@@ -154,11 +158,13 @@ class ResourceBuilder
             $file_name = basename($path);
             $info->setTitle($file_name);
             $info->setSuffix(pathinfo($file_name, PATHINFO_EXTENSION));
-            $info->setMimeType(mime_content_type($path));
+            $info->setMimeType(function_exists('mime_content_type') ? mime_content_type($path) : 'unknown');
             $info->setSize($stream->getSize());
-            $info->setCreationDate(new \DateTimeImmutable(filectime($path)));
+            $filectime = filectime($path);
+            $info->setCreationDate($filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable());
         }
 
+        $revision->setOwnerId($owner_id ?? 6);
         $revision->setTitle($revision_title ?? $file_name ?? 'stream');
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
