@@ -451,14 +451,17 @@ class ilMDSaxParser extends ilSaxParser
                         $this->__getCharacterData()
                     );
                     $par->update();
-                    $this->__popParent();
                     break;
                 } elseif ($par instanceof ilMDDescription) {
                     $par->setDescription($this->__getCharacterData());
                     $par->update();
                     $this->__popParent();
                     break;
-                } else {
+                }  elseif ($par instanceof ilMDClassification) {
+                    $par->setDescription($this->__getCharacterData());
+                    $par->update();
+                    break;
+                }  else {
                     $par->setDescription($this->__getCharacterData());
                     $par->update();
                     $this->__popParent();
