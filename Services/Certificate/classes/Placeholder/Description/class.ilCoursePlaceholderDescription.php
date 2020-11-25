@@ -57,7 +57,7 @@ class ilCoursePlaceholderDescription implements ilCertificatePlaceholderDescript
         }
         $this->customUserFieldsPlaceholderDescriptionObject = $customUserFieldsPlaceholderDescriptionObject;
 
-        $customUserFieldsPlaceholderHtmlDescription = $this->customUserFieldsPlaceHolderDescriptionObject->getPlaceholderDescriptions();
+        $customUserFieldsPlaceholderHtmlDescription = $this->customUserFieldsPlaceholderDescriptionObject->getPlaceholderDescriptions();
         $defaultPlaceholderDescription = $this->defaultPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
         $this->placeholder = array_merge($defaultPlaceholderDescription, $customUserFieldsPlaceholderHtmlDescription);
