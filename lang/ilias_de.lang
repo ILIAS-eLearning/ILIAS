@@ -3329,8 +3329,8 @@ common#:#info_assigned#:#zugewiesen
 common#:#info_available_roles#:#Verfügbare Rollen
 common#:#info_change_user_view#:#Rechte dieses Benutzers anzeigen
 common#:#info_deactivate_sure#:#Sind Sie sicher, dass Sie die folgenden Benutzer deaktivieren wollen?
-common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen:
-common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen:
+common#:#info_delete_sure#:#Sind Sie sicher, dass folgende Objekte gelöscht werden sollen?
+common#:#info_remove_sure#:#Sind Sie sicher, dass folgende Objekte entfernt werden sollen?
 common#:#info_delete_warning_no_trash#:#(WARNUNG: Die ausgewählten Objekte werden unwiderruflich aus dem System entfernt und können nicht wiederhergestellt werden!)
 common#:#info_deleted#:#Objekt(e) gelöscht
 common#:#info_err_user_not_exist#:#Einen Benutzer mit diesem Benutzernamen oder dieser Benutzer ID existiert nicht
@@ -11309,8 +11309,8 @@ cld#:#cld_config_entry_does_not_exist#:#Der Konfigurationswert existiert nicht i
 cld#:#cld_config_no_valid_get_or_set_function#:#Ungültige Set- oder Getfunktion
 cld#:#cld_config_table_does_not_exist#:#Konfigurationstabelle existiert nicht
 cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
-cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll:
-cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll:
+cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll?
+cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll?
 cld#:#cld_create_folder#:#Ordner anlegen
 cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
 cld#:#cld_file_deleted#:#Objekt gelöscht
@@ -16408,7 +16408,7 @@ adn#:#msg_table_title#:#Ankündigungen
 adn#:#msg_body#:#Text
 adn#:#msg_event_date#:#Ereignis
 adn#:#msg_display_date#:#Anzeigedauer
-adn#:#msg_form_button_save#:#Sichern
+adn#:#msg_form_button_save#:#Speichern
 adn#:#msg_form_button_update#:#Aktualisieren
 adn#:#msg_form_button_cancel#:#Abbrechen
 adn#:#msg_form_button_delete#:#Löschen
