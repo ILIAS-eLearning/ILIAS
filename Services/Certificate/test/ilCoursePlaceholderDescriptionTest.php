@@ -24,7 +24,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $userDefinePlaceholderMock->method('createPlaceholderHtmlDescription')
-            ->willReturn([]);
+            ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
             ->willReturn([]);
@@ -41,7 +41,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
                                     ));
 
         $customUserPlaceholderObject->method('createPlaceholderHtmlDescription')
-                                  ->willReturn([]);
+                                  ->willReturn('');
 
         $placeholderDescriptionObject = new ilCoursePlaceholderDescription(200,null, $languageMock, $userDefinePlaceholderMock, $customUserPlaceholderObject);
 
