@@ -178,15 +178,7 @@ class ilObjFileGUI extends ilObject2GUI
      */
     protected function initCreationForms($a_new_type) : array
     {
-        $forms = array();
-
-        if ((int) $this->id_type === self::WORKSPACE_NODE_ID) {
-            if (!ilDiskQuotaHandler::isUploadPossible()) {
-                ilUtil::sendFailure($this->lng->txt("personal_resources_quota_exceeded_warning"), true);
-                $this->ctrl->redirect($this, "cancel");
-            }
-        }
-
+        $forms = [];
         $forms[] = $this->initMultiUploadForm();
 
         // repository only
