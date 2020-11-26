@@ -155,7 +155,7 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
             $this->addItem($captcha);
         }
 
-        if (\ilForumPostDraft::isSavePostDraftAllowed()) {
+        if (\ilForumPostDraft::isSavePostDraftAllowed() && !$this->user->isAnonymous()) {
             $this->ctrl->setParameter($this->delegatingGui, 'draft_id', $this->draftId);
             if (in_array($this->ctrl->getCmd(), ['publishThreadDraft', 'editThreadDraft', 'updateThreadDraft'])) {
                 $this->addCommandButton('publishThreadDraft', $this->lng->txt('publish'));
