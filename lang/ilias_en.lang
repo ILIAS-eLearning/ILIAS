@@ -16400,11 +16400,15 @@ adn#:#msg_form_title#:#Notification
 adn#:#msg_table_title#:#Notifications
 adn#:#common_actions#:#Actions
 adn#:#common_add_msg#:#Add Notification
-adn#:#msg_reset_dismiss#:#Reset for all Users
-adn#:#msg_form_button_reset#:#Reset
-adn#:#msg_form_button_delete#:#Delete
-adn#:#msg_form_button_cancel#:#Cancel
-adn#:#msg_success_deleted#:#Notification sucessfully deletrd
+adn#:#btn_reset#:#Reset
+adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
+adn#:#btn_delete#:#Delete
+adn#:#btn_delete_confirm#:#Would you like to delete this Notification?
+adn#:#btn_cancel#:#Cancel
+adn#:#btn_edit#:#Edit
+adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_created#:#Notification created
+adn#:#msg_success_reset#:#Notification reset
 content#:#cont_link_user#:#User Link
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall

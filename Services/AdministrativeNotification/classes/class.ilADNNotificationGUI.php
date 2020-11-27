@@ -63,14 +63,16 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function add() : string
     {
-        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(), $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
+        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(),
+            $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
         $form->fillForm();
         return $form->getHTML();
     }
 
     protected function create() : string
     {
-        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(), $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
+        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(),
+            $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
         $form->setValuesByPost();
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->lng->txt('msg_success_created'), true);
@@ -144,6 +146,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $notification = $this->getNotificationFromRequest();
 
         $notification->resetForAllUsers();
+        ilUtil::sendInfo($this->lng->txt('msg_success_reset'), true);
         $this->cancel();
     }
 
@@ -154,6 +157,8 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     {
         if (isset($this->http->request()->getParsedBody()[self::IDENTIFIER])) {
             $identifier = $this->http->request()->getParsedBody()[self::IDENTIFIER];
+        } elseif (isset($this->http->request()->getParsedBody()['interruptive_items'][0])) {
+            $identifier = $this->http->request()->getParsedBody()['interruptive_items'][0];
         } else {
             $identifier = $this->http->request()->getQueryParams()[self::IDENTIFIER];
         }
