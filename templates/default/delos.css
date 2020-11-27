@@ -8945,7 +8945,7 @@ div.il-system-infos {
   grid-column-start: 1;
   grid-column-end: 3;
   grid-row: 2;
-  z-index: 999;
+  z-index: 998;
 }
 .header-inner {
   -ms-flex-align: center;
