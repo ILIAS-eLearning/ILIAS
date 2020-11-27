@@ -43,7 +43,6 @@ class ilADNNotificationTableGUI extends ilTable2GUI
 
         $this->setId('msg_msg_table');
         $this->setRowTemplate('Services/AdministrativeNotification/templates/default/tpl.row.html');
-        $this->setTitle($this->lng->txt('msg_table_title'));
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         //
