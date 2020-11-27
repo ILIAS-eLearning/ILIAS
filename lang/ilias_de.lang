@@ -16418,3 +16418,8 @@ adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_table_title#:#Ankündigungen
 adn#:#common_actions#:#Aktionen
 adn#:#common_add_msg#:#Ankündigung hinzufügen
+adn#:#msg_reset_dismiss#:#Für alle Benutzer zurücksetzen
+adn#:#msg_form_button_reset#:#Zurücksetzen
+adn#:#msg_form_button_delete#:#Löschen
+adn#:#msg_form_button_cancel#:#Abbrechen
+adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
