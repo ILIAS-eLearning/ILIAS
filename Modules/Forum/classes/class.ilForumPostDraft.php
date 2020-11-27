@@ -392,7 +392,7 @@ class ilForumPostDraft
      * @param int $usrId
      * @param int $threadId
      * @param int $sorting
-     * @return ilForumPostDraft[]
+     * @return ilForumPostDraft[]|array<int, ilForumPostDraft[]>
      */
     public static function getSortedDrafts(
         int $usrId,
