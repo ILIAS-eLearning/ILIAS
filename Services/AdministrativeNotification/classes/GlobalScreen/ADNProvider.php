@@ -10,12 +10,25 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use Closure;
+use ILIAS\DI\Container;
 
 /**
  * Class ADNProvider
  */
 class ADNProvider extends AbstractNotificationProvider implements NotificationProvider
 {
+    /**
+     * @var BasicAccessCheckClosures
+     */
+    protected $access;
+
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->access = BasicAccessCheckClosures::getInstance();
+    }
+
     /**
      * @inheritDoc
      */
@@ -53,18 +66,48 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
                     $adn = $adn->withNeutralDenotation();
                     break;
             }
+
+            $is_visible = static function () : bool {
+                return true;
+            };
+
+            // is limited to roles
+            if ((bool) $item->isLimitToRoles()) {
+                $is_visible = $this->combineClosure($is_visible, function () use ($item) {
+                    return $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole($this->dic->user()->getId(),
+                        (array) $item->getLimitedToRoleIds());
+                });
+            }
+
+            // is dismissale
             if ((bool) $item->getDismissable() && $access->isUserLoggedIn()()) {
                 $adn = $adn->withClosedCallable(function () use ($item) {
                     $item->dismiss($this->dic->user());
                 });
-                $adn = $adn->withVisibilityCallable(function () use ($item) {
+                $is_visible = $this->combineClosure($is_visible, function () use ($item): bool {
                     return (bool) !\ilADNDismiss::hasDimissed($this->dic->user(), $item);
                 });
             }
 
+            $is_visible = $this->combineClosure($is_visible, function () use ($item): bool {
+                return (bool) $item->isVisibleForUser($this->dic->user());
+            });
+
+            $adn = $adn->withVisibilityCallable($is_visible);
             $adns[] = $adn;
         }
         return $adns;
+    }
+
+    private function combineClosure(Closure $closure, ?Closure $additional = null) : Closure
+    {
+        if ($additional instanceof Closure) {
+            return static function () use ($closure, $additional) : bool {
+                return $additional() && $closure();
+            };
+        }
+
+        return $closure;
     }
 
 }

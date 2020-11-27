@@ -22,7 +22,8 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function dispatchCommand($cmd) : string
     {
-        $this->tab_handling->initTabs(ilObjAdministrativeNotificationGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS, true, self::class);
+        $this->tab_handling->initTabs(ilObjAdministrativeNotificationGUI::TAB_MAIN, ilMMSubItemGUI::CMD_VIEW_SUB_ITEMS,
+            true, self::class);
         switch ($cmd) {
             case self::CMD_ADD:
                 return $this->add();
@@ -43,7 +44,6 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
                 return $this->reset();
             case self::CMD_DEFAULT:
             default:
-
                 return $this->index();
 
         }
@@ -63,22 +63,20 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function add() : string
     {
-        $form = new ilADNNotificationFormGUI($this, new ilADNNotification());
+        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(), $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
         $form->fillForm();
         return $form->getHTML();
     }
 
-    //todo
-
     protected function create() : string
     {
-        $form = new ilADNNotificationFormGUI($this, new ilADNNotification());
+        $form = new ilADNNotificationUIFormGUI(new ilADNNotification(), $this->ctrl->getLinkTarget($this, self::CMD_CREATE));
         $form->setValuesByPost();
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->lng->txt('msg_success_created'), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
-        $this->tpl->setContent($form->getHTML());
+        return $form->getHTML();
     }
 
     protected function cancel() : string
@@ -92,7 +90,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
         $notification = $this->getNotificationFromRequest();
         $this->ctrl->setParameter($this, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
 
-        $form = new ilADNNotificationFormGUI($this, $notification);
+        $form = new ilADNNotificationUIFormGUI($notification, $this->ctrl->getLinkTarget($this, self::CMD_UPDATE));
         $form->fillForm();
         return $form->getHTML();
     }
@@ -100,7 +98,7 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
     protected function update() : string
     {
         $notification = $this->getNotificationFromRequest();
-        $form         = new ilADNNotificationFormGUI($this, $notification);
+        $form = new ilADNNotificationUIFormGUI($notification, $this->ctrl->getLinkTarget($this, self::CMD_UPDATE));
         $form->setValuesByPost();
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->lng->txt('msg_success_updated'), true);
