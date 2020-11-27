@@ -356,12 +356,21 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
         $this->auto_glossaries = array();
         if (is_array($a_val)) {
             foreach ($a_val as $v) {
-                $v = (int) $v;
-                if ($v > 0 && ilObject::_lookupType($v) == "glo" &&
-                    !in_array($v, $this->auto_glossaries)) {
-                    $this->auto_glossaries[] = $v;
-                }
+                $this->addAutoGlossary($v);
             }
+        }
+    }
+
+    /**
+     * Add auto glossary
+     * @param int $glo_id
+     */
+    public function addAutoGlossary($glo_id)
+    {
+        $glo_id = (int) $glo_id;
+        if ($glo_id > 0 && ilObject::_lookupType($glo_id) == "glo" &&
+            !in_array($glo_id, $this->auto_glossaries)) {
+            $this->auto_glossaries[] = $glo_id;
         }
     }
 
