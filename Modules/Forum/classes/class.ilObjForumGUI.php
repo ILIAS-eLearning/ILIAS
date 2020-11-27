@@ -2976,10 +2976,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             // assistance val for anchor-links
             $render_drafts = ilForumPostDraft::isSavePostDraftAllowed();
             $draftsObjects = null;
-            $draftsObjects = $sortedDrafts = ilForumPostDraft::readSortedDrafts(
+            $draftsObjects = $sortedDrafts = ilForumPostDraft::getSortedDrafts(
                 (int) $this->user->getId(),
                 (int) $this->objCurrentTopic->getId(),
-                $currentViewMode
+                (int) $currentViewMode
             );
             
             $pagedPostings = array_slice($subtree_nodes, $pageIndex * $pageSize, $pageSize);
