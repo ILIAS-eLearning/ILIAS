@@ -134,7 +134,7 @@ class ilForumExportGUI
     }
 
     /**
-     * @param \ilTemplate $tpl
+     * @param \ilGlobalTemplate $tpl
      * @param ilForumPost $post
      * @param int $counter
      * @param int $mode
@@ -338,10 +338,13 @@ class ilForumExportGUI
 
         ilDatePresentation::setUseRelativeDates(false);
 
-        $tpl = new ilTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
+        $tpl = new ilGlobalTemplate('tpl.forums_export_html.html', true, true, 'Modules/Forum');
         $location_stylesheet = ilUtil::getStyleSheetLocation();
         $tpl->setVariable('LOCATION_STYLESHEET', $location_stylesheet);
         $tpl->setVariable('BASE', (substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
+
+        iljQueryUtil::initjQuery($tpl);
+        ilMathJax::getInstance()->includeMathJax($tpl);
 
         $threads = [];
         $isModerator = $this->is_moderator;
