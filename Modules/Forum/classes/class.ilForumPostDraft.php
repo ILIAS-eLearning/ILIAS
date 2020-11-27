@@ -389,48 +389,51 @@ class ilForumPostDraft
     }
 
     /**
-     * @param int $user_id
-     * @param int $thread_id
+     * @param int $usrId
+     * @param int $threadId
      * @param int $sorting
      * @return ilForumPostDraft[]
      */
-    public static function readSortedDrafts(int $user_id, int $thread_id, int $sorting = ilForumProperties::VIEW_DATE_ASC) : array
-    {
+    public static function getSortedDrafts(
+        int $usrId,
+        int $threadId,
+        int $sorting = ilForumProperties::VIEW_DATE_ASC
+    ) : array {
         global $DIC;
         $ilDB = $DIC->database();
-    
+
         $drafts = [];
-    
-        $order_statement = ' ';
-        $order_direction = ' ';
-    
-        if ($sorting != ilForumProperties::VIEW_TREE) {
-            $order_statement = ' ORDER BY post_date ';
-            $order_direction = 'ASC';
-            if ($sorting == ilForumProperties::VIEW_DATE_DESC) {
-                $order_direction = 'DESC';
+
+        $orderColumn = ' ';
+        $orderDirection = ' ';
+
+        if ($sorting !== ilForumProperties::VIEW_TREE) {
+            $orderColumn = ' ORDER BY post_date ';
+            $orderDirection = 'ASC';
+            if ($sorting === ilForumProperties::VIEW_DATE_DESC) {
+                $orderDirection = 'DESC';
             }
         }
+
         $res = $ilDB->queryF(
             'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s AND thread_id = %s' .
-            $order_statement . $order_direction,
+            $orderColumn . $orderDirection,
             ['integer', 'integer'],
-            [$user_id, $thread_id]
+            [$usrId, $threadId]
         );
-    
+
         while ($row = $ilDB->fetchAssoc($res)) {
             $draft = new ilForumPostDraft();
             self::populateWithDatabaseRecord($draft, $row);
             $drafts[] = $draft;
-            self::$instances[$user_id][$thread_id][$draft->getPostId()][] = $draft;
+            self::$instances[$usrId][$threadId][$draft->getPostId()][] = $draft;
         }
-    
-        if ($sorting == ilForumProperties::VIEW_TREE) {
-            return self::$instances[$user_id][$thread_id];
-        } else {
-            return $drafts;
+
+        if (ilForumProperties::VIEW_TREE === $sorting) {
+            return self::$instances[$usrId][$threadId] ?? [];
         }
-        return [];
+
+        return $drafts;
     }
 
     /**
