@@ -10,6 +10,7 @@
  * - glo_term: data from glossary_term
  * - glo_definition: data from glossary_definition
  * - glo_advmd_col_order: ordering md fields
+ * - glo_auto_glossaries: automatically linked glossaries
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
@@ -39,7 +40,7 @@ class ilGlossaryDataSet extends ilDataSet
      */
     public function getSupportedVersions()
     {
-        return array("5.1.0");
+        return array("5.1.0", "5.4.0");
     }
     
     /**
@@ -65,6 +66,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     return array(
                         "Id" => "integer",
                         "Title" => "text",
@@ -81,6 +83,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_term") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     return array(
                         "Id" => "integer",
                         "GloId" => "integer",
@@ -94,6 +97,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_definition") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     return array(
                         "Id" => "integer",
                         "TermId" => "integer",
@@ -107,10 +111,21 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_advmd_col_order") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     return array(
                         "GloId" => "integer",
                         "FieldId" => "text",
                         "OrderNr" => "integer"
+                    );
+            }
+        }
+
+        if ($a_entity == "glo_auto_glossaries") {
+            switch ($a_version) {
+                case "5.4.0":
+                    return array(
+                        "GloId" => "integer",
+                        "AutoGloId" => "text"
                     );
             }
         }
@@ -133,6 +148,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     $this->getDirectDataFromQuery("SELECT o.title, o.description, g.id, g.virtual, pres_mode, snippet_length, show_tax, glo_menu_active" .
                         " FROM glossary g JOIN object_data o " .
                         " ON (g.id = o.obj_id) " .
@@ -144,10 +160,27 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_term") {
             switch ($a_version) {
                 case "5.1.0":
-                    // todo: how does import id needs to be set?
                     $this->getDirectDataFromQuery("SELECT id, glo_id, term, language" .
                         " FROM glossary_term " .
                         " WHERE " . $ilDB->in("glo_id", $a_ids, false, "integer"));
+                    break;
+
+                case "5.4.0":
+                    $this->getDirectDataFromQuery("SELECT id, glo_id, term, language" .
+                        " FROM glossary_term " .
+                        " WHERE " . $ilDB->in("glo_id", $a_ids, false, "integer"));
+
+                    $set = $ilDB->query("SELECT r.term_id, r.glo_id, t.term, t.language " .
+                        "FROM glo_term_reference r JOIN glossary_term t ON (r.term_id = t.id) " .
+                        " WHERE " . $ilDB->in("r.glo_id", $a_ids, false, "integer"));
+                    while ($rec = $ilDB->fetchAssoc($set)) {
+                        $this->data[] = [
+                            "Id" => $rec["term_id"],
+                            "GloId" => $rec["glo_id"],
+                            "Term" => $rec["term"],
+                            "Language" => $rec["language"],
+                        ];
+                    }
                     break;
             }
         }
@@ -155,6 +188,7 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_definition") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     $this->getDirectDataFromQuery("SELECT id, term_id, short_text, nr, short_text_dirty" .
                         " FROM glossary_definition " .
                         " WHERE " . $ilDB->in("term_id", $a_ids, false, "integer"));
@@ -165,9 +199,26 @@ class ilGlossaryDataSet extends ilDataSet
         if ($a_entity == "glo_advmd_col_order") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     $this->getDirectDataFromQuery("SELECT glo_id, field_id, order_nr" .
                         " FROM glo_advmd_col_order " .
                         " WHERE " . $ilDB->in("glo_id", $a_ids, false, "integer"));
+                    break;
+            }
+        }
+
+        if ($a_entity == "glo_auto_glossaries") {
+            switch ($a_version) {
+                case "5.4.0":
+                    $set = $ilDB->query("SELECT * FROM glo_glossaries " .
+                        " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
+                    $this->data = [];
+                    while ($rec = $ilDB->fetchAssoc($set)) {
+                        $this->data[] = [
+                            "GloId" => $rec["id"],
+                            "AutoGloId" => "il_".IL_INST_ID."_glo_".$rec["glo_id"]
+                        ];
+                    }
                     break;
             }
         }
@@ -182,7 +233,8 @@ class ilGlossaryDataSet extends ilDataSet
             case "glo":
                 return array(
                     "glo_term" => array("ids" => $a_rec["Id"]),
-                    "glo_advmd_col_order" => array("ids" => $a_rec["Id"])
+                    "glo_advmd_col_order" => array("ids" => $a_rec["Id"]),
+                    "glo_auto_glossaries" => array("ids" => $a_rec["Id"])
                 );
 
             case "glo_term":
@@ -220,6 +272,9 @@ class ilGlossaryDataSet extends ilDataSet
                 $newObj->setSnippetLength($a_rec["SnippetLength"]);
                 $newObj->setActiveGlossaryMenu($a_rec["GloMenuActive"]);
                 $newObj->setShowTaxonomy($a_rec["ShowTax"]);
+                if ($this->getCurrentInstallationId() > 0) {
+                    $newObj->setImportId("il_" . $this->getCurrentInstallationId() . "_glo_" . $a_rec["Id"]);
+                }
                 $newObj->update(true);
 
                 $this->current_obj = $newObj;
@@ -317,6 +372,16 @@ class ilGlossaryDataSet extends ilDataSet
                 // we save the ordering in the mapping, the glossary importer needs to fix this in the final
                 // processing
                 $a_mapping->addMapping("Modules/Glossary", "advmd_col_order", $a_rec["GloId"] . ":" . $a_rec["FieldId"], $a_rec["OrderNr"]);
+                break;
+
+            case "glo_auto_glossaries":
+                $auto_glo_id = ilObject::_lookupObjIdByImportId($a_rec["AutoGloId"]);
+                $glo_id = (int) $a_mapping->getMapping("Modules/Glossary", "glo", $a_rec["GloId"]);
+                if ($glo_id > 0 && $auto_glo_id > 0 && ilObject::_lookupType($auto_glo_id) == "glo") {
+                    $glo = new ilObjGlossary($glo_id, false);
+                    $glo->addAutoGlossary($auto_glo_id);
+                    $glo->updateAutoGlossaries();
+                }
                 break;
         }
     }
