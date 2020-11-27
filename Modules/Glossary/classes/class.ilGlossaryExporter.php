@@ -46,7 +46,17 @@ class ilGlossaryExporter extends ilXmlExporter
                 // workaround for #0023923
                 $all_refs = ilObject::_getAllReferences($id);
                 $ref_id = current($all_refs);
-                $terms = ilGlossaryTerm::getTermList($ref_id);
+
+                // see #29014, we include referenced terms in the export as well
+                $terms = ilGlossaryTerm::getTermList($ref_id,
+                "",
+                "",
+                "",
+                0,
+                false,
+                null,
+                true);
+
                 foreach ($terms as $t) {
                     $defs = ilGlossaryDefinition::getDefinitionList($t["id"]);
                     foreach ($defs as $d) {
@@ -161,8 +171,14 @@ class ilGlossaryExporter extends ilXmlExporter
     public function getValidSchemaVersions($a_entity)
     {
         return array(
+            "5.4.0" => array(
+                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/5_4",
+                "xsd_file" => "ilias_glo_5_4.xsd",
+                "uses_dataset" => true,
+                "min" => "5.4.0",
+                "max" => ""),
             "5.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/4_1",
+                "namespace" => "http://www.ilias.de/Modules/Glossary/htlm/5_1",
                 "xsd_file" => "ilias_glo_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
