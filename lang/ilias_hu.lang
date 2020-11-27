@@ -16191,3 +16191,8 @@ common#:#lso_admin_form_byline#:#Tanulási sor általános beállításai
 common#:#lso_admin_interval_label#:#Tanulási haladás frissítésének időköze (másodperc)
 common#:#lso_admin_interval_byline#:#A még nem teljesített Tanulási haladást minden  x. másodpercben újra lekérjük. Legyen óvatos! Túl alacsony érték negatívan hathat a szerver teljesítményére. A lehető legnagyobb értéket válassza!
 prg#:#prg_formatted_period#:#%d days###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable

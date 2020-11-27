@@ -68,6 +68,8 @@ acc#:#acc_tbl_docs_head_title#:#Title
 acc#:#acc_tbl_docs_title#:#ドキュメント
 acc#:#acc_tree_off#:#ツリー表示しない
 acc#:#acc_tree_on#:#ツリー表示する
+adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
+adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
 adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point 
 adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
@@ -481,6 +483,7 @@ assessment#:#ass_imap_hint#:#ツールチップとしてヒントを表示
 assessment#:#ass_imap_map_file_not_readable#:#アップロードされたイメージマップを読み込む事ができませんでした。
 assessment#:#ass_imap_no_map_found#:#アップロードされたイメージマップ内に書式が見つかりませんでした。
 assessment#:#ass_lac_expression#:#式
+assessment#:#ass_lac_show_legend_btn#:#凡例を非表示
 assessment#:#ass_lac_unable_to_parse_condition#:#条件"%s"は検証できません。
 assessment#:#ass_lac_validation_error#:#条件式の検証中にエラーが発生しました!
 assessment#:#ass_location#:#ロケーション
@@ -733,7 +736,7 @@ assessment#:#fq_no_restriction_info#:#10進と分母両方共に入力として�
 assessment#:#fq_precision_info#:#希望する10進位置を入力してください。
 assessment#:#fq_question_desc#:#問題文章中の必要な位置で$r1, $r2 .... $rnを挿入する事により$v1, $v2 ... $vnの挿入による変数を定義できます。変数と結果のフォーム編集を作成するには"問題解析"ボタンをクリックします。
 assessment#:#gap#:#穴埋め
-assessment#:#gap_combination#:#ギャップ組合せ
+assessment#:#gap_combination#:#ギャップ連結
 assessment#:#general#:#全般
 assessment#:#glossary_term#:#索引
 assessment#:#grading_mark_msg#:#結果: &quot;[mark]&quot;
@@ -826,7 +829,7 @@ assessment#:#log_user_answered_question#:#ユーザは問題に解答して%s点
 assessment#:#log_user_entered_values#:#ユーザが値を入力しました
 assessment#:#log_user_not_entered_values#:#ユーザは値を未入力です
 assessment#:#log_user_solution_willingly_deleted#:#ユーザは回答を削除しました。
-assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。
+assessment#:#log_wrong_test_password_entered#:#受講者は間違ったテストパスワードを入力しました。入力: '%s'
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#長いメニューテキスト
 assessment#:#mailnottype#:#ユーザがテスト終了しても通知を送る
@@ -922,7 +925,7 @@ assessment#:#participants#:#受験者
 assessment#:#participants_invitation#:#手動選択受験者
 assessment#:#participants_invitation_description#:#このテストは"受験者"タブで手動追加したユーザのみアクセスする事ができます。
 assessment#:#participants_results_subtab#:#All Participants
-assessment#:#pass#:#合格
+assessment#:#pass#:#経過
 assessment#:#pass_finished#:#%s回
 assessment#:#passed_official#:#合格です
 assessment#:#passed_only#:#テストのみ合格です
@@ -1911,7 +1914,7 @@ assessment#:#use_ects_fx#:# 'FX' 評価を使用
 assessment#:#use_previous_solution#:#以前の解答を使用
 assessment#:#use_previous_solution_advice#:#その問題に示された解答は前と同じです。何も変更しないでそれを使用したい場合は解答の採択を確認する必要があります。
 assessment#:#user_has_finished_a_test#:#受験者はテストを終了しました。
-assessment#:#user_not_invited#:#このテストをする予定になっていません。
+assessment#:#user_not_invited#:#あなたはこのテストの受験対象者ではありません。
 assessment#:#user_wrong_clientip#:#テストに使用する正しいIPがありません。
 assessment#:#value_between_x_and_y#:#値は %s と %s の間になります
 assessment#:#values#:#値
@@ -1945,6 +1948,7 @@ auth#:#auth_info_migrate#:#既にILIASのアカウントがあれば、パーソ
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#ログインスクリーンエディタ
 auth#:#auth_oidc#:#OpenIdコンテンツ
+auth#:#auth_oidc_login_element_info#:#OpenID Connect経由でILIASへログイン
 auth#:#auth_oidc_mapping_table#:#ILIASユーザーデータのOpenIdコンテンツ属性への割り当て
 auth#:#auth_oidc_profile#:#プロファイルデータの割当
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee")
@@ -2714,7 +2718,7 @@ chatroom#:#chat_https_cert_info#:#SSL認定ファイルへの絶対サーバパ�
 chatroom#:#chat_https_dhparam_info#:#Diffie Hellmanパラメータの(例 生成経路: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 )のネゴシエーション用に使用されるファイル (例: /etc/ssl/private/dhparam.pem)への,絶対サーバパスを定義してください。
 chatroom#:#chat_https_key_info#:#プライベートキーへの絶対サーバパスを定義してください。(例: /etc/ssl/private/server.key).
 chatroom#:#chat_invitation#:#[INVITER_NAME] はチャットルーム[ROOM_NAME]"へ相対しています。
-chatroom#:#chat_invitation_long#:#[SALUTATION]  チャットルーム Chat Room Title: [ROOM_NAME] Invited by: [INVITER_NAME]へ招待されています。 URL: [LINK]  チャットルームへ参加するには次のURLをフォローしてください。
+chatroom#:#chat_invitation_long#:#[SALUTATION]\n\nチャットルーム\nChat Room Title: [ROOM_NAME]\nInvited by: [INVITER_NAME]へ招待されています。\nURL: [LINK]\n\nチャットルームへ参加するには次のURLをフォローしてください。
 chatroom#:#chat_invitation_short#:#タイトルリンクをクリックしてチャットルームへ入室してください。
 chatroom#:#chat_invite#:#招待
 chatroom#:#chat_join#:#参加
@@ -3457,6 +3461,7 @@ common#:#bookmark_target#:#ターゲット
 common#:#bookmarks#:#ブックマーク
 common#:#bookmarks_of#:#のブックマーク
 common#:#breadcrumb_navigation#:#階層リンク ナビゲーション
+common#:#breadcrumbs_aria_label#:#パンくずリスト
 common#:#briefcase#:#Backgroundタスク
 common#:#btn_add#:#追加
 common#:#btn_back#:#戻る
@@ -3563,7 +3568,7 @@ common#:#collapsed#:#階層化
 common#:#columns#:#列
 common#:#comma_separated#:#カンマ区切り
 common#:#comment#:#コメント
-common#:#comments#:#こメント
+common#:#comments#:#コメント
 common#:#compose#:#作成
 common#:#concurrent_uploads#:#現在のアップロード数
 common#:#concurrent_uploads_info#:#アップロードプロセスあたり同時にアップロードできるファイル数の定義
@@ -3626,7 +3631,7 @@ common#:#cron_lucene_index#:#ライセンス検索インデックスを更新
 common#:#cron_lucene_index_info#:#有効にすると、ライセンス検索インデックスが更新されます。ライセンスサーバーを '管理 -> 検索'.から設定してください。
 common#:#cron_mail_notification#:#メール通知を送る
 common#:#cron_mail_notification_cron#:#cronジョブで定期化
-common#:#cron_mail_notification_desc#:#有効にすると、新規メールの情報を得たい全てのユーザへ外部メールで通知されます。
+common#:#cron_mail_notification_desc#:#有効にすると、新規メールの情報を得たい全てのユーザへ外部メールで通知されます。この機能を使用するには先にオプション ‘%s’ を有効にして下さい。
 common#:#cron_mail_notification_message#:#メール本文付のメール通知を送信します
 common#:#cron_mail_notification_message_info#:#ONにすると全ユーザへ外部メールで本分ありのメール通知が送られます。
 common#:#cron_mail_notification_never#:#しない
@@ -4352,6 +4357,10 @@ common#:#logs#:#ログデータ
 common#:#love#:#Love
 common#:#lres#:#学習リソース
 common#:#lso_add#:#学習シーケンスを追加
+common#:#lso_admin_form_byline#:#学習シーケンス用の全般設定
+common#:#lso_admin_form_title#:#設定
+common#:#lso_admin_interval_byline#:#x秒ごとに学習進捗をポーリングします。注意! 低い値にするとサーバーリクエストが増えて全体システムのパフォーマンスに影響を与えます。できる限り高い値を選択してください。
+common#:#lso_admin_interval_label#:#学習進捗ポーリング間隔(秒)
 common#:#lso_copy#:#学習シーケンスをコピー
 common#:#lso_copy_threads_info#:#どの学習シーケンスの要素をコピー、リンク、省略するか決定してください。
 common#:#lso_edit#:#学習シーケンスを編集
@@ -4390,6 +4399,7 @@ common#:#mails#:#メール
 common#:#mails_at_the_ilias_installation#:#ILIASインストレーション%2$sに%1$s個の新規メールがあります。
 common#:#mails_pl#:#メール
 common#:#main_menu#:#メインメニュー
+common#:#mainbar_aria_label#:#メインバー
 common#:#manage_members#:#メンバーを管理
 common#:#marked_entries#:#マークしたエントリー
 common#:#matriculation#:#学籍番号
@@ -4431,6 +4441,7 @@ common#:#message#:#メッセージ
 common#:#message_content#:#メッセージ本文
 common#:#message_no_delivered_files#:#ファイル未提出です
 common#:#meta_data#:#メタデータ
+common#:#metabar_aria_label#:#メタバー
 common#:#mgs_objects_linked_to_the_following_folders_p#:#オブジェクトは次のフォルダへリンクされました: %s
 common#:#mgs_objects_linked_to_the_following_folders_s#:#オブジェクトは次のフォルダへリンクされました: %s
 common#:#migrate#:#移行
@@ -4444,7 +4455,7 @@ common#:#mm_administration#:#管理
 common#:#mm_badges#:#バッジ
 common#:#mm_calendar#:#カレンダー
 common#:#mm_certificates#:#証明書
-common#:#mm_comments#:#こメント
+common#:#mm_comments#:#コメント
 common#:#mm_communication#:#通信
 common#:#mm_contacts#:#コンタクト
 common#:#mm_dashboard#:#Dashboard
@@ -5314,7 +5325,7 @@ common#:#session_max_idle_info#:#ユーザがセッション切断前にアイ�
 common#:#session_min_idle#:#最短セッションアイドル(分単位)
 common#:#session_min_idle_info#:#別セッションを他のユーザ用に開く必要があり既存セッションが最大数に達する場合は、少なくともこの時間にユーザがアイドルする時はセッションを破棄する事ができます。
 common#:#session_reminder#:#セッション警告
-common#:#session_reminder_alert#:#セッション%1$sは%2$sに終了します!  セッションを継続するにはOKを選択します。 キャンセルをクリックすると現在のブラウザセッション中に以降は催促されなくなります。  インストールシステム: %3$s。
+common#:#session_reminder_alert#:#セッション%1$sは%2$sに終了します!\n\nセッションを継続するにはOKを選択します。\nキャンセルをクリックすると現在のブラウザセッション中に以降は催促されなくなります。\n\nインストールシステム: %3$s。
 common#:#session_reminder_info#:#オンにするとブラウザオンラインセッション時間が切れる前に通知を受領します。
 common#:#session_reminder_lead_time#:#リードタイム
 common#:#session_reminder_lead_time_info#:#セッション警告通知のリードタイムを秒数で指定してください。セッション終了前に時間が残っている場合にのみ警告通知を表示します。推奨値は300 (= 5 min.)です。<br / >現在のユーザセッションの長さは%sです。
@@ -5438,6 +5449,7 @@ common#:#success_message#:#成功メッセージ
 common#:#summary#:#サマリー
 common#:#sure_delete_selected_users#:#本当に選択したユーザを削除しますか?
 common#:#survey_defaults#:#サーベイ用の初期設定
+common#:#survey_unlimited_invitation#:#無期限の招待
 common#:#svy#:#サーベイ
 common#:#svy_add#:#サーベイを追加
 common#:#svy_finished#:#サーベイを完了しました
@@ -5633,7 +5645,7 @@ common#:#usrimport_action_replaced#:#アクション %1$s by %2$sを入れ替え
 common#:#usrimport_cant_delete#:#削除アクションを実行できません。データベースにそのようなユーザはいません。
 common#:#usrimport_cant_insert#:#挿入アクションを実行できません。 データベースに既にユーザが存在します。
 common#:#usrimport_cant_update#:# "更新" アクションを実行できません。データベースにそのようなユーザはいません。
-common#:#usrimport_conflict_handling_info#:#競合を無視が選択されている時は、実行できないと(例　データベース内に同じログインユーザが存在すると"挿入"アクションは実行されない）ILIASはアクションを無視します。 "競合を更新"が選択されている時は、アクションを実行できなくても(例　データベース内に同じログインユーザが存在すると"挿入"アクションは"更新"アクションに置き換えられる）、ILIASはデータベースを更新します。
+common#:#usrimport_conflict_handling_info#:#競合を無視が選択されている時は、実行できないと(例　データベース内に同じログインユーザが存在すると"挿入"アクションは実行されない）ILIASはアクションを無視します。\n"競合を更新"が選択されている時は、アクションを実行できなくても(例　データベース内に同じログインユーザが存在すると"挿入"アクションは"更新"アクションに置き換えられる）、ILIASはデータベースを更新します。
 common#:#usrimport_form_not_evaluabe#:#フォームデータを読込む事ができませんでした。
 common#:#usrimport_global_role_for_action_required#:#最低一つグローバル 役割が"%1$s"アクションとして指定されていなければなりません。
 common#:#usrimport_ignore_role#:#役割を無視
@@ -6985,7 +6997,7 @@ cron#:#cron_schedule#:#予定
 cron#:#cron_schedule_daily#:#毎日
 cron#:#cron_schedule_in_days#:#%s日間隔
 cron#:#cron_schedule_in_hours#:#%s時間間隔
-cron#:#cron_schedule_in_minutes#:#%分間隔
+cron#:#cron_schedule_in_minutes#:#%s分間隔
 cron#:#cron_schedule_monthly#:#月
 cron#:#cron_schedule_quarterly#:#4半期
 cron#:#cron_schedule_type#:#予定
@@ -7048,7 +7060,7 @@ crs#:#crs_breadcrumb_full_path#:#Full Path
 crs#:#crs_cancel_subscr_request#:#メンバーシップリクエストを削除
 crs#:#crs_cancel_subscription#:#ユーザはコース "%s"を登録解除
 crs#:#crs_cancel_subscription_body#:#%s はコース "%s"のメンバーシップをキャンセルしました。
-crs#:#crs_cancel_subscription_body2#:#コースの待ちリスト上に他のメンバーがいる可能性があります。 すぐに待ちリストをチェックしてください。 コースのメンバーを見るには以下をクリック：
+crs#:#crs_cancel_subscription_body2#:#コースの待ちリスト上に他のメンバーがいる可能性があります。\nすぐに待ちリストをチェックしてください。\nコースのメンバーを見るには以下をクリック：
 crs#:#crs_cancellation_end#:#`コースから登録取り消し`を制限
 crs#:#crs_cancellation_end_info#:#選択した日付になるまでメンバーはコースから登録を取り消しできます。
 crs#:#crs_cancellation_end_rbac_info#:#キャンセル締め切りは%sでしたのでキャンセルはもうできません。
@@ -7421,7 +7433,7 @@ crs#:#crs_subject_course_group_notification#:#%sの日刊メール
 crs#:#crs_subscribe_member#:#コース "%s" の登録
 crs#:#crs_subscribe_member_body#:#コース "%s"への登録が確認された事をご案内します。
 crs#:#crs_subscribe_wl#:#コース "%s"の登録
-crs#:#crs_subscribe_wl_body#:#コース "%s"の待ちリストへ割当てられました。n\リストの%s番目です。  リクエストが承認または却下されるとコース管理者からのメッセージを受信します。
+crs#:#crs_subscribe_wl_body#:#コース "%s"の待ちリストへ割当てられました。n\リストの%s番目です。\n\nリクエストが承認または却下されるとコース管理者からのメッセージを受信します。
 crs#:#crs_subscriber#:#購読者
 crs#:#crs_subscribers_deleted#:#購読者が削除されました
 crs#:#crs_subscription#:#購読
@@ -8236,7 +8248,7 @@ dcl#:#dcl_plugin_hooks#:#利用可能なPlugin
 dcl#:#dcl_plugin_no_hooks_available#:#有効なフィールドタイププラグインが見つかりませんでした
 dcl#:#dcl_prev_record#:#前のエントリー
 dcl#:#dcl_prop_expression#:#式
-dcl#:#dcl_prop_expression_info#:#サポートオペレーター: <b>%s</b><br>サポート機能: <b>%s</b><br>ブラケットを使用 <b>"(", ")"</b> グループ計算へ<br>連結ストリングとプレースフォルダー &: <b>"結果は" & [[Int 1]] * [[Int2]]</b><br>使用機能: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>代替フィールド(内部の式をコピーするにはタイトルをクリック:<br>%s
+dcl#:#dcl_prop_expression_info#:#サポートしている演算子: <b>%s</b><br>サポートしている機能: <b>%s</b><br>カッコ<b>‘(’, ‘)’</b>を使用 して グループ計算。<br>ストリングとプレースフォルダーを&で連結: <b>'結果' & [[Int 1]] * [[Int2]]</b><br>使用する機能: <b>SUM([[Int 1]];[[Int 2]])</b><br><br>利用できるフィールド(内部の式をコピーするにはタイトルをクリック:<br>%s
 dcl#:#dcl_public_comments#:#レコードのパブリックコメントを利用可にする
 dcl#:#dcl_public_comments_desc#:#ユーザは表のエントリーにコメントできます。
 dcl#:#dcl_rating#:#星評価
@@ -9072,12 +9084,14 @@ feed#:#block_feed_block_feed_url#:#フィードURL
 feed#:#block_feed_block_feed_url_info#:#有効なRSS/Atom URLである事。 例 http://www.ilias.de/rss.php
 feed#:#block_feed_block_head#:#外部Webフィード
 feed#:#block_feed_block_title#:#タイトル
+feed#:#feed_disable_rep_feeds#:#Web Feedを非表示
 feed#:#feed_disable_rep_feeds_info#:#外部フィードソースに予期しない問題が発生する場合に外部のwebフィード表示を無効にする。
 feed#:#feed_feed_items#:#フィードアイテム
 feed#:#feed_import#:#フィードをインポート
 feed#:#feed_loading_feed#:#フィードをロード中...
 feed#:#feed_no_js_click_here#:#フィードが表示されない時は、ここをクリック。
-feed#:#feed_no_valid_url#:#フィードURLは有効ではありません。
+feed#:#feed_no_local_url#:#URLが正しくありません。正しい外部フィードIRLを入力してください。
+feed#:#feed_no_valid_url#:#フューどURLは無効です。
 feed#:#feed_open_source_page#:#新規の窓を開く
 feed#:#feed_settings#:#外部Webフィード設定
 file#:#file_copy#:#ファイルをコピー
@@ -9123,6 +9137,7 @@ form#:#captcha_code#:#ユーザ検証
 form#:#email_not_match#:#メールアドレスのエントリが一致しません!メールアドレスを再入力してください。
 form#:#form_alphabet_all#:#全て
 form#:#form_chars_remaining#:#残りの文字
+form#:#form_date_aria_desc#:#次の入力フォーマットは必須です。
 form#:#form_date_duration_end#:#終了
 form#:#form_date_duration_start#:#開始
 form#:#form_days#:#日
@@ -9293,6 +9308,7 @@ forum#:#frm_noti_subject_upt_post#:#掲示板"%1$s",スレッド"%2$s"の修正�
 forum#:#frm_notification_activated#:#通知を有効にしました
 forum#:#frm_notification_deactivated#:#通知を解除しました
 forum#:#frm_post_not_activated_yet#:#まだ有効になっていません。
+forum#:#frm_posts#:#掲示板投稿
 forum#:#frm_pseudonym#:#ペンネーム
 forum#:#frm_purifier_not_implemented_for_type_x#:#タイプ %の検証ツールはまだ実装されていません。
 forum#:#frm_rating#:#評価
@@ -9455,7 +9471,7 @@ grp#:#grp_mail_notification_reg_req_bod2#:#この登録の確認は次へ:
 grp#:#grp_mail_notification_reg_req_sub#:#グループ "%s"参加のリクエスト
 grp#:#grp_mail_notification_reg_sub#:#グループ "%s"へユーザが登録されました
 grp#:#grp_mail_notification_unsub_bod#:#%sはグループ "%s"用にそのメンバーシップをキャンセルしました。
-grp#:#grp_mail_notification_unsub_bod2#:#グループの待ちリスト上に他のメンバーがいる可能性があります。 すぐに待ちリストをチェックする必要があります。 グループのメンバーシップを見るには次をクリック
+grp#:#grp_mail_notification_unsub_bod2#:#グループの待ちリスト上に他のメンバーがいる可能性があります。\nすぐに待ちリストをチェックする必要があります。\nグループのメンバーシップを見るには次をクリック
 grp#:#grp_mail_notification_unsub_sub#:#ユーザはグループ "%s"から外れました。
 grp#:#grp_mail_permanent_link#:#グループに関する必要なすべての情報を得るには以下のリンクをクリック:
 grp#:#grp_mail_status_bod#:#グループ "%s"のステータスは更新されました。
@@ -9469,9 +9485,9 @@ grp#:#grp_mail_subscribe_member_sub#:#グループ "%s"の登録
 grp#:#grp_mail_tutors_only#:#管理者専用
 grp#:#grp_mail_tutors_only_info#:#管理者のみ"メンバ"タブ内の"メンバへメール"機能を使用できます。
 grp#:#grp_mail_type#:#メンバーへメール
-grp#:#grp_mail_unsubscribe_member_bod#:#グループ %sのメンバーシップのキャンセル確認です。 別のコースでのご参加をお待ちしています。
+grp#:#grp_mail_unsubscribe_member_bod#:#グループ %sのメンバーシップのキャンセル確認です。\n別のコースでのご参加をお待ちしています。
 grp#:#grp_mail_unsubscribe_member_sub#:#グループ "%s"のメンバーシップのキャンセル
-grp#:#grp_mail_wl_bod#:#グループ "%s"の待ちリストへ割当てられました。 リスト上の%sの位置です。  リクエストが承認または却下されるとグループ管理者からメッセージを受信します。
+grp#:#grp_mail_wl_bod#:#グループ "%s"の待ちリストへ割当てられました。\nリスト上の%sの位置です。\n\nリクエストが承認または却下されるとグループ管理者からメッセージを受信します。
 grp#:#grp_mail_wl_sub#:#グループ "%s"の登録
 grp#:#grp_map_location#:#グループMapロケーション
 grp#:#grp_map_settings#:#Map設定
@@ -9688,8 +9704,8 @@ itgr#:#itgr_materials#:#材料
 itgr#:#itgr_show_title#:#タイトルを表示
 itgr#:#itgr_show_title_info#:#学習者用のプレゼンテーション内にアイテムグループのタイトルを表示します。
 jscalendar#:#about_calendar#:#カレンダーについて
-jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 。最新版のURL：http://dynarch.com/mishoo/calendar.epl  GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。  日付選択: -年を選択するには^A<と^A>ボタンを使用 -月を選択するには<
-jscalendar#:#about_time#:#  タイムセッション： - 増やすにはどこかをクリック - 減らすにはShiftをクリック - すばやく選択するにはクリックしてドラッグ
+jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector\n(c) dynarch.com 2002-2003\n。最新版のURL：http://dynarch.com/mishoo/calendar.epl\n GNU LGPLの下に配布。詳細はhttp://gnu.org/licenses/lgpl.html を参照の事。\n\n日付選択:\n-年を選択するには^A<と^A>ボタンを使用\n-月を選択するには<
+jscalendar#:#about_time#:#\n\nタイムセッション：\n- 増やすにはどこかをクリック\n- 減らすにはShiftをクリック\n- すばやく選択するにはクリックしてドラッグ
 jscalendar#:#close#:#閉じる
 jscalendar#:#day_first#:#%sを先に表示
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -9960,7 +9976,7 @@ lso#:#lso_mail_notification_reg_req_bod2#:#この登録を確認するにはこ�
 lso#:#lso_mail_notification_reg_req_sub#:#学習シーケンス"%s"のジョインを要求
 lso#:#lso_mail_notification_reg_sub#:#ユーザは学習シーケンス"%s"を登録しました。
 lso#:#lso_mail_notification_unsub_bod#:#%sは学習シーケンス"%s"のメンバーシップをキャンセルしました。
-lso#:#lso_mail_notification_unsub_bod2#:#学習シーケンスの待ちリストに他のメンバーがいる可能性があります。 すぐに待ちリストを確認すべきです。 学習シーケンスのメンバーを表示するにはここをクリック:
+lso#:#lso_mail_notification_unsub_bod2#:#学習シーケンスの待ちリストに他のメンバーがいる可能性があります。\nすぐに待ちリストを確認すべきです。\n学習シーケンスのメンバーを表示するにはここをクリック:
 lso#:#lso_mail_notification_unsub_sub#:#ユーザは学習シーケンス"%s"を離れました。
 lso#:#lso_mail_permanent_link#:#あなたの学習シーケンスに関する必要なすべての情報見つけるには次のリンクをクリック。
 lso#:#lso_mail_status_bod#:#学習シーケンス"%s"内のステータスは変更されました。
@@ -9971,9 +9987,9 @@ lso#:#lso_mail_sub_dec_bod#:#残念ながら学習シーケンス"%s"の登録�
 lso#:#lso_mail_sub_dec_sub#:#学習シーケンス"%s"の登録を拒否しました。
 lso#:#lso_mail_subscribe_member_bod#:#学習シーケンス"%s"の登録が確認されたことを案内します。
 lso#:#lso_mail_subscribe_member_sub#:#学習シーケンス"%s"の登録
-lso#:#lso_mail_unsubscribe_member_bod#:#学習シーケンス"%s"のメンバーシップキャンセルを確認します。 もう一つの学習シーケンスへ参加する機会が見つかるように期待します。
+lso#:#lso_mail_unsubscribe_member_bod#:#学習シーケンス"%s"のメンバーシップキャンセルを確認します。\nもう一つの学習シーケンスへ参加する機会が見つかるように期待します。
 lso#:#lso_mail_unsubscribe_member_sub#:#学習シーケンス"%s"内のメンバーシップキャンセル
-lso#:#lso_mail_wl_bod#:#学習シーケンス"%s"の待ちリストへ割当てられました。 リストの%sポジションへ割当てられました。  リクエストが承認または拒否されると学習シーケンス管理者からメッセージを受信します。
+lso#:#lso_mail_wl_bod#:#学習シーケンス"%s"の待ちリストへ割当てられました。\nリストの%sポジションへ割当てられました。\n\nリクエストが承認または拒否されると学習シーケンス管理者からメッセージを受信します。
 lso#:#lso_mail_wl_sub#:#学習シーケンス"%s"の登録
 lso#:#lso_mainbar_button_label_curriculum#:#カリキュラム
 lso#:#lso_mainbar_button_label_toc#:#コンテンツ
@@ -11396,7 +11412,7 @@ mme#:#topitem_type#:#タイプ
 mme#:#topitem_type_byline#:#Topアイテムは直接リンクまたはアイテムを含めることができます。
 mme#:#topitem_type_link#:#Link
 mme#:#topitem_type_parent#:#Topアイテム
-mme#:#type_complex#:#組合せ
+mme#:#type_complex#:#複合
 mme#:#type_link#:#Link
 mme#:#type_link_list#:#Linkリスト
 mme#:#type_lost#:#Lost
@@ -11894,7 +11910,7 @@ poll#:#poll_notification_subscribe#:#通知を有効化
 poll#:#poll_notification_unsubscribe#:#通知を無効化
 poll#:#poll_percentage#:#現在のパーセント
 poll#:#poll_piechart#:#円グラフ
-poll#:#poll_population#:#%s 投票
+poll#:#poll_population#:#%s 投票者
 poll#:#poll_question#:#質問
 poll#:#poll_result#:#結果
 poll#:#poll_result_answers#:#投票
@@ -12333,6 +12349,7 @@ ps#:#ps_grp_user_fields#:#グループ別ユーザフィールド
 ps#:#ps_login_max_attempts#:#最大ログイン回数
 ps#:#ps_login_max_attempts_info#:#間違ってログインする回数の最大カウントをセットします。これをを無効にするには0に設定します。
 ps#:#ps_not_accepted#:#承諾しませんでした
+ps#:#ps_participants_list_courses#:#コースのメンバーギャラリー内で受講者リストのアクティベーションを許可
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#変更は正しく適用されました。
 ps#:#ps_passwd_policy_changed_force_user_reset#:#変更は正しく保存されました。パスワードポリシー設定の一つを変更しました。次回の正しいログイン後にローカルユーザへパスワード変更を強制しますか?
 ps#:#ps_password_change_on_first_login_enabled#:#初回ログイン時のパスワードを変更
@@ -12372,17 +12389,17 @@ ps#:#show_privacy#:#プライバシー
 ps#:#show_security#:#セキュリティ
 pwassist#:#password_assistance#:#パスワード支援
 pwassist#:#pwassist_disabled_no_access#:#パスワード支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
-pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。 メールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。 適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
-pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。 ILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。 lnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
+pwassist#:#pwassist_enter_email#:#メールアドレスに入力してフォームを送信するとそのアドレスへメールを送ります。\nメールにはそのメールアドレスに登録されている全てのユーザ名が含まれます。\n適切なユーザ名を選択しパスワードサービスを利用して新しいパスワードを検索します。このサービスによる一切のメール検索をしないようにするにはコース管理者もしくは%1$sへ連絡してください。
+pwassist#:#pwassist_enter_username_and_email#:#以下の欄へユーザ名と関係するe-mailアドレスを入力します。\nILIASはそのe-mailアドレスへメッセージを送ります。メッセージにはユーザアカウント用の新しいパスワードを入力ができるwebページのアドレスが含まれています。\nlnこのフォームを使ってユーザアカウントのパスワード設定ができない場合はコース管理者へ連絡するかまたは%1$sへメール連絡してください。
 pwassist#:#pwassist_enter_username_and_new_password#:#以下の欄へユーザ名と新しいパスワードを入力します。
-pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。 入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
-pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います: %1$s  このメッセージはILIASサーバ %2$s  が自動生成したものです。 あなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。  以下に示された条件を十分確認の上で順次進んでください:  - 誤ってILIASサーバのパスワード支援フォームを送った場合: このメールを破棄してください。  - このILIASサーバのパスワード支援利用に心当たりがない場合:  %5$s  へ連絡してください。  -パスワード支援を要求した場合は次の手順で進みます:  1. ブラウザを開きます。  2. ブラウザに次のアドレスを入力します: %6$s  重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。  3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。  セキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。 一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
-pwassist#:#pwassist_mail_sent#:#メッセージが %1$sへ送信されました。 メールボックスをチェックしてください。
-pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定されているemailアドレスへ送信されました。 メールボックスを確認してください。
+pwassist#:#pwassist_login_not_match#:#別のユーザ名を入力してください。\n入力されたユーザ名はパスワード支援用の質問の設定と一致しません。
+pwassist#:#pwassist_mail_body#:#ユーザアカウントの新しいパスワード登録を行います:\n\t%1$s\n\nこのメッセージはILIASサーバ\n\t%2$s\n\nが自動生成したものです。\nあなた(もしくは%3$sのだれか）がユーザアカウント"%4$s"用の新しいパスワードを要求しました。\n\n以下に示された条件を十分確認の上で順次進んでください:\n\n- 誤ってILIASサーバのパスワード支援フォームを送った場合:\nこのメールを破棄してください。\n\n- このILIASサーバのパスワード支援利用に心当たりがない場合:\n %5$s\n\nへ連絡してください。 \n-パスワード支援を要求した場合は次の手順で進みます:\n\n1. ブラウザを開きます。\n\n2. ブラウザに次のアドレスを入力します:\n\t%6$s\n\n重要: アドレスは1行です。アドレスが複数行に分割される場合はご利用のメーラが分割行を自動挿入しています。\n\n3. ブラウザに表示されるWebページにユーザアカウントの新しいパスワードを入力します。\n\nセキュリティ上の理由により、上記の3ステップを同時に制限時間内にまとめて実行する必要があります。\n一定時間を過ぎるとアドレスは無効となるので、再度ILIASサーバのパスワード支援のページを使用する必要があります。
+pwassist#:#pwassist_mail_sent#:#メッセージが %1$sへ送信されました。\nメールボックスをチェックしてください。
+pwassist#:#pwassist_mail_sent_generic#:#メッセージはILIASに設定されているemailアドレスへ送信されました。\nメールボックスを確認してください。
 pwassist#:#pwassist_mail_subject#:#ILIAS パスワード支援
 pwassist#:#pwassist_password_assigned#:#パスワードは、正しくユーザ "%1$s"へ割当てられました。
-pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください. パスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
-pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。: %s  このメッセージは自動的に次のILIAS作成したものです: %s  あなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。  次をチェックして候補として実行してください。::  -ミスによりこのe-mailを要求しました。: このe-mailを削除.  -このe-mailを要求したことがないのは間違いありません: %sへ連絡してください。  -このe-maiを要求するには、次のように進めてください。::  1. インターネットブラウザを開始。  2。次のURLを入力: %s  重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。  3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
+pwassist#:#pwassist_session_expired#:#再度フォームへ入力してください.\nパスワード支援のセッションは切れました。メール送信されたリンクを1回でも使用した場合やリンクが送信されてから一定時間過ぎたような場合に発生します。
+pwassist#:#pwassist_username_mail_body#:#これらはe-mailアドレス用に見つかったアクティブなユーザ名です。:\n%s\n\nこのメッセージは自動的に次のILIAS作成したものです:\n\t%s\n\nあなた(もしくはIP %sのだれか)はe-mailアドレス'%s'用のユーザ名忘れのサポートを要求しました。\n\n次をチェックして候補として実行してください。::\n\n-ミスによりこのe-mailを要求しました。:\nこのe-mailを削除.\n\n-このe-mailを要求したことがないのは間違いありません:\n%sへ連絡してください。\n\n-このe-maiを要求するには、次のように進めてください。::\n\n1. インターネットブラウザを開始。\n\n2。次のURLを入力:\n\t%s\n\n重要: アドレスは1行です。コノアドレスが風数行へ分かれる場合はe-mailアプリケーションが改行を挿入しています。\n\n3ブラウザは現在パスワードサービスを表示しています。新しいパスワードを受領するにはユーザ名かe-mailアドレスのどちらか一つとこのページを合わせて使用します。
 pwassist#:#unassist_disabled_no_access#:#ユーザ名支援が有効になっていません。以降の支援:についてはシステム管理者へコンタクトしてください。%s:
 pwsp#:#pwsp_enable_personal_resources#:#パーソナルリソースを有効化
 pwsp#:#pwsp_enable_wsp_blogs#:#ブログを有効化
@@ -12900,6 +12917,7 @@ rbac#:#prg_manage_members#:#学習プログラムのメンバーを管理
 rbac#:#prg_read#:#ユーザは学習プログラムへ読み込みアクセス権があります。
 rbac#:#prg_visible#:#学習プログラムが表示されます。
 rbac#:#prg_write#:#ユーザは学習プログラムの設定を編集できます。
+rbac#:#prgr_copy#:#ユーザは学習プログラムへリンクをコピーできます。
 rbac#:#prgr_delete#:#ユーザは学習プログラムへリンクを移動または削除できます
 rbac#:#prgr_edit_permission#:#ユーザはアクセス権設定を変更できます
 rbac#:#prgr_visible#:#学習プログラム へのリンクを表示して使用できます
@@ -13969,8 +13987,10 @@ sess#:#sess_registered_confirm#:#登録には管理者の確認が要求され�
 sess#:#sess_registration_notification#:#通知
 sess#:#sess_registration_notification_info#:#新規または退出者に関する通知されるべきユーザを選択するための'参加者'タブ内に列を表示
 sess#:#sess_section_reg#:#登録設定
+sess#:#sess_setting_header_presentation#:#プレゼンテーション
 sess#:#sess_show_members#:#参加者を表示
 sess#:#sess_show_participants_info#:#有効にすると背ｓｓｙン参加者は参加者ギャラリーへアクセスできます。
+sess#:#sess_title#:#セッションのタイトル
 sess#:#sess_users_added#:#セッションの選択したユーザを登録しました。
 sess#:#sess_users_already_assigned#:#ユーザはこのセッションへすでに登録済です。
 sess#:#sess_users_removed_from_list#:#選択のユーザは待ちリストから削除されました。
@@ -15555,6 +15575,7 @@ trac#:#trac_lp_determination_info_mob#:#メディアキャストの全体学習�
 trac#:#trac_lp_determination_info_sco#:#SCORMラーニングモジュールの全体学習進捗を決定するアイテムを選択します。
 trac#:#trac_lp_determination_tutor#:#学習進捗のオブジェクト表示
 trac#:#trac_lp_filter#:#フィルタ
+trac#:#trac_lp_learner_access#:#自分自身の学習進捗を表示
 trac#:#trac_lp_learner_access_info#:#有効にするとユーザは自分の学習進捗へアクセスすることができます。
 trac#:#trac_lp_list_gui#:#パーソナルデスクトップ、リポジトリ、検索
 trac#:#trac_lp_list_gui_info#:#アクティブにすると学習進捗状況はオブジェクト一覧に含まれます。
@@ -15713,6 +15734,7 @@ tstv#:#tstv_create_info#:#完了したテストを選択して証明書を作成
 ui#:#ui_chars_max#:#Maximum:
 ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#残り文字数:
+ui#:#ui_error_in_group#:#この部分にエラーがあります。
 ui#:#ui_numeric_only#:#数字全部を挿入してください。
 user#:#all_roles_has_starting_point#:#全ての役割は開始位置があります。
 user#:#back_to_starting_points_list#:#開始位置へ戻る
@@ -15824,11 +15846,11 @@ user#:#user_profile_preview#:#プレビュー
 user#:#user_profile_prompt_text_info#:#ユーザがプロファイルを更新した後でこのテキストはデフォルトの info テキストへ置き換えられます。
 user#:#user_prompt_incomplete#:#プロファイルが未完了の場合のみ
 user#:#user_prompt_incomplete_info#:#ユーザが必須フィールドへ入力するとプロファイルはログイン後に表示されます。
-user#:#user_prompt_once_after_login#:#初回ログイン後の一定日後に一度
+user#:#user_prompt_once_after_login#:#初回ログイン後の一定日ごと
 user#:#user_prompt_once_after_login_info#:#ユーザがまだプロファイルを公開していない場合は、この期間後にユーザはプロファイルを更新します。
 user#:#user_prompt_repeat#:#数日間隔ごとに繰り返す
 user#:#user_prompt_repeat_info#:#ユーザがまだプロファイルを効果していない場合にユーザはプロファイルを定期的に更新します。
-user#:#user_prompting_recurrence#:#更新再現
+user#:#user_prompting_recurrence#:#更新催促
 user#:#user_prompting_settings#:#更新設定
 user#:#user_public_profile_info#:#どのパーソナルデータをプロファイルへ表示してどのユーザがプロファイルへ訪問できるかを選択してください。
 user#:#user_publish_options#:#プロファイルを公開
@@ -16169,25 +16191,8 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-assessment#:#ass_lac_show_legend_btn#:#Show Legend###19 06 2020 new variable
-common#:#survey_unlimited_invitation#:#Unlimited Invitation###19 06 2020 new variable
-feed#:#feed_disable_rep_feeds#:#Hide Web Feeds###19 06 2020 new variable
-ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###19 06 2020 new variable
-common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
-common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
-common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
-ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
-rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
-form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
-feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
-auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
-sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
-sess#:#sess_title#:#Title of Session###23 10 2020 new variable
-forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
-trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
-adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
-adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
-common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
-common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
-common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
-common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
