@@ -22,6 +22,7 @@ access#:#アクセス
 access_status#:#アクセス状態
 activate_global_cache#:#有効
 admin_login#:#マスターパスワードでログイン
+alert#:#Warning
 antivir#:#ウイルス監視
 applied_custom_updates#:#カスタム更新適用済
 applied_hotfixes#:#適用済みHotfix
@@ -33,6 +34,16 @@ available_hotfixes#:#適用可能なHotfix
 available_languages#:#利用可能な言語
 back#:#戻る
 basic_settings#:#基本設定
+cache_activate_clng#:#Language
+cache_activate_comp#:#コメント
+cache_activate_events#:#イベント
+cache_activate_ilctrl#:#Control Flow
+cache_activate_obj_def#:#オブジェクト定義
+cache_activate_tpl#:#Template (HTML)
+cache_activate_tpl_blocks#:#Template (Blocks)
+cache_activate_tpl_variables#:#Template (Variablen)
+cache_activated_components#:#コメントをアクティブにしました
+cache_flush#:#すべてのcachesをフラッシュする
 cannot_create_datadir_no_write_access#:#書込み禁止。データディレクトリを作成できません。
 change#:#変更
 change_basic_settings#:#基本設定の変更
@@ -155,6 +166,7 @@ disable_check#:#確認
 disable_logging#:#ログを作成しない
 disabled#:#不可
 display_clientlist#:#クライアントの選択をユーザーへ表示します。
+duplicate_ctrl#:#エラー　重複<br /><br />- %s<br />- %s<br /><br />公式にILIASが配布していないファイルを削除してください。<br />その後 'Tools' -> ILIASセットアップの'制御構造'を呼び出す。
 email#:#email
 email_not_valid#:#メールアドレスの間違い
 en_by_default#:#初期設定では英語がインストールされていて削除する事はできません。
@@ -168,6 +180,8 @@ env_warning#:#ILIASはApache Webサーバを使ってLinuxとWindowsでのみテ
 environment#:#環境
 err_create_database_failed#:#データベースの作成に失敗しました。
 err_wrong_login#:#ログインが間違っています
+error_log_path#:#error log のPath
+error_log_path_comment#:#Pathのみを入力してください。ファイルは自動的にエラーへ保存されます。
 error_recipient#:#エラー受領者
 example#:#例
 feedback_recipient#:#フィードバック受領者
@@ -237,6 +251,7 @@ info_text_list#:#ここでは利用可能な全ユーザーやセットアップ
 info_text_login#:#インストールとアカウントデータのクライアントIDを入力してください。アカウントは管理者役割で割り当てる必要があります。
 info_text_nic#:#登録オプションでILIASオープンソースコミュニティーサーバからインストールID(NIC-ID)を入手します。別のILIASインストールと内容を共有したい場合はNIC-IDの入手が可能です。
 info_text_nic3#:#インストールを登録しました。ネットワークインターフェースカードのIDです
+info_text_passwd#:#パスワード設定
 info_text_password#:#セットアッププログラムのマスターパスワードをここで変更できます。
 info_text_password#:#セットアッププログラム用のマスターパスワードを変更できます
 info_text_pathes#:#ILIASは異なるデータベースのマルチクライアントをサポートします。データベースのディレクトリ、ログファイルの場所、サードパーティ製ツールのPathを以下に入力してください。これらの設定はすべてのクライアントを作成した後に有効になります。
@@ -330,6 +345,18 @@ login_to_ilias#:#ILIASへログイン
 logout#:#ログアウト
 main_datadir_outside_webspace#:#外部のWeb上のメインデータディレクトリ
 master_password#:#マスターパスワードです。
+memcache_actions#:#Actions
+memcache_add#:#Memcached nodeを追加
+memcache_cancel#:#キャンセル
+memcache_delete#:#nodeを削除
+memcache_edit#:#ノードを編集
+memcache_host#:#Host
+memcache_port#:#Port
+memcache_servers#:#Memcached-Nodes###30 08 2015 new variable
+memcache_status#:#アクティブ
+memcache_status_server#:#到達可能
+memcache_update#:#nodeを保存
+memcache_weight#:#Weight
 missing_data#:#データ未入力
 msg_input_is_required#:#入力必須です。値を入力してください。
 mysql_4_0_x_or_lower_mode#:#MySQL 4.0.x以前
@@ -437,12 +464,14 @@ pre_gd_missing#:#PHPインストール中のGDサポートを可能にしてく�
 pre_intro#:#この環境においてインストールの要件を満たしILIASが稼働するかどうかを最初に確認します。
 pre_javascript_comment#:#JavaScriptなしでILIASは動作しますが利用できないインターフェース機能があります。
 pre_javascript_enabled#:#JavaScriptを有効にしました
+pre_load_comments#:#PHP-OPCache load_comments
 pre_memory#:#PHPメモリー制限の設定(php.ini)
 pre_memory_limit_recommend#:#80M以上の設定を推奨します。
 pre_memory_limit_too_low#:#PHPのメモリー制限値は最低でも40Mに設定してください。80M以上を推奨します。
 pre_mysql#:#MySQLのサポート
 pre_mysql_4_1_or_higher#:#ILIASを稼働するにはMySQL 4.1以降が必要です。
 pre_mysql_missing#:#PHPインストールの際には、MySQLのサポート(バージョンは4.1以降)を有効にしてください。
+pre_opcache_comments#:#opcache.load_comments を1にセット
 pre_php#:#PHPのバージョン
 pre_php_version_too_low#:#このPHPバージョンはサポートしていません。PHP 5.2.1以降のご利用を推奨します。PHP 6.0は未テストです。
 pre_root#:#書き込み可能なWeb上のメインフォルダー
@@ -607,31 +636,3 @@ zip_path#:#ZipのPath
 zip_path_comment#:#エクスポートファイルの作成用　例 '/your_path/zip'
 zip_path_comment_win#:#インポートファイルの解凍用　例 'C
 zipcode#:#郵便番号
-info_text_passwd#:#Password Settings###30 08 2015 new variable
-alert#:#Warning###30 08 2015 new variable
-pre_opcache_comments#:#Set opcache.load_comments to 1###30 08 2015 new variable
-pre_load_comments#:#PHP-OPCache load_comments###30 08 2015 new variable
-memcache_servers#:#Memcached-Nodes###30 08 2015 new variable
-memcache_status#:#Active###30 08 2015 new variable
-memcache_host#:#Host###30 08 2015 new variable
-memcache_port#:#Port###30 08 2015 new variable
-memcache_weight#:#Weight###30 08 2015 new variable
-memcache_actions#:#Actions###30 08 2015 new variable
-memcache_edit#:#Edit node###30 08 2015 new variable
-memcache_add#:#Add Memcached node###30 08 2015 new variable
-memcache_delete#:#Delete node###30 08 2015 new variable
-memcache_cancel#:#Cancel###30 08 2015 new variable
-memcache_update#:#Save node###30 08 2015 new variable
-memcache_status_server#:#Reachable###30 08 2015 new variable
-cache_activate_clng#:#Language###30 08 2015 new variable
-cache_activate_obj_def#:#Object Definition###30 08 2015 new variable
-cache_activate_ilctrl#:#Control Flow###30 08 2015 new variable
-cache_activate_comp#:#Components###30 08 2015 new variable
-cache_activate_tpl#:#Template (HTML)###30 08 2015 new variable
-cache_activate_events#:#Events###30 08 2015 new variable
-cache_activated_components#:#Activated Components###30 08 2015 new variable
-cache_flush#:#Flush all caches###30 08 2015 new variable
-cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
-cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
-error_log_path#:#Path to error log files
-error_log_path_comment#:#Please enter only the path. Files will be automaticly saved on error.
