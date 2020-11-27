@@ -23,7 +23,7 @@ class ilObjAdministrativeNotification extends ilObject
      */
     public function getPresentationTitle()
     {
-        return $this->lng->txt("administrative_notification");
+        return $this->lng->txt("obj_adn");
     }
 
     /**
