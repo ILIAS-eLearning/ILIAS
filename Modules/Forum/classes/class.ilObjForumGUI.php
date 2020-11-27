@@ -2973,29 +2973,30 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 ));
             }
 
-            // assistance val for anchor-links
-            $render_drafts = ilForumPostDraft::isSavePostDraftAllowed();
-            $draftsObjects = null;
-            $draftsObjects = $sortedDrafts = ilForumPostDraft::getSortedDrafts(
-                (int) $this->user->getId(),
-                (int) $this->objCurrentTopic->getId(),
-                (int) $currentViewMode
-            );
-            
+            $doRenderDrafts = ilForumPostDraft::isSavePostDraftAllowed();
+            $draftsObjects = [];
+            if ($doRenderDrafts) {
+                $draftsObjects = ilForumPostDraft::getSortedDrafts(
+                    (int) $this->user->getId(),
+                    (int) $this->objCurrentTopic->getId(),
+                    (int) $currentViewMode
+                );
+            }
+
             $pagedPostings = array_slice($subtree_nodes, $pageIndex * $pageSize, $pageSize);
 
             $this->ensureValidPageForCurrentPosting($subtree_nodes, $pagedPostings, $pageSize, $firstNodeInThread);
 
             if (
-                $render_drafts && 0 === $pageIndex &&
+                $doRenderDrafts && 0 === $pageIndex &&
                 $currentViewMode === ilForumProperties::VIEW_DATE &&
                 $currentSortation === ilForumProperties::VIEW_DATE_DESC
             ) {
-                foreach ($sortedDrafts as $sortedDraft) {
+                foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($sortedDraft) : bool {
-                            return $sortedDraft->getPostId() == $post->getId();
+                        static function (ilForumPost $post) use ($draft) : bool {
+                            return $draft->getPostId() == $post->getId();
                         }
                     ))[0] ?? $firstNodeInThread;
 
@@ -3003,7 +3004,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $threadContentTemplate,
                         $this->requestAction,
                         $referencePosting,
-                        [$sortedDraft]
+                        [$draft]
                     );
                 }
             }
@@ -3031,7 +3032,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
 
                 $this->renderPostContent($threadContentTemplate, $node, $this->requestAction, $pageIndex, $postIndex);
-                if ($render_drafts && $currentViewMode === ilForumProperties::VIEW_TREE) {
+                if ($doRenderDrafts && $currentViewMode === ilForumProperties::VIEW_TREE) {
                     $this->renderDraftContent(
                         $threadContentTemplate,
                         $this->requestAction,
@@ -3044,15 +3045,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (
-                $render_drafts && $pageIndex === (int) (ceil($numberOfPostings / $pageSize) - 1) &&
+                $doRenderDrafts && $pageIndex === (int) (ceil($numberOfPostings / $pageSize) - 1) &&
                 $currentViewMode === ilForumProperties::VIEW_DATE &&
                 $currentSortation === ilForumProperties::VIEW_DATE_ASC
             ) {
-                foreach ($sortedDrafts as $sortedDraft) {
+                foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
                         $subtree_nodes,
-                        static function (ilForumPost $post) use ($sortedDraft) : bool {
-                            return $sortedDraft->getPostId() == $post->getId();
+                        static function (ilForumPost $post) use ($draft) : bool {
+                            return $draft->getPostId() == $post->getId();
                         }
                     ))[0] ?? $firstNodeInThread;
 
@@ -3060,13 +3061,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $threadContentTemplate,
                         $this->requestAction,
                         $referencePosting,
-                        [$sortedDraft]
+                        [$draft]
                     );
                 }
             }
 
             if (
-                $firstNodeInThread instanceof ilForumPost && $render_drafts &&
+                $firstNodeInThread instanceof ilForumPost && $doRenderDrafts &&
                 $currentViewMode === ilForumProperties::VIEW_TREE
             ) {
                 $this->renderDraftContent(
