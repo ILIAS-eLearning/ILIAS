@@ -15,6 +15,7 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate as ISlate;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
 use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\Data\URI;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -421,8 +422,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TEXT', $component->getText());
 
         $perm_url = $component->getPermanentURL();
-        if ($perm_url) {
-            $url = $perm_url->getBaseURI() . '?' . $perm_url->getQuery();
+        if ($perm_url instanceof URI) {
+            $url = $perm_url->__toString();
             $tpl->setVariable('PERMA_LINK_LABEL', $this->txt('perma_link'));
             $tpl->setVariable('PERMANENT_URL', $url);
         }
