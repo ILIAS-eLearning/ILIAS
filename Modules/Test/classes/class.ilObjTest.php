@@ -7056,7 +7056,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $result_array = array();
-        $tests = ilUtil::_getObjectsByOperations("tst", "write", $ilUser->getId(), 10000);
+        $tests = array_slice(
+            array_reverse(
+                ilUtil::_getObjectsByOperations("tst", "write", $ilUser->getId(), PHP_INT_MAX)
+            ),
+            0,
+            10000
+        );
+
         if (count($tests)) {
             $titles = ilObject::_prepareCloneSelection($tests, "tst");
             foreach ($tests as $ref_id) {
