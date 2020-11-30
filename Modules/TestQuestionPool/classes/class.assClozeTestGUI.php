@@ -1588,7 +1588,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $found = false;
             
             foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $item) {
-                if ($ans['answer'] != $item->getAnswerText()) {
+                if ($ans['answer'] !== $item->getAnswerText()) {
                     continue;
                 }
                 
