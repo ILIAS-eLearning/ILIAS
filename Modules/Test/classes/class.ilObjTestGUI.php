@@ -88,8 +88,9 @@ class ilObjTestGUI extends ilObjectGUI
     /**
      * Constructor
      * @access public
+     * @param mixed|null $refId
      */
-    public function __construct()
+    public function __construct($refId = null)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -101,7 +102,10 @@ class ilObjTestGUI extends ilObjectGUI
         $this->type = "tst";
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
-        parent::__construct("", $_GET["ref_id"], true, false);
+        if (isset($_GET['ref_id']) && is_numeric($_GET['ref_id'])) {
+            $refId = (int) $_GET['ref_id'];
+        }
+        parent::__construct("", (int) $refId, true, false);
 
         if ($this->object instanceof ilObjTest) {
             require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
