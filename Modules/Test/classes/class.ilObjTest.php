@@ -10444,7 +10444,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         include_once "./Modules/Test/classes/class.ilObjTestGUI.php";
         include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-        $table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI(''), 'outEvaluation', $this->getAnonymity());
+        $table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI($this->getRefId()), 'outEvaluation', $this->getAnonymity());
         return $table_gui->getSelectedColumns();
     }
 
