@@ -486,10 +486,6 @@ class ilParticipantsTestResultsGUI
         
         $count = 0;
         foreach ($show_user_results as $key => $active_id) {
-            if ($this->getTestObj()->getFixedParticipants()) {
-                $active_id = $this->getTestObj()->getActiveIdOfUser($active_id);
-            }
-            
             if (!in_array($active_id, $participantData->getActiveIds())) {
                 continue;
             }
