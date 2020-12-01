@@ -647,7 +647,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $role_profiles = array();
         $user_roles = $rbacreview->assignedRoles($a_user_id);
         foreach ($user_roles as $role) {
-            $profiles = self::getProfilesOfRole($role);
+            $profiles = self::getGlobalProfilesOfRole($role);
             foreach ($profiles as $profile) {
                 $role_profiles[] = $profile;
             }
@@ -775,12 +775,12 @@ class ilSkillProfile implements ilSkillUsageInfo
     }
 
     /**
-     * Get profiles of a role
+     * Get global and local profiles of a role
      *
      * @param int $a_role_id role id
      * @return array
      */
-    public static function getProfilesOfRole(int $a_role_id)
+    public static function getAllProfilesOfRole(int $a_role_id)
     {
         global $DIC;
 
@@ -790,7 +790,60 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
-            " WHERE role_id = " . $ilDB->quote($a_role_id, "integer") .
+            " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
+            " ORDER BY p.title ASC"
+        );
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[] = $rec;
+        }
+        return $profiles;
+    }
+
+    /**
+     * Get global profiles of a role
+     *
+     * @param int $a_role_id role id
+     * @return array
+     */
+    public static function getGlobalProfilesOfRole(int $a_role_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $profiles = array();
+        $set = $ilDB->query(
+            "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
+            " ON (r.profile_id = p.id) " .
+            " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
+            " AND p.ref_id = 0" .
+            " ORDER BY p.title ASC"
+        );
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $profiles[] = $rec;
+        }
+        return $profiles;
+    }
+
+    /**
+     * Get local profiles of a role
+     *
+     * @param int $a_role_id role id
+     * @param int $a_ref_id ref id
+     * @return array
+     */
+    public static function getLocalProfilesOfRole(int $a_role_id, int $a_ref_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $profiles = array();
+        $set = $ilDB->query(
+            "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
+            " ON (r.profile_id = p.id) " .
+            " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
+            " AND p.ref_id = " . $ilDB->quote($a_ref_id, "integer") .
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
