@@ -13,6 +13,8 @@
 		<event type="raise" id="updateStatus" />	
 		<event type="listen" id="Services/Object" />
 		<event type="listen" id="Services/Tree" />
+		<event type="listen" id="Modules/Course" />
+		<event type="listen" id="Modules/Group" />
 	</events>
 	<crons>
 		<cron id="lp_object_statistics" class="ilLPCronObjectStatistics" />
