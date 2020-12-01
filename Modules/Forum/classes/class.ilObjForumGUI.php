@@ -3000,7 +3000,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 ));
             }
 
-            $doRenderDrafts = ilForumPostDraft::isSavePostDraftAllowed();
+            $doRenderDrafts = ilForumPostDraft::isSavePostDraftAllowed() && !$this->user->isAnonymous();
             $draftsObjects = [];
             if ($doRenderDrafts) {
                 $draftsObjects = ilForumPostDraft::getSortedDrafts(
