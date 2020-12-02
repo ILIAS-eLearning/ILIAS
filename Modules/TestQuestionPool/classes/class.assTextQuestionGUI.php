@@ -317,16 +317,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $act_no_of_chars = $this->object->countLetters($solution);
             $template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
                 $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
-
-            if ($this->object->isWordCounterEnabled()) {
-                $template->setCurrentBlock('word_count');
-                $template->setVariable(
-                    'WORD_COUNT',
-                    $this->lng->txt('qst_essay_written_words') .
-                    ' <b>' . $this->object->countWords($solution) . '</b>'
-                );
-                $template->parseCurrentBlock();
-            }
         }
         if ($show_question_text == true) {
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));

@@ -307,7 +307,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $participant = $data->getParticipant($active_id);
 
         $question_gui = $this->object->createQuestionGUI('', $question_id);
+
         $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
+
         if($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
             $aresult_output = $question_gui->getAutoSavedSolutionOutput(
                 $active_id,
@@ -321,30 +323,13 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             );
             $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
             $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);
-
         }
-        $result_output = $question_gui->getSolutionOutput(
-            $active_id,
-            $pass,
-            false,
-            false,
-            false,
-            $this->object->getShowSolutionFeedback(),
-            false,
-            true
-        );
-        $max_points = $question_gui->object->getMaximumPoints();
 
-        $this->appendUserNameToModal($tmp_tpl, $participant);
-        $this->appendQuestionTitleToModal($tmp_tpl, $question_id, $max_points, $question_gui->object->getTitle());
-        $this->appendSolutionAndPointsToModal(
-            $tmp_tpl,
-            $result_output,
-            $question_gui->object->getReachedPoints($active_id, $pass),
-            $max_points
-        );
-        $this->appendFormToModal($tmp_tpl, $pass, $active_id, $question_id, $max_points);
+        $result_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, false, $this->object->getShowSolutionFeedback(), false, true);
         $tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $participant->getName());
+
+
+
         $maxpoints = $question_gui->object->getMaximumPoints();
 
         $add_title = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
@@ -355,7 +340,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')' . $add_title);
         }
         $tmp_tpl->setVariable('SOLUTION_OUTPUT', $result_output);
-
         $tmp_tpl->setVariable('RECEIVED_POINTS', sprintf($this->lng->txt('part_received_a_of_b_points'), $question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
 
         echo $tmp_tpl->get();
