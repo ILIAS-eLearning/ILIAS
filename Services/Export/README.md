@@ -31,13 +31,13 @@ To restrict the "Upload from directory" service to specific users only, create
 subdirectories with user ids and copy the export files to this location:
 
 Example for category export files only for "Root" User (ID 6):
-`{PATH_TOEXTERN_DATA_OF_CLIENT}/upload/export/6/1604568820__12654__cat_3191.zip`
+`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export/6/1604568820__12654__cat_3191.zip`
 
 #### Scorm and HTLMs
 The configuration of an upload directory has been removed in Release 7.
 The fixed location is: 
 
-`{PATH_TOEXTERN_DATA_OF_CLIENT}/upload/export/learningModules`
+`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export/learningModules`
 
 All files stored in this directory will be available in the SCORM-upload 
 and the HTLM-File-Browser. Only users with "write" permission to the administration
