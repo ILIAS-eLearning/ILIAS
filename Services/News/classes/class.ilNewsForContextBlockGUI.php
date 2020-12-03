@@ -1274,12 +1274,11 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $block_id
         );
 
-        $default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility_option", 0, $block_id);
+        $default_visibility = ilBlockSetting::_lookup(self::$block_type, "default_visibility", 0, $block_id);
         if ($default_visibility == "") {
             $default_visibility =
                 ilNewsItem::_getDefaultVisibilityForRefId($_GET["ref_id"]);
         }
-
         $radio_group = new ilRadioGroupInputGUI($lng->txt("news_default_visibility"), "default_visibility");
         $radio_option = new ilRadioOption($lng->txt("news_visibility_users"), "users");
         $radio_group->addOption($radio_option);
@@ -1307,7 +1306,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         global $DIC;
 
         $block_id = $DIC->ctrl()->getContextObjId();
-
         foreach ($a_values as $key => $value) {
             ilBlockSetting::_write(self::$block_type, $key, $value, 0, $block_id);
         }
@@ -1332,7 +1330,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         $ilUser = $this->user;
         
         $this->initSettingsForm();
-        
         if ($this->settings_form->checkInput()) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");

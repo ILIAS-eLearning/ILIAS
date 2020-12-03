@@ -45,7 +45,7 @@ class ilWikiDataSet extends ilDataSet
      */
     public function getSupportedVersions()
     {
-        return array("4.1.0", "4.3.0", "4.4.0", "5.1.0");
+        return array("4.1.0", "4.3.0", "4.4.0", "5.1.0", "5.4.0");
     }
     
     /**
@@ -129,6 +129,26 @@ class ilWikiDataSet extends ilDataSet
                         "RatingExt" => "integer",
                         "RatingOverall" => "integer",
                         "LinkMdValues" => "integer"
+                    );
+
+                case "5.4.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "Description" => "text",
+                        "StartPage" => "text",
+                        "Short" => "text",
+                        "Introduction" => "text",
+                        "Rating" => "integer",
+                        "PublicNotes" => "integer",
+                        // "ImpPages" => "integer",
+                        "PageToc" => "integer",
+                        "RatingSide" => "integer",
+                        "RatingNew" => "integer",
+                        "RatingExt" => "integer",
+                        "RatingOverall" => "integer",
+                        "LinkMdValues" => "integer",
+                        "EmptyPageTempl" => "integer"
                         );
             }
         }
@@ -150,12 +170,24 @@ class ilWikiDataSet extends ilDataSet
                         "WikiId" => "integer",
                         "Blocked" => "integer",
                         "Rating" => "integer");
+
+                case "5.4.0":
+                    return array(
+                        "Id" => "integer",
+                        "Title" => "text",
+                        "WikiId" => "integer",
+                        "Blocked" => "integer",
+                        "Rating" => "integer",
+                        "TemplateNewPages" => "integer",
+                        "TemplateAddToPage" => "integer"
+                    );
             }
         }
 
         if ($a_entity == "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     return array(
                         "WikiId" => "integer",
                         "PageId" => "integer",
@@ -212,6 +244,14 @@ class ilWikiDataSet extends ilDataSet
                         " FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)" .
                         " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
                     break;
+
+                case "5.4.0":
+                    $this->getDirectDataFromQuery("SELECT id, title, description," .
+                        " startpage start_page, short, rating, rating_overall, introduction," . // imp_pages,
+                        " public_notes, page_toc, rating_side, rating_new, rating_ext, link_md_values, empty_page_templ" .
+                        " FROM il_wiki_data JOIN object_data ON (il_wiki_data.id = object_data.obj_id)" .
+                        " WHERE " . $ilDB->in("id", $a_ids, false, "integer"));
+                    break;
             }
         }
 
@@ -231,12 +271,32 @@ class ilWikiDataSet extends ilDataSet
                         " FROM il_wiki_page" .
                         " WHERE " . $ilDB->in("wiki_id", $a_ids, false, "integer"));
                     break;
+
+                case "5.4.0":
+                    $this->getDirectDataFromQuery("SELECT id, title, wiki_id," .
+                        " blocked, rating" .
+                        " FROM il_wiki_page" .
+                        " WHERE " . $ilDB->in("wiki_id", $a_ids, false, "integer"));
+                    foreach ($this->data as $k => $v) {
+                        $set = $ilDB->queryF("SELECT * FROM wiki_page_template " .
+                            " WHERE wiki_id = %s ".
+                            " AND wpage_id = %s ",
+                            ["integer", "integer"],
+                            [$v["WikiId"], $v["Id"]]
+                        );
+                        if ($rec = $ilDB->fetchAssoc($set)) {
+                            $this->data[$k]["TemplateNewPages"] = $rec["new_pages"];
+                            $this->data[$k]["TemplateAddToPage"] = $rec["add_to_page"];
+                        }
+                    }
+                    break;
             }
         }
 
         if ($a_entity == "wiki_imp_page") {
             switch ($a_version) {
                 case "5.1.0":
+                case "5.4.0":
                     $this->getDirectDataFromQuery("SELECT wiki_id, page_id, ord, indent " .
                         " FROM il_wiki_imp_pages " .
                         " WHERE " . $ilDB->in("wiki_id", $a_ids, false, "integer"));
@@ -303,7 +363,8 @@ class ilWikiDataSet extends ilDataSet
                     $newObj->setRatingCategories($a_rec["RatingExt"]);
                 }
                 $newObj->setLinkMetadataValues($a_rec["LinkMdValues"]);
-                
+                $newObj->setEmptyPageTemplate((int) $a_rec["EmptyPageTempl"]);
+
                 $newObj->update(true);
                 $this->current_obj = $newObj;
                 $a_mapping->addMapping("Modules/Wiki", "wiki", $a_rec["Id"], $newObj->getId());
@@ -326,7 +387,12 @@ class ilWikiDataSet extends ilDataSet
                 }
                 
                 $wpage->create(true);
-                
+
+                if (isset($a_rec["TemplateNewPages"]) || isset($a_rec["TemplateAddToPage"])) {
+                    $wtpl = new ilWikiPageTemplate($wiki_id);
+                    $wtpl->save($wpage->getId(), (int) $a_rec["TemplateNewPages"], (int) $a_rec["TemplateAddToPage"]);
+                }
+
                 $a_mapping->addMapping("Modules/Wiki", "wpg", $a_rec["Id"], $wpage->getId());
                 $a_mapping->addMapping("Services/COPage", "pg", "wpg:" . $a_rec["Id"], "wpg:" . $wpage->getId());
                 $a_mapping->addMapping("Services/AdvancedMetaData", "advmd_sub_item", "advmd:wpg:" . $a_rec["Id"], $wpage->getId());

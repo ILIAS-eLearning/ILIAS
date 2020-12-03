@@ -7056,7 +7056,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $result_array = array();
-        $tests = ilUtil::_getObjectsByOperations("tst", "write", $ilUser->getId(), -1);
+        $tests = array_slice(
+            array_reverse(
+                ilUtil::_getObjectsByOperations("tst", "write", $ilUser->getId(), PHP_INT_MAX)
+            ),
+            0,
+            10000
+        );
+
         if (count($tests)) {
             $titles = ilObject::_prepareCloneSelection($tests, "tst");
             foreach ($tests as $ref_id) {
@@ -10437,7 +10444,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         include_once "./Modules/Test/classes/class.ilObjTestGUI.php";
         include_once "./Modules/Test/classes/tables/class.ilEvaluationAllTableGUI.php";
-        $table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI(''), 'outEvaluation', $this->getAnonymity());
+        $table_gui = new ilEvaluationAllTableGUI(new ilObjTestGUI($this->getRefId()), 'outEvaluation', $this->getAnonymity());
         return $table_gui->getSelectedColumns();
     }
 
