@@ -15491,6 +15491,9 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
 file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 common#:#personal_resources#:#Personal Resources
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).

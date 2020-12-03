@@ -15479,8 +15479,11 @@ svy#:#svy_status_finished#:#Beendet
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_resources_disk_quota#:#Disk-Quota für Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönlichen Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
+file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 common#:#personal_resources#:#Persönliche Ressourcen
 file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
