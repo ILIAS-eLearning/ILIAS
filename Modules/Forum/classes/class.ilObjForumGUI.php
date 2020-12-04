@@ -98,7 +98,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     public $locator;
     public $ilHelp;
     /** @var int */
-    public $selectedSorting = ilForumProperties::VIEW_TREE;
+    private $selectedSorting;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
@@ -2694,29 +2694,34 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     public function checkUsersViewMode() : void
     {
-        if (!isset($this->selectedSorting)) {
-            $this->selectedSorting = $this->objProperties->getDefaultView();
+        $this->selectedSorting = $this->objProperties->getDefaultView();
+        
+        if (in_array(\ilSession::get('viewmode'), [
+            ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE_ASC,
+            ilForumProperties::VIEW_DATE_DESC
+        ])) {
+            $this->selectedSorting = \ilSession::get('viewmode');
         }
 
         if (isset($this->httpRequest->getQueryParams()['viewmode'])
             && (int) $this->httpRequest->getQueryParams()['viewmode']  !== (int) $this->selectedSorting) {
             $this->selectedSorting = (int) $this->httpRequest->getQueryParams()['viewmode'];
         }
-
-        if (isset($_GET['action']) && !in_array($this->selectedSorting, [
-            ilForumProperties::VIEW_TREE,
-            ilForumProperties::VIEW_DATE_ASC,
-            ilForumProperties::VIEW_DATE_DESC
-        ])) {
+    
+        if (isset($this->httpRequest->getQueryParams()['action']) && !in_array($this->selectedSorting, [
+                ilForumProperties::VIEW_TREE,
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ])) {
             $this->selectedSorting = $this->objProperties->getDefaultView();
         }
-        \ilSession::set('viewmode',$this->selectedSorting);
+       
+        \ilSession::set('viewmode', $this->selectedSorting);
     }
 
     public function viewThreadObject()
     {
-        
-
         $bottom_toolbar = clone $this->toolbar;
         $bottom_toolbar_split_button_items = [];
 
