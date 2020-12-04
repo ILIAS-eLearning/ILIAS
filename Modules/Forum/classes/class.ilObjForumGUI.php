@@ -2709,7 +2709,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->selectedSorting = (int) $this->httpRequest->getQueryParams()['viewmode'];
         }
     
-        if (isset($this->httpRequest->getQueryParams()['action']) && !in_array($this->selectedSorting, [
+        if (!in_array($this->selectedSorting, [
                 ilForumProperties::VIEW_TREE,
                 ilForumProperties::VIEW_DATE_ASC,
                 ilForumProperties::VIEW_DATE_DESC
