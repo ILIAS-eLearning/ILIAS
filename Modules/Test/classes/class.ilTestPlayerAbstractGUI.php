@@ -1616,6 +1616,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             if ($this->object->getEnableProcessingTime()) {
                $this->outProcessingTime($active_id);
             }
+
+            if ($this->object->isShowExamIdInTestPassEnabled()) {
+                $this->tpl->setCurrentBlock('exam_id_footer');
+                $this->tpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                    $this->testSession->getActiveId(),
+                    $this->testSession->getPass(),
+                    $this->object->getId()
+                ));
+                $this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+                $this->tpl->parseCurrentBlock();
+            }
         }
     }
     
