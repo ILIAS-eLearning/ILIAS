@@ -7,7 +7,7 @@ use \Psr\Http\Message\ResponseInterface;
 use \GuzzleHttp\Client;
 use \GuzzleHttp\RequestOptions;
 use \GuzzleHttp\Psr7\Uri;
-use \Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use \Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use \GuzzleHttp\Exception\GuzzleException;
 
 // ToDo: json_decode(obj,true) as assoc array might be faster?
