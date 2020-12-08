@@ -354,6 +354,10 @@ abstract class ilTestExport
 
         if (count($additionalFields)) {
             foreach ($additionalFields as $fieldname) {
+                if (strcmp($fieldname, "exam_id") == 0) {
+                    $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('exam_id_label'));
+                    continue;
+                }
                 $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt($fieldname));
             }
         }
@@ -411,6 +415,8 @@ abstract class ilTestExport
                 foreach ($additionalFields as $fieldname) {
                     if (strcmp($fieldname, 'gender') == 0) {
                         $worksheet->setCell($row, $col++, $this->lng->txt('gender_' . $userfields[$fieldname]));
+                    } elseif (strcmp($fieldname, "exam_id") == 0) {
+                        $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                     } else {
                         $worksheet->setCell($row, $col++, $userfields[$fieldname]);
                     }
@@ -547,6 +553,9 @@ abstract class ilTestExport
                     if (strcmp($fieldname, "matriculation") == 0) {
                         $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('matriculation'));
                     }
+                    if (strcmp($fieldname, "exam_id") == 0) {
+                        $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('exam_id_label'));
+                    }
                 }
             }
             $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('test'));
@@ -573,6 +582,13 @@ abstract class ilTestExport
                         if (strcmp($fieldname, "matriculation") == 0) {
                             if (strlen($userfields[$fieldname])) {
                                 $worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                            } else {
+                                $col++;
+                            }
+                        }
+                        if (strcmp($fieldname, "exam_id") == 0) {
+                            if (strlen($userfields[$fieldname])) {
+                                $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                             } else {
                                 $col++;
                             }
@@ -618,6 +634,9 @@ abstract class ilTestExport
                         if (strcmp($fieldname, "matriculation") == 0) {
                             $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('matriculation'));
                         }
+                        if (strcmp($fieldname, "exam_id") == 0) {
+                            $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('exam_id_label'));
+                        }
                     }
                 }
                 $worksheet->setFormattedExcelTitle($worksheet->getColumnCoord($col++) . $row, $this->lng->txt('test'));
@@ -644,6 +663,13 @@ abstract class ilTestExport
                             if (strcmp($fieldname, "matriculation") == 0) {
                                 if (strlen($userfields[$fieldname])) {
                                     $worksheet->setCell($row, $col++, $userfields[$fieldname]);
+                                } else {
+                                    $col++;
+                                }
+                            }
+                            if (strcmp($fieldname, "exam_id") == 0) {
+                                if (strlen($userfields[$fieldname])) {
+                                    $worksheet->setCell($row, $col++, $userdata->getExamIdFromScoredPass());
                                 } else {
                                     $col++;
                                 }
@@ -764,6 +790,11 @@ abstract class ilTestExport
         $additionalFields = $this->test_obj->getEvaluationAdditionalFields();
         if (count($additionalFields)) {
             foreach ($additionalFields as $fieldname) {
+                if (strcmp($fieldname, "exam_id") == 0) {
+                    array_push($datarow, $this->lng->txt('exam_id_label'));
+                    $col++;
+                    continue;
+                }
                 array_push($datarow, $this->lng->txt($fieldname));
                 $col++;
             }
@@ -833,6 +864,8 @@ abstract class ilTestExport
                     foreach ($additionalFields as $fieldname) {
                         if (strcmp($fieldname, "gender") == 0) {
                             array_push($datarow2, $this->lng->txt("gender_" . $userfields[$fieldname]));
+                        } elseif (strcmp($fieldname, "exam_id") == 0) {
+                            array_push($datarow2, $userdata->getExamIdFromScoredPass());
                         } else {
                             array_push($datarow2, $userfields[$fieldname]);
                         }
