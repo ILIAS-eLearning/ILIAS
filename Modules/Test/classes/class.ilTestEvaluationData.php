@@ -204,7 +204,7 @@ class ilTestEvaluationData
             }
             
             $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setNrOfAnsweredQuestions($row["answeredquestions"]);
-            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setWorkingTime($row["workingtime"]);
+            $this->getParticipant($row["active_fi"])->getPass($row["pass"])->setExamId((string) $row["exam_id"]);
 
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setRequestedHintsCount($row['hint_count']);
             $this->getParticipant($row['active_fi'])->getPass($row['pass'])->setDeductedHintPoints($row['hint_points']);
