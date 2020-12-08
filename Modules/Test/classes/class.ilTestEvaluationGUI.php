@@ -274,6 +274,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $evaluationrow['reached'] = $userdata->getReached();
                     $evaluationrow['max'] = $userdata->getMaxpoints();
                     $evaluationrow['hint_count'] = $userdata->getRequestedHintsCountFromScoredPass();
+                    $evaluationrow['exam_id'] = $userdata->getExamIdFromScoredPass();
                     $percentage = $userdata->getReachedPointsInPercent();
                     $mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
                     if (is_object($mark)) {
