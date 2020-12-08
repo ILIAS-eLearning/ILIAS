@@ -277,8 +277,6 @@ class ilObjSCORMTracking
         $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
-        //last_visited!
-        
         // get attempts
         if (!$data->packageAttempts) {
             $val_set = $ilDB->queryF(
@@ -299,9 +297,9 @@ class ilObjSCORMTracking
         $totalTime = (int) $data->totalTimeCentisec;
         $totalTime = round($totalTime / 100);
         $ilDB->queryF(
-            'UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
-            array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-            array($totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId)
+            'UPDATE sahs_user SET last_visited=%s, last_access = %s, sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
+            array('text', 'timestamp', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+            array($data->last_visited, date('Y-m-d H:i:s'), $totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId)
         );
         
         //		self::ensureObjectDataCacheExistence();
