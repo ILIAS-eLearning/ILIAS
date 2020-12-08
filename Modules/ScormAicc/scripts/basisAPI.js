@@ -45,7 +45,7 @@ function sendRequest (url, data, callback, user, password, headers) {
 					return new HttpResponse(xhttp);
 				} 
 			}
-		}		
+		}
 		var xhttp = createHttpRequest();
 		var async = !!callback;
 		var post = !!data; 
@@ -75,10 +75,27 @@ function sendRequest (url, data, callback, user, password, headers) {
 			return onStateChange();
 		}
 	}
+	
+	function useSendBeacon() {
+		if (navigator.userAgent.indexOf("Chrom") > -1) {
+			if (typeof(window.sahs_content) != "undefined" && typeof(window.sahs_content.event) != "undefined" && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")) {
+				var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+				var version = raw ? parseInt(raw[2], 10) : false;
+				if (version === false) return false;
+				if (version >= 80) return true;
+			}
+		}
+		return false;
+	}
 
 	if (typeof headers !== "object") {headers = {};}
 	headers['Accept'] = 'text/javascript';
 	headers['Accept-Charset'] = 'UTF-8';
+	if (useSendBeacon()) {
+		navigator.sendBeacon(url, data);
+		console.log('use sendBeacon');
+		return "ok";
+	}
 	var r = sendAndLoad(url, data, callback, user, password, headers);
 	
 	if (r.content) {
@@ -299,6 +316,8 @@ function IliasCommit() {
 	}
 	var s_s="",a_tmp,s_v,a_cmiTmp,i_numCompleted=0,b_statusFailed=false;
 	var LP_STATUS_IN_PROGRESS_NUM=1, LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;
+	$last_visited = "";
+	if (iv.b_autoLastVisited==true) $last_visited = iv.launchId;
 	var o_data={
 		"cmi":[],
 		"saved_global_status":iv.status.saved_global_status,
@@ -307,7 +326,8 @@ function IliasCommit() {
 		"lp_mode":iv.status.lp_mode,
 		"hash":iv.status.hash,
 		"p":iv.status.p,
-		"totalTimeCentisec":0
+		"totalTimeCentisec":0,
+		"last_visited":$last_visited
 		};
 	for (var i=0; i<iv.status.scos.length;i++) {
 		s_v=getValueIntern(iv.status.scos[i],"cmi.core.lesson_status",true);
@@ -483,7 +503,7 @@ function onWindowUnload () {
 		var s_unload="";
 		if (iv.b_autoLastVisited==true) s_unload="last_visited="+iv.launchId;
 		// if(typeof iv.b_sessionDeactivated!="undefined" && iv.b_sessionDeactivated==true)
-			sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
+		sendRequest ("./storeScorm.php?package_id="+iv.objId+"&ref_id="+iv.refId+"&client_id="+iv.clientId+"&hash="+iv.status.hash+"&p="+iv.status.p+"&do=unload", s_unload);
 	}
 }
 
