@@ -77,7 +77,7 @@ function sendRequest (url, data, callback, user, password, headers) {
 	}
 	
 	function useSendBeacon() {
-		if (navigator.userAgent.indexOf("Chrome") > -1) {
+		if (navigator.userAgent.indexOf("Chrom") > -1) {
 			if (typeof(window.sahs_content) != "undefined" && typeof(window.sahs_content.event) != "undefined" && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")) {
 				var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 				var version = raw ? parseInt(raw[2], 10) : false;
@@ -316,6 +316,8 @@ function IliasCommit() {
 	}
 	var s_s="",a_tmp,s_v,a_cmiTmp,i_numCompleted=0,b_statusFailed=false;
 	var LP_STATUS_IN_PROGRESS_NUM=1, LP_STATUS_COMPLETED_NUM=2,LP_STATUS_FAILED_NUM=3;
+	$last_visited = "";
+	if (iv.b_autoLastVisited==true) $last_visited = iv.launchId;
 	var o_data={
 		"cmi":[],
 		"saved_global_status":iv.status.saved_global_status,
@@ -324,7 +326,8 @@ function IliasCommit() {
 		"lp_mode":iv.status.lp_mode,
 		"hash":iv.status.hash,
 		"p":iv.status.p,
-		"totalTimeCentisec":0
+		"totalTimeCentisec":0,
+		"last_visited":$last_visited
 		};
 	for (var i=0; i<iv.status.scos.length;i++) {
 		s_v=getValueIntern(iv.status.scos[i],"cmi.core.lesson_status",true);
