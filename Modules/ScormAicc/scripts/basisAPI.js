@@ -77,7 +77,7 @@ function sendRequest (url, data, callback, user, password, headers) {
 	}
 	
 	function useSendBeacon() {
-		if (navigator.userAgent.indexOf("Chrome") > -1) {
+		if (navigator.userAgent.indexOf("Chrom") > -1) {
 			if (typeof(window.sahs_content) != "undefined" && typeof(window.sahs_content.event) != "undefined" && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")) {
 				var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
 				var version = raw ? parseInt(raw[2], 10) : false;
