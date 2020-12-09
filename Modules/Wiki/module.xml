@@ -29,6 +29,6 @@
 	</copage>
 	<logging />
 	<pdfpurposes>
-		<pdfpurpose name="ContentExport" preferred="PhantomJS" />
+		<pdfpurpose name="ContentExport" preferred="WkhtmlToPdf" />
 	</pdfpurposes>
 </module>

@@ -16448,7 +16448,7 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .table-responsive {
     overflow-x: auto;
     max-width: 94vw;
