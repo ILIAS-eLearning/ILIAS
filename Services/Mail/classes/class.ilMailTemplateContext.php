@@ -92,7 +92,7 @@ abstract class ilMailTemplateContext
     /**
      * @return array
      */
-    final private function getGenericPlaceholders() : array
+    private function getGenericPlaceholders() : array
     {
         return [
             'mail_salutation' => [
