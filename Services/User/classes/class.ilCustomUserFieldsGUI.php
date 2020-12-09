@@ -314,7 +314,11 @@ class ilCustomUserFieldsGUI
             
             switch ($this->field_definition["field_type"]) {
                 case UDF_TYPE_SELECT:
-                    $se_mu->setValue($this->field_definition["field_values"]);
+                    $values = $this->field_definition["field_values"];
+                    if (!is_array($values) || $values === []) {
+                        $values = [''];
+                    }
+                    $se_mu->setValue($values);
                     $form->setTitle($lng->txt("udf_update_select_field"));
                     break;
                 
