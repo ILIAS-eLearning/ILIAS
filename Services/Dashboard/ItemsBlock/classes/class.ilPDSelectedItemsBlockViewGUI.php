@@ -44,7 +44,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
      * @param ilPDSelectedItemsBlockViewSettings $viewSettings
      * @param ilPDSelectedItemsBlockProvider                       $provider
      */
-    final private function __construct(ilPDSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
+    private function __construct(ilPDSelectedItemsBlockViewSettings $viewSettings, ilPDSelectedItemsBlockProvider $provider)
     {
         global $DIC;
 
