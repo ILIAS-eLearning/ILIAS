@@ -9180,10 +9180,12 @@ footer {
 @media print {
   html body {
     overflow: visible;
+    background: none;
   }
   html body .il-layout-page {
     display: block;
     overflow: visible;
+    background: none;
   }
   html body .il-layout-page header,
   html body .il-layout-page .il-maincontrols,
