@@ -5895,3 +5895,119 @@ foreach ($columns as $column) {
     }
 }
 ?>
+<#5753>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+<#5754>
+<?php
+$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+    " WHERE renderer = %s AND service = %s AND purpose = %s",
+    ["text", "text", "text"],
+    ["PhantomJS", "Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_renderer_avail", [
+        "availability_id" => ["integer", $ilDB->nextId('pdfgen_renderer_avail')],
+        "renderer" => ["text", "PhantomJS"],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
+<#5755>
+<?php
+$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+    " WHERE renderer = %s AND service = %s AND purpose = %s",
+    ["text", "text", "text"],
+    ["WkhtmlToPdf", "Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_renderer_avail", [
+        "availability_id" => ["integer", $ilDB->nextId('pdfgen_renderer_avail')],
+        "renderer" => ["text", "WkhtmlToPdf"],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
+<#5756>
+<?php
+$set = $ilDB->queryF("SELECT purpose_id FROM pdfgen_purposes " .
+    " WHERE service = %s AND purpose = %s",
+    ["text",  "text"],
+    ["Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_purposes", [
+        "purpose_id" => ["integer", $ilDB->nextId('pdfgen_purposes')],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
+<#5757>
+<?php
+$ilDB->update("pdfgen_renderer_avail", [
+    "renderer" => ["text", "WkhtmlToPdf"]
+], [    // where
+        "renderer" => ["text", "PhantomJS"],
+        "service" => ["text", "Wiki"],
+    ]
+);
+?>
+<#5758>
+<?php
+$ilDB->update("pdfgen_renderer_avail", [
+    "renderer" => ["text", "WkhtmlToPdf"]
+], [    // where
+        "renderer" => ["text", "PhantomJS"],
+        "service" => ["text", "Portfolio"]
+    ]
+);
+?>
+<#5759>
+<?php
+$ilDB->manipulateF("DELETE FROM pdfgen_renderer_avail WHERE " .
+    " renderer = %s AND service = %s",
+    ["text", "text"],
+    ["PhantomJS", "Survey"]
+);
+?>
+<#5760>
+<?php
+$ilDB->update("pdfgen_map", [
+    "preferred" => ["text", "WkhtmlToPdf"],
+    "selected" => ["text", "WkhtmlToPdf"]
+], [    // where
+        "service" => ["text", "Wiki"]
+    ]
+);
+?>
+<#5761>
+<?php
+$ilDB->update("pdfgen_map", [
+    "preferred" => ["text", "WkhtmlToPdf"],
+    "selected" => ["text", "WkhtmlToPdf"]
+], [    // where
+        "service" => ["text", "Portfolio"]
+    ]
+);
+?>
+<#5762>
+<?php
+$set = $ilDB->queryF("SELECT map_id FROM pdfgen_map " .
+    " WHERE service = %s AND purpose = %s",
+    ["text", "text"],
+    ["Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_map", [
+        "map_id" => ["integer", $ilDB->nextId('pdfgen_map')],
+        "preferred" => ["text", "WkhtmlToPdf"],
+        "selected" => ["text", "WkhtmlToPdf"],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
