@@ -25,7 +25,7 @@
 		]
 	},
 	"require": {
-		"php": "^7.3",
+		"php": ">=7.3",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^1.23.0",
@@ -51,23 +51,14 @@
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"zendframework/zend-httphandlerrunner": "^1.1.0",
 		"simplesamlphp/simplesamlphp": "^1.18"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
-		"phpunit/phpunit": "^9",
-		"phpunit/php-code-coverage": "^8.0",
-		"mockery/mockery": "^1.2",
-		"phpunit/php-token-stream": "^4.0",
-		"phpdocumentor/reflection-docblock": "^3.3",
-		"friendsofphp/php-cs-fixer": "^2.15",
-		"sebastian/environment": "^5.0",
-		"phpunit/php-timer": "^3.0",
-		"phpspec/prophecy": "^1.8",
-		"theseer/tokenizer": "^1.1",
-		"myclabs/deep-copy": "^1.9",
-		"captainhook/captainhook": "^5.3"
+		"phpunit/phpunit": "^9.5",
+		"mockery/mockery": "^1.4",
+		"friendsofphp/php-cs-fixer": "^2.17",
+		"captainhook/captainhook": "^5.4"
 	},
 	"autoload": {
 		"psr-4" : {
