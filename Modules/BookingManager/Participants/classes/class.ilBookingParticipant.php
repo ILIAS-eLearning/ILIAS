@@ -253,7 +253,7 @@ class ilBookingParticipant
      * @param $a_booking_pool_id
      * @return array
      */
-    public static function getBookingPoolParticipants(integer $a_booking_pool_id) : array
+    public static function getBookingPoolParticipants(int $a_booking_pool_id) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
