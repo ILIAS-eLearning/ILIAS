@@ -875,3 +875,39 @@ if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
     $ilDB->addIndex('tax_tree', ['child'], 'i1');
 }
 ?>
+<#37>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+<#38>
+<?php
+$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+    " WHERE renderer = %s AND service = %s AND purpose = %s",
+    ["text", "text", "text"],
+    ["PhantomJS", "Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_renderer_avail", [
+        "availability_id" => ["integer", $ilDB->nextId('pdfgen_renderer_avail')],
+        "renderer" => ["text", "PhantomJS"],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
+<#39>
+<?php
+$set = $ilDB->queryF("SELECT availability_id FROM pdfgen_renderer_avail " .
+    " WHERE renderer = %s AND service = %s AND purpose = %s",
+    ["text", "text", "text"],
+    ["WkhtmlToPdf", "Survey", "Results"]
+);
+if (!$ilDB->fetchAssoc($set)) {
+    $ilDB->insert("pdfgen_renderer_avail", [
+        "availability_id" => ["integer", $ilDB->nextId('pdfgen_renderer_avail')],
+        "renderer" => ["text", "WkhtmlToPdf"],
+        "service" => ["text", "Survey"],
+        "purpose" => ["text", "Results"]
+    ]);
+}
+?>
