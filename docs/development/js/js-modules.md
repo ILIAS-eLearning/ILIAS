@@ -74,7 +74,7 @@ function internal() {
 
 ### Split and bundle files in components
 
-Single components MAY split up their code into multiple files using the ES6 module concept internally. To improve performance they SHOULD create bundles on the component level, see [js-bundling.md](./js-bundling.md).
+Single components MAY split up their code into multiple files using the ES6 module concept internally. To improve performance they SHOULD create bundles on the component level, see [js-bundling.md](js-bundling.md).
 
 
 ## Outlook: Bundle core JS via ES6 modules

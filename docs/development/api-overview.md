@@ -1,12 +1,13 @@
 # API and Services Overview
+
 We are currently revising lots of libraries, services and APIs in ILIAS. This overview contains also links to legacy or deprecated services if the are still being used in the core ILIAS code and subject to ongoing refactorings.
 
-This list does not contain information on third party libraries being used. You will find these in the [libs directory](../../../libs/README.md).
+This list does not contain information on third party libraries being used. You will find these in the [libs directory](../../libs/README.md).
 
 
 ## Core Libs
 
-ILIAS core libs are located in the src folder. There are [special guidelines](../../../src/README.md) for contributions to these libs.
+ILIAS core libs are located in the src folder. There are [special guidelines](../../src/README.md) for contributions to these libs.
 
 - [DI](../../src/DI/README.md): Dependency Injection Container
 - [Data](../../src/Data/README.md): Standard Data Types
@@ -14,6 +15,7 @@ ILIAS core libs are located in the src folder. There are [special guidelines](..
 - [HTTP](../../src/HTTP/README.md): PSR-7 HTTP Request and Response Handling
 - [Filesystem](../../src/Filesystem/README.md): Filesystem Access
 - [FileUpload](../../src/FileUpload/README.md): File Upload Handling
+- [ResourceStorage](../../src/ResourceStorage/README.md): Store and manage resources (e.g. uploaded files)
 - [BackgroundTasks](../../src/BackgroundTasks/README.md): Background Task Management
 - [UI](../../src/UI/README.md): User Interface Framework
 - [GlobalScreen](../../src/GlobalScreen/README.md): Layout Mediator
