@@ -448,7 +448,7 @@ class ilBuddyListTest extends ilBuddySystemBaseTest
      * @param ilBuddySystemRelationState $state
      * @throws ReflectionException
      */
-    final private function setPriorRelationState(
+    private function setPriorRelationState(
         ilBuddySystemRelation $relation,
         ilBuddySystemRelationState $state
     ) : void {
