@@ -190,7 +190,7 @@ class ARInformation extends ActiveRecord
      */
     public function getCreationDate() : int
     {
-        return $this->creation_date;
+        return $this->creation_date ?? 0;
     }
 
     /**
