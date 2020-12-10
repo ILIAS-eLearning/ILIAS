@@ -16,4 +16,10 @@ class ilMMStorageStakeholder extends AbstractResourceStakeholder
     {
         return 'mme';
     }
+
+    public function getOwnerOfNewResources() : int
+    {
+        return 6;
+    }
+
 }
