@@ -18,8 +18,9 @@ class ilFormGUI
     protected $multipart = false;
     protected $keepopen = false;
     protected $opentag = true;
-    protected $id;
-    protected $name;
+    protected $id = '';
+    protected $name = '';
+    protected $target = '';
     protected $prevent_double_submission = false;
 
     /**

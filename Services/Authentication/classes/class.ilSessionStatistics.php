@@ -554,7 +554,7 @@ class ilSessionStatistics
             " ORDER BY tstamp DESC";
         $res = $ilDB->query($sql);
         $val = $ilDB->fetchAssoc($res);
-        if ($val["maxval"]) {
+        if (isset($val["maxval"]) && $val["maxval"]) {
             return (int) $val["maxval"];
         } else {
             return (int) $ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);

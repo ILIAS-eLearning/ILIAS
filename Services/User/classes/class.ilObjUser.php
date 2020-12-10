@@ -109,6 +109,9 @@ class ilObjUser extends ilObject
     public $login_attempts;
 
     public $user_defined_data = array();
+
+    /** @var array<string, string> */
+    protected $oldPrefs = [];
     
     /**
     * Contains variable Userdata (Prefs, Settings)
@@ -268,14 +271,14 @@ class ilObjUser extends ilObject
             $this->readPrefs();
 
             if (!isset($this->prefs['language']) || $this->prefs['language'] === '') {
-                $this->prefs['language'] = $this->oldPrefs['language'];
+                $this->prefs['language'] = $this->oldPrefs['language'] ?? '';
             }
 
             if (
                 !isset($this->prefs['skin']) || $this->prefs['skin'] === '' ||
                 !ilStyleDefinition::skinExists($this->prefs['skin'])
             ) {
-                $this->prefs['skin'] = $this->oldPrefs['skin'];
+                $this->prefs['skin'] = $this->oldPrefs['skin'] ?? '';
             }
 
             $this->skin = $this->prefs["skin"];
@@ -2087,9 +2090,9 @@ class ilObjUser extends ilObject
      * returns the current language (may differ from user's pref setting!)
      *
      */
-    public function getCurrentLanguage()
+    public function getCurrentLanguage() : string
     {
-        return $_SESSION['lang'];
+        return (string) ilSession::get('lang');
     }
 
     /**
@@ -2099,7 +2102,7 @@ class ilObjUser extends ilObject
      */
     public function setCurrentLanguage($a_val)
     {
-        $_SESSION['lang'] = $a_val;
+        ilSession::set('lang', $a_val);
     }
 
     /**

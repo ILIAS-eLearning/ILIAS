@@ -41,6 +41,9 @@ class ilHelpGUI
     public $def_screen_id = array();
     public $screen_id = array();
 
+    /** @var string */
+    protected $screen_id_component = '';
+
     /**
      * @var \ILIAS\DI\UIServices
      */
@@ -120,7 +123,7 @@ class ilHelpGUI
     {
         $comp = ($this->screen_id_component != "")
             ? $this->screen_id_component
-            : $this->def_screen_id[self::ID_PART_COMPONENT];
+            : ($this->def_screen_id[self::ID_PART_COMPONENT] ?? '');
         
         if ($comp == "") {
             return "";
@@ -195,7 +198,8 @@ class ilHelpGUI
             $h_ids.= $sep.$hs;
             $sep = ",";
         }*/
-        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "." . $_GET["ref_id"]);
+        $refId = (string) ($_GET["ref_id"] ?? 0);
+        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "."  . $refId);
     }
     
 

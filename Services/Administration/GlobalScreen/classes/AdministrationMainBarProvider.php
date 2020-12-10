@@ -220,7 +220,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $groups[$group] = array();
             $entries_since_last_sep = false;
             foreach ($entries as $e) {
-                if ($e == "---" || $titems[$e]["type"] != "") {
+                if ($e == "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
                     if ($e == "---" && $entries_since_last_sep) {
                         $groups[$group][] = $e;
                         $entries_since_last_sep = false;

@@ -142,7 +142,7 @@ class ilSession
             "expires" => array("integer", self::getExpireValue()),
             "data" => array("clob", $a_data),
             "ctime" => array("integer", $now),
-            "type" => array("integer", ($_SESSION["SessionType"] ?? 0))
+            "type" => array("integer", (int) ($_SESSION["SessionType"] ?? 0))
             );
         if ($ilClientIniFile->readVariable("session", "save_ip")) {
             $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);

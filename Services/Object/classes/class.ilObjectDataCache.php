@@ -259,7 +259,7 @@ class ilObjectDataCache
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
             // this if fixes #9960
-            if (!$this->trans_loaded[$row->obj_id]) {
+            if (!isset($this->trans_loaded[$row->obj_id])) {
                 $this->object_data_cache[$row->obj_id]['title'] = $row->title;
                 $this->object_data_cache[$row->obj_id]['description'] = $row->description;
             }
@@ -293,7 +293,7 @@ class ilObjectDataCache
         $obj_ids = array();
         foreach ($a_obj_ids as $id) {
             // do not load an id more than one time
-            if (!$this->trans_loaded[$id]) {
+            if (!isset($this->trans_loaded[$id])) {
                 $obj_ids[] = $id;
                 $this->trans_loaded[$id] = true;
             }

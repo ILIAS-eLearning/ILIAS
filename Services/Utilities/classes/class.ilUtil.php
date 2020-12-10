@@ -3022,26 +3022,23 @@ class ilUtil
     }
 
     /**
-    * sub-function to sort an array
-    *
-    * @param	array	$a
-    * @param	array	$b
-    *
-    * @return	boolean	true on success / false on error
-    * @static
-    *
-    */
-    public static function sort_func_numeric($a, $b)
+     * @param array $a
+     * @param array $b
+     * @return int
+     */
+    public static function sort_func_numeric(array $a, array $b) : int
     {
         global $array_sortby,$array_sortorder;
 
         if ($array_sortorder == "asc") {
-            return $a["$array_sortby"] > $b["$array_sortby"];
+            return $a["$array_sortby"] <=> $b["$array_sortby"];
         }
 
         if ($array_sortorder == "desc") {
-            return $a["$array_sortby"] < $b["$array_sortby"];
+            return $b["$array_sortby"] <=> $a["$array_sortby"];
         }
+
+        return 0;
     }
     /**
     * sortArray

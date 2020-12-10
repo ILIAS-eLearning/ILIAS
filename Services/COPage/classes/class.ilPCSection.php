@@ -473,10 +473,9 @@ class ilPCSection extends ilPageContent
      */
     public function insertTimings($a_html)
     {
-        $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $c_pos = 0;
+        $end = 0;
         $start = strpos($a_html, "{{{{{Section;ActiveFrom");
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);

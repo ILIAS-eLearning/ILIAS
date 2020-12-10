@@ -1566,6 +1566,7 @@ class ilTree
         } elseif ($translation_type == "db") {
 
             // Try to retrieve object translation from cache
+            $lang_code = ''; // This did never work, because it was undefined before
             if ($this->isCacheUsed() &&
                 array_key_exists($data["obj_id"] . '.' . $lang_code, $this->translation_cache)) {
                 $key = $data["obj_id"] . '.' . $lang_code;

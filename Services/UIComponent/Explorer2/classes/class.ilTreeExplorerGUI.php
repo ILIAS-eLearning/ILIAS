@@ -30,6 +30,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     protected $preload_childs = false;
     protected $root_node_data = null;
     protected $all_childs = array();
+    protected $root_id = 0;
 
     /**
      * @var \ILIAS\DI\UIServices

@@ -164,10 +164,11 @@ class ilEventItems
             
 
         $res = $ilDB->query($query);
+        $items = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $items[] = $row->item_id;
         }
-        return $items ? $items : array();
+        return $items;
     }
     
     /**

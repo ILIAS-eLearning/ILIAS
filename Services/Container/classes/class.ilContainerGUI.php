@@ -122,6 +122,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected $ui_filter;
 
+    /** @var bool  */
+    protected $edit_order = false;
+
     /**
     * Constructor
     * @access public

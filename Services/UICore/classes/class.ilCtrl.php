@@ -408,11 +408,11 @@ class ilCtrl
         if ($a_class != "") {
             $module_class = ilCachedCtrl::getInstance();
             $mc_rec = $module_class->lookupModuleClass($class);
-            $n_class = $mc_rec['lower_class'];
+            $n_class = $mc_rec['lower_class'] ?? '';
 
             if ($n_class == "") {
                 $mc_rec = $module_class->lookupServiceClass($class);
-                $n_class = $mc_rec['lower_class'];
+                $n_class = $mc_rec['lower_class'] ?? '';
             }
             
             if ($n_class != "") {
@@ -1783,7 +1783,7 @@ class ilCtrl
     private function getParentCidOfNode($a_node)
     {
         $class_ids = explode(":", $a_node);
-        return $class_ids[count($class_ids) - 2];
+        return $class_ids[count($class_ids) - 2] ?? '';
     }
 
     /**

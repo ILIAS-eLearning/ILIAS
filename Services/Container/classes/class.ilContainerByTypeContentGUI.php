@@ -153,7 +153,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         
         // iterate all types
         foreach ($this->getGroupedObjTypes() as $type => $v) {
-            if (is_array($this->items[$type]) &&
+            if (isset($this->items[$type]) && is_array($this->items[$type]) &&
                 $this->renderer->addTypeBlock($type)) {
                 $this->renderer->setBlockPosition($type, ++$pos);
                 
