@@ -196,7 +196,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     {
         $ilUser = $this->user;
         
-        if ($_GET['expand']) {
+        if (isset($_GET['expand']) && $_GET['expand']) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
             } else {

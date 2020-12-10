@@ -139,40 +139,30 @@ class ilCtrl
      */
     public function callBaseClass()
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        $baseClass = strtolower($_GET["baseClass"]);
+        $baseClass = strtolower($_GET['baseClass']);
 
         $module_class = ilCachedCtrl::getInstance();
         $mc_rec = $module_class->lookupModuleClass($baseClass);
 
-        $module = $mc_rec["module"];
-        $class = $mc_rec["class"];
-        $class_dir = $mc_rec["dir"];
-        
-        if ($module != "") {
-            $m_set = $ilDB->query("SELECT * FROM il_component WHERE name = " .
-                $ilDB->quote($module, "text"));
-            $m_rec = $ilDB->fetchAssoc($m_set);
-        } else {		// check whether class belongs to a service
+        $module = ($mc_rec['module'] ?? '');
+        $class = ($mc_rec['class'] ?? '');
+
+        if ($module === '') {
             $mc_rec = $module_class->lookupServiceClass($baseClass);
 
-            $service = $mc_rec["service"];
-            $class = $mc_rec["class"];
-            $class_dir = $mc_rec["dir"];
-            
-            if ($service == "") {
-                include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
-                throw new ilCtrlException("Could not find entry in modules.xml or services.xml for " .
-                    $baseClass . " <br/>" . str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"])));
+            $service = $mc_rec['service'];
+            $class = $mc_rec['class'];
+
+            if ($service === '') {
+                throw new ilCtrlException(
+                    "Could not find entry in modules.xml or services.xml for " .
+                    $baseClass . " <br/>" . str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"]))
+                );
             }
 
-            $m_rec = ilComponent::getComponentInfo('Services', $service);
+            ilComponent::getComponentInfo('Services', $service);
         }
-        
-        // forward processing to base class
+
         $this->getCallStructure(strtolower($baseClass));
         $base_class_gui = new $class();
         $this->forwardCommand($base_class_gui);
@@ -482,9 +472,9 @@ class ilCtrl
      *
      * @return	string		id of current command target node
      */
-    public function getCmdNode()
+    public function getCmdNode() : string
     {
-        return $_GET["cmdNode"];
+        return $_GET["cmdNode"] ?? '';
     }
 
     /**
@@ -700,7 +690,7 @@ class ilCtrl
         $objDefinition = $DIC["objDefinition"];
         
         // forward to learning progress settings if possible and accessible
-        if ($_GET["gotolp"] &&
+        if (isset($_GET["gotolp"]) && $_GET["gotolp"] &&
             $a_gui_obj) {
             $ref_id = $_GET["ref_id"];
             if (!$ref_id) {

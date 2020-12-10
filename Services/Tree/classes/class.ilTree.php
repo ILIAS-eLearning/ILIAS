@@ -26,6 +26,9 @@ class ilTree
     public const TREE_TYPE_MATERIALIZED_PATH = 'mp';
     public const TREE_TYPE_NESTED_SET = 'ns';
 
+    /** @var array<int, bool> */
+    protected $oc_preloaded = [];
+
     const POS_LAST_NODE = -2;
     const POS_FIRST_NODE = -1;
     
@@ -589,7 +592,7 @@ class ilTree
 
         // preload object translation information
         if ($this->__isMainTree() && $this->isCacheUsed() && is_object($ilObjDataCache) &&
-            is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !$this->oc_preloaded[$a_node_id]) {
+            is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !isset($this->oc_preloaded[$a_node_id])) {
             //			$ilObjDataCache->preloadTranslations($obj_ids, $this->lang_code);
             $ilObjDataCache->preloadObjectCache($obj_ids, $this->lang_code);
             $this->fetchTranslationFromObjectDataCache($obj_ids);

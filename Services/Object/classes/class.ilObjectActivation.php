@@ -368,8 +368,7 @@ class ilObjectActivation
     
         if (!isset($row["obj_id"])) {
             $row = self::createDefaultEntry($a_ref_id);
-        }
-        if ($row["obj_id"]) {
+        } else {
             self::$preloaded_data[$row["obj_id"]] = $row;
         }
         return $row;

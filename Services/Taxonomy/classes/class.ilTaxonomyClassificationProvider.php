@@ -123,7 +123,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
             }
         }
 
-        if (is_array(self::$valid_tax_map[$a_parent_ref_id])) {
+        if (isset(self::$valid_tax_map[$a_parent_ref_id]) && is_array(self::$valid_tax_map[$a_parent_ref_id])) {
             return sizeof(self::$valid_tax_map[$a_parent_ref_id]);
         }
 

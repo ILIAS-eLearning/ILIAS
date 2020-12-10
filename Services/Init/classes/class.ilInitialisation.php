@@ -356,10 +356,10 @@ class ilInitialisation
 
         if (!defined('ILIAS_MODULE')) {
             $path = pathinfo($rq_uri);
-            if (!$path['extension']) {
-                $uri = $rq_uri;
-            } else {
+            if (isset($path['extension']) && $path['extension'] !== '') {
                 $uri = dirname($rq_uri);
+            } else {
+                $uri = $rq_uri;
             }
         } else {
             // if in module remove module name from HTTP_PATH
@@ -577,7 +577,7 @@ class ilInitialisation
         include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
         if (ilAuthFactory::getContext() == ilAuthFactory::CONTEXT_HTTP) {
             $cookie_path = '/';
-        } elseif ($GLOBALS['COOKIE_PATH']) {
+        } elseif (isset($GLOBALS['COOKIE_PATH'])) {
             // use a predefined cookie path from WebAccessChecker
             $cookie_path = $GLOBALS['COOKIE_PATH'];
         } else {
@@ -886,7 +886,7 @@ class ilInitialisation
         self::initUserAccount();
 
         // if target given, try to go there
-        if (strlen($_GET["target"])) {
+        if (isset($_GET["target"]) && is_string($_GET["target"]) && strlen($_GET["target"])) {
             // when we are already "inside" goto.php no redirect is needed
             $current_script = substr(strrchr($_SERVER["PHP_SELF"], "/"), 1);
             if ($current_script == "goto.php") {
@@ -1843,7 +1843,8 @@ class ilInitialisation
             return true;
         }
 
-        if (strtolower((string) $_REQUEST["baseClass"]) == "ilstartupgui") {
+        $base_class = (string) ($_REQUEST["baseClass"] ?? '');
+        if (strtolower($base_class) == "ilstartupgui") {
             $cmd_class = $_REQUEST["cmdClass"];
 
             if ($cmd_class == "ilaccountregistrationgui" ||
@@ -1866,7 +1867,7 @@ class ilInitialisation
 
         // #12884
         if (($a_current_script == "goto.php" && $_GET["target"] == "impr_0") ||
-            $_GET["baseClass"] == "ilImprintGUI") {
+            $base_class == "ilImprintGUI") {
             ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for baseClass: ' . $_GET['baseClass']);
             return true;
         }

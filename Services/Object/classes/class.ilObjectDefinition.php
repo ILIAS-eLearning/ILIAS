@@ -246,7 +246,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function getClassName($a_obj_name)
     {
-        return $this->obj_data[$a_obj_name]["class_name"];
+        return $this->obj_data[$a_obj_name]["class_name"] ?? '';
     }
 
 
@@ -258,7 +258,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function getLocation($a_obj_name)
     {
-        return $this->obj_data[$a_obj_name]["location"];
+        return $this->obj_data[$a_obj_name]["location"] ?? '';
     }
 
     /**

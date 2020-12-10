@@ -505,7 +505,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl = $this->tpl;
         
         // dont show icon, if role (permission gui->rolegui) is edited
-        if ($_GET["obj_id"] != "") {
+        if (isset($_GET["obj_id"]) && $_GET["obj_id"] != "") {
             return;
         }
         // hide for member view
@@ -2474,16 +2474,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         return true;
     }
 
-    public function isActiveAdministrationPanel()
+    public function isActiveAdministrationPanel() : bool
     {
         // #10081
-        if ($_SESSION["il_cont_admin_panel"] &&
+        if (ilSession::get("il_cont_admin_panel") &&
             $this->object->getRefId() &&
             !$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             return false;
         }
         
-        return $_SESSION["il_cont_admin_panel"];
+        return (bool) ilSession::get("il_cont_admin_panel");
     }
     
     /**
