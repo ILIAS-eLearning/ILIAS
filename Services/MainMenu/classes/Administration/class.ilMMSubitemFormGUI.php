@@ -135,7 +135,7 @@ class ilMMSubitemFormGUI
         // ROLE BASED VISIBILITY
         $access                         = new ilObjMainMenuAccess();
         $value_role_based_visibility    = NULL;
-        if($this->item_facade->hasRoleBasedVisibility() AND !empty($this->item_facade->getGlobalRoleIDs())) {
+        if($this->item_facade->hasRoleBasedVisibility() && !empty($this->item_facade->getGlobalRoleIDs())) {
             $value_role_based_visibility[0] = $this->item_facade->getGlobalRoleIDs();
         }
         $role_based_visibility = $f()->field()->optionalGroup(

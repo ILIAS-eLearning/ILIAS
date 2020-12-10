@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
 
 /**
  * Class ilMMCustomItemFacade
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMCustomItemFacade extends ilMMAbstractItemFacade
@@ -20,14 +19,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      */
     protected $action = '';
     /**
-     * @var bool
-     */
-    protected $role_based_visibility = false;
-    /**
-     * @var array
-     */
-    protected $global_role_ids = [];
-    /**
      * @var string
      */
     protected $type = '';
@@ -35,7 +26,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
      * @var bool
      */
     protected $top_item = false;
-
 
     /**
      * @inheritDoc
@@ -55,7 +45,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -68,7 +57,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
                 $mm->setDefaultTitle($default_title);
                 $mm->setType($this->getType());
                 $mm->setRoleBasedVisibility($this->role_based_visibility);
-                if($this->role_based_visibility) {
+                if ($this->role_based_visibility) {
                     $mm->setGlobalRoleIDs($this->global_role_ids);
                 }
                 $mm->update();
@@ -76,7 +65,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         }
         parent::update();
     }
-
 
     /**
      * @inheritDoc
@@ -94,7 +82,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         parent::delete();
     }
 
-
     /**
      * @return ilMMCustomItemStorage|null
      */
@@ -106,6 +93,13 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return $mm;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function supportsRoleBasedVisibility() : bool
+    {
+        return true;
+    }
 
     /**
      * @inheritDoc
@@ -115,7 +109,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -123,7 +116,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return true;
     }
-
 
     /**
      * @inheritDoc
@@ -133,7 +125,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return true;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -141,7 +132,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         return "Custom";
     }
-
 
     /**
      * @return string
@@ -151,7 +141,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return "";
     }
 
-
     /**
      * @inheritDoc
      */
@@ -159,7 +148,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         $this->action = $action;
     }
-
 
     /**
      * @inheritDoc
@@ -169,7 +157,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         return $this->type;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -177,43 +164,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     {
         $this->type = $type;
     }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function hasRoleBasedVisibility() : bool
-    {
-        return $this->role_based_visibility;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setRoleBasedVisibility(bool $role_based_visibility)
-    {
-        $this->role_based_visibility = $role_based_visibility;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getGlobalRoleIDs() : array
-    {
-        return $this->global_role_ids;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function setGlobalRoleIDs(array $global_role_ids)
-    {
-        $this->global_role_ids = $global_role_ids;
-    }
-
 
     /**
      * @inheritDoc
@@ -226,7 +176,6 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
 
         return $this->top_item;
     }
-
 
     /**
      * @inheritDoc

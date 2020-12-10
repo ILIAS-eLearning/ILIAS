@@ -156,4 +156,13 @@ class ilMMNullItemFacade extends ilMMCustomItemFacade implements ilMMItemFacadeI
     {
         parent::delete();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsRoleBasedVisibility() : bool
+    {
+        return true;
+    }
+
 }

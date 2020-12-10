@@ -97,6 +97,31 @@ interface ilMMItemFacadeInterface
     /**
      * @return bool
      */
+    public function supportsRoleBasedVisibility() : bool;
+
+    /**
+     * @return bool
+     */
+    public function hasRoleBasedVisibility() : bool;
+
+    /**
+     * @return array
+     */
+    public function getGlobalRoleIDs() : array;
+
+    /**
+     * @param array $global_role_ids
+     */
+    public function setGlobalRoleIDs(array $global_role_ids) : void;
+
+    /**
+     * @param bool $role_based_visibility
+     */
+    public function setRoleBasedVisibility(bool $role_based_visibility) : void;
+
+    /**
+     * @return bool
+     */
     public function isEmpty() : bool;
 
     /**
