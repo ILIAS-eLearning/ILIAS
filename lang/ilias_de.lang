@@ -14918,6 +14918,8 @@ crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ wurde abgeschlossen in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ wurde abgeschlossen.
 lhist#:#lhist_learning_history#:#Lernverlauf
+mme#:#flush#:#Verlorene Einträge löschen
+mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge

@@ -28,6 +28,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_UPLOAD = 'upload';
     const CMD_SELECT_PARENT = 'selectParent';
     const CMD_MOVE = 'move';
+    const CMD_FLUSH = 'flush';
 
     private function dispatchCommand($cmd)
     {
@@ -86,6 +87,11 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 break;
             case self::CMD_SELECT_PARENT:
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
+            case self::CMD_FLUSH:
+                $this->access->checkAccessAndThrowException('write');
+                $this->flush();
+                break;
+            case self::CMD_UPLOAD:
                 $this->access->checkAccessAndThrowException('write');
                 return $this->selectParent();
             case self::CMD_MOVE:
@@ -150,6 +156,14 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             $b->setCaption($this->lng->txt(self::CMD_RESTORE), false);
             $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_CONFIRM_RESTORE));
             $this->toolbar->addButtonInstance($b);
+
+            // REMOVE LOST ITEMS
+            if ($this->repository->hasLostItems()) {
+                $b = ilLinkButton::getInstance();
+                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
+                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
+                $this->toolbar->addButtonInstance($b);
+            }
         }
 
         // TABLE
@@ -265,6 +279,13 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $c->setHeaderText($this->lng->txt('msg_restore_confirm'));
 
         return $c->getHTML();
+    }
+
+    private function flush() : void
+    {
+        $this->repository->flushLostItems();
+        ilUtil::sendSuccess($this->lng->txt("msg_subitem_flushed"), true);
+        $this->cancel();
     }
 
     private function restore() : void
