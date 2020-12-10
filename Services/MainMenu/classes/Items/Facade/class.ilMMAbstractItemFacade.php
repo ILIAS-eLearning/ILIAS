@@ -22,7 +22,14 @@ use ILIAS\UI\Component\Link\Link;
  */
 abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 {
-
+    /**
+     * @var bool
+     */
+    protected $role_based_visibility = false;
+    /**
+     * @var array
+     */
+    protected $global_role_ids = [];
     /**
      * @var \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation
      */
@@ -50,12 +57,14 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
      * @param Main                                                       $collector
      * @throws Throwable
      */
-    public function __construct(\ILIAS\GlobalScreen\Identification\IdentificationInterface $identification, Main $collector)
-    {
-        $this->identification   = $identification;
-        $this->gs_item          = $collector->getSingleItemFromFilter($identification);
+    public function __construct(
+        \ILIAS\GlobalScreen\Identification\IdentificationInterface $identification,
+        Main $collector
+    ) {
+        $this->identification = $identification;
+        $this->gs_item = $collector->getSingleItemFromFilter($identification);
         $this->type_information = $collector->getTypeInformationCollection()->get(get_class($this->gs_item));
-        $this->mm_item          = ilMMItemStorage::register($this->gs_item);
+        $this->mm_item = ilMMItemStorage::register($this->gs_item);
     }
 
     public function getId() : string
@@ -69,6 +78,46 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function hasStorage() : bool
     {
         return ilMMItemStorage::find($this->getId()) !== null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsRoleBasedVisibility() : bool
+    {
+        return false;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasRoleBasedVisibility() : bool
+    {
+        return $this->role_based_visibility;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setRoleBasedVisibility(bool $role_based_visibility) : void
+    {
+        $this->role_based_visibility = $role_based_visibility;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getGlobalRoleIDs() : array
+    {
+        return $this->global_role_ids;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setGlobalRoleIDs(array $global_role_ids) : void
+    {
+        $this->global_role_ids = $global_role_ids;
     }
 
     /**
@@ -341,7 +390,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     {
         if ($this->isDeletable()) {
             $serialize = $this->identification->serialize();
-            $mm        = ilMMItemStorage::find($serialize);
+            $mm = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
                 $mm->delete();
             }
