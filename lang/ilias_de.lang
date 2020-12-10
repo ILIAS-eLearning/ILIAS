@@ -10578,6 +10578,8 @@ mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
+mme#:#flush#:#Verlorene Einträge löschen
+mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#add_languages#:#Sprache hinzufügen
 mme#:#additional_langs#:#Zusätzliche Sprachen
 mme#:#button_save#:#Speichern

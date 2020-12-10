@@ -4,15 +4,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ilMMTopItemGUI
- *
  * @ilCtrl_IsCalledBy ilMMSubItemGUI: ilObjMainMenuGUI
  * @ilCtrl_Calls      ilMMSubItemGUI: ilMMItemTranslationGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMSubItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
+
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
     const CMD_CREATE = 'subitem_create';
@@ -26,7 +25,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CANCEL = 'cancel';
-
 
     private function dispatchCommand($cmd)
     {
@@ -73,7 +71,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 $this->access->checkAccessAndThrowException('write');
 
                 return $this->confirmDelete();
-                break;
             case self::CMD_DELETE:
                 $this->access->checkAccessAndThrowException('write');
                 $this->delete();
@@ -90,13 +87,12 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-
     private function saveTable()
     {
         global $DIC;
         $r = $DIC->http()->request()->getParsedBody();
         foreach ($r[self::IDENTIFIER] as $identification_string => $data) {
-            $item = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
+            $item     = $this->repository->getItemFacadeForIdentificationString($this->unhash($identification_string));
             $position = (int) $data['position'];
             $item->setPosition($position);
             $item->setActiveStatus((bool) $data['active']);
@@ -105,7 +101,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         }
         $this->cancel();
     }
-
 
     public function executeCommand()
     {
@@ -129,10 +124,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         }
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -143,10 +136,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -160,10 +151,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -174,10 +163,8 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -191,7 +178,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     private function applyFilter()
     {
         $table = new ilMMSubItemTableGUI($this, $this->repository, $this->access);
@@ -199,7 +185,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         $this->cancel();
     }
-
 
     private function resetFilter()
     {
@@ -210,18 +195,16 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-
     /**
      * @return string
      */
     private function index() : string
     {
-        // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
+            // ADD NEW
             $b = ilLinkButton::getInstance();
             $b->setUrl($this->ctrl->getLinkTarget($this, ilMMSubItemGUI::CMD_ADD));
             $b->setCaption($this->lng->txt(ilMMSubItemGUI::CMD_ADD), false);
-
             $this->toolbar->addButtonInstance($b);
         }
 
@@ -231,7 +214,6 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         return $table->getHTML();
     }
-
 
     private function delete()
     {
@@ -244,12 +226,10 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
         $this->cancel();
     }
 
-
     private function cancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_SUB_ITEMS);
     }
-
 
     /**
      * @return string

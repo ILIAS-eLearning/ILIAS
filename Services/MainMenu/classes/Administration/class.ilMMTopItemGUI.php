@@ -5,15 +5,14 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
  * Class ilMMTopItemGUI
- *
  * @ilCtrl_IsCalledBy ilMMTopItemGUI: ilObjMainMenuGUI
  * @ilCtrl_Calls      ilMMTopItemGUI: ilMMItemTranslationGUI
- *
  * @author            Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMMTopItemGUI extends ilMMAbstractItemGUI
 {
     use Hasher;
+
     const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
     const CMD_ADD = 'topitem_add';
     const CMD_RESTORE = 'restore';
@@ -27,7 +26,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_CANCEL = 'cancel';
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CONFIRM_RESTORE = 'confirmRestore';
-
+    const CMD_FLUSH = 'flush';
 
     private function dispatchCommand($cmd)
     {
@@ -77,10 +76,14 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             case self::CMD_CONFIRM_RESTORE:
                 return $this->confirmRestore();
                 break;
+            case self::CMD_FLUSH:
+                $this->access->checkAccessAndThrowException('write');
+                $this->flush();
+                break;
             case self::CMD_RESTORE:
                 $this->access->checkAccessAndThrowException("write");
 
-                return $this->restore();
+                $this->restore();
                 break;
             case self::CMD_RENDER_INTERRUPTIVE:
                 $this->access->checkAccessAndThrowException("write");
@@ -90,7 +93,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
 
         return "";
     }
-
 
     private function saveTable()
     {
@@ -104,7 +106,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         }
         $this->cancel();
     }
-
 
     public function executeCommand()
     {
@@ -128,18 +129,25 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         }
     }
 
-
     /**
      * @return string
      */
     private function index() : string
     {
-        // ADD NEW
         if ($this->access->hasUserPermissionTo('write')) {
+            // ADD NEW
             $b = ilLinkButton::getInstance();
             $b->setCaption($this->lng->txt(self::CMD_ADD), false);
             $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
             $this->toolbar->addButtonInstance($b);
+
+            // REMOVE LOST ITEMS
+            if ($this->repository->hasLostItems()) {
+                $b = ilLinkButton::getInstance();
+                $b->setUrl($this->ctrl->getLinkTarget($this, self::CMD_FLUSH));
+                $b->setCaption($this->lng->txt(self::CMD_FLUSH), false);
+                $this->toolbar->addButtonInstance($b);
+            }
         }
 
         // TABLE
@@ -149,22 +157,18 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $table->getHTML();
     }
 
-
     private function cancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_VIEW_TOP_ITEMS);
     }
-
 
     private function doubleCancel()
     {
         $this->ctrl->redirectByClass(self::class, self::CMD_CANCEL);
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -175,10 +179,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param \ILIAS\DI\Container $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -192,10 +194,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -206,10 +206,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $f->getHTML();
     }
 
-
     /**
      * @param \ILIAS\DI\Container $DIC
-     *
      * @return string
      * @throws Throwable
      */
@@ -228,7 +226,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return "";
     }
 
-
     private function delete()
     {
         $item = $this->getMMItemFromRequest();
@@ -238,7 +235,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         ilUtil::sendSuccess($this->lng->txt("msg_topitem_deleted"), true);
         $this->cancel();
     }
-
 
     /**
      * @return string
@@ -258,7 +254,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
-
     private function confirmRestore() : string
     {
         $c = new ilConfirmationGUI();
@@ -270,6 +265,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         return $c->getHTML();
     }
 
+    private function flush()
+    {
+        $this->repository->flushLostItems();
+        ilUtil::sendSuccess($this->lng->txt("msg_subitem_flushed"), true);
+        $this->cancel();
+    }
 
     private function restore()
     {
@@ -305,7 +306,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $r("./Modules", "/module.xml");
 
         ilGlobalCache::flushAll();
-
 
         ilUtil::sendSuccess($this->lng->txt('msg_restored'), true);
 

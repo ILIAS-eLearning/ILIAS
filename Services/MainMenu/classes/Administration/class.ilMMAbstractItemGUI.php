@@ -55,7 +55,10 @@ class ilMMAbstractItemGUI
      * @var ilObjMainMenuAccess
      */
     protected $access;
-
+    /**
+     * @var \ILIAS\GlobalScreen\Services
+     */
+    protected $gs;
 
     /**
      * ilMMAbstractItemGUI constructor.
@@ -79,6 +82,7 @@ class ilMMAbstractItemGUI
         $this->http = $DIC->http();
         $this->ui = $DIC->ui();
         $this->access = new ilObjMainMenuAccess();
+        $this->gs = $DIC->globalScreen();
     }
 
 
