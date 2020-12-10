@@ -2704,8 +2704,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $this->selectedSorting = \ilSession::get('viewmode');
         }
 
-        if (isset($this->httpRequest->getQueryParams()['viewmode'])
-            && (int) $this->httpRequest->getQueryParams()['viewmode']  !== (int) $this->selectedSorting) {
+        if (
+            isset($this->httpRequest->getQueryParams()['viewmode']) &&
+            (int) $this->httpRequest->getQueryParams()['viewmode']  !== (int) $this->selectedSorting
+        ) {
             $this->selectedSorting = (int) $this->httpRequest->getQueryParams()['viewmode'];
         }
     
