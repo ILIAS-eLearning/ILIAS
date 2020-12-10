@@ -14846,6 +14846,8 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
+mme#:#flush#:#Remove Lost Items
+mme#:#msg_subitem_flushed#:#Lost Items removed.
 mme#:#main#:#Main Menu
 mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
