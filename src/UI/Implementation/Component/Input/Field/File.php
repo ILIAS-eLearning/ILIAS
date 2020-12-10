@@ -11,15 +11,14 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Class File
- *
  * @package ILIAS\UI\Implementation\Component\Input\Field
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class File extends Input implements C\Input\Field\File
 {
     use JavaScriptBindable;
     use Triggerer;
+
     /**
      * @var array
      */
@@ -33,27 +32,32 @@ class File extends Input implements C\Input\Field\File
      */
     private $upload_handler;
 
-
-    public function __construct(DataFactory $data_factory, Factory $refinery, C\Input\Field\UploadHandler $handler, $label, $byline)
-    {
+    public function __construct(
+        DataFactory $data_factory,
+        Factory $refinery,
+        C\Input\Field\UploadHandler $handler,
+        $label,
+        $byline
+    ) {
         $this->upload_handler = $handler;
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
-
 
     protected function getConstraintForRequirement()
     {
         return $this->refinery->string();
     }
 
-
     protected function isClientSideValueOk($value) : bool
     {
+        if (null === $value) {
+            return true;
+        }
         if (!is_array($value)) {
             return false;
         }
         foreach ($value as $string) {
-            if (!is_string($string)) {
+            if (!is_string($string) && null !== $string) {
                 return false;
             }
         }
@@ -61,14 +65,12 @@ class File extends Input implements C\Input\Field\File
         return true;
     }
 
-
     public function getUpdateOnLoadCode() : \Closure
     {
         return function ($id) {
             return '';
         };
     }
-
 
     public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
     {
@@ -78,12 +80,10 @@ class File extends Input implements C\Input\Field\File
         return $clone;
     }
 
-
     public function getMaxFileFize() : int
     {
         return $this->max_file_size;
     }
-
 
     public function withInput(InputData $input)
     {
@@ -95,12 +95,10 @@ class File extends Input implements C\Input\Field\File
         return parent::withInput($input);
     }
 
-
     public function getUploadHandler() : C\Input\Field\UploadHandler
     {
         return $this->upload_handler;
     }
-
 
     public function withAcceptedMimeTypes(array $mime_types) : \ILIAS\UI\Component\Input\Field\File
     {
@@ -109,7 +107,6 @@ class File extends Input implements C\Input\Field\File
 
         return $clone;
     }
-
 
     public function getAcceptedMimeTypes() : array
     {
