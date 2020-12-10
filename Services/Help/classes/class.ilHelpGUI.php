@@ -129,13 +129,13 @@ class ilHelpGUI
             return "";
         }
         
-        $scr_id = ($this->screen_id[self::ID_PART_SCREEN] != "")
+        $scr_id = (isset($this->screen_id[self::ID_PART_SCREEN]) && $this->screen_id[self::ID_PART_SCREEN] != "")
             ? $this->screen_id[self::ID_PART_SCREEN]
-            : $this->def_screen_id[self::ID_PART_SCREEN];
+            : ($this->def_screen_id[self::ID_PART_SCREEN] ?? '');
         
-        $sub_scr_id = ($this->screen_id[self::ID_PART_SUB_SCREEN] != "")
+        $sub_scr_id = (isset($this->screen_id[self::ID_PART_SUB_SCREEN]) && $this->screen_id[self::ID_PART_SUB_SCREEN] != "")
             ? $this->screen_id[self::ID_PART_SUB_SCREEN]
-            : $this->def_screen_id[self::ID_PART_SUB_SCREEN];
+            : ($this->def_screen_id[self::ID_PART_SUB_SCREEN] ?? '');
         
         $screen_id = $comp . "/" .
             $scr_id . "/" .

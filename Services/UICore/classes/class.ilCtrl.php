@@ -229,6 +229,7 @@ class ilCtrl
     {
         $class = strtolower(get_class($a_gui_object));
 
+        $baseclass = '';
         if (count($class_path) > 0) {
             $class_path = array_merge($class_path, [$class]);
             $p = $this->getParameterArrayByClass($class_path);
@@ -243,7 +244,8 @@ class ilCtrl
             $current_inner_base_class = $this->inner_base_class;
             $this->use_current_to_determine_next = true;
 
-            if ($baseclass != $_GET["baseClass"]) {
+            $requestBaseClass = (string) ($_GET["baseClass"] ?? '');
+            if ($baseclass != $requestBaseClass) {
                 $this->inner_base_class = $baseclass;
             }
             $current_node = $this->current_node;

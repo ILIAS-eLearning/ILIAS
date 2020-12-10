@@ -686,7 +686,8 @@ abstract class ilContainerContentGUI
             }
         }
 
-
+        $asynch = false;
+        $asynch_url = '';
         if ($ilSetting->get("item_cmd_asynch")) {
             $asynch = true;
             $ilCtrl->setParameter($this->container_gui, "cmdrefid", $a_item_data['ref_id']);
