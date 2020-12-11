@@ -11360,7 +11360,6 @@ ps#:#crs_ps_cdf_info#:#Donnée spécifique supplémentaire de cours :
 ps#:#crs_ps_required_info#:#Des zones spécifiques supplémentaires de cours sont requises pour accèder au contenu du cours.
 ps#:#grp_ps_cdf_info#:#Donnée spécifique supplémentaire de groupe :
 ps#:#grp_ps_required_info#:#Des zones spécifiques supplémentaires de groupe sont requises pour accèder au contenu du groupe.
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#Charte Utilisateur Acceptée
 ps#:#ps_auto_https#:#Détecter HTTPS
 ps#:#ps_auto_https_description#:#Si actif, ILIAS essaie de détecter le statut HTTPS en analysant la valeur de l'en-tête spécifié ci-dessous.
@@ -15090,3 +15089,49 @@ wsp#:#wsp_type_scov#:#Certificat : SCORM
 wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unmarked permissions are ignored.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.###11 12 2020 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.###11 12 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###11 12 2020 new variable
+content#:#cont_link#:#Link###11 12 2020 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###11 12 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###11 12 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###11 12 2020 new variable
+book#:#book_set_delete#:#Delete###11 12 2020 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###11 12 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###11 12 2020 new variable
+style#:#style#:#Style###11 12 2020 new variable
+chatroom#:#chat_log_level#:#Log Level###11 12 2020 new variable
+mme#:#flush#:#Remove Lost Items###11 12 2020 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###11 12 2020 new variable
+sess#:#sess_title#:#Title of Session###11 12 2020 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###11 12 2020 new variable
+awrn#:#user_awrn_default#:#Default###11 12 2020 new variable
+awrn#:#user_awrn_hide#:#Hide my status###11 12 2020 new variable
+awrn#:#user_awrn_show#:#Show my status###11 12 2020 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###11 12 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###11 12 2020 new variable
+common#:#logo#:#ILIAS Logo###11 12 2020 new variable
+common#:#obj_lsos#:#Learning Sequences###11 12 2020 new variable
+common#:#obj_lsos_desc#:#Learning Sequence Administration###11 12 2020 new variable
+common#:#lso_admin_form_title#:#Settings###11 12 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###11 12 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###11 12 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###11 12 2020 new variable
