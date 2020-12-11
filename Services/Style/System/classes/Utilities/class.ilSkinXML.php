@@ -345,9 +345,17 @@ class ilSkinXML implements \Iterator, \Countable
         return ($this->version != '$Id$');
     }
 
+    public function updateParentStyleOfSubstyles($old_parent_style_id,$new_parent_style_id){
+        if($this->hasStyleSubstyles($old_parent_style_id)){
+            foreach ( $this->getSubstylesOfStyle($old_parent_style_id) as $substyle){
+                $substyle->setSubstyleOf($new_parent_style_id);
+            }
+        }
+    }
+
     /**
      * @param $style_id
-     * @return array
+     * @return ilSkinStyleXML[]
      */
     public function getSubstylesOfStyle($style_id)
     {
@@ -372,7 +380,7 @@ class ilSkinXML implements \Iterator, \Countable
      */
     public function hasStyleSubstyles($style_id)
     {
-        if ($this->getStyle($style_id)) {
+        if ($style_id != "" && $this->getStyle($style_id)) {
             foreach ($this->getStyles() as $style) {
                 if ($style->getId() != $style_id && $style->isSubstyle()) {
                     if ($style->getSubstyleOf() == $style_id) {
