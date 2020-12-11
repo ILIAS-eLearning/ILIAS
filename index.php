@@ -48,6 +48,8 @@ if(
         // netscaler session
         // kerberos session
         case '1':
+            include_once './Services/Context/classes/class.ilContext.php';
+            ilContext::init(ilContext::CONTEXT_WAC);
             require_once("Services/Init/classes/class.ilInitialisation.php");
             ilInitialisation::initILIAS();
             $ilCtrl->initBaseClass("ilStartUpGUI");
