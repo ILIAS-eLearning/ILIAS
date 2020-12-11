@@ -48,6 +48,15 @@ if(
         // netscaler session
         // kerberos session
         case '1':
+            ilInitialisation::initILIAS();
+            require_once("Services/Init/classes/class.ilInitialisation.php");
+            ilInitialisation::initILIAS();
+            $ilCtrl->initBaseClass("ilStartUpGUI");
+            $ilCtrl->setCmd('doStandardAuthentication');
+            $ilCtrl->setTargetScript("ilias.php");
+            $ilCtrl->callBaseClass();
+            exit;
+
         case '2':
             header('Location: ./intern' . $target);
             exit;
