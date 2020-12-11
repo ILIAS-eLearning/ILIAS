@@ -46,8 +46,9 @@ if(
     switch($_SERVER['SKY_SSO'])
     {
         // netscaler session
-        // kerberos session
         case '1':
+            $_POST['username'] = 'dummy';
+            $_POST['password'] = 'dummy';
             include_once './Services/Context/classes/class.ilContext.php';
             ilContext::init(ilContext::CONTEXT_WAC);
             require_once("Services/Init/classes/class.ilInitialisation.php");
@@ -58,10 +59,7 @@ if(
             $ilCtrl->callBaseClass();
             exit;
 
-        case '2':
-            header('Location: ./intern' . $target);
-            exit;
-
+        // kerberos session
         default:
             break;
     }
