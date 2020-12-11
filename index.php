@@ -50,7 +50,7 @@ if(
         case '1':
         case '2':
             header('Location: ./intern' . $target);
-            break;
+            exit;
 
         default:
             break;
