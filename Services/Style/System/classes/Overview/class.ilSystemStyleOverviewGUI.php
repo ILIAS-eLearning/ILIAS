@@ -490,7 +490,7 @@ class ilSystemStyleOverviewGUI
 
         try {
             $container = ilSystemStyleSkinContainer::generateFromId($skin_id, $message_stack);
-            $new_container = $container->copy();
+            $new_container = $container->copy($this->lng->txt("sty_acopy"));
             $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_copied"), ilSystemStyleMessage::TYPE_SUCCESS));
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_container->getSkin()->getId());
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $new_container->getSkin()->getStyle($style_id)->getId());
