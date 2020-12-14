@@ -1014,7 +1014,9 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 	 */
 	$.fn.inputFilter = function(inputFilter) {
 		return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function(e) {
-			if (inputFilter(this.value)) {
+			if ("-" === $.trim(this.value)) {
+				// https://mantis.ilias.de/view.php?id=29417
+			} else if (inputFilter(this.value)) {
 				this.oldValue = this.value;
 				this.oldSelectionStart = this.selectionStart;
 				this.oldSelectionEnd = this.selectionEnd;
