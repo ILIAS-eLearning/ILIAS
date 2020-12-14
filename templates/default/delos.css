@@ -9062,6 +9062,10 @@ footer {
     overflow: hidden;
     width: 100%;
   }
+  .il-layout-page .nav.il-maincontrols {
+    grid-row: 4;
+    grid-column: 1;
+  }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar {
     display: grid;
     display: -ms-grid;
@@ -9187,14 +9191,6 @@ footer {
   .il-header-locator span.caret {
     display: none;
   }
-  nav.il-maincontrols {
-    -ms-grid-column: 1;
-    -ms-grid-row: 3;
-    grid-column: 1;
-    grid-row: 3;
-    width: 100%;
-    z-index: 997;
-  }
   .il-maincontrols-mainbar {
     display: block;
     width: 100%;
@@ -9247,11 +9243,15 @@ footer {
     display: block;
   }
   .il-layout-page-content {
-    -ms-grid-column: 2;
+    -ms-grid-column: 1;
     -ms-grid-row: 3;
-    grid-column: 2;
+    grid-column: 1;
     grid-row: 3;
     overflow: auto;
+  }
+  div.il-system-infos {
+    grid-column: 1;
+    -ms-grid-column: 1;
   }
 }
 /*
