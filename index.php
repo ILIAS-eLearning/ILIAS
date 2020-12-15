@@ -47,17 +47,8 @@ if(
     {
         // netscaler session
         case '1':
-            $_POST['username'] = 'dummy';
-            $_POST['password'] = 'dummy';
-            include_once './Services/Context/classes/class.ilContext.php';
-            ilContext::init(ilContext::CONTEXT_WAC);
-            require_once("Services/Init/classes/class.ilInitialisation.php");
-            ilInitialisation::initILIAS();
-            $ilCtrl->initBaseClass("ilStartUpGUI");
-            $ilCtrl->setCmd('doStandardAuthentication');
-            $ilCtrl->setTargetScript("ilias.php");
-            $ilCtrl->callBaseClass();
-            exit;
+            header('Location: ./intern' . $target);
+            exxit;
 
         // kerberos session
         default:
