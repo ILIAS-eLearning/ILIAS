@@ -33,6 +33,9 @@ include_once('Services/LDAP/classes/class.ilLDAPServer.php');
 */
 class ilLDAPRoleGroupMapping
 {
+    /**
+     * @var ilLogger
+     */
     private $log = null;
     private static $instance = null;
     private $servers = null;
@@ -40,6 +43,11 @@ class ilLDAPRoleGroupMapping
     private $mapping_members = array();
     private $query = array();
     private $active_servers = false;
+
+    /**
+     * @var array
+     */
+    private $users = [];
     
     /**
      * Singleton contructor
@@ -51,9 +59,8 @@ class ilLDAPRoleGroupMapping
     {
         global $DIC;
 
-        $ilLog = $DIC['ilLog'];
+        $this->log = $DIC->logger()->auth();
         
-        $this->log = $ilLog;
         $this->initServers();
     }
     
@@ -118,10 +125,10 @@ class ilLDAPRoleGroupMapping
             return false;
         }
         if (!$this->isHandledUser($a_usr_id)) {
-            $this->log->write('LDAP assign: User ID: ' . $a_usr_id . ' has no LDAP account');
+            $this->log->info('LDAP assign: User ID: ' . $a_usr_id . ' has no LDAP account');
             return false;
         }
-        $this->log->write('LDAP assign: User ID: ' . $a_usr_id . ' Role Id: ' . $a_role_id);
+        $this->log->info('LDAP assigned: User ID: ' . $a_usr_id . ' Role Id: ' . $a_role_id);
         $this->assignToGroup($a_role_id, $a_usr_id);
 
         return true;
@@ -179,7 +186,7 @@ class ilLDAPRoleGroupMapping
         if (!$this->isHandledUser($a_usr_id)) {
             return false;
         }
-        $this->log->write('LDAP deassign: User ID: ' . $a_usr_id . ' Role Id: ' . $a_role_id);
+        $this->log->info('LDAP deassigned: User ID: ' . $a_usr_id . ' Role Id: ' . $a_role_id);
         $this->deassignFromGroup($a_role_id, $a_usr_id);
         
         return true;
@@ -220,9 +227,14 @@ class ilLDAPRoleGroupMapping
         
         $this->active_servers = true;
         $this->mappings = array();
+        $this->users = [];
         foreach ($server_ids as $server_id) {
             $this->servers[$server_id] = new ilLDAPServer($server_id);
             $this->mappings = ilLDAPRoleGroupMappingSettings::_getAllActiveMappings();
+            $this->users[$server_id] = ilObjUser::_getExternalAccountsByAuthMode(
+                'ldap_' . $server_id,
+                true
+            );
         }
         $this->mapping_info = array();
         $this->mapping_info_strict = array();
@@ -236,8 +248,6 @@ class ilLDAPRoleGroupMapping
                 }
             }
         }
-        $this->users = ilObjUser::_getExternalAccountsByAuthMode('ldap', true);
-        
         return true;
     }
     
@@ -261,7 +271,12 @@ class ilLDAPRoleGroupMapping
      */
     private function isHandledUser($a_usr_id)
     {
-        return array_key_exists($a_usr_id, $this->users);
+        foreach ($this->users as $server_id => $users) {
+            if (array_key_exists($a_usr_id, $users)) {
+                return true;
+            }
+        }
+        return false;
     }
     
     
@@ -279,23 +294,14 @@ class ilLDAPRoleGroupMapping
                 if ($data['isdn']) {
                     $external_account = $this->readDN($a_usr_id, $data['server_id']);
                 } else {
-                    $external_account = $this->users[$a_usr_id];
+                    $external_account = $this->users[$data['server_id']][$a_usr_id];
                 }
-                
                 // Forcing modAdd since Active directory is too slow and i cannot check if a user is member or not.
-                #if($this->isMember($external_account,$data))
-                #{
-                #	$this->log->write("LDAP assign: User already assigned to group '".$data['dn']."'");
-                #}
-                #else
-                {
-                    // Add user
-                    $query_obj = $this->getLDAPQueryInstance($data['server_id'], $data['url']);
-                    $query_obj->modAdd($data['dn'], array($data['member'] => $external_account));
-                    $this->log->write('LDAP assign: Assigned ' . $external_account . ' to group ' . $data['dn']);
-                }
+                $query_obj = $this->getLDAPQueryInstance($data['server_id'], $data['url']);
+                $query_obj->modAdd($data['dn'], array($data['member'] => $external_account));
+                $this->log->info('LDAP assign: Assigned ' . $external_account . ' to group ' . $data['dn']);
             } catch (ilLDAPQueryException $exc) {
-                $this->log->write($exc->getMessage());
+                $this->log->warning($exc->getMessage());
                 // try next mapping
                 continue;
             }
@@ -317,25 +323,18 @@ class ilLDAPRoleGroupMapping
                 if ($data['isdn']) {
                     $external_account = $this->readDN($a_usr_id, $data['server_id']);
                 } else {
-                    $external_account = $this->users[$a_usr_id];
+                    $external_account = $this->users[$data['server_id']][$a_usr_id];
                 }
                 
                 // Check for other role membership
                 if ($role_id = $this->checkOtherMembership($a_usr_id, $a_role_id, $data)) {
-                    $this->log->write('LDAP deassign: User is still assigned to role "' . $role_id . '".');
+                    $this->log->info('LDAP deassign: User is still assigned to role "' . $role_id . '".');
                     continue;
                 }
-                /*
-                if(!$this->isMember($external_account,$data))
-                 {
-                    $this->log->write("LDAP deassign: User not assigned to group '".$data['dn']."'");
-                    continue;
-                 }
-                */
                 // Deassign user
                 $query_obj = $this->getLDAPQueryInstance($data['server_id'], $data['url']);
                 $query_obj->modDelete($data['dn'], array($data['member'] => $external_account));
-                $this->log->write('LDAP deassign: Deassigned ' . $external_account . ' from group ' . $data['dn']);
+                $this->log->info('LDAP deassign: Deassigned ' . $external_account . ' from group ' . $data['dn']);
                 
                 // Delete from cache
                 if (is_array($this->mapping_members[$data['mapping_id']])) {
@@ -345,50 +344,14 @@ class ilLDAPRoleGroupMapping
                     }
                 }
             } catch (ilLDAPQueryException $exc) {
-                $this->log->write($exc->getMessage());
+                $this->log->warning($exc->getMessage());
                 // try next mapping
                 continue;
             }
         }
     }
     
-    /**
-     * Check if user is member
-     *
-     * @access private
-     * @throws ilLDAPQueryException
-     */
-    private function isMember($a_uid, $data)
-    {
-        if (!isset($this->mapping_members["$data[mapping_id]"])) {
-            // Read members
-            try {
-                $server = $this->servers["$data[server_id]"];
-                $query_obj = $this->getLDAPQueryInstance($data['server_id'], $server->getUrl());
 
-                // query for members
-                $res = $query_obj->query(
-                    $data['dn'],
-                    '(objectClass=*)',
-                    IL_LDAP_SCOPE_BASE,
-                    array($data['member'])
-                );
-                
-                $this->storeMembers($data['mapping_id'], $res->get());
-                unset($res);
-            } catch (ilLDAPQueryException $exc) {
-                throw $exc;
-            }
-        }
-        #var_dump("<pre>",$a_uid,$this->mapping_members,"</pre>");
-        
-        // Now check for membership in stored result
-        if (in_array($a_uid, $this->mapping_members["$data[mapping_id]"])) {
-            return true;
-        }
-        return false;
-    }
-    
     /**
      * Check other membership
      *
@@ -461,7 +424,7 @@ class ilLDAPRoleGroupMapping
             return $this->user_dns[$a_usr_id];
         }
         
-        $external_account = $this->users[$a_usr_id];
+        $external_account = $this->users[$a_server_id][$a_usr_id];
         
         try {
             $server = $this->servers[$a_server_id];
