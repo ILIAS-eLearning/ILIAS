@@ -298,6 +298,7 @@ class ilLDAPRoleGroupMapping
                 }
                 // Forcing modAdd since Active directory is too slow and i cannot check if a user is member or not.
                 $query_obj = $this->getLDAPQueryInstance($data['server_id'], $data['url']);
+                $this->log->info('Trying to add: ' . $external_account . ' to ' . $data['dn']);
                 $query_obj->modAdd($data['dn'], array($data['member'] => $external_account));
                 $this->log->info('LDAP assign: Assigned ' . $external_account . ' to group ' . $data['dn']);
             } catch (ilLDAPQueryException $exc) {
