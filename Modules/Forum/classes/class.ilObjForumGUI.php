@@ -5065,8 +5065,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $this->ctrl->clearParameters($this);
                     }
 
-                    if (!$this->user->isAnonymous() && $node->isPostRead()
-                    ) {
+                    if (!$this->user->isAnonymous() && $node->isPostRead()) {
                         $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
                         $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
                         $this->ctrl->setParameter($this, 'page', $pageIndex);
@@ -5245,6 +5244,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                                 $this->lng->txt('forums_info_delete_draft') :
                                 $this->lng->txt('forums_info_delete_post'),
                             $url
+                        )->withActionButtonLabel(
+                            strpos($url, 'deletePostingDraft') !== false ? 'deletePostingDraft' : 'deletePosting'
                         );
 
                         $deleteAction = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(

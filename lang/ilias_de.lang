@@ -280,6 +280,8 @@ forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich al
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
+forum#:#deletePosting#:#Beitrag löschen
+forum#:#deletePostingDraft#:#Beitragsentwurf löschen
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
