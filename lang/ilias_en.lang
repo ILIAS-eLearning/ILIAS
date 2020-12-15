@@ -360,7 +360,7 @@ mem#:#mmbr_gallery_user_actions#:#Member Gallery Actions
 forum#:#delete_drafts_successfully#:#The drafts were deleted successfully.
 forum#:#sure_delete_drafts#:#Are you sure, you want to delete the selected drafts?
 forum#:#restore#:#Restore
-forum#:#restore_draft_from_autosave#:#Restore draft
+forum#:#restore_draft_from_autosave#:#Restore Draft
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
 forum#:#edit_thread_draft#:#Edit thread draft postings created in forums.
@@ -369,7 +369,9 @@ forum#:#forums_threads_drafts_deleted#:#The selected threads including all posti
 forum#:#save_draft_successfully#:#The draft was saved successfully.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
 forum#:#delete_draft_successfully#:#The draft was deleted successfully.
-forum#:#forums_edit_draft#:#Edit draft
+forum#:#deletePosting#:#Delete Posting
+forum#:#deletePostingDraft#:#Delete Draft
+forum#:#forums_edit_draft#:#Edit Draft
 forum#:#publish#:#Publish
 forum#:#enable_send_attachments#:#Send attachments with forum notifications
 forum#:#enable_send_attachments_desc#:#Please note that file attachments must be stored separately for each notified user. This can cause a high usage of server disk space.
