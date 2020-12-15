@@ -47,8 +47,8 @@ if(
     {
         // netscaler session
         case '1':
-            header('Location: ./intern' . $target);
-            exxit;
+            header('Location: ./intern/index.php' . $target);
+            exit;
 
         // kerberos session
         default:
