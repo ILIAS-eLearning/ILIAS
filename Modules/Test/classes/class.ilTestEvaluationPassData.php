@@ -269,7 +269,7 @@ class ilTestEvaluationPassData
     /**
      * @param string $examId
      */
-    public function setExamId(string $examId) : void
+    public function setExamId(string $examId)
     {
         $this->examId = $examId;
     }
