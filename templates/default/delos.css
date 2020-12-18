@@ -7201,17 +7201,15 @@ button.close {
 .il-deck .row.row-eq-height:after {
   content: none !important;
 }
-@media (min-width: 768px) {
-  .row-eq-height {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .row-eq-height > div {
-    display: flex;
-  }
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+.row-eq-height > div {
+  display: flex;
 }
 .il-upload-file-item.row [class*="col-"].col-no-padding {
   padding-left: 0;
