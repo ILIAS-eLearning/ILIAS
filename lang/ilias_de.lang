@@ -13789,6 +13789,7 @@ rbac#:#mep_copy#:#Medienpool kopieren
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+form#:#form_date_aria_desc#:#Es ist folgendes Eingabeformat gefordert:
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
