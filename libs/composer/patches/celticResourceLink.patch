@@ -1,0 +1,14 @@
+diff --git a/src/ResourceLink.php b/src/ResourceLink.php
+<+>UTF-8
+===================================================================
+--- a/src/ResourceLink.php	(date 1602241351600)
++++ b/src/ResourceLink.php	(date 1602241351600)
+@@ -307,7 +307,7 @@
+     public function getConsumer()
+     {
+         if (is_null($this->consumer)) {
+-            if (!is_null($this->context) || !is_null($this->contextId)) {
++            if($this->context || $this->contextId) {
+                 $this->consumer = $this->getContext()->getConsumer();
+             } else {
+                 $this->consumer = ToolConsumer::fromRecordId($this->consumerId, $this->getDataConnector());
