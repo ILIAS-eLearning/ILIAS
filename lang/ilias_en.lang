@@ -10667,6 +10667,7 @@ dateplaner#:#cal_cg_notification#:#Course/Group Notification
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
 file#:#file_download#:#Download File
+trac#:#trac_lp_learner_access#:#View Own Learning Progress
 trac#:#trac_lp_learner_access_info#:#If active, users can access their own learning progress status.
 content#:#help_assign_help_ids#:#Chapter/Screen-IDs Assignment
 search#:#search_option_online#:#Online
