@@ -183,24 +183,26 @@ class ilFormatMail extends ilMail
 
         return $formatted;
     }
-                    
-                
 
     /**
-    * append signature to mail body
-    * @access	public
-    * @return string
-    */
-    public function appendSignature()
+     * @return string
+     */
+    public function appendSignature() : string
     {
-        return $this->mail_data["m_message"] .= chr(13) . chr(10) . $this->mail_options->getSignature();
+        $message = (string) ($this->mail_data['m_message'] ?? '');
+        $message .= chr(13) . chr(10) . $this->mail_options->getSignature();
+
+        return $message;
     }
 
     /**
      * @return string
      */
-    public function prependSignature()
+    public function prependSignature() : string
     {
-        return $this->mail_options->getSignature() . chr(13) . chr(10) . chr(13) . chr(10) . $this->mail_data["m_message"];
+        $message = (string) ($this->mail_data['m_message'] ?? '');
+        $message = $this->mail_options->getSignature() . chr(13) . chr(10) . chr(13) . chr(10) . $message;
+
+        return $message;
     }
 } // END class.ilFormatMail

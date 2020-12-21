@@ -59,7 +59,9 @@ class ilFileDataMail extends ilFileData
     {
         global $DIC;
 
-        define('MAILPATH', 'mail');
+        if (!defined('MAILPATH')) {
+            define('MAILPATH', 'mail');
+        }
         parent::__construct();
         $this->mail_path = parent::getPath() . "/" . MAILPATH;
         $this->checkReadWrite();
