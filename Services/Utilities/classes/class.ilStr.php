@@ -122,7 +122,7 @@ class ilStr
             return $ilCollator->compare(ilStr::strToUpper($a), ilStr::strToUpper($b));
         }
 
-        return (strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b)) > 0);
+        return strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b));
     }
     
     /**
