@@ -446,6 +446,13 @@ class ilMailFormGUI
             $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'cancelMail'));
         }
 
+        $mailData = [];
+        $mailData["rcp_to"] = '';
+        $mailData["rcp_cc"] = '';
+        $mailData["rcp_cc"] = '';
+        $mailData["rcp_bcc"] = '';
+        $mailData["attachments"] = [];
+
         switch ($_GET["type"]) {
             case 'reply':
                 if ($_SESSION['mail_id']) {
@@ -513,22 +520,22 @@ class ilMailFormGUI
                 break;
         
             case 'new':
-                if ($_GET['rcp_to']) {
+                if (isset($_GET['rcp_to'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_to"] = ilUtil::securePlainString($_GET['rcp_to']);
-                } elseif ($_SESSION['rcp_to']) {
+                } elseif (isset($_SESSION['rcp_to'])) {
                     $mailData["rcp_to"] = $_SESSION['rcp_to'];
                 }
-                if ($_GET['rcp_cc']) {
+                if (isset($_GET['rcp_cc'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_cc"] = ilUtil::securePlainString($_GET['rcp_cc']);
-                } elseif ($_SESSION['rcp_cc']) {
+                } elseif (isset($_SESSION['rcp_cc'])) {
                     $mailData["rcp_cc"] = $_SESSION['rcp_cc'];
                 }
-                if ($_GET['rcp_bcc']) {
+                if (isset($_GET['rcp_bcc'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_bcc"] = ilUtil::securePlainString($_GET['rcp_bcc']);
-                } elseif ($_SESSION['rcp_bcc']) {
+                } elseif (isset($_SESSION['rcp_bcc'])) {
                     $mailData["rcp_bcc"] = $_SESSION['rcp_bcc'];
                 }
                 $mailData['m_message'] = '';
@@ -651,7 +658,7 @@ class ilMailFormGUI
 
         $att = new ilMailFormAttachmentPropertyGUI($this->lng->txt(($mailData["attachments"]) ? 'edit' : 'add'));
         
-        if (is_array($mailData["attachments"]) && count($mailData["attachments"])) {
+        if (isset($mailData["attachments"]) && is_array($mailData["attachments"])) {
             foreach ($mailData["attachments"] as $data) {
                 if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . "_" . $data)) {
                     $hidden = new ilHiddenInputGUI('attachments[]');

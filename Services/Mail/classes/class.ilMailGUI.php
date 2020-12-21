@@ -153,7 +153,8 @@ class ilMailGUI
             $this->ctrl->redirectByClass('ilmailformgui', 'mailRole');
         }
 
-        if ('my_courses' === $this->httpRequest->getQueryParams()['view']) {
+        $view = (string) ($this->httpRequest->getQueryParams()['view'] ?? '');
+        if ('my_courses' === $view) {
             ilSession::set('search_crs', ilUtil::stripSlashes($this->httpRequest->getQueryParams()['search_crs']));
             $this->ctrl->redirectByClass('ilmailformgui', 'searchCoursesTo');
         }

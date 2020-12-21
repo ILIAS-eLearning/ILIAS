@@ -76,11 +76,11 @@ class ilBuddySystemRelationStateFactory
 
     /**
      * @param bool $withInitialState
-     * @return string[]
+     * @return array<string, string>
      */
     public function getStatesAsOptionArray($withInitialState = false) : array
     {
-        if (null !== self::$stateOptions[$withInitialState]) {
+        if (isset(self::$stateOptions[$withInitialState]) && is_array(self::$stateOptions[$withInitialState])) {
             return self::$stateOptions[$withInitialState];
         }
 
