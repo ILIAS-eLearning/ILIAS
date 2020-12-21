@@ -86,7 +86,7 @@ class ilMainMenuSearchGUI
                 $this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             }
-            if ((int) $_GET['ref_id']) {
+            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
                 $this->tpl->setCurrentBlock('position_rep');
                 $this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
                 $this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);

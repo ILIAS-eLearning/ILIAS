@@ -1541,13 +1541,13 @@ class ilTree
 
         //$ilBench->start("Tree", "fetchNodeData_getRow");
         $data = $a_row;
-        $data["desc"] = $a_row["description"];  // for compability
+        $data["desc"] = $a_row["description"] ?? '';  // for compability
         //$ilBench->stop("Tree", "fetchNodeData_getRow");
 
         // multilingual support systemobjects (sys) & categories (db)
         //$ilBench->start("Tree", "fetchNodeData_readDefinition");
         if (is_object($objDefinition)) {
-            $translation_type = $objDefinition->getTranslationType($data["type"]);
+            $translation_type = $objDefinition->getTranslationType($data["type"] ?? '');
         }
         //$ilBench->stop("Tree", "fetchNodeData_readDefinition");
 
@@ -1606,7 +1606,7 @@ class ilTree
         }
 
         // TODO: Handle this switch by module.xml definitions
-        if ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr') {
+        if (isset($data['type']) && ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')) {
             include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
             $data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
         }

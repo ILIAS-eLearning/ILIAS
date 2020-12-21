@@ -45,6 +45,8 @@ class ilAdvancedSelectionListGUI
 
     protected $listtitle;
     protected $aria_listtitle;
+    protected $useimages;
+    protected $itemlinkclass = '';
 
     /** @var array<string, mixed>  */
     protected $form_mode = [

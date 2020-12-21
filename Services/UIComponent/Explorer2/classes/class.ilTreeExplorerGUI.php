@@ -294,7 +294,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     {
         $lng = $this->lng;
         
-        return $lng->txt("icon") . " " . $lng->txt("obj_" . $a_node["type"]);
+        return $lng->txt("icon") . " " . $lng->txt("obj_" . ($a_node["type"] ?? ''));
     }
 
     /**

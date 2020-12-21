@@ -96,6 +96,20 @@ class ilTable2GUI extends ilTableGUI
 
     protected $sel_buttons = [];
 
+    /** @var string */
+    protected $nav_value = '';
+
+    /** @var string */
+    protected $noentriestext = '';
+
+    /** @var string */
+    protected $css_row = '';
+
+    /** @var string */
+    protected $display_as_block = false;
+
+    /** @var string */
+    protected $description = '';
 
     const FILTER_TEXT = 1;
     const FILTER_SELECT = 2;
@@ -262,7 +276,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         $old_sel = $this->loadProperty("selfields");
-
+        $sel_fields = [];
         $stored = false;
         if ($old_sel != "") {
             $sel_fields =
@@ -279,9 +293,9 @@ class ilTable2GUI extends ilTableGUI
         foreach ($this->getSelectableColumns() as $k => $c) {
             $this->selected_column[$k] = false;
 
-            $new_column = ($sel_fields[$k] === null);
+            $new_column = (!isset($sel_fields[$k]) || $sel_fields[$k] === null);
 
-            if ($_POST["tblfsh" . $this->getId()]) {
+            if (isset($_POST["tblfsh" . $this->getId()])) {
                 $set = true;
                 if (is_array($_POST["tblfs" . $this->getId()]) && in_array($k, $_POST["tblfs" . $this->getId()])) {
                     $this->selected_column[$k] = true;
@@ -1359,7 +1373,7 @@ class ilTable2GUI extends ilTableGUI
             $hash = "#" . $this->getTopAnchor();
         }
 
-        $old = $_GET[$this->getNavParameter()];
+        $old = $_GET[$this->getNavParameter()] ?? '';
 
         // set order link
         $ilCtrl->setParameter(
@@ -1536,15 +1550,18 @@ class ilTable2GUI extends ilTableGUI
             return true;
         }
 
-        if ($_POST[$this->getNavParameter() . "1"] != "") {
+        if (isset($_POST[$this->getNavParameter() . "1"]) && $_POST[$this->getNavParameter() . "1"] != "") {
             if ($_POST[$this->getNavParameter() . "1"] != $_POST[$this->getNavParameter()]) {
                 $this->nav_value = $_POST[$this->getNavParameter() . "1"];
-            } elseif ($_POST[$this->getNavParameter() . "2"] != $_POST[$this->getNavParameter()]) {
+            } elseif (
+                isset($_POST[$this->getNavParameter() . "2"]) &&
+                $_POST[$this->getNavParameter() . "2"] != $_POST[$this->getNavParameter()]
+            ) {
                 $this->nav_value = $_POST[$this->getNavParameter() . "2"];
             }
-        } elseif ($_GET[$this->getNavParameter()]) {
+        } elseif (isset($_GET[$this->getNavParameter()])) {
             $this->nav_value = $_GET[$this->getNavParameter()];
-        } elseif ($_SESSION[$this->getNavParameter()] != "") {
+        } elseif (isset($_SESSION[$this->getNavParameter()]) != "") {
             $this->nav_value = $_SESSION[$this->getNavParameter()];
         }
 
@@ -2130,6 +2147,9 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $footer = false;
+        $numinfo = '';
+        $linkbar = '';
+        $column_selector = '';
 
         // select all checkbox
         if ((strlen($this->getFormName())) && (strlen($this->getSelectAllCheckbox())) && $this->dataExists()) {
@@ -2585,7 +2605,7 @@ class ilTable2GUI extends ilTableGUI
             $buttons = true;
             $action_row = true;
         }
-        $this->sel_buttons[] = array("options" => $a_options, "cmd" => $a_cmd, "text" => $a_text);
+        $this->sel_buttons[] = array("options" => [], "cmd" => '', "text" => '');
 
         // add buttons
         if (count($this->buttons) > 0) {
