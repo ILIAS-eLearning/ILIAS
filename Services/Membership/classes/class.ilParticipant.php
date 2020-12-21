@@ -248,7 +248,7 @@ abstract class ilParticipant
 
     public function isBlocked()
     {
-        return (bool) $this->participants_status[$this->getUserId()]['blocked'];
+        return (bool) ($this->participants_status[$this->getUserId()]['blocked'] ?? false);
     }
     
     // cognos-blu-patch: begin
@@ -258,7 +258,7 @@ abstract class ilParticipant
      */
     public function isContact()
     {
-        return (bool) $this->participants_status[$this->getUserId()]['contact'];
+        return (bool) ($this->participants_status[$this->getUserId()]['contact'] ?? false);
     }
     
 

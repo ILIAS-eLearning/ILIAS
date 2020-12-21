@@ -207,7 +207,7 @@ class ilObjectListGUI
         $this->enableTags(false);
         
         // unique js-ids
-        $this->setParentRefId((int) $_REQUEST["ref_id"]);
+        $this->setParentRefId((int) ($_REQUEST["ref_id"] ?? 0));
         
         //echo "list";
         $this->init();
@@ -1808,16 +1808,16 @@ class ilObjectListGUI
                     $this->tpl->touchBlock("separator_prop");
                 }
 
-                if ($prop["alert"] == true) {
+                if (isset($prop["alert"]) && $prop["alert"] == true) {
                     $this->tpl->touchBlock("alert_prop");
                 } else {
                     $this->tpl->touchBlock("std_prop");
                 }
-                if ($prop["newline"] == true && $cnt > 1) {
+                if (isset($prop["newline"]) && $prop["newline"] == true && $cnt > 1) {
                     $this->tpl->touchBlock("newline_prop");
                 }
                 //BEGIN WebDAV: Support hidden property names.
-                if (isset($prop["property"]) && $prop['propertyNameVisible'] !== false && $prop["property"] != "") {
+                if (isset($prop["property"]) && (isset($prop['propertyNameVisible']) && $prop['propertyNameVisible'] !== false) && $prop["property"] != "") {
                     //END WebDAV: Support hidden property names.
                     $this->tpl->setCurrentBlock("prop_name");
                     $this->tpl->setVariable("TXT_PROP", $prop["property"]);

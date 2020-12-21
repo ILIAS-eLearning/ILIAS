@@ -102,6 +102,11 @@ class ilCtrl
     protected $inner_base_class = "";
 
     /**
+     * @var string
+     */
+    protected $verified_cmd = '';
+
+    /**
      * control class constructor
      */
     public function __construct()
@@ -1026,7 +1031,7 @@ class ilCtrl
      */
     public function getCmdClass()
     {
-        return strtolower($_GET["cmdClass"]);
+        return strtolower($_GET["cmdClass"] ?? '');
     }
 
     /**
@@ -1136,7 +1141,7 @@ class ilCtrl
                     $ilDB->quote($ilUser->getId(), "integer") .
                     " AND session_id = " . $ilDB->quote(session_id(), "text"));
                 $rec = $ilDB->fetchAssoc($res);
-                if ($rec["token"] != "") {
+                if (isset($rec["token"]) && $rec["token"] != "") {
                     $this->rtoken = $rec["token"];
                     return $rec["token"];
                 }

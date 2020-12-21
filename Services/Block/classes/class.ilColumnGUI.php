@@ -870,7 +870,7 @@ class ilColumnGUI
 
             foreach ($this->rep_block_types as $block_type) {
                 if ($this->isGloballyActivated($block_type)) {
-                    if (!is_array($rep_items[$block_type])) {
+                    if (!isset($rep_items[$block_type]) || !is_array($rep_items[$block_type])) {
                         continue;
                     }
                     foreach ($rep_items[$block_type] as $item) {

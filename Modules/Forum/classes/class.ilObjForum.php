@@ -1047,7 +1047,7 @@ class ilObjForum extends ilObject
             for ($i = 0; $i <= 2; $i++) {
                 $row = $ilDB->fetchAssoc($res);
 
-                $statistics[$mapping[$i]] = (int) $row['cnt'];
+                $statistics[$mapping[$i]] = (int) (is_array($row) ? (int) $row['cnt'] : 0);
 
                 if ($i == 1) {
                     // unread = all - read

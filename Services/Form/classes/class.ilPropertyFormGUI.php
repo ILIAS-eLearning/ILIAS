@@ -584,7 +584,7 @@ class ilPropertyFormGUI extends ilFormGUI
             die("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
         }
         
-        return $_POST[$a_post_var];
+        return $_POST[$a_post_var] ?? '';
     }
     
     /**

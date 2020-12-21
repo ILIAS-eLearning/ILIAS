@@ -219,7 +219,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
             array($a_obj_id, $user_id)
         );
         $rec = $ilDB->fetchAssoc($set);
-        if ($rec["offline_mode"] == "offline") {
+        if (isset($rec["offline_mode"]) && $rec["offline_mode"] === "offline") {
             return true;
         }
         return false;

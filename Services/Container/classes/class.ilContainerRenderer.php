@@ -527,7 +527,7 @@ class ilContainerRenderer
                     : null;
                 $this->addHeaderRow(
                     $a_block_tpl,
-                    $a_block["type"],
+                    $a_block["type"] ?? '',
                     $a_block["caption"] ?? '',
                     array_unique($block_types),
                     $a_block["actions"] ?? '',
@@ -536,7 +536,7 @@ class ilContainerRenderer
                 );
 
                 if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
-                    if ($a_block["prefix"]) {
+                    if (isset($a_block["prefix"]) && $a_block["prefix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["prefix"]);
                     }
                 }
@@ -552,7 +552,7 @@ class ilContainerRenderer
                 }
 
                 if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
-                    if ($a_block["postfix"]) {
+                    if (isset($a_block["postfix"]) && $a_block["postfix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["postfix"]);
                     }
                 }

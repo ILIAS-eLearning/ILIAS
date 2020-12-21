@@ -180,7 +180,7 @@ class ilAwarenessGUI
     {
         $ilUser = $this->user;
 
-        $filter = $_GET["filter"];
+        $filter = $_GET["filter"] ?? '';
 
         $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
 

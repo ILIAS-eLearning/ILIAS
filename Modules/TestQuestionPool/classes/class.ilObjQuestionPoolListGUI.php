@@ -59,6 +59,7 @@ class ilObjQuestionPoolListGUI extends ilObjectListGUI
     */
     public function getCommandFrame($a_cmd)
     {
+        $frame = '';
         switch ($a_cmd) {
             case "":
             case "questions":

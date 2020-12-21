@@ -113,7 +113,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
         
         include_once './Modules/Course/classes/class.ilObjCourseAccess.php';
         $info = ilObjCourseAccess::lookupRegistrationInfo($this->obj_id);
-        if ($info['reg_info_list_prop']) {
+        if (isset($info['reg_info_list_prop'])) {
             $props[] = array(
                 'alert' => false,
                 'newline' => true,
@@ -121,7 +121,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
                 'value' => $info['reg_info_list_prop']['value']
             );
         }
-        if ($info['reg_info_list_prop_limit']) {
+        if (isset($info['reg_info_list_prop_limit'])) {
             $props[] = array(
                 'alert' => false,
                 'newline' => false,

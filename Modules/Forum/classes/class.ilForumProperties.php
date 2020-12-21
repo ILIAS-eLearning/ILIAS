@@ -140,7 +140,7 @@ class ilForumProperties
      */
     public static function getInstance($a_obj_id = 0)
     {
-        if (!self::$instances[$a_obj_id]) {
+        if (!isset(self::$instances[$a_obj_id])) {
             self::$instances[$a_obj_id] = new ilForumProperties($a_obj_id);
         }
 

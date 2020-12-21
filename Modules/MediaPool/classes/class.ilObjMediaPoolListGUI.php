@@ -45,6 +45,7 @@ class ilObjMediaPoolListGUI extends ilObjectListGUI
     */
     public function getCommandFrame($a_cmd)
     {
+        $frame = '';
         switch ($a_cmd) {
             case "":
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
