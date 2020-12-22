@@ -12,7 +12,7 @@
 * @version $Id$
 *
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilSCORMPresentationGUI
-* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilscorm13player
+* @ilCtrl_Calls ilSAHSPresentationGUI: ilInfoScreenGUI, ilSCORM13PlayerGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilLearningProgressGUI, ilSCORMOfflineModeGUI
 * @ilCtrl_Calls ilSAHSPresentationGUI: ilObjSCORMLearningModuleGUI, ilObjSCORM2004LearningModuleGUI
 *
@@ -99,7 +99,7 @@ class ilSAHSPresentationGUI
             $next_class != "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
-                    $this->ctrl->setCmdClass("ilscorm13player");
+                    $this->ctrl->setCmdClass("ilscorm13playergui");
                     $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $_GET["ref_id"], true, false);
                     break;
                         
@@ -116,9 +116,8 @@ class ilSAHSPresentationGUI
                 $ret = $this->outputInfoScreen();
                 break;
 
-            case "ilscorm13player":
-                require_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-                $scorm_gui = new ilSCORM13Player();
+            case "ilscorm13playergui":
+                $scorm_gui = new ilSCORM13PlayerGUI();
                 $ret = $this->ctrl->forwardCommand($scorm_gui);
                 break;
                 

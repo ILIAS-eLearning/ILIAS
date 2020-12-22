@@ -167,8 +167,7 @@ class ilSCORMOfflineModeGUI
                 $player2004->setVariable('TIMESTAMP', sprintf('%d%03d', $tsint, 1000 * (float) $tsfrac));
                 $player2004->setVariable('BASE_DIR', './Modules/Scorm2004/');
 
-                include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-                $player2004->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
+                $player2004->setVariable('INLINE_CSS', ilSCORM13PlayerGUI::getInlineCss());
 
                 include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
                 $this->tpl->setVariable("JS_FILE", iljQueryUtil::getLocaljQueryPath());

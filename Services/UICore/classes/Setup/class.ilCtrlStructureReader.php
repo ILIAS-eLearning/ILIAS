@@ -176,7 +176,7 @@ class ilCtrlStructureReader
         return realpath(str_replace(['//'], ['/'], $path));
     }
 
-    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
+    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)$~i";
 
     protected function isInterestingFile(string $file) : bool
     {
