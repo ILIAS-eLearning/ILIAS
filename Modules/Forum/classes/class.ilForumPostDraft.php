@@ -442,29 +442,11 @@ class ilForumPostDraft
      */
     public static function getDraftInstancesByUserId($user_id) : array
     {
-        if (!self::$instances[$user_id]) {
+        if (!isset(self::$instances[$user_id])) {
             self::readDrafts($user_id);
         }
 
         return self::$instances[$user_id]['draft_ids'];
-    }
-    
-    /**
-     * @param $user_id
-     * @param $thread_id
-     * @return \ilForumPostDraft[]
-     */
-    public static function getInstancesByUserIdAndThreadId($user_id, $thread_id) : array
-    {
-        if (!self::$instances[$user_id]) {
-            self::readDrafts($user_id);
-        }
-
-        if (isset(self::$instances[$user_id][$thread_id])) {
-            return self::$instances[$user_id][$thread_id];
-        }
-
-        return [];
     }
 
     /**
