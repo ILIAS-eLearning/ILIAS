@@ -123,7 +123,7 @@ rep#:#rep_trash_table_col_deleted_on#:#Gelöscht am
 rep#:#rep_trash_table_col_num_subs#:#Anzahl Unterobjekte
 rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
 rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
-rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Bitte selektieren Sie diese Objekte nicht oder wählen Sie die Option "Wiederherstellen (neuer Ort)".
+rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht mehr an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Für diese Objekte können Sie nur die Option "Wiederherstellen (neuer Ort)" verwenden.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
