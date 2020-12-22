@@ -349,16 +349,16 @@ class ilMailFormGUI
         $this->searchResults();
     }
 
-    public function editAttachments()
+    public function editAttachments() : void
     {
         // decode post values
-        $files = array();
-        if (is_array($_POST['attachments'])) {
+        $files = [];
+        if (isset($_POST['attachments']) && is_array($_POST['attachments'])) {
             foreach ($_POST['attachments'] as $value) {
                 $files[] = urldecode($value);
             }
         }
-        
+
         // Note: For security reasons, ILIAS only allows Plain text messages.
         $this->umail->savePostData(
             $this->user->getId(),
@@ -366,14 +366,14 @@ class ilMailFormGUI
             ilUtil::securePlainString($_POST["rcp_to"]),
             ilUtil::securePlainString($_POST["rcp_cc"]),
             ilUtil::securePlainString($_POST["rcp_bcc"]),
-            ilUtil::securePlainString($_POST["m_email"]),
+            (bool) ($_POST["m_email"] ?? false),
             ilUtil::securePlainString($_POST["m_subject"]),
             ilUtil::securePlainString($_POST["m_message"]),
-            ilUtil::securePlainString($_POST['use_placeholders']),
+            (bool) ($_POST["use_placeholders"] ?? false),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
-                                );
-            
+        );
+
         $this->ctrl->redirectByClass("ilmailattachmentgui");
     }
 
