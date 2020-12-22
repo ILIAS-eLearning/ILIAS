@@ -248,47 +248,47 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function searchUsers($save = true)
+    public function searchUsers(bool $save = true) : void
     {
         $this->tpl->setTitle($this->lng->txt("mail"));
 
         if ($save) {
-            // decode post values
-            $files = array();
-            if (is_array($_POST['attachments'])) {
+            $files = [];
+            if (isset($_POST['attachments']) && is_array($_POST['attachments'])) {
                 foreach ($_POST['attachments'] as $value) {
                     $files[] = urldecode($value);
                 }
             }
-            
+
             // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
             $this->umail->savePostData(
                 $this->user->getId(),
                 $files,
-                ilUtil::securePlainString($_POST["rcp_to"]),
-                ilUtil::securePlainString($_POST["rcp_cc"]),
-                ilUtil::securePlainString($_POST["rcp_bcc"]),
-                ilUtil::securePlainString($_POST["m_email"]),
-                ilUtil::securePlainString($_POST["m_subject"]),
-                ilUtil::securePlainString($_POST["m_message"]),
-                ilUtil::securePlainString($_POST['use_placeholders']),
+                ilUtil::securePlainString($_POST["rcp_to"] ?? ''),
+                ilUtil::securePlainString($_POST["rcp_cc"] ?? ''),
+                ilUtil::securePlainString($_POST["rcp_bcc"] ?? ''),
+                ilUtil::securePlainString($_POST["m_email"] ?? ''),
+                ilUtil::securePlainString($_POST["m_subject"] ?? ''),
+                ilUtil::securePlainString($_POST["m_message"] ?? ''),
+                (bool) ($_POST['use_placeholders']  ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
-                                    );
+            );
         }
 
         $form = new ilPropertyFormGUI();
         $form->setId('search_rcp');
         $form->setTitle($this->lng->txt('search_recipients'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'search'));
-        
+
         $inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
         $inp->setSize(30);
-        $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
+        $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
         $inp->setDataSource($dsDataLink);
-        
-        if (strlen(trim($_SESSION["mail_search_search"])) > 0) {
-            $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
+
+        $searchQuery = trim((string) ilSession::get('mail_search_search'));
+        if ($searchQuery !== '') {
+            $inp->setValue(ilUtil::prepareFormOutput($searchQuery), true);
         }
         $form->addItem($inp);
 
