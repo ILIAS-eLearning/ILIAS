@@ -12494,6 +12494,9 @@ span.ilAlert {
   margin: 0.8em 0 20px 0;
   font-size: 90%;
 }
+.breadcrumb > li + li:before {
+  font-family: 'il-icons';
+}
 @media only screen and (max-width: 768px) {
   .breadcrumb {
     margin: 0 0 0 0;
