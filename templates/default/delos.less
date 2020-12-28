@@ -294,6 +294,11 @@ span.ilAlert {
 .breadcrumb {
 	margin: @il-breadcrumb-margin-top @il-breadcrumb-margin-right @il-breadcrumb-margin-bottom @il-breadcrumb-margin-left;
 	font-size: 90%;
+
+	> li + li:before {
+		font-family: 'il-icons';
+	}
+
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		margin: @il-breadcrumb-resp-margin-top @il-breadcrumb-resp-margin-right @il-breadcrumb-resp-margin-bottom @il-breadcrumb-resp-margin-left;
 		padding: @il-breadcrumb-resp-padding-vertical @il-breadcrumb-resp-padding-horizontal;
