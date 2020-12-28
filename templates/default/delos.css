@@ -8802,6 +8802,10 @@ grid-based layout
   height: 100%;
   overflow: hidden;
   width: 100%;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
 }
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
