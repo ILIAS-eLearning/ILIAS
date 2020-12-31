@@ -100,16 +100,6 @@ be transformed to type hints where possible. Also the docstrings should be delet
 if they do not convey additional information, like some description, besides the
 type.
 
-### Smoke-Tests for Examples (advanced, ~4h)
-
-While building the UI-framework, a good coverage by unit tests is an important
-requirement. This works well in the general implementation of the UI-framework,
-but the examples also delivered with the UI-framework currently do not have any
-test coverage at all. We need a mechanism that automatically provides a smoke
-test for all existing examples, i.e. checks if the example can be executed at
-all and delivers a string to be included in the documentation of the UI frame-
-work.
-
 ### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
