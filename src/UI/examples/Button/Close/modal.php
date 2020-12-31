@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Button\Close;
+
 /**
  * This second example shows a scenario in which the Close Button is used in an overlay
  * as indicated in the purpose description. Note that in the Modal the Close Button

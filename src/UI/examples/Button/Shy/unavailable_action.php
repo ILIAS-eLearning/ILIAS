@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Button\Shy;
+
 /**
  * This example provides the given button with an unavailable action. Note
  * that the disabled attribute is set in the DOM. No action must be fired, even

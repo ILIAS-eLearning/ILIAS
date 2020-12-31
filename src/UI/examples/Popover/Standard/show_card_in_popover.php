@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Popover\Standard;
+
 function show_card_in_popover()
 {
     global $DIC;

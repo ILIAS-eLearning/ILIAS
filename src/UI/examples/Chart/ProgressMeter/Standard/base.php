@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Chart\ProgressMeter\Standard;
+
 /**
  * Example for rendering a standard Progress Meter with minimum configuration
  */

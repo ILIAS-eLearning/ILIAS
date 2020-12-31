@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Dropdown\Standard;
+
 function with_aria_label()
 {
     global $DIC;

@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
+
+namespace ILIAS\UI\examples\Input\Container\Filter\Standard;
+
 /**
  * Example show how to create and render a basic filter.
  */
 function base()
 {
-
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
@@ -22,18 +25,29 @@ function base()
         "filter_ID",
         $action,
         [
-        "title" => $title_input,
-        "select" => $select,
-        "with_def" => $with_def,
-        "init_hide" => $init_hide,
-    ],
+            "title" => $title_input,
+            "select" => $select,
+            "with_def" => $with_def,
+            "init_hide" => $init_hide,
+        ],
         [true, true, true, false],
         true,
         true
     );
 
     //Step 3: Get filter data
-    $filter_data = $DIC->uiService()->filter()->getData($filter);
+    // @Todo: This needs to be improved. This appproach is copied from initFilter in class.ilContainerGUI.php .
+    // it fixes the broken example for the moment. This seems necessary atm since text inputs will handle empty inputs
+    // as null an throw an InvalidArgumentException. Also see comment in withInput of Input Fields and related bug:
+    // https://mantis.ilias.de/view.php?id=27909 . An other approach is performed in ilPluginsOverviewTableFilterGUI
+    // Where the exception is catched and an empty array returned.
+    if ($DIC->http()->request()->getMethod() == "POST") {
+        $filter_data = $DIC->uiService()->filter()->getData($filter);
+    } else {
+        foreach ($filter->getInputs() as $k => $i) {
+            $filter_data[$k] = $i->getValue();
+        }
+    }
 
     //Step 4: Render the filter
     return $renderer->render($filter) . "Filter Data: " . print_r($filter_data, true);

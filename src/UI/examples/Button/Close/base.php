@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Button\Close;
+
 /**
  * Note that this example is rather artificial, since the close button is only used in other components
  * (see purpose). This examples just shows how one could render the button if implementing

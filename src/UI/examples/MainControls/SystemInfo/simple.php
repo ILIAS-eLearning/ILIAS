@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\MainControls\SystemInfo;
 
 use ILIAS\Data\URI;
 
@@ -13,10 +15,10 @@ function simple()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
+    $dismiss_action = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "http://localhost";
     $systemInfo = $f->mainControls()
         ->systemInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
-        ->withIsDismissable(true)
-        ->withDismissAction(new URI($_SERVER['HTTP_REFERER']));
+        ->withDismissAction(new URI($dismiss_action));
 
     return $renderer->render([$systemInfo]);
 }

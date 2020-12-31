@@ -135,14 +135,15 @@ class ilKSDocumentationEntryGUI
             );
         }
 
-
-        if ($this->entry->getExamples()) {
+        $examples = $this->entry->getExamples();
+        if (count($examples)>0) {
             $nr = 1;
             foreach ($this->entry->getExamples() as $name => $path) {
                 include_once($path);
                 $title = "Example " . $nr . ": " . ucfirst(str_replace("_", " ", $name));
                 $nr++;
-                $example = "<div class='well'>" . $name() . "</div>"; //Executes function loaded in file indicated by 'path'
+                $examples_function_name = $this->entry->getExamplesNamespace()."\\".$name;
+                $example = "<div class='well'>" . $examples_function_name() . "</div>"; //Executes function loaded in file indicated by 'path'
                 $content_part_1 = $this->f->legacy($example);
                 $code = str_replace("<?php\n", "", file_get_contents($path));
                 $geshi = new GeSHi($code, "php");
