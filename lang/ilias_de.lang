@@ -16434,6 +16434,7 @@ adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
 common#:#objs_prgr#:#Links zu Studienprogrammen
+rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen
 rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
