@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2021 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -16433,3 +16433,9 @@ adn#:#btn_edit#:#Bearbeiten
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
+common#:#objs_prgr#:#Links zu Studienprogrammen
+rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen
+rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
+rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
+rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
