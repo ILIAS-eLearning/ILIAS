@@ -211,6 +211,9 @@ class ilStudyProgrammeUserProgress
     public function setValidityOfQualification(DateTime $date = null) : void
     {
         $this->progress->setValidityOfQualification($date);
+        /** 29529 --------------- */
+        $this->progress_repository->update($this->progress);
+        /** 29529 end ----------- */
     }
 
     /**

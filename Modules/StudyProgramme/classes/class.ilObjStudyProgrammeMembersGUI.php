@@ -626,8 +626,10 @@ class ilObjStudyProgrammeMembersGUI
         $prgrs_ids = $this->getPostPrgsIds();
         $not_updated = array();
 
+
         foreach ($prgrs_ids as $key => $prgrs_id) {
             $prgrs = $this->getProgressObject((int) $prgrs_id);
+            //** ilStudyProgrammeUserAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
             $prg = $ass->getStudyProgramme();
             if ($prg->getRefId() != $this->ref_id) {
@@ -636,6 +638,28 @@ class ilObjStudyProgrammeMembersGUI
             }
 
             $ass->updateFromProgram();
+
+            /** 29529 --------------- */
+            $status = $prgrs->getStatus();
+            if (
+                $status == ilStudyProgrammeProgress::STATUS_COMPLETED ||
+                $status == ilStudyProgrammeProgress::STATUS_ACCREDITED
+            ) {
+                $validity_settings = $prg->getValidityOfQualificationSettings();
+                $period = $validity_settings->getQualificationPeriod();
+                $date = $validity_settings->getQualificationDate();
+
+                if (!$period && !$date) {
+                    $prgrs->setValidityOfQualification(null);
+                } else {
+                    if ($period) {
+                        $date = $prgrs->getCompletionDate();
+                        $date->add(new DateInterval('P' . $period . 'D'));
+                    }
+                    $prgrs->setValidityOfQualification($date);
+                }
+            }
+            /** 29529 end ----------- */
         }
 
         if (count($not_updated) == count($prgrs_ids)) {
