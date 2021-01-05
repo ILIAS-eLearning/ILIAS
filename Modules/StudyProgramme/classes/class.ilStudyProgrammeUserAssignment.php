@@ -15,7 +15,7 @@ class ilStudyProgrammeUserAssignment
     /**
      * @var ilStudyProgrammeAssignment
      */
-    public $assignment;
+    protected $assignment;
 
     /**
      * @var ilStudyProgrammeUserProgressDB
@@ -28,16 +28,6 @@ class ilStudyProgrammeUserAssignment
     protected $assignment_repository;
 
     /**
-     * @var ilStudyProgrammeProgressRepository
-     */
-    protected $progress_repository;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
      * @var ilStudyProgrammeEvents
      */
     protected $sp_events;
@@ -46,18 +36,13 @@ class ilStudyProgrammeUserAssignment
         ilStudyProgrammeAssignment $assignment,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
         ilStudyProgrammeAssignmentRepository $assignment_repository,
-        ilStudyProgrammeProgressRepository $progress_repository,
-        ilLogger $log,
         ilStudyProgrammeEvents $sp_events
     ) {
         $this->assignment = $assignment;
         $this->sp_user_progress_db = $sp_user_progress_db;
         $this->assignment_repository = $assignment_repository;
-        $this->progress_repository = $progress_repository;
-        $this->log = $log;
         $this->sp_events = $sp_events;
     }
-
 
     /**
      * Get the id of the assignment.
@@ -113,8 +98,8 @@ class ilStudyProgrammeUserAssignment
     }
 
     /**
-     * Assign the user belonging to this assignemnt to the prg
-     * belonging to this assignemnt again.
+     * Assign the user belonging to this assignment to the prg
+     * belonging to this assignment again.
      *
      * @throws ilException
      */
@@ -185,39 +170,48 @@ class ilStudyProgrammeUserAssignment
         return $this;
     }
 
-    /**
-     * Add missing progresses for new nodes in the programm.
-     *
-     * The new progresses will be set to not relevant.
-     */
-    public function addMissingProgresses() : ilStudyProgrammeUserAssignment
+    public function updateValidityFromProgram() : void
     {
         $prg = $this->getStudyProgramme();
-        $id = $this->getId();
-        $log = $this->log;
-        $progress_repository = $this->progress_repository;
-        $assignment = $this->assignment;
-        // Make $this->assignment protected again afterwards.
-        $prg->applyToSubTreeNodes(
-            function (ilObjStudyProgramme $node) use ($id,$log,$progress_repository,$assignment) {
-                try {
-                    $node->getProgressForAssignment($id);
-                } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
-                    $log->write("Adding progress for: " . $id . " " . $node->getId());
-                    $progress_repository->update(
-                        $progress_repository->createFor(
-                            $node->getRawSettings(),
-                            $assignment
-                            )->setStatus(
-                                ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
-                            )
-                        );
-                }
-            },
-            true
-        );
+        $progress = $this->getRootProgress();
+        if (!$progress->hasSuccessStatus()) {
+            return;
+        }
 
-        return $this;
+        $validity_settings = $prg->getValidityOfQualificationSettings();
+        $period = $validity_settings->getQualificationPeriod();
+        $date = $validity_settings->getQualificationDate();
+
+        if ($period) {
+            $date = $progress->getCompletionDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setValidityOfQualification($date);
+        $progress->storeProgress();
+    }
+
+    public function updateDeadlineFromProgram() : void
+    {
+        $prg = $this->getStudyProgramme();
+        $progress = $this->getRootProgress();
+        if ($progress->hasSuccessStatus()) {
+            return;
+        }
+
+        $deadline_settings = $prg->getDeadlineSettings();
+        $period = $deadline_settings->getDeadlinePeriod();
+        $date = $deadline_settings->getDeadlineDate();
+        if ($period) {
+            $date = $progress->getAssignmentDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setDeadline($date);
+        $progress->storeProgress();
+    }
+
+    public function getSPAssignment() : ilStudyProgrammeAssignment
+    {
+        return $this->assignment;
     }
 
     /**
