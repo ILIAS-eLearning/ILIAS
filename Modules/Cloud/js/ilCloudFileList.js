@@ -56,7 +56,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
     // is currently loading
     this.isLoading = function () {
-        return $("#loading_div_background").isVisible();
+        return $("#loading_div_background").is(':visible');
     }
 
     //show Block with Id
