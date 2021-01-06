@@ -16450,6 +16450,10 @@ rbac#:#prgr_visible#:#Links to study programmes are visible and can be used
 rbac#:#prgr_write#:#User can edit settings of links to study programmes
 rbac#:#rbac_create_prgr#:#Create link to study programme
 rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.
-rbac#:#adn_read#:#User has read access to Administration of Administrative Notifications.
-rbac#:#adn_write#:#User can edit Administrative Notifications.
-rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications Administration.
+rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.
+rbac#:#adn_write#:#User can add and edit Administrative Notifications.
+rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications' administration.
+rbac#:#coms_visible#:#Administration of Comments is visible.
+rbac#:#coms_read#:#User has read access to administration of Comments.
+rbac#:#coms_write#:#User can edit settings of administration of Comments.
+rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
