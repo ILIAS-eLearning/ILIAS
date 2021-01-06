@@ -16460,3 +16460,7 @@ rbac#:#lsos_visible#:#Administration für Lernsequenzen ist sichtbar.
 rbac#:#lsos_read#:#Lesezugriff auf Administration für Lernsequenzen
 rbac#:#lsos_write#:#Einstellungen in Administration für Lernsequenzen ändern
 rbac#:#lsos_edit_permissions#:#Rechteeinstellungen der Administration für Lernsequenzen ändern
+rbac#:#nots_visible#:#Administration für Notizen ist sichtbar.
+rbac#:#nots_read#:#Lesezugriff auf Administration für Notizen
+rbac#:#nots_write#:#Einstellungen in Administration für Notizen ändern
+rbac#:#nots_edit_permissions#:#Rechteeinstellungen der Administration für Notizen ändern
