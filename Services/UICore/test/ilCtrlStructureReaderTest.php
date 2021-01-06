@@ -184,7 +184,8 @@ class ilCtrlStructureReaderTest extends TestCase
 
     public function testIsInterestingFile()
     {
-        $this->assertTrue($this->reader->_isInterestingFile("ilSCORM13Player.php"));
+        $this->assertFalse($this->reader->_isInterestingFile("ilSCORM13Player.php"));
+        $this->assertTrue($this->reader->_isInterestingFile("class.ilSCORM13PlayerGUI.php"));
         $this->assertTrue($this->reader->_isInterestingFile("class.ilMyTestingGUI.php"));
         $this->assertFalse($this->reader->_isInterestingFile("foo.php"));
         $this->assertFalse($this->reader->_isInterestingFile("picture.png"));
@@ -195,6 +196,7 @@ class ilCtrlStructureReaderTest extends TestCase
     public function testGetGUIClassNameFromClassPath()
     {
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/ilSCORM13Player.php"));
+        $this->assertEquals("ilscorm13playergui", $this->reader->_getGUIClassNameFromClassPath("/my/dir/class.ilSCORM13PlayerGUI.php"));
         $this->assertEquals("ilmytestinggui", $this->reader->_getGUIClassNameFromClassPath("/my/dir/class.ilMyTestingGUI.php"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/foo.php"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/picture.png"));
