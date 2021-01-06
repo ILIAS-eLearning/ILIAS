@@ -16456,3 +16456,7 @@ rbac#:#lhts_visible#:#Administration für Lernverlauf ist sichtbar.
 rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
 rbac#:#lhts_write#:#Einstellungen in Administration für Lernverlauf ändern
 rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
+rbac#:#lsos_visible#:#Administration für Lernsequenzen ist sichtbar.
+rbac#:#lsos_read#:#Lesezugriff auf Administration für Lernsequenzen
+rbac#:#lsos_write#:#Einstellungen in Administration für Lernsequenzen ändern
+rbac#:#lsos_edit_permissions#:#Rechteeinstellungen der Administration für Lernsequenzen ändern
