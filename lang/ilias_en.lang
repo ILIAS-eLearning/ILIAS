@@ -16477,3 +16477,7 @@ rbac#:#nots_visible#:#Administration of Notes is visible.
 rbac#:#nots_read#:#User has read access to Notes administration.
 rbac#:#nots_write#:#User can edit settings of Notes administration.
 rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
+rbac#:#prss_visible#:#Administration of Personal Resources is visible.
+rbac#:#prss_read#:#User has read access to Personal Resources administration.
+rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
+rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
