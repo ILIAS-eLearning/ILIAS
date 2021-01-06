@@ -16444,7 +16444,7 @@ rbac#:#adn_visible#:#Administration für Ankündigungen ist sichtbar.
 rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
 rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
 rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
-rbac#:#coms_visible#:#
-rbac#:#coms_read#:#
-rbac#:#coms_write#:#
-rbac#:#coms_edit_permissions#:#
+rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
+rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
+rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
+rbac#:#coms_edit_permissions#:#Rechteeinstellungen der Administration für Kommentare ändern
