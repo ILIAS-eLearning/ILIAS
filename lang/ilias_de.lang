@@ -16468,3 +16468,8 @@ rbac#:#prss_visible#:#Administration für Persönliche Ressourcen ist sichtbar.
 rbac#:#prss_read#:#Lesezugriff auf Administration für Persönliche Ressourcen
 rbac#:#prss_write#:#Einstellungen in Administration für Persönliche Ressourcen ändern
 rbac#:#prss_edit_permissions#:#Rechteeinstellungen der Administration für Persönliche Ressourcen ändern
+rbac#:#push_desktop_items#:#Inhalte empfehlen
+rbac#:#wbdv_visible#:#Administration für WebDAV ist sichtbar.
+rbac#:#wbdv_read#:#Lesezugriff auf Administration für WebDAV
+rbac#:#wbdv_write#:#Einstellungen in Administration für WebDAV ändern
+rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
