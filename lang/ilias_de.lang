@@ -16477,3 +16477,7 @@ rbac#:#wbdv_visible#:#Administration für WebDAV ist sichtbar.
 rbac#:#wbdv_read#:#Lesezugriff auf Administration für WebDAV
 rbac#:#wbdv_write#:#Einstellungen in Administration für WebDAV ändern
 rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
+rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
+rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
+rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
+rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
