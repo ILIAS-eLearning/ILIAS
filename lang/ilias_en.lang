@@ -16457,3 +16457,7 @@ rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
+rbac#:#cpad_visible#:#Administration of Content Pages is visible.
+rbac#:#cpad_read#:#User has read access to administration of Content Pages.
+rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.
+rbac#:#cpad_edit_permissions#:#User can change permission settings of administration of Content Pages.
