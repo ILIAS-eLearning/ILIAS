@@ -16481,3 +16481,8 @@ rbac#:#prss_visible#:#Administration of Personal Resources is visible.
 rbac#:#prss_read#:#User has read access to Personal Resources administration.
 rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
 rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
+rbac#:#push_desktop_items#:#Recommend Content
+rbac#:#wbdv_visible#:#Administration of WebDAV is visible.
+rbac#:#wbdv_read#:#User has read access to WebDAV administration.
+rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.
+rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.
