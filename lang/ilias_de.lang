@@ -16448,3 +16448,7 @@ rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
 rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
 rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
 rbac#:#coms_edit_permissions#:#Rechteeinstellungen der Administration für Kommentare ändern
+rbac#:#cpad_visible#:#Administration für Inhaltsseiten ist sichtbar.
+rbac#:#cpad_read#:#Lesezugriff auf Administration für Inhaltsseiten
+rbac#:#cpad_write#:#Einstellungen in Administration für Inhaltsseiten ändern
+rbac#:#cpad_edit_permissions#:#Rechteeinstellungen der Administration für Inhaltsseiten ändern
