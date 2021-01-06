@@ -202,7 +202,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
      */
     public function clientsettings(ilPropertyFormGUI $form = null)
     {
-        $this->redirectIfNoPermission(array('visible','read'));
+        $this->redirectIfNoPermission(['visible','read']);
 
         $this->defaultActions();
         $this->gui->switchToVisibleMode();
@@ -215,6 +215,10 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             $factory = new ilChatroomFormFactory();
             $form = $factory->getClientSettingsForm();
             $form->setValuesByArray($clientSettings);
+        }
+
+        if (!$this->hasPermission('write')) {
+            $form->getItemByPostVar('auth')->setIsReadOnly(true);
         }
 
         $this->checkServerConnection($serverSettings);
