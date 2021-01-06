@@ -16464,3 +16464,7 @@ rbac#:#nots_visible#:#Administration für Notizen ist sichtbar.
 rbac#:#nots_read#:#Lesezugriff auf Administration für Notizen
 rbac#:#nots_write#:#Einstellungen in Administration für Notizen ändern
 rbac#:#nots_edit_permissions#:#Rechteeinstellungen der Administration für Notizen ändern
+rbac#:#prss_visible#:#Administration für Persönliche Ressourcen ist sichtbar.
+rbac#:#prss_read#:#Lesezugriff auf Administration für Persönliche Ressourcen
+rbac#:#prss_write#:#Einstellungen in Administration für Persönliche Ressourcen ändern
+rbac#:#prss_edit_permissions#:#Rechteeinstellungen der Administration für Persönliche Ressourcen ändern
