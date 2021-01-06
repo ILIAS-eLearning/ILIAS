@@ -49,6 +49,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /** @var PageMetricsService */
     private $pageMetricsService;
 
+    /** @var ilHelp */
+    protected $help;
+
     /**
      * @inheritdoc
      */
@@ -68,6 +71,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->obj_service = $this->dic->object();
         $this->navHistory = $this->dic['ilNavigationHistory'];
         $this->error = $this->dic['ilErr'];
+        $this->help = $DIC['ilHelp'];
 
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
@@ -139,6 +143,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
      */
     public function setTabs()
     {
+        $this->help->setScreenIdComponent($this->object->getType());
+
         if ($this->checkPermissionBool('read')) {
             $this->tabs->addTab(
                 self::UI_TAB_ID_CONTENT,
