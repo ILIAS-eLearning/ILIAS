@@ -16469,3 +16469,7 @@ rbac#:#lhts_visible#:#Administration of Learning History is visible.
 rbac#:#lhts_read#:#User has read access to Learning History administration.
 rbac#:#lhts_write#:#User can edit settings of Learning History administration.
 rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.
+rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.
+rbac#:#lsos_read#:#User has read access to Learning Sequences administration.
+rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.
+rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.
