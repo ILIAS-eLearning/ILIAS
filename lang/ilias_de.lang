@@ -16440,3 +16440,7 @@ rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
 rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
 rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
+rbac#:#adn_visible#:#Administration für Ankündigungen ist sichtbar.
+rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
+rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
+rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
