@@ -16465,3 +16465,7 @@ rbac#:#fils_visible#:#Administration of File Services is visible.
 rbac#:#fils_read#:#User has read access to File Services administration.
 rbac#:#fils_write#:#User can edit and configure File Services.
 rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.
+rbac#:#lhts_visible#:#Administration of Learning History is visible.
+rbac#:#lhts_read#:#User has read access to Learning History administration.
+rbac#:#lhts_write#:#User can edit settings of Learning History administration.
+rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.

@@ -16456,3 +16456,7 @@ rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
 rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
 rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
 rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
+rbac#:#lhts_visible#:#Administration für Lernverlauf ist sichtbar.
+rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
+rbac#:#lhts_write#:#Einstellungen in Administration für Lernverlauf ändern
+rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
