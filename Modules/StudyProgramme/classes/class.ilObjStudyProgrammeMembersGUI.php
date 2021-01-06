@@ -658,8 +658,27 @@ class ilObjStudyProgrammeMembersGUI
                     }
                     $prgrs->setValidityOfQualification($date);
                 }
+                $prgrs->storeProgress();
             }
             /** 29529 end ----------- */
+
+            /** 29358 --------------- */
+            else { //not completed/accredited
+                $deadline_settings = $prg->getDeadlineSettings();
+                $period = $deadline_settings->getDeadlinePeriod();
+                $date = $deadline_settings->getDeadlineDate();
+                if (!$period && !$date) {
+                    $prgrs->setDeadline(null);
+                } else {
+                    if ($period) {
+                        $date = $prgrs->getAssignmentDate();
+                        $date->add(new DateInterval('P' . $period . 'D'));
+                    }
+                    $prgrs->setDeadline($date);
+                }
+                $prgrs->storeProgress();
+            }
+            /** 29358 end ----------- */
         }
 
         if (count($not_updated) == count($prgrs_ids)) {
