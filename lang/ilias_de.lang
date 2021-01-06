@@ -16452,3 +16452,7 @@ rbac#:#cpad_visible#:#Administration für Inhaltsseiten ist sichtbar.
 rbac#:#cpad_read#:#Lesezugriff auf Administration für Inhaltsseiten
 rbac#:#cpad_write#:#Einstellungen in Administration für Inhaltsseiten ändern
 rbac#:#cpad_edit_permissions#:#Rechteeinstellungen der Administration für Inhaltsseiten ändern
+rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
+rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
+rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
+rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
