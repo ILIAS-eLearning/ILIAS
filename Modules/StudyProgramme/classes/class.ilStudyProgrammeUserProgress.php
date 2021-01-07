@@ -1006,4 +1006,15 @@ class ilStudyProgrammeUserProgress
             $usr_progress_db->reminderSendFor($usr_progress->getId());
         }
     }
+
+    public function hasValidStatus() : bool
+    {
+        return in_array(
+            $this->getStatus(),
+            [
+                ilStudyProgrammeProgress::STATUS_COMPLETED,
+                ilStudyProgrammeProgress::STATUS_ACCREDITED
+            ]
+        );
+    }
 }

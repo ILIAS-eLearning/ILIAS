@@ -185,6 +185,44 @@ class ilStudyProgrammeUserAssignment
         return $this;
     }
 
+    public function updateValidityFromProgram() : void
+    {
+        $prg = $this->getStudyProgramme();
+        $progress = $this->getRootProgress();
+        if (!$progress->hasValidStatus()) {
+            return;
+        }
+
+        $validity_settings = $prg->getValidityOfQualificationSettings();
+        $period = $validity_settings->getQualificationPeriod();
+        $date = $validity_settings->getQualificationDate();
+        if ($period) {
+            $date = $progress->getCompletionDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setValidityOfQualification($date);
+        $progress->storeProgress();
+    }
+
+    public function updateDeadlineFromProgram() : void
+    {
+        $prg = $this->getStudyProgramme();
+        $progress = $this->getRootProgress();
+        if ($progress->hasValidStatus()) {
+            return;
+        }
+
+        $deadline_settings = $prg->getDeadlineSettings();
+        $period = $deadline_settings->getDeadlinePeriod();
+        $date = $deadline_settings->getDeadlineDate();
+        if ($period) {
+            $date = $progress->getAssignmentDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setDeadline($date);
+        $progress->storeProgress();
+    }
+
     /**
      * Add missing progresses for new nodes in the programm.
      *
