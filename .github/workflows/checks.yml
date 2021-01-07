@@ -1,7 +1,7 @@
 name: checks
 on: [push]
 jobs:
-  php-unit:
+  tests:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -20,8 +20,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: |
-          composer install --no-interaction
+        run: composer install --no-interaction
 
-      - name: Random Stuff
-        run: php --version
+      - name: PHP Unit Test 
+        run: CI/PHPUnit/run_tests.sh
