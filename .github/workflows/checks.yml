@@ -5,11 +5,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: php-actions/phpunit@v2
+        with:
+          memory_limit: 512M
+          php_version: 7.3
+          php_extensions: gd curl json readline xsl zip mbstring
       - uses: php-actions/composer@v5
         with:
           dev: yes
           php_version: 7.3
-          php_extensions: gd curl json readline xsl zip mbstring
           version: 1
       - run: php --version
       - run: composer --version
