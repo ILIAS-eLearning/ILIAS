@@ -1,6 +1,9 @@
 #!/bin/bash
 TMP_DIR="/tmp"
 
+#CI_RESULTS_REPO="https://github.com/ILIAS-eLearning/CI-Results"
+CI_RESULTS_REPO="https://github.com/lauraquellmalz/CI-Results"
+
 PHP_CS_FIXER_RESULTS_PATH="$TMP_DIR/phpfix_results"
 PHP_CS_FIXER="libs/composer/vendor/friendsofphp/php-cs-fixer/php-cs-fixer"
 

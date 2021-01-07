@@ -16,7 +16,7 @@ if [[ -x "$PHP_CS_FIXER" ]]
 		rm -rf "$TRAVIS_RESULTS_DIRECTORY"
 	fi
 
-	cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
+	cd /tmp && git clone $CI_RESULTS_REPO
 
 	printLn "Switching directory and run results handling."
 	cp "$PHP_CS_FIXER_RESULTS_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"

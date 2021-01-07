@@ -62,7 +62,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 				rm -rf "$TRAVIS_RESULTS_DIRECTORY"
 			fi
 
-			cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
+			cd /tmp && git clone $CI_RESULTS_REPO
 			cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
 
 			printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"

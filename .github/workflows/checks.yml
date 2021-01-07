@@ -20,7 +20,10 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer install --no-interaction
+        run: composer install --no-interaction --no-progress
 
-      - name: PHP Unit Test 
-        run: CI/PHPUnit/run_tests.sh
+#      - name: PHP Unit Test 
+#        run: CI/PHPUnit/run_tests_with_reporting.sh
+
+      - name: Special Char Checker
+        run: CI/Special-Char-Checker/special-char-checker.sh
