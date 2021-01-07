@@ -31,6 +31,8 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private $refinery;
     /** @var Storage */
     private $settingsStorage;
+    /** @var ilErrorHandling */
+    private $error;
 
     /**
      * @ineritdoc
@@ -47,6 +49,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->httpRequest = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
+        $this->error = $DIC['ilErr'];
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 
@@ -154,7 +157,9 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
 
     protected function save() : void
     {
-        $this->checkPermission("write");
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
 
         $form = $this->getForm()->withRequest($this->httpRequest);
 
