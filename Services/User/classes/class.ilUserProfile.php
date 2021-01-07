@@ -47,7 +47,7 @@ class ilUserProfile
         "username" => array(
                         "input" => "login",
                         "maxlength" => 64,
-                        "size" => 40,
+                        "size" => 255,
                         "method" => "getLogin",
                         "course_export_fix_value" => 1,
                         "group_export_fix_value" => 1,
@@ -516,7 +516,7 @@ class ilUserProfile
                             $val->setValue($a_user->getLogin());
                         }
                         $val->setMaxLength($p['maxlength']);
-                        $val->setSize(40);
+                        $val->setSize(255);
                         $val->setRequired(true);
                     } else {
                         // user account name
