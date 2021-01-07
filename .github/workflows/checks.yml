@@ -9,6 +9,7 @@ jobs:
         with:
           dev: yes
           php_version: 7.3
+          php_extensions: gd
           version: 1
       - run: php --version
       - run: composer --version
