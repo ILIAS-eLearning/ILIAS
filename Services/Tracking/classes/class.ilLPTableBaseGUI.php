@@ -15,6 +15,8 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 */
 class ilLPTableBaseGUI extends ilTable2GUI
 {
+    const HIT_LIMIT = 5000;
+
     protected $filter; // array
     protected $anonymized; // [bool]
 
@@ -203,7 +205,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             $res->setRequiredPermission($permission);
         }
 
-        $res->setMaxHits(1000);
+        $res->setMaxHits(self::HIT_LIMIT);
         
         if ($a_check_lp_activation) {
             $res->addObserver($this, "searchFilterListener");
@@ -223,7 +225,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         // Check if search max hits is reached
         if ($res->isLimitReached()) {
             $this->lng->loadLanguageModule("search");
-            ilUtil::sendFailure(sprintf($this->lng->txt("search_limit_reached"), 1000));
+            ilUtil::sendFailure(sprintf($this->lng->txt("search_limit_reached"), self::HIT_LIMIT));
         }
 
         return $objects ? $objects : array();
