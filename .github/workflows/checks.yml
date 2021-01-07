@@ -3,18 +3,26 @@ on: [push]
 jobs:
   php-unit:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.2, 7.3, 7.4]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.3
+          php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
           tools: composer:v1
           coverage: none
+
       - name: Install dependencies
-        run: composer install --no-interaction
+        run: |
+          composer install --no-interaction
+
       - name: Random Stuff
         run: php --version
         run: composer --version
