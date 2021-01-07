@@ -3,17 +3,26 @@ on: [push]
 jobs:
   php-unit:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.3]
     steps:
-      - uses: actions/checkout@v2
-      - uses: php-actions/phpunit@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          memory_limit: 512M
-          php_version: 7.3
-          php_extensions: gd curl json readline xsl zip mbstring
-      - uses: php-actions/composer@v5
-        with:
-          dev: yes
-          php_version: 7.3
-          version: 1
-      - run: php --version
-      - run: composer --version
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
+          tools: composer:v1
+          coverage: none
+
+      - name: Install dependencies
+        run: |
+          composer install --no-interaction
+
+      - name: Random Stuff
+        run: php --version
+        run: composer --version
