@@ -25,4 +25,3 @@ jobs:
 
       - name: Random Stuff
         run: php --version
-        run: composer --version
