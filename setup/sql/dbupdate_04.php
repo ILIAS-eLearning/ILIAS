@@ -24791,13 +24791,3 @@ if ($media_cont_mig == 1) {
     $setting->set('sty_media_cont_mig', 2);
 }
 ?>
-<#5428>
-<?php
-global $DIC;
-$DIC->database()->modifyTableColumn("usr_data", "login", [
-    "type" => \ilDBConstants::T_TEXT,
-    "length" => 255,
-    "notnull" => false,
-    "fixed" => false
-]);
-?>
