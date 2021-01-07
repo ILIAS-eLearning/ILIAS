@@ -16440,3 +16440,44 @@ rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
 rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
 rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
 rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
+rbac#:#adn_visible#:#Administration für Ankündigungen ist sichtbar.
+rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
+rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
+rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
+rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
+rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
+rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
+rbac#:#coms_edit_permissions#:#Rechteeinstellungen der Administration für Kommentare ändern
+rbac#:#cpad_visible#:#Administration für Inhaltsseiten ist sichtbar.
+rbac#:#cpad_read#:#Lesezugriff auf Administration für Inhaltsseiten
+rbac#:#cpad_write#:#Einstellungen in Administration für Inhaltsseiten ändern
+rbac#:#cpad_edit_permissions#:#Rechteeinstellungen der Administration für Inhaltsseiten ändern
+rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
+rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
+rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
+rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
+rbac#:#lhts_visible#:#Administration für Lernverlauf ist sichtbar.
+rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
+rbac#:#lhts_write#:#Einstellungen in Administration für Lernverlauf ändern
+rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
+rbac#:#lsos_visible#:#Administration für Lernsequenzen ist sichtbar.
+rbac#:#lsos_read#:#Lesezugriff auf Administration für Lernsequenzen
+rbac#:#lsos_write#:#Einstellungen in Administration für Lernsequenzen ändern
+rbac#:#lsos_edit_permissions#:#Rechteeinstellungen der Administration für Lernsequenzen ändern
+rbac#:#nots_visible#:#Administration für Notizen ist sichtbar.
+rbac#:#nots_read#:#Lesezugriff auf Administration für Notizen
+rbac#:#nots_write#:#Einstellungen in Administration für Notizen ändern
+rbac#:#nots_edit_permissions#:#Rechteeinstellungen der Administration für Notizen ändern
+rbac#:#prss_visible#:#Administration für Persönliche Ressourcen ist sichtbar.
+rbac#:#prss_read#:#Lesezugriff auf Administration für Persönliche Ressourcen
+rbac#:#prss_write#:#Einstellungen in Administration für Persönliche Ressourcen ändern
+rbac#:#prss_edit_permissions#:#Rechteeinstellungen der Administration für Persönliche Ressourcen ändern
+rbac#:#push_desktop_items#:#Inhalte empfehlen
+rbac#:#wbdv_visible#:#Administration für WebDAV ist sichtbar.
+rbac#:#wbdv_read#:#Lesezugriff auf Administration für WebDAV
+rbac#:#wbdv_write#:#Einstellungen in Administration für WebDAV ändern
+rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
+rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
+rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
+rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
+rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern

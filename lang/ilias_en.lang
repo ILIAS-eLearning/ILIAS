@@ -16449,3 +16449,44 @@ rbac#:#prgr_edit_permission#:#User can change permission settings
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used
 rbac#:#prgr_write#:#User can edit settings of links to study programmes
 rbac#:#rbac_create_prgr#:#Create link to study programme
+rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.
+rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.
+rbac#:#adn_write#:#User can add and edit Administrative Notifications.
+rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications' administration.
+rbac#:#coms_visible#:#Administration of Comments is visible.
+rbac#:#coms_read#:#User has read access to administration of Comments.
+rbac#:#coms_write#:#User can edit settings of administration of Comments.
+rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
+rbac#:#cpad_visible#:#Administration of Content Pages is visible.
+rbac#:#cpad_read#:#User has read access to administration of Content Pages.
+rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.
+rbac#:#cpad_edit_permissions#:#User can change permission settings of administration of Content Pages.
+rbac#:#fils_visible#:#Administration of File Services is visible.
+rbac#:#fils_read#:#User has read access to File Services administration.
+rbac#:#fils_write#:#User can edit and configure File Services.
+rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.
+rbac#:#lhts_visible#:#Administration of Learning History is visible.
+rbac#:#lhts_read#:#User has read access to Learning History administration.
+rbac#:#lhts_write#:#User can edit settings of Learning History administration.
+rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.
+rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.
+rbac#:#lsos_read#:#User has read access to Learning Sequences administration.
+rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.
+rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.
+rbac#:#nots_visible#:#Administration of Notes is visible.
+rbac#:#nots_read#:#User has read access to Notes administration.
+rbac#:#nots_write#:#User can edit settings of Notes administration.
+rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
+rbac#:#prss_visible#:#Administration of Personal Resources is visible.
+rbac#:#prss_read#:#User has read access to Personal Resources administration.
+rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
+rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
+rbac#:#push_desktop_items#:#Recommend Content
+rbac#:#wbdv_visible#:#Administration of WebDAV is visible.
+rbac#:#wbdv_read#:#User has read access to WebDAV administration.
+rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.
+rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.
+rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
+rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
+rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
+rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.

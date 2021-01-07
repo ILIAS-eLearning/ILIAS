@@ -8,9 +8,9 @@ require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php
 /**
 * @author  Hendrik Holtmann <holtmann@mac.com>, Alfred Kohnert <alfred.kohnert@bigfoot.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
 * @version $Id$
-* @ilCtrl_Calls ilSCORM13Player:
+* @ilCtrl_Calls ilSCORM13PlayerGUI:
 */
-class ilSCORM13Player
+class ilSCORM13PlayerGUI
 {
     const ENABLE_GZIP = 0;
     
@@ -470,7 +470,7 @@ class ilSCORM13Player
         }
 
         //set icons path
-        $this->tpl->setVariable('INLINE_CSS', ilSCORM13Player::getInlineCss());
+        $this->tpl->setVariable('INLINE_CSS', ilSCORM13PlayerGUI::getInlineCss());
 
         //include scripts
         if ($this->slm->getCacheDeactivated()) {

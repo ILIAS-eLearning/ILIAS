@@ -198,8 +198,7 @@ class ilSCORMOfflineMode
         $ilias_version = $ilias->getSetting("ilias_version");
 
         if ($this->type == 'scorm2004') {
-            include_once "./Modules/Scorm2004/classes/ilSCORM13Player.php";
-            $ob2004 = new ilSCORM13Player();
+            $ob2004 = new ilSCORM13PlayerGUI();
             $init_data = json_encode($ob2004->getConfigForPlayer());
             $resources = json_decode($ob2004->getCPDataInit());
             $cmi = $ob2004->getCMIData($ilUser->getID(), $this->obj_id);

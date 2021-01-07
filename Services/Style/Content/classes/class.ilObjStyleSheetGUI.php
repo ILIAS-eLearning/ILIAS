@@ -242,8 +242,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         // workaround to include default rte styles
         if ($this->super_type == "rte") {
             $tpl->addCss("Modules/Scorm2004/templates/default/player.css");
-            include_once("./Modules/Scorm2004/classes/ilSCORM13Player.php");
-            $tpl->addInlineCss(ilSCORM13Player::getInlineCss());
+            $tpl->addInlineCss(ilSCORM13PlayerGUI::getInlineCss());
         }
 
         // add new style?
@@ -585,8 +584,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         //if (in_array($_GET["style_type"], array("rte_menu")))
         if ($this->super_type == "rte") {
             $tpl->addCss("Modules/Scorm2004/templates/default/player.css");
-            include_once("./Modules/Scorm2004/classes/ilSCORM13Player.php");
-            $tpl->addInlineCss(ilSCORM13Player::getInlineCss());
+            $tpl->addInlineCss(ilSCORM13PlayerGUI::getInlineCss());
         }
 
         $cur = explode(".", $_GET["tag"]);
