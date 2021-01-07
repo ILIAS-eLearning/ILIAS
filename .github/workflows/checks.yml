@@ -9,7 +9,7 @@ jobs:
         with:
           dev: yes
           php_version: 7.3
-          php_extensions: gd
+          php_extensions: gd curl json mysql readline xsl cli zip mbstring
           version: 1
       - run: php --version
       - run: composer --version
