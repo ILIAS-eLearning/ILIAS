@@ -3,6 +3,9 @@
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
+echo $PHPUNIT_PATH
+exit
+
 printLn "Initialize paths variables"
 
 ./CI/PHPUnit/run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
