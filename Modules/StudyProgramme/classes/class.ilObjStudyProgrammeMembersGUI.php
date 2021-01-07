@@ -628,6 +628,7 @@ class ilObjStudyProgrammeMembersGUI
 
 
         foreach ($prgrs_ids as $key => $prgrs_id) {
+            //** ilStudyProgrammeUserProgress */
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             //** ilStudyProgrammeUserAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
@@ -639,7 +640,6 @@ class ilObjStudyProgrammeMembersGUI
 
             $ass->updateFromProgram();
 
-            /** 29529 --------------- */
             $status = $prgrs->getStatus();
             if (
                 $status == ilStudyProgrammeProgress::STATUS_COMPLETED ||
@@ -648,37 +648,23 @@ class ilObjStudyProgrammeMembersGUI
                 $validity_settings = $prg->getValidityOfQualificationSettings();
                 $period = $validity_settings->getQualificationPeriod();
                 $date = $validity_settings->getQualificationDate();
-
-                if (!$period && !$date) {
-                    $prgrs->setValidityOfQualification(null);
-                } else {
-                    if ($period) {
-                        $date = $prgrs->getCompletionDate();
-                        $date->add(new DateInterval('P' . $period . 'D'));
-                    }
-                    $prgrs->setValidityOfQualification($date);
+                if ($period) {
+                    $date = $prgrs->getCompletionDate();
+                    $date->add(new DateInterval('P' . $period . 'D'));
                 }
+                $prgrs->setValidityOfQualification($date);
                 $prgrs->storeProgress();
-            }
-            /** 29529 end ----------- */
-
-            /** 29358 --------------- */
-            else { //not completed/accredited
+            } else { //not completed/accredited
                 $deadline_settings = $prg->getDeadlineSettings();
                 $period = $deadline_settings->getDeadlinePeriod();
                 $date = $deadline_settings->getDeadlineDate();
-                if (!$period && !$date) {
-                    $prgrs->setDeadline(null);
-                } else {
-                    if ($period) {
-                        $date = $prgrs->getAssignmentDate();
-                        $date->add(new DateInterval('P' . $period . 'D'));
-                    }
-                    $prgrs->setDeadline($date);
+                if ($period) {
+                    $date = $prgrs->getAssignmentDate();
+                    $date->add(new DateInterval('P' . $period . 'D'));
                 }
+                $prgrs->setDeadline($date);
                 $prgrs->storeProgress();
             }
-            /** 29358 end ----------- */
         }
 
         if (count($not_updated) == count($prgrs_ids)) {

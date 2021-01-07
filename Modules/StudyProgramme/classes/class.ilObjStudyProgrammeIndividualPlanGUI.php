@@ -174,6 +174,35 @@ class ilObjStudyProgrammeIndividualPlanGUI
             );
         }
         $ass->updateFromProgram();
+
+        $prg = $ass->getStudyProgramme();
+        $prgrs = $ass->getRootProgress();
+        $status = $prgrs->getStatus();
+        if (
+            $status == ilStudyProgrammeProgress::STATUS_COMPLETED ||
+            $status == ilStudyProgrammeProgress::STATUS_ACCREDITED
+        ) {
+            $validity_settings = $prg->getValidityOfQualificationSettings();
+            $period = $validity_settings->getQualificationPeriod();
+            $date = $validity_settings->getQualificationDate();
+            if ($period) {
+                $date = $prgrs->getCompletionDate();
+                $date->add(new DateInterval('P' . $period . 'D'));
+            }
+            $prgrs->setValidityOfQualification($date);
+            $prgrs->storeProgress();
+        } else { //not completed/accredited
+            $deadline_settings = $prg->getDeadlineSettings();
+            $period = $deadline_settings->getDeadlinePeriod();
+            $date = $deadline_settings->getDeadlineDate();
+            if ($period) {
+                $date = $prgrs->getAssignmentDate();
+                $date->add(new DateInterval('P' . $period . 'D'));
+            }
+            $prgrs->setDeadline($date);
+            $prgrs->storeProgress();
+        }
+
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
@@ -352,7 +381,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
-        if($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
+        if ($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
             $tabs[] = 'view';
             $tabs[] = 'manage';
         }

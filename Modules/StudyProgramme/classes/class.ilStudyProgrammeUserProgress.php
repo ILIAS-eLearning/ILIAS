@@ -213,12 +213,10 @@ class ilStudyProgrammeUserProgress
         $this->progress->setValidityOfQualification($date);
     }
 
-    /** 29529 --------------- */
     public function storeProgress() : void
     {
         $this->progress_repository->update($this->progress);
     }
-    /** 29529 end ----------- */
 
     /**
      * Delete the assignment from database.
