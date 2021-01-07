@@ -571,7 +571,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
         
         include_once("./Modules/Course/classes/class.ilCourseInfoFileTableGUI.php");
-        $table_gui = new ilCourseInfoFileTableGUI($this, "edit");
+        $table_gui = new ilCourseInfoFileTableGUI($this, 'editInfo');
         $table_gui->setTitle($this->lng->txt("crs_info_download"));
         $table_gui->setData($rows);
         $table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
