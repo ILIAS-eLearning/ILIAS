@@ -6013,10 +6013,14 @@ if (!$ilDB->fetchAssoc($set)) {
 ?>
 <#5763>
 <?php
+// deleted
+?>
+<#5764>
+<?php
 global $DIC;
 $DIC->database()->modifyTableColumn("usr_data", "login", [
     "type" => \ilDBConstants::T_TEXT,
-    "length" => 255,
+    "length" => 190,
     "notnull" => false,
     "fixed" => false
 ]);
