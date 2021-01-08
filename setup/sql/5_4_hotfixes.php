@@ -1411,6 +1411,10 @@ if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
 ?>
 <#101>
 <?php
+// deleted
+?>
+<#102>
+<?php
 global $DIC;
 $DIC->database()->modifyTableColumn("usr_data", "login", [
     "type" => \ilDBConstants::T_TEXT,
