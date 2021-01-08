@@ -24,6 +24,8 @@ jobs:
 
       - name: PHP Unit Test 
         run: CI/PHPUnit/run_tests_with_reporting.sh
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
         #      - name: Special Char Checker
         #        run: CI/Special-Char-Checker/special-char-checker.sh . php

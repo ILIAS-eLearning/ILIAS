@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "TOKEN: $GH_TOKEN"
+exit
+
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
@@ -12,7 +15,6 @@ PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 echo "Command exited with code: $PIPE_EXIT_CODE"
 
 echo "CI: event type ($GITHUB_EVENT_NAME), job number ($GITHUB_RUN_ID), Ref ($GITHUB_REF), commit ($GITHUB_SHA) "
-exit
 
 if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 	then
