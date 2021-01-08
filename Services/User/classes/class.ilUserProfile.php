@@ -46,8 +46,8 @@ class ilUserProfile
     private static $user_field = array(
         "username" => array(
                         "input" => "login",
-                        "maxlength" => 255,
-                        "size" => 255,
+                        "maxlength" => 190,
+                        "size" => 190,
                         "method" => "getLogin",
                         "course_export_fix_value" => 1,
                         "group_export_fix_value" => 1,
