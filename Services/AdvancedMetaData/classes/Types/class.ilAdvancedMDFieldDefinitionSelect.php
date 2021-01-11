@@ -229,7 +229,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $objDefinition = $DIC['objDefinition'];
                 
         $a_form->getItemByPostVar("opts")->setDisabled(true);
-
         if (is_array($this->confirm_objects) && count($this->confirm_objects) > 0) {
             $new_options = $a_form->getInput("opts");
             
@@ -275,10 +274,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         ilUtil::sendFailure($lng->txt("form_input_not_valid"));
                     }
                 }
-                
                 $single = new ilRadioOption($lng->txt("md_adv_confirm_definition_select_option_single"), "sgl");
                 $details->addOption($single);
-                
                 foreach ($items as $item) {
                     $obj_id = $item[0];
                     $sub_type = $item[1];
@@ -294,7 +291,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         $class = "ilObj" . $objDefinition->getClassName($type);
                         $class_path = $objDefinition->getLocation($type);
                         include_once $class_path . "/class." . $class . ".php";
-                        if (class_implements($class, ilAdvancedMetaDataSubItem)) {
+                        $ints = class_implements($class);
+                        if (isset($ints["ilAdvancedMetaDataSubItems"])) {
                             $sub_title = $class::getAdvMDSubItemTitle($obj_id, $sub_type, $sub_id);
                             if ($sub_title) {
                                 $title .= ' (' . $sub_title . ')';
