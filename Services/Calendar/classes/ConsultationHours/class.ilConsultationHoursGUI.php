@@ -29,7 +29,7 @@ include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultation
  * Consultation hours editor
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
- * @ilCtrl_Calls: ilConsultationHoursGUI: ilPublicUserProfileGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls: ilConsultationHoursGUI ilPublicUserProfileGUI, ilRepositorySearchGUI
  */
 class ilConsultationHoursGUI
 {

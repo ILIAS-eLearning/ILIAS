@@ -6306,7 +6306,7 @@ if (!$ilDB->tableColumnExists('adv_md_values_ltext', 'disabled')) {
     );
 }
 ?>
-
-
-
-
+<#5773>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
