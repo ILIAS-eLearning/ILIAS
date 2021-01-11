@@ -4,6 +4,8 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
+    const ENUM_SEARCH_COLUMN = 'value_index';
+
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
     {
         return ($a_adt_def instanceof ilADTEnumDefinition);
@@ -19,8 +21,12 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->getADT()->setSelection($value);
         }
     }
-    
-    
+
+    public function getSearchColumn() : string
+    {
+        return self::ENUM_SEARCH_COLUMN;
+    }
+
     // form
     
     public function addToForm()
@@ -73,14 +79,12 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
+        $search_column = $this->getSearchColumn();
         if (!$this->isNull() && $this->isValid()) {
-            $type = ($this->getADT() instanceof ilADTEnumText)
-                ? "text"
-                : "integer";
-            
-            return $a_element_id . " = " . $ilDB->quote($this->getADT()->getSelection(), $type);
+            return $search_column . ' = ' . $ilDB->quote($this->getADT()->getSelection(), ilDBConstants::T_TEXT);
         }
+        return '';
     }
     
     public function isInCondition(ilADT $a_adt)

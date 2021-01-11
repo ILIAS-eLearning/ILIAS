@@ -39,11 +39,18 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
      */
     public function readRecord(array $a_row)
     {
-        if (!strlen($a_row[$this->getElementId() . '_language'])) {
+        $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
+        $default_language = $this->getADT()->getCopyOfDefinition()->getDefaultLanguage();
+        $language = $a_row[$this->getElementId() . '_language'];
+
+        if (strcmp($language, $default_language) === 0) {
             $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
-        } else {
+        } elseif(!strlen($default_language)) {
+            $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
+        }
+        if (in_array($language, $active_languages)){
             $this->getADT()->setTranslation(
-                $a_row[$this->getElementId() . '_language'],
+                $language,
                 $a_row[$this->getElementId() . '_translation']
             );
         }

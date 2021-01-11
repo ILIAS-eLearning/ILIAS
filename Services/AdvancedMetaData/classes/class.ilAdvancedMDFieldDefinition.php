@@ -1023,6 +1023,16 @@ abstract class ilAdvancedMDFieldDefinition
         
         $a_writer->xmlElement('FieldTitle', null, $this->getTitle());
         $a_writer->xmlElement('FieldDescription', null, $this->getDescription());
+
+        $translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
+        $a_writer->xmlStartTag('FieldTranslations');
+        foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
+            $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
+            $a_writer->xmlElement('FieldTranslationTitle', [], (string) $translation->getTitle());
+            $a_writer->xmlElement('FieldTranslationDescription',[], (string) $translation->getDescription());
+            $a_writer->xmlEndTag('FieldTranslation');
+        }
+        $a_writer->xmlEndTag('FieldTranslations');
         $a_writer->xmlElement('FieldPosition', null, $this->getPosition());
         
         $this->addPropertiesToXML($a_writer);
@@ -1206,7 +1216,6 @@ abstract class ilAdvancedMDFieldDefinition
     public function searchObjects(ilADTSearchBridge $a_adt_search, ilQueryParser $a_parser, array $a_object_types, $a_locate, $a_search_type)
     {
         // search type only supported/needed for text
-        
         include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {

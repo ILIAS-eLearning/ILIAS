@@ -27,8 +27,11 @@ class ilAdvancedMDSettingsGUI
      */
     private $context = null;
 
-
+    /**
+     * @var ilLanguage
+     */
     protected $lng;
+
     protected $tpl;
 
     /**
@@ -779,6 +782,7 @@ class ilAdvancedMDSettingsGUI
         $this->tabs_gui->activateTab(self::TAB_RECORD_SETTINGS);
 
         if (!$form instanceof ilPropertyFormGUI) {
+            $this->initLanguage($record_id);
             $this->showLanguageSwitch($record_id, 'editRecord');
             $this->initForm('edit');
         }
@@ -794,6 +798,7 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->saveParameter($this, 'record_id');
         $this->initRecordObject();
         $this->setRecordSubTabs();
+        $this->initLanguage($record_id);
         $this->showLanguageSwitch($record_id, 'editFields');
 
 
@@ -913,8 +918,10 @@ class ilAdvancedMDSettingsGUI
                 $field->update();
             }
         }
-        
-        
+
+        if ($this->request->getQueryParams()['mdlang']) {
+            $this->ctrl->setParameter($this, 'mdlang', $this->request->getQueryParams()['mdlang']);
+        }
         ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, "editFields");
     }
@@ -933,6 +940,7 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, 'showRecords');
         }
         $this->initRecordObject();
+        $this->initLanguage($record_id);
         $this->showLanguageSwitch($record_id,'editRecord');
 
         $this->initForm('edit');
@@ -1132,7 +1140,7 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
 
-        $this->loadRecordFormData();
+        $record = $this->loadRecordFormData();
         if ($this->obj_type) {
             $this->record->setAssignedObjectTypes(array(
                 array(
@@ -1141,7 +1149,17 @@ class ilAdvancedMDSettingsGUI
                     "optional" => false
             )));
         }
-        $this->record->save();
+
+        $record->setDefaultLanguage($this->lng->getDefaultLanguage());
+        $record->save();
+
+        $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record->getRecordId());
+        $translations->addTranslationEntry($record->getDefaultLanguage(), true);
+        $translations->updateTranslations(
+            $record->getDefaultLanguage(),
+            $this->form->getInput('title'),
+            $this->form->getInput('desc')
+        );
         ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'),true);
         $this->ctrl->redirect($this, 'showRecords');
     }
@@ -1154,8 +1172,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function editField(ilPropertyFormGUI $a_form = null)
     {
-        $record_id = (int) $this->request->getQueryParams()['record_id'] ?? 0;
-        $field_id = (int) $this->request->getQueryParams()['field_id'] ?? 0;
+        $record_id = (int) ($this->request->getQueryParams()['record_id'] ?? 0);
+        $field_id = (int) ($this->request->getQueryParams()['field_id'] ?? 0);
         if (!$record_id || !$field_id) {
             return $this->editFields();
         }
@@ -1167,6 +1185,7 @@ class ilAdvancedMDSettingsGUI
         $field_definition = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                  
         if (!$a_form instanceof ilPropertyFormGUI) {
+            $this->initLanguage($this->record->getRecordId());
             $this->showLanguageSwitch($this->record->getRecordId(), 'editField');
             $a_form = $this->initFieldForm($field_definition);
         }
@@ -1195,6 +1214,7 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+        $this->initLanguage($record_id);
         $this->showLanguageSwitch($record_id, 'editField');
 
         $confirm = false;
@@ -1266,6 +1286,7 @@ class ilAdvancedMDSettingsGUI
         }
 
         $this->initRecordObject();
+        $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
         
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
@@ -1276,7 +1297,11 @@ class ilAdvancedMDSettingsGUI
         if ($form->checkInput()) {
             $field_definition->importDefinitionFormPostValues($form, $this->getPermissions(), $this->active_language);
             $field_definition->save();
-            
+
+            $translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
+            $translations->read();
+            $translations->updateFromForm($field_definition->getFieldId(), $this->active_language, $form);
+
             ilUtil::sendSuccess($this->lng->txt('save_settings'), true);
             $this->ctrl->redirect($this, "editFields");
         }
@@ -1310,7 +1335,6 @@ class ilAdvancedMDSettingsGUI
         $type = new ilNonEditableValueGUI($this->lng->txt("type"));
         $type->setValue($this->lng->txt($a_definition->getTypeTitle()));
         $form->addItem($type);
-        
         $a_definition->addToFieldDefinitionForm($form, $this->getPermissions(), $this->active_language);
     
         if ($is_creation_mode) {
@@ -1766,13 +1790,11 @@ class ilAdvancedMDSettingsGUI
         
         return true;
     }
-    
+
     /**
-     * load record form data
-     *
-     * @access protected
+     * @return ilAdvancedMDRecord
      */
-    protected function loadRecordFormData()
+    protected function loadRecordFormData() : ilAdvancedMDRecord
     {
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
 
@@ -1837,6 +1859,7 @@ class ilAdvancedMDSettingsGUI
         }
         $this->record->setScopes($_POST['scope'] ? $scopes : []);
         $this->record->enableScope($_POST['scope'] ? true : false);
+        return $this->record;
     }
     
     /**
@@ -2053,31 +2076,42 @@ class ilAdvancedMDSettingsGUI
     /**
      * @param int $record_id
      */
+    protected function initLanguage(int $record_id)
+    {
+        $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
+        // read active language
+        $default = '';
+        foreach ($translations->getTranslations() as $translation) {
+            if ($translation->getLangKey() == $translations->getDefaultLanguage()) {
+                $default = $translation->getLangKey();
+            }
+        }
+        $active = $this->request->getQueryParams()['mdlang'] ?? $default;
+        $this->active_language = $active;
+    }
+
+    /**
+     * @param int $record_id
+     */
     protected function showLanguageSwitch(int $record_id, string $target) : void
     {
         $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
+
         if (count($translations->getTranslations()) <= 1) {
             return;
         }
         $actions = [];
-        $default = '';
         foreach ($translations->getTranslations() as $translation) {
-
-            if ($translation->getLangKey() == $translations->getDefaultLanguage()) {
-                $default = $translation->getLangKey();
-            }
             $this->ctrl->setParameter($this, 'mdlang', $translation->getLangKey());
             $actions[$translation->getLangKey()] = $this->ctrl->getLinkTarget(
                 $this,
                 $target
             );
         }
-        $active = $this->request->getQueryParams()['mdlang'] ?? $default;
-        $this->active_language = $active;
-        $this->ctrl->setParameter($this, 'mdlang', $active);
+        $this->ctrl->setParameter($this, 'mdlang', $this->active_language);
         $view_control = $this->ui_factory->viewControl()->mode(
             $actions,
-            $this->lng->txt('meta_aria_language_selection'))->withActive($active);
+            $this->lng->txt('meta_aria_language_selection'))->withActive($this->active_language);
         $this->toolbar->addComponent($view_control);
     }
 }
