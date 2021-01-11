@@ -33,6 +33,12 @@ class ilAdvancedMDFieldTranslations
     private $translations = [];
 
     /**
+     * @var array
+     */
+    private $record_translations = [];
+
+
+    /**
      * @var string
      */
     private $default_language = '';
@@ -58,6 +64,7 @@ class ilAdvancedMDFieldTranslations
         $this->lng->loadLanguageModule('meta');
 
         $this->record_id = $record_id;
+        $this->record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record_id);
         $this->read();
     }
 
@@ -111,6 +118,9 @@ class ilAdvancedMDFieldTranslations
      */
     public function isConfigured(int $field_id, string $lang_key)
     {
+        if (!$this->record_translations->isConfigured($lang_key)) {
+            return false;
+        }
         return isset($this->translations[$field_id][$lang_key]);
     }
 
@@ -151,7 +161,7 @@ class ilAdvancedMDFieldTranslations
         return null;
     }
 
-    private function read()
+    public function read()
     {
         $query = 'select fi.field_id tfield, de.field_id ofield, fi.title, fi.description, ri.lang_code ' .
             'from adv_md_record_int ri join adv_mdf_definition de on ri.record_id = de.record_id ' .
@@ -208,15 +218,12 @@ class ilAdvancedMDFieldTranslations
      */
     public function modifyTranslationInfoForTitle(int $field_id, ilPropertyFormGUI $form, ilTextInputGUI $title, string $active_language)
     {
-        if (
-            !strlen($active_language) ||
-            $active_language === $this->getDefaultLanguage() || !$this->getDefaultLanguage()
-        ) {
+        if (!strlen($active_language)) {
             return;
         }
-
+        $show_info = ($active_language !== $this->getDefaultLanguage() && $this->getDefaultLanguage());
         $default = $this->getDefaultTranslation($field_id);
-        if ($default instanceof ilAdvancedMDFieldTranslation) {
+        if ($default instanceof ilAdvancedMDFieldTranslation && $show_info) {
             $title->setInfo($default->getLangKey() . ': ' . $default->getTitle());
         }
         if ($this->getTranslation($field_id, $active_language) instanceof ilAdvancedMDFieldTranslation) {
@@ -230,16 +237,12 @@ class ilAdvancedMDFieldTranslations
      */
     public function modifyTranslationInfoForDescription(int $field_id, ilPropertyFormGUI $form, ilTextAreaInputGUI $description, string $active_language)
     {
-        if (
-            !strlen($active_language) ||
-            $active_language === $this->getDefaultLanguage() ||
-            !$this->getDefaultLanguage()
-        ) {
+        if (!strlen($active_language)) {
             return;
         }
-
+        $show_info = ($active_language !== $this->getDefaultLanguage() && $this->getDefaultLanguage());
         $default = $this->getDefaultTranslation($field_id);
-        if ($default instanceof ilAdvancedMDFieldTranslation) {
+        if ($default instanceof ilAdvancedMDFieldTranslation && $show_info) {
             $description->setInfo($default->getLangKey() . ': ' . $default->getDescription());
         }
         if ($this->getTranslation($field_id, $active_language) instanceof ilAdvancedMDFieldTranslation) {
@@ -254,12 +257,6 @@ class ilAdvancedMDFieldTranslations
      */
     public function updateFromForm(int $field_id, string $active_language, ilPropertyFormGUI $form)
     {
-        if (!strlen($active_language)) {
-            return;
-        }
-        if ($active_language == $this->getDefaultLanguage()) {
-            return;
-        }
         $translation = $this->getTranslation($field_id, $active_language);
         if (!$translation instanceof ilAdvancedMDFieldTranslation) {
             return;
@@ -295,6 +292,12 @@ class ilAdvancedMDFieldTranslations
         if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id, $language)->getTitle())) {
             return $this->getTranslation($field_id, $language)->getTitle();
         }
+        if (
+            $this->getTranslation($field_id, $this->getDefaultLanguage()) &&
+            strlen(($this->getTranslation($field_id, $this->getDefaultLanguage())->getTitle()))
+        ) {
+            return $this->getTranslation($field_id, $this->getDefaultLanguage())->getTitle();
+        }
         if ($this->definitions[$field_id] instanceof ilAdvancedMDFieldDefinition) {
             return $this->definitions[$field_id]->getTitle();
         }
@@ -308,6 +311,11 @@ class ilAdvancedMDFieldTranslations
     {
         if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id, $language)->getDescription())) {
             return $this->getTranslation($field_id, $language)->getDescription();
+        }
+        if ($this->getTranslation($field_id, $this->getDefaultLanguage()) &&
+            strlen($this->getTranslation($field_id, $this->getDefaultLanguage())->getDescription())
+        ) {
+            return $this->getTranslation($field_id, $this->getDefaultLanguage())->getDescription();
         }
         if ($this->definitions[$field_id] instanceof ilAdvancedMDFieldDefinition) {
             return $this->definitions[$field_id]->getDescription();

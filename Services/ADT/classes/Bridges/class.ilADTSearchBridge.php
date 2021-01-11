@@ -12,6 +12,8 @@ include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
  */
 abstract class ilADTSearchBridge
 {
+    const DEFAULT_SEARCH_COLUMN = 'value';
+
     protected $form; // [ilPropertyFormGUI]
     protected $table_gui; // [ilTable2GUI]
     protected $table_filter_fields = []; // [array]
@@ -117,6 +119,12 @@ abstract class ilADTSearchBridge
     public function getTitle()
     {
         return $this->title;
+    }
+
+
+    public function getSearchColumn() : string
+    {
+        return self::DEFAULT_SEARCH_COLUMN;
     }
     
     

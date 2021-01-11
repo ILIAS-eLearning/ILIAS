@@ -10,8 +10,6 @@ class ilADTLocationDBBridge extends ilADTDBBridge
     }
     
     
-    // CRUD
-    
     public function readRecord(array $a_row)
     {
         $this->getADT()->setLongitude($a_row[$this->getElementId() . "_long"]);
@@ -24,5 +22,10 @@ class ilADTLocationDBBridge extends ilADTDBBridge
         $a_fields[$this->getElementId() . "_long"] = array("float", $this->getADT()->getLongitude());
         $a_fields[$this->getElementId() . "_lat"] = array("float", $this->getADT()->getLatitude());
         $a_fields[$this->getElementId() . "_zoom"] = array("integer", $this->getADT()->getZoom());
+    }
+
+    public function supportsDefaultValueColumn() : bool
+    {
+        return false;
     }
 }

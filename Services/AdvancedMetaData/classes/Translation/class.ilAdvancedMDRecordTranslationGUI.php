@@ -52,10 +52,10 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
         $this->record->setDefaultLanguage($default);
         $this->record->update();
 
-        $default = $translations->getTranslation($default);
-        $default->setTitle($this->record->getTitle());
-        $default->setDescription($this->record->getDescription());
-        $default->update();
+        #$default = $translations->getTranslation($default);
+        #$default->setTitle($this->record->getTitle());
+        #$default->setDescription($this->record->getDescription());
+        #$default->update();
 
         ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);

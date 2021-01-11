@@ -25,8 +25,8 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
 
         if (!count($active_languages)) {
             $this->addElementToForm(
-                $this->getTitle(),
-                $this->getElementId(),
+                (string) $this->getTitle(),
+                (string) $this->getElementId(),
                 (string) $this->getADT()->getText(),
                 false,
                 ''
@@ -41,8 +41,8 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
                 $is_translation = true;
             }
             $this->addElementToForm(
-                $this->getTitle(),
-                $this->getElementId() . '_' . $active_language,
+                (string) $this->getTitle(),
+                (string) $this->getElementId() . '_' . $active_language,
                 (string) $this->getADT()->getTranslations()[$active_language],
                 $is_translation,
                 $active_language
