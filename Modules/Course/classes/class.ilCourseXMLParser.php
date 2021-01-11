@@ -365,6 +365,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    // default for new course admin/tutors is "no contact"
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 // update
@@ -373,6 +377,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
+                }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                } elseif (isset($a_attribs['contact']) && $a_attribs['contact'] == 'No') {
+                    $this->course_members->updateContact($id_data['usr_id'], false);
                 }
                 $this->course_members->updateBlocked($id_data['usr_id'], false);
             }
@@ -403,6 +412,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    // default for new course admin/tutors is "no contact"
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 if ($a_attribs['notification'] == 'Yes') {
@@ -410,6 +423,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
+                }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                } elseif (isset($a_attribs['contact']) && $a_attribs['contact'] == 'No') {
+                    $this->course_members->updateContact($id_data['usr_id'], false);
                 }
                 $this->course_members->updateBlocked($id_data['usr_id'], false);
             }
