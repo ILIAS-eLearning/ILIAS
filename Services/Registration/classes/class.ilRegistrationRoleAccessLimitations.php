@@ -43,7 +43,7 @@ class ilRegistrationRoleAccessLimitations
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $this->db = $ilDB;
         $this->__read();
@@ -52,20 +52,16 @@ class ilRegistrationRoleAccessLimitations
     // Private
     public function __read()
     {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
 
         $query = "SELECT * FROM reg_access_limit ";
         $res = $this->db->query($query);
 
         $this->access_limitations = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->access_limitations[$row->role_id]['id'] = $row->role_id;
+            $this->access_limitations[$row->role_id]['id'] =  $row->role_id;
             $this->access_limitations[$row->role_id]['absolute'] = $row->limit_absolute;
             $this->access_limitations[$row->role_id]['relative_d'] = $row->limit_relative_d;
             $this->access_limitations[$row->role_id]['relative_m'] = $row->limit_relative_m;
-            $this->access_limitations[$row->role_id]['relative_y'] = $row->limit_relative_y;
             $this->access_limitations[$row->role_id]['mode'] = $row->limit_mode;
         }
         
@@ -74,31 +70,26 @@ class ilRegistrationRoleAccessLimitations
     
     public function save()
     {
-        global $DIC;
-
-        $ilias = $DIC['ilias'];
-        $ilDB = $DIC['ilDB'];
 
         foreach ($this->access_limitations as $key => $data) {
             $limit_value = "";
 
             // Delete old entry
             $query = "DELETE FROM reg_access_limit " .
-                "WHERE role_id = " . $ilDB->quote($key, 'integer');
-            $res = $ilDB->manipulate($query);
+                "WHERE role_id = " . $this->ilDB->quote($key, 'integer');
+            $res = $this->db->manipulate($query);
             
             
             $query = "INSERT INTO reg_access_limit (role_id,limit_mode,limit_absolute," .
-                "limit_relative_d,limit_relative_m,limit_relative_y) " .
+                "limit_relative_d,limit_relative_m) " .
                 "VALUES( " .
-                $ilDB->quote($key, 'integer') . ", " .
-                $ilDB->quote($data['mode'], 'text') . ", " .
-                $ilDB->quote($data['absolute']) . ", " .
-                $ilDB->quote($data['relative_d']) . ", " .
-                $ilDB->quote($data['relative_m']) . ", " .
-                $ilDB->quote($data['relative_y']) . " " .
+                $this->db->quote($key, 'integer') . ", " .
+                $this->db->quote($data['mode'], 'text') . ", " .
+                $this->db->quote($data['absolute']) . ", " .
+                $this->db->quote($data['relative_d']) . ", " .
+                $this->db->quote($data['relative_m']) . " " .
                 ")";
-            $res = $ilDB->manipulate($query);
+            $res = $this->db->manipulate($query);
         }
         
         return true;
@@ -115,7 +106,7 @@ class ilRegistrationRoleAccessLimitations
                 return IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
             
-            if ($data['mode'] == 'relative' and ($data['relative_d'] < 1 and $data['relative_m'] < 1 and $data['relative_y'] < 1)) {
+            if ($data['mode'] == 'relative' and ($data['relative_d'] < 1 and $data['relative_m'] < 1)) {
                 return IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
         }
@@ -138,9 +129,9 @@ class ilRegistrationRoleAccessLimitations
         return $this->access_limitations[$a_role_id] ? $this->access_limitations[$a_role_id]['absolute'] : time();
     }
     
-    public function setAbsolute($a_arr, $a_role_id)
+    public function setAbsolute($date, $a_role_id)
     {
-        $this->access_limitations[$a_role_id]['absolute'] = mktime(23, 59, 59, $a_arr['m'], $a_arr['d'], $a_arr['y']);
+        $this->access_limitations[$a_role_id]['absolute'] = strtotime($date);
     }
     
     public function getRelative($a_role_id, $a_type)
@@ -150,9 +141,8 @@ class ilRegistrationRoleAccessLimitations
 
     public function setRelative($a_arr, $a_role_id)
     {
-        $this->access_limitations[$a_role_id]['relative_d'] = $a_arr['d'];
-        $this->access_limitations[$a_role_id]['relative_m'] = $a_arr['m'];
-        $this->access_limitations[$a_role_id]['relative_y'] = $a_arr['y'];
+        $this->access_limitations[$a_role_id]['relative_d'] = $a_arr['dd'];
+        $this->access_limitations[$a_role_id]['relative_m'] = $a_arr['MM'];
     }
     
     /**
