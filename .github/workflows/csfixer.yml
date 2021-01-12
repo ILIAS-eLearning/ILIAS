@@ -1,4 +1,4 @@
-name: checks
+name: PHP CS Fixer
 on: [push]
 jobs:
   tests:
@@ -22,8 +22,5 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --no-progress
 
-      - name: PHP Unit Test 
-        run: CI/PHPUnit/run_tests_with_reporting.sh
-
-        #      - name: Special Char Checker
-        #        run: CI/Special-Char-Checker/special-char-checker.sh . php
+#      - name: PHP CS Fixer
+#        run: CI/PHP-CS-Fixer/run_check.sh
