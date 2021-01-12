@@ -52,7 +52,7 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      A numeric field is used to retrieve numeric values from the user.
+     *      A numeric field is used to retrieve integer values from the user.
      *   composition: >
      *      Numeric inputs will render an input-tag with type="number".
      *   effect: >
