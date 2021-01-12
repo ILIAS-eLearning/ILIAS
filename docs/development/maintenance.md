@@ -60,7 +60,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **Administration**
 	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: [smeyer](https://docu.ilias.de/docu/goto_docu_usr_191.html)
+	* 2nd Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
@@ -79,7 +79,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 * **Bibliographic List Item**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* 2nd Maintainer: N.A.
-	* Testcases: [mstuder](https://docu.ilias.de/docu/goto_docu_usr_8473.html)
+	* Testcases: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
 	* Tester: [miriamhoelscher](https://docu.ilias.de/goto_docu_usr_25370.html)
 
 * **Blog**
