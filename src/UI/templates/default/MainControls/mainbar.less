@@ -136,19 +136,19 @@
 .il-mainbar-tools-button {
 	.btn-bulky,
 	.btn-bulky.engaged {
-		background-color: lighten(@brand-primary, 10%);
+		background-color: @il-mainbar-tools-btn-bg;
 		border: 0;
-		color: @il-mainbar-btn-color;
+		color: darken(@il-mainbar-btn-color-engaged, 10%);
 		padding: 0;
 		.icon  {
-			filter: invert(100%);
+			filter: invert(30%);
 		}
 	}
 	.btn-bulky.engaged {
-		background-color: lighten(@brand-primary, 45%);
+		background-color: @il-maincontrols-mainbar-bg-color;
 		color: @il-mainbar-btn-color-engaged;
 		.icon  {
-			filter: invert(35%);
+			filter: invert(30%);
 		}
 	}
 }
