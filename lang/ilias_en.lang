@@ -10685,6 +10685,7 @@ rbac#:#rcat_visible#:#ECS Category is visible
 rbac#:#rcat_write#:#User can edit settings of ECS Category
 search#:#search_filter_by_type#:#Filter by Type
 search#:#search_off#:#Off
+search#:#search_on#:#On
 ecs#:#ecs_cmap_enable#:#Course Allocation
 ecs#:#ecs_cmap_def_cat#:#Default Category
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.
