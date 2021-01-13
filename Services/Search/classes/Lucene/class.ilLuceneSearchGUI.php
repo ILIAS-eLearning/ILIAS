@@ -581,6 +581,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             // begin-patch creation_date
             $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
             $this->tpl->setVariable('TXT_CD_OFF', $this->lng->txt('search_off'));
+            $this->tpl->setVariable('TXT_CD_ON', $this->lng->txt('search_on'));
             $this->tpl->setVariable('FORM_CD', $this->getCreationDateForm()->getHTML());
             $this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
             // end-patch creation_date
