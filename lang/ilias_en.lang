@@ -3478,6 +3478,7 @@ common#:#scorm_new#:#Create SCORM Learning Module (Authoring Mode)
 common#:#search_active#:#Include active users
 common#:#search_engine#:#Readable .html URLs
 common#:#search_for#:#Search For
+common#:#search_field#:#Search input field
 common#:#search_in#:#Search in
 common#:#search_inactive#:#Include inactive users
 common#:#search_new#:#New Search
