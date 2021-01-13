@@ -528,7 +528,9 @@ class ilForumPostDraft
             array(
             'post_subject' => array('text', $this->getPostSubject()),
             'post_message' => array('clob', $this->getPostMessage()),
-            'post_user_alias' => array('text', $this->getPostUserAlias())
+            'post_user_alias' => array('text', $this->getPostUserAlias()),
+            'post_update' => array('timestamp', date("Y-m-d H:i:s")),
+            'update_user_id' => array('integer', $this->getUpdateUserId()),
         ),
             array('draft_id' => array('integer', $this->getDraftId()))
         );
