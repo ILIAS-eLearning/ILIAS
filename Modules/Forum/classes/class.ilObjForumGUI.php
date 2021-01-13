@@ -871,7 +871,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 $authorinfo = new ilForumAuthorInformation(
                     $draft->getPostAuthorId(),
-                    $draft->getUpdateUserId(),
+                    // We assume the editor is the author here
+                    $draft->getPostDisplayUserId(),
                     $draft->getPostUserAlias(),
                     '',
                     array(
