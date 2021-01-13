@@ -22,7 +22,6 @@
 */
 
 
-include_once("Auth/Auth.php");
 include_once("./webservice/soap/lib/nusoap.php");
 
 /**
@@ -31,9 +30,9 @@ include_once("./webservice/soap/lib/nusoap.php");
 * SOAP Authentication class.
 *
 */
-class ilSOAPAuth extends Auth
+class ilSOAPAuth
 {
-    public $valid = array();
+    public $valid 	= array();
     
     /**
     * Constructor
@@ -60,14 +59,14 @@ class ilSOAPAuth extends Auth
             $uri = "http://";
         }
         
-        $uri .= $server_hostname;
+        $uri.= $server_hostname;
         
         if ($server_port > 0) {
-            $uri .= ":" . $server_port;
+            $uri.= ":" . $server_port;
         }
 
         if ($server_uri != "") {
-            $uri .= "/" . $server_uri;
+            $uri.= "/" . $server_uri;
         }
 
         $soap_client = new nusoap_client($uri);

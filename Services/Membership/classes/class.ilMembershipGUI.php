@@ -509,7 +509,7 @@ class ilMembershipGUI
         $passed = $_POST['passed'] ? $_POST['passed'] : array();
         $blocked = $_POST['blocked'] ? $_POST['blocked'] : array();
         $contact = $_POST['contact'] ? $_POST['contact'] : array();
-        
+
         // Determine whether the user has the 'edit_permission' permission
         $hasEditPermissionAccess =
             (
@@ -602,8 +602,7 @@ class ilMembershipGUI
             }
             
             if (
-                ($this->getMembersObject()->isAdmin($usr_id) ||
-                $this->getMembersObject()->isTutor($usr_id)) &&
+                ($this->getMembersObject()->isAdmin($usr_id) || $this->getMembersObject()->isTutor($usr_id)) &&
                 in_array($usr_id, $contact)
             ) {
                 $this->getMembersObject()->updateContact($usr_id, true);

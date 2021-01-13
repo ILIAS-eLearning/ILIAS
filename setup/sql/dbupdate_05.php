@@ -6306,7 +6306,21 @@ if (!$ilDB->tableColumnExists('adv_md_values_ltext', 'disabled')) {
     );
 }
 ?>
+<#5773>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5774>
+<?php
+if ($ilDB->tableColumnExists("reg_access_limit", "limit_relative_y")) {
+    $res = $ilDB->query("SELECT role_id, limit_relative_m, limit_relative_y FROM reg_access_limit WHERE limit_relative_y IS NOT NULL");
+    $updateStatement = $ilDB->prepareManip("UPDATE reg_access_limit SET limit_relative_m = ? WHERE role_id = ?", ['months', 'role_id']);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $row['limit_relative_m'] = ($row['limit_relative_y'] * 12) + $row['limit_relative_m'];
+        $ilDB->execute($updateStatement, [$row['limit_relative_m'], $row['role_id']]);
+    }
 
-
-
+    $ilDB->dropTableColumn("reg_access_limit", "limit_relative_y");
+}
+?>
 

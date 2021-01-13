@@ -23,6 +23,7 @@
     id CDATA #REQUIRED
     notification (Yes | No) #IMPLIED
     passed (Yes | No) #IMPLIED
+	contact (Yes | No) #IMPLIED
 	action (Attach|Detach) #IMPLIED
 >
 <!-- All course tutors
@@ -33,6 +34,7 @@
     id CDATA #REQUIRED
     notification (Yes | No) #REQUIRED
     passed (Yes | No) #REQUIRED
+	contact (Yes | No) #IMPLIED
 	action (Attach|Detach) #IMPLIED
 >
 <!-- All course members
