@@ -103,7 +103,6 @@ class ilMainMenuSearchGUI
         $this->tpl->setVariable('FORMACTION', 'ilias.php?baseClass=ilSearchController&cmd=post' .
             '&rtoken=' . $ilCtrl->getRequestToken() . '&fallbackCmd=remoteSearch');
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
-        $this->tpl->setVariable('LANGUAGE', $ilUser->getLanguage());
 
         $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
         
