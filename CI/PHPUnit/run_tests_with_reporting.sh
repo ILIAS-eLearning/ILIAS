@@ -1,24 +1,21 @@
 #!/bin/bash
 
-echo "TOKEN: $GH_TOKEN"
-exit
-
 source CI/Import/Functions.sh
 source CI/Import/Variables.sh
 
-echo "Initialize paths variables"
+printLn "Initialize paths variables"
 
 ./CI/PHPUnit/run_tests.sh | tee "$PHPUNIT_RESULTS_PATH"
 
 PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
 
-echo "Command exited with code: $PIPE_EXIT_CODE"
+printLn "Command exited with code: $PIPE_EXIT_CODE"
 
-echo "CI: event type ($GITHUB_EVENT_NAME), job number ($GITHUB_RUN_ID), Ref ($GITHUB_REF), commit ($GITHUB_SHA) "
+printLn "Travis: event type ($TRAVIS_EVENT_TYPE), job number ($TRAVIS_JOB_NUMBER), pull request ($TRAVIS_PULL_REQUEST), commit ($TRAVIS_COMMIT) "
 
 if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 	then
-		echo "Collecting data."
+		printLn "Collecting data."
 		RESULT=`tail -n1 < "$PHPUNIT_RESULTS_PATH"`
 		SPLIT_RESULT=(`echo $RESULT | tr ':' ' '`)
 		PHP_VERSION=`php -r "echo PHP_MAJOR_VERSION . '_' . PHP_MINOR_VERSION;"`
@@ -28,7 +25,7 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 				ILIAS_VERSION=`echo "$ILIAS_VERSION" | tr . _`
 		fi
 
-		JOB_ID=`echo $GITHUB_RUN_ID`
+		JOB_ID=`echo $TRAVIS_JOB_NUMBER`
 		JOB_URL=`echo $TRAVIS_JOB_WEB_URL`
 		FAILURE=false
 		declare -A RESULTS=([Tests]=0 [Assertions]=0 [Errors]=0 [Warnings]=0 [Skipped]=0 [Incomplete]=0 [Risky]=0 [Failures]=0);
@@ -59,23 +56,23 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 
 		if [[ "$TRAVIS_EVENT_TYPE" != "pull_request" ]]
 		then
-			echo "Cloning results repository, copy results file."
+			printLn "Cloning results repository, copy results file."
 			if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
-				echo "Starting to remove old temp directory"
+				printLn "Starting to remove old temp directory"
 				rm -rf "$TRAVIS_RESULTS_DIRECTORY"
 			fi
 
-			cd /tmp && git clone $CI_RESULTS_REPO
+			cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
 			cp "$TRAVIS_RESULTS_DIRECTORY/data/phpunit_latest.csv" "$PHPUNIT_PATH"
 
-			echo "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
+			printLn "Removing old line PHP version $PHP_VERSION and ILIAS version $ILIAS_VERSION"
 			grep -v "$ILIAS_VERSION.*php_$PHP_VERSION" $PHPUNIT_PATH > $PHPUNIT_PATH_TMP 
 
 			NEW_LINE="$JOB_URL,$JOB_ID,$ILIAS_VERSION,php_$PHP_VERSION,PHP $PHP_VERSION,${RESULTS[Warnings]},${RESULTS[Skipped]},${RESULTS[Incomplete]},${RESULTS[Tests]},${RESULTS[Errors]},${RESULTS[Risky]},$FAILURE,$DATE,$UNIXDATE";
-			echo "Writing line: $NEW_LINE"
+			printLn "Writing line: $NEW_LINE"
 			echo "$NEW_LINE" >> "$PHPUNIT_PATH_TMP";
 
-			echo "Handling result."
+			printLn "Handling result."
 
 			if [ -e "$PHPUNIT_PATH_TMP" ]
 				then
@@ -83,20 +80,20 @@ if [[ -e "$PHPUNIT_RESULTS_PATH" ]]
 					rm "$PHPUNIT_RESULTS_PATH"
 			fi
 
-			echo "Switching directory and run results handling."
+			printLn "Switching directory and run results handling."
 			cp "$PHPUNIT_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
 			cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 
 	fi		
 	if [[ "$FAILURE" == "true" || $PIPE_EXIT_CODE -gt 0 ]]
 		then
-			echo "Errors were found, exiting with error code."
+			printLn "Errors were found, exiting with error code."
 			exit 99
 	else
-			echo "No errors were found."
+			printLn "No errors were found."
 			exit 0
 	fi
 else
-	echo "No result file found, stopping!"
+	printLn "No result file found, stopping!"
 	exit 99
 fi		
