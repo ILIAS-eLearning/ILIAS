@@ -1,5 +1,5 @@
 name: checks
-on: [push]
+on: [pull_request]
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -22,11 +22,11 @@ jobs:
       - name: Install dependencies
         run: composer install --no-interaction --no-progress
 
-      - name: Install CS Fixer
-        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
-
       - name: PHP Unit Test 
         run: CI/PHPUnit/run_tests.sh
+
+      - name: Install PHP CS Fixer
+        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
 
       - name: PHP CS Fixer
         run: CI/PHP-CS-Fixer/run_check.sh
