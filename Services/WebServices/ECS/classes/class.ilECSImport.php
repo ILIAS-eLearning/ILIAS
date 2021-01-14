@@ -136,7 +136,7 @@ class ilECSImport
         $query = 'SELECT * from ecs_import ' .
                 'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer') . ' ' .
                 'AND mid = ' . $ilDB->quote($a_mid, 'integer') . ' ' .
-                'AND content_id = ' . $ilDB->quote($a_content_id, 'text');
+                'AND content_id = ' . $ilDB->quote($a_content_id, 'text'). "ORDER BY `econtent_id` DESC";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->econtent_id;
