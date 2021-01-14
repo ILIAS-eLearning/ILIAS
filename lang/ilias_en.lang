@@ -2292,6 +2292,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login or Password
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.
 common#:#err_wrong_password#:#Wrong Password
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
@@ -6886,6 +6887,7 @@ sahs#:#sahs_sco_objective#:#Objectives
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
+search#:#search_field#:#Search Input Field
 search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result

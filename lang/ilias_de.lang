@@ -3557,6 +3557,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_empty_file_or_folder#:#Die Datei ist entweder 0 Byte gross oder es handelt sich um einen Ordner.
@@ -12739,6 +12740,7 @@ search#:#add_members_header#:#Benutzer hinzufügen
 search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
 search#:#btn_search#:#Suchen
+search#:#search_field#:#Sucheingabefeld
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
 search#:#lucene_advanced_settings#:#Erweiterte Suche
