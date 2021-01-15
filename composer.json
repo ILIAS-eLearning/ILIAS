@@ -78,7 +78,8 @@
 			"./Customizing/global/plugins",
 			"./Services/",
 			"./Modules",
-			"./libs/ilias"
+			"./libs/ilias",
+			"./setup/classes"
 		],
 		"exclude-from-classmap": [
 			"./Services/Migration",
