@@ -154,13 +154,13 @@ We RECOMMEND to clone from GitHub as this will offer some kind of autoupdate for
 <a name="git-clonecheckout"></a>
 ## Git Clone/Checkout
 
-To checkout the ILIAS release 6 in ```/var/www/html/ilias/``` use the following commands:
+To checkout the ILIAS release 7 in ```/var/www/html/ilias/``` use the following commands:
 
 ```
 cd /var/www/html/
 git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
 cd ilias
-git checkout release_6
+git checkout release_7
 chown www-data:www-data /var/www/html/ilias -R
 ```
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories.
@@ -458,11 +458,15 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 Please ensure that the phantomjs version you use is at least 2.0.0. Please note that phantomjs development has been suspended until further notice. See https://github.com/ariya/phantomjs/issues/15344 for details.
 
 <a name="installation-wizard"></a>
-## Installation Wizard
+## CLI Installation
 
-After having all dependencies installed and configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
+After having all dependencies installed and configured you should be able to run the CLI Installation of ILIAS. See: [Setup Readme](../../setup/README.md)
 
-Make sure to reload your Apache configuration before entering the Wizard. Otherwise there are unmet dependencies in the setup (like XLS and GD are both installed but ILIAS does not see them, yet).
+```
+php setup/setup.php install
+```
+
+Make sure to reload your Apache configuration before starting the CLI installation. Otherwise there are unmet dependencies in the setup (like XLS and GD are both installed but ILIAS does not see them, yet).
 
 <a name="configure-ilias-java-rpc-server-optional"></a>
 ## Configure ILIAS Java RPC server (OPTIONAL)
@@ -565,11 +569,11 @@ To apply a major update (e.g. v5.4.0 to 6.0) please check that your OS has the [
 
 ```
 git fetch
-git checkout release_6
+git checkout release_7
 composer install --no-dev
 ```
 
-Replace ```release_6``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
+Replace ```release_7``` with the branch or tag you actually want to upgrade to. You can get a list of available branches by executing ```git branch -a``` and a list of all available tags by executing ```git tag```. Never use ```trunk``` or ```*beta``` for production.
 
 In case of merge conflicts refer to [Resolving Conflicts - ILIAS Development Guide](http://www.ilias.de/docu/goto.php?target=pg_15604).
 
@@ -580,7 +584,16 @@ As a last step you should log in with a User using your custom skin. If everythi
 <a name="database-update"></a>
 ## Database Update
 
-A Database Updates MUST be done for both minor and major updates. Open the ILIAS Installation Wizard (e.g. http://yourservername.org/setup/setup.php) to check and apply the needed updates and/or hotfixes.
+A Database Updates MUST be done for both minor and major updates. Run the CLI Setup of ILIAS (See: [Setup Readme](../../setup/README.md)) to check and apply the needed updates and/or hotfixes.
+
+Check status of status of your installation:
+```
+php setup/setup.php status
+```
+Perform the update:
+```
+php setup/setup.php update
+```
 
 The update process usually will be splitted into several runs to avoid timeouts. Each update step can take quite some time without huge load peaks on your PHP/Database processes. To check which update step gets currently executed run the following SQL-Statement on your ILIAS database: ```SELECT * FROM `settings` WHERE keyword = "db_update_running"```
 
