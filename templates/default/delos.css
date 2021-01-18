@@ -9774,21 +9774,21 @@ footer {
 }
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #607ea5;
+  background-color: #fa8228;
   border: 0;
-  color: #fff;
+  color: #313131;
   padding: 0;
 }
 .il-mainbar-tools-button .btn-bulky .icon,
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
-  filter: invert(100%);
+  filter: invert(30%);
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: #d2dae5;
+  background-color: #fff;
   color: #4a4a4a;
 }
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
-  filter: invert(35%);
+  filter: invert(30%);
 }
 .il-mainbar-tools-entries {
   display: none;
