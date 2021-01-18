@@ -1483,6 +1483,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $this->tpl->setVariable("USER_REMAINING_TIME", sprintf($this->lng->txt("tst_time_already_spent_left"), $str_time_left));
         $this->tpl->parseCurrentBlock();
 
+        // jQuery is required by tpl.workingtime.js
+        require_once "./Services/jQuery/classes/class.iljQueryUtil.php";
+        iljQueryUtil::initjQuery();
         $template = new ilTemplate("tpl.workingtime.js", true, true, 'Modules/Test');
         $template->setVariable("STRING_MINUTE", $this->lng->txt("minute"));
         $template->setVariable("STRING_MINUTES", $this->lng->txt("minutes"));
@@ -1557,13 +1560,19 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     /**
      * Output of a summary of all test questions for test participants
      */
-    public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsNotAnswered = false, $obligationsFilter = false)
+    public function outQuestionSummaryCmd($fullpage = true, $contextFinishTest = false, $obligationsInfo = false, $obligationsFilter = false)
     {
         if ($fullpage) {
             $this->tpl->addBlockFile($this->getContentBlockName(), "adm_content", "tpl.il_as_tst_question_summary.html", "Modules/Test");
         }
-        
-        if ($obligationsNotAnswered) {
+
+        $obligationsFulfilled = \ilObjTest::allObligationsAnswered(
+            $this->object->getId(),
+            $this->testSession->getActiveId(),
+            $this->testSession->getPass()
+        );
+
+        if ($obligationsInfo && $this->object->areObligationsEnabled() && !$obligationsFulfilled) {
             ilUtil::sendFailure($this->lng->txt('not_all_obligations_answered'));
         }
         
@@ -1588,7 +1597,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             
             $table_gui->setShowPointsEnabled(!$this->object->getTitleOutput());
             $table_gui->setShowMarkerEnabled($this->object->getShowMarker());
-            $table_gui->setObligationsNotAnswered($obligationsNotAnswered);
+            $table_gui->setObligationsNotAnswered(!$obligationsFulfilled);
             $table_gui->setShowObligationsEnabled($this->object->areObligationsEnabled());
             $table_gui->setObligationsFilterEnabled($obligationsFilter);
             $table_gui->setFinishTestButtonEnabled($this->isQuestionSummaryFinishTestButtonRequired());
@@ -1601,6 +1610,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             
             if ($this->object->getEnableProcessingTime()) {
                 $this->outProcessingTime($active_id);
+            }
+
+            if ($this->object->isShowExamIdInTestPassEnabled()) {
+                $this->tpl->setCurrentBlock('exam_id_footer');
+                $this->tpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                    $this->testSession->getActiveId(),
+                    $this->testSession->getPass(),
+                    $this->object->getId()
+                ));
+                $this->tpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+                $this->tpl->parseCurrentBlock();
             }
         }
     }

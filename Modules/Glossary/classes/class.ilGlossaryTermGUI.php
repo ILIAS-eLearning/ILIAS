@@ -527,28 +527,15 @@ class ilGlossaryTermGUI
         $this->setTabs();
         $ilTabs->activateTab("definitions");
 
-        // content style
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId())
-        );
-        $this->tpl->parseCurrentBlock();
-
-        // syntax style
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        $this->tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
         $this->tpl->setTitle(
             $this->lng->txt("cont_term") . ": " . $this->term->getTerm()
         );
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
-        $this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_delete.html", true);
+        $dtpl =  new ilTemplate("tpl.glossary_definition_delete.html", true, true, "Modules/Glossary");
         ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
         $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
@@ -562,20 +549,22 @@ class ilGlossaryTermGUI
         $page_gui->setFullscreenLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;ref_id=" . $_GET["ref_id"]);
         $output = $page_gui->preview();
 
-        $this->tpl->setCurrentBlock("definition");
-        $this->tpl->setVariable("PAGE_CONTENT", $output);
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable(
+        $dtpl->setCurrentBlock("definition");
+        $dtpl->setVariable("PAGE_CONTENT", $output);
+        $dtpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+        $dtpl->setVariable(
             "LINK_CANCEL",
             $this->ctrl->getLinkTarget($this, "cancelDefinitionDeletion")
         );
-        $this->tpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
+        $dtpl->setVariable("TXT_CONFIRM", $this->lng->txt("confirm"));
         $this->ctrl->setParameter($this, "def", $definition->getId());
-        $this->tpl->setVariable(
+        $dtpl->setVariable(
             "LINK_CONFIRM",
             $this->ctrl->getLinkTarget($this, "deleteDefinition")
         );
-        $this->tpl->parseCurrentBlock();
+        $dtpl->parseCurrentBlock();
+
+        $this->tpl->setContent($dtpl->get());
     }
 
     public function cancelDefinitionDeletion()

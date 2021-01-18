@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.x 2020-07-28
+* @version	6.x 2021-01-01
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -182,6 +182,8 @@ survey#:#svy_notification_tutor_results_info#:#A feladatütemező el fogja küld
 survey#:#svy_notification_tutor_results_alert#:#Adjon meg záró dátumot.
 survey#:#survey_results_tutor_subject#:#'%s' kérdőív eredményei
 survey#:#survey_results_tutor_body#:#ezúton küldjük csatolmányban az alábbi kérdőív részletes eredményeit
+auth#:#auth_oidc_login_element_info#:#Bejelentkezés az ILIAS-ba OpenID hitelesítéssel
+sess#:#sess_title#:#Esemény címe
 auth#:#auth_oidc_role_info#:#OpenID csatlakozási attribútum::Érték (például: "szabályok::alkalmazottak").
 auth#:#auth_oidconnect#:#OpenID
 auth#:#auth_oidc_settings_title#:#OpenID hitelesítés beállításai
@@ -995,7 +997,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetencia-küszöbértékek beál
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Kérjük, vegye figyelembe, hogy a csupán egy tesztből kapott kompetenciaeredmények korlátozott jelentőséggel bírnak. Minél több információt sikerül gyűjteni kompetenciánként, annál jobb lesz az eredmény. Amennyiben egyszerű kompetenciához nincs bejegyzés, a kompetencia megállapításához túl kevés információ áll rendelkezésre.
 assessment#:#locked#:#Zárolva
 assessment#:#log_answer_changed_points#:#%s tesztkitöltő pontjainak manuális módosítása %d pontról %d pontra %s által
-assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg. Bemenet: '%s'
+assessment#:#log_wrong_test_password_entered#:#A résztvevő rossz jelszót adott meg.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#A felhasználó nem tud belépni a tesztbe, mert az egyidejű kitöltők száma elérte a maximumot.
 assessment#:#log_create_new_test#:#Új teszt jött létre
 assessment#:#log_manual_feedback#:#%s manuális visszajelzést adott %s tesztet kitöltőnek a(z) %s kérdéshez
@@ -5589,6 +5591,7 @@ forum#:#frm_moderators_select_at_least_one#:#Legalább egy moderátort válasszo
 forum#:#frm_moderators_select_one#:#Legalább egy felhasználót válasszon!
 forum#:#frm_moderators#:#Moderátorok
 forum#:#frm_post_not_activated_yet#:#Még nincs aktiválva.
+forum#:#frm_posts#:#Bejegyzések
 forum#:#frm_pseudonym#:#Álnév
 forum#:#frm_purifier_not_implemented_for_type_x#:#Nincs még implementálva a tisztító ehhez a típushoz: %s.
 forum#:#frm_statistics_disabled_for_participants#:#A statisztikákat nem tekinthetik meg a fórumtagok. A Beállítások fülön tudja ezt megváltoztatni.
@@ -6874,13 +6877,13 @@ pwassist#:#pwassist_enter_email#:#Adjon meg egy e-mail címet. Az ILIAS egy e-ma
 pwassist#:#pwassist_enter_username_and_email#:#Adjon meg egy felhasználónevet és a hozzá tartozó e-mail címet. Az ILIAS üzenetet küld az e-mail címre, amely azon weblap címét tartalmazza, ahol új jelszót adhat meg ILIAS-fiókjához.  Ha ezután sem sikerül bejelentkeznie, vegye fel a kapcsolatot egy rendszergazdával, vagy küldjön e-mailt a következő címre: %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Adja meg a felhasználónevet és az új jelszót!
 pwassist#:#pwassist_login_not_match#:#Másik felhasználónevet adjon meg! A megadott felhasználónév nem egyezik meg azzal, amelyet a jelszósegédlettől kért.
-pwassist#:#pwassist_mail_body#:#Regisztráljon új jelszót ILIAS-fiókjához: \t%1$s  Ezt az üzenetet automatikusan generálta az alábbi ILIAS-szerver \t%2$s  Ön (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.  Gondosan ellenőrizze az alább felsorolt feltételeket, és azok szerint járjon el:  - Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna: Törölje ezt a levelet.  - Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől: Vegye fel a kapcsolatot: %5$s.  - Ha kért jelszósegédletet, járjon el az alábbiak szerint:  1. Nyissa meg böngészőjét.  2. Adja meg a következő címet böngészőjében: \t%6$s  Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.  3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.  Vegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
+pwassist#:#pwassist_mail_body#:#Adjon meg új jelszót az ILIAS-fiókjához: %1$s  Ezt az üzenetet automatikusan generálta az alábbi ILIAS-szerver %2$s  Ön (vagy valaki %3$s) jelszósegédletet kért a '%4$s' ILIAS-fiókhoz.  Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el:  - Ha esetleg az ILIAS szerveren levő jelszósegédlet-űrlapot használta volna: Törölje ezt a levelet.  - Ha biztos benne, hogy soha nem kért jelszósegédletet ettől az ILIAS-szervertől: Vegye fel a kapcsolatot: %5$s.  - Ha kért jelszósegédletet, járjon el az alábbiak szerint:  1. Nyissa meg böngészőjét.  2. Adja meg a következő címet böngészőjében: %6$s  Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.  3. A böngészője által megjelenített weboldalon adjon meg egy új jelszót bejelentkezéséhez.  Vegye figyelembe, hogy biztonsági okokból a fent leírt három lépést csak egyszer hajthatja végre, és csak időkorláton belül. Azután a cím érvénytelenné válik, és Önnek az ILIAS szerveren levő jelszósegédletet kell újra használnia.
 pwassist#:#pwassist_mail_sent#:#Üzenetet küldtünk a következő címre: %1$s  Ellenőrizze postaládáját!
 pwassist#:#pwassist_mail_sent_generic#:#Üzenetet küldtünk az ILIAS-ban megadott e-mail címére. Ellenőrizze postaládáját!
 pwassist#:#pwassist_mail_subject#:#ILIAS-jelszósegédlet
 pwassist#:#pwassist_password_assigned#:#'%1$s' felhasználó jelszavát sikeresen cseréltük.
 pwassist#:#pwassist_session_expired#:#Töltse ki újra ezt az űrlapot! Jelszósegédlet-munkamenete lejárt. Ez azért történhetett, mert megpróbálta többször használni az e-mailben elküldött linket, vagy mert túl sok idő telt el azóta, hogy elküldték önnek a linket.
-pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak: %s  Ezt az üzenetet automatikusan küldte a következő ILIAS-szerver: \t%s  %s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt: .  Ha véletlenül kérte ezt a levelet, törölje.  Ha biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s  Ha Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint: %s
+pwassist#:#pwassist_username_mail_body#:#Ehhez az e-mail címhez az alábbi felhasználónevek tartoznak: %s  Ezt az üzenetet automatikusan küldte a következő ILIAS-szerver: %s  %s IP-címről e-mail kértek %s e-mailhez tartozó felhasználónév elfelejtett jelszava miatt. Gondosan ellenőrizze az alább felsorolt lehetőségeket, és azok szerint járjon el: -Ha véletlenül kérte ezt a levelet, törölje.  -Ha biztos, hogy nem kérte ezt a levelet, vegye fel a kapcsolatot a rendszergazdával: %s.  Ha Ön kérte ezt a levelet, járjon el a jelszósegédlet oldalán leírtak szerint: 1. Nyissa meg böngészőjét.  2. Adja meg a következő címet böngészőjében: %s  Fontos: a cím egysoros. Ha azt látja, hogy a cím több részből tevődik össze, levelezőprogramja szúrta be a sortöréseket az útvonalba.  3. A böngészője által megjelenített weboldalon adja meg az egyik fiók e-mail címét, melynek vissza kívánja szerzi jelszavát.
 pwassist#:#pwassist_disabled_no_access#:#A jelszósegédlet nincs bekapcsolva. További információért keresse a üzemeltetőt: %s
 pwassist#:#unassist_disabled_no_access#:#A felhasználónév-segédlet nincs bekapcsolva. További információért keresse az üzemeltetőt: %s
 rating#:#rating_your_rating#:#Az Ön értékelése
@@ -8416,6 +8419,9 @@ rbac#:#cat_administrate_users#:#Helyi ILIAS-fiókok kezelése
 rbac#:#edit_permission#:#Jogosultságok módosítása
 rbac#:#edit_event#:#Naptár módosítása
 book#:#book_set_cancel#:#Foglalás törlése
+book#:#reservation_deleted#:#A foglalást sikeresen törölte
+book#:#X_reservations_of#:#%s foglalás / 
+book#:#book_set_delete#:#Törlése
 rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
 rbac#:#book_read#:#A felhasználó foglalhat a foglalásgyűjtemény erőforrásaiból/objektumaiból
@@ -10608,6 +10614,7 @@ dateplaner#:#cal_cg_notification#:#Kurzus/csoport értesítés
 dateplaner#:#cal_mail_notification_subject#:#Eseményre meghívás: '%s'
 dateplaner#:#cal_mail_notification_body#:#ezúton értesítjük, hogy Ön meghívót kapott egy eseményre.
 file#:#file_download#:#Fájl letöltése
+trac#:#trac_lp_learner_access#:#Saját tanulási haladás megtekintése
 trac#:#trac_lp_learner_access_info#:#Ha aktív, a felhasználók hozzáférnek saját tanulási haladási állapotukhoz.
 content#:#help_assign_help_ids#:#Fejezet/Képernyő-ID-k hozzárendelés
 search#:#search_option_online#:#Online
@@ -12483,6 +12490,7 @@ sess#:#sess_reg_max_members_info#:#Ezen az eseményen résztvevők maximális sz
 sess#:#sess_reg_waiting_list#:#Várólista
 wiki#:#wiki_page_exists#:#Létező oldal
 sess#:#sess_section_reg#:#Regisztrációs beállítások
+sess#:#sess_setting_header_presentation#:#Megjelenítés
 assessment#:#save_and_next#:#Mentés és folytatás
 sess#:#sess_users_added#:#Az eseményre a kiválasztott felhasználót regisztrálta.
 sess#:#sess_users_already_assigned#:#A felhasználó már regisztrált erre az eseményre.
@@ -13350,6 +13358,8 @@ awrn#:#awrn_incl_offline#:#Online és offline
 adm#:#adm_support_contacts#:#Technikai segítségnyújtók
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
 adm#:#adm_support_contacts_info#:#A támogatási kapcsolatok - ami vesszővel elválasztott felhasználói fiókok felsorolása - a 'Ki van online?'-eszköz láblécébe kerülnek (ha az be van kapcsolva).
+adm#:#adm_acc_ctrl_cpt_enable#:#Hozzáférésvezérlés-koncepció bekapcsolása 
+adm#:#adm_acc_ctrl_cpt_desc#:#Ha be van kapcsolva, a Hozzáférés-vezérlés koncepciója link jelenik meg a lálécben.
 adm#:#adm_accessibility_contacts#:#A kapcsolat hozzáférési pontja
 adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez, láblécben lévő link. Felhasználónevek vesszővel elválasztott felsorolása.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Csoportjaim és kurzusaim
@@ -14288,7 +14298,7 @@ common#:#pdfg_visible#:#PDF generálás látható
 common#:#pdfg_write#:#A felhasználó módosíthatja a PDF generálás beállításait
 common#:#pdfg_edit_permission#:#A felhasználó módosíthatja a jogosultsági beállításokat
 pdfgen#:#webkit#:#wkhtmltopdf
-pdfgen#:#path#:#wkhtmltopdf útvonala
+pdfgen#:#path#:#Bináris fájl útvonala
 pdfgen#:#wkhtml_config#:#WKHTML beállításai
 pdfgen#:#overwrite_font#:#Alapértelmezett betűtípus felülírása
 pdfgen#:#overwrite_font_info#:#Adjon meg valami hasonlót: 'serif', 'sans-serif', 'monospace'.
@@ -14324,7 +14334,7 @@ pdfgen#:#margin_info#:#Margó mm-ben, például 10mm
 pdfgen#:#page_settings#:#Oldalbeállítások
 pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_size#:#Oldalméret
-pdfgen#:#margin#:#Margó 345
+pdfgen#:#margin#:#Margó
 pdfgen#:#header_type#:#Fejléc
 pdfgen#:#text#:#Szöveg
 pdfgen#:#footer_type#:#Lábléc
@@ -14836,6 +14846,8 @@ crs#:#crs_lhist_objective_completed#:#$3$ elsajátítva $1$ alatt.
 trac#:#trac_lhist_obj_completed_in#:#$1$ befejezve $2$ alatt.
 trac#:#trac_lhist_obj_completed#:#$1$ befejezve.
 lhist#:#lhist_learning_history#:#Tanulási történelem
+mme#:#flush#:#Elveszett elemek törlése
+mme#:#msg_subitem_flushed#:#Az elveszett elemeket sikeresen törölte.
 mme#:#main#:#Főmenü
 mme#:#subtab_topitems#:#Főelemek
 mme#:#subtab_subitems#:#Elemek
@@ -15401,7 +15413,7 @@ common#:#mm_learning_history#:#Tanulási történelem
 common#:#mm_skills#:#Kompetenciák
 common#:#mm_learning_progress#:#Tanulási haladás
 common#:#mm_badges#:#Érmek
-common#:#mm_administration#:#Rendszer-<br/>beállítások
+common#:#mm_administration#:#Rendszerbeállítások
 common#:#mm_repository#:#Tartalomtár
 common#:#mm_dashboard#:#Műszerfal
 common#:#mm_repo_tree_view#:#Fa nézet
@@ -15481,6 +15493,9 @@ svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
 pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 file#:#personal_resources_disk_quota#:#A Személyes erőforrások kemény lemezkorlátja
 file#:#personal_resources_disk_quota_info#:#Az összes globális szerep és az összes felhasználói fiók kemény lemezkorlátjának meghatározása. Ez a korlát csak a személyes erőforrásokban és a portfóliókban lévő fájlokra értendő. Amikor a felhasználó meghaladja ezt a korlátot, az ILIAS megakadályozza a további fájlok feltöltését mindaddig, míg a lemezhasználat újra a korlát alá nem került.
+file#:#personal_workspace_disk_quota#:#A Személyes munkaterület kemény lemezkorlátja
+file#:#personal_workspace_quota_exceeded_warning#:#Elérte személyes munkaterülete lemezkorlátját.
+file#:#personal_workspace_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
 common#:#personal_resources#:#Személyes erőforrások
 file#:#personal_resources_quota_exceeded_warning#:#Elérte személyes erőforrási lemezkorlátját.
 file#:#personal_resources_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
@@ -15831,6 +15846,8 @@ cmix#:#conf_user_ident_il_uuid_login#:#Az ILIAS felhasználónév és az egyedi 
 cmix#:#conf_user_ident_il_uuid_login_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
 cmix#:#conf_user_ident_il_uuid_ext_account#:#A külső user id és az egyedi ILIAS platform id e-mail cím formátumban.
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged a felhasználóra.
+cmix#:#conf_user_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
 cmix#:#conf_user_ident_real_email#:#E-mail cím
 cmix#:#conf_user_ident_real_email_info#:#A felhasználó e-mail címét küldi azonosításként (Figyelem: egy e-mail címet több felhasználó is használhat!)
 cmix#:#conf_user_name#:#Felhasználó neve
@@ -16000,6 +16017,7 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
+prg#:#prg_formatted_period#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16179,4 +16197,7 @@ rbac#:#prgr_write#:#A felhasználó módosíthatja a képzési programokra mutat
 rbac#:#rbac_create_prgr#:#Képzési programra mutató link létrehozása
 ui#:#ui_error_in_group#:#Ebben a részben van néhány hiba.
 feed#:#feed_no_local_url#:#Az URL nem ellenőrizhető. Kérem, valós külső hírforrás URL-t adjon meg.
-prg#:#prg_formatted_period#:#%d days###14 08 2020 new variable
+common#:#lso_admin_form_title#:#Beállítások
+common#:#lso_admin_form_byline#:#Tanulási sor általános beállításai
+common#:#lso_admin_interval_label#:#Tanulási haladás frissítésének időköze (másodperc)
+common#:#lso_admin_interval_byline#:#A még nem teljesített Tanulási haladást minden  x. másodpercben újra lekérjük. Legyen óvatos! Túl alacsony érték negatívan hathat a szerver teljesítményére. A lehető legnagyobb értéket válassza!

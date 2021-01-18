@@ -352,7 +352,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setFileDownloadLink("");
-        $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
@@ -527,7 +526,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function setTitleAndDescription()
     {
-        if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+        if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+            $this->tpl->setTitle($this->object->getTitle(), true);
+        } else {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
     
@@ -1601,7 +1602,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $_POST["id"][0]);
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         } else {
-            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($_POST["id"], "_"));
+            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $_POST["id"]));
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
 
@@ -2288,7 +2289,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             } else {
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($ref_ids, "_"));
+                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
 

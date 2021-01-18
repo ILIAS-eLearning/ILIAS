@@ -123,24 +123,26 @@ meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
 meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
-meta#:#meta_oer_blocked#:#Ignored by OER Harvester
-meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
-meta#:#meta_copyright_show_usages#:#Show usages
-meta#:#meta_copyright_sub_items#:#Sub Items
-meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_in_use#:#In use
-meta#:#meta_copyright_usage#:#Usage
+meta#:#meta_oer_blocked#:#Wird vom OER-Harvester ignoriert
+meta#:#meta_oer_blocked_info#:#Wird nicht automatisch als Open Educational Ressource (OER) gelistet
+meta#:#meta_copyright_show_usages#:#Zeige Nutzung
+meta#:#meta_copyright_sub_items#:#Unterelemente
+meta#:#meta_copyright_outdated#:#Veraltet / nicht mehr genutzt
+meta#:#meta_copyright_in_use#:#Wird genutzt
+meta#:#meta_copyright_usage#:#Nutzung
 meta#:#meta_copyright_status#:#Status
-meta#:#meta_save_order#:#Save Order
-meta#:#meta_order#:#Order
-meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
-meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+meta#:#meta_save_order#:#Reihenfolge speichern
+meta#:#meta_order#:#Reihenfolge
+meta#:#meta_copyright_change_warning_title#:#Änderung der Copyright-Einstellungen
+meta#:#meta_copyright_change_info#:#Sie wollen die Lizenz für dieses Objekt ändern. Dies sollte nur in Übereinstimmung mit dem Inhaber des Urheberrechts erfolgen. Bitte fahren Sie nur fort, wenn die neue Lizenz nicht restriktiver ist als die zuvor verwendete.
 survey#:#svy_export_pdf#:#Export PDF
 survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
 survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
 survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
+auth#:#auth_oidc_login_element_info#:#Bei ILIAS anmelden über OpenID Connect
+sess#:#sess_title#:#Titel der Sitzung
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -898,7 +900,7 @@ assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit e
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
-assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auwählen einer Antwort ein.
+assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
@@ -906,7 +908,7 @@ assessment#:#error_random_question_generation#:#Bei der Erzeugung von Zufallsfra
 assessment#:#errors#:#Fehler
 assessment#:#errors_section#:#Fehlerdaten
 assessment#:#errortext#:#Fehler/Worte markieren
-assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern (z.B.: Dies ist ((ein Beispiel)) für mehrere Wörter). Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
+assessment#:#errortext_info#:#Bitte geben Sie einen Text ein. Um ein Wort als fehlerhaft zu markieren, setzen Sie bitte eine Raute (#) direkt vor das gewünschte Wort. Um eine Gruppe von Fehlerwörtern zu definieren, umklammern Sie die Wörter mit doppelten Klammern und lassen in diesem Fall das Rautezeichen weg. Beispiel: Dies ist ((ein Beispiel)) für mehrere falsche Wörter. Wichtig: bei einer Gruppe von Fehlerwörtern muss jedes einzelne ausgewählt werden, um die für die Gruppe vorgesehene Punktzahl zu erzielen. <br />Wenn Sie auf die Schaltfläche &quot;Text analysieren&quot; klicken, werden die markierten Wörter für die weitere Bearbeitung extrahiert.
 assessment#:#score_partsol_enabled#:#Halbpunktebewertung aktivieren
 assessment#:#score_partsol_enabled_info#:#Es hat sich als sinnvoll erwiesen, drei korrekte Antworten bereits mit der Hälfte der maximal erreichbaren Punktezahl zu honorieren. Bei weniger als drei korrekten Antworten werden keine Punkte vergeben.
 assessment#:#option_label#:#Optionsbezeichnungen
@@ -1073,7 +1075,7 @@ assessment#:#tst_skl_level_thresholds_link#:#Kompetenz-Schwellenwerte konfigurie
 assessment#:#tst_skl_res_interpretation_hint_msg#:#Beachten Sie, dass die Kompetenzergebnisse eines einzelnen Tests nur bedingt aussagekräftig sind. Je mehr Informationen zu den einzelnen Kompetenzen gesammelt werden, desto valider die Aussage. Sollten einzelne Kompetenzen keinen Eintrag erhalten haben, standen für diese Kompetenz zu wenig Informationen zur Verfügung.
 assessment#:#locked#:#gesperrt
 assessment#:#log_answer_changed_points#:#Manuelles Setzen der Punkte des Teilnehmers %s von %d auf %d Punkte durch %s
-assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben. Eingabe: '%s'
+assessment#:#log_wrong_test_password_entered#:#Teilnehmer hat falsches Testpasswort eingegeben.
 assessment#:#log_could_not_enter_test_due_to_simultaneous_users#:#Der Teilnehmer konnte den Test nicht starten, da die maximale Anzahl der gleichzeitiger Teilnehmer für diesen Kurs bereits erreicht ist.
 assessment#:#log_create_new_test#:#Neuer Test erzeugt
 assessment#:#log_manual_feedback#:#%s hat eine manuelle Bewertung für den Teilnehmer %s und die Frage %s erstellt: %s
@@ -2037,6 +2039,9 @@ book#:#book_schedule_updated#:#Der Zeitplan wurde geändert.
 book#:#book_schedule_warning_edit#:#Es sind momentan keine Zeitpläne vorhanden. Um den Pool nutzen zu können, muss zuerst ein Zeitplan angelegt werden (oder der Typ des Buchungspools geändert werden).
 book#:#book_schedules#:#Zeitpläne
 book#:#book_set_cancel#:#Stornieren
+book#:#reservation_deleted#:#Reservierung gelöscht
+book#:#X_reservations_of#:#%s Reservierungen von
+book#:#book_set_delete#:#Löschen
 book#:#book_type_warning#:#Es sind momentan keine Buchungsobjekte vorhanden. Um den Pool nutzen zu können, müssen zuerst Buchungsobjekte angelegt werden.
 certificate#:#certificate_a4#:#A4 (297 mm x 210 mm)
 certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
@@ -2953,6 +2958,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -4287,7 +4293,7 @@ common#:#shib_update#:#Dieses Feld bei jeder Anmeldung aktualisieren
 common#:#shib_user_default_role#:#Generelle Rolle für Shibboleth-Benutzer
 common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#short_inst_name#:#Kurztitel
-common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'.
+common#:#short_inst_name_info#:#Dieser Text erscheint zusammen mit dem Seitentitel als Titel des Browser-Tabs. Wird hier nichts eingetragen, erscheint 'ILIAS'.
 common#:#show#:#Anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen
@@ -6239,12 +6245,12 @@ ecs#:#ecs_field_time#:#Uhrzeit
 ecs#:#ecs_global_role_info#:#Bitte wählen Sie eine globale Rolle aus, der neue ECS-Benutzer zugeordnet werden.
 ecs#:#ecs_ignore_field#:#Dieses Feld nicht aktualisieren
 ecs#:#ecs_import#:#Externe Kurse
-ecs#:#ecs_import_cms#:#Campus Management
+ecs#:#ecs_import_cms#:#Campus-Management
 ecs#:#ecs_import_id_info#:#Bitte geben Sie die ID der Kategorie ein, in der neue ECS-Objekte angelegt werden sollen.
 ecs#:#ecs_import_id#:#Import-ID
 ecs#:#ecs_imported_content#:#Importierte Materialien
 ecs#:#ecs_imported_from#:#Importiert von
-ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus Mamagment" nur für maximal einen Teilnehmer auswählen.
+ecs#:#ecs_invalid_import_type_cms#:#Sie können den Import-Typ "Campus-Management" nur für maximal einen Teilnehmer auswählen.
 ecs#:#ecs_key_password#:#Schlüsselpasswort
 ecs#:#ecs_local_settings#:#Lokale Einstellungen
 ecs#:#ecs_mapping_crs#:#Zuordnung für Kurse
@@ -6553,6 +6559,7 @@ forum#:#frm_moderators_not_exist_yet#:#Bitte wählen Sie einen Moderator aus.
 forum#:#frm_moderators_select_at_least_one#:#Bitte wählen Sie mindestens einen Moderator aus.
 forum#:#frm_moderators_select_one#:#Bitte wählen Sie einen Benutzer, dem Sie die Moderatorenrolle zuweisen möchten.
 forum#:#frm_post_not_activated_yet#:#Der Beitrag wurde noch nicht aktiviert.
+forum#:#frm_posts#:#Forenbeiträge
 forum#:#frm_pseudonym#:#Pseudonym
 forum#:#frm_purifier_not_implemented_for_type_x#:#Es ist noch kein Reiniger für den Typ %s implementiert.
 forum#:#frm_statistics#:#Statistik
@@ -7950,13 +7957,13 @@ pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: \t%1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: \t%2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein: %1$s  Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s  Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese Mail.  -Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.  - Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.  Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
 pwassist#:#pwassist_password_assigned#:#Das Passwort ist erfolgreich dem Benutzernamen %1$s zugewiesen worden.
 pwassist#:#pwassist_session_expired#:#Bitte füllen Sie das Formular erneut aus. Die Zeit für die Durchführung der Passwort-Unterstützung ist abgelaufen. Dies kann passiert sein, weil Sie versucht haben, die Adresse, die Ihnen per E-Mail zugesandt wurde, mehr als einmal zu verwenden, oder weil zu viel Zeit verstrichen ist, seit die Adresse zu Ihnen gesandt wurde.
-pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: \t%s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: \t%s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
+pwassist#:#pwassist_username_mail_body#:#Dies sind die aktiven Benutzernamen, die ILIAS für die E-Mail-Adresse verfügbar hat: %s  Diese Mail ist automatisch generiert worden von der ILIAS-Installation: %s  Sie (oder jemand mit der Adresse %s) hat die Benutzernamenauflistung für die E-Mail-Adresse '%s' angefordert.  Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:  -Sie haben die Benutzernamen-Unterstützung auf dem Server versehentlich benutzt: Löschen Sie diese E-Mail.  -Sie sind sicher, dass Sie nie Benutzernamen-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %s Kontakt auf.  - Sie haben um Benutzernamen-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:  1. Starten Sie Ihren Browser.  2. Geben Sie folgende Adresse in Ihrem Browser ein: %s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.  3. Ihr Browser zeigt nun die Passwort-Unterstützungs-Seite an. Verwenden Sie diese Funktion, um sich zu einer Kombination aus Benutzernamen und E-Mail ein neues Passwort schicken zu lassen.
 pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 pwassist#:#unassist_disabled_no_access#:#Die Benutzernamen-Unterstützung ist nicht aktiviert. Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
 rating#:#rat_not_rated_yet#:#Noch nicht bewertet
@@ -7969,7 +7976,7 @@ rbac#:#active_preconditions#:#Definierte Vorbedingungen
 rbac#:#add_consultation_hours#:#Sprechstundentermine anlegen
 rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
-rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändernilStaffGSToolProvider
+rbac#:#blga_edit_permission#:#Rechteeinstellungen in Administration ändern
 rbac#:#blga_read#:#Lesezugriff auf Blog-Administration
 rbac#:#blga_visible#:#Blog-Administration ist sichtbar
 rbac#:#blga_write#:#Einstellungen in Blog-Administration bearbeiten
@@ -8489,6 +8496,7 @@ scormdebug#:#unknown#:#unbekannt
 search#:#add_members_header#:#Benutzer hinzufügen
 search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
+search#:#search_field#:#Sucheingabefeld
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
 search#:#lucene_advanced_settings#:#Erweiterte Suche
@@ -9173,7 +9181,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zuganscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
+survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
@@ -10614,6 +10622,7 @@ dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
 file#:#file_download#:#Datei herunterladen
+trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 search#:#search_option_online#:#Online
@@ -10700,6 +10709,7 @@ rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
 rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_off#:#Aus
+search#:#search_on#:#An
 ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
@@ -11053,7 +11063,7 @@ skmg#:#skmg_delete_profiles#:#Wollen Sie wirklich die folgenden Profile löschen
 skmg#:#skmg_assigned_skill_levels#:#Zugeordnete Kompetenzausprägungen
 skmg#:#skmg_assign_level#:#Ausprägung zuordnen
 skmg#:#skmg_profile#:#Profil
-skmg#:#skmg_remove_levels#:#Ausprägung löschen
+skmg#:#skmg_remove_levels#:#Ausprägungen entfernen
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzausprägungen aus dem Profil entfernen?
 skmg#:#skmg_assigned_users#:#Zugeordnete Rollen und Benutzer
@@ -13354,6 +13364,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
+adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur Info Barrierefreit im Footer.
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
@@ -13710,7 +13722,7 @@ sess#:#sess_accept_request#:#Zu Sitzung zulassen
 sess#:#sess_new_registrations#:#Teilnahmeanträge
 mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge konnte nicht gefunden werden: %1$s
 mail#:#mail_recipient_not_found#:#%1$s (es konnte kein gültiger Empfänger gefunden werden)
-mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Emfpänger wurden mehrere Rollen gefunden: %2$s)
+mail#:#mail_multiple_role_recipients_found#:#%1$s (für den Empfänger wurden mehrere Rollen gefunden: %2$s)
 mail#:#mail_generic_rcp_error#:#Beim Validieren der Empfänger ist ein Fehler aufgetreten: %1$s
 rbac#:#mep_copy#:#Medienpool kopieren
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
@@ -14054,7 +14066,7 @@ didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
-didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
+didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß der Importdatei angepasst. Objekte, die die Einstellungen dieser Vorlage bereits nutzen, werden nicht verändert.
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
 didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
@@ -14347,7 +14359,7 @@ pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#reset_to_default#:#Default Einstellungen laden
 pdfgen#:#problem_with_purposes#:#Es wurde ein Problem in der Konfiguration festgestellt. Nutzen Sie bitte den Button "Bereinigen", um das Problem zu lösen.
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
-auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen falscher Login-Versuche deaktiviert.
+auth#:#auth_err_login_attempts_deactivation#:#Das Benutzerkonto wurde wegen zu vieler falscher Login-Versuche deaktiviert.
 crs#:#crs_edit_lo_introduction#:#Einleitung bearbeiten
 rbac#:#grp_manage_members#:#Mitglieder einer Gruppe verwalten
 rbac#:#crs_manage_members#:#Mitglieder eines Kurses verwalten
@@ -14383,7 +14395,7 @@ style#:#manage_system_styles#:#System-Styles verwalten
 style#:#scope#:#Gültigkeitsbereich
 auth#:#auth_saml#:#SAML
 common#:#auth_saml#:#SAML
-common#:#saml_log_in#:#Login
+common#:#saml_log_in#:#Anmelden
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
@@ -14819,6 +14831,8 @@ crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ wurde abgeschlossen in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ wurde abgeschlossen.
 lhist#:#lhist_learning_history#:#Lernverlauf
+mme#:#flush#:#Verlorene Einträge löschen
+mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
@@ -15205,7 +15219,7 @@ lso#:#participate#:#Anmelden
 lhist#:#lhist_show_more#:#Mehr anzeigen
 meta#:#meta_info_only_repository_objects#:#Nachfolgend werden nur Magazinobjekte angezeigt, nicht aber Medienobjekte oder Lernmodulseiten.
 book#:#book_objects_available#:#Verfügbare Objekte: %s
-book#:#book_limit_objects_available#:#Sie können nicht %s Teilnerhmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
+book#:#book_limit_objects_available#:#Sie können nicht %s Teilnehmer zu "%s" hinzufügen, weil nur %s Einträge verfügbar sind.
 book#:#booking_multiple_succesfully#:#Buchungen erfolgreich durchgeführt
 common#:#lti_outcome#:#Benachrichtigung über LTI-Lernfortschritt
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
@@ -15326,7 +15340,7 @@ certificate#:#persistent_certificate_mode#:#Benutzer Zertifikatserstellung
 certificate#:#persistent_certificate_mode_cron#:#Cron-Job
 certificate#:#persistent_certificate_mode_cron_info#:#Diese Option wird für Systeme mit hohen Benutzerinteraktion empfohlen
 certificate#:#persistent_certificate_mode_instant#:#Direkt
-certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteratkion empfohlen. Für System die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
+certificate#:#persistent_certificate_mode_instant_info#:#Diese Option wird für Systeme mit geringer bis zu mittelgroßer Benutzerinteraktion empfohlen. Für Systeme, die zu hoher Last während der Zertifikatserstellung neigen, wird die Option "Cron-Job" empfohlen.
 common#:#obj_task#:#To-Do
 task#:#task_derived_tasks#:#To-Do
 task#:#task_tasks_with_deadline#:#Mit Endtermin
@@ -15350,8 +15364,8 @@ content#:#cont_StandardCenter#:#Standard Zentriert
 content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
-certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
-certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erlhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit aktivem Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv: %s
+certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
 exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originaldateien wurden nicht gefunden.
@@ -15470,8 +15484,11 @@ svy#:#svy_status_finished#:#Beendet
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_resources_disk_quota#:#Disk-Quota für Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönlichen Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
+file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 common#:#personal_resources#:#Persönliche Ressourcen
 file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
@@ -15637,9 +15654,9 @@ lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeu
 lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber direkte Rückschlüsse auf den Benutzer zulassen.
 lti#:#conf_user_ident_real_email#:#E-Mail Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 lti#:#conf_user_name#:#Benutzername
@@ -15822,6 +15839,8 @@ cmix#:#conf_user_ident_il_uuid_login#:#ILIAS-Login kombiniert mit einer eindeuti
 cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
 cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
+cmix#:#conf_user_ident_il_uuid_random_info#:#Pro ILIAS-Objekt und ILIAS-Benutzer wird eine Zufalls-ID erzeugt, die bei jedem Aufruf identisch bleibt. Rückschlüsse auf einen Benutzer sind sehr eingeschränkt, da Objekt-übergreifende Nutzerprofile praktisch nicht erstellt werden können.
 cmix#:#conf_user_ident_real_email#:#E-Mail Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 cmix#:#conf_user_name#:#Benutzername
@@ -16181,3 +16200,7 @@ common#:#eyeopened#:#Offenes Auge: Klicken Sie, um den Inhalt der Eingabe anzuze
 rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
+common#:#lso_admin_form_title#:#Einstellungen
+common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
+common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.

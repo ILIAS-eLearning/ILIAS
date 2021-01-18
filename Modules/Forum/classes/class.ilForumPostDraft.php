@@ -60,6 +60,9 @@ class ilForumPostDraft
      * @var int
      */
     protected $notify = 0;
+    /**
+     * @var int
+     */
     protected $post_notify = 0;
     
     /**
@@ -384,7 +387,55 @@ class ilForumPostDraft
             self::$instances[$user_id]['draft_ids'][$tmp_obj->getDraftId()] = $tmp_obj;
         }
     }
-    
+
+    /**
+     * @param int $usrId
+     * @param int $threadId
+     * @param int $sorting
+     * @return ilForumPostDraft[]|array<int, ilForumPostDraft[]>
+     */
+    public static function getSortedDrafts(
+        int $usrId,
+        int $threadId,
+        int $sorting = ilForumProperties::VIEW_DATE_ASC
+    ) : array {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $drafts = [];
+
+        $orderColumn = ' ';
+        $orderDirection = ' ';
+
+        if ($sorting !== ilForumProperties::VIEW_TREE) {
+            $orderColumn = ' ORDER BY post_date ';
+            $orderDirection = 'ASC';
+            if ($sorting === ilForumProperties::VIEW_DATE_DESC) {
+                $orderDirection = 'DESC';
+            }
+        }
+
+        $res = $ilDB->queryF(
+            'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s AND thread_id = %s' .
+            $orderColumn . $orderDirection,
+            ['integer', 'integer'],
+            [$usrId, $threadId]
+        );
+
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $draft = new ilForumPostDraft();
+            self::populateWithDatabaseRecord($draft, $row);
+            $drafts[] = $draft;
+            self::$instances[$usrId][$threadId][$draft->getPostId()][] = $draft;
+        }
+
+        if (ilForumProperties::VIEW_TREE === $sorting) {
+            return self::$instances[$usrId][$threadId] ?? [];
+        }
+
+        return $drafts;
+    }
+
     /**
      * @param int $user_id
      * @return \ilForumPostDraft[]
@@ -495,12 +546,7 @@ class ilForumPostDraft
             array(
             'post_subject' => array('text', $this->getPostSubject()),
             'post_message' => array('clob', $this->getPostMessage()),
-            'notify' => array('integer', $this->getNotify()),
-            'post_notify' => array('integer', $this->getPostNotify()),
-            'post_update' => array('timestamp', date("Y-m-d H:i:s")),
-            'update_user_id' => array('integer', $this->getUpdateUserId()),
-            'post_user_alias' => array('text', $this->getPostUserAlias()),
-            'pos_display_usr_id' => array('integer', $this->getPostDisplayUserId())
+            'post_user_alias' => array('text', $this->getPostUserAlias())
         ),
             array('draft_id' => array('integer', $this->getDraftId()))
         );

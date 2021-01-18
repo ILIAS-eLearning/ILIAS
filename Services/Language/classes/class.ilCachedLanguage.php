@@ -76,6 +76,20 @@ class ilCachedLanguage
         }
     }
 
+    /**
+     * Delete the cache entry for this language without flushing the whole global cache
+     * Using this function avoids a flush loop when languages are updated
+     * A missing entry will cause the next request to refill the cache in the constructor of this class
+     * @see mantis #28818
+     */
+    public function deleteInCache() {
+        if ($this->global_cache->isActive()) {
+            $this->global_cache->delete('translations_' . $this->getLanguageKey());
+            $this->setLoaded(false);
+        }
+    }
+
+
 
     protected function readFromDB()
     {

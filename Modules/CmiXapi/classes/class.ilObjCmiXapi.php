@@ -106,6 +106,7 @@ class ilObjCmiXapi extends ilObject2
     const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
     const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
     const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
+    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
     
     /**
      * @var string
@@ -1083,7 +1084,86 @@ class ilObjCmiXapi extends ilObject2
             'highscore_own_table' => (int) $this->getHighscoreOwnTable(),
             'highscore_top_table' => (int) $this->getHighscoreTopTable(),
             'highscore_top_num' => (int) $this->getHighscoreTopNum()
+			//'bypass_proxy' => (int) $this->isBypassProxyEnabled()
         ];
         return $mapping;
     }
+	
+	 /**
+     * Clone object
+     *
+     * @access public
+     * @param int ref_id of target container
+     * @param int copy id
+     * @return object new cmix object
+     */
+	protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    {
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$this->cloneMetaData($new_obj);
+
+		$new_obj->setLrsTypeId($this->getLrsTypeId());
+		$new_obj->setContentType($this->getContentType());
+		$new_obj->setSourceType($this->getSourceType());
+		$new_obj->setActivityId($this->getActivityId());
+		$new_obj->setInstructions($this->getInstructions());
+		$new_obj->setLaunchUrl($this->getLaunchUrl());
+		$new_obj->setAuthFetchUrlEnabled($this->isAuthFetchUrlEnabled());
+		$new_obj->setLaunchMethod($this->getLaunchMethod());
+		$new_obj->setLaunchMode($this->getLaunchMode());
+		$new_obj->setMasteryScore($this->getMasteryScore());
+		$new_obj->setKeepLpStatusEnabled($this->isKeepLpStatusEnabled());
+		$new_obj->setUserIdent($this->getUserIdent());
+		$new_obj->setUserName($this->getUserName());
+		$new_obj->setUserPrivacyComment($this->getUserPrivacyComment());
+		$new_obj->setStatementsReportEnabled($this->isStatementsReportEnabled());
+		$new_obj->setXmlManifest($this->getXmlManifest());
+		$new_obj->setVersion($this->getVersion());
+		$new_obj->setHighscoreEnabled($this->getHighscoreEnabled());
+		$new_obj->setHighscoreAchievedTS($this->getHighscoreAchievedTS());
+		$new_obj->setHighscorePercentage($this->getHighscorePercentage());
+		$new_obj->setHighscoreWTime($this->getHighscoreWTime());
+		$new_obj->setHighscoreOwnTable($this->getHighscoreOwnTable());
+		$new_obj->setHighscoreTopTable($this->getHighscoreTopTable());
+		$new_obj->setHighscoreTopNum($this->getHighscoreTopNum());
+		$new_obj->setBypassProxyEnabled($this->isBypassProxyEnabled());
+        $new_obj->update();
+		
+		if ($this->getSourceType() == self::SRC_TYPE_LOCAL) {
+		    $dirUtil = new ilCmiXapiContentUploadImporter($new_obj);
+			$dirUtil->ensureCreatedObjectDirectory();
+			$newDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+			$dirUtil = new ilCmiXapiContentUploadImporter($this);
+			$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+			ilUtil::rCopy($thisDir, $newDir);
+		}
+	}
+
+    protected function doDelete()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        // delete file data entry
+        $q = "DELETE FROM cmix_settings WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
+        $this->ilias->db->query($q);
+
+        // delete history entries
+        require_once("./Services/History/classes/class.ilHistory.php");
+        ilHistory::_removeEntriesForObject($this->getId());
+
+        
+        // delete entire directory and its content
+		$dirUtil = new ilCmiXapiContentUploadImporter($this);
+		$thisDir = implode(DIRECTORY_SEPARATOR, [\ilUtil::getWebspaceDir(), $dirUtil->getWebDataDirRelativeObjectDirectory()]);
+        if (is_dir($thisDir)) {
+            ilUtil::delDir($thisDir);
+        }
+
+        // delete meta data
+        $this->deleteMetaData();
+    }
+
+
 }

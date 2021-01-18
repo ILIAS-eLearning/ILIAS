@@ -1298,7 +1298,7 @@ class ilObjSurvey extends ilObject
                 }
             }
         }
-        return join($author, ",");
+        return join(",", $author);
     }
 
     /**
@@ -3199,7 +3199,7 @@ class ilObjSurvey extends ilObject
                         "questionblock_id" => $row["questionblock_id"],
                         "title" => $row["title"],
                         "svy" => $surveytitles[$row["obj_fi"]],
-                        "contains" => join($questions_array, ", "),
+                        "contains" => join(", ", $questions_array),
                         "owner" => $row["owner_fi"]
                     );
                 }
@@ -6127,19 +6127,24 @@ class ilObjSurvey extends ilObject
 
         $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
             
-        include_once "./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php";
         $gui = new ilSurveyEvaluationGUI($this);
+
         $url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
+
+        $html = $gui->evaluation(1, true, true);
 
         $_GET["ref_id"] = $old_ref_id;
         $_GET["baseClass"] = $old_base_class;
 
+        $pdf_factory = new ilHtmlToPdfTransformerFactory();
+        $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
 
+        /*
         $log->debug("calling phantom for ref_id: " . $this->getRefId());
 
-        $pdf = $gui->callPhantom($url, "pdf", true, true);
+        $pdf = $gui->callPdfGeneration($url, "pdf", true, true);
 
-        $log->debug("phantom called : " . $pdf);
+        $log->debug("phantom called : " . $pdf);*/
         
         if (!$pdf ||
             !file_exists($pdf)) {
@@ -6167,14 +6172,13 @@ class ilObjSurvey extends ilObject
             $mail_obj = new ilMail(ANONYMOUS_USER_ID);
             $mail_obj->appendInstallationSignature(true);
             $log->debug("send mail to user id: " . $user_id . ",login: " . ilObjUser::_lookupLogin($user_id));
-            $mail_obj->sendMail(
+            $mail_obj->enqueue(
                 ilObjUser::_lookupLogin($user_id),
                 "",
                 "",
                 $subject,
                 $message,
-                array($att),
-                array("system")
+                array($att)
             );
         }
         

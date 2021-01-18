@@ -251,6 +251,12 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
+            $DIC->language()->txt('conf_user_ident_il_uuid_random'),
+            ilCmiXapiLrsType::USER_IDENT_IL_UUID_RANDOM
+        );
+        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_random_info'));
+        $item->addOption($op);
+        $op = new ilRadioOption(
             $DIC->language()->txt('conf_user_ident_real_email'),
             ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
         );
@@ -280,7 +286,12 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $item->setInfo($DIC->language()->txt('conf_user_name_info'));
         $item->setRequired(false);
         $form->addItem($item);
+
         
+
+
+
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_setting_conf'), 'force_privacy_setting');
         $op = new ilRadioOption($DIC->language()->txt('conf_privacy_setting_default'), 0);
         $item->addOption($op);

@@ -1,7 +1,7 @@
-/* Copyright (c)  1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c)  1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
-* @translator   5.4.x 2018-07-28 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
+* @translator   6.x 2021-01-01 Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
 * @module       setup language file hungarian
 * @modulegroup  language
 * @author       Matthias Kunkel <mkunkel@me.com>

@@ -63,7 +63,7 @@ class ilCmiXapiLaunchGUI
         }
         
         foreach ($this->getLaunchParameters() as $paramName => $paramValue) {
-            $launchLink = iLUtil::appendUrlParameterString($launchLink, "{$paramName}={$paramValue}");
+            $launchLink = ilUtil::appendUrlParameterString($launchLink, "{$paramName}={$paramValue}");
         }
         
         return $launchLink;
@@ -71,6 +71,8 @@ class ilCmiXapiLaunchGUI
     
     protected function getLaunchParameters()
     {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
         $params = [];
         
         if ($this->object->isBypassProxyEnabled()) {
@@ -93,11 +95,13 @@ class ilCmiXapiLaunchGUI
             }
         }
         
-        $params['activitiy_id'] = urlencode($this->object->getActivityId());
-        $params['activitiyId'] = urlencode($this->object->getActivityId());
+        $params['activity_id'] = urlencode($this->object->getActivityId());
+        $params['activityId'] = urlencode($this->object->getActivityId());
         
         $params['actor'] = urlencode($this->buildActorParameter());
-        
+
+        $params['registration'] = urlencode(ilCmiXapiUser::getRegistration($this->object, $DIC->user()));
+
         return $params;
     }
     
@@ -140,10 +144,17 @@ class ilCmiXapiLaunchGUI
     protected function buildActorParameter()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
+        $name = ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user());
+//        $name = ($name === '') ? 'NO_NAME' : $name;
         return json_encode([
             'mbox' => $this->cmixUser->getUsrIdent(),
-            'name' => ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user())
+            'name' => $name,
+            'objectType' => 'Agent',
+            'account' => [
+                'homePage' => 'NO_PAGE',
+                'name' => $name
+            ]
         ]);
     }
     
@@ -177,5 +188,28 @@ class ilCmiXapiLaunchGUI
         if ($doLpUpdate) {
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
+    }
+
+    protected function getLaunchData()
+    {
+        $launchMethod = "AnyWindow"; // $this->object->getLaunchMethod(),
+        $moveOn = "Completed";
+        return json_encode([
+            "contextTemplate" => [
+                "contextActivities" => [
+                    "grouping" => [
+                        "objectType" => "Activity",
+                        "id" => "http://course-repository.example.edu/identifiers/courses/02baafcf/aus/4c07"
+                    ]
+                ],
+                "extensions" => [
+                    "https://w3id.org/xapi/cmi5/context/extensions/sessionid" => "32e96d95-8e9c-4162-b3ac-66df22d171c5"
+                ]
+            ],
+            "launchMode" => $this->object->getLaunchMode(),
+//            "returnURL":
+            "launchMethod" => $launchMethod,
+            "moveOn" => $moveOn
+        ]);
     }
 }

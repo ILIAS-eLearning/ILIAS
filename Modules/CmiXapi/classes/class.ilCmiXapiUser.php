@@ -243,6 +243,10 @@ class ilCmiXapiUser
                 
                 return self::buildPseudoEmail($user->getExternalAccount(), self::getIliasUuid());
                 
+            case ilObjCmiXapi::USER_IDENT_IL_UUID_RANDOM:
+
+                return self::buildPseudoEmail(self::getUserObjectUniqueId(), self::getIliasUuid());
+
             case ilObjCmiXapi::USER_IDENT_REAL_EMAIL:
                 
                 return $user->getEmail();
@@ -271,6 +275,10 @@ class ilCmiXapiUser
                 
                 return $user->getExternalAccount();
                 
+            case ilObjCmiXapi::USER_IDENT_IL_UUID_RANDOM:
+
+                return self::getUserObjectUniqueId();
+
             case ilObjCmiXapi::USER_IDENT_REAL_EMAIL:
                 
                 return 'realemail' . $user->getId();
@@ -347,56 +355,6 @@ class ilCmiXapiUser
         }
         
         return $users;
-    }
-    
-    public static function getUserIdFromIdent($userIdentMode, $xapiUserIdent)
-    {
-        switch ($userIdentMode) {
-            case ilObjCmiXapi::USER_IDENT_REAL_EMAIL:
-                
-                /**
-                 * TODO: lookup user by email
-                 * - handle none found (e.g. when different email was used in external app)
-                 * - handle multiple found and find fallback behaviour
-                 */
-                
-                $iliasUserId = 0;
-                
-                break;
-                
-            
-            case ilObjCmiXapi::USER_IDENT_IL_UUID_USER_ID:
-                
-                $setting = new ilSetting('cmix');
-                $nicId = $setting->get('ilias_uuid');
-                
-                $matches = null;
-                if (preg_match('/^mailto:(\d+)@' . $nicId . '\.ilias$/', $xapiUserIdent, $matches)) {
-                    $iliasUserId = $matches[1];
-                } else {
-                    /**
-                     * TODO: handle not parseable xapi user ident
-                     */
-                    $iliasUserId = 0;
-                }
-                
-                break;
-        }
-        
-        return $iliasUserId;
-    }
-    
-    public static function getUserFromIdent($object, $xapiUserIdent)
-    {
-        if ($object instanceof ilObjCmiXapi) {
-            $userIdentMode = $object->getUserIdent();
-        } else {
-            //BUG LTI
-            $userIdentMode = ilObjCmiXapi::USER_IDENT_IL_UUID_USER_ID;
-        }
-
-        $iliasUserId = self::getUserIdFromIdent($userIdentMode, $xapiUserIdent);
-        return ilObjectFactory::getInstanceByObjId($iliasUserId, false);
     }
     
     public static function exists($objId, $usrId)
@@ -483,4 +441,67 @@ class ilCmiXapiUser
         
         return $objIds;
     }
+    /**
+     * @param int $length
+     * @return string
+     */
+    public static function getUserObjectUniqueId( $length = 32 )
+    {
+        $storedId = self::readUserObjectUniqueId();
+        if( (bool)strlen($storedId) ) {
+            return strstr($storedId,'@', true);
+        }
+
+        $getId = function( $length ) {
+            $multiplier = floor($length/8) * 2;
+            $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
+
+            try {
+                $ident = bin2hex(random_bytes($length));
+            } catch (Exception $e) {
+                $ident = $uid;
+            }
+
+            $start = rand(0, strlen($ident) - $length - 1);
+            return substr($ident, $start, $length);
+        };
+
+        $id = $getId($length);
+        $exists = self::userObjectUniqueIdExists($id);
+        while( $exists ) {
+            $id = $getId($length);
+            $exists = self::userObjectUniqueIdExists($id);
+        }
+
+        return $id;
+
+    }
+
+    private static function readUserObjectUniqueId()
+    {
+        global $DIC; /** @var Container */
+        $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+
+        $query = "SELECT usr_ident FROM cmix_users".
+            " WHERE usr_id = " . $DIC->database()->quote($DIC->user()->getId(), 'integer') .
+            " AND obj_id = " . $DIC->database()->quote($obj_id, 'integer');
+        $result = $DIC->database()->query($query);
+        return is_array($row = $DIC->database()->fetchAssoc($result)) ? $row['usr_ident'] : '';
+    }
+
+    private static function userObjectUniqueIdExists($id)
+    {
+        global $DIC; /** @var Container */
+
+        $query = "SELECT usr_ident FROM cmix_users WHERE " . $DIC->database()->like('usr_ident', 'text', $id . '@%');
+        $result = $DIC->database()->query($query);
+        return (bool)$num = $DIC->database()->numRows($result);
+    }
+
+    public static function getRegistration(ilObjCmiXapi $obj, ilObjUser $user)
+    {
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(),$obj->getRefId() . '-' . $user->getId());
+    }
+
+
 }

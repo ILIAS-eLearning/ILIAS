@@ -8675,12 +8675,12 @@ pwassist#:#pwassist_enter_email#:#Palun sisesta e-posti aadress. ILIAS saadab se
 pwassist#:#pwassist_enter_username_and_email#:#Sisesta oma kasutajanimi ja e-posti aadress allpool olevatele väljadele. ILIAS saadab sellele e-posti aadressile e-kirja. E-kiri sisaldab veebilehe aadressi, millel saad oma konto jaoks uue salasõna sisestada. Juhul, kui uue salasõna loomine ei õnnestu, võta ühendust administraatoriga või saada e-kiri aadressil %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:# Sisesta kasutajanimi ja uus salasõna alltoodud väljadele.
 pwassist#:#pwassist_login_not_match#:#Palun sisesta teine kasutajanimi. Sinu sisestatud kasutajanimi ei kattu kasutajanimega, millele salasõna abi palusid.
-pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe server \t%2$s  Sina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".  Palun loe järgnev tähelepanelikult läbi ja toimi vastavalt:  - Kui palusid salasõna abi kogemata: kstuta see e-kiri.  - Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud: palun kontakteeru %5$s.  - Kui palusid salasõna abi, toimi järgnevalt:  1. Ava oma brauser..  2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse: \t%1$s  Tähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.  3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.  Pane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
+pwassist#:#pwassist_mail_body#:#Selle automaatkirja on genereerinud ILIASe server %2$s  Sina (või keegi IP-ga %3$s) on palunud salasõna abi kasutajanimele "%4$s".  Palun loe järgnev tähelepanelikult läbi ja toimi vastavalt:  - Kui palusid salasõna abi kogemata: kstuta see e-kiri.  - Kui oled kindel, et pole kunagi sellelt ILIASe serverilt salasõna abi palunud: palun kontakteeru %5$s.  - Kui palusid salasõna abi, toimi järgnevalt:  1. Ava oma brauser..  2. Klikka järgneval lingil, või kui see pole võimalik, sisesta brauserisse: %1$s  Tähelepanu: aadress koosneb üksikust reast. Kui näed aadressi mitmel real, on seda teinud sinu e-kirja programm.  3. Avanenud veebilehel sisesta oma kasutajakonto jaoks uus salasõna.  Pane tähele, et turvakaalutlustel saad ülal kirjeldatud kolme sammu läbida vaid ühe korra ja limiteeritud aja jooksul. Hiljem muutub aadress kehtetuks ja ILIASe salasõna abi tuleb uuesti küsida.
 pwassist#:#pwassist_mail_sent#:#Kiri on saadetud  %1$s. Palun kontrolli oma postkasti.
 pwassist#:#pwassist_mail_subject#:#ILIASe abi
 pwassist#:#pwassist_password_assigned#:#Uue salasõna loomine kasutajale "%1$s" õnnestus!
 pwassist#:#pwassist_session_expired#:#Palun täida väljad uuesti. Sinu salasõna abi sessioon on aegunud. See võib olla tingitud asjaolust, et püüdsid kasutada e-kirjaga saadetud linki rohkem kui ühe korra, või on lingi saatmisest möödunud liiga palju aega.
-pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed: %s  See automaatsõnum on loodud järgmise ILIASe serveri poolt: \t%s  Sina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'  seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:  -Sa lasid selle e-kirja enesele kogemata saata: kustuta see e-kiri.  -Oled kindel, et pole kunagi seda e-kirja lasknud saata: palun kontakteeru %s.  - Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:  1. Käivita oma Interneti brauser.  2. Sisesta järgmine url: \t%s  Tähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.  3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
+pwassist#:#pwassist_username_mail_body#:#Sisestatud e-posti aadressiga on seotud järgmised kasutajanimed: %s  See automaatsõnum on loodud järgmise ILIASe serveri poolt: %s  Sina (või keegi IP-ga %s) on palunud abi e-posti aadressiga '%s'  seotud kasutajanime meeldetuletamiseks. Palun loe järgnev läbi ja vali sobiv käitumisviis:  -Sa lasid selle e-kirja enesele kogemata saata: kustuta see e-kiri.  -Oled kindel, et pole kunagi seda e-kirja lasknud saata: palun kontakteeru %s.  - Kui sa seda e-kirja soovisid ja sul oli lisaks kasutajanimele ununenud ka salasõna, talita järgmiselt:  1. Käivita oma Interneti brauser.  2. Sisesta järgmine url: %s  Tähelepanu: aadress koosneb ühest reast. Kui sa näed seda mitmeks reaks jaotatuna, siis on seda teinud sinu e-kirja programm.  3. Sinu brauser näitab nüüd salasõna abi teenust. Kasuta seda lehte koos kasutajanime ja vastava e-posti aadressiga uue salasõna loomiseks.
 rating#:#rat_not_rated_yet#:#Pole veel hääletatud
 rating#:#rat_nr_ratings#:#%s Ratings
 rating#:#rat_one_rating#:#Üks hääletus
@@ -12396,7 +12396,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -16180,3 +16180,19 @@ ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new vari
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable

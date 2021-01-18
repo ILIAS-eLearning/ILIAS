@@ -164,7 +164,7 @@ class ilLPXmlWriter extends ilXmlWriter
                     array(
                         'UserId' => $rec["usr_id"],
                         'ObjId' => $rec["obj_id"],
-                        'RefIds' => implode($ref_ids, ","),
+                        'RefIds' => implode(",", $ref_ids),
                         'Timestamp' => $rec["status_changed"],
                         'LPStatus' => $rec["status"]
                         )

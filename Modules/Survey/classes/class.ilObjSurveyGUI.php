@@ -1769,12 +1769,8 @@ class ilObjSurveyGUI extends ilObjectGUI
         // :TODO: really save in session?
         $_SESSION["anonymous_id"][$this->object->getId()] = $anonymous_code;
 
-        if (ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
-            $survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code, $ilUser->getId());
-        } else {
-            $survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);
-        }
-                                
+        $survey_started = $this->object->isSurveyStarted($ilUser->getId(), $anonymous_code);
+
         $showButtons = $big_button = false;
 
         // already finished?

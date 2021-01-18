@@ -133,7 +133,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         // get the solution of the user for the active pass or from the last pass if allowed
         $template = new ilTemplate("tpl.il_as_qpl_orderinghorizontal_output_solution.html", true, true, "Modules/TestQuestionPool");
 
-        //$solutionvalue = "";
         if (($active_id > 0) && (!$show_correct_solution)) {
             $elements = [];
             $solutions = &$this->object->getSolutionValues($active_id, $pass);
@@ -151,8 +150,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
                 $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
-
-            //$solutionvalue = str_replace("{::}", " ", $solutions[0]["value1"]);
         } else {
             $elements = $this->object->getOrderingElements();
             foreach ($elements as $id => $element) {
@@ -161,7 +158,6 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
                 $template->setVariable("ELEMENT_VALUE", ilUtil::prepareFormOutput($element));
                 $template->parseCurrentBlock();
             }
-            //$solutionvalue = join($this->object->getOrderingElements(), " ");
         }
 
         if (($active_id > 0) && (!$show_correct_solution)) {
@@ -255,7 +251,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTION_ID", $this->object->getId());
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
+        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
         if ($this->object->textsize >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
         }
@@ -314,7 +310,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         if ($this->object->textsize >= 10) {
             $template->setVariable("STYLE", " style=\"font-size: " . $this->object->textsize . "%;\"");
         }
-        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join($elements, '{::}') . '"');
+        $template->setVariable("VALUE_ORDERRESULT", ' value="' . join('{::}', $elements) . '"');
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
         $questionoutput = $template->get();
         if (!$show_question_only) {

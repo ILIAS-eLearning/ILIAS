@@ -653,6 +653,18 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancel'));
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
             $this->tpl->setVariable("TXT_ACTION", $lng->txt('book_set_cancel'));
+            $this->tpl->setCurrentBlock("action");
+            $this->tpl->parseCurrentBlock();
+        }
+
+
+        if($ilAccess->checkAccess('write', '', $this->ref_id)) {
+            $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
+            $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete'));
+            $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");
+            $this->tpl->setVariable("TXT_ACTION", $lng->txt('delete'));
+            $this->tpl->setCurrentBlock("action");
+            $this->tpl->parseCurrentBlock();
         }
     }
 

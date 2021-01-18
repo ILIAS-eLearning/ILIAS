@@ -8534,12 +8534,12 @@ pwassist#:#pwassist_enter_email#:#Gelieve een e-mailadres op te geven en het for
 pwassist#:#pwassist_enter_username_and_email#:#Geef de gebruikersnaam en het bijhorende e-mailadres op. ILIAS zal dan een e-mail sturen. Het bericht bevat een website, waar je een nieuw wachtwoord kan aanmaken.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geef de gebruikersnaam en het nieuwe wachtwoord in.
 pwassist#:#pwassist_login_not_match#:#Gelieve een andere gebruikersnaam op te geven. De gebruikersnaam komt niet overeen met de gevraagde gebruikersnaam voor wachtwoordassistentie.
-pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor je gebruikersaccount : \t%1$s \Dit bericht werd automatisch gegenereerd door ILIAS op \t%2$s  Jij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".    - Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.  - Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.  - Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:  1. Open de browser.  2. Geef het volgende adres in: \t%1$s  belangrijk: het adres is één regel.  3. Op de webpagina, geef je een nieuw wachtwoord in.  Opgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server.
+pwassist#:#pwassist_mail_body#:#Maak een nieuw wachtwoord voor je gebruikersaccount : %1$s \Dit bericht werd automatisch gegenereerd door ILIAS op %2$s  Jij of iemand anders heeft gevraagd voor wachtwoordassistentie "%4$s".    - Als je per ongeluk deze wachtwoordservice hebt geraadpleegd, verwijder dan deze mail.  - Als je er zeker van bent dat je niet om wachtwoordassistentie gevraagd hebt op de ILIAS-server, contacteer de beheerder %5$s.  - Als je wel gevraagd heeft om wachtwoord-assistentie doe dan het volgende:  1. Open de browser.  2. Geef het volgende adres in: %1$s  belangrijk: het adres is één regel.  3. Op de webpagina, geef je een nieuw wachtwoord in.  Opgelet omwille van veiligheidsreden, kan je deze stappen maar een maal uitvoeren. Hierna is de website niet meer geldig en moet je de wachtwoordassistentie opnieuw raadplegen op de ILIAS server.
 pwassist#:#pwassist_mail_sent#:#Er is een bericht verzonden naar %1$s.  Gelieve je e-mail te controleren.
 pwassist#:#pwassist_mail_subject#:#ILIAS wachtwoord assistentie
 pwassist#:#pwassist_password_assigned#:#Het password is toegekend aan gebruiker "%1$s".
 pwassist#:#pwassist_session_expired#:#Gelieve dit formulier opnieuw in te vullen. UWachtwoordassistentie is vervallen.
-pwassist#:#pwassist_username_mail_body#:#dit zijn de actieve gebruikersnamen voor dit e-mailadres: %s  Deze mail is automatisch aangemaakt door ILIAS-server: \t%s  Jij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.  Gelieve het volgende te controleren en volg de volgende handelingen::  -Als je per ongeluk deze mail hebt aangevraagd: Verwijder dan deze mail.  -Ben je zeker dat je deze mail niet hebt aangevraagd: Contacteer %s.  - Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::  1. Open de internetbrowser.  2. Geef de volgende url: \t%s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen.
+pwassist#:#pwassist_username_mail_body#:#dit zijn de actieve gebruikersnamen voor dit e-mailadres: %s  Deze mail is automatisch aangemaakt door ILIAS-server: %s  Jij of iemand anders heeft gevraagd voor hulp i.v.m. de gebruikersnaam '%s'.  Gelieve het volgende te controleren en volg de volgende handelingen::  -Als je per ongeluk deze mail hebt aangevraagd: Verwijder dan deze mail.  -Ben je zeker dat je deze mail niet hebt aangevraagd: Contacteer %s.  - Als je deze e-mail hebt aangevraagd volg dan de volgende handelingen::  1. Open de internetbrowser.  2. Geef de volgende url: %s Je browser toont nu de wachtwoordservice. Gebruik deze pagina met een van de gebruikersnamen en het bijhorende e-mailadres om het wachtwoord te ontvangen.
 rating#:#rating_activate_rating#:#Inschakelen beoordelingsfunctie
 rating#:#rating_activate_rating_info#:#als ingeschakeld kunnen gebruikers dit object beoordeling.
 rating#:#rating_add_category#:#Add Category
@@ -12396,7 +12396,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -16180,3 +16180,19 @@ ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new vari
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable

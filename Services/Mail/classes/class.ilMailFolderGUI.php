@@ -778,19 +778,19 @@ class ilMailFolderGUI
         }
 
         $to = new ilCustomInputGUI($this->lng->txt('mail_to') . ':');
-        $to->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_to']), false));
+        $to->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput((string) $mailData['rcp_to']), false));
         $form->addItem($to);
 
         if ($mailData['rcp_cc']) {
             $cc = new ilCustomInputGUI($this->lng->txt('cc') . ':');
-            $cc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_cc']), false));
+            $cc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput((string) $mailData['rcp_cc']), false));
             $form->addItem($cc);
         }
 
         if ($mailData['rcp_bcc']) {
             $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
             $bcc->setHtml(ilUtil::htmlencodePlainString(
-                $this->umail->formatNamesForOutput($mailData['rcp_bcc']),
+                $this->umail->formatNamesForOutput((string) $mailData['rcp_bcc']),
                 false
             ));
             $form->addItem($bcc);
@@ -962,7 +962,7 @@ class ilMailFolderGUI
         }
 
         $filename = $this->httpRequest->getParsedBody()['filename'] ?? '';
-        if (strlen(ilSession::get('filename')) > 0) {
+        if (is_string(ilSession::get('filename')) && strlen(ilSession::get('filename')) > 0) {
             $filename = ilSession::get('filename');
             ilSession::set('filename', null);
         }

@@ -907,7 +907,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      * @param boolean $show_feedback         Show the question feedback
      * @param boolean $show_correct_solution Show the correct solution instead of the user solution
      * @param boolean $show_manual_scoring   Show specific information for the manual scoring output
-     * @return The solution output of the question as HTML code
+     * @return string The solution output of the question as HTML code
      */
     public function getSolutionOutput(
         $active_id,
@@ -932,7 +932,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             }
             $user_solution["active_id"] = $active_id;
             $user_solution["pass"] = $pass;
-            $solutions = &$this->object->getSolutionValues($active_id, $pass);
+            $solutions = $this->object->getSolutionValues($active_id, $pass);
             foreach ($solutions as $idx => $solution_value) {
                 if (preg_match("/^(\\\$v\\d+)$/", $solution_value["value1"], $matches)) {
                     $user_solution[$matches[1]] = $solution_value["value2"];

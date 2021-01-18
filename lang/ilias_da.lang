@@ -3868,12 +3868,12 @@ pwassist#:#pwassist_enter_email#:#Indtast venligst din emailadresse og tryk på 
 pwassist#:#pwassist_enter_username_and_email#:#Indtast et brugernavn og den tilknyttede e-mail adresse i felterne nedenfor.<br/><br/>ILIAS sender herefter en besked til mailadressen som indeholder et link til en side hvor du kan angive nyt kodeord for din konto.
 pwassist#:#pwassist_enter_username_and_new_password#:#Indtast brugernavn og password i feltet nedenfor.
 pwassist#:#pwassist_login_not_match#:#Indtast venligst et andet brugernavn. Det brugernavn du har indtastet matcher ikke det brugernavn som du har bedt om passwordassistance for.
-pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto: \t%1$s  Denne besked er lavet automatisk af ILIAS serveren på %2$s  Du (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.  Hvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst  %1$s i din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.  På websiden skal du herefter vælge dit nye password til din konto.  Bemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
+pwassist#:#pwassist_mail_body#:#Skift password på din brugerkonto: %1$s  Denne besked er lavet automatisk af ILIAS serveren på %2$s  Du (eller en person med ip %3$s) har bedt om password asistance til brugerkontoen %4$s.  Hvis du har aktiveret hjælp ved en fejltagelse kan du blot ignorere denne mail. Hvis du mistænker forsøg på indbrud på din konto kan du kontakte systemadministrator på %5$s. Hvis du ønsker at fortsætte indtast venligst  %1$s i din browser. Bemærk at det skal være 1 linje men dit mailprogram muligvis har opdelt den.  På websiden skal du herefter vælge dit nye password til din konto.  Bemærk at denne service kun er tilgængelig i en begrænset periode af sikkerhedshensyn.
 pwassist#:#pwassist_mail_sent#:#En besked er blevet sendt til %1$s med instruktioner om hvordan du kommer videre.
 pwassist#:#pwassist_mail_subject#:#ILIAS password hjælp
 pwassist#:#pwassist_password_assigned#:#Password sat for brugerkontoen "%1$s".
 pwassist#:#pwassist_session_expired#:#Udfyld venligst formularen igen.\ Din passwordassistancesession er udløbet. Dette kan forekomme hvis du har benyttet linket som blev sendt til dig på email mere end 1 gang, eller fordi der er gået for lang tid siden linket blev sendt ti
-pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.  Denne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.  \t- Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den. \t- Har du aldrig bedt om denne mail, så kontakt %s. \t-Har du bedt om denne mail, så fortsæt med følgende: 1. Start din browser 2. Indtast følgende url: \t%s  Bemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram. 3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
+pwassist#:#pwassist_username_mail_body#:#Her er de aktive brugernavne for emailadressen: %s.  Denne besked blev autogenereret af ILIAS serveren %s fordi du (eller en person med IP %s) har anmodet om støtte til glemte brugernavne for emailadressen %s.  - Hvis du har anmodet om denne mail ved en fejltagelse kan du blot slette den. - Har du aldrig bedt om denne mail, så kontakt %s. -Har du bedt om denne mail, så fortsæt med følgende: 1. Start din browser 2. Indtast følgende url: %s  Bemærk at adressen er en enkelt linje men muligvis er blevet ombrudt af dit emailprogram. 3. Din browser viser nu password service. Brug denne side sammen med et af brugernavnene til at anskaffe et nyt password.
 rbac#:#edit_learning_progress#:#Rediger læringsfremskridt
 rbac#:#filter_all_roles#:#Vis alle roller i nuværende kontekst
 rbac#:#filter_global_roles#:#Vis kun globale roller
@@ -12396,7 +12396,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -16180,3 +16180,19 @@ ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new vari
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable

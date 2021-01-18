@@ -31,6 +31,7 @@ class ilCmiXapiLrsType
     const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
     const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
     const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
+    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
     const USER_IDENT_REAL_EMAIL = 'real_email';
     
     const USER_NAME_NONE = 'none';
@@ -419,5 +420,28 @@ class ilCmiXapiLrsType
     public static function buildBasicAuth($lrsKey, $lrsSecret)
     {
         return 'Basic ' . base64_encode("{$lrsKey}:{$lrsSecret}");
+    }
+
+    public static function getLaunchData($objId)
+    {
+        $launchMethod = "AnyWindow"; // $this->object->getLaunchMethod(),
+        $moveOn = "Completed";
+        $launchMode = "Normal";
+        return json_encode([
+            "contextTemplate" => [
+                "contextActivities" => [
+                    "grouping" => [
+                        "objectType" => "Activity",
+                        "id" => "http://course-repository.example.edu/identifiers/courses/02baafcf/aus/4c07"
+                    ]
+                ],
+                "extensions" => [
+                    "https://w3id.org/xapi/cmi5/context/extensions/sessionid" => "32e96d95-8e9c-4162-b3ac-66df22d171c5"
+                ]
+            ],
+            "launchMode" => $launchMode,
+            "launchMethod" => $launchMethod,
+            "moveOn" => $moveOn
+        ]);
     }
 }

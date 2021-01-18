@@ -788,7 +788,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             $this->context->save();//ACHTUNG TODO UWE
         }
 
-        $this->logger->dump(get_class($this->context));
+        // $this->logger->dump(get_class($this->context));
 
 
         if ($this->ok && isset($this->resourceLink)) {
