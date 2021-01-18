@@ -29,7 +29,7 @@ class ilObjectTileImageFactory implements ilObjectTileImageFactoryInterface
      */
     public function getSupportedFileExtensions() : array
     {
-        return ["png", "jpg", "jpeg"];
+        return ["png", "jpg", "jpeg", "svg"];
     }
 
     /**
