@@ -494,7 +494,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.
-                $rte->addPlugin("emotions");
+                $rte->addPlugin("emoticons");
                 foreach ($this->plugins as $plugin) {
                     if (strlen($plugin)) {
                         $rte->addPlugin($plugin);

@@ -37,14 +37,16 @@ class ilTinyMCE extends ilRTE
     public function __construct($a_version = '')
     {
         if (!$a_version) {
-            $a_version = '3.5.11';
+            $a_version = '5.6.0';
         }
 
         parent::__construct($a_version);
-
+        // Since all 3.x has been removed, set the deafult to 5.6.0
         switch ($a_version) {
+            case '5.6.0':
             case '3.4.7':
             case '3.5.11':
+                $a_version = '5.6.0';
                 $this->version = $a_version;
                 $this->vd = '_' . str_replace('.', '_', $a_version);
                 break;
@@ -52,33 +54,40 @@ class ilTinyMCE extends ilRTE
             default:
                 // unknown/unsupported version?
                 break;
-        }
+        }  
 
         $this->plugins = array(
-            'xhtmlxtras',
-            'style',
-            'layer',
+            'link',
+            'emoticons',
+            'hr',
             'table',
             'save',
-            'advhr',
-            'advlink',
-            'emotions',
-            'iespell',
             'insertdatetime',
             'preview',
             'searchreplace',
             'print',
-            'contextmenu',
             'paste',
             'directionality',
             'fullscreen',
             'nonbreaking',
             'noneditable',
-            'style'
+            'anchor',
+            'lists',
+            'code',
+            'charmap'
         );
 
         $this->setStyleSelect(false);
         $this->addInternalTinyMCEImageManager();
+    }
+
+    public function getVersion()
+    {
+        return $this->version;
+    }
+    public function getPlugins()
+    {
+        return $this->plugins;
     }
 
     /**
@@ -173,6 +182,8 @@ class ilTinyMCE extends ilRTE
      */
     public function addRTESupport($obj_id, $obj_type, $a_module = "", $allowFormElements = false, $cfg_template = null, $hide_switch = false)
     {
+        global $DIC;
+        $lng = $DIC['lng'];
         if ($this->browser->isMobile()) {
             ilObjAdvancedEditing::_setRichTextEditorUserState(0);
         } else {
@@ -201,7 +212,17 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable("SESSION_ID", $_COOKIE[session_name()]);
             $tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
             $tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
-
+            $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
+            // allowed extentions for uploaded image files
+            $tinyMCE_valid_imgs = array('gif', 'jpg', 'jpeg', 'png');
+            $tpl->setVariable(
+                "TXT_ALLOWED_FILE_EXTENSIONS",
+                $lng->txt("file_allowed_suffixes") . " " .
+                implode(', ', array_map(function ($value) {
+                    return "." . $value;
+                }, $tinyMCE_valid_imgs))
+            );
+            
             $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
             $buttons_2 = $this->_buildAdvancedButtonsFromHTMLTags(2, $tags)
                        . ',' . $this->_buildAdvancedTableButtonsFromHTMLTags($tags)
@@ -211,7 +232,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
             $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
             
-            $tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
+            $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             //$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
             $tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
@@ -224,7 +245,7 @@ class ilTinyMCE extends ilRTE
             $tpl->parseCurrentBlock();
 
             if (!self::$renderedToGlobalTemplate) {
-                $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
+                $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
                 $this->tpl->addOnLoadCode($tpl->get());
                 self::$renderedToGlobalTemplate = true;
             }
@@ -258,6 +279,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable("SESSION_ID", $_COOKIE[session_name()]);
         $tpl->setVariable("BLOCKFORMATS", $this->_buildAdvancedBlockformatsFromHTMLTags($tags));
         $tpl->setVariable("VALID_ELEMENTS", $this->_getValidElementsFromHTMLTags($tags));
+        $tpl->setVariable("TXT_MAX_SIZE", ilUtil::getFileSizeInfo());
         
         $this->disableButtons('charmap');
         $buttons_1 = $this->_buildAdvancedButtonsFromHTMLTags(1, $tags);
@@ -269,7 +291,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
         $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
         
-        $tpl->setVariable("ADDITIONAL_PLUGINS", join(",", $this->plugins));
+        $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         //$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
         $tpl->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation());
@@ -282,7 +304,7 @@ class ilTinyMCE extends ilRTE
         $tpl->parseCurrentBlock();
 
         if (!self::$renderedToGlobalTemplate) {
-            $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
+            $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
             $this->tpl->addOnLoadCode($tpl->get());
             self::$renderedToGlobalTemplate = true;
         }
@@ -313,7 +335,7 @@ class ilTinyMCE extends ilRTE
         $template->setVariable("LANG", $this->_getEditorLanguage());
         $template->parseCurrentBlock();
         
-        $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tiny_mce.js");
+        $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
         $this->tpl->addOnLoadCode($template->get());
     }
 
@@ -421,14 +443,14 @@ class ilTinyMCE extends ilRTE
                 array_push($theme_advanced_buttons, "strikethrough");
             }
             if (count($theme_advanced_buttons)) {
-                array_push($theme_advanced_buttons, "separator");
+                array_push($theme_advanced_buttons, "|");
             }
             if (in_array("p", $a_html_tags)) {
-                array_push($theme_advanced_buttons, "justifyleft");
-                array_push($theme_advanced_buttons, "justifycenter");
-                array_push($theme_advanced_buttons, "justifyright");
-                array_push($theme_advanced_buttons, "justifyfull");
-                array_push($theme_advanced_buttons, "separator");
+                array_push($theme_advanced_buttons, "alignleft");
+                array_push($theme_advanced_buttons, "aligncenter");
+                array_push($theme_advanced_buttons, "alignright");
+                array_push($theme_advanced_buttons, "alignjustify");
+                array_push($theme_advanced_buttons, "|");
             }
             if (strlen(ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($a_html_tags))) {
                 array_push($theme_advanced_buttons, "formatselect");
@@ -437,12 +459,12 @@ class ilTinyMCE extends ilRTE
                 array_push($theme_advanced_buttons, "hr");
             }
             array_push($theme_advanced_buttons, "removeformat");
-            array_push($theme_advanced_buttons, "separator");
+            array_push($theme_advanced_buttons, "|");
             if (in_array("sub", $a_html_tags)) {
-                array_push($theme_advanced_buttons, "sub");
+                array_push($theme_advanced_buttons, "subscript");
             }
             if (in_array("sup", $a_html_tags)) {
-                array_push($theme_advanced_buttons, "sup");
+                array_push($theme_advanced_buttons, "superscript");
             }
             if (in_array("font", $a_html_tags)) {
                 array_push($theme_advanced_buttons, "fontselect");
@@ -455,9 +477,9 @@ class ilTinyMCE extends ilRTE
             if ((in_array("ul", $a_html_tags)) && (in_array("li", $a_html_tags))) {
                 array_push($theme_advanced_buttons, "numlist");
             }
-            array_push($theme_advanced_buttons, "separator");
+            array_push($theme_advanced_buttons, "|");
             if (in_array("cite", $a_html_tags)) {
-                array_push($theme_advanced_buttons, "cite");
+                array_push($theme_advanced_buttons, "blockquote");
             }
             if (in_array("abbr", $a_html_tags)) {
                 array_push($theme_advanced_buttons, "abbr");
@@ -486,12 +508,12 @@ class ilTinyMCE extends ilRTE
                 array_push($theme_advanced_buttons, "unlink");
                 array_push($theme_advanced_buttons, "anchor");
             }
-            array_push($theme_advanced_buttons, "separator");
+            array_push($theme_advanced_buttons, "|");
             array_push($theme_advanced_buttons, "undo");
             array_push($theme_advanced_buttons, "redo");
             
             if (is_array($this->buttons) && count($this->buttons)) {
-                array_push($theme_advanced_buttons, "separator");
+                array_push($theme_advanced_buttons, "|");
                 foreach ($this->buttons as $button) {
                     array_push($theme_advanced_buttons, $button);
                 }
@@ -521,7 +543,7 @@ class ilTinyMCE extends ilRTE
             }
         }
         
-        return join(",", $theme_advanced_buttons);
+        return join(" ", $theme_advanced_buttons);
     }
 
     /**
@@ -544,10 +566,10 @@ class ilTinyMCE extends ilRTE
             array_push($theme_advanced_buttons, "strikethrough");
         }
         if (in_array("p", $a_html_tags)) {
-            array_push($theme_advanced_buttons, "justifyleft");
-            array_push($theme_advanced_buttons, "justifycenter");
-            array_push($theme_advanced_buttons, "justifyright");
-            array_push($theme_advanced_buttons, "justifyfull");
+            array_push($theme_advanced_buttons, "alignleft");
+            array_push($theme_advanced_buttons, "aligncenter");
+            array_push($theme_advanced_buttons, "alignright");
+            array_push($theme_advanced_buttons, "alignjustify");
         }
         if (strlen(ilTinyMCE::_buildAdvancedBlockformatsFromHTMLTags($a_html_tags))) {
             array_push($theme_advanced_buttons, "formatselect");
@@ -556,10 +578,10 @@ class ilTinyMCE extends ilRTE
             array_push($theme_advanced_buttons, "hr");
         }
         if (in_array("sub", $a_html_tags)) {
-            array_push($theme_advanced_buttons, "sub");
+            array_push($theme_advanced_buttons, "subscript");
         }
         if (in_array("sup", $a_html_tags)) {
-            array_push($theme_advanced_buttons, "sup");
+            array_push($theme_advanced_buttons, "superscript");
         }
         if (in_array("font", $a_html_tags)) {
             array_push($theme_advanced_buttons, "fontselect");
@@ -572,7 +594,7 @@ class ilTinyMCE extends ilRTE
             array_push($theme_advanced_buttons, "numlist");
         }
         if (in_array("cite", $a_html_tags)) {
-            array_push($theme_advanced_buttons, "cite");
+            array_push($theme_advanced_buttons, "blockquote");
         }
         if (in_array("abbr", $a_html_tags)) {
             array_push($theme_advanced_buttons, "abbr");
@@ -611,7 +633,7 @@ class ilTinyMCE extends ilRTE
             }
         }
         
-        return join(",", $theme_advanced_buttons);
+        return join(" ", $theme_advanced_buttons);
     }
 
     /**
@@ -622,7 +644,7 @@ class ilTinyMCE extends ilRTE
     {
         $theme_advanced_buttons = array();
         if (in_array("table", $a_html_tags) && in_array("tr", $a_html_tags) && in_array("td", $a_html_tags)) {
-            array_push($theme_advanced_buttons, "tablecontrols");
+            array_push($theme_advanced_buttons, "table");
         }
         
         $remove_buttons = $this->getDisabledButtons();
@@ -1111,12 +1133,18 @@ class ilTinyMCE extends ilRTE
      */
     public static function removeRedundantSeparators($a_string)
     {
-        while (strpos($a_string, 'separator,separator') !== false) {
-            $a_string = str_replace('separator,separator', 'separator', $a_string);
+        while (strpos($a_string, '| |') !== false) {
+            $a_string = str_replace('| |', '|', $a_string);
         }
         
         while (strpos($a_string, ',,') !== false) {
             $a_string = str_replace(',,', ',', $a_string);
+        }
+        while (strpos($a_string, 'separator') !== false) {
+            $a_string = str_replace('separator', '|', $a_string);
+        }
+        while (strpos($a_string, ',') !== false) {
+            $a_string = str_replace(',', ' ', $a_string);
         }
 
         if ($a_string[0] == ',') {
@@ -1126,6 +1154,15 @@ class ilTinyMCE extends ilRTE
         if (strlen($a_string) && $a_string[strlen($a_string) - 1] == ',') {
             $a_string = substr($a_string, 0, strlen($a_string) - 1);
         }
+        //image uploader button keeps appearing twice: remove the duplicates
+        if (strlen($a_string) && substr_count($a_string,'ilimgupload')>1) {
+            $arr = explode('ilimgupload', $a_string,2);
+            $a_string = $arr[0];
+            if (count($arr)>1) {
+                $a_string = $a_string . ' ilimgupload ' .str_replace('ilimgupload', '', $arr[1]);
+            }
+        }
+        
 
         return $a_string;
     }
