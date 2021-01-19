@@ -7655,14 +7655,11 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item:after {
   clear: both;
 }
-.il-item h4 {
-  padding-top: 0;
-  margin: 0;
+.il-item .il-item-title {
   font-size: 14px;
-  float: left;
 }
-.il-item h4 .btn-link,
-.il-item h4 a {
+.il-item .il-item-title .btn-link,
+.il-item .il-item-title a {
   font-size: inherit;
   line-height: 1.42857143;
 }
