@@ -2016,7 +2016,6 @@ class ilObjStudyProgramme extends ilContainer
                     return $subtype === 'crsr';
                 },
                 ARRAY_FILTER_USE_KEY
-
             );
         }
         return $possible_subobjects;
