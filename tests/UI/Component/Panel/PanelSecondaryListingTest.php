@@ -311,11 +311,11 @@ EOT;
 <div class="il-item-group-items">\n
 <div class="il-std-item-container">
 <div class="il-item il-std-item ">
-title1
-</div><
-/div>\n
+<div class="il-item-title">title1</div>
+</div></div>\n
 <div class="il-std-item-container">
-<div class="il-item il-std-item ">title2
+<div class="il-item il-std-item ">
+<div class="il-item-title">title2</div>
 </div>
 </div>\n
 </div>\n

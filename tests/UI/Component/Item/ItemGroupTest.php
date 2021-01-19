@@ -96,9 +96,9 @@ class ItemGroupTest extends ILIAS_UI_TestBase
 	<h3>group</h3>
 		<div class="il-item-group-items">
 		<div class="il-std-item-container"><div class="il-item il-std-item ">
-			title1
+            <div class="il-item-title">title1</div>
 		</div></div><div class="il-std-item-container"><div class="il-item il-std-item ">
-			title2
+            <div class="il-item-title">title2</div>
 		</div></div>
 	</div>
 </div>
@@ -137,9 +137,9 @@ EOT;
 	</div>
 	<div class="il-item-group-items">
 		<div class="il-std-item-container"><div class="il-item il-std-item ">
-			title1
+            <div class="il-item-title">title1</div>
 	</div></div><div class="il-std-item-container"><div class="il-item il-std-item ">
-			title2
+            <div class="il-item-title">title2</div>
 	</div></div>
 	</div>
 </div>
