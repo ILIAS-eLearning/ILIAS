@@ -394,6 +394,15 @@ class ResourceBuilder
         $this->resource_repository->delete($resource);
     }
 
+    public function removeRevision(StorableResource $resource, int $revision_number) : void
+    {
+        $reveision_to_delete = $resource->getSpecificRevision($revision_number);
+        if ($reveision_to_delete) {
+            $this->deleteRevision($resource, $reveision_to_delete);
+        }
+        $this->store($resource);
+    }
+
     private function deleteRevision(StorableResource $resource, Revision $revision) : void
     {
         $this->storage_handler->deleteRevision($revision);
