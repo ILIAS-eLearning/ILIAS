@@ -147,8 +147,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function fetchData()
     {
-        $prg = $this->assignment->getStudyProgramme();
-        $prg_id = $prg->getId();
+        $prg_id = $this->assignment->getRootId();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($prg_id);
+
         $ass_id = $this->assignment->getId();
         $usr_id = $this->assignment->getUserId();
         $plan = array();

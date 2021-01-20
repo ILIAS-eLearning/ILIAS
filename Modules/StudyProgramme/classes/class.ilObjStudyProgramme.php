@@ -210,6 +210,20 @@ class ilObjStudyProgramme extends ilContainer
         $this->lp_children = null;
     }
 
+    public static function getRefIdFor(int $obj_id) : int
+    {
+        $refs = ilObject::_getAllReferences($obj_id);
+        if (count($refs) < 1) {
+            throw new ilException("Could not find ref_id for programme with obj_id $obj_id");
+        }
+        return (int) array_shift($refs);
+    }
+
+    public static function getInstanceByObjId($obj_id) : ilObjStudyProgramme
+    {
+        return self::getInstanceByRefId(self::getRefIdFor($obj_id));
+    }
+
     public static function getInstanceByRefId($a_ref_id) : ilObjStudyProgramme
     {
         if (self::$study_programme_cache === null) {
