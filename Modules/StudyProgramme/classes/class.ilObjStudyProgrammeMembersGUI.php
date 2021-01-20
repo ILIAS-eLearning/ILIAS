@@ -636,7 +636,11 @@ class ilObjStudyProgrammeMembersGUI
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             //** ilStudyProgrammeAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
+<<<<<<< HEAD
             $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
+=======
+            $prg_ref_id = ilObjectStudyProgramme::getRefIdFor($ass->getRootId());
+>>>>>>> PRG: Assignment should not factor StudyProgramme
             if ($prg_ref_id != $this->ref_id) {
                 $not_updated[] = $prgrs_id;
                 continue;
