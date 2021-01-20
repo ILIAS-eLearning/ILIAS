@@ -122,7 +122,12 @@ class Manager
             }
 
             $resource = $this->resource_builder->get($identification);
-            $this->resource_builder->append($resource, $result, $revision_title);
+            $this->resource_builder->append(
+                $resource,
+                $result,
+                $revision_title,
+                $stakeholder->getOwnerOfNewResources()
+            );
             $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
@@ -144,7 +149,12 @@ class Manager
             }
 
             $resource = $this->resource_builder->get($identification);
-            $this->resource_builder->replaceWithUpload($resource, $result, $revision_title);
+            $this->resource_builder->replaceWithUpload(
+                $resource,
+                $result,
+                $revision_title,
+                $stakeholder->getOwnerOfNewResources()
+            );
             $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
@@ -165,7 +175,13 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
-        $this->resource_builder->appendFromStream($resource, $stream, true, $revision_title);
+        $this->resource_builder->appendFromStream(
+            $resource,
+            $stream,
+            true,
+            $revision_title,
+            $stakeholder->getOwnerOfNewResources()
+        );
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);
@@ -184,7 +200,13 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
-        $this->resource_builder->replaceWithStream($resource, $stream, true, $revision_title);
+        $this->resource_builder->replaceWithStream(
+            $resource,
+            $stream,
+            true,
+            $revision_title,
+            $stakeholder->getOwnerOfNewResources()
+        );
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);

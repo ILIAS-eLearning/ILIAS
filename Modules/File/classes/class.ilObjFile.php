@@ -103,7 +103,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
          * @var $DIC Container
          */
         $this->manager = $DIC->resourceStorage()->manage();
-        $this->stakeholder = new ilObjFileStakeholder();
+        $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
         $this->upload = $DIC->upload();
         $this->version = 0;
         $this->max_version = 0;
