@@ -92,15 +92,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
     
     public function testInitialLPDraft()
@@ -118,15 +118,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
     
     public function testInitialProgressOutdated()
@@ -144,15 +144,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
     public function testMarkAccredited()
@@ -173,15 +173,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
     public function testUnmarkAccredited()
@@ -200,22 +200,22 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
         
         $node2_progress->unmarkAccredited();
 
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
 
@@ -235,15 +235,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
     public function testMarkFailed()
@@ -262,15 +262,15 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_FAILED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
     public function testMarkNotFailed()
@@ -289,21 +289,21 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node1->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_FAILED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
 
         $node2_progress->markNotFailed($USER_ID);
         $this->assertEquals(
             ilLPStatus::LP_STATUS_IN_PROGRESS_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
     }
 
     // Neues Moduls: Wird dem Studierenden-Studierenden inkl. Kurse, Punkte als "Nicht relevant" hinzugefügt.
@@ -322,7 +322,7 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM,
             ilLPStatusWrapper::_determineStatus($node3->getId(), $user->getId())
-                           );
+        );
     }
 
     public function test_invalidate()
@@ -342,13 +342,13 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
-                           );
+        );
         $this->assertEquals(
             ilLPStatus::LP_STATUS_COMPLETED_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
         $progress_repo->update(
-            $progress_repo->readByIds((int) $this->root->getId(), (int) $ass->getId(), (int) $user->getId())
+            $progress_repo->getByIds((int) $this->root->getId(), (int) $ass->getId(), (int) $user->getId())
                 ->setValidityOfQualification($yesterday)
         );
 
@@ -362,6 +362,6 @@ class ilStudyProgrammeLPTest extends TestCase
         $this->assertEquals(
             ilLPStatus::LP_STATUS_FAILED_NUM,
             ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
-                           );
+        );
     }
 }

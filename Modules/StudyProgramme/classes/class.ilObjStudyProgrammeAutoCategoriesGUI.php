@@ -164,7 +164,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             if (ilObject::_lookupType($ref_id, true) !== 'cat' || $this->tree->isDeleted($ref_id)) {
                 continue;
             }
-            $title = $this->getItemPath($ref_id);
+            list($title, $link) = $this->getItemPath($ref_id);
             $usr = $this->getUserRepresentation($ac->getLastEditorId());
             $modal = $this->getModal($ref_id);
             $collected_modals[] = $modal;
@@ -175,11 +175,16 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
             $data[] = [
                 $ac,
-                $this->ui_renderer->render($title),
+                $this->ui_renderer->render($link),
                 $this->ui_renderer->render($usr),
-                $this->ui_renderer->render($actions)
+                $this->ui_renderer->render($actions),
+                $title
             ];
         }
+        usort($data, function ($a, $b) {
+            return strnatcmp($a[4], $b[4]);
+        });
+
         $table = new ilStudyProgrammeAutoCategoriesTableGUI($this, "view", "");
         $table->setData($data);
 
@@ -427,7 +432,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         return $this->ui_factory->button()->shy($editor, $url);
     }
 
-    protected function getItemPath(int $cat_ref_id) : Shy
+    protected function getItemPath(int $cat_ref_id) : array
     {
         $url = ilLink::_getStaticLink($cat_ref_id, 'cat');
 
@@ -438,7 +443,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
             $this->tree->getPathFull($cat_ref_id)
         );
         $path = implode(' > ', $hops);
-
-        return $this->ui_factory->button()->shy($path, $url);
+        $title = array_pop($hops);
+        return [$title, $this->ui_factory->button()->shy($path, $url)];
     }
 }

@@ -1,27 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
- * @group needsInstalledILIAS
- */
+require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
+
 class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
 {
     protected $backupGlobals = false;
 
-    public function setUp() : void
-    {
-        PHPUnit_Framework_Error_Deprecated::$enabled = false;
-
-        global $DIC;
-        if (!$DIC) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            try {
-                ilUnitUtil::performInitialisation();
-            } catch (\Exception $e) {
-            }
-        }
-    }
-
-    public function test_init_and_id()
+    public function testInitAndId() : ilStudyProgrammeAssignment
     {
         $spa = new ilStudyProgrammeAssignment(123);
         $this->assertEquals($spa->getId(), 123);
@@ -29,69 +14,45 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @depends test_init_and_id
+     * @depends testInitAndId
      */
-    public function test_root_id()
+    public function testRootId() : void
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setRootId(321);
+        $spa = (new ilStudyProgrammeAssignment(123))->withRootId(321);
         $this->assertEquals($spa->getRootId(), 321);
     }
 
     /**
-     * @depends test_init_and_id
+     * @depends testInitAndId
      */
-    public function test_user_id()
+    public function testUserId() : void
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setUserId(321);
+        $spa = (new ilStudyProgrammeAssignment(123))->withUserId(321);
         $this->assertEquals($spa->getUserId(), 321);
     }
 
     /**
-     * @depends test_init_and_id
+     * @depends testInitAndId
      */
-    public function test_last_change_by()
+    public function testWithLastChange() : void
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(6);
+        $spa = (new ilStudyProgrammeAssignment(123))->withLastChange(
+            6,
+            $now = new DateTimeImmutable()
+        );
         $this->assertEquals($spa->getLastChangeBy(), 6);
+        $this->assertEquals($spa->getLastChange()->format('Y-m-d H:i:s'), $now->format('Y-m-d H:i:s'));
     }
 
-    /**
-     * @depends test_init_and_id
-     * @expectedException ilException
-     */
-    public function test_last_change_by_invalid()
-    {
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(-55);
-    }
 
     /**
-     * @depends test_init_and_id
+     * @depends testInitAndId
      */
-    public function test_last_change()
+    public function testRestartDate() : void
     {
-        $dl = new DateTime();
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChange($dl);
-        $this->assertEquals($spa->getLastChange()->format('Y-m-d H:i:s'), $dl->format('Y-m-d H:i:s'));
-    }
-
-    /**
-     * @depends test_init_and_id
-     */
-    public function test_restart_date()
-    {
-        $dl = DateTime::createFromFormat('Ymd', '20201001');
-        $spa = (new ilStudyProgrammeAssignment(123))->setRestartDate($dl);
+        $dl = DateTimeImmutable::createFromFormat('Ymd', '20201001');
+        $spa = (new ilStudyProgrammeAssignment(123))->withRestarted(321, $dl);
         $this->assertEquals($spa->getRestartDate()->format('Ymd'), '20201001');
-    }
-
-
-    /**
-     * @depends test_init_and_id
-     */
-    public function test_restarted_assigment()
-    {
-        $spa = new ilStudyProgrammeAssignment(123);
-        $this->assertEquals($spa->getRestartedAssignmentId(), ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT);
-        $this->assertEquals($spa->setRestartedAssignmentId(321)->getRestartedAssignmentId(), 321);
+        $this->assertEquals($spa->getRestartedAssignmentId(), 321);
     }
 }

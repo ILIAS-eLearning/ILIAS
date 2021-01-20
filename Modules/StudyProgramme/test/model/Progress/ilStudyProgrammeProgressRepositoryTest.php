@@ -87,7 +87,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
         $prgs = current(self::$created);
-        $prgs = $repo->read($prgs->getId());
+        $prgs = $repo->get($prgs->getId());
         $this->assertEquals($prgs->getNodeId(), 1);
         $this->assertEquals($prgs->getAssignmentId(), 20);
         $this->assertEquals($prgs->getUserId(), 30);
@@ -108,7 +108,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
         $repo->update($prgs);
         
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgs = $repo->read($prgs->getId());
+        $prgs = $repo->get($prgs->getId());
         $this->assertEquals($prgs->getNodeId(), 1);
         $this->assertEquals($prgs->getAssignmentId(), 20);
         $this->assertEquals($prgs->getUserId(), 30);
@@ -128,7 +128,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     public function test_query_ByIds()
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgs = $repo->readByIds(1, 20, 30);
+        $prgs = $repo->getByIds(1, 20, 30);
         $this->assertEquals($prgs->getNodeId(), 1);
         $this->assertEquals($prgs->getAssignmentId(), 20);
         $this->assertEquals($prgs->getUserId(), 30);
@@ -148,7 +148,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     public function test_query_ByPrgIdUsrId()
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgss = $repo->readByPrgIdAndUserId(1, 30);
+        $prgss = $repo->getByPrgIdAndUserId(1, 30);
         $this->assertCount(2, $prgss);
         $assignments = [];
         foreach ($prgss as $prgs) {
@@ -165,7 +165,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     public function test_query_ByPrgId()
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgss = $repo->readByPrgId(1);
+        $prgss = $repo->getByPrgId(1);
         $this->assertCount(3, $prgss);
         $assignments = [];
         foreach ($prgss as $prgs) {
@@ -191,7 +191,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     public function test_query_past_succsessful_1()
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgss = $repo->readByPrgId(1);
+        $prgss = $repo->getByPrgId(1);
 
         $yesterday = new DateTime();
         $yesterday->sub(new DateInterval('P1D'));
@@ -211,7 +211,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
         $prgrs3->setStatus(ilStudyProgrammeProgress::STATUS_ACCREDITED);
         $repo->update($prgrs1);
 
-        $prgrss = $repo->readExpiredSuccessfull();
+        $prgrss = $repo->getExpiredSuccessfull();
 
         $this->assertEquals(
             [$prgrs1->getId()],
@@ -235,7 +235,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
     public function test_query_past_succsessful_2()
     {
         $repo = new ilStudyProgrammeProgressDBRepository($this->db);
-        $prgss = $repo->readByPrgId(1);
+        $prgss = $repo->getByPrgId(1);
 
         $yesterday = new DateTime();
         $yesterday->sub(new DateInterval('P1D'));
@@ -258,7 +258,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
 
     
         $prgrss = [];
-        foreach ($repo->readExpiredSuccessfull() as $key => $prgrs) {
+        foreach ($repo->getExpiredSuccessfull() as $key => $prgrs) {
             $prgrss[] = $prgrs;
         }
 
@@ -297,8 +297,7 @@ class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
                     array_keys(self::$created),
                     false,
                     'integer'
-                    )
-
+                )
             );
         }
     }

@@ -72,7 +72,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     protected function initForm()
     {
         /** @var ilAdvancedMDRecord $record */
-        $records = $this->type_repository->readAllAMDRecords();
+        $records = $this->type_repository->getAllAMDRecords();
         $options = array();
         foreach ($records as $record) {
             $options[$record->getRecordId()] = $record->getTitle();
@@ -93,7 +93,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
      */
     public function fillForm(ilStudyProgrammeType $type)
     {
-        $records_selected = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId());
+        $records_selected = $this->type_repository->getAssignedAMDRecordIdsByType($type->getId());
         $item = $this->getItemByPostVar('amd_records');
         $item->setValue($records_selected);
     }
@@ -112,7 +112,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
         try {
             // Assign and deassign amd records. A plugin could prevent those actions.
             $record_ids_selected = (array) $this->getInput('amd_records');
-            $record_ids = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId(), true);
+            $record_ids = $this->type_repository->getAssignedAMDRecordIdsByType($type->getId(), true);
             $record_ids_removed = array_diff($record_ids, $record_ids_selected);
             $record_ids_added = array_diff($record_ids_selected, $record_ids);
             foreach ($record_ids_added as $record_id) {

@@ -37,7 +37,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     protected $il_setting;
 
     /**
-     * @var ilStudyProgrammeUserAssignment[]
+     * @var ilStudyProgrammeAssignment[]
      */
     protected $users_assignments;
 
@@ -74,11 +74,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
             return;
         }
 
-        $this->readUsersAssignments();
+        $this->getUsersAssignments();
         //check which kind of option is selected in settings
-        $this->readVisibleOnPDMode();
+        $this->getVisibleOnPDMode();
         //check to display info message if option "read" is selected
-        $this->readToShowInfoMessage();
+        $this->getToShowInfoMessage();
         
         // As this won't be visible we don't have to initialize this.
         if (!$this->userHasReadableStudyProgrammes()) {
@@ -174,29 +174,29 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
     
-    protected function readVisibleOnPDMode()
+    protected function getVisibleOnPDMode()
     {
         $this->visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
     }
 
-    protected function hasPermission(ilStudyProgrammeUserAssignment $assignment, $permission)
+    protected function hasPermission(ilStudyProgrammeAssignment $assignment, $permission)
     {
-        $prg = $assignment->getStudyProgramme();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
-    protected function readToShowInfoMessage()
+    protected function getToShowInfoMessage()
     {
         $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
         $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
     }
 
-    protected function isVisible(ilStudyProgrammeUserAssignment $assignment)
+    protected function isVisible(ilStudyProgrammeAssignment $assignment)
     {
         return $this->hasPermission($assignment, "visible");
     }
 
-    protected function isReadable(ilStudyProgrammeUserAssignment $assignment)
+    protected function isReadable(ilStudyProgrammeAssignment $assignment)
     {
         if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -214,14 +214,15 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
             ) && !$_GET["expand"];
     }
     
-    protected function readUsersAssignments()
+    protected function getUsersAssignments()
     {
         $this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->il_user->getId());
     }
     
-    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)
+    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeAssignment $a_assignment)
     {
-        $progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+        $progress = $prg->getProgressForAssignment($a_assignment->getId());
         $progress_gui = new ilStudyProgrammeProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;

@@ -57,22 +57,22 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         $amd->setRecId(-3);
         $tr->updateAMDRecord($amd);
 
-        $amds = $tr->readAMDRecordsByTypeIdAndRecordId(-1, -2);
+        $amds = $tr->getAMDRecordsByTypeIdAndRecordId(-1, -2);
         $this->assertCount(1, $amds);
         foreach ($amds as $amd) {
             $this->assertEquals($amd->getTypeId(), -1);
             $this->assertEquals($amd->getRecId(), -2);
         }
 
-        $amds = $tr->readAMDRecordsByTypeId(-1);
+        $amds = $tr->getAMDRecordsByTypeId(-1);
         $this->assertCount(2, $amds);
         foreach ($amds as $amd) {
             $this->assertEquals($amd->getTypeId(), -1);
         }
 
-        $amd = array_shift($tr->readAMDRecordsByTypeId(-2));
+        $amd = array_shift($tr->getAMDRecordsByTypeId(-2));
         $tr->deleteAMDRecord($amd);
-        $this->assertCount(0, $tr->readAMDRecordsByTypeId(-2));
+        $this->assertCount(0, $tr->getAMDRecordsByTypeId(-2));
     }
 
     /**
@@ -118,7 +118,7 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         $tt->setValue('a_value4');
         $tr->updateTypeTranslation($tt);
 
-        $tts = $tr->readTranslationsByTypeAndLang(-10, 'de');
+        $tts = $tr->getTranslationsByTypeAndLang(-10, 'de');
         $this->assertCount(0, $tts);
         foreach ($tts as $tt) {
             $this->assertEquals($tt->getPrgTypeId(), -10);
@@ -139,15 +139,15 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         );
 
 
-        $this->assertNull($tr->readTranslationByTypeIdMemberLang(-10, 'en', 'a_member1'));
-        $tt = $tr->readTranslationByTypeIdMemberLang(-10, 'en', 'a_member4');
+        $this->assertNull($tr->getTranslationByTypeIdMemberLang(-10, 'en', 'a_member1'));
+        $tt = $tr->getTranslationByTypeIdMemberLang(-10, 'en', 'a_member4');
         $this->assertEquals($tt->getPrgTypeId(), -10);
         $this->assertEquals($tt->getLang(), 'en');
         $this->assertEquals($tt->getMember(), 'a_member4');
         $this->assertEquals($tt->getValue(), 'a_value4');
 
         $tr->deleteTypeTranslation($tt);
-        $this->assertNull($tr->readTranslationByTypeIdMemberLang(-10, 'en', 'a_member4'));
+        $this->assertNull($tr->getTranslationByTypeIdMemberLang(-10, 'en', 'a_member4'));
     }
 
 
@@ -178,18 +178,18 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         $type->setDescription('a_description', 'de');
 
         $type_id = $type->getId();
-        $trans = $tr->readTranslationByTypeIdMemberLang($type_id, 'title', 'de');
+        $trans = $tr->getTranslationByTypeIdMemberLang($type_id, 'title', 'de');
         $this->assertEquals('title', $trans->getMember());
         $this->assertEquals('a_title', $trans->getValue());
         $this->assertEquals('de', $trans->getLang());
 
 
-        $trans = $tr->readTranslationByTypeIdMemberLang($type_id, 'description', 'de');
+        $trans = $tr->getTranslationByTypeIdMemberLang($type_id, 'description', 'de');
         $this->assertEquals('description', $trans->getMember());
         $this->assertEquals('a_description', $trans->getValue());
         $this->assertEquals('de', $trans->getLang());
 
-        $type = $tr->readType($type_id);
+        $type = $tr->getType($type_id);
         $this->assertEquals('a_title', $type->getTitle('de'));
         $this->assertEquals('a_description', $type->getDescription('de'));
 
@@ -211,9 +211,9 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         $amd->setRecId(-31);
         $amd->setTypeId($type->getId());
         $tr->updateAMDRecord($amd);
-        $this->assertEquals([-31], $tr->readAssignedAMDRecordIdsByType($type->getId()));
+        $this->assertEquals([-31], $tr->getAssignedAMDRecordIdsByType($type->getId()));
         $type->deassignAdvancedMdRecord(-31);
-        $this->assertEquals([], $tr->readAssignedAMDRecordIdsByType($type->getId(), true));
+        $this->assertEquals([], $tr->getAssignedAMDRecordIdsByType($type->getId(), true));
     }
 
     public function test_type_delete()
@@ -229,12 +229,12 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
         $amd->setTypeId($type_id);
         $tr->updateAMDRecord($amd);
 
-        $this->assertEquals([-32], $tr->readAssignedAMDRecordIdsByType($type_id));
+        $this->assertEquals([-32], $tr->getAssignedAMDRecordIdsByType($type_id));
 
         $this->tr->deleteType($type);
-        $this->assertNull($tr->readTranslationByTypeIdMemberLang($type_id, 'title', 'de'));
-        $this->assertNull($tr->readTranslationByTypeIdMemberLang($type_id, 'description', 'de'));
-        $this->assertEquals([], $tr->readAssignedAMDRecordIdsByType($type_id));
+        $this->assertNull($tr->getTranslationByTypeIdMemberLang($type_id, 'title', 'de'));
+        $this->assertNull($tr->getTranslationByTypeIdMemberLang($type_id, 'description', 'de'));
+        $this->assertEquals([], $tr->getAssignedAMDRecordIdsByType($type_id));
     }
 
     public static function tearDownAfterClass() : void
@@ -272,7 +272,7 @@ class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
             )
         );
         $tr = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
-        $types = array_keys($tr->readAllTypesArray());
+        $types = array_keys($tr->getAllTypesArray());
         foreach (self::$created_type as $type) {
             if (in_array($type->getId(), $types)) {
                 $tr->deleteType($type);

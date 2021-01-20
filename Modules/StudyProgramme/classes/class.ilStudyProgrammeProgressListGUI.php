@@ -28,7 +28,7 @@ class ilStudyProgrammeProgressListGUI
     protected $il_ctrl;
     
     /**
-     * @var ilStudyProgrammeUserProgress
+     * @var ilStudyProgrammeProgress
      */
     protected $progress;
 
@@ -52,7 +52,7 @@ class ilStudyProgrammeProgressListGUI
      */
     protected $only_relevant = false;
 
-    public function __construct(ilStudyProgrammeUserProgress $a_progress)
+    public function __construct(ilStudyProgrammeProgress $a_progress)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -80,7 +80,7 @@ class ilStudyProgrammeProgressListGUI
     
     protected function fillTemplate($tpl)
     {
-        $programme = $this->progress->getStudyProgramme();
+        $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
         $title_and_icon_target = $this->getTitleAndIconTarget($this->progress);
         
         if ($title_and_icon_target) {
@@ -134,7 +134,7 @@ class ilStudyProgrammeProgressListGUI
         return $this->il_lng->txt("icon") . " " . $this->il_lng->txt("obj_prg");
     }
     
-    protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress)
+    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $a_progress)
     {
         $this->il_ctrl->setParameterByClass("ilDashboardGUI", "prg_progress_id", $a_progress->getId());
         $this->il_ctrl->setParameterByClass("ilDashboardGUI", "expand", 1);
@@ -144,12 +144,14 @@ class ilStudyProgrammeProgressListGUI
         return $link;
     }
     
-    protected function buildProgressBar(ilStudyProgrammeUserProgress $a_progress)
+    protected function buildProgressBar(ilStudyProgrammeProgress $a_progress)
     {
         $tooltip_id = "prg_" . $a_progress->getId();
-        
         $required_amount_of_points = $a_progress->getAmountOfPoints();
-        $maximum_possible_amount_of_points = $a_progress->getMaximumPossibleAmountOfPoints(true);
+
+        $programme = ilObjStudyProgramme::getInstanceByObjId($a_progress->getNodeId());
+        $maximum_possible_amount_of_points = $programme->getPossiblePointsOfRelevantChildren($a_progress, true);
+        
         $current_amount_of_points = $a_progress->getCurrentAmountOfPoints();
 
         if ($maximum_possible_amount_of_points > 0) {
@@ -183,33 +185,34 @@ class ilStudyProgrammeProgressListGUI
         return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, $css_class, $progress_status, null, $tooltip_id, $tooltip_txt);
     }
     
-    protected function buildToolTip(ilStudyProgrammeUserProgress $a_progress)
+    protected function buildToolTip(ilStudyProgrammeProgress $a_progress)
     {
         return sprintf(
             $this->il_lng->txt("prg_progress_info"),
             $a_progress->getCurrentAmountOfPoints(),
             $a_progress->getAmountOfPoints()
-                      );
+        );
     }
     
-    protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress)
+    protected function buildProgressStatus(ilStudyProgrammeProgress $a_progress)
     {
         $lang_val = "prg_progress_status";
         $max_points = $a_progress->getAmountOfPoints();
-        $study_programm = $a_progress->getStudyProgramme();
+        $programme = ilObjStudyProgramme::getInstanceByObjId($a_progress->getNodeId());
 
-        if ($study_programm->hasChildren() && !$study_programm->hasLPChildren()) {
+        if ($programme->hasChildren() && !$programme->hasLPChildren()) {
             $lang_val = "prg_progress_status_with_child_sp";
         }
 
-        if ($a_progress->getStudyProgramme()->hasChildren()) {
-            $max_points = $a_progress->getMaximumPossibleAmountOfPoints($this->only_relevant);
+        if ($programme->hasChildren()) {
+            $max_points = $programme->getPossiblePointsOfRelevantChildren($a_progress, $this->only_relevant);
         }
+
         return sprintf(
             $this->il_lng->txt($lang_val),
             $a_progress->getCurrentAmountOfPoints(),
             $max_points
-                      );
+        );
     }
 
     public function setShowInfoMessage($show_info_mesage)

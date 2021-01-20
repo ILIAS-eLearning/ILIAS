@@ -275,7 +275,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
      */
     public function deleteType(ilStudyProgrammeType $type)
     {
-        $prg_ids = $this->readStudyProgrammeIdsByTypeId($type->getId());
+        $prg_ids = $this->getStudyProgrammeIdsByTypeId($type->getId());
 
         if (count($prg_ids)) {
             $titles = array();
@@ -377,16 +377,16 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAllTypes() : array
+    public function getAllTypes() : array
     {
         $return = [];
-        foreach ($this->readAllTypesRecords() as $row) {
+        foreach ($this->getAllTypesRecords() as $row) {
             $return[] = $this->createTypeByRow($row);
         }
         return $return;
     }
 
-    protected function readAllTypesRecords()
+    protected function getAllTypesRecords()
     {
         $q = 'SELECT'
             . '	' . self::FIELD_DEFAULT_LANG
@@ -406,7 +406,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readType(int $type_id) : ilStudyProgrammeType
+    public function getType(int $type_id) : ilStudyProgrammeType
     {
         $q = 'SELECT'
             . '	' . self::FIELD_DEFAULT_LANG
@@ -426,10 +426,10 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAllTypesArray() : array
+    public function getAllTypesArray() : array
     {
         $return = [];
-        foreach ($this->readAllTypes() as $type) {
+        foreach ($this->getAllTypes() as $type) {
             $return[$type->getId()] = $type->getTitle();
         }
         return $return;
@@ -440,7 +440,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array
+    public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array
     {
         $active = ($only_active) ? 1 : 0; // Cache key
         if (array_key_exists($type_id, $this->amd_records_assigned) && is_array($this->amd_records_assigned[$type_id][$active])) {
@@ -468,11 +468,11 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array
+    public function getAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
-        foreach ($this->readAssignedAMDRecordsByType($type_id, $only_active) as $record) {
+        foreach ($this->getAssignedAMDRecordsByType($type_id, $only_active) as $record) {
             $ids[] = $record->getRecordId();
         }
         return $ids;
@@ -483,7 +483,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAllAMDRecords() : array
+    public function getAllAMDRecords() : array
     {
         if (is_array(self::$amd_records_available)) {
             return self::$amd_records_available;
@@ -495,11 +495,11 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAllAMDRecordIds() : array
+    public function getAllAMDRecordIds() : array
     {
         $ids = array();
         /** @var ilAdvancedMDRecord $record */
-        foreach ($this->readAllAMDRecords() as $record) {
+        foreach ($this->getAllAMDRecords() as $record) {
             $ids[] = $record->getRecordId();
         }
 
@@ -509,7 +509,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array
+    public function getAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_REC_ID
@@ -529,7 +529,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array
+    public function getAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array
     {
         $q = 'SELECT'
             . '	' . self::FIELD_REC_ID
@@ -548,14 +548,14 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array
+    public function getTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array
     {
     }
 
     /**
      * @inheritdoc
      */
-    public function readStudyProgrammesByTypeId(int $type_id) : array
+    public function getStudyProgrammesByTypeId(int $type_id) : array
     {
         return $this->settings_repo->loadByType($type_id);
     }
@@ -563,7 +563,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
     /**
      * @inheritdoc
      */
-    public function readStudyProgrammeIdsByTypeId(int $type_id) : array
+    public function getStudyProgrammeIdsByTypeId(int $type_id) : array
     {
         return  array_map(
             function ($settings) {
@@ -606,7 +606,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
-    public function readTranslationsByTypeAndLang(int $type_id, string $lang_code)
+    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code)
     {
         $q = 'SELECT'
             . '	' . self::FIELD_MEMBER
@@ -622,7 +622,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         return $return;
     }
 
-    public function readTranslationByTypeIdMemberLang(int $type_id, string $member, string $lang_code)
+    public function getTranslationByTypeIdMemberLang(int $type_id, string $member, string $lang_code)
     {
         $q = 'SELECT'
             . '	' . self::FIELD_LANG

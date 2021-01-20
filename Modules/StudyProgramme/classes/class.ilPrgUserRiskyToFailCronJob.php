@@ -11,14 +11,24 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
     const ID = 'prg_user_risky_to_fail';
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeSettingsRepository
+     */
+    protected $programme_settings_db;
+
+    /**
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $user_progress_db;
 
     /**
-     * @var ilLog
+     * @var ilStudyProgrammeEvents
      */
-    protected $log;
+    protected $events;
+    
+    /**
+     * @var Pimple\Container;
+     */
+    protected $dic;
 
     /**
      * @var ilLanguage
@@ -28,11 +38,11 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
     public function __construct()
     {
         global $DIC;
-
-        $this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
+
+        $this->dic = ilStudyProgrammeDIC::dic();
     }
 
     /**
@@ -105,36 +115,71 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         return 1;
     }
 
-    /**
-     * Run job
-     *
-     * @return ilCronJobResult
-     * @throws Exception
-     */
     public function run()
     {
         $result = new ilCronJobResult();
-        foreach ($this->user_progress_db->getRiskyToFailInstances() as $progress) {
-            try {
-                $auto_mail_settings = $progress->getStudyProgramme()->getAutoMailSettings();
-                $remind_days = $auto_mail_settings->getProcessingEndsNotSuccessfulDays();
+        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
 
-                if (is_null($remind_days)) {
-                    continue;
-                }
+        $programmes_to_send = $this->getSettingsRepository()
+            ->getProgrammeIdsWithRiskyToFailSettings();
 
-                $check_date = new DateTime();
-                $check_date->sub(new DateInterval('P' . $remind_days . 'D'));
-                if ($progress->getDeadline()->format('Y-m-d') < $check_date->format('Y-m-d')) {
-                    continue;
-                }
+        if (count($programmes_to_send) == 0) {
+            return $result;
+        }
 
-                $progress->informUserForRiskToFail();
-            } catch (ilException $e) {
-                $this->log->write('an error occured: ' . $e->getMessage());
-            }
+        $today = $this->getNow();
+        $programmes_and_due = [];
+        foreach ($programmes_to_send as $programme_obj_id => $days_offset_mail) {
+            $interval = new DateInterval('P' . $days_offset_mail . 'D');
+            $due = $today->add($interval);
+            $programmes_and_due[$programme_obj_id] = $due;
+        }
+
+        $progresses = $this->getProgressRepository()
+            ->getRiskyToFail($programmes_and_due);
+        
+        if (count($progresses) == 0) {
+            return $result;
+        }
+
+        $events = $this->getEvents();
+        foreach ($progresses as $progress) {
+            $this->log(
+                sprintf(
+                    'PRG, RiskyToFail: user %s at progress %s (prg obj_id %s)',
+                    $progress->getUserId(),
+                    $progress->getId(),
+                    $progress->getNodeId()
+                )
+            );
+            $events->userRiskyToFail($progress);
         }
         $result->setStatus(ilCronJobResult::STATUS_OK);
         return $result;
+    }
+
+    protected function getNow() : \DateTimeImmutable
+    {
+        return new DateTimeImmutable();
+    }
+
+    protected function getSettingsRepository() : ilStudyProgrammeSettingsDBRepository
+    {
+        return $this->dic['model.Settings.ilStudyProgrammeSettingsRepository'];
+    }
+
+    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
+    {
+        return $this->dic['ilStudyProgrammeUserProgressDB'];
+    }
+
+    protected function getEvents()
+    {
+        return $this->dic['ilStudyProgrammeEvents'];
+    }
+
+    protected function log(string $msg) : void
+    {
+        $this->log->write($msg);
     }
 }

@@ -13,6 +13,7 @@ class ilCertificateTypeClassMap
         'cmix' => array('placeholder' => ilCmiXapiPlaceholderValues::class),
         'lti' => array('placeholder' => ilLTIConsumerPlaceholderValues::class),
         'sahs' => array('placeholder' => ilScormPlaceholderValues::class),
+        'prg' => array('placeholder' => ilStudyProgrammePlaceholderValues::class),
     );
 
     /**

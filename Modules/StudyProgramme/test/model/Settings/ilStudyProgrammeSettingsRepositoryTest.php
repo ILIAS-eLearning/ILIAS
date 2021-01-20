@@ -63,7 +63,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             $this->db,
             $this->tps
         );
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getSubtypeId(), ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
         $this->assertEquals($set->getStatus(), ilStudyProgrammeSettings::STATUS_DRAFT);
         $this->assertEquals($set->getLPMode(), ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -79,7 +79,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             $this->tps
         );
         ilStudyProgrammeSettingsDBRepository::clearCache();
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getSubtypeId(), ilStudyProgrammeSettings::DEFAULT_SUBTYPE);
         $this->assertEquals($set->getStatus(), ilStudyProgrammeSettings::STATUS_DRAFT);
         $this->assertEquals($set->getLPMode(), ilStudyProgrammeSettings::MODE_UNDEFINED);
@@ -99,7 +99,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             ->setRestartPeriod(30);
         $repo->update($set);
         ilStudyProgrammeSettingsDBRepository::clearCache();
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getSubtypeId(), 123);
         $this->assertEquals($set->getStatus(), ilStudyProgrammeSettings::STATUS_ACTIVE);
         $this->assertEquals($set->getLPMode(), ilStudyProgrammeSettings::MODE_POINTS);
@@ -116,7 +116,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             ->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
         $repo->update($set);
         ilStudyProgrammeSettingsDBRepository::clearCache();
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getDeadlinePeriod(), 0);
         $this->assertEquals($set->getDeadlineDate()->format('Ymd'), (new DateTime())->format('Ymd'));
         $this->assertEquals($set->getValidityOfQualificationDate()->format('Ymd'), '20200101');
@@ -128,7 +128,7 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             $this->tps
         );
         ilStudyProgrammeSettingsDBRepository::clearCache();
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getSubtypeId(), 123);
         $this->assertEquals($set->getStatus(), ilStudyProgrammeSettings::STATUS_ACTIVE);
         $this->assertEquals($set->getLPMode(), ilStudyProgrammeSettings::MODE_POINTS);
@@ -145,12 +145,12 @@ class ilStudyProgrammeSettingsRepositoryTest extends \PHPUnit\Framework\TestCase
             $this->db,
             $this->tps
         );
-        $set = $repo->read(-1);
+        $set = $repo->get(-1);
         $this->assertEquals($set->getSubtypeId(), 123);
         $this->assertEquals($set->getStatus(), ilStudyProgrammeSettings::STATUS_ACTIVE);
         $this->assertEquals($set->getLPMode(), ilStudyProgrammeSettings::MODE_POINTS);
         $this->assertEquals($set->getPoints(), 10);
         $repo->delete($set);
-        $repo->read(-1);
+        $repo->get(-1);
     }
 }
