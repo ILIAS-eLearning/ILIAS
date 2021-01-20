@@ -94,7 +94,6 @@ class FileSystemStorageHandler implements StorageHandler
     public function storeStream(FileStreamRevision $revision) : bool
     {
         try {
-
             if ($revision->keepOriginal()) {
                 $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $revision->getStream());
 
@@ -111,7 +110,14 @@ class FileSystemStorageHandler implements StorageHandler
 
     public function cloneRevision(CloneRevision $revision) : bool
     {
-        // TODO: Implement cloneRevision() method.
+        $stream = $this->getStream($revision->getRevisionToClone());
+        try {
+            $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
+        } catch (\Throwable $t) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -38,18 +38,18 @@ class CloneRevision implements Revision
      */
     protected $title = '';
     /**
-     * @var int
+     * @var FileRevision
      */
-    protected $revision_number_to_clone;
+    protected $revision_to_clone;
 
     /**
      * Revision constructor.
      * @param ResourceIdentification $identification
      */
-    public function __construct(ResourceIdentification $identification, int $revision_number_to_clone)
+    public function __construct(ResourceIdentification $identification, FileRevision $revision_to_clone)
     {
         $this->identification = $identification;
-        $this->revision_number_to_clone = $revision_number_to_clone;
+        $this->revision_to_clone = $revision_to_clone;
     }
 
     /**
@@ -117,7 +117,7 @@ class CloneRevision implements Revision
      * @param int $owner_id
      * @return FileRevision
      */
-    public function setOwnerId(int $owner_id) : FileRevision
+    public function setOwnerId(int $owner_id) : CloneRevision
     {
         $this->owner_id = $owner_id;
         return $this;
@@ -142,21 +142,11 @@ class CloneRevision implements Revision
     }
 
     /**
-     * @return int
+     * @return FileRevision
      */
-    public function getRevisionNumberToClone() : int
+    public function getRevisionToClone() : FileRevision
     {
-        return $this->revision_number_to_clone;
-    }
-
-    /**
-     * @param int $revision_number_to_clone
-     * @return CloneRevision
-     */
-    public function setRevisionNumberToClone(int $revision_number_to_clone) : CloneRevision
-    {
-        $this->revision_number_to_clone = $revision_number_to_clone;
-        return $this;
+        return $this->revision_to_clone;
     }
 
 }
