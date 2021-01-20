@@ -253,7 +253,8 @@ class ResourceBuilder
     ) : StorableResource {
         $existing_revision = $resource->getSpecificRevision($revision_number);
         $existing_revision_info = $existing_revision->getInformation();
-        $cloned_revision = $this->revision_repository->blankFromClone($resource, $revision_number);
+
+        $cloned_revision = $this->revision_repository->blankFromClone($resource, $existing_revision);
         $cloned_revision_info = $cloned_revision->getInformation();
 
         $cloned_revision_info->setTitle($existing_revision_info->getTitle());
@@ -262,6 +263,7 @@ class ResourceBuilder
         $cloned_revision_info->setSize($existing_revision_info->getSize());
         $cloned_revision_info->setCreationDate($existing_revision_info->getCreationDate());
 
+        $cloned_revision->setInformation($cloned_revision_info);
         $cloned_revision->setTitle($existing_revision->getTitle());
         $cloned_revision->setOwnerId($owner_id ?? 6);
 

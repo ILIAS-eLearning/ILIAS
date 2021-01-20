@@ -50,10 +50,10 @@ class RevisionARRepository implements RevisionRepository
         return $revision;
     }
 
-    public function blankFromClone(StorableResource $resource, int $revision_number_to_clone) : CloneRevision
+    public function blankFromClone(StorableResource $resource, FileRevision $revision_to_clone) : CloneRevision
     {
         $new_version_number = $resource->getMaxRevision() + 1;
-        $revision = new CloneRevision($resource->getIdentification(), $revision_number_to_clone);
+        $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
         $revision->setVersionNumber($new_version_number);
 
         return $revision;
