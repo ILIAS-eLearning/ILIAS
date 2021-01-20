@@ -40,7 +40,7 @@ class ilStudyProgrammeEvents
         $this->raise(
             "userAssigned",
             [
-                "root_prg_id" => $a_assignment->getStudyProgramme()->getId(),
+                "root_prg_id" => $a_assignment->getRootId(),
                 "usr_id" => $a_assignment->getUserId(),
                 "ass_id" => $a_assignment->getId()
             ]
@@ -55,7 +55,7 @@ class ilStudyProgrammeEvents
         $this->raise(
             "userReAssigned",
             [
-                "root_prg_ref_id" => (int) $a_assignment->getStudyProgramme()->getRefId(),
+                "root_prg_ref_id" => (int) ilObjStudyProgramme::getRefIdFor($a_assignment->getRootId()),
                 "usr_id" => (int) $a_assignment->getUserId()
             ]
         );
@@ -69,7 +69,7 @@ class ilStudyProgrammeEvents
         $this->raise(
             "userDeassigned",
             [
-                "root_prg_id" => $a_assignment->getStudyProgramme()->getId(),
+                "root_prg_id" => $a_assignment->getRootId(),
                 "usr_id" => $a_assignment->getUserId(),
                 "ass_id" => $a_assignment->getId()
             ]

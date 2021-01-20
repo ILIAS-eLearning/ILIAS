@@ -123,8 +123,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function view()
     {
-        require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php");
-        $progress = $this->getAssignmentObject()->getRootProgress();
+        $ass = $this->getAssignmentObject();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+        $progress = $prg->getProgressForAssignment($ass->getId());
         if (
             $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
             && !in_array($progress->getUserId(), $this->parent_gui->viewIndividualPlan())
@@ -351,10 +352,11 @@ class ilObjStudyProgrammeIndividualPlanGUI
     {
         $tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
         $ass = $this->getAssignmentObject();
-        $ref_id = $ass->getStudyProgramme()->getRefId();
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
+
+        $ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
         if ($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
             $tabs[] = 'view';
             $tabs[] = 'manage';

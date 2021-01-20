@@ -115,7 +115,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $result->setStatus(ilCronJobResult::STATUS_OK);
         foreach ($this->user_assignments_db->getDueToRestartAndMail() as $assignment) {
             try {
-                $prg = $assignment->getStudyProgramme();
+                $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
                 $validity_of_qualification = $prg->getValidityOfQualificationSettings();
                 $auto_re_assign = $validity_of_qualification->getRestartPeriod();
                 if ($auto_re_assign == -1) {

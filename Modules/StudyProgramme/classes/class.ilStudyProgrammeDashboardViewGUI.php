@@ -88,7 +88,7 @@ class ilStudyProgrammeDashboardViewGUI
                 continue;
             }
 
-            $current_prg = $current->getStudyProgramme();
+            $current_prg = $prg = ilObjStudyProgramme::getInstanceByObjId($current->getRootId());
 
             /** @var ilStudyProgrammeSettings $current_prg_settings */
             $current_prg_settings = $current_prg->getRawSettings();
@@ -128,7 +128,7 @@ class ilStudyProgrammeDashboardViewGUI
                 $properties[] = $this->fillNotValid();
             }
 
-            $items[] = $this->buildItem($current->getStudyProgramme(), $properties);
+            $items[] = $this->buildItem($current_prg, $properties);
         }
 
         if (count($items) == 0) {
@@ -257,7 +257,7 @@ class ilStudyProgrammeDashboardViewGUI
         ilStudyProgrammeUserAssignment $assignment,
         string $permission
     ) : bool {
-        $prg = $assignment->getStudyProgramme();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 

@@ -181,7 +181,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
 
     protected function hasPermission(ilStudyProgrammeUserAssignment $assignment, $permission)
     {
-        $prg = $assignment->getStudyProgramme();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
@@ -221,7 +221,8 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     
     protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)
     {
-        $progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+        $progress = $prg->getProgressForAssignment($a_assignment->getId());
         $progress_gui = new ilStudyProgrammeProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;

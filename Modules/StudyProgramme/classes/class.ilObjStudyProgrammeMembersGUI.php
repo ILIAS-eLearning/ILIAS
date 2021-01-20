@@ -217,7 +217,7 @@ class ilObjStudyProgrammeMembersGUI
         $assignments = $this->object->getAssignments();
 
         return array_filter($assignments, function (ilStudyProgrammeUserAssignment $assignment) {
-            return $assignment->getStudyProgramme()->getId() == $this->object->getId();
+            return $assignment->getRootId() == $this->object->getId();
         });
     }
 
@@ -638,8 +638,8 @@ class ilObjStudyProgrammeMembersGUI
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             //** ilStudyProgrammeUserAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-            $prg = $ass->getStudyProgramme();
-            if ($prg->getRefId() != $this->ref_id) {
+            $prg_ref_id = ilObjectStudyProgramme::getRefIdFor($ass->getRootId());
+            if ($prg_ref_id != $this->ref_id) {
                 $not_updated[] = $prgrs_id;
                 continue;
             }

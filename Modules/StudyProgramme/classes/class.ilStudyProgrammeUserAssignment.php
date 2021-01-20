@@ -52,6 +52,11 @@ class ilStudyProgrammeUserAssignment
         return $this->assignment->getId();
     }
 
+    public function getRootId() : int
+    {
+        return $this->assignment->getRootId();
+    }
+
     /**
      * Get the program node where this assignment was made.
      *
@@ -61,6 +66,7 @@ class ilStudyProgrammeUserAssignment
      */
     public function getStudyProgramme() : ilObjStudyProgramme
     {
+        throw new ilException("DON'T USE THIS");
         $refs = ilObject::_getAllReferences((int) $this->assignment->getRootId());
         if (!count($refs)) {
             throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
