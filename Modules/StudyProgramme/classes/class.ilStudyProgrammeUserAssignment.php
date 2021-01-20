@@ -111,6 +111,7 @@ class ilStudyProgrammeUserAssignment
      */
     public function restartAssignment() : ilStudyProgrammeUserAssignment
     {
+        throw new ilException("DON'T USE THIS");
         $restarted = $this->getStudyProgramme()->assignUser($this->getUserId(), $this->getUserId());
         $this->assignment_repository->update(
             $this->assignment->setRestartedAssignmentId($restarted->getId())
@@ -123,6 +124,7 @@ class ilStudyProgrammeUserAssignment
 
     public function informUserByMailToRestart() : void
     {
+        throw new ilException("DON'T USE THIS");
         $this->sp_events->informUserByMailToRestart($this);
     }
 
