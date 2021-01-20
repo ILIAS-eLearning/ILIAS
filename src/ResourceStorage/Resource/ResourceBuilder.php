@@ -17,6 +17,7 @@ use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
 
 /**
  * Class ResourceBuilder
@@ -125,7 +126,7 @@ class ResourceBuilder
         string $revision_title = null,
         int $owner_id = null
     ) : StorableResource {
-        $revision = $this->revision_repository->blank($resource, $result);
+        $revision = $this->revision_repository->blankFromUpload($resource, $result);
 
         $info = $revision->getInformation();
         $info->setTitle($result->getName());
@@ -167,6 +168,31 @@ class ResourceBuilder
         $revision->setOwnerId($owner_id ?? 6);
         $revision->setTitle($revision_title ?? $file_name ?? 'stream');
         $resource->addRevision($revision);
+        $resource->setStorageID($this->storage_handler->getID());
+
+        return $resource;
+    }
+
+    public function appendFromRevision(
+        StorableResource $resource,
+        int $revision_number,
+        int $owner_id = null
+    ) : StorableResource {
+        $existing_revision = $resource->getSpecificRevision($revision_number);
+        $existing_revision_info = $existing_revision->getInformation();
+        $cloned_revision = $this->revision_repository->blankFromClone($resource, $revision_number);
+        $cloned_revision_info = $cloned_revision->getInformation();
+
+        $cloned_revision_info->setTitle($existing_revision_info->getTitle());
+        $cloned_revision_info->setSuffix($existing_revision_info->getSuffix());
+        $cloned_revision_info->setMimeType($existing_revision_info->getMimeType());
+        $cloned_revision_info->setSize($existing_revision_info->getSize());
+        $cloned_revision_info->setCreationDate($existing_revision_info->getCreationDate());
+
+        $cloned_revision->setTitle($existing_revision->getTitle());
+        $cloned_revision->setOwnerId($owner_id ?? 6);
+
+        $resource->addRevision($cloned_revision);
         $resource->setStorageID($this->storage_handler->getID());
 
         return $resource;
@@ -248,6 +274,9 @@ class ResourceBuilder
         }
         if ($revision instanceof FileStreamRevision) {
             $this->storage_handler->storeStream($revision);
+        }
+        if ($revision instanceof CloneRevision) {
+            $this->storage_handler->cloneRevision($revision);
         }
         $this->revision_repository->store($revision);
         $this->information_repository->store($revision->getInformation(), $revision);

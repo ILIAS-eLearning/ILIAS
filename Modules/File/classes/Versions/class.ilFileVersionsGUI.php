@@ -2,6 +2,18 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
+use ILIAS\FileUpload\Location;
+use ILIAS\ResourceStorage\Resource\ResourceBuilder;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
+use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
+use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
+use ILIAS\DI\Container;
 
 /**
  * Class ilFileVersionsGUI
@@ -21,6 +33,7 @@ class ilFileVersionsGUI
     const CMD_CREATE_NEW_VERSION = 'saveVersion';
     const CMD_ADD_REPLACING_VERSION = 'addReplacingVersion';
     const CMD_CREATE_REPLACING_VERSION = 'createReplacingVersion';
+    const CMD_MIGRATE = 'migrate';
     /**
      * @var ilToolbarGUI
      */
@@ -126,6 +139,9 @@ class ilFileVersionsGUI
             case self::CMD_CONFIRMED_DELETE_FILE:
                 $this->confirmDeleteFile();
                 break;
+            case self::CMD_MIGRATE:
+                $this->migrate();
+                break;
         }
     }
 
@@ -143,6 +159,11 @@ class ilFileVersionsGUI
             $replace_version->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD_REPLACING_VERSION));
             $this->toolbar->addButtonInstance($replace_version);
         } else {
+            $migrate = ilLinkButton::getInstance();
+            $migrate->setCaption('migrate');
+            $migrate->setUrl($this->ctrl->getLinkTarget($this, self::CMD_MIGRATE));
+            $this->toolbar->addButtonInstance($migrate);
+
             ilUtil::sendInfo($this->lng->txt('not_yet_migrated'));
         }
 
@@ -155,7 +176,7 @@ class ilFileVersionsGUI
      */
     private function addVersion($mode = ilFileVersionFormGUI::MODE_ADD)
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         $this->tabs->clearTargets();
@@ -173,7 +194,7 @@ class ilFileVersionsGUI
      */
     private function saveVersion($mode = ilFileVersionFormGUI::MODE_ADD)
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         $form = new ilFileVersionFormGUI($this, $mode);
@@ -196,7 +217,7 @@ class ilFileVersionsGUI
 
     private function deleteVersions()
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         $version_ids = $this->getVersionIdsFromRequest();
@@ -263,7 +284,7 @@ class ilFileVersionsGUI
 
     private function rollbackVersion()
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         $version_ids = $this->getVersionIdsFromRequest();
@@ -283,7 +304,7 @@ class ilFileVersionsGUI
 
     private function confirmDeleteVersions()
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         // delete versions after confirmation
@@ -298,7 +319,7 @@ class ilFileVersionsGUI
 
     private function confirmDeleteFile()
     {
-        if(!$this->has_been_migrated) {
+        if (!$this->has_been_migrated) {
             return;
         }
         global $DIC;
@@ -311,6 +332,33 @@ class ilFileVersionsGUI
         // redirect to parent object
         $this->ctrl->setParameterByClass(ilRepositoryGUI::class, "ref_id", $parent_id);
         $this->ctrl->redirectByClass(ilRepositoryGUI::class);
+    }
+
+    private function migrate() : void
+    {
+        global $DIC;
+        /**
+         * @var $DIC Container
+         */
+
+        $storage_handler = new FileSystemStorageHandler($DIC->filesystem()->storage(), Location::STORAGE);
+        $builder = new ResourceBuilder(
+            $storage_handler,
+            new RevisionARRepository(),
+            new ResourceARRepository(),
+            new InformationARRepository(),
+            new StakeholderARRepository(),
+            new LockHandlerilDB($DIC->database())
+        );
+        $manager = new Manager($builder);
+        $consumer = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
+
+        $obj_id = $this->getFile()->getId();
+        $directory = $this->getFile()->getDirectory();
+        $dir = new ilFileObjectToStorageDirectory($obj_id, $directory);
+        $container = new ilFileObjectToStrageMigrationContainer($dir, $DIC->database(), $builder, $manager, $consumer);
+
+        $container->migrate();
     }
 
     /**

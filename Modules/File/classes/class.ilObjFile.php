@@ -6,6 +6,7 @@ use ILIAS\File\Sanitation\FilePathSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilObjFile
@@ -130,6 +131,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getTitle());
         $this->setVersion($r->getVersionNumber());
+        $this->setMaxVersion($r->getVersionNumber());
         $this->setFileSize($r->getInformation()->getSize());
         $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
@@ -361,7 +363,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setPageCount($row->page_count);
         $this->setResourceId($row->rid);
 
-        $this->initImplementation($DIC);
+        $this->initImplementation();
     }
 
     protected function doCloneObject($new_object, $a_target_id, $a_copy_id = 0)
@@ -395,9 +397,22 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         );
 
         // Copy Resource
-        $new_resource_identification = $this->manager->clone($this->manager->find($this->resource_id));
-        $new_object->setResourceId($new_resource_identification->serialize());
-        $new_object->update();
+        if ($this->resource_id
+            && ($identification = $this->manager->find($this->resource_id)) instanceof ResourceIdentification) {
+            $new_resource_identification = $this->manager->clone($identification);
+            $new_object->setResourceId($new_resource_identification->serialize());
+            $new_object->update();
+        } else {
+            // migrate
+            global $DIC;
+            $migration = new ilFileObjectToStorageMigrationRunner(
+                $DIC->fileSystem()->storage(),
+                $DIC->database(),
+                '/var/iliasdata/ilias/default/ilFile/migration_log.csv'
+            );
+            $migration->setMigrateToNewObjectId((int) $new_object->getId());
+            $migration->migrate(new ilFileObjectToStorageDirectory($this->getId(), $this->getDirectory()));
+        }
 
         // copy all previews
         ilPreview::copyPreviews($this->getId(), $new_object->getId());
@@ -678,57 +693,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function rollback($version_id)
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $source = $this->getSpecificVersion($version_id);
-        if ($source === false) {
-            $this->ilErr->raiseError($this->lng->txt("obj_not_found"), $this->ilErr->MESSAGE);
-        }
-
-        // get the new version number
-        $new_version_nr = $this->getMaxVersion() + 1;
-        $this->setMaxVersion($new_version_nr);
-
-        // copy file
-        $source_path = $this->getDirectory($source["version"]) . "/" . $source["filename"];
-        $dest_dir = $this->getDirectory($new_version_nr);
-        if (@!is_dir($dest_dir)) {
-            ilUtil::makeDir($dest_dir);
-        }
-
-        copy($source_path, $dest_dir . "/" . $source["filename"]);
-
-        // create new history entry based on the old one
-        include_once("./Services/History/classes/class.ilHistory.php");
-        ilHistory::_createEntry($this->getId(), "rollback", $source["filename"] . ","
-            . $new_version_nr . ","
-            . $this->getMaxVersion() . "|"
-            . $source["version"] . "|"
-            . $ilUser->getId());
-
-        // get id of newest entry
-        $entries = ilHistory::_getEntriesForObject($this->getId());
-        $newest_entry_id = 0;
-        foreach ($entries as $entry) {
-            if ($entry["action"] == "rollback") {
-                $newest_entry_id = $entry["hist_entry_id"];
-            }
-        }
-        $new_version = $this->getSpecificVersion($newest_entry_id);
-        $new_version['version'] = $new_version_nr;
-        $new_version['max_version'] = $new_version_nr;
-
-        // change user back to the original uploader
-        ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);
-
-        // update this file with the new version
-        $this->updateWithVersion($new_version);
-
-        $this->addNewsNotification("file_updated");
-
-        return $new_version;
+        $version_id = (int) $version_id;
+        $this->implementation->rollback($version_id);
     }
 
     /**
@@ -744,6 +710,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     /**
      * Updates the file object with the specified file version.
      * @param array $version The version to update the file object with.
+     * @deprecated
      */
     // FSX
     protected function updateWithVersion($version)

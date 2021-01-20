@@ -11,6 +11,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
 
 /**
  * Class RevisionARRepository
@@ -28,9 +29,9 @@ class RevisionARRepository implements RevisionRepository
      * @param UploadResult     $result
      * @return UploadedFileRevision
      */
-    public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision
+    public function blankFromUpload(StorableResource $resource, UploadResult $result) : UploadedFileRevision
     {
-        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+        $new_version_number = $resource->getMaxRevision() + 1;
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
         $revision->setVersionNumber($new_version_number);
 
@@ -42,8 +43,17 @@ class RevisionARRepository implements RevisionRepository
         FileStream $stream,
         bool $keep_original = false
     ) : FileStreamRevision {
-        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+        $new_version_number = $resource->getMaxRevision() + 1;
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setVersionNumber($new_version_number);
+
+        return $revision;
+    }
+
+    public function blankFromClone(StorableResource $resource, int $revision_number_to_clone) : CloneRevision
+    {
+        $new_version_number = $resource->getMaxRevision() + 1;
+        $revision = new CloneRevision($resource->getIdentification(), $revision_number_to_clone);
         $revision->setVersionNumber($new_version_number);
 
         return $revision;

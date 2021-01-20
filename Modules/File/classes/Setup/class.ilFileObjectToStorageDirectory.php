@@ -69,7 +69,7 @@ class ilFileObjectToStorageDirectory
             $version = (int) $item[1];
             $title = $history_data[$version]['filename'] ?? $item[2];
             $action = $history_data[$version]['action'] ?? 'create';
-            $owner = $history_data[$version]['owner_id'] ?? 6;
+            $owner = $history_data[$version]['owner_id'] ?? 13;
 
             yield new ilFileObjectToStorageVersion($version, $item[0], $title, $title, $action, $owner);
 

@@ -13,6 +13,7 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
 
 /**
  * Class FileSystemStorage
@@ -97,15 +98,20 @@ class FileSystemStorageHandler implements StorageHandler
             if ($revision->keepOriginal()) {
                 $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $revision->getStream());
 
-            }else {
-                $this->fs->rename(LegacyPathHelper::createRelativePath($revision->getStream()->getMetadata('uri')), $this->getRevisionPath($revision) . '/' . self::DATA);
-//                $this->fs->delete();
+            } else {
+                $this->fs->rename(LegacyPathHelper::createRelativePath($revision->getStream()->getMetadata('uri')),
+                    $this->getRevisionPath($revision) . '/' . self::DATA);
             }
         } catch (\Throwable $t) {
             return false;
         }
 
         return true;
+    }
+
+    public function cloneRevision(CloneRevision $revision) : bool
+    {
+        // TODO: Implement cloneRevision() method.
     }
 
     /**

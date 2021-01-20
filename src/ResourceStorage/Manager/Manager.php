@@ -163,4 +163,18 @@ class Manager
         return true;
     }
 
+    public function rollbackRevision(ResourceIdentification $identification, int $revision_number) : bool
+    {
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->appendFromRevision($resource, $revision_number);
+        $this->resource_builder->store($resource);
+
+        return true;
+    }
+
+    public function reduceToRevision(ResourceIdentification $identification, int $revision_number) : bool
+    {
+        return true;
+    }
+
 }

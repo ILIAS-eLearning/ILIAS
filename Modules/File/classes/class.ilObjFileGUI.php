@@ -552,7 +552,6 @@ class ilObjFileGUI extends ilObject2GUI
             include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
 
             // get context for access checks later on
-            $context;
             switch ($this->id_type) {
                 case self::WORKSPACE_NODE_ID:
                 case self::WORKSPACE_OBJECT_ID:
@@ -709,7 +708,7 @@ class ilObjFileGUI extends ilObject2GUI
         // file input
         include_once("Services/Form/classes/class.ilDragDropFileInputGUI.php");
         $dnd_input = new ilDragDropFileInputGUI($this->lng->txt("files"), "upload_files");
-        $dnd_input->setArchiveSuffixes(array("zip"));
+        $dnd_input->setArchiveSuffixes(["zip"]);
         $dnd_input->setCommandButtonNames("uploadFiles", "cancel");
         $dnd_form_gui->addItem($dnd_input);
 
@@ -720,7 +719,7 @@ class ilObjFileGUI extends ilObject2GUI
         $dnd_form_gui->setTableWidth("100%");
         $dnd_form_gui->setTarget($this->getTargetFrame("save"));
         $dnd_form_gui->setTitle($this->lng->txt("upload_files_title"));
-        $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+        $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'));
 
         $this->ctrl->setParameter($this, "new_type", "file");
         $dnd_form_gui->setFormAction($this->ctrl->getFormAction($this, "uploadFiles"));
@@ -731,15 +730,13 @@ class ilObjFileGUI extends ilObject2GUI
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
-        if (is_object($lg)) {
-            if ($this->object->hasRating()) {
-                $lg->enableRating(
-                    true,
-                    null,
-                    false,
-                    array("ilcommonactiondispatchergui", "ilratinggui")
-                );
-            }
+        if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {
+            $lg->enableRating(
+                true,
+                null,
+                false,
+                [ilCommonActionDispatcherGUI::class, ilRatingGUI::class]
+            );
         }
 
         return $lg;

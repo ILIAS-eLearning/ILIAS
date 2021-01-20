@@ -2,21 +2,8 @@
 
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
-use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\ResourceStorage\Resource\StorableResource;
 
 class ilFileObjectToStorageMigration implements Setup\Migration
 {
@@ -24,29 +11,21 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     public const MIGRATION_LOG_CSV = "migration_log.csv";
 
     /**
-     * @var ConsumerFactory
-     */
-    protected $consumer_factory;
-    /**
      * @var ilFileObjectToStorageMigrationHelper
      */
-    protected $helper;
-    /**
-     * @var Manager
-     */
-    protected $storage_manager;
-    /**
-     * @var ResourceBuilder
-     */
-    protected $resource_builder;
+    private $helper;
     /**
      * @var bool
      */
-    protected $keep_originals = false;
+    protected $prepared = false;
     /**
-     * @var false|resource
+     * @var ilFileObjectToStorageMigrationRunner
      */
-    protected $migration_log_handle;
+    protected $runner;
+    /**
+     * @var mixed|null
+     */
+    protected $database;
 
     /**
      * @inheritDoc
@@ -61,7 +40,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getDefaultAmountOfStepsPerRun() : int
     {
-        return 10000000;
+        return 10;
     }
 
     /**
@@ -82,22 +61,21 @@ class ilFileObjectToStorageMigration implements Setup\Migration
     public function prepare(Environment $environment) : void
     {
         /**
-         * @var $db         ilDBInterface
          * @var $ilias_ini  ilIniFile
          * @var $client_ini ilIniFile
          * @var $client_id  string
          */
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $data_dir = $ilias_ini->readVariable('clients', 'datadir');
 
-        global $DIC;
-        $DIC['ilDB'] = $db;
-        $DIC['ilBench'] = null;
+        if (!$this->prepared) {
+            global $DIC;
+            $DIC['ilDB'] = $this->database;
+            $DIC['ilBench'] = null;
 
-        if (!$this->helper instanceof ilFileObjectToStorageMigrationHelper) {
             $legacy_files_dir = "{$data_dir}/{$client_id}/ilFile";
             if (!defined("CLIENT_DATA_DIR")) {
                 define('CLIENT_DATA_DIR', "{$data_dir}/{$client_id}");
@@ -123,28 +101,19 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 throw new Exception("storage directory is not writable, abort...");
             }
 
-            $this->migration_log_handle = fopen($legacy_files_dir . "/" . self::MIGRATION_LOG_CSV, "a");
-
             $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, self::FILE_PATH_REGEX);
+
+            $storageConfiguration = new LocalConfig("{$data_dir}/{$client_id}");
+            $f = new FlySystemFilesystemFactory();
+
+            $this->runner = new ilFileObjectToStorageMigrationRunner(
+                $f->getLocal($storageConfiguration),
+                $this->database,
+                $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV
+            );
+
         }
         $this->helper->rewind();
-        if (!$this->storage_manager instanceof Manager) {
-            $storageConfiguration = new LocalConfig("{$data_dir}/{$client_id}");
-
-            $f = new FlySystemFilesystemFactory();
-            $storage_handler = new FileSystemStorageHandler($f->getLocal($storageConfiguration), Location::STORAGE);
-            $builder = new ResourceBuilder(
-                $storage_handler,
-                new RevisionARRepository(),
-                new ResourceARRepository(),
-                new InformationARRepository(),
-                new StakeholderARRepository(),
-                new LockHandlerilDB($db)
-            );
-            $this->resource_builder = $builder;
-            $this->storage_manager = new Manager($builder);
-            $this->consumer_factory = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
-        }
     }
 
     /**
@@ -152,67 +121,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
-        return; // currently disbled due to problem with syncing versions!
-        /**
-         * @var $db ilDBInterface
-         */
-        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $item = $this->helper->getNext();
-        $resource = $this->getResource($db, $item);
-
-        foreach ($item->getVersions() as $version) {
-            try {
-                $status = 'success';
-                $aditional_info = '';
-                $this->resource_builder->appendFromStream(
-                    $resource,
-                    Streams::ofResource(fopen($version->getPath(), 'rb')),
-                    $this->keep_originals,
-                    $version->getTitle(),
-                    $version->getOwner()
-                );
-            } catch (Throwable $t) {
-                $status = 'failed';
-                $aditional_info = $t->getMessage();
-            }
-
-            $this->logMigratedFile(
-                $item->getObjectId(),
-                $resource->getIdentification()->serialize(),
-                $version->getVersion(),
-                $version->getPath(),
-                $status,
-                $aditional_info
-            );
-        }
-
-        $this->resource_builder->store($resource);
-        $db->manipulateF(
-            'UPDATE file_data SET rid = %s WHERE file_id = %s',
-            ['text', 'integer'],
-            [$resource->getIdentification()->serialize(), $item->getObjectId()]
-        );
-
-        $item->tearDown();
-
-    }
-
-    private function logMigratedFile(
-        int $object_id,
-        string $rid,
-        int $version,
-        string $old_path,
-        string $status,
-        string $aditional_info = null
-    ) : void {
-        fputcsv($this->migration_log_handle, [
-            $object_id,
-            $old_path,
-            $rid,
-            $version,
-            $status,
-            $aditional_info
-        ], ";");
+        $this->runner->migrate($item);
     }
 
     /**
@@ -220,28 +130,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
-        return 0; // currently disbled due to problem with syncing versions!
         return $this->helper->getAmountOfItems();
-    }
-
-    /**
-     * @param ilDBInterface                  $db
-     * @param ilFileObjectToStorageDirectory $item
-     * @return StorableResource
-     */
-    private function getResource(
-        ilDBInterface $db,
-        ilFileObjectToStorageDirectory $item
-    ) : StorableResource {
-        $r = $db->queryF("SELECT rid FROM file_data WHERE file_id = %s", ['integer'], [$item->getObjectId()]);
-        $d = $db->fetchObject($r);
-
-        if (isset($d->rid) && $d->rid !== '' && ($resource_identification = $this->storage_manager->find($d->rid)) && $resource_identification !== null) {
-            $resource = $this->resource_builder->get($resource_identification);
-        } else {
-            $resource = $this->resource_builder->newBlank();
-        }
-        return $resource;
     }
 
 }

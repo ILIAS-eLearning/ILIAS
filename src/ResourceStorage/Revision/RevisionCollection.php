@@ -77,7 +77,9 @@ class RevisionCollection
 
     public function getCurrent() : Revision
     {
-        $current = end($this->revisions);
+        $v = array_values($this->revisions);
+        sort($v);
+        $current = end($v);
         if (!$current instanceof Revision) {
             $current = new NullRevision($this->identification);
         }
@@ -95,6 +97,9 @@ class RevisionCollection
 
     public function getMax() : int
     {
+        if (count($this->revisions) === 0) {
+            return 0;
+        }
         return max(array_keys($this->revisions));
     }
 }
