@@ -408,7 +408,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $migration = new ilFileObjectToStorageMigrationRunner(
                 $DIC->fileSystem()->storage(),
                 $DIC->database(),
-                '/var/iliasdata/ilias/default/ilFile/migration_log.csv'
+                rtrim(CLIENT_DATA_DIR, "/") . '/ilFile/migration_log.csv'
             );
             $migration->setMigrateToNewObjectId((int) $new_object->getId());
             $migration->migrate(new ilFileObjectToStorageDirectory($this->getId(), $this->getDirectory()));
