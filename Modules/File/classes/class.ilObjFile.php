@@ -114,8 +114,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function initImplementation() : void
     {
-        if ($this->resource_id) {
-            $id = $this->manager->find($this->resource_id);
+        if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
         } else {
@@ -139,7 +138,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->addNewsNotification("file_updated");
     }
 
-    public function appendStream(FileStream $stream, string $title, bool $keep_existing = true) : int
+    public function appendStream(FileStream $stream, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
@@ -154,7 +153,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $revision->getVersionNumber();
     }
 
-    public function appendUpload(UploadResult $result, string $title, bool $keep_existing = true) : int
+    public function appendUpload(UploadResult $result, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevision($i, $result, $this->stakeholder, $title);
@@ -163,6 +162,30 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $revision = $this->manager->getCurrentRevision($i);
             $this->setResourceId($i->serialize());
             $this->initImplementation();
+        }
+        $this->updateObjectFromRevision($revision);
+
+        return $revision->getVersionNumber();
+    }
+
+    public function replaceWithStream(FileStream $stream, string $title) : int
+    {
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $revision = $this->manager->replaceWithStream($i, $stream, $this->stakeholder, $title);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
+        }
+        $this->updateObjectFromRevision($revision);
+
+        return $revision->getVersionNumber();
+    }
+
+    public function replaceWithUpload(UploadResult $result, string $title) : int
+    {
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $revision = $this->manager->replaceWithUpload($i, $result, $this->stakeholder, $title);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
         }
         $this->updateObjectFromRevision($revision);
 
@@ -611,6 +634,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @ineritdoc
+     * @deprecated
      */
     public function clearDataDirectory()
     {
@@ -619,6 +643,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @ineritdoc
+     * @deprecated
      */
     public function deleteVersions($a_hist_entry_ids = null)
     {

@@ -3,7 +3,6 @@
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use LogicException;
 
 /**
  * Class RevisionCollection
@@ -51,7 +50,7 @@ class RevisionCollection
     {
         foreach ($this->revisions as $k => $revision_e) {
             if ($revision->getVersionNumber() === $revision_e->getVersionNumber()) {
-                $revision_e->setUnavailable();
+                unset($this->revisions[$k]);
 
                 return;
             }
@@ -69,9 +68,7 @@ class RevisionCollection
 
     public function replaceAllRevisions(Revision $revision) : void
     {
-        foreach ($this->revisions as $k => $revision_e) {
-            $revision_e->setUnavailable();
-        }
+        $this->revisions = [];
         $this->add($revision);
     }
 

@@ -2,18 +2,6 @@
 
 use ILIAS\DI\HTTPServices;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
-use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
-use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
-use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Manager\Manager;
-use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
-use ILIAS\DI\Container;
 
 /**
  * Class ilFileVersionsGUI
@@ -337,28 +325,13 @@ class ilFileVersionsGUI
     private function migrate() : void
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
-
-        $storage_handler = new FileSystemStorageHandler($DIC->filesystem()->storage(), Location::STORAGE);
-        $builder = new ResourceBuilder(
-            $storage_handler,
-            new RevisionARRepository(),
-            new ResourceARRepository(),
-            new InformationARRepository(),
-            new StakeholderARRepository(),
-            new LockHandlerilDB($DIC->database())
+        $migration = new ilFileObjectToStorageMigrationRunner(
+            $DIC->fileSystem()->storage(),
+            $DIC->database(),
+            rtrim(CLIENT_DATA_DIR, "/") . '/ilFile/migration_log.csv'
         );
-        $manager = new Manager($builder);
-        $consumer = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
-
-        $obj_id = $this->getFile()->getId();
-        $directory = $this->getFile()->getDirectory();
-        $dir = new ilFileObjectToStorageDirectory($obj_id, $directory);
-        $container = new ilFileObjectToStrageMigrationContainer($dir, $DIC->database(), $builder, $manager, $consumer);
-
-        $container->migrate();
+        $migration->migrate(new ilFileObjectToStorageDirectory($this->file->getId(), $this->file->getDirectory()));
+        $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
 
     /**

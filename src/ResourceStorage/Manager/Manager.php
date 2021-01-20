@@ -132,6 +132,28 @@ class Manager
         throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
     }
 
+    public function replaceWithUpload(
+        ResourceIdentification $identification,
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
+        if ($result->isOK()) {
+            if (!$this->resource_builder->has($identification)) {
+                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            }
+
+            $resource = $this->resource_builder->get($identification);
+            $this->resource_builder->replaceWithUpload($resource, $result, $revision_title);
+            $resource->addStakeholder($stakeholder);
+
+            $this->resource_builder->store($resource);
+
+            return $resource->getCurrentRevision();
+        }
+        throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
+    }
+
     public function appendNewRevisionFromStream(
         ResourceIdentification $identification,
         FileStream $stream,
@@ -144,6 +166,25 @@ class Manager
 
         $resource = $this->resource_builder->get($identification);
         $this->resource_builder->appendFromStream($resource, $stream, true, $revision_title);
+        $resource->addStakeholder($stakeholder);
+
+        $this->resource_builder->store($resource);
+
+        return $resource->getCurrentRevision();
+    }
+
+    public function replaceWithStream(
+        ResourceIdentification $identification,
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
+        if (!$this->resource_builder->has($identification)) {
+            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+        }
+
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->replaceWithStream($resource, $stream, true, $revision_title);
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);

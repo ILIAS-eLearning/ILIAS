@@ -145,6 +145,38 @@ class ResourceBuilder
         return $resource;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function replaceWithUpload(
+        StorableResource $resource,
+        UploadResult $result,
+        string $revision_title = null,
+        int $owner_id = null
+    ) : StorableResource {
+        $revision = $this->revision_repository->blankFromUpload($resource, $result);
+
+        $info = $revision->getInformation();
+        $info->setTitle($result->getName());
+        $info->setMimeType($result->getMimeType());
+        $info->setSuffix(pathinfo($result->getName(), PATHINFO_EXTENSION));
+        $info->setSize($result->getSize());
+        $info->setCreationDate(new \DateTimeImmutable());
+
+        $revision->setInformation($info);
+        $revision->setTitle($revision_title ?? $result->getName());
+        $revision->setOwnerId($owner_id ?? 6);
+
+        foreach ($resource->getAllRevisions() as $existing_revision) {
+            $this->deleteRevision($resource, $existing_revision);
+        }
+
+        $resource->addRevision($revision);
+        $resource->setStorageID($this->storage_handler->getID());
+
+        return $resource;
+    }
+
     public function appendFromStream(
         StorableResource $resource,
         FileStream $stream,
@@ -167,6 +199,47 @@ class ResourceBuilder
 
         $revision->setOwnerId($owner_id ?? 6);
         $revision->setTitle($revision_title ?? $file_name ?? 'stream');
+        $resource->addRevision($revision);
+        $resource->setStorageID($this->storage_handler->getID());
+
+        return $resource;
+    }
+
+    /**
+     * @param StorableResource $resource
+     * @param FileStream       $stream
+     * @param bool             $keep_original
+     * @param string|null      $revision_title
+     * @param int|null         $owner_id
+     * @return StorableResource
+     */
+    public function replaceWithStream(
+        StorableResource $resource,
+        FileStream $stream,
+        bool $keep_original = false,
+        string $revision_title = null,
+        int $owner_id = null
+    ) : StorableResource {
+        $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
+        $info = $revision->getInformation();
+        $path = $stream->getMetadata('uri');
+        if ($path && $path !== 'php://input') {
+            $file_name = basename($path);
+            $info->setTitle($file_name);
+            $info->setSuffix(pathinfo($file_name, PATHINFO_EXTENSION));
+            $info->setMimeType(function_exists('mime_content_type') ? mime_content_type($path) : 'unknown');
+            $info->setSize($stream->getSize());
+            $filectime = filectime($path);
+            $info->setCreationDate($filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable());
+        }
+
+        $revision->setOwnerId($owner_id ?? 6);
+        $revision->setTitle($revision_title ?? $file_name ?? 'stream');
+
+        foreach ($resource->getAllRevisions() as $existing_revision) {
+            $this->deleteRevision($resource, $existing_revision);
+        }
+
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
 
@@ -313,17 +386,18 @@ class ResourceBuilder
         }
 
         foreach ($resource->getAllRevisions() as $revision) {
-            $this->deleteRevision($revision);
+            $this->deleteRevision($resource, $revision);
         }
         $this->storage_handler->deleteResource($resource);
         $this->resource_repository->delete($resource);
     }
 
-    private function deleteRevision(Revision $revision) : void
+    private function deleteRevision(StorableResource $resource, Revision $revision) : void
     {
         $this->storage_handler->deleteRevision($revision);
         $this->information_repository->delete($revision->getInformation(), $revision);
         $this->revision_repository->delete($revision);
+        $resource->removeRevision($revision);
     }
 
     /**
