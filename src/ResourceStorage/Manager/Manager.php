@@ -240,4 +240,13 @@ class Manager
         return true;
     }
 
+    public function removeRevision(ResourceIdentification $identification, int $revision_number) : bool
+    {
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->removeRevision($resource, $revision_number);
+        $this->resource_builder->store($resource);
+
+        return true;
+    }
+
 }
