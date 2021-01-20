@@ -138,6 +138,7 @@ class ilStudyProgrammeUserAssignment
      */
     public function deassign() : void
     {
+        throw new ilException("DON'T USE THIS");
         $this->getStudyProgramme()->removeAssignment($this);
     }
 

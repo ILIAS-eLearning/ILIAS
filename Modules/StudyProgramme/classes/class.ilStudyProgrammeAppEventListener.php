@@ -150,7 +150,8 @@ class ilStudyProgrammeAppEventListener
     {
         $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']->getInstancesOfUser((int) $a_parameter["usr_id"]);
         foreach ($assignments as $ass) {
-            $ass->deassign();
+            $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+            $prg->removeAssignment($ass);
         }
     }
 

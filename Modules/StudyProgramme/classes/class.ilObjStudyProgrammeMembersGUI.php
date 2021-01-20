@@ -638,7 +638,7 @@ class ilObjStudyProgrammeMembersGUI
             $prgrs = $this->getProgressObject((int) $prgrs_id);
             //** ilStudyProgrammeUserAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-            $prg_ref_id = ilObjectStudyProgramme::getRefIdFor($ass->getRootId());
+            $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
             if ($prg_ref_id != $this->ref_id) {
                 $not_updated[] = $prgrs_id;
                 continue;
@@ -734,7 +734,7 @@ class ilObjStudyProgrammeMembersGUI
     }
 
     /**
-     * Rmeove user
+     * Remove user
      */
     protected function remove(int $prgrs_id) : void
     {
@@ -750,11 +750,12 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-        $prg = $ass->getStudyProgramme();
-        if ($prg->getRefId() != $this->ref_id) {
+        $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
+        if ($prg_ref_id != $this->ref_id) {
             throw new ilException("Can only remove users from the node they where assigned to.");
         }
-        $ass->deassign();
+        $prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
+        $prg->removeAssignment($ass);
     }
 
     /**

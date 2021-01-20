@@ -1241,7 +1241,7 @@ class ilObjStudyProgramme extends ilContainer
     public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) : ilObjStudyProgramme
     {
         $this->members_cache = null;
-        if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
+        if ($a_assignment->getRootId() != $this->getId()) {
             throw new ilException(
                 "ilObjStudyProgramme::removeAssignment: Assignment '"
                 . $a_assignment->getId() . "' does not belong to study "
