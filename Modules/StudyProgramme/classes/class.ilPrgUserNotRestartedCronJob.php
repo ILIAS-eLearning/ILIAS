@@ -29,6 +29,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         global $DIC;
 
         $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+        $this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
     }
@@ -130,7 +131,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
                 $restart_date = $assignment->getRestartDate();
                 $restart_date->sub(new DateInterval(('P' . $inform_by_days . 'D')));
 
-                $assignment->informUserByMailToRestart();
+                $this->events->informUserByMailToRestart($assignment);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
             }
