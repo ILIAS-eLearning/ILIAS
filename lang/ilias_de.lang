@@ -69,6 +69,8 @@ administration#:#adm_basic#:#Allgemein
 administration#:#adm_captcha_anonymous_auth#:#Zeigt zusätzlich ein Captcha im Anmeldeformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz des Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 administration#:#adm_captcha_anonymous_frm#:#Captcha für nicht angemeldete Benutzer, die im Forum Beiträge schreiben wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 administration#:#adm_captcha_anonymous_reg#:#Zeigt zusätzlich ein Captcha im Registrierungsformular an, um die Anmeldung durch Roboter zu verhindern. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
+administration#:#adm_auth_reg#:#Authentifizierung Registrierung
+administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_captcha_anonymous_short#:#Captcha
 administration#:#adm_captcha_anonymous_wiki#:#Captcha für nicht angemeldete Benutzer, die im Wiki eine Seite bearbeiten wollen. Bitte beachten Sie, dass der Einsatz eines Captchas die Barrierefreiheit Ihrer Installation einschränkt.
 administration#:#adm_container#:#Containerobjekte
