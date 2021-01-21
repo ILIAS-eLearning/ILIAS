@@ -145,4 +145,12 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 
         return $cmd_link;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkInfoPageOnAsynchronousRendering() : bool
+    {
+        return true;
+    }
 } // END class.ilObjCategoryGUI

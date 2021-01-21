@@ -2650,7 +2650,7 @@ class ilObjectListGUI
         // public area, category, no info tab
         // todo: make this faster and remove type specific implementation if possible
         if ($a_use_asynch && !$a_get_asynch_commands && !$a_header_actions) {
-            if ($ilUser->getId() == ANONYMOUS_USER_ID && $this->type == "cat") {
+            if ($ilUser->getId() == ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()) {
                 include_once("./Services/Container/classes/class.ilContainer.php");
                 include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
                 if (!ilContainer::_lookupContainerSetting(
@@ -3753,5 +3753,13 @@ class ilObjectListGUI
         $this->tpl->setCurrentBlock("fileupload");
         $this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
         $this->tpl->parseCurrentBlock();
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkInfoPageOnAsynchronousRendering() : bool
+    {
+        return false;
     }
 }
