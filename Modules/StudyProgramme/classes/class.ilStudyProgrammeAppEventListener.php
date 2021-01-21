@@ -312,7 +312,7 @@ class ilStudyProgrammeAppEventListener
         $usr_id = $params['usr_id'];
         $assignment_id = $params['ass_id'];
 
-        ilStudyProgrammeUserAssignment::sendInformToReAssignMail($assignment_id, $usr_id);
+        ilObjStudyProgramme::sendInformToReAssignMail($assignment_id, $usr_id);
     }
 
     /**

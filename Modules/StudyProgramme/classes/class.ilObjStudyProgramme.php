@@ -2121,4 +2121,131 @@ class ilObjStudyProgramme extends ilContainer
     {
         return ilLoggerFactory::getLogger($this->type);
     }
+
+    ////////////////////////////////////
+    // REFAC - to be properly sorted/resolved
+    ////////////////////////////////////
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateFromProgram
+     */
+    protected function updateProgressFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $this->applyToSubTreeNodes(
+            function (ilObjStudyProgramme $node) use ($assignment_id) {
+                /**@var ilStudyProgrammeUserProgress $progress*/
+                $progress = $node->getProgressForAssignment($assignment_id);
+                return $progress->updateFromProgramNode();
+            },
+            true
+        );
+    }
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateValidityFromProgram
+     */
+    protected function updateProgressValidityFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $prg = $this;
+        $root = $this->getRoot();
+        $progress = $prg->getProgressForAssignment($assignment_id);
+        if (!$progress->hasSuccessStatus()) {
+            return;
+        }
+
+        $validity_settings = $root->getValidityOfQualificationSettings();
+        $period = $validity_settings->getQualificationPeriod();
+        $date = $validity_settings->getQualificationDate();
+
+        if ($period) {
+            $date = $progress->getCompletionDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setValidityOfQualification($date);
+        $progress->storeProgress();
+    }
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateDeadlineFromProgram
+     */
+    protected function updateProgressDeadlineFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $prg = $this;
+        $root = $this->getRoot();
+        $progress = $prg->getProgressForAssignment($assignment_id);
+        if (!$progress->hasSuccessStatus()) {
+            return;
+        }
+
+        $deadline_settings = $root->getDeadlineSettings();
+        $period = $deadline_settings->getDeadlinePeriod();
+        $date = $deadline_settings->getDeadlineDate();
+        if ($period) {
+            $date = $progress->getAssignmentDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setDeadline($date);
+        $progress->storeProgress();
+    }
+
+    /**
+     * substitutes/replaces $ass->updateFromProgram();
+     */
+    public function updateFromPlanByAssignmentId(int $assignment_id) : void
+    {
+        $this->updateProgressFromProgrammeByAssignmentId($assignment_id);
+        $this->updateProgressValidityFromProgrammeByAssignmentId($assignment_id);
+        $this->updateProgressDeadlineFromProgrammeByAssignmentId($assignment_id);
+    }
+
+
+    /**
+         * @throws ilException
+         */
+    public static function sendInformToReAssignMail(int $assignment_id, int $usr_id) : void
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule("prg");
+        $lng->loadLanguageModule("mail");
+        $log = $this->getLog();
+
+        /** @var ilStudyProgrammeUserAssignment $assignment */
+        $assignment = $this->assignment_db->getInstanceById($assignment_id);
+        /** @var ilObjStudyProgramme $prg */
+        $prg = $this->getRoot();
+
+        if (!$prg->shouldSendInfoToReAssignMail()) {
+            $log->write("Send info to re assign mail is deactivated in study programme settings");
+            return;
+        }
+
+        $subject = $lng->txt("info_to_re_assign_mail_subject");
+        $gender = ilObjUser::_lookupGender($usr_id);
+        $name = ilObjUser::_lookupFullname($usr_id);
+        $body = sprintf(
+            $lng->txt("info_to_re_assign_mail_body"),
+            $lng->txt("mail_salutation_" . $gender),
+            $name,
+            $prg->getTitle()
+        );
+
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        if ($send) {
+            $this->assignment_db->reminderSendFor($assignment->getId());
+        }
+    }
 }

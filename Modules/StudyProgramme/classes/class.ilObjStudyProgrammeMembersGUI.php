@@ -973,8 +973,7 @@ class ilObjStudyProgrammeMembersGUI
 
     protected function updateUserAssignmentFromProgramm(ilStudyProgrammeUserAssignment $ass) : void
     {
-        $ass->updateFromProgram();
-        $ass->updateValidityFromProgram();
-        $ass->updateDeadlineFromProgram();
+        //$ass->updateFromProgram();
+        $this->object->updateFromPlanByAssignmentId($ass->getId());
     }
 }

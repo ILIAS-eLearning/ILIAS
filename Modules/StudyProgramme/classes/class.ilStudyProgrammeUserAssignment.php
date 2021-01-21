@@ -67,6 +67,7 @@ class ilStudyProgrammeUserAssignment
     public function getStudyProgramme() : ilObjStudyProgramme
     {
         throw new ilException("DON'T USE THIS");
+
         $refs = ilObject::_getAllReferences((int) $this->assignment->getRootId());
         if (!count($refs)) {
             throw new ilException("ilStudyProgrammeUserAssignment::getStudyProgramme: "
@@ -100,6 +101,8 @@ class ilStudyProgrammeUserAssignment
      */
     public function getRootProgress() : ilStudyProgrammeUserProgress
     {
+        //throw new ilException("DON'T USE THIS");
+
         return $this->getStudyProgramme()->getProgressForAssignment($this->getId());
     }
 
@@ -112,6 +115,7 @@ class ilStudyProgrammeUserAssignment
     public function restartAssignment() : ilStudyProgrammeUserAssignment
     {
         throw new ilException("DON'T USE THIS");
+
         $restarted = $this->getStudyProgramme()->assignUser($this->getUserId(), $this->getUserId());
         $this->assignment_repository->update(
             $this->assignment->setRestartedAssignmentId($restarted->getId())
@@ -125,6 +129,7 @@ class ilStudyProgrammeUserAssignment
     public function informUserByMailToRestart() : void
     {
         throw new ilException("DON'T USE THIS");
+
         $this->sp_events->informUserByMailToRestart($this);
     }
 
@@ -141,6 +146,7 @@ class ilStudyProgrammeUserAssignment
     public function deassign() : void
     {
         throw new ilException("DON'T USE THIS");
+
         $this->getStudyProgramme()->removeAssignment($this);
     }
 
@@ -164,6 +170,8 @@ class ilStudyProgrammeUserAssignment
      */
     public function updateFromProgram() : ilStudyProgrammeUserAssignment
     {
+        throw new ilException("DON'T USE THIS");
+
         $prg = $this->getStudyProgramme();
         $id = $this->getId();
 
@@ -181,7 +189,9 @@ class ilStudyProgrammeUserAssignment
 
     public function updateValidityFromProgram() : void
     {
-        $prg = $this->getStudyProgramme();
+        throw new ilException("DON'T USE THIS");
+
+        $prg = $this->getStudyProgramme(); //root
         $progress = $this->getRootProgress();
         if (!$progress->hasSuccessStatus()) {
             return;
@@ -201,6 +211,8 @@ class ilStudyProgrammeUserAssignment
 
     public function updateDeadlineFromProgram() : void
     {
+        throw new ilException("DON'T USE THIS");
+
         $prg = $this->getStudyProgramme();
         $progress = $this->getRootProgress();
         if ($progress->hasSuccessStatus()) {
@@ -228,6 +240,8 @@ class ilStudyProgrammeUserAssignment
      */
     public static function sendInformToReAssignMail(int $assignment_id, int $usr_id) : void
     {
+        throw new ilException("DON'T USE THIS");
+
         global $DIC;
         $lng = $DIC['lng'];
         $log = $DIC['ilLog'];
