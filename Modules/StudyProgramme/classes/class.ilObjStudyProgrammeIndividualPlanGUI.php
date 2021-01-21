@@ -166,14 +166,17 @@ class ilObjStudyProgrammeIndividualPlanGUI
     protected function updateFromCurrentPlan()
     {
         $ass = $this->getAssignmentObject();
+        $prg = $this->parent_gui->getStudyProgramme();
         if (
-            $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+            $prg->getAccessControlByOrguPositionsGlobal()
             && !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
                 "may not access individual plan of user"
             );
         }
+        $prg->updateFromPlanByAssignmentId($ass->getId());
+
         $ass->updateFromProgram();
         $ass->updateValidityFromProgram();
         $ass->updateDeadlineFromProgram();
