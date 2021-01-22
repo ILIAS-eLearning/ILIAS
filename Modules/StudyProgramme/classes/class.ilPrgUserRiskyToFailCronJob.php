@@ -11,7 +11,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
     const ID = 'prg_user_risky_to_fail';
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $user_progress_db;
 
@@ -33,6 +33,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
+        $this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
     }
 
     /**
@@ -114,9 +115,10 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
     public function run()
     {
         $result = new ilCronJobResult();
-        foreach ($this->user_progress_db->getRiskyToFailInstances() as $progress) {
+        foreach ($this->user_progress_db->readRiskyToFailInstances() as $progress) {
             try {
-                $auto_mail_settings = $progress->getStudyProgramme()->getAutoMailSettings();
+                $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
+                $auto_mail_settings = $programme->getSettings()->getAutoMailSettings();
                 $remind_days = $auto_mail_settings->getProcessingEndsNotSuccessfulDays();
 
                 if (is_null($remind_days)) {
@@ -129,7 +131,7 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
                     continue;
                 }
 
-                $progress->informUserForRiskToFail();
+                $this->events->userRiskyToFail($progress);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
             }

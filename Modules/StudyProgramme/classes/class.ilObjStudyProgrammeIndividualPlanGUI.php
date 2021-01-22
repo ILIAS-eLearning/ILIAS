@@ -31,7 +31,6 @@ class ilObjStudyProgrammeIndividualPlanGUI
      */
     public $lng;
 
-
     /**
      * @var ilObjUser
      */
@@ -40,9 +39,14 @@ class ilObjStudyProgrammeIndividualPlanGUI
     protected $parent_gui;
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressDB
      */
     protected $sp_user_progress_db;
+
+    /**
+     * @var ilPRGMessages[]
+     */
+    protected $messages;
 
     public function __construct(
         \ilGlobalTemplateInterface $tpl,
@@ -50,9 +54,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
         \ilLanguage $lng,
         \ilObjUser $ilUser,
         \ilAccess $ilAccess,
-        ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        //ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
-        ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db
+        ilStudyProgrammeProgressRepository $sp_user_progress_db,
+        ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db,
+        ilPRGMessages $messages
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -64,6 +68,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
         $this->sp_user_progress_db = $sp_user_progress_db;
         $this->sp_user_assignment_db = $sp_user_assignment_db;
+        $this->messages = $messages;
 
         $this->object = null;
 
@@ -176,11 +181,11 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 "may not access individual plan of user"
             );
         }
-        $prg->updateFromPlanByAssignmentId($ass->getId());
-
-        $ass->updateFromProgram();
-        $ass->updateValidityFromProgram();
-        $ass->updateDeadlineFromProgram();
+        $progress = $prg->getProgressForAssignment($ass->getId());
+        $prg->updateProgressFromSettings(
+            $progress->getId(),
+            $this->user->getId()
+        );
 
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
         $this->showSuccessMessage("update_from_plan_successful");
@@ -189,10 +194,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function updateFromInput()
     {
-        require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-
         $changed = false;
-
         $changed = $this->updateStatus();
 
         $this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
@@ -207,61 +209,66 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $status_updates = $this->getManualStatusUpdates();
         $changed = false;
         foreach ($status_updates as $prgrs_id => $status) {
-            $prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
-            $cur_status = $prgrs->getStatus();
+            $progress = $this->sp_user_progress_db->read($prgrs_id);
+            $cur_status = $progress->getStatus();
+            $programme = $this->parent_gui->getStudyProgramme();
             if (
-                $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
-                && !in_array($prgrs->getUserId(), $this->parent_gui->editIndividualPlan())
+                $programme->getAccessControlByOrguPositionsGlobal()
+                && !in_array($progress->getUserId(), $this->parent_gui->editIndividualPlan())
             ) {
                 continue;
             }
             if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-                $prgrs->unmarkAccredited($this->user->getId());
+                $msgs = $this->messages->getMessageCollection('msg_unmark_accredited');
+                $programme->unmarkAccredited($progress->getId(), (int) $this->user->getId(), $msgs);
                 $changed = true;
             } elseif ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                $prgrs->markRelevant($this->user->getId());
+                $msgs = $this->messages->getMessageCollection('msg_mark_relevant');
+                $programme->markRelevant($progress->getId(), (int) $this->user->getId(), $msgs);
                 $changed = true;
             } elseif ($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                $prgrs->markNotRelevant($this->user->getId());
+                $msgs = $this->messages->getMessageCollection('msg_mark_not_relevant');
+                $programme->markNotRelevant($progress->getId(), (int) $this->user->getId(), $msgs);
                 $changed = true;
             } elseif ($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-                $prgrs->markAccredited($this->user->getId());
+                $msgs = $this->messages->getMessageCollection('msg_mark_accredited');
+                $programme->markAccredited($progress->getId(), (int) $this->user->getId(), $msgs);
                 $changed = true;
             }
 
             $deadline = null;
             if ($this->postContainDeadline()) {
-                $deadline = $this->updateDeadline($prgrs);
+                $deadline = $this->updateDeadline($progress);
             }
 
             if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
                 $changed = $this->updateRequiredPoints($prgrs_id) || $changed;
 
                 if ($deadline !== null && $deadline->format('Y-m-d') < date("Y-m-d")) {
-                    $prgrs->markFailed($this->user->getId());
+                    $programme->markFailed($progress->getId(), (int) $this->user->getId());
                 }
             } elseif ($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
                 if ($deadline === null || $deadline->format('Y-m-d') > date("Y-m-d")) {
-                    $prgrs->markNotFailed((int) $this->user->getId());
+                    $programme->markNotFailed($progress->getId(), (int) $this->user->getId());
                 }
             }
         }
         return $changed;
     }
 
-    /**
-     * Updates current deadline
-     *
-     * @param ilStudyProgrammeUserProgress 	$prgrs
-     *
-     * @return DateTime
-     */
-    protected function updateDeadline(ilStudyProgrammeUserProgress $prgrs)
+    protected function updateDeadline(ilStudyProgrammeProgress $progress) : ?DateTimeImmutable
     {
-        $deadline = $this->getDeadlineFromForm($prgrs->getId());
-        $prgrs->setDeadline($deadline);
-        $prgrs->updateProgress($this->user->getId());
+        $deadline = $this->getDeadlineFromForm($progress->getId());
+        
+        if ($deadline) {
+            $deadline = DateTimeImmutable::createFromMutable($deadline);
+        }
 
+        $progress = $progress
+            ->withDeadline($deadline)
+            ->withLastChangeBy($this->user->getId())
+        ;
+        $this->sp_user_progress_db->update($progress);
         return $deadline;
     }
 
@@ -270,8 +277,8 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $required_points = $this->getRequiredPointsUpdates($prgrs_id);
         $changed = false;
 
-        $prgrs = $this->sp_user_progress_db->getInstanceById($prgrs_id);
-        $cur_status = $prgrs->getStatus();
+        $progress = $this->sp_user_progress_db->read($prgrs_id);
+        $cur_status = $progress->getStatus();
         if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return false;
         }
@@ -280,11 +287,15 @@ class ilObjStudyProgrammeIndividualPlanGUI
             $required_points = 0;
         }
 
-        if ($required_points == $prgrs->getAmountOfPoints()) {
+        if ($required_points == $progress->getAmountOfPoints()) {
             return false;
         }
 
-        $prgrs->setRequiredAmountOfPoints($required_points, $this->user->getId());
+
+        return false;
+        //TODO: withRequiredAmountOfPoints is broken since 5.4 and earlier!
+        $progress = $progress->withRequiredAmountOfPoints($required_points, $this->user->getId());
+        $progress = $this->sp_user_progress_db->update($progress);
         return true;
     }
 

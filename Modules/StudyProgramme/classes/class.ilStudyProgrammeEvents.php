@@ -79,14 +79,14 @@ class ilStudyProgrammeEvents
     /**
      * @throws ilException
      */
-    public function userSuccessful(ilStudyProgrammeUserProgress $a_progress) : void
+    public function userSuccessful(ilStudyProgrammeProgress $a_progress) : void
     {
         $ass = $this->assignment_repo->read($a_progress->getAssignmentId());
         $this->raise(
             "userSuccessful",
             [
                 "root_prg_id" => $ass->getRootId(),
-                "prg_id" => $a_progress->getStudyProgramme()->getId(),
+                "prg_id" => $a_progress->getNodeId(),
                 "usr_id" => $ass->getUserId(),
                 "ass_id" => $ass->getId()
             ]
@@ -107,7 +107,7 @@ class ilStudyProgrammeEvents
         );
     }
 
-    public function userRiskyToFail(ilStudyProgrammeUserProgress $a_progress) : void
+    public function userRiskyToFail(ilStudyProgrammeProgress $a_progress) : void
     {
         $ass = $this->assignment_repo->read($a_progress->getAssignmentId());
         $this->raise(

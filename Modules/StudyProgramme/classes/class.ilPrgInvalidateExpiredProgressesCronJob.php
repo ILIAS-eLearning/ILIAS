@@ -11,7 +11,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
     const ID = 'prg_invalidate_expired_progresses';
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $user_progress_db;
 
@@ -29,7 +29,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
     {
         global $DIC;
 
-        $this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+        $this->user_progress_db = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
@@ -113,7 +113,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
     public function run()
     {
         $result = new ilCronJobResult();
-        foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
+        foreach ($this->user_progress_db->readExpiredSuccessfull() as $progress) {
             try {
                 $progress->invalidate();
             } catch (ilException $e) {

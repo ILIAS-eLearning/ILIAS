@@ -204,7 +204,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
                 break;
             case self::STATUS:
-                $string = $this->statusToRepr($progress->getStatus());
+                $string = $obj->statusToRepr($progress->getStatus());
                 break;
             case self::COMPLETION_DATE:
                 $string = $this->date2String($progress->getCompletionDate());
@@ -259,11 +259,11 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeUserProgress
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeProgress
     {
         $progress = $obj->getProgressesOf($user_id);
 
-        $successfully_progress = array_filter($progress, function (ilStudyProgrammeUserProgress $a) {
+        $successfully_progress = array_filter($progress, function (ilStudyProgrammeProgress $a) {
             return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
         });
 
@@ -271,7 +271,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             return $progress[0];
         }
 
-        usort($successfully_progress, function (ilStudyProgrammeUserProgress $a, ilStudyProgrammeUserProgress $b) {
+        usort($successfully_progress, function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {

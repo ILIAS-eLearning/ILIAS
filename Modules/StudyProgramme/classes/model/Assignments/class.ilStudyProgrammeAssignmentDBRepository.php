@@ -38,6 +38,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$root_prg_id' "
                 . "is no id of a prg.");
         }
+
         $row = [
             self::FIELD_ID => $this->nextId(),
             self::FIELD_USR_ID => $usr_id,
@@ -48,7 +49,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             self::FIELD_RESTARTED_ASSIGNMENT_ID => ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT
         ];
         $this->insertRowDB($row);
-        return $this->assignmentByRow($row)->updateLastChange();
+        return $this->assignmentByRow($row);
     }
 
     /**
@@ -307,19 +308,19 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
     {
         return (new ilStudyProgrammeAssignment((int) $row[self::FIELD_ID]))
-            ->setRootId((int) $row[self::FIELD_ROOT_PRG_ID])
-            ->setUserId((int) $row[self::FIELD_USR_ID])
-            ->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY])
-            ->setLastChange(DateTime::createFromFormat(
+            ->withRootId((int) $row[self::FIELD_ROOT_PRG_ID])
+            ->withUserId((int) $row[self::FIELD_USR_ID])
+            ->withLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY])
+            ->withLastChange(DateTimeImmutable::createFromFormat(
                 ilStudyProgrammeAssignment::DATE_TIME_FORMAT,
                 $row[self::FIELD_LAST_CHANGE]
             ))
-            ->setRestartDate(
+            ->withRestartDate(
                 $row[self::FIELD_RESTART_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
                     null
             )
-            ->setRestartedAssignmentId((int) $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
+            ->withRestartedAssignmentId((int) $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
     }
 
     protected function loadByFilterDB(array $filter)
@@ -350,7 +351,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
                 self::FIELD_ID => ['integer', $row[self::FIELD_ID]]
                 , self::FIELD_USR_ID => ['integer', $row[self::FIELD_USR_ID]]
                 , self::FIELD_ROOT_PRG_ID => ['integer', $row[self::FIELD_ROOT_PRG_ID]]
-                , self::FIELD_LAST_CHANGE => ['integer', $row[self::FIELD_LAST_CHANGE]]
+                , self::FIELD_LAST_CHANGE => ['text', $row[self::FIELD_LAST_CHANGE]]
                 , self::FIELD_LAST_CHANGE_BY => ['integer', $row[self::FIELD_LAST_CHANGE_BY]]
                 , self::FIELD_RESTART_DATE => ['timestamp', $row[self::FIELD_RESTART_DATE]]
                 , self::FIELD_RESTARTED_ASSIGNMENT_ID => ['integer', $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]]

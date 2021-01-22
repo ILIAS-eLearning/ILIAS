@@ -63,7 +63,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected $ui_renderer;
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $sp_user_progress_db;
 
@@ -78,7 +78,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         ilObjStudyProgrammeMembersGUI $parent_obj,
         string $parent_cmd = '',
         string $template_context = '',
-        ilStudyProgrammeUserProgressDB $sp_user_progress_db,
+        ilStudyProgrammeProgressRepository $sp_user_progress_db,
         ilStudyProgrammePositionBasedAccess $position_based_access
     ) {
         $this->setId("sp_member_list");
@@ -106,7 +106,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(false);
         $this->setFormAction($this->ctrl->getFormAction($parent_obj, "view"));
         $this->addColumn("", "", "1", true);
-        $this->setSelectAllCheckbox("prgs_ids[]");
+        //$this->setSelectAllCheckbox("prgs_ids[]");
+        $this->setSelectAllCheckbox($parent_obj::F_SELECTED_PROGRESS_IDS . '[]');
         $this->setEnableAllCommand(true);
         $this->addMultiCommands();
 
@@ -139,10 +140,26 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $filter_values
         );
 
+        $progress_ids = array_map(
+            function ($row) {
+                return (int) $row['prgrs_id'];
+            },
+            $members_list
+        );
+        $this->addHiddenInput(
+            $parent_obj::F_ALL_PROGRESS_IDS,
+            implode(',', $progress_ids)
+        );
+
         $this->setMaxCount($this->countFetchData($prg_obj_id, $filter_values));
         $this->setData($members_list);
     }
 
+    protected function getUserDateFormat() : string
+    {
+        //TODO: use user's dateformat
+        return 'd.m.Y';
+    }
 
     protected function fillRow($a_set) : void
     {
@@ -163,7 +180,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             "STATUS",
             $this->getValueOrEmptyString(
                 $may_read_learning_progress,
-                $this->sp_user_progress_db->statusToRepr($a_set["status"])
+                $this->prg->statusToRepr($a_set["status"])
             )
         );
         $this->tpl->setVariable("POINTS_REQUIRED", $a_set["points"]);
@@ -190,6 +207,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                     }
                     $this->tpl->setVariable("COMPLETION_DATE", $completion_date);
                     break;
+
                 case "prg_completion_by":
                     if (is_null($a_set["completion_by"])) {
                         $this->tpl->touchBlock("comp_by");
@@ -205,16 +223,17 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
                     break;
                 case "prg_custom_plan":
-                    $has_changers = $this->lng->txt("no");
-                    if ($a_set["last_change_by"]) {
-                        $has_changers = $this->lng->txt("yes");
+                    $individual = $this->lng->txt("no");
+                    if ($a_set["individual"]) {
+                        $individual = $this->lng->txt("yes");
                     }
-
+                    
                     $this->tpl->setVariable(
                         "CUSTOM_PLAN",
-                        $this->getValueOrEmptyString($may_read_learning_progress, $has_changers)
+                        $individual
                     );
                     break;
+                    
                 case "prg_belongs_to":
                     $this->tpl->setVariable("BELONGS_TO", $a_set["belongs_to"]);
                     break;
@@ -306,18 +325,19 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         foreach ($actions as $action) {
             switch ($action) {
-                case ilStudyProgrammeUserProgress::ACTION_MARK_ACCREDITED:
-                case ilStudyProgrammeUserProgress::ACTION_UNMARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_MARK_ACCREDITED:
+                case ilObjStudyProgrammeMembersGUI::ACTION_UNMARK_ACCREDITED:
                     if (!$edit_individual_plan) {
                         continue 2;
                     }
                     break;
-                case ilStudyProgrammeUserProgress::ACTION_SHOW_INDIVIDUAL_PLAN:
+                case ilObjStudyProgrammeMembersGUI::ACTION_SHOW_INDIVIDUAL_PLAN:
                     if (!$view_individual_plan) {
                         continue 2;
                     }
                     break;
-                case ilStudyProgrammeUserProgress::ACTION_REMOVE_USER:
+
+                case ilObjStudyProgrammeMembersGUI::ACTION_REMOVE_USER:
                     $manage_members =
                         $parent->isOperationAllowedForUser($usr_id, ilOrgUnitOperation::OP_MANAGE_MEMBERS)
                         && in_array($usr_id, $this->getParentObject()->getLocalMembers());
@@ -373,6 +393,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "    (GREATEST(ABS(prgrs.status - $accredited),1))) AS points_current," . PHP_EOL
             . "prgrs.last_change_by," . PHP_EOL
             . "prgrs.status," . PHP_EOL
+            . "prgrs.individual," . PHP_EOL
             . "blngs.title AS belongs_to," . PHP_EOL
             . "cmpl_usr.login AS accredited_by," . PHP_EOL
             . "cmpl_obj.title AS completion_by," . PHP_EOL
@@ -387,7 +408,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . "ass.last_change_by AS prg_assingment_origin," . PHP_EOL
             . "ass_usr.login AS prg_assigned_by," . PHP_EOL
             . "CONCAT(pcp.firstname, pcp.lastname) AS name," . PHP_EOL
-            . "(prgrs.last_change_by IS NOT NULL) AS custom_plan" . PHP_EOL
+            . "prgrs.individual AS custom_plan" . PHP_EOL
         ;
 
         $sql .= $this->getFrom();
@@ -400,18 +421,26 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         }
 
         $res = $this->db->query($sql);
-        $now = (new DateTime())->format('Y-m-d H:i:s');
+        $now = new DateTimeImmutable();
         $members_list = array();
 
 
         while ($rec = $this->db->fetchAssoc($res)) {
-            $rec["actions"] = ilStudyProgrammeUserProgress::getPossibleActions(
+
+            //TODO: use progress throughout instead of records.
+
+            $progress_id = (int) $rec['prgrs_id'];
+            $progress = $this->sp_user_progress_db->read($progress_id);
+
+            $rec["actions"] = $this->parent_obj->getPossibleActions(
                 $prg_id,
                 $rec["root_prg_id"],
                 $rec["status"]
             );
 
-            $rec['points_current'] = number_format($rec['points_current']);
+            //$rec['points_current'] = number_format($rec['points_current']);
+            $rec['points_current'] = number_format($progress->getCurrentAmountOfPoints());
+
             if ($rec["status"] == ilStudyProgrammeProgress::STATUS_COMPLETED) {
                 //If the status completed is set by crs reference
                 //use crs title
@@ -435,14 +464,16 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 // in the set, this means the completion was achieved by some leaf in
                 // the program tree.
                 if (!$rec["completion_by"]) {
-                    $prgrs = $this->sp_user_progress_db->getInstanceForAssignment(
+                    $prgrs = $this->sp_user_progress_db->readByPrgIdAndAssignmentId(
                         $this->prg_obj_id,
                         $rec["assignment_id"]
                     );
+                    $prg = ilObjStudyProgramme::getInstanceByObjId($this->prg_obj_id);
+                    $names = $prg->getNamesOfCompletedOrAccreditedChildren((int) $rec["assignment_id"]);
 
                     $rec["completion_by"] = implode(
                         ", ",
-                        $prgrs->getNamesOfCompletedOrAccreditedChildren()
+                        $names
                     );
                 }
                 // This case should only occur if the status completed is set
@@ -461,14 +492,26 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
                 $rec['completion_date'] = '';
             }
 
-            if ($rec['vq_date']) {
+            $rec['vq_date'] = '';
+            if (!is_null($progress->getValidityOfQualification())
+                && $progress->hasValidQualification($now)
+            ) {
+                $rec['vq_date'] = $progress->getValidityOfQualification()->format($this->getUserDateFormat());
+            }
+
+            $rec['prg_validity'] = '-';
+            if (!is_null($progress->hasValidQualification($now))) {
                 $rec['prg_validity'] = $this->lng->txt('prg_not_valid');
-                if ($rec["vq_date"] > $now) {
+                if ($progress->hasValidQualification($now)) {
                     $rec['prg_validity'] = $this->lng->txt('prg_still_valid');
                 }
-            } else {
-                $rec['prg_validity'] = '';
-                $rec['vq_date'] = '';
+            }
+            
+            $rec['prg_deadline'] = null;
+            if ($progress->isSuccessful() === false
+                && !is_null($progress->getDeadline())
+            ) {
+                $rec['prg_deadline'] = $progress->getDeadline()->format($this->getUserDateFormat());
             }
 
             $usr_id = (int) $rec['usr_id'];
@@ -577,6 +620,9 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $perms['markAccreditedMulti'] = $this->lng->txt('prg_multi_mark_accredited');
             $perms['unmarkAccreditedMulti'] = $this->lng->txt('prg_multi_unmark_accredited');
         }
+
+        //TODO: manage_members is always false?
+        //$manage_members = true;
 
         if ($manage_members) {
             $perms['removeUserMulti'] = $this->lng->txt('prg_multi_remove_user');

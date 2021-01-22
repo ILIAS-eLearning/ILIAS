@@ -28,8 +28,7 @@ interface ilStudyProgrammeProgressRepository
      */
     public function readByIds(
         int $prg_id,
-        int $assignment_id,
-        int $usr_id
+        int $assignment_id
     ) : ilStudyProgrammeProgress;
 
     /**

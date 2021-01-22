@@ -25,6 +25,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     const FIELD_VQ_DATE = 'vq_date';
     const FIELD_INVALIDATED = 'invalidated';
     const FIELD_MAIL_SEND = 'risky_to_fail_mail_send';
+    const FIELD_IS_INDIVIDUAL = 'individual';
 
     public function __construct(ilDBInterface $db)
     {
@@ -38,7 +39,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      */
     public function createFor(
         ilStudyProgrammeSettings $prg,
-        ilStudyProgrammeAssignment $ass
+        ilStudyProgrammeAssignment $ass,
+        int $acting_user = null
     ) : ilStudyProgrammeProgress {
         $id = $this->nextId();
         $row = [
@@ -52,11 +54,12 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             self::FIELD_COMPLETION_BY => null,
             self::FIELD_LAST_CHANGE => ilUtil::now(),
             self::FIELD_ASSIGNMENT_DATE => ilUtil::now(),
-            self::FIELD_LAST_CHANGE_BY => null,
+            self::FIELD_LAST_CHANGE_BY => $acting_user,
             self::FIELD_COMPLETION_DATE => null,
             self::FIELD_DEADLINE => null,
             self::FIELD_VQ_DATE => null,
-            self::FIELD_INVALIDATED => 0
+            self::FIELD_INVALIDATED => 0,
+            self::FIELD_IS_INDIVIDUAL => 0
         ];
         $this->insertRowDB($row);
         return $this->buildByRow($row);
@@ -83,8 +86,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      */
     public function readByIds(
         int $prg_id,
-        int $assignment_id,
-        int $usr_id
+        int $assignment_id
     ) : ilStudyProgrammeProgress {
         return $this->readByPrgIdAndAssignmentId($prg_id, $assignment_id);
     }
@@ -228,7 +230,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                         $progress->getCompletionDate()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
                 self::FIELD_DEADLINE => $progress->getDeadline() ? $progress->getDeadline()->format(ilStudyProgrammeProgress::DATE_FORMAT) : null,
                 self::FIELD_VQ_DATE => $progress->getValidityOfQualification() ? $progress->getValidityOfQualification()->format(ilStudyProgrammeProgress::DATE_TIME_FORMAT) : null,
-                self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0
+                self::FIELD_INVALIDATED => $progress->isInvalidated() ? 1 : 0,
+                self::FIELD_IS_INDIVIDUAL => $progress->hasIndividualModifications() ? 1 : 0
             ]
         );
     }
@@ -261,15 +264,18 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 , self::FIELD_DEADLINE => ['text', $row[self::FIELD_DEADLINE]]
                 , self::FIELD_VQ_DATE => ['timestamp', $row[self::FIELD_VQ_DATE]]
                 , self::FIELD_INVALIDATED => ['timestamp', $row[self::FIELD_INVALIDATED]]
+                , self::FIELD_IS_INDIVIDUAL => ['integer', $row[self::FIELD_IS_INDIVIDUAL]]
             ]
         );
     }
 
-    public function deleteDB(int $id)
+    public function deleteForAssignmentId(int $assignment_id) : void
     {
-        $this->db->manipulate(
-            'DELETE FROM ' . self::TABLE . ' WHERE ' . self::FIELD_ID . ' = ' . $this->db->quote($id, 'integer')
-        );
+        $query = 'DELETE FROM ' . self::TABLE . PHP_EOL
+            . ' WHERE ' . self::FIELD_ASSIGNMENT_ID . ' = '
+            . $this->db->quote($assignment_id, 'integer');
+
+        $this->db->manipulate($query);
     }
 
     public function reminderSendFor(int $progress_id) : void
@@ -357,6 +363,10 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 'integer',
                 $data[self::FIELD_INVALIDATED]
             ],
+            self::FIELD_IS_INDIVIDUAL => [
+                'integer',
+                $data[self::FIELD_IS_INDIVIDUAL]
+            ]
         ];
 
         $this->db->update(self::TABLE, $values, $where);
@@ -368,42 +378,46 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     protected function buildByRow(array $row) : ilStudyProgrammeProgress
     {
         $prgrs = (new ilStudyProgrammeProgress((int) $row[self::FIELD_ID]))
-            ->setAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
-            ->setNodeId((int) $row[self::FIELD_PRG_ID])
-            ->setUserId((int) $row[self::FIELD_USR_ID])
-            ->setStatus((int) $row[self::FIELD_STATUS])
-            ->setAmountOfPoints((int) $row[self::FIELD_POINTS])
-            ->setCurrentAmountOfPoints((int) $row[self::FIELD_POINTS_CUR])
-            ->setCompletionBy((int) $row[self::FIELD_COMPLETION_BY])
-            ->setDeadline(
+            ->withAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
+            ->withNodeId((int) $row[self::FIELD_PRG_ID])
+            ->withUserId((int) $row[self::FIELD_USR_ID])
+            ->withStatus((int) $row[self::FIELD_STATUS])
+            ->withAmountOfPoints((int) $row[self::FIELD_POINTS])
+            ->withCurrentAmountOfPoints((int) $row[self::FIELD_POINTS_CUR])
+            ->withCompletionBy((int) $row[self::FIELD_COMPLETION_BY])
+            ->withDeadline(
                 $row[self::FIELD_DEADLINE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
                     null
             )
-            ->setAssignmentDate(
-                DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_ASSIGNMENT_DATE])
+            ->withAssignmentDate(
+                DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_ASSIGNMENT_DATE])
             )
-            ->setCompletionDate(
+            ->withCompletionDate(
                 $row[self::FIELD_COMPLETION_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_COMPLETION_DATE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_COMPLETION_DATE]) :
                     null
             )
-            ->setLastChange(
+            ->withLastChange(
                 $row[self::FIELD_LAST_CHANGE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGE]) :
                     null
             )
-            ->setValidityOfQualification(
+            ->withValidityOfQualification(
                 $row[self::FIELD_VQ_DATE] ?
-                    DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_VQ_DATE]) :
+                    DateTimeImmutable::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_VQ_DATE]) :
                     null
-            );
+            )
+            ->withIndividualModifications((bool) $row[self::FIELD_IS_INDIVIDUAL]);
+
+
+
         if ((int) $row[self::FIELD_INVALIDATED] === 1) {
             $prgrs = $prgrs->invalidate();
         }
 
         if (!is_null($row[self::FIELD_LAST_CHANGE_BY])) {
-            $prgrs = $prgrs->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY]);
+            $prgrs = $prgrs->withLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY]);
         }
 
         return $prgrs;
@@ -437,7 +451,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_VQ_DATE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_VQ_DATE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
             )
             . '    AND ' . self::FIELD_INVALIDATED . ' != 1 OR ' . self::FIELD_INVALIDATED . ' IS NULL';
@@ -460,12 +474,12 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                 ],
                 false,
                 'integer'
-             ) . PHP_EOL
+            ) . PHP_EOL
             . 'AND ' . self::FIELD_DEADLINE . ' IS NOT NULL' . PHP_EOL
             . 'AND DATE(' . self::FIELD_DEADLINE . ') < ' . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
-             ) . PHP_EOL
+            ) . PHP_EOL
         ;
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
@@ -488,7 +502,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_DEADLINE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_DEADLINE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                (new DateTimeImmutable())->format(ilStudyProgrammeProgress::DATE_FORMAT),
                 'text'
             )
             . '    AND ' . self::FIELD_MAIL_SEND . ' IS NULL'
@@ -516,6 +530,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . ', ' . self::FIELD_DEADLINE
             . ', ' . self::FIELD_VQ_DATE
             . ', ' . self::FIELD_INVALIDATED
+            . ', ' . self::FIELD_IS_INDIVIDUAL
             . ' FROM ' . self::TABLE;
     }
 

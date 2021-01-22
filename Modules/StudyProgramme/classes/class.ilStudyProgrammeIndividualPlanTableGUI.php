@@ -2,11 +2,6 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-require_once("Services/Table/classes/class.ilTable2GUI.php");
-require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeUserProgress.php");
-require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-require_once("Services/Utilities/classes/class.ilUtil.php");
-
 /**
  * Class ilStudyProgrammeIndividualPlanTableGUI
  *
@@ -20,15 +15,17 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
     const SEL_COLUMN_DEADLINE = "prg_deadline";
     const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
 
-
     protected $assignment;
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressDB
      */
     protected $sp_user_progress_db;
 
-    public function __construct(ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj, ilStudyProgrammeAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db)
-    {
+    public function __construct(
+        ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj,
+        ilStudyProgrammeAssignment $a_ass,
+        ilStudyProgrammeProgressRepository $sp_user_progress_db
+    ) {
         $this->setId("manage_indiv");
 
         $this->sp_user_progress_db = $sp_user_progress_db;
@@ -88,8 +85,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function fillRow($a_set)
     {
-        $status = $this->sp_user_progress_db->statusToRepr($a_set["status"]);
-        $this->tpl->setVariable("STATUS", $status);
+        $this->tpl->setVariable("STATUS", $a_set['status_repr']);
 
         $title = $a_set["title"];
         if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
@@ -154,36 +150,46 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $usr_id = $this->assignment->getUserId();
         $plan = array();
 
-        $prg->applyToSubTreeNodes(function ($node) use ($prg_id, $ass_id, $usr_id, &$plan) {
-            $progress = $this->sp_user_progress_db->getInstance($ass_id, $node->getId(), $usr_id);
-            $completion_by_id = $progress->getCompletionBy();
-            if ($completion_by_id) {
-                $completion_by = ilObjUser::_lookupLogin($completion_by_id);
-                if (!$completion_by) {
-                    $type = ilObject::_lookupType($completion_by_id);
-                    if ($type == "crsr") {
-                        $completion_by = ilContainerReference::_lookupTitle($completion_by_id);
-                    } else {
-                        $completion_by = ilObject::_lookupTitle($completion_by_id);
+        $prg->applyToSubTreeNodes(
+            function ($node) use ($prg_id, $ass_id, $usr_id, &$plan, $prg) {
+                $progress = $this->sp_user_progress_db->readByIds($node->getId(), $ass_id);
+                $completion_by_id = $progress->getCompletionBy();
+                if ($completion_by_id) {
+                    $completion_by = ilObjUser::_lookupLogin($completion_by_id);
+                    if (!$completion_by) {
+                        $type = ilObject::_lookupType($completion_by_id);
+                        if ($type == "crsr") {
+                            $completion_by = ilContainerReference::_lookupTitle($completion_by_id);
+                        } else {
+                            $completion_by = ilObject::_lookupTitle($completion_by_id);
+                        }
                     }
+                } else {
+                    $names = $prg->getNamesOfCompletedOrAccreditedChildren($ass_id);
+                    $completion_by = implode(", ", $names);
                 }
-            } else {
-                $completion_by = implode(", ", $progress->getNamesOfCompletedOrAccreditedChildren());
-            }
-            $plan[] = array( "status" => $progress->getStatus()
-                           , "title" => $node->getTitle()
-                           , "points_current" => $progress->getCurrentAmountOfPoints()
-                           , "points_required" => $progress->getAmountOfPoints()
-                           , "possible" => $progress->isSuccessful() || $progress->canBeCompleted() || !$progress->isRelevant()
-                           , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
-                           , "completion_by" => $completion_by
-                           , "progress_id" => $progress->getId()
-                           , "program_status" => $progress->getStudyProgramme()->getStatus()
-                           , "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y')
-                           , "deadline" => $progress->getDeadline()
-                           , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
-                           );
-        }, true);
+
+                $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
+                $plan[] = array( "status" => $progress->getStatus()
+                               , "status_repr" => $programme->statusToRepr($progress->getStatus())
+                               , "title" => $node->getTitle()
+                               , "points_current" => $progress->getCurrentAmountOfPoints()
+                               , "points_required" => $progress->getAmountOfPoints()
+                               , "possible" => $progress->isSuccessful()
+                                    || $programme->canBeCompleted($progress)
+                                    || !$progress->isRelevant()
+                               , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
+                               , "completion_by" => $completion_by
+                               , "progress_id" => $progress->getId()
+                                //draft/active/outdated
+                               , "program_status" => $programme->getStatus()
+                               , "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y')
+                               , "deadline" => $progress->getDeadline()
+                               , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
+                               );
+            },
+            true
+        );
         return $plan;
     }
 

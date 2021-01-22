@@ -322,7 +322,6 @@ class ilStudyProgrammeAppEventListener
     {
         $usr_id = $params['usr_id'];
         $progress_id = $params['progress_id'];
-
-        ilStudyProgrammeUserProgress::sendRiskyToFailMail($progress_id, $usr_id);
+        ilObjStudyProgramme::sendRiskyToFailMail($progress_id, $usr_id);
     }
 }

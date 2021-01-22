@@ -33,7 +33,7 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_root_id()
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setRootId(321);
+        $spa = (new ilStudyProgrammeAssignment(123))->withRootId(321);
         $this->assertEquals($spa->getRootId(), 321);
     }
 
@@ -42,7 +42,7 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_user_id()
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setUserId(321);
+        $spa = (new ilStudyProgrammeAssignment(123))->withUserId(321);
         $this->assertEquals($spa->getUserId(), 321);
     }
 
@@ -51,7 +51,7 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_last_change_by()
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(6);
+        $spa = (new ilStudyProgrammeAssignment(123))->withLastChangeBy(6);
         $this->assertEquals($spa->getLastChangeBy(), 6);
     }
 
@@ -61,7 +61,7 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_last_change_by_invalid()
     {
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChangeBy(-55);
+        $spa = (new ilStudyProgrammeAssignment(123))->withLastChangeBy(-55);
     }
 
     /**
@@ -69,8 +69,8 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_last_change()
     {
-        $dl = new DateTime();
-        $spa = (new ilStudyProgrammeAssignment(123))->setLastChange($dl);
+        $dl = new DateTimeImmutable();
+        $spa = (new ilStudyProgrammeAssignment(123))->withLastChange($dl);
         $this->assertEquals($spa->getLastChange()->format('Y-m-d H:i:s'), $dl->format('Y-m-d H:i:s'));
     }
 
@@ -79,8 +79,8 @@ class ilStudyProgrammeAssignmentTest extends \PHPUnit\Framework\TestCase
      */
     public function test_restart_date()
     {
-        $dl = DateTime::createFromFormat('Ymd', '20201001');
-        $spa = (new ilStudyProgrammeAssignment(123))->setRestartDate($dl);
+        $dl = DateTimeImmutable::createFromFormat('Ymd', '20201001');
+        $spa = (new ilStudyProgrammeAssignment(123))->withRestartDate($dl);
         $this->assertEquals($spa->getRestartDate()->format('Ymd'), '20201001');
     }
 

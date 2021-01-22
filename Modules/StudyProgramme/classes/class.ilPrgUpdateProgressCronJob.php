@@ -7,9 +7,10 @@ declare(strict_types=1);
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
     const ID = 'prg_update_progress';
+    const CRON_USER_ID = 6; //TODO: This is root, not cron.
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
+     * @var ilStudyProgrammeProgressRepository
      */
     protected $user_progress_db;
 
@@ -27,7 +28,7 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
     {
         global $DIC;
 
-        $this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+        $this->user_progress_db = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
@@ -71,9 +72,11 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
     public function run()
     {
         $result = new ilCronJobResult();
-        foreach ($this->user_progress_db->getPassedDeadline() as $progress) {
+        foreach ($this->user_progress_db->readPassedDeadline() as $progress) {
             if ($progress->getStatus() === ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-                $progress->markFailed($progress->getUserId());
+                //TODO: this is a detour...
+                $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
+                $programme->markFailed($progress->getId(), self::CRON_USER_ID);
             }
         }
         $result->setStatus(ilCronJobResult::STATUS_OK);
