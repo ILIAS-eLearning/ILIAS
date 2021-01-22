@@ -145,7 +145,11 @@ class ilStudyProgrammeAssignment
 
     public function getLastChange() : DateTime //TODO: use DateTimeImmutable
     {
-        return DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
+        $d = DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
+        if (!$d) { //TODO: shoudl not happen...
+            return new DateTime();
+        }
+        return $d;
     }
 
     /**

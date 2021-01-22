@@ -51,7 +51,8 @@ class ilObjStudyProgrammeIndividualPlanGUI
         \ilObjUser $ilUser,
         \ilAccess $ilAccess,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+        //ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+        ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;

@@ -8,7 +8,7 @@ declare(strict_types=1);
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
     /**
-     * @var ilStudyProgrammeUserAssignmentDB
+     * @var ilStudyProgrammeAssignmentDBRepository
      */
     protected $user_assignments_db;
 

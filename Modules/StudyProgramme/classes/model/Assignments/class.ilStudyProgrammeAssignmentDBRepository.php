@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignmentRepository
 {
@@ -298,6 +297,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         if (count($assignments) > 0) {
             $ret[$prg] = $assignments;
         }
+
         return $ret;
     }
 
@@ -306,10 +306,10 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      */
     protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
     {
-        return (new ilStudyProgrammeAssignment($row[self::FIELD_ID]))
-            ->setRootId($row[self::FIELD_ROOT_PRG_ID])
-            ->setUserId($row[self::FIELD_USR_ID])
-            ->setLastChangeBy($row[self::FIELD_LAST_CHANGE_BY])
+        return (new ilStudyProgrammeAssignment((int) $row[self::FIELD_ID]))
+            ->setRootId((int) $row[self::FIELD_ROOT_PRG_ID])
+            ->setUserId((int) $row[self::FIELD_USR_ID])
+            ->setLastChangeBy((int) $row[self::FIELD_LAST_CHANGE_BY])
             ->setLastChange(DateTime::createFromFormat(
                 ilStudyProgrammeAssignment::DATE_TIME_FORMAT,
                 $row[self::FIELD_LAST_CHANGE]
@@ -319,7 +319,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
                     DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
                     null
             )
-            ->setRestartedAssignmentId($row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
+            ->setRestartedAssignmentId((int) $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
     }
 
     protected function loadByFilterDB(array $filter)
@@ -347,11 +347,11 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $this->db->insert(
             self::TABLE,
             [
-                self::FIELD_ID => ['interger', $row[self::FIELD_ID]]
-                , self::FIELD_USR_ID => ['interger', $row[self::FIELD_USR_ID]]
-                , self::FIELD_ROOT_PRG_ID => ['interger', $row[self::FIELD_ROOT_PRG_ID]]
-                , self::FIELD_LAST_CHANGE => ['interger', $row[self::FIELD_LAST_CHANGE]]
-                , self::FIELD_LAST_CHANGE_BY => ['interger', $row[self::FIELD_LAST_CHANGE_BY]]
+                self::FIELD_ID => ['integer', $row[self::FIELD_ID]]
+                , self::FIELD_USR_ID => ['integer', $row[self::FIELD_USR_ID]]
+                , self::FIELD_ROOT_PRG_ID => ['integer', $row[self::FIELD_ROOT_PRG_ID]]
+                , self::FIELD_LAST_CHANGE => ['integer', $row[self::FIELD_LAST_CHANGE]]
+                , self::FIELD_LAST_CHANGE_BY => ['integer', $row[self::FIELD_LAST_CHANGE_BY]]
                 , self::FIELD_RESTART_DATE => ['timestamp', $row[self::FIELD_RESTART_DATE]]
                 , self::FIELD_RESTARTED_ASSIGNMENT_ID => ['integer', $row[self::FIELD_RESTARTED_ASSIGNMENT_ID]]
             ]
@@ -380,5 +380,65 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     protected function nextId()
     {
         return $this->db->nextId(self::TABLE);
+    }
+
+
+
+
+    /**
+     * -----------------------------------------------------------------------------
+     * Backport ilStudyProgrammeUserAssignmentDB
+     * -----------------------------------------------------------------------------
+     */
+    public function getInstanceById(int $id)
+    {
+        return $this->read($id);
+    }
+
+    public function getInstanceByModel(\ilStudyProgrammeAssignment $assignment)
+    {
+        return $assignment;
+    }
+
+    public function getInstancesOfUser(int $user_id)
+    {
+        global $DIC;
+        $tree = $DIC['tree'];
+
+        $assignments = $this->readByUsrId($user_id);
+
+        //if parent object is deleted or in trash
+        //the assignment for the user should not be returned
+        $ret = [];
+        foreach ($assignments as $ass) {
+            foreach (ilObject::_getAllReferences($ass->getRootId()) as $value) {
+                if ($tree->isInTree($value)) {
+                    $ret[] = $ass;
+                    continue 2;
+                }
+            }
+        }
+        return $ret;
+    }
+
+    public function getInstancesForProgram(int $program_id)
+    {
+        return $this->readByPrgId($program_id);
+    }
+
+    /**
+     * @return ilStudyProgrammeAssignment[]
+     */
+    public function getDueToRestartInstances() : array
+    {
+        return $this->readDueToRestart();
+    }
+
+    /**
+     * @return ilStudyProgrammeAssignment[]
+     */
+    public function getDueToRestartAndMail() : array
+    {
+        return $this->readDueToRestartAndMail();
     }
 }
