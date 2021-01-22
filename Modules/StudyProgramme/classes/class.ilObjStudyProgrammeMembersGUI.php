@@ -500,9 +500,7 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->markAccredited($this->user->getId());
-
-        $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-        $this->updateUserAssignmentFromProgramm($ass);
+        $this->updateUserAssignmentFromProgramm($prgrs->getAssignmentId());
     }
 
     /**
@@ -533,9 +531,7 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->unmarkAccredited();
-
-        $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-        $this->updateUserAssignmentFromProgramm($ass);
+        $this->updateUserAssignmentFromProgramm($prgrs->getAssignmentId());
     }
 
     /**
@@ -644,7 +640,7 @@ class ilObjStudyProgrammeMembersGUI
                 continue;
             }
 
-            $this->updateUserAssignmentFromProgramm($ass);
+            $this->updateUserAssignmentFromProgramm($ass->getId());
         }
 
         if (count($not_updated) == count($prgrs_ids)) {
@@ -971,9 +967,8 @@ class ilObjStudyProgrammeMembersGUI
             || $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation);
     }
 
-    protected function updateUserAssignmentFromProgramm(ilStudyProgrammeUserAssignment $ass) : void
+    protected function updateUserAssignmentFromProgramm(int $assignment_id) : void
     {
-        //$ass->updateFromProgram();
-        $this->object->updateFromPlanByAssignmentId($ass->getId());
+        $this->object->updateFromPlanByAssignmentId($assignment_id);
     }
 }
