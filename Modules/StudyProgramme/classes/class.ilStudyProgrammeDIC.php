@@ -185,22 +185,11 @@ class ilStudyProgrammeDIC
                 $dic['ilStudyProgrammeEvents']
             );
         };
+
         $dic['ilStudyProgrammeUserAssignmentDB'] = function ($dic) use ($DIC) {
-            $tree = $DIC->offsetExists('tree') ?
-                $DIC['tree'] : new ilTree(ROOT_FOLDER_ID);
-
-            $logger = $DIC['ilLog'];
-            if (strpos(get_class($logger), 'class@anonymous') === 0) {
-                $logger = ilLoggerFactory::getLogger('setup');
-            }
-
-            return new ilStudyProgrammeUserAssignmentDB(
-                $dic['ilStudyProgrammeUserProgressDB'],
-                $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
-                $tree,
-                $dic['ilStudyProgrammeEvents']
-            );
+            return $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'];
         };
+
         $dic['ilOrgUnitObjectTypePositionSetting'] = function ($dic) {
             return new ilOrgUnitObjectTypePositionSetting('prg');
         };

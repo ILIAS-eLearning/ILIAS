@@ -825,6 +825,9 @@ class ilObjStudyProgramme extends ilContainer
     public function getRoot()
     {
         $parents = $this->getParents();
+        if (count($parents) < 1) {
+            return $this;
+        }
         return $parents[0];
     }
 
@@ -1181,7 +1184,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function assignUser(int $a_usr_id, int $a_assigning_usr_id = null) : ilStudyProgrammeUserAssignment
+    public function assignUser(int $a_usr_id, int $a_assigning_usr_id = null) : ilStudyProgrammeAssignment
     {
         $this->members_cache = null;
         if ($this->settings === null) {
@@ -1243,7 +1246,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) : ilObjStudyProgramme
+    public function removeAssignment(ilStudyProgrammeAssignment $a_assignment) : ilObjStudyProgramme
     {
         $this->members_cache = null;
         if ($a_assignment->getRootId() != $this->getId()) {
@@ -1255,8 +1258,7 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         $this->events->userDeassigned($a_assignment);
-
-        $a_assignment->delete();
+        $this->assignment_repository->delete($a_assignment);
 
         return $this;
     }
@@ -1283,7 +1285,7 @@ class ilObjStudyProgramme extends ilContainer
      * are ordered by last_change, where the most recently changed assignments is the
      * first one.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignmentsOf(int $a_user_id) : array
     {
@@ -1310,7 +1312,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get all assignments to this program or any node above.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignments() : array
     {
@@ -1360,7 +1362,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get assignments of user to this program-node only.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignmentsOfSingleProgramForUser(int $usr_id) : array
     {
@@ -1423,7 +1425,7 @@ class ilObjStudyProgramme extends ilContainer
         $progress_repository = $this->progress_repository;
         $log = $this->getLog();
 
-        foreach ($this->getAssignments() as $ass) { /** ilStudyProgrammeUserAssignment[] */
+        foreach ($this->getAssignments() as $ass) { /** ilStudyProgrammeAssignment[] */
             $id = $ass->getId();
             $assignment = $ass->getSPAssignment();
 

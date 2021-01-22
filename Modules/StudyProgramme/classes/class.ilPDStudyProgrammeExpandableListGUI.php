@@ -24,7 +24,7 @@ class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGU
         return $_GET["cmd"] == "jumpToSelectedItems" && $_GET["expand"];
     }
 
-    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)
+    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeAssignment $a_assignment)
     {
         require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php");
         $prg = ilObjStudyProgramme::getInstanceByObjId($a_assignment->getRootId());

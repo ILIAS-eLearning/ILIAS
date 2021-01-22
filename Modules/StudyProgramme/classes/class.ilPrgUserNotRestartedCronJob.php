@@ -10,7 +10,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
     const ID = 'prg_user_not_restarted';
 
     /**
-     * @var ilStudyProgrammeUserAssignmentDB
+     * @var ilStudyProgrammeAssignmentDBRepository
      */
     protected $user_assignments_db;
 

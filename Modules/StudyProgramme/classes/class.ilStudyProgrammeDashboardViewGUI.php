@@ -82,13 +82,13 @@ class ilStudyProgrammeDashboardViewGUI
         foreach ($this->getUsersAssignments() as $assignments) {
             $properties = [];
             krsort($assignments);
-            /** @var ilStudyProgrammeUserAssignment $current */
+            /** @var ilStudyProgrammeAssignment $current */
             $current = current($assignments);
             if (!$this->isReadable($current)) {
                 continue;
             }
 
-            $current_prg = $prg = ilObjStudyProgramme::getInstanceByObjId($current->getRootId());
+            $current_prg = ilObjStudyProgramme::getInstanceByObjId($current->getRootId());
 
             /** @var ilStudyProgrammeSettings $current_prg_settings */
             $current_prg_settings = $current_prg->getRawSettings();
@@ -254,7 +254,7 @@ class ilStudyProgrammeDashboardViewGUI
      * @throws ilException
      */
     protected function hasPermission(
-        ilStudyProgrammeUserAssignment $assignment,
+        ilStudyProgrammeAssignment $assignment,
         string $permission
     ) : bool {
         $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
@@ -264,7 +264,7 @@ class ilStudyProgrammeDashboardViewGUI
     /**
      * @throws ilException
      */
-    protected function isReadable(ilStudyProgrammeUserAssignment $assignment) : bool
+    protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
     {
         if ($this->getVisibleOnPDMode() == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -274,7 +274,7 @@ class ilStudyProgrammeDashboardViewGUI
     }
 
     /**
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     protected function getUsersAssignments() : array
     {
@@ -347,7 +347,7 @@ class ilStudyProgrammeDashboardViewGUI
             ilStudyProgrammeProgress::STATUS_COMPLETED,
             ilStudyProgrammeProgress::STATUS_ACCREDITED
         ];
-        /** @var ilStudyProgrammeUserAssignment $assignment */
+        /** @var ilStudyProgrammeAssignment $assignment */
         foreach ($assignments as $key => $assignment) {
             $progress = $assignment->getRootProgress();
             if (in_array($progress->getStatus(), $status)) {

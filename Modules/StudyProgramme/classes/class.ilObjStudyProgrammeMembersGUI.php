@@ -79,7 +79,9 @@ class ilObjStudyProgrammeMembersGUI
         \ilObjUser $user,
         \ilTabsGUI $tabs,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
+
+        //ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
+        ilStudyProgrammeAssignmentRepository $sp_user_assignment_db,
         ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
         ilStudyProgrammePositionBasedAccess $position_based_access
@@ -216,7 +218,7 @@ class ilObjStudyProgrammeMembersGUI
     {
         $assignments = $this->object->getAssignments();
 
-        return array_filter($assignments, function (ilStudyProgrammeUserAssignment $assignment) {
+        return array_filter($assignments, function (ilStudyProgrammeAssignment $assignment) {
             return $assignment->getRootId() == $this->object->getId();
         });
     }
@@ -404,7 +406,7 @@ class ilObjStudyProgrammeMembersGUI
      *
      * @param int[] 	$users
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     protected function _addUsers(array $users) : array
     {
@@ -632,7 +634,7 @@ class ilObjStudyProgrammeMembersGUI
         foreach ($prgrs_ids as $key => $prgrs_id) {
             //** ilStudyProgrammeUserProgress */
             $prgrs = $this->getProgressObject((int) $prgrs_id);
-            //** ilStudyProgrammeUserAssignment */
+            //** ilStudyProgrammeAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
             $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
             if ($prg_ref_id != $this->ref_id) {
