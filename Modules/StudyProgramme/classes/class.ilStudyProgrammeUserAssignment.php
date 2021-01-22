@@ -101,7 +101,7 @@ class ilStudyProgrammeUserAssignment
      */
     public function getRootProgress() : ilStudyProgrammeUserProgress
     {
-        //throw new ilException("DON'T USE THIS");
+        throw new ilException("DON'T USE THIS");
 
         return $this->getStudyProgramme()->getProgressForAssignment($this->getId());
     }
@@ -155,6 +155,8 @@ class ilStudyProgrammeUserAssignment
      */
     public function delete() : void
     {
+        throw new ilException("DON'T USE THIS");
+
         $progresses = $this->sp_user_progress_db->getInstancesForAssignment($this->getId());
         foreach ($progresses as $progress) {
             $progress->delete();
