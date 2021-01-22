@@ -325,7 +325,12 @@ class ilObjStudyProgramme extends ilContainer
     protected function deleteAssignments() : void
     {
         foreach ($this->getAssignments() as $ass) {
-            $ass->delete();
+            $progresses = $this->getProgressForAssignment($ass->getId());
+            foreach ($progresses as $progress) {
+                $progress->delete();
+            }
+
+            $this->assignment_repository->delete($ass);
         }
     }
 
