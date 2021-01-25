@@ -152,7 +152,7 @@ class ilFileVersionsGUI
             $migrate->setUrl($this->ctrl->getLinkTarget($this, self::CMD_MIGRATE));
             $this->toolbar->addButtonInstance($migrate);
 
-            ilUtil::sendInfo($this->lng->txt('not_yet_migrated'));
+            // ilUtil::sendInfo($this->lng->txt('not_yet_migrated'));
         }
 
         $table = new ilFileVersionsTableGUI($this, self::CMD_DEFAULT);
