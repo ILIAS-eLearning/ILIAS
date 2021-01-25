@@ -34,6 +34,10 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
+        if (!$environment->hasConfigFor('language')) {
+            return [];
+        }
+
         $config = $environment->getConfigFor('language');
         return [
             new \ilLanguagesInstalledObjective($config, new ilSetupLanguage('en'))
