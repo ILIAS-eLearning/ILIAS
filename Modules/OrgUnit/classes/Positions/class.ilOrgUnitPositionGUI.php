@@ -244,7 +244,7 @@ class ilOrgUnitPositionGUI extends BaseCommands
         $this->ctrl()->saveParameter($this, 'arid');
         $this->ctrl()->saveParameterByClass(ilOrgUnitDefaultPermissionGUI::class, 'arid');
         $this->pushSubTab(self::SUBTAB_SETTINGS, $this->ctrl()
-                                                      ->getLinkTarget($this, self::CMD_INDEX));
+                                                      ->getLinkTarget($this, self::CMD_EDIT));
         $this->pushSubTab(self::SUBTAB_PERMISSIONS, $this->ctrl()
                                                          ->getLinkTargetByClass(ilOrgUnitDefaultPermissionGUI::class, self::CMD_INDEX));
     }
