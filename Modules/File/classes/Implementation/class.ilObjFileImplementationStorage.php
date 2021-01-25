@@ -166,10 +166,4 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         throw new NotImplementedException();
     }
 
-    public function rollback($version_id)
-    {
-        $version_id = (int) $version_id;
-        $this->storage->manage()->rollbackRevision($this->resource->getIdentification(), $version_id);
-    }
-
 }

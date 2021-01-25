@@ -117,6 +117,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
+            $this->setMaxVersion($resource->getMaxRevision());
+            $this->setVersion($resource->getMaxRevision());
         } else {
             $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
                 $this->getFileName());
@@ -134,9 +136,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setFileSize($r->getInformation()->getSize());
         $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
-        $this->createPreview();
+        $this->createPreview(true);
         $this->addNewsNotification("file_updated");
     }
+
+
 
     public function appendStream(FileStream $stream, string $title) : int
     {
@@ -712,14 +716,19 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * Makes the specified version the current one and returns theSummary of rollbackVersion
+     * Makes the specified version the current one
      * @param int $version_id The id of the version to make the current one.
      * @return array The new actual version.
      */
-    public function rollback($version_id)
+    public function rollback(int $version_id) : void
     {
-        $version_id = (int) $version_id;
-        $this->implementation->rollback($version_id);
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $this->manager->rollbackRevision($i, $version_id);
+            $latest_revision = $this->manager->getCurrentRevision($i);
+            $this->updateObjectFromRevision($latest_revision);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
+        }
     }
 
     /**

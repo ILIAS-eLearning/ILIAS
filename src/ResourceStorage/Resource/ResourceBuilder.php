@@ -19,6 +19,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 
 /**
  * Class ResourceBuilder
@@ -190,29 +192,29 @@ class ResourceBuilder
 
     public function appendFromRevision(
         StorableResource $resource,
-        int $revision_number,
-        int $owner_id = null
+        int $revision_number
     ) : StorableResource {
         $existing_revision = $resource->getSpecificRevision($revision_number);
-        $existing_revision_info = $existing_revision->getInformation();
+        if ($existing_revision instanceof FileRevision) {
+            $info_resolver = new ClonedRevisionInfoResolver(
+                $resource->getMaxRevision() + 1,
+                $existing_revision
+            );
 
-        $cloned_revision = $this->revision_repository->blankFromClone($resource, $existing_revision);
-        $cloned_revision_info = $cloned_revision->getInformation();
+            $cloned_revision = $this->revision_repository->blankFromClone(
+                $info_resolver,
+                $resource,
+                $existing_revision
+            );
 
-        $cloned_revision_info->setTitle($existing_revision_info->getTitle());
-        $cloned_revision_info->setSuffix($existing_revision_info->getSuffix());
-        $cloned_revision_info->setMimeType($existing_revision_info->getMimeType());
-        $cloned_revision_info->setSize($existing_revision_info->getSize());
-        $cloned_revision_info->setCreationDate($existing_revision_info->getCreationDate());
+            $this->populateRevisionInfo($cloned_revision, $info_resolver);
 
-        $cloned_revision->setInformation($cloned_revision_info);
-        $cloned_revision->setTitle($existing_revision->getTitle());
-        $cloned_revision->setOwnerId($owner_id ?? 6);
-
-        $resource->addRevision($cloned_revision);
-        $resource->setStorageID($this->storage_handler->getID());
-
+            $resource->addRevision($cloned_revision);
+            $resource->setStorageID($this->storage_handler->getID());
+            return $resource;
+        }
         return $resource;
+
     }
 
     /**
