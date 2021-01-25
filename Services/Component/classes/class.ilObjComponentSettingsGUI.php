@@ -496,7 +496,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 ilUtil::sendSuccess($lng->txt("cmps_plugin_activated"), true);
             }
         } catch (ilPluginException $e) {
-            ilUtil::sendFailure($e->getMessage, true);
+            ilUtil::sendFailure($e->getMessage(), true);
         }
 
         $ilCtrl->setParameter($this, "ctype", $_GET["ctype"]);
@@ -694,7 +694,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 ilUtil::sendSuccess($this->lng->txt("cmps_plugin_uninstalled"), true);
             }
         } catch (ilPluginException $e) {
-            ilUtil::sendFailure($e->getMessage, true);
+            ilUtil::sendFailure($e->getMessage(), true);
         }
 
         ilGlobalCache::flushAll();
