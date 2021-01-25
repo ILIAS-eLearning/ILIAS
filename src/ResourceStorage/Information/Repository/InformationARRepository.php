@@ -9,6 +9,7 @@ use ILIAS\ResourceStorage\Revision\Revision;
 /**
  * Interface InformationRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class InformationARRepository implements InformationRepository
 {
