@@ -69,7 +69,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         } else {
             //if passed a custom position.
             $position = ilOrgUnitPosition::where(['title' => $role])->first();
-            if ($position) {
+            if ($position instanceof ilOrgUnitPosition) {
                 $position_id = $position->getId();
             } else {
                 $this->addError('not_a_valid_role', $user_id);
