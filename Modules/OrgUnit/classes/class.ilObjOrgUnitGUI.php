@@ -747,11 +747,13 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function confirmedDeleteObject()
     {
+        global $DIC;
         if (count($_POST['id']) > 0) {
             foreach ($_POST['id'] as $ref_id) {
                 $il_obj_orgunit = new ilObjOrgUnit($ref_id);
                 $il_obj_orgunit->delete();
             }
+            ilUtil::sendSuccess($DIC->language()->txt("info_deleted"), true);
         }
         $this->ctrl->returnToParent($this);
     }
@@ -771,7 +773,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
-        if (count($_POST['id']) > 0) {
+        if (is_array($_POST['id']) && count($_POST['id']) > 0) {
             $arr_ref_ids = $_POST['id'];
         } elseif ($_GET['item_ref_id'] > 0) {
             $arr_ref_ids = [$_GET['item_ref_id']];
