@@ -140,8 +140,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->addNewsNotification("file_updated");
     }
 
-
-
     public function appendStream(FileStream $stream, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
@@ -167,6 +165,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->setResourceId($i->serialize());
             $this->initImplementation();
         }
+        if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+            $this->setPageCount($result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
+        }
         $this->updateObjectFromRevision($revision);
 
         return $revision->getVersionNumber();
@@ -190,6 +191,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $revision = $this->manager->replaceWithUpload($i, $result, $this->stakeholder, $title);
         } else {
             throw new LogicException('only files with existing resource and revision can be replaced');
+        }
+        if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+            $this->setPageCount($result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
         }
         $this->updateObjectFromRevision($revision);
 
@@ -575,10 +579,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @description This Method is used to append a fileupload by it's POST-name to the current ilObjFile
+     * @deprecated
+     * @see         appendUpload(), appendStream()
      */
     public function getUploadFile($a_upload_file, string $title, bool $a_prevent_preview = false) : bool
     {
-        $this->prepareUpload($a_prevent_preview);
+        $this->prepareUpload();
 
         $results = $this->upload->getResults();
         $upload = $results[$a_upload_file];
@@ -617,23 +623,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     public function isHidden()
     {
         return ilObjFileAccess::_isFileHidden($this->getTitle());
-    }
-
-    /**
-     * @param $a_upload_file
-     * @param $a_filename
-     * @return bool
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @deprecated
-     */
-    public function addFileVersion($a_upload_file, $a_filename)
-    {
-        $this->prepareUpload();
-
-        $upload = $this->upload->getResults()[$a_upload_file];
-        $this->appendUpload($upload, $a_filename);
-
-        return true;
     }
 
     /**
@@ -686,6 +675,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * Stores Files unzipped from uploaded archive in filesystem
      * @param string $a_upload_file
      * @param string $a_filename
+     * @deprecated
      */
 
     public function storeUnzipedFile($a_upload_file, $a_filename)
@@ -718,7 +708,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     /**
      * Makes the specified version the current one
      * @param int $version_id The id of the version to make the current one.
-     * @return array The new actual version.
      */
     public function rollback(int $version_id) : void
     {
@@ -729,41 +718,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         } else {
             throw new LogicException('only files with existing resource and revision can be replaced');
         }
-    }
-
-    /**
-     * @param int $version_id
-     * @return array
-     * @deprecated
-     */
-    public function getSpecificVersion($version_id)
-    {
-        return $this->implementation->getSpecificVersion($version_id);
-    }
-
-    /**
-     * Updates the file object with the specified file version.
-     * @param array $version The version to update the file object with.
-     * @deprecated
-     */
-    // FSX
-    protected function updateWithVersion($version)
-    {
-        // update title (checkFileExtension must be called before setFileName!)
-        $this->setTitle($this->checkFileExtension($version["filename"], $this->getTitle()));
-
-        $this->setVersion($version["version"]);
-        $this->setMaxVersion($version["max_version"]);
-        $this->setFileName($version["filename"]);
-
-        // evaluate mime type (reset file type before)
-        $this->setFileType("");
-        $this->setFileType($this->guessFileType($version["filename"]));
-
-        $this->update();
-
-        // refresh preview
-        $this->createPreview(true);
     }
 
     /**
