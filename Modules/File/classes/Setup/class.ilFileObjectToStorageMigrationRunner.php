@@ -88,12 +88,22 @@ class ilFileObjectToStorageMigrationRunner
             try {
                 $status = 'success';
                 $aditional_info = '';
+
+                $stream = Streams::ofResource(fopen($version->getPath(), 'rb'));
+
+                $info_resolver = new ilFileObjectToStorageInfoResolver(
+                    $stream,
+                    $version->getVersion(),
+                    $version->getOwner(),
+                    $version->getTitle(),
+                    (new DateTimeImmutable())->setTimestamp($version->getCreationDateTimestamp())
+                );
+
                 $this->resource_builder->appendFromStream(
                     $resource,
-                    Streams::ofResource(fopen($version->getPath(), 'rb')),
-                    $this->keep_originals,
-                    $version->getTitle(),
-                    $version->getOwner()
+                    $stream,
+                    $info_resolver,
+                    $this->keep_originals
                 );
             } catch (Throwable $t) {
                 $status = 'failed';

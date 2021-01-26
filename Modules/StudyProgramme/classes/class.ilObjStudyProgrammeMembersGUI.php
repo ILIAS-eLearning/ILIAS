@@ -499,6 +499,9 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->markAccredited($this->user->getId());
+
+        $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
+        $this->updateUserAssignmentFromProgramm($ass);
     }
 
     /**
@@ -529,6 +532,9 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->unmarkAccredited();
+
+        $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
+        $this->updateUserAssignmentFromProgramm($ass);
     }
 
     /**
@@ -627,7 +633,9 @@ class ilObjStudyProgrammeMembersGUI
         $not_updated = array();
 
         foreach ($prgrs_ids as $key => $prgrs_id) {
+            //** ilStudyProgrammeUserProgress */
             $prgrs = $this->getProgressObject((int) $prgrs_id);
+            //** ilStudyProgrammeUserAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
             $prg = $ass->getStudyProgramme();
             if ($prg->getRefId() != $this->ref_id) {
@@ -635,7 +643,7 @@ class ilObjStudyProgrammeMembersGUI
                 continue;
             }
 
-            $ass->updateFromProgram();
+            $this->updateUserAssignmentFromProgramm($ass);
         }
 
         if (count($not_updated) == count($prgrs_ids)) {
@@ -959,5 +967,12 @@ class ilObjStudyProgrammeMembersGUI
     {
         return $this->mayManageMembers()
             || $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation);
+    }
+
+    protected function updateUserAssignmentFromProgramm(ilStudyProgrammeUserAssignment $ass) : void
+    {
+        $ass->updateFromProgram();
+        $ass->updateValidityFromProgram();
+        $ass->updateDeadlineFromProgram();
     }
 }

@@ -14,6 +14,10 @@ class ilFileObjectToStorageDirectory
      * @var string
      */
     protected $path;
+    /**
+     * @var ilFileObjectToStorageVersion[]
+     */
+    protected $versions = [];
 
     /**
      * ilFileObjectToStorageDirectory constructor.
@@ -24,6 +28,42 @@ class ilFileObjectToStorageDirectory
     {
         $this->object_id = $object_id;
         $this->path = $path;
+        $this->initVersions();
+    }
+
+    private function initVersions() : void
+    {
+        $history_data = $this->getHistoryData();
+
+        $g = new RegexIterator(
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($this->path,
+                    FilesystemIterator::KEY_AS_PATHNAME
+                    |FilesystemIterator::CURRENT_AS_FILEINFO
+                    |FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ), '/.*\/file_[\d]*\/([\d]*)\/(.*)/', RegexIterator::GET_MATCH
+        );
+
+        $this->versions = [];
+
+        foreach ($g as $item) {
+            $version = (int) $item[1];
+            $title = $history_data[$version]['filename'] ?? $item[2];
+            $action = $history_data[$version]['action'] ?? 'create';
+            $owner = $history_data[$version]['owner_id'] ?? 13;
+            $ceation_date_timestamp = strtotime($history_data[$version]['date']) ?? 0;
+            $this->versions[$version] = new ilFileObjectToStorageVersion(
+                $version,
+                $item[0],
+                $title,
+                $title,
+                $action,
+                $ceation_date_timestamp,
+                $owner
+            );
+        }
+        ksort($this->versions);
     }
 
     /**
@@ -53,27 +93,7 @@ class ilFileObjectToStorageDirectory
      */
     public function getVersions() : Generator
     {
-        $history_data = $this->getHistoryData();
-
-        $g = new RegexIterator(
-            new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($this->path,
-                    FilesystemIterator::KEY_AS_PATHNAME
-                    |FilesystemIterator::CURRENT_AS_FILEINFO
-                    |FilesystemIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::LEAVES_ONLY
-            ), '/.*\/file_[\d]*\/([\d]*)\/(.*)/', RegexIterator::GET_MATCH
-        );
-
-        foreach ($g as $item) {
-            $version = (int) $item[1];
-            $title = $history_data[$version]['filename'] ?? $item[2];
-            $action = $history_data[$version]['action'] ?? 'create';
-            $owner = $history_data[$version]['owner_id'] ?? 13;
-
-            yield new ilFileObjectToStorageVersion($version, $item[0], $title, $title, $action, $owner);
-
-        }
+        yield from $this->versions;
     }
 
     /**

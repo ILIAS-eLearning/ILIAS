@@ -292,6 +292,7 @@ class ilFileUtils
      *
      * @version 1.6.9.07
      * @author  Jan Hippchen
+     * @deprecated
      */
     public static function createFile($filename, $path, $ref_id, $tree = null, $access_handler = null)
     {

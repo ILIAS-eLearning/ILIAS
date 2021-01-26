@@ -16,6 +16,7 @@ class LockHandlerilDB implements LockHandler
     /**
      * LockHandlerilDB constructor.
      * @param \ilDBInterface $db
+     * @internal
      */
     public function __construct(\ilDBInterface $db)
     {

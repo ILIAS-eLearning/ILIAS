@@ -18,8 +18,8 @@ use ILIAS\ResourceStorage\Revision\CloneRevision;
 /**
  * Class FileSystemStorage
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- * @internal
  * @package ILIAS\ResourceStorage\Storage
+ * @internal
  */
 class FileSystemStorageHandler implements StorageHandler
 {
@@ -45,9 +45,9 @@ class FileSystemStorageHandler implements StorageHandler
      */
     public function __construct(Filesystem $filesystem, int $location = Location::STORAGE)
     {
-        $this->fs       = $filesystem;
+        $this->fs = $filesystem;
         $this->location = $location;
-        $this->id       = new UniqueIDIdentificationGenerator();
+        $this->id = new UniqueIDIdentificationGenerator();
     }
 
     /**
@@ -83,7 +83,8 @@ class FileSystemStorageHandler implements StorageHandler
     {
         global $DIC;
 
-        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location, self::DATA);
+        $DIC->upload()->moveOneFileTo($revision->getUpload(), $this->getRevisionPath($revision), $this->location,
+            self::DATA);
 
         return true;
     }

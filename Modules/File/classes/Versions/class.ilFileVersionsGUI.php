@@ -150,8 +150,7 @@ class ilFileVersionsGUI
             $migrate = ilLinkButton::getInstance();
             $migrate->setCaption('migrate');
             $migrate->setUrl($this->ctrl->getLinkTarget($this, self::CMD_MIGRATE));
-            $this->toolbar->addButtonInstance($migrate);
-
+//            $this->toolbar->addButtonInstance($migrate);
             ilUtil::sendInfo($this->lng->txt('not_yet_migrated'));
         }
 

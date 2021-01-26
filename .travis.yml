@@ -13,7 +13,6 @@ addons:
     packages:
     - unzip
 install:
-  - composer self-update --1
   - composer install
 env:
   global:

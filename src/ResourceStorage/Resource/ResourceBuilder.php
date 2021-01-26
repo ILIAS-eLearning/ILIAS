@@ -18,11 +18,14 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Consumer\FileStreamConsumer;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
 
 /**
  * Class ResourceBuilder
- * @internal
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class ResourceBuilder
 {
@@ -87,22 +90,23 @@ class ResourceBuilder
     /**
      * @inheritDoc
      */
-    public function new(UploadResult $result, string $title = null, int $owner_id = null) : StorableResource
-    {
+    public function new(
+        UploadResult $result,
+        InfoResolver $info_resolver
+    ) : StorableResource {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->append($resource, $result, $title, $owner_id);
+        return $this->append($resource, $result, $info_resolver);
     }
 
     public function newFromStream(
         FileStream $stream,
-        bool $keep_original = false,
-        string $title = null,
-        int $ownner_id = null
+        InfoResolver $info_resolver,
+        bool $keep_original = false
     ) : StorableResource {
         $resource = $this->resource_repository->blank($this->storage_handler->getIdentificationGenerator()->getUniqueResourceIdentification());
 
-        return $this->appendFromStream($resource, $stream, $keep_original, $title, $ownner_id);
+        return $this->appendFromStream($resource, $stream, $info_resolver, $keep_original);
     }
 
     public function newBlank() : StorableResource
@@ -117,27 +121,13 @@ class ResourceBuilder
     // Methods to append something to an existing resource
     //
 
-    /**
-     * @inheritDoc
-     */
     public function append(
         StorableResource $resource,
         UploadResult $result,
-        string $revision_title = null,
-        int $owner_id = null
+        InfoResolver $info_resolver
     ) : StorableResource {
-        $revision = $this->revision_repository->blankFromUpload($resource, $result);
-
-        $info = $revision->getInformation();
-        $info->setTitle($result->getName());
-        $info->setMimeType($result->getMimeType());
-        $info->setSuffix(pathinfo($result->getName(), PATHINFO_EXTENSION));
-        $info->setSize($result->getSize());
-        $info->setCreationDate(new \DateTimeImmutable());
-
-        $revision->setInformation($info);
-        $revision->setTitle($revision_title ?? $result->getName());
-        $revision->setOwnerId($owner_id ?? 6);
+        $revision = $this->revision_repository->blankFromUpload($info_resolver, $resource, $result);
+        $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
@@ -151,21 +141,10 @@ class ResourceBuilder
     public function replaceWithUpload(
         StorableResource $resource,
         UploadResult $result,
-        string $revision_title = null,
-        int $owner_id = null
+        InfoResolver $info_resolver
     ) : StorableResource {
-        $revision = $this->revision_repository->blankFromUpload($resource, $result);
-
-        $info = $revision->getInformation();
-        $info->setTitle($result->getName());
-        $info->setMimeType($result->getMimeType());
-        $info->setSuffix(pathinfo($result->getName(), PATHINFO_EXTENSION));
-        $info->setSize($result->getSize());
-        $info->setCreationDate(new \DateTimeImmutable());
-
-        $revision->setInformation($info);
-        $revision->setTitle($revision_title ?? $result->getName());
-        $revision->setOwnerId($owner_id ?? 6);
+        $revision = $this->revision_repository->blankFromUpload($info_resolver, $resource, $result);
+        $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         foreach ($resource->getAllRevisions() as $existing_revision) {
             $this->deleteRevision($resource, $existing_revision);
@@ -180,61 +159,26 @@ class ResourceBuilder
     public function appendFromStream(
         StorableResource $resource,
         FileStream $stream,
-        bool $keep_original = false,
-        string $revision_title = null,
-        int $owner_id = null
+        InfoResolver $info_resolver,
+        bool $keep_original = false
     ) : StorableResource {
-        $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
-        $info = $revision->getInformation();
-        $path = $stream->getMetadata('uri');
-        if ($path && $path !== 'php://input') {
-            $file_name = basename($path);
-            $info->setTitle($file_name);
-            $info->setSuffix(pathinfo($file_name, PATHINFO_EXTENSION));
-            $info->setMimeType(function_exists('mime_content_type') ? mime_content_type($path) : 'unknown');
-            $info->setSize($stream->getSize());
-            $filectime = filectime($path);
-            $info->setCreationDate($filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable());
-        }
+        $revision = $this->revision_repository->blankFromStream($info_resolver, $resource, $stream, $keep_original);
+        $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
-        $revision->setOwnerId($owner_id ?? 6);
-        $revision->setTitle($revision_title ?? $file_name ?? 'stream');
         $resource->addRevision($revision);
         $resource->setStorageID($this->storage_handler->getID());
 
         return $resource;
     }
 
-    /**
-     * @param StorableResource $resource
-     * @param FileStream       $stream
-     * @param bool             $keep_original
-     * @param string|null      $revision_title
-     * @param int|null         $owner_id
-     * @return StorableResource
-     */
     public function replaceWithStream(
         StorableResource $resource,
         FileStream $stream,
-        bool $keep_original = false,
-        string $revision_title = null,
-        int $owner_id = null
+        InfoResolver $info_resolver,
+        bool $keep_original = false
     ) : StorableResource {
-        $revision = $this->revision_repository->blankFromStream($resource, $stream, $keep_original);
-        $info = $revision->getInformation();
-        $path = $stream->getMetadata('uri');
-        if ($path && $path !== 'php://input') {
-            $file_name = basename($path);
-            $info->setTitle($file_name);
-            $info->setSuffix(pathinfo($file_name, PATHINFO_EXTENSION));
-            $info->setMimeType(function_exists('mime_content_type') ? mime_content_type($path) : 'unknown');
-            $info->setSize($stream->getSize());
-            $filectime = filectime($path);
-            $info->setCreationDate($filectime ? (new \DateTimeImmutable())->setTimestamp($filectime) : new \DateTimeImmutable());
-        }
-
-        $revision->setOwnerId($owner_id ?? 6);
-        $revision->setTitle($revision_title ?? $file_name ?? 'stream');
+        $revision = $this->revision_repository->blankFromStream($info_resolver, $resource, $stream, $keep_original);
+        $revision = $this->populateRevisionInfo($revision, $info_resolver);
 
         foreach ($resource->getAllRevisions() as $existing_revision) {
             $this->deleteRevision($resource, $existing_revision);
@@ -248,29 +192,29 @@ class ResourceBuilder
 
     public function appendFromRevision(
         StorableResource $resource,
-        int $revision_number,
-        int $owner_id = null
+        int $revision_number
     ) : StorableResource {
         $existing_revision = $resource->getSpecificRevision($revision_number);
-        $existing_revision_info = $existing_revision->getInformation();
+        if ($existing_revision instanceof FileRevision) {
+            $info_resolver = new ClonedRevisionInfoResolver(
+                $resource->getMaxRevision() + 1,
+                $existing_revision
+            );
 
-        $cloned_revision = $this->revision_repository->blankFromClone($resource, $existing_revision);
-        $cloned_revision_info = $cloned_revision->getInformation();
+            $cloned_revision = $this->revision_repository->blankFromClone(
+                $info_resolver,
+                $resource,
+                $existing_revision
+            );
 
-        $cloned_revision_info->setTitle($existing_revision_info->getTitle());
-        $cloned_revision_info->setSuffix($existing_revision_info->getSuffix());
-        $cloned_revision_info->setMimeType($existing_revision_info->getMimeType());
-        $cloned_revision_info->setSize($existing_revision_info->getSize());
-        $cloned_revision_info->setCreationDate($existing_revision_info->getCreationDate());
+            $this->populateRevisionInfo($cloned_revision, $info_resolver);
 
-        $cloned_revision->setInformation($cloned_revision_info);
-        $cloned_revision->setTitle($existing_revision->getTitle());
-        $cloned_revision->setOwnerId($owner_id ?? 6);
-
-        $resource->addRevision($cloned_revision);
-        $resource->setStorageID($this->storage_handler->getID());
-
+            $resource->addRevision($cloned_revision);
+            $resource->setStorageID($this->storage_handler->getID());
+            return $resource;
+        }
         return $resource;
+
     }
 
     /**
@@ -443,5 +387,22 @@ class ResourceBuilder
         }
 
         return $resource;
+    }
+
+    private function populateRevisionInfo(Revision $revision, InfoResolver $info_resolver) : Revision
+    {
+        $info = $revision->getInformation();
+
+        $info->setTitle($info_resolver->getFileName());
+        $info->setMimeType($info_resolver->getMimeType());
+        $info->setSuffix($info_resolver->getSuffix());
+        $info->setSize($info_resolver->getSize());
+        $info->setCreationDate($info_resolver->getCreationDate());
+
+        $revision->setInformation($info);
+        $revision->setTitle($info_resolver->getRevisionTitle());
+        $revision->setOwnerId($info_resolver->getOwnerId());
+
+        return $revision;
     }
 }

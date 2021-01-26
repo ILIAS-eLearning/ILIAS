@@ -220,6 +220,7 @@ class ilObjFileGUI extends ilObject2GUI
         global $DIC;
 
         $upload = $DIC->upload();
+        $upload->register(new ilCountPDFPagesPreProcessors());
         $post = $DIC->http()->request()->getParsedBody();
 
         if (!$upload->hasBeenProcessed()) {

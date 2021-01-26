@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import de.ilias.ilServerStatus;
+import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.IndexHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
@@ -84,6 +85,7 @@ public class RPCAdministration {
 		
 		LuceneSettings settings = null;
 		LocalSettings.setClientKey(clientKey);
+		DBFactory.init();
 		
 		try {
 			logger.info("Reading lucene client settings from database.");
