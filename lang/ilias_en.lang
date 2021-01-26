@@ -16512,3 +16512,4 @@ tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must t
 tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
+common#:#installation_status#:#Installation Status

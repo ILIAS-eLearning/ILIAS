@@ -175,5 +175,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             $db_update->customUpdatesAvailable(),
             "Does the database require a custom update?"
         );
+
+        $GLOBALS["DIC"] = $DIC;
     }
 }
