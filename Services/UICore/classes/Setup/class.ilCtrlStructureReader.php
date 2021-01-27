@@ -343,7 +343,7 @@ class ilCtrlStructureReader
     // GUI CLASS FINDING
     // ----------------------
 
-    const GUI_CLASS_FILE_REGEXP = "~^.*/class\.(.*GUI)\.php$~i";
+    const GUI_CLASS_FILE_REGEXP = "~^.*[/\\\\]class\.(.*GUI)\.php$~i";
 
     protected function getGUIClassNameFromClassPath(string $path) : ?string
     {

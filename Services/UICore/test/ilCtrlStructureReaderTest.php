@@ -194,12 +194,24 @@ class ilCtrlStructureReaderTest extends TestCase
 
     public function testGetGUIClassNameFromClassPath()
     {
-        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/ilSCORM13Player.php"));
+        $this->assertEquals("ilscorm13playergui", $this->reader->_getGUIClassNameFromClassPath("/my/dir/class.ilSCORM13PlayerGUI.php"));
+        $this->assertEquals("ilscorm13playergui", $this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\class.ilSCORM13PlayerGUI.php"));
+        $this->assertEquals("ilscorm13playergui", $this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\class.ilSCORM13PlayerGUI.php"));
         $this->assertEquals("ilmytestinggui", $this->reader->_getGUIClassNameFromClassPath("/my/dir/class.ilMyTestingGUI.php"));
+        $this->assertEquals("ilmytestinggui", $this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\class.ilMyTestingGUI.php"));
+        $this->assertEquals("ilmytestinggui", $this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\class.ilMyTestingGUI.php"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/foo.php"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\foo.php"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\foo.php"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/picture.png"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\picture.png"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\picture.png"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/icon.svg"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\icon.svg"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\icon.svg"));
         $this->assertNull($this->reader->_getGUIClassNameFromClassPath("/my/dir/data.json"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("\\my\\dir\\data.json"));
+        $this->assertNull($this->reader->_getGUIClassNameFromClassPath("c:\\my\\dir\\data.json"));
     }
 
     public function testGetIlCtrlCallsNoContent()
