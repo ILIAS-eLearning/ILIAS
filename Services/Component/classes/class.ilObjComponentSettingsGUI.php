@@ -507,9 +507,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $result = $plugin->update();
 
         if ($result !== true) {
-            ilUtil::sendFailure($plugin->getMessage(), true);
+            ilUtil::sendFailure($plugin->message, true);
         } else {
-            ilUtil::sendSuccess($plugin->getMessage(), true);
+            ilUtil::sendSuccess($plugin->message, true);
         }
 
         // reinitialize control class

@@ -137,10 +137,6 @@ abstract class ilPlugin
         return $this->id;
     }
 
-    public function getMessage() : string
-    {
-        return $this->message ?? '';
-    }
 
     /**
      * Set Version of last update.
