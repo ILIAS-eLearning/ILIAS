@@ -9664,6 +9664,7 @@ footer {
 .il-maincontrols-mainbar .il-link.link-bulky:active,
 .il-maincontrols-metabar .il-link.link-bulky:active {
   box-shadow: none;
+  border: 2px solid red;
 }
 .il-maincontrols-mainbar .btn-bulky:focus-visible,
 .il-maincontrols-metabar .btn-bulky:focus-visible,

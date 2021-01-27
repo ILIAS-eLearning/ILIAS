@@ -101,6 +101,21 @@ var mainbar = function() {
                                     mb.model.actions.engageEntry(id);
                                 }
                                 mb.model.actions.engageEntry(id);
+
+                                var dom_id = il.UI.maincontrols.mainbar.renderer.dom_references[id];
+                                
+
+                                var first = $('#' + dom_id.slate)
+                                    .children().first()
+                                    .children().first();
+                                                                
+                                //first.css('border', '2px solid green');
+                                window.setTimeout(function() {
+                                    first[0].focus()
+                                }, 200);
+                                
+                                
+
                             }
                         }
                         break;
@@ -707,10 +722,12 @@ var renderer = function($) {
             additional_engage: function(){
                 this.getElement().attr('aria-expanded', true);
                 this.getElement().attr('aria-hidden', false);
+                this.getElement().attr('role', 'region');
             },
             additional_disengage: function(){
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
+                this.getElement().removeAttr('role'); //? really remove ?
             }
         }),
         remover: Object.assign({}, dom_element, {
@@ -800,6 +817,9 @@ var renderer = function($) {
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
 
+                triggerer.getElement().attr('aria-controls', slate.html_id);
+                triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
+
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
             } else {
@@ -876,7 +896,8 @@ var renderer = function($) {
     public_interface = {
         addEntry: actions.addEntry,
         calcAmountOfButtons: more.calcAmountOfButtons,
-        render: actions.render
+        render: actions.render,
+        dom_references: dom_references
     };
 
     return public_interface;
