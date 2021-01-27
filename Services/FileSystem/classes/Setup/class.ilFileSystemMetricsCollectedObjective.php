@@ -20,7 +20,7 @@ class ilFileSystemMetricsCollectedObjective extends Setup\Metrics\CollectedObjec
         if ($ini) {
             $storage->storeConfigText(
                 "data_dir",
-                $ini->readVariable("client", "datadir"),
+                $ini->readVariable("clients", "datadir"),
                 "Filesystem location where ILIAS stores data outside of direct web access."
             );
         }

@@ -16,7 +16,7 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 
     public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         if ($ini) {
             $storage->storeConfigText(
                 "http_path",
