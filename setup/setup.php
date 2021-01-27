@@ -41,31 +41,38 @@ if (false === file_exists(__DIR__ . '/../libs/composer/vendor/autoload.php')) {
 if (php_sapi_name() === "cli") {
     require_once(__DIR__ . "/cli.php");
 } else {
-    header("Content-Type: text/plain");
+    header("Content-Type: text/html");
     echo <<<MSG
-Dear user,
+<p>Dear user,</p>
+<p>the GUI for the setup is abandoned as of ILIAS 7:</p>
 
-the GUI for the setup is abandoned as of ILIAS 7:
+<p>
+<a href="https://docu.ilias.de/goto_docu_wiki_wpage_6314_1357.html" target="_blank">Setup - Abandon web based GUI</a><br />
+<a href="https://docu.ilias.de/goto_docu_wiki_wpage_6391_1357.html" target="_blank">Setup - Abandon Maintenance Mode</a><br />
+<a href="https://docu.ilias.de/goto_docu_wiki_wpage_6338_1357.html" target="_blank">Setup - Abandon Multi Client</a><br />
+</p>
 
-https://docu.ilias.de/goto_docu_wiki_wpage_6314_1357.html
-https://docu.ilias.de/goto_docu_wiki_wpage_6391_1357.html
-https://docu.ilias.de/goto_docu_wiki_wpage_6338_1357.html
+<p>It is replaced by a command line implementation of the setup:</p>
 
-It is replaced by a command line implementation of the setup:
+<p>
+<a href="https://docu.ilias.de/goto_docu_wiki_wpage_5890_1357.html" target="_blank">Setup - Introduce CLI-Setup</a><br />
+<a href="https://docu.ilias.de/goto_docu_wiki_wpage_6567_1357.html" target="_blank">Setup - Let update-Command change configs</a><br />
+</p>
 
-https://docu.ilias.de/goto_docu_wiki_wpage_5890_1357.html
-https://docu.ilias.de/goto_docu_wiki_wpage_6567_1357.html
+<p>
+while the functionality for the maintenance mode and the multi-<br />
+clients are removed completely as dicussed in the context of<br />
+the Setup Revision:<br />
+</p>
 
-while the functionality for the maintenance mode and the multi-
-clients are removed completely as dicussed in the context of
-the Setup Revision:
+<p><a href="https://docu.ilias.de/goto_docu_wiki_wpage_4900_1357.html" target="_blank">Setup Revision 2018</a></p>
 
-https://docu.ilias.de/goto_docu_wiki_wpage_4900_1357.html
+<p>
+Have a look into a detailed documentation of the setup in the<br />
+file setup/README.md or take a look into the ILIAS installation<br />
+instructions at <a href="../docs/configuration/install.md">docs/configuration/install.md</a>.<br />
+</p>
 
-Have a look into a detailed documentation of the setup in the
-file setup/README.md or take a look into the ILIAS installation
-instructions at docs/configuration/install.md.
-
-Best regards!
+<p>Best regards!</p>
 MSG;
 }
