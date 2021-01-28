@@ -2,6 +2,7 @@ var CONST	= require('../Constants');
 var Container = require('../AppContainer');
 var Winston = require('winston');
 var Util = require('util');
+var DateHelper = require('../Helper/Date');
 
 
 /**
@@ -37,9 +38,9 @@ module.exports = function SetupEnvironment(result, callback) {
 				filename: logFile,
 				level: logLevel,
 				json: false,
-				timestamp: function(){
-					var date = new Date();
-					return date.toDateString() + ' ' + date.toTimeString();
+				timestamp: function() {
+					const t = new Date();
+					return DateHelper.iso8601DatetimeFormat(t) + DateHelper.iso8601TimezoneFormat(t);
 				},
 				formatter: function(options) {
 					return Util.format(
@@ -61,8 +62,8 @@ module.exports = function SetupEnvironment(result, callback) {
 			humanReadableUnhandledException: true,
 			json: false,
 			timestamp: function(){
-				var date = new Date();
-				return date.toDateString() + ' ' + date.toTimeString();
+				const t = new Date();
+				return DateHelper.iso8601DatetimeFormat(t) + DateHelper.iso8601TimezoneFormat(t);
 			},
 			formatter: function(options) {
 				return Util.format(
