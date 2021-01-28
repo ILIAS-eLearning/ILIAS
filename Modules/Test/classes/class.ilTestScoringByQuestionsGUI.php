@@ -104,6 +104,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $participantData->load($this->object->getTestId());
                 
             foreach ($participantData->getActiveIds() as $active_id) {
+
+                /** @var $participant ilTestEvaluationUserData */
                 $participant = $participants[$active_id];
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
                 foreach ($testResultData as $questionData) {
@@ -111,6 +113,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         continue;
                     }
 
+                    $user = ilObjUser::_getUserData(array($participant->user_id));
                     $table_data[] = array(
                         'pass_id' => $passNr - 1,
                         'active_id' => $active_id,
@@ -118,6 +121,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                         'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
                         'participant' => $participant,
+                        'lastname' => $user[0]['lastname'],
+                        'firstname' => $user[0]['firstname'],
+                        'login' => $participant->getLogin(),
                     );
                 }
             }
