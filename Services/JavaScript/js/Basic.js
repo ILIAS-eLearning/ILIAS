@@ -1036,14 +1036,14 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
  */
 function numericInputCheck() {
 
-	const numericInput = $( '.ilcqinput_NumericInput' );
+	var numericInput = $( '.ilcqinput_NumericInput' );
 
 	// Only if present.
 	if ( numericInput.length ) {
 
 		// Append ilcqinput_NumericInputInvalid class for visually distinguishable numeric input fields.
 		// -> Onload.
-		let value = $( numericInput ).val().toString().replace( ',', '.' );
+		var value = $( numericInput ).val().toString().replace( ',', '.' );
 		if ( value && !$.isNumeric( value ) ) {
 			$( numericInput ).addClass( 'ilcqinput_NumericInputInvalid' );
 		} else {
@@ -1051,7 +1051,7 @@ function numericInputCheck() {
 		}
 		// -> OnChange.
 		$( numericInput ).on( 'change', function() {
-			let value = $( this ).val().toString().replace( ',', '.' );
+			var value = $( this ).val().toString().replace( ',', '.' );
 			if ( value && !$.isNumeric( value ) ) {
 				$( this ).addClass( 'ilcqinput_NumericInputInvalid' );
 			} else {

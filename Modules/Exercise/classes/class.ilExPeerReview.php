@@ -82,16 +82,26 @@ class ilExPeerReview
             $matrix = array();
 
             $max = min(sizeof($user_ids) - 1, $this->assignment->getPeerReviewMin());
+
+            // how often has a peer been assigned?
+            // keys are user ids, values are initialized with 0
+            $peer_assigned_cnt = array_combine($user_ids, array_fill(0, count($user_ids), 0));
+
             for ($loop = 0; $loop < $max; $loop++) {
+
+                // $run_ids array contains all user id as keys and values
                 $run_ids = array_combine($user_ids, $user_ids);
-                
+
+                // in a loop we seach for a new peer for every rater
                 foreach ($rater_ids as $rater_id) {
+
+
                     $possible_peer_ids = $run_ids;
                     
-                    // may not rate himself
+                    // remove the rater himself from the list of possible peers
                     unset($possible_peer_ids[$rater_id]);
                     
-                    // already has linked peers
+                    // remove the already assigned peers from the list
                     if (array_key_exists($rater_id, $matrix)) {
                         $possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
                     }
@@ -115,11 +125,28 @@ class ilExPeerReview
                         
                     // #14947
                     if (sizeof($possible_peer_ids)) {
+
+                        // from the possible peer ids, get the ones with the lowest number of raters
+                        // see also #28227
+                        $min_assigned_cnt = 99999999;
+                        foreach ($possible_peer_ids as $id) {
+                            $min_assigned_cnt = min($min_assigned_cnt, $peer_assigned_cnt[$id]);
+                        }
+                        $possible_peer_ids = array_filter($possible_peer_ids, function($id) use ($min_assigned_cnt, $peer_assigned_cnt) {
+                            return ($peer_assigned_cnt[$id] == $min_assigned_cnt);
+                        });
+
+                        // from the remaining possible peer ids, get a random one
                         $peer_id = array_rand($possible_peer_ids);
+
+                        // assign the peer to the rater
                         if (!array_key_exists($rater_id, $matrix)) {
                             $matrix[$rater_id] = array();
                         }
                         $matrix[$rater_id][] = $peer_id;
+
+                        // increase assignment count for peer
+                        $peer_assigned_cnt[$peer_id] += 1;
                     }
                     
                     // remove peer_id from possible ids in this run
