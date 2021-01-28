@@ -9,7 +9,7 @@ module.exports = function(req, res, next) {
 		Container.getLogger().warn('Access denied cause of no permission for %s', req.params.namespace);
 		_accessDenied(res);
 	} else {
-		Container.getLogger().info('Access granted for %s', req.params.namespace);
+		Container.getLogger().debug('Access granted for %s', req.params.namespace);
 		next();
 	}
 };
