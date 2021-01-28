@@ -72,90 +72,12 @@ class ilExPeerReview
 
         if (!$this->hasPeerReviewGroups()) {
             $user_ids = $this->getValidPeerReviewUsers();
-            
-            // forever alone
-            if (sizeof($user_ids) < 2) {
-                return false;
-            }
-            
-            $rater_ids = $user_ids;
-            $matrix = array();
 
-            $max = min(sizeof($user_ids) - 1, $this->assignment->getPeerReviewMin());
+            include_once("./Modules/Exercise/PeerReview/class.ExcPeerReviewDistribution.php");
+            $distribution = new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $this->assignment->getPeerReviewMin());
 
-            // how often has a peer been assigned?
-            // keys are user ids, values are initialized with 0
-            $peer_assigned_cnt = array_combine($user_ids, array_fill(0, count($user_ids), 0));
-
-            for ($loop = 0; $loop < $max; $loop++) {
-
-                // $run_ids array contains all user id as keys and values
-                $run_ids = array_combine($user_ids, $user_ids);
-
-                // in a loop we seach for a new peer for every rater
-                foreach ($rater_ids as $rater_id) {
-
-
-                    $possible_peer_ids = $run_ids;
-                    
-                    // remove the rater himself from the list of possible peers
-                    unset($possible_peer_ids[$rater_id]);
-                    
-                    // remove the already assigned peers from the list
-                    if (array_key_exists($rater_id, $matrix)) {
-                        $possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
-                    }
-                    
-                    // #15665 / #15883
-                    if (!sizeof($possible_peer_ids)) {
-                        // no more possible peers left?  start over with all valid users
-                        $run_ids = array_combine($user_ids, $user_ids);
-                        
-                        // see above
-                        $possible_peer_ids = $run_ids;
-                        
-                        // may not rate himself
-                        unset($possible_peer_ids[$rater_id]);
-
-                        // already has linked peers
-                        if (array_key_exists($rater_id, $matrix)) {
-                            $possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
-                        }
-                    }
-                        
-                    // #14947
-                    if (sizeof($possible_peer_ids)) {
-
-                        // from the possible peer ids, get the ones with the lowest number of raters
-                        // see also #28227
-                        $min_assigned_cnt = 99999999;
-                        foreach ($possible_peer_ids as $id) {
-                            $min_assigned_cnt = min($min_assigned_cnt, $peer_assigned_cnt[$id]);
-                        }
-                        $possible_peer_ids = array_filter($possible_peer_ids, function($id) use ($min_assigned_cnt, $peer_assigned_cnt) {
-                            return ($peer_assigned_cnt[$id] == $min_assigned_cnt);
-                        });
-
-                        // from the remaining possible peer ids, get a random one
-                        $peer_id = array_rand($possible_peer_ids);
-
-                        // assign the peer to the rater
-                        if (!array_key_exists($rater_id, $matrix)) {
-                            $matrix[$rater_id] = array();
-                        }
-                        $matrix[$rater_id][] = $peer_id;
-
-                        // increase assignment count for peer
-                        $peer_assigned_cnt[$peer_id] += 1;
-                    }
-                    
-                    // remove peer_id from possible ids in this run
-                    unset($run_ids[$peer_id]);
-                }
-            }
-            
-            foreach ($matrix as $rater_id => $peer_ids) {
-                foreach ($peer_ids as $peer_id) {
+            foreach ($user_ids as $rater_id) {
+                foreach ($distribution->getPeersOfRater($rater_id) as $peer_id) {
                     $ilDB->manipulate("INSERT INTO exc_assignment_peer" .
                         " (ass_id, giver_id, peer_id)" .
                         " VALUES (" . $ilDB->quote($this->assignment_id, "integer") .
