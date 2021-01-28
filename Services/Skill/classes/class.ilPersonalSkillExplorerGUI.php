@@ -40,6 +40,8 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         $this->select_par = $a_select_par;
 
 
+        $this->lng->loadLanguageModule("skmg");
+        
         $this->tree = new ilSkillTree();
         $this->root_id = $this->tree->readRootId();
         
@@ -201,4 +203,22 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         }
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }
+
+    /**
+     * Get node icon alt attribute
+     *
+     * @param mixed $a_node node object/array
+     * @return string image alt attribute
+     */
+    public function getNodeIconAlt($a_node)
+    {
+        $lng = $this->lng;
+
+        if ($lng->exists("skmg_" . $a_node["type"])) {
+            return $lng->txt("skmg_" . $a_node["type"]);
+        }
+
+        return $lng->txt($a_node["type"]);
+    }
+
 }
