@@ -442,3 +442,8 @@ il.Form = {
 
 // init forms
 il.Util.addOnLoad(il.Form.init);
+
+// see #27281
+$(document).on('dp.show', function(event) {
+	il.UI.page.fit($('.bootstrap-datetimepicker-widget'));
+});
