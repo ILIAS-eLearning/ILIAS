@@ -63,6 +63,7 @@ class ilLanguagesInstalledObjective extends ilLanguageObjective
 
         // TODO: Remove this once ilSetupLanguage (or a successor) supports proper
         // DI for all methods.
+        $db_tmp = $GLOBALS["ilDB"];
         $GLOBALS["ilDB"] = $db;
 
         $this->il_setup_language->setDbHandler($db);
@@ -70,6 +71,8 @@ class ilLanguagesInstalledObjective extends ilLanguageObjective
             $this->config->getInstallLanguages(),
             $this->config->getInstallLocalLanguages()
         );
+
+        $GLOBALS["ilDB"] = $db_tmp;
 
         return $environment;
     }
