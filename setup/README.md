@@ -60,10 +60,13 @@ plugin, use `php setup/setup.php install config.json <plugin name>`.
 
 ## Update ILIAS
 
-To update ILIAS from the command line, call `php setup/setup.php update config.json`
-from within your ILIAS folder. This will update the configuration of ILIAS according
-to the provided configuration as well as update the database of the installation or
-do other necessary task for the update. This does not update the source code.
+To update ILIAS from the command line, call `php setup/setup.php update`
+from within your ILIAS folder. This will update ILIAS as well as update the
+database of the installation or do other necessary task for the update.
+This does not update the source code.
+If there are changes in your config.json file call `php setup/setup.php update config.json`
+from within your ILIAS folder.  This will also update the configuration of ILIAS according
+to the provided configuration.
 
 Plugins are updated just as the core of ILIAS (if the plugin does not exclude itself),
 where the plugins can be controlled with the same options as for `install`.
