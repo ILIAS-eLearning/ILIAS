@@ -347,4 +347,60 @@ PHP
         );
         $this->assertFalse($res);
     }
+
+
+    public function testGetIlCtrlCallsWithNamespaces() : void
+    {
+        list($parent, $children) = $this->reader->_getIlCtrlCalls(
+            <<<"PHP"
+<?php
+namespace ILIAS\UICore;
+
+/**
+ * @ilCtrl_Calls ILIAS\UICore\TestGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ILIAS\UICore\TestGUI: ILIAS\UICore\Test2GUI
+ */
+class TestGUI
+}
+PHP
+        );
+        $expected = array_map("strtolower", [
+            "ilFormPropertyDispatchGUI",
+            "ILIAS\UICore\Test2GUI"
+        ]);
+
+        sort($expected);
+        sort($children);
+
+        $this->assertEquals(strtolower("ILIAS\UICore\TestGUI"), $parent);
+        $this->assertEquals($expected, $children);
+    }
+
+
+    public function testGetIlCtrlIsCalledByWithNamespaces() : void
+    {
+        list($parent, $children) = $this->reader->_getIlCtrlIsCalledBy(
+            <<<"PHP"
+<?php
+namespace ILIAS\UICore;
+
+/**
+ * @ilCtrl_IsCalledBy ILIAS\UICore\TestGUI: ilUIPluginRouterGUI
+ * @ilCtrl_IsCalledBy ILIAS\UICore\TestGUI: ILIAS\UICore\Test3GUI
+ */
+class TestGUI
+}
+PHP
+        );
+        $expected = array_map("strtolower", [
+            "ilUIPluginRouterGUI",
+            "ILIAS\UICore\Test3GUI"
+        ]);
+
+        sort($expected);
+        sort($children);
+
+        $this->assertEquals(strtolower("ILIAS\UICore\TestGUI"), $parent);
+        $this->assertEquals($expected, $children);
+    }
 }
