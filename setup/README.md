@@ -143,6 +143,23 @@ are printed bold**, all other fields might be omitted. A minimal example is
     or `apc`
   * *components* that should use caching. Can be `all` or any list of components that
     support caching.
+  * *memcached_nodes* if service equals 'memcached' place your nodes here, e.g.
+    ```
+    "memcached_nodes" : [
+        {
+            "active" : "1",
+            "host" : "example1.com",
+            "port" : "1111",
+            "weight" : "10"
+        },
+        {
+            "active" : "0",
+            "host" : "example2.com",
+            "port" : "2222",
+            "weight" : "20"
+        }
+    ]
+    ```
 * **http** configuration
   * **path** to your installation on the internet
   * *https_autodetection* allows ILIAS to be run behind a proxy that terminates ssl
