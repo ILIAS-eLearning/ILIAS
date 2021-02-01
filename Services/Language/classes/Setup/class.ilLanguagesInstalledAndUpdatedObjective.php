@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilLanguagesUpdatedObjective implements Setup\Objective
+class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
 {
     /**
      * @var \ilSetupLanguage
@@ -12,8 +12,10 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
     protected $il_setup_language;
 
     public function __construct(
+        ?\ilLanguageSetupConfig $config,
         \ilSetupLanguage $il_setup_language
     ) {
+        parent::__construct($config);
         $this->il_setup_language = $il_setup_language;
     }
 
@@ -22,14 +24,25 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
         return hash("sha256", self::class);
     }
 
-    protected function getInstalledLanguagesAsString()
+    protected function getInstallLanguages()
     {
-        return implode(", ", $this->il_setup_language->getInstalledLanguages());
+        if (!is_null($this->config)) {
+            return $this->config->getInstallLanguages();
+        }
+        return $this->il_setup_language->getInstalledLanguages();
+    }
+
+    protected function getInstallLocalLanguages()
+    {
+        if (!is_null($this->config)) {
+            return $this->config->getInstallLocalLanguages();
+        }
+        return $this->il_setup_language->getInstalledLocalLanguages();
     }
 
     public function getLabel() : string
     {
-        return "Update languages " . $this->getInstalledLanguagesAsString();
+        return "Install/Update languages " . implode(", ", $this->getInstallLanguages());
     }
 
     public function isNotable() : bool
@@ -39,7 +52,14 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        return [];
+        if (is_null($this->config)) {
+            return [];
+        }
+
+        $db_config = $environment->getConfigFor("database");
+        return [
+            new ilDatabasePopulatedObjective($db_config)
+        ];
     }
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
@@ -53,8 +73,8 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
 
         $this->il_setup_language->setDbHandler($db);
         $this->il_setup_language->installLanguages(
-            $this->il_setup_language->getInstalledLanguages(),
-            $this->il_setup_language->getLocalLanguages()
+            $this->getInstallLanguages(),
+            $this->getInstallLocalLanguages()
         );
 
         $GLOBALS["ilDB"] = $db_tmp;

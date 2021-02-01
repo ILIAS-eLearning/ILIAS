@@ -47,7 +47,7 @@ class ilLanguageSetupAgent implements Setup\Agent
             return new \ilLanguageSetupConfig(
                 $data["default_language"],
                 $data["install_languages"] ?? [$data["default_language"]],
-                $data["install_local_languages"] ?? [$data["default_language"]]
+                $data["install_local_languages"] ?? []
             );
         });
     }
@@ -61,7 +61,7 @@ class ilLanguageSetupAgent implements Setup\Agent
             "Complete objectives from Services/Language",
             false,
             new ilLanguageConfigStoredObjective($config),
-            new ilLanguagesInstalledObjective($config, $this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
             new ilDefaultLanguageSetObjective($config)
         );
     }
@@ -76,7 +76,7 @@ class ilLanguageSetupAgent implements Setup\Agent
                 "Complete objectives from Services/Language",
                 false,
                 new ilLanguageConfigStoredObjective($config),
-                new ilLanguagesInstalledObjective($config, $this->il_setup_language),
+                new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
                 new ilDefaultLanguageSetObjective($config)
             );
         }
@@ -84,7 +84,7 @@ class ilLanguageSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/Language",
             false,
-            new ilLanguagesUpdatedObjective($this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective(null, $this->il_setup_language),
         );
     }
 
