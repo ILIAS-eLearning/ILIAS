@@ -212,6 +212,9 @@ class Renderer extends AbstractComponentRenderer
                 if ($value instanceof \ILIAS\UI\Component\Button\Shy) {
                     $value = $default_renderer->render($value);
                 }
+                if ($value instanceof \ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter) {
+                    $value = $default_renderer->render($value);
+                }
                 $cnt++;
                 if ($cnt % 2 == 1) {
                     $tpl->setCurrentBlock("property_row");
