@@ -43,19 +43,23 @@ class ExamplesTest extends ILIAS_UI_TestBase
         (new \InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
-        $this->dic["ilCtrl"] = Mockery::mock("\ilCtrl");
-        $this->dic["ilCtrl"]->shouldReceive("getFormActionByClass")->andReturn("");
-        $this->dic["ilCtrl"]->shouldReceive("setParameterByClass");
-        $this->dic["ilCtrl"]->shouldReceive("saveParameterByClass");
-        $this->dic["ilCtrl"]->shouldReceive("initBaseClass");
-        $this->dic["ilCtrl"]->shouldReceive("getLinkTargetByClass")->andReturn("");
+        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->setMethods([
+            "getFormActionByClass","setParameterByClass","saveParameterByClass","initBaseClass","getLinkTargetByClass"
+        ])->getMock();
+        $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
+        $this->dic["ilCtrl"]->method("getLinkTargetByClass")->willReturn("2");
 
-        $this->dic["upload"] = Mockery::mock("\ILIAS\FileUpload\FileUpload");
-        $this->dic["tree"] = Mockery::mock("\ilTree");
-        $this->dic["tree"]->shouldReceive("getNodeData")->andReturn(["ref_id" => "1",
+        $this->dic["upload"] = $this->getMockBuilder(\ILIAS\FileUpload\FileUpload::class)->getMock();
+
+        $this->dic["tree"] = $this->getMockBuilder(\ilTree::class)
+                                  ->disableOriginalConstructor()
+                                  ->setMethods(["getNodeData"])->getMock();
+        $this->dic["tree"]->method("getNodeData")->willReturn(["ref_id" => "1",
                                                                      "title" => "mock root node",
                                                                      "type" => "crs"
         ]);
+
+        //ilPluginAdmin is still mocked with mockery due to static call of getActivePluginsForSlot
         $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
         $this->dic["ilPluginAdmin"]->shouldReceive("getActivePluginsForSlot")->andReturn([]);
 
@@ -73,7 +77,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         foreach ($this->getEntriesFromCrawler() as $entry) {
             if (!$entry->isAbstract()) {
                 $this->assertGreaterThan(0, count($entry->getExamples()),
-                    "Non abstract Component " . $entry->getNamesapce()
+                    "Non abstract Component " . $entry->getNamespace()
                     . " does not provide any example. Please provide at least one in " . $entry->getExamplesNamespace());
             }
         }
@@ -84,6 +88,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
      */
     public function testAllExamplesRenderAString(string $example_function_name, string $example_path)
     {
+        global $DIC;
+        $DIC = $this->dic;
+
         include_once $example_path;
         try {
             $this->assertIsString($example_function_name(), " Example $example_function_name does not render a string");
