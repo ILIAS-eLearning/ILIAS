@@ -1275,7 +1275,6 @@ class ilPageObjectGUI
         iljQueryUtil::initjQueryUI();
 
         //		$this->initSelfAssessmentRendering();
-        
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
@@ -1292,6 +1291,8 @@ class ilPageObjectGUI
         //if($this->outputToTemplate())
         //{
         if ($this->getOutputMode() == "edit") {
+
+            $this->initEditing();
 
             $this->getPageObject()->buildDom();
 
@@ -2523,9 +2524,11 @@ class ilPageObjectGUI
     }
 
     /**
-     * edit ("view" before)
+     * Init editing
+     * @param
+     * @return
      */
-    public function edit()
+    protected function initEditing()
     {
         // editing allowed?
         if (!$this->getEnableEditing()) {
@@ -2555,16 +2558,16 @@ class ilPageObjectGUI
                 return $form->getHTML();
             }
         }
-        
+
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
             include_once("./Services/User/classes/class.ilUserUtil.php");
             $info = $this->lng->txt("content_no_edit_lock");
             $lock = $this->getPageObject()->getEditLockInfo();
             $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                    ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
             $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                    ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
             if (!$this->ctrl->isAsynch()) {
                 ilUtil::sendInfo($info);
                 return "";
@@ -2588,15 +2591,21 @@ class ilPageObjectGUI
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
-        $this->setOutputMode(self::EDIT);
+    }
 
+    /**
+     * edit ("view" before)
+     */
+    public function edit()
+    {
+        $this->setOutputMode(self::EDIT);
         $html = $this->showPage();
         
         if ($this->isEnabledNotes()) {
             $html .= "<br /><br />" . $this->getNotesHTML();
         }
     
-        return $mess . $html;
+        return $html;
     }
 
     /**

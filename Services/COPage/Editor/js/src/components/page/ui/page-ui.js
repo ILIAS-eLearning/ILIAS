@@ -297,7 +297,9 @@ export default class PageUI {
    */
   initDragDrop(draggableSelector, droppableSelector) {
 
-    this.log("pag-ui.initDragDrop");
+    this.log("page-ui.initDragDrop");
+    this.log("- draggableSelector: " + draggableSelector);
+    this.log("- droppableSelector: " + droppableSelector);
 
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
