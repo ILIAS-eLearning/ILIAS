@@ -130,7 +130,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         $this->assert()->isIndex('title', $entry_data);
         $this->setTitle($entry_data['title']);
         $this->assert()->isIndex('namespace', $entry_data);
-        $this->setNamesapce($entry_data['namespace']);
+        $this->setNamespace($entry_data['namespace']);
         $this->setIsAbstract($entry_data['abstract']);
         $this->setStatusEntry("Proposed");
         $this->setStatusImplementation("Partly implemented");
@@ -509,7 +509,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
             $path_components = str_replace("/Factory","",
                     str_replace("Component", "examples", $this->getPath()))
                     . "/" . str_replace(" ", "", $this->getTitle());
-            $path_array = self::array_iunique(explode("/", $path_componants));
+            $path_array = self::array_iunique(explode("/", $path_components));
             $this->examples_path = implode("/", $path_array);
         }
         return $this->examples_path;
