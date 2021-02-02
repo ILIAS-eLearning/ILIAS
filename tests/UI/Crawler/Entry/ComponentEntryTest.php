@@ -171,8 +171,8 @@ class ComponentEntryTest extends TestCase
 
     public function testNamespace()
     {
-        $this->assertEquals($this->entry_data["namespace"], $this->entry->getNamesapce());
+        $this->assertEquals($this->entry_data["namespace"], $this->entry->getNamespace());
         $this->entry->setNamespace("");
-        $this->assertEquals("", $this->entry->getNamesapce());
+        $this->assertEquals("", $this->entry->getNamespace());
     }
 }
