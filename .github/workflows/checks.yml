@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.2, 7.3, 7.4]
+        php: [7.3, 7.4]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
-          tools: composer:v1
+          tools: composer:v2
           coverage: none
 
       - name: Install dependencies
