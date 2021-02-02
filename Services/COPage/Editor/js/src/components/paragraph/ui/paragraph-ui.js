@@ -935,6 +935,10 @@ export default class ParagraphUI {
       }
       cnt++;
     });
+
+    console.log("****");
+    console.log(content);
+
     /*
     pcarea.querySelectorAll("div", (d) => {
     })
