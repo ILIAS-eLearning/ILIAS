@@ -365,7 +365,7 @@ class ilCtrlStructureReader
     // ILCTRL DECLARATION FINDING
     // ----------------------
 
-    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+(\w+)\s*:\s*(\w+(\s*,\s*\w+)*)\s*$~mi';
+    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
 
     /**
      * @return null|(string,string[])
