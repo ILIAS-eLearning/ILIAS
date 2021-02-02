@@ -33,7 +33,7 @@ interface Item extends \ILIAS\UI\Component\Component
      * The key is holding the title and the value is holding the content of the
      * specific data set.
      *
-     * @param array<string,string|\ILIAS\UI\Component\Button\Shy> $properties Label => Content
+     * @param array<string,string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter> $properties Label => Content
      * @return self
      */
     public function withProperties(array $properties);

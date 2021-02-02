@@ -56,6 +56,18 @@ class ItemTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
+    public function test_with_chart_properties()
+    {
+        $f = $this->getFactory();
+        $chart1 = new I\Component\Chart\ProgressMeter\ProgressMeter(100, 50);
+        $chart2 = new I\Component\Chart\ProgressMeter\ProgressMeter(100, 25);
+
+        $props = array("prop1" => $chart1, "prop2" => $chart2);
+        $c = $f->standard("title")->withProperties($props);
+
+        $this->assertEquals($c->getProperties(), $props);
+    }
+
     public function test_with_actions()
     {
         $f = $this->getFactory();
