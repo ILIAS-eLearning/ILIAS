@@ -137,6 +137,13 @@ abstract class ilPlugin
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
+    public function getMessage() : string
+    {
+        return $this->message;
+    }
 
     /**
      * Set Version of last update.
@@ -1194,7 +1201,7 @@ abstract class ilPlugin
 
             return $plugin;
         }
-        throw new ilPluginException("File : ".$file. " . does not Exist for plugin: ".$a_pname. " Check if your 
+        throw new ilPluginException("File : ".$file. " . does not Exist for plugin: ".$a_pname. " Check if your
             plugin is still marked as active in the DB Table 'il_plugin' but not installed anymore.");
     }
 
