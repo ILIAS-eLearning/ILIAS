@@ -62,7 +62,12 @@ class ilSearchGUI extends ilSearchBaseGUI
 
         $this->root_node = $_SESSION['search_root'] ? $_SESSION['search_root'] : ROOT_FOLDER_ID;
         $this->setType($_POST['search']['type'] ? $_POST['search']['type'] : $_SESSION['search']['type']);
-        $this->setCombination($_POST['search']['combination'] ? $_POST['search']['combination'] : $_SESSION['search']['combination']);
+
+        $this->setCombination(
+            ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ?
+                self::SEARCH_AND :
+                self::SEARCH_OR
+        );
         $this->setString($_POST['search']['string'] ? $_POST['search']['string'] : $_SESSION['search']['string']);
         #$this->setDetails($_POST['search']['details'] ? $_POST['search']['details'] : $_SESSION['search']['details']);
         $this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
@@ -392,7 +397,10 @@ class ilSearchGUI extends ilSearchBaseGUI
             
 
         // Step 4: merge and validate results
-        $result->filter($this->getRootNode(), $query_parser->getCombination() == 'and');
+        $result->filter(
+            $this->getRootNode(),
+            ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND
+        );
         $result->save();
         $this->showSearch();
 

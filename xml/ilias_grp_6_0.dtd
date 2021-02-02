@@ -43,13 +43,13 @@
 >
 
 <!-- admissionNotification 1 | 0 -->
-<!ELEMENT admissionnotification (#PCDATA)>
+<!ELEMENT admissionNotification (#PCDATA)>
 
-
-
-
-		<!-- Registration settings -->
+<!-- Registration settings -->
 <!ELEMENT registration (password?,(temporarilyAvailable | expiration)?,maxMembers?, minMembers?, mailMembersType?)>
+
+<!-- Temporarily available -->
+<!ELEMENT temporarilyAvailable (start,end)>
 
 <!-- 
 
