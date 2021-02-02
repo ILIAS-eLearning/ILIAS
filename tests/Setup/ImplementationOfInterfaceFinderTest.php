@@ -11,7 +11,7 @@ class ImplementationOfInterfaceFinderForTest extends ImplementationOfInterfaceFi
 {
     public $class_names = [];
 
-    protected function getAllClassNames(array $additional_ignore) : \Iterator
+    protected function getAllClassNames(array $additional_ignore, string $matching_path = null) : \Iterator
     {
         foreach ($this->class_names as $name) {
             yield $name;
