@@ -7,6 +7,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 
 /**
  * Class ilMMItemInformation
@@ -56,6 +58,19 @@ class ilMMItemInformation implements ItemInformation
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
 
+        $ar = ilMMTypeActionStorage::where([
+            'identification' => $item->getProviderIdentification()->serialize()
+        ], '=')->first();
+
+        if (null !== $ar && $item instanceof RepositoryLink && empty($item->getTitle())) {
+            $item = $item->withTitle(($ar->getAction() > 0) ?
+                ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ar->getAction())) :
+                ""
+            );
+        }
+        if (null !== $ar && $item instanceof Link && empty($item->getTitle())) {
+            $item = $item->withTitle($ar->getAction());
+        }
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
             && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
         ) {
