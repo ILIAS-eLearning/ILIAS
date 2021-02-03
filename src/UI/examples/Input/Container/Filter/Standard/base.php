@@ -33,7 +33,18 @@ function base()
     );
 
     //Step 3: Get filter data
-    $filter_data = $DIC->uiService()->filter()->getData($filter);
+    // @Todo: This needs to be improved. This appproach is copied from initFilter in class.ilContainerGUI.php .
+    // it fixes the broken example for the moment. This seems necessary atm since text inputs will handle empty inputs
+    // as null an throw an InvalidArgumentException. Also see comment in withInput of Input Fields and related bug:
+    // https://mantis.ilias.de/view.php?id=27909 . An other approach is performed in ilPluginsOverviewTableFilterGUI
+    // Where the exception is catched and an empty array returned.
+    if ($DIC->http()->request()->getMethod() == "POST") {
+        $filter_data = $DIC->uiService()->filter()->getData($filter);
+    } else {
+        foreach ($filter->getInputs() as $k => $i) {
+            $filter_data[$k] = $i->getValue();
+        }
+    }
 
     //Step 4: Render the filter
     return $renderer->render($filter) . "Filter Data: " . print_r($filter_data, true);
