@@ -13,6 +13,11 @@ use \ILIAS\UI\Implementation\Component as I;
  */
 class BulkyLinkTest extends ILIAS_UI_TestBase
 {
+    /**
+     * @var I\Link\Factory
+     */
+    protected $factory;
+
     public function setUp() : void
     {
         $this->factory = new I\Link\Factory();
@@ -47,6 +52,27 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $this->assertEquals($this->glyph, $link->getSymbol());
         $link = $this->factory->bulky($this->icon, "label", $this->target);
         $this->assertEquals($this->icon, $link->getSymbol());
+    }
+
+    public function testGetAction()
+    {
+        $plain = "http://www.ilias.de";
+        $with_query = $plain."?query1=1";
+        $with_multi_query = $with_query."&query2=2";
+        $with_fragment = $plain."#fragment";
+        $with_multi_query_and_fragment_uri = $with_multi_query.$with_fragment;
+
+        $plain_uri = new \ILIAS\Data\URI($plain);
+        $with_query_uri = new \ILIAS\Data\URI($with_query);
+        $with_multi_query_uri = new \ILIAS\Data\URI($with_multi_query);
+        $with_fragment_uri = new \ILIAS\Data\URI($with_fragment);
+        $with_multi_query_and_fragment_uri = new \ILIAS\Data\URI($with_multi_query_and_fragment_uri);
+
+        $this->assertEquals($plain, $this->factory->bulky($this->glyph, "label", $plain_uri)->getAction());
+        $this->assertEquals($with_query, $this->factory->bulky($this->glyph, "label", $with_query_uri)->getAction());
+        $this->assertEquals($with_multi_query, $this->factory->bulky($this->glyph, "label", $with_multi_query_uri)->getAction());
+        $this->assertEquals($with_fragment_uri, $this->factory->bulky($this->glyph, "label", $with_fragment_uri)->getAction());
+        $this->assertEquals($with_multi_query_and_fragment_uri, $this->factory->bulky($this->glyph, "label", $with_multi_query_and_fragment_uri)->getAction());
     }
 
     public function testRenderingGlyph()
