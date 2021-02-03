@@ -30,6 +30,9 @@ class Bulky extends Link implements C\Link\Bulky
         if ($target->getQuery()) {
             $action .= '?' . $target->getQuery();
         }
+        if($target->getFragment()){
+            $action .= '#' .$target->getFragment();
+        }
         parent::__construct($action);
         $this->label = $label;
         $this->symbol = $symbol;
