@@ -2589,10 +2589,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             
             $this->populateNextLocksUnchangedModal();
         }
-        
-        if ($this->object->getKioskMode()) {
-            $this->tpl->addJavaScript(ilUIFramework::BOWER_BOOTSTRAP_JS, true);
-        }
     }
     
     protected function populateDiscardSolutionModal()
