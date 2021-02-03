@@ -11329,6 +11329,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
