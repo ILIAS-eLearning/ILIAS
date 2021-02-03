@@ -124,18 +124,20 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $options = json_encode($signal->getOptions());
 
-            $component = $component->withOnLoadCode(function ($id) use ($internal_signal, $signal) {
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($internal_signal, $signal) {
                 return "$(document).on('{$internal_signal}', function(event, signalData) {
 							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '{$signal}', '{$id}');
 							return false;
 						})";
             });
+        }
 
-            //maybeRenderId does not return id
+        if($component->getOnLoadCode()){
             $id = $this->bindJavaScript($component);
+            $tpl->setCurrentBlock('id');
             $tpl->setVariable('ID', $id);
+            $tpl->parseCurrentBlock();
         }
 
         //setup entries
