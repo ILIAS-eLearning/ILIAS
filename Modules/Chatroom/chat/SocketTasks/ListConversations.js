@@ -2,7 +2,7 @@ var Container = require('../AppContainer');
 var async = require('async');
 
 module.exports = function() {
-	Container.getLogger().info('Requested Conversations list');
+	Container.getLogger().debug('Requested Conversations list');
 
 	var namespace = Container.getNamespace(this.nsp.name);
 	var conversations = this.participant.getConversations();

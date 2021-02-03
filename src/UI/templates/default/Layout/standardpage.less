@@ -120,6 +120,26 @@ header {
 	z-index: @il-standard-page-zindex-header;
 }
 
+//Breadcrumbs
+.breadcrumbs {
+	-ms-flex-align: center;
+	align-items: center;
+	background-color: @il-standard-page-breadcrumbs-bg-color;
+	border-top: 1px solid @il-standard-page-border-light-color;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 2;
+	-ms-grid-row: 3;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row: 3;
+	z-index: @il-standard-page-zindex-breadcrumbs;
+	.shadow-bottom();
+}
+
 // system-infos
 div.il-system-infos {
 	-ms-grid-column: 1;
