@@ -1502,30 +1502,21 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     }
 
     /**
-    * get group status, redundant method because
-    * @access	public
-    * @param	return group status[0=public|2=closed]
-    */
-    public function readGroupStatus()
+     * Read group type
+     * @return int
+     */
+    public function readGroupStatus() : int
     {
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $rbacreview = $DIC['rbacreview'];
 
-        $local_roles = $rbacreview->getRolesOfRoleFolder($this->getRefId());
-
-        //get all relevant roles
-        $arr_globalRoles = array_diff($local_roles, $this->getDefaultGroupRoles());
-
-        //if one global role has no permission to join the group is officially closed !
-        foreach ($arr_globalRoles as $globalRole) {
-            if ($rbacsystem->checkPermission($this->getRefId(), $globalRole, "join")) {
-                return $this->group_status = GRP_TYPE_PUBLIC;
-            }
+        $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
+        $logger = $DIC->logger()->grp();
+        $logger->dump($tpl_id);
+        if (!$tpl_id) {
+            return GRP_TYPE_OPEN;
         }
-
-        return $this->group_status = GRP_TYPE_CLOSED;
+        return GRP_TYPE_CLOSED;
     }
 
     /**
