@@ -327,6 +327,24 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
         ilMMItemStorage::register($this->gs_item);
     }
 
+    /**
+     * deletes all translations associated with the current identification.
+     * @throws Exception
+     */
+    protected function deleteAssociatedTranslations()
+    {
+        $ts = ilMMItemTranslationStorage::where([
+            'identification' => $this->identification->serialize(),
+        ], '=')->get();
+
+        if (!empty($ts)) {
+            foreach ($ts as $translation) {
+                if ($translation instanceof ilMMItemTranslationStorage) {
+                    $translation->delete();
+                }
+            }
+        }
+    }
 
     /**
      * @inheritDoc
@@ -334,6 +352,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     public function delete()
     {
         if ($this->isDeletable()) {
+            $this->deleteAssociatedTranslations();
             $serialize = $this->identification->serialize();
             $gs = ilGSIdentificationStorage::find($serialize);
             if ($gs instanceof ilGSIdentificationStorage) {
