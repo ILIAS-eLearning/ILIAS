@@ -50,7 +50,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         ]);
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
-        $status = $ams->isEnabled()  ? $this->lng->txt('enabled') : $this->lng->txt('disabled');
+        $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');
 
         $this->tpl->setVariable("ID", $id);
         $this->tpl->setVariable("TYPE", $this->lng->txt($ams->getSourceType()));
