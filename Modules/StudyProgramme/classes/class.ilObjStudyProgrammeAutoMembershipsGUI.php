@@ -688,12 +688,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         if ($is_enabled) {
             $items[] = $this->ui_factory->button()->shy(
-                $this->txt('disable'),
+                $this->txt('deactivate'),
                 $this->ctrl->getLinkTarget($this, self::CMD_DISABLE)
             );
         } else {
             $items[] = $this->ui_factory->button()->shy(
-                $this->txt('enable'),
+                $this->txt('activate'),
                 $this->ctrl->getLinkTarget($this, self::CMD_ENABLE)
             );
         }
