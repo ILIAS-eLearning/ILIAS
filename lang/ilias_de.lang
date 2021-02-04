@@ -11596,7 +11596,7 @@ rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_visible#:#Cloud-Objekt sichtbar
 rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
-rbac#:#edit_in_online_editor#:#In Online-Editor Bearbeiten
+rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
 rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
 rbac#:#cmps_edit_permission#:#Rechteeinstellung ändern
 rbac#:#cmps_read#:#Lesezugriff auf Administration für Plugins, Module und Dienste
