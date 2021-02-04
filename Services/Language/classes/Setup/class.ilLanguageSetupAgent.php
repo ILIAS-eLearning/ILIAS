@@ -80,7 +80,12 @@ class ilLanguageSetupAgent implements Setup\Agent
                 new ilDefaultLanguageSetObjective($config)
             );
         }
-        return new Setup\Objective\NullObjective();
+
+	    return new Setup\ObjectiveCollection(
+		    "Complete objectives from Services/Language",
+		    false,
+		    new ilLanguagesUpdatedObjective($this->il_setup_language),
+		    );
     }
 
     /**
