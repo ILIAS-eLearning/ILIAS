@@ -37,6 +37,9 @@ class ilMMTypeHandlerRepositoryLink extends ilMMAbstractBaseTypeHandlerAction im
                             $DIC->access()->checkAccess('read', '', $ref_id);
                     }
                 );
+
+            $item = $item->withTitle($item->getTitle());
+
             // ->withAvailableCallable(
             // 	function () use ($ref_id) {
             // 		$b = (bool)(ilObject2::_exists($ref_id, true) && !ilObject2::_isInTrash($ref_id));
