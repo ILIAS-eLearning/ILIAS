@@ -384,11 +384,31 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     }
 
     /**
+     * deletes all translations associated with the current identification.
+     * @throws Exception
+     */
+    protected function deleteAssociatedTranslations()
+    {
+        $ts = ilMMItemTranslationStorage::where([
+            'identification' => $this->identification->serialize(),
+        ], '=')->get();
+
+        if (!empty($ts)) {
+            foreach ($ts as $translation) {
+                if ($translation instanceof ilMMItemTranslationStorage) {
+                    $translation->delete();
+                }
+            }
+        }
+    }
+
+    /**
      * @inheritDoc
      */
     public function delete()
     {
         if ($this->isDeletable()) {
+            $this->deleteAssociatedTranslations();
             $serialize = $this->identification->serialize();
             $mm = ilMMItemStorage::find($serialize);
             if ($mm instanceof ilMMItemStorage) {
