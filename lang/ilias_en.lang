@@ -16096,7 +16096,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
-prg#:#category#:#Category RefId
+prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
 prg#:#prgr_new#:#Create Study Programme Link
