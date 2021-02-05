@@ -38,7 +38,7 @@ class ilGlobalCacheSettings implements Setup\Config
      */
     protected $log_level = self::LOG_LEVEL_NONE;
     /**
-     * @var int[]
+     * @var ilMemcacheServer[]
      */
     protected $memcached_nodes = [];
 
