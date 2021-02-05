@@ -37,10 +37,10 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
             if (
                 $data === null ||
                 !$data["components"] ||
-                $data["service"] == "none" ||
+                $data["service"] === "none" ||
                 (
-                    $data["service"] == "memcached" &&
-                    (!isset($data["memcached_nodes"]) || count($data["memcached_nodes"]) == 0)
+                    $data["service"] === "memcached" &&
+                    (!isset($data["memcached_nodes"]) || count($data["memcached_nodes"]) === 0)
                 )
             ) {
                 $settings->setActive(false);
@@ -68,7 +68,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         );
                 }
                 $settings->resetActivatedComponents();
-                if ($data["components"] == "all") {
+                if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
                     foreach ($data["components"] as $cmp) {
@@ -84,7 +84,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     protected function getMemcachedServer(array $node) : ilMemcacheServer
     {
         $m = new ilMemcacheServer();
-        $m->setStatus($node["active"] == "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
+        $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
         $m->setHost($node["host"]);
         $m->setPort($node["port"]);
         $m->setWeight($node["weight"]);
