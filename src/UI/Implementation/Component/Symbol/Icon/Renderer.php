@@ -29,20 +29,31 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("SIZE", $component->getSize());
 
         $tpl->setVariable("ALT", $component->getLabel());
-        
+
         if ($component instanceof Component\Symbol\Icon\Standard) {
-            $tpl->setVariable("CUSTOMIMAGE", $this->getStandardIconPath($component));
+            $imagepath = $this->getStandardIconPath($component);
             if ($component->isOutlined()) {
                 $tpl->touchBlock('outlined');
             }
         } else {
-            $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
+            $imagepath = $component->getIconPath();
         }
 
         $ab = $component->getAbbreviation();
         if ($ab) {
             $tpl->setVariable("ABBREVIATION", $ab);
+
+            $abbreviation_tpl = $this->getTemplate("tpl.abbreviation.svg", true, true);
+            $abbreviation_tpl->setVariable("ABBREVIATION", $ab);
+            $abbreviation = $abbreviation_tpl->get() . '</svg>';
+
+            $image = file_get_contents($imagepath);
+            $image = substr($image, strpos($image, '<svg '));
+            $image = trim(str_replace('</svg>', $abbreviation, $image));
+            $imagepath = "data:image/svg+xml;base64, " . base64_encode($image);
         }
+
+        $tpl->setVariable("CUSTOMIMAGE", $imagepath);
 
         if ($component->isDisabled()) {
             $tpl->touchBlock('disabled');
