@@ -16206,3 +16206,8 @@ search#:#search_field#:#Search Input Field###29 01 2021 new variable
 search#:#search_on#:#On###29 01 2021 new variable
 administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
 administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable

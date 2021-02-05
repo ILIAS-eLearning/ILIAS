@@ -16206,3 +16206,8 @@ mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
 file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
 file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
 file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
