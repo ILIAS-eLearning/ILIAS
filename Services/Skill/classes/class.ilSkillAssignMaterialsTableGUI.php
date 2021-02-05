@@ -45,15 +45,14 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
         include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
+        if (!$this->ws_tree->getRootId()) {
+            $this->ws_tree->createTreeForUser($ilUser->getId());
+        }
         $this->ws_access = new ilWorkspaceAccessHandler();
 
         $this->top_skill_id = $a_top_skill_id;
         $this->tref_id = (int) $a_tref_id;
         $this->basic_skill_id = $a_basic_skill_id;
-        
-        // workspace tree
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-        $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
 
 
         // build title
