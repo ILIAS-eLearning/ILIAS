@@ -94,6 +94,9 @@ interface Factory
      *     The Main Bar may offer access to content, services and settings independent
      *     from what is presented in the content area.
      *     The creation and management of repository objects are not part of the Main bar.
+     *     The Main Bar offers space for Tools to be displayed besides the actual content.
+     *     Tools home functionality that could not be placed elsewhere, there is no sophisticated concept.
+     *     We strive to keep the number of Tools low and hone the concept further.
      *   composition: >
      *     The Main Bar holds Slates and Bulky Buttons.
      *
