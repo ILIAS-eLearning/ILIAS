@@ -178,7 +178,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $this->ui_factory->legacy($form->getHtml())
         );
 
-        $submit = $this->ui_factory->button()->primary($this->txt('save'), "#")->withOnLoadCode(
+        $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
                 return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
             }
