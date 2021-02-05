@@ -330,7 +330,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
         }
         $form = $this->getForm($current_ref_id);
         $form_id = "form_" . $form->getId();
-        $submit = $this->ui_factory->button()->primary($this->lng->txt('search'), "#")->withOnLoadCode(
+        $submit = $this->ui_factory->button()->primary($this->lng->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
                 return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
             }
