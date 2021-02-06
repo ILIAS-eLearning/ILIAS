@@ -12818,7 +12818,7 @@ administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderu
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
-administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
+administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
@@ -14932,7 +14932,7 @@ lhist#:#lhist_learning_history#:#Lernverlauf
 mme#:#flush#:#Verlorene Einträge löschen
 mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
-mme#:#select_parent#:#Haupteintrag auswählen
+mme#:#select_parent#:#Zugehörigen Haupteintrag auswählen
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
@@ -14940,7 +14940,9 @@ mme#:#topitem_add#:#Haupteintrag hinzufügen
 mme#:#restore#:#Hauptmenu zurücksetzen
 mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
 mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#confirm_move#:#Möchten Sie diesen Eintrag zu einem Haupteintrag machen?
 mme#:#move_to_item#:#Zu Einträge verschieben
+mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#topitem_edit#:#Bearbeiten
