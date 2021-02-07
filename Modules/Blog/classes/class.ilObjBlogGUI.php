@@ -626,7 +626,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if ($this->id_type == self::REPOSITORY_NODE_ID) {
                     $this->setLocator();
                 } else {
-                    ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
+                    //ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
                 }
                 $ilTabs->setBackTarget(
                     $lng->txt("back"),
