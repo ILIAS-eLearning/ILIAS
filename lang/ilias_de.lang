@@ -1456,7 +1456,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf f
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
+assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
