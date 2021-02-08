@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./examples/wms.js"],"names":[],"mappings":"0FAAA,yBAGA,YAAK,MAAO,mB","file":"wms.js","sourcesContent":["import 'ol/ol.css';\nimport olms from 'ol-mapbox-style';\n\nolms('map', 'data/wms.json');\n"],"sourceRoot":""}

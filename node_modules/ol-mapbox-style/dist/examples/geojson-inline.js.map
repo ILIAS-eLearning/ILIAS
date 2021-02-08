@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./examples/geojson-inline.js"],"names":[],"mappings":"0FAAA,yBAGA,YAAM,MAAO,8B","file":"geojson-inline.js","sourcesContent":["import 'ol/ol.css';\nimport {apply} from 'ol-mapbox-style';\n\napply('map', 'data/geojson-inline.json');\n"],"sourceRoot":""}
