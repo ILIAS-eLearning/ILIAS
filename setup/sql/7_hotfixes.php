@@ -428,3 +428,37 @@ if ($ilDB->tableColumnExists("reg_access_limit", "limit_relative_y")) {
     $ilDB->dropTableColumn("reg_access_limit", "limit_relative_y");
 }
 ?>
+<#23>
+<?php
+$setting = new ilSetting();
+$db_version = (int) $setting->get('db_version');
+if ($db_version === 5752) {
+    $setting->set('db_version', 5751);
+}
+?>
+<#24>
+<?php
+$table_name = 'il_adn_notifications';
+$columns = [
+    'event_start',
+    'event_end',
+    'display_start',
+    'display_end',
+    'create_date',
+    'last_update',
+];
+
+foreach ($columns as $column) {
+    if ($ilDB->tableExists($table_name)) {
+        if ($ilDB->tableColumnExists($table_name, $column)) {
+            $ilDB->dropTableColumn($table_name, $column);
+        }
+        $ilDB->addTableColumn($table_name, $column, array(
+            "type" => "integer",
+            "notnull" => false,
+            "length" => 8,
+            "default" => 0
+        ));
+    }
+}
+?>
