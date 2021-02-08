@@ -138,7 +138,7 @@ function ilTinyMCEImagePickerCallback(cb, value, meta) {
 
 function UploadHandler(blobInfo, success, failure, progress) {
     var xhr, formData;
-    var uploadUrl = './Services/RTE/tiny_mce_5_6_0/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
+    var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
     xhr.open('POST', uploadUrl);
     //xhr.withCredentials = settings.credentials;

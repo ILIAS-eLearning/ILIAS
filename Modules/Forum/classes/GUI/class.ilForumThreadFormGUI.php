@@ -83,8 +83,6 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $message->addButton('latex');
         $message->addButton('pastelatex');
         $message->addPlugin('ilfrmquote');
-        
-        $message->removePlugin('advlink');
         $message->usePurifier(true);
         $message->setRTERootBlockElement('');
         $message->setRTESupport($this->user->getId(), 'frm~', 'frm_post', 'tpl.tinymce_frm_post.js', false, '5.6.0');
@@ -92,10 +90,10 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             'charmap',
             'undo',
             'redo',
-            'justifyleft',
-            'justifycenter',
-            'justifyright',
-            'justifyfull',
+            'alignleft',
+            'aligncenter',
+            'alignright',
+            'alignjustify',
             'anchor',
             'fullscreen',
             'cut',

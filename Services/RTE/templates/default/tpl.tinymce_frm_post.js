@@ -114,7 +114,7 @@ function ilTinyMCEImagePickerCallback(cb, value, meta) {
 
 function UploadHandler(blobInfo, success, failure, progress) {
     var xhr, formData;
-    var uploadUrl = './Services/RTE/tiny_mce_5_6_0/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
+    var uploadUrl = './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update;
     xhr = new XMLHttpRequest();
     xhr.open('POST', uploadUrl);
     //xhr.withCredentials = settings.credentials;
@@ -142,16 +142,14 @@ function UploadHandler(blobInfo, success, failure, progress) {
     formData.append('img_file', blobInfo.blob(), blobInfo.filename());
     xhr.send(formData);
 };
+
 tinymce.init({
     mode: "textareas",
     editor_deselector: "noRTEditor",
     branding: false,
     language: "{LANG}",
-    //block_formats: "{BLOCKFORMATS}",
+    block_formats: ilTinyMCETranslateFormats(),
     plugins: "{ADDITIONAL_PLUGINS}",
-    <!-- BEGIN initial_width -->
-    width: "{INITIAL_WIDTH}",
-    <!-- END initial_width -->
     menubar: false,
     toolbar: "{BUTTONS_1} {BUTTONS_2} {BUTTONS_3}",
     toolbar_sticky: true,
@@ -162,7 +160,7 @@ tinymce.init({
     file_picker_types: "image",
     automatic_uploads: true,
     images_upload_handler: UploadHandler,
-    images_upload_url: './Services/RTE/tiny_mce_5_6_0/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
+    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
     ilimgupload_file_extensions: "{TXT_ALLOWED_FILE_EXTENSIONS}",
     ilimgupload_maxsize: "{TXT_MAX_SIZE}",
     importcss_append: true,
