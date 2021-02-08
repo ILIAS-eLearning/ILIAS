@@ -170,22 +170,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $dl_prop->setInfo($lng->txt('download_with_uploaded_filename_info'));
         $form->addItem($dl_prop);
 
-        // Show download action for folder
-        $dl_prop = new ilCheckboxInputGUI($lng->txt("enable_download_folder"), "enable_download_folder");
-        $dl_prop->setValue('1');
-        // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked($this->folderSettings->get("enable_download_folder", 0) == 1);
-        $dl_prop->setInfo($lng->txt('enable_download_folder_info'));
-        $form->addItem($dl_prop);
-
-        // multi download
-        $dl_prop = new ilCheckboxInputGUI($lng->txt("enable_multi_download"), "enable_multi_download");
-        $dl_prop->setValue('1');
-        // default value should reflect previous behaviour (-> 0)
-        $dl_prop->setChecked($this->folderSettings->get("enable_multi_download", 0) == 1);
-        $dl_prop->setInfo($lng->txt('enable_multi_download_info'));
-        $form->addItem($dl_prop);
-
         // download limit
         $lng->loadLanguageModule("bgtask");
         $dl_prop = new ilNumberInputGUI($lng->txt("bgtask_setting_limit"), "bg_limit");
@@ -276,9 +260,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $this->object->setDownloadWithUploadedFilename(ilUtil::stripSlashes($_POST['download_with_uploaded_filename']));
             $this->object->setInlineFileExtensions(ilUtil::stripSlashes($_POST['inline_file_extensions']));
             $this->object->update();
-
-            $this->folderSettings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
-            $this->folderSettings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
             $this->folderSettings->set("bgtask_download_limit", (int) $_POST["bg_limit"]);
 
             require_once("Services/Preview/classes/class.ilPreviewSettings.php");
