@@ -1,0 +1,84 @@
+{
+  "version": 8,
+  "name": "states",
+  "center": [-122.19952899999998, 51.920367528011525],
+  "zoom": 3,
+  "glyphs": "{fontstack}/{range}",
+  "sources": {
+    "states": {
+      "type": "geojson",
+      "data": "./states.geojson"
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "population_lt_2m",
+      "type": "fill",
+      "source": "states",
+      "filter": ["<=", "PERSONS", 2000000],
+      "paint": {
+        "fill-color": "#A6CEE3",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "2m_lt_population_lte_4m",
+      "type": "fill",
+      "source": "states",
+      "filter": ["all", [">", "PERSONS", 2000000], ["<=", "PERSONS", 4000000]],
+      "paint": {
+        "fill-color": "#0F78B4",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "population_gt_4m",
+      "type": "fill",
+      "source": "states",
+      "filter": [">", "PERSONS", 4000000],
+      "paint": {
+        "fill-color": "#B2DF8A",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "state_outlines",
+      "type": "line",
+      "source": "states",
+      "paint": {
+        "line-color": "#8cadbf",
+        "line-width": 0.1
+      }
+    },
+    {
+      "id": "state_abbreviations",
+      "type": "symbol",
+      "source": "states",
+      "minzoom": 4,
+      "maxzoom": 5,
+      "layout": {
+        "text-field": "{STATE_ABBR}",
+        "text-size": 12,
+        "text-font": ["Arial Normal", "sans-serif Normal"]
+      }
+    },
+    {
+      "id": "state_names",
+      "type": "symbol",
+      "source": "states",
+      "minzoom": 5,
+      "layout": {
+        "text-field": ["concat", ["get", "STATE_ABBR"], "\n", ["get", "STATE_NAME"]],
+        "text-size": 12,
+        "text-font": ["Arial Normal", "sans-serif Normal"]
+      }
+    }
+  ]
+}

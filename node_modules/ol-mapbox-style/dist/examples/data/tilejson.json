@@ -1,0 +1,26 @@
+{
+  "version": 8,
+  "name": "tilejson",
+  "center": [0, 0],
+  "zoom": 2,
+  "sources": {
+    "tilejson": {
+      "type": "raster",
+      "url": "https://a.tiles.mapbox.com/v3/aj.1x1-degrees.json"
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "tilejson-layer",
+      "type": "raster",
+      "source": "tilejson"
+    }
+  ]
+}
