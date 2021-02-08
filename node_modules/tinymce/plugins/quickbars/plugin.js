@@ -4,9 +4,9 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
@@ -62,7 +62,7 @@
 
     var blobToBase64 = function (blob) {
       return new global$1(function (resolve) {
-        var reader = new domGlobals.FileReader();
+        var reader = new FileReader();
         reader.onloadend = function () {
           resolve(reader.result.split(',')[1]);
         };
@@ -76,14 +76,14 @@
 
     var pickFile = function (editor) {
       return new global$1(function (resolve) {
-        var fileInput = domGlobals.document.createElement('input');
+        var fileInput = document.createElement('input');
         fileInput.type = 'file';
         fileInput.accept = 'image/*';
         fileInput.style.position = 'fixed';
         fileInput.style.left = '0';
         fileInput.style.top = '0';
         fileInput.style.opacity = '0.001';
-        domGlobals.document.body.appendChild(fileInput);
+        document.body.appendChild(fileInput);
         var changeHandler = function (e) {
           resolve(Array.prototype.slice.call(e.target.files));
         };
@@ -239,57 +239,10 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
-    };
-
-    var fromHtml = function (html, scope) {
-      var doc = scope || domGlobals.document;
-      var div = doc.createElement('div');
-      div.innerHTML = html;
-      if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        domGlobals.console.error('HTML does not have a single root node', html);
-        throw new Error('HTML must have a single root node');
-      }
-      return fromDom(div.childNodes[0]);
-    };
-    var fromTag = function (tag, scope) {
-      var doc = scope || domGlobals.document;
-      var node = doc.createElement(tag);
-      return fromDom(node);
-    };
-    var fromText = function (text, scope) {
-      var doc = scope || domGlobals.document;
-      var node = doc.createTextNode(text);
-      return fromDom(node);
-    };
-    var fromDom = function (node) {
-      if (node === null || node === undefined) {
-        throw new Error('Node cannot be null or undefined');
-      }
-      return { dom: constant(node) };
-    };
-    var fromPoint = function (docElm, x, y) {
-      var doc = docElm.dom();
-      return Option.from(doc.elementFromPoint(x, y)).map(fromDom);
-    };
-    var Element = {
-      fromHtml: fromHtml,
-      fromTag: fromTag,
-      fromText: fromText,
-      fromDom: fromDom,
-      fromPoint: fromPoint
-    };
-
-    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
-
-    var ELEMENT = 1;
-
-    var name = function (element) {
-      var r = element.dom().nodeName;
-      return r.toLowerCase();
     };
 
     var typeOf = function (x) {
@@ -327,11 +280,56 @@
     var isFunction = isSimpleType('function');
 
     function ClosestOrAncestor (is, ancestor, scope, a, isRoot) {
-      return is(scope, a) ? Option.some(scope) : isFunction(isRoot) && isRoot(scope) ? Option.none() : ancestor(scope, a, isRoot);
+      if (is(scope, a)) {
+        return Optional.some(scope);
+      } else if (isFunction(isRoot) && isRoot(scope)) {
+        return Optional.none();
+      } else {
+        return ancestor(scope, a, isRoot);
+      }
     }
 
+    var ELEMENT = 1;
+
+    var fromHtml = function (html, scope) {
+      var doc = scope || document;
+      var div = doc.createElement('div');
+      div.innerHTML = html;
+      if (!div.hasChildNodes() || div.childNodes.length > 1) {
+        console.error('HTML does not have a single root node', html);
+        throw new Error('HTML must have a single root node');
+      }
+      return fromDom(div.childNodes[0]);
+    };
+    var fromTag = function (tag, scope) {
+      var doc = scope || document;
+      var node = doc.createElement(tag);
+      return fromDom(node);
+    };
+    var fromText = function (text, scope) {
+      var doc = scope || document;
+      var node = doc.createTextNode(text);
+      return fromDom(node);
+    };
+    var fromDom = function (node) {
+      if (node === null || node === undefined) {
+        throw new Error('Node cannot be null or undefined');
+      }
+      return { dom: node };
+    };
+    var fromPoint = function (docElm, x, y) {
+      return Optional.from(docElm.dom.elementFromPoint(x, y)).map(fromDom);
+    };
+    var SugarElement = {
+      fromHtml: fromHtml,
+      fromTag: fromTag,
+      fromText: fromText,
+      fromDom: fromDom,
+      fromPoint: fromPoint
+    };
+
     var is = function (element, selector) {
-      var dom = element.dom();
+      var dom = element.dom;
       if (dom.nodeType !== ELEMENT) {
         return false;
       } else {
@@ -350,21 +348,26 @@
       }
     };
 
-    var supported = isFunction(domGlobals.Element.prototype.attachShadow) && isFunction(domGlobals.Node.prototype.getRootNode);
+    var Global = typeof window !== 'undefined' ? window : Function('return this;')();
+
+    var name = function (element) {
+      var r = element.dom.nodeName;
+      return r.toLowerCase();
+    };
 
     var ancestor = function (scope, predicate, isRoot) {
-      var element = scope.dom();
-      var stop = isFunction(isRoot) ? isRoot : constant(false);
+      var element = scope.dom;
+      var stop = isFunction(isRoot) ? isRoot : never;
       while (element.parentNode) {
         element = element.parentNode;
-        var el = Element.fromDom(element);
+        var el = SugarElement.fromDom(element);
         if (predicate(el)) {
-          return Option.some(el);
+          return Optional.some(el);
         } else if (stop(el)) {
           break;
         }
       }
-      return Option.none();
+      return Optional.none();
     };
     var closest = function (scope, predicate, isRoot) {
       var is = function (s, test) {
@@ -427,14 +430,14 @@
       if (insertToolbarItems.trim().length > 0) {
         editor.ui.registry.addContextToolbar('quickblock', {
           predicate: function (node) {
-            var sugarNode = Element.fromDom(node);
+            var sugarNode = SugarElement.fromDom(node);
             var textBlockElementsMap = editor.schema.getTextBlockElements();
             var isRoot = function (elem) {
-              return elem.dom() === editor.getBody();
+              return elem.dom === editor.getBody();
             };
             return closest$1(sugarNode, 'table', isRoot).fold(function () {
               return closest(sugarNode, function (elem) {
-                return name(elem) in textBlockElementsMap && editor.dom.isEmpty(elem.dom());
+                return name(elem) in textBlockElementsMap && editor.dom.isEmpty(elem.dom);
               }, isRoot).isSome();
             }, function () {
               return false;
@@ -485,4 +488,4 @@
 
     Plugin();
 
-}(window));
+}());

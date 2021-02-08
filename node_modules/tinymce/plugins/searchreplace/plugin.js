@@ -4,9 +4,9 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
-(function (domGlobals) {
+(function () {
     'use strict';
 
     var Cell = function (initial) {
@@ -152,7 +152,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -187,7 +187,6 @@
     var isString = isType('string');
     var isArray = isType('array');
     var isBoolean = isSimpleType('boolean');
-    var isFunction = isSimpleType('function');
     var isNumber = isSimpleType('number');
 
     var nativeSlice = Array.prototype.slice;
@@ -266,7 +265,7 @@
       return hasOwnProperty.call(obj, key);
     };
 
-    var Global = typeof domGlobals.window !== 'undefined' ? domGlobals.window : Function('return this;')();
+    var Global = typeof window !== 'undefined' ? window : Function('return this;')();
 
     var DOCUMENT = 9;
     var DOCUMENT_FRAGMENT = 11;
@@ -274,7 +273,7 @@
     var TEXT = 3;
 
     var type = function (element) {
-      return element.dom().nodeType;
+      return element.dom.nodeType;
     };
     var isType$1 = function (t) {
       return function (element) {
@@ -287,31 +286,38 @@
       if (isString(value) || isBoolean(value) || isNumber(value)) {
         dom.setAttribute(key, value + '');
       } else {
-        domGlobals.console.error('Invalid call to Attr.set. Key ', key, ':: Value ', value, ':: Element ', dom);
+        console.error('Invalid call to Attribute.set. Key ', key, ':: Value ', value, ':: Element ', dom);
         throw new Error('Attribute value was not simple');
       }
     };
     var set = function (element, key, value) {
-      rawSet(element.dom(), key, value);
+      rawSet(element.dom, key, value);
+    };
+
+    var compareDocumentPosition = function (a, b, match) {
+      return (a.compareDocumentPosition(b) & match) !== 0;
+    };
+    var documentPositionPreceding = function (a, b) {
+      return compareDocumentPosition(a, b, Node.DOCUMENT_POSITION_PRECEDING);
     };
 
     var fromHtml = function (html, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var div = doc.createElement('div');
       div.innerHTML = html;
       if (!div.hasChildNodes() || div.childNodes.length > 1) {
-        domGlobals.console.error('HTML does not have a single root node', html);
+        console.error('HTML does not have a single root node', html);
         throw new Error('HTML must have a single root node');
       }
       return fromDom(div.childNodes[0]);
     };
     var fromTag = function (tag, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var node = doc.createElement(tag);
       return fromDom(node);
     };
     var fromText = function (text, scope) {
-      var doc = scope || domGlobals.document;
+      var doc = scope || document;
       var node = doc.createTextNode(text);
       return fromDom(node);
     };
@@ -319,13 +325,12 @@
       if (node === null || node === undefined) {
         throw new Error('Node cannot be null or undefined');
       }
-      return { dom: constant(node) };
+      return { dom: node };
     };
     var fromPoint = function (docElm, x, y) {
-      var doc = docElm.dom();
-      return Option.from(doc.elementFromPoint(x, y)).map(fromDom);
+      return Optional.from(docElm.dom.elementFromPoint(x, y)).map(fromDom);
     };
-    var Element = {
+    var SugarElement = {
       fromHtml: fromHtml,
       fromTag: fromTag,
       fromText: fromText,
@@ -333,31 +338,24 @@
       fromPoint: fromPoint
     };
 
-    var compareDocumentPosition = function (a, b, match) {
-      return (a.compareDocumentPosition(b) & match) !== 0;
-    };
-    var documentPositionPreceding = function (a, b) {
-      return compareDocumentPosition(a, b, domGlobals.Node.DOCUMENT_POSITION_PRECEDING);
-    };
-
     var bypassSelector = function (dom) {
       return dom.nodeType !== ELEMENT && dom.nodeType !== DOCUMENT && dom.nodeType !== DOCUMENT_FRAGMENT || dom.childElementCount === 0;
     };
     var all = function (selector, scope) {
-      var base = scope === undefined ? domGlobals.document : scope.dom();
-      return bypassSelector(base) ? [] : map(base.querySelectorAll(selector), Element.fromDom);
+      var base = scope === undefined ? document : scope.dom;
+      return bypassSelector(base) ? [] : map(base.querySelectorAll(selector), SugarElement.fromDom);
     };
 
     var parent = function (element) {
-      return Option.from(element.dom().parentNode).map(Element.fromDom);
+      return Optional.from(element.dom.parentNode).map(SugarElement.fromDom);
     };
     var children = function (element) {
-      return map(element.dom().childNodes, Element.fromDom);
+      return map(element.dom.childNodes, SugarElement.fromDom);
     };
     var spot = function (element, offset) {
       return {
-        element: constant(element),
-        offset: constant(offset)
+        element: element,
+        offset: offset
       };
     };
     var leaf = function (element, offset) {
@@ -368,11 +366,11 @@
     var before = function (marker, element) {
       var parent$1 = parent(marker);
       parent$1.each(function (v) {
-        v.dom().insertBefore(element.dom(), marker.dom());
+        v.dom.insertBefore(element.dom, marker.dom);
       });
     };
     var append = function (parent, element) {
-      parent.dom().appendChild(element.dom());
+      parent.dom.appendChild(element.dom);
     };
     var wrap = function (element, wrapper) {
       before(element, wrapper);
@@ -387,13 +385,13 @@
         return getOption(element).getOr('');
       };
       var getOption = function (element) {
-        return is(element) ? Option.from(element.dom().nodeValue) : Option.none();
+        return is(element) ? Optional.from(element.dom.nodeValue) : Optional.none();
       };
       var set = function (element, value) {
         if (!is(element)) {
           throw new Error('Can only set raw ' + name + ' value of a ' + name + ' node');
         }
-        element.dom().nodeValue = value;
+        element.dom.nodeValue = value;
       };
       return {
         get: get,
@@ -406,8 +404,6 @@
     var get = function (element) {
       return api.get(element);
     };
-
-    var supported = isFunction(domGlobals.Element.prototype.attachShadow) && isFunction(domGlobals.Node.prototype.getRootNode);
 
     var descendants = function (scope, selector) {
       return all(selector, scope);
@@ -441,7 +437,7 @@
       };
     };
     var toLeaf = function (node, offset) {
-      return leaf(Element.fromDom(node), offset);
+      return leaf(SugarElement.fromDom(node), offset);
     };
     var walk = function (dom, walkerFn, startNode, callbacks, endNode, skipStart) {
       if (skipStart === void 0) {
@@ -488,7 +484,7 @@
           } else {
             section.sOffset += next.length;
           }
-          section.elements.push(Element.fromDom(next));
+          section.elements.push(SugarElement.fromDom(next));
         }
       });
     };
@@ -517,7 +513,7 @@
           return false;
         },
         text: function (next) {
-          current.elements.push(Element.fromDom(next));
+          current.elements.push(SugarElement.fromDom(next));
           if (callbacks) {
             callbacks.text(next, current);
           }
@@ -531,24 +527,24 @@
     };
     var collectRangeSections = function (dom, rng) {
       var start = toLeaf(rng.startContainer, rng.startOffset);
-      var startNode = start.element().dom();
+      var startNode = start.element.dom;
       var end = toLeaf(rng.endContainer, rng.endOffset);
-      var endNode = end.element().dom();
+      var endNode = end.element.dom;
       return collect(dom, rng.commonAncestorContainer, startNode, endNode, {
         text: function (node, section) {
           if (node === endNode) {
-            section.fOffset += node.length - end.offset();
+            section.fOffset += node.length - end.offset;
           } else if (node === startNode) {
-            section.sOffset += start.offset();
+            section.sOffset += start.offset;
           }
         },
         cef: function (node) {
-          var sections = bind(descendants(Element.fromDom(node), '*[contenteditable=true]'), function (e) {
-            var ceTrueNode = e.dom();
+          var sections = bind(descendants(SugarElement.fromDom(node), '*[contenteditable=true]'), function (e) {
+            var ceTrueNode = e.dom;
             return collect(dom, ceTrueNode, ceTrueNode);
           });
           return sort(sections, function (a, b) {
-            return documentPositionPreceding(a.elements[0].dom(), b.elements[0].dom()) ? 1 : -1;
+            return documentPositionPreceding(a.elements[0].dom, b.elements[0].dom) ? 1 : -1;
           });
         }
       }, false);
@@ -634,9 +630,9 @@
     var mark = function (matches, replacementNode) {
       eachr(matches, function (match, idx) {
         eachr(match, function (pos) {
-          var wrapper = Element.fromDom(replacementNode.cloneNode(false));
+          var wrapper = SugarElement.fromDom(replacementNode.cloneNode(false));
           set(wrapper, 'data-mce-index', idx);
-          var textNode = pos.element.dom();
+          var textNode = pos.element.dom;
           if (textNode.length === pos.finish && pos.start === 0) {
             wrap(pos.element, wrapper);
           } else {
@@ -644,7 +640,7 @@
               textNode.splitText(pos.finish);
             }
             var matchNode = textNode.splitText(pos.start);
-            wrap(Element.fromDom(matchNode), wrapper);
+            wrap(SugarElement.fromDom(matchNode), wrapper);
           }
         });
       });
@@ -888,18 +884,18 @@
     };
 
     var value = function () {
-      var subject = Cell(Option.none());
+      var subject = Cell(Optional.none());
       var clear = function () {
-        subject.set(Option.none());
+        return subject.set(Optional.none());
       };
       var set = function (s) {
-        subject.set(Option.some(s));
-      };
-      var on = function (f) {
-        subject.get().each(f);
+        return subject.set(Optional.some(s));
       };
       var isSet = function () {
         return subject.get().isSome();
+      };
+      var on = function (f) {
+        return subject.get().each(f);
       };
       return {
         clear: clear,
@@ -1164,4 +1160,4 @@
 
     Plugin();
 
-}(window));
+}());
