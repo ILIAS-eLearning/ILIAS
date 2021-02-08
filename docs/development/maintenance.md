@@ -126,7 +126,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **cmi5/xAPI Object**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
 
