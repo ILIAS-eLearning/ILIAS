@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "target": "ES5",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "ol": ["node_modules/ol/src"],
+      "ol/*": ["node_modules/ol/src/*"]
+    },
+    "lib": [
+      "es2015",
+      "dom",
+      "webworker"
+    ]
+  },
+  "include": [
+    "src/**/*.js",
+    "node_modules/ol/src/**/*.js"
+  ]
+}

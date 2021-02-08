@@ -37,7 +37,7 @@
       "required": false,
       "repeated": false,
       "options": {
-        "mylist2": "'[more,values],[here]'"
+        "mylist2": "'[more, values], [here]'"
       }
     }],
     "extensions": null
