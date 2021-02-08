@@ -16,7 +16,6 @@ class ilTinyMCE extends ilRTE
 {
     protected $mode = 'textareas';
     protected $version = ''; // set default version here
-    protected $vd = ''; // version directory suffix
 
     protected static $renderedToGlobalTemplate = false;
 
@@ -36,25 +35,8 @@ class ilTinyMCE extends ilRTE
      */
     public function __construct($a_version = '')
     {
-        if (!$a_version) {
-            $a_version = '5.6.0';
-        }
-
-        parent::__construct($a_version);
-        // Since all 3.x has been removed, set the deafult to 5.6.0
-        switch ($a_version) {
-            case '5.6.0':
-            case '3.4.7':
-            case '3.5.11':
-                $a_version = '5.6.0';
-                $this->version = $a_version;
-                $this->vd = '_' . str_replace('.', '_', $a_version);
-                break;
-
-            default:
-                // unknown/unsupported version?
-                break;
-        }  
+        
+        parent::__construct($a_version);  
 
         $this->plugins = array(
             'link',
@@ -81,10 +63,7 @@ class ilTinyMCE extends ilRTE
         $this->addInternalTinyMCEImageManager();
     }
 
-    public function getVersion()
-    {
-        return $this->version;
-    }
+
     public function getPlugins()
     {
         return $this->plugins;
@@ -245,7 +224,7 @@ class ilTinyMCE extends ilRTE
             $tpl->parseCurrentBlock();
 
             if (!self::$renderedToGlobalTemplate) {
-                $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
+                $this->tpl->addJavaScript("node_modules/tinymce/tinymce.js");
                 $this->tpl->addOnLoadCode($tpl->get());
                 self::$renderedToGlobalTemplate = true;
             }
@@ -304,7 +283,7 @@ class ilTinyMCE extends ilRTE
         $tpl->parseCurrentBlock();
 
         if (!self::$renderedToGlobalTemplate) {
-            $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
+            $this->tpl->addJavaScript("node_modules/tinymce/tinymce.js");
             $this->tpl->addOnLoadCode($tpl->get());
             self::$renderedToGlobalTemplate = true;
         }
@@ -318,7 +297,7 @@ class ilTinyMCE extends ilRTE
         $validtags = array("strong","em","p", "br", "div", "span");
         $buttontags = array("strong","em");
         include_once "./Services/UICore/classes/class.ilTemplate.php";
-        $template = new ilTemplate("tpl.usereditor.html", true, true, "Services/RTE");
+        $template = new ilTemplate("tpl.usereditor.js", true, true, "Services/RTE");
         $this->handleImgContextMenuItem($template);
         $template->setCurrentBlock("tinymce");
         include_once "./Services/Object/classes/class.ilObject.php";
@@ -328,14 +307,14 @@ class ilTinyMCE extends ilRTE
         if ($this->getStyleSelect()) {
             $template->setVariable("STYLE_SELECT", ",styleselect");
         }
-        $template->setVariable("BUTTONS", $this->getButtonsForUserTextEditor($buttontags) . ",backcolor,removeformat");
+        $template->setVariable("BUTTONS", $this->getButtonsForUserTextEditor($buttontags) . " backcolor removeformat");
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         //$template->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());
         $template->setVariable("STYLESHEET_LOCATION", ilUtil::getNewContentStyleSheetLocation() . "," . ilUtil::getStyleSheetLocation("output", "delos.css"));
         $template->setVariable("LANG", $this->_getEditorLanguage());
         $template->parseCurrentBlock();
         
-        $this->tpl->addJavaScript("./Services/RTE/tiny_mce" . $this->vd . "/tinymce.js");
+        $this->tpl->addJavaScript("node_modules/tinymce/tinymce.js");
         $this->tpl->addOnLoadCode($template->get());
     }
 
@@ -347,12 +326,12 @@ class ilTinyMCE extends ilRTE
     {
         $btns = $this->_buildButtonsFromHTMLTags($buttontags);
 
-        $btns = explode(',', $btns);
+        $btns = explode(' ', $btns);
         
         $btns[] = 'undo';
         $btns[] = 'redo';
         
-        return implode(',', $btns);
+        return implode(' ', $btns);
     }
     
     /**
@@ -662,8 +641,24 @@ class ilTinyMCE extends ilRTE
     protected function _getEditorLanguage()
     {
         $lang = $this->user->getLanguage();
-        if (file_exists("./Services/RTE/tiny_mce" . $this->vd . "/langs/$lang.js")) {
-            return "$lang";
+        $langtiny = $lang;
+        //Language files in tinymce and ILIAS have different nomenclatures: adjust the differences
+        switch($lang) {
+            case "hu":
+                $langtiny = "hu_HU";
+                break;
+            case "zh": 
+                $langtiny = "zh_CN";
+                break;
+            case "he":
+                $langtiny = "he_IL";
+                break;
+            
+            default:
+                //do nothing
+        }
+        if (file_exists("./node_modules/tinymce/langs/$langtiny.js")) {
+            return "$langtiny";
         } else {
             return "en";
         }

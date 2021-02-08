@@ -23,16 +23,7 @@ class ilTinyMCETest extends ilRTEBaseTest
         $this->assertTrue(in_array('a_new_test_plugin', $plugins));
 
     }
-    public function testVersion()
-    {
-        $tinymce = new ilTinyMCE();
-        $version = $tinymce->getVersion();
-        $this->assertEquals('5.6.0', $version);
-        $tinymce = new ilTinyMCE('3.5.11');
-        $version = $tinymce->getVersion();
-        $this->assertNotEquals('3.5.11', $version);
 
-    }
     public function testTiny3xCodeHasbeenRemoved()
     {
         $this->assertDirectoryNotExists('./Services/RTE/tiny_mce_3_4_7');
