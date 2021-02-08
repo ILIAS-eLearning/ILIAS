@@ -4,14 +4,12 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  *
- * Version: 5.4.2 (2020-08-17)
+ * Version: 5.6.2 (2020-12-08)
  */
 (function () {
     'use strict';
 
     var global = tinymce.util.Tools.resolve('tinymce.PluginManager');
-
-    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var applyListFormat = function (editor, listName, styleValue) {
       var cmd = listName === 'UL' ? 'InsertUnorderedList' : 'InsertOrderedList';
@@ -26,6 +24,8 @@
         applyListFormat(editor, 'OL', value['list-style-type']);
       });
     };
+
+    var global$1 = tinymce.util.Tools.resolve('tinymce.util.Tools');
 
     var getNumberStyles = function (editor) {
       var styles = editor.getParam('advlist_number_styles', 'default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman');
@@ -146,7 +146,7 @@
     var from = function (value) {
       return value === null || value === undefined ? NONE : some(value);
     };
-    var Option = {
+    var Optional = {
       some: some,
       none: none,
       from: from
@@ -166,7 +166,7 @@
     var getSelectedStyleType = function (editor) {
       var listElm = editor.dom.getParent(editor.selection.getNode(), 'ol,ul');
       var style = editor.dom.getStyle(listElm, 'listStyleType');
-      return Option.from(style);
+      return Optional.from(style);
     };
 
     var findIndex = function (list, predicate) {
@@ -266,10 +266,7 @@
 
     function Plugin () {
       global.add('advlist', function (editor) {
-        var hasPlugin = function (editor, plugin) {
-          return global$1.inArray(editor.getParam('plugins', '', 'string').split(/[ ,]/), plugin) !== -1;
-        };
-        if (hasPlugin(editor, 'lists')) {
+        if (editor.hasPlugin('lists')) {
           register$1(editor);
           register(editor);
         }
