@@ -190,7 +190,7 @@ tinymce.init({
     file_picker_types: "image",
     automatic_uploads: true,
     images_upload_handler: UploadHandler,
-    images_upload_url: './Services/RTE/tiny_mce_5_6_0/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
+    images_upload_url: './node_modules/tinymce/plugins/ilimgupload/imgupload.php?obj_id=' + obj_id + '&obj_type=' + obj_type + '&update=' + image_update,
     importcss_append: true,
     file_picker_callback: ilTinyMCEImagePickerCallback,
     plugin_insertdate_dateFormat: "%d.%m.%Y",
