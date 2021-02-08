@@ -5867,31 +5867,4 @@ if (!$ilDB->tableColumnExists('media_item', 'duration')) {
         "default" => 0
     ));
 }
-
-?>
-<#5752>
-<?php
-$table_name = 'il_adn_notifications';
-$columns = [
-        'event_start',
-        'event_end',
-        'display_start',
-        'display_end',
-        'create_date',
-        'last_update',
-];
-
-foreach ($columns as $column) {
-    if ($ilDB->tableExists($table_name)) {
-        if ($ilDB->tableColumnExists($table_name, $column)) {
-            $ilDB->dropTableColumn($table_name, $column);
-        }
-        $ilDB->addTableColumn($table_name, $column, array(
-            "type" => "integer",
-            "notnull" => false,
-            "length" => 8,
-            "default" => 0
-        ));
-    }
-}
 ?>
