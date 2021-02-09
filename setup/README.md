@@ -136,8 +136,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *port* the database server uses, defaults to `3306`
   * *database* name to be used, defaults to `ilias`
   * **user** to be used to connect to the database
-  * **password**  to be used to connect to the database
-  * **create_database** if a database with the given name does not exist? Defaults
+  * *password*  to be used to connect to the database
+  * *create_database* if a database with the given name does not exist? Defaults
     to `true`
 * **filesystem** configuration
   * **data_dir** outside the web directory where ILIAS puts some data
