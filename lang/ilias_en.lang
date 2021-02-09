@@ -4697,7 +4697,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link
+content#:#cont_text_iln_link#:#Interal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -4705,7 +4705,7 @@ content#:#cont_text_placehl#:#Text Placeholder
 content#:#cont_text_quot#:#Quotation
 content#:#cont_text_str#:#Strong Text
 content#:#cont_text_tex#:#LaTeX Code
-content#:#cont_text_xln#:#External Link
+content#:#cont_text_xln_link#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
@@ -12997,7 +12997,8 @@ style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 cron#:#cron_result_status_fail#:#Failed
-content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
+content#:#cont_link_user#:#User Profile
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply

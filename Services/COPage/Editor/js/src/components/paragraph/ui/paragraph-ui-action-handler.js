@@ -150,15 +150,15 @@ export default class ParagraphUIActionHandler {
           break;
 
         case ACTIONS.LINK_WIKI_SELECTION:
-          //this.ui.cmdListIndent();
+          this.ui.cmdWikiLinkSelection(params.url);
           break;
 
         case ACTIONS.LINK_WIKI:
-          //this.ui.cmdListIndent();
+          this.ui.cmdWikiLink();
           break;
 
         case ACTIONS.LINK_INTERNAL:
-          //this.ui.cmdExtLink();
+          this.ui.cmdIntLink();
           break;
 
         case ACTIONS.SECTION_CLASS:
@@ -170,7 +170,7 @@ export default class ParagraphUIActionHandler {
           break;
 
         case ACTIONS.LINK_USER:
-          //this.ui.cmdListIndent();
+          this.ui.cmdUserLink();
           break;
 
         case ACTIONS.SAVE_RETURN:

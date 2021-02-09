@@ -93,8 +93,10 @@ export default class ParagraphEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  linkWikiSelection() {
-    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_WIKI_SELECTION);
+  linkWikiSelection(url) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LINK_WIKI_SELECTION, {
+      url: url
+    });
   }
 
   /**
