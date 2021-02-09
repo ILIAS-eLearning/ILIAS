@@ -16424,7 +16424,6 @@ adn#:#btn_edit#:#Edit
 adn#:#msg_success_deleted#:#Notification sucessfully deleted
 adn#:#msg_success_created#:#Notification created
 adn#:#msg_success_reset#:#Notification reset
-content#:#cont_link_user#:#User Link
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
