@@ -5,7 +5,7 @@
   border-right: @il-mode-info-border;
   text-align: center;
 
-  z-index: 10000;
+  z-index: @il-mode-info-zindex;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -15,7 +15,13 @@
 .il-mode-info + div {
   border: @il-mode-info-border;
   border-top: 0 none;
+  
+  @media only screen and (max-width: @grid-float-breakpoint-max) {
+    padding-top: @il-mode-info-height;
+  }
 }
+
+
 //
 // This is needed to break the current grid from the page
 //

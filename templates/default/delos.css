@@ -9998,7 +9998,7 @@ footer {
   border-left: 3px solid #fa8228;
   border-right: 3px solid #fa8228;
   text-align: center;
-  z-index: 10000;
+  z-index: 1010;
   position: absolute;
   height: 100%;
   width: 100%;
@@ -10007,6 +10007,11 @@ footer {
 .il-mode-info + div {
   border: 3px solid #fa8228;
   border-top: 0 none;
+}
+@media only screen and (max-width: 768px) {
+  .il-mode-info + div {
+    padding-top: 30px;
+  }
 }
 .il-layout-page-content > div {
   display: grid;
