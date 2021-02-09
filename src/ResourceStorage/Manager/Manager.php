@@ -48,7 +48,11 @@ class Manager
         string $title = null
     ) : ResourceIdentification {
         if ($result->isOK()) {
-            $resource = $this->resource_builder->new($result, $title);
+            $resource = $this->resource_builder->new(
+                $result,
+                $title,
+                $stakeholder->getOwnerOfNewResources()
+            );
             $resource->addStakeholder($stakeholder);
             $this->resource_builder->store($resource);
 
@@ -62,9 +66,13 @@ class Manager
         ResourceStakeholder $stakeholder,
         string $title = null
     ) : ResourceIdentification {
-        $resource = $this->resource_builder->newFromStream($stream, $title);
+        $resource = $this->resource_builder->newFromStream(
+            $stream,
+            true,
+            $title,
+            $stakeholder->getOwnerOfNewResources()
+        );
         $resource->addStakeholder($stakeholder);
-
         $this->resource_builder->store($resource);
 
         return $resource->getIdentification();

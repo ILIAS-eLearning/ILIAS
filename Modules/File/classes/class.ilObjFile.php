@@ -111,6 +111,20 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         parent::__construct($a_id, $a_call_by_reference);
     }
 
+    protected function initImplementation() : void
+    {
+        if ($this->resource_id) {
+            $id = $this->manager->find($this->resource_id);
+            $resource = $this->manager->getResource($id);
+            $this->implementation = new ilObjFileImplementationStorage($resource);
+        } else {
+            $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
+                $this->getFileName());
+            $s = new FilePathSanitizer($this);
+            $s->sanitizeIfNeeded();
+        }
+    }
+
     private function updateObjectFromRevision(Revision $r) : void
     {
         $this->setTitle($r->getTitle());
@@ -131,6 +145,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $i = $this->manager->stream($stream, $this->stakeholder, $title);
             $revision = $this->manager->getCurrentRevision($i);
             $this->setResourceId($i->serialize());
+            $this->initImplementation();
         }
         $this->updateObjectFromRevision($revision);
 
@@ -145,6 +160,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $i = $this->manager->upload($result, $this->stakeholder, $title);
             $revision = $this->manager->getCurrentRevision($i);
             $this->setResourceId($i->serialize());
+            $this->initImplementation();
         }
         $this->updateObjectFromRevision($revision);
 
@@ -345,16 +361,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setPageCount($row->page_count);
         $this->setResourceId($row->rid);
 
-        if ($this->resource_id) {
-            $id = $DIC->resourceStorage()->manage()->find($this->resource_id);
-            $resource = $DIC->resourceStorage()->manage()->getResource($id);
-            $this->implementation = new ilObjFileImplementationStorage($resource);
-        } else {
-            $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
-                $this->getFileName());
-            $s = new FilePathSanitizer($this);
-            $s->sanitizeIfNeeded();
-        }
+        $this->initImplementation($DIC);
     }
 
     protected function doCloneObject($new_object, $a_target_id, $a_copy_id = 0)

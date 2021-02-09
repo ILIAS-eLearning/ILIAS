@@ -57,7 +57,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
      */
     public function getTitle() : string
     {
-        return $this->title !== null ? $this->title : ($this->getRefId() > 0 ? ilObject2::_lookupTitle(ilObject2::_lookupObjectId($this->getRefId())) : "");
+        return $this->title;
     }
 
     /**

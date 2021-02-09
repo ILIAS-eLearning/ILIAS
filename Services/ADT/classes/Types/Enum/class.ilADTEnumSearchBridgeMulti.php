@@ -4,6 +4,8 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeMulti.php";
 
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 {
+    const ENUM_SEARCH_COLUMN = 'value_index';
+
     protected $multi_source; // [bool]
     protected $search_mode; // [int]
     
@@ -14,6 +16,12 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
     {
         $this->search_mode = (int) $a_mode;
     }
+
+    public function getSearchColumn() : string
+    {
+        return self::ENUM_SEARCH_COLUMN;
+    }
+
     
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
     {
@@ -96,32 +104,15 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $ilDB = $DIC->database();
+
         if (!$this->isNull() && $this->isValid()) {
-            $type = ($this->getADT() instanceof ilADTMultiEnumText)
-                ? "text"
-                : "integer";
-            
-            if ($this->multi_source) {
-                include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnumDBBridge.php";
-                
-                // #16827 / #17087
-                $mode_concat = ($this->search_mode == self::SEARCH_MODE_ANY)
-                    ? " OR "
-                    : " AND ";
-                
-                $parts = array();
-                foreach ($this->getADT()->getSelections() as $item) {
-                    $item = "%" . ilADTMultiEnumDBBridge::SEPARATOR .
-                        $item .
-                        ilADTMultiEnumDBBridge::SEPARATOR . "%";
-                    $parts[] = $ilDB->like($a_element_id, "text", $item, false);
-                }
-                return "(" . implode($mode_concat, $parts) . ")";
-            }
-            
-            return $ilDB->in($a_element_id, $this->getADT()->getSelections(), "", $type);
+            return $ilDB->in(
+                $this->getSearchColumn(),
+                $this->getADT()->getSelections(),
+                '',
+                ilDBConstants::T_INTEGER
+            );
         }
     }
     

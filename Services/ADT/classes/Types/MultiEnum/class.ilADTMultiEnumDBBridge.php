@@ -2,12 +2,32 @@
 
 require_once "Services/ADT/classes/Bridges/class.ilADTMultiDBBridge.php";
 
-class ilADTMultiEnumDBBridge extends ilADTMultiDBBridge
+class ilADTMultiEnumDBBridge extends ilADTDBBridge
 {
+    const TABLE_NAME = 'adv_md_values_enum';
+
+    /**
+     * @var ilDBInterface
+     */
+    protected $db;
+
     protected $fake_single;
     
     const SEPARATOR = "~|~";
-    
+
+    public function __construct(ilADT $a_adt)
+    {
+        global $DIC;
+
+        $this->db = $DIC->database();
+        parent::__construct($a_adt);
+    }
+
+    public function getTable() : string
+    {
+        return self::TABLE_NAME;
+    }
+
     protected function isValidADT(ilADT $a_adt)
     {
         return ($a_adt instanceof ilADTMultiEnum);
@@ -25,65 +45,48 @@ class ilADTMultiEnumDBBridge extends ilADTMultiDBBridge
     
     public function readRecord(array $a_row)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        if (!$this->doSingleFake()) {
-            $sql = "SELECT " . $this->getElementId() .
-                " FROM " . $this->getSubTableName() .
-                " WHERE " . $this->buildPrimaryWhere();
-            $set = $ilDB->query($sql);
-
-            $this->readMultiRecord($set);
-        } else {
-            if (trim($a_row[$this->getElementId()])) {
-                $value = explode(self::SEPARATOR, $a_row[$this->getElementId()]);
-                array_pop($value);
-                array_shift($value);
-                $this->getADT()->setSelections($value);
-            }
+        if (isset($a_row[$this->getElementId()])) {
+            $this->getADT()->addSelection($a_row[$this->getElementId()]);
         }
     }
-    
-    protected function readMultiRecord($a_set)
+
+    public function afterInsert()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        $elements = array();
-        
-        while ($row = $ilDB->fetchAssoc($a_set)) {
-            $elements[] = $row[$this->getElementId()];
-        }
-        
-        $this->getADT()->setSelections($elements);
+        return $this->afterUpdate();
     }
-    
+
+    public function afterUpdate()
+    {
+        $this->deleteIndices();
+        $this->insertIndices();
+    }
+
     public function prepareInsert(array &$a_fields)
     {
-        if ($this->doSingleFake()) {
-            $values = (array) $this->getADT()->getSelections();
-            if (sizeof($values)) {
-                $values = self::SEPARATOR . implode(self::SEPARATOR, $values) . self::SEPARATOR;
-            }
-            $a_fields[$this->getElementId()] = array("text", $values);
+        $a_fields = [];
+    }
+
+    protected function deleteIndices()
+    {
+        $this->db->query(
+            'delete from ' . $this->getTable() . ' ' .
+            'where ' . $this->buildPrimaryWhere()
+        );
+    }
+
+    protected function insertIndices()
+    {
+        foreach ($this->getADT()->getSelections() as $index)
+        {
+            $fields = $this->getPrimary();
+            $fields['value_index'] = [ilDBConstants::T_INTEGER, $index];
+            $num_row  = $this->db->insert($this->getTable(), $fields);
+            ilLoggerFactory::getLogger('amet')->dump($num_row);
         }
     }
-    
-    protected function prepareMultiInsert()
+
+    public function supportsDefaultValueColumn() : bool
     {
-        $res = array();
-        
-        $type = ($this->getADT() instanceof ilADTMultiEnumNumeric)
-            ? "integer"
-            : "text";
-        
-        foreach ((array) $this->getADT()->getSelections() as $element) {
-            $res[] = array($this->getElementId() => array($type, $element));
-        }
-        
-        return $res;
+        return false;
     }
 }

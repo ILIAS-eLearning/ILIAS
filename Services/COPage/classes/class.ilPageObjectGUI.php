@@ -1288,7 +1288,6 @@ class ilPageObjectGUI
         iljQueryUtil::initjQueryUI();
 
         //		$this->initSelfAssessmentRendering();
-        
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
@@ -1305,6 +1304,8 @@ class ilPageObjectGUI
         //if($this->outputToTemplate())
         //{
         if ($this->getOutputMode() == "edit") {
+
+            $this->initEditing();
 
             $this->getPageObject()->buildDom();
 
@@ -1342,6 +1343,21 @@ class ilPageObjectGUI
 
             // get js files for JS enabled editing
             if ($sel_js_mode == "enable") {
+
+                // add int link parts
+                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+                $tpl->setCurrentBlock("int_link_prep");
+                $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+                    $this->ctrl->getLinkTargetByClass(
+                        array("ilpageeditorgui", "ilinternallinkgui"),
+                        "",
+                        false,
+                        true,
+                        false
+                    )
+                ));
+                $tpl->parseCurrentBlock();
+
                 $editor_init = new \ILIAS\COPage\Editor\UI\Init();
                 $editor_init->initUI($main_tpl);
             }
@@ -2085,13 +2101,14 @@ class ilPageObjectGUI
         // links
         $links = [];
         if ($a_wiki_links) {
-            $links[] = ["text" => $lng->txt("obj_wiki"), "action" => "link.wikiSelection", "data" => []];
-            $links[] = ["text" => "[[".$lng->txt("obj_wiki")."]]", "action" => "link.wiki", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_wiki_link_dialog"), "action" => "link.wikiSelection", "data" => [
+                "url" => $ctrl->getLinkTargetByClass("ilwikipagegui", "")]];
+            $links[] = ["text" => "[[".$lng->txt("cont_wiki_page")."]]", "action" => "link.wiki", "data" => []];
         }
         if ($a_int_links) {
-            $links[] = ["text" => $lng->txt("cont_text_iln"), "action" => "link.internal", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_text_iln_link"), "action" => "link.internal", "data" => []];
         }
-        $links[] = ["text" => $lng->txt("cont_text_xln"), "action" => "link.external", "data" => []];
+        $links[] = ["text" => $lng->txt("cont_text_xln_link"), "action" => "link.external", "data" => []];
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }
@@ -2542,9 +2559,11 @@ class ilPageObjectGUI
     }
 
     /**
-     * edit ("view" before)
+     * Init editing
+     * @param
+     * @return
      */
-    public function edit()
+    protected function initEditing()
     {
         // editing allowed?
         if (!$this->getEnableEditing()) {
@@ -2574,16 +2593,16 @@ class ilPageObjectGUI
                 return $form->getHTML();
             }
         }
-        
+
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
             include_once("./Services/User/classes/class.ilUserUtil.php");
             $info = $this->lng->txt("content_no_edit_lock");
             $lock = $this->getPageObject()->getEditLockInfo();
             $info .= "</br>" . $this->lng->txt("content_until") . ": " .
-                    ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
+                ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX));
             $info .= "</br>" . $this->lng->txt("obj_usr") . ": " .
-                    ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
+                ilUserUtil::getNamePresentation($lock["edit_lock_user"]);
             if (!$this->ctrl->isAsynch()) {
                 ilUtil::sendInfo($info);
                 return "";
@@ -2607,15 +2626,21 @@ class ilPageObjectGUI
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
-        $this->setOutputMode(self::EDIT);
+    }
 
+    /**
+     * edit ("view" before)
+     */
+    public function edit()
+    {
+        $this->setOutputMode(self::EDIT);
         $html = $this->showPage();
         
         if ($this->isEnabledNotes()) {
             $html .= "<br /><br />" . $this->getNotesHTML();
         }
     
-        return $mess . $html;
+        return $html;
     }
 
     /**

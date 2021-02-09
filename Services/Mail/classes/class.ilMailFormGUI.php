@@ -248,47 +248,47 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-    public function searchUsers($save = true)
+    public function searchUsers(bool $save = true) : void
     {
         $this->tpl->setTitle($this->lng->txt("mail"));
 
         if ($save) {
-            // decode post values
-            $files = array();
-            if (is_array($_POST['attachments'])) {
+            $files = [];
+            if (isset($_POST['attachments']) && is_array($_POST['attachments'])) {
                 foreach ($_POST['attachments'] as $value) {
                     $files[] = urldecode($value);
                 }
             }
-            
+
             // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
             $this->umail->savePostData(
                 $this->user->getId(),
                 $files,
-                ilUtil::securePlainString($_POST["rcp_to"]),
-                ilUtil::securePlainString($_POST["rcp_cc"]),
-                ilUtil::securePlainString($_POST["rcp_bcc"]),
-                ilUtil::securePlainString($_POST["m_email"]),
-                ilUtil::securePlainString($_POST["m_subject"]),
-                ilUtil::securePlainString($_POST["m_message"]),
-                ilUtil::securePlainString($_POST['use_placeholders']),
+                ilUtil::securePlainString($_POST["rcp_to"] ?? ''),
+                ilUtil::securePlainString($_POST["rcp_cc"] ?? ''),
+                ilUtil::securePlainString($_POST["rcp_bcc"] ?? ''),
+                ilUtil::securePlainString($_POST["m_email"] ?? ''),
+                ilUtil::securePlainString($_POST["m_subject"] ?? ''),
+                ilUtil::securePlainString($_POST["m_message"] ?? ''),
+                (bool) ($_POST['use_placeholders']  ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
-                                    );
+            );
         }
 
         $form = new ilPropertyFormGUI();
         $form->setId('search_rcp');
         $form->setTitle($this->lng->txt('search_recipients'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'search'));
-        
+
         $inp = new ilTextInputGUI($this->lng->txt("search_for"), 'search');
         $inp->setSize(30);
-        $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true, false);
+        $dsDataLink = $this->ctrl->getLinkTarget($this, 'lookupRecipientAsync', '', true);
         $inp->setDataSource($dsDataLink);
-        
-        if (strlen(trim($_SESSION["mail_search_search"])) > 0) {
-            $inp->setValue(ilUtil::prepareFormOutput(trim($_SESSION["mail_search_search"]), true));
+
+        $searchQuery = trim((string) ilSession::get('mail_search_search'));
+        if ($searchQuery !== '') {
+            $inp->setValue(ilUtil::prepareFormOutput($searchQuery), true);
         }
         $form->addItem($inp);
 
@@ -349,16 +349,16 @@ class ilMailFormGUI
         $this->searchResults();
     }
 
-    public function editAttachments()
+    public function editAttachments() : void
     {
         // decode post values
-        $files = array();
-        if (is_array($_POST['attachments'])) {
+        $files = [];
+        if (isset($_POST['attachments']) && is_array($_POST['attachments'])) {
             foreach ($_POST['attachments'] as $value) {
                 $files[] = urldecode($value);
             }
         }
-        
+
         // Note: For security reasons, ILIAS only allows Plain text messages.
         $this->umail->savePostData(
             $this->user->getId(),
@@ -366,14 +366,14 @@ class ilMailFormGUI
             ilUtil::securePlainString($_POST["rcp_to"]),
             ilUtil::securePlainString($_POST["rcp_cc"]),
             ilUtil::securePlainString($_POST["rcp_bcc"]),
-            ilUtil::securePlainString($_POST["m_email"]),
+            (bool) ($_POST["m_email"] ?? false),
             ilUtil::securePlainString($_POST["m_subject"]),
             ilUtil::securePlainString($_POST["m_message"]),
-            ilUtil::securePlainString($_POST['use_placeholders']),
+            (bool) ($_POST["use_placeholders"] ?? false),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
-                                );
-            
+        );
+
         $this->ctrl->redirectByClass("ilmailattachmentgui");
     }
 
@@ -446,6 +446,13 @@ class ilMailFormGUI
             $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'cancelMail'));
         }
 
+        $mailData = [];
+        $mailData["rcp_to"] = '';
+        $mailData["rcp_cc"] = '';
+        $mailData["rcp_cc"] = '';
+        $mailData["rcp_bcc"] = '';
+        $mailData["attachments"] = [];
+
         switch ($_GET["type"]) {
             case 'reply':
                 if ($_SESSION['mail_id']) {
@@ -513,22 +520,22 @@ class ilMailFormGUI
                 break;
         
             case 'new':
-                if ($_GET['rcp_to']) {
+                if (isset($_GET['rcp_to'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_to"] = ilUtil::securePlainString($_GET['rcp_to']);
-                } elseif ($_SESSION['rcp_to']) {
+                } elseif (isset($_SESSION['rcp_to'])) {
                     $mailData["rcp_to"] = $_SESSION['rcp_to'];
                 }
-                if ($_GET['rcp_cc']) {
+                if (isset($_GET['rcp_cc'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_cc"] = ilUtil::securePlainString($_GET['rcp_cc']);
-                } elseif ($_SESSION['rcp_cc']) {
+                } elseif (isset($_SESSION['rcp_cc'])) {
                     $mailData["rcp_cc"] = $_SESSION['rcp_cc'];
                 }
-                if ($_GET['rcp_bcc']) {
+                if (isset($_GET['rcp_bcc'])) {
                     // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
                     $mailData["rcp_bcc"] = ilUtil::securePlainString($_GET['rcp_bcc']);
-                } elseif ($_SESSION['rcp_bcc']) {
+                } elseif (isset($_SESSION['rcp_bcc'])) {
                     $mailData["rcp_bcc"] = $_SESSION['rcp_bcc'];
                 }
                 $mailData['m_message'] = '';
@@ -651,7 +658,7 @@ class ilMailFormGUI
 
         $att = new ilMailFormAttachmentPropertyGUI($this->lng->txt(($mailData["attachments"]) ? 'edit' : 'add'));
         
-        if (is_array($mailData["attachments"]) && count($mailData["attachments"])) {
+        if (isset($mailData["attachments"]) && is_array($mailData["attachments"])) {
             foreach ($mailData["attachments"] as $data) {
                 if (is_file($this->mfile->getMailPath() . '/' . $this->user->getId() . "_" . $data)) {
                     $hidden = new ilHiddenInputGUI('attachments[]');

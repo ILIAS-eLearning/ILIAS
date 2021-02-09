@@ -192,6 +192,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         if ($this->container->getMaxMembers()) {
             $tpl->setVariable('TXT_MAX', $this->lng->txt('mem_max_users'));
             $tpl->setVariable('NUM_MAX', $this->container->getMaxMembers());
+            $tpl->setVariable('TXT_FREE', $this->lng->txt('mem_free_places') . ":");
 
             include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
             $reg_info = ilObjGroupAccess::lookupRegistrationInfo($this->getContainer()->getId());

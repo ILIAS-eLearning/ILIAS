@@ -182,10 +182,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		}
 
 		var collectCounters = function() {
-			var $more_slate_counter = il.UI.counter.getCounterObject(_getMoreSlate());
-			il.UI.counter.getCounterObject(_getMoreButton())
-				.setNoveltyTo($more_slate_counter.getNoveltyCount())
-				.setStatusTo($more_slate_counter.getStatusCount());
+			var $more_slate_counter = il.UI.counter.getCounterObjectOrNull(_getMoreSlate());
+			if($more_slate_counter){
+				il.UI.counter.getCounterObject(_getMoreButton())
+					.setNoveltyTo($more_slate_counter.getNoveltyCount())
+					.setStatusTo($more_slate_counter.getStatusCount())
+			};
 		}
 
 		return {

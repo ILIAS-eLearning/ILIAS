@@ -22,7 +22,7 @@ Files located in this directory must be named with the original export file name
 
 The file names must match the regular expression
   
-`/[0-9]{10}__[0-9]{3,6}__([a-z]{1,4})_[0-9]{2,9}.zip`
+`/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip`
 
 The "Add new Item" dialogue will only show export files with names matching the object 
 type ("Category" files are only presented in the category import form).

@@ -257,7 +257,7 @@ td > img[src$="icon_custom.svg"] {
 
 //Note this is fixes the responsive view for the legacy table. In future we should rather move to truly responsive tables.
 //See #27833
-@media (max-width: @grid-float-breakpoint-max) {
+@media only screen and (max-width: @grid-float-breakpoint-max) {
 	.table-responsive{
 		overflow-x: auto;
 		max-width: 94vw;

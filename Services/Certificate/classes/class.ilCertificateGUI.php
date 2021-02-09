@@ -27,7 +27,7 @@
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version	$Id$
 * @ingroup Services
-* @ilCtrl_Calls: ilCertificateGUI: ilPropertyFormGUI
+* @ilCtrl_Calls: ilCertificateGUI ilPropertyFormGUI
 */
 class ilCertificateGUI
 {

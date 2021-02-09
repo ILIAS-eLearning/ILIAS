@@ -142,7 +142,7 @@ class ItemTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-item il-std-item ">
-			Item Title
+            <div class="il-item-title">Item Title</div>
 			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
@@ -207,7 +207,7 @@ EOT;
 			<img src="src" class="img-standard" alt="str" />
 		</div>
 		<div class="col-sm-9">
-			title
+            <div class="il-item-title">title</div>
 		</div>
 	</div>
 </div>
@@ -235,7 +235,7 @@ EOT;
 		<div class="media-left">
 			<div class="icon name small" aria-label="aria_label"></div></div>
 		<div class="media-body">
-			title
+            <div class="il-item-title">title</div>
 		</div>
 	</div>
 </div>
@@ -266,7 +266,7 @@ EOT;
 			lead
 		</div>
 		<div class="col-sm-9">
-			title
+            <div class="il-item-title">title</div>
 		</div>
 	</div>
 </div>
@@ -292,7 +292,7 @@ EOT;
         $html = $r->render($c);
         $expected = <<<EOT
 <div class="il-item il-std-item ">
-			<button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
+			<div class="il-item-title"><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button></div>
 
 			<hr class="il-item-divider" />
 			<div class="row">
@@ -324,7 +324,7 @@ EOT;
         $html = $r->render($c);
 
         $expected = <<<EOT
-<div class="il-item il-std-item "><a href="https://www.ilias.de">ILIAS</a></div>
+<div class="il-item il-std-item "><div class="il-item-title"><a href="https://www.ilias.de">ILIAS</a></div></div>
 EOT;
 
         $this->assertHTMLEquals($expected, $html);

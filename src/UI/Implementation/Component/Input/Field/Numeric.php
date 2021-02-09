@@ -33,7 +33,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
 
         $trafo_numericOrNull = $this->refinery->byTrying([
             $this->refinery->kindlyTo()->null(),
-            $this->refinery->numeric()->isNumeric()
+            $this->refinery->kindlyTo()->int()
         ])
         ->withProblemBuilder(function ($txt, $value) {
             return $txt("ui_numeric_only");
@@ -55,7 +55,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
      */
     protected function getConstraintForRequirement()
     {
-        return $this->refinery->numeric()->isNumeric();
+        return $this->refinery->kindlyTo()->int();
     }
 
     /**

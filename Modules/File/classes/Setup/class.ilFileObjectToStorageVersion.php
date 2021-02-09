@@ -26,6 +26,10 @@ class ilFileObjectToStorageVersion
      * @var string
      */
     protected $action;
+    /**
+     * @var int
+     */
+    protected $owner = 6;
 
     /**
      * ilFileObjectToStorageVersion constructor.
@@ -34,14 +38,22 @@ class ilFileObjectToStorageVersion
      * @param string $filename
      * @param string $title
      * @param string $action
+     * @param int    $owner
      */
-    public function __construct(int $version, string $path, string $filename, string $title, string $action)
-    {
+    public function __construct(
+        int $version,
+        string $path,
+        string $filename,
+        string $title,
+        string $action,
+        int $owner = 6
+    ) {
         $this->version = $version;
         $this->path = $path;
         $this->file_name = $filename;
         $this->title = $title;
         $this->action = $action;
+        $this->owner = $owner;
     }
 
     /**
@@ -82,6 +94,14 @@ class ilFileObjectToStorageVersion
     public function getAction() : string
     {
         return $this->action;
+    }
+
+    /**
+     * @return int
+     */
+    public function getOwner() : int
+    {
+        return $this->owner;
     }
 
 }

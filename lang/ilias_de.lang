@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2021 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -55,6 +55,7 @@ common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
 common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
@@ -123,7 +124,7 @@ rep#:#rep_trash_table_col_deleted_on#:#Gelöscht am
 rep#:#rep_trash_table_col_num_subs#:#Anzahl Unterobjekte
 rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
 rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
-rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Bitte selektieren Sie diese Objekte nicht oder wählen Sie die Option "Wiederherstellen (neuer Ort)".
+rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht mehr an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Für diese Objekte können Sie nur die Option "Wiederherstellen (neuer Ort)" verwenden.
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
@@ -280,6 +281,8 @@ forum#:#forums_threads_drafts_deleted#:#Die gewählten Themen einschließlich al
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
 forum#:#forums_info_delete_draft#:#Sind Sie sicher, dass Sie diesen Entwurf löschen möchten?
 forum#:#delete_draft_successfully#:#Der Entwurf wurde erfolgreich gelöscht.
+forum#:#deletePosting#:#Beitrag löschen
+forum#:#deletePostingDraft#:#Beitragsentwurf löschen
 forum#:#forums_edit_draft#:#Entwurf bearbeiten
 forum#:#publish#:#Veröffentlichen
 forum#:#enable_send_attachments#:#Dateien an Foren-Benachrichtigungen anhängen
@@ -389,6 +392,8 @@ administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
+administration#:#adm_auth_reg#:#Authentifizierung Registrierung
+administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
@@ -1451,7 +1456,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf f
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
+assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -2975,6 +2980,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -5388,7 +5394,7 @@ content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
-content#:#cont_text_iln#:#Interner Link, z.B.:
+content#:#cont_text_iln_link#:#Interner Link
 content#:#cont_text_imp#:#Wichtig:
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
@@ -5396,7 +5402,7 @@ content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
-content#:#cont_text_xln#:#Externer Link:
+content#:#cont_text_xln_link#:#Externer Link
 content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
@@ -8521,6 +8527,7 @@ scormdebug#:#unknown#:#unbekannt
 search#:#add_members_header#:#Benutzer hinzufügen
 search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
+search#:#search_field#:#Sucheingabefeld
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
 search#:#lucene_advanced_settings#:#Erweiterte Suche
@@ -10673,6 +10680,7 @@ dateplaner#:#cal_cg_notification#:#Kurs/Gruppenbenachrichtigung
 dateplaner#:#cal_mail_notification_subject#:#Termineinladung: "%s"
 dateplaner#:#cal_mail_notification_body#:#Sie wurden zu einem Termin eingeladen.
 file#:#file_download#:#Datei herunterladen
+trac#:#trac_lp_learner_access#:#Eigenen Lernfortschritt einsehen
 trac#:#trac_lp_learner_access_info#:#Wenn aktiviert, können Benutzer ihren eigenen Lernfortschritt einsehen.
 content#:#help_assign_help_ids#:#Zuordnung Screen-IDs zu Kapiteln
 search#:#search_option_online#:#Online
@@ -10869,7 +10877,7 @@ tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht 
 tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
 tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall, und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu aktepzieren.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos. 
+tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -11369,6 +11377,8 @@ rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
+rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -12808,7 +12818,7 @@ administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderu
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
-administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
+administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
@@ -12996,7 +13006,8 @@ style#:#sty_type_ca_ihead#:#Karussell - Kopfzeile Element
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
 cron#:#cron_result_status_fail#:#Fehler
-content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
+content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
+content#:#cont_link_user#:#Benutzerprofil
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
@@ -13787,6 +13798,7 @@ rbac#:#mep_copy#:#Medienpool kopieren
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
 grp#:#grp_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
 crs#:#crs_admission_link_failure_invalid_code#:#Kein Beitritt möglich. Der Link ist nicht gültig.
+form#:#form_date_aria_desc#:#Es ist folgendes Eingabeformat gefordert:
 form#:#form_date_duration_start#:#Start
 form#:#form_date_duration_end#:#Ende
 auth#:#auth_ldap_server_ds#:#LDAP-Server
@@ -14130,7 +14142,7 @@ didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
-didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
+didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß der Importdatei angepasst. Objekte, die die Einstellungen dieser Vorlage bereits nutzen, werden nicht verändert.
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
 didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
@@ -14918,12 +14930,20 @@ crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ wurde abgeschlossen in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ wurde abgeschlossen.
 lhist#:#lhist_learning_history#:#Lernverlauf
+mme#:#flush#:#Verlorene Einträge löschen
+mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
+mme#:#select_parent#:#Zugehörigen Haupteintrag auswählen
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
 mme#:#topitem_add#:#Haupteintrag hinzufügen
 mme#:#restore#:#Hauptmenu zurücksetzen
+mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
+mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#confirm_move#:#Möchten Sie diesen Eintrag zu einem Haupteintrag machen?
+mme#:#move_to_item#:#Zu Einträge verschieben
+mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#topitem_edit#:#Bearbeiten
@@ -15452,7 +15472,7 @@ content#:#cont_StandardCenter#:#Standard Zentriert
 content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
-certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit aktivem Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv: %s
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
@@ -16423,3 +16443,52 @@ adn#:#msg_form_button_reset#:#Zurücksetzen
 adn#:#msg_form_button_delete#:#Löschen
 adn#:#msg_form_button_cancel#:#Abbrechen
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+common#:#objs_prgr#:#Links zu Studienprogrammen
+rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
+rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen
+rbac#:#prgr_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#prgr_visible#:#Links zu Studienprogrammen sind sichtbar und können genutzt werden
+rbac#:#prgr_write#:#Einstellungen der Links zu Studienprogrammen bearbeiten
+rbac#:#rbac_create_prgr#:#Link zu Studienprogramm anlegen
+rbac#:#adn_visible#:#Administration für Ankündigungen ist sichtbar.
+rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
+rbac#:#adn_write#:#Ankündigungen erstellen und verwalten
+rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
+rbac#:#coms_visible#:#Administration für Kommentare ist sichtbar.
+rbac#:#coms_read#:#Lesezugriff auf Administration für Kommentare
+rbac#:#coms_write#:#Einstellungen in Administration für Kommentare ändern
+rbac#:#coms_edit_permissions#:#Rechteeinstellungen der Administration für Kommentare ändern
+rbac#:#cpad_visible#:#Administration für Inhaltsseiten ist sichtbar.
+rbac#:#cpad_read#:#Lesezugriff auf Administration für Inhaltsseiten
+rbac#:#cpad_write#:#Einstellungen in Administration für Inhaltsseiten ändern
+rbac#:#cpad_edit_permissions#:#Rechteeinstellungen der Administration für Inhaltsseiten ändern
+rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
+rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
+rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
+rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
+rbac#:#lhts_visible#:#Administration für Lernverlauf ist sichtbar.
+rbac#:#lhts_read#:#Lesezugriff auf Administration für Lernverlauf
+rbac#:#lhts_write#:#Einstellungen in Administration für Lernverlauf ändern
+rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
+rbac#:#lsos_visible#:#Administration für Lernsequenzen ist sichtbar.
+rbac#:#lsos_read#:#Lesezugriff auf Administration für Lernsequenzen
+rbac#:#lsos_write#:#Einstellungen in Administration für Lernsequenzen ändern
+rbac#:#lsos_edit_permissions#:#Rechteeinstellungen der Administration für Lernsequenzen ändern
+rbac#:#nots_visible#:#Administration für Notizen ist sichtbar.
+rbac#:#nots_read#:#Lesezugriff auf Administration für Notizen
+rbac#:#nots_write#:#Einstellungen in Administration für Notizen ändern
+rbac#:#nots_edit_permissions#:#Rechteeinstellungen der Administration für Notizen ändern
+rbac#:#prss_visible#:#Administration für Persönliche Ressourcen ist sichtbar.
+rbac#:#prss_read#:#Lesezugriff auf Administration für Persönliche Ressourcen
+rbac#:#prss_write#:#Einstellungen in Administration für Persönliche Ressourcen ändern
+rbac#:#prss_edit_permissions#:#Rechteeinstellungen der Administration für Persönliche Ressourcen ändern
+rbac#:#push_desktop_items#:#Inhalte empfehlen
+rbac#:#wbdv_visible#:#Administration für WebDAV ist sichtbar.
+rbac#:#wbdv_read#:#Lesezugriff auf Administration für WebDAV
+rbac#:#wbdv_write#:#Einstellungen in Administration für WebDAV ändern
+rbac#:#wbdv_edit_permissions#:#Rechteeinstellungen der Administration für WebDAV ändern
+rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
+rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
+rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
+rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
+prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.

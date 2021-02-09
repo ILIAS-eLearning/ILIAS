@@ -1,12 +1,13 @@
 <input placeholder="{TXT_AUTH_PROP_1}" class="form-control" type="text" size="{SIZE}" id="{ID_AUTH_PROP_1}" name="{POST_VAR}[{NAME_AUTH_PROP_1}]" value="{VALUE_AUTH_PROP_1}" {DISABLED} />
 <br />
 <input placeholder="{TXT_AUTH_PROP_2}" class="form-control" type="text" size="{SIZE}" id="{ID_AUTH_PROP_2}" name="{POST_VAR}[{NAME_AUTH_PROP_2}]" value="{VALUE_AUTH_PROP_2}" {DISABLED} />
+<!-- BEGIN generate_btn -->
 <br />
 <button id="{ID_BTN}" type="button" class="btn btn-default">{TXT_BTN}</button>
 <script type="text/javascript">
 (function($) {
 
-    var fields = ["{ID_AUTH_PROP_1}", "{ID_AUTH_PROP_2}"];
+    var fields = ["{ID_AUTH_PROP_1_BTN}", "{ID_AUTH_PROP_2_BTN}"];
 
     $("#{ID_BTN}").on('click', function (e) {
         e.preventDefault();
@@ -25,3 +26,4 @@
 
 })(jQuery);
 </script>
+<!-- END generate_btn -->

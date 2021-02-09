@@ -732,7 +732,7 @@ class ilSurveyEvaluationGUI
         return $modal->getHTML();
     }
     
-    public function evaluation($details = 0)
+    public function evaluation($details = 0, $pdf = false, $return_pdf = false)
     {
         $rbacsystem = $this->rbacsystem;
         $ilToolbar = $this->toolbar;
@@ -954,6 +954,15 @@ class ilSurveyEvaluationGUI
         }
 
         $this->log->debug("end");
+
+        if ($pdf) {
+            $html = $this->tpl->printToString();
+            if ($return_pdf) {
+                return $html;
+            } else {
+                $this->generateAndSendPDF($html);
+            }
+        }
 
         // $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
     }
@@ -1673,32 +1682,14 @@ class ilSurveyEvaluationGUI
         return $this->access->checkRbacOrPositionPermissionAccess('read_results', 'access_results', $this->object->getRefId());
     }
 
-    //
-    // PATCH BGHW
-    //
-
     public function evaluationpdf()
     {
-        $this->ctrl->setParameter($this, "pdf", 1);
-        $this->ctrl->setParameter($this, "cp", $_GET["cp"]);
-        $this->ctrl->setParameter($this, "vw", $_GET["vw"]);
-        $this->callPhantom(
-            $this->ctrl->getLinkTarget($this, "evaluation", "", false, false),
-            "pdf",
-            $this->object->getTitle() . ".pdf"
-        );
+        $this->evaluation(0, true);
     }
 
     public function evaluationdetailspdf()
     {
-        $this->ctrl->setParameter($this, "pdf", 1);
-        $this->ctrl->setParameter($this, "cp", $_GET["cp"]);
-        $this->ctrl->setParameter($this, "vw", $_GET["vw"]);
-        $this->callPhantom(
-            $this->ctrl->getLinkTarget($this, "evaluationdetails", "", false, false),
-            "pdf",
-            $this->object->getTitle() . ".pdf"
-        );
+        $this->evaluation(1, true);
     }
 
     public function downloadChart()
@@ -1708,14 +1699,7 @@ class ilSurveyEvaluationGUI
             return;
         }
 
-        $this->ctrl->setParameter($this, "qid", $qid);
-        $url = $this->ctrl->getLinkTarget($this, "renderChartOnly", "", false, false);
-        $this->ctrl->setParameter($this, "qid", "");
-
-        include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-        $file = $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid);
-
-        $this->callPhantom($url, "png", $file . ".png");
+        $this->renderChartOnly();
     }
 
     public function renderChartOnly()
@@ -1737,7 +1721,6 @@ class ilSurveyEvaluationGUI
         }
 
         // parse answer data in evaluation results
-        include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
         foreach ($this->object->getSurveyQuestions() as $qdata) {
             if ($qid == $qdata["question_id"]) {
                 $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
@@ -1766,26 +1749,37 @@ class ilSurveyEvaluationGUI
         }
 
         // "print view"
-        $ptpl = new ilTemplate("tpl.main.html", true, true);
-        foreach ($tpl->css_files as $css) {
-            $ptpl->setCurrentBlock("css_file");
-            $ptpl->setVariable("CSS_FILE", $css["file"]);
-            $ptpl->setVariable("CSS_MEDIA", $css["media"]);
-            $ptpl->parseCurrentBlock();
-        }
-        foreach ($tpl->js_files as $js) {
-            $ptpl->setCurrentBlock("js_file");
-            $ptpl->setVariable("JS_FILE", $js);
-            $ptpl->parseCurrentBlock();
-        }
-        $ptpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $ptpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilUtil::getNewContentStyleSheetLocation());
-        $ptpl->setVariable("CONTENT", $dtmpl->get());
-        echo $ptpl->get();
-        exit();
+        $this->tpl->setContent($dtmpl->get());
+
+        $html = $this->tpl->printToString();
+        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid).".pdf");
     }
 
-    public function callPhantom($a_url, $a_suffix, $a_filename, $a_return = false)
+    /**
+     *
+     * @param $html
+     * @param $filename
+     * @throws Exception
+     */
+    public function generateAndSendPDF($html, $filename = "")
+    {
+        // :TODO: fixing css dummy parameters
+        $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
+        $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+        $html = str_replace('.css$Id$', ".css", $html);
+        $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+        $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+
+        //echo $html; exit;
+
+        if ($filename == "") {
+            $filename = $this->object->getTitle() . ".pdf";
+        }
+        $pdf_factory = new ilHtmlToPdfTransformerFactory();
+        $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
+    }
+
+    public function callPdfGeneration($a_url, $a_suffix, $a_filename, $a_return = false)
     {
         $script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
 

@@ -76,7 +76,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
         if ($this->privacy->enabledGroupAccessTimes()) {
             $this->addColumn($this->lng->txt('last_access'), 'access_time');
         }
-        $this->addColumn($this->lng->txt('grp_contact'), 'contact');
+        $this->addColumn($this->lng->txt('grp_mem_contacts'), 'contact');
         $this->addColumn($this->lng->txt('grp_notification'), 'notification');
         $this->addColumn($this->lng->txt('objs_role'), 'roles');
 

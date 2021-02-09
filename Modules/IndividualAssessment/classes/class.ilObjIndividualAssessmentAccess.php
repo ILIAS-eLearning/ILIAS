@@ -12,7 +12,7 @@ class ilObjIndividualAssessmentAccess extends ilObjectAccess implements ilCondit
     {
         $commands = array(
             array("permission" => "read", "cmd" => "", "lang_var" => "show", "default" => true)
-            ,array("permission" => "write", "cmd" => "edit", "lang_var" => "edit", "default" => false)
+            ,array("permission" => "write", "cmd" => "edit", "lang_var" => "settings", "default" => false)
         );
         return $commands;
     }

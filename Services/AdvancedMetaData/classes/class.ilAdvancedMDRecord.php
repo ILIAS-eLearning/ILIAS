@@ -411,7 +411,6 @@ class ilAdvancedMDRecord
         $logger = $GLOBALS['DIC']->logger()->amet();
         
         if (!count($scopes)) {
-            $logger->debug('No md scope restrictions.');
             return false;
         }
         foreach ($scopes as $scope) {

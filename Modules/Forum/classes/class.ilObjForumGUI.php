@@ -97,6 +97,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     public $rbac;
     public $locator;
     public $ilHelp;
+    /** @var int */
+    private $selectedSorting;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
@@ -142,6 +144,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->objCurrentPost = new ilForumPost((int) $this->httpRequest->getQueryParams()['pos_pk'] ?? 0, $this->is_moderator);
 
         $this->requestAction = (string) ($this->httpRequest->getQueryParams()['action'] ?? '');
+        $this->checkUsersViewMode();
     }
 
     protected function initSessionStorage()
@@ -273,26 +276,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     /**
      * @return bool
      */
-    private function isHierarchicalView() : bool
-    {
-        return (
-            $_SESSION['viewmode'] == 'answers' ||
-            $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE
-        ) || !(
-            $_SESSION['viewmode'] == 'date' ||
-            $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_ASC ||
-            $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC
-        );
-    }
-
-    /**
-     * @return bool
-     */
     private function isTopLevelReplyCommand() : bool
     {
         return in_array(
             strtolower($this->ctrl->getCmd()),
-            array_map('strtolower', array('createTopLevelPost', 'quoteTopLevelPost', 'saveTopLevelPost'))
+            array_map('strtolower', array('createTopLevelPost', 'saveTopLevelPost', 'saveTopLevelDraft'))
         );
     }
 
@@ -316,7 +304,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'savePost',
             'saveTopLevelPost',
             'createTopLevelPost',
-            'quoteTopLevelPost',
+            'saveTopLevelDraft',
             'quotePost',
             'getQuotationHTMLAsynch',
             'autosaveDraftAsync',
@@ -883,7 +871,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 $authorinfo = new ilForumAuthorInformation(
                     $draft->getPostAuthorId(),
-                    $draft->getUpdateUserId(),
+                    // We assume the editor is the author here
+                    $draft->getPostDisplayUserId(),
                     $draft->getPostUserAlias(),
                     '',
                     array(
@@ -1131,7 +1120,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'orderby',
                 ilUtil::stripSlashes($this->httpRequest->getQueryParams()['orderby'])
             );
-            $this->ctrl->setParameter($this, 'viewmode', ilUtil::stripSlashes($_SESSION['viewmode']));
+            $this->ctrl->setParameter($this, 'viewmode', $this->selectedSorting);
             $mark_post_target = $this->ctrl->getLinkTarget($this, 'markPostRead', $node->getId());
 
             $tpl->setVariable(
@@ -1938,10 +1927,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oPostGUI->addPlugin('latex');
         $oPostGUI->addButton('latex');
         $oPostGUI->addButton('pastelatex');
-        $oPostGUI->addPlugin('ilfrmquote');
-
-        if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
-            $oPostGUI->addButton('ilFrmQuoteAjaxCall');
+        if (!$this->isTopLevelReplyCommand()) {
+            $oPostGUI->addPlugin('ilfrmquote');
+            if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
+                $oPostGUI->addButton('ilFrmQuoteAjaxCall');
+            }
         }
         $oPostGUI->removePlugin('advlink');
         $oPostGUI->setRTERootBlockElement('');
@@ -2087,9 +2077,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (strtolower($rtestring) != 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState()) {
-                if ($this->isTopLevelReplyCommand()) {
-                    $this->replyEditForm->addCommandButton('quoteTopLevelPost', $this->lng->txt('forum_add_quote'));
-                } else {
+                if (!$this->isTopLevelReplyCommand()) {
                     $this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
                 }
             }
@@ -2105,6 +2093,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 if ($this->requestAction == 'editdraft') {
                     $this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
+                } elseif ($this->isTopLevelReplyCommand()) {
+                    $this->replyEditForm->addCommandButton('saveTopLevelDraft', $this->lng->txt('save_message'));
                 } else {
                     $this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));
                 }
@@ -2165,15 +2155,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     public function saveTopLevelPostObject()
     {
         $this->savePostObject();
-        return;
-    }
-
-    /**
-     *
-     */
-    public function quoteTopLevelPostObject()
-    {
-        $this->quotePostObject();
         return;
     }
 
@@ -2602,7 +2583,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-                $this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+                $this->ctrl->setParameter($this, 'viewmode', $this->selectedSorting);
                 $this->ctrl->redirect($this, 'viewThread');
             }
         } else {
@@ -2706,27 +2687,36 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
     public function checkUsersViewMode() : void
     {
-        if (!isset($_SESSION['viewmode'])) {
-            $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
-        }
-
-        if (isset($_GET['viewmode']) && (int) $_GET['viewmode'] !== (int) $_SESSION['viewmode']) {
-            $_SESSION['viewmode'] = (int) $_GET['viewmode'];
-        }
-
-        if (isset($_GET['action']) && !in_array($_SESSION['viewmode'], [
+        $this->selectedSorting = $this->objProperties->getDefaultView();
+        
+        if (in_array(\ilSession::get('viewmode'), [
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ])) {
-            $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
+            $this->selectedSorting = \ilSession::get('viewmode');
         }
+
+        if (
+            isset($this->httpRequest->getQueryParams()['viewmode']) &&
+            (int) $this->httpRequest->getQueryParams()['viewmode']  !== (int) $this->selectedSorting
+        ) {
+            $this->selectedSorting = (int) $this->httpRequest->getQueryParams()['viewmode'];
+        }
+    
+        if (!in_array($this->selectedSorting, [
+                ilForumProperties::VIEW_TREE,
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ])) {
+            $this->selectedSorting = $this->objProperties->getDefaultView();
+        }
+       
+        \ilSession::set('viewmode', $this->selectedSorting);
     }
 
     public function viewThreadObject()
     {
-        $this->checkUsersViewMode();
-
         $bottom_toolbar = clone $this->toolbar;
         $bottom_toolbar_split_button_items = [];
 
@@ -2757,7 +2747,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             ->current();
 
         $additionalDataExists = $toolContext->getAdditionalData()->exists(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL);
-        if (false === $additionalDataExists && $_SESSION['viewmode'] === ilForumProperties::VIEW_TREE) {
+        if (false === $additionalDataExists && $this->selectedSorting === ilForumProperties::VIEW_TREE) {
             $toolContext
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::SHOW_FORUM_THREADS_TOOL, true)
                 ->addAdditionalData(ForumGlobalScreenToolsProvider::REF_ID, (int) $this->ref_id)
@@ -2836,31 +2826,17 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $currentSortation = ilForumProperties::VIEW_DATE_ASC;
-        if ($this->isHierarchicalView()) {
+        if ($this->selectedSorting == ilForumProperties::VIEW_TREE) {
             $orderField = 'frm_posts_tree.rgt';
             $this->objCurrentTopic->setOrderDirection('DESC');
         } else {
-            if (isset($_SESSION['viewmode'])) {
-                $currentSortation = (in_array($_SESSION['viewmode'], [
-                    ilForumProperties::VIEW_DATE_ASC,
-                    ilForumProperties::VIEW_DATE_DESC
-                ]) ? $_SESSION['viewmode'] : $currentSortation);
-            }
-
             $orderField = 'frm_posts.pos_date';
             $this->objCurrentTopic->setOrderDirection(
-                (int) $currentSortation === ilForumProperties::VIEW_DATE_DESC ? 'DESC' : 'ASC'
+                (int) $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC ? 'DESC' : 'ASC'
             );
         }
 
-        $currentViewMode = $this->objProperties->getDefaultView();
-        if (isset($_SESSION['viewmode'])) {
-            $currentViewMode = (in_array($_SESSION['viewmode'], [
-                ilForumProperties::VIEW_DATE_ASC,
-                ilForumProperties::VIEW_DATE_DESC
-            ]) ? ilForumProperties::VIEW_DATE : ilForumProperties::VIEW_TREE);
-        }
-        $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$currentViewMode]);
+       $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$this->selectedSorting]);
 
         $numberOfPostings = 0;
 
@@ -2979,7 +2955,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $draftsObjects = ilForumPostDraft::getSortedDrafts(
                     (int) $this->user->getId(),
                     (int) $this->objCurrentTopic->getId(),
-                    (int) $currentViewMode
+                $this->selectedSorting
                 );
             }
 
@@ -2989,8 +2965,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             if (
                 $doRenderDrafts && 0 === $pageIndex &&
-                $currentViewMode === ilForumProperties::VIEW_DATE &&
-                $currentSortation === ilForumProperties::VIEW_DATE_DESC
+                $this->selectedSorting === ilForumProperties::VIEW_DATE_DESC
             ) {
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
@@ -3032,7 +3007,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
 
                 $this->renderPostContent($threadContentTemplate, $node, $this->requestAction, $pageIndex, $postIndex);
-                if ($doRenderDrafts && $currentViewMode === ilForumProperties::VIEW_TREE) {
+                if ($doRenderDrafts && $this->selectedSorting === ilForumProperties::VIEW_TREE) {
                     $this->renderDraftContent(
                         $threadContentTemplate,
                         $this->requestAction,
@@ -3046,8 +3021,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             if (
                 $doRenderDrafts && $pageIndex === (int) (ceil($numberOfPostings / $pageSize) - 1) &&
-                $currentViewMode === ilForumProperties::VIEW_DATE &&
-                $currentSortation === ilForumProperties::VIEW_DATE_ASC
+                $this->selectedSorting === ilForumProperties::VIEW_DATE_ASC
             ) {
                 foreach ($draftsObjects as $draft) {
                     $referencePosting = array_values(array_filter(
@@ -3068,7 +3042,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             if (
                 $firstNodeInThread instanceof ilForumPost && $doRenderDrafts &&
-                $currentViewMode === ilForumProperties::VIEW_TREE
+                $this->selectedSorting === ilForumProperties::VIEW_TREE
             ) {
                 $this->renderDraftContent(
                     $threadContentTemplate,
@@ -3080,34 +3054,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             if (
                 $firstNodeInThread instanceof ilForumPost &&
-                in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
+                in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'saveTopLevelDraft')) &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                 // Important: Don't separate the following two lines (very fragile code ...)
                 $this->objCurrentPost->setId($firstNodeInThread->getId());
                 $form = $this->getReplyEditForm();
 
-                if ($this->ctrl->getCmd() == 'saveTopLevelPost') {
+                if (in_array($this->ctrl->getCmd(), ['saveTopLevelPost', 'saveTopLevelDraft'])) {
                     $form->setValuesByPost();
-                } elseif ($this->ctrl->getCmd() == 'quoteTopLevelPost') {
-                    $authorinfo = new ilForumAuthorInformation(
-                        $firstNodeInThread->getPosAuthorId(),
-                        $firstNodeInThread->getDisplayUserId(),
-                        $firstNodeInThread->getUserAlias(),
-                        $firstNodeInThread->getImportName()
-                    );
-
-                    $form->setValuesByPost();
-                    $form->getItemByPostVar('message')->setValue(
-                        ilRTE::_replaceMediaObjectImageSrc(
-                            $frm->prepareText(
-                                $firstNodeInThread->getMessage(),
-                                1,
-                                $authorinfo->getAuthorName()
-                            ) . "\n" . $form->getInput('message'),
-                            1
-                        )
-                    );
                 }
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $firstNodeInThread->getThreadId());
@@ -3157,9 +3112,9 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }
 
-        $this->renderViewModeControl($currentViewMode);
-        if ($currentViewMode === ilForumProperties::VIEW_DATE) {
-            $this->renderSortationControl($currentSortation);
+        $this->renderViewModeControl($this->selectedSorting);
+        if ($this->selectedSorting != ilForumProperties::VIEW_TREE) {
+            $this->renderSortationControl($this->selectedSorting);
         }
 
         $this->tpl->setPermanentLink(
@@ -4587,6 +4542,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->editThreadDraftObject($form);
     }
 
+    public function saveTopLevelDraftObject() : void
+    {
+        $this->saveAsDraftObject();
+    }
+
     public function saveAsDraftObject()
     {
         if (!$this->objCurrentTopic->getId()) {
@@ -5073,7 +5033,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             'orderby',
                             ilUtil::stripSlashes($this->httpRequest->getQueryParams()['orderby'])
                         );
-                        $this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+                        $this->ctrl->setParameter($this, 'viewmode', $this->selectedSorting);
 
                         $actions['frm_mark_as_read'] = $this->ctrl->getLinkTarget(
                             $this,
@@ -5084,8 +5044,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $this->ctrl->clearParameters($this);
                     }
 
-                    if (!$this->user->isAnonymous() && $node->isPostRead()
-                    ) {
+                    if (!$this->user->isAnonymous() && $node->isPostRead()) {
                         $this->ctrl->setParameter($this, 'pos_pk', $node->getId());
                         $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
                         $this->ctrl->setParameter($this, 'page', $pageIndex);
@@ -5094,7 +5053,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             'orderby',
                             ilUtil::stripSlashes($this->httpRequest->getQueryParams()['orderby'])
                         );
-                        $this->ctrl->setParameter($this, 'viewmode', $_SESSION['viewmode']);
+                        $this->ctrl->setParameter($this, 'viewmode', $this->selectedSorting);
 
                         $actions['frm_mark_as_unread'] = $this->ctrl->getLinkTarget(
                             $this,
@@ -5264,6 +5223,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                                 $this->lng->txt('forums_info_delete_draft') :
                                 $this->lng->txt('forums_info_delete_post'),
                             $url
+                        )->withActionButtonLabel(
+                            strpos($url, 'deletePostingDraft') !== false ? 'deletePostingDraft' : 'deletePosting'
                         );
 
                         $deleteAction = $this->uiFactory->button()->shy($this->lng->txt($lng_id), '#')->withOnClick(

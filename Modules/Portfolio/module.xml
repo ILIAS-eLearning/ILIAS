@@ -35,7 +35,7 @@
 		<secure_path path="ilPortfolio" checking-class="ilPortfolioAccessHandler" in-sec-folder='1'/>
 	</web_access_checker>
 	<pdfpurposes>
-		<pdfpurpose name="ContentExport" preferred="PhantomJS" />
+		<pdfpurpose name="ContentExport" preferred="WkhtmlToPdf" />
 	</pdfpurposes>
 	<events>
 		<event type="listen" id="Services/Object" />

@@ -8,13 +8,25 @@ interface Deck extends \ILIAS\UI\Component\Component
 {
     /**
      * Different sizes of the card. Those values will be returned by getCardsSize.
+     *
+     * Rationale
+     *
+     *  (1) Breakpoints:        768 - 992 - 1200
+     *  (2) Center Points:      384 (xs) - 880 (sm) - 1096 (md) - 1400 (lg)
+     *  (3) Normalized Ratio:	27% (xs) - 63% (sm) - 78% (md) - 100% (lg)
+     *  (4) Card sizes respecting ratio:
+     *      Extra Small:   3 (xs-4)  6 (sm-2)  6 (md-2) 12 (lg-1)
+     *      Small: 	       2 (xs-6)  4 (sm-3)  4 (md-3) 6 (lg-2)
+     *      Normal:        1 (xs-12) 2 (sm-6)  3 (md-4) 4 (lg-3)
+     *      Large:         1 (xs-12) 2 (sm-6)  2 (md-6) 3 (lg-4)
+     *      Extra Large:   1 (xs-12) 1 (sm-12) 2 (md-6) 2 (lg-6)
      */
-    const SIZE_XS = 1; //12 Cards per row on normal screen, 6 cards on small screens, 1 card on very small screens.
-    const SIZE_S = 2; //6 Cards per row, 3 cards on small screens, 1 card on very small screens
-    const SIZE_M = 3; //4 Cards per row,
-    const SIZE_L = 4; //3 Cards per row
-    const SIZE_XL = 6; //2 Cards per row
-    const SIZE_FULL = 12; //1 Card per row
+    const SIZE_XS = 1;
+    const SIZE_S = 2;
+    const SIZE_M = 3;
+    const SIZE_L = 4;
+    const SIZE_XL = 6;
+    const SIZE_FULL = 12;
 
     /**
      * Set the cards to be displayed in the deck
@@ -31,9 +43,7 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to extra small:
-     *  - 12 Cards on normal screens
-     *  - 6 Cards on small screens
-     *  - 1 Card on very small screens
+     *  3 (xs-4)  6 (sm-2)  6 (md-2) 12 (lg-1)
      *
      * @param int Size of the card
      * @return Deck
@@ -42,9 +52,7 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to small:
-     *  - 6 Cards on normal screens
-     *  - 3 Cards on small screens
-     *  - 1 Card on very small screens
+     *  2 (xs-6)  4 (sm-3)  4 (md-3) 6 (lg-2)
      *
      * @param int Size of the card
      * @return Deck
@@ -53,9 +61,7 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to normal:
-     *  - 4 Cards on normal screens
-     *  - 2 Cards on small screens
-     *  - 1 Card on very small screens
+     *   1 (xs-12) 2 (sm-6)  3 (md-4) 4 (lg-3)
      *
      * @param int Size of the card
      * @return Deck
@@ -64,9 +70,7 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to large:
-     *  - 3 Cards on normal screens
-     *  - 1 Cards on small screens
-     *  - 1 Card on very small screens
+     *  1 (xs-12) 2 (sm-6)  2 (md-6) 3 (lg-4)
      *
      * @param int Size of the card
      * @return Deck
@@ -75,9 +79,7 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to extra large:
-     *  - 2 Cards on normal screens
-     *  - 1 Cards on small screens
-     *  - 1 Card on very small screens
+     *   1 (xs-12) 1 (sm-12) 2 (md-6) 2 (lg-6)
      *
      * @param int Size of the card
      * @return Deck
@@ -86,10 +88,8 @@ interface Deck extends \ILIAS\UI\Component\Component
 
     /**
      * Set the cards size to full:
-     *  - 1 Cards on normal screens
-     *  - 1 Cards on small screens
-     *  - 1 Card on very small screens
-     *
+     *  - 1 Cards on all screen sizes
+     * 
      * @param int Size of the card
      * @return Deck
      */

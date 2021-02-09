@@ -31,6 +31,8 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private $refinery;
     /** @var Storage */
     private $settingsStorage;
+    /** @var ilErrorHandling */
+    private $error;
 
     /**
      * @ineritdoc
@@ -47,6 +49,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->httpRequest = $DIC->http()->request();
         $this->refinery = $DIC->refinery();
+        $this->error = $DIC['ilErr'];
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 
@@ -55,7 +58,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
      */
     public function getAdminTabs()
     {
-        $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
+        if ($this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(self::class, self::CMD_EDIT));
+        }
+
         if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), [], 'ilpermissiongui');
         }
@@ -151,6 +157,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
 
     protected function save() : void
     {
+        if (!$this->checkPermissionBool('write')) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
         $form = $this->getForm()->withRequest($this->httpRequest);
 
         $data = $form->getData();

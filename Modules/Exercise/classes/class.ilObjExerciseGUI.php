@@ -48,7 +48,7 @@ class ilObjExerciseGUI extends ilObjectGUI
     /**
      * @var ilExerciseUIRequest
      */
-    protected $request;
+    protected $exercise_request;
 
     /**
      * @var ilExerciseUI
@@ -88,12 +88,12 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->ctrl->saveParameter($this, "ass_id");
 
         $this->service = $DIC->exercise()->internal()->service();
-        $this->request = $DIC->exercise()->internal()->request();
+        $this->exercise_request = $DIC->exercise()->internal()->request();
         $this->exercise_ui = $DIC->exercise()->internal()->ui();
-        $this->requested_ass_id = $this->request->getRequestedAssId();
+        $this->requested_ass_id = $this->exercise_request->getRequestedAssId();
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId($this->requested_ass_id) == $this->object->getId()) {
-            $this->ass = $this->request->getRequestedAssignment();
+            $this->ass = $this->exercise_request->getRequestedAssignment();
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
         }

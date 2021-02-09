@@ -33,6 +33,16 @@ class ilSkinXMLTest extends TestCase
     protected $style2 = null;
 
     /**
+     * @var ilSkinStyleXML
+     */
+    protected $substyle1 = null;
+
+    /**
+     * @var ilSkinStyleXML
+     */
+    protected $substyle2 = null;
+
+    /**
      * @var ilSystemStyleConfigMock
      */
     protected $system_style_config;
@@ -52,6 +62,12 @@ class ilSkinXMLTest extends TestCase
         $this->style2->setImageDirectory("style2image");
         $this->style2->setSoundDirectory("style2sound");
         $this->style2->setFontDirectory("style2font");
+
+        $this->substyle1 = new ilSkinStyleXML("substyle1", "Substyle 1");
+        $this->substyle1->setSubstyleOf($this->style1->getId());
+
+        $this->substyle2 = new ilSkinStyleXML("substyle2", "Substyle 2");
+        $this->substyle2->setSubstyleOf($this->style2->getId());
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
@@ -92,6 +108,48 @@ class ilSkinXMLTest extends TestCase
 
         $this->assertNotEquals($this->skin->getStyle("style2"), $this->style1);
         $this->assertEquals($this->skin->getStyle("style2"), $this->style2);
+    }
+
+    public function testAddSubstyle()
+    {
+        $this->skin->addStyle($this->substyle1);
+        $this->assertEquals(count($this->skin->getStyles()), 1);
+        $this->skin->addStyle($this->substyle2);
+        $this->assertEquals(count($this->skin), 2);
+    }
+
+    public function testGetSubStyles()
+    {
+        $this->skin->addStyle($this->substyle1);
+        $this->skin->addStyle($this->substyle2);
+
+        $this->assertNotEquals($this->skin->getStyle("substyle2"), $this->substyle1);
+        $this->assertEquals($this->skin->getStyle("substyle2"), $this->substyle2);
+    }
+
+    public function testGetAllSubStyles()
+    {
+        $this->skin->addStyle($this->style1);
+        $this->skin->addStyle($this->style2);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), []);
+        $this->skin->addStyle($this->substyle1);
+        $this->skin->addStyle($this->substyle2);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1]);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style2"), [$this->substyle2->getId() => $this->substyle2]);
+        $this->substyle2->setSubstyleOf($this->style1->getId());
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1,$this->substyle2->getId() => $this->substyle2]);
+    }
+
+    public function testUpdateParentOfStyle()
+    {
+        $this->skin->addStyle($this->style1);
+        $this->skin->addStyle($this->style2);
+        $this->skin->addStyle($this->substyle1);
+        $this->skin->addStyle($this->substyle2);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1]);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style2"), [$this->substyle2->getId() => $this->substyle2]);
+        $this->skin->updateParentStyleOfSubstyles($this->style2->getId(),$this->style1->getId());
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1,$this->substyle2->getId() => $this->substyle2]);
     }
 
     public function testRemoveStyles()

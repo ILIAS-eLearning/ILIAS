@@ -29,6 +29,17 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         self::NAME_AUTH_PROP_2 => ''
     );
 
+    /** @var bool */
+    protected $isReadOnly = false;
+
+    /**
+     * @param bool $isReadOnly
+     */
+    public function setIsReadOnly(bool $isReadOnly) : void
+    {
+        $this->isReadOnly = $isReadOnly;
+    }
+
     /**
      *
      */
@@ -68,14 +79,6 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
             mt_rand(0, 0xffff),
             mt_rand(0, 0xffff)
         );
-    }
-
-    /**
-     * @return array
-     */
-    public function getCtrlPath()
-    {
-        return $this->ctrl_path;
     }
 
     /**
@@ -150,12 +153,26 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
             $tpl->setVariable('VALUE_AUTH_PROP_' . $i, $this->values[$const_val]);
         }
 
-        $DIC->ctrl()->setParameterByClass('ilformpropertydispatchgui', 'postvar', $this->getPostVar());
-        $tpl->setVariable('URL', $DIC->ctrl()->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true, false));
-        $tpl->setVariable('ID_BTN', $this->getFieldId() . '_btn');
-        $tpl->setVariable('TXT_BTN', $DIC->language()->txt('chatroom_auth_btn_txt'));
+        if (!$this->isReadOnly && !$this->getDisabled()) {
+            for ($i = 1; $i <= count($this->values); $i++) {
+                $const = 'NAME_AUTH_PROP_' . $i;
+                $const_val = constant('self::' . $const);
+
+                $tpl->setVariable('ID_AUTH_PROP_' . $i . '_BTN', $const_val);
+            }
+
+            $DIC->ctrl()->setParameterByClass('ilformpropertydispatchgui', 'postvar', $this->getPostVar());
+            $tpl->setVariable(
+                'URL',
+                $DIC->ctrl()->getLinkTargetByClass($this->ctrl_path, 'getRandomValues', '', true, false)
+            );
+            $tpl->setVariable('ID_BTN', $this->getFieldId() . '_btn');
+            $tpl->setVariable('TXT_BTN', $DIC->language()->txt('chatroom_auth_btn_txt'));
+        }
+
         $tpl->setVariable('POST_VAR', $this->getPostVar());
         $tpl->setVariable('SIZE', $this->getSize());
+
         if ($this->getDisabled()) {
             $tpl->setVariable('DISABLED', ' disabled="disabled"');
         }

@@ -31,7 +31,7 @@ In ILIAS both terms are synonyms. In the UI we started with the "Skill" term and
 
 * [Import Export](#import-export)
 * [Personal Skills](#personal-skills)
-* [Skill Profile](#skill-profile)
+* [Skill Profile](#skill-profiles)
 * [Skill Resource](#skill-resource)
 * [User Skill Level](#user-skill-level)
 * [Assigned Materials](#)
@@ -243,3 +243,27 @@ Root
   corresponding skills have been imported in the global administration before.
 * Local profiles can be exported in the global administration, too. However, this will not include the reference to the course
   or group. They will always be imported as global profiles.
+
+
+## Skill Resource
+
+## User Skill Level
+
+## Assigned Materials
+
+## Self Evaluations
+
+## GAP Analysis
+
+**Business Rules**
+
+* Gap Analysis compares achieved user skill levels with levels of a profile.
+* To determine the need for working through suggested resources, ILIAS checks all current achieved levels (table `skl_user_has_level`) and compares the maximum achieved level with the profile level.
+  * Note that single objects (e.g. tests when having multiple runs) may set subsequent lower achievement levels in `skl_user_has_level`. In this case the last test run will be stored in the current achieved levels anymore (`skl_user_has_level`), which might not be the best.
+  * Example
+    * Skill Level: 1,2,3,4
+    * Profile Level: 3
+    * Last achieved levels for objects:
+      * Course A (1. January): Level 3
+      * Test B (2. January): Level 2
+    * -> The maximum of "all last achived levels" is 3, so the profile level is "fulfilled".

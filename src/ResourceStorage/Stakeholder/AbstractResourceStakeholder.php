@@ -6,7 +6,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class AbstractResourceStakeholder
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractResourceStakeholder implements ResourceStakeholder
@@ -17,7 +16,6 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
      */
     private $provider_name_cache = '';
 
-
     /**
      * @inheritDoc
      */
@@ -25,7 +23,6 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     {
         return static::class;
     }
-
 
     /**
      * @inheritDoc
@@ -35,15 +32,13 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
         return false;
     }
 
-
     /**
      * @inheritDoc
      */
     public function resourceHasBeenDeleted(ResourceIdentification $identification) : void
     {
-        // TODO: Implement resourceHasBeenDeleted() method.
+        // nothing to do here
     }
-
 
     /**
      * @inheritDoc
@@ -52,7 +47,6 @@ abstract class AbstractResourceStakeholder implements ResourceStakeholder
     {
         return 6;
     }
-
 
     /**
      * @inheritDoc

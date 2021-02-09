@@ -492,6 +492,7 @@ class Renderer extends AbstractComponentRenderer
             'showClear' => true,
             'sideBySide' => true,
             'format' => $format,
+            'locale' => $this->getLangKey()
         ];
         $config = array_merge($config, $component->getAdditionalPickerConfig());
 
@@ -509,8 +510,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue() !== null) {
             $tpl->setVariable("VALUE", $component->getValue());
         }
-
-        \ilCalendarUtil::initDateTimePicker();
 
         $disabled = $component->isDisabled();
         $component = $component->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
@@ -626,6 +625,10 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./libs/bower/bower_components/typeahead.js/dist/typeahead.bundle.js');
         $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js');
+        //from ilCalendarUtil::initDateTimePicker
+        $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
+        $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
+
         $registry->register('./libs/bower/bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');

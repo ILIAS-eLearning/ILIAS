@@ -327,11 +327,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     ilUtil::sendInfo($this->lng->txt("polygon_click_starting_point"));
                 } elseif (count($coords) == 1) {
                     ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
-                    $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
+                    $preview->addPoint($preview->getAreaCount(), implode(",", $coords), true, "blue");
                 } elseif (count($coords) > 1) {
                     ilUtil::sendInfo($this->lng->txt("polygon_click_next_or_save"));
                     $disabled_save = "";
-                    $c = join(",". $coords);
+                    $c = implode(",", $coords);
                 }
                 break;
         }

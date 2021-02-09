@@ -105,11 +105,15 @@ class ilAdvancedMDSearch extends ilAbstractSearch
     public function performSearch()
     {
         $this->query_parser->parse();
-        
+
         $locate = null;
         $parser_value = $this->getDefinition()->getSearchQueryParserValue($this->getSearchElement());
         if ($parser_value) {
-            $this->setFields(array("value"));
+            $this->setFields(
+                [
+                    $this->getSearchElement()->getSearchColumn()
+                ]
+            );
             $locate = $this->__createLocateString();
         }
         

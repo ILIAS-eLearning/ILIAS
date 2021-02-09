@@ -167,7 +167,7 @@ EOT;
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h4 class="ilHeader">Title</h4>
-		<div class="il-viewcontrol-sortation" id="">
+		<div class="il-viewcontrol-sortation">
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
@@ -311,11 +311,11 @@ EOT;
 <div class="il-item-group-items">\n
 <div class="il-std-item-container">
 <div class="il-item il-std-item ">
-title1
-</div><
-/div>\n
+<div class="il-item-title">title1</div>
+</div></div>\n
 <div class="il-std-item-container">
-<div class="il-item il-std-item ">title2
+<div class="il-item il-std-item ">
+<div class="il-item-title">title2</div>
 </div>
 </div>\n
 </div>\n

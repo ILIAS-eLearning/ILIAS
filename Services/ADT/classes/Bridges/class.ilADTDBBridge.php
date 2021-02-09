@@ -196,4 +196,13 @@ abstract class ilADTDBBridge
     public function afterDelete()
     {
     }
+
+    /**
+     * true if table storage relies on the default 'value' column
+     * @return bool
+     */
+    public function supportsDefaultValueColumn() : bool
+    {
+        return true;
+    }
 }

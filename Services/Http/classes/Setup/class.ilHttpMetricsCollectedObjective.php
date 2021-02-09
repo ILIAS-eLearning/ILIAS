@@ -69,10 +69,10 @@ class ilHttpMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
                 $settings->get("proxy_host"),
                 "The host of the proxy."
             );
-            $host = new Setup\Metrics\Metric(
+            $port = new Setup\Metrics\Metric(
                 Setup\Metrics\Metric::STABILITY_CONFIG,
                 Setup\Metrics\Metric::TYPE_TEXT,
-                $settings->get("proxy_host"),
+                $settings->get("proxy_port"),
                 "The port of the proxy."
             );
             $proxy = new Setup\Metrics\Metric(

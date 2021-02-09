@@ -88,10 +88,9 @@ class ilFileObjectToStorageMigration implements Setup\Migration
          * @var $client_id  string
          */
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
-        $client_id = $client_ini->readVariable('client', 'name');
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
         $data_dir = $ilias_ini->readVariable('clients', 'datadir');
 
         global $DIC;
@@ -118,6 +117,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 
             if (!is_readable($legacy_files_dir)) {
                 throw new Exception("{$legacy_files_dir} is not readable, abort...");
+            }
+
+            if (!is_writable("{$data_dir}/{$client_id}/storage")) {
+                throw new Exception("storage directory is not writable, abort...");
             }
 
             $this->migration_log_handle = fopen($legacy_files_dir . "/" . self::MIGRATION_LOG_CSV, "a");
@@ -149,6 +152,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
+        return; // currently disbled due to problem with syncing versions!
         /**
          * @var $db ilDBInterface
          */
@@ -164,7 +168,8 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                     $resource,
                     Streams::ofResource(fopen($version->getPath(), 'rb')),
                     $this->keep_originals,
-                    $version->getTitle()
+                    $version->getTitle(),
+                    $version->getOwner()
                 );
             } catch (Throwable $t) {
                 $status = 'failed';
@@ -189,6 +194,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         );
 
         $item->tearDown();
+
     }
 
     private function logMigratedFile(
@@ -214,6 +220,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
+        return 0; // currently disbled due to problem with syncing versions!
         return $this->helper->getAmountOfItems();
     }
 

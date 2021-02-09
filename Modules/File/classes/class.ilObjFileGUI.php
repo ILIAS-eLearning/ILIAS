@@ -17,6 +17,7 @@ class ilObjFileGUI extends ilObject2GUI
 {
     const CMD_EDIT = "edit";
     const CMD_VERSIONS = "versions";
+    const CMD_UPLOAD_FILES = "uploadFiles";
     /**
      * @var \ilObjFile
      */
@@ -190,7 +191,12 @@ class ilObjFileGUI extends ilObject2GUI
         return $forms;
     }
 
-    private function uploadFiles() : void
+    /**
+     * MUST be protected, since this is Called from ilObject2GUI when used in Personal Workspace
+     * @throws JsonException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     */
+    protected function uploadFiles() : void
     {
         // Response
         $response = new stdClass();
@@ -710,11 +716,11 @@ class ilObjFileGUI extends ilObject2GUI
         include_once("Services/Form/classes/class.ilDragDropFileInputGUI.php");
         $dnd_input = new ilDragDropFileInputGUI($this->lng->txt("files"), "upload_files");
         $dnd_input->setArchiveSuffixes(array("zip"));
-        $dnd_input->setCommandButtonNames("uploadFiles", "cancel");
+        $dnd_input->setCommandButtonNames(self::CMD_UPLOAD_FILES, "cancel");
         $dnd_form_gui->addItem($dnd_input);
 
         // add commands
-        $dnd_form_gui->addCommandButton("uploadFiles", $this->lng->txt("upload_files"));
+        $dnd_form_gui->addCommandButton(self::CMD_UPLOAD_FILES, $this->lng->txt("upload_files"));
         $dnd_form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         $dnd_form_gui->setTableWidth("100%");
@@ -723,7 +729,7 @@ class ilObjFileGUI extends ilObject2GUI
         $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
 
         $this->ctrl->setParameter($this, "new_type", "file");
-        $dnd_form_gui->setFormAction($this->ctrl->getFormAction($this, "uploadFiles"));
+        $dnd_form_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_UPLOAD_FILES));
 
         return $dnd_form_gui;
     }
