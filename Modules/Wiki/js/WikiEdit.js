@@ -10,8 +10,9 @@ il.Wiki.Edit = {
 		$("#il_prop_cont_target_page div.help-block").html(t);
 	},
 
-	openLinkDialog: function(url, target_page) {
+	openLinkDialog: function(url, target_page, addCallback) {
 		il.Wiki.Edit.url = url;
+		il.Wiki.Edit.addCallback = addCallback;
 
 		il.IntLink.showPanel();
 		il.Util.sendAjaxGetRequestToUrl(url + "&cmd=insertWikiLink", {}, {el_id: "ilIntLinkModalContent"}, function(o) {
@@ -32,11 +33,7 @@ il.Wiki.Edit = {
 				il.Wiki.Edit.setTargetInfoText("&nbsp;");
 			});
 
-			if (target_page) {
-				val_sel = target_page;
-			} else {
-				val_sel = ilCOPage.getSelection();
-			}
+			val_sel = target_page;
 			if (val_sel != "") {
 				$("input#target_page").val(val_sel);
 				$("input#target_page").focus();
@@ -55,7 +52,7 @@ il.Wiki.Edit = {
 					if (lt != "" && lt != tp) {
 						tp = tp + "|" + lt;
 					}
-					ilCOPage.addBBCode("[[" + tp + "]]", "", true);
+					il.Wiki.Edit.addCallback("[[" + tp + "]]");
 				}
 				e.stopPropagation();
 				e.preventDefault();

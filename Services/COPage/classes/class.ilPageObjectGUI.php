@@ -1330,6 +1330,21 @@ class ilPageObjectGUI
 
             // get js files for JS enabled editing
             if ($sel_js_mode == "enable") {
+
+                // add int link parts
+                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+                $tpl->setCurrentBlock("int_link_prep");
+                $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+                    $this->ctrl->getLinkTargetByClass(
+                        array("ilpageeditorgui", "ilinternallinkgui"),
+                        "",
+                        false,
+                        true,
+                        false
+                    )
+                ));
+                $tpl->parseCurrentBlock();
+
                 $editor_init = new \ILIAS\COPage\Editor\UI\Init();
                 $editor_init->initUI($main_tpl);
             }
@@ -2067,13 +2082,14 @@ class ilPageObjectGUI
         // links
         $links = [];
         if ($a_wiki_links) {
-            $links[] = ["text" => $lng->txt("obj_wiki"), "action" => "link.wikiSelection", "data" => []];
-            $links[] = ["text" => "[[".$lng->txt("obj_wiki")."]]", "action" => "link.wiki", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_wiki_link_dialog"), "action" => "link.wikiSelection", "data" => [
+                "url" => $ctrl->getLinkTargetByClass("ilwikipagegui", "")]];
+            $links[] = ["text" => "[[".$lng->txt("cont_wiki_page")."]]", "action" => "link.wiki", "data" => []];
         }
         if ($a_int_links) {
-            $links[] = ["text" => $lng->txt("cont_text_iln"), "action" => "link.internal", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_text_iln_link"), "action" => "link.internal", "data" => []];
         }
-        $links[] = ["text" => $lng->txt("cont_text_xln"), "action" => "link.external", "data" => []];
+        $links[] = ["text" => $lng->txt("cont_text_xln_link"), "action" => "link.external", "data" => []];
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }

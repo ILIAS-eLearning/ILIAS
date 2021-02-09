@@ -54,21 +54,6 @@ class Init
             $main_tpl->addJavascript("./node_modules/tinymce/tinymce.min.js");
         }
 
-        // add int link parts
-        /*
-        include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-        $tpl->setCurrentBlock("int_link_prep");
-        $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
-            $this->ctrl->getLinkTargetByClass(
-                array("ilpageeditorgui", "ilinternallinkgui"),
-                "",
-                false,
-                true,
-                false
-            )
-        ));
-        $tpl->parseCurrentBlock();*/
-
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         \ilYuiUtil::initConnection();
         $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");

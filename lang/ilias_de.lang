@@ -5394,7 +5394,7 @@ content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
-content#:#cont_text_iln#:#Interner Link, z.B.:
+content#:#cont_text_iln_link#:#Interner Link
 content#:#cont_text_imp#:#Wichtig:
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
@@ -5402,7 +5402,7 @@ content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
-content#:#cont_text_xln#:#Externer Link:
+content#:#cont_text_xln_link#:#Externer Link
 content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
@@ -13007,7 +13007,8 @@ style#:#sty_type_ca_ihead#:#Karussell - Kopfzeile Element
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
 cron#:#cron_result_status_fail#:#Fehler
-content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
+content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
+content#:#cont_link_user#:#Benutzerprofil
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
