@@ -191,6 +191,28 @@ class ilObjWikiAccess extends ilObjectAccess
     }
 
     /**
+     * Check wether learning module is online (legacy version)
+     *
+     * @deprecated
+     */
+    public static function _lookupOnlineStatus($a_ids)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "SELECT id, is_online FROM il_wiki_data WHERE " .
+            $ilDB->in("id", $a_ids, false, "integer");
+        $lm_set = $ilDB->query($q);
+        $status = [];
+        while ($r = $ilDB->fetchAssoc($lm_set)) {
+            $status[$r["id"]] = $r["is_online"];
+        }
+        return $status;
+    }
+
+
+    /**
     * Check wether files should be public
     *
     * @param	int		$a_id	wiki id
