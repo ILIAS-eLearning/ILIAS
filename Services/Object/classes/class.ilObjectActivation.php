@@ -368,8 +368,7 @@ class ilObjectActivation
     
         if (!isset($row["obj_id"])) {
             $row = self::createDefaultEntry($a_ref_id);
-        }
-        if ($row["obj_id"]) {
+        } else {
             self::$preloaded_data[$row["obj_id"]] = $row;
         }
         return $row;
@@ -453,8 +452,8 @@ class ilObjectActivation
         self::addAdditionalSubItemInformation($a_item);
         if (isset($a_item['timing_type'])) {
             if (!isset($a_item['masked_start'])) {
-                $start = $a_item['start'];
-                $end = $a_item['end'];
+                $start = $a_item['start'] ?? 0;
+                $end = $a_item['end'] ?? 0;
             } else {
                 $start = $a_item['masked_start'];
                 $end = $a_item['masked_end'];

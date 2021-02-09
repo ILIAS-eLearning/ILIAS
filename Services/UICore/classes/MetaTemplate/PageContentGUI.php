@@ -575,7 +575,7 @@ class PageContentGUI
 
         $lng = $DIC->language();
 
-
+        $header = false;
         if ($this->banner != "" && $this->template_file->blockExists("banner_bl")) {
             $this->template_file->setCurrentBlock("banner_bl");
             $this->template_file->setVariable("BANNER_URL", $this->banner);

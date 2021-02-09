@@ -687,8 +687,7 @@ class ilRbacReview
 
         $ilBench = $DIC['ilBench'];
         $ilDB = $DIC['ilDB'];
-        $ilLog = $DIC['ilLog'];
-        
+
         $ilBench->start("RBAC", "review_getRolesOfRoleFolder");
 
         if (!isset($a_ref_id)) {
@@ -706,13 +705,14 @@ class ilRbacReview
              $and;
 
         $res = $ilDB->query($query);
+        $rol_id = [];
         while ($row = $ilDB->fetchObject($res)) {
             $rol_id[] = $row->rol_id;
         }
 
         $ilBench->stop("RBAC", "review_getRolesOfRoleFolder");
 
-        return $rol_id ? $rol_id : array();
+        return $rol_id;
     }
     
     /**

@@ -234,22 +234,22 @@ class ilBookingReservationDBRepository
                     ' OR status IS NULL)';
             }
         }
-        if ($filter['title']) {
+        if (isset($filter['title']) && is_string($filter['title'])) {
             $where[] = '(' . $ilDB->like('title', 'text', '%' . $filter['title'] . '%') .
                 ' OR ' . $ilDB->like('description', 'text', '%' . $filter['title'] . '%') . ')';
         }
         if ($a_has_schedule) {
-            if ($filter['from']) {
+            if (isset($filter['from']) && is_string($filter['from'])) {
                 $where[] = 'date_from >= ' . $ilDB->quote($filter['from'], 'integer');
             }
-            if ($filter['to']) {
+            if (isset($filter['to']) && is_string($filter['to'])) {
                 $where[] = 'date_to <= ' . $ilDB->quote($filter['to'], 'integer');
             }
-            if (!$filter['past']) {
+            if (!isset($filter['past']) || !$filter['past']) {
                 $where[] = 'date_to > ' . $ilDB->quote(time(), 'integer');
             }
         }
-        if ($filter['user_id']) { // #16584
+        if (isset($filter['user_id']) && is_numeric($filter['user_id'])) { // #16584
             $where[] = 'user_id = ' . $ilDB->quote($filter['user_id'], 'integer');
         }
         /*

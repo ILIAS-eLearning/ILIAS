@@ -74,6 +74,12 @@ class ilContainer extends ilObject
     protected $user;
 
     /**
+     * MUST be public because it is already accessed
+     * @var array
+     */
+    public $items = [];
+
+    /**
      * @var ilObjectDefinition
      */
     protected $obj_definition;
@@ -789,8 +795,11 @@ class ilContainer extends ilObject
         $objDefinition = $this->obj_definition;
 
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
-            !$a_get_single) {
+        if (
+            isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+            is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+            !$a_get_single
+        ) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
         

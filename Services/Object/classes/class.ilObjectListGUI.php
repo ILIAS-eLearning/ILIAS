@@ -207,7 +207,7 @@ class ilObjectListGUI
         $this->enableTags(false);
         
         // unique js-ids
-        $this->setParentRefId((int) $_REQUEST["ref_id"]);
+        $this->setParentRefId((int) ($_REQUEST["ref_id"] ?? 0));
         
         //echo "list";
         $this->init();
@@ -1370,14 +1370,18 @@ class ilObjectListGUI
             $lang_var = $command["lang_var"];
             $txt = "";
             $info_object = null;
-            
+            $cmd_link = '';
+            $cmd_frame = '';
+            $cmd_image = '';
+            $access_granted = false;
+
             if (isset($command["txt"])) {
                 $txt = $command["txt"];
             }
 
             // Suppress commands that don't make sense for anonymous users
             if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                $command['enable_anonymous'] == 'false') {
+                (isset($command['enable_anonymous']) && $command['enable_anonymous'] == 'false')) {
                 continue;
             }
 
@@ -1392,7 +1396,6 @@ class ilObjectListGUI
                 $cmd_image = $this->getCommandImage($command["cmd"]);
                 $access_granted = true;
             } else {
-                $access_granted = false;
                 $info_object = $ilAccess->getInfo();
             }
 
@@ -1720,10 +1723,10 @@ class ilObjectListGUI
 
         // add common properties (comments, notes, tags)
         require_once 'Services/Notes/classes/class.ilNote.php';
-        if ((self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0 ||
-                self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0 ||
-                self::$cnt_tags[$note_obj_id] > 0 ||
-                is_array(self::$tags[$note_obj_id])) &&
+        if (((isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0) ||
+            (isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) ||
+            (isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0) ||
+            (isset(self::$tags[$note_obj_id]) && is_array(self::$tags[$note_obj_id]))) &&
             ($ilUser->getId() != ANONYMOUS_USER_ID)) {
             include_once("./Services/Notes/classes/class.ilNoteGUI.php");
             include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
@@ -1805,16 +1808,16 @@ class ilObjectListGUI
                     $this->tpl->touchBlock("separator_prop");
                 }
 
-                if ($prop["alert"] == true) {
+                if (isset($prop["alert"]) && $prop["alert"] == true) {
                     $this->tpl->touchBlock("alert_prop");
                 } else {
                     $this->tpl->touchBlock("std_prop");
                 }
-                if ($prop["newline"] == true && $cnt > 1) {
+                if (isset($prop["newline"]) && $prop["newline"] == true && $cnt > 1) {
                     $this->tpl->touchBlock("newline_prop");
                 }
                 //BEGIN WebDAV: Support hidden property names.
-                if (isset($prop["property"]) && $prop['propertyNameVisible'] !== false && $prop["property"] != "") {
+                if (isset($prop["property"]) && (isset($prop['propertyNameVisible']) && $prop['propertyNameVisible'] !== false) && $prop["property"] != "") {
                     //END WebDAV: Support hidden property names.
                     $this->tpl->setCurrentBlock("prop_name");
                     $this->tpl->setVariable("TXT_PROP", $prop["property"]);
@@ -1822,7 +1825,7 @@ class ilObjectListGUI
                 }
                 $this->tpl->setCurrentBlock("item_property");
                 //BEGIN WebDAV: Support links in property values.
-                if ($prop['link']) {
+                if (isset($prop['link']) && $prop['link']) {
                     $this->tpl->setVariable("LINK_PROP", $prop['link']);
                     $this->tpl->setVariable("LINK_VAL_PROP", $prop["value"]);
                 } else {

@@ -3676,7 +3676,10 @@ class ilObjStyleSheet extends ilObject
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
             );
         $rec = $ilDB->fetchAssoc($set);
-        
+        if (!is_array($rec)) {
+            return 0;
+        }
+
         if (ilObject::_lookupType($rec["style_id"]) == "sty") {
             return (int) $rec["style_id"];
         }

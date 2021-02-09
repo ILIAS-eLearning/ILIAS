@@ -87,7 +87,7 @@ abstract class ilExplorerBaseGUI
             $this->open_nodes = array();
         }
 
-        $this->requested_node_id = $_GET["node_id"];
+        $this->requested_node_id = ($_GET["node_id"] ?? 0);
 
         $this->nodeOnclickEnabled = true;
         ilYuiUtil::initConnection();

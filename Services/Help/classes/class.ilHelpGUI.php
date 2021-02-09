@@ -41,6 +41,9 @@ class ilHelpGUI
     public $def_screen_id = array();
     public $screen_id = array();
 
+    /** @var string */
+    protected $screen_id_component = '';
+
     /**
      * @var \ILIAS\DI\UIServices
      */
@@ -120,19 +123,19 @@ class ilHelpGUI
     {
         $comp = ($this->screen_id_component != "")
             ? $this->screen_id_component
-            : $this->def_screen_id[self::ID_PART_COMPONENT];
+            : ($this->def_screen_id[self::ID_PART_COMPONENT] ?? '');
         
         if ($comp == "") {
             return "";
         }
         
-        $scr_id = ($this->screen_id[self::ID_PART_SCREEN] != "")
+        $scr_id = (isset($this->screen_id[self::ID_PART_SCREEN]) && $this->screen_id[self::ID_PART_SCREEN] != "")
             ? $this->screen_id[self::ID_PART_SCREEN]
-            : $this->def_screen_id[self::ID_PART_SCREEN];
+            : ($this->def_screen_id[self::ID_PART_SCREEN] ?? '');
         
-        $sub_scr_id = ($this->screen_id[self::ID_PART_SUB_SCREEN] != "")
+        $sub_scr_id = (isset($this->screen_id[self::ID_PART_SUB_SCREEN]) && $this->screen_id[self::ID_PART_SUB_SCREEN] != "")
             ? $this->screen_id[self::ID_PART_SUB_SCREEN]
-            : $this->def_screen_id[self::ID_PART_SUB_SCREEN];
+            : ($this->def_screen_id[self::ID_PART_SUB_SCREEN] ?? '');
         
         $screen_id = $comp . "/" .
             $scr_id . "/" .
@@ -195,7 +198,8 @@ class ilHelpGUI
             $h_ids.= $sep.$hs;
             $sep = ",";
         }*/
-        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "." . $_GET["ref_id"]);
+        $refId = (string) ($_GET["ref_id"] ?? 0);
+        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "."  . $refId);
     }
     
 

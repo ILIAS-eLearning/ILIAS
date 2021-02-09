@@ -153,7 +153,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         
         // iterate all types
         foreach ($this->getGroupedObjTypes() as $type => $v) {
-            if (is_array($this->items[$type]) &&
+            if (isset($this->items[$type]) && is_array($this->items[$type]) &&
                 $this->renderer->addTypeBlock($type)) {
                 $this->renderer->setBlockPosition($type, ++$pos);
                 
@@ -196,7 +196,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     {
         $ilUser = $this->user;
         
-        if ($_GET['expand']) {
+        if (isset($_GET['expand']) && $_GET['expand']) {
             if ($_GET['expand'] > 0) {
                 $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
             } else {

@@ -980,7 +980,7 @@ abstract class ilBlockGUI
      */
     protected function handleNavigation()
     {
-        $reg_page = $_REQUEST[$this->getNavParameter() . "page"];
+        $reg_page = $_REQUEST[$this->getNavParameter() . "page"] ?? '';
         if ($reg_page !== "") {
             $this->nav_value = "::" . ($reg_page * $this->getLimit());
         }

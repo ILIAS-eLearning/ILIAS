@@ -42,7 +42,7 @@ class ilAwarenessGUI
         global $DIC;
         $this->ui = $DIC->ui();
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = (int) ($_GET["ref_id"] ?? 0);
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("awrn");
@@ -180,7 +180,7 @@ class ilAwarenessGUI
     {
         $ilUser = $this->user;
 
-        $filter = $_GET["filter"];
+        $filter = $_GET["filter"] ?? '';
 
         $tpl = new ilTemplate("tpl.awareness_list.html", true, true, "Services/Awareness");
 

@@ -950,7 +950,7 @@ class ilConditionHandler
             }
             // init obj ids without any record
             foreach ($a_obj_ids as $obj_id) {
-                if (!is_array(self::$cond_target_rows[$a_type . ":" . $obj_id])) {
+                if (!isset(self::$cond_target_rows[$a_type . ":" . $obj_id])) {
                     self::$cond_target_rows[$a_type . ":" . $obj_id] = array();
                 }
             }

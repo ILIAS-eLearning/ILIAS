@@ -121,7 +121,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
         include_once './Modules/Group/classes/class.ilObjGroupAccess.php';
         $info = ilObjGroupAccess::lookupRegistrationInfo($this->obj_id);
         //var_dump($info);
-        if ($info['reg_info_list_prop']) {
+        if (isset($info['reg_info_list_prop'])) {
             $props[] = array(
                 'alert' => false,
                 'newline' => true,
@@ -129,7 +129,7 @@ class ilObjGroupListGUI extends ilObjectListGUI
                 'value' => $info['reg_info_list_prop']['value']
             );
         }
-        if ($info['reg_info_list_prop_limit']) {
+        if (isset($info['reg_info_list_prop_limit'])) {
             $props[] = array(
                 'alert' => false,
                 'newline' => false,

@@ -384,13 +384,13 @@ class ilSessionStatistics
             "active_avg" => array("integer", $active_avg),
             "active_end" => array("integer", $active_end),
             "opened" => array("integer", $opened_counter),
-            "closed_manual" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_USER]),
-            "closed_expire" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_EXPIRE]),
-            "closed_idle" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_IDLE]),
-            "closed_idle_first" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_FIRST]),
-            "closed_limit" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_LIMIT]),
-            "closed_login" => array("integer", (int) $closed_counter[ilSession::SESSION_CLOSE_LOGIN]),
-            "closed_misc" => array("integer", (int) $closed_counter[0]),
+            "closed_manual" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_USER] ?? 0)),
+            "closed_expire" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_EXPIRE] ?? 0)),
+            "closed_idle" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_IDLE] ?? 0)),
+            "closed_idle_first" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_FIRST] ?? 0)),
+            "closed_limit" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LIMIT] ?? 0)),
+            "closed_login" => array("integer", (int) ($closed_counter[ilSession::SESSION_CLOSE_LOGIN] ?? 0)),
+            "closed_misc" => array("integer", (int) ($closed_counter[0] ?? 0)),
             "max_sessions" => array("integer", (int) $max_sessions)
         );
         $ilDB->update(
@@ -554,7 +554,7 @@ class ilSessionStatistics
             " ORDER BY tstamp DESC";
         $res = $ilDB->query($sql);
         $val = $ilDB->fetchAssoc($res);
-        if ($val["maxval"]) {
+        if (isset($val["maxval"]) && $val["maxval"]) {
             return (int) $val["maxval"];
         } else {
             return (int) $ilSetting->get("session_max_count", ilSessionControl::DEFAULT_MAX_COUNT);

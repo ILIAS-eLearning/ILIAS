@@ -9,6 +9,9 @@
  */
 class ilObjBlogListGUI extends ilObjectListGUI
 {
+    /** @var null|\ILIAS\UI\Component\Modal\Modal */
+    private $comment_modal;
+
     /**
     * initialisation
     */

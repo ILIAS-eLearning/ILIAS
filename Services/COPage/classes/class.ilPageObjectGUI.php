@@ -101,6 +101,15 @@ class ilPageObjectGUI
     private $abstract_only = false;
     protected $parent_type = "";
 
+    /** @var string */
+    protected $file_download_link = '';
+
+    /** @var string */
+    protected $fullscreen_link = '';
+
+    /** @var string */
+    protected $link_frame = '';
+
     /**
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
@@ -160,12 +169,12 @@ class ilPageObjectGUI
 
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
-        if ($a_old_nr == 0 && !$a_prevent_get_id && $_GET["old_nr"] > 0) {
+        if ($a_old_nr == 0 && !$a_prevent_get_id && isset($_GET["old_nr"]) && $_GET["old_nr"] > 0) {
             $a_old_nr = $_GET["old_nr"];
         }
         $this->setOldNr($a_old_nr);
         
-        if ($a_lang == "" && $_GET["transl"] != "") {
+        if ($a_lang == "" && isset($_GET["transl"]) && is_string($_GET["transl"]) && $_GET["transl"] !== '') {
             $this->setLanguage($_GET["transl"]);
         } else {
             if ($a_lang == "") {
@@ -1269,6 +1278,10 @@ class ilPageObjectGUI
             $this->showEditToolbar();
         }
 
+        $sel_js_mode = '';
+        $paragraph_plugin_string = '';
+        $disable_auto_margins = '';
+
         // jquery and jquery ui are always provided for components
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
@@ -1367,7 +1380,7 @@ class ilPageObjectGUI
 
             // history
             $c_old_nr = $this->getPageObject()->old_nr;
-            if ($c_old_nr > 0 || $this->getCompareMode() || $_GET["history_mode"] == 1) {
+            if ($c_old_nr > 0 || $this->getCompareMode() || (isset($_GET["history_mode"]) && $_GET["history_mode"] == 1)) {
                 $hist_info =
                         $this->getPageObject()->getHistoryInfo($c_old_nr);
 
@@ -1531,7 +1544,7 @@ class ilPageObjectGUI
             }
         }
 
-        if ($_GET["reloadTree"] == "y") {
+        if (isset($_GET["reloadTree"]) && $_GET["reloadTree"] == "y") {
             $tpl->setCurrentBlock("reload_tree");
             $tpl->setVariable(
                 "LINK_TREE",
@@ -1608,6 +1621,8 @@ class ilPageObjectGUI
             $this->setDefaultLinkXml();
         }
 
+        $template_xml = '';
+
         //$content = $this->obj->getXMLFromDom(false, true, true,
         //	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
         $link_xml = $this->getLinkXML();
@@ -1649,13 +1664,17 @@ class ilPageObjectGUI
         if ($builded !== true) {
             $this->displayValidationError($builded);
         } else {
-            $this->displayValidationError($_SESSION["il_pg_error"]);
+            $this->displayValidationError((string) ilSession::get("il_pg_error"));
         }
         unset($_SESSION["il_pg_error"]);
 
         // get title
         $pg_title = $this->getPresentationTitle();
 
+        $col_path = '';
+        $row_path = '';
+        $cell_path = '';
+        $item_path = '';
         if ($this->getOutputMode() == "edit") {
             $col_path = ilUtil::getImagePath("col.svg");
             $row_path = ilUtil::getImagePath("row.svg");

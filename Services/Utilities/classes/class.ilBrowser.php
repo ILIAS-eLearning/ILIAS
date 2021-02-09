@@ -44,6 +44,7 @@ class ilBrowser
     protected $isIphone = null;
     protected $isIpad = null;
     protected $isBlackberry = null;
+    protected $isBlackberrytablet = null;
     protected $isOpera = null;
     protected $isPalm = null;
     protected $isWindows = null;
@@ -210,7 +211,7 @@ class ilBrowser
         }
     }
     
-    protected function isDevice($device)
+    protected function isDevice($device) : bool
     {
         $var = 'is' . ucfirst($device);
         $return = $this->$var === null ? (bool) preg_match('/' . $this->devices[strtolower($device)] . '/i', $this->userAgent) : $this->$var;

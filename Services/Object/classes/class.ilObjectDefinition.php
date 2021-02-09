@@ -246,7 +246,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function getClassName($a_obj_name)
     {
-        return $this->obj_data[$a_obj_name]["class_name"];
+        return $this->obj_data[$a_obj_name]["class_name"] ?? '';
     }
 
 
@@ -258,7 +258,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function getLocation($a_obj_name)
     {
-        return $this->obj_data[$a_obj_name]["location"];
+        return $this->obj_data[$a_obj_name]["location"] ?? '';
     }
 
     /**
@@ -342,7 +342,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function getDevMode($a_obj_name)
     {
-        return (bool) $this->obj_data[$a_obj_name]["devmode"];
+        return (bool) ($this->obj_data[$a_obj_name]["devmode"] ?? false);
     }
 
     /**
@@ -373,7 +373,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function isRBACObject($a_obj_name)
     {
-        return (bool) $this->obj_data[$a_obj_name]["rbac"];
+        return (bool) ($this->obj_data[$a_obj_name]["rbac"] ?? false);
     }
 
     /**
@@ -515,7 +515,7 @@ class ilObjectDefinition // extends ilSaxParser
                 $this->__filterObjects($subobjects);
             }
             foreach ($subobjects as $data => $sub) {
-                if ($sub["module"] != "n") {
+                if (isset($sub["module"]) && $sub["module"] != "n") {
                     if (!($ilSetting->get("obj_dis_creation_" . $data))) {
                         $subs[$data] = $sub;
                         
@@ -824,7 +824,7 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function isSideBlock($a_obj_name)
     {
-        return (bool) $this->obj_data[$a_obj_name]["sideblock"];
+        return (bool) ($this->obj_data[$a_obj_name]["sideblock"] ?? false);
     }
 
     /**

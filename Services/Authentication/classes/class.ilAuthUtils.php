@@ -474,9 +474,8 @@ class ilAuthUtils
         }
         
         $default = $ilSetting->get('default_auth_mode', $default);
-        $default = (int) $_REQUEST['auth_mode'] ? (int) $_REQUEST['auth_mode'] : $default;
-        
-        
+        $default = (int) ($_REQUEST['auth_mode'] ?? $default);
+
         // begin-patch auth_plugin
         $pls = ilAuthUtils::getAuthPlugins();
         foreach ($pls as $pl) {

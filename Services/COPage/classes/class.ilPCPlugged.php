@@ -262,14 +262,13 @@ class ilPCPlugged extends ilPageContent
     {
         $lng = $this->lng;
         $ilPluginAdmin = $this->plugin_admin;
-        
-        $c_pos = 0;
+
+        $end = 0;
         $start = strpos($a_html, "{{{{{Plugged<pl");
         //echo htmlentities($a_html)."-";
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);
         }
-        $i = 1;
 
         while ($end > 0) {
             $param = substr($a_html, $start + 5, $end - $start - 5);
