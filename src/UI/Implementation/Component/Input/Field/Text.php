@@ -14,6 +14,11 @@ use ILIAS\UI\Component\Signal;
 class Text extends Input implements C\Input\Field\Text
 {
     /**
+     * @var int|null
+     */
+    private $max_length = null;
+
+    /**
      * @inheritdoc
      */
     public function __construct(
@@ -26,6 +31,23 @@ class Text extends Input implements C\Input\Field\Text
         $this->setAdditionalTransformation($refinery->custom()->transformation(function ($v) {
             return strip_tags($v);
         }));
+    }
+
+    public function withMaxLength(int $max_length)
+    {
+        $this->checkIntArg("max_length", $max_length);
+        $clone = clone $this;
+        $clone->max_length = $max_length;
+
+        return $clone;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getMaxLength() : ?int
+    {
+        return $this->max_length;
     }
 
     /**

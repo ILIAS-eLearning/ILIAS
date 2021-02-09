@@ -9,4 +9,17 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface Text extends FilterInput
 {
+    /**
+     * Defines the Max Length of text that can be entered in the text input
+     *
+     * @param int $maxLength
+     */
+    public function withMaxLength(int $max_length);
+
+    /**
+     * Gets the max length of the text input
+     *
+     * @return int|NULL
+     */
+    public function getMaxLength() : ?int;
 }
