@@ -8206,6 +8206,9 @@ ul.dropdown-menu > li > .btn:focus {
 .il-filter-bar .glyph {
   padding-right: 0.3em;
 }
+.il-filter.disabled .il-filter-bar-controls .btn-bulky {
+  display: none;
+}
 .il-filter-bar-controls {
   float: right;
 }
