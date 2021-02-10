@@ -734,6 +734,9 @@ class ilObjStudyProgramme extends ilContainer
                         continue;
                     }
                     $r_parent = $reference->getParent();
+                    if (is_null($r_parent)) {
+                        continue;
+                    }
                     array_push($queque, $r_parent);
                     $parents[] = $r_parent;
                 }
