@@ -16449,7 +16449,7 @@ mob#:#mob_upload_file#:#Upload File
 mob#:#mob_external_url#:#External URL
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 common#:#objs_prgr#:#Links to Study Programmes
 rbac#:#prgr_copy#:#User can copy links to study programmes
 rbac#:#prgr_delete#:#User can move or delete links to study programmes
