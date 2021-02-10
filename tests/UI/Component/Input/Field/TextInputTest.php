@@ -152,6 +152,38 @@ class TextInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
+    public function test_max_length()
+    {
+        $f = $this->buildFactory();
+
+        $text = $f->text("")
+            ->withMaxLength(4);
+
+        $this->assertEquals(4, $text->getMaxLength());
+
+        $text1 = $text->withValue("1234");
+        $this->assertEquals("1234", $text1->getValue());
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Argument 'value': Display value does not match input type.");
+        $text->withValue("12345");
+    }
+
+    public function test_render_max_value()
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $name = "name_0";
+        $text = $f->text($label)->withNameFrom($this->name_source)->withMaxLength(8);
+
+        $r = $this->getDefaultRenderer();
+        $html = $this->normalizeHTML($r->render($text));
+
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+        . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" maxlength=\"8\"  class=\"form-control form-control-sm\" />" . "		"
+            . "		" . "	</div>" . "</div>";
+        $this->assertEquals($expected, $html);
+    }
 
     public function test_value_required()
     {
