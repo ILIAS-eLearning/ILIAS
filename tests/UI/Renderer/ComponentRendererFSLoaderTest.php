@@ -26,13 +26,16 @@ class ComponentRendererFSLoaderTest extends TestCase
         $refinery_mock = $this->getMockBuilder(\ILIAS\Refinery\Factory::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
+                ->getMock();
 
         $default_renderer_factory = new I\Render\DefaultRendererFactory(
             $ui_factory,
             $tpl_factory,
             $lng,
             $js_binding,
-            $refinery_mock
+            $refinery_mock,
+            $image_path_resolver
         );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
         $this->field_renderer = $this->createMock(I\Render\RendererFactory::class);

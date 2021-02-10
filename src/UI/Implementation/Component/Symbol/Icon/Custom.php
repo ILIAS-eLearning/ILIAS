@@ -15,20 +15,17 @@ class Custom extends Icon implements C\Symbol\Icon\Custom
     private $icon_path;
 
 
-    public function __construct($icon_path, $aria_label, $size, $is_disabled)
+    public function __construct(string $icon_path, string $label, string $size, bool $is_disabled)
     {
-        $this->checkStringArg("string", $icon_path);
-        $this->checkStringArg("string", $aria_label);
         $this->checkArgIsElement(
             "size",
             $size,
             self::$possible_sizes,
             implode('/', self::$possible_sizes)
         );
-        $this->checkBoolArg("is_disabled", $is_disabled);
         $this->name = 'custom';
         $this->icon_path = $icon_path;
-        $this->aria_label = $aria_label;
+        $this->label = $label;
         $this->size = $size;
         $this->is_disabled = $is_disabled;
     }

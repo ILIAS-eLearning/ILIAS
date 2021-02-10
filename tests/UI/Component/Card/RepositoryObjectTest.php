@@ -132,11 +132,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 	
 	<div class="il-card-repository-head">
 		<div>
-			<div class="icon crs medium" aria-label="Course">
-
-
-</div>
-
+			<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" />
 		</div>
 		<div>
 			
@@ -175,11 +171,7 @@ EOT;
 			
 		</div>
 		<div>
-			<div class="icon cert medium outlined" aria-label="Certificate">
-
-
-</div>
-
+			<img class="icon cert medium outlined" src="./templates/default/images/outlined/icon_cert.svg" alt="Certificate" />
 		</div>
 		<div class="il-card-repository-dropdown">
 			
