@@ -51,7 +51,17 @@ class Text extends Input implements C\Input\Field\Text
      */
     protected function isClientSideValueOk($value) : bool
     {
-        return is_string($value);
+        if (! is_string($value)) {
+            return false;
+        }
+
+        if ($this->max_length !== null &&
+            strlen($value) > $this->max_length)
+        {
+            return false;
+        }
+
+        return true;
     }
 
 
