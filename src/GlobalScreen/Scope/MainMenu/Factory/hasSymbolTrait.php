@@ -19,8 +19,8 @@ trait hasSymbolTrait
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
-        if (($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
-            && ($symbol->getAriaLabel() === "")) {
+        if (($symbol instanceof Glyph\Glyph && $symbol->getAriaLabel() === "") ||
+            ($symbol instanceof Icon\Icon && $symbol->getLabel() === "")) {
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
