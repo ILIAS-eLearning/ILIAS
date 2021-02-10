@@ -95,13 +95,18 @@ class ilNoteGUI
     protected $no_actions = false;
 
     /**
-	 * @var bool
-	 */
-	protected $enable_sorting = true;
+     * @var bool
+     */
+    protected $enable_sorting = true;
 
-	protected $user_img_export_html = false;
+    protected $user_img_export_html = false;
 
-	/**
+    /**
+     * @var ilLogger
+     */
+    protected $log;
+
+   /**
     * constructor, specifies notes set
     *
     * @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
@@ -126,6 +131,7 @@ class ilNoteGUI
         $this->ui = $DIC->ui();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->log = ilLoggerFactory::getLogger('note');
 
         $lng->loadLanguageModule("notes");
         
@@ -1721,6 +1727,7 @@ class ilNoteGUI
      */
     protected function notifyObserver($a_action, $a_note)
     {
+        $this->log->debug("Notifying Observers (".count($this->observer).").");
         if (is_array($this->observer) && count($this->observer) > 0) {
             foreach ($this->observer as $item) {
                 $param = $a_note->getObject();
@@ -1728,12 +1735,12 @@ class ilNoteGUI
                 unset($param['news_id']);
                 $param["action"] = $a_action;
                 $param["note_id"] = $a_note->getId();
-
                 call_user_func_array($item, $param);
             }
         }
 
         //ajax calls don't have callbacks in the observer. (modals)
+        /* deactivated, at least learning modules get double notifications otherwise, see #29331
         if ($this->ajax) {
             $ref = (int) $_GET['ref_id'];
             if (in_array($ref, ilObject::_getAllReferences($this->rep_obj_id))) {
@@ -1752,7 +1759,7 @@ class ilNoteGUI
                     $gui->observeNoteAction($this->obj_id, $this->obj_id, $this->obj_type, $a_action, $a_note->getId());
                 }
             }
-        }
+        }*/
     }
 
     protected function listSortAsc()
