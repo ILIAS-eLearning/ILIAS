@@ -218,7 +218,7 @@ class ilStudyProgrammeAssignment
     }
 
     /**
-     * Set the date, at which the user was be reassigned to the programme
+     * Set the id of the assignment which was intiated due to expiring progress of this assignment.
      */
     public function setRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
     {
@@ -227,7 +227,7 @@ class ilStudyProgrammeAssignment
     }
 
     /**
-     * Get the date, at which the user was reassigned to the programme
+     * Get the id of the assignment which was intiated due to expiring progress of this assignment.
      *
      * @return int
      */

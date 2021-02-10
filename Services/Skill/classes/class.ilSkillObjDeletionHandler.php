@@ -40,5 +40,8 @@ class ilSkillObjDeletionHandler
             ilSkillProfile::removeUserFromAllProfiles($this->obj_id);
             ilBasicSkill::removeAllUserData($this->obj_id);
         }
+        if ($this->obj_type == "role" && ilObject::_lookupType($this->obj_id) == "role") {
+            ilSkillProfile::removeRoleFromAllProfiles($this->obj_id);
+        }
     }
 }

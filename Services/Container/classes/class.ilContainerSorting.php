@@ -409,7 +409,7 @@ class ilContainerSorting
             if ($key == "blocks") {
                 $this->saveBlockPositions($position);
             } elseif (!is_array($position)) {
-                $items[$key] = $position * 100;
+                $items[$key] = ((float) $position) * 100;
             } else {
                 foreach ($position as $parent_id => $sub_items) {
                     $this->saveSubItems($key, $parent_id, $sub_items ? $sub_items : array());
@@ -498,7 +498,6 @@ class ilContainerSorting
     protected function saveBlockPositions(array $a_values)
     {
         $ilDB = $this->db;
-        
         asort($a_values);
         $ilDB->replace(
             'container_sorting_bl',

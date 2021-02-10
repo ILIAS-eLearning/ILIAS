@@ -16201,3 +16201,13 @@ common#:#lso_admin_form_title#:#Beállítások
 common#:#lso_admin_form_byline#:#Tanulási sor általános beállításai
 common#:#lso_admin_interval_label#:#Tanulási haladás frissítésének időköze (másodperc)
 common#:#lso_admin_interval_byline#:#A még nem teljesített Tanulási haladást minden  x. másodpercben újra lekérjük. Legyen óvatos! Túl alacsony érték negatívan hathat a szerver teljesítményére. A lehető legnagyobb értéket válassza!
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable

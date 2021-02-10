@@ -242,11 +242,14 @@ class ilPersonalSettingsGUI
             //if (
             //	($ilUser->getAuthMode(true) != AUTH_SHIBBOLETH || !$ilSetting->get("shib_auth_allow_local"))
             //)
+            $pw_info_set = false;
             if ($ilUser->getAuthMode(true) == AUTH_LOCAL) {
                 // current password
                 $cpass = new ilPasswordInputGUI($lng->txt("current_password"), "current_password");
+                $cpass->setInfo(ilUtil::getPasswordRequirementsInfo());
                 $cpass->setRetype(false);
                 $cpass->setSkipSyntaxCheck(true);
+                $pw_info_set = true;
                 // only if a password exists.
                 if ($ilUser->getPasswd()) {
                     $cpass->setRequired(true);
@@ -256,8 +259,10 @@ class ilPersonalSettingsGUI
             
             // new password
             $ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
+            if($pw_info_set === false) {
+                $ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
+            }
             $ipass->setRequired(true);
-            $ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
 
             $this->form->addItem($ipass);
             $this->form->addCommandButton("savePassword", $lng->txt("save"));

@@ -43,6 +43,8 @@ common#:#obj_nots#:#Notes
 note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
+common#:#tools#:#Tools
+common#:#more#:#More
 note#:#note_enable_comments#:#Enable Comments
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
@@ -11329,6 +11331,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -11931,6 +11935,8 @@ content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, wh
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
+administration#:#adm_auth_reg#:#Authentication Registration
+administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
@@ -16204,3 +16210,4 @@ common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
+prg#:#no_srctype_or_id#:#Id and type may not be empty.

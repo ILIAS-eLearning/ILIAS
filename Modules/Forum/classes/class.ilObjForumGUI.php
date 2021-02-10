@@ -292,7 +292,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     {
         return in_array(
             strtolower($this->ctrl->getCmd()),
-            array_map('strtolower', array('createTopLevelPost', 'quoteTopLevelPost', 'saveTopLevelPost'))
+            array_map('strtolower', array('createTopLevelPost', 'saveTopLevelPost', 'saveTopLevelDraft'))
         );
     }
 
@@ -316,7 +316,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             'savePost',
             'saveTopLevelPost',
             'createTopLevelPost',
-            'quoteTopLevelPost',
+            'saveTopLevelDraft',
             'quotePost',
             'getQuotationHTMLAsynch',
             'autosaveDraftAsync',
@@ -1970,10 +1970,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $oPostGUI->addPlugin('latex');
         $oPostGUI->addButton('latex');
         $oPostGUI->addButton('pastelatex');
-        $oPostGUI->addPlugin('ilfrmquote');
-
-        if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
-            $oPostGUI->addButton('ilFrmQuoteAjaxCall');
+        if (!$this->isTopLevelReplyCommand()) {
+            $oPostGUI->addPlugin('ilfrmquote');
+            if (in_array($this->requestAction, ['showreply', 'showdraft'])) {
+                $oPostGUI->addButton('ilFrmQuoteAjaxCall');
+            }
         }
         $oPostGUI->removePlugin('advlink');
         $oPostGUI->setRTERootBlockElement('');
@@ -2118,9 +2119,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
 
             if (strtolower($rtestring) != 'iltinymce' || !ilObjAdvancedEditing::_getRichTextEditorUserState()) {
-                if ($this->isTopLevelReplyCommand()) {
-                    $this->replyEditForm->addCommandButton('quoteTopLevelPost', $this->lng->txt('forum_add_quote'));
-                } else {
+                if (!$this->isTopLevelReplyCommand()) {
                     $this->replyEditForm->addCommandButton('quotePost', $this->lng->txt('forum_add_quote'));
                 }
             }
@@ -2136,6 +2135,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 if ($this->requestAction == 'editdraft') {
                     $this->replyEditForm->addCommandButton('updateDraft', $this->lng->txt('save_message'));
+                } elseif ($this->isTopLevelReplyCommand()) {
+                    $this->replyEditForm->addCommandButton('saveTopLevelDraft', $this->lng->txt('save_message'));
                 } else {
                     $this->replyEditForm->addCommandButton('saveAsDraft', $this->lng->txt('save_message'));
                 }
@@ -2196,15 +2197,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     public function saveTopLevelPostObject()
     {
         $this->savePostObject();
-        return;
-    }
-
-    /**
-     *
-     */
-    public function quoteTopLevelPostObject()
-    {
-        $this->quotePostObject();
         return;
     }
 
@@ -3115,34 +3107,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             if (
                 $firstNodeInThread instanceof ilForumPost &&
-                in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'quoteTopLevelPost')) &&
+                in_array($this->ctrl->getCmd(), array('createTopLevelPost', 'saveTopLevelPost', 'saveTopLevelDraft')) &&
                 !$this->objCurrentTopic->isClosed() &&
                 $this->access->checkAccess('add_reply', '', (int) $_GET['ref_id'])) {
                 // Important: Don't separate the following two lines (very fragile code ...)
                 $this->objCurrentPost->setId($firstNodeInThread->getId());
                 $form = $this->getReplyEditForm();
 
-                if ($this->ctrl->getCmd() == 'saveTopLevelPost') {
+                if (in_array($this->ctrl->getCmd(), ['saveTopLevelPost', 'saveTopLevelDraft'])) {
                     $form->setValuesByPost();
-                } elseif ($this->ctrl->getCmd() == 'quoteTopLevelPost') {
-                    $authorinfo = new ilForumAuthorInformation(
-                        $firstNodeInThread->getPosAuthorId(),
-                        $firstNodeInThread->getDisplayUserId(),
-                        $firstNodeInThread->getUserAlias(),
-                        $firstNodeInThread->getImportName()
-                    );
-
-                    $form->setValuesByPost();
-                    $form->getItemByPostVar('message')->setValue(
-                        ilRTE::_replaceMediaObjectImageSrc(
-                            $frm->prepareText(
-                                $firstNodeInThread->getMessage(),
-                                1,
-                                $authorinfo->getAuthorName()
-                            ) . "\n" . $form->getInput('message'),
-                            1
-                        )
-                    );
                 }
                 $this->ctrl->setParameter($this, 'pos_pk', $firstNodeInThread->getId());
                 $this->ctrl->setParameter($this, 'thr_pk', $firstNodeInThread->getThreadId());
@@ -4620,6 +4593,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->setParameter($this, 'hist_check', 0);
         $this->ctrl->setParameter($this, 'draft_id', $draftId);
         $this->editThreadDraftObject($form);
+    }
+
+    public function saveTopLevelDraftObject() : void
+    {
+        $this->saveAsDraftObject();
     }
 
     public function saveAsDraftObject()

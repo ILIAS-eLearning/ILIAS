@@ -288,8 +288,7 @@ class ilStudyProgrammeProgress
     /**
      * Set the status of this node.
      *
-     * Throws when status is none of ilStudyProgrammeProgress::STATUS_*. Throws when
-     * current status is STATUS_COMPLETED.
+     * Throws when status is none of ilStudyProgrammeProgress::STATUS_*.
      */
     public function setStatus(int $a_status) : ilStudyProgrammeProgress
     {
@@ -346,7 +345,7 @@ class ilStudyProgrammeProgress
      */
     public function setLastChangeBy(int $a_usr_id = null) : ilStudyProgrammeProgress
     {
-        if ($a_usr_id !== null && ilObject::_lookupType($a_usr_id) != "usr") {
+        if (is_null($a_usr_id) || $a_usr_id < 0) {
             throw new ilException("ilStudyProgrammeProgress::setLastChangeBy: '$a_usr_id' "
                                  . "is no id of a user.");
         }

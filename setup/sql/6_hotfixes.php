@@ -925,3 +925,7 @@ $DIC->database()->modifyTableColumn("usr_data", "login", [
     "fixed" => false
 ]);
 ?>
+<#42>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>

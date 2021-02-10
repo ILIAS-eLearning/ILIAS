@@ -3226,6 +3226,7 @@ class ilObjectListGUI
             // icon link
             if ($this->title_link_disabled || !$this->default_command || (!$this->getCommandsStatus() && !$this->restrict_to_goto)) {
             } else {
+                /*  see #28926
                 $this->tpl->setCurrentBlock("icon_link_s");
 
                 if ($this->default_command["frame"] != "") {
@@ -3238,14 +3239,15 @@ class ilObjectListGUI
                 );
                 $this->tpl->parseCurrentBlock();
                 $this->tpl->touchBlock("icon_link_e");
+                */
             }
 
             $this->tpl->setCurrentBlock("icon");
             if (!$objDefinition->isPlugin($this->getIconImageType())) {
-                $this->tpl->setVariable("ALT_ICON", $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
+                $this->tpl->setVariable("ALT_ICON", $lng->txt("obj_" . $this->getIconImageType()));
             } else {
                 include_once("Services/Component/classes/class.ilPlugin.php");
-                $this->tpl->setVariable("ALT_ICON", $lng->txt("icon") . " " .
+                $this->tpl->setVariable("ALT_ICON",
                     ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_" . $this->getIconImageType()));
             }
 

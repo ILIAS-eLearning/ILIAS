@@ -43,6 +43,8 @@ common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
 common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
+common#:#tools#:#Tools
+common#:#more#:#Mehr
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
@@ -417,6 +419,8 @@ administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
+administration#:#adm_auth_reg#:#Authentifizierung Registrierung
+administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
@@ -11314,6 +11318,8 @@ rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
+rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -15372,7 +15378,7 @@ exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originald
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
-wiki#:#wiki_notification_comment_subject#:#Es wurd ein Kommentar zur Seite "%s: %s" hinzugefügt
+wiki#:#wiki_notification_comment_subject#:#Es wurde ein Kommentar zur Seite "%s: %s" hinzugefügt
 wiki#:#wiki_notification_comment#:#die folgende Seite wurde kommentiert
 wiki#:#wiki_commented_by#:#Autor
 content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
@@ -15382,7 +15388,7 @@ content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deak
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
 content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
 content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
-content#:#cont_notification_comment_subject_lm#:#Es wurd ein Kommentar zur Seite %s: %s" hinzugefügt
+content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
@@ -16204,3 +16210,4 @@ common#:#lso_admin_form_title#:#Einstellungen
 common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
 common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
+prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.

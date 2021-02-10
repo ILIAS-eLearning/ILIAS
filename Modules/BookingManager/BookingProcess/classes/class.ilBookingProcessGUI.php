@@ -513,7 +513,7 @@ class ilBookingProcessGUI
     //
     // Step 1a)
     //
-    // Assign multiple participants (starting from participants screen)
+    // Assign multiple participants (starting from participants screen) (no, from object screen!)
     //
 
     //Table to assing participants to an object.

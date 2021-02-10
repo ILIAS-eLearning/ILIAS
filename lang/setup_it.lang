@@ -644,3 +644,4 @@ cache_activate_tpl_blocks#:#Template (Blocks)###30 08 2015 new variable
 cache_activate_tpl_variables#:#Template (Variablen###30 08 2015 new variable
 error_log_path#:#Path to error log files
 error_log_path_comment#:#Please enter only the path. Files will be automaticly saved on error.
+cache_activate_global_screen#:#Global Screen

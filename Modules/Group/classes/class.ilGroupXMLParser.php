@@ -497,21 +497,29 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 $flag = GRP_REGISTRATION_DIRECT;
         }
         $this->group_obj->setRegistrationType($flag);
-        
-        $end = new ilDateTime(time(), IL_CAL_UNIX);
+
+
+        $registration_end = null;
         if ($this->group_data['expiration_end']) {
-            $end = new ilDateTime($this->group_data['expiration_end'], IL_CAL_UNIX);
+            $registration_end = new ilDateTime($this->group_data['expiration_end'], IL_CAL_UNIX);
         }
 
-        $start = clone $end;
+        $registration_start = null;
         if ($this->group_data['expiration_start']) {
-            $start = new ilDateTime($this->group_data['expiration_start'], IL_CAL_UNIX);
+            $registration_start = new ilDateTime($this->group_data['expiration_start'], IL_CAL_UNIX);
         }
+        if (
+            $registration_start instanceof ilDateTime &&
+            $registration_end instanceof ilDateTime
+        ) {
+            $this->group_obj->enableUnlimitedRegistration(false);
+            $this->group_obj->setRegistrationStart($registration_start);
+            $this->group_obj->setRegistrationEnd($registration_end);
 
-        $this->group_obj->setRegistrationStart($start);
-        $this->group_obj->setRegistrationEnd($end);
+        } else {
+            $this->group_obj->enableUnlimitedRegistration(true);
+        }
         $this->group_obj->setPassword($this->group_data['password']);
-        $this->group_obj->enableUnlimitedRegistration(!isset($this->group_data['expiration_end']));
         $this->group_obj->enableMembershipLimitation($this->group_data['max_members_enabled']);
         $this->group_obj->setMaxMembers($this->group_data['max_members'] ? $this->group_data['max_members'] : 0);
         $this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);

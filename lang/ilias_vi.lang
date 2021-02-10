@@ -16198,3 +16198,18 @@ book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
 book#:#book_set_delete#:#Delete###27 11 2020 new variable
 cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
 cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable

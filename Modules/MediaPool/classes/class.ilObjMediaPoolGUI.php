@@ -1992,7 +1992,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setPreventDoubleSubmission(false);
 
-        $item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
+        $item = new ilFileStandardDropzoneInputGUI(
+            'cancel',
+            $lng->txt("mep_media_files"),
+            'media_files'
+        );
         $item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
         $item->setMaxFiles(20);
         $form->addItem($item);
