@@ -245,6 +245,9 @@ class ilAssQuestionSkillAssignmentsGUI
                             if (!$assignment->hasEvalModeBySolution()) {
                                 $assignment->setSkillPoints((int) $skillPoints);
                                 $assignment->saveToDb();
+
+                                // add skill usage
+                                ilSkillUsage::setUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
                             }
                         }
                     }
@@ -293,6 +296,9 @@ class ilAssQuestionSkillAssignmentsGUI
                         $assignment->setSkillPoints(ilAssQuestionSkillAssignment::DEFAULT_COMPETENCE_POINTS);
                         $assignment->setEvalMode(ilAssQuestionSkillAssignment::EVAL_MODE_BY_QUESTION_RESULT);
                         $assignment->saveToDb();
+
+                        // add skill usage
+                        ilSkillUsage::setUsage($this->getQuestionContainerId(), $skillBaseId, $skillTrefId);
                     }
                     
                     $handledSkills[$skillId] = $skill;
@@ -305,6 +311,15 @@ class ilAssQuestionSkillAssignmentsGUI
                 }
 
                 $assignment->deleteFromDb();
+
+                // remove skill usage
+                if (!$assignment->isSkillUsed()) {
+                    ilSkillUsage::setUsage(
+                        $assignment->getParentObjId(),
+                        $assignment->getSkillBaseId(),
+                        $assignment->getSkillTrefId(),
+                        false);
+                }
             }
 
             ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assigns_updated'), true);
@@ -432,6 +447,13 @@ class ilAssQuestionSkillAssignmentsGUI
             }
             
             $assignment->saveToDb();
+
+            // add skill usage
+            ilSkillUsage::setUsage(
+                $this->getQuestionContainerId(),
+                (int) $_GET['skill_base_id'],
+                (int) $_GET['skill_tref_id']
+            );
             
             ilUtil::sendSuccess($this->lng->txt('qpl_qst_skl_assign_properties_modified'), true);
 

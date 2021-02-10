@@ -194,6 +194,27 @@ class ilAssQuestionSkillAssignment
         return $row['cnt'] > 0;
     }
 
+    public function isSkillUsed()
+    {
+        $query = "
+			SELECT COUNT(*) cnt
+			FROM qpl_qst_skl_assigns
+			WHERE obj_fi = %s
+			AND skill_base_fi = %s
+			AND skill_tref_fi = %s
+		";
+
+        $res = $this->db->queryF(
+            $query,
+            array('integer', 'integer', 'integer'),
+            array($this->getParentObjId(), $this->getSkillBaseId(), $this->getSkillTrefId())
+        );
+
+        $row = $this->db->fetchAssoc($res);
+
+        return $row['cnt'] > 0;
+    }
+
     /**
      * @param int $skillPoints
      */
