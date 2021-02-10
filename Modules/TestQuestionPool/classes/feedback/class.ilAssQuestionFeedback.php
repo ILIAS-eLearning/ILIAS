@@ -499,7 +499,7 @@ abstract class ilAssQuestionFeedback
      * @param integer $originalQuestionId
      * @param integer $duplicateQuestionId
      */
-    final private function duplicateGenericFeedback($originalQuestionId, $duplicateQuestionId)
+    private function duplicateGenericFeedback($originalQuestionId, $duplicateQuestionId)
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s",
@@ -558,7 +558,7 @@ abstract class ilAssQuestionFeedback
      * @param integer $originalQuestionId
      * @param integer $duplicateQuestionId
      */
-    final private function syncGenericFeedback($originalQuestionId, $duplicateQuestionId)
+    private function syncGenericFeedback($originalQuestionId, $duplicateQuestionId)
     {
         // delete generic feedback of the original question
         $this->db->manipulateF(
@@ -725,7 +725,7 @@ abstract class ilAssQuestionFeedback
      * @param integer $pageObjectId
      * @return string $pageObjectEditingLink
      */
-    final private function getPageObjectEditingLink($pageObjectType, $pageObjectId)
+    private function getPageObjectEditingLink($pageObjectType, $pageObjectId)
     {
         $cl = $this->getClassNameByType($pageObjectType, true);
         $this->ctrl->setParameterByClass($cl, 'feedback_type', $pageObjectType);
@@ -814,7 +814,7 @@ abstract class ilAssQuestionFeedback
      * @param string $pageObjectType
      * @param integer $pageObjectId
      */
-    final private function ensurePageObjectExists($pageObjectType, $pageObjectId)
+    private function ensurePageObjectExists($pageObjectType, $pageObjectId)
     {
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {
             include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPage.php");
