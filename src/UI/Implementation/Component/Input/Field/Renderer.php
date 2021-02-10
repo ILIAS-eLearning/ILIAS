@@ -106,7 +106,7 @@ class Renderer extends AbstractComponentRenderer
     protected function wrapInFormContext(
         F\FormInput $component,
         string $input_html,
-        $id = '',
+        string $id,
         string $dependant_group_html = ''
     ) : string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
@@ -455,11 +455,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("VALUE", $value);
 
         $id = $this->bindJSandApplyId($component, $tpl);
+        $tpl->setVariable("ID", $id);
 
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("ID", $id."_".$name);
+            $tpl->setVariable("CHECKBOX_ID", $id."_".$name);
             $tpl->setVariable("VALUE", $opt_value);
             $tpl->setVariable("LABEL", $opt_label);
 
