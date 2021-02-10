@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Icon;
 
 /**
- * This describes how a icon could be modified during construction of UI.
+ * This describes how an icon could be modified during construction of UI.
  */
 interface Icon extends \ILIAS\UI\Component\Symbol\Symbol
 {
@@ -24,11 +24,11 @@ interface Icon extends \ILIAS\UI\Component\Symbol\Symbol
     public function getName();
 
     /**
-     * Get the aria-label of this icon.
+     * Get the label of this icon.
      *
      * @return string
      */
-    public function getAriaLabel();
+    public function getLabel();
 
     /**
      * Set the abbreviation for this icon.

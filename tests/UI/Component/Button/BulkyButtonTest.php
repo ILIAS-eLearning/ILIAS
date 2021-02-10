@@ -135,7 +135,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
-            . '	<div class="icon someExample small" aria-label="Example"></div>'
+            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -153,7 +153,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
-            . '	<div class="icon someExample small" aria-label="Example"></div>'
+            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 

@@ -131,6 +131,8 @@ namespace {
             $this->ui_factory = $this->getUIFactory(); //new NoUIFactory();
             $this->lng = new ilLanguageMock();
             $this->js_binding = new LoggingJavaScriptBinding();
+            $this->image_path_resolver = $this->getMockBuilder(ILIAS\UI\Implementation\Render\ImagePathResolver::class)
+                ->getMock();
         }
 
         public function test_getTemplate_successfull()
@@ -140,7 +142,8 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery()
+                $this->getRefinery(),
+                $this->image_path_resolver
             );
             $tpl = $r->_getTemplate("tpl.glyph.html", true, false);
 
@@ -158,7 +161,8 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery()
+                $this->getRefinery(),
+                $this->image_path_resolver
             );
 
             try {
@@ -180,7 +184,8 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery()
+                $this->getRefinery(),
+                $this->image_path_resolver
             );
 
             $g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");
@@ -204,7 +209,8 @@ namespace {
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->getRefinery()
+                $this->getRefinery(),
+                $this->image_path_resolver
             );
 
             $g = new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph(\ILIAS\UI\Component\Symbol\Glyph\Glyph::SETTINGS, "aria_label");

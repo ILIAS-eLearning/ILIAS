@@ -1628,21 +1628,24 @@ class ilInitialisation
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
                             $c["ui.javascript_binding"],
-                            $c["refinery"]
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
                         )
                     )
                 )
@@ -1678,6 +1681,10 @@ class ilInitialisation
                 }
             }
         }
+
+        $c["ui.pathresolver"] = function ($c) : ILIAS\UI\Implementation\Render\ImagePathResolver {
+            return new ilImagePathResolver();
+        };
     }
 
     /**

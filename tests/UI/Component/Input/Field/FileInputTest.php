@@ -208,10 +208,6 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    //
-    //
-    //
-
     protected function buildButtonFactory()
     {
         return new ILIAS\UI\Implementation\Component\Button\Factory;
@@ -222,7 +218,6 @@ class FileInputTest extends ILIAS_UI_TestBase
     {
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
-
 
     public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
     {
@@ -235,6 +230,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         }
 
         $refinery = $this->getRefinery();
+        $img_resolver = new ilImagePathResolver();
 
         $component_renderer_loader
             = new LoaderCachingWrapper(
@@ -246,25 +242,29 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
-                        ),
+                            $refinery,
+                            $img_resolver
+                    ),
+
                         new GlyphRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
-                        ),
+                            $refinery,
+                            $img_resolver
+                    ),
                         new FieldRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
-                        )
+                            $refinery,
+                            $img_resolver
                     )
                 )
-            );
+            )
+        );
 
         return new TestDefaultRenderer($component_renderer_loader);
     }
