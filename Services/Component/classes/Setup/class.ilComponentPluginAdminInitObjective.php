@@ -40,7 +40,7 @@ class ilComponentPluginAdminInitObjective implements Setup\Objective
 
         $config = $environment->getConfigFor('language');
         return [
-            new \ilLanguagesInstalledObjective($config, new ilSetupLanguage('en'))
+            new \ilLanguagesInstalledAndUpdatedObjective($config, new ilSetupLanguage('en'))
         ];
     }
 
