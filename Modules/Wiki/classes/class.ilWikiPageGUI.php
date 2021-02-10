@@ -400,77 +400,16 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ilUtil::sendInfo($lng->txt("wiki_page_status_blocked"));
         }
 
-        // exercise information
-        /*
-        include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
-        $ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->getWikiRefId(), $ilUser->getId());
-        $message = "";
-        foreach ($ass_info as $i)	// should be only one
-        {
-            $links = $buttons = [];
-            $ass = new ilExAssignment($i->getId());
-            $times_up = $ass->afterDeadlineStrict();
-
-            // info text and link
-            $exc_title = $i->getExerciseTitle();
-            $info = sprintf($lng->txt("wiki_exercise_info"),
-                $i->getTitle(), $exc_title);
-            foreach ($i->getLinks() as $l)
-            {
-                $links[] = $ui->factory()->link()->standard($exc_title, $l);
-            }
-
-            // submit button
-            if(!$times_up)
-            {
-                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
-                $submit_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "finalizeAssignment");
-                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
-
-                $buttons[] = $ui->factory()->button()->primary($lng->txt("wiki_finalize_wiki"), $submit_link);
-            }
-
-            // submitted files
-            include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-            $submission = new ilExSubmission($ass, $ilUser->getId());
-            if($submission->hasSubmitted())
-            {
-                $submitted = $submission->getSelectedObject();
-
-                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
-                $dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");
-                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
-
-                $rel = ilDatePresentation::useRelativeDates();
-                ilDatePresentation::setUseRelativeDates(false);
-
-
-                $info .= "<br />".sprintf($lng->txt("wiki_exercise_submitted_info"),
-                        ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME)));
-
-                ilDatePresentation::setUseRelativeDates($rel);
-                $buttons[] = $ui->factory()->button()->standard($lng->txt("wiki_download_submission"), $dl_link);
-            }
-
-
-            $mbox = $ui->factory()->messageBox()->info($info)
-                ->withLinks($links)
-                ->withButtons($buttons);
-
-            $message = $ui->renderer()->render($mbox);
-
-            //ilUtil::sendInfo($info);
-        }
-        */
-
 
         $this->increaseViewCount();
                 
         $this->addHeaderAction();
         
         // content
-        $this->setSideBlock();
-        
+        if ($ilCtrl->getNextClass() != "ilnotegui") {
+            $this->setSideBlock();
+        }
+
         $wtpl = new ilTemplate(
             "tpl.wiki_page_view_main_column.html",
             true,
