@@ -16406,7 +16406,7 @@ mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
+mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 common#:#obj_adn#:#Ankündigungen
