@@ -208,10 +208,12 @@ class ilPDNotesGUI
                 $this->current_rel_obj,
                 0,
                 ilObject::_lookupType($this->current_rel_obj),
-                true
+                true,
+                0,
+                false
             );
         } else {
-            $notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd");
+            $notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd", false, 0, false);
         }
         
         if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES) {
