@@ -126,9 +126,9 @@ class ilFileObjectToStorageMigrationRunner
             ['text', 'integer'],
             [$resource->getIdentification()->serialize(), $object_id]
         );
-
-        $item->tearDown();
-
+        if (null === $this->getMigrateToNewObjectId()) {
+            $item->tearDown();
+        }
     }
 
     private function logMigratedFile(
