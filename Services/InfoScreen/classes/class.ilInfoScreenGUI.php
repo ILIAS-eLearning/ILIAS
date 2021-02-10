@@ -140,7 +140,11 @@ class ilInfoScreenGUI
 
         switch ($next_class) {
             case "ilnotegui":
-                $this->showSummary();	// forwards command
+                if ($this->ctrl->isAsynch()) {
+                    $this->showNotesSection();
+                } else {
+                    $this->showSummary();    // forwards command
+                }
                 break;
 
             case "ilcolumngui":

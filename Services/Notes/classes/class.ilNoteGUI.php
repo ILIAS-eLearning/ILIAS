@@ -119,7 +119,8 @@ class ilNoteGUI
         $a_obj_id = "",
         $a_obj_type = "",
         $a_include_subobjects = false,
-        $a_news_id = 0
+        $a_news_id = 0,
+        $ajax = true
     ) {
         global $DIC;
 
@@ -148,9 +149,8 @@ class ilNoteGUI
         if (!$this->obj_type && $a_rep_obj_id) {
             $this->obj_type = ilObject::_lookupType($a_rep_obj_id);
         }
-        
-        //$this->ajax = $ilCtrl->isAsynch();
-        $this->ajax = true;
+
+        $this->ajax = $ajax;
 
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
@@ -393,7 +393,11 @@ class ilNoteGUI
     && $this->only != "notes") {
             $this->private_enabled = false;
         }
-        
+
+        if (!$ilCtrl->isAsynch()) {
+            $ntpl->setVariable("OUTER_ID", " id='notes_embedded_outer' ");
+        }
+
         $nodes_col = false;
         if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID)
             && !$hide_notes) {
@@ -585,10 +589,6 @@ class ilNoteGUI
             $tpl->setCurrentBlock("title");
             $tpl->setVariable("TITLE", $img . " " . $title);
             $tpl->parseCurrentBlock();
-        }
-
-        if (!$ilCtrl->isAsynch()) {
-            $tpl->setVariable("OUTER_ID", " id='notes_embedded_outer' ");
         }
 
         if ($this->delete_note) {
@@ -960,6 +960,9 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
         
         $parent_type = ilObject::_lookupType($parent_obj_id);
+        if ($parent_type == "") {
+            return "";
+        }
         $parent_class = "ilObj" . $objDefinition->getClassName($parent_type) . "GUI";
         $parent_path = $ilCtrl->lookupClassPath($parent_class);
         include_once $parent_path;
