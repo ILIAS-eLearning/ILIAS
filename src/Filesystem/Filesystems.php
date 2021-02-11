@@ -55,4 +55,12 @@ interface Filesystems
      * @since 5.3
      */
     public function libs() : Filesystem;
+
+    /**
+     * Fetches the node_modules filesystem which is located at the root of the libs directory of ILIAS. This is read only
+     * @return Filesystem
+     * @throws IllegalStateException Thrown if the filesystem is requested without initialisation.
+     * @since 5.3
+     */
+    public function nodeModules() : Filesystem;
 }
