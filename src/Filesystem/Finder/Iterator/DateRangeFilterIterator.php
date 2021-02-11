@@ -21,8 +21,8 @@ class DateRangeFilterIterator extends \FilterIterator
     private $comparators = [];
 
     /**
-     * @param Filesystem $filesystem
-     * @param \Iterator $iterator The Iterator to filter
+     * @param Filesystem       $filesystem
+     * @param \Iterator        $iterator    The Iterator to filter
      * @param DateComparator[] $comparators An array of DateComparator instances
      */
     public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)

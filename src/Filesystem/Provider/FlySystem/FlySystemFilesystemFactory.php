@@ -9,7 +9,6 @@ use ILIAS\Filesystem\Provider\FilesystemFactory;
 
 /**
  * Class FlySystemFilesystemFactory
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since   5.3
  * @version 1.0.0

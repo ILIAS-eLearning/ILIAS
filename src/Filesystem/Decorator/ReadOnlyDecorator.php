@@ -3,25 +3,18 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Decorator;
 
-use DateTime;
-use ilFileUtils;
 use ILIAS\Data\DataSize;
-use ILIAS\Filesystem\Exception\DirectoryNotFoundException;
 use ILIAS\Filesystem\Exception\IOException;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Finder\Finder;
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\Filesystem\Visibility;
 
 /**
  * Class ReadOnlyDecorator
- *
  * The filesystem ready only decorator provides read only access and will throw
  * an Exception whenever code tries to write files.
- *
  * @package ILIAS\Filesystem\Decorator
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  * @since   5.3.6
@@ -34,17 +27,14 @@ final class ReadOnlyDecorator implements Filesystem
      */
     private $filesystem;
 
-
     /**
      * ReadOnlyDecorator constructor.
-     *
      * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
     }
-
 
     /**
      * @inheritDoc
@@ -54,7 +44,6 @@ final class ReadOnlyDecorator implements Filesystem
         return $this->filesystem->hasDir($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -62,7 +51,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         return $this->filesystem->listContents($path, $recursive);
     }
-
 
     /**
      * @inheritDoc
@@ -72,7 +60,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -80,7 +67,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc
@@ -90,7 +76,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -98,7 +83,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         return $this->filesystem->read($path);
     }
-
 
     /**
      * @inheritDoc
@@ -108,7 +92,6 @@ final class ReadOnlyDecorator implements Filesystem
         return $this->filesystem->has($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -117,7 +100,6 @@ final class ReadOnlyDecorator implements Filesystem
         return $this->filesystem->getMimeType($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -125,7 +107,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         return $this->filesystem->getTimestamp($path);
     }
-
 
     /**
      * @inheritDoc
@@ -138,7 +119,6 @@ final class ReadOnlyDecorator implements Filesystem
         );
     }
 
-
     /**
      * @inheritDoc
      */
@@ -146,7 +126,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc
@@ -156,7 +135,6 @@ final class ReadOnlyDecorator implements Filesystem
         return $this->filesystem->getVisibility($path);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -164,7 +142,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         return $this->filesystem->readStream($path);
     }
-
 
     /**
      * @inheritDoc
@@ -182,7 +159,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -190,7 +166,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc
@@ -200,7 +175,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -208,7 +182,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc
@@ -218,7 +191,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -226,7 +198,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc
@@ -236,7 +207,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -245,7 +215,6 @@ final class ReadOnlyDecorator implements Filesystem
         throw new IOException("FS has ready access only");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -253,7 +222,6 @@ final class ReadOnlyDecorator implements Filesystem
     {
         throw new IOException("FS has ready access only");
     }
-
 
     /**
      * @inheritDoc

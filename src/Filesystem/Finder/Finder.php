@@ -62,7 +62,7 @@ final class Finder implements \IteratorAggregate, \Countable
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
-        $this->ignore = static::IGNORE_VCS_FILES | static::IGNORE_DOT_FILES;
+        $this->ignore = static::IGNORE_VCS_FILES|static::IGNORE_DOT_FILES;
     }
 
     /**
@@ -145,10 +145,8 @@ final class Finder implements \IteratorAggregate, \Countable
     /**
      * Adds tests for the directory depth.
      * Usage:
-     *
      *     $finder->depth('> 1') // the Finder will start matching at level 1.
      *     $finder->depth('< 3') // the Finder will descend at most 3 levels of directories below the starting point.
-     *
      * @param string|int $level The depth level expression
      * @return Finder
      * @see DepthRangeFilterIterator
@@ -165,12 +163,10 @@ final class Finder implements \IteratorAggregate, \Countable
     /**
      * Adds tests for file dates.
      * The date must be something that strtotime() is able to parse:
-     *
      *     $finder->date('since yesterday');
      *     $finder->date('until 2 days ago');
      *     $finder->date('> now - 2 hours');
      *     $finder->date('>= 2005-10-15');
-     *
      * @param string $date A date range string
      * @return Finder
      * @see strtotime
@@ -188,12 +184,10 @@ final class Finder implements \IteratorAggregate, \Countable
 
     /**
      * Adds tests for file sizes.
-     *
      *     $finder->size('> 10K');
      *     $finder->size('<= 1Ki');
      *     $finder->size(4);
      *     $finder->size(['> 10K', '< 20K'])
-     *
      * @param string|int|string[]|int[] $sizes A size range string or an integer or an array of size ranges
      * @return Finder
      * @see SizeRangeFilterIterator
@@ -358,7 +352,7 @@ final class Finder implements \IteratorAggregate, \Countable
      */
     private function searchInDirectory(string $dir) : \Iterator
     {
-        if (static::IGNORE_VCS_FILES === (static::IGNORE_VCS_FILES & $this->ignore)) {
+        if (static::IGNORE_VCS_FILES === (static::IGNORE_VCS_FILES&$this->ignore)) {
             $this->exclude = array_merge($this->exclude, $this->vcsPatterns);
         }
 

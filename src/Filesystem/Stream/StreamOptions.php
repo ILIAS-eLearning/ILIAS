@@ -5,15 +5,12 @@ namespace ILIAS\Filesystem\Stream;
 
 /**
  * Class StreamOptions
- *
  * The streaming options are used by the stream implementation.
  * This class only hold configuration options which can be used by the Stream class.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
- *
- * @see Stream
+ * @see     Stream
  * @internal
  */
 final class StreamOptions
@@ -29,19 +26,16 @@ final class StreamOptions
      */
     private $metadata;
 
-
     /**
      * StreamOptions constructor.
-     *
-     * @param \string[] $metadata   Additional metadata for the stream.
-     * @param int       $size       The known stream size in byte. -1 indicates an unknown size.
+     * @param \string[] $metadata Additional metadata for the stream.
+     * @param int       $size     The known stream size in byte. -1 indicates an unknown size.
      */
     public function __construct(array $metadata = [], int $size = self::UNKNOWN_STREAM_SIZE)
     {
         $this->size = $size;
         $this->metadata = $metadata;
     }
-
 
     /**
      * @return int
@@ -50,7 +44,6 @@ final class StreamOptions
     {
         return $this->size;
     }
-
 
     /**
      * @return \string[]

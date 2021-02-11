@@ -25,7 +25,7 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
     /**
      * RecursiveDirectoryIterator constructor.
      * @param Filesystem $filesystem
-     * @param string $dir
+     * @param string     $dir
      */
     public function __construct(Filesystem $filesystem, string $dir)
     {

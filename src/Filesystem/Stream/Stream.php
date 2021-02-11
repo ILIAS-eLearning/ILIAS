@@ -7,12 +7,9 @@ use ILIAS\Filesystem\Util\PHPStreamFunctions;
 
 /**
  * Class Stream
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- *
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
- *
  * @internal
  */
 class Stream implements FileStream
@@ -73,12 +70,10 @@ class Stream implements FileStream
      */
     private $customMetadata;
 
-
     /**
      * Stream constructor.
-     *
-     * @param resource         $stream   The resource which should be wrapped by the Stream.
-     * @param StreamOptions    $options  The additional options which are accessible via getMetadata
+     * @param resource      $stream  The resource which should be wrapped by the Stream.
+     * @param StreamOptions $options The additional options which are accessible via getMetadata
      */
     public function __construct($stream, StreamOptions $options = null)
     {
@@ -98,12 +93,13 @@ class Stream implements FileStream
         $meta = stream_get_meta_data($this->stream);
         $mode = $meta['mode'];
 
-        $this->readable = array_key_exists($mode, self::$accessMap) && boolval(self::$accessMap[$mode] & self::MASK_ACCESS_READ);
-        $this->writeable = array_key_exists($mode, self::$accessMap) && boolval(self::$accessMap[$mode] & self::MASK_ACCESS_WRITE);
+        $this->readable = array_key_exists($mode,
+                self::$accessMap) && boolval(self::$accessMap[$mode]&self::MASK_ACCESS_READ);
+        $this->writeable = array_key_exists($mode,
+                self::$accessMap) && boolval(self::$accessMap[$mode]&self::MASK_ACCESS_WRITE);
         $this->seekable = boolval($meta['seekable']);
         $this->uri = $this->getMetadata('uri');
     }
-
 
     /**
      * @inheritDoc
@@ -117,7 +113,6 @@ class Stream implements FileStream
         $this->detach();
     }
 
-
     /**
      * @inheritDoc
      */
@@ -128,7 +123,6 @@ class Stream implements FileStream
 
         return $stream;
     }
-
 
     /**
      * @inheritDoc
@@ -145,7 +139,7 @@ class Stream implements FileStream
         if ($this->stream === null) {
             return null;
         }
-        
+
         //clear stat cache if we got a uri (indicates that we have a file resource)
         if ($this->uri !== null) {
             clearstatcache(true, $this->uri);
@@ -160,7 +154,6 @@ class Stream implements FileStream
         //unable to determine stream size
         return null;
     }
-
 
     /**
      * @inheritDoc
@@ -178,7 +171,6 @@ class Stream implements FileStream
         return $result;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -189,7 +181,6 @@ class Stream implements FileStream
         return feof($this->stream);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -197,7 +188,6 @@ class Stream implements FileStream
     {
         return $this->seekable;
     }
-
 
     /**
      * @inheritDoc
@@ -215,7 +205,6 @@ class Stream implements FileStream
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -224,7 +213,6 @@ class Stream implements FileStream
         $this->seek(0);
     }
 
-
     /**
      * @inheritDoc
      */
@@ -232,7 +220,6 @@ class Stream implements FileStream
     {
         return $this->writeable;
     }
-
 
     /**
      * @inheritDoc
@@ -256,7 +243,6 @@ class Stream implements FileStream
         return $result;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -264,7 +250,6 @@ class Stream implements FileStream
     {
         return $this->readable;
     }
-
 
     /**
      * @inheritDoc
@@ -276,7 +261,7 @@ class Stream implements FileStream
         if (!$this->isReadable()) {
             throw new \RuntimeException('Can not read from non-readable stream');
         }
-        
+
         if ($length < 0) {
             throw new \RuntimeException('Length parameter must not be negative');
         }
@@ -284,7 +269,7 @@ class Stream implements FileStream
         if ($length === 0) {
             return '';
         }
-        
+
         $junk = PHPStreamFunctions::fread($this->stream, $length);
         if ($junk === false) {
             throw new \RuntimeException('Unable to read from stream');
@@ -293,14 +278,13 @@ class Stream implements FileStream
         return $junk;
     }
 
-
     /**
      * @inheritDoc
      */
     public function getContents()
     {
         $this->assertStreamAttached();
-        
+
         $content = PHPStreamFunctions::stream_get_contents($this->stream);
 
         if ($content === false) {
@@ -309,7 +293,6 @@ class Stream implements FileStream
 
         return $content;
     }
-
 
     /**
      * @inheritDoc
@@ -358,7 +341,6 @@ class Stream implements FileStream
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -371,11 +353,9 @@ class Stream implements FileStream
         }
     }
 
-
     /**
      * Checks if the stream is attached to the wrapper.
      * An exception if thrown if the stream is already detached.
-     *
      * @throws \RuntimeException Thrown if the stream is already detached.
      */
     private function assertStreamAttached()

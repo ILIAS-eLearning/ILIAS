@@ -6,14 +6,11 @@ use ILIAS\Filesystem\DTO\Metadata;
 
 /**
  * Class MetadataType
- *
  * The possible metadata types of the filesystem metadata.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
- *
- * @see Metadata
+ * @see     Metadata
  */
 interface MetadataType
 {

@@ -18,7 +18,7 @@ class DepthRangeFilterIterator extends \FilterIterator
     /**
      * DepthRangeFilterIterator constructor.
      * @param \RecursiveIteratorIterator $iterator
-     * @param NumberComparator[] $comparators
+     * @param NumberComparator[]         $comparators
      */
     public function __construct(\RecursiveIteratorIterator $iterator, array $comparators)
     {

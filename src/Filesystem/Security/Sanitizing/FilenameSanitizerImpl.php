@@ -7,25 +7,20 @@ use ilFileUtils;
 
 /**
  * Class FilenameSanitizerImpl
- *
  * Standard implementation of the filename sanitizing interface.
- *
  * @package ILIAS\Filesystem\Security\Sanitizising
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @version 1.1.0
- * @since 5.3.4
+ * @since   5.3.4
  */
 final class FilenameSanitizerImpl implements FilenameSanitizer
 {
 
     /**
      * Contains the whitelisted file suffixes.
-     *
      * @var string[] $whitelist
      */
     private $whitelist;
-
 
     /**
      * FilenameSanitizerImpl constructor.
@@ -40,7 +35,6 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
         }
     }
 
-
     /**
      * @inheritDoc
      */
@@ -48,7 +42,6 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
     {
         return in_array($this->extractFileSuffix($filename), $this->whitelist, true);
     }
-
 
     /**
      * @inheritDoc
@@ -63,7 +56,6 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
         $basename = $pathInfo['basename'];
         $parentPath = $pathInfo['dirname'];
 
-
         $filename = str_replace('.', '', $basename);
         $filename .= "." . FilenameSanitizer::CLEAN_FILE_SUFFIX;
 
@@ -75,11 +67,9 @@ final class FilenameSanitizerImpl implements FilenameSanitizer
         return "$parentPath/$filename";
     }
 
-
     /**
      * Extracts the suffix from the given filename.
      * If no suffix was found an empty string will be returned.
-     *
      * @param string $filename The filename which should be used to extract the file suffix.
      * @return string The file name suffix in lowercase.
      */

@@ -21,7 +21,7 @@ class FileTypeFilterIterator extends \FilterIterator
 
     /**
      * @param \Iterator $iterator The Iterator to filter
-     * @param int $mode The mode (self::ALL or self::ONLY_FILES or self::ONLY_DIRECTORIES)
+     * @param int       $mode     The mode (self::ALL or self::ONLY_FILES or self::ONLY_DIRECTORIES)
      */
     public function __construct(\Iterator $iterator, int $mode)
     {
@@ -37,9 +37,9 @@ class FileTypeFilterIterator extends \FilterIterator
         /** @var Metadata $metadata */
         $metadata = $this->current();
 
-        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES & $this->mode) && $metadata->isFile()) {
+        if (self::ONLY_DIRECTORIES === (self::ONLY_DIRECTORIES&$this->mode) && $metadata->isFile()) {
             return false;
-        } elseif (self::ONLY_FILES === (self::ONLY_FILES & $this->mode) && $metadata->isDir()) {
+        } elseif (self::ONLY_FILES === (self::ONLY_FILES&$this->mode) && $metadata->isDir()) {
             return false;
         }
 

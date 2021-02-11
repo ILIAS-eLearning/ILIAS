@@ -5,11 +5,9 @@ namespace ILIAS\Filesystem\Provider\Configuration;
 
 /**
  * Class LocalConfig
- *
  * This class is used to configure the local filesystem adapter.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0
  */
 final class LocalConfig
@@ -54,50 +52,39 @@ final class LocalConfig
      */
     private $linkBehaviour;
 
-
     /**
      * LocalConfig constructor.
-     *
      * Please note that php threads int values with a leading zero as octal values.
      * Therefore the int 0755 equals 493.
-     *
      * The permission mask: ugo
      * u = owner
      * g = group
      * o = other
-     *
      * r = 4
      * rx = 5
      * rw = 6
      * rwx = 7
-     *
      * read = r
      * read-execute = rx
      * read-write = rw
      * read-write-execute = rwx
-     *
      * Example public mask:
      * u = rwx
      * g = r
      * o = r
-     *
      * rwx r-- r-- which equals 0744
-     *
      * Example private mask:
      * u = rwx
      * g = -
      * o = -
-     *
      * rwx --- --- which equals 0700
-     *
-     *
-     * @param string $rootPath                  The path to the new filesystem root.
-     * @param int    $fileAccessPublic          Public file access mask in octal.
-     * @param int    $fileAccessPrivate         Private file access mask in octal.
-     * @param int    $directoryAccessPublic     Public directory access mask in octal.
-     * @param int    $directoryAccessPrivate    Private directory access mask in octal.
-     * @param int    $lockMode                  Lock modes are defined as build in constants (LOCK_SH, LOCK_EX).
-     * @param int    $linkBehaviour             The behaviour how filesystem links should be threaded.
+     * @param string $rootPath               The path to the new filesystem root.
+     * @param int    $fileAccessPublic       Public file access mask in octal.
+     * @param int    $fileAccessPrivate      Private file access mask in octal.
+     * @param int    $directoryAccessPublic  Public directory access mask in octal.
+     * @param int    $directoryAccessPrivate Private directory access mask in octal.
+     * @param int    $lockMode               Lock modes are defined as build in constants (LOCK_SH, LOCK_EX).
+     * @param int    $linkBehaviour          The behaviour how filesystem links should be threaded.
      */
     public function __construct(
         string $rootPath,
@@ -117,7 +104,6 @@ final class LocalConfig
         $this->linkBehaviour = $linkBehaviour;
     }
 
-
     /**
      * @return int
      * @since 5.3
@@ -126,7 +112,6 @@ final class LocalConfig
     {
         return $this->fileAccessPublic;
     }
-
 
     /**
      * @return int
@@ -137,7 +122,6 @@ final class LocalConfig
         return $this->fileAccessPrivate;
     }
 
-
     /**
      * @return int
      * @since 5.3
@@ -146,7 +130,6 @@ final class LocalConfig
     {
         return $this->directoryAccessPublic;
     }
-
 
     /**
      * @return int
@@ -157,7 +140,6 @@ final class LocalConfig
         return $this->directoryAccessPrivate;
     }
 
-
     /**
      * @return string
      * @since 5.3
@@ -167,7 +149,6 @@ final class LocalConfig
         return $this->rootPath;
     }
 
-
     /**
      * @return int
      * @since 5.3
@@ -176,7 +157,6 @@ final class LocalConfig
     {
         return $this->lockMode;
     }
-
 
     /**
      * @return int

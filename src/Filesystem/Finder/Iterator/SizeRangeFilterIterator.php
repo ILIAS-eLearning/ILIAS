@@ -22,8 +22,8 @@ class SizeRangeFilterIterator extends \FilterIterator
     private $comparators = [];
 
     /**
-     * @param Filesystem $filesystem
-     * @param \Iterator $iterator The Iterator to filter
+     * @param Filesystem         $filesystem
+     * @param \Iterator          $iterator    The Iterator to filter
      * @param NumberComparator[] $comparators An array of NumberComparator instances
      */
     public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)

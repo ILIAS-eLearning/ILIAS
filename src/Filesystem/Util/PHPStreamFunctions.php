@@ -5,15 +5,12 @@ namespace ILIAS\Filesystem\Util;
 
 /**
  * Class PHPFunctions
- *
  * The purpose of this class is to wrap all stream handling php functions.
- *
  * This allows to mock the functions within unit test which would otherwise require us to redefine the
  * function in a scope which is scanned before the root scope and somehow call the function on our mocks the verify the
  * function calls.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
  */
 final class PHPStreamFunctions
@@ -21,11 +18,8 @@ final class PHPStreamFunctions
 
     /**
      * ftell wrapper
-     *
      * @param $handle
-     *
      * @return bool|int
-     *
      * @see ftell()
      */
     public static function ftell($handle)
@@ -33,12 +27,9 @@ final class PHPStreamFunctions
         return ftell($handle);
     }
 
-
     /**
      * fclose wrapper
-     *
      * @param $handle
-     *
      * @see fclose()
      */
     public static function fclose($handle)
@@ -46,14 +37,11 @@ final class PHPStreamFunctions
         fclose($handle);
     }
 
-
     /**
      * fseek wrapper.
-     *
      * @param $stream
      * @param $offset
      * @param $whence
-     *
      * @return int 0 or -1
      */
     public static function fseek($stream, $offset, $whence)
@@ -61,15 +49,11 @@ final class PHPStreamFunctions
         return fseek($stream, $offset, $whence);
     }
 
-
     /**
      * fread wrapper
-     *
      * @param $handle
      * @param $length
-     *
      * @return bool|string
-     *
      * @see fread()
      */
     public static function fread($handle, $length)
@@ -77,15 +61,11 @@ final class PHPStreamFunctions
         return fread($handle, $length);
     }
 
-
     /**
      * stream_get_contents wrapper
-     *
      * @param $handle
      * @param $length
-     *
      * @return bool|string
-     *
      * @see stream_get_contents()
      */
     public static function stream_get_contents($handle, $length = -1)
@@ -93,16 +73,12 @@ final class PHPStreamFunctions
         return stream_get_contents($handle, $length);
     }
 
-
     /**
      * fwrite wrapper
-     *
      * @param      $handle
      * @param      $string
      * @param null $length
-     *
      * @return bool|int
-     *
      * @see fwrite()
      */
     public static function fwrite($handle, $string, $length = null)

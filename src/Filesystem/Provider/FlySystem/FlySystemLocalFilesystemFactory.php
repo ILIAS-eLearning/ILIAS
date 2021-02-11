@@ -10,12 +10,10 @@ use League\Flysystem\Adapter\Local;
 
 /**
  * Class FlySystemLocalFilesystemFactory
- *
  * The local fly system filesystem factory creates instances of the local filesystem adapter which is provided by
  * the phpleague.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  */
 final class FlySystemLocalFilesystemFactory
 {
@@ -26,9 +24,7 @@ final class FlySystemLocalFilesystemFactory
 
     /**
      * Creates a new instance of the local filesystem adapter used by fly system.
-     *
      * @param LocalConfig $config The configuration which should be used to initialise the adapter.
-     *
      * @return Filesystem
      */
     public function getInstance(LocalConfig $config)
@@ -49,7 +45,7 @@ final class FlySystemLocalFilesystemFactory
                     self::PUBLIC_ACCESS_KEY => $config->getDirectoryAccessPublic()
                 ]
             ]
-            );
+        );
 
         //switch the path separator to a forward slash, see Mantis 0022554
         $reflection = new \ReflectionObject($adapter);
@@ -62,7 +58,6 @@ final class FlySystemLocalFilesystemFactory
         */
         $adapter->setPathPrefix($adapter->getPathPrefix());
 
-
         $filesystem = new \League\Flysystem\Filesystem($adapter);
         $fileAccess = new FlySystemFileAccess($filesystem);
         $facade = new FilesystemFacade(
@@ -74,14 +69,10 @@ final class FlySystemLocalFilesystemFactory
         return $facade;
     }
 
-
     /**
      * Maps a constant of the LocalConfig class into a constant of the Local class.
-     *
      * Example:
-     *
      * @param int $configLinkBehaviour The code of the config link behaviour constant.
-     *
      * @return int The mapped code of the Local filesystem adapter.
      */
     private function mapConfigLinkToLocalLinks($configLinkBehaviour)
@@ -96,16 +87,12 @@ final class FlySystemLocalFilesystemFactory
         }
     }
 
-
     /**
      * Checks if the supplied file lock mode is valid.
      * Valid values are LOCK_SH and LOCK_EX.
-     *
      * LOCK_SH -> shared lock (read is possible for others)
      * LOCK_EX -> no access for other processes
-     *
      * @param int $code The code of the file lock mode which should be checked.
-     *
      * @see LOCK_SH
      * @see LOCK_EX
      */

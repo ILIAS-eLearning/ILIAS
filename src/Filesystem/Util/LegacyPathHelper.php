@@ -8,10 +8,8 @@ use ILIAS\Filesystem\FilesystemsAware;
 
 /**
  * Class LegacyPathHelper
- *
  * The legacy path helper provides convenient functions for the integration of the filesystem service within legacy components.
  * This class should be deprecated with ILIAS 5.5 or earlier.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since   5.3
  * @version 1.0.0
@@ -20,18 +18,12 @@ final class LegacyPathHelper
 {
     use FilesystemsAware;
 
-
     /**
      * Tries to fetch the filesystem responsible for the absolute path.
      * Please note that the function is case sensitive.
-     *
      * Relative paths are also detected for the ILIAS web storage like './data/default'
-     *
-     *
      * @param string $absolute_path The absolute used for the filesystem search.
-     *
      * @return Filesystem                   The responsible filesystem for the given path.
-     *
      * @throws \InvalidArgumentException    Thrown if no filesystem is responsible for the given path.
      */
     public static function deriveFilesystemFrom(string $absolute_path) : Filesystem
@@ -65,17 +57,12 @@ final class LegacyPathHelper
         }
     }
 
-
     /**
      * Creates a relative path from an absolute path which starts with a valid storage location.
      * The primary use case for this method is to trim the path after the filesystem was fetch via the deriveFilesystemFrom method.
-     *
      * @param string $absolute_path The path which should be trimmed.
-     *
      * @return string                       The trimmed relative path.
-     *
      * @throws \InvalidArgumentException    Thrown if the path does not start with a valid storage location.
-     *
      * @see LegacyPathHelper::deriveFilesystemFrom()
      */
     public static function createRelativePath(string $absolute_path) : string
@@ -117,7 +104,6 @@ final class LegacyPathHelper
         }
     }
 
-
     private static function resolveRelativePath(string $possible_path, string $absolute_path) : string
     {
         $real_possible_path = realpath($possible_path);
@@ -127,19 +113,19 @@ final class LegacyPathHelper
             case $real_possible_path === $absolute_path:
                 return "";
             case strpos($absolute_path, $possible_path) === 0:
-                return substr($absolute_path, strlen($possible_path) + 1);                             //also remove the trailing slash
+                return substr($absolute_path,
+                    strlen($possible_path) + 1);                             //also remove the trailing slash
             case strpos($absolute_path, $real_possible_path) === 0:
-                return substr($absolute_path, strlen($real_possible_path) + 1);                             //also remove the trailing slash
+                return substr($absolute_path,
+                    strlen($real_possible_path) + 1);                             //also remove the trailing slash
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }
     }
 
-
     /**
      * @param string $possible_path
      * @param string $absolute_path
-     *
      * @return bool
      */
     private static function checkPossiblePath(string $possible_path, string $absolute_path) : bool
@@ -160,7 +146,6 @@ final class LegacyPathHelper
         }
     }
 
-
     /**
      * @return array
      */
@@ -176,6 +161,15 @@ final class LegacyPathHelper
         $libsRelativeWithLeadingDot = "./libs";
         $temp = CLIENT_DATA_DIR . "/temp";
 
-        return array($web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp);
+        return array($web,
+                     $webRelativeWithLeadingDot,
+                     $webRelativeWithoutLeadingDot,
+                     $storage,
+                     $customizing,
+                     $customizingRelativeWithLeadingDot,
+                     $libs,
+                     $libsRelativeWithLeadingDot,
+                     $temp
+        );
     }
 }

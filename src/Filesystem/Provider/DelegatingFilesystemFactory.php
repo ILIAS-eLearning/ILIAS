@@ -12,10 +12,8 @@ use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 
 /**
  * Class DelegatingFilesystemFactory
- *
  * The delegating filesystem factory delegates the instance creation to the
  * factory of the concrete implementation and applies all necessary decorators.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  * @since   5.3
  * @version 1.1.0
@@ -28,10 +26,8 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
      */
     private $sanitizer;
 
-
     /**
      * DelegatingFilesystemFactory constructor.
-     *
      * @param FilenameSanitizer $sanitizer
      */
     public function __construct(FilenameSanitizer $sanitizer)
@@ -48,14 +44,14 @@ final class DelegatingFilesystemFactory implements FilesystemFactory
         $this->sanitizer = $sanitizer;
     }
 
-
     /**
      * @inheritDoc
      */
     public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem
     {
         if ($read_only) {
-            return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));
+            return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config),
+                $this->sanitizer));
         } else {
             return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
         }

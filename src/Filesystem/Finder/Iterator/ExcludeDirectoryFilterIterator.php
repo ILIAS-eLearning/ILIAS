@@ -25,8 +25,8 @@ class ExcludeDirectoryFilterIterator extends \FilterIterator implements \Recursi
     private $excludedPattern = '';
 
     /**
-     * @param \Iterator $iterator The Iterator to filter
-     * @param string[] $directories An array of directories to exclude
+     * @param \Iterator $iterator    The Iterator to filter
+     * @param string[]  $directories An array of directories to exclude
      */
     public function __construct(\Iterator $iterator, array $directories)
     {

@@ -5,13 +5,10 @@ namespace ILIAS\Filesystem;
 
 /**
  * Class FilesystemsImpl
- *
  * The Filesystems implementation holds the configuration for the filesystem service.
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
- *
  */
 final class FilesystemsImpl implements Filesystems
 {
@@ -37,25 +34,27 @@ final class FilesystemsImpl implements Filesystems
      */
     private $customizing;
 
-
     /**
      * FilesystemsImpl constructor.
-     *
      * @param Filesystem $storage
      * @param Filesystem $web
      * @param Filesystem $temp
      * @param Filesystem $customizing
      * @param FileSystem $libs
      */
-    public function __construct(Filesystem $storage, Filesystem $web, Filesystem $temp, Filesystem $customizing, FileSystem $libs)
-    {
+    public function __construct(
+        Filesystem $storage,
+        Filesystem $web,
+        Filesystem $temp,
+        Filesystem $customizing,
+        FileSystem $libs
+    ) {
         $this->storage = $storage;
         $this->web = $web;
         $this->temp = $temp;
         $this->customizing = $customizing;
         $this->libs = $libs;
     }
-
 
     /**
      * @inheritDoc
@@ -65,7 +64,6 @@ final class FilesystemsImpl implements Filesystems
         return $this->web;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -73,7 +71,6 @@ final class FilesystemsImpl implements Filesystems
     {
         return $this->storage;
     }
-
 
     /**
      * @inheritDoc
@@ -83,7 +80,6 @@ final class FilesystemsImpl implements Filesystems
         return $this->temp;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -91,7 +87,6 @@ final class FilesystemsImpl implements Filesystems
     {
         return $this->customizing;
     }
-
 
     /**
      * @inheritDoc

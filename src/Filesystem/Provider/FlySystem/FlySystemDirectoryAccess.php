@@ -16,9 +16,8 @@ use League\Flysystem\RootViolationException;
 
 /**
  * Class FlySystemDirectoryAccess
- *
  * @author  Nicolas Schäfli <ns@studer-raimann.ch>
- * @since 5.3
+ * @since   5.3
  * @version 1.0.0
  */
 class FlySystemDirectoryAccess implements DirectoryAccess
@@ -35,12 +34,11 @@ class FlySystemDirectoryAccess implements DirectoryAccess
     private static $metaTypeKey = 'type';
     private static $metaPathKey = 'path';
 
-
     /**
      * FlySystemDirectoryAccess constructor.
      *-
-     * @param FilesystemInterface $flySystemFS      A configured fly system filesystem instance.
-     * @param FlySystemFileAccess $fileAccess       The file access implementation used to copy files.
+     * @param FilesystemInterface $flySystemFS A configured fly system filesystem instance.
+     * @param FlySystemFileAccess $fileAccess  The file access implementation used to copy files.
      */
     public function __construct(FilesystemInterface $flySystemFS, FlySystemFileAccess $fileAccess)
     {
@@ -48,16 +46,11 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         $this->fileAccess = $fileAccess;
     }
 
-
     /**
      * Checks whether the directory exists or not.
-     *
      * @param string $path The path which should be checked.
-     *
      * @return bool         True if the directory exists otherwise false.
-     *
      * @throws IOException  Thrown if the type of the path element is unknown.
-     *
      * @since   5.3
      * @version 1.0
      */
@@ -76,18 +69,13 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         return false;
     }
 
-
     /**
      * Lists the content of a directory.
-     *
-     * @param string $path                  The directory which should listed. Defaults to the adapter root directory.
-     * @param bool   $recursive             Set to true if the child directories also should be listed. Defaults to false.
-     *
+     * @param string $path      The directory which should listed. Defaults to the adapter root directory.
+     * @param bool   $recursive Set to true if the child directories also should be listed. Defaults to false.
      * @return Metadata[]                   An array of metadata about all known files, in the given directory.
-     *
      * @throws DirectoryNotFoundException   If the directory is not found or inaccessible.
      * @throws IOException                  Thrown if the metadata can not be fetched for a path.
-     *
      * @since   5.3
      * @version 1.0
      */
@@ -107,25 +95,19 @@ class FlySystemDirectoryAccess implements DirectoryAccess
 
             $metadataCollection[] = $this->arrayToMetadata($content);
         }
-        
+
         return $metadataCollection;
     }
 
-
     /**
      * Create a new directory.
-     *
      * Please note that the Visibility interface defines two constants PUBLIC_ACCESS and PRIVATE_ACCESS
      * to ease the development process.
-     *
      * @param string $path       The directory path which should be created.
      * @param string $visibility The visibility of the directory. Defaults to visibility public.
-     *
      * @return void
-     *
      * @throws IOException                   If the directory could not be created.
      * @throws \InvalidArgumentException     If the visibility is not 'public' or 'private'.
-     *
      * @since   5.3
      * @version 1.0
      */
@@ -141,22 +123,16 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         }
     }
 
-
     /**
      * Copy all childes of the source recursive to the destination.
      * The file access rights will be copied as well.
-     *
      * The operation will fail fast if the destination directory is not empty.
      * All destination folders will be created if needed.
-     *
      * @param string $source      The source which should be scanned and copied.
      * @param string $destination The destination of the recursive copy.
-     *
-     * @throws IOException                  Thrown if the directory could not be copied.
-     * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
-     *
      * @return void
-     *
+     * @throws DirectoryNotFoundException   Thrown if the source directory could not be found.
+     * @throws IOException                  Thrown if the directory could not be copied.
      * @since   5.3
      * @version 1.0
      */
@@ -176,19 +152,17 @@ class FlySystemDirectoryAccess implements DirectoryAccess
                 //create destination path
                 $position = strpos($content->getPath(), $source);
                 if ($position !== false) {
-                    $destinationFilePath = substr_replace($content->getPath(), $destination, $position, strlen($source));
+                    $destinationFilePath = substr_replace($content->getPath(), $destination, $position,
+                        strlen($source));
                     $this->fileAccess->copy($content->getPath(), $destinationFilePath);
                 }
             }
         }
     }
 
-
     /**
      * Ensures that the given path does not exist or is empty.
-     *
      * @param string $path The path which should be checked.
-     *
      * @throws IOException Thrown if the metadata of the path can not be fetched.
      */
     private function ensureEmptyDirectory(string $path)
@@ -205,13 +179,10 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         }
     }
 
-
     /**
      * Checks if the directory exists.
      * If the directory was found no further actions are taken.
-     *
      * @param string $path The path which should be found.
-     *
      * @throws DirectoryNotFoundException Thrown if the directory was not found.
      */
     private function ensureDirectoryExistence(string $path)
@@ -221,16 +192,11 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         }
     }
 
-
     /**
      * Deletes a directory recursive.
-     *
      * @param string $path The path which should be deleted.
-     *
      * @return void
-     *
      * @throws IOException If the path could not be deleted.
-     *
      * @since   5.3
      * @version 1.0
      */
@@ -245,7 +211,6 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         }
     }
 
-
     /**
      * Parses a metadata array into a metadata object.
      * Array example:
@@ -253,9 +218,7 @@ class FlySystemDirectoryAccess implements DirectoryAccess
      *     'type' => 'dir' / 'file',
      *     'path' => '/path/to/your/dir-or-file'
      *  ]
-     *
      * @param array $metadataArray
-     *
      * @return Metadata
      */
     private function arrayToMetadata(array $metadataArray)
@@ -266,17 +229,16 @@ class FlySystemDirectoryAccess implements DirectoryAccess
         );
     }
 
-
     /**
      * Validates if the given visibility is known, otherwise an exception is thrown.
      * This method does nothing if the visibility is valid.
-     *
      * @param string $visibility The visibility which should be validated.
      * @return void
      */
     private function validateVisibility($visibility)
     {
-        if (strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0 && strcmp($visibility, Visibility::PUBLIC_ACCESS) !== 0) {
+        if (strcmp($visibility, Visibility::PRIVATE_ACCESS) !== 0 && strcmp($visibility,
+                Visibility::PUBLIC_ACCESS) !== 0) {
             throw new \InvalidArgumentException("Invalid visibility expected public or private but got \"$visibility\".");
         }
     }
