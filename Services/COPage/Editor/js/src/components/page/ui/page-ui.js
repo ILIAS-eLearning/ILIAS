@@ -589,7 +589,9 @@ export default class PageUI {
 
   markCurrent() {
     const editContainer = document.getElementById("il_EditPage");
-    editContainer.setAttribute("class", "copg-state-" + this.model.getState());
+    if (editContainer) {
+      editContainer.setAttribute("class", "copg-state-" + this.model.getState());
+    }
 
     document.querySelectorAll("[data-copg-ed-type='pc-area']").forEach(el => {
       const pcid = el.dataset.pcid;
