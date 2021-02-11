@@ -36,21 +36,20 @@ class ilExcAssMemberStateRepository
     public function getSubmitableAssignmentIdsOfUser(array $exc_ids, int $user_id) : array
     {
         $db = $this->db;
-
         $set = $db->queryF(
             'SELECT ass.id FROM exc_assignment ass LEFT JOIN exc_idl idl
 			ON (ass.id = idl.ass_id AND idl.member_id = %s)
 			WHERE ' . $db->in("ass.exc_id", $exc_ids, false, "integer") . ' 
 				AND ((	ass.deadline_mode = %s
 						AND (ass.start_time IS NULL OR ass.start_time < %s )
-						AND (ass.time_stamp IS NULL OR ass.time_stamp > %s OR ass.deadline2 > %s))
+						AND (ass.time_stamp IS NULL OR ass.time_stamp > %s OR ass.deadline2 > %s OR idl.tstamp > %s))
 					) OR (
 						ass.deadline_mode = %s
 						AND (idl.starting_ts > 0)
 						AND (idl.starting_ts + (ass.relative_deadline * 24 * 60 * 60) > %s)
 					)',
-            array("integer", "integer", "integer", "integer", "integer", "integer", "integer"),
-            array($user_id, 0, time(), time(), time(), 1, time())
+            array("integer", "integer", "integer", "integer", "integer", "integer", "integer", "integer"),
+            array($user_id, 0, time(), time(), time(), time(), 1, time())
         );
         $ids = [];
         while ($rec = $db->fetchAssoc($set)) {

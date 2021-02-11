@@ -515,7 +515,7 @@ class ilObjectDefinition // extends ilSaxParser
                 $this->__filterObjects($subobjects);
             }
             foreach ($subobjects as $data => $sub) {
-                if (isset($sub["module"]) && $sub["module"] != "n") {
+                if (!isset($sub["module"]) || $sub["module"] != "n") {
                     if (!($ilSetting->get("obj_dis_creation_" . $data))) {
                         $subs[$data] = $sub;
                         
