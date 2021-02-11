@@ -476,7 +476,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $this->ui_wrapper,
                 $this->page_gui->getPageObject()->getParentType(),
                 $this->page_gui,
-                $this->page_gui->getStyleId(),
+                (int) $this->page_gui->getStyleId(),
                 $query["pcid"]);
         }
         $o = new \stdClass();
