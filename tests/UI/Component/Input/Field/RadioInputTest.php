@@ -63,7 +63,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
 
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label for=\"\" class=\"control-label col-sm-3\">$label</label>"
+                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
                 . "<div class=\"col-sm-9\">"
                     . "<div id=\"id_1\" class=\"il-input-radio\">";
 
@@ -97,7 +97,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
         $radio = $radio->withValue($value);
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label for=\"\" class=\"control-label col-sm-3\">$label</label>"
+                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
                 . "<div class=\"col-sm-9\">"
                     . "<div id=\"id_1\" class=\"il-input-radio\">";
 
@@ -136,7 +136,7 @@ class RadioInputTest extends ILIAS_UI_TestBase
 
         $expected = ""
             . "<div class=\"form-group row\">"
-            . "<label for=\"\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
             . "<div id=\"id_1\" class=\"il-input-radio\">";
 

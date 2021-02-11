@@ -376,34 +376,35 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg);
         $expected = <<<EOT
-		<div class="form-group row">
-			<label for="" class="control-label col-sm-3">label</label>
-			<div class="col-sm-9">
-				<div id="id_1" class="il-input-radio">
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_g1_opt" name="" value="g1" />
-						<label for="id_1_g1_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f</label>
-							<div class="col-sm-9">
-								<div class="help-block">some field</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_g2_opt" name="" value="g2" />
-						<label for="id_1_g2_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f2</label>
-							<div class="col-sm-9">
-								<div class="help-block">some other field</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="help-block">byline</div>
-			</div>
-		</div>
+<div class="form-group row">
+    <label for="id_1" class="control-label col-sm-3">label</label>
+    <div class="col-sm-9">
+        <div id="id_1" class="il-input-radio">
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_g1_opt" name="" value="g1" /><label for="id_1_g1_opt"></label>
+                <div class="form-group row">
+                    <label for="id_2" class="control-label col-sm-3">f</label>
+                    <div class="col-sm-9">
+                        <input id="id_2" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_g2_opt" name="" value="g2" /><label for="id_1_g2_opt"></label>
+                <div class="form-group row">
+                    <label for="id_3" class="control-label col-sm-3">f2</label>
+                    <div class="col-sm-9">
+                        <input id="id_3" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some other field</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="help-block">byline</div>
+    </div>
+</div>
+
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -420,34 +421,35 @@ EOT;
         $r = $this->getDefaultRenderer();
         $html = $r->render($sg->withValue('g2'));
         $expected = <<<EOT
-		<div class="form-group row">
-			<label for="" class="control-label col-sm-3">label</label>
-			<div class="col-sm-9">
-				<div id="id_1" class="il-input-radio">
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_g1_opt" name="" value="g1" />
-						<label for="id_1_g1_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f</label>
-							<div class="col-sm-9">
-								<div class="help-block">some field</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_g2_opt" name="" value="g2" checked="checked" />
-						<label for="id_1_g2_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f2</label>
-							<div class="col-sm-9">
-								<div class="help-block">some other field</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="help-block">byline</div>
-			</div>
-		</div>
+<div class="form-group row">
+    <label for="id_1" class="control-label col-sm-3">label</label>
+    <div class="col-sm-9">
+        <div id="id_1" class="il-input-radio">
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_g1_opt" name="" value="g1" /><label for="id_1_g1_opt"></label>
+                <div class="form-group row">
+                    <label for="id_2" class="control-label col-sm-3">f</label>
+                    <div class="col-sm-9">
+                        <input id="id_2" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_g2_opt" name="" value="g2" checked="checked" /><label for="id_1_g2_opt"></label>
+                <div class="form-group row">
+                    <label for="id_3" class="control-label col-sm-3">f2</label>
+                    <div class="col-sm-9">
+                        <input id="id_3" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some other field</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="help-block">byline</div>
+    </div>
+</div>
+
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
@@ -475,34 +477,34 @@ EOT;
         $html = $r->render($sg->withValue('1'));
 
         $expected = <<<EOT
-		<div class="form-group row">
-			<label for="" class="control-label col-sm-3">label</label>
-			<div class="col-sm-9">
-				<div id="id_1" class="il-input-radio">
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_0_opt" name="" value="0" />
-						<label for="id_1_0_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f</label>
-							<div class="col-sm-9">
-								<div class="help-block">some field</div>
-							</div>
-						</div>
-					</div>
-					<div class="form-control form-control-sm il-input-radiooption">
-						<input type="radio" id="id_1_1_opt" name="" value="1" checked="checked" />
-						<label for="id_1_1_opt"></label>
-						<div class="form-group row">
-							<label for="" class="control-label col-sm-3">f2</label>
-							<div class="col-sm-9">
-								<div class="help-block">some other field</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="help-block">byline</div>
-			</div>
-		</div>
+<div class="form-group row">
+    <label for="id_1" class="control-label col-sm-3">label</label>
+    <div class="col-sm-9">
+        <div id="id_1" class="il-input-radio">
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_0_opt" name="" value="0" /><label for="id_1_0_opt"></label>
+                <div class="form-group row">
+                    <label for="id_2" class="control-label col-sm-3">f</label>
+                    <div class="col-sm-9">
+                        <input id="id_2" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some field</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-control form-control-sm il-input-radiooption">
+                <input type="radio" id="id_1_1_opt" name="" value="1" checked="checked" /><label for="id_1_1_opt"></label>
+                <div class="form-group row">
+                    <label for="id_3" class="control-label col-sm-3">f2</label>
+                    <div class="col-sm-9">
+                        <input id="id_3" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">some other field</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="help-block">byline</div>
+    </div>
+</div>
 EOT;
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
