@@ -292,13 +292,25 @@ class ilInitialisation
             return $delegatingFactory->getLocal($customizingConfiguration, true);
         };
 
+        $DIC['filesystem.node_modules'] = function ($c) {
+            //customizing
+
+            /**
+             * @var FilesystemFactory $delegatingFactory
+             */
+            $delegatingFactory = $c['filesystem.factory'];
+            $customizingConfiguration = new \ILIAS\Filesystem\Provider\Configuration\LocalConfig(ILIAS_ABSOLUTE_PATH . '/' . 'node_modules');
+            return $delegatingFactory->getLocal($customizingConfiguration, true);
+        };
+
         $DIC['filesystem'] = function ($c) {
             return new \ILIAS\Filesystem\FilesystemsImpl(
                 $c['filesystem.storage'],
                 $c['filesystem.web'],
                 $c['filesystem.temp'],
                 $c['filesystem.customizing'],
-                $c['filesystem.libs']
+                $c['filesystem.libs'],
+                $c['filesystem.node_modules']
             );
         };
     }
