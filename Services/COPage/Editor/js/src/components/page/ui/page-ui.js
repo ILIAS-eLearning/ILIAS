@@ -314,7 +314,7 @@ export default class PageUI {
 
     $(draggableSelector).draggable({
         cursor: 'move',
-        revert: true,
+        revert: false,
         scroll: true,
         distance: 3,
         cursorAt: { top: 5, left:20 },
@@ -324,10 +324,10 @@ export default class PageUI {
           dispatch.dispatch(action.page().editor().dndDrag());
         },
         stop: function( event, ui ) {
-
+          dispatch.dispatch(action.page().editor().dndStopped());
         },
         helper: (() => {
-          return $("<div style='width: 40px; border: 1px solid blue;'>&nbsp;</div>");
+          return $("<div class='il-copg-drag'>&nbsp;</div>");
         })		/* temp helper */
       }
     );

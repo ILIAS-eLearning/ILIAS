@@ -35,6 +35,13 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  dndStopped() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.DND_STOPPED);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   dndDrop(target, source) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.DND_DROP, {
       target: target,
