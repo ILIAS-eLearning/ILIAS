@@ -104,6 +104,7 @@ class ilUtil
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
         }
+        $skin_img = "";
         if ($current_skin == "default") {
             $user_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
             $skin_img = "." . $module_path . "/templates/default/images/" . $img;
