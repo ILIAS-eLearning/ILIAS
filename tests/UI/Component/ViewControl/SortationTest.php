@@ -70,7 +70,7 @@ class SortationTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($s));
         $this->assertEquals(
-            $this->getSortationExpectedHTML(),
+            $this->getSortationExpectedHTML(true),
             $html
         );
     }
