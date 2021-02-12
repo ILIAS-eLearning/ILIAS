@@ -246,7 +246,7 @@ class ilPageEditorGUI
             // Step CM (creation mode handling)
             $cmd = $com[0];
             $ctype = $com[1];				// note ctype holds type if cmdclass is empty, but also subcommands if not (e.g. applyFilter in ilpcmediaobjectgui)
-            $add_type = $com[2];
+            $add_type = $_POST["pluginName"];
             if ($ctype == "mob") {
                 $ctype = "media";
             }
