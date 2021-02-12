@@ -384,6 +384,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
                 $tpl->setVariable('BYDAY_WEEKLY_CHECKED', 'checked="checked"');
             }
             $tpl->setVariable('TXT_ON', $this->lng->txt('cal_on'));
+            $tpl->setVariable('DAY_COUNT', $i);
             $tpl->setVariable('BYDAY_WEEKLY_VAL', $days[$i]);
             $tpl->setVariable('TXT_DAY_SHORT', ilCalendarUtil::_numericDayToString($i, false));
             $tpl->parseCurrentBlock();
