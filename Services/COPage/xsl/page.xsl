@@ -48,6 +48,7 @@
 <xsl:param name="img_cell"/>
 <xsl:param name="img_item"/>
 <xsl:param name="img_path"/>
+<xsl:param name="append_footnotes"/>
 <xsl:param name="med_disabled_path"/>
 <xsl:param name="map_item" />
 <xsl:param name="map_mob_id" />
@@ -125,7 +126,7 @@
 	<div style="clear:both;"><xsl:comment>Break</xsl:comment></div>
 
     <!-- Footnote List -->
-	<xsl:if test="count(//Footnote) > 0">
+	<xsl:if test="count(//Footnote) > 0 and $append_footnotes = 'y'">
 		<hr />
 		<xsl:for-each select="//Footnote">
 			<xsl:choose>

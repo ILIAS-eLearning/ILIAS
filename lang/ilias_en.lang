@@ -4705,7 +4705,7 @@ content#:#cont_text_placehl#:#Text Placeholder
 content#:#cont_text_quot#:#Quotation
 content#:#cont_text_str#:#Strong Text
 content#:#cont_text_tex#:#LaTeX Code
-content#:#cont_text_xln_link#:#External Link
+content#:#cont_text_xln#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items

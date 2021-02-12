@@ -1640,12 +1640,14 @@ class ilPageObjectGUI
             }
         }
 
+        $append_footnotes = "y";
         if ($this->getAbstractOnly()) {
             if (!$this->abstract_pcid) {
                 $content = "<dummy><PageObject><PageContent><Paragraph>" .
                     $this->obj->getFirstParagraphText() . $link_xml .
                     "</Paragraph></PageContent></PageObject></dummy>";
             } else {
+                $append_footnotes = "n";
                 $par = $this->obj->getParagraphForPCID($this->abstract_pcid);
                 $content = "<dummy><PageObject><PageContent><Paragraph Characteristic='".$par->getCharacteristic()."'>" .
                     $par->getText() . $link_xml .
@@ -1760,6 +1762,7 @@ class ilPageObjectGUI
                          'img_row' => $row_path,
                          'img_cell' => $cell_path,
                          'img_item' => $item_path,
+                         'append_footnotes' => $append_footnotes,
                          'compare_mode' => $this->getCompareMode() ? "y" : "n",
                          'enable_split_new' => $enable_split_new,
                          'enable_split_next' => $enable_split_next,
@@ -2080,16 +2083,56 @@ class ilPageObjectGUI
             $emp = "I";
             $imp = "U";
         }
+        $c_formats = [];
+        foreach (["str", "emp", "imp", "sup", "sub"] as $c) {
+            if (ilPageEditorSettings::lookupSettingByParentType(
+                $a_par_type,
+                "active_" . $c,
+                true
+            )) {
+                switch ($c) {
+                    case "str":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Strong">' . $str . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Strong"]
+                        ];
+                        break;
+                    case "emp":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Emph">' . $emp . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Emph"]
+                        ];
+                        break;
+                    case "imp":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Important">' . $imp . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Important"]
+                        ];
+                        break;
+                    case "sup":
+                        $c_formats[] = ["text" => 'x<sup>2</sup>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Sup"]
+                        ];
+                        break;
+                    case "sub":
+                        $c_formats[] = ["text" => 'x<sub>2</sub>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Sub"]
+                        ];
+                        break;
+                }
+            }
+        }
+        $c_formats[] = ["text" => "<i>A</i>",
+                        "action" => $char_formats
+        ];
+        $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
+                        "action" => "selection.removeFormat",
+                        "data" => []
+        ];
         $menu = [
-            "cont_char_format" => [
-                ["text" => '<span class="ilc_text_inline_Strong">'.$str.'</span>', "action" => "selection.format", "data" => ["format" => "Strong"]],
-                ["text" => '<span class="ilc_text_inline_Emph">'.$emp.'</span>', "action" => "selection.format", "data" => ["format" => "Emph"]],
-                ["text" => '<span class="ilc_text_inline_Important">'.$imp.'</span>', "action" => "selection.format", "data" => ["format" => "Important"]],
-                ["text" => 'x<sup>2</sup>', "action" => "selection.format", "data" => ["format" => "Sup"]],
-                ["text" => 'x<sub>2</sub>', "action" => "selection.format", "data" => ["format" => "Sub"]],
-                ["text" => "<i>A</i>", "action" => $char_formats],
-                ["text" => '<i><b><u>T</u></b><sub>x</sub></i>', "action" => "selection.removeFormat", "data" => []]
-            ],
+            "cont_char_format" => $c_formats,
             "cont_lists" => [
                 ["text" => $bullet_list, "action" => "list.bullet", "data" => []],
                 ["text" => $numbered_list, "action" => "list.number", "data" => []],
@@ -2108,7 +2151,13 @@ class ilPageObjectGUI
         if ($a_int_links) {
             $links[] = ["text" => $lng->txt("cont_text_iln_link"), "action" => "link.internal", "data" => []];
         }
-        $links[] = ["text" => $lng->txt("cont_text_xln_link"), "action" => "link.external", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_xln",
+            true
+        )) {
+            $links[] = ["text" => $lng->txt("cont_text_xln"), "action" => "link.external", "data" => []];
+        }
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }
@@ -2120,10 +2169,22 @@ class ilPageObjectGUI
             $menu["cont_more_functions"][] = ["text" => 'kw', "action" => "selection.keyword", "data" => []];
         }
         $mathJaxSetting = new ilSetting("MathJax");
-        if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-            $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_tex",
+            true
+        )) {
+            if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
+                $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+            }
         }
-        $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.fn", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_fn",
+            true
+        )) {
+            $menu["cont_more_functions"][] = ["text" => 'fn', "action" => "selection.fn", "data" => []];
+        }
         if ($a_anchors) {
             $menu["cont_more_functions"][] = ["text" => 'anc', "action" => "selection.anchor", "data" => []];
         }
