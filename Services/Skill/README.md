@@ -330,7 +330,7 @@ There are three different types of user skill levels:
   * Competence is used in Competence Profiles
   * Repository Objects are assigned as suggested resource for a competence
   
-# Skill Profiles
+# Competence Profiles
 
 ## Completion Concept
 * Self Evaluations do not affect the fulfilment of a target level in a competence profile
