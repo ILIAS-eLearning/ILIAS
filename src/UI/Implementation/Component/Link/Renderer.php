@@ -63,6 +63,14 @@ class Renderer extends AbstractComponentRenderer
 
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);
+
+        $aria_role = $component->getAriaRole();
+        if ($aria_role != null) {
+            $tpl->setCurrentBlock("with_aria_role");
+            $tpl->setVariable("ARIA_ROLE", $aria_role);
+            $tpl->parseCurrentBlock();
+        }
+
         return $tpl->get();
     }
 

@@ -128,4 +128,21 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         );   
     }
 
+    public function testRenderingWithAriaRoleMenuItem()
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "label", $this->target)->withAriaRole("menuitem");
+
+        $expected = ''
+            . '<a class="il-link link-bulky" href="http://www.ilias.de" aria-role="menuitem">'
+            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . ' <span class="bulky-label">label</span>'
+            . '</a>';
+
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
+
 }

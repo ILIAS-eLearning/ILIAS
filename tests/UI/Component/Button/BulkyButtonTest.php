@@ -145,10 +145,29 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_render_button_with_aria_role()
+    public function test_render_button_with_aria_role_menuitem_not_engageable()
     {
         $r = $this->getDefaultRenderer();
         $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")
+            ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
+
+        $expected = ''
+            . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem">'
+            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . '	<span class="bulky-label">label</span>'
+            . '</button>';
+
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
+
+    public function test_render_button_with_aria_role_menuitem_is_engageable()
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->button_factory->bulky($this->icon, "label", "http://www.ilias.de")
+            ->withEngagedState(false)
             ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
 
         $expected = ''
