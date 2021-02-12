@@ -16307,6 +16307,10 @@ survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
+common#:#lso_admin_form_title#:#Settings
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! 
 common#:#mainbar_more_label#:#More
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.
