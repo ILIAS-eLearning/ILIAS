@@ -195,14 +195,22 @@ export default class PageUI {
 
           // add each components
           for (const [ctype, txt] of Object.entries(uiModel.addCommands)) {
+            let cname, pluginName;
             li = li_templ.cloneNode(true);
             li.querySelector("a").innerHTML = txt;
-            let cname = this.getPCNameForType(ctype);
+            if (ctype.substr(0, 5) === "plug_") {
+              cname = "Plugged";
+              pluginName = ctype.substr(5);
+            } else {
+              cname = this.getPCNameForType(ctype);
+              pluginName = "";
+            }
             li.querySelector("a").addEventListener("click", (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().componentInsert(cname,
                 area.dataset.pcid,
-                hier_id));
+                hier_id,
+                pluginName));
             });
             ul.appendChild(li);
           }

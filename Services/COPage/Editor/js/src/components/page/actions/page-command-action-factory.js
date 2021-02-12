@@ -26,14 +26,16 @@ export default class PageCommandActionFactory {
    * @param {string} ctype
    * @param {string} pcid
    * @param {string} hier_id
+   * @param {string} pluginName
    * @return {CommandAction}
    */
-  createLegacy(ctype, pcid, hier_id) {
+  createLegacy(ctype, pcid, hier_id, pluginName) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.CREATE_LEGACY, {
       cmd: "insert",
       ctype: ctype,
       pcid: pcid,
-      hier_id: hier_id
+      hier_id: hier_id,
+      pluginName: pluginName
     });
   }
 
