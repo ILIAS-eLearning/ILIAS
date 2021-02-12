@@ -117,7 +117,7 @@ class ilIndividualAssessmentUserGrading
         return $this->place;
     }
 
-    public function getEventTime() : DateTimeImmutable
+    public function getEventTime() : ?DateTimeImmutable
     {
         return $this->event_time;
     }
@@ -201,7 +201,6 @@ class ilIndividualAssessmentUserGrading
 
         $event_time = $input
             ->dateTime($lng->txt('iass_event_time'))
-            ->withValue($this->getEventTime()->format('d-m-Y'))
             ->withRequired($place_required)
             ->withDisabled(!$may_be_edited)
         ;
