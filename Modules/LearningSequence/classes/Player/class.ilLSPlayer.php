@@ -52,12 +52,21 @@ class ilLSPlayer
         //init state and current item
         $items = $this->ls_items->getItems();
         $current_item = $this->getCurrentItem($items);
-        $current_item_ref_id = $current_item->getRefId();
+
+        while($current_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+            $prev_item = $this->getNextItem($items, $current_item, -1);
+            if($prev_item === $current_item) {
+                throw new \Exception("Cannot view first LSO-item", 1);
+            }
+            $current_item = $prev_item;
+        }
+
         $view = $this->view_factory->getViewFor($current_item);
         $state = $this->ls_items->getStateFor($current_item, $view);
         $state = $this->updateViewState($state, $view, $get, $post);
         $items = $this->ls_items->getItems(); //reload items after update viewState
 
+        $current_item_ref_id = $current_item->getRefId();
         //now, digest parameter:
         $command = $_GET[self::PARAM_LSO_COMMAND];
         $param = (int) $_GET[self::PARAM_LSO_PARAMETER];
@@ -70,6 +79,9 @@ class ilLSPlayer
                 return 'EXIT::' . $command;
             case self::LSO_CMD_NEXT:
                 $next_item = $this->getNextItem($items, $current_item, $param);
+                if($next_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+                    $next_item = $current_item;
+                }
                 break;
             case self::LSO_CMD_GOTO:
                 list($position, $next_item) = $this->findItemByRefId($items, $param);
