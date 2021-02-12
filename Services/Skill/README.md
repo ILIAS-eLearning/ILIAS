@@ -46,7 +46,7 @@ In ILIAS both terms are synonyms. In the UI we started with the "Skill" term and
 * [Assigned Objects Tab](#assigned-objects-tab)
 
 
-#Skill Hierarchy
+# Skill Hierarchy
 
 ## Skill Tree Nodes
 
