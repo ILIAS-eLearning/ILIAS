@@ -34,10 +34,14 @@ class Renderer extends AbstractComponentRenderer
 
         $title = $component->getTitle();
         $id = $this->bindJavaScript($component);
+        if(!$id){
+            $id = $this->createId();
+        }
         if (!empty($component->getTitleAction())) {
             if (is_string($component->getTitleAction())) {
                 $tpl->setCurrentBlock("title_action_begin");
                 $tpl->setVariable("HREF", $component->getTitleAction());
+                $tpl->setVariable("ID", $id);
                 $tpl->parseCurrentBlock();
             } else {
                 if ($title instanceof \ILIAS\UI\Component\Button\Shy) {
