@@ -148,6 +148,7 @@ class Renderer extends AbstractComponentRenderer
             include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
             array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
             array_unshift($js_files, \iljQueryUtil::getLocaljQueryPath());
+            $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
         foreach ($js_files as $js_file) {
