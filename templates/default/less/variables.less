@@ -1,46 +1,33 @@
-//== Colors
+//== Main Colors
 //
-//##
-/*		Color scheme
-		Dark BLue: #0f2152;
-		Mid Blue: #4c6586;
-		Green: #6ea03c;
-		Light Brown: #dcb496;
-		Dark Brown: #523228;
-		Orange: #fa8228;
-		External Blue: #21c5d8;
-		ILIAS 4 MainMenu Color: #c8e6ff;
-*/
-
+//## The Main Colors used in ILIAS along with their sementics
+//** For Standard Buttons, Main color used in various places
 @brand-primary:         #4c6586;
+//** For Primary Buttons, used to point to interactions with a special importance
 @brand-secondary:       #6ea03c;
+//** Used to indicate some success
 @brand-success:         #6ea03c;
+//** Used to indicate some success
 @brand-info:            #dcb496;
+//** Used to indicate some warning or to draw special focus to some element
 @brand-warning:         #fa8228;
-@brand-danger:          #fa8228;
+//** Currently same as brand warning
+@brand-danger:          @brand-warning;
 
-/** if left unchanged, you have to copy all the background images to your skin/images folder.
-* To use the delos background images in your skin,
-* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
-*/
-@background-images-path: "images/";
-
-/** if left unchanged, you have to copy delos fonts folder to your skin folder.
-* To use the delos fonts in your skin,
-* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
-*/
-@web-font-path: "fonts/";
-
+//** Main Shade of grey used in ILIAS
+@light-gray: #f9f9f9;
+//** Main Shade of grey used in ILIAS
 @mid-gray: #434343;
+//** Additional Shade of Grey from Bootstrap, in default same as main shade.
+@gray-dark: @mid-gray;
+
+//** Main Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default
 @il-primary-container-bg: white;
-@il-secondary-container-bg: #f9f9f9;
+//** Background Color for the Content Area
+@il-secondary-container-bg: @light-gray;
 
+//** Currently used for several highlighting effects, such as hovering
 @il-highlight-bg: #dfe3e6;
-/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
-/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
-/* @il-highlight-bg: lighten(#21c5d8, 40%); */
-@il-brand-3rd: #21c5d8;
-
 
 //== Extended Colors
 //
@@ -88,7 +75,7 @@
 @il-extended-text-color-factor-darker: 60%;
 
 
-//== Scaffolding
+//== Scaffolding the variables here mostly override variables set by bootstrap
 //
 //##
 @body-bg:               #f0f0f0;
@@ -139,6 +126,9 @@
 //== Typography
 //
 //##
+
+//** if left unchanged, you have to copy delos fonts folder to your skin folder. To use the delos fonts in your skin, please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
+@web-font-path: "fonts/";
 @font-family-sans-serif:  'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 
 @font-size-base:          14px;
@@ -155,13 +145,6 @@
 
 //** Controls font sizes in drop down menu.
 @il-font-size-dropdown:		ceil((@font-size-base * 1.0));
-
-
-//== Iconography
-//
-//##
-//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
-@icon-font-path:            "../../node_modules/bootstrap/fonts/";
 
 //== Components
 //
@@ -219,7 +202,7 @@
 @il-standard-page-breadcrumbs-active-color: @link-hover-color;
 @il-standard-page-breadcrumbs-divider-color: #bbb;
 @il-standard-page-breadcrumbs-font-weight: 600;
-@il-standard-page-breadcrumbs-seperator: " \e606";
+@il-standard-page-breadcrumbs-seperator: "|";
 
 
 //** mainbar
@@ -850,6 +833,11 @@
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
+
+//** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
+@icon-font-path:            "../../node_modules/bootstrap/fonts/";
+//** if left unchanged, you have to copy all the background images to your skin/images folder. To use the delos background images in your skin, please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
+@background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
 @icon-size-xsmall: 17px;
