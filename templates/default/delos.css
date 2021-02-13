@@ -7877,7 +7877,7 @@ ul.dropdown-menu > li > .btn:focus {
   color: #3a4c65;
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
-  content: "|";
+  content: " \e606";
   color: #bbb;
   padding: 8px 10px;
   font-family: "il-icons";
