@@ -4839,24 +4839,6 @@ fieldset[disabled] .navbar-inverse .btn-link:hover,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
 }
-.breadcrumb {
-  padding: 0 15px;
-  margin-bottom: 20px;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0px;
-}
-.breadcrumb > li {
-  display: inline-block;
-}
-.breadcrumb > li + li:before {
-  content: " \e606\00a0";
-  padding: 0 5px;
-  color: #557196;
-}
-.breadcrumb > .active {
-  color: #3a4c65;
-}
 .pagination {
   display: inline-block;
   padding-left: 0;
@@ -7875,6 +7857,7 @@ ul.dropdown-menu > li > .btn:focus {
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
+  background: #fff;
 }
 .breadcrumb_wrapper .breadcrumb {
   white-space: nowrap;
@@ -11490,20 +11473,6 @@ footer {
 }
 span.ilAlert {
   color: #fa8228;
-}
-/* Breadcrumb */
-.breadcrumb {
-  margin: 0.8em 0 20px 0;
-  font-size: 90%;
-}
-.breadcrumb > li + li:before {
-  font-family: 'il-icons';
-}
-@media only screen and (max-width: 768px) {
-  .breadcrumb {
-    margin: 0 0 0 0;
-    padding: 0 5px;
-  }
 }
 /* Drop Downs */
 .dropdown-header {

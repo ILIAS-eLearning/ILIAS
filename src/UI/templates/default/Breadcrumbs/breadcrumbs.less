@@ -1,6 +1,7 @@
 .breadcrumb_wrapper {
 	width: 100%;
 	display: inline-grid;
+	background: @il-standard-page-breadcrumbs-bg-color;
 
 	.breadcrumb {
 		white-space: nowrap;
@@ -9,19 +10,19 @@
 		direction: rtl;
 		text-align: left;
 		margin: 0;
-		font-weight: @breadcrumb-font-weight;
+		font-weight: @il-standard-page-breadcrumbs-font-weight;
 		font-size: @font-size-small;
 		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
 
 		span.crumb {
-			color: @breadcrumb-color;
+			color: @il-standard-page-breadcrumbs-color;
 			&:hover {
-				color: @breadcrumb-active-color;
+				color: @il-standard-page-breadcrumbs-active-color;
 			}
 		}
 
 		&>span+span:before {
-			content: @breadcrumb-separator;
+			content: @il-standard-page-breadcrumbs-seperator;
 			color: @il-standard-page-breadcrumbs-divider-color;
 			padding: 8px 10px;
 			font-family: "il-icons";
