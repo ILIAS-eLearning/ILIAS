@@ -1098,7 +1098,7 @@ body {
   font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #333333;
+  color: #434343;
   background-color: #f0f0f0;
 }
 input,
@@ -1575,7 +1575,7 @@ pre {
   line-height: 1.42857143;
   word-break: break-all;
   word-wrap: break-word;
-  color: #333333;
+  color: #434343;
   background-color: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: 0px;
@@ -2657,7 +2657,7 @@ legend {
   margin-bottom: 20px;
   font-size: 21px;
   line-height: inherit;
-  color: #333333;
+  color: #434343;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -3066,7 +3066,7 @@ select[multiple].input-lg {
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #737373;
+  color: #838383;
 }
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -3713,7 +3713,7 @@ tbody.collapse.in {
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
   text-decoration: none;
-  color: #262626;
+  color: #363636;
   background-color: #ecf0f4;
 }
 .dropdown-menu > .active > a,
@@ -5153,7 +5153,7 @@ a.thumbnail.active {
 }
 .thumbnail .caption {
   padding: 9px;
-  color: #333333;
+  color: #434343;
 }
 .alert {
   padding: 15px;
@@ -5808,7 +5808,7 @@ button.list-group-item-danger.active:focus {
   border-color: none;
 }
 .panel-default > .panel-heading {
-  color: #333333;
+  color: #434343;
   background-color: #f9f9f9;
   border-color: none;
 }
@@ -5817,7 +5817,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-default > .panel-heading .badge {
   color: #f9f9f9;
-  background-color: #333333;
+  background-color: #434343;
 }
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: none;
@@ -5826,7 +5826,7 @@ button.list-group-item-danger.active:focus {
   border-color: none;
 }
 .panel-primary > .panel-heading {
-  color: #333333;
+  color: #434343;
   background-color: white;
   border-color: none;
 }
@@ -5835,7 +5835,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-primary > .panel-heading .badge {
   color: white;
-  background-color: #333333;
+  background-color: #434343;
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: none;
@@ -7211,7 +7211,7 @@ button.close {
   border-radius: 0;
   font-size: 12px;
   border: 1px solid transparent;
-  color: #333333;
+  color: #434343;
   display: inline-block;
 }
 .il-upload-file-item.standard .remove button {
@@ -7433,7 +7433,7 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.engaged.active,
 .btn.btn-tag.engaged.active {
   background-color: white;
-  color: #333333;
+  color: #434343;
   cursor: default;
 }
 button > .glyphicon {
@@ -7585,7 +7585,7 @@ h4.il-divider {
   display: block;
   font-size: 12px;
   line-height: 1.5;
-  color: #4d4d4d;
+  color: #5d5d5d;
 }
 hr.il-divider-with-label {
   display: none;
@@ -7629,7 +7629,7 @@ ul.dropdown-menu > li > .btn {
 ul.dropdown-menu > li > .btn:hover,
 ul.dropdown-menu > li > .btn:focus {
   text-decoration: none;
-  color: #262626;
+  color: #363636;
   background-color: #ecf0f4;
 }
 .il-maincontrols-slate-content .dropdown-menu {
@@ -7877,7 +7877,7 @@ ul.dropdown-menu > li > .btn:focus {
   color: #3a4c65;
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
-  content: " \e606";
+  content: "|";
   color: #bbb;
   padding: 8px 10px;
   font-family: "il-icons";
@@ -10603,29 +10603,8 @@ footer {
   text-decoration: none;
 }
 .il-link.link-bulky .bulky-label {
-  color: #333333;
+  color: #434343;
 }
-/*		Color scheme
-		Dark BLue: #0f2152;
-		Mid Blue: #4c6586;
-		Green: #6ea03c;
-		Light Brown: #dcb496;
-		Dark Brown: #523228;
-		Orange: #fa8228;
-		External Blue: #21c5d8;
-		ILIAS 4 MainMenu Color: #c8e6ff;
-*/
-/** if left unchanged, you have to copy all the background images to your skin/images folder.
-* To use the delos background images in your skin,
-* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
-*/
-/** if left unchanged, you have to copy delos fonts folder to your skin folder.
-* To use the delos fonts in your skin,
-* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
-*/
-/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
-/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
-/* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /** headline text transform **/
 /** inline shadow of a message container **/
@@ -11500,7 +11479,7 @@ span.ilAlert {
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus {
   text-decoration: none;
-  color: #262626;
+  color: #363636;
   background-color: #ecf0f4;
 }
 .dropdown-menu img {
@@ -12187,7 +12166,7 @@ div.ilHeadAction a:hover {
 div.ilHeaderDesc {
   font-size: 90%;
   padding: 0;
-  color: #737373;
+  color: #838383;
   font-weight: 300;
 }
 div.ilHeaderAlert {
@@ -12220,7 +12199,7 @@ div.il_TreeIcons {
 }
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
-  color: #333333;
+  color: #434343;
   font-size: 90%;
 }
 a.permalink_label > span.glyphicon {
@@ -12693,7 +12672,7 @@ div.ilSideBarContent {
   color: #5d5d5d;
 }
 .ui-menu .ui-menu-item a:hover {
-  color: #262626;
+  color: #363636;
 }
 .ui-menu .ui-menu-category {
   margin: 0;
@@ -13561,7 +13540,7 @@ div.ilFrmPostHeader span.small {
   text-decoration: none;
   cursor: text;
   font-size: smaller;
-  color: #333333;
+  color: #434343;
   padding-left: 23px;
 }
 /* Services/Mail */
@@ -14726,7 +14705,7 @@ li.ilWikiBlockItem {
 }
 #ilTopNav .dropdown-menu li a:hover {
   background-color: #ecf0f4;
-  color: #262626;
+  color: #363636;
 }
 @media only screen and (max-width: 768px) {
   #ilTopNav .dropdown-menu {
@@ -15805,7 +15784,7 @@ input.ilMainMenuSearch {
   border: 0 none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  color: #333333;
+  color: #434343;
 }
 span.ilSearchHighlight {
   font-weight: bold;
@@ -18045,7 +18024,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   display: inline;
 }
 .modal-content {
-  color: #333333;
+  color: #434343;
 }
 /* Services/Badge */
 img.ilBadgeImage {
@@ -18588,7 +18567,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilLSOLearnerView .il-workflow-step-label,
 .ilLSOLearnerView .il-workflow-step-label .btn {
-  color: #333333 !important;
+  color: #434343 !important;
   cursor: default !important;
   text-decoration: none !important;
 }
@@ -18741,7 +18720,7 @@ div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdow
   padding-left: 4px;
 }
 .yui-panel-container {
-  color: #333333;
+  color: #434343;
 }
 .mceEditor,
 .mceLayout {
