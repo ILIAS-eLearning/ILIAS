@@ -19,7 +19,7 @@ function show_form_in_modal()
     $item->setRequired(true);
     $form->addItem($item);
     $form->addItem(new ilCountrySelectInputGUI('Country', 'country'));
-    $form->setFormAction("");
+    $form->setFormAction("#");
     $item = new ilHiddenInputGUI('cmd');
     $item->setValue('submit');
     $form->addItem($item);
