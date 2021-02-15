@@ -10410,8 +10410,8 @@ dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
 dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
-dcl#:#dcl_edit_entry_rules#:#Bearbeitung
-dcl#:#dcl_create_entry_rules#:#Erstellung
+dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
+dcl#:#dcl_create_entry_rules#:#Eintragserstellung
 dcl#:#dcl_tableview_copy#:#Ansicht erfolgreich kopiert
 dcl#:#dcl_tableview_default_value_fail#:#Einige numerische Standardwerte konnten nicht kopiert werden, da sich Zeichen darin befanden. Bitte versuchen Sie es erneut.
 dcl#:#dcl_tableview_add#:#Neue Ansicht hinzufügen
