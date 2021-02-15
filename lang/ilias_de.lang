@@ -13724,7 +13724,7 @@ rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#read_results#:#Umfrageergebnisse
 rbac#:#svy_read_results#:#Benutzer hat Zugriff auf alle Umfrageergebnisse
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
 crs#:#event_user_selection_include_role#:#Binde alle Benutzer der Rolle "%1$s" ein
 crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warteliste" ein
@@ -16502,3 +16502,4 @@ rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
 prg#:#auto_add_success#:#Automatismus erfolgreich hinzugefügt.
+maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup
