@@ -270,9 +270,11 @@ export default class PageUI {
         this.log("*** Component click event");
         // start editing from page state
         if (this.model.getState() === this.model.STATE_PAGE) {
-          dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
-            area.dataset.pcid,
-            area.dataset.hierid));
+          if (area.dataset.cname !== "ContentInclude") {
+            dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
+                area.dataset.pcid,
+                area.dataset.hierid));
+          }
         } else if (this.model.getState() === this.model.STATE_COMPONENT) {
 
           // Invoke switch action, if click is on other component of same type
