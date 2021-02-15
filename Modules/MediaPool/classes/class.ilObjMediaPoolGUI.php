@@ -833,7 +833,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ret = $page_gui->showPage(true);
 
         //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("MEDIA_CONTENT", $ret);
+        $tpl->setVariable("MEDIA_CONTENT", "<div>".$ret."</div>");
 
 
         $tpl->printToStdout();
