@@ -96,13 +96,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function get()
     {
         if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
-            /*
-             * @todo: This is legacy and should be removed with ILIAS 8
-             */
-            if (file_exists($file = $this->getPathToFile())) {
-                return fopen($file, 'r');
-            }
-            
             $r_id = $this->obj->getResourceId();
             $identification = $this->resource_manager->find($r_id);
             if ($this->getSize() > 0) {
@@ -153,14 +146,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getETag()
     {
-        if (file_exists($path = $this->getPathToFile())) {
-            return '"' . sha1(
-                fileinode($path) .
-                filesize($path) .
-                filemtime($path)
-            ) . '"';
-        }
-        
         if ($this->getSize() > 0) {
             return '"' . sha1(
                 $this->getSize() .
@@ -206,22 +191,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function handleFileUpload($a_data, $a_file_action)
     {
-        /**
-         * These are temporary shenanigans for ILIAS 7. Will be removed with ILIAS 8 as it will be expected that
-         * migration was run.
-         *
-         * @todo: Remove with ILIAS 8
-         */
-        if ($a_file_action != 'create' && file_exists($this->getPathToFile())) {
-            global $DIC;
-            $migration = new ilFileObjectToStorageMigrationRunner(
-                $DIC->fileSystem()->storage(),
-                $DIC->database(),
-                rtrim(CLIENT_DATA_DIR, "/") . '/ilFile/migration_log.csv'
-            );
-            $migration->migrate(new ilFileObjectToStorageDirectory($this->obj->getId(), $this->obj->getDirectory()));
-        }
-              
         $path = ilUtil::ilTempnam();
         $path_with_file = $path . '/' . $this->obj->getFileName();
         
@@ -252,24 +221,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     protected function getPathToDirectory()
     {
         return $this->obj->getDirectory($this->obj->getVersion());
-    }
-
-    /**
-     * This method only exists for legacy reasons
-     *
-     * @deprecated
-     *
-     * @throws ilFileUtilsException
-     * @return string
-     */
-    protected function getPathToFile()
-    {
-        // ilObjFile delivers the filename like it was on the upload. But if the file-extension is forbidden, the file
-        // will be safed as .sec-file. In this case ->getFileName returns the wrong file name
-        $path = $this->getPathToDirectory() . "/" . $this->obj->getFileName();
-
-        // For the case of forbidden file-extensions, ::getValidFilename($path) returns the path with the .sec extension
-        return ilFileUtils::getValidFilename($path);
     }
 
     protected function checkForVirus(string $file_dest_path)
