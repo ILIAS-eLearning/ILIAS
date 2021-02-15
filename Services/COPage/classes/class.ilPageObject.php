@@ -1926,6 +1926,11 @@ abstract class ilPageObject
         return $ret;
     }
 
+    public function getPCIdForHierId($hier_id)
+    {
+        $hier_ids = $this->getPCIdsForHierIds([$hier_id]);
+        return $hier_ids[$hier_id];
+    }
 
     /**
      * add file sizes
