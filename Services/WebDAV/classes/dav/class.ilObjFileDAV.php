@@ -18,15 +18,7 @@ use ILIAS\ResourceStorage\Consumer\Consumers;
  */
 class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
-    /**
-     * Application layer object.
-     *
-     * @var $obj ilObjFile
-     */
-    protected $obj;
-    
     protected Manager $resource_manager;
-    
     protected Consumers $resource_consumer;
 
     /**
@@ -168,8 +160,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 filemtime($path)
             ) . '"';
         }
-        
-        $r_id = $this->obj->getResourceId();
         
         if ($this->getSize() > 0) {
             return '"' . sha1(
