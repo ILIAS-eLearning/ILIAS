@@ -6057,7 +6057,7 @@ mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of syste
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
@@ -16503,3 +16503,4 @@ rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
 rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#auto_add_success#:#Add automatism successfully.
+maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
