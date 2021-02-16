@@ -15631,7 +15631,7 @@ th.ilSkillEntryHead {
   border-color: #dcb496;
 }
 .ilSkillEvalItem.ilSkillEvalType2 {
-  border-color: #21c5d8;
+  border-color: #59a0a5;
 }
 .ilSkillLevelDescription,
 .ilSkillMaterial,
@@ -15661,7 +15661,7 @@ th.ilSkillEntryHead {
   color: #dcb496;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType2 {
-  color: #21c5d8;
+  color: #59a0a5;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
   color: #6ea03c;
@@ -16835,6 +16835,10 @@ a.ilMediaLightboxClose:hover {
   width: 640px;
   max-width: 100%;
 }
+.ilLightboxContent iframe {
+  width: 100%;
+  min-height: 400px;
+}
 /* Services/Membership */
 div.ilAttendanceListPrint td,
 div.ilAttendanceListPrint th {
@@ -17441,7 +17445,7 @@ div.ilSurveyPageEditActionMenu {
   padding: 6px 12px;
 }
 .ilTag {
-  background-color: #75deea;
+  background-color: #9bc6c9;
   /* background-color: lighten(@brand-primary, 10%); */
   color: white;
   display: inline-block;
@@ -17454,19 +17458,19 @@ a.ilTag:hover,
 a.ilTag:active {
   text-decoration: none;
   color: white;
-  background-color: #60eeff;
+  background-color: #7ce1e8;
 }
 .ilTagRelHigh {
-  background-color: #85d1da;
+  background-color: #aab9ba;
 }
 .ilTagRelMiddle {
-  background-color: #95c5ca;
+  background-color: #b2b2b2;
 }
 .ilTagRelLow {
-  background-color: #a5b8ba;
+  background-color: #b2b2b2;
 }
 .ilTagRelVeryLow {
-  background-color: #b0b0b0;
+  background-color: #b2b2b2;
 }
 .ilTag.ilHighlighted {
   background-color: #ea6705;
