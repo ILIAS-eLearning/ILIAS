@@ -16815,6 +16815,10 @@ a.ilMediaLightboxClose:hover {
   width: 640px;
   max-width: 100%;
 }
+.ilLightboxContent iframe {
+  width: 100%;
+  min-height: 400px;
+}
 /* Services/Membership */
 div.ilAttendanceListPrint td,
 div.ilAttendanceListPrint th {
