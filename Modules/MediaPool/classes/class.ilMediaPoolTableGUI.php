@@ -491,7 +491,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                         $target = $med->getThumbnailTarget();
                     }
                     if ($target != "") {
-                        $this->tpl->setVariable("IMG", ilUtil::img($target));
+                        $this->tpl->setVariable("IMG", ilUtil::img(ilWACSignedPath::signFile($target)));
                     } else {
                         $this->tpl->setVariable(
                             "IMG",
