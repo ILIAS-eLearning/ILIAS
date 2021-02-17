@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\DateTime;
+
 /**
  * Base example showing how to plug date-inputs into a form
  */
@@ -9,7 +12,7 @@ function base()
     global $DIC;
 
     $ui = $DIC->ui()->factory();
-    $data = new ILIAS\Data\Factory();
+    $data = new \ILIAS\Data\Factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
     $ctrl = $DIC->ctrl();
@@ -17,7 +20,7 @@ function base()
     //Step 1: define the inputs
     $date = $ui->input()->field()->dateTime("Pick a date/time", "This is the byline text");
     $formatted = $date
-        ->withMinValue(new DateTimeImmutable())
+        ->withMinValue(new \DateTimeImmutable())
         ->withFormat($data->dateFormat()->germanShort());
     $time = $date->withTimeOnly(true);
     $both = $date->withUseTime(true);
@@ -27,8 +30,8 @@ function base()
     $timezoned = $both->withTimezone($tz)->withByline('Result-value will have TZ ' . $tz);
 
     //if you want a date converted to the timezone, do it on the date:
-    $date_now = new DateTime('now');
-    $date_zoned = new DateTime('now', new \DateTimeZone($tz));
+    $date_now = new \DateTime('now');
+    $date_zoned = new \DateTime('now', new \DateTimeZone($tz));
 
 
     //here is the usage of Data/DateFormat

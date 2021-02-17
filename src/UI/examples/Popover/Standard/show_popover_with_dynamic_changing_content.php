@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\Examples\Popover\Standard;
+
 function show_popover_with_dynamic_changing_content()
 {
     global $DIC;

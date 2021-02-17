@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Container\Form\Standard;
+
 /**
  * Example showing how constraints and transformation can be attached to a form.
  */

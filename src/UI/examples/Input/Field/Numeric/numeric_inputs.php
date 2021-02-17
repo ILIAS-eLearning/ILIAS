@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Numeric;
+
 /**
  * Base example showing how to plug a numeric input into a form
  */

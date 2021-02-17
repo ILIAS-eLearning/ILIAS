@@ -23,6 +23,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected $size = 40;
     protected $pending;
     protected $allow_deletion;
+    protected $filename_selection;
     
     protected static $check_wsp_quota;
 

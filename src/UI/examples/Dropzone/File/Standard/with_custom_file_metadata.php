@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Dropzone\File\Standard;
+
 function with_custom_file_metadata()
 {
     global $DIC;

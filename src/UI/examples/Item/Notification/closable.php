@@ -1,10 +1,13 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Item\Notification;
+
 function closable()
 {
     $close_url = $_SERVER['REQUEST_URI'] . '&mail_closed=true';
 
     //If closed, an ajax request is fired to the set close_url
-    if ($_GET['mail_closed']) {
+    if (isset($_GET['mail_closed']) && $_GET['mail_closed']) {
         //Do Some Magic needed to be done, when this item is closed.
         exit;
     }

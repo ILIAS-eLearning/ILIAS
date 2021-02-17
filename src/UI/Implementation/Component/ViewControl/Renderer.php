@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.mode.html", true, true);
 
+        $activate_first_item = false;
         $active = $component->getActive();
         if ($active == "") {
             $activate_first_item = true;

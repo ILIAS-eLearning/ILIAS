@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\LightboxImagePage;
+
 function show_multiple_images()
 {
     global $DIC;

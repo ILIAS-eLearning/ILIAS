@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Image\Standard;
+
 /**
  * Example showing how JS-Code can be attached to images.
  * In this example, an alert is poping up a soon as the image

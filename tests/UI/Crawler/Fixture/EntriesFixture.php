@@ -66,6 +66,7 @@
                 array(
                 ),
             'path' => 'src/UI/Factory',
+            'namespace' => 'ILIAS\\UI\\Factory',
         ),
     'Entry2' =>
         array(
@@ -134,5 +135,6 @@
                 array(
                 ),
             'path' => 'src/UI/Factory',
+            'namespace' => 'ILIAS\\UI\\Factory'
         ),
 );

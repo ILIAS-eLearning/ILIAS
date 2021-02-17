@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\RoundTrip;
+
 function show_form_in_modal()
 {
     global $DIC;
@@ -10,17 +13,18 @@ function show_form_in_modal()
     require_once('./Services/Form/classes/class.ilCountrySelectInputGUI.php');
 
     // Build the form
-    $form = new ilPropertyFormGUI();
+    $form = new \ilPropertyFormGUI();
+    $form->setTitle("");
+    $form->setTarget("");
     $form->setId(uniqid('form'));
-    $item = new ilTextInputGUI('Firstname', 'firstname');
+    $item = new \ilTextInputGUI('Firstname', 'firstname');
     $item->setRequired(true);
     $form->addItem($item);
-    $item = new ilTextInputGUI('Lastname', 'lastname');
+    $item = new \ilTextInputGUI('Lastname', 'lastname');
     $item->setRequired(true);
     $form->addItem($item);
-    $form->addItem(new ilCountrySelectInputGUI('Country', 'country'));
-    $form->setFormAction("#");
-    $item = new ilHiddenInputGUI('cmd');
+    $form->setFormAction("");
+    $item = new \ilHiddenInputGUI('cmd');
     $item->setValue('submit');
     $form->addItem($item);
 

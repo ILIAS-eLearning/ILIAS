@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Link\Bulky;
+
 //The Bulky Links in this example point to ilias.de
 //Note the exact look of the Bulky Links is mostly defined by the
 //surrounding container.

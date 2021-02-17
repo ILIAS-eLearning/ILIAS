@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\MessageBox\Confirmation;
+
 function confirmation()
 {
     global $DIC;

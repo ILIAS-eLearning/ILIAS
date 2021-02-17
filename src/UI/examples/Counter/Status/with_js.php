@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Counter\Status;
+
 /**
  * Note, counters also offer an interface for manipulations through JS.
  * Checkout: src/UI/templates/js/Counter/counter.js for a complete spec.

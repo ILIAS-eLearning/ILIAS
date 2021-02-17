@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Group;
+
 /**
  * Example showing how disabled groups can be used.
  */

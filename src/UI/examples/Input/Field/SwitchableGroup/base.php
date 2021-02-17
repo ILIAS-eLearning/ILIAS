@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\SwitchableGroup;
+
 /**
  * Example showing how a dependant group (aka sub form) might be attached to a radio.
  */
