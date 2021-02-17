@@ -9101,7 +9101,7 @@ iass#:#iass_membership_saved#:#Bewertung wurde gespeichert aber noch nicht final
 iass#:#iass_mess_notification_completed#:#Sie haben die Prüfung „%s“ bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_mess_notification_failed#:#Sie haben die Prüfung „%s“ leider nicht bestanden. Beachten Sie bitte auch die folgende Notiz zur Prüfung.
 iass#:#iass_no_entries#:#Keine Einträge gefunden
-iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
+iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_notify_explanation#:#Der Teilnehmer wird nach Abschluss der Bewertung per E-Mail benachrichtigt und kann die Prüfungsnotiz auf der Info-Seite einsehen.
 iass#:#iass_phone#:#Telefon
 iass#:#iass_place#:#Ort der Prüfung
