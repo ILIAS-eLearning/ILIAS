@@ -14146,7 +14146,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
