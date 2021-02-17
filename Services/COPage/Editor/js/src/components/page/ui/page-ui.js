@@ -178,7 +178,7 @@ export default class PageUI {
           this.log("add dropdown: click");
           this.log(model);
 
-          const pasting = this.uiModel.pasting;
+          const pasting = model.isPasting();
 
           if (pasting) {
             li = li_templ.cloneNode(true);
