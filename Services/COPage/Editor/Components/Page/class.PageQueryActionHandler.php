@@ -111,7 +111,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->confirmation = $this->getConfirmationTemplate();
         $o->autoSaveInterval = $this->getAutoSaveInterval();
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
-        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"]));
+        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
+            count($this->user->getPCClipboardContent()) > 0;
         return new Server\Response($o);
     }
 
