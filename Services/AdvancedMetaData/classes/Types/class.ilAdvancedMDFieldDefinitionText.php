@@ -275,7 +275,6 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     //
     // search
     //
-    
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
     {
         return $a_adt_search->getADT()->getText();
@@ -328,7 +327,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public function searchObjects(ilADTSearchBridge $a_adt_search, ilQueryParser $a_parser, array $a_object_types, $a_locate, $a_search_type)
     {
         // :TODO: search type (like, fulltext)
-        
+
         include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');
         $condition = $a_adt_search->getSQLCondition(
             ilADTActiveRecordByType::SINGLE_COLUMN_NAME,
@@ -336,11 +335,16 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
             $a_parser->getQuotedWords()
         );
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);
-            if (sizeof($objects)) {
+            $objects = ilADTActiveRecordByType::find(
+                'adv_md_values',
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition,
+                $a_locate);
+            if (isset($objects) && count($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }
-            return array();
+            return [];
         }
     }
 }

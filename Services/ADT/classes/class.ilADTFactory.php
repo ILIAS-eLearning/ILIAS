@@ -179,6 +179,10 @@ class ilADTFactory
         
         if ($a_multi) {
             try {
+                if ($a_adt_def->getType() == 'MultiEnum') {
+                    $class = $this->initTypeClass('Enum','SearchBridgeMulti');
+                    return new $class($a_adt_def);
+                }
                 $class = $this->initTypeClass($a_adt_def->getType(), "SearchBridgeMulti");
                 return new $class($a_adt_def);
             } catch (Exception $e) {

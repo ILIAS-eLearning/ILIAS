@@ -160,7 +160,7 @@ class ilSystemFolderSetupConfig implements Setup\Config
 
     public function getContactCity() : ?string
     {
-        return $this->client_name;
+        return $this->contact_city;
     }
 
     public function getContactCountry() : ?string

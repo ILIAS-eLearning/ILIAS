@@ -77,7 +77,7 @@ class ilExportImportDirectory extends ilImportDirectory
     protected function matchesType(string $type, string $filename) : bool
     {
         $matches = [];
-        $result = preg_match('/[0-9]{10}__[0-9]{3,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
+        $result = preg_match('/[0-9]{10}__[0-9]{1,6}__([a-z]{1,4})_[0-9]{2,9}.zip/', $filename, $matches);
         if (!$result) {
             return false;
         }

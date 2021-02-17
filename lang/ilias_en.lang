@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2020 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -25,7 +25,7 @@ meta#:#md_aria_language_selection#:#Language Selection
 meta#:#md_adv_int_current#:#Current Language:
 meta#:#md_adv_int_default#:#Default Language:
 meta#:#md_adv_int_translation_info#:#Translation:
-meta#:#md_adn_int_error_no_default#:#Please select on activated language als "Default-Language".
+meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 sess#:#sess_title#:#Title of Session
 rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
@@ -56,6 +56,7 @@ common#:#obj_nots#:#Notes
 note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Enable Comments
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
@@ -2526,6 +2527,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login or Password
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.
 common#:#err_wrong_password#:#Wrong Password
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
@@ -3769,7 +3771,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -4695,7 +4697,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link
+content#:#cont_text_iln_link#:#Interal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -7132,6 +7134,7 @@ sahs#:#sahs_sco_objective#:#Objectives
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
+search#:#search_field#:#Search Input Field
 search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
@@ -11385,6 +11388,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -11987,6 +11992,8 @@ content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, wh
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
+administration#:#adm_auth_reg#:#Authentication Registration
+administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
@@ -12990,7 +12997,8 @@ style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 cron#:#cron_result_status_fail#:#Failed
-content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
+content#:#cont_link_user#:#User Profile
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply
@@ -15031,7 +15039,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#select_parent#:#Select Parent
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
-mme#:#confirm_move#:#Would you like to move this Item to Top Items?
+mme#:#confirm_move#:#Would you like to move this item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
@@ -16088,7 +16096,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
-prg#:#category#:#Category RefId
+prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
 prg#:#prgr_new#:#Create Study Programme Link
@@ -16411,7 +16419,6 @@ adn#:#msg_form_button_reset#:#Reset
 adn#:#msg_form_button_delete#:#Delete
 adn#:#msg_form_button_cancel#:#Cancel
 adn#:#msg_success_deleted#:#Notification sucessfully deletrd
-content#:#cont_link_user#:#User Link
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
@@ -16437,4 +16444,54 @@ mob#:#mob_upload_file#:#Upload File
 mob#:#mob_external_url#:#External URL
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
+common#:#objs_prgr#:#Links to Study Programmes
+rbac#:#prgr_copy#:#User can copy links to study programmes.
+rbac#:#prgr_delete#:#User can move or delete links to study programmes.
+rbac#:#prgr_edit_permission#:#User can change permission settings.
+rbac#:#prgr_visible#:#Links to study programmes are visible and can be used
+rbac#:#prgr_write#:#User can edit settings of links to study programmes.
+rbac#:#rbac_create_prgr#:#Create link to study programme
+rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.
+rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.
+rbac#:#adn_write#:#User can add and edit Administrative Notifications.
+rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications' administration.
+rbac#:#coms_visible#:#Administration of Comments is visible.
+rbac#:#coms_read#:#User has read access to administration of Comments.
+rbac#:#coms_write#:#User can edit settings of administration of Comments.
+rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
+rbac#:#cpad_visible#:#Administration of Content Pages is visible.
+rbac#:#cpad_read#:#User has read access to administration of Content Pages.
+rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.
+rbac#:#cpad_edit_permissions#:#User can change permission settings of administration of Content Pages.
+rbac#:#fils_visible#:#Administration of File Services is visible.
+rbac#:#fils_read#:#User has read access to File Services administration.
+rbac#:#fils_write#:#User can edit and configure File Services.
+rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.
+rbac#:#lhts_visible#:#Administration of Learning History is visible.
+rbac#:#lhts_read#:#User has read access to Learning History administration.
+rbac#:#lhts_write#:#User can edit settings of Learning History administration.
+rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.
+rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.
+rbac#:#lsos_read#:#User has read access to Learning Sequences administration.
+rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.
+rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.
+rbac#:#nots_visible#:#Administration of Notes is visible.
+rbac#:#nots_read#:#User has read access to Notes administration.
+rbac#:#nots_write#:#User can edit settings of Notes administration.
+rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.
+rbac#:#prss_visible#:#Administration of Personal Resources is visible.
+rbac#:#prss_read#:#User has read access to Personal Resources administration.
+rbac#:#prss_write#:#User can edit settings of Personal Resources administration.
+rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.
+rbac#:#push_desktop_items#:#Recommend Content
+rbac#:#wbdv_visible#:#Administration of WebDAV is visible.
+rbac#:#wbdv_read#:#User has read access to WebDAV administration.
+rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.
+rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.
+rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
+rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
+rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
+rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
+prg#:#no_srctype_or_id#:#Id and type may not be empty.
+prg#:#auto_add_success#:#Add automatism successfully.

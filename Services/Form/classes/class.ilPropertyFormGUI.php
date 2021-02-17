@@ -77,6 +77,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected $check_input_called = false;
     protected $disable_standard_message = false;
     protected $top_anchor = "il_form_top";
+    protected $title = '';
     protected $titleicon = false;
     protected $description = "";
     protected $tbl_width = false;
@@ -584,7 +585,7 @@ class ilPropertyFormGUI extends ilFormGUI
             die("Error: ilPropertyFormGUI->getInput() called without calling checkInput() first.");
         }
         
-        return $_POST[$a_post_var];
+        return $_POST[$a_post_var] ?? '';
     }
     
     /**

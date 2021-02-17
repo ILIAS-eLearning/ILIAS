@@ -141,32 +141,42 @@ class ilWACPath
             }
         }
 
-        $moduleId = strstr(is_null($result['module_identifier']) ? '' : $result['module_identifier'], "/", true);
+        $moduleId = strstr(
+            !isset($result['module_identifier']) || is_null($result['module_identifier']) ? '' : $result['module_identifier'],
+            '/',
+            true
+        );
         $moduleId = $moduleId === false ? '' : $moduleId;
 
-        $this->setPrefix(is_null($result['prefix']) ? '' : $result['prefix']);
-        $this->setClient(is_null($result['client']) ? '' : $result['client']);
-        $this->setAppendix(is_null($result['appendix']) ? '' : $result['appendix']);
+        $this->setPrefix(!isset($result['prefix']) || is_null($result['prefix']) ? '' : $result['prefix']);
+        $this->setClient(!isset($result['client']) || is_null($result['client']) ? '' : $result['client']);
+        $this->setAppendix(!isset($result['appendix']) || is_null($result['appendix']) ? '' : $result['appendix']);
         $this->setModuleIdentifier($moduleId);
-        $this->setModuleType(is_null($result['module_type']) ? '' : $result['module_type']);
+        $this->setModuleType(!isset($result['module_type']) || is_null($result['module_type']) ? '' : $result['module_type']);
 
         $modulePath = null;
 
         if ($this->getModuleIdentifier()) {
-            $modulePath = strstr(is_null($result['module_path']) ? '' : $result['module_path'], $this->getModuleIdentifier(), true);
+            $modulePath = strstr(
+                !isset($result['module_path']) || is_null($result['module_path']) ? '' : $result['module_path'],
+                $this->getModuleIdentifier(),
+                true
+            );
             $modulePath = '.' . ($modulePath === false ? '' : $modulePath);
         } else {
-            $modulePath = ('.' . (is_null($result['module_path']) ? '' : $result['module_path']));
+            $modulePath = ('.' . (!isset($result['module_path']) || is_null($result['module_path']) ? '' : $result['module_path']));
         }
 
         $this->setModulePath("$modulePath");
-        $this->setInSecFolder($result['sec'] === 'sec/');
-        $this->setPathWithoutQuery('.'
-                                   . (is_null($result['path_without_query']) ? '' : $result['path_without_query']));
-        $this->setPath('.' . (is_null($result['path']) ? '' : $result['path']));
-        $this->setSecurePath('.'
-                             . (is_null($result['secure_path_id']) ? '' : $result['secure_path_id']));
-        $this->setSecurePathId(is_null($result['module_type']) ? '' : $result['module_type']);
+        $this->setInSecFolder(isset($result['sec']) && $result['sec'] === 'sec/');
+        $this->setPathWithoutQuery(
+            '.' . (!isset($result['path_without_query']) || is_null($result['path_without_query']) ? '' : $result['path_without_query'])
+        );
+        $this->setPath('.' . (!isset($result['path']) || is_null($result['path']) ? '' : $result['path']));
+        $this->setSecurePath(
+            '.' . (!isset($result['secure_path_id']) || is_null($result['secure_path_id']) ? '' : $result['secure_path_id'])
+        );
+        $this->setSecurePathId(!isset($result['module_type']) || is_null($result['module_type']) ? '' : $result['module_type']);
         // Pathinfo
         $parts = parse_url($path);
         $this->setFileName(basename($parts['path']));

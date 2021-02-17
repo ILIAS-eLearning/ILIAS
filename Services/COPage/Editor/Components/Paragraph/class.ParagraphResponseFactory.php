@@ -96,6 +96,7 @@ class ParagraphResponseFactory
     {
         $page_gui->setRawPageContent(true);
         $page_gui->setAbstractOnly(true, $pcid);
+        $page_gui->setOutputMode(\ilPageObjectGUI::PRESENTATION);
         $html = $page_gui->showPage();
 
         $pos = strpos($html, "<!--COPage-PageTop-->");

@@ -523,6 +523,8 @@ class ilGlossaryPresentationGUI
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilErr = $this->error;
+        $tpl = $this->tpl;
+
         if ($a_ref_id == 0) {
             $ref_id = (int) $this->requested_ref_id;
         } else {
@@ -546,8 +548,6 @@ class ilGlossaryPresentationGUI
         $term = new ilGlossaryTerm($term_id);
         
         if (!$a_get_html) {
-            $tpl = $this->tpl;
-
             $tpl->loadStandardTemplate();
 
             $this->setContentStyles();

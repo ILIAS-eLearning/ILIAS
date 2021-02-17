@@ -31,7 +31,7 @@ ILIAS is a powerful Open Source Learning Management System for developing and re
    1. [WebDAV Configuration \(OPTIONAL\)](#webdav-configuration-optional)
    1. [Install other Depedencies](#install-other-depedencies)
       1. [Optional Dependencies](#optional-dependencies)
-   1. [Installation Wizard](#installation-wizard)
+   1. [Installation](#installation)
    1. [Configure ILIAS Java RPC server \(OPTIONAL\)](#configure-ilias-java-rpc-server-optional)
 1. [Hardening and Security Guidance](#hardening-and-security-guidance)
 1. [Customizing ILIAS](#customizing-ilias)
@@ -457,17 +457,12 @@ Depending on your use case, you MAY want to install further dependencies (exact 
 
 Please ensure that the phantomjs version you use is at least 2.0.0. Please note that phantomjs development has been suspended until further notice. See https://github.com/ariya/phantomjs/issues/15344 for details.
 
-<a name="installation-wizard"></a>
-## Installation Wizard
+<a name="installation"></a>
+## Installation
 
-After having all dependencies installed and configured you should be able to run the ILIAS Installation Wizard using http://yourservername.org/setup/setup.php
+After having all dependencies installed and configured you should be able to run the ILIAS CLI-Setup.
 
-Make sure to reload your Apache configuration before entering the Wizard. Otherwise there are unmet dependencies in the setup (like XLS and GD are both installed but ILIAS does not see them, yet).
-
-<a name="configure-ilias-java-rpc-server-optional"></a>
-## Configure ILIAS Java RPC server (OPTIONAL)
-
-The ILIAS Java RPC server is used for certain OPTIONAL functions as Lucene Search or generating PDF Certificates. To enable the RPC server you need to place a configuration file in ```<YOUR_ILIAS_DIR>/Services/WebServices/RPC/lib/ilServer.properties```:
+See [ILIAS Installation](../../setup/README.md) for details on how to use the CLI-Setup.
 
 ```
 [Server]
@@ -580,7 +575,8 @@ As a last step you should log in with a User using your custom skin. If everythi
 <a name="database-update"></a>
 ## Database Update
 
-A Database Updates MUST be done for both minor and major updates. Open the ILIAS Installation Wizard (e.g. http://yourservername.org/setup/setup.php) to check and apply the needed updates and/or hotfixes.
+A Database Updates MUST be done for both minor and major updates.
+See [Ilias Installation](../../setup/README.md) for details on how to use the CLI-Setup to update your ILIAS installation.
 
 The update process usually will be splitted into several runs to avoid timeouts. Each update step can take quite some time without huge load peaks on your PHP/Database processes. To check which update step gets currently executed run the following SQL-Statement on your ILIAS database: ```SELECT * FROM `settings` WHERE keyword = "db_update_running"```
 

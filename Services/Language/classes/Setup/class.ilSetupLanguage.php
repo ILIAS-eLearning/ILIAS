@@ -107,40 +107,6 @@ class ilSetupLanguage extends ilLanguage
         $il_absolute_path = realpath(dirname(__FILE__) . '/../../../../');
         $this->lang_path = $il_absolute_path . "/lang";
         $this->cust_lang_path = $il_absolute_path . "/Customizing/global/lang";
-
-        // set lang file...
-        $txt = file($this->lang_path . "/setup_lang_sel_multi.lang");
-
-        // ...and load langdata
-        if (is_array($txt)) {
-            foreach ($txt as $row) {
-                if ($row[0] != "#") {
-                    $a = explode($this->separator, trim($row));
-                    if (count($a) == 2) {
-                        $this->text[trim($a[0])] = trim($a[1]);
-                    }
-                }
-            }
-        }
-
-        // set lang file...
-        $txt = file($this->lang_path . "/setup_" . $this->lang_key . ".lang");
-
-        // ...and load langdata
-        if (is_array($txt)) {
-            foreach ($txt as $row) {
-                if ($row[0] != "#") {
-                    $a = explode($this->separator, trim($row));
-                    if (count($a) == 2) {
-                        $this->text[trim($a[0])] = trim($a[1]);
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        return false;
     }
     
     /**
@@ -175,32 +141,6 @@ class ilSetupLanguage extends ilLanguage
         } else {
             return $translation;
         }
-    }
-
-    /**
-     * get all setup languages in the system
-     *
-     * the functions looks for setup*.lang-files in the languagedirectory
-     * @access   public
-     * @return   array   langs
-     */
-    public function getLanguages()
-    {
-        $d = dir($this->lang_path);
-        $tmpPath = getcwd();
-        chdir($this->lang_path);
-
-        // get available setup-files
-        while ($entry = $d->read()) {
-            if (is_file($entry) && (preg_match('/(^setup_.{2}\.lang$)/', $entry))) {
-                $lang_key = substr($entry, 6, 2);
-                $languages[] = $lang_key;
-            }
-        }
-
-        chdir($tmpPath);
-
-        return $languages;
     }
 
     /**
@@ -761,8 +701,6 @@ class ilSetupLanguage extends ilLanguage
 
     public function getInstallableLanguages()
     {
-        $setup_langs = $this->getLanguages();
-
         $d = dir($this->lang_path);
         $tmpPath = getcwd();
         chdir($this->lang_path);
@@ -774,8 +712,6 @@ class ilSetupLanguage extends ilLanguage
                 $languages1[] = $lang_key;
             }
         }
-        
-        //$languages = array_intersect($languages1,$setup_langs);
 
         chdir($tmpPath);
 

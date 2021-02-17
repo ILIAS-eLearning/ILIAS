@@ -150,7 +150,8 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint
-            if ($_REQUEST["baseClass"] !== "ilImprintGUI" && \ilImprint::isActive()) {
+            $baseClass = (string) ($_REQUEST["baseClass"] ?? '');
+            if ($baseClass !== "ilImprintGUI" && \ilImprint::isActive()) {
                 $imprint_title = $this->dic->language()->txt("imprint");
                 $imprint_url = \ilLink::_getStaticLink(0, "impr");
                 $links[] = $f->link()->standard($imprint_title, $imprint_url);

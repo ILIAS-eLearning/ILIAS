@@ -43,6 +43,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
         (new \InitUIFramework())->init($this->dic);
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
+
         $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->setMethods([
             "getFormActionByClass","setParameterByClass","saveParameterByClass","initBaseClass","getLinkTargetByClass"
         ])->getMock();

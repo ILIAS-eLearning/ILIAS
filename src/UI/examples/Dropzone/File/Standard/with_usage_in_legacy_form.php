@@ -9,7 +9,6 @@ function with_usage_in_legacy_form()
     $form->setId('myUniqueFormId');
     $form->setTitle('Form');
     $form->setFormAction($_SERVER['REQUEST_URI'] . '&example=6');
-    $form->setTarget("");
     $form->setPreventDoubleSubmission(false);
     $flag = new \ilHiddenInputGUI('submitted');
     $flag->setValue('1');
@@ -20,9 +19,8 @@ function with_usage_in_legacy_form()
     $item = new \ilTextareaInputGUI('Description', 'description');
     $item->setRequired(true);
     $form->addItem($item);
-    $item = new \ilFileStandardDropzoneInputGUI('Files', 'files');
+    $item = new \ilFileStandardDropzoneInputGUI('cancel', 'Files', 'files');
     $item->setUploadUrl($form->getFormAction());
-    $item->enableFileNameSelection('user_files');
     $item->setSuffixes([ 'jpg', 'gif', 'png', 'pdf' ]);
     $item->setInfo('Allowed file types: ' . implode(', ', $item->getSuffixes()));
     $item->setDropzoneMessage('For the purpose of this demo, any PDF file will fail to upload');
@@ -54,7 +52,7 @@ function with_usage_in_legacy_form()
         } else {
             $form->setValuesByPost();
         }
-        ilUtil::sendSuccess('Form processed successfully');
+        \ilUtil::sendSuccess('Form processed successfully');
     }
 
     return $form->getHTML();

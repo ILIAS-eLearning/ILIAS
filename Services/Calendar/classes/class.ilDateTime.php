@@ -427,7 +427,7 @@ class ilDateTime
                     throw new ilDateTimeException('Cannot parse date: ' . $a_date);
                 }
                 
-                $tz_id = ($d_parts[9] == 'Z')
+                $tz_id = (isset($d_parts[9]) && $d_parts[9] === 'Z')
                     ? 'UTC'
                     : $this->getTimeZoneIdentifier();
                 $this->dt_obj = $this->parsePartsToDate(

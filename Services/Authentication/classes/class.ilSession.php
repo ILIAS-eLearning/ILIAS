@@ -80,6 +80,9 @@ class ilSession
             $ilDB->quote($a_session_id, "text");
         $set = $ilDB->query($q);
         $rec = $ilDB->fetchAssoc($set);
+        if (!is_array($rec)) {
+            return '';
+        }
     
         // fix for php #70520
         return (string) $rec["data"];
@@ -135,11 +138,11 @@ class ilSession
 
         // prepare session data
         $fields = array(
-            "user_id" => array("integer", (int) $_SESSION['_authsession_user_id']),
+            "user_id" => array("integer", (int) ($_SESSION['_authsession_user_id'] ?? 0)),
             "expires" => array("integer", self::getExpireValue()),
             "data" => array("clob", $a_data),
             "ctime" => array("integer", $now),
-            "type" => array("integer", (int) $_SESSION["SessionType"])
+            "type" => array("integer", (int) ($_SESSION["SessionType"] ?? 0))
             );
         if ($ilClientIniFile->readVariable("session", "save_ip")) {
             $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
@@ -431,27 +434,24 @@ class ilSession
     {
         $_SESSION[$a_var] = $a_val;
     }
-    
+
     /**
-     * Get a value
-     *
-     * @param
-     * @return
+     * @param string$a_var
+     * @return mixed|null
      */
-    public static function get($a_var)
+    public static function get(string $a_var)
     {
-        return $_SESSION[$a_var];
+        return $_SESSION[$a_var] ?? null;
     }
-    
+
     /**
-     * Unset a value
-     *
-     * @param
-     * @return
+     * @param string $a_var
      */
-    public static function clear($a_var)
+    public static function clear(string $a_var) : void
     {
-        unset($_SESSION[$a_var]);
+        if (isset($_SESSION[$a_var])) {
+            unset($_SESSION[$a_var]);
+        }
     }
     
     /**

@@ -40,7 +40,7 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd.drop":
+      case "dnd.stopped":
         this.model.setState(this.model.STATE_PAGE);
         break;
 

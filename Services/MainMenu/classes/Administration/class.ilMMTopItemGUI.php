@@ -87,6 +87,8 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
                 break;
             case self::CMD_SELECT_PARENT:
                 $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_TOP_ITEMS, true, self::class);
+                $this->access->checkAccessAndThrowException('write');
+                return $this->selectParent();
             case self::CMD_FLUSH:
                 $this->access->checkAccessAndThrowException('write');
                 $this->flush();
@@ -305,7 +307,6 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
         $form = $this->getMoveForm();
 
         return $this->ui->renderer()->render($form);
-
     }
 
     private function move() : void

@@ -135,7 +135,7 @@ class ilCachedCtrl
      */
     public function lookupModuleClass($class)
     {
-        return $this->module_classes[$class];
+        return ($this->module_classes[$class] ?? '');
     }
 
 
@@ -168,7 +168,7 @@ class ilCachedCtrl
      */
     public function lookupCall($parent)
     {
-        if (is_array($this->ctrl_calls[$parent])) {
+        if (isset($this->ctrl_calls[$parent]) && is_array($this->ctrl_calls[$parent])) {
             return $this->ctrl_calls[$parent];
         } else {
             return array();

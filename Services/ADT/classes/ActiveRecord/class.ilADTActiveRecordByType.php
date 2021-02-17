@@ -88,7 +88,8 @@ class ilADTActiveRecordByType
     protected static function getTablesMap()
     {
         return array(
-            "text" => array("Text", "Enum", "MultiEnum"),
+            'text' => ['Text'],
+            'enum' => ['Enum', 'MultiEnum'],
             "int" => array("Integer"),
             "float" => array("Float"),
             "date" => array("Date"),
@@ -164,6 +165,12 @@ class ilADTActiveRecordByType
                 return [
                     $a_element_id . '_language' => $a_row['value_index'],
                     $a_element_id . '_translation' => $a_row['value']
+                ];
+                break;
+
+            case 'enum':
+                return [
+                    $a_element_id => $a_row['value_index']
                 ];
                 break;
 
@@ -298,14 +305,21 @@ class ilADTActiveRecordByType
                     $fields = array();
                     $element->prepareUpdate($fields);
 
-                    if (sizeof($fields) == 1) {
+                    // @todo add configuration for types not supporting default 'value' column
+                    // DONE
+                    if ($element->supportsDefaultValueColumn()) {
                         $tmp[$table][$element_id][self::SINGLE_COLUMN_NAME] = $fields[$element_id];
                     } else {
+                        $tmp[$table][$element_id] = [];
                         foreach ($fields as $key => $value) {
                             $key = substr($key, strlen($element_id) + 1);
+                            // @todo other implementation required
                             if (substr($table, -8) == "location") {
                                 // long is reserved word
                                 $key = "loc_" . $key;
+                            }
+                            if (substr($table, -4) == 'enum') {
+                                $key = 'value_index';
                             }
                             $tmp[$table][$element_id][$key] = $value;
                         }
@@ -317,32 +331,35 @@ class ilADTActiveRecordByType
                 }
             }
         }
-        
+
         // update/insert in sub tables
         if (sizeof($tmp)) {
             foreach ($tmp as $table => $elements) {
 
                 foreach ($elements as $element_id => $fields) {
-                    if (isset($existing[$table][$element_id])) {
-                        // update
-                        $primary = $this->properties->getPrimary();
-                        $primary[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
-                        unset($existing[$table][$element_id]);
-                        $ilDB->update($table, $fields, $primary);
-                    } else {
-                        // insert
-                        $fields[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
-                        $fields = array_merge($this->properties->getPrimary(), $fields);
-                        $ilDB->insert($table, $fields);
-                    }
 
+                    if (is_array($fields) && count($fields)) {
+                        if (isset($existing[$table][$element_id])) {
+                            // update
+                            $primary = $this->properties->getPrimary();
+                            $primary[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
+                            $ilDB->update($table, $fields, $primary);
+                        } else {
+                            // insert
+                            $fields[$this->getElementIdColumn()] = array($this->element_column_type, $element_id);
+                            $fields = array_merge($this->properties->getPrimary(), $fields);
+                            $ilDB->insert($table, $fields);
+                        }
+                    }
                     $this->properties->afterUpdateElement(
                         ilDBConstants::T_INTEGER,
                         'field_id',
                         (int) $element_id
                     );
 
-
+                    if (isset($existing[$table][$element_id])) {
+                        unset($existing[$table][$element_id]);
+                    }
                 }
             }
         }
@@ -350,7 +367,7 @@ class ilADTActiveRecordByType
         if (sizeof($existing)) {
             foreach ($existing as $table => $element_ids) {
                 if ($element_ids) {
-                    $ilDB->manipulate("DELETE FROM " . $table .
+                    $ilDB->manipulate($q = "DELETE FROM " . $table .
                         " WHERE " . $this->properties->buildPrimaryWhere() .
                         " AND " . $ilDB->in($this->getElementIdColumn(), $element_ids, "", $this->element_column_type));
                 }
@@ -423,7 +440,7 @@ class ilADTActiveRecordByType
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // using DB only, no object instances required
         
         $where = self::buildPartialPrimaryWhere($a_primary);
@@ -559,7 +576,16 @@ class ilADTActiveRecordByType
                             $fields["loc_long"] = array("float", $row["loc_long"]);
                             $fields["loc_zoom"] = array("integer", $row["loc_zoom"]);
                             break;
-                                                        
+
+                        case 'ltext':
+                            $fields['value_index'] = [ilDBConstants::T_TEXT, $row['value_index']];
+                            $fields['value'] = [ilDBConstants::T_TEXT, $row['value']];
+                            break;
+
+                        case 'enum':
+                            $fields['value_index'] = [ilDBConstants::T_INTEGER, $row['value_index']];
+                            break;
+
                         default:
                             $fields[self::SINGLE_COLUMN_NAME] = array($type_map[$table], $row[self::SINGLE_COLUMN_NAME]);
                             break;
@@ -634,7 +660,47 @@ class ilADTActiveRecordByType
         
         return $res;
     }
-    
+
+    /**
+     * @param string $table
+     * @param array  $fields
+     * @param string $type
+     */
+    public static function create(string $table, array $fields, string $type)
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $type_table_name = '';
+        foreach (self::getTablesMap() as $type_table_part => $types) {
+            if (in_array($type, $types)) {
+                $type_table_name = $type_table_part;
+                break;
+            }
+        }
+        if (!strlen($type_table_name)) {
+            return;
+        }
+        $table_name = $table . '_' . $type_table_name;
+
+        $insert = 'insert into ' . $table_name . ' ( ';
+        $cols = [];
+        foreach ($fields as $col => $field_definition) {
+            $cols[] = $col;
+        }
+        $insert .= implode(',', $cols);
+        $insert .= ') VALUES ( ';
+        $values = [];
+        foreach ($fields as $col => $field_definition) {
+            $values[] = $db->quote($field_definition[1], $field_definition[0]);
+        }
+        $insert .= implode(',', $values);
+        $insert .= ' )';
+
+        $db->manipulate($insert);
+    }
+
     /**
      * Write directly
      *
@@ -666,9 +732,12 @@ class ilADTActiveRecordByType
         }
         if ($found) {
             $type_map = self::getTableTypeMap();
-            
+            $value_col = self::SINGLE_COLUMN_NAME;
+            if ($found == 'enum') {
+                $value_col = 'value_index';
+            }
             $sql = "UPDATE " . $a_table . "_" . $found .
-                " SET " . self::SINGLE_COLUMN_NAME . "=" . $ilDB->quote($a_value, $type_map[$found]) .
+                " SET " . $value_col . "=" . $ilDB->quote($a_value, $type_map[$found]) .
                 " WHERE " . $where;
             $ilDB->manipulate($sql);
         }
@@ -709,7 +778,7 @@ class ilADTActiveRecordByType
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
                 $objects[] = $row;
             }
-            
+
             return $objects;
         }
     }

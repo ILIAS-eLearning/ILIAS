@@ -327,7 +327,7 @@ class ilPageContentGUI
         //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));
         
         //		$btpl->setVariable("TXT_CODE", $this->lng->txt("cont_text_code"));
-        $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
+        $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln_link"));
         $lng->toJS("cont_text_iln");
         //		$btpl->setVariable("TXT_XLN", $this->lng->txt("cont_text_xln"));
         //		$btpl->setVariable("TXT_TEX", $this->lng->txt("cont_text_tex"));

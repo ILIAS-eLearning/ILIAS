@@ -109,6 +109,9 @@ class ilObjUser extends ilObject
     public $login_attempts;
 
     public $user_defined_data = array();
+
+    /** @var array<string, string> */
+    protected $oldPrefs = [];
     
     /**
     * Contains variable Userdata (Prefs, Settings)
@@ -267,25 +270,28 @@ class ilObjUser extends ilObject
             //get userpreferences from usr_pref table
             $this->readPrefs();
 
-            //set language to default if not set
-            if ($this->prefs["language"] == "") {
-                $this->prefs["language"] = $this->oldPrefs["language"];
+            if (!isset($this->prefs['language']) || $this->prefs['language'] === '') {
+                $this->prefs['language'] = $this->oldPrefs['language'] ?? '';
             }
 
-            //check skin-setting
-            include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
-            if ($this->prefs["skin"] == "" ||
-                    !ilStyleDefinition::skinExists($this->prefs["skin"])) {
-                $this->prefs["skin"] = $this->oldPrefs["skin"];
+            if (
+                !isset($this->prefs['skin']) || $this->prefs['skin'] === '' ||
+                !ilStyleDefinition::skinExists($this->prefs['skin'])
+            ) {
+                $this->prefs['skin'] = $this->oldPrefs['skin'] ?? '';
             }
 
             $this->skin = $this->prefs["skin"];
 
-            //check style-setting (skins could have more than one stylesheet
-            if ($this->prefs["style"] == "" ||
-                    (!ilStyleDefinition::skinExists($this->skin) && ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs["style"]))) {
-                //load default (css)
-                $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
+            if (
+                !isset($this->prefs['style']) ||
+                $this->prefs['style'] == '' ||
+                (
+                    !ilStyleDefinition::skinExists($this->skin) &&
+                    ilStyleDefinition::styleExistsForSkinId($this->skin, $this->prefs['style'])
+                )
+            ) {
+                $this->prefs['style'] = $this->ilias->ini->readVariable('layout', 'style');
             }
 
             if (empty($this->prefs["hits_per_page"])) {
@@ -2084,9 +2090,9 @@ class ilObjUser extends ilObject
      * returns the current language (may differ from user's pref setting!)
      *
      */
-    public function getCurrentLanguage()
+    public function getCurrentLanguage() : string
     {
-        return $_SESSION['lang'];
+        return (string) ilSession::get('lang');
     }
 
     /**
@@ -2096,7 +2102,7 @@ class ilObjUser extends ilObject
      */
     public function setCurrentLanguage($a_val)
     {
-        $_SESSION['lang'] = $a_val;
+        ilSession::set('lang', $a_val);
     }
 
     /**

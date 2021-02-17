@@ -1,6 +1,7 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Provider;
+<?php namespace ILIAS\Notifications\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 
 /**
  * Class NotificationCenterProvider
@@ -9,7 +10,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
  */
 class NotificationCenterProvider extends AbstractStaticMetaBarProvider
 {
-
     /**
      * @inheritDoc
      */
@@ -17,7 +17,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
     {
         $mb = $this->globalScreen()->metaBar();
 
-        $id = function ($id) : IdentificationInterface {
+        $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
@@ -31,18 +31,21 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfOldNotifications($new + $old)
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
-                ->withAvailableCallable(static function () {
+                ->withAvailableCallable(function () : bool {
                     //This is a heavily incomplete fix for: #26586
                     //This should be fixed by the auth service
-                    global $DIC;
-                    if ($DIC->ctrl()->getCmd() == "showLogout") {
+                    if ($this->dic->ctrl()->getCmd() == "showLogout") {
                         return false;
                     }
+
                     return true;
                 })
                 ->withVisibilityCallable(
-                    function () {
-                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasItems();
+                    function () : bool {
+                        return (
+                            !$this->dic->user()->isAnonymous() &&
+                            $this->dic->globalScreen()->collector()->notifications()->hasItems()
+                        );
                     }
                 ),
         ];

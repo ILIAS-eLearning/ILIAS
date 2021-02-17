@@ -42,7 +42,7 @@ class ilLanguageSetupAgentTest extends TestCase
 
         $this->assertEquals('en', $lng_setup_conf->getDefaultLanguage());
         $this->assertEquals(['en'], $lng_setup_conf->getInstallLanguages());
-        $this->assertEquals(['en'], $lng_setup_conf->getInstallLocalLanguages());
+        $this->assertEquals([], $lng_setup_conf->getInstallLocalLanguages());
     }
 
     public function testGetArrayToConfigTransformationWithDELanguage() : void
@@ -69,14 +69,23 @@ class ilLanguageSetupAgentTest extends TestCase
         $this->assertEquals(3, count($objective_collection->getObjectives()));
     }
 
-    public function testGetUpdateObjective() : void
+    public function testGetUpdateObjectiveWithConfig() : void
     {
         $setup_conf_mock = $this->createMock(\ilLanguageSetupConfig::class);
-        $objective_collection = $this->obj->getInstallObjective($setup_conf_mock);
+        $objective_collection = $this->obj->getUpdateObjective($setup_conf_mock);
 
         $this->assertEquals('Complete objectives from Services/Language', $objective_collection->getLabel());
         $this->assertFalse($objective_collection->isNotable());
         $this->assertEquals(3, count($objective_collection->getObjectives()));
+    }
+
+    public function testGetUpdateObjectiveWithoutConfig() : void
+    {
+        $objective_collection = $this->obj->getUpdateObjective();
+
+        $this->assertEquals('Complete objectives from Services/Language', $objective_collection->getLabel());
+        $this->assertFalse($objective_collection->isNotable());
+        $this->assertEquals(1, count($objective_collection->getObjectives()));
     }
 
 

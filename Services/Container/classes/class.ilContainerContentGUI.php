@@ -92,6 +92,15 @@ abstract class ilContainerContentGUI
      */
     protected $view_mode;
 
+    /** @var array */
+    protected $embedded_block = [];
+
+    /** @var array */
+    protected $items = [];
+
+    /** @var array<string, ilObjectListGUI> */
+    protected $list_gui = [];
+
     /**
     * Constructor
     *
@@ -401,8 +410,8 @@ abstract class ilContainerContentGUI
         include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
 
         // get item list gui object
-        if (!is_object($this->list_gui[$item_data["type"]])) {
-            $item_list_gui = &ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
+        if (!isset($this->list_gui[$item_data["type"]])) {
+            $item_list_gui = ilObjectListGUIFactory::_getListGUIByType($item_data["type"]);
             $item_list_gui->setContainerObject($this->getContainerGUI());
             $this->list_gui[$item_data["type"]] = &$item_list_gui;
         } else {
@@ -464,7 +473,8 @@ abstract class ilContainerContentGUI
         // determine item groups
         while (preg_match('~\[(item-group-([0-9]*))\]~i', $a_container_page_html, $found)) {
             $this->addEmbeddedBlock("itgr", (int) $found[2]);
-            
+
+            $html = ''; // This was never defined before
             $a_container_page_html = preg_replace('~\[' . $found[1] . '\]~i', $html, $a_container_page_html);
         }
     }
@@ -495,9 +505,9 @@ abstract class ilContainerContentGUI
         $lng = $this->lng;
                 
         // item groups
-        if (is_array($this->embedded_block["itgr"])) {
+        if (isset($this->embedded_block["itgr"]) && is_array($this->embedded_block["itgr"])) {
             $item_groups = array();
-            if (is_array($this->items["itgr"])) {
+            if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
                 foreach ($this->items["itgr"] as $ig) {
                     $item_groups[$ig["ref_id"]] = $ig;
                 }
@@ -511,10 +521,9 @@ abstract class ilContainerContentGUI
         }
         
         // type specific blocks
-        if (is_array($this->embedded_block["type"])) {
+        if (isset($this->embedded_block["type"]) && is_array($this->embedded_block["type"])) {
             foreach ($this->embedded_block["type"] as $k => $type) {
-                if (is_array($this->items[$type]) &&
-                    $this->renderer->addTypeBlock($type)) {
+                if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
                     if ($type == 'sess') {
                         $this->items['sess'] = ilUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
@@ -677,7 +686,8 @@ abstract class ilContainerContentGUI
             }
         }
 
-
+        $asynch = false;
+        $asynch_url = '';
         if ($ilSetting->get("item_cmd_asynch")) {
             $asynch = true;
             $ilCtrl->setParameter($this->container_gui, "cmdrefid", $a_item_data['ref_id']);
@@ -917,7 +927,17 @@ abstract class ilContainerContentGUI
         include_once('./Services/Container/classes/class.ilContainerSorting.php');
         include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
-        
+
+        // get all valid ids (this is filtered)
+        $all_ids = array_map(function($i) {
+            return $i["child"];
+        }, $this->items["_all"]);
+
+        // remove filtered items
+        $items = array_filter($items, function ($i) use ($all_ids) {
+            return in_array($i["ref_id"], $all_ids);
+        });
+
         // if no permission is given, set the items to "rendered" but
         // do not display the whole block
         if (!$perm_ok) {

@@ -34,9 +34,9 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
         // Login-Button
         // Only visible, if not on login-page but not logged in
         $target_str = '';
-        if ($ref_id = $request->getQueryParams()['ref_id']) {
+        if (isset($request->getQueryParams()['ref_id']) && $ref_id = $request->getQueryParams()['ref_id']) {
             $target_str = 'target=' . \ilObject::_lookupType($ref_id, true) . '_' . (int) $ref_id . '&';
-        } elseif ($target = $request->getQueryParams()['target']) {
+        } elseif (isset($request->getQueryParams()['target']) && $target = $request->getQueryParams()['target']) {
             $target_str = 'target=' . $target . '&';
         }
 

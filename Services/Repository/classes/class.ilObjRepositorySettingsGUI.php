@@ -23,6 +23,11 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
      */
     protected $rbacsystem;
 
+    /**
+     * @var \ilSetting
+     */
+    protected $folder_settings;
+
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
@@ -31,6 +36,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC->settings();
+        $this->folder_settings = new ilSetting('fold');
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
@@ -252,6 +258,22 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         $form->addItem($exp_limit);
 
+        // Show download action for folder
+        $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_download_folder"), "enable_download_folder");
+        $dl_prop->setValue('1');
+        // default value should reflect previous behaviour (-> 0)
+        $dl_prop->setChecked($this->folder_settings->get("enable_download_folder", 0) == 1);
+        $dl_prop->setInfo($this->lng->txt('enable_download_folder_info'));
+        $form->addItem($dl_prop);
+
+        // multi download
+        $dl_prop = new ilCheckboxInputGUI($this->lng->txt("enable_multi_download"), "enable_multi_download");
+        $dl_prop->setValue('1');
+        // default value should reflect previous behaviour (-> 0)
+        $dl_prop->setChecked($this->folder_settings->get("enable_multi_download", 0) == 1);
+        $dl_prop->setInfo($this->lng->txt('enable_multi_download_info'));
+        $form->addItem($dl_prop);
+
         // object lists
         
         $lists = new ilFormSectionHeaderGUI();
@@ -341,6 +363,9 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
                 ? (int) $_POST['rep_tree_limit_number']
                 : 0;
             $ilSetting->set('rep_tree_limit_number', $limit_number);
+
+            $this->folder_settings->set("enable_download_folder", $_POST["enable_download_folder"] == 1);
+            $this->folder_settings->set("enable_multi_download", $_POST["enable_multi_download"] == 1);
 
             require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
             if ($form->getInput('change_event_tracking')) {

@@ -52,6 +52,12 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     
     protected $scopes = [];
 
+    protected $translations = [];
+    protected $translation_language = '';
+
+    protected $field_translations = [];
+    protected $field_translation_language = '';
+
     /**
      * @var ilLogger
      */
@@ -173,9 +179,31 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                     if (ilLanguage::lookupId($language)) {
                         $this->getCurrentRecord()->setDefaultLanguage($language);
                     }
+                } else {
+                    $this->getCurrentRecord()->setDefaultLanguage($this->lng->getDefaultLanguage());
                 }
                 break;
-                
+
+            case 'RecordTranslations':
+                $this->translations = [];
+                $this->field_translations = [];
+                $this->getCurrentRecord()->setDefaultLanguage(
+                    $a_attribs['defaultLanguage'] ?? $this->getCurrentRecord()->getDefaultLanguage()
+                );
+                break;
+
+            case 'RecordTranslation':
+                $this->translation_language = $a_attribs['language'] ?? $this->lng->getDefaultLanguage();
+                break;
+
+            case 'FieldTranslations':
+                $this->field_translations[$this->getCurrentField()->getImportId()] = [];
+                break;
+
+            case 'FieldTranslation':
+                $this->field_translation_language = $a_attribs['language'] ?? $this->lng->getDefaultLanguage();
+                break;
+
             case 'Title':
                 break;
 
@@ -234,8 +262,23 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 
             case 'Field':
                 break;
-            
-                
+
+            case 'RecordTranslationTitle':
+                $this->translations[$this->translation_language]['title'] = trim($this->cdata);
+                break;
+
+            case 'RecordTranslationDescription':
+                $this->translations[$this->translation_language]['description'] = trim($this->cdata);
+                break;
+
+            case 'FieldTranslationTitle':
+                $this->field_translations[$this->getCurrentField()->getImportId()][$this->field_translation_language]['title'] = trim($this->cdata);
+                break;
+
+            case 'FieldTranslationDescription':
+                $this->field_translations[$this->getCurrentField()->getImportId()][$this->field_translation_language]['description'] = trim($this->cdata);
+                break;
+
             case 'FieldTitle':
                 $this->getCurrentField()->setTitle(trim($this->cdata));
                 break;
@@ -316,16 +359,11 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 break;
         }
     }
-    
-    
-    
+
     /**
-     * get current record
-     *
-     * @access private
-     *
+     * @return ilAdvancedMDRecord
      */
-    private function getCurrentRecord()
+    private function getCurrentRecord() : ilAdvancedMDRecord
     {
         return $this->current_record;
     }
@@ -406,6 +444,20 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             switch ($this->getMode()) {
                 case self::MODE_INSERT:
                     $field->save();
+                    foreach ($this->field_translations as $field_id => $field_info) {
+                        if (strcmp($field_id, $field->getImportId()) !== 0) {
+                            continue;
+                        }
+                        foreach ((array) $field_info as $language => $field_translation) {
+                            $translation = new ilAdvancedMDFieldTranslation(
+                                (int) $field->getFieldId(),
+                                (string) $field_translation['title'],
+                                (string) $field_translation['description'],
+                                (string) $language
+                            );
+                            $translation->insert();
+                        }
+                    }
                     
                     // see getRecordMap()
                     $this->log->debug("add to record map, rec id: " . $this->getCurrentRecord()->getRecordId() .
@@ -414,6 +466,26 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                     break;
             }
         }
+        $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->getCurrentRecord()->getRecordId());
+        $translations->addTranslationEntry($this->getCurrentRecord()->getDefaultLanguage(), true);
+        $translations->updateTranslations(
+            $this->getCurrentRecord()->getDefaultLanguage(),
+            (string) $this->getCurrentRecord()->getTitle(),
+            (string) $this->getCurrentRecord()->getDescription()
+        );
+
+        foreach ($this->translations as $lang_key => $translation_info) {
+            ilLoggerFactory::getLogger('root')->dump($translation_info, ilLogLevel::ERROR);
+            if (!$translations->isConfigured($lang_key)) {
+                $translations->addTranslationEntry($lang_key);
+            }
+            $translations->updateTranslations(
+                $lang_key,
+                (string) $translation_info['title'],
+                (string) $translation_info['description']
+            );
+        }
+
     }
     
     public function setContext($a_obj_id, $a_obj_type, $a_sub_type = null)

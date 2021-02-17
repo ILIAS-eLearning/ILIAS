@@ -129,9 +129,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-                . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
                 . "<div class=\"col-sm-9\">"
-                . "<textarea name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
+                . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
                 . "<div class=\"help-block\">byline</div>"
                 . "</div>"
                 . "</div>";
@@ -153,9 +153,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+            . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"\"></div>"
             . "<div class=\"help-block\">$byline</div>"
             . "</div>"
@@ -177,9 +177,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMaxLimit($max)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+            . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
             . "<div class=\"help-block\">$byline</div>"
             . "</div>"
@@ -202,9 +202,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withMinLimit($min)->withMaxLimit($max)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" class=\"form-control form-control-sm\" id=\"$id\"></textarea>"
+            . "<textarea id=\"$id\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div id=\"textarea_feedback_$id\" data-maxchars=\"$max\"></div>"
             . "<div class=\"help-block\">$byline</div>"
             . "</div>"
@@ -225,9 +225,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withValue($value)->withNameFrom($this->name_source);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" class=\"form-control form-control-sm\">$value</textarea>"
+            . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\">$value</textarea>"
             . "<div class=\"help-block\">byline</div>"
             . "</div>"
             . "</div>";
@@ -248,9 +248,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
+            . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
             . "<div class=\"help-block\">$byline</div>"
             . "<div class=\"help-block alert alert-danger\" role=\"alert\">"
             . "<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />"
@@ -272,9 +272,9 @@ class TextareaTest extends ILIAS_UI_TestBase
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withDisabled(true);
 
         $expected = "<div class=\"form-group row\">"
-            . "<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
-            . "<textarea name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\"></textarea>"
+            . "<textarea id=\"id_1\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\"></textarea>"
             . "<div class=\"help-block\">byline</div>"
             . "</div>"
             . "</div>";

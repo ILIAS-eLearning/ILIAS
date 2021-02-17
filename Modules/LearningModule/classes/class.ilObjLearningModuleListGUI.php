@@ -12,6 +12,7 @@
 */
 class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
+    private $child_id;
     /**
     * initialisation
     *

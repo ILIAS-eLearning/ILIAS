@@ -274,6 +274,8 @@ abstract class ilParticipants
             $a_type = array($a_type);
         }
 
+        $j2 = '';
+        $a2 = '';
         // this will also dismiss local roles!
         if ($a_only_member_role) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
@@ -299,11 +301,12 @@ abstract class ilParticipants
             "AND ua.usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
             $a2;
         $res = $ilDB->query($query);
+        $ref_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
             $ref_ids[] = $row->obj_id;
         }
         
-        return $ref_ids ? $ref_ids : array();
+        return $ref_ids;
     }
     
     

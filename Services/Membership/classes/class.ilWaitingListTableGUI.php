@@ -66,7 +66,7 @@ class ilWaitingListTableGUI extends ilTable2GUI
         
         $this->rep_object = $rep_object;
 
-        $this->setExternalSorting(true);
+        $this->setExternalSorting(false);
         $this->setExternalSegmentation(true);
         $this->setId('crs_wait_' . $this->getRepositoryObject()->getId());
         $this->setFormName('waiting');
@@ -143,7 +143,21 @@ class ilWaitingListTableGUI extends ilTable2GUI
             $this->wait[$usr_id] = $this->getWaitingList()->getUser($usr_id);
         }
     }
-    
+
+    /**
+     * configure numeric ordering
+     * @param string $a_field
+     * @return bool
+     */
+    public function numericOrdering($a_field)
+    {
+        switch ($a_field) {
+            case 'sub_time':
+                return true;
+        }
+        return parent::numericOrdering($a_field);
+    }
+
     /**
      * Get selectable columns
      * @return

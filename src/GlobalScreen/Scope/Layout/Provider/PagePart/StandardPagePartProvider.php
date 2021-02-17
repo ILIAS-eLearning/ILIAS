@@ -35,6 +35,10 @@ class StandardPagePartProvider implements PagePartProvider
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
+    /**
+     * @var \ilLanguage
+     */
+    protected $lang;
 
     /**
      * @inheritDoc
@@ -44,6 +48,7 @@ class StandardPagePartProvider implements PagePartProvider
         global $DIC;
         $this->ui = $DIC->ui();
         $this->gs = $DIC->globalScreen();
+        $this->lang = $DIC->language();
     }
 
     /**
@@ -102,11 +107,11 @@ class StandardPagePartProvider implements PagePartProvider
         }
 
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), "More");
+        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
-            $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
-            $main_bar     = $main_bar->withToolsButton($tools_button);
+            $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
+            $main_bar = $main_bar->withToolsButton($tools_button);
             /**
              * @var $main_bar MainBar
              */

@@ -1432,4 +1432,13 @@ abstract class ilPlugin
         //This returns the callable of $c[$key] without executing it.
         return $dic->raw($dic_key);
     }
+
+
+    /**
+     * @return string
+     */
+    public function getMessage() : string
+    {
+        return strval($this->message);
+    }
 }

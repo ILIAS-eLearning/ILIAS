@@ -45,6 +45,13 @@ class ilSessionIStorage
             $this->session_id = session_id();
         }
     }
+
+    private function initComponentCacheIfNotExists() : void
+    {
+        if (!isset(self::$values[$this->component_id]) || !is_array(self::$values[$this->component_id])) {
+            self::$values[$this->component_id] = [];
+        }
+    }
     
     /**
      * Set a value
@@ -57,9 +64,8 @@ class ilSessionIStorage
 
         $ilDB = $DIC['ilDB'];
         
-        if (!is_array(self::$values[$this->component_id])) {
-            self::$values[$this->component_id] = array();
-        }
+        $this->initComponentCacheIfNotExists();
+
         self::$values[$this->component_id][$a_key] = $a_val;
         $ilDB->replace(
             "usr_sess_istorage",
@@ -71,20 +77,21 @@ class ilSessionIStorage
             array("value" => array("text", $a_val))
             );
     }
-    
+
     /**
-     * Get a value for a key
-     *
-     * @return string $a_key key
+     * @param string $a_key
+     * @return string
      */
-    public function get($a_key)
+    public function get(string $a_key) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
         
-        if (is_array(self::$values[$this->component_id]) &&
-            isset(self::$values[$this->component_id][$a_key])) {
+        if (
+            isset(self::$values[$this->component_id]) && is_array(self::$values[$this->component_id]) &&
+            isset(self::$values[$this->component_id][$a_key])
+        ) {
             return self::$values[$this->component_id][$a_key];
         }
         
@@ -95,9 +102,13 @@ class ilSessionIStorage
             " AND vkey = " . $ilDB->quote($a_key, "text")
             );
         $rec = $ilDB->fetchAssoc($set);
-        self::$values[$this->component_id][$a_key] = $rec["value"];
+        $value = (string) ($rec['value'] ?? '');
 
-        return $rec["value"];
+        $this->initComponentCacheIfNotExists();
+
+        self::$values[$this->component_id][$a_key] = $value;
+
+        return $value;
     }
     
     /**

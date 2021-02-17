@@ -45,7 +45,29 @@ class ilAdvancedSelectionListGUI
 
     protected $listtitle;
     protected $aria_listtitle;
-    
+    protected $useimages;
+    protected $itemlinkclass = '';
+
+    /** @var array<string, mixed>  */
+    protected $form_mode = [
+        "select_name" => '',
+        "select_class" => '',
+        "include_form_tag" => false,
+        "form_action" => '',
+        "form_id" => '',
+        "form_class" => '',
+        "form_target" => '',
+        "button_text" => '',
+        "button_class" => '',
+        "button_cmd" => ''
+    ];
+
+    /** @var string */
+    protected $select_callback = '';
+
+    /** @var string */
+    protected $sel_head_span_class = '';
+
     /*
 
     The modes implement the following html for non-js fallback:

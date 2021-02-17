@@ -51,7 +51,8 @@ class ilObjStudyProgrammeIndividualPlanGUI
         \ilObjUser $ilUser,
         \ilAccess $ilAccess,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+        //ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db
+        ilStudyProgrammeAssignmentDBRepository $sp_user_assignment_db
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -123,8 +124,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function view()
     {
-        require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php");
-        $progress = $this->getAssignmentObject()->getRootProgress();
+        $ass = $this->getAssignmentObject();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+        $progress = $prg->getProgressForAssignment($ass->getId());
         if (
             $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
             && !in_array($progress->getUserId(), $this->parent_gui->viewIndividualPlan())
@@ -165,15 +167,21 @@ class ilObjStudyProgrammeIndividualPlanGUI
     protected function updateFromCurrentPlan()
     {
         $ass = $this->getAssignmentObject();
+        $prg = $this->parent_gui->getStudyProgramme();
         if (
-            $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
+            $prg->getAccessControlByOrguPositionsGlobal()
             && !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
                 "may not access individual plan of user"
             );
         }
+        $prg->updateFromPlanByAssignmentId($ass->getId());
+
         $ass->updateFromProgram();
+        $ass->updateValidityFromProgram();
+        $ass->updateDeadlineFromProgram();
+
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
@@ -348,11 +356,12 @@ class ilObjStudyProgrammeIndividualPlanGUI
     {
         $tpl = new ilTemplate("tpl.indivdual_plan_frame.html", true, true, "Modules/StudyProgramme");
         $ass = $this->getAssignmentObject();
-        $ref_id = $ass->getStudyProgramme()->getRefId();
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
-        if($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
+
+        $ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
+        if ($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
             $tabs[] = 'view';
             $tabs[] = 'manage';
         }

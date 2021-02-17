@@ -10,17 +10,19 @@ if [[ -x "$PHP_CS_FIXER" ]]
 	
 	printLn "Command exited with code: $PIPE_EXIT_CODE"
 
-	printLn "Cloning results repository, copy results file."
-	if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
-		printLn "Starting to remove old temp directory"
-		rm -rf "$TRAVIS_RESULTS_DIRECTORY"
-	fi
+	# We disabled reporting because we can't implement it right now
+	# Priority has the base function so that the tests work
+	#printLn "Cloning results repository, copy results file."
+	#if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
+	#	printLn "Starting to remove old temp directory"
+	#	rm -rf "$TRAVIS_RESULTS_DIRECTORY"
+	#fi
 
-	cd /tmp && git clone https://github.com/ILIAS-eLearning/CI-Results
+	#cd tmp && git clone $CI_RESULTS_REPO
 
-	printLn "Switching directory and run results handling."
-	cp "$PHP_CS_FIXER_RESULTS_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-	cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
+	#printLn "Switching directory and run results handling."
+	#cp "$PHP_CS_FIXER_RESULTS_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
+	#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
 	
 else
 	printLn "No php-cs-fixer found, please install it with the following command:"

@@ -167,14 +167,14 @@ EOT;
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h4 class="ilHeader">Title</h4>
-		<div class="il-viewcontrol-sortation" id="">
+		<div class="il-viewcontrol-sortation" id="id_1">
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
-					<li><button class="btn btn-link" data-action="?sortation=a" id="id_1">A</button></li>
-					<li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button></li>
+					<li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button></li>
+					<li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button></li>
 				</ul>
 			</div>
 		</div>	
@@ -251,13 +251,13 @@ EOT;
 	<div class="panel-heading ilHeader clearfix">
 		<h4 class="ilHeader">Title</h4>
 		<div class="il-viewcontrol-section">
-			<a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de">
+			<a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1">
 				<span class="glyphicon glyphicon-chevron-left"></span>
 			</a>
 			<button class="btn btn-default" data-action="">
 				current
 			</button>
-			<a class="btn btn-default " href="http://www.github.com" aria-label="next" data-action="http://www.github.com">
+			<a class="btn btn-default " href="http://www.github.com" aria-label="next" data-action="http://www.github.com" id="id_2">
 				<span class="glyphicon glyphicon-chevron-right"></span>
 			</a>
 		</div>
@@ -311,11 +311,11 @@ EOT;
 <div class="il-item-group-items">\n
 <div class="il-std-item-container">
 <div class="il-item il-std-item ">
-title1
-</div><
-/div>\n
+<div class="il-item-title">title1</div>
+</div></div>\n
 <div class="il-std-item-container">
-<div class="il-item il-std-item ">title2
+<div class="il-item il-std-item ">
+<div class="il-item-title">title2</div>
 </div>
 </div>\n
 </div>\n

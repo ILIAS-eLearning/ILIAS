@@ -35,10 +35,13 @@ class ilObjStudyProgrammeReference extends ilContainerReference
         return $res;
     }
 
-    public function getParent()
+    public function getParent() : ?\ilObjStudyProgramme
     {
         $parent_data = $this->tree->getParentNodeData($this->getRefId());
-        return ilObjStudyProgramme::getInstanceByRefId($parent_data["ref_id"]);
+        if ($parent_data["type"] === "prg" && !$parent_data["deleted"]) {
+            return ilObjStudyProgramme::getInstanceByRefId($parent_data["ref_id"]);
+        }
+        return null;
     }
 
     public function getReferencedObject()

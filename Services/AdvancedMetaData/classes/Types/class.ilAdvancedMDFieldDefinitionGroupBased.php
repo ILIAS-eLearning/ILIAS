@@ -27,8 +27,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         $def->setNumeric(false);
         
         $options = $this->getOptions();
-        $def->setOptions(array_combine($options, $options));
-        
+        $def->setOptions($options);
         return $def;
     }
     

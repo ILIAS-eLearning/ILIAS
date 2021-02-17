@@ -176,7 +176,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
             $tpl->touchBlock("tabindex");
         }
 
-        $this->maybeRenderId($prox, $tpl);
+        $this->renderId($prox, $tpl);
         return $tpl->get();
     }
 
@@ -219,7 +219,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         }
 
         if ($id === null) {
-            $this->maybeRenderId($input, $tpl);
+            $this->renderId($input, $tpl);
         }
 
         return $tpl->get();
@@ -332,14 +332,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
      * @param Component\JavascriptBindable $component
      * @param Template                     $tpl
      */
-    protected function maybeRenderId(Component\JavascriptBindable $component, $tpl)
+    protected function renderId(Component\JavascriptBindable $component, $tpl)
     {
-        $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock("id");
-            $tpl->setVariable("ID", $id);
-            $tpl->parseCurrentBlock();
-        }
+        $id = $this->bindJavaScript($component) ?? $this->createId();
+        $tpl->setVariable("ID", $id);
     }
 
     /**

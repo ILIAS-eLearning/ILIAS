@@ -81,9 +81,10 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         $ilSetting = $DIC->settings();
         $objDefinition = $DIC["objDefinition"];
 
-        $this->cur_ref_id = (int) $_GET["ref_id"];
+        $this->cur_ref_id = (int) ($_GET["ref_id"] ?? 0);
 
         $this->top_node_id = 0;
+        $top_node = 0; // This was never defined before
         if ($ilSetting->get("rep_tree_limit_grp_crs") && $this->cur_ref_id > 0) {
             $path = $tree->getPathId($this->cur_ref_id);
             foreach ($path as $n) {
@@ -117,7 +118,8 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             }
             $this->setTypeWhiteList($white);
         }
-        if ((int) $_GET["ref_id"] > 0) {
+
+        if (isset($_GET["ref_id"]) && (int) $_GET["ref_id"] > 0) {
             $this->setPathOpen((int) $_GET["ref_id"]);
         }
 

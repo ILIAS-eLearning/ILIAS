@@ -261,27 +261,39 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     }
     
     
-    //
-    // export/import
-    //
-    
     protected function addPropertiesToXML(ilXmlWriter $a_writer)
     {
         $a_writer->xmlElement('FieldValue', array("id" => "min"), $this->getMin());
         $a_writer->xmlElement('FieldValue', array("id" => "max"), $this->getMax());
         $a_writer->xmlElement('FieldValue', array("id" => "suffix"), $this->getSuffix());
+
+        foreach ($this->getSuffixTranslations() as $lang_key => $suffix) {
+            $a_writer->xmlElement('FieldValue', ['id' => 'suffix_' . $lang_key], $suffix);
+        }
     }
-    
+
+    /**
+     * @param string $a_key
+     * @param string $a_value
+     */
     public function importXMLProperty($a_key, $a_value)
     {
         if ($a_key == "min") {
             $this->setMin($a_value != "" ? $a_value : null);
+            return;
         }
         if ($a_key == "max") {
             $this->setMax($a_value != "" ? $a_value : null);
+            return;
         }
         if ($a_key == "suffix") {
             $this->setSuffix($a_value != "" ? $a_value : null);
+            return;
+        }
+
+        $parts = explode('_',$a_key);
+        if (isset($parts[0]) && $parts[0] == 'suffix') {
+            $this->setSuffixTranslation($parts[1], $a_value);
         }
     }
     

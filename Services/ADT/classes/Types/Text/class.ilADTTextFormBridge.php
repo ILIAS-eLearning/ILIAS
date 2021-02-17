@@ -111,7 +111,11 @@ class ilADTTextFormBridge extends ilADTFormBridge
 
     public function addToForm()
     {
-        $this->addElementToForm($this->getADT()->getText(), $this->getElementId(), $this->getTitle());
+        $this->addElementToForm(
+            (string) $this->getADT()->getText(),
+            (string) $this->getElementId(),
+            (string) $this->getTitle()
+        );
     }
 
     public function importFromPost()

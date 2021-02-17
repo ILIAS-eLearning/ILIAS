@@ -60,6 +60,11 @@ class ilSearchResult
     protected $preventOverwritingMaxhits = false;
 
     /**
+     * @var ilLogger
+     */
+    private $logger;
+
+    /**
     * Constructor
     * @access	public
     */
@@ -71,6 +76,8 @@ class ilSearchResult
         $ilAccess = $DIC['ilAccess'];
         $ilDB = $DIC['ilDB'];
         $ilUser = $DIC['ilUser'];
+
+        $this->logger = $DIC->logger()->src();
 
         $this->ilAccess = $ilAccess;
         if ($a_user_id) {

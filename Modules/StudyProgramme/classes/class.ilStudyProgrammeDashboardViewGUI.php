@@ -82,13 +82,13 @@ class ilStudyProgrammeDashboardViewGUI
         foreach ($this->getUsersAssignments() as $assignments) {
             $properties = [];
             krsort($assignments);
-            /** @var ilStudyProgrammeUserAssignment $current */
+            /** @var ilStudyProgrammeAssignment $current */
             $current = current($assignments);
             if (!$this->isReadable($current)) {
                 continue;
             }
 
-            $current_prg = $current->getStudyProgramme();
+            $current_prg = ilObjStudyProgramme::getInstanceByObjId($current->getRootId());
 
             /** @var ilStudyProgrammeSettings $current_prg_settings */
             $current_prg_settings = $current_prg->getRawSettings();
@@ -128,7 +128,7 @@ class ilStudyProgrammeDashboardViewGUI
                 $properties[] = $this->fillNotValid();
             }
 
-            $items[] = $this->buildItem($current->getStudyProgramme(), $properties);
+            $items[] = $this->buildItem($current_prg, $properties);
         }
 
         if (count($items) == 0) {
@@ -254,17 +254,17 @@ class ilStudyProgrammeDashboardViewGUI
      * @throws ilException
      */
     protected function hasPermission(
-        ilStudyProgrammeUserAssignment $assignment,
+        ilStudyProgrammeAssignment $assignment,
         string $permission
     ) : bool {
-        $prg = $assignment->getStudyProgramme();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         return $this->access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
     /**
      * @throws ilException
      */
-    protected function isReadable(ilStudyProgrammeUserAssignment $assignment) : bool
+    protected function isReadable(ilStudyProgrammeAssignment $assignment) : bool
     {
         if ($this->getVisibleOnPDMode() == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -274,7 +274,7 @@ class ilStudyProgrammeDashboardViewGUI
     }
 
     /**
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     protected function getUsersAssignments() : array
     {
@@ -347,7 +347,7 @@ class ilStudyProgrammeDashboardViewGUI
             ilStudyProgrammeProgress::STATUS_COMPLETED,
             ilStudyProgrammeProgress::STATUS_ACCREDITED
         ];
-        /** @var ilStudyProgrammeUserAssignment $assignment */
+        /** @var ilStudyProgrammeAssignment $assignment */
         foreach ($assignments as $key => $assignment) {
             $progress = $assignment->getRootProgress();
             if (in_array($progress->getStatus(), $status)) {

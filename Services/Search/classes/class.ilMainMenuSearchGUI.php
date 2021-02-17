@@ -86,7 +86,7 @@ class ilMainMenuSearchGUI
                 $this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             }
-            if ((int) $_GET['ref_id']) {
+            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
                 $this->tpl->setCurrentBlock('position_rep');
                 $this->tpl->setVariable('TXT_CURRENT_POSITION', $lng->txt("search_at_current_position"));
                 $this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
@@ -103,14 +103,14 @@ class ilMainMenuSearchGUI
         $this->tpl->setVariable('FORMACTION', 'ilias.php?baseClass=ilSearchController&cmd=post' .
             '&rtoken=' . $ilCtrl->getRequestToken() . '&fallbackCmd=remoteSearch');
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
-        
+        $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
         $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
         
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),
             $lng->txt("search")
         ));
-        
+
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
             $this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));

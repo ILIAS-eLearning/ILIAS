@@ -150,7 +150,8 @@ class ilStudyProgrammeAppEventListener
     {
         $assignments = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB']->getInstancesOfUser((int) $a_parameter["usr_id"]);
         foreach ($assignments as $ass) {
-            $ass->deassign();
+            $prg = ilObjStudyProgramme::getInstanceByObjId($ass->getRootId());
+            $prg->removeAssignment($ass);
         }
     }
 
@@ -311,7 +312,7 @@ class ilStudyProgrammeAppEventListener
         $usr_id = $params['usr_id'];
         $assignment_id = $params['ass_id'];
 
-        ilStudyProgrammeUserAssignment::sendInformToReAssignMail($assignment_id, $usr_id);
+        ilObjStudyProgramme::sendInformToReAssignMail($assignment_id, $usr_id);
     }
 
     /**

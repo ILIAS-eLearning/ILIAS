@@ -47,7 +47,7 @@ $rest = substr($_GET["target"], $r_pos+1);
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];
-$additional = $target_arr[2];		// optional for pages
+$additional = $target_arr[2] ?? '';		// optional for pages
 
 // imprint has no ref id...
 if ($target_type == "impr") {

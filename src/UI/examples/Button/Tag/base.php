@@ -31,17 +31,10 @@ function base()
     }
 
     $buffer[] = '<hr>with additional class(es):<br>';
-    $buffer[] = '<style type="text/css">'
-                . '  .demo_class_for_tags_color{background-color: #ff0000 !important; color: contrast(#ff0000) !important;}'
-                . '  .demo_class_for_tags_bold{font-weight: bold;}'
-                . '</style>';
+
     $tag = $tag->withRelevance($tag::REL_VERYLOW);
     $buffer[] = $renderer->render(
-        $tag->withClasses(array('demo_class_for_tags_color'))
-    );
-
-    $buffer[] = $renderer->render(
-        $tag->withClasses(array('demo_class_for_tags_color', 'demo_class_for_tags_bold'))
+        $tag->withClasses(array('il-btn-with-loading-animation',"btn-bulky"))
     );
 
     $lightcol = $df->color('#00ff00');

@@ -79,7 +79,7 @@ class ilContainerRenderer
      * @param bool $a_active_block_ordering
      * @param array $a_block_custom_positions
      */
-    public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_block_ordering = false, $a_block_custom_positions, $container_gui_obj, $a_view_mode =
+    public function __construct($a_enable_manage_select_all = false, $a_enable_multi_download = false, $a_active_block_ordering = false, $a_block_custom_positions = [], $container_gui_obj = null, $a_view_mode =
         ilContainerContentGUI::VIEW_MODE_LIST)
     {
         global $DIC;
@@ -509,7 +509,7 @@ class ilContainerRenderer
             $this->rendered_blocks[] = $a_block_id;
         
             $block_types = array();
-            if (is_array($this->block_items[$a_block_id])) {
+            if (isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) {
                 foreach ($this->block_items[$a_block_id] as $item_id) {
                     if (isset($this->items[$item_id]["type"])) {
                         $block_types[] = $this->items[$item_id]["type"];
@@ -518,17 +518,25 @@ class ilContainerRenderer
             }
 
             // #14610 - manage empty item groups
-            if (is_array($this->block_items[$a_block_id]) ||
+            if ((isset($this->block_items[$a_block_id]) && is_array($this->block_items[$a_block_id])) ||
                 is_numeric($a_block_id)) {
                 $cards = [];
 
                 $order_id = (!$a_is_single && $this->active_block_ordering)
                     ? $a_block_id
                     : null;
-                $this->addHeaderRow($a_block_tpl, $a_block["type"], $a_block["caption"], array_unique($block_types), $a_block["actions"], $order_id, $a_block["data"]);
+                $this->addHeaderRow(
+                    $a_block_tpl,
+                    $a_block["type"] ?? '',
+                    $a_block["caption"] ?? '',
+                    array_unique($block_types),
+                    $a_block["actions"] ?? '',
+                    $order_id,
+                    $a_block["data"] ?? []
+                );
 
                 if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
-                    if ($a_block["prefix"]) {
+                    if (isset($a_block["prefix"]) && $a_block["prefix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["prefix"]);
                     }
                 }
@@ -544,7 +552,7 @@ class ilContainerRenderer
                 }
 
                 if ($this->getViewMode() == ilContainerContentGUI::VIEW_MODE_LIST) {
-                    if ($a_block["postfix"]) {
+                    if (isset($a_block["postfix"]) && $a_block["postfix"]) {
                         $this->addStandardRow($a_block_tpl, $a_block["postfix"]);
                     }
                 }

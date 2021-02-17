@@ -5,18 +5,12 @@ namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
 use ILIAS\Setup\ArrayEnvironment;
-use ILIAS\Setup\Config;
-use ILIAS\Setup\Environment;
-use ILIAS\Setup\Objective;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective\Tentatively;
 use ILIAS\Setup\Metrics;
-use ILIAS\Setup\NoConfirmationException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use ILIAS\Setup\Agent;
 
 /**
  * Command to output status information about the installation.
@@ -43,13 +37,19 @@ class StatusCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $agent = $this->getRelevantAgent($input);
+
+        $output->write($this->getMetrics($agent)->toYAML() . "\n");
+    }
+
+    public function getMetrics(Agent $agent) : Metrics\Metric
+    {
         // ATTENTION: Don't do this (in general), please have a look at the comment
         // in ilIniFilesLoadedObjective.
         \ilIniFilesLoadedObjective::$might_populate_ini_files_as_well = false;
 
         $environment = new ArrayEnvironment([]);
         $storage = new Metrics\ArrayStorage();
-        $agent = $this->getRelevantAgent($input);
         $objective = new Tentatively(
             $agent->getStatusObjective($storage)
         );
@@ -66,12 +66,11 @@ class StatusCommand extends Command
         if ($config) {
             $values["config"] = $config;
         }
-        $metric = new Metrics\Metric(
+
+        return new Metrics\Metric(
             Metrics\Metric::STABILITY_MIXED,
             Metrics\Metric::TYPE_COLLECTION,
             $values
         );
-
-        $output->write($metric->toYAML() . "\n");
     }
 }

@@ -210,6 +210,20 @@ class ilObjStudyProgramme extends ilContainer
         $this->lp_children = null;
     }
 
+    public static function getRefIdFor(int $obj_id) : int
+    {
+        $refs = ilObject::_getAllReferences($obj_id);
+        if (count($refs) < 1) {
+            throw new ilException("Could not find ref_id for programme with obj_id $obj_id");
+        }
+        return (int) array_shift($refs);
+    }
+
+    public static function getInstanceByObjId($obj_id) : ilObjStudyProgramme
+    {
+        return self::getInstanceByRefId(self::getRefIdFor($obj_id));
+    }
+
     public static function getInstanceByRefId($a_ref_id) : ilObjStudyProgramme
     {
         if (self::$study_programme_cache === null) {
@@ -311,7 +325,12 @@ class ilObjStudyProgramme extends ilContainer
     protected function deleteAssignments() : void
     {
         foreach ($this->getAssignments() as $ass) {
-            $ass->delete();
+            $progresses = $this->getProgressForAssignment($ass->getId());
+            foreach ($progresses as $progress) {
+                $progress->delete();
+            }
+
+            $this->assignment_repository->delete($ass);
         }
     }
 
@@ -381,6 +400,16 @@ class ilObjStudyProgramme extends ilContainer
 
         $this->events->raise('delete', ['object' => $this, 'obj_id' => $this->getId()]);
         return true;
+    }
+
+    public function hasAdvancedMetadata() : bool
+    {
+        $sub_type_id = $this->getTypeSettings()->getTypeId();
+        if ($sub_type_id) {
+            $type = $this->type_repository->readType($sub_type_id);
+        }
+
+        return !is_null($type) && count($this->type_repository->readAssignedAMDRecordIdsByType($type->getId(), true)) > 0;
     }
 
     ////////////////////////////////////
@@ -734,6 +763,9 @@ class ilObjStudyProgramme extends ilContainer
                         continue;
                     }
                     $r_parent = $reference->getParent();
+                    if (is_null($r_parent)) {
+                        continue;
+                    }
                     array_push($queque, $r_parent);
                     $parents[] = $r_parent;
                 }
@@ -793,6 +825,9 @@ class ilObjStudyProgramme extends ilContainer
     public function getRoot()
     {
         $parents = $this->getParents();
+        if (count($parents) < 1) {
+            return $this;
+        }
         return $parents[0];
     }
 
@@ -1005,8 +1040,8 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Remove a node from this object.
      *
-     * Throws when node is no child of the object. Throws, when manipulation
-     * of tree is not allowed due to invariants that need to hold on the tree.
+     * Throws when node is no child of the object.
+     * Throws when manipulation of tree is not allowed due to invariants that need to hold on the tree.
      *
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
@@ -1079,8 +1114,8 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Remove a leaf from this object.
      *
-     * Throws when leaf is not a child of this object. Throws, when manipulation
-     * of tree is not allowed due to invariants that need to hold on the tree.
+     * Throws when leaf is not a child of this object.
+     * Throws when manipulation of tree is not allowed due to invariants that need to hold on the tree.
      *
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
@@ -1101,7 +1136,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Move this tree node to a new parent.
      *
-     * Throws, when manipulation of tree is not allowed due to invariants that
+     * Throws when manipulation of tree is not allowed due to invariants that
      * need to hold on the tree.
      *
      * @throws ilStudyProgrammeTreeException
@@ -1149,7 +1184,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function assignUser(int $a_usr_id, int $a_assigning_usr_id = null) : ilStudyProgrammeUserAssignment
+    public function assignUser(int $a_usr_id, int $a_assigning_usr_id = null) : ilStudyProgrammeAssignment
     {
         $this->members_cache = null;
         if ($this->settings === null) {
@@ -1211,10 +1246,10 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @throws ilException
      */
-    public function removeAssignment(ilStudyProgrammeUserAssignment $a_assignment) : ilObjStudyProgramme
+    public function removeAssignment(ilStudyProgrammeAssignment $a_assignment) : ilObjStudyProgramme
     {
         $this->members_cache = null;
-        if ($a_assignment->getStudyProgramme()->getId() != $this->getId()) {
+        if ($a_assignment->getRootId() != $this->getId()) {
             throw new ilException(
                 "ilObjStudyProgramme::removeAssignment: Assignment '"
                 . $a_assignment->getId() . "' does not belong to study "
@@ -1223,8 +1258,7 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         $this->events->userDeassigned($a_assignment);
-
-        $a_assignment->delete();
+        $this->assignment_repository->delete($a_assignment);
 
         return $this;
     }
@@ -1251,7 +1285,7 @@ class ilObjStudyProgramme extends ilContainer
      * are ordered by last_change, where the most recently changed assignments is the
      * first one.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignmentsOf(int $a_user_id) : array
     {
@@ -1278,7 +1312,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get all assignments to this program or any node above.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignments() : array
     {
@@ -1328,7 +1362,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Get assignments of user to this program-node only.
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getAssignmentsOfSingleProgramForUser(int $usr_id) : array
     {
@@ -1388,8 +1422,30 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function addMissingProgresses() : void
     {
-        foreach ($this->getAssignments() as $ass) {
-            $ass->addMissingProgresses();
+        $progress_repository = $this->progress_repository;
+        $log = $this->getLog();
+
+        foreach ($this->getAssignments() as $ass) { /** ilStudyProgrammeAssignment[] */
+            $id = $ass->getId();
+            $assignment = $ass->getSPAssignment();
+
+            $mapping = function (ilObjStudyProgramme $node) use ($id, $log, $progress_repository, $assignment) {
+                try {
+                    $node->getProgressForAssignment($id);
+                } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
+                    $log->debug("Adding progress for: " . $id . " " . $node->getId());
+                    $progress_repository->update(
+                        $progress_repository->createFor(
+                            $node->getRawSettings(),
+                            $assignment
+                        )->setStatus(
+                            ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+                        )
+                    );
+                }
+            };
+
+            $this->applyToSubTreeNodes($mapping, true);
         }
     }
 
@@ -1981,7 +2037,6 @@ class ilObjStudyProgramme extends ilContainer
                     return $subtype === 'crsr';
                 },
                 ARRAY_FILTER_USE_KEY
-
             );
         }
         return $possible_subobjects;
@@ -1991,7 +2046,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $log = $DIC['ilLog'];
+        $log = $this->getLog();
         $lng->loadLanguageModule("prg");
         $lng->loadLanguageModule("mail");
 
@@ -2066,5 +2121,138 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         return $send;
+    }
+
+
+    protected function getLog()
+    {
+        return ilLoggerFactory::getLogger($this->type);
+    }
+
+    ////////////////////////////////////
+    // REFAC - to be properly sorted/resolved
+    ////////////////////////////////////
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateFromProgram
+     */
+    protected function updateProgressFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $this->applyToSubTreeNodes(
+            function (ilObjStudyProgramme $node) use ($assignment_id) {
+                /**@var ilStudyProgrammeUserProgress $progress*/
+                $progress = $node->getProgressForAssignment($assignment_id);
+                return $progress->updateFromProgramNode();
+            },
+            true
+        );
+    }
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateValidityFromProgram
+     */
+    protected function updateProgressValidityFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $prg = $this;
+        $root = $this->getRoot();
+        $progress = $prg->getProgressForAssignment($assignment_id);
+        if (!$progress->hasSuccessStatus()) {
+            return;
+        }
+
+        $validity_settings = $root->getValidityOfQualificationSettings();
+        $period = $validity_settings->getQualificationPeriod();
+        $date = $validity_settings->getQualificationDate();
+
+        if ($period) {
+            $date = $progress->getCompletionDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setValidityOfQualification($date);
+        $progress->storeProgress();
+    }
+
+    /**
+     * former ilStudyProgrammeUserAssignment::updateDeadlineFromProgram
+     */
+    protected function updateProgressDeadlineFromProgrammeByAssignmentId(int $assignment_id) : void
+    {
+        $prg = $this;
+        $root = $this->getRoot();
+        $progress = $prg->getProgressForAssignment($assignment_id);
+        if (!$progress->hasSuccessStatus()) {
+            return;
+        }
+
+        $deadline_settings = $root->getDeadlineSettings();
+        $period = $deadline_settings->getDeadlinePeriod();
+        $date = $deadline_settings->getDeadlineDate();
+        if ($period) {
+            $date = $progress->getAssignmentDate();
+            $date->add(new DateInterval('P' . $period . 'D'));
+        }
+        $progress->setDeadline($date);
+        $progress->storeProgress();
+    }
+
+    /**
+     * substitutes/replaces $ass->updateFromProgram();
+     */
+    public function updateFromPlanByAssignmentId(int $assignment_id) : void
+    {
+        $this->updateProgressFromProgrammeByAssignmentId($assignment_id);
+        $this->updateProgressValidityFromProgrammeByAssignmentId($assignment_id);
+        $this->updateProgressDeadlineFromProgrammeByAssignmentId($assignment_id);
+    }
+
+
+    /**
+         * @throws ilException
+         */
+    public static function sendInformToReAssignMail(int $assignment_id, int $usr_id) : void
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule("prg");
+        $lng->loadLanguageModule("mail");
+        $log = $this->getLog();
+
+        /** @var ilStudyProgrammeUserAssignment $assignment */
+        $assignment = $this->assignment_db->getInstanceById($assignment_id);
+        /** @var ilObjStudyProgramme $prg */
+        $prg = $this->getRoot();
+
+        if (!$prg->shouldSendInfoToReAssignMail()) {
+            $log->write("Send info to re assign mail is deactivated in study programme settings");
+            return;
+        }
+
+        $subject = $lng->txt("info_to_re_assign_mail_subject");
+        $gender = ilObjUser::_lookupGender($usr_id);
+        $name = ilObjUser::_lookupFullname($usr_id);
+        $body = sprintf(
+            $lng->txt("info_to_re_assign_mail_body"),
+            $lng->txt("mail_salutation_" . $gender),
+            $name,
+            $prg->getTitle()
+        );
+
+        $send = true;
+        $mail = new ilMail(ANONYMOUS_USER_ID);
+        try {
+            $mail->enqueue(
+                ilObjUser::_lookupLogin($usr_id),
+                '',
+                '',
+                $subject,
+                $body,
+                null
+            );
+        } catch (Exception $e) {
+            $send = false;
+        }
+
+        if ($send) {
+            $this->assignment_db->reminderSendFor($assignment->getId());
+        }
     }
 }

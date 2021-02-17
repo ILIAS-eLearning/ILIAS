@@ -275,7 +275,7 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
-                    <span role="button" class="form-control il-filter-field" data-placement="bottom"></span>
+                    <span role="button" class="form-control il-filter-field" id="id_8" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_6"></div>
                     <span class="input-group-addon rightaddon">
                     <a class="glyph disabled" aria-label="remove" aria-disabled="true">
@@ -287,8 +287,8 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
-                    <span role="button" class="form-control il-filter-field" data-placement="bottom"></span>
-                    <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
+                    <span role="button" class="form-control il-filter-field" id="id_12" data-placement="bottom"></span>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_10"></div>
                     <span class="input-group-addon rightaddon">
                     <a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -458,7 +458,7 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Title</span>
-                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span>
+                    <span role="button"  class="form-control il-filter-field" id="id_8" data-placement="bottom"></span>
                     <div class="il-standard-popover-content" style="display:none;" id="id_6"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
@@ -469,8 +469,8 @@ EOT;
             <div class="col-md-4 il-popover-container">
                 <div class="input-group">
                     <span class="input-group-addon leftaddon">Selection</span>
-                    <span role="button"  class="form-control il-filter-field"  data-placement="bottom"></span>
-                    <div class="il-standard-popover-content" style="display:none;" id="id_9"></div>
+                    <span role="button"  class="form-control il-filter-field" id="id_12"  data-placement="bottom"></span>
+                    <div class="il-standard-popover-content" style="display:none;" id="id_10"></div>
                     <span class="input-group-addon rightaddon"><a class="glyph disabled" aria-label="remove" aria-disabled="true">
                     <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
                     </a>

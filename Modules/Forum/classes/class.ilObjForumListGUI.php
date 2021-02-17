@@ -134,7 +134,6 @@ class ilObjForumListGUI extends ilObjectListGUI
             }
         }
 
-        // Last Post
         if (isset($last_post['pos_pk']) && (int) $last_post['pos_pk'] > 0) {
             $lpCont = "<a class=\"il_ItemProperty\" target=\"" . ilFrameTargetInfo::_getFrame('MainContent') .
                 "\" href=\"ilias.php?baseClass=ilRepositoryGUI&amp;cmd=viewThread&amp;cmdClass=ilobjforumgui&amp;target=true&amp;pos_pk=" .

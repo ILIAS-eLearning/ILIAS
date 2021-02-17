@@ -455,7 +455,7 @@ class ilLanguage
             $ilUser = $DIC->user();
         }
 
-        if (!ilSession::get('lang') && !$_GET['lang']) {
+        if (!ilSession::get('lang') && empty($_GET['lang'])) {
             if (
                 $ilUser instanceof ilObjUser &&
                 (!$ilUser->getId() || $ilUser->isAnonymous())

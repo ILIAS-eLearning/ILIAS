@@ -32,7 +32,7 @@ module.exports = function(conversationId, oldestMessageTimestamp, reverseSorting
 
 				socket.participant.emit('history', json);
 
-				Container.getLogger().info('Requested History for %s since %s', conversationId, oldestMessageTimestamp);
+				Container.getLogger().debug('Requested History for %s since %s', conversationId, oldestMessageTimestamp);
 			}
 
 			namespace.getDatabase().loadConversationHistory(

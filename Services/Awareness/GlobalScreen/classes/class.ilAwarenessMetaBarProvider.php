@@ -51,7 +51,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $now = time();
 
         $act = ilAwarenessAct::getInstance($ilUser->getId());
-        $act->setRefId((int) $_GET["ref_id"]);
+        $act->setRefId((int) ($_GET["ref_id"] ?? 0));
         if ($last_update == "" || ($now - $last_update) >= $cache_period) {
             $cnt = explode(":", $act->getAwarenessUserCounter());
             $hcnt = $cnt[1];

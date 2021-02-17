@@ -82,6 +82,11 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     protected $currentPresentationOption = self::PRESENTATION_LIST;
 
     /**
+     * @var \ILIAS\Dashboard\Access\DashboardAccess
+     */
+    protected $access;
+
+    /**
      * ilPDSelectedItemsBlockViewSettings constructor.
      * @param ilObjUser $actor
      * @param int $view
@@ -96,6 +101,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
         $this->actor = $actor;
         $this->currentView = $view;
+        $this->access = new \ILIAS\Dashboard\Access\DashboardAccess();
     }
 
     /**
@@ -487,6 +493,9 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
      */
     public function getSelectablePresentationModes() : array
     {
+        if (!$this->access->canChangePresentation($this->actor->getId())) {
+            return [$this->getDefaultSortingByView($this->currentView)];
+        }
         return array_intersect(
             $this->getActivePresentationsByView($this->currentView),
             $this->getAvailablePresentationsByView($this->currentView)

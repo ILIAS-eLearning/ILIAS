@@ -12,6 +12,9 @@
 */
 class ilObjectDataCache
 {
+    /** @var array<int, bool> */
+    protected $trans_loaded = [];
+
     public $db = null;
     public $reference_cache = array();
     public $object_data_cache = array();
@@ -196,7 +199,7 @@ class ilObjectDataCache
             }
 
             if ($translation_type == "db") {
-                if (!$this->trans_loaded[$a_obj_id]) {
+                if (!isset($this->trans_loaded[$a_obj_id])) {
                     $q = "SELECT title,description FROM object_translation " .
                          "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " " .
                          "AND lang_code = " . $ilDB->quote($a_lang, 'text') . " " .
@@ -256,7 +259,7 @@ class ilObjectDataCache
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
             // this if fixes #9960
-            if (!$this->trans_loaded[$row->obj_id]) {
+            if (!isset($this->trans_loaded[$row->obj_id])) {
                 $this->object_data_cache[$row->obj_id]['title'] = $row->title;
                 $this->object_data_cache[$row->obj_id]['description'] = $row->description;
             }
@@ -290,7 +293,7 @@ class ilObjectDataCache
         $obj_ids = array();
         foreach ($a_obj_ids as $id) {
             // do not load an id more than one time
-            if (!$this->trans_loaded[$id]) {
+            if (!isset($this->trans_loaded[$id])) {
                 $obj_ids[] = $id;
                 $this->trans_loaded[$id] = true;
             }

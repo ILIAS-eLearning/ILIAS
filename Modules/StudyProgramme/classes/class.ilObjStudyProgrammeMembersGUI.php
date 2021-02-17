@@ -11,6 +11,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeMailMemberSearchGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeExpireDateGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeDeadlineGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilFormPropertyDispatchGUI
  */
 class ilObjStudyProgrammeMembersGUI
 {
@@ -78,7 +79,9 @@ class ilObjStudyProgrammeMembersGUI
         \ilObjUser $user,
         \ilTabsGUI $tabs,
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
-        ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
+
+        //ilStudyProgrammeUserAssignmentDB $sp_user_assignment_db,
+        ilStudyProgrammeAssignmentRepository $sp_user_assignment_db,
         ilStudyProgrammeRepositorySearchGUI $repository_search_gui,
         ilObjStudyProgrammeIndividualPlanGUI $individual_plan_gui,
         ilStudyProgrammePositionBasedAccess $position_based_access
@@ -214,9 +217,9 @@ class ilObjStudyProgrammeMembersGUI
     protected function getAssignmentsById() : array
     {
         $assignments = $this->object->getAssignments();
-        ;
-        return array_filter($assignments, function (ilStudyProgrammeUserAssignment $assignment) {
-            return $assignment->getStudyProgramme()->getId() == $this->object->getId();
+
+        return array_filter($assignments, function (ilStudyProgrammeAssignment $assignment) {
+            return $assignment->getRootId() == $this->object->getId();
         });
     }
 
@@ -403,7 +406,7 @@ class ilObjStudyProgrammeMembersGUI
      *
      * @param int[] 	$users
      *
-     * @return ilStudyProgrammeUserAssignment[]
+     * @return ilStudyProgrammeAssignment[]
      */
     protected function _addUsers(array $users) : array
     {
@@ -499,6 +502,7 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->markAccredited($this->user->getId());
+        $this->updateUserAssignmentFromProgramm($prgrs->getAssignmentId());
     }
 
     /**
@@ -529,6 +533,7 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $prgrs->unmarkAccredited();
+        $this->updateUserAssignmentFromProgramm($prgrs->getAssignmentId());
     }
 
     /**
@@ -627,15 +632,17 @@ class ilObjStudyProgrammeMembersGUI
         $not_updated = array();
 
         foreach ($prgrs_ids as $key => $prgrs_id) {
+            //** ilStudyProgrammeUserProgress */
             $prgrs = $this->getProgressObject((int) $prgrs_id);
+            //** ilStudyProgrammeAssignment */
             $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-            $prg = $ass->getStudyProgramme();
-            if ($prg->getRefId() != $this->ref_id) {
+            $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
+            if ($prg_ref_id != $this->ref_id) {
                 $not_updated[] = $prgrs_id;
                 continue;
             }
 
-            $ass->updateFromProgram();
+            $this->updateUserAssignmentFromProgramm($ass->getId());
         }
 
         if (count($not_updated) == count($prgrs_ids)) {
@@ -725,7 +732,7 @@ class ilObjStudyProgrammeMembersGUI
     }
 
     /**
-     * Rmeove user
+     * Remove user
      */
     protected function remove(int $prgrs_id) : void
     {
@@ -741,11 +748,12 @@ class ilObjStudyProgrammeMembersGUI
             );
         }
         $ass = $this->sp_user_assignment_db->getInstanceById($prgrs->getAssignmentId());
-        $prg = $ass->getStudyProgramme();
-        if ($prg->getRefId() != $this->ref_id) {
+        $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
+        if ($prg_ref_id != $this->ref_id) {
             throw new ilException("Can only remove users from the node they where assigned to.");
         }
-        $ass->deassign();
+        $prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);
+        $prg->removeAssignment($ass);
     }
 
     /**
@@ -959,5 +967,10 @@ class ilObjStudyProgrammeMembersGUI
     {
         return $this->mayManageMembers()
             || $this->position_based_access->isUserAccessibleForOperationAtPrg($usr_id, $this->object, $operation);
+    }
+
+    protected function updateUserAssignmentFromProgramm(int $assignment_id) : void
+    {
+        $this->object->updateFromPlanByAssignmentId($assignment_id);
     }
 }

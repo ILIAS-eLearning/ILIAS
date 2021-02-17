@@ -313,12 +313,12 @@ EOT;
 <div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h2 class="ilHeader">Title</h2> 
-		<div class="il-viewcontrol-sortation" id="">
+		<div class="il-viewcontrol-sortation" id="id_1">
 <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="?sortation=a" id="id_1">A</button>
+	<li><button class="btn btn-link" data-action="?sortation=a" id="id_2">A</button>
 </li>
-	<li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button>
+	<li><button class="btn btn-link" data-action="?sortation=b" id="id_3">B</button>
 </li>
 </ul>
 </div>

@@ -280,23 +280,23 @@ class ilAdvancedMDRecordTranslations
         }
 
         $writer->xmlStartTag(
-            'Translations',
+            'RecordTranslations',
             [
                 'defaultLanguage' => $this->getDefaultLanguage()
             ]
         );
         foreach ($this->getTranslations() as $translation) {
             $writer->xmlStartTag(
-                'Translation',
+                'RecordTranslation',
                 [
                     'language' => $translation->getLangKey()
                 ]
             );
-            $writer->xmlElement('Title', [], $translation->getTitle());
-            $writer->xmlElement('Description', [], $translation->getDescription());
-            $writer->xmlEndTag('Translation');
+            $writer->xmlElement('RecordTranslationTitle', [], $translation->getTitle());
+            $writer->xmlElement('RecordTranslationDescription', [], $translation->getDescription());
+            $writer->xmlEndTag('RecordTranslation');
         }
-        $writer->xmlEndTag('Translations');
+        $writer->xmlEndTag('RecordTranslations');
         return $writer;
     }
 }

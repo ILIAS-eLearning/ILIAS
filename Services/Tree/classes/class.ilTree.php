@@ -26,6 +26,9 @@ class ilTree
     public const TREE_TYPE_MATERIALIZED_PATH = 'mp';
     public const TREE_TYPE_NESTED_SET = 'ns';
 
+    /** @var array<int, bool> */
+    protected $oc_preloaded = [];
+
     const POS_LAST_NODE = -2;
     const POS_FIRST_NODE = -1;
     
@@ -589,7 +592,7 @@ class ilTree
 
         // preload object translation information
         if ($this->__isMainTree() && $this->isCacheUsed() && is_object($ilObjDataCache) &&
-            is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !$this->oc_preloaded[$a_node_id]) {
+            is_object($ilUser) && $this->lang_code == $ilUser->getLanguage() && !isset($this->oc_preloaded[$a_node_id])) {
             //			$ilObjDataCache->preloadTranslations($obj_ids, $this->lang_code);
             $ilObjDataCache->preloadObjectCache($obj_ids, $this->lang_code);
             $this->fetchTranslationFromObjectDataCache($obj_ids);
@@ -1538,13 +1541,13 @@ class ilTree
 
         //$ilBench->start("Tree", "fetchNodeData_getRow");
         $data = $a_row;
-        $data["desc"] = $a_row["description"];  // for compability
+        $data["desc"] = $a_row["description"] ?? '';  // for compability
         //$ilBench->stop("Tree", "fetchNodeData_getRow");
 
         // multilingual support systemobjects (sys) & categories (db)
         //$ilBench->start("Tree", "fetchNodeData_readDefinition");
         if (is_object($objDefinition)) {
-            $translation_type = $objDefinition->getTranslationType($data["type"]);
+            $translation_type = $objDefinition->getTranslationType($data["type"] ?? '');
         }
         //$ilBench->stop("Tree", "fetchNodeData_readDefinition");
 
@@ -1563,6 +1566,7 @@ class ilTree
         } elseif ($translation_type == "db") {
 
             // Try to retrieve object translation from cache
+            $lang_code = ''; // This did never work, because it was undefined before
             if ($this->isCacheUsed() &&
                 array_key_exists($data["obj_id"] . '.' . $lang_code, $this->translation_cache)) {
                 $key = $data["obj_id"] . '.' . $lang_code;
@@ -1602,7 +1606,7 @@ class ilTree
         }
 
         // TODO: Handle this switch by module.xml definitions
-        if ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr') {
+        if (isset($data['type']) && ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')) {
             include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
             $data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
         }

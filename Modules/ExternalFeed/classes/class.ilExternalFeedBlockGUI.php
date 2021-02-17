@@ -351,8 +351,8 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 
         // JS enabler
         $add = "";
-        if ($_SESSION["il_feed_js"] == "n" ||
-            ($ilUser->getPref("il_feed_js") == "n" && $_SESSION["il_feed_js"] != "y")) {
+        if (ilSession::get("il_feed_js") == "n" ||
+            ($ilUser->getPref("il_feed_js") == "n" && ilSession::get("il_feed_js") != "y")) {
             $add = $this->getJSEnabler();
         }
 
