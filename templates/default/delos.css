@@ -15407,6 +15407,13 @@ div.ilNotesHeader {
   margin-bottom: 5px;
   padding: 3px 8px;
 }
+div.ilNotesHeader h3 img {
+  width: 40px;
+  height: 40px;
+}
+#il_center_col div.ilNotesHeader {
+  display: none;
+}
 #ilRightPanel div.ilNotesHeader {
   padding: 5px;
 }

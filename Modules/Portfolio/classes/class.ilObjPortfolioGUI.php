@@ -86,7 +86,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("view");
-        
+
+        // we have to init the note js handling here, might go to
+        // a better place in the future
+        ilNoteGUI::initJavascript(
+            $this->ctrl->getLinkTargetByClass(
+                array("ilnotegui"), "", "", true, false));
 
         // trigger assignment tool
         $this->triggerAssignmentTool();
