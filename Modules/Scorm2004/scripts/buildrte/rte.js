@@ -1,4 +1,4 @@
-// Build: 2018118230830 
+// Build: 2021217191655 
 /*
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
@@ -12138,10 +12138,34 @@ function sendAndLoad(url, data, callback, user, password, headers)
 }
 
 function sendJSONRequest (url, data, callback, user, password, headers) 
-{		
+{
+	function unloadChrome() {
+		if (navigator.userAgent.indexOf("Chrom") > -1) {
+			if (typeof(document.getElementById("res")) != "undefined" 
+				&& typeof(document.getElementById("res").contentWindow) != "undefined" 
+				&& typeof(document.getElementById("res").contentWindow.event) != "undefined" 
+				&& (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	if (typeof headers !== "object") {headers = {};}
 	headers['Accept'] = 'text/javascript';
 	headers['Accept-Charset'] = 'UTF-8';
+	if (url == this.config.store_url && unloadChrome()) {
+		var r = sendAndLoad(url, toJSONString(data), true, user, password, headers);
+		console.log("async request for chrome");
+		// navigator.sendBeacon(url, toJSONString(data));
+		// console.log('use sendBeacon');
+		return "1";
+	}
+	if (url == this.config.scorm_player_unload_url && navigator.userAgent.indexOf("Chrom") > -1) {
+		navigator.sendBeacon(url, toJSONString(data));
+		return "1";
+	}
+	
 	var r = sendAndLoad(url, toJSONString(data), callback, user, password, headers);
 	
 	if (r.content) {
@@ -12362,7 +12386,10 @@ function launchNavType(navType, isUserCurrentlyInteracting) {
 		//sync
 		activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";
    	}
-		
+	if (navType==='ExitAll' || navType==='Exit' || navType==='SuspendAll') {
+		onWindowUnload();
+	}
+	
 	//throw away API from previous sco and sync CMI and ADLTree, no api...SCO has to care for termination
 	onItemUndeliver();
 	
@@ -14181,7 +14208,7 @@ function syncCMIADLTree(){
 	//get current activity
 	var act = msequencer.mSeqTree.getActivity(mlaunch.mActivityID);
 	
-	if (act.getIsTracked())
+	if (act && act.getIsTracked())
 	{
 //alert("main.syncCMIADLTree:\nactivityid: " + mlaunch.mActivityID);	
 		var primaryObjID = null;
@@ -14582,7 +14609,7 @@ function updateNav(ignore) {
 		var disable=true;
 		var disabled_str = "";
 		var test=null;
-		if (mlaunch.mNavState.mChoice!=null) {
+		if (mlaunch.mNavState && typeof(mlaunch.mNavState.mChoice)!="undefined" && mlaunch.mNavState.mChoice!=null) {
 			test=mlaunch.mNavState.mChoice[i];
 		}	
 		if (test) {
