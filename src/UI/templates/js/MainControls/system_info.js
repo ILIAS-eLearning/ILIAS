@@ -30,7 +30,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				type: 'GET',
 				url: close_uri,
 				success: function(data) {
-					element.slideUp(500);
+					element.slideUp(500, function () {
+						$(this).remove();
+					});
 				}
 			});
 		};
