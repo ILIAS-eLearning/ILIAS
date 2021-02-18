@@ -454,3 +454,16 @@ foreach ($columns as $column) {
     }
 }
 ?>
+<#24>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+<#25>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+<#26>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+
