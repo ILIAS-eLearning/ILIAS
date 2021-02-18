@@ -129,6 +129,10 @@ export default class ParagraphUIActionHandler {
           this.ui.cmdTex();
           break;
 
+        case ACTIONS.SELECTION_FN:
+          this.ui.cmdFn();
+          break;
+
         case ACTIONS.SELECTION_ANCHOR:
           this.ui.cmdAnc();
           break;

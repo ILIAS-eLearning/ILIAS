@@ -887,6 +887,7 @@ export default class ParagraphUI {
           map[ACTIONS.SELECTION_REMOVE_FORMAT] = ef.selectionRemoveFormat();
           map[ACTIONS.SELECTION_KEYWORD] = ef.selectionKeyword();
           map[ACTIONS.SELECTION_TEX] = ef.selectionTex();
+          map[ACTIONS.SELECTION_FN] = ef.selectionFn();
           map[ACTIONS.SELECTION_ANCHOR] = ef.selectionAnchor();
           map[ACTIONS.LIST_BULLET] = ef.listBullet();
           map[ACTIONS.LIST_NUMBER] = ef.listNumber();

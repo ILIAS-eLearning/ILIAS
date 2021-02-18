@@ -48,6 +48,11 @@ class ilGlossaryTermGUI
     protected $term_glossary = null;
 
     /**
+     * @var \ilToolbarGUI
+     */
+    protected $toolbar;
+
+    /**
     * Constructor
     * @access	public
     */
@@ -68,6 +73,8 @@ class ilGlossaryTermGUI
         $this->tabs_gui = $ilTabs;
 
         $this->log = ilLoggerFactory::getLogger('glo');
+
+        $this->toolbar = $DIC->toolbar();
 
         $this->ref_id = $_GET["ref_id"];
 
@@ -505,6 +512,9 @@ class ilGlossaryTermGUI
             $tpl->setVariable("PAGE_CONTENT", $output);
             $tpl->parseCurrentBlock();
         }
+
+        // remove default "edit" entry from page preview
+        $this->toolbar->setItems([]);
 
         $this->tpl->setContent($tpl->get());
 

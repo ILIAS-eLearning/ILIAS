@@ -40,7 +40,7 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd.drop":
+      case "dnd.stopped":
         this.model.setState(this.model.STATE_PAGE);
         break;
 
@@ -64,6 +64,9 @@ export default class ModelActionHandler {
 
           case "cut":
             this.model.cut();
+            if (this.model.hasSelected()) {
+              this.model.activatePasting(true);
+            }
             this.model.selectNone();
             this.model.setState(this.model.STATE_PAGE);
             this.model.setMultiState(this.model.STATE_MULTI_CUT);
@@ -71,6 +74,9 @@ export default class ModelActionHandler {
 
           case "copy":
             this.model.copy();
+            if (this.model.hasSelected()) {
+              this.model.activatePasting(true);
+            }
             this.model.selectNone();
             this.model.setMultiState(this.model.STATE_MULTI_COPY);
             this.model.setState(this.model.STATE_PAGE);

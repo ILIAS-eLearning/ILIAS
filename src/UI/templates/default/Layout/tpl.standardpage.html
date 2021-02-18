@@ -5,9 +5,12 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-	<!-- BEGIN base -->
+	<!-- BEGIN for_ui_examples_only -->
+    <!-- ATTENTION: This only exists to provide an example of the complete page.     -->
+    <!-- This won't be included in renderings of ordinary pages. Also have a look    -->
+    <!-- into \ILIAS\UI\Implementation\Component\Layout\Page\Renderer::setHeaderVars -->
 	<base href="{BASE}" />
-	<!-- END base -->
+	<!-- END for_ui_examples_only -->
 
 	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
 
@@ -50,12 +53,12 @@
 			{BREADCRUMBS}
 		</div>
 
-		<div class="nav il-maincontrols">
-			{MAINBAR}
-		</div>
-
 		<div class="il-system-infos">
 			{SYSTEMINFOS}
+		</div>
+
+		<div class="nav il-maincontrols">
+			{MAINBAR}
 		</div>
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->

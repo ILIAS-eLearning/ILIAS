@@ -3169,6 +3169,7 @@ class ilObjUser extends ilObject
         if ($a_time == 0) {
             $a_time = date("Y-m-d H:i:s", time());
         }
+        ilSession::set("user_pc_clip", true);
         $ilDB->insert("personal_pc_clipboard", array(
             "user_id" => array("integer", $this->getId()),
             "content" => array("clob", $a_content),
@@ -3185,6 +3186,10 @@ class ilObjUser extends ilObject
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
+
+        if (!ilSession::get("user_pc_clip")) {
+            return [];
+        }
 
         $set = $ilDB->queryF("SELECT MAX(insert_time) mtime FROM personal_pc_clipboard " .
             " WHERE user_id = %s", array("integer"), array($this->getId()));
