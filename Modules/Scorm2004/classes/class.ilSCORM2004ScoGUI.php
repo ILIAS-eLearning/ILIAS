@@ -239,60 +239,30 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
     public function sahs_questions()
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->setTabs();
         $this->setLocator();
-
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-        include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-
-        // load template for table
-        $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scormeditor_sco_question.html", "Modules/Scorm2004");
-
-        $tbl = new ilTableGUI();
-        $tbl->setTitle("Questions for " . $this->node_object->getTitle());
-        $tbl->setHeaderNames(array("Question","Page"));
-        $cols = array("question","page");
-        //		$tbl->setHeaderVars($cols, $header_params);
-        $tbl->setHeaderVars($cols, 0);
-        $tbl->setColumnWidth(array("50%", "50%"));
-        $tbl->disable("sort");
-        $tbl->disable("footer");
 
         $tree = new ilTree($this->slm_object->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        $i = 0;
-
+        $questions = [];
         foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
             // get question ids
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($qids) > 0) {
                 // output questions
                 foreach ($qids as $qid) {
-                    $tpl->setCurrentBlock("tbl_content");
-                    $tpl->setVariable("TXT_PAGE_TITLE", $page["title"]);
-                    $ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $page["obj_id"]);
-                    $tpl->setVariable("HREF_EDIT_PAGE", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
-                    
-                    $qtitle = assQuestion::_getTitle($qid);
-                    $tpl->setVariable("TXT_QUESTION", $qtitle);
-                    $ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $page["obj_id"]);
-                    //$tpl->setVariable("HREF_EDIT_QUESTION", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
-                    
-                    $tpl->setVariable("CSS_ROW", ilUtil::switchColor($i++, "tblrow1", "tblrow2"));
-                    $tpl->parseCurrentBlock();
+                    $questions[] = [
+                        "page" => $page,
+                        "qid" => $qid
+                    ];
                 }
             }
         }
-        $tbl->render();
+
+        $tab = new ILIAS\Scorm2004\Editor\ilSCORMQuestionOverviewTableGUI($this, "sahs_questions");
+        $tab->setData($questions);
+        $this->tpl->setContent($tab->getHTML());
     }
 
     public function getEditTree()
