@@ -8629,7 +8629,7 @@ sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
-content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.
@@ -8917,7 +8917,7 @@ prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
-content#:#cont_ed_insert_profile#:#Insert Personal Data
+content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_update_profile#:#Edit Published Data
@@ -8926,7 +8926,7 @@ content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
-content#:#cont_ed_insert_verification#:#Insert Certificate
+content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_pc_vrfc#:#Certificate
 content#:#cont_insert_verification#:#Add Certificate
 content#:#cont_update_verification#:#Edit Certificate
@@ -11788,7 +11788,7 @@ crs#:#crs_mail_all#:#For all Participants
 grp#:#grp_mail_type#:#Mail to Members
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_all#:#For all Participants
-content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours
 content#:#cont_cach_mode#:#Mode
@@ -12250,7 +12250,7 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_image_height#:#Height
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Insert My Courses
+content#:#cont_ed_insert_mcrs#:#Insert My Courses
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
@@ -12348,7 +12348,7 @@ survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List
+content#:#cont_ed_insert_amdpl#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
@@ -15123,7 +15123,7 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Download Submission
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_lhist#:#Insert Learning History
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
