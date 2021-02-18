@@ -435,7 +435,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         parent::renderObject();
     }
-    public function isActiveAdministrationPanel()
+
+    public function isActiveAdministrationPanel() : bool
     {
         return false;
     }
