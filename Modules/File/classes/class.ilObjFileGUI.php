@@ -582,7 +582,11 @@ class ilObjFileGUI extends ilObject2GUI
             }
 
             if ($upload_possible) {
-                $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
+                $file = new ilFileStandardDropzoneInputGUI(
+                    'cancel',
+                    $this->lng->txt('obj_file'),
+                    'file'
+                );
                 $file->setRequired(false);
                 $form->addItem($file);
 
