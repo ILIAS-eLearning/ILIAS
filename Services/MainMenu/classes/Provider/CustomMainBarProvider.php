@@ -33,6 +33,7 @@ use ilMMTypeHandlerRepositoryLink;
 use ilMMTypeHandlerSeparator;
 use ilMMTypeHandlerTopLink;
 use ilObjMainMenuAccess;
+use ilMMTypeActionStorage;
 
 /**
  * Class CustomMainBarProvider
@@ -109,7 +110,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
             $this->mm_access->isCurrentUserAllowedToSeeCustomItem($storage)
         );
 
-        if ($item instanceof hasTitle && $storage->getDefaultTitle() !== '') {
+        if ($item instanceof hasTitle && !empty($storage->getDefaultTitle())) {
             $item = $item->withTitle($storage->getDefaultTitle());
         }
         if ($item instanceof hasAction) {

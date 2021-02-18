@@ -10,7 +10,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
     const ID = 'prg_user_not_restarted';
 
     /**
-     * @var ilStudyProgrammeUserAssignmentDB
+     * @var ilStudyProgrammeAssignmentDBRepository
      */
     protected $user_assignments_db;
 
@@ -29,6 +29,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         global $DIC;
 
         $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+        $this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
     }
@@ -115,7 +116,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         $result->setStatus(ilCronJobResult::STATUS_OK);
         foreach ($this->user_assignments_db->getDueToRestartAndMail() as $assignment) {
             try {
-                $prg = $assignment->getStudyProgramme();
+                $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
                 $validity_of_qualification = $prg->getValidityOfQualificationSettings();
                 $auto_re_assign = $validity_of_qualification->getRestartPeriod();
                 if ($auto_re_assign == -1) {
@@ -130,7 +131,7 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
                 $restart_date = $assignment->getRestartDate();
                 $restart_date->sub(new DateInterval(('P' . $inform_by_days . 'D')));
 
-                $assignment->informUserByMailToRestart();
+                $this->events->informUserByMailToRestart($assignment);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
             }

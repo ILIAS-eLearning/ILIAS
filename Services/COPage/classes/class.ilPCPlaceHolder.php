@@ -143,14 +143,13 @@ class ilPCPlaceHolder extends ilPageContent
      */
     public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
-        $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
         //
         // Note: this standard output is "overwritten", e.g. by ilPortfolioPageGUI::postOutputProcessing
         //
 
-        $c_pos = 0;
+        $end = 0;
         $start = strpos($a_html, "{{{{{PlaceHolder#");
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);

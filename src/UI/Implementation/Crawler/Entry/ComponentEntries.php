@@ -193,17 +193,21 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     }
 
     /**
-     * @return	mixed
+     * @return	ComponentEntry|false
      */
     public function current()
     {
         return current($this->id_to_entry_map);
     }
 
+    /**
+     * @return	ComponentEntry|false
+     */
     public function next()
     {
         next($this->id_to_entry_map);
     }
+
     public function rewind()
     {
         reset($this->id_to_entry_map);

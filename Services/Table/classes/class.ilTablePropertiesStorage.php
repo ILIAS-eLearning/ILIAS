@@ -156,7 +156,7 @@ class ilTablePropertiesStorage
         
         switch ($storage) {
             case "session":
-                return $_SESSION["table"][$a_table_id][$a_user_id][$a_property];
+                return $_SESSION["table"][$a_table_id][$a_user_id][$a_property] ?? null;
                 break;
                 
             case "db":
@@ -167,7 +167,7 @@ class ilTablePropertiesStorage
                     " AND property = " . $ilDB->quote($a_property, "text")
                     );
                 $rec = $ilDB->fetchAssoc($set);
-                return $rec["value"];
+                return $rec["value"] ?? '';
                 break;
         }
     }

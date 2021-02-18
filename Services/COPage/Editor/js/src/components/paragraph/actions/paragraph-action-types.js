@@ -20,6 +20,7 @@ const ACTIONS = {
   SELECTION_KEYWORD: "selection.keyword",
   SELECTION_TEX: "selection.tex",
   SELECTION_ANCHOR: "selection.anchor",
+  SELECTION_FN: "selection.fn",
   LIST_BULLET: "list.bullet",
   LIST_NUMBER: "list.number",
   LIST_OUTDENT: "list.outdent",

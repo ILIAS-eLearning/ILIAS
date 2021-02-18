@@ -95,13 +95,18 @@ class ilNoteGUI
     protected $no_actions = false;
 
     /**
-	 * @var bool
-	 */
-	protected $enable_sorting = true;
+     * @var bool
+     */
+    protected $enable_sorting = true;
 
-	protected $user_img_export_html = false;
+    protected $user_img_export_html = false;
 
-	/**
+    /**
+     * @var ilLogger
+     */
+    protected $log;
+
+   /**
     * constructor, specifies notes set
     *
     * @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
@@ -114,7 +119,8 @@ class ilNoteGUI
         $a_obj_id = "",
         $a_obj_type = "",
         $a_include_subobjects = false,
-        $a_news_id = 0
+        $a_news_id = 0,
+        $ajax = true
     ) {
         global $DIC;
 
@@ -126,6 +132,7 @@ class ilNoteGUI
         $this->ui = $DIC->ui();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->log = ilLoggerFactory::getLogger('note');
 
         $lng->loadLanguageModule("notes");
         
@@ -142,9 +149,8 @@ class ilNoteGUI
         if (!$this->obj_type && $a_rep_obj_id) {
             $this->obj_type = ilObject::_lookupType($a_rep_obj_id);
         }
-        
-        //$this->ajax = $ilCtrl->isAsynch();
-        $this->ajax = true;
+
+        $this->ajax = $ajax;
 
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
@@ -387,7 +393,11 @@ class ilNoteGUI
     && $this->only != "notes") {
             $this->private_enabled = false;
         }
-        
+
+        if (!$ilCtrl->isAsynch()) {
+            $ntpl->setVariable("OUTER_ID", " id='notes_embedded_outer' ");
+        }
+
         $nodes_col = false;
         if ($this->private_enabled && ($ilUser->getId() != ANONYMOUS_USER_ID)
             && !$hide_notes) {
@@ -579,10 +589,6 @@ class ilNoteGUI
             $tpl->setCurrentBlock("title");
             $tpl->setVariable("TITLE", $img . " " . $title);
             $tpl->parseCurrentBlock();
-        }
-
-        if (!$ilCtrl->isAsynch()) {
-            $tpl->setVariable("OUTER_ID", " id='notes_embedded_outer' ");
         }
 
         if ($this->delete_note) {
@@ -954,6 +960,9 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
         
         $parent_type = ilObject::_lookupType($parent_obj_id);
+        if ($parent_type == "") {
+            return "";
+        }
         $parent_class = "ilObj" . $objDefinition->getClassName($parent_type) . "GUI";
         $parent_path = $ilCtrl->lookupClassPath($parent_class);
         include_once $parent_path;
@@ -1721,6 +1730,7 @@ class ilNoteGUI
      */
     protected function notifyObserver($a_action, $a_note)
     {
+        $this->log->debug("Notifying Observers (".count($this->observer).").");
         if (is_array($this->observer) && count($this->observer) > 0) {
             foreach ($this->observer as $item) {
                 $param = $a_note->getObject();
@@ -1728,12 +1738,12 @@ class ilNoteGUI
                 unset($param['news_id']);
                 $param["action"] = $a_action;
                 $param["note_id"] = $a_note->getId();
-
                 call_user_func_array($item, $param);
             }
         }
 
         //ajax calls don't have callbacks in the observer. (modals)
+        /* deactivated, at least learning modules get double notifications otherwise, see #29331
         if ($this->ajax) {
             $ref = (int) $_GET['ref_id'];
             if (in_array($ref, ilObject::_getAllReferences($this->rep_obj_id))) {
@@ -1752,7 +1762,7 @@ class ilNoteGUI
                     $gui->observeNoteAction($this->obj_id, $this->obj_id, $this->obj_type, $a_action, $a_note->getId());
                 }
             }
-        }
+        }*/
     }
 
     protected function listSortAsc()

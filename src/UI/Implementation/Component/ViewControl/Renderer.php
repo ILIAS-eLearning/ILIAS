@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.mode.html", true, true);
 
+        $activate_first_item = false;
         $active = $component->getActive();
         if ($active == "") {
             $activate_first_item = true;
@@ -109,7 +110,7 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->touchBlock($type . "_disabled");
         }
-        $this->maybeRenderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
+        $this->renderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
     }
 
 
@@ -133,12 +134,7 @@ class Renderer extends AbstractComponentRenderer
             });
         }
 
-        if($component->getOnLoadCode()){
-            $id = $this->bindJavaScript($component);
-            $tpl->setCurrentBlock('id');
-            $tpl->setVariable('ID', $id);
-            $tpl->parseCurrentBlock();
-        }
+        $this->renderId($component, $tpl, "id", "ID");
 
         //setup entries
         $options = $component->getOptions();
@@ -377,14 +373,15 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var)
+    protected function renderId(Component\Component $component, $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock($block);
-            $tpl->setVariable($template_var, $id);
-            $tpl->parseCurrentBlock();
+        if(!$id){
+            $id = $this->createId();
         }
+        $tpl->setCurrentBlock($block);
+        $tpl->setVariable($template_var, $id);
+        $tpl->parseCurrentBlock();
     }
 
     /**

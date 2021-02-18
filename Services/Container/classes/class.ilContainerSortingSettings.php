@@ -71,14 +71,15 @@ class ilContainerSortingSettings
     
     /**
      * Get singleton instance
-     * @param type $a_obj_id
+     * @param int $a_obj_id
      * @return ilContainerSortingSettings
      */
-    public static function getInstanceByObjId($a_obj_id)
+    public static function getInstanceByObjId($a_obj_id) : self
     {
-        if (self::$instances[$a_obj_id]) {
+        if (isset(self::$instances[$a_obj_id])) {
             return self::$instances[$a_obj_id];
         }
+
         return self::$instances[$a_obj_id] = new self($a_obj_id);
     }
     

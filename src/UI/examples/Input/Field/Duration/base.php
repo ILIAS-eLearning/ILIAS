@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Duration;
+
 /**
  * Base example showing how to plug date-inputs into a form
  */

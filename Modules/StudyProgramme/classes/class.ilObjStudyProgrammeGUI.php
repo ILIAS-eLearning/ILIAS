@@ -72,7 +72,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     public $tree;
 
     /**
-     * @var ilObjOrgUnit
+     * @var ilObjStudyProgramme
      */
     public $object;
 
@@ -320,13 +320,11 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                         parent::confirmedDeleteObject();
                         break;
                     case 'editAdvancedSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->tabs_gui->activateSubTab('edit_advanced_settings');
+                        $this->tabs_gui->activateTab('edit_advanced_settings');
                         $this->editAdvancedSettings();
                         break;
                     case 'updateAdvancedSettings':
-                        $this->tabs_gui->activateTab("settings");
-                        $this->tabs_gui->activateSubTab('edit_advanced_settings');
+                        $this->tabs_gui->activateTab('edit_advanced_settings');
                         $this->updateAdvancedSettings();
                         break;
                     case "infoScreen":
@@ -435,9 +433,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $this->denyAccessIfNot("read");
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
-
         parent::renderObject();
     }
+    public function isActiveAdministrationPanel()
+    {
+        return false;
+    }
+
 
     /**
      * Initialize the form for editing advanced meta data
@@ -585,6 +587,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     const TAB_INFO = "info_short";
     const TAB_SETTINGS = "settings";
     const TAB_MEMBERS = "members";
+    const TAB_METADATA = "edit_advanced_settings";
     const TAB_SUBTYPES = "subtypes";
 
     /**
@@ -626,6 +629,15 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->getLinkTarget("members")
             );
         }
+
+        if ($this->object->hasAdvancedMetadata()) {
+            $this->tabs_gui->addTab(
+                self::TAB_METADATA,
+                $this->lng->txt('meta_data'),
+                $this->ctrl->getLinkTarget($this, 'editAdvancedSettings')
+            );
+        }
+
         parent::getTabs();
     }
 
@@ -649,7 +661,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 }
                 break;
             case 'settings':
-            case 'editAdvancedSettings':
                 $this->tabs_gui->addSubTab('settings', $this->lng->txt('settings'), $this->getLinkTarget('settings'));
 
                 if ($this->object->isAutoContentApplicable()) {
@@ -659,21 +670,6 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->addSubTab("settings_trans", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("ilobjecttranslationgui", ""));
                 //$this->tabs_gui->addSubTab("edit_translations", $this->lng->txt("obj_multilinguality"), $this->ctrl->getLinkTargetByClass("iltranslationgui", "editTranslations"));
 
-                $sub_type_id = $this->object->getTypeSettings()->getTypeId();
-                if ($sub_type_id) {
-                    $type = $this->type_repository->readType($sub_type_id);
-                }
-                if (
-                    !is_null($type) &&
-                    count(
-                        $this->type_repository->readAssignedAMDRecordIdsByType(
-                            $type->getId(),
-                            true
-                        )
-                    ) > 0
-                ) {
-                    $this->tabs_gui->addSubTab('edit_advanced_settings', $this->lng->txt('meta_data'), $this->ctrl->getLinkTarget($this, 'editAdvancedSettings'));
-                }
                 $validator = new ilCertificateActiveValidator();
                 if (true === $validator->validate()) {
                     $this->tabs_gui->addSubTabTarget(

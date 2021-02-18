@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Button\Standard;
+
 /**
  * In this example we create a button that ships with the on load animation on click.
  * Note that if the button will trigger a page-reload as soon as the work is done,

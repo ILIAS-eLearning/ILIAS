@@ -20,7 +20,7 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @var	string
      */
-    protected $aria_label;
+    protected $label;
 
     /**
      * @var	string
@@ -59,9 +59,9 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function getAriaLabel()
+    public function getLabel()
     {
-        return $this->aria_label;
+        return $this->label;
     }
 
     /**

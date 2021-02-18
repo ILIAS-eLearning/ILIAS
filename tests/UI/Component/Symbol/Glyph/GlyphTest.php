@@ -404,7 +404,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery()
+            $this->getRefinery(),
+            new ilImagePathResolver()
         );
         $f = $this->getCounterFactory();
 

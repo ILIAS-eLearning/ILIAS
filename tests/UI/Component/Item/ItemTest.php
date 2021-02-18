@@ -233,7 +233,8 @@ EOT;
 <div class="il-item il-std-item ">
 	<div class="media">
 		<div class="media-left">
-			<div class="icon name small" aria-label="aria_label"></div></div>
+			<img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
+        </div>
 		<div class="media-body">
             <div class="il-item-title">title</div>
 		</div>

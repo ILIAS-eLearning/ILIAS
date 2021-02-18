@@ -525,9 +525,10 @@ class ilTabsGUI
             foreach ($targets as $target) {
                 $i++;
                 
-                if (!is_array($target["cmd"])) {
+                if (isset($target["cmd"]) && !is_array($target["cmd"])) {
                     $target["cmd"] = array($target["cmd"]);
                 }
+
                 if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
                     (in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
                     (in_array($cmdClass, $target["cmdClass"]) || !$target["cmdClass"])) {

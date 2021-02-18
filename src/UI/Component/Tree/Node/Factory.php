@@ -59,7 +59,7 @@ interface Factory
      * @param string                                    $label
      * @param string                                    $byline
      * @param \ILIAS\UI\Component\Symbol\Icon\Icon|null $icon
-     * @return Bylined
+     * @return \ILIAS\UI\Component\Tree\Node\Bylined
      */
     public function bylined(string $label, string $byline, Icon $icon = null) : Bylined;
 }

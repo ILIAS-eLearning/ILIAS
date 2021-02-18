@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Image\Standard;
+
 /**
  * Base Example for rendering an Image with only decorative purpose (see accessibility rules in images)
  */

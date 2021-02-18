@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Popover\Standard;
+
 function show_popover_with_vertical_scrollbars()
 {
     global $DIC;

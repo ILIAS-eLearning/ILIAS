@@ -268,7 +268,7 @@ class ilPCMap extends ilPageContent
      */
     public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
-        $c_pos = 0;
+        $end = 0;
         $start = strpos($a_html, "[[[[[Map;");
         if (is_int($start)) {
             $end = strpos($a_html, "]]]]]", $start);

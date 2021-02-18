@@ -8,7 +8,7 @@ declare(strict_types=1);
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
     /**
-     * @var ilStudyProgrammeUserAssignmentDB
+     * @var ilStudyProgrammeAssignmentDBRepository
      */
     protected $user_assignments_db;
 
@@ -27,9 +27,13 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         global $DIC;
 
         $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
+        $this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
+        /**ilStudyProgrammeAssignmentRepository*/
+        $this->assignment_repository = ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
     }
+
 
     const ID = 'prg_restart_assignments_temporal_progress';
 
@@ -113,7 +117,14 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $result->setStatus(ilCronJobResult::STATUS_OK);
         foreach ($this->user_assignments_db->getDueToRestartInstances() as $assignment) {
             try {
-                $assignment->restartAssignment();
+                $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+                $restarted = $prg->assignUser($this->getUserId(), $this->getUserId());
+                $restarted = $restarted->setRestartedAssignmentId(
+                    $restarted->getId()
+                );
+
+                $this->assignment_repository->update($restarted);
+                $this->events->userReAssigned($restarted);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());
             }

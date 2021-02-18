@@ -178,10 +178,8 @@ class ilPCLearningHistory extends ilPageContent
      */
     public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
-        $lng = $this->lng;
-        $ilPluginAdmin = $this->plugin_admin;
-
         $start = strpos($a_html, "{{{{{LearningHistory");
+        $end = 0;
         if (is_int($start)) {
             $end = strpos($a_html, "}}}}}", $start);
         }

@@ -212,7 +212,7 @@ class ilBookingParticipant
                 $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $val['user_id']);
                 $actions[] = array(
                     'text' => $lng->txt("book_assign_object"),
-                    'url' => $ctrl->getLinkTargetByClass("ilbookingparticipantgui", 'assignObjects')
+                    'url' => $ctrl->getLinkTargetByClass(["ilobjbookingpoolgui", "ilbookingparticipantgui"], 'assignObjects')
                 );
                 $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
             }

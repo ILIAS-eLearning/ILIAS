@@ -114,7 +114,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     /**
      * @return bool
      */
-    final private function checkClosure() : bool
+    private function checkClosure() : bool
     {
         $closure = $this->modification;
         $return_type = $this->getClosureReturnType();

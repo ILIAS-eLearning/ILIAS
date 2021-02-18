@@ -74,7 +74,10 @@ EOT;
         $expected = <<<EOT
 			<li id="" class="il-tree-node node-simple" role="none">
 				<span class="node-line">
-					<span class="node-label"><div class="icon small" aria-label=""></div>My Label</span>
+					<span class="node-label">
+						<img class="icon small" src="./templates/default/images/icon_default.svg" alt=""/>
+						My Label
+					</span>
 					<span class="node-byline">This is my byline</span>
 				</span>
 			</li>
@@ -110,61 +113,5 @@ EOT;
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($html)
         );
-    }
-
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
-    {
-        $ui_factory = $this->getUIFactory();
-        $tpl_factory = $this->getTemplateFactory();
-        $resource_registry = $this->getResourceRegistry();
-        $lng = $this->getLanguage();
-        if (!$js_binding) {
-            $js_binding = $this->getJavaScriptBinding();
-        }
-
-        $languageMock = $this->getMockBuilder('ilLanguage')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $defaultRendererFactory = new DefaultRendererFactory(
-            $ui_factory,
-            $tpl_factory,
-            $lng,
-            $js_binding,
-            new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
-        );
-
-        $glyphRendererFactory = new GlyphRendererFactory(
-            $ui_factory,
-            $tpl_factory,
-            $lng,
-            $js_binding,
-            new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
-        );
-
-        $fieldRendererFactory = new FieldRendererFactory(
-            $ui_factory,
-            $tpl_factory,
-            $lng,
-            $js_binding,
-            new ILIAS\Refinery\Factory(new ILIAS\Data\Factory(), $languageMock)
-        );
-
-        $fsLoader = new \ILIAS\UI\Implementation\Render\FSLoader(
-            $defaultRendererFactory,
-            $glyphRendererFactory,
-            $fieldRendererFactory
-        );
-
-        $loaderResourceRegistryWrapper = new \ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper(
-            $resource_registry,
-            $fsLoader
-        );
-
-        $component_renderer_loader
-                                       = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
-                                           $loaderResourceRegistryWrapper
-        );
-        return new TestDefaultRenderer($component_renderer_loader);
     }
 }

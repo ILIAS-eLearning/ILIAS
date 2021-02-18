@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\Examples\Dropdown\Standard;
+
 function base()
 {
     global $DIC;

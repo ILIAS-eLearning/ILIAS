@@ -1100,7 +1100,7 @@ body {
   font-family: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.42857143;
-  color: #333333;
+  color: #434343;
   background-color: #f0f0f0;
 }
 input,
@@ -1574,7 +1574,7 @@ pre {
   margin: 0 0 10px;
   font-size: 13px;
   line-height: 1.42857143;
-  color: #333333;
+  color: #434343;
   word-break: break-all;
   word-wrap: break-word;
   background-color: #f5f5f5;
@@ -2666,7 +2666,7 @@ legend {
   margin-bottom: 20px;
   font-size: 21px;
   line-height: inherit;
-  color: #333333;
+  color: #434343;
   border: 0;
   border-bottom: 1px solid #e5e5e5;
 }
@@ -3074,7 +3074,7 @@ select[multiple].input-lg {
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #737373;
+  color: #838383;
 }
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -3696,7 +3696,7 @@ tbody.collapse.in {
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  color: #262626;
+  color: #363636;
   text-decoration: none;
   background-color: #ecf0f4;
 }
@@ -4823,24 +4823,6 @@ fieldset[disabled] .navbar-inverse .btn-link:hover,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
 }
-.breadcrumb {
-  padding: 0 15px;
-  margin-bottom: 20px;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0px;
-}
-.breadcrumb > li {
-  display: inline-block;
-}
-.breadcrumb > li + li:before {
-  padding: 0 5px;
-  color: #557196;
-  content: " \e606\00a0";
-}
-.breadcrumb > .active {
-  color: #3a4c65;
-}
 .pagination {
   display: inline-block;
   padding-left: 0;
@@ -5155,7 +5137,7 @@ a.thumbnail.active {
 }
 .thumbnail .caption {
   padding: 9px;
-  color: #333333;
+  color: #434343;
 }
 .alert {
   padding: 15px;
@@ -5810,7 +5792,7 @@ button.list-group-item-danger.active:focus {
   border-color: none;
 }
 .panel-default > .panel-heading {
-  color: #333333;
+  color: #434343;
   background-color: #f9f9f9;
   border-color: none;
 }
@@ -5819,7 +5801,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-default > .panel-heading .badge {
   color: #f9f9f9;
-  background-color: #333333;
+  background-color: #434343;
 }
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: none;
@@ -5828,7 +5810,7 @@ button.list-group-item-danger.active:focus {
   border-color: none;
 }
 .panel-primary > .panel-heading {
-  color: #333333;
+  color: #434343;
   background-color: white;
   border-color: none;
 }
@@ -5837,7 +5819,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-primary > .panel-heading .badge {
   color: white;
-  background-color: #333333;
+  background-color: #434343;
 }
 .panel-primary > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: none;
@@ -7214,7 +7196,7 @@ button.close {
   border-radius: 0;
   font-size: 12px;
   border: 1px solid transparent;
-  color: #333333;
+  color: #434343;
   display: inline-block;
 }
 .il-upload-file-item.standard .remove button {
@@ -7428,7 +7410,7 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.engaged.active,
 .btn.btn-tag.engaged.active {
   background-color: white;
-  color: #333333;
+  color: #434343;
   cursor: default;
 }
 button > .glyphicon {
@@ -7580,7 +7562,7 @@ h4.il-divider {
   display: block;
   font-size: 12px;
   line-height: 1.5;
-  color: #4d4d4d;
+  color: #5d5d5d;
 }
 hr.il-divider-with-label {
   display: none;
@@ -7624,7 +7606,7 @@ ul.dropdown-menu > li > .btn {
 ul.dropdown-menu > li > .btn:hover,
 ul.dropdown-menu > li > .btn:focus {
   text-decoration: none;
-  color: #262626;
+  color: #363636;
   background-color: #ecf0f4;
 }
 .il-maincontrols-slate-content .dropdown-menu {
@@ -7852,6 +7834,7 @@ ul.dropdown-menu > li > .btn:focus {
 .breadcrumb_wrapper {
   width: 100%;
   display: inline-grid;
+  background: #fff;
 }
 .breadcrumb_wrapper .breadcrumb {
   white-space: nowrap;
@@ -9998,14 +9981,20 @@ footer {
   border-left: 3px solid #fa8228;
   border-right: 3px solid #fa8228;
   text-align: center;
-  height: 30px;
-  margin-bottom: -30px;
-  z-index: 2;
-  position: static;
+  z-index: 1010;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
 }
 .il-mode-info + div {
   border: 3px solid #fa8228;
   border-top: 0 none;
+}
+@media only screen and (max-width: 768px) {
+  .il-mode-info + div {
+    padding-top: 30px;
+  }
 }
 .il-layout-page-content > div {
   display: grid;
@@ -10018,6 +10007,7 @@ footer {
   -webkit-box-shadow: 0px 2px 2px 0px #808080;
   -moz-box-shadow: 0px 2px 2px 0px #808080;
   box-shadow: 0px 2px 2px 0px #808080;
+  pointer-events: all;
 }
 .il-mode-info span {
   color: white;
@@ -10162,13 +10152,8 @@ footer {
   display: none;
 }
 .icon {
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("images/icon_default.svg");
   display: inline-block;
   text-align: center;
-  /* the custom-icon is rendered with an image contained in the div */
-  /* add known standard classes here */
 }
 .icon .abbreviation {
   font-weight: bold;
@@ -10233,1028 +10218,11 @@ footer {
   /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
-.icon.custom {
-  background-image: none;
-}
-.icon.grp .abbreviation,
-.icon.cat .abbreviation,
-.icon.crs .abbreviation,
-.icon.mob .abbreviation,
-.icon.mail .abbreviation,
-.icon.sahs .abbreviation,
-.icon.adm .abbreviation,
-.icon.usrf .abbreviation,
-.icon.rolf .abbreviation,
-.icon.objf .abbreviation,
-.icon.usr .abbreviation,
-.icon.typ .abbreviation,
-.icon.rolt .abbreviation,
-.icon.lngf .abbreviation,
-.icon.lng .abbreviation,
-.icon.role .abbreviation,
-.icon.dbk .abbreviation,
-.icon.glo .abbreviation,
-.icon.root .abbreviation,
-.icon.lm .abbreviation,
-.icon.notf .abbreviation,
-.icon.note .abbreviation,
-.icon.frm .abbreviation,
-.icon.exc .abbreviation,
-.icon.auth .abbreviation,
-.icon.fold .abbreviation,
-.icon.file .abbreviation,
-.icon.tst .abbreviation,
-.icon.qpl .abbreviation,
-.icon.recf .abbreviation,
-.icon.mep .abbreviation,
-.icon.htlm .abbreviation,
-.icon.svy .abbreviation,
-.icon.spl .abbreviation,
-.icon.cals .abbreviation,
-.icon.trac .abbreviation,
-.icon.assf .abbreviation,
-.icon.stys .abbreviation,
-.icon.crsg .abbreviation,
-.icon.webr .abbreviation,
-.icon.seas .abbreviation,
-.icon.extt .abbreviation,
-.icon.adve .abbreviation,
-.icon.ps .abbreviation,
-.icon.nwss .abbreviation,
-.icon.feed .abbreviation,
-.icon.mcst .abbreviation,
-.icon.rcrs .abbreviation,
-.icon.mds .abbreviation,
-.icon.cmps .abbreviation,
-.icon.facs .abbreviation,
-.icon.svyf .abbreviation,
-.icon.sess .abbreviation,
-.icon.mcts .abbreviation,
-.icon.wiki .abbreviation,
-.icon.crsr .abbreviation,
-.icon.catr .abbreviation,
-.icon.tags .abbreviation,
-.icon.cert .abbreviation,
-.icon.lrss .abbreviation,
-.icon.accs .abbreviation,
-.icon.mobs .abbreviation,
-.icon.frma .abbreviation,
-.icon.book .abbreviation,
-.icon.skmg .abbreviation,
-.icon.blga .abbreviation,
-.icon.prfa .abbreviation,
-.icon.chtr .abbreviation,
-.icon.chta .abbreviation,
-.icon.otpl .abbreviation,
-.icon.blog .abbreviation,
-.icon.dcl .abbreviation,
-.icon.poll .abbreviation,
-.icon.hlps .abbreviation,
-.icon.itgr .abbreviation,
-.icon.rcat .abbreviation,
-.icon.rwik .abbreviation,
-.icon.rlm .abbreviation,
-.icon.rglo .abbreviation,
-.icon.rfil .abbreviation,
-.icon.rgrp .abbreviation,
-.icon.rtst .abbreviation,
-.icon.ecss .abbreviation,
-.icon.tos .abbreviation,
-.icon.bibl .abbreviation,
-.icon.sysc .abbreviation,
-.icon.cld .abbreviation,
-.icon.reps .abbreviation,
-.icon.crss .abbreviation,
-.icon.grps .abbreviation,
-.icon.wbrs .abbreviation,
-.icon.prtt .abbreviation,
-.icon.orgu .abbreviation,
-.icon.wiks .abbreviation,
-.icon.excs .abbreviation,
-.icon.taxs .abbreviation,
-.icon.bibs .abbreviation,
-.icon.awra .abbreviation,
-.icon.logs .abbreviation,
-.icon.prg .abbreviation,
-.icon.prgs .abbreviation,
-.icon.cadm .abbreviation,
-.icon.grpr .abbreviation,
-.icon.bdga .abbreviation,
-.icon.wfe .abbreviation,
-.icon.iass .abbreviation,
-.icon.copa .abbreviation,
-.icon.cpad .abbreviation,
-.icon.lso .abbreviation,
-.icon.bgtk .abbreviation,
-.icon.peac .abbreviation,
-.icon.peadl .abbreviation,
-.icon.peadt .abbreviation,
-.icon.pecd .abbreviation,
-.icon.pech .abbreviation,
-.icon.pecl .abbreviation,
-.icon.peclp .abbreviation,
-.icon.pecom .abbreviation,
-.icon.pecrs .abbreviation,
-.icon.pecrt .abbreviation,
-.icon.pecs .abbreviation,
-.icon.pedt .abbreviation,
-.icon.pefl .abbreviation,
-.icon.peim .abbreviation,
-.icon.pelh .abbreviation,
-.icon.pemed .abbreviation,
-.icon.pemp .abbreviation,
-.icon.pepd .abbreviation,
-.icon.pepe .abbreviation,
-.icon.pepl .abbreviation,
-.icon.peplh .abbreviation,
-.icon.pequ .abbreviation,
-.icon.perl .abbreviation,
-.icon.pesc .abbreviation,
-.icon.petmp .abbreviation,
-.icon.peusr .abbreviation {
-  display: none;
-}
-.icon.grp {
-  background-image: url("images/icon_grp.svg");
-}
-.icon.cat {
-  background-image: url("images/icon_cat.svg");
-}
-.icon.crs {
-  background-image: url("images/icon_crs.svg");
-}
-.icon.mob {
-  background-image: url("images/icon_mob.svg");
-}
-.icon.mail {
-  background-image: url("images/icon_mail.svg");
-}
-.icon.sahs {
-  background-image: url("images/icon_sahs.svg");
-}
-.icon.adm {
-  background-image: url("images/icon_adm.svg");
-}
-.icon.usrf {
-  background-image: url("images/icon_usrf.svg");
-}
-.icon.rolf {
-  background-image: url("images/icon_rolf.svg");
-}
-.icon.objf {
-  background-image: url("images/icon_objf.svg");
-}
-.icon.usr {
-  background-image: url("images/icon_usr.svg");
-}
-.icon.rolt {
-  background-image: url("images/icon_rolt.svg");
-}
-.icon.lngf {
-  background-image: url("images/icon_lngf.svg");
-}
-.icon.lng {
-  background-image: url("images/icon_lng.svg");
-}
-.icon.role {
-  background-image: url("images/icon_role.svg");
-}
-.icon.dbk {
-  background-image: url("images/icon_dbk.svg");
-}
-.icon.glo {
-  background-image: url("images/icon_glo.svg");
-}
-.icon.root {
-  background-image: url("images/icon_root.svg");
-}
-.icon.lm {
-  background-image: url("images/icon_lm.svg");
-}
-.icon.notf {
-  background-image: url("images/icon_notf.svg");
-}
-.icon.note {
-  background-image: url("images/icon_note.svg");
-}
-.icon.frm {
-  background-image: url("images/icon_frm.svg");
-}
-.icon.exc {
-  background-image: url("images/icon_exc.svg");
-}
-.icon.auth {
-  background-image: url("images/icon_auth.svg");
-}
-.icon.fold {
-  background-image: url("images/icon_fold.svg");
-}
-.icon.file {
-  background-image: url("images/icon_file.svg");
-}
-.icon.tst {
-  background-image: url("images/icon_tst.svg");
-}
-.icon.qpl {
-  background-image: url("images/icon_qpl.svg");
-}
-.icon.recf {
-  background-image: url("images/icon_recf.svg");
-}
-.icon.mep {
-  background-image: url("images/icon_mep.svg");
-}
-.icon.htlm {
-  background-image: url("images/icon_htlm.svg");
-}
-.icon.svy {
-  background-image: url("images/icon_svy.svg");
-}
-.icon.spl {
-  background-image: url("images/icon_spl.svg");
-}
-.icon.cals {
-  background-image: url("images/icon_cals.svg");
-}
-.icon.trac {
-  background-image: url("images/icon_trac.svg");
-}
-.icon.assf {
-  background-image: url("images/icon_assf.svg");
-}
-.icon.stys {
-  background-image: url("images/icon_stys.svg");
-}
-.icon.crsg {
-  background-image: url("images/icon_crsg.svg");
-}
-.icon.webr {
-  background-image: url("images/icon_webr.svg");
-}
-.icon.seas {
-  background-image: url("images/icon_seas.svg");
-}
-.icon.extt {
-  background-image: url("images/icon_extt.svg");
-}
-.icon.adve {
-  background-image: url("images/icon_adve.svg");
-}
-.icon.ps {
-  background-image: url("images/icon_ps.svg");
-}
-.icon.nwss {
-  background-image: url("images/icon_nwss.svg");
-}
-.icon.feed {
-  background-image: url("images/icon_feed.svg");
-}
-.icon.mcst {
-  background-image: url("images/icon_mcst.svg");
-}
-.icon.rcrs {
-  background-image: url("images/icon_rcrs.svg");
-}
-.icon.mds {
-  background-image: url("images/icon_mds.svg");
-}
-.icon.cmps {
-  background-image: url("images/icon_cmps.svg");
-}
-.icon.facs {
-  background-image: url("images/icon_facs.svg");
-}
-.icon.svyf {
-  background-image: url("images/icon_svyf.svg");
-}
-.icon.sess {
-  background-image: url("images/icon_sess.svg");
-}
-.icon.mcts {
-  background-image: url("images/icon_mcts.svg");
-}
-.icon.wiki {
-  background-image: url("images/icon_wiki.svg");
-}
-.icon.crsr {
-  background-image: url("images/icon_crsr.svg");
-}
-.icon.catr {
-  background-image: url("images/icon_catr.svg");
-}
-.icon.tags {
-  background-image: url("images/icon_tags.svg");
-}
-.icon.cert {
-  background-image: url("images/icon_cert.svg");
-}
-.icon.lrss {
-  background-image: url("images/icon_lrss.svg");
-}
-.icon.accs {
-  background-image: url("images/icon_accs.svg");
-}
-.icon.mobs {
-  background-image: url("images/icon_mobs.svg");
-}
-.icon.frma {
-  background-image: url("images/icon_frma.svg");
-}
-.icon.book {
-  background-image: url("images/icon_book.svg");
-}
-.icon.skmg {
-  background-image: url("images/icon_skmg.svg");
-}
-.icon.blga {
-  background-image: url("images/icon_blga.svg");
-}
-.icon.prfa {
-  background-image: url("images/icon_prfa.svg");
-}
-.icon.chtr {
-  background-image: url("images/icon_chtr.svg");
-}
-.icon.chta {
-  background-image: url("images/icon_chta.svg");
-}
-.icon.otpl {
-  background-image: url("images/icon_otpl.svg");
-}
-.icon.blog {
-  background-image: url("images/icon_blog.svg");
-}
-.icon.dcl {
-  background-image: url("images/icon_dcl.svg");
-}
-.icon.poll {
-  background-image: url("images/icon_poll.svg");
-}
-.icon.hlps {
-  background-image: url("images/icon_hlps.svg");
-}
-.icon.itgr {
-  background-image: url("images/icon_itgr.svg");
-}
-.icon.rcat {
-  background-image: url("images/icon_rcat.svg");
-}
-.icon.rwik {
-  background-image: url("images/icon_rwik.svg");
-}
-.icon.rlm {
-  background-image: url("images/icon_rlm.svg");
-}
-.icon.rglo {
-  background-image: url("images/icon_rglo.svg");
-}
-.icon.rfil {
-  background-image: url("images/icon_rfil.svg");
-}
-.icon.rgrp {
-  background-image: url("images/icon_rgrp.svg");
-}
-.icon.rtst {
-  background-image: url("images/icon_rtst.svg");
-}
-.icon.ecss {
-  background-image: url("images/icon_ecss.svg");
-}
-.icon.tos {
-  background-image: url("images/icon_tos.svg");
-}
-.icon.bibl {
-  background-image: url("images/icon_bibl.svg");
-}
-.icon.sysc {
-  background-image: url("images/icon_sysc.svg");
-}
-.icon.cld {
-  background-image: url("images/icon_cld.svg");
-}
-.icon.reps {
-  background-image: url("images/icon_reps.svg");
-}
-.icon.crss {
-  background-image: url("images/icon_crss.svg");
-}
-.icon.grps {
-  background-image: url("images/icon_grps.svg");
-}
-.icon.wbrs {
-  background-image: url("images/icon_wbrs.svg");
-}
-.icon.prtt {
-  background-image: url("images/icon_prtt.svg");
-}
-.icon.orgu {
-  background-image: url("images/icon_orgu.svg");
-}
-.icon.wiks {
-  background-image: url("images/icon_wiks.svg");
-}
-.icon.excs {
-  background-image: url("images/icon_excs.svg");
-}
-.icon.taxs {
-  background-image: url("images/icon_taxs.svg");
-}
-.icon.bibs {
-  background-image: url("images/icon_bibs.svg");
-}
-.icon.awra {
-  background-image: url("images/icon_awra.svg");
-}
-.icon.logs {
-  background-image: url("images/icon_logs.svg");
-}
-.icon.prg {
-  background-image: url("images/icon_prg.svg");
-}
-.icon.prgs {
-  background-image: url("images/icon_prgs.svg");
-}
-.icon.cadm {
-  background-image: url("images/icon_cadm.svg");
-}
-.icon.grpr {
-  background-image: url("images/icon_grpr.svg");
-}
-.icon.bdga {
-  background-image: url("images/icon_bdga.svg");
-}
-.icon.wfe {
-  background-image: url("images/icon_wfe.svg");
-}
-.icon.iass {
-  background-image: url("images/icon_iass.svg");
-}
-.icon.copa {
-  background-image: url("images/icon_copa.svg");
-}
-.icon.cpad {
-  background-image: url("images/icon_cpad.svg");
-}
-.icon.lso {
-  background-image: url("images/icon_lso.svg");
-}
-.icon.bgtk {
-  background-image: url("images/icon_bgtk.svg");
-}
-.icon.mme {
-  background-image: url("images/icon_mme.svg");
-}
-.icon.pdfg {
-  background-image: url("images/icon_pdfg.svg");
-}
-.icon.dshs {
-  background-image: url("images/icon_dshs.svg");
-}
-.icon.nots {
-  background-image: url("images/icon_nots.svg");
-}
-.icon.prss {
-  background-image: url("images/icon_prss.svg");
-}
-.icon.lhts {
-  background-image: url("images/icon_lhts.svg");
-}
-.icon.coms {
-  background-image: url("images/icon_coms.svg");
-}
-.icon.ltis {
-  background-image: url("images/icon_ltis.svg");
-}
-.icon.cmis {
-  background-image: url("images/icon_cmis.svg");
-}
-.icon.task {
-  background-image: url("images/icon_task.svg");
-}
-.icon.rep {
-  background-image: url("images/icon_rep.svg");
-}
-.icon.peac {
-  background-image: url("images/icon_peac.svg");
-}
-.icon.peadl {
-  background-image: url("images/icon_peadl.svg");
-}
-.icon.peadt {
-  background-image: url("images/icon_peadt.svg");
-}
-.icon.pecd {
-  background-image: url("images/icon_pecd.svg");
-}
-.icon.pech {
-  background-image: url("images/icon_pech.svg");
-}
-.icon.pecl {
-  background-image: url("images/icon_pecl.svg");
-}
-.icon.peclp {
-  background-image: url("images/icon_peclp.svg");
-}
-.icon.pecom {
-  background-image: url("images/icon_pecom.svg");
-}
-.icon.pecrs {
-  background-image: url("images/icon_pecrs.svg");
-}
-.icon.pecrt {
-  background-image: url("images/icon_pecrt.svg");
-}
-.icon.pecs {
-  background-image: url("images/icon_pecs.svg");
-}
-.icon.pedt {
-  background-image: url("images/icon_pedt.svg");
-}
-.icon.pefl {
-  background-image: url("images/icon_pefl.svg");
-}
-.icon.peim {
-  background-image: url("images/icon_peim.svg");
-}
-.icon.pelh {
-  background-image: url("images/icon_pelh.svg");
-}
-.icon.pemed {
-  background-image: url("images/icon_pemed.svg");
-}
-.icon.pemp {
-  background-image: url("images/icon_pemp.svg");
-}
-.icon.pepd {
-  background-image: url("images/icon_pepd.svg");
-}
-.icon.pepe {
-  background-image: url("images/icon_pepe.svg");
-}
-.icon.pepl {
-  background-image: url("images/icon_pepl.svg");
-}
-.icon.peplh {
-  background-image: url("images/icon_peplh.svg");
-}
-.icon.pequ {
-  background-image: url("images/icon_pequ.svg");
-}
-.icon.perl {
-  background-image: url("images/icon_perl.svg");
-}
-.icon.pesc {
-  background-image: url("images/icon_pesc.svg");
-}
-.icon.petmp {
-  background-image: url("images/icon_petmp.svg");
-}
-.icon.peusr {
-  background-image: url("images/icon_peusr.svg");
-}
 .icon.outlined {
   filter: brightness(0);
 }
 .icon.outlined.disabled {
   filter: contrast(0%);
-}
-.icon.outlined.grp {
-  background-image: url("images/outlined/icon_grp.svg");
-}
-.icon.outlined.cat {
-  background-image: url("images/outlined/icon_cat.svg");
-}
-.icon.outlined.crs {
-  background-image: url("images/outlined/icon_crs.svg");
-}
-.icon.outlined.mob {
-  background-image: url("images/outlined/icon_mob.svg");
-}
-.icon.outlined.mail {
-  background-image: url("images/outlined/icon_mail.svg");
-}
-.icon.outlined.sahs {
-  background-image: url("images/outlined/icon_sahs.svg");
-}
-.icon.outlined.adm {
-  background-image: url("images/outlined/icon_adm.svg");
-}
-.icon.outlined.usrf {
-  background-image: url("images/outlined/icon_usrf.svg");
-}
-.icon.outlined.rolf {
-  background-image: url("images/outlined/icon_rolf.svg");
-}
-.icon.outlined.objf {
-  background-image: url("images/outlined/icon_objf.svg");
-}
-.icon.outlined.usr {
-  background-image: url("images/outlined/icon_usr.svg");
-}
-.icon.outlined.rolt {
-  background-image: url("images/outlined/icon_rolt.svg");
-}
-.icon.outlined.lngf {
-  background-image: url("images/outlined/icon_lngf.svg");
-}
-.icon.outlined.lng {
-  background-image: url("images/outlined/icon_lng.svg");
-}
-.icon.outlined.role {
-  background-image: url("images/outlined/icon_role.svg");
-}
-.icon.outlined.dbk {
-  background-image: url("images/outlined/icon_dbk.svg");
-}
-.icon.outlined.glo {
-  background-image: url("images/outlined/icon_glo.svg");
-}
-.icon.outlined.root {
-  background-image: url("images/outlined/icon_root.svg");
-}
-.icon.outlined.lm {
-  background-image: url("images/outlined/icon_lm.svg");
-}
-.icon.outlined.notf {
-  background-image: url("images/outlined/icon_notf.svg");
-}
-.icon.outlined.note {
-  background-image: url("images/outlined/icon_note.svg");
-}
-.icon.outlined.frm {
-  background-image: url("images/outlined/icon_frm.svg");
-}
-.icon.outlined.exc {
-  background-image: url("images/outlined/icon_exc.svg");
-}
-.icon.outlined.auth {
-  background-image: url("images/outlined/icon_auth.svg");
-}
-.icon.outlined.fold {
-  background-image: url("images/outlined/icon_fold.svg");
-}
-.icon.outlined.file {
-  background-image: url("images/outlined/icon_file.svg");
-}
-.icon.outlined.tst {
-  background-image: url("images/outlined/icon_tst.svg");
-}
-.icon.outlined.qpl {
-  background-image: url("images/outlined/icon_qpl.svg");
-}
-.icon.outlined.recf {
-  background-image: url("images/outlined/icon_recf.svg");
-}
-.icon.outlined.mep {
-  background-image: url("images/outlined/icon_mep.svg");
-}
-.icon.outlined.htlm {
-  background-image: url("images/outlined/icon_htlm.svg");
-}
-.icon.outlined.svy {
-  background-image: url("images/outlined/icon_svy.svg");
-}
-.icon.outlined.spl {
-  background-image: url("images/outlined/icon_spl.svg");
-}
-.icon.outlined.cals {
-  background-image: url("images/outlined/icon_cals.svg");
-}
-.icon.outlined.trac {
-  background-image: url("images/outlined/icon_trac.svg");
-}
-.icon.outlined.assf {
-  background-image: url("images/outlined/icon_assf.svg");
-}
-.icon.outlined.stys {
-  background-image: url("images/outlined/icon_stys.svg");
-}
-.icon.outlined.crsg {
-  background-image: url("images/outlined/icon_crsg.svg");
-}
-.icon.outlined.webr {
-  background-image: url("images/outlined/icon_webr.svg");
-}
-.icon.outlined.seas {
-  background-image: url("images/outlined/icon_seas.svg");
-}
-.icon.outlined.extt {
-  background-image: url("images/outlined/icon_extt.svg");
-}
-.icon.outlined.adve {
-  background-image: url("images/outlined/icon_adve.svg");
-}
-.icon.outlined.ps {
-  background-image: url("images/outlined/icon_ps.svg");
-}
-.icon.outlined.nwss {
-  background-image: url("images/outlined/icon_nwss.svg");
-}
-.icon.outlined.feed {
-  background-image: url("images/outlined/icon_feed.svg");
-}
-.icon.outlined.mcst {
-  background-image: url("images/outlined/icon_mcst.svg");
-}
-.icon.outlined.rcrs {
-  background-image: url("images/outlined/icon_rcrs.svg");
-}
-.icon.outlined.mds {
-  background-image: url("images/outlined/icon_mds.svg");
-}
-.icon.outlined.cmps {
-  background-image: url("images/outlined/icon_cmps.svg");
-}
-.icon.outlined.facs {
-  background-image: url("images/outlined/icon_facs.svg");
-}
-.icon.outlined.svyf {
-  background-image: url("images/outlined/icon_svyf.svg");
-}
-.icon.outlined.sess {
-  background-image: url("images/outlined/icon_sess.svg");
-}
-.icon.outlined.mcts {
-  background-image: url("images/outlined/icon_mcts.svg");
-}
-.icon.outlined.wiki {
-  background-image: url("images/outlined/icon_wiki.svg");
-}
-.icon.outlined.crsr {
-  background-image: url("images/outlined/icon_crsr.svg");
-}
-.icon.outlined.catr {
-  background-image: url("images/outlined/icon_catr.svg");
-}
-.icon.outlined.tags {
-  background-image: url("images/outlined/icon_tags.svg");
-}
-.icon.outlined.cert {
-  background-image: url("images/outlined/icon_cert.svg");
-}
-.icon.outlined.lrss {
-  background-image: url("images/outlined/icon_lrss.svg");
-}
-.icon.outlined.accs {
-  background-image: url("images/outlined/icon_accs.svg");
-}
-.icon.outlined.mobs {
-  background-image: url("images/outlined/icon_mobs.svg");
-}
-.icon.outlined.frma {
-  background-image: url("images/outlined/icon_frma.svg");
-}
-.icon.outlined.book {
-  background-image: url("images/outlined/icon_book.svg");
-}
-.icon.outlined.skmg {
-  background-image: url("images/outlined/icon_skmg.svg");
-}
-.icon.outlined.blga {
-  background-image: url("images/outlined/icon_blga.svg");
-}
-.icon.outlined.prfa {
-  background-image: url("images/outlined/icon_prfa.svg");
-}
-.icon.outlined.chtr {
-  background-image: url("images/outlined/icon_chtr.svg");
-}
-.icon.outlined.chta {
-  background-image: url("images/outlined/icon_chta.svg");
-}
-.icon.outlined.otpl {
-  background-image: url("images/outlined/icon_otpl.svg");
-}
-.icon.outlined.blog {
-  background-image: url("images/outlined/icon_blog.svg");
-}
-.icon.outlined.dcl {
-  background-image: url("images/outlined/icon_dcl.svg");
-}
-.icon.outlined.poll {
-  background-image: url("images/outlined/icon_poll.svg");
-}
-.icon.outlined.hlps {
-  background-image: url("images/outlined/icon_hlps.svg");
-}
-.icon.outlined.itgr {
-  background-image: url("images/outlined/icon_itgr.svg");
-}
-.icon.outlined.rcat {
-  background-image: url("images/outlined/icon_rcat.svg");
-}
-.icon.outlined.rwik {
-  background-image: url("images/outlined/icon_rwik.svg");
-}
-.icon.outlined.rlm {
-  background-image: url("images/outlined/icon_rlm.svg");
-}
-.icon.outlined.rglo {
-  background-image: url("images/outlined/icon_rglo.svg");
-}
-.icon.outlined.rfil {
-  background-image: url("images/outlined/icon_rfil.svg");
-}
-.icon.outlined.rgrp {
-  background-image: url("images/outlined/icon_rgrp.svg");
-}
-.icon.outlined.rtst {
-  background-image: url("images/outlined/icon_rtst.svg");
-}
-.icon.outlined.ecss {
-  background-image: url("images/outlined/icon_ecss.svg");
-}
-.icon.outlined.tos {
-  background-image: url("images/outlined/icon_tos.svg");
-}
-.icon.outlined.bibl {
-  background-image: url("images/outlined/icon_bibl.svg");
-}
-.icon.outlined.sysc {
-  background-image: url("images/outlined/icon_sysc.svg");
-}
-.icon.outlined.cld {
-  background-image: url("images/outlined/icon_cld.svg");
-}
-.icon.outlined.reps {
-  background-image: url("images/outlined/icon_reps.svg");
-}
-.icon.outlined.crss {
-  background-image: url("images/outlined/icon_crss.svg");
-}
-.icon.outlined.grps {
-  background-image: url("images/outlined/icon_grps.svg");
-}
-.icon.outlined.wbrs {
-  background-image: url("images/outlined/icon_wbrs.svg");
-}
-.icon.outlined.prtt {
-  background-image: url("images/outlined/icon_prtt.svg");
-}
-.icon.outlined.orgu {
-  background-image: url("images/outlined/icon_orgu.svg");
-}
-.icon.outlined.wiks {
-  background-image: url("images/outlined/icon_wiks.svg");
-}
-.icon.outlined.excs {
-  background-image: url("images/outlined/icon_excs.svg");
-}
-.icon.outlined.taxs {
-  background-image: url("images/outlined/icon_taxs.svg");
-}
-.icon.outlined.bibs {
-  background-image: url("images/outlined/icon_bibs.svg");
-}
-.icon.outlined.awra {
-  background-image: url("images/outlined/icon_awra.svg");
-}
-.icon.outlined.logs {
-  background-image: url("images/outlined/icon_logs.svg");
-}
-.icon.outlined.prg {
-  background-image: url("images/outlined/icon_prg.svg");
-}
-.icon.outlined.prgs {
-  background-image: url("images/outlined/icon_prgs.svg");
-}
-.icon.outlined.cadm {
-  background-image: url("images/outlined/icon_cadm.svg");
-}
-.icon.outlined.grpr {
-  background-image: url("images/outlined/icon_grpr.svg");
-}
-.icon.outlined.bdga {
-  background-image: url("images/outlined/icon_bdga.svg");
-}
-.icon.outlined.wfe {
-  background-image: url("images/outlined/icon_wfe.svg");
-}
-.icon.outlined.iass {
-  background-image: url("images/outlined/icon_iass.svg");
-}
-.icon.outlined.copa {
-  background-image: url("images/outlined/icon_copa.svg");
-}
-.icon.outlined.cpad {
-  background-image: url("images/outlined/icon_cpad.svg");
-}
-.icon.outlined.lso {
-  background-image: url("images/outlined/icon_lso.svg");
-}
-.icon.outlined.bgtk {
-  background-image: url("images/outlined/icon_bgtk.svg");
-}
-.icon.outlined.mme {
-  background-image: url("images/outlined/icon_mme.svg");
-}
-.icon.outlined.pdfg {
-  background-image: url("images/outlined/icon_pdfg.svg");
-}
-.icon.outlined.dshs {
-  background-image: url("images/outlined/icon_dshs.svg");
-}
-.icon.outlined.nots {
-  background-image: url("images/outlined/icon_nots.svg");
-}
-.icon.outlined.prss {
-  background-image: url("images/outlined/icon_prss.svg");
-}
-.icon.outlined.lhts {
-  background-image: url("images/outlined/icon_lhts.svg");
-}
-.icon.outlined.coms {
-  background-image: url("images/outlined/icon_coms.svg");
-}
-.icon.outlined.ltis {
-  background-image: url("images/outlined/icon_ltis.svg");
-}
-.icon.outlined.cmis {
-  background-image: url("images/outlined/icon_cmis.svg");
-}
-.icon.outlined.task {
-  background-image: url("images/outlined/icon_task.svg");
-}
-.icon.outlined.rep {
-  background-image: url("images/outlined/icon_rep.svg");
-}
-.icon.outlined.peac {
-  background-image: url("images/outlined/icon_peac.svg");
-}
-.icon.outlined.peadl {
-  background-image: url("images/outlined/icon_peadl.svg");
-}
-.icon.outlined.peadt {
-  background-image: url("images/outlined/icon_peadt.svg");
-}
-.icon.outlined.pecd {
-  background-image: url("images/outlined/icon_pecd.svg");
-}
-.icon.outlined.pech {
-  background-image: url("images/outlined/icon_pech.svg");
-}
-.icon.outlined.pecl {
-  background-image: url("images/outlined/icon_pecl.svg");
-}
-.icon.outlined.peclp {
-  background-image: url("images/outlined/icon_peclp.svg");
-}
-.icon.outlined.pecom {
-  background-image: url("images/outlined/icon_pecom.svg");
-}
-.icon.outlined.pecrs {
-  background-image: url("images/outlined/icon_pecrs.svg");
-}
-.icon.outlined.pecrt {
-  background-image: url("images/outlined/icon_pecrt.svg");
-}
-.icon.outlined.pecs {
-  background-image: url("images/outlined/icon_pecs.svg");
-}
-.icon.outlined.pedt {
-  background-image: url("images/outlined/icon_pedt.svg");
-}
-.icon.outlined.pefl {
-  background-image: url("images/outlined/icon_pefl.svg");
-}
-.icon.outlined.peim {
-  background-image: url("images/outlined/icon_peim.svg");
-}
-.icon.outlined.pelh {
-  background-image: url("images/outlined/icon_pelh.svg");
-}
-.icon.outlined.pemed {
-  background-image: url("images/outlined/icon_pemed.svg");
-}
-.icon.outlined.pemp {
-  background-image: url("images/outlined/icon_pemp.svg");
-}
-.icon.outlined.pepd {
-  background-image: url("images/outlined/icon_pepd.svg");
-}
-.icon.outlined.pepe {
-  background-image: url("images/outlined/icon_pepe.svg");
-}
-.icon.outlined.pepl {
-  background-image: url("images/outlined/icon_pepl.svg");
-}
-.icon.outlined.peplh {
-  background-image: url("images/outlined/icon_peplh.svg");
-}
-.icon.outlined.pequ {
-  background-image: url("images/outlined/icon_pequ.svg");
-}
-.icon.outlined.perl {
-  background-image: url("images/outlined/icon_perl.svg");
-}
-.icon.outlined.pesc {
-  background-image: url("images/outlined/icon_pesc.svg");
-}
-.icon.outlined.petmp {
-  background-image: url("images/outlined/icon_petmp.svg");
-}
-.icon.outlined.peusr {
-  background-image: url("images/outlined/icon_peusr.svg");
 }
 .glyph {
   color: #557196;
@@ -11615,29 +10583,8 @@ footer {
   text-decoration: none;
 }
 .il-link.link-bulky .bulky-label {
-  color: #333333;
+  color: #434343;
 }
-/*		Color scheme
-		Dark BLue: #0f2152;
-		Mid Blue: #4c6586;
-		Green: #6ea03c;
-		Light Brown: #dcb496;
-		Dark Brown: #523228;
-		Orange: #fa8228;
-		External Blue: #21c5d8;
-		ILIAS 4 MainMenu Color: #c8e6ff;
-*/
-/** if left unchanged, you have to copy all the background images to your skin/images folder.
-* To use the delos background images in your skin,
-* please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
-*/
-/** if left unchanged, you have to copy delos fonts folder to your skin folder.
-* To use the delos fonts in your skin,
-* please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
-*/
-/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
-/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
-/* @il-highlight-bg: lighten(#21c5d8, 40%); */
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /** headline text transform **/
 /** inline shadow of a message container **/
@@ -12486,20 +11433,6 @@ footer {
 span.ilAlert {
   color: #fa8228;
 }
-/* Breadcrumb */
-.breadcrumb {
-  margin: 0.8em 0 20px 0;
-  font-size: 90%;
-}
-.breadcrumb > li + li:before {
-  font-family: 'il-icons';
-}
-@media only screen and (max-width: 768px) {
-  .breadcrumb {
-    margin: 0 0 0 0;
-    padding: 0 5px;
-  }
-}
 /* Drop Downs */
 .dropdown-header {
   padding: 3px 10px;
@@ -12526,7 +11459,7 @@ span.ilAlert {
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus {
   text-decoration: none;
-  color: #262626;
+  color: #363636;
   background-color: #ecf0f4;
 }
 .dropdown-menu img {
@@ -13213,7 +12146,7 @@ div.ilHeadAction a:hover {
 div.ilHeaderDesc {
   font-size: 90%;
   padding: 0;
-  color: #737373;
+  color: #838383;
   font-weight: 300;
 }
 div.ilHeaderAlert {
@@ -13246,7 +12179,7 @@ div.il_TreeIcons {
 }
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
-  color: #333333;
+  color: #434343;
   font-size: 90%;
 }
 a.permalink_label > span.glyphicon {
@@ -13719,7 +12652,7 @@ div.ilSideBarContent {
   color: #5d5d5d;
 }
 .ui-menu .ui-menu-item a:hover {
-  color: #262626;
+  color: #363636;
 }
 .ui-menu .ui-menu-category {
   margin: 0;
@@ -14587,7 +13520,7 @@ div.ilFrmPostHeader span.small {
   text-decoration: none;
   cursor: text;
   font-size: smaller;
-  color: #333333;
+  color: #434343;
   padding-left: 23px;
 }
 /* Services/Mail */
@@ -15281,6 +14214,12 @@ p#copg-auto-save {
   color: #808080;
   padding: 20px;
 }
+.il-copg-drag {
+  width: 40px;
+  border: 1px solid #4c6586;
+  height: 30px;
+  z-index: 100000;
+}
 /* Services/Calendar */
 td.even {
   color: #222;
@@ -15746,7 +14685,7 @@ li.ilWikiBlockItem {
 }
 #ilTopNav .dropdown-menu li a:hover {
   background-color: #ecf0f4;
-  color: #262626;
+  color: #363636;
 }
 @media only screen and (max-width: 768px) {
   #ilTopNav .dropdown-menu {
@@ -16468,6 +15407,13 @@ div.ilNotesHeader {
   margin-bottom: 5px;
   padding: 3px 8px;
 }
+div.ilNotesHeader h3 img {
+  width: 40px;
+  height: 40px;
+}
+#il_center_col div.ilNotesHeader {
+  display: none;
+}
 #ilRightPanel div.ilNotesHeader {
   padding: 5px;
 }
@@ -16672,7 +15618,7 @@ th.ilSkillEntryHead {
   border-color: #dcb496;
 }
 .ilSkillEvalItem.ilSkillEvalType2 {
-  border-color: #21c5d8;
+  border-color: #59a0a5;
 }
 .ilSkillLevelDescription,
 .ilSkillMaterial,
@@ -16702,7 +15648,7 @@ th.ilSkillEntryHead {
   color: #dcb496;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType2 {
-  color: #21c5d8;
+  color: #59a0a5;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
   color: #6ea03c;
@@ -16825,7 +15771,7 @@ input.ilMainMenuSearch {
   border: 0 none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  color: #333333;
+  color: #434343;
 }
 span.ilSearchHighlight {
   font-weight: bold;
@@ -17876,6 +16822,10 @@ a.ilMediaLightboxClose:hover {
   width: 640px;
   max-width: 100%;
 }
+.ilLightboxContent iframe {
+  width: 100%;
+  min-height: 400px;
+}
 /* Services/Membership */
 div.ilAttendanceListPrint td,
 div.ilAttendanceListPrint th {
@@ -18482,7 +17432,7 @@ div.ilSurveyPageEditActionMenu {
   padding: 6px 12px;
 }
 .ilTag {
-  background-color: #75deea;
+  background-color: #9bc6c9;
   /* background-color: lighten(@brand-primary, 10%); */
   color: white;
   display: inline-block;
@@ -18495,19 +17445,19 @@ a.ilTag:hover,
 a.ilTag:active {
   text-decoration: none;
   color: white;
-  background-color: #60eeff;
+  background-color: #7ce1e8;
 }
 .ilTagRelHigh {
-  background-color: #85d1da;
+  background-color: #aab9ba;
 }
 .ilTagRelMiddle {
-  background-color: #95c5ca;
+  background-color: #b2b2b2;
 }
 .ilTagRelLow {
-  background-color: #a5b8ba;
+  background-color: #b2b2b2;
 }
 .ilTagRelVeryLow {
-  background-color: #b0b0b0;
+  background-color: #b2b2b2;
 }
 .ilTag.ilHighlighted {
   background-color: #ea6705;
@@ -19065,7 +18015,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   display: inline;
 }
 .modal-content {
-  color: #333333;
+  color: #434343;
 }
 /* Services/Badge */
 img.ilBadgeImage {
@@ -19608,7 +18558,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilLSOLearnerView .il-workflow-step-label,
 .ilLSOLearnerView .il-workflow-step-label .btn {
-  color: #333333 !important;
+  color: #434343 !important;
   cursor: default !important;
   text-decoration: none !important;
 }
@@ -19761,7 +18711,7 @@ div.ilNewObjectSelector > .btn-group.open #ilAdvSelListAnchorText_asl + .dropdow
   padding-left: 4px;
 }
 .yui-panel-container {
-  color: #333333;
+  color: #434343;
 }
 .mceEditor,
 .mceLayout {

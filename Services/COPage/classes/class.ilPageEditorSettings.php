@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Page editor settings
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesCOPage
-*/
+ * Page editor settings
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPageEditorSettings
 {
     // settings groups. each group contains one or multiple
@@ -18,7 +17,7 @@ class ilPageEditorSettings
         "scorm" => array("sahs"),
         "glo" => array("gdf"),
         "test" => array("qpl"),
-        "rep" => array("root", "cat", "grp", "crs", "fold"),
+        "rep" => array("cont"),
         "copa" => array("copa"),
         );
         

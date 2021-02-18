@@ -101,6 +101,15 @@ class ilPageObjectGUI
     private $abstract_only = false;
     protected $parent_type = "";
 
+    /** @var string */
+    protected $file_download_link = '';
+
+    /** @var string */
+    protected $fullscreen_link = '';
+
+    /** @var string */
+    protected $link_frame = '';
+
     /**
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
@@ -160,12 +169,12 @@ class ilPageObjectGUI
 
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
-        if ($a_old_nr == 0 && !$a_prevent_get_id && $_GET["old_nr"] > 0) {
+        if ($a_old_nr == 0 && !$a_prevent_get_id && isset($_GET["old_nr"]) && $_GET["old_nr"] > 0) {
             $a_old_nr = $_GET["old_nr"];
         }
         $this->setOldNr($a_old_nr);
         
-        if ($a_lang == "" && $_GET["transl"] != "") {
+        if ($a_lang == "" && isset($_GET["transl"]) && is_string($_GET["transl"]) && $_GET["transl"] !== '') {
             $this->setLanguage($_GET["transl"]);
         } else {
             if ($a_lang == "") {
@@ -1269,6 +1278,10 @@ class ilPageObjectGUI
             $this->showEditToolbar();
         }
 
+        $sel_js_mode = '';
+        $paragraph_plugin_string = '';
+        $disable_auto_margins = '';
+
         // jquery and jquery ui are always provided for components
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
@@ -1330,6 +1343,21 @@ class ilPageObjectGUI
 
             // get js files for JS enabled editing
             if ($sel_js_mode == "enable") {
+
+                // add int link parts
+                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
+                $tpl->setCurrentBlock("int_link_prep");
+                $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
+                    $this->ctrl->getLinkTargetByClass(
+                        array("ilpageeditorgui", "ilinternallinkgui"),
+                        "",
+                        false,
+                        true,
+                        false
+                    )
+                ));
+                $tpl->parseCurrentBlock();
+
                 $editor_init = new \ILIAS\COPage\Editor\UI\Init();
                 $editor_init->initUI($main_tpl);
             }
@@ -1352,7 +1380,7 @@ class ilPageObjectGUI
 
             // history
             $c_old_nr = $this->getPageObject()->old_nr;
-            if ($c_old_nr > 0 || $this->getCompareMode() || $_GET["history_mode"] == 1) {
+            if ($c_old_nr > 0 || $this->getCompareMode() || (isset($_GET["history_mode"]) && $_GET["history_mode"] == 1)) {
                 $hist_info =
                         $this->getPageObject()->getHistoryInfo($c_old_nr);
 
@@ -1516,7 +1544,7 @@ class ilPageObjectGUI
             }
         }
 
-        if ($_GET["reloadTree"] == "y") {
+        if (isset($_GET["reloadTree"]) && $_GET["reloadTree"] == "y") {
             $tpl->setCurrentBlock("reload_tree");
             $tpl->setVariable(
                 "LINK_TREE",
@@ -1593,6 +1621,8 @@ class ilPageObjectGUI
             $this->setDefaultLinkXml();
         }
 
+        $template_xml = '';
+
         //$content = $this->obj->getXMLFromDom(false, true, true,
         //	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
         $link_xml = $this->getLinkXML();
@@ -1610,12 +1640,14 @@ class ilPageObjectGUI
             }
         }
 
+        $append_footnotes = "y";
         if ($this->getAbstractOnly()) {
             if (!$this->abstract_pcid) {
                 $content = "<dummy><PageObject><PageContent><Paragraph>" .
                     $this->obj->getFirstParagraphText() . $link_xml .
                     "</Paragraph></PageContent></PageObject></dummy>";
             } else {
+                $append_footnotes = "n";
                 $par = $this->obj->getParagraphForPCID($this->abstract_pcid);
                 $content = "<dummy><PageObject><PageContent><Paragraph Characteristic='".$par->getCharacteristic()."'>" .
                     $par->getText() . $link_xml .
@@ -1634,13 +1666,17 @@ class ilPageObjectGUI
         if ($builded !== true) {
             $this->displayValidationError($builded);
         } else {
-            $this->displayValidationError($_SESSION["il_pg_error"]);
+            $this->displayValidationError((string) ilSession::get("il_pg_error"));
         }
         unset($_SESSION["il_pg_error"]);
 
         // get title
         $pg_title = $this->getPresentationTitle();
 
+        $col_path = '';
+        $row_path = '';
+        $cell_path = '';
+        $item_path = '';
         if ($this->getOutputMode() == "edit") {
             $col_path = ilUtil::getImagePath("col.svg");
             $row_path = ilUtil::getImagePath("row.svg");
@@ -1726,6 +1762,7 @@ class ilPageObjectGUI
                          'img_row' => $row_path,
                          'img_cell' => $cell_path,
                          'img_item' => $item_path,
+                         'append_footnotes' => $append_footnotes,
                          'compare_mode' => $this->getCompareMode() ? "y" : "n",
                          'enable_split_new' => $enable_split_new,
                          'enable_split_next' => $enable_split_next,
@@ -2046,16 +2083,56 @@ class ilPageObjectGUI
             $emp = "I";
             $imp = "U";
         }
+        $c_formats = [];
+        foreach (["str", "emp", "imp", "sup", "sub"] as $c) {
+            if (ilPageEditorSettings::lookupSettingByParentType(
+                $a_par_type,
+                "active_" . $c,
+                true
+            )) {
+                switch ($c) {
+                    case "str":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Strong">' . $str . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Strong"]
+                        ];
+                        break;
+                    case "emp":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Emph">' . $emp . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Emph"]
+                        ];
+                        break;
+                    case "imp":
+                        $c_formats[] = ["text" => '<span class="ilc_text_inline_Important">' . $imp . '</span>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Important"]
+                        ];
+                        break;
+                    case "sup":
+                        $c_formats[] = ["text" => 'x<sup>2</sup>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Sup"]
+                        ];
+                        break;
+                    case "sub":
+                        $c_formats[] = ["text" => 'x<sub>2</sub>',
+                                        "action" => "selection.format",
+                                        "data" => ["format" => "Sub"]
+                        ];
+                        break;
+                }
+            }
+        }
+        $c_formats[] = ["text" => "<i>A</i>",
+                        "action" => $char_formats
+        ];
+        $c_formats[] = ["text" => '<i><b><u>T</u></b><sub>x</sub></i>',
+                        "action" => "selection.removeFormat",
+                        "data" => []
+        ];
         $menu = [
-            "cont_char_format" => [
-                ["text" => '<span class="ilc_text_inline_Strong">'.$str.'</span>', "action" => "selection.format", "data" => ["format" => "Strong"]],
-                ["text" => '<span class="ilc_text_inline_Emph">'.$emp.'</span>', "action" => "selection.format", "data" => ["format" => "Emph"]],
-                ["text" => '<span class="ilc_text_inline_Important">'.$imp.'</span>', "action" => "selection.format", "data" => ["format" => "Important"]],
-                ["text" => 'x<sup>2</sup>', "action" => "selection.format", "data" => ["format" => "Sup"]],
-                ["text" => 'x<sub>2</sub>', "action" => "selection.format", "data" => ["format" => "Sub"]],
-                ["text" => "<i>A</i>", "action" => $char_formats],
-                ["text" => '<i><b><u>T</u></b><sub>x</sub></i>', "action" => "selection.removeFormat", "data" => []]
-            ],
+            "cont_char_format" => $c_formats,
             "cont_lists" => [
                 ["text" => $bullet_list, "action" => "list.bullet", "data" => []],
                 ["text" => $numbered_list, "action" => "list.number", "data" => []],
@@ -2067,13 +2144,20 @@ class ilPageObjectGUI
         // links
         $links = [];
         if ($a_wiki_links) {
-            $links[] = ["text" => $lng->txt("obj_wiki"), "action" => "link.wikiSelection", "data" => []];
-            $links[] = ["text" => "[[".$lng->txt("obj_wiki")."]]", "action" => "link.wiki", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_wiki_link_dialog"), "action" => "link.wikiSelection", "data" => [
+                "url" => $ctrl->getLinkTargetByClass("ilwikipagegui", "")]];
+            $links[] = ["text" => "[[".$lng->txt("cont_wiki_page")."]]", "action" => "link.wiki", "data" => []];
         }
         if ($a_int_links) {
-            $links[] = ["text" => $lng->txt("cont_text_iln"), "action" => "link.internal", "data" => []];
+            $links[] = ["text" => $lng->txt("cont_text_iln_link"), "action" => "link.internal", "data" => []];
         }
-        $links[] = ["text" => $lng->txt("cont_text_xln"), "action" => "link.external", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_xln",
+            true
+        )) {
+            $links[] = ["text" => $lng->txt("cont_text_xln"), "action" => "link.external", "data" => []];
+        }
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }
@@ -2085,10 +2169,22 @@ class ilPageObjectGUI
             $menu["cont_more_functions"][] = ["text" => 'kw', "action" => "selection.keyword", "data" => []];
         }
         $mathJaxSetting = new ilSetting("MathJax");
-        if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-            $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_tex",
+            true
+        )) {
+            if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
+                $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+            }
         }
-        $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.fn", "data" => []];
+        if (ilPageEditorSettings::lookupSettingByParentType(
+            $a_par_type,
+            "active_fn",
+            true
+        )) {
+            $menu["cont_more_functions"][] = ["text" => 'fn', "action" => "selection.fn", "data" => []];
+        }
         if ($a_anchors) {
             $menu["cont_more_functions"][] = ["text" => 'anc', "action" => "selection.anchor", "data" => []];
         }

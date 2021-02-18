@@ -126,7 +126,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **cmi5/xAPI Object**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [EMok](https://docu.ilias.de/goto_docu_usr_80682.html)
 
@@ -137,8 +137,8 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [skaiser](https://docu.ilias.de/goto_docu_usr_17260.html)
 
 * **Competence Management**
-	* 1st Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
-	* 2nd Maintainer: N.A.
+	* 1st Maintainer: [tfamula](https://docu.ilias.de/goto_docu_usr_58959.html)
+	* 2nd Maintainer: [akill](https://docu.ilias.de/goto_docu_usr_149.html)
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
 
@@ -162,7 +162,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **Cron Service**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
@@ -342,7 +342,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **Login, Auth & Registration**
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [vimotion](https://docu.ilias.de/goto_docu_usr_25105.html), [ILIAS_LM](https://docu.ilias.de/goto_docu_usr_14109.html) (OpenID)
 
@@ -354,7 +354,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **LTI Consumer**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [kiegel](https://docu.ilias.de/goto_docu_usr_20646.html)
 
@@ -432,7 +432,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **Organisational Units**
 	* 1st Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
 
@@ -575,7 +575,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: Tested separately in each module that supports taxonomies
 
 * **Test & Assessment**
-	* 1st Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 1st Maintainer (comm.): [dstrassner](https://docu.ilias.de/goto_docu_usr_48931.html)
 	* 2nd Maintainer: [mbecker](https://docu.ilias.de/goto_docu_usr_27266.html)
 	* Testcases: SIG E-Assessment
 	* Tester: Stefania Akgül (CaT), Stefanie Allmendinger (FAU), [dehling](https://docu.ilias.de/goto_docu_usr_12725.html), [kderr](https://docu.ilias.de/goto_docu_usr_28900.html), [sdittebrand](https://docu.ilias.de/goto_docu_usr_77841.html), [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html), [rabah](https://docu.ilias.de/goto_docu_usr_40218.html), [vreuschen](https://docu.ilias.de/goto_docu_usr_14382.html)
@@ -648,7 +648,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 
 * **xAPI/cmi5**
 	* 1st Maintainer: [ukohnle](https://docu.ilias.de/goto_docu_usr_21855.html)
-	* 2nd Maintainer: [bheyser](https://docu.ilias.de/goto_docu_usr_14300.html)
+	* 2nd Maintainer: N.A.
 	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 

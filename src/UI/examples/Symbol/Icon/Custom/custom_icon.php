@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Symbol\Icon\Custom;
+
 function custom_icon()
 {
     global $DIC;
@@ -20,7 +23,9 @@ function custom_icon()
         . ' Large Custom Icon';
 
 
-    $path = './templates/default/images/icon_fold.svg';
+    //Note that the svg needs to contain strictly valid xml to work with abbreviations.
+    //Some exports e.g. form illustrator seem to be not properly formatted by default.
+    $path = './templates/default/images/outlined/icon_fold.svg';
     $ico = $f->symbol()->icon()->custom($path, 'Example')
         ->withAbbreviation('FD');
 

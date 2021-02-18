@@ -1,8 +1,9 @@
 <?php
 use Sabre\DAV\Exception;
 use Sabre\DAV\Exception\Forbidden;
-use ILIAS\DI\Container;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\ResourceStorage\Manager\Manager;
+use ILIAS\ResourceStorage\Consumer\Consumers;
 
 /**
  * Class ilObjFileDAV
@@ -17,19 +18,15 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
-    /**
-     * Application layer object.
-     *
-     * @var $obj ilObjFile
-     */
-    protected $obj;
+    protected Manager $resource_manager;
+    protected Consumers $resource_consumer;
 
     /**
      * We need to keep track of versioning.
      *
      * @var $versioning_enabled boolean
      */
-    protected $versioning_enabled;
+    protected bool $versioning_enabled;
 
     /**
      * ilObjFileDAV represents the WebDAV-Interface to an ILIAS-Object
@@ -43,7 +40,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function __construct(ilObjFile $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
+        global $DIC;
         $settings = new ilSetting('webdav');
+        $this->resource_manager = $DIC->resourceStorage()->manage();
+        $this->resource_consumer = $DIC->resourceStorage()->consume();
         $this->versioning_enabled = (bool) $settings->get('webdav_versioning_enabled', true);
         parent::__construct($a_obj, $repo_helper, $dav_helper);
     }
@@ -72,7 +72,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function put($data)
     {
         if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
-            $this->setObjValuesForNewFileVersion();
             if ($this->versioning_enabled === true) {
                 // Stolen from ilObjFile->addFileVersion
                 $this->handleFileUpload($data, 'new_version');
@@ -97,13 +96,13 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function get()
     {
         if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
-            $file = $this->getPathToFile();
-
-            if (file_exists($file)) {
-                return fopen($file, 'r');
-            } else {
-                throw new Exception\NotFound("File not found");
+            $r_id = $this->obj->getResourceId();
+            $identification = $this->resource_manager->find($r_id);
+            if ($this->getSize() > 0) {
+                return $this->resource_consumer->stream($identification)->getStream()->getContents();
             }
+            
+            throw new Exception\NotFound("File not found");
         }
 
         throw new Exception\Forbidden("Permission denied. No read access for this file");
@@ -147,11 +146,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getETag()
     {
-        if (file_exists($path = $this->getPathToFile())) {
+        if ($this->getSize() > 0) {
             return '"' . sha1(
-                fileinode($path) .
-                filesize($path) .
-                filemtime($path)
+                $this->getSize() .
+                $this->getName() .
+                $this->obj->getCreateDate()
             ) . '"';
         }
 
@@ -163,12 +162,9 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @return int
      */
-    public function getSize()
+    public function getSize() : int
     {
-        if (file_exists($this->getPathToFile())) {
-            return $this->obj->getFileSize();
-        }
-        return 0;
+        return $this->obj->getFileSize();
     }
 
     /**
@@ -195,15 +191,23 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function handleFileUpload($a_data, $a_file_action)
     {
-        // Set name for uploaded file because due to the versioning, the title can change for different versions. This setter-call here
-        // ensures that the uploaded file is saved with the title of the object. This obj->setFileName() has to be called
-        // before $this->getPathToFile(). Otherwise, the file could be saved under the wrong filename.
+        $path = ilUtil::ilTempnam();
+        $path_with_file = $path . '/' . $this->obj->getFileName();
+        
+        mkdir($path);
+        file_put_contents($path_with_file, $a_data);
+
+        $upload = fopen($path_with_file, 'read');
+        
+        $stream = Streams::ofResource($upload);
         if ($a_file_action === 'replace') {
-            $this->obj->deleteVersions();
-            $this->obj->clearDataDirectory();
+            $this->obj->replaceWithStream($stream, $this->obj->getTitle());
+        } else {
+            $this->obj->appendStream($stream, $this->obj->getTitle());
         }
-        $stream = Streams::ofResource($a_data);
-        $this->obj->appendStream($stream, $this->obj->getTitle());
+        
+        unlink($path_with_file);
+        rmdir($path);
 
         // TODO filename is "input" and metadata etc.
 
@@ -219,25 +223,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         return $this->obj->getDirectory($this->obj->getVersion());
     }
 
-    /**
-     * This method is called in 2 use cases:
-     *
-     * Use case 1: Get the path to an already existing file to download it -> read operation
-     * Use case 2: Get the path to save a new file into or overwrite an existing one -> write operation
-     *
-     * @throws ilFileUtilsException
-     * @return string
-     */
-    protected function getPathToFile()
-    {
-        // ilObjFile delivers the filename like it was on the upload. But if the file-extension is forbidden, the file
-        // will be safed as .sec-file. In this case ->getFileName returns the wrong file name
-        $path = $this->getPathToDirectory() . "/" . $this->obj->getFileName();
-
-        // For the case of forbidden file-extensions, ::getValidFilename($path) returns the path with the .sec extension
-        return ilFileUtils::getValidFilename($path);
-    }
-
     protected function checkForVirus(string $file_dest_path)
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
@@ -246,20 +231,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             ilLoggerFactory::getLogger('WebDAV')->error(get_class($this) . ' ' . $this->obj->getTitle() . " -> virus found on '$file_dest_path'!");
             $this->deleteObjOrVersion();
             throw new Exception\Forbidden('Virus found!');
-        }
-    }
-
-    /**
-     * Set object values for a new file version
-     */
-    protected function setObjValuesForNewFileVersion()
-    {
-        // This is necessary for windows explorer. Because windows explorer makes always 2 PUT requests. One with a 0 Byte
-        // file to test, if the user has write permissions and the second one to upload the original file.
-        if ($this->obj->getFileSize() > 0) {
-            // Stolen from ilObjFile->addFileVersion
-//            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
-//            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
         }
     }
 

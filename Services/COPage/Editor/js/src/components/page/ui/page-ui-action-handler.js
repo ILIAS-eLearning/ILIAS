@@ -82,7 +82,7 @@ export default class PageUIActionHandler {
         if (!["Paragraph", "Grid", "MediaObject", "Section"].includes(model.getCurrentPCName())) {
           let ctype = this.ui.getPCTypeForName(params.cname);
           client.sendForm(actionFactory.page().command().createLegacy(ctype, params.pcid,
-            params.hierid));
+            params.hierid, params.pluginName));
           form_sent = true;
         }
         // generic

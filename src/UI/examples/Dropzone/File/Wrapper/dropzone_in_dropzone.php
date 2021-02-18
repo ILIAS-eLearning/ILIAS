@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
+
 function dropzone_in_dropzone()
 {
     global $DIC;

@@ -52,7 +52,7 @@ class ilHelp
             " AND module_id = " . $ilDB->quote($module_id, "integer")
             );
         $rec = $ilDB->fetchAssoc($set);
-        if ($rec["tt_text"] != "") {
+        if (is_array($rec) && $rec["tt_text"] != "") {
             $t = $rec["tt_text"];
             if ($module_id == 0) {
                 $t .= "<br/><i>(" . $a_tt_id . ")</i>";
@@ -67,7 +67,7 @@ class ilHelp
                 " AND module_id = " . $ilDB->quote($module_id, "integer")
                 );
             $rec = $ilDB->fetchAssoc($set);
-            if ($rec["tt_text"] != "") {
+            if (is_array($rec) && $rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
                 if ($module_id == 0) {
                     $t .= "<br/><i>(" . $a_tt_id . ")</i>";

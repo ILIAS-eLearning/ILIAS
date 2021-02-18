@@ -276,10 +276,17 @@ export default class ParagraphUI {
     this.tinyWrapper.removeFormat();
   }
 
-  cmdIntLink(b, e, content)
-  {
+  addIntLink(b, e, content) {
     this.addBBCode(b, e, false, content);
   }
+
+  cmdIntLink() {
+    const t = this;
+    il.IntLink.openIntLink(null,function(b, e, content) {
+      t.addIntLink(b, e, content);
+    });
+  }
+
 
   getSelection(){
     let ed = tinyMCE.get('tinytarget');
@@ -334,12 +341,18 @@ export default class ParagraphUI {
         ed.selection.setContent(stag + ed.selection.getContent() + etag);
       }
     }
-    this.autoResize(ed);
+    this.tinyWrapper.autoResize(ed);
   }
 
-  cmdWikiLink()
-  {
+  cmdWikiLink() {
     this.addBBCode('[[', ']]');
+  }
+
+  cmdWikiLinkSelection(url) {
+    const t = this;
+    il.Wiki.Edit.openLinkDialog(url, this.getSelection(), function(stag) {
+      t.addBBCode(stag, "", true);
+    });
   }
 
   cmdTex()
@@ -862,17 +875,24 @@ export default class ParagraphUI {
           });
           break;
 
+        case ACTIONS.LINK_WIKI_SELECTION:
+          const url = char_button.dataset.copgEdParUrl;
+          char_button.addEventListener("click", (event) => {
+            dispatch.dispatch(ef.linkWikiSelection(url));
+          });
+          break;
+
         default:
           let map = {};
           map[ACTIONS.SELECTION_REMOVE_FORMAT] = ef.selectionRemoveFormat();
           map[ACTIONS.SELECTION_KEYWORD] = ef.selectionKeyword();
           map[ACTIONS.SELECTION_TEX] = ef.selectionTex();
+          map[ACTIONS.SELECTION_FN] = ef.selectionFn();
           map[ACTIONS.SELECTION_ANCHOR] = ef.selectionAnchor();
           map[ACTIONS.LIST_BULLET] = ef.listBullet();
           map[ACTIONS.LIST_NUMBER] = ef.listNumber();
           map[ACTIONS.LIST_OUTDENT] = ef.listOutdent();
           map[ACTIONS.LIST_INDENT] = ef.listIndent();
-          map[ACTIONS.LINK_WIKI_SELECTION] = ef.linkWikiSelection();
           map[ACTIONS.LINK_WIKI] = ef.linkWiki();
           map[ACTIONS.LINK_INTERNAL] = ef.linkInternal();
           map[ACTIONS.LINK_EXTERNAL] = ef.linkExternal();

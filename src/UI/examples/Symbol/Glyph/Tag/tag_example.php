@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Symbol\Glyph\Tag;
+
 function tag_example()
 {
     global $DIC;

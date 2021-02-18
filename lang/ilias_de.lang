@@ -55,6 +55,7 @@ common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
 common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
@@ -1455,7 +1456,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf f
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
+assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -4288,7 +4289,7 @@ common#:#shib_department#:#Attribut für Departement
 common#:#shib_email#:#Attribut für E-Mailadresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
-common#:#shib_gender#:#Attribut für Anrede (muss 'm' oder 'f' sein)
+common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
 common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
@@ -4901,19 +4902,19 @@ content#:#cont_ed_insert_flst#:#Dateiliste einfügen
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
-content#:#cont_ed_insert_login_page_element#:#Login-Seitenelement einfügen
+content#:#cont_ed_insert_lpe#:#Login-Seitenelement einfügen
 content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_media#:#Bild/Audio/Video einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
 content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter einfügen
-content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
+content#:#cont_ed_insert_prof#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
 content#:#cont_ed_insert_sec#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
 content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
-content#:#cont_ed_insert_verification#:#Zertifikat einfügen
+content#:#cont_ed_insert_vrfc#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
@@ -5393,7 +5394,7 @@ content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
-content#:#cont_text_iln#:#Interner Link, z.B.:
+content#:#cont_text_iln_link#:#Interner Link
 content#:#cont_text_imp#:#Wichtig:
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
@@ -5401,7 +5402,7 @@ content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
-content#:#cont_text_xln#:#Externer Link:
+content#:#cont_text_xln#:#Externer Link
 content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
@@ -10876,7 +10877,7 @@ tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht 
 tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
 tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall, und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu aktepzieren.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos. 
+tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -11745,7 +11746,7 @@ grp#:#grp_mail_tutors_only#:#Nur für Administratoren
 grp#:#grp_mail_all#:#Für alle Mitglieder
 grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 grp#:#grp_mail_all_info#:#Mitglieder und Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
-content#:#cont_ed_insert_consultation_hours#:#Sprechstunden einfügen
+content#:#cont_ed_insert_cach#:#Sprechstunden einfügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
 content#:#cont_cach_mode#:#Modus
@@ -12191,7 +12192,7 @@ blog#:#blog_abstract_image_info#:#Das erste Bild des Beitrags wird auf die hier 
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_image_height#:#Höhe
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_ed_insert_mcrs#:#Meine Kurse einfügen
 content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
@@ -12288,7 +12289,7 @@ survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 wiki#:#wiki_wpg#:#Wiki-Seite
 wiki#:#wiki_advmd_block_title#:#Benutzerdefinierte Metadaten der Seite
-content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
+content#:#cont_ed_insert_amdpl#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_update_amd_page_list#:#Seitenliste bearbeiten
 obj#:#obj_tool_setting_taxonomies#:#Taxonomien
@@ -12817,7 +12818,7 @@ administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderu
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
-administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
+administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
@@ -13005,7 +13006,8 @@ style#:#sty_type_ca_ihead#:#Karussell - Kopfzeile Element
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
 cron#:#cron_result_status_fail#:#Fehler
-content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
+content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
+content#:#cont_link_user#:#Benutzerprofil
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
@@ -14208,7 +14210,7 @@ iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
+iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
@@ -14931,13 +14933,17 @@ lhist#:#lhist_learning_history#:#Lernverlauf
 mme#:#flush#:#Verlorene Einträge löschen
 mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
-mme#:#select_parent#:#Haupteintrag auswählen
+mme#:#select_parent#:#Zugehörigen Haupteintrag auswählen
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
 mme#:#topitem_add#:#Haupteintrag hinzufügen
 mme#:#restore#:#Hauptmenu zurücksetzen
+mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
+mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#confirm_move#:#Möchten Sie diesen Eintrag zu einem Haupteintrag machen?
 mme#:#move_to_item#:#Zu Einträge verschieben
+mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#topitem_edit#:#Bearbeiten
@@ -15096,7 +15102,7 @@ prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
-content#:#cont_ed_insert_learning_history#:#Lernverlauf
+content#:#cont_ed_insert_lhist#:#Lernverlauf einfügen
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -15474,7 +15480,7 @@ exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originald
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
-wiki#:#wiki_notification_comment_subject#:#Es wurd ein Kommentar zur Seite "%s: %s" hinzugefügt
+wiki#:#wiki_notification_comment_subject#:#Es wurde ein Kommentar zur Seite "%s: %s" hinzugefügt
 wiki#:#wiki_notification_comment#:#die folgende Seite wurde kommentiert
 wiki#:#wiki_commented_by#:#Autor
 content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
@@ -15484,7 +15490,7 @@ content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deak
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
 content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
 content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
-content#:#cont_notification_comment_subject_lm#:#Es wurd ein Kommentar zur Seite %s: %s" hinzugefügt
+content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
@@ -16076,7 +16082,7 @@ prg#:#last_edited_by#:#Zuletzt bearbeitet von
 prg#:#last_edited#:#Zuletzt bearbeitet
 prg#:#add_category#:#Kategorie hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
-prg#:#category#:#Kategorie (RefId)
+prg#:#category#:#Kategorie
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
 prg#:#prgr_new#:#Neuer Link zum Studienprogramm
@@ -16400,7 +16406,7 @@ mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
+mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 common#:#obj_adn#:#Ankündigungen
@@ -16486,3 +16492,4 @@ rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+prg#:#auto_add_success#:#Automatismus erfolgreich hinzugefügt.

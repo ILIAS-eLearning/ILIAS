@@ -32,7 +32,7 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('last_edited_by'), 'editor');
         $this->addColumn($this->lng->txt('last_edited'), 'last');
         $this->addColumn($this->lng->txt('status'), 'status');
-        $this->addColumn($this->lng->txt(''), 'actions');
+        $this->addColumn($this->lng->txt('actions'), 'actions');
         $this->setSelectAllCheckbox(ilObjStudyProgrammeAutoMembershipsGUI::CHECKBOX_SOURCE_IDS . '[]');
         $this->setEnableAllCommand(true);
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
@@ -50,14 +50,21 @@ class ilStudyProgrammeAutoMembershipsTableGUI extends ilTable2GUI
         ]);
 
         $id = $ams->getSourceType() . '-' . $ams->getSourceId();
-        $status = $ams->isEnabled()  ? $this->lng->txt('enabled') : $this->lng->txt('disabled');
+        $status = $ams->isEnabled()  ? $this->lng->txt('active') : $this->lng->txt('inactive');
+        $date = $this->getDatePresentation($ams->getLastEdited()->getTimestamp());
 
         $this->tpl->setVariable("ID", $id);
         $this->tpl->setVariable("TYPE", $this->lng->txt($ams->getSourceType()));
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("EDITOR", $usr);
-        $this->tpl->setVariable("LAST_EDITED", $ams->getLastEdited()->format('Y/m/d H:i:s'));
+        $this->tpl->setVariable("LAST_EDITED", $date);
         $this->tpl->setVariable("STATUS", $status);
         $this->tpl->setVariable("ACTIONS", $actions);
+    }
+
+    protected function getDatePresentation(int $timestamp) : string
+    {
+        $date = new ilDateTime($timestamp, IL_CAL_UNIX);
+        return ilDatePresentation::formatDate($date);
     }
 }

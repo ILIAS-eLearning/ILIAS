@@ -148,9 +148,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         // Override parent from configuration
         $this->map->walk(function (isItem &$item) {
             if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
-                if ($item->getTitle() === 'Dashboard') {
-                    $x = 1;
-                }
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);

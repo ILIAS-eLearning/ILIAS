@@ -273,11 +273,11 @@ class ilMemberViewSettings
             return;
         }
 
-        $ref_id = (int) $this->request->getQueryParams()['ref_id'] ?? 0;
+        $ref_id = (int) ($this->request->getQueryParams()['ref_id'] ?? 0);
         if ($ref_id) {
             return $this->current_ref_id = $ref_id;
         }
-        $target_str = (string) $this->request->getQueryParams()['target'] ?? '';
+        $target_str = (string) ($this->request->getQueryParams()['target'] ?? '');
         if (strlen($target_str)) {
             $target_arr = explode('_', (string) $target_str);
             if (isset($target_arr[1]) && (int) $target_arr[1]) {

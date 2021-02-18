@@ -43,6 +43,15 @@ class ilGlobalCacheConfigStoredObjective implements Setup\Objective
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
+        ilMemcacheServer::flushDB();
+
+        $memcached_nodes = $this->settings->getMemcachedNodes();
+        if (count($memcached_nodes) > 0) {
+            foreach ($memcached_nodes as $node) {
+                $node->create();
+            }
+        }
+
         $this->settings->writeToIniFile($client_ini);
 
         if (!$client_ini->write()) {

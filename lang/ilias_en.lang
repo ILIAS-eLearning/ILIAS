@@ -56,6 +56,7 @@ common#:#obj_nots#:#Notes
 note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Enable Comments
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
@@ -3770,7 +3771,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -4696,7 +4697,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link
+content#:#cont_text_iln_link#:#Interal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -8628,7 +8629,7 @@ sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
-content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.
@@ -8916,7 +8917,7 @@ prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
-content#:#cont_ed_insert_profile#:#Insert Personal Data
+content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_update_profile#:#Edit Published Data
@@ -8925,7 +8926,7 @@ content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
-content#:#cont_ed_insert_verification#:#Insert Certificate
+content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_pc_vrfc#:#Certificate
 content#:#cont_insert_verification#:#Add Certificate
 content#:#cont_update_verification#:#Edit Certificate
@@ -11786,7 +11787,7 @@ crs#:#crs_mail_all#:#For all Participants
 grp#:#grp_mail_type#:#Mail to Members
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_all#:#For all Participants
-content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours
 content#:#cont_cach_mode#:#Mode
@@ -12248,7 +12249,7 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_image_height#:#Height
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Insert My Courses
+content#:#cont_ed_insert_mcrs#:#Insert My Courses
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
@@ -12346,7 +12347,7 @@ survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List
+content#:#cont_ed_insert_amdpl#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
@@ -12996,7 +12997,8 @@ style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 cron#:#cron_result_status_fail#:#Failed
-content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
+content#:#cont_link_user#:#User Profile
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply
@@ -14216,7 +14218,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
@@ -15037,7 +15039,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#select_parent#:#Select Parent
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
-mme#:#confirm_move#:#Would you like to move this Item to Top Items?
+mme#:#confirm_move#:#Would you like to move this item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
@@ -15120,7 +15122,7 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Download Submission
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_lhist#:#Insert Learning History
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -16094,7 +16096,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
-prg#:#category#:#Category RefId
+prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
 prg#:#prgr_new#:#Create Study Programme Link
@@ -16417,7 +16419,6 @@ adn#:#msg_form_button_reset#:#Reset
 adn#:#msg_form_button_delete#:#Delete
 adn#:#msg_form_button_cancel#:#Cancel
 adn#:#msg_success_deleted#:#Notification sucessfully deletrd
-content#:#cont_link_user#:#User Link
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
@@ -16443,7 +16444,7 @@ mob#:#mob_upload_file#:#Upload File
 mob#:#mob_external_url#:#External URL
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 common#:#objs_prgr#:#Links to Study Programmes
 rbac#:#prgr_copy#:#User can copy links to study programmes.
 rbac#:#prgr_delete#:#User can move or delete links to study programmes.
@@ -16459,10 +16460,6 @@ rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
-rbac#:#coms_visible#:#Administration of Comments is visible.
-rbac#:#coms_read#:#User has read access to administration of Comments.
-rbac#:#coms_write#:#User can edit settings of administration of Comments.
-rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
 rbac#:#cpad_visible#:#Administration of Content Pages is visible.
 rbac#:#cpad_read#:#User has read access to administration of Content Pages.
 rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.
@@ -16471,10 +16468,6 @@ rbac#:#fils_visible#:#Administration of File Services is visible.
 rbac#:#fils_read#:#User has read access to File Services administration.
 rbac#:#fils_write#:#User can edit and configure File Services.
 rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.
-rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
-rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
-rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
-rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
 rbac#:#lhts_visible#:#Administration of Learning History is visible.
 rbac#:#lhts_read#:#User has read access to Learning History administration.
 rbac#:#lhts_write#:#User can edit settings of Learning History administration.
@@ -16501,3 +16494,4 @@ rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
 rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
+prg#:#auto_add_success#:#Add automatism successfully.

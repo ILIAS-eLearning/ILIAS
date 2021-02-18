@@ -34,7 +34,15 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             $settings = new \ilGlobalCacheSettings();
-            if ($data === null || !$data["components"] || $data["service"] == "none") {
+            if (
+                $data === null ||
+                !$data["components"] ||
+                $data["service"] === "none" ||
+                (
+                    $data["service"] === "memcached" &&
+                    (!isset($data["memcached_nodes"]) || count($data["memcached_nodes"]) === 0)
+                )
+            ) {
                 $settings->setActive(false);
             } else {
                 $settings->setActive(true);
@@ -46,6 +54,9 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         $settings->setService(\ilGlobalCache::TYPE_XCACHE);
                         break;
                     case "memcached":
+                        array_map(function(array $node) use ($settings) {
+                            $settings->addMemcachedNode($this->getMemcachedServer($node));
+                        }, $data["memcached_nodes"]);
                         $settings->setService(\ilGlobalCache::TYPE_MEMCACHED);
                         break;
                     case "apc":
@@ -57,16 +68,28 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                         );
                 }
                 $settings->resetActivatedComponents();
-                if ($data["components"] == "all") {
+                if ($data["components"] === "all") {
                     $settings->activateAll();
                 } else {
                     foreach ($data["components"] as $cmp) {
-                        $settings->addActivatedComponents($cmp);
+                        $settings->addActivatedComponent($cmp);
                     }
                 }
             }
+
             return $settings;
         });
+    }
+
+    protected function getMemcachedServer(array $node) : ilMemcacheServer
+    {
+        $m = new ilMemcacheServer();
+        $m->setStatus($node["active"] === "1" ? ilMemcacheServer::STATUS_ACTIVE : ilMemcacheServer::STATUS_INACTIVE);
+        $m->setHost($node["host"]);
+        $m->setPort($node["port"]);
+        $m->setWeight($node["weight"]);
+
+        return $m;
     }
 
     /**

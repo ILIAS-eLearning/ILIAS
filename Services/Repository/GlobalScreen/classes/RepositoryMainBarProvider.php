@@ -42,7 +42,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         // Home
         $entries[] = $this->getHomeItem()
-            ->withVisibilityCallable($access_helper->isRepositoryReadable())
+            ->withVisibilityCallable($access_helper->isRepositoryVisible())
             ->withParent($top)
             ->withSymbol($icon)
             ->withPosition(10);
@@ -64,7 +64,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
-            ->withVisibilityCallable($access_helper->isRepositoryReadable())
+            ->withVisibilityCallable($access_helper->isRepositoryVisible())
             ->withContentWrapper(function () {
                 return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
             })
@@ -179,7 +179,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        $ref_id = (int) $_GET["ref_id"];
+        $ref_id = (int) ($_GET["ref_id"] ?? 0);
         if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }

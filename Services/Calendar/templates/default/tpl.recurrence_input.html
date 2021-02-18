@@ -31,8 +31,9 @@
 	<div id="sub_WEEKLY_2" style="padding-left: 40px;">
 		<label class="control-label" for="byday_WEEKLY">{TXT_ON}</label>
 		<!-- BEGIN byday_simple -->
-		<label class="control-label small" for="byday_WEEKLY[]">{TXT_DAY_SHORT}</label>
-		<input type="checkbox"
+		<label class="control-label small" for="byday_{DAY_COUNT}">{TXT_DAY_SHORT}</label>
+		<input id="byday_{DAY_COUNT}"
+			   type="checkbox"
 			   class="form-control"
 			   name="byday_WEEKLY[]"
 			   value="{BYDAY_WEEKLY_VAL}"

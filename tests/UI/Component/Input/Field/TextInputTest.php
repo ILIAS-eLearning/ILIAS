@@ -54,8 +54,8 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
-                    . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                    . "	<div class=\"col-sm-9\">" . "		<input id=\"id_1\" type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />"
                     . "		<div class=\"help-block\">$byline</div>" . "		" . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
     }
@@ -73,8 +73,8 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
-                    . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                    . "	<div class=\"col-sm-9\">" . "		<input id=\"id_1\" type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />"
                     . "		<div class=\"help-block\">$byline</div>" . "		<div class=\"help-block alert alert-danger\" role=\"alert\">"
                     . "			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />" . "			$error"
                     . "		</div>" . "	</div>" . "</div>";
@@ -92,8 +92,8 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
-                    . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                    . "	<div class=\"col-sm-9\">" . "		<input id=\"id_1\" type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		"
                     . "		" . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
     }
@@ -110,9 +110,9 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
                     . "	<div class=\"col-sm-9\">"
-                    . "		<input type=\"text\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		"
+                    . "		<input id=\"id_1\" type=\"text\" value=\"$value\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		"
                     . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
     }
@@ -128,9 +128,9 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">" . "$label"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">" . "$label"
                     . "<span class=\"asterisk\">*</span>" . "</label>" . "	<div class=\"col-sm-9\">"
-                    . "		<input type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		" . "	</div>"
+                    . "		<input id=\"id_1\" type=\"text\" name=\"$name\" class=\"form-control form-control-sm\" />" . "		" . "		" . "	</div>"
                     . "</div>";
         $this->assertEquals($expected, $html);
     }
@@ -145,8 +145,8 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
-                    . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />" . "		"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                    . "	<div class=\"col-sm-9\">" . "		<input id=\"id_1\" type=\"text\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />" . "		"
                     . "		" . "	</div>" . "</div>";
 
         $this->assertEquals($expected, $html);

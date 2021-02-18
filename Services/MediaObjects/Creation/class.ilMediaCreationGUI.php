@@ -430,14 +430,14 @@ class ilMediaCreationGUI
             $mediaItem->setHAlign("Left");
             $mob->setTitle($title);
             $mob->setDescription($format);
-            try {
+            /*try {
                 $mob->getExternalMetadata();
             } catch (Exception $e) {
                 ilUtil::sendFailure($e->getMessage());
                 $form->setValuesByPost();
                 $this->main_tpl->setContent($form->getHTML());
                 return;
-            }
+            }*/
 
             $long_desc = $mob->getLongDescription();
             $mob->update();

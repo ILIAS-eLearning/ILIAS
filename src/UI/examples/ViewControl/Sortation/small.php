@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\ViewControl\Sortation;
+
 //This can be used, when space is very scarce and the label can not be displayed
 function small()
 {

@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Symbol\Icon;
@@ -8,7 +9,6 @@ namespace ILIAS\UI\Component\Symbol\Icon;
  */
 interface Standard extends Icon
 {
-
     // std. ILIAS icons:
     // SELECT distinct title, description from `object_data` where type='typ'
     const GRP = 'grp';	//Group object
@@ -154,17 +154,15 @@ interface Standard extends Icon
     const PESC = 'pesc';     //Page Editor Section
     const PETMP = 'petmp';   //Page Editor Template
     const PEUSR = 'peusr';   //Page Editor User
+    const LSO = 'lso';   //Learning Sequence
 
     /**
      * Is this an outlined Icon?
      */
-    public function isOutlined();
+    public function isOutlined() : bool;
 
     /**
      * Get an icon like this, but marked as outlined.
-     *
-     * @param bool $is_outlined
-     * @return Standard
      */
-    public function withIsOutlined(bool $is_outlined);
+    public function withIsOutlined(bool $is_outlined) : Standard;
 }

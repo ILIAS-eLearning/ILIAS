@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\Filesystem;
 
@@ -16,6 +15,10 @@ namespace ILIAS\Filesystem;
 final class FilesystemsImpl implements Filesystems
 {
 
+    /**
+     * @var Filesystem
+     */
+    private $node_modules;
     /**
      * @var Filesystem
      */
@@ -46,14 +49,22 @@ final class FilesystemsImpl implements Filesystems
      * @param Filesystem $temp
      * @param Filesystem $customizing
      * @param FileSystem $libs
+     * @param FileSystem $node_modules
      */
-    public function __construct(Filesystem $storage, Filesystem $web, Filesystem $temp, Filesystem $customizing, FileSystem $libs)
-    {
+    public function __construct(
+        Filesystem $storage,
+        Filesystem $web,
+        Filesystem $temp,
+        Filesystem $customizing,
+        FileSystem $libs,
+        FileSystem $node_modules
+    ) {
         $this->storage = $storage;
         $this->web = $web;
         $this->temp = $temp;
         $this->customizing = $customizing;
         $this->libs = $libs;
+        $this->node_modules = $node_modules;
     }
 
 
@@ -99,5 +110,13 @@ final class FilesystemsImpl implements Filesystems
     public function libs() : Filesystem
     {
         return $this->libs;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function nodeModules() : Filesystem
+    {
+        return $this->node_modules;
     }
 }

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\ViewControl\Mode;
+
 /**
  * Base example performing a page reload if active view is changed.
  */
@@ -14,7 +17,7 @@ function base()
     $param = "Mode";
 
     $active = 1;
-    if($_GET[$param]){
+    if(isset($_GET[$param]) && $_GET[$param]){
         $active = $_GET[$param];
     }
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\ViewControl\Section;
 
 function base()
 {
@@ -11,7 +13,7 @@ function base()
     $target = $DIC->http()->request()->getRequestTarget();
     $param = "Section";
     $active = 0;
-    if($_GET[$param]){
+    if(isset($_GET[$param]) && $_GET[$param]){
         $active = $_GET[$param];
     }
 
