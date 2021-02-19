@@ -16213,3 +16213,4 @@ common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
 common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+content#:#invalid_url#:#Das Format der URL ist nicht korrekt. Es sind keine HTML Tags, Apostrophe oder Anführungszeichen erlaubt.
