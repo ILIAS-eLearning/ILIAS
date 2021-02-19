@@ -6501,6 +6501,7 @@ form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmet
 form#:#form_please_select#:#Bitte auswählen
 form#:#form_retype_password#:#Passwort nochmals eingeben
 form#:#form_seconds#:#Sekunden
+form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Dateien:
 forum#:#activate_new_posts#:#Neue Beiträge freischalten
 forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten

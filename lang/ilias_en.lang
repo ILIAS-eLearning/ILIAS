@@ -5537,6 +5537,7 @@ form#:#form_password_not_allowed_for_auth#:#It is not possible to change the pas
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 forum#:#activate_new_posts#:#Approve Postings
 forum#:#activate_only_current#:#Approve Posting
 forum#:#activate_post_txt#:#Would you really like to approve the current posting?
