@@ -43,7 +43,6 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
     public function getAdministrativeNotifications() : array
     {
         $adns = [];
-        $access = BasicAccessCheckClosures::getInstance();
 
         $i = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
@@ -54,49 +53,60 @@ class ADNProvider extends AbstractNotificationProvider implements NotificationPr
          */
         foreach (ilADNNotification::get() as $item) {
             $adn = $this->notification_factory->administrative($i((string) $item->getId()))->withTitle($item->getTitle())->withSummary($item->getBody());
-            switch ($item->getType()) {
-                case ilADNNotification::TYPE_ERROR:
-                    $adn = $adn->withBreakingDenotation();
-                    break;
-                case ilADNNotification::TYPE_WARNING:
-                    $adn = $adn->withImportantDenotation();
-                    break;
-                case ilADNNotification::TYPE_INFO:
-                default:
-                    $adn = $adn->withNeutralDenotation();
-                    break;
-            }
+            $adn = $this->handleDenotation($item, $adn);
 
             $is_visible = static function () : bool {
                 return true;
             };
 
             // is limited to roles
-            if ((bool) $item->isLimitToRoles()) {
+            if ($item->isLimitToRoles()) {
                 $is_visible = $this->combineClosure($is_visible, function () use ($item) {
                     return $this->dic->rbac()->review()->isAssignedToAtLeastOneGivenRole($this->dic->user()->getId(),
-                        (array) $item->getLimitedToRoleIds());
+                        $item->getLimitedToRoleIds());
                 });
             }
 
             // is dismissale
-            if ((bool) $item->getDismissable() && $access->isUserLoggedIn()()) {
+            if ($item->getDismissable() && $this->access->isUserLoggedIn()()) {
                 $adn = $adn->withClosedCallable(function () use ($item) {
                     $item->dismiss($this->dic->user());
                 });
-                $is_visible = $this->combineClosure($is_visible, function () use ($item): bool {
-                    return (bool) !\ilADNDismiss::hasDimissed($this->dic->user(), $item);
+                $is_visible = $this->combineClosure($is_visible, function () use ($item) : bool {
+                    return !\ilADNDismiss::hasDimissed($this->dic->user(), $item);
                 });
             }
 
-            $is_visible = $this->combineClosure($is_visible, function () use ($item): bool {
-                return (bool) $item->isVisibleForUser($this->dic->user());
+            $is_visible = $this->combineClosure($is_visible, function () use ($item) : bool {
+                return $item->isVisibleForUser($this->dic->user());
             });
 
-            $adn = $adn->withVisibilityCallable($is_visible);
-            $adns[] = $adn;
+            $adns[] = $adn->withVisibilityCallable($is_visible);
         }
         return $adns;
+    }
+
+    private function handleDenotation(
+        ilADNNotification $item,
+        AdministrativeNotification $adn
+    ) : AdministrativeNotification {
+        $settype = static function (int $type, AdministrativeNotification $adn) : AdministrativeNotification {
+            switch ($type) {
+                case ilADNNotification::TYPE_ERROR:
+                    return $adn->withBreakingDenotation();
+                case ilADNNotification::TYPE_WARNING:
+                    return $adn->withImportantDenotation();
+                case ilADNNotification::TYPE_INFO:
+                default:
+                    return $adn->withNeutralDenotation();
+            }
+        };
+
+        // denotation during event
+        if (!$item->isPermanent() && $item->isDuringEvent()) {
+            return $settype($item->getTypeDuringEvent(), $adn);
+        }
+        return $settype($item->getType(), $adn);
     }
 
     private function combineClosure(Closure $closure, ?Closure $additional = null) : Closure
