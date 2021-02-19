@@ -70,5 +70,10 @@ public class MailAttachmentPathCreator implements PathCreator {
 		return this.buildFile(el, null);
 		
 	}
+
+	@Override
+	public String getExtension(CommandQueueElement el, ResultSet res) {
+		return "";
+	}
 	
 }
