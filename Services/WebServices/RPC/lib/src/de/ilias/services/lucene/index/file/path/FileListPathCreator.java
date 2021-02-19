@@ -141,4 +141,22 @@ public class FileListPathCreator implements PathCreator {
 
 		return buildFile(el, null);
 	}
+	
+	@Override
+	public String getExtension(CommandQueueElement el, ResultSet res) {
+		
+		StringBuilder extension = new StringBuilder();
+		try {
+			String fileName = res.getString("file_name");
+	        int dotIndex = fileName.lastIndexOf(".");
+	        if((dotIndex > 0) && (dotIndex < fileName.length())) {
+	            extension.append(fileName.substring(dotIndex + 1, fileName.length()));
+			}
+
+		} catch (SQLException ex) {
+			logger.error(ex.toString());
+		}
+		return extension.toString();
+	}
+	
 }
