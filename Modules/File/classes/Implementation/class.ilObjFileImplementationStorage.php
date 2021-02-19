@@ -119,7 +119,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      */
     public function deleteVersions($a_hist_entry_ids = null)
     {
-        throw new NotImplementedException();
+        if (is_array($a_hist_entry_ids)) {
+            foreach ($a_hist_entry_ids as $id) {
+                $this->storage->manage()->removeRevision($this->resource->getIdentification(), $id);
+            }
+        }
     }
 
     /**
@@ -137,6 +141,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     {
         $versions = [];
         foreach ($this->resource->getAllRevisions() as $revision) {
+            if (is_array($version_ids) && !in_array($revision->getVersionNumber(), $version_ids)) {
+                continue;
+            }
             $information = $revision->getInformation();
             $v = new ilObjFileVersion();
             $v->setVersion($revision->getVersionNumber());
