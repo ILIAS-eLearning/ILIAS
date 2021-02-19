@@ -56,4 +56,13 @@ public interface PathCreator {
 	 * @throws PathCreatorException
 	 */
 	public File buildFile(CommandQueueElement el) throws PathCreatorException;
+	
+	
+	/**
+	 * 
+	 * @param el
+	 * @param res
+	 * @return String
+	 */
+	public String getExtension(CommandQueueElement el, ResultSet res);
 }
