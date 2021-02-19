@@ -314,6 +314,7 @@ class ilSurveySkill
                 if ($t > 0 && $mean_sum >= $t) {
                     $skills[$k]["new_level"] = $l["title"];
                     $skills[$k]["new_level_id"] = $l["id"];
+                    $skills[$k]["next_level_perc"] = 0;
                 } else if ($t > 0 && $mean_sum < $t) {
                     // first unfulfilled level
                     if ($previous == $skills[$k]["new_level_id"] && !isset($skills[$k]["next_level_perc"])) {
