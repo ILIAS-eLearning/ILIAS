@@ -575,6 +575,21 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $this->insert("edpost", "create_mob", true);
             return;
         }
+
+        if ($_POST['standard_reference'] != "") {
+            try {
+                new \ILIAS\Data\URI($_POST['standard_reference']);
+            } catch (\Throwable $e) {
+                $this->form = $mob_gui->getForm();
+                $this->form->setValuesByPost();
+                $url_field = $this->form->getItemByPostVar('standard_reference');
+                $url_field->setAlert($lng->txt('invalid_url'));
+                $this->tpl->setContent($this->form->getHTML());
+                $this->insert("edpost", "create_mob", true);
+                return;
+            }
+        }
+
         // create dummy object in db (we need an id)
         include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
         if ($a_change_obj_ref != true) {
