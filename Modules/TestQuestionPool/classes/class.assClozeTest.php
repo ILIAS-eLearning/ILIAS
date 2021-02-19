@@ -181,7 +181,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
 		return $output;
 	}
-// fau./**
+// fau.
+    /**
      * Loads a assClozeTest object from a database
      *
      * @param integer $question_id A unique key which defines the cloze test in the database
