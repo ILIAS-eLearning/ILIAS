@@ -97,15 +97,15 @@ class ilADNNotificationUIFormGUI
         $this->initForm();
     }
 
-
     protected $called = [];
+
     /**
      * @param string $var
      * @return string
      */
     protected function txt(string $var) : string
     {
-        $this->called[] = 'adn#:#msg_' . $var.'#:#';
+        $this->called[] = 'adn#:#msg_' . $var . '#:#';
 
         return $this->lng->txt('msg_' . $var);
     }
@@ -139,13 +139,17 @@ class ilADNNotificationUIFormGUI
     public function initForm() : void
     {
         $field = $this->ui->input()->field();
-        $custom_trafo = function ($c) {
+        $custom_trafo = function (callable $c) {
             return $this->refinery->custom()->transformation($c);
+        };
+        $custom_constraint = function (callable $c, string $error) {
+            return $this->refinery->custom()->constraint($c, $error);
         };
 
         // DENOTATION
         $types = $this->getDenotations();
         $denotation = $field->select($this->txt(self::F_TYPE), $types, $this->infoTxt(self::F_TYPE))
+                            ->withRequired(true)
                             ->withValue($this->notification->getType())
                             ->withAdditionalTransformation($custom_trafo(function ($v) {
                                 $this->notification->setType((int) $v);
@@ -176,6 +180,7 @@ class ilADNNotificationUIFormGUI
                                     ->withValue($this->notification->getDisplayStart()->format($str))
                                     ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) {
                                         $this->notification->setDisplayStart($v ?? new DateTimeImmutable());
+                                        return $v;
                                     }));
         $display_date_end = $field->dateTime($this->txt(self::F_DISPLAY_DATE_END))
                                   ->withUseTime(true)
@@ -183,6 +188,7 @@ class ilADNNotificationUIFormGUI
                                   ->withValue($this->notification->getDisplayEnd()->format($str))
                                   ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) {
                                       $this->notification->setDisplayEnd($v ?? new DateTimeImmutable());
+                                      return $v;
                                   }));
         $event_date_start = $field->dateTime($this->txt(self::F_EVENT_DATE_START))
                                   ->withUseTime(true)
@@ -190,6 +196,7 @@ class ilADNNotificationUIFormGUI
                                   ->withValue($this->notification->getEventStart()->format($str))
                                   ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) {
                                       $this->notification->setEventStart($v ?? new DateTimeImmutable());
+                                      return $v;
                                   }));
         $event_date_end = $field->dateTime($this->txt(self::F_EVENT_DATE_END))
                                 ->withUseTime(true)
@@ -197,6 +204,7 @@ class ilADNNotificationUIFormGUI
                                 ->withValue($this->notification->getEventEnd()->format($str))
                                 ->withAdditionalTransformation($custom_trafo(function (?DateTimeImmutable $v) {
                                     $this->notification->setEventEnd($v ?? new DateTimeImmutable());
+                                    return $v;
                                 }));
 
         $type_during_event = $field->select($this->txt(self::F_TYPE_DURING_EVENT), $types)
@@ -207,18 +215,50 @@ class ilADNNotificationUIFormGUI
 
         $permanent = $field->switchableGroup([
             self::F_PERMANENT . '_yes' => $field->group([], $this->txt(self::F_PERMANENT . '_yes')),
-            self::F_PERMANENT . '_no' => $field->group([
-                self::F_DISPLAY_DATE_START => $display_date_start,
-                self::F_DISPLAY_DATE_END => $display_date_end,
-                self::F_EVENT_DATE_START => $event_date_start,
-                self::F_EVENT_DATE_END => $event_date_end,
-                self::F_TYPE_DURING_EVENT => $type_during_event
-            ], $this->txt(self::F_PERMANENT . '_no'))
+            self::F_PERMANENT . '_no' => $field->group(
+                [
+                    self::F_DISPLAY_DATE_START => $display_date_start,
+                    self::F_DISPLAY_DATE_END => $display_date_end,
+                    self::F_EVENT_DATE_START => $event_date_start,
+                    self::F_EVENT_DATE_END => $event_date_end,
+                    self::F_TYPE_DURING_EVENT => $type_during_event
+                ],
+                $this->txt(self::F_PERMANENT . '_no')
+            )
         ], $this->txt(self::F_PERMANENT), $this->infoTxt(self::F_PERMANENT))
-                           ->withValue($this->notification->getPermanent() ? self::F_PERMANENT . '_yes' : self::F_PERMANENT . '_no')
+                           ->withValue($this->notification->isPermanent() ? self::F_PERMANENT . '_yes' : self::F_PERMANENT . '_no')
                            ->withAdditionalTransformation($custom_trafo(function ($v) {
-                               $this->notification->setPermanent(isset($v[0]) && $v[0] === self::F_PERMANENT . '_yes');
-                           }));
+                               $permanent = isset($v[0]) && $v[0] === self::F_PERMANENT . '_yes';
+                               $this->notification->setPermanent($permanent);
+                               return $permanent ? null : $v[1];
+                           }))
+                           ->withAdditionalTransformation($custom_constraint(static function ($v) {
+                               if (is_null($v)) {
+                                   return true;
+                               }
+                               /**
+                                * @var $v DateTimeImmutable[]
+                                */
+                               $display_start = $v[self::F_DISPLAY_DATE_START];
+                               $display_end = $v[self::F_DISPLAY_DATE_END];
+                               $event_start = $v[self::F_EVENT_DATE_START];
+                               $event_end = $v[self::F_EVENT_DATE_END];
+
+                               if ($display_start >= $display_end) {
+                                   return false;
+                               }
+                               if ($event_start >= $event_end) {
+                                   return false;
+                               }
+                               if ($event_start < $display_start) {
+                                   return false;
+                               }
+                               if ($event_end > $display_end) {
+                                   return false;
+                               }
+
+                               return true;
+                           }, $this->txt('error_false_date_configuration')));
 
         // DISMISSABLE
         $dismissable = $field->checkbox($this->txt(self::F_DISMISSABLE), $this->infoTxt(self::F_DISMISSABLE))
@@ -278,7 +318,7 @@ class ilADNNotificationUIFormGUI
     protected function fillObject() : bool
     {
         $this->notification = $this->form->getData();
-        return true;
+        return $this->notification instanceof ilADNNotification;
     }
 
     public function saveObject() : int

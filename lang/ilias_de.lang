@@ -16412,6 +16412,7 @@ adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 common#:#obj_adn#:#Ankündigungen
 adn#:#main#:#Ankündigungen
+adn#:#msg_type_0#:#Hinweis
 adn#:#msg_type_1#:#Hinweis
 adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung
@@ -16438,6 +16439,7 @@ adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
 adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_table_title#:#Ankündigungen
 adn#:#common_actions#:#Aktionen
+adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
 adn#:#common_add_msg#:#Ankündigung hinzufügen
 adn#:#btn_reset#:#Zurücksetzen
 adn#:#btn_reset_confirm#:#Möchten Sie diese Ankündigung für alle Benutzer zurücksetzen?
@@ -16448,6 +16450,7 @@ adn#:#btn_edit#:#Bearbeiten
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
 adn#:#msg_success_created#:#Ankündigung erstellt
 adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
+adn#:#msg_success_updated#:#Ankündigung aktualisiert
 common#:#objs_prgr#:#Links zu Studienprogrammen
 rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen

@@ -78,7 +78,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $notification->getTitle());
         $this->tpl->setVariable('TYPE', $this->lng->txt('msg_type_' . $notification->getType()));
 
-        if (!$notification->getPermanent()) {
+        if (!$notification->isPermanent()) {
             $this->tpl->setVariable('TYPE_DURING_EVENT',
                 $this->lng->txt('msg_type_' . $notification->getTypeDuringEvent()));
             $this->tpl->setVariable('EVENT_START', $this->formatDate($notification->getEventStart()));

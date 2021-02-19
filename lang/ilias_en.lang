@@ -10852,7 +10852,7 @@ tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selecte
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login
 tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.
-tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal 
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal
 tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
 rbac#:#chtr_delete#:#User can move or delete chat room
@@ -16388,6 +16388,7 @@ adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 common#:#obj_adn#:#Administrative Notifications
 adn#:#main#:#Notifications
+adn#:#msg_type_0#:#Notice
 adn#:#msg_type_1#:#Notice
 adn#:#msg_type_2#:#Important
 adn#:#msg_type_3#:#Breaking News
@@ -16414,6 +16415,7 @@ adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notificatio
 adn#:#msg_form_title#:#Notification
 adn#:#msg_table_title#:#Notifications
 adn#:#common_actions#:#Actions
+adn#:#msg_error_false_date_configuration#:#Can't create a notification with this configuration of dates. The event must be within the display time.
 adn#:#common_add_msg#:#Add Notification
 adn#:#btn_reset#:#Reset
 adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
@@ -16424,6 +16426,7 @@ adn#:#btn_edit#:#Edit
 adn#:#msg_success_deleted#:#Notification sucessfully deleted
 adn#:#msg_success_created#:#Notification created
 adn#:#msg_success_reset#:#Notification reset
+adn#:#msg_success_updated#:#Notification updated
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.

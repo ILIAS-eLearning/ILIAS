@@ -106,7 +106,7 @@ class ilADNNotification extends ActiveRecord
      */
     public function getActiveType()
     {
-        if ($this->getPermanent()) {
+        if ($this->isPermanent()) {
             return $this->getType();
         }
         if ($this->hasEventStarted() and !$this->hasEventEnded()) {
@@ -122,7 +122,7 @@ class ilADNNotification extends ActiveRecord
      */
     protected function isVisible()
     {
-        if ($this->getPermanent()) {
+        if ($this->isPermanent()) {
             return true;
         }
         $hasEventStarted = $this->hasEventStarted();
@@ -549,7 +549,7 @@ class ilADNNotification extends ActiveRecord
         $this->permanent = $permanent;
     }
 
-    public function getPermanent() : bool
+    public function isPermanent() : bool
     {
         return (bool) $this->permanent;
     }
