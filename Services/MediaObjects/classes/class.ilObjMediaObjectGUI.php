@@ -695,7 +695,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
     
     /**
-     * chechInputForm
+     * checkInputForm
      *
      * @param
      * @return
@@ -726,7 +726,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
         }
 
-        $a_mob->setTitle($title);
+        $valid_title = ilObjMediaObjectGUI::getValidTitle($title);
+        $a_mob->setTitle($valid_title);
         $a_mob->setDescription("");
         $a_mob->create();
 
@@ -1004,8 +1005,20 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         
         $this->initForm("edit");
         if ($this->form_gui->checkInput()) {
-            $title = trim($_POST["standard_title"]);
-            $this->object->setTitle($title);
+            if ($_POST['standard_reference'] != "") {
+                try {
+                    new \ILIAS\Data\URI($_POST['standard_reference']);
+                } catch (\Throwable $e) {
+                    $this->form_gui->setValuesByPost();
+                    $url_field = $this->form_gui->getItemByPostVar('standard_reference');
+                    $url_field->setAlert($lng->txt('invalid_url'));
+                    $tpl->setContent($this->form_gui->getHTML());
+                    return;
+                }
+            }
+
+            $valid_title = $this->getValidTitle($_POST['standard_title']);
+            $this->object->setTitle($valid_title);
             
             $std_item = $this->object->getMediaItem("Standard");
             $location = $std_item->getLocation();
@@ -2061,7 +2074,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-     *	Upload multiple stubtitles
+     *	Upload multiple subtitles
      *
      * @param
      * @return
@@ -2141,5 +2154,18 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
         $this->object->clearMultiSrtDirectory();
         $ilCtrl->redirect($this, "listSubtitleFiles");
+    }
+
+    /**
+     * Remove possible HTML tags, quotes or single quote marks from title.
+     */
+    public static function getValidTitle(string $standard_title) : string
+    {
+        $valid_title = str_replace('< ', '<', $standard_title);
+        $valid_title = strip_tags($valid_title);
+        $valid_title = str_replace('"', '', $valid_title);
+        $valid_title = str_replace("'", "", $valid_title);
+
+        return $valid_title;
     }
 }
