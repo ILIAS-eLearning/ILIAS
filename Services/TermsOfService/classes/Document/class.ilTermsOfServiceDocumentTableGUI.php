@@ -151,7 +151,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 'sortable' => false,
                 'width' => '10%'
             ];
-        };
+        }
 
         return $columns;
     }

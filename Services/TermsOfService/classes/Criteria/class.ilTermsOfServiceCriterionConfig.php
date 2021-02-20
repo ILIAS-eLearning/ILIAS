@@ -47,7 +47,7 @@ class ilTermsOfServiceCriterionConfig extends ArrayObject implements ilTermsOfSe
     /**
      * @inheritdoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return $this->getArrayCopy();
     }

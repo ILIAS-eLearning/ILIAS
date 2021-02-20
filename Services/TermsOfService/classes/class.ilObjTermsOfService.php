@@ -68,7 +68,7 @@ class ilObjTermsOfService extends ilObject2
      */
     public function getStatus() : bool
     {
-        return (bool) $this->settings->get('tos_status', false);
+        return (bool) $this->settings->get('tos_status');
     }
 
     /**
@@ -84,6 +84,6 @@ class ilObjTermsOfService extends ilObject2
      */
     public function shouldReevaluateOnLogin() : bool
     {
-        return (bool) $this->settings->get('tos_reevaluate_on_login', false);
+        return (bool) $this->settings->get('tos_reevaluate_on_login');
     }
 }

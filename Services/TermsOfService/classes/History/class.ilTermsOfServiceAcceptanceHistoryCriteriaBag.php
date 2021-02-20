@@ -105,7 +105,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
     /**
      * @inheritdoc
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->getArrayCopy();
     }
