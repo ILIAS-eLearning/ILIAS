@@ -12,7 +12,7 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
  *
  * @ingroup ServicesCron
  */
-abstract class ilCronHookPlugin extends ilPlugin
+abstract class ilCronHookPlugin extends ilPlugin implements ilCronJobProvider
 {
     final public function getComponentType()
     {
@@ -38,8 +38,4 @@ abstract class ilCronHookPlugin extends ilPlugin
     {
         // nothing to do here
     }
-    
-    abstract public function getCronJobInstances();
-    
-    abstract public function getCronJobInstance($a_job_id);
 }
