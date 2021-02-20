@@ -857,6 +857,7 @@ class ilTestServiceGUI
         $template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
         $template->setVariable("USER_DATA", $user_data);
 
+        $this->populateExamId($template, (int) $active_id, (int) $pass);
         $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
         return $template->get();
@@ -1197,6 +1198,22 @@ class ilTestServiceGUI
         ilDatePresentation::setUseRelativeDates($oldValue);
         $tpl->setVariable("PASS_FINISH_DATE_LABEL", $this->lng->txt('tst_pass_finished_on'));
         $tpl->setVariable("PASS_FINISH_DATE_VALUE", $passFinishDate);
+    }
+
+    /**
+     * @param ilTemplate $tpl
+     * @param int $activeId
+     * @param int $pass
+     */
+    public function populateExamId(ilTemplate $tpl, int $activeId, int $pass)
+    {
+        if ($this->object->isShowExamIdInTestResultsEnabled()) {
+            $tpl->setVariable("EXAM_ID_TXT", $this->lng->txt('exam_id'));
+            $tpl->setVariable('EXAM_ID', ilObjTest::lookupExamId(
+                $activeId,
+                $pass
+            ));
+        }
     }
 }
 
