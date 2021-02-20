@@ -48,7 +48,7 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
     /**
      * @throws ReflectionException
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         parent::setUp();
 
