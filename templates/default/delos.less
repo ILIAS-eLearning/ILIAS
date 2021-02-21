@@ -433,8 +433,8 @@ div.ilFrame {
 	padding: 5px;
 	margin-left: 15px;
 	overflow: auto;
-	background-color: @il-secondary-container-bg;
-	border-right: 3px solid lighten(@mid-gray, 33%);
+	background-color: @il-main-dark;
+	border-right: 3px solid lighten(@il-gray-neutral, 33%);
 	z-index: 100;
 	position: fixed;
 	top: @il-header-height;
@@ -449,7 +449,7 @@ div.ilFrame {
 	margin-right: 15px;
 	border-right: none;
 	//See 20986 with according JF decision
-	border-left: 3px solid lighten(@mid-gray, 33%);
+	border-left: 3px solid lighten(@il-gray-neutral, 33%);
 }
 
 /* --------------------------------------------------------------
@@ -563,11 +563,11 @@ code {
 }
 
 ::selection {
-	background: lighten(@brand-primary, 48%);
+	background: lighten(@il-main-color, 48%);
 }
 
 ::-moz-selection {
-	background: lighten(@brand-primary, 48%);
+	background: lighten(@il-main-color, 48%);
 }
 
 textarea {
@@ -1064,7 +1064,7 @@ div.il_info {
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
-	color: darken(@brand-secondary, 10%);
+	color: darken(@il-secondary-color, 10%);
 	vertical-align: middle;
 	font-size: 26px;
     cursor: default;
@@ -1089,7 +1089,7 @@ h2.ilHeader {
 	margin: 0;
 	display: inline;
 	font-size: @font-size-h3;
-	color: lighten(@mid-gray,30%);
+	color: lighten(@il-gray-neutral,30%);
 }
 
 #headerimage {
@@ -1608,7 +1608,7 @@ div.ilHeaderBanner img.ilHeaderImg {
 }
 
 div.ilBox {
-	background: url("@{background-images-path}FramedBack.png") repeat-x;
+	background: url("@{il-background-images-path}FramedBack.png") repeat-x;
 	border: 1px solid #e0e0e0;
 	padding: 10px;
 	margin-bottom: 20px;

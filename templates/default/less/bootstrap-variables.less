@@ -19,9 +19,9 @@ the il- variable in your less code and not the boostrap variable in your less co
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-@body-bg:               #fff;
+@body-bg:               @il-main-bg;
 //** Global text color on `<body>`.
-@text-color:            @gray-dark;
+@text-color:            @il-text-color;
 
 //** Global textual link color.
 @link-color:            @il-link-color;
@@ -30,7 +30,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 
 //** if left unchanged, you have to copy delos fonts folder to your skin folder. To use the delos fonts in your skin, please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
 @il-web-font-path: "fonts/";
-@il-font-family-sans-serif:  @il-font-family-sans-serif;
+@font-family-sans-serif:  @il-font-family-sans-serif;
 
 @font-size-base:          @il-font-size-base;
 @font-size-large:         @il-font-size-large;
@@ -79,3 +79,87 @@ the il- variable in your less code and not the boostrap variable in your less co
 //## Icons are used to represent (and quickly identify) objects.
 
 @icon-font-path: @il-icon-font-path;
+
+//== Navs
+//
+//##
+@nav-link-padding:          5px 10px;
+@nav-tabs-border-color:     #e0e0e0;
+/* @nav-tabs-link-hover-border-color: @brand-primary; */
+@nav-tabs-active-link-hover-border-color: #e0e0e0;
+
+@btn-default-color:             @il-link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+
+//== Badges
+//
+//##
+@badge-bg:                    darken(@il-warning-color, 10%);
+@badge-active-bg:             darken(@il-warning-color, 10%);
+
+//== Input Fields
+//
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
+@input-border-radius: 0;
+@input-border-focus: lighten(@brand-primary, 20%);
+@input-height-base: (floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
+@input-color-placeholder: lighten(@gray-light, 30%);
+
+//== Tables
+//
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Background color used for `.table-striped`.
+@table-bg-accent:               white;
+
+//== bootstrap date time picker (/Services/Calendar/)
+//
+//##
+@bs-datetimepicker-timepicker-font-size: 1.2em;
+@bs-datetimepicker-active-bg: @btn-primary-bg;
+@bs-datetimepicker-active-color: @btn-primary-color;
+@bs-datetimepicker-border-radius: @border-radius-base;
+@bs-datetimepicker-btn-hover-bg: @il-gray-light;
+@bs-datetimepicker-disabled-color: @il-gray-light;
+@bs-datetimepicker-alternate-color: @il-gray-light;
+@bs-datetimepicker-secondary-border-color: #ccc;
+@bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
+@bs-datetimepicker-primary-border-color: white;
+@bs-datetimepicker-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
+//== Panels
+//
+//##
+
+@panel-bg:                    @il-main-dark;
+@panel-body-padding:          15px;
+@panel-heading-color:		  #707070;
+@panel-heading-padding:       1.5*@padding-large-vertical @padding-large-horizontal;
+@panel-footer-padding:        @panel-heading-padding;
+@panel-border-radius:         @border-radius-base;
+
+//** Border color for elements within panels
+@panel-inner-border:          #ddd;
+@panel-footer-bg:             #f5f5f5;
+
+@panel-default-text:          @il-gray-neutral;
+@panel-default-border:        none;
+@panel-default-heading-bg:    @il-main-dark;
+
+@panel-primary-text:          @il-gray-neutral;
+@panel-primary-border:        none;
+@panel-primary-heading-bg:    @il-main-light-bg;
+
+//== DropDowns
+//
+//##
+@dropdown-bg: white;
+@dropdown-link-color: lighten(@il-gray-neutral, 10%);
+@dropdown-link-hover-color: darken(@il-gray-neutral, 5%);
+@dropdown-link-bg: transparent;
+@dropdown-link-hover-bg: lighten(@brand-primary, 53%);
+@dropdown-header-bg: #f3f3f3;
+
+
+@navbar-height: @il-toolbar-height;

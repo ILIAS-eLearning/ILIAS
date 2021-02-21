@@ -1,7 +1,7 @@
 /* --- Services/COPage ---*/
 
 a.ilEditSubmit {
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
+	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
 	padding: 2px;
 	margin: 0;
 	border: 1px solid #bababa;
@@ -20,7 +20,7 @@ input.ilEditSubmit {
 	font-size: 12px;
 	line-height: 14px;
 	cursor: pointer;
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
+	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
 	border: 1px solid #bababa;
 	border-bottom-color: #808080;
 	border-right-color: #808080;
@@ -84,8 +84,8 @@ button.copg-add.dropdown-toggle.btn:hover {
 	left: 45%;
 }
 button.copg-add:hover {
-	color: lighten(@brand-secondary, 10%);
-	background-color: lighten(@brand-secondary, 52%);
+	color: lighten(@il-secondary-color, 10%);
+	background-color: lighten(@il-secondary-color, 52%);
 }
 
 div.il_droparea {
@@ -101,9 +101,9 @@ div.il_droparea {
 
 
 div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
-	border-color: lighten(@brand-secondary, 10%);
-	color: lighten(@brand-secondary, 10%);
-	background-color: lighten(@brand-secondary, 52%);	
+	border-color: lighten(@il-secondary-color, 10%);
+	color: lighten(@il-secondary-color, 10%);
+	background-color: lighten(@il-secondary-color, 52%);
 }
 
 div.ilCOPGNoPageContent {
@@ -123,13 +123,13 @@ div.il_editarea {
 
 .copg-state-page, .copg-state-multi {
 	div.il_editarea:hover {
-		border: 2px solid @brand-primary;
+		border: 2px solid @il-main-color;
 	}
 }
 
 div.ilEditLabel {
 	position: absolute;
-	background-color: @brand-primary;
+	background-color: @il-main-color;
 	color: #f0f0f0;
 	font-size: 70%;
 	padding: 1px 3px;
@@ -148,7 +148,7 @@ div.ilEditLabel {
 }
 
 div.il_editarea_selected:hover > div.ilEditLabel {
-	background-color: @brand-secondary;
+	background-color: @il-secondary-color;
 }
 
 
@@ -167,18 +167,18 @@ div.il_editarea_disabled {
 	font-size: @font-size-small;
 	margin-top: -22px;
 	padding: 2px 5px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 }
 
 
 div.il_editarea_selected, div.copg-current-edit, #tinytarget_ifr {
 	border-style: solid;
 	border-width: 2px;
-	border-color: lighten(@brand-secondary, 30%);
+	border-color: lighten(@il-secondary-color, 30%);
 }
 
 div.il_editarea_selected:hover {
-	border-color: @brand-secondary;
+	border-color: @il-secondary-color;
 }
 
 div.il_editarea_disabled_selected
@@ -257,7 +257,7 @@ div.ilTinyMenuSection, .il-copg-button-group {
 	p {
 		margin-bottom: 5px;
 		padding: 2px 5px;
-		background-color: darken(@il-secondary-container-bg, 4%);
+		background-color: darken(@il-main-dark, 4%);
 	}
 
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -306,13 +306,6 @@ div.il-copg-button-group-wide {
 }
 
 #iltinymenu {
-	/*z-index: 1040 !important;
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	background-color: @il-secondary-container-bg;
-    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));*/
 	.bd {
 		div {
 			&.last {
@@ -500,7 +493,7 @@ div.ilEditModified, div.ilEditDeleted, div.ilEditNew {
 }
 
 div.ilEditModified {
-	border-color: @brand-primary;
+	border-color: @il-main-color;
 }
 
 div.ilEditDeleted {
@@ -508,7 +501,7 @@ div.ilEditDeleted {
 }
 
 div.ilEditNew {
-	border-color: @brand-secondary;
+	border-color: @il-secondary-color;
 }
 
 .ilCOPGCompareLegend {
@@ -522,7 +515,7 @@ span.ilDiffDel {
 }
 
 span.ilDiffIns {
-	background-color: lighten(@brand-secondary, 30%);
+	background-color: lighten(@il-secondary-color, 30%);
 }
 
 a.nostyle:link, a.nostyle:visited {
@@ -585,13 +578,13 @@ a.nostyle:hover {
 	text-align: center;
 	display: table-cell;
 	vertical-align: middle;
-	background-color: darken(@brand-secondary, 20%);
+	background-color: darken(@il-secondary-color, 20%);
 	color: white;
 }
 
 .ilCOPgEditStyleSelectionItem {
 	padding: 10px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 	cursor: pointer;
 }
 
@@ -632,9 +625,9 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
 
 
 div.ilCOPGMediaPrint {
-	background-color: @il-secondary-container-bg !important;
+	background-color: @il-main-dark !important;
 	position: relative !important;
-	background-image: url("@{background-images-path}play.svg") !important;
+	background-image: url("@{il-background-images-path}play.svg") !important;
 	background-position: 50% 50% !important;
 	background-repeat: no-repeat !important;
 	background-size: auto 90% !important;
@@ -790,7 +783,7 @@ p#copg-auto-save {
 
 .il-copg-drag {
 	width: 40px;
-	border: 1px solid @brand-primary;
+	border: 1px solid @il-main-color;
 	height: 30px;
 	z-index: 100000;
 }

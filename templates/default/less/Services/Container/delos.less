@@ -21,7 +21,6 @@ div.ilPreconditionItem {
 div.ilContainerListItemOuter {
 	padding: @panel-body-padding @padding-large-horizontal;
 	zoom: 1;
-	/* background-color: lighten(@mid-gray, 75%); */
 }
 [dir="rtl"] div.ilContainerListItemOuter {
 	display: table;
@@ -151,7 +150,7 @@ div.il_ContainerListItem {
 }
 
 .ilContainerBlockHeader {
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-dark;
 	padding: @panel-heading-padding;
 	font-weight: 400;
 	text-align: left;
@@ -168,18 +167,17 @@ div.il_ContainerListItem {
 	background-size: 20px 20px;
 	padding-left: 45px;
 	/* padding-top: 6px; */
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-dark;
 	cursor: pointer;
 }
 
 
 .ilContainerBlockHeaderExpanded {
-	background-image: url("@{background-images-path}tree_exp.svg");
+	background-image: url("@{il-background-images-path}tree_exp.svg");
 }
 
 .ilContainerBlockHeaderCollapsed {
-	background-image: url("@{background-images-path}tree_col.svg");
-	/* background-color: @il-secondary-container-bg; */
+	background-image: url("@{il-background-images-path}tree_col.svg");
 }
 
 [dir="rtl"] .ilContainerBlockHeader {
@@ -216,16 +214,16 @@ div#ilContRepIntro img {
 }
 
 .ilContObjectiveObjectListItem {
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 }
 
 .ilContObjectiveIntro {
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 	padding: 1px 15px;
 }
 
 .ilContObjectivesViewTestItem {
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 	margin-bottom: 10px;
 }
 
@@ -252,7 +250,7 @@ div#ilContRepIntro img {
 
 .ilContainerShowMore {
 	padding: 15px 10px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-light-bg;
 	text-align: center;
 	margin: 0 -15px;
 }
