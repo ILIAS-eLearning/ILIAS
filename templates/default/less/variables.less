@@ -1,33 +1,51 @@
+/**
+This files contains all less Variables set by ILIAS. Please do not overwrite bootstrap standard variables here.
+Set an ILIAS variable here with an il- prefix and overwrite the bootstrap variable in the bootstrap variables file
+with the il- variable set here.
+ */
+
+
 //== Main Colors
 //
 //## The Main Colors used in ILIAS along with their sementics
 //** For Standard Buttons, Main color used in various places
-@brand-primary:         #4c6586;
+@il-main-color:         #4c6586;
 //** For Primary Buttons, used to point to interactions with a special importance
-@brand-secondary:       #6ea03c;
+@il-secondary-color:       #6ea03c;
 //** Used to indicate some success
-@brand-success:         #6ea03c;
+@il-success-color:         #6ea03c;
 //** Used to indicate some success
-@brand-info:            #dcb496;
+@il-info-color:            #dcb496;
 //** Used to indicate some warning or to draw special focus to some element
-@brand-warning:         #fa8228;
-//** Currently same as brand warning
-@brand-danger:          @brand-warning;
+@il-warning-color:         #fa8228;
+//** Used to indicate some warning or to draw special focus to some element
+@il-danger-color:          #a94442;
 
 //** Main Shade of grey used in ILIAS
-@light-gray: #f9f9f9;
-//** Main Shade of grey used in ILIAS
-@mid-gray: #434343;
-//** Additional Shade of Grey from Bootstrap, in default same as main shade.
-@gray-dark: @mid-gray;
+@il-grey-neutral: #434343;
+//** Light Shade of grey used in ILIAS
+@il-grey-light: #909090;
+//** Lighter Shade of grey used in ILIAS
+@il-grey-lighter: #e0e0e0;
 
-//** Main Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default
-@il-primary-container-bg: white;
-//** Background Color for the Content Area
-@il-secondary-container-bg: @light-gray;
+//** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
+@il-base-bg: white;
+//** Light version of the il-main-bg color. @Todo, when do we use this?
+@il-main-light-bg: #f9f9f9;
+//** Some slightly darker variant of the above. Background of the main content area
+@il-main-bg: #f0f0f0;
+//** Darker version of the il-main-bg coor. @Todo, when do we use this?
+@il-main-dark: @il-grey-lighter;
 
 //** Currently used for several highlighting effects, such as hovering
-@il-highlight-bg: #dfe3e6;
+@il-main-highlight-bg: lighten(@il-secondary-color, 50%);
+
+@il-text-color: @il-grey-neutral;
+@il-text-hover-color: darken(@il-text-color,10%);
+@il-text-light-color: @il-grey-light;
+
+@il-link-color:            @il-main-color;
+@il-link-hover-color:      darken(@link-color, 10%);
 
 //== Extended Colors
 //
@@ -74,112 +92,46 @@
 //** Factor by witch text colored by a specific color variant in the darker coloring shown inside a background of this exact variant is lightened
 @il-extended-text-color-factor-darker: 60%;
 
-
-//== Scaffolding the variables here mostly override variables set by bootstrap
-//
-//##
-@body-bg:               #f0f0f0;
-@text-color:            @gray-dark;
-@il-light-text-color:   lighten(@mid-gray, 30%); //#909090
-@link-color:            lighten(@brand-primary, 5%);
-@link-hover-color:      darken(@link-color, 15%);
-
-@component-active-color: white;
-@btn-primary-color: white;
-@btn-success-color: white;
-@btn-info-color: white;
-@btn-warning-color: white;
-@btn-danger-color: white;
-@input-bg: white;
-
-@navbar-inverse-link-hover-color: white;
-@navbar-inverse-brand-hover-color: white;
-@navbar-inverse-toggle-icon-bar-bg: white;
-
-@nav-open-link-hover-color: white;
-
-@pagination-bg: white;
-@pagination-active-color: white;
-@pagination-disabled-bg: white;
-
-@popover-bg: white;
-@popover-arrow-color: white;
-
-@label-color: white;
-@label-link-hover-color: white;
-
-@modal-content-bg: white;
-@modal-backdrop-bg: black;
-
-@progress-bar-color: white;
-@list-group-bg: white;
-
-@carousel-control-color: white;
-@carousel-indicator-active-bg: white;
-@carousel-indicator-border-color: white;
-@carousel-caption-color: white;
-
-@close-text-shadow: 0 1px 0 white;
-@kbd-color: white;
-
-
 //== Typography
 //
 //##
 
 //** if left unchanged, you have to copy delos fonts folder to your skin folder. To use the delos fonts in your skin, please change this value (in custom less data or variables.less of your custom skin) to "../../../../templates/default/fonts/"
-@web-font-path: "fonts/";
-@font-family-sans-serif:  'Open Sans', Verdana, Arial, Helvetica, sans-serif;
+@il-web-font-path: "fonts/";
+@il-font-family-sans-serif:  'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 
-@font-size-base:          14px;
-@font-size-large:         ceil((@font-size-base * 1.25));
-@font-size-small:         ceil((@font-size-base * 0.85));
-@font-size-xs:         	  ceil((@font-size-base * 0.75));
+//** Base font size used to calculate others
+@il-font-size-base:          14px;
+@il-font-size-large:         ceil((@font-size-base * 1.25));
+@il-font-size-small:         ceil((@font-size-base * 0.85));
+//** Unit-less `line-height` for use in components like buttons.
+@il-line-height-base:        1.428571429; // 20/14
 
-@font-size-h1:            floor((@font-size-base * 1.6));
-@font-size-h2:            floor((@font-size-base * 1.4));
-@font-size-h3:            ceil((@font-size-base * 1.3));
-@font-size-h4:            ceil((@font-size-base * 1.2));
-@font-size-h5:            ceil((@font-size-base * 1.1));
-@font-size-h6:            @font-size-base;
 
-//** Controls font sizes in drop down menu.
-@il-font-size-dropdown:		ceil((@font-size-base * 1.0));
-
-//== Components
+//== Base Padding and Border
 //
 //## Define common padding and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
+@il-padding-base-vertical:     3px;
+@il-padding-base-horizontal:   8px;
 
-//** Unit-less `line-height` for use in components like buttons.
-@line-height-base:        1.428571429; // 20/14
-//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
-@line-height-computed:    floor((@font-size-base * @line-height-base)); // ~20px
-//** For larger font sizes, such as titles in panels.
-@line-height-large:         1.33;
-//** For smaller font sizes
-@line-height-small:         1.5;
+@il-padding-large-vertical:    6px;
+@il-padding-large-horizontal:  12px;
 
-@padding-base-vertical:     3px;
-@padding-base-horizontal:   8px;
+@il-padding-small-vertical:    3px;
+@il-padding-small-horizontal:  6px;
 
-@padding-large-vertical:    6px;
-@padding-large-horizontal:  12px;
+@il-padding-xs-vertical:       1px;
+@il-padding-xs-horizontal:     5px;
 
-@padding-small-vertical:    3px;
-@padding-small-horizontal:  6px;
-
-@padding-xs-vertical:       1px;
-@padding-xs-horizontal:     5px;
-
-@border-radius-base:        0px;
-@border-radius-large:       0px;
-@border-radius-small:       0px;
+@il-border-radius-base:        0px;
+@il-border-radius-large:       0px;
+@il-border-radius-small:       0px;
 
 //== Layout (UI Layout Page)
 //
 //## Variables to modify the appearance of the page generated by the UI Framework.
 //** header, footer and logo
-@grid-float-breakpoint-max: 768px;
+@il-grid-float-breakpoint-max: 768px;
 
 @il-standard-page-logo-height: 45px;
 @il-standard-page-logo-width: 45px;
@@ -198,8 +150,8 @@
 //** breadcrumbs
 @il-standard-page-breadcrumbs-height: 33px;
 @il-standard-page-breadcrumbs-bg-color: #fff;
-@il-standard-page-breadcrumbs-color: @link-color;
-@il-standard-page-breadcrumbs-active-color: @link-hover-color;
+@il-standard-page-breadcrumbs-color: @il-link-color;
+@il-standard-page-breadcrumbs-active-color: @il-link-hover-color;
 @il-standard-page-breadcrumbs-divider-color: #bbb;
 @il-standard-page-breadcrumbs-font-weight: 600;
 @il-standard-page-breadcrumbs-seperator: " \e606";
@@ -216,7 +168,7 @@
 @il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
 @il-mainbar-btn-label-size: .9rem;
 @il-mainbar-bulky-label-margin-top: 5px;
-@il-mainbar-tools-btn-bg: @brand-danger;
+@il-mainbar-tools-btn-bg: @il-warning-color;
 @il-mainbar-tools-bg: @body-bg;
 @il-mainbar-tools-item-gap: 3px;
 
@@ -224,7 +176,7 @@
 @il-mainbar-remove-tools-btn-height: 45px;
 
 //** modeinfo
-@il-mode-info-color: @brand-warning;
+@il-mode-info-color: @il-warning-color;
 @il-mode-info-border: 3px solid @il-mode-info-color;
 @il-mode-info-height: 30px;
 @il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
@@ -235,7 +187,7 @@
 //** slates
 @il-slate-bulky-bg-color: #f2f2f2;
 @il-slate-bulky-level2-bg-color: #f9f9f9;
-@il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
+@il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
 @il-slate-bulky-padding: 10px 40px 15px 10px;
@@ -270,23 +222,23 @@
 //
 //## Variables to control the header (Top Navigation and Main menu) section of ILIAS.
 //** controls background color of the "topbar" (that gray thingy on top of the page in the standard).
-@il-top-bar-bg:		@mid-gray;
+@il-top-bar-bg:		@il-grey-neutral;
 //** controls text color of the "topbar" (the title of the ILIAS Installation)
 @il-top-bar-color:		    white;
 //** controls height of the "topbar"
 @il-top-bar-height:			40px;
 //** controls colors and bg colors of the "topbar" buttons
-@il-top-bar-link-bg:	lighten(@mid-gray, 20%);
-@il-top-bar-link-color:	lighten(@mid-gray, 70%);
-@il-top-bar-link-hover-bg:	lighten(@mid-gray, 42%);
+@il-top-bar-link-bg:	lighten(@il-grey-neutral, 20%);
+@il-top-bar-link-color:	lighten(@il-grey-neutral, 70%);
+@il-top-bar-link-hover-bg:	lighten(@il-grey-neutral, 42%);
 @il-top-bar-link-hover-color:	white;
 //** controls colors and bg colors of the "topbar" dropdowns
-@il-top-bar-dropdown-bg:	lighten(@mid-gray, 42%);
-@il-top-bar-dropdown-color:	lighten(@mid-gray, 70%);
+@il-top-bar-dropdown-bg:	lighten(@il-grey-neutral, 42%);
+@il-top-bar-dropdown-color:	lighten(@il-grey-neutral, 70%);
 @il-top-bar-dropdown-link-bg:	transparent;
-@il-top-bar-dropdown-link-color:	lighten(@mid-gray, 70%);
-@il-top-bar-dropdown-link-hover-bg:	lighten(@brand-primary, 53%);
-@il-top-bar-dropdown-link-hover-color:	lighten(@mid-gray, 42%);
+@il-top-bar-dropdown-link-color:	lighten(@il-grey-neutral, 70%);
+@il-top-bar-dropdown-link-hover-bg:	lighten(@il-main-color, 53%);
+@il-top-bar-dropdown-link-hover-color:	lighten(@il-grey-neutral, 42%);
 //** controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-height:			50px;
 //** controls the width of the "logo" (that [ILIAS] thingy on top the page in the standard).
@@ -322,7 +274,7 @@
 @il-main-menu-link-hover-bg: transparent;
 @il-main-menu-link-active-bg: #fafafa;
 @il-main-menu-dropdown-bg: #fafafa;
-@il-main-menu-dropdown-link-color: lighten(@mid-gray, 10%);
+@il-main-menu-dropdown-link-color: lighten(@il-grey-neutral, 10%);
 @il-main-menu-dropdown-link-hover-color: darken(@gray-dark, 5%);
 @il-main-menu-dropdown-link-bg: transparent;
 @il-main-menu-dropdown-link-hover-bg: lighten(@brand-primary, 53%);
@@ -353,7 +305,7 @@
 //## For each of ILIAS's buttons, define text, background and border color.
 
 //** Size of the font displayed inside a button
-@il-button-font-size: 	        @font-size-small;
+@il-button-font-size: 	        @il-font-size-small;
 
 //** Text color of the standard button (most button instances)
 @il-btn-standard-color:           white;
@@ -445,7 +397,7 @@
 //** unavailable
 @il-btn-toggle-bg-color-unavailable: #cdcdcd;
 @il-btn-toggle-border-color-unavailable: #bfbfbf;
-@il-btn-toggle-switch-bg-color-unavailable: lighten(@mid-gray, 30%);
+@il-btn-toggle-switch-bg-color-unavailable: lighten(@il-grey-neutral, 30%);
 @il-btn-toggle-switch-border-color-unavailable: #bfbfbf;
 
 //== Badges
@@ -455,12 +407,12 @@
 @badge-color:                 white;
 //** Linked badge text color on hover
 @badge-link-hover-color:      white;
-@badge-bg:                    darken(@brand-warning, 10%);
+@badge-bg:                    darken(@il-warning-color, 10%);
 
 //** Badge text color in active nav link
 @badge-active-color:          white;
 //** Badge background color in active nav link
-@badge-active-bg:             darken(@brand-warning, 10%);
+@badge-active-bg:             darken(@il-warning-color, 10%);
 
 @badge-font-weight:           bold;
 @badge-line-height:           1;
@@ -481,7 +433,7 @@
 //** Background color used in the
 @il-standard-form-bg: @il-primary-container-bg;
 //** Textsize used in the forms body
-@il-standard-form-font-size: @font-size-small;
+@il-standard-form-font-size: @il-font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
 @il-standard-form-byline-font-size:    90%;
 
@@ -490,9 +442,9 @@
 //** Background color used in the forms header, the sections header and the footer
 @il-standard-form-header-bg: @body-bg;
 //** Textsize color used in the forms header and the sections header
-@il-standard-form-header-font-size: @font-size-h3;
+@il-standard-form-header-font-size: ceil((@il-font-size-base * 1.3));
 //** Textsize color used in the form headers the section headers byline (description)
-@il-standard-form-header-byline-font-size: @font-size-small;
+@il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
 @il-standard-form-dependant-group-bg: darken(@il-standard-form-bg, 2%);
 
@@ -575,7 +527,7 @@
 //
 //##
 @dropdown-bg: white;
-@dropdown-link-color: lighten(@mid-gray, 10%);
+@dropdown-link-color: lighten(@il-grey-neutral, 10%);
 @dropdown-link-hover-color: darken(@gray-dark, 5%);
 @dropdown-link-bg: transparent;
 @dropdown-link-hover-bg: lighten(@brand-primary, 53%);
@@ -653,8 +605,8 @@
 //##
 @il-glyph-color: @link-color;
 @il-glyph-hover-color: @link-hover-color;
-@il-glyph-highlighted-color: @brand-warning;
-@il-glyph-highlighted-hover-color:  darken(@brand-warning, 15%);
+@il-glyph-highlighted-color: @il-warning-color;
+@il-glyph-highlighted-hover-color:  darken(@il-warning-color, 15%);
 @il-glyph-disabled-color: #e0e0e0;
 
 
@@ -669,14 +621,14 @@
 //== Status Counter
 //
 //##
-@il-counter-status-bg: lighten(@mid-gray, 40%);
+@il-counter-status-bg: lighten(@il-grey-neutral, 40%);
 @il-counter-status-margin-top: 10px;
 
 
 //== Novelty Counter
 //
 //##
-@il-counter-novelty-bg: @brand-warning;
+@il-counter-novelty-bg: @il-warning-color;
 @il-counter-novelty-margin-top: -5px;
 
 
@@ -835,18 +787,18 @@
 //## Icons are used to represent (and quickly identify) objects.
 
 //** Path to the font of the glyphicons. Note that the path must be put in "" for less to compile.
-@icon-font-path:            "../../node_modules/bootstrap/fonts/";
+@il-icon-font-path:            "../../node_modules/bootstrap/fonts/";
 //** if left unchanged, you have to copy all the background images to your skin/images folder. To use the delos background images in your skin, please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
-@background-images-path: "images/";
+@il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 17px;
 //** Size for icons: Small is used in the tree. e.g.
-@icon-size-small: 20px;
+@il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
-@icon-size-medium: 35px;
+@il-icon-size-medium: 35px;
 //** Size for icons: Large is used in the header. e.g.
-@icon-size-large: 45px;
+@il-icon-size-large: 45px;
 //** Path for standard icons in ILIAS
 @il-standard-icon-path: @background-images-path;
 //** Path for standard icons in ILIAS
@@ -861,27 +813,27 @@
 //== Avatar
 //
 //** Size for avatars: used in the header. e.g. standard (and recommended) is @icon-size-large
-@avatar-size: @icon-size-large;
-@avatar-size-small: @avatar-size / 2;
-@avatar-size-large: @avatar-size * 2;
+@il-avatar-size: @icon-size-large;
+@il-avatar-size-small: @avatar-size / 2;
+@il-avatar-size-large: @avatar-size * 2;
 //** border-radius for image avatar
-@avatar-border-radius: 50%;
+@il-avatar-border-radius: 50%;
 //** border size for letter avatars
-@avatar-border-size: 2px;
-@avatar-small-border-size: 0px;
+@il-avatar-border-size: 2px;
+@il-avatar-small-border-size: 0px;
 //** border style for letter avatars
-@avatar-border-style: solid;
+@il-avatar-border-style: solid;
 //** border color for picture avatars
-@avatar-picture-border-color: #dddddd;
+@il-avatar-picture-border-color: #dddddd;
 //** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
-@avatar-letter-border-color-contrast-lighten: 40%;
-@avatar-letter-border-color-contrast-darken: 20%;
+@il-avatar-letter-border-color-contrast-lighten: 40%;
+@il-avatar-letter-border-color-contrast-darken: 20%;
 //** change the abbreviations font weight
-@avatar-letter-abbreviation-font-weight: lighter;
+@il-avatar-letter-abbreviation-font-weight: lighter;
 //** change the abbreviations font transform
-@avatar-letter-abbreviation-font-transform: inherit;
+@il-avatar-letter-abbreviation-font-transform: inherit;
 //** all variants of letter avatar background colors (MUST be 26)
-@avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
+@il-avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
 
 
 //== System Info
@@ -919,7 +871,7 @@
 //##
 @il-card-border: none;
 @il-card-background: @il-secondary-container-bg;
-@il-card-highlight-bg: @brand-warning;
+@il-card-highlight-bg: @il-warning-color;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
 @il-card-repository-head-color: rgba(0,0,0,0.5);
@@ -933,10 +885,10 @@
 //== Workflow
 //
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
-@workflow-icon-size: 21px;
-@workflow-icon-font-color: white;
-@workflow-available-text-color: #333;
-@workflow-unavailable-text-color: #ddd;
+@il-workflow-icon-size: 21px;
+@il-workflow-icon-font-color: white;
+@il-workflow-available-text-color: #333;
+@il-workflow-unavailable-text-color: #ddd;
 
 //== Message Boxes
 //
@@ -954,10 +906,10 @@
 //== Tree
 //
 //## Basic adjustments for the tree
-@il-tree-node-indentation: @font-size-base;
+@il-tree-node-indentation: @il-font-size-base;
 //** Vertical Space between nodes
 @il-tree-node-vertical-spacing: 3px;
 
 //== Characteristic Value Listing
 //** item rows layout
-@characteristic-value-border-color: #ddd;
+@il-characteristic-value-border-color: #ddd;
