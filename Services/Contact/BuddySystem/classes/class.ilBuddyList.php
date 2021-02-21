@@ -34,7 +34,7 @@ class ilBuddyList
     {
         if (ilObjUser::_isAnonymous($usrId)) {
             throw new ilBuddySystemException(sprintf(
-                "You cannot create an instance for the anonymous user (id: %s)",
+                'You cannot create an instance for the anonymous user (id: %s)',
                 $usrId
             ));
         }
@@ -283,7 +283,7 @@ class ilBuddyList
             }
 
             if ($this->getOwnerId() == $relation->getUsrId()) {
-                throw new ilBuddySystemException("You can only accept a request when you are not the initiator");
+                throw new ilBuddySystemException('You can only accept a request when you are not the initiator');
             }
 
             $relation->link();
@@ -328,14 +328,14 @@ class ilBuddyList
     {
         if (ilObjUser::_isAnonymous($this->getRelationTargetUserId($relation))) {
             throw new ilBuddySystemException(sprintf(
-                "You cannot add the anonymous user to the list (id: %s)",
+                'You cannot add the anonymous user to the list (id: %s)',
                 $this->getRelationTargetUserId($relation)
             ));
         }
 
         if (!strlen((string) ilObjUser::_lookupLogin($this->getRelationTargetUserId($relation)))) {
             throw new ilBuddySystemException(sprintf(
-                "You cannot add a non existing user (id: %s)",
+                'You cannot add a non existing user (id: %s)',
                 $this->getRelationTargetUserId($relation)
             ));
         }
@@ -376,7 +376,7 @@ class ilBuddyList
             }
 
             if ($this->getOwnerId() == $relation->getUsrId()) {
-                throw new ilBuddySystemException("You can only ignore a request when you are not the initiator");
+                throw new ilBuddySystemException('You can only ignore a request when you are not the initiator');
             }
 
             $relation->ignore();

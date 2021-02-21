@@ -35,7 +35,7 @@ class ilBuddySystemRelationStateFactory
     public static function getInstance() : self
     {
         if (null === self::$instance) {
-            self::$instance = new self;
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -71,7 +71,7 @@ class ilBuddySystemRelationStateFactory
             }
         }
 
-        throw new ilBuddySystemException("Could not find an initial state class");
+        throw new ilBuddySystemException('Could not find an initial state class');
     }
 
     /**

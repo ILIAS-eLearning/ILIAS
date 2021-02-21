@@ -10,8 +10,8 @@ require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
  */
 class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 {
-    const RELATION_OWNER_ID = -1;
-    const RELATION_BUDDY_ID = -2;
+    private const RELATION_OWNER_ID = -1;
+    private const RELATION_BUDDY_ID = -2;
 
     /**
      *

@@ -36,7 +36,7 @@ class ilBuddySystemRelation
 
     /**
      * @param ilBuddySystemRelationState $state
-     * @param $rememberPriorState boolean
+     * @param bool                       $rememberPriorState
      * @return self
      */
     public function setState(ilBuddySystemRelationState $state, bool $rememberPriorState = true) : self
