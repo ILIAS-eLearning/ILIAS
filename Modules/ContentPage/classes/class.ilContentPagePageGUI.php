@@ -62,14 +62,14 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
 
                 if ($links->length > 0) {
                     foreach ($links as $link) {
-                        /** @var $link DOMNode */
+                        /** @var DOMNode $link */
                         $link->attributes->getNamedItem('LinkTarget')->nodeValue = '_blank';
                     }
                 }
 
                 $linkXmlWithBlankTargets = $domDoc->saveXML();
 
-                $this->setLinkXML(str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $linkXmlWithBlankTargets));
+                $this->setLinkXml(str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $linkXmlWithBlankTargets));
             } catch (Throwable $e) {
                 $this->log->error(sprintf(
                     'Could not manipulate page editor link XML: %s / Error Message: %s',

@@ -50,7 +50,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
     public function delete(PageMetrics $pageMetrics) : void
     {
         $this->db->queryF(
-            "DELETE FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s",
+            'DELETE FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',
             ['integer', 'integer', 'text'],
             [$pageMetrics->contentPageId(), $pageMetrics->pageId(), $pageMetrics->language()]
         );
@@ -62,7 +62,7 @@ class PageMetricsRepositoryImp implements PageMetricsRepository
     public function findBy(int $contentPageId, int $pageId, string $language) : PageMetrics
     {
         $res = $this->db->queryF(
-            "SELECT * FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s",
+            'SELECT * FROM content_page_metrics WHERE content_page_id = %s AND page_id = %s AND lang = %s',
             ['integer', 'integer', 'text'],
             [$contentPageId, $pageId, $language]
         );

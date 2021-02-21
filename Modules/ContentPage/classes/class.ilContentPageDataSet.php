@@ -29,7 +29,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * @inheritdoc
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return 'http://www.ilias.de/xml/Modules/ContentPage/' . $a_entity;
     }

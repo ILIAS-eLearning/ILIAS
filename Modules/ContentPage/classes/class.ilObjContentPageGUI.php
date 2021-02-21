@@ -5,6 +5,8 @@ use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
+use ILIAS\DI\Container;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilObjContentPageGUI
@@ -24,7 +26,7 @@ use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    /** @var \Psr\Http\Message\ServerRequestInterface */
+    /** @var ServerRequestInterface */
     protected $request;
     /** @var ilCtrl */
     protected $ctrl;
@@ -42,7 +44,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected $navHistory;
     /** @var ilErrorHandling */
     protected $error;
-    /** @var \ILIAS\DI\Container */
+    /** @var Container */
     protected $dic;
     /** @var bool|string */
     protected $infoScreenEnabled = false;
@@ -113,18 +115,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 'ilRepositoryGUI',
                 __CLASS__,
             ], self::UI_CMD_VIEW);
-        } else {
-            if ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-                ilUtil::sendInfo(sprintf(
-                    $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
-                ), true);
+        } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
+            ilUtil::sendInfo(sprintf(
+                $DIC->language()->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($refId))
+            ), true);
 
-                $DIC->ctrl()->setTargetScript('ilias.php');
-                $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
-                $DIC->ctrl()->setParameterByClass('ilRepositoryGUI', 'ref_id', ROOT_FOLDER_ID);
-                $DIC->ctrl()->redirectByClass('ilRepositoryGUI');
-            }
+            $DIC->ctrl()->setTargetScript('ilias.php');
+            $DIC->ctrl()->initBaseClass('ilRepositoryGUI');
+            $DIC->ctrl()->setParameterByClass('ilRepositoryGUI', 'ref_id', ROOT_FOLDER_ID);
+            $DIC->ctrl()->redirectByClass('ilRepositoryGUI');
         }
 
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
@@ -141,7 +141,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * @inheritdoc
      */
-    public function setTabs()
+    protected function setTabs()
     {
         $this->help->setScreenIdComponent($this->object->getType());
 
@@ -237,7 +237,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 );
                 $style_gui->omitLocator();
                 if ($cmd === 'create' || $_GET['new_type'] === 'sty') {
-                    $style_gui->setCreationMode(true);
+                    $style_gui->setCreationMode();
                 }
 
                 if ($cmd === 'confirmedDelete') {
@@ -434,7 +434,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tabs->activateTab(self::UI_TAB_ID_INFO);
 
         $info = new ilInfoScreenGUI($this);
-        $info->enableLearningProgress(true);
+        $info->enableLearningProgress();
         $info->enablePrivateNotes();
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
 
@@ -481,7 +481,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     /**
      * @inheritdoc
      */
-    public function addLocatorItems()
+    protected function addLocatorItems()
     {
         if ($this->object instanceof ilObject) {
             $this->locator->addItem(
@@ -688,16 +688,16 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $styleId = $this->object->getStyleSheetId();
 
         if ($fixedStyle > 0) {
-            $st = new ilNonEditableValueGUI($this->lng->txt("cont_current_style"));
+            $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
             $st->setValue(
-                ilObject::_lookupTitle($fixedStyle) . " (" . $this->lng->txt("global_fixed") . ")"
+                ilObject::_lookupTitle($fixedStyle) . ' (' . $this->lng->txt('global_fixed') . ')'
             );
             $form->addItem($st);
         } else {
             $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
-                (int) $_GET["ref_id"]
+                (int) $_GET['ref_id']
             );
 
             if ($defaultStyle > 0) {
@@ -728,7 +728,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             }
         }
 
-        $form->setTitle($this->lng->txt("cont_style"));
+        $form->setTitle($this->lng->txt('cont_style'));
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;

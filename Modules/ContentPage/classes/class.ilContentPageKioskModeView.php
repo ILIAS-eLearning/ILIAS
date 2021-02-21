@@ -15,8 +15,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilContentPageKioskModeView extends ilKioskModeView
 {
-    const CMD_LP_TO_COMPLETED = 'lp_completed';
-    const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
+    private const CMD_LP_TO_COMPLETED = 'lp_completed';
+    private const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
     /** @var ilObjContentPage */
     protected $contentPageObject;
@@ -115,7 +115,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     /**
      * @inheritDoc
      */
-    public function updateGet(State $state, string $command, int $param = null) : State
+    public function updateGet(State $state, string $command, int $parameter = null) : State
     {
         $this->toggleLearningProgress($command);
 
