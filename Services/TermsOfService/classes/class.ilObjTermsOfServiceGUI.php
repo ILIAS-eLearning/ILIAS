@@ -189,10 +189,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
         if ($form->saveObject()) {
             ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
             $this->ctrl->redirect($this, 'settings');
-        } else {
-            if ($form->hasTranslatedError()) {
-                ilUtil::sendFailure($form->getTranslatedError());
-            }
+        } elseif ($form->hasTranslatedError()) {
+            ilUtil::sendFailure($form->getTranslatedError());
         }
 
         $this->tpl->setContent($form->getHTML());

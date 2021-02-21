@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -48,17 +50,17 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @return MockObject|\ILIAS\UI\Factory
+     * @return MockObject|Factory
      */
-    protected function getUiFactoryMock() : \ILIAS\UI\Factory
+    protected function getUiFactoryMock() : Factory
     {
         $ui = $this
-            ->getMockBuilder(\ILIAS\UI\Factory::class)
+            ->getMockBuilder(Factory::class)
             ->getMock();
 
         $ui->expects($this->any())->method('legacy')->will($this->returnCallback(function ($content) {
             $legacyMock = $this
-                ->getMockBuilder(\ILIAS\UI\Component\Legacy\Legacy::class)
+                ->getMockBuilder(Legacy::class)
                 ->getMock();
             $legacyMock->expects($this->any())->method('getContent')->willReturn($content);
 

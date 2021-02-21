@@ -89,10 +89,8 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
 
             if (!isset($params['offset'])) {
                 $params['offset'] = 0;
-            } else {
-                if (!is_numeric($params['offset'])) {
-                    throw new InvalidArgumentException('Please provide a valid numerical offset.');
-                }
+            } elseif (!is_numeric($params['offset'])) {
+                throw new InvalidArgumentException('Please provide a valid numerical offset.');
             }
 
             $this->db->setLimit($params['limit'], $params['offset']);

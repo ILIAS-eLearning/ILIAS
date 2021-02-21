@@ -55,7 +55,7 @@ class ilTermsOfServiceNullCriterion implements ilTermsOfServiceCriterionType
             /**
              * @inheritdoc
              */
-            public function appendOption(ilRadioGroupInputGUI $option, ilTermsOfServiceCriterionConfig $config) : void
+            public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
             {
             }
 

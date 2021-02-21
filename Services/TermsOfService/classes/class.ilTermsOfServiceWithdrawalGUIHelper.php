@@ -187,7 +187,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         ]);
 
         if ($isLdapUser) {
-            $message = nl2br(str_ireplace("[BR]", "\n", sprintf(
+            $message = nl2br(str_ireplace('[BR]', "\n", sprintf(
                 $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text'),
                 $this->user->getFullname(),
                 $this->user->getLogin(),

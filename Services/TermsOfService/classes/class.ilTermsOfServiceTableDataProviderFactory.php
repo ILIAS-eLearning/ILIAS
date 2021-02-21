@@ -7,8 +7,8 @@
  */
 class ilTermsOfServiceTableDataProviderFactory
 {
-    const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
-    const CONTEXT_DOCUMENTS = 'documents';
+    public const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
+    public const CONTEXT_DOCUMENTS = 'documents';
 
     /** @var ilDBInterface|null */
     protected $db;

@@ -123,10 +123,8 @@ class ilTermsOfServiceAcceptanceHistoryProvider extends ilTermsOfServiceTableDat
 
             if (!isset($params['order_direction'])) {
                 $params['order_direction'] = 'ASC';
-            } else {
-                if (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
-                    throw new InvalidArgumentException('Please provide a valid order direction.');
-                }
+            } elseif (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
+                throw new InvalidArgumentException('Please provide a valid order direction.');
             }
 
             return $params['order_field'] . ' ' . $params['order_direction'];

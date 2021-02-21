@@ -98,31 +98,31 @@ class ilTermsOfServiceAcceptanceHistoryProviderTest extends ilTermsOfServiceBase
         $provider = $factory->getByContext(ilTermsOfServiceTableDataProviderFactory::CONTEXT_ACCEPTANCE_HISTORY);
 
         try {
-            $provider->getList(array('limit' => 'phpunit'), array());
+            $provider->getList(['limit' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
         } catch (InvalidArgumentException $e) {
         }
 
         try {
-            $provider->getList(array('limit' => 5, 'offset' => 'phpunit'), array());
+            $provider->getList(['limit' => 5, 'offset' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
         } catch (InvalidArgumentException $e) {
         }
 
         try {
-            $provider->getList(array('order_field' => 'phpunit'), array());
+            $provider->getList(['order_field' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
         } catch (InvalidArgumentException $e) {
         }
 
         try {
-            $provider->getList(array('order_field' => 5), array());
+            $provider->getList(['order_field' => 5], []);
             $this->fail('An expected exception has not been raised.');
         } catch (InvalidArgumentException $e) {
         }
 
         try {
-            $provider->getList(array('order_field' => 'ts', 'order_direction' => 'phpunit'), array());
+            $provider->getList(['order_field' => 'ts', 'order_direction' => 'phpunit'], []);
             $this->fail('An expected exception has not been raised.');
         } catch (InvalidArgumentException $e) {
         }

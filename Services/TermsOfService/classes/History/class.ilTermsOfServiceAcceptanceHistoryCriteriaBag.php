@@ -58,7 +58,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
         array_walk($data, function ($value) {
             if (!is_array($value)) {
                 throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
-                    "Unexpected element found, given %s, expected array",
+                    'Unexpected element found, given %s, expected array',
                     var_export($value, true)
                 ));
             }
@@ -92,7 +92,7 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
 
         if (!is_array($data)) {
             throw new ilTermsOfServiceUnexpectedCriteriaBagContentException(sprintf(
-                "Unexpected element found, given %s, expected array",
+                'Unexpected element found, given %s, expected array',
                 var_export($data, true)
             ));
         }

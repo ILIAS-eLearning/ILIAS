@@ -59,7 +59,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         iljQueryUtil::initjQuery($globalTemplate);
         ilYuiUtil::initPanel($globalTemplate);
         ilYuiUtil::initOverlay($globalTemplate);
-        $globalTemplate->addJavaScript("./Services/Form/js/Form.js");
+        $globalTemplate->addJavaScript('./Services/Form/js/Form.js');
 
         $this->setShowRowsSelector(true);
 
@@ -132,7 +132,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('ts' === $column) {
-            return \ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
+            return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
         } elseif ('title' === $column) {
             return $this->formatTitle($column, $row);
         } elseif ('criteria' === $column) {
@@ -209,9 +209,9 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering($column)
+    public function numericOrdering($a_field)
     {
-        if ('ts' === $column) {
+        if ('ts' === $a_field) {
             return true;
         }
 
@@ -239,8 +239,8 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         $duration->setShowTime(true);
         $duration->setStartText($this->lng->txt('tos_period_from'));
         $duration->setEndText($this->lng->txt('tos_period_until'));
-        $duration->setStart(new \ilDateTime(null, IL_CAL_UNIX));
-        $duration->setEnd(new \ilDateTime(null, IL_CAL_UNIX));
+        $duration->setStart(new ilDateTime(null, IL_CAL_UNIX));
+        $duration->setEnd(new ilDateTime(null, IL_CAL_UNIX));
         $this->addFilterItem($duration, true);
         $duration->readFromSession();
         $this->optional_filter['period'] = $duration->getValue();

@@ -10,7 +10,7 @@ class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCr
     /** @var string */
     private $id;
     /** @var array */
-    private $config = [];
+    private $config;
 
     /**
      * ilTermsOfServiceHistorizedCriterion constructor.
