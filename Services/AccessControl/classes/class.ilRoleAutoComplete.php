@@ -17,10 +17,9 @@ class ilRoleAutoComplete
         $ilDB = $DIC['ilDB'];
         
         $ilDB->setLimit(20);
-        $query = "SELECT o1.title role,o2.title container FROM object_data o1 " .
+        $query = "SELECT rol_id,o1.title role,o2.title container FROM object_data o1 " .
             "JOIN rbac_fa fa ON o1.obj_id = rol_id " .
-            "JOIN tree t1 ON fa.parent =  t1.child " .
-            "JOIN object_reference obr ON ref_id = t1.parent " .
+            "JOIN object_reference obr ON ref_id = fa.parent " .
             "JOIN object_data o2 ON obr.obj_id = o2.obj_id " .
             "WHERE o1.type = 'role' " .
             "AND assign = 'y' " .
@@ -33,8 +32,8 @@ class ilRoleAutoComplete
         $result = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $result[$counter] = new stdClass();
-            $result[$counter]->value = $row->role;
-            $result[$counter]->label = $row->role . " (" . $row->container . ")";
+            $result[$counter]->value = ":" . $row->rol_id . ": " . $row->role;
+            $result[$counter]->label = ":" . $row->rol_id . ": " . $row->role . " (" . $row->container . ")";
             ++$counter;
         }
 
