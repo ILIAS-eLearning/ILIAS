@@ -143,7 +143,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected= $this->brutallyTrimHTML('
+        $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
             <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">
@@ -169,7 +169,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected= $this->brutallyTrimHTML('
+        $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
             <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
             <div class="col-sm-9">
@@ -192,7 +192,7 @@ class TagInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected= $this->brutallyTrimHTML('
+        $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
             <label for="id_1" class="control-label col-sm-3">label</label>
             <div class="col-sm-9">

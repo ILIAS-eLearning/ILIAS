@@ -14,13 +14,13 @@ interface FieldSelection extends BaseControl
     const DEFAULT_DROPDOWN_LABEL = 'selection';
     const DEFAULT_BUTTON_LABEL = 'refresh';
 
-    public function getDropdownLabel(): string;
-    public function getButtonLabel(): string;
-    public function getInput(): Input;
+    public function getDropdownLabel() : string;
+    public function getButtonLabel() : string;
+    public function getInput() : Input;
 
     /**
      * This is an internal signal, used to submit the current choice
      */
-    public function getSubmissionTrigger(): Signal;
-    public function withResetSignals(): FieldSelection;
+    public function getSubmissionTrigger() : Signal;
+    public function withResetSignals() : FieldSelection;
 }

@@ -11,7 +11,6 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Bulky extends Link implements C\Link\Bulky
 {
-
     use JavaScriptBindable;
 
     /**

@@ -8,5 +8,4 @@ function engaged()
     $button = $f->button()->standard("Engaged Button", "#")
                                   ->withEngagedState(true);
     return $renderer->render($button);
-
 };

@@ -27,7 +27,7 @@ class Factory implements I\Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-     ) : I\Custom {
+    ) : I\Custom {
         return new Custom($icon_path, $label, $size, $is_disabled);
     }
 }

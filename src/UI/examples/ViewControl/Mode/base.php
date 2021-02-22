@@ -14,7 +14,7 @@ function base()
     $param = "Mode";
 
     $active = 1;
-    if($_GET[$param]){
+    if ($_GET[$param]) {
         $active = $_GET[$param];
     }
 

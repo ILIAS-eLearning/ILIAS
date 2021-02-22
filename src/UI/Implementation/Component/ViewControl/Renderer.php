@@ -375,7 +375,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderId(Component\Component $component, $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
-        if(!$id){
+        if (!$id) {
             $id = $this->createId();
         }
         $tpl->setCurrentBlock($block);

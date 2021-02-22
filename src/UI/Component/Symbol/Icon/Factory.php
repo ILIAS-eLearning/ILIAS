@@ -44,7 +44,7 @@ interface Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-     ) : Standard;
+    ) : Standard;
 
     /**
      * ---
@@ -80,5 +80,5 @@ interface Factory
         string $label,
         string $size = 'small',
         bool $is_disabled = false
-     ) : Custom;
+    ) : Custom;
 }
