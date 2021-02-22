@@ -347,9 +347,9 @@ class ilPhantomJSRenderer implements ilRendererConfig, ilPDFRenderer
             if (file_exists($temp_file)) {
                 $ilLog->write('ilPhantomJSRenderer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to ' . $job->getFilename());
                 ilFileUtils::rename($temp_file, $job->getFilename());
+                unlink($a_path_to_file);
             } else {
                 $ilLog->write('ilPhantomJSRenderer error: ' . print_r($return_value, true));
-                unlink($a_path_to_file);
             }
         }
     }
