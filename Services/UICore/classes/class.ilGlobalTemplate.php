@@ -20,8 +20,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     protected $lightbox = array();
     protected $standard_template_loaded = false;
 
-    protected $translation_linked = false; // fix #9992: remember if a translation link is added
-
     /**
      * @var	\ilTemplate
      */
@@ -137,8 +135,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         // output translation link
         include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
-            // fix #9992: remember linked translation instead of saving language usages here
-            $this->translation_linked = true;
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
 
@@ -765,10 +761,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        \ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
@@ -1471,10 +1465,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             $html = $this->template->get($part);
         }
 
-        // fix #9992: save language usages as late as possible
-        if ($this->translation_linked) {
-            ilObjLanguageAccess::_saveUsages();
-        }
+        // save language usages as late as possible
+        \ilObjLanguageAccess::_saveUsages();
 
         return $html;
     }
