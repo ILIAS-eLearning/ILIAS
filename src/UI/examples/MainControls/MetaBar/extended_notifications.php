@@ -101,7 +101,7 @@ function extended_notifications()
     //we also change the description of the already existing parent Notification
     //Item holding the aggregates.
     $add_button = $f->button()->standard("Add Chat Notification", "#")
-                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url,$async_add_aggregate) {
+                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url, $async_add_aggregate) {
                         return "
                             $('#$id').click(function() {
                                 il.DemoScopeItem.getCounterObjectIfAny().incrementNoveltyCount(1);

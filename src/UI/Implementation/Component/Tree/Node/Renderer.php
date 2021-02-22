@@ -80,13 +80,11 @@ class Renderer extends AbstractComponentRenderer
             if ($component->isExpanded()) {
                 $tpl->touchBlock("expanded");
                 $tpl->setVariable("ARIA_EXPANDED", "true");
-            }
-            else {
+            } else {
                 $tpl->setVariable("ARIA_EXPANDED", "false");
             }
             $tpl->parseCurrentBlock();
-        }
-        else {
+        } else {
             $tpl->setVariable("ARIA_ROLE", "none");
         }
 

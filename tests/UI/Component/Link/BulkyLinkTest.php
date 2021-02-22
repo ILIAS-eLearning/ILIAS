@@ -88,7 +88,9 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $b = $this->factory->bulky($this->icon, "label", $this->target)
-            ->withAdditionalOnloadCode(function($id){return '';});
+            ->withAdditionalOnloadCode(function ($id) {
+                return '';
+            });
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de" id="id_1">'
@@ -99,7 +101,6 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals(
             $expected,
             $r->render($b)
-        );   
+        );
     }
-
 }
