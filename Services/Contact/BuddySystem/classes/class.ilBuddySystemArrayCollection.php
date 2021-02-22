@@ -179,7 +179,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function filter(callable $callable) : self
+    public function filter(callable $callable) : ilBuddySystemCollection
     {
         return new static(array_filter($this->elements, $callable));
     }
@@ -187,7 +187,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function slice(int $offset, int $length = null) : self
+    public function slice(int $offset, int $length = null) : ilBuddySystemCollection
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }
