@@ -10059,12 +10059,10 @@ footer {
 **************************************************************
 */
 .il-system-info {
-  width: 100%;
   line-height: 20px;
   padding-top: 3px;
   padding-bottom: 3px;
-  height: calc(3px + 3px + 20px);
-  z-index: 1;
+  height: calc(26px);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -10114,30 +10112,27 @@ footer {
 }
 .il-system-info.full {
   height: auto;
+  overflow: visible;
 }
-.il-system-info div.il-system-info-content {
+.il-system-info div.il-system-info-content-wrapper {
   flex-grow: 4;
   flex-shrink: 1;
   flex-basis: auto;
-  overflow-y: hidden;
+  overflow: hidden;
 }
-.il-system-info div.il-system-info-content span {
-  display: inline-block;
-}
-.il-system-info div.il-system-info-content span.il-system-info-headline {
+.il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
   text-transform: uppercase;
   font-weight: bold;
   margin-right: 8px;
-}
-.il-system-info div.il-system-info-content span.il-system-info-more {
-  display: none;
 }
 .il-system-info div.il-system-info-actions {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 60px;
-  align-self: flex-end;
   text-align: right;
+}
+.il-system-info div.il-system-info-actions span.il-system-info-more {
+  display: none;
 }
 .il-system-info:not(:first-child) {
   border-top: none;
