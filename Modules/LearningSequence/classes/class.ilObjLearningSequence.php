@@ -155,6 +155,7 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneMetaData($new_obj);
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings((int) $new_obj->getId());
+        $this->cloneActivation($new_obj, (int) $copy_id);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
@@ -219,6 +220,23 @@ class ilObjLearningSequence extends ilContainer
         $lp_settings->cloneSettings($obj_id);
     }
 
+    protected function cloneActivation(ilObjLearningSequence $new_obj, int $a_copy_id) : void
+    {
+        // #14596
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        if ($cwo->isRootNode($this->getRefId())) {
+            $activation = $new_obj->getLSActivation()->withIsOnline(false);
+        } else {
+            $activation = $new_obj->getLSActivation()
+                ->withIsOnline($this->getLSActivation()->getIsOnline())
+                ->withActivationStart($this->getLSActivation()->getActivationStart())
+                ->withActivationEnd($this->getLSActivation()->getActivationEnd());
+        }
+
+        $new_obj->getActivationDB()->store(
+            $activation
+        );
+    }
 
     protected function getDIC() : \ArrayAccess
     {
