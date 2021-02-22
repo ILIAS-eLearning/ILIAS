@@ -41,8 +41,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 
-        $this->disable('sort');
-
         $this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
 
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
@@ -51,15 +49,26 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
 
         $this->addCommandButton(self::PARENT_SAVE_SCORING_CMD, $this->lng->txt('save'));
 
+        $this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
 
     private function initColumns()
     {
-        $this->addColumn($this->lng->txt('name'), 'lastname', '40%');
-        $this->addColumn($this->lng->txt('tst_reached_points'), 'lastname', '40%');
+        $this->addColumn($this->lng->txt('lastname'), 'lastname', '20%');
+        $this->addColumn($this->lng->txt('firstname'), 'firstname', '20%');
+        $this->addColumn($this->lng->txt('login'), 'login', '20%');
+        $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points', '20%');
         $this->addColumn('', '', '20%');
+    }
+
+    private function initOrdering()
+    {
+        $this->enable('sort');
+
+        $this->setDefaultOrderField("lastname");
+        $this->setDefaultOrderDirection("asc");
     }
 
     public function initFilter()
@@ -128,7 +137,10 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->tpl->touchBlock('row_js');
         }
 
-        $this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
+        $this->tpl->setVariable('PARTICIPANT_LASTNAME', $row['lastname']);
+        $this->tpl->setVariable('PARTICIPANT_FIRSTNAME', $row['firstname']);
+        $this->tpl->setVariable('PARTICIPANT_LOGIN', $row['login']);
+
         $reached_points = new ilNumberInputGUI('', 'scoring[' . $row['pass_id'] . '][' . $row['active_id'] . '][' . $row['qst_id'] . ']');
         $reached_points->allowDecimals(true);
         $reached_points->setSize(5);

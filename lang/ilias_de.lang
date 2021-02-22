@@ -1891,6 +1891,170 @@ assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
 assessment#:#worked_through#:#Bearbeitet
 assessment#:#working_time#:#Bearbeitungsdauer
 assessment#:#you_received_a_of_b_points#:#Sie haben %s von %s möglichen Punkten erreicht.
+assessment#:#all_participants#:#Alle Teilnehmer
+assessment#:#with_solutions_participants#:#Teilnehmer mit Antworten
+assessment#:#without_solutions_participants#:#Teilnehmer ohne Antworten
+assessment#:#tst_show_toplist#:#Platzierung
+assessment#:#toplist_by_score#:#Platzierung nach Punkten
+assessment#:#toplist_by_time#:#Platzierung nach Bearbeitungszeit
+assessment#:#toplist_col_rank#:#Platz
+assessment#:#toplist_col_participant#:#Teilnehmer
+assessment#:#toplist_col_achieved#:#Datum
+assessment#:#toplist_col_score#:#Punktzahl
+assessment#:#toplist_col_percentage#:#Prozentwert
+assessment#:#toplist_col_hints#:#Hinweise
+assessment#:#toplist_col_wtime#:#Bearbeitungszeit
+assessment#:#tst_highscore_enabled#:#Platzierungen
+assessment#:#tst_highscore_description#:#Im Reiter 'Ergebnisse' wird Teilnehmern ein Unterreiter 'Platzierung' angezeigt. Teilnehmern wird nach dem Anklicken eine Tabelle über das Abschneiden der verschiedenen Teilnehmer im Test  angezeigt. Sie müssen die Option 'Teilnehmer sehen Testergebnisse' aktivieren, um diese Funktion zu nutzen.
+assessment#:#tst_highscore_anon#:#Keine Namen anzeigen
+assessment#:#tst_highscore_anon_description#:#Die Platzierungen anderer Teilnehmer werden ohne Angabe der Namen angezeigt.  Dies geschieht ohnehin bei anonymisierten Tests.
+assessment#:#tst_highscore_achieved_ts#:#Datum
+assessment#:#tst_highscore_achieved_ts_description#:#Es wird eine zusätzliche Spalte mit dem Zeitpunkt des Tests eingeblendet.
+assessment#:#tst_highscore_score#:#Punkte
+assessment#:#tst_highscore_score_description#:#Es wird einen zusätzliche Spalte mit der Angabe der erreichten Punkte eingeblendet.
+assessment#:#tst_highscore_percentage#:#Prozentwert
+assessment#:#tst_highscore_percentage_description#:#Es wird einen zusätzliche Spalte mit der Angabe des erreichten Prozentwerts eingeblendet.
+assessment#:#tst_highscore_hints#:#Lösungshinweise
+assessment#:#tst_highscore_hints_description#:#Es wird einen zusätzliche Spalte eingeblendet, in welcher angezeigt wird, wie viele Lösungshinweise angefordert wurden.
+assessment#:#tst_highscore_wtime#:#Bearbeitungsdauer
+assessment#:#tst_highscore_wtime_description#:#Es wird einen zusätzliche Spalte mit der Bearbeitungsdauer eingeblendet.
+assessment#:#tst_highscore_mode#:#Modus
+assessment#:#tst_highscore_own_table#:#Eigenen Rang anzeigen
+assessment#:#tst_highscore_own_table_description#:#Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
+assessment#:#tst_highscore_top_table#:#Bestenliste
+assessment#:#tst_highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
+assessment#:#tst_highscore_all_tables#:#Eigener Rang und Bestenliste
+assessment#:#tst_highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
+assessment#:#tst_highscore_top_num#:#Länge der Bestenliste
+assessment#:#tst_highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
+assessment#:#tst_highscore_top_num_unit#:#Platzierungen
+assessment#:#tst_rnd_quest_cfg_tab_general#:#Konfiguration Fragenauswahl
+assessment#:#tst_rnd_quest_cfg_tab_pool#:#Ausgewählte Fragenpools
+assessment#:#tst_question_set_type#:#Auswahl der Testfragen
+assessment#:#tst_question_set_type_fixed#:#Fest definierte Fragenauswahl
+assessment#:#tst_question_set_type_fixed_desc#:#Allen Teilnehmern werden die gleichen Fragen gestellt.
+assessment#:#tst_question_set_type_random#:#Zufällige Fragenauswahl
+assessment#:#tst_question_set_type_random_desc#:#Jedem Teilnehmer werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
+assessment#:#tst_question_set_type_dynamic#:#Wiedervorlagenmodus - alle Fragen eines Fragenpools
+assessment#:#tst_question_set_type_dynamic_desc#:#Allen Teilnehmern werden nach und nach alle Fragen aus einem definierten Fragenpool gestellt. Falsch beantwortete Fragen legt ILIAS erneut vor. Auch Fragen bereits laufender Tests können hinzugefügt oder geändert werden.
+assessment#:#tst_change_quest_set_type_from_old_to_new_with_conflict#:#Wenn Sie die Auswahl der Testfragen von <b>%s</b> auf <b>%s</b> ändern, geht die aktuelle Fragenzuordnung verloren. Sie müssen dann für die neue Konfiguration erneut Fragen zuordnen bzw. den Fragenpool entsprechend konfigurieren.<br />Klicken Sie auf <b>Bestätigen</b>, um die neue Einstellung zu verwenden, oder wählen Sie <b>Abbrechen</b>, wenn die aktuell eingestellte Auswahl der Testfragen beibehalten werden soll.
+assessment#:#tst_msg_dynamic_question_set_config_modified#:#Konfiguration für fortlaufende Fragenauswahl wurde geändert.
+assessment#:#tst_msg_cannot_modify_dynamic_question_set_conf_due_to_part#:#Konfiguration für fortlaufende Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebisse vorliegen.
+assessment#:#tst_msg_cannot_modify_random_question_set_conf_due_to_part#:#Die Konfiguration für die zufällige Fragenauswahl kann nicht geändert werden, da bereits Teilnehmerergebnisse vorliegen.
+assessment#:#tst_delete_dyn_test_results_btn#:#Testergebnisse entfernen
+assessment#:#tst_dyn_test_msg_pass_deletion_link#:#Bisherige Antworten entfernen
+assessment#:#tst_dyn_test_pass_deletion_button#:#Zurücksetzen sämtlicher Testantworten
+assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
+assessment#:#tst_input_dynamic_question_set_source_questionpool#:#Fragenpool
+assessment#:#tst_dynamic_question_set_source_questionpool_summary_string#:#%s (Pfad: %s) [%s Fragen]
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_trashed#:#%s (Aktuell im Papierkorb) [%s Fragen]
+assessment#:#tst_dyn_quest_set_src_qpl_summary_string_deleted#:#%s (Endgültig gelöscht)
+assessment#:#tst_input_dynamic_question_set_taxonomie_filter_enabled#:#Zeige Taxonomiefilter
+assessment#:#tst_input_dyn_quest_set_answer_status_filter_enabled#:#Zeige Filter für Beantwortungsstatus
+assessment#:#tst_question_answer_status#:#Welche Fragen sollen in die Wiedervorlage?
+assessment#:#tst_question_answer_status_all_non_correct#:#Alle, außer richtig beantwortete Fragen
+assessment#:#tst_question_answer_status_non_answered#:#Noch nicht beantwortete Fragen
+assessment#:#tst_question_answer_status_wrong_answered#:#Nur falsch beantwortete Fragen
+assessment#:#tst_input_dynamic_question_set_question_ordering#:#Fragen-Ordnung
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_date#:#Ordne Fragen nach Datum
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_date_desc#:#Die Reihenfolge der Fragen orientiert sich am Datum der letzten Änderung.
+assessment#:#tst_input_dynamic_question_set_question_ordering_by_tax#:#Ordne Fragen nach Taxonomieknoten
+assessment#:#tst_inp_dyn_quest_set_quest_ordering_by_tax_desc#:#Die Reihenfolge der Fragen orientiert sich an den Zuweisungen der Fragen in einer Taxonomie.
+assessment#:#tst_input_dynamic_question_set_ordering_tax#:#Ordnungstaxonomie
+assessment#:#tst_input_dynamic_question_set_ordering_tax_description#:#Die Testfragen werden entsprechend ihrer Zuweisungen in der gewählten Taxonomie präsentiert.
+assessment#:#tst_start_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl starten
+assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#Test mit aktueller Fragenauswahl fortsetzen
+assessment#:#tst_dynamic_question_set_selection#:#Auswahl der Testfragen und Auswahlstatistik
+assessment#:#tst_dynamic_question_set_complete#:#Bearbeitungsstand aller verfügbaren Fragen
+assessment#:#tst_num_all_questions#:#Anzahl aller Fragen
+assessment#:#tst_num_selected_questions#:#Anzahl ausgewählter Fragen
+assessment#:#tst_num_non_answered_questions_skipped#:#Angesehen, nicht beantwortet
+assessment#:#tst_num_non_answered_questions_notseen#:#Noch nicht angesehen
+assessment#:#tst_num_wrong_answered_questions#:#Falsch beantwortet
+assessment#:#tst_num_correct_answered_questions#:#Richtig beantwortet
+assessment#:#tst_change_dyn_test_question_selection#:#Fragenauswahl ändern
+assessment#:#tst_dyn_test_msg_currently_finished_completely#:#Aktuell haben Sie alle Fragen des Quellfragenpool erfolgreich beantwortet. Sowie neue oder veränderte Fragen im Quellfragenpool vorliegen können Sie den Test fortführen.
+assessment#:#tst_dyn_test_msg_currently_finished_selection#:#In der aktuellen Fragenauswahl haben Sie alle Fragen erfolgreich beantwortet. Ändern Sie die Fragenauswahl um den Test fort zu führen.
+assessment#:#tst_activate_skill_service#:#Kompetenzen
+assessment#:#tst_tab_competences#:#Kompetenzen
+assessment#:#qpl_tab_competences#:#Kompetenzen
+assessment#:#qpl_skl_sub_tab_quest_assign#:#Fragen-Kompetenz-Zuordnung
+assessment#:#qpl_skl_sub_tab_usages#:#Vergabehäufigkeit
+assessment#:#tst_skl_sub_tab_thresholds#:#Kompetenz-Schwellenwerte
+assessment#:#tst_msg_skl_lvl_thresholds_saved#:#Die Kompetenz-Schwellenwerte wurden gespeichert.
+assessment#:#tst_competence#:#Kompetenz
+assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
+assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
+assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
+assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
+assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
+assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
+assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
+assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
+assessment#:#tst_comp_eval_mode#:#Evaluierung über
+assessment#:#tst_comp_points#:#Kompetenz-Punkte
+assessment#:#tst_num_questions#:#Anzahl Fragen
+assessment#:#tst_max_comp_points#:#Max. Kompetenz-Punkte
+assessment#:#tst_level#:#Kompetenz-Ausprägung
+assessment#:#tst_threshold#:#Schwellenwert (in %)
+assessment#:#tst_save_thresholds#:#Speichere Schwellenwerte
+assessment#:#tst_show_comp_results#:#Kompetenz-Ergebnisse
+assessment#:#tst_analysis#:#Analyse
+assessment#:#tst_all_test_competences#:#Alle Test-Kompetenzen
+assessment#:#tst_gap_analysis#:#Gap-Analyse
+assessment#:#tst_test_result#:#Testergebnis
+assessment#:#feedback_setting#:#Modus
+assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
+assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
+assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
+assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
+assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
+assessment#:#enable_examview#:#Übersicht gegebener Antworten
+assessment#:#enable_examview_desc#:#Teilnehmern werden alle Fragen und die von ihnen gegebenen Antworten vor Abgabe des Tests präsentiert.
+assessment#:#test_enable_archiving#:#Archivierung aktivieren
+assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
+assessment#:#show_examview_html#:#Am Bildschirm
+assessment#:#show_examview_pdf#:#PDF-Download
+assessment#:#scoringadjust#:#Nachkorrektur
+assessment#:#tst_trigger_result_refreshing#:#Es erfolgt eine Neuberechnung des Ergebnisses. Dies kann eine Weile dauern.
+assessment#:#test_scoring#:#Bewertung des Tests
+assessment#:#test_results#:#Bekanntgabe des Testergebnisses
+assessment#:#misc#:#Verschiedene Optionen
+assessment#:#tst_back_to_top#:#Zurück nach oben
+assessment#:#tst_back_to_question_list#:#Zurück zur Fragenliste
+assessment#:#tst_results_tax_filters#:#Ergebnisfilter
+assessment#:#tst_back_to_pass_details#:#Zurück zur Übersicht des Durchlaufs
+assessment#:#tst_answer_details#:#Antwortdetails
+assessment#:#tst_list_answer_details#:#Zeige in Liste unterhalb
+assessment#:#tst_single_answer_details#:#Zeige einzelne Antwort
+assessment#:#tst_pass_details_overview_table_title#:#Detaillierte Testergebnisse für Testdurchlauf %s
+assessment#:#tst_btn_show_best_solutions#:#Zeige bestmögliche Lösungen
+assessment#:#tst_btn_hide_best_solutions#:#Verstecke bestmögliche Lösungen
+assessment#:#tst_starting_time_desc#:#Zeitpunkt, ab dem der Test begonnen werden kann. Das Klicken des Buttons 'Test starten' ist möglich, und Teilnehmer können Fragen beantworten.
+assessment#:#tst_ending_time_desc#:#Zeitpunkt, zu dem der Test beendet wird. Teilnehmer können ab diesem Moment keine Antworten mehr abgeben. ILIAS beendet den Test.
+assessment#:#tst_allowed_users_desc#:#ILIAS prüft die Anzahl der gleichzeitigen Teilnehmer des Tests. Wenn über die maximal erlaubte Anzahl hinaus weitere Benutzer versuchen, den Test zu starten, werden sie am Zugriff gehindert.
+assessment#:#tst_allowed_users_time_gap_desc#:#Teilnehmer die im Ablauf der angegeben Sekunden keinen Klick im Test ausführen, werden als ‚inaktiv‘ eingestuft und aus dem Test entfernt.
+assessment#:#tst_nr_of_tries_desc#:#Maximale Anzahl der Testdurchläufe, die ein Teilnehmer absolvieren kann.
+assessment#:#saved_adjustment#:#Veränderung gespeichert.
+assessment#:#qst_lifecycle_filter_all#:#Alle Lifecycle
+assessment#:#qst_lifecycle#:#Lifecycle
+assessment#:#qst_lifecycle_draft#:#Entwurf
+assessment#:#qst_lifecycle_review#:#Überarbeitung notwendig
+assessment#:#qst_lifecycle_rejected#:#Abgelehnt
+assessment#:#qst_lifecycle_final#:#Endgültig
+assessment#:#qst_lifecycle_sharable#:#Verteilbar
+assessment#:#qst_lifecycle_outdated#:#Veraltet
+assessment#:#sign_submission#:#Digitale Signatur
+assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und aktiviert sein, damit Teilnehmer aufgefordert werden, ihre Testabgabe zu signieren.
+assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
+assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
+assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
+assessment#:#autosavecontent#:#Inhalt Autosave
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code

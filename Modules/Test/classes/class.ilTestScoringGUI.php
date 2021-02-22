@@ -442,7 +442,23 @@ class ilTestScoringGUI extends ilTestServiceGUI
                 $nonedit->setValue(assQuestion::_getMaximumPoints($questionId));
             }
             $form->addItem($nonedit);
-            
+
+            if($questionGUI instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+                $aresult_output = $questionGUI->getAutoSavedSolutionOutput(
+                    $activeId,
+                    $pass,
+                    false,
+                    false,
+                    false,
+                    $this->object->getShowSolutionFeedback(),
+                    false,
+                    true
+                );
+                $cust_as = new ilCustomInputGUI($lng->txt('autosavecontent'));
+                $cust_as->setHtml($aresult_output);
+                $form->addItem($cust_as);
+            }
+
             $area = new ilTextAreaInputGUI($lng->txt('set_manual_feedback'), "question__{$questionId}__feedback");
             $area->setUseRTE(true);
             if ($initValues) {
