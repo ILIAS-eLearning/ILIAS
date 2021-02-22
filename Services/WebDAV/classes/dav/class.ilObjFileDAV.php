@@ -18,15 +18,15 @@ use ILIAS\ResourceStorage\Consumer\Consumers;
  */
 class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
-    protected Manager $resource_manager;
-    protected Consumers $resource_consumer;
+    protected $resource_manager;
+    protected $resource_consumer;
 
     /**
      * We need to keep track of versioning.
      *
      * @var $versioning_enabled boolean
      */
-    protected bool $versioning_enabled;
+    protected $versioning_enabled;
 
     /**
      * ilObjFileDAV represents the WebDAV-Interface to an ILIAS-Object
