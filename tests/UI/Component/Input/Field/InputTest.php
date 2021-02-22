@@ -279,9 +279,9 @@ class InputTest extends ILIAS_UI_TestBase
         $values = new DefInputData([$name => $value]);
 
         $input2 = $input->withInput($values)->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (
-                $value,
-                $transform_to
-            ) {
+            $value,
+            $transform_to
+        ) {
             $this->assertEquals($value, $v);
 
             return $transform_to;
@@ -411,9 +411,9 @@ class InputTest extends ILIAS_UI_TestBase
         $values = new DefInputData([$name => $value]);
 
         $input2 = $input->withInput($values)->withAdditionalTransformation($this->refinery->custom()->transformation(function ($v) use (
-                $value,
-                $transform_to
-            ) {
+            $value,
+            $transform_to
+        ) {
             $this->assertEquals($value, $v);
 
             return $transform_to;

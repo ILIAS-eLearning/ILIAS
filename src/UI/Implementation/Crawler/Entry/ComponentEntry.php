@@ -506,8 +506,11 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
     public function getExamplesPath()
     {
         if (!$this->examples_path) {
-            $path_components = str_replace("/Factory","",
-                    str_replace("Component", "examples", $this->getPath()))
+            $path_components = str_replace(
+                "/Factory",
+                "",
+                str_replace("Component", "examples", $this->getPath())
+            )
                     . "/" . str_replace(" ", "", $this->getTitle());
             $path_array = self::array_iunique(explode("/", $path_components));
             $this->examples_path = implode("/", $path_array);
@@ -518,8 +521,11 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
     public function getExamplesNamespace()
     {
         if (!$this->examples_namespace) {
-            $this->examples_namespace = str_replace("/", "\\",
-                str_replace("src/UI","\ILIAS\UI", $this->getExamplesPath()));
+            $this->examples_namespace = str_replace(
+                "/",
+                "\\",
+                str_replace("src/UI", "\ILIAS\UI", $this->getExamplesPath())
+            );
         }
         return $this->examples_namespace;
     }

@@ -222,16 +222,16 @@ class ilSystemStyleSettings
         string $old_skin_id,
         string $old_style_id,
         string $new_skin_id,
-        string $new_style_id){
-
+        string $new_style_id
+    )
+    {
         global $DIC;
 
         $DIC->database()->manipulate("UPDATE syst_style_cat " .
-            " SET skin_id = ".$DIC->database()->quote($new_skin_id,"text")
-            . ", style_id = ".$DIC->database()->quote($new_style_id,"text").
+            " SET skin_id = " . $DIC->database()->quote($new_skin_id, "text")
+            . ", style_id = " . $DIC->database()->quote($new_style_id, "text") .
             " WHERE skin_id = " . $DIC->database()->quote($old_skin_id, "text") .
             " AND style_id = " . $DIC->database()->quote($old_style_id, "text"));
-
     }
 
     /**
@@ -241,12 +241,13 @@ class ilSystemStyleSettings
      */
     public static function updateSubStyleIdfSubStyleCategoryAssignments(
         string $old_substyle_id,
-        string $new_substyle_id){
-
+        string $new_substyle_id
+    )
+    {
         global $DIC;
 
         $DIC->database()->manipulate("UPDATE syst_style_cat " .
-            " SET substyle = ".$DIC->database()->quote($new_substyle_id,"text").
+            " SET substyle = " . $DIC->database()->quote($new_substyle_id, "text") .
             " WHERE substyle = " . $DIC->database()->quote($old_substyle_id, "text"));
     }
 

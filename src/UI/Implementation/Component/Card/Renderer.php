@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
 
         $title = $component->getTitle();
         $id = $this->bindJavaScript($component);
-        if(!$id){
+        if (!$id) {
             $id = $this->createId();
         }
         if (!empty($component->getTitleAction())) {

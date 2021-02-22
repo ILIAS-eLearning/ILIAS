@@ -62,7 +62,7 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
 }
 
 
-if (isset($_GET['replaced'])  && $_GET['replaced'] == '1') {
+if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
     echo('Helo. Content from RPC.');
     exit();
 }

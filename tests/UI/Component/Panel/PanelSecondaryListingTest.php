@@ -293,8 +293,9 @@ EOT;
 
     public function test_render_with_no_header_but_content()
     {
-
-        $group = new I\Component\Item\Group("Subtitle 1", array(
+        $group = new I\Component\Item\Group(
+            "Subtitle 1",
+            array(
                 new I\Component\Item\Standard("title1"),
                 new I\Component\Item\Standard("title2"))
         );
@@ -331,11 +332,10 @@ EOT;
 
     public function test_render_with_no_header_no_content_no_footer()
     {
-
         $secondary_panel = $this->getUIFactory()->panelSecondary()->listing("", array());
 
         $html = $this->getDefaultRenderer()->render($secondary_panel);
 
-        $this->assertEquals("",$html);
+        $this->assertEquals("", $html);
     }
 }

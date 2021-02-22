@@ -24,5 +24,4 @@ function engaged()
     }
 
     return implode(' ', $buffer);
-
 };

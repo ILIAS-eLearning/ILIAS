@@ -135,7 +135,7 @@ class ilSystemStyleSkinContainer
      */
     public function updateSkin(ilSkinXML $old_skin = null)
     {
-        if(!$old_skin){
+        if (!$old_skin) {
             $old_skin = $this->getSkin();
         }
         $old_customizing_skin_directory = $this->getSystemStylesConf()->getCustomizingSkinPath() . $old_skin->getId() . "/";
@@ -575,7 +575,7 @@ class ilSystemStyleSkinContainer
 
         while (ilStyleDefinition::skinExists($this->getSkin()->getId() . $new_skin_id_addon, $this->getSystemStylesConf())) {
             $new_skin_id_addon .= $new_skin_txt_addon;
-            $new_skin_name_addon .= " ".$new_skin_txt_addon;
+            $new_skin_name_addon .= " " . $new_skin_txt_addon;
         }
 
         $new_skin_path = rtrim($this->getSkinDirectory(), "/") . $new_skin_id_addon;
@@ -583,8 +583,8 @@ class ilSystemStyleSkinContainer
         mkdir($new_skin_path, 0777, true);
         $this->xCopy($this->getSkinDirectory(), $new_skin_path);
         $this->getMessageStack()->addMessage(new ilSystemStyleMessage($this->lng->txt("directory_created") . " " . $new_skin_path, ilSystemStyleMessage::TYPE_SUCCESS));
-        $skin_container =  self::generateFromId($this->getSkin()->getId() . $new_skin_id_addon, null, $this->getSystemStylesConf());
-        $skin_container->getSkin()->setName($skin_container->getSkin()->getName().$new_skin_name_addon);
+        $skin_container = self::generateFromId($this->getSkin()->getId() . $new_skin_id_addon, null, $this->getSystemStylesConf());
+        $skin_container->getSkin()->setName($skin_container->getSkin()->getName() . $new_skin_name_addon);
         $skin_container->getSkin()->setVersion("0.1");
         $skin_container->updateSkin($skin_container->getSkin());
         return $skin_container;
