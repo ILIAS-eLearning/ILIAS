@@ -34,19 +34,19 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Standard",
             $f->standard("label", "http://www.ilias.de")
-            );
+        );
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Primary",
             $f->primary("label", "http://www.ilias.de")
-            );
+        );
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Close",
             $f->close()
-            );
+        );
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Button\\Shy",
             $f->shy("label", "http://www.ilias.de")
-            );
+        );
     }
 
     /**

@@ -86,7 +86,7 @@ class Renderer extends AbstractComponentRenderer
                    function ($id) use ($mb_id) {
                        return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
                    }
-                )
+               )
                 ->withOnClick($trigger_signal);
 
             $tpl->setCurrentBlock("tool_removal");
@@ -125,11 +125,10 @@ class Renderer extends AbstractComponentRenderer
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
-
             } else {
                 //add Links/Buttons as toplevel entries
                 $pos = array_search($k, array_keys($entries));
-                $mb_id = '0:' .$pos;
+                $mb_id = '0:' . $pos;
                 $is_tool = false;
             }
 
