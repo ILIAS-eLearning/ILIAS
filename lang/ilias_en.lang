@@ -12148,7 +12148,8 @@ skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
