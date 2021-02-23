@@ -15,7 +15,7 @@ class PHPExtensionLoadedCondition extends ExternalConditionObjective
             function (Setup\Environment $env) use ($which) : bool {
                 return in_array($which, get_loaded_extensions());
             },
-            "ILIAS 6 requires the PHP extension $which."
+            "ILIAS 7 requires the PHP extension $which."
         );
     }
 }
