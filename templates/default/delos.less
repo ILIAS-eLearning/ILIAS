@@ -433,8 +433,8 @@ div.ilFrame {
 	padding: 5px;
 	margin-left: 15px;
 	overflow: auto;
-	background-color: @il-main-dark;
-	border-right: 3px solid lighten(@il-gray-neutral, 33%);
+	background-color: @il-main-dark-bg;
+	border-right: 3px solid lighten(@il-neutral-color, 33%);
 	z-index: 100;
 	position: fixed;
 	top: @il-header-height;
@@ -449,7 +449,7 @@ div.ilFrame {
 	margin-right: 15px;
 	border-right: none;
 	//See 20986 with according JF decision
-	border-left: 3px solid lighten(@il-gray-neutral, 33%);
+	border-left: 3px solid lighten(@il-neutral-color, 33%);
 }
 
 /* --------------------------------------------------------------
@@ -1089,7 +1089,7 @@ h2.ilHeader {
 	margin: 0;
 	display: inline;
 	font-size: @font-size-h3;
-	color: lighten(@il-gray-neutral,30%);
+	color: lighten(@il-neutral-color,30%);
 }
 
 #headerimage {

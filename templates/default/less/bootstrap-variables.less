@@ -120,9 +120,9 @@ the il- variable in your less code and not the boostrap variable in your less co
 @bs-datetimepicker-active-bg: @btn-primary-bg;
 @bs-datetimepicker-active-color: @btn-primary-color;
 @bs-datetimepicker-border-radius: @border-radius-base;
-@bs-datetimepicker-btn-hover-bg: @il-gray-light;
-@bs-datetimepicker-disabled-color: @il-gray-light;
-@bs-datetimepicker-alternate-color: @il-gray-light;
+@bs-datetimepicker-btn-hover-bg: @il-neutral-light-color;
+@bs-datetimepicker-disabled-color: @il-neutral-light-color;
+@bs-datetimepicker-alternate-color: @il-neutral-light-color;
 @bs-datetimepicker-secondary-border-color: #ccc;
 @bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
 @bs-datetimepicker-primary-border-color: white;
@@ -132,7 +132,7 @@ the il- variable in your less code and not the boostrap variable in your less co
 //
 //##
 
-@panel-bg:                    @il-main-dark;
+@panel-bg:                    @il-main-dark-bg;
 @panel-body-padding:          15px;
 @panel-heading-color:		  #707070;
 @panel-heading-padding:       1.5*@padding-large-vertical @padding-large-horizontal;
@@ -143,20 +143,20 @@ the il- variable in your less code and not the boostrap variable in your less co
 @panel-inner-border:          #ddd;
 @panel-footer-bg:             #f5f5f5;
 
-@panel-default-text:          @il-gray-neutral;
+@panel-default-text:          @il-neutral-color;
 @panel-default-border:        none;
-@panel-default-heading-bg:    @il-main-dark;
+@panel-default-heading-bg:    @il-main-dark-bg;
 
-@panel-primary-text:          @il-gray-neutral;
+@panel-primary-text:          @il-neutral-color;
 @panel-primary-border:        none;
-@panel-primary-heading-bg:    @il-main-light-bg;
+@panel-primary-heading-bg:    @il-main-dark-bg;
 
 //== DropDowns
 //
 //##
 @dropdown-bg: white;
-@dropdown-link-color: lighten(@il-gray-neutral, 10%);
-@dropdown-link-hover-color: darken(@il-gray-neutral, 5%);
+@dropdown-link-color: lighten(@il-neutral-color, 10%);
+@dropdown-link-hover-color: darken(@il-neutral-color, 5%);
 @dropdown-link-bg: transparent;
 @dropdown-link-hover-bg: lighten(@brand-primary, 53%);
 @dropdown-header-bg: #f3f3f3;

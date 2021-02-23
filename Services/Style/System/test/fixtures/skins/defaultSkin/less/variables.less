@@ -20,7 +20,7 @@
 @brand-warning:         #fa8228;
 @brand-danger:          #fa8228;
 
-@il-gray-neutral: #434343;
+@il-neutral-color: #434343;
 @il-primary-container-bg: white;
 @il-secondary-container-bg: #f9f9f9;
 
@@ -163,7 +163,7 @@
 //
 //##
 
-@panel-bg:                    @il-main-dark;
+@panel-bg:                    @il-main-dark-bg;
 @panel-body-padding:          15px;
 @panel-heading-padding:       10px 15px;
 @panel-footer-padding:        @panel-heading-padding;
@@ -173,13 +173,13 @@
 @panel-inner-border:          #ddd;
 @panel-footer-bg:             #f5f5f5;
 
-@panel-default-text:          @il-gray-neutral;
+@panel-default-text:          @il-neutral-color;
 @panel-default-border:        none;
-@panel-default-heading-bg:    @il-main-dark;
+@panel-default-heading-bg:    @il-main-dark-bg;
 
-@panel-primary-text:          @il-gray-neutral;
+@panel-primary-text:          @il-neutral-color;
 @panel-primary-border:        none;
-@panel-primary-heading-bg:    @il-main-light-bg;
+@panel-primary-heading-bg:    @il-main-dark-bg;
 
 //== DropDowns
 //
@@ -205,13 +205,13 @@
 @table-border-color:            #ddd;
 
 @il-table-head-bg:             	lighten(@il-secondary-container-bg, 1%);
-@il-data-table-bg:             	@il-main-dark;
-@il-table-cmd-bg:				@il-main-dark;
+@il-data-table-bg:             	@il-main-dark-bg;
+@il-table-cmd-bg:				@il-main-dark-bg;
 
 //== Toolbar
 @navbar-height: 40px;
 @il-toolbar-margin: 15px; // Margin between toolbar items
-@il-toolbar-bg: @il-main-dark;
+@il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: @navbar-height;
 @il-toolbar-border: 1px solid #d8d8d8;
 
@@ -224,9 +224,9 @@
 @bs-datetimepicker-active-bg: @il-main-color;
 @bs-datetimepicker-active-color: @il-main-color;
 @bs-datetimepicker-border-radius: @border-radius-base;
-@bs-datetimepicker-btn-hover-bg: @il-gray-neutral;
-@bs-datetimepicker-disabled-color: @il-gray-neutral;
-@bs-datetimepicker-alternate-color: @il-gray-neutral;
+@bs-datetimepicker-btn-hover-bg: @il-neutral-color;
+@bs-datetimepicker-disabled-color: @il-neutral-color;
+@bs-datetimepicker-alternate-color: @il-neutral-color;
 @bs-datetimepicker-secondary-border-color: #ccc;
 @bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
 @bs-datetimepicker-primary-border-color: white;
@@ -244,7 +244,7 @@
 @il-counter-margin-left: -4px;
 
 //== Status Counter
-@il-counter-status-bg: lighten(@il-gray-neutral, 40%);
+@il-counter-status-bg: lighten(@il-neutral-color, 40%);
 @il-counter-status-margin-top: 10px;
 
 //== Novelty Counter
