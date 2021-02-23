@@ -23,6 +23,7 @@
 # Generated Files
 /ilias.ini.php
 /ilias.log
+/config.json
 /db_template_writer.php
 /setup/sql/dbupdate_custom.php
 /install_client.php
