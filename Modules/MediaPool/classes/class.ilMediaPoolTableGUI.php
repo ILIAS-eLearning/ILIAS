@@ -105,7 +105,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         // standard columns
         $this->addColumn("", "", "1");	// checkbox
-        $this->addColumn($lng->txt("mep_thumbnail"), "", "1");
+        $this->addColumn($lng->txt("mep_thumbnail"), "", "100px");
         $this->addColumn($lng->txt("mep_title_and_description"));
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -491,7 +491,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                         $target = $med->getThumbnailTarget();
                     }
                     if ($target != "") {
-                        $this->tpl->setVariable("IMG", ilUtil::img($target));
+                        $this->tpl->setVariable("IMG", ilUtil::img(ilWACSignedPath::signFile($target)));
                     } else {
                         $this->tpl->setVariable(
                             "IMG",

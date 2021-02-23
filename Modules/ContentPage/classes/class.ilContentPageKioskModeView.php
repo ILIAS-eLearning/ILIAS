@@ -15,7 +15,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilContentPageKioskModeView extends ilKioskModeView
 {
-    const CMD_TOGGLE_LEARNING_PROGRESS = 'toggleManualLearningProgress';
+    const CMD_LP_TO_COMPLETED = 'lp_completed';
+    const CMD_LP_TO_INCOMPLETE = 'lp_incomplete';
 
     /** @var \ilObjContentPage */
     protected $contentPageObject;
@@ -105,13 +106,15 @@ class ilContentPageKioskModeView extends ilKioskModeView
 
             $this->lng->loadLanguageModule('copa');
             $learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_completed');
+            $cmd = self::CMD_LP_TO_INCOMPLETE;
             if (!$isCompleted) {
                 $learningProgressToggleCtrlLabel = $this->lng->txt('copa_btn_lp_toggle_state_not_completed');
+                $cmd = self::CMD_LP_TO_COMPLETED;
             }
 
             $builder->generic(
                 $learningProgressToggleCtrlLabel,
-                self::CMD_TOGGLE_LEARNING_PROGRESS,
+                $cmd,
                 1
             );
         }
@@ -132,20 +135,26 @@ class ilContentPageKioskModeView extends ilKioskModeView
      */
     protected function toggleLearningProgress(string $command)
     {
-        if (self::CMD_TOGGLE_LEARNING_PROGRESS === $command) {
-            $learningProgress = \ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
-                $marks = new \ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
-                $marks->setCompleted(!$marks->getCompleted());
+        if (in_array($command, [
+            self::CMD_LP_TO_COMPLETED,
+            self::CMD_LP_TO_INCOMPLETE
+        ])) {
+            $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
+            if ($learningProgress->getCurrentMode() == ilLPObjSettings::LP_MODE_MANUAL) {
+                $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
+
+                $old_state = $marks->getCompleted();
+                $new_state = ($command === self::CMD_LP_TO_COMPLETED);
+                $marks->setCompleted($new_state);
                 $marks->update();
+                ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-                \ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
-
-                $this->lng->loadLanguageModule('trac');
-
-                $this->messages[] = $this->uiFactory->messageBox()->success(
-                    $this->lng->txt('trac_updated_status')
-                );
+                if ($old_state != $new_state) {
+                    $this->lng->loadLanguageModule('trac');
+                    $this->messages[] = $this->uiFactory->messageBox()->success(
+                        $this->lng->txt('trac_updated_status')
+                    );
+                }
             }
         }
     }
