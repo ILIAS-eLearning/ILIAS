@@ -14281,7 +14281,6 @@ style#:#skin_version#:#Версия темы
 style#:#skin_version_description#:#Версия темы используется системой для отслеживания изменений. Обновляется автоматически.
 style#:#sound_dir#:#Каталог звуков
 style#:#sound_dir_description#:#Каталог для хранения звуковых файлов. Можно использовать совместно с другими стилями и вариантами стилей.
-style#:#Style#:#Style
 style#:#styles_not_deleted#:#Стили не могут быть удалены по следующим причинам:
 style#:#style_assignments_deleted#:#Назначения стилей следующего варианта стиля были удалены:
 style#:#style_copied#:#Стиль успешно скопирован.
@@ -16175,7 +16174,6 @@ common#:#mainbar_aria_label#:#Mainbar###10 07 2020 new variable
 common#:#metabar_aria_label#:#Metabar###10 07 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###10 07 2020 new variable
 style#:#style#:#Style###10 07 2020 new variable
-content#:#cont_Link#:#Link###10 07 2020 new variable
 rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###10 07 2020 new variable
 form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable

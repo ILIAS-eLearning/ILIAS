@@ -14944,8 +14944,6 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Verifikace: Test
 wsp#:#wsp_type_webr#:#Weblový odkaz
 wsp#:#wsp_type_wfld#:#Složka
-style#:#Style#:#Style###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
 exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable

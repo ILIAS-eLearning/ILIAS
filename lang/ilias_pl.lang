@@ -6290,7 +6290,6 @@ content#:#cont_left_float#:#Po lewej, tekst opływający
 content#:#cont_license#:#Licencja
 content#:#cont_license_info#:#Wyświetlana jest zakładka i funkcja "Licencja".
 content#:#cont_light#:#Jasne
-content#:#cont_Link#:#Link
 content#:#cont_link_area#:#Obszar łącznika
 content#:#cont_link_ext#:#Link (zewnętrzny)
 content#:#cont_link_glo_in_lm#:#Czy wszystkie pojęcia w słowniku mają zostać podlinkowane w module nauczania?
@@ -14586,7 +14585,6 @@ style#:#sty_white_space#:#Pusta przestrzeń
 style#:#sty_width#:#Szerokość
 style#:#sty_width_height#:#Szerokość x wysokość
 style#:#sty_word_spacing#:#Odstęp między słowami
-style#:#Style#:#Style
 style#:#style_assignments_deleted#:#Usunięto przydziały stylu poniższego podstylu:
 style#:#style_copied#:#Style zostały z powodzeniem skopiowane.
 style#:#style_current_style#:#Aktualny styl
