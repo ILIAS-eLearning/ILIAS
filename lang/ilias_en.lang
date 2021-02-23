@@ -27,26 +27,26 @@ meta#:#md_adv_int_default#:#Default Language:
 meta#:#md_adv_int_translation_info#:#Translation:
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 sess#:#sess_title#:#Title of Session
-rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung
-rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
-rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
-rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen
-rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.
-rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.
-rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen
-rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen
-rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.
-rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern
-rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.
-rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
-rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren
-rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen
-rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.
-rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.
+rbac#:#rbac_form_copy_roles_adjust_type#:#Kind of Adapting Permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Add permissions
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Copy permissions
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Remove permissions
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Adds SELECTED permissions of the selected role or role template to the default permissions of the target role. Unselected permissions are ignored.
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#All permissions of the selected role or role template overwrite all default permissions of the target role. This applies to selected and unselected permissions in the template or role.
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Removes the SELECTED permissions of the selected role or role template from the default permissions of the target role.
+rbac#:#rbac_form_copy_roles_adjust_button#:#Adapt Permissions
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Add selected permissions to existing objects
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Only adjust default permissions
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Both the existing permission defaults of the target role and the permission settings of existing objects are extended accordingly.
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Only the existing default permission of the target role are extended. Permissions of existing objects remain unaffected.
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Change existing objects
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#DO NOT adapt existing objects
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Existing permission settings are overwritten accordingly and are applied in their entirety to all existing objects with all selected and unselected permissions.
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Existing default permissions of the target role are overwritten. But the permission settings of the already existing objects are not changed.
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Reduce existing objects by selected permissions
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Reduce only default permissions
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#The selected permissions are removed from the permission defaults of the target role and from the permission settings of existing objects.
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Selected permissions are only removed from the default permissions of the target role. The permission settings of existing objects are not adjusted.
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_make_favourite#:#Add to Favourites
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
@@ -148,7 +148,7 @@ rep#:#btn_undelete_origin_location#:#Restore (same location)
 rep#:#btn_undelete_new_location#:#Restore (new location)
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
 rep#:#rep_target_location#:#Target Location
-rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_target_location_info#:#Please now select the destination to which the selected objects should be restored.
 rep#:#rep_trash_deleted_by_unknown#:#Unknown
 crs#:#timings_cron_reminder_freshly_start#:#The processing period started at:
 crs#:#timings_cron_reminder_started_subject#:#The processing period has started
@@ -6953,6 +6953,7 @@ rbac#:#filter_roles_local_policy#:#Show only roles using a local policy at this 
 rbac#:#grp_edit_event#:#Edit Calendar Events
 rbac#:#info_user_view_changed#:#User view changed
 rbac#:#leave#:#Unsubscribe
+rbac#:#log#:#Log
 rbac#:#mcts_edit_permission#:#User can change permission settings in Mediacast administration
 rbac#:#mcts_read#:#User has read access to Mediacast administration
 rbac#:#mcts_visible#:#Mediacast administration is visible

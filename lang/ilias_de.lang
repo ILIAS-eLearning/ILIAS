@@ -333,6 +333,9 @@ crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitrau
 crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
 crs#:#timings_reminder_notifications#:#Benachrichtigungen zur Lernplanung versenden
 crs#:#timings_reminder_notifications_info#:#Wenn aktiviert, werden Kursteilnehmer über überschrittene Lernplanungsmaterialien informiert.
+obj#:#obj_fallback_lang#:#Standard Sprache
+obj#:#obj_set_fallback_lang#:#Standard Sprache setzen
+obj#:#obj_select_one_language#:#Bitte wählen Sie eine Sprache
 acc#:#acc_access_key#:#Access-Key
 acc#:#acc_access_keys#:#Access-Keys
 acc#:#acc_comp_frm#:#Forum
@@ -13990,7 +13993,6 @@ style#:#skin_name#:#Skin-Titel
 style#:#skin_version#:#Skin-Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style-ID
-style#:#Style#:#Style
 style#:#style_name#:#Style-Titel
 style#:#image_dir#:#Icon-Ordner
 style#:#font_dir#:#Schrift-Ordner
@@ -15469,7 +15471,6 @@ exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
 content#:#cont_Attention#:#Achtung
 content#:#cont_Confirmation#:#Bestätigung
 content#:#cont_Information#:#Information
-content#:#cont_Link#:#Link
 content#:#cont_Literature#:#Literatur
 content#:#cont_Separator#:#Begrenzer
 content#:#cont_StandardCenter#:#Standard Zentriert
@@ -16287,7 +16288,7 @@ common#:#show_who_is_online#:#Zeig wer online ist
 common#:#tags#:#Tags
 common#:#comments#:#Kommentare
 common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds zu verbergen
-common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
+common#:#eyeopened#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
 common#:#show_more#:#Mehr zeigen
 common#:#disclose#:#Aufdecken
 common#:#switch_language#:#Sprache wechseln
