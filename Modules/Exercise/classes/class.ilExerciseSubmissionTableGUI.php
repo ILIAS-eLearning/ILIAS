@@ -236,7 +236,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
             $cols["comment"] = array($this->lng->txt("exc_tbl_comment"), "comment");
         }
         
-        $cols["notice"] = array($this->lng->txt("exc_tbl_notice"), "note");
+        $cols["notice"] = array($this->lng->txt("exc_tbl_notice"), "notice");
         
         return $cols;
     }
