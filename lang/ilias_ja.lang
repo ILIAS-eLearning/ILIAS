@@ -6298,7 +6298,6 @@ content#:#cont_license#:#ライセンス
 content#:#cont_license_info#:#ライセンス機能を有効
 content#:#cont_light#:#明るく
 content#:#cont_link#:#リンク
-content#:#cont_Link#:#Link
 content#:#cont_link_area#:#リンクエリヤ
 content#:#cont_link_ext#:#リンク(外部)
 content#:#cont_link_glo_in_lm#:#全ての用語集表現をラーニングモジュール中に今リンクしなければなりませんか。
@@ -14598,7 +14597,6 @@ style#:#sty_width#:#幅
 style#:#sty_width_height#:#幅 x 高さ
 style#:#sty_word_spacing#:#文字の間隔
 style#:#style#:#Style
-style#:#Style#:#Style
 style#:#style_assignments_deleted#:#次のサブスタイルのスタイル割当ては削除されました:
 style#:#style_copied#:#スタイルは正しくコピーされました。
 style#:#style_current_style#:#現在のスタイル

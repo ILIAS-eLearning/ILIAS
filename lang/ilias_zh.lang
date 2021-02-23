@@ -12933,7 +12933,6 @@ style#:#skin_id#:#Skin ID###25 10 2016 new variable
 style#:#skin_name#:#Skin Name###25 10 2016 new variable
 style#:#skin#:#Skin###25 10 2016 new variable
 style#:#style_id#:#Style ID###25 10 2016 new variable
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#style_name#:#Style Name###25 10 2016 new variable
 style#:#image_dir#:#Image Directory###25 10 2016 new variable
 style#:#font_dir#:#Font Directory###25 10 2016 new variable
@@ -14914,7 +14913,6 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###25 0
 content#:#cont_Attention#:#Attention###25 04 2019 new variable
 content#:#cont_Confirmation#:#Confirmation###25 04 2019 new variable
 content#:#cont_Information#:#Information###25 04 2019 new variable
-content#:#cont_Link#:#Link###25 04 2019 new variable
 content#:#cont_Literature#:#Literature###25 04 2019 new variable
 content#:#cont_Separator#:#Separator###25 04 2019 new variable
 content#:#cont_StandardCenter#:#Standard Center###25 04 2019 new variable

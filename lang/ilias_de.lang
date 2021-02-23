@@ -177,14 +177,14 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc#:#OpenID-Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenID-Connect-Attributen
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Profildaten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
+content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
@@ -226,7 +226,7 @@ common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern a
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
 lti#:#consumers#:#Konsumenten
-lti#:#prefix#:#Prefix
+lti#:#prefix#:#Präfix
 lti#:#lti_consumer_key#:#Consumer Key
 lti#:#lti_consumer_secret#:#Consumer Secret
 lti#:#user_lng#:#Benutzersprache
@@ -628,7 +628,7 @@ adve#:#adve_grp_glo#:#Glossare
 adve#:#adve_grp_lm#:#ILIAS-Lernmodule
 adve#:#adve_grp_rep#:#Magazinseiten
 adve#:#adve_grp_scorm#:#SCORM-Module
-adve#:#adve_grp_test#:#Test and Assessment
+adve#:#adve_grp_test#:#Test und Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
 adve#:#adve_pe_general#:#Einstellungen
@@ -13922,7 +13922,6 @@ style#:#skin_name#:#Skin-Titel
 style#:#skin_version#:#Skin-Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style-ID
-style#:#Style#:#Style
 style#:#style_name#:#Style-Titel
 style#:#image_dir#:#Icon-Ordner
 style#:#font_dir#:#Schrift-Ordner
@@ -14854,7 +14853,7 @@ mme#:#topitem_edit#:#Bearbeiten
 mme#:#topitem_delete#:#Löschen
 mme#:#topitem_translate#:#Übersetzen
 mme#:#topitem_position#:#Position
-mme#:#topitem_title#:#Title
+mme#:#topitem_title#:#Titel
 mme#:#topitem_active#:#Aktiv
 mme#:#topitem_subentries#:#Einträge
 mme#:#topitem_provider#:#Provider
@@ -15366,7 +15365,6 @@ exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
 content#:#cont_Attention#:#Achtung
 content#:#cont_Confirmation#:#Bestätigung
 content#:#cont_Information#:#Information
-content#:#cont_Link#:#Link
 content#:#cont_Literature#:#Literatur
 content#:#cont_Separator#:#Begrenzer
 content#:#cont_StandardCenter#:#Standard Zentriert

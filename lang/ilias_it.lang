@@ -14917,8 +14917,6 @@ wsp#:#wsp_type_scov#:#Certificato: SCORM
 wsp#:#wsp_type_tstv#:#Verifica: test
 wsp#:#wsp_type_webr#:#Collegamento web
 wsp#:#wsp_type_wfld#:#Cartella
-style#:#Style#:#Style#
-content#:#cont_Link#:#Link
 common#:#msg_unknown_value#:#È stato passato un valore sconosciuto.
 exc#:#exc_deleted_user#:#Utente eliminato
 copg#:#copg_allow_html#:#Abilita HTML / Javascript
