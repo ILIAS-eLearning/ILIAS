@@ -45,25 +45,28 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
 
     protected function buildPath(Setup\Environment $environment) : string
     {
-        $common_config = $environment->getConfigFor("common");
-        $fs_config = $environment->getConfigFor("filesystem");
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+
         if ($this->base_location === self::DATADIR) {
-            $data_dir = $fs_config->getDataDir();
+            $data_dir = $ini->readVariable('clients', 'datadir');
         }
         if ($this->base_location === self::WEBDIR) {
-            $data_dir = $fs_config->getWebDir();
+            $data_dir = dirname(__DIR__, 4) . "/data";
         }
 
-        $client_data_dir = $data_dir . '/' . $common_config->getClientId();
+        $client_data_dir = $data_dir . '/' . $client_id;
         $new_dir = $client_data_dir . '/' . $this->component_dir;
         return $new_dir;
     }
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $config = $environment->getConfigFor("filesystem");
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $data_dir = $ini->readVariable('clients', 'datadir');
+
         return [
-            new ilFileSystemDirectoriesCreatedObjective($config)
+            new ilFileSystemDirectoriesCreatedObjective(new ilFileSystemSetupConfig($data_dir))
         ];
     }
 
