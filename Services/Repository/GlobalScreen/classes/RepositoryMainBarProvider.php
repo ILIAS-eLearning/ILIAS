@@ -153,7 +153,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $f = $this->dic->ui()->factory();
         foreach ($nav_items as $k => $nav_item) {
-            if ($cnt >= 10) {
+            if ($cnt++ >= 10) {
                 break;
             }
 
