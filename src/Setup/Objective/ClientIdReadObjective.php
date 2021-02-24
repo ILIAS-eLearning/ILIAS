@@ -80,10 +80,12 @@ class ClientIdReadObjective implements Setup\Objective
         }
 
         if (count($candidates) != 1) {
+            $ilias_version = ILIAS_VERSION_NUMERIC;
+
             throw new Setup\UnachievableException(
                 "There is more than one directory in the webdata-dir at '$dir'. " .
                 "Probably this is an ILIAS installation that uses clients. Clients " .
-                "are not supported anymore since ILIAS 7. " .
+                "are not supported anymore since ILIAS $ilias_version " .
                 "(see: https://docu.ilias.de/goto.php?target=wiki_1357_Setup_-_Abandon_Multi_Client)"
             );
         }
