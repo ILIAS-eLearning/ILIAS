@@ -433,7 +433,7 @@ div.ilFrame {
 	padding: 5px;
 	margin-left: 15px;
 	overflow: auto;
-	background-color: @il-main-dark-bg;
+	background-color: @il-main-bg;
 	border-right: 3px solid lighten(@il-neutral-color, 33%);
 	z-index: 100;
 	position: fixed;
@@ -1089,7 +1089,7 @@ h2.ilHeader {
 	margin: 0;
 	display: inline;
 	font-size: @font-size-h3;
-	color: lighten(@il-neutral-color,30%);
+	color: @il-neutral-color;
 }
 
 #headerimage {
@@ -1140,7 +1140,7 @@ div.ilHeadAction a:hover {
 div.ilHeaderDesc {
 	font-size: 90%;
 	padding: 0;
-	color: lighten(@text-color, 25%);
+	color: @il-text-color;
 	font-weight: 300;
 }
 
@@ -1176,7 +1176,7 @@ div.il_TreeIcons {
 
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
-	color: @text-color;
+	color: @il-text-color;
 	font-size: 90%;
 }
 a.permalink_label {
@@ -1398,7 +1398,7 @@ div.Access {
 
 /* ----------------- alternative text styles ------------- */
 .light {
-	color: #909090;
+	color: @il-text-light-color;
 }
 
 /* ----------------- normal links ------------- */
@@ -1962,7 +1962,7 @@ div.ilNewObjectSelector {
 }
 
 .yui-panel-container {
-	color: @text-color;
+	color: @il-text-color;
 }
 .mceEditor, .mceLayout {
 	width: 100% !important;
