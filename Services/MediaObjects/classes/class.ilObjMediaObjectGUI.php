@@ -344,7 +344,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $op1->addSubItem($up);
         $radio_prop->addOption($op1);
         $op2 = new ilRadioOption($lng->txt("url"), "Reference");
-        $ref = new ilTextInputGUI("", "standard_reference");
+        $ref = new ilUriInputGUI("", "standard_reference");
         $ref->setInfo($lng->txt("cont_ref_helptext"));
         $ref->setRequired(true);
         $op2->addSubItem($ref);
@@ -463,7 +463,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $op2->addSubItem($up);
         $radio_prop2->addOption($op2);
         $op3 = new ilRadioOption($lng->txt("url"), "Reference");
-        $ref = new ilTextInputGUI("", "full_reference");
+        $ref = new ilUriInputGUI("", "full_reference");
         $ref->setInfo($lng->txt("cont_ref_helptext"));
         $ref->setRequired(true);
         $op3->addSubItem($ref);
