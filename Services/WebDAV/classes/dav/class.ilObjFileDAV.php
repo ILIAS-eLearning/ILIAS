@@ -96,17 +96,17 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function get()
     {
         if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
+            if ($this->getSize() > 0 &&
+                ($r_id = $this->obj->getResourceId()) &&
+                ($identification = $this->resource_manager->find($r_id))) {
+                return $this->resource_consumer->stream($identification)->getStream()->getContents();
+            }
+            
             /*
              * @todo: This is legacy and should be removed with ILIAS 8
              */
-            if (file_exists($file = $this->getPathToFile())) {
+            if ($this->getSize() > 0 && file_exists($file = $this->getPathToFile())) {
                 return fopen($file, 'r');
-            }
-            
-            $r_id = $this->obj->getResourceId();
-            $identification = $this->resource_manager->find($r_id);
-            if ($this->getSize() > 0) {
-                return $this->resource_consumer->stream($identification)->getStream()->getContents();
             }
             
             throw new Exception\NotFound("File not found");
