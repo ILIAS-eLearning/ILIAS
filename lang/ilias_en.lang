@@ -43,6 +43,8 @@ common#:#obj_nots#:#Notes
 note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
+common#:#tools#:#Tools
+common#:#more#:#More
 note#:#note_enable_comments#:#Enable Comments
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
@@ -137,18 +139,18 @@ rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored t
 rep#:#rep_target_location#:#Target Location
 rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_trash_deleted_by_unknown#:#Unknown
-crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
-crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
-crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
-crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
+crs#:#timings_cron_reminder_freshly_start#:#The processing period started at:
+crs#:#timings_cron_reminder_started_subject#:#The processing period has started
+crs#:#timings_cron_reminder_exceeded_subject#:#You have exceeded the processing period
+crs#:#timings_cron_reminder_exceeded_start#:#The processing period is overdue at:
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
 crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
 meta#:#udf_type_address#:#Address
 meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
-meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
-meta#:#meta_oer_copyright_selection_info#:#Nur Objekte, die unter den/der ausgewählten Lizenz veröffentlicht sind, werden in die OER-Kategorie verknüpft.
+meta#:#meta_oer_copyright_selection#:#License Selection
+meta#:#meta_oer_copyright_selection_info#:#Only objects that are published under a selected license are linked into the OER category.
 meta#:#meta_oer_target#:#Category for Release OER Content
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
@@ -186,45 +188,45 @@ auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
 sess#:#sess_title#:#Title of Session
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
-auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
-auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
+auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentication
+auth#:#auth_oidc_settings_activation#:#Activate OpenID Connect
 auth#:#auth_oidc_settings_provider#:#Provider-Url
 auth#:#auth_oidc_settings_client_id#:#Client-ID
-auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
-auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
+auth#:#auth_oidc_settings_secret#:#Client-Key
+auth#:#auth_oidc_settings_le#:#Login Page Layout
 auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
-auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
-auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
-auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
-auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
-auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
-auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
-auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
-auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
-auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
-auth#:#auth_oidc_settings_session_duration#:#Dauer
-auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
-auth#:#auth_oidc_settings#:#Server-Einstellungen
-auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
-auth#:#auth_oidc_roles#:#Rollenzuordnung
-auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
-auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
-auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+auth#:#auth_oidc_settings_txt_val_info#:#Enter a text that should be displayed on the login page. The text automatically links to the OpenID Connect login script.
+auth#:#auth_oidc_settings_img#:#Picture
+auth#:#auth_oidc_settings_img_file_info#:#Upload an image to be displayed on the login page. The picture automatically links to the OpenID Connect login script.
+auth#:#auth_oidc_settings_login_options#:#Login Option
+auth#:#auth_oidc_settings_login_option_enforce#:#Force login
+auth#:#auth_oidc_settings_login_option_enforce_info#:#A registration at the OpenID Connect server is necessary in any case - even if a valid session already exists.
+auth#:#auth_oidc_settings_login_option_default#:#Do not force login
+auth#:#auth_oidc_settings_login_option_default_info#:#It is not necessary to log in to the OpenID Connect server if a valid session is already available.
+auth#:#auth_oidc_settings_logout_scope#:#Behavior when Logging out
+auth#:#auth_oidc_settings_logout_scope_global#:#Global logout
+auth#:#auth_oidc_settings_logout_scope_local#:#Logout from ILIAS only
+auth#:#auth_oidc_settings_logout_scope_global_info#:#If activated, both the OpenID Connect session and the ILIAS session are ended when you log off.
+auth#:#auth_oidc_settings_logout_scope_local_info#:#If activated, only the ILIAS session is ended when you log off.
+auth#:#auth_oidc_settings_custom_session_duration_type#:#Settings for Session Duration
+auth#:#auth_oidc_settings_custom_session_duration_option#:#Own session duration
+auth#:#auth_oidc_settings_custom_session_duration#:#Session Duration
+auth#:#auth_oidc_settings_section_user_sync#:#User Synchronization Settings
+auth#:#auth_oidc_settings_user_sync#:#Automatic Synchronization
+auth#:#auth_oidc_settings_user_sync_info#:#If activated, a new user account is created automatically for users who have successfully authenticated themselves at Open ID Connect but do not have an ILIAS user account.
+auth#:#auth_oidc_settings_default_role#:#Role Assignment
+auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for new ILIAS users to be created
+auth#:#auth_oidc_settings_user_attr#:#Attribute name of the user accounts
+auth#:#auth_oidc_settings_session_duration#:#Duration
+auth#:#auth_oidc#:#OpenID Connect
+auth#:#auth_oidc_mapping_table#:#Assignment of ILIAS Profile Data to OpenID Connect Attributes
+auth#:#auth_oidc_settings#:#Server-Settings
+auth#:#auth_oidc_profile#:#Assignment of Profile Data
+auth#:#auth_oidc_roles#:#Role Assignment
+auth#:#auth_oidc_update_field_info#:#Update automatically
+auth#:#auth_oidc_role_mapping_table#:#Assignment of ILIAS Roles to OpenID Connect Attributes
+auth#:#auth_oidc_update_role_info#:#Use only when logging in for the first time (automatic synchronization)
+content#:#cont_lpe_openid_connect_login#:#OpenID Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
@@ -1785,6 +1787,7 @@ assessment#:#sign_submission_info#:#If this is activated and a signature plugin 
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
+assessment#:#autosavecontent#:#Autosave Content
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -2502,6 +2505,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login or Password
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.
 common#:#err_wrong_password#:#Wrong Password
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
@@ -3612,8 +3616,8 @@ common#:#role_add_user#:#Add User(s) to role
 common#:#role_added#:#Role added
 common#:#role_assignment_updated#:#Role assignment has been updated.
 common#:#role_assignment#:#Role Assignment
-common#:#global_role_assignment#:#Globale Rollenzuweisung
-common#:#local_role_assignment#:#Lokale Rollenzuweisung
+common#:#global_role_assignment#:#Global Role Assignment
+common#:#local_role_assignment#:#Local Role Assignment
 common#:#role_edit#:#Edit Role
 common#:#role_mailto#:#Mail to all assigned Users
 common#:#role_new_search#:#New search
@@ -3746,7 +3750,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -5534,6 +5538,7 @@ form#:#form_password_not_allowed_for_auth#:#It is not possible to change the pas
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 forum#:#activate_new_posts#:#Approve Postings
 forum#:#activate_only_current#:#Approve Posting
 forum#:#activate_post_txt#:#Would you really like to approve the current posting?
@@ -7106,6 +7111,7 @@ sahs#:#sahs_sco_objective#:#Objectives
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
+search#:#search_field#:#Search Input Field
 search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
@@ -10006,8 +10012,8 @@ assessment#:#tst_question_hints_table_link_edit_hint_page#:#Edit Page
 assessment#:#tst_question_hints_form_cmd_save_points#:#Save Points
 assessment#:#tst_question_hints_form_cmd_save_points_and_edit_page#:# Save Points and Edit Page
 assessment#:#tst_question_hints_back_to_hint_list#:#Question Hint List
-assessment#:#conf_delete_pass_ctm#:#Wollen Sie Ihre bisherigen Antworten wirklich löschen?
-assessment#:#conf_delete_pass#:#Are you sure you want to delete your existing answers?
+assessment#:#conf_delete_pass_ctm#:#Are you sure you want to delete your existing answers?
+assessment#:#conf_delete_pass#:#Are you sure you want to delete your previous run?
 help#:#help_tooltips#:#Help Tooltips
 help#:#help_tooltip_id#:#Tooltip ID
 help#:#help_tt_text#:#Text
@@ -10258,16 +10264,16 @@ trac#:#trac_filter_has_status#:#Show also objects with status ‘not attempted�
 cat#:#cat_import#:#Import Category
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
-objref#:#objref_edit_ref#:#Ziel des Links
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
-crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
-crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
-crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
-crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+objref#:#objref_custom_title#:#Use own title
+objref#:#objref_edit_ref#:#Link target
+objref#:#objref_edit_title#:#Title
+objref#:#objref_reuse_title#:#Adopt the title of the linked object
+objref#:#objref_title_settings#:#Title of linked Object
+objref#:#objref_failure_target_type#:#The target of the link must be of the following type:
+crs#:#crs_ref_member_update#:#Add new members
+crs#:#crs_ref_member_update_info#:#All new members of the parent course are automatically entered in the course to which this course link refers.
+crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this course link does not have a parent course.
+crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either course.
 crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
 news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
@@ -10684,6 +10690,7 @@ rbac#:#rcat_visible#:#ECS Category is visible
 rbac#:#rcat_write#:#User can edit settings of ECS Category
 search#:#search_filter_by_type#:#Filter by Type
 search#:#search_off#:#Off
+search#:#search_on#:#On
 ecs#:#ecs_cmap_enable#:#Course Allocation
 ecs#:#ecs_cmap_def_cat#:#Default Category
 ecs#:#ecs_cmap_def_cat_info#:#Please enter the id of a category where all courses will be created that cannot be handled by other rules.
@@ -11326,6 +11333,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -11928,6 +11937,8 @@ content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, wh
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
+administration#:#adm_auth_reg#:#Authentication Registration
+administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
@@ -12078,7 +12089,8 @@ cntr#:#exc_next_deadline_single#:#Deadline
 file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and e-mails will be sent to administrators and users optionally.
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
@@ -13914,7 +13926,6 @@ style#:#skin_name#:#Skin Name
 style#:#skin_version#:#Skin Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style ID
-style#:#Style#:#Style
 style#:#style_name#:#Style Name
 style#:#image_dir#:#Image Directory
 style#:#font_dir#:#Font Directory
@@ -14137,7 +14148,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
@@ -14595,7 +14606,7 @@ grp#:#grp_user_been_added#:#The user has been added to the group.
 grp#:#grp_sure_create_group_add_user#:#Do you really want to create the group and add the user?
 grp#:#grp_create_and_add_user#:#Create and Add User
 grp#:#grp_next#:#Next
-grp#:#grp_created_and_user_been_added#:#Die Gruppe wurde erstellt und der Benutzer hinzugefügt.
+grp#:#grp_created_and_user_been_added#:#The group has been created and the user has been added.
 obj#:#obj_tool_setting_skills#:#Competences
 cont#:#cont_skill_assigned_comp#:#Competence Selection
 cont#:#cont_skill_members#:#Members
@@ -14740,7 +14751,7 @@ crs#:#crs_subscription_min_members_err#:#The minimum number is not allowed to be
 content#:#cont_lpe_login_form#:#Login Form
 content#:#cont_lpe_cas_login_form#:#CAS Login Form
 content#:#cont_lpe_shib_login_form#:#Shibboleth Login Form
-content#:#cont_lpe_openid_login_form#:#OpenId Login Form
+content#:#cont_lpe_openid_login_form#:#OpenID Login Form
 content#:#cont_lpe_registration_link#:#New Registration Link
 content#:#cont_lpe_language_selection#:#Language Selection
 content#:#cont_lpe_user_agreement_link#:#User Agreement Link
@@ -14846,6 +14857,8 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
+mme#:#flush#:#Remove Lost Items
+mme#:#msg_subitem_flushed#:#Lost Items removed.
 mme#:#main#:#Main Menu
 mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items
@@ -15361,7 +15374,6 @@ exc#:#exc_task_peer_feedback#:#Give Peer Feedback in Assignment "%1"
 content#:#cont_Attention#:#Attention
 content#:#cont_Confirmation#:#Confirmation
 content#:#cont_Information#:#Information
-content#:#cont_Link#:#Link
 content#:#cont_Literature#:#Literature
 content#:#cont_Separator#:#Separator
 content#:#cont_StandardCenter#:#Standard Center
@@ -15491,6 +15503,9 @@ svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
 file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 common#:#personal_resources#:#Personal Resources
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
@@ -16002,7 +16017,7 @@ prg#:#auto_membership_src_type#:#Type
 prg#:#membership_source_id#:#Id
 prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
 prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
-prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#modal_automembership_title#:#Add automatism
 prg#:#membership_source_type#:#Source
 prg#:#prg_autoassignment#:#(auto)
 prg#:#prg_some_users_may_not_be_accredited#:#Partially marked users accredited.
@@ -16196,3 +16211,7 @@ common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
+prg#:#no_srctype_or_id#:#Id and type may not be empty.
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.

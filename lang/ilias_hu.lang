@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.x 2020-10-22
+* @version	6.x 2021-01-01
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -8419,6 +8419,9 @@ rbac#:#cat_administrate_users#:#Helyi ILIAS-fiókok kezelése
 rbac#:#edit_permission#:#Jogosultságok módosítása
 rbac#:#edit_event#:#Naptár módosítása
 book#:#book_set_cancel#:#Foglalás törlése
+book#:#reservation_deleted#:#A foglalást sikeresen törölte
+book#:#X_reservations_of#:#%s foglalás / 
+book#:#book_set_delete#:#Törlése
 rbac#:#book_edit_permission#:#A felhasználó megváltoztathatja a foglalásgyűjteményt jogosultságait
 rbac#:#book_visible#:#A foglalásgyűjtemény látható
 rbac#:#book_read#:#A felhasználó foglalhat a foglalásgyűjtemény erőforrásaiból/objektumaiból
@@ -14843,6 +14846,8 @@ crs#:#crs_lhist_objective_completed#:#$3$ elsajátítva $1$ alatt.
 trac#:#trac_lhist_obj_completed_in#:#$1$ befejezve $2$ alatt.
 trac#:#trac_lhist_obj_completed#:#$1$ befejezve.
 lhist#:#lhist_learning_history#:#Tanulási történelem
+mme#:#flush#:#Elveszett elemek törlése
+mme#:#msg_subitem_flushed#:#Az elveszett elemeket sikeresen törölte.
 mme#:#main#:#Főmenü
 mme#:#subtab_topitems#:#Főelemek
 mme#:#subtab_subitems#:#Elemek
@@ -15358,7 +15363,6 @@ exc#:#exc_task_peer_feedback#:#'%1' feladatban visszajelzése küldése
 content#:#cont_Attention#:#Figyelmeztetés
 content#:#cont_Confirmation#:#Megerősítés
 content#:#cont_Information#:#Információ
-content#:#cont_Link#:#Link
 content#:#cont_Literature#:#Irodalom
 content#:#cont_Separator#:#Elválasztó
 content#:#cont_StandardCenter#:#Szövegtörzs középre
@@ -15488,6 +15492,9 @@ svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
 pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
 file#:#personal_resources_disk_quota#:#A Személyes erőforrások kemény lemezkorlátja
 file#:#personal_resources_disk_quota_info#:#Az összes globális szerep és az összes felhasználói fiók kemény lemezkorlátjának meghatározása. Ez a korlát csak a személyes erőforrásokban és a portfóliókban lévő fájlokra értendő. Amikor a felhasználó meghaladja ezt a korlátot, az ILIAS megakadályozza a további fájlok feltöltését mindaddig, míg a lemezhasználat újra a korlát alá nem került.
+file#:#personal_workspace_disk_quota#:#A Személyes munkaterület kemény lemezkorlátja
+file#:#personal_workspace_quota_exceeded_warning#:#Elérte személyes munkaterülete lemezkorlátját.
+file#:#personal_workspace_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
 common#:#personal_resources#:#Személyes erőforrások
 file#:#personal_resources_quota_exceeded_warning#:#Elérte személyes erőforrási lemezkorlátját.
 file#:#personal_resources_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
@@ -15838,6 +15845,8 @@ cmix#:#conf_user_ident_il_uuid_login#:#Az ILIAS felhasználónév és az egyedi 
 cmix#:#conf_user_ident_il_uuid_login_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
 cmix#:#conf_user_ident_il_uuid_ext_account#:#A külső user id és az egyedi ILIAS platform id e-mail cím formátumban.
 cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged a felhasználóra.
+cmix#:#conf_user_ident_il_uuid_random#:#Véletlen id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_random_info#:#Az összes ILIAS objektum és az összes ILIAS felhasználó számára egy véletlen azonosítót generálunk minden híváskor, így a felhasználóval kapcsolatos következtetések nagyon korlátozottak lesznek, mert gyakorlatilag lehetetlen objektumokra hivatkozó felhasználói profilokat létrehozni.
 cmix#:#conf_user_ident_real_email#:#E-mail cím
 cmix#:#conf_user_ident_real_email_info#:#A felhasználó e-mail címét küldi azonosításként (Figyelem: egy e-mail címet több felhasználó is használhat!)
 cmix#:#conf_user_name#:#Felhasználó neve
@@ -16007,6 +16016,7 @@ prg#:#prg_some_users_may_not_be_marked_not_relevant#:#Részben meg nem jelölt r
 orgu#:#org_op_view_members#:#Tagok megtekintése
 orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
 orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
+prg#:#prg_formatted_period#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#dealine_period_info#:#A hozzárendelés után a feldogozásra adott napok száma
 prg#:#dealine_date_info#:#Határidő
@@ -16190,4 +16200,13 @@ common#:#lso_admin_form_title#:#Beállítások
 common#:#lso_admin_form_byline#:#Tanulási sor általános beállításai
 common#:#lso_admin_interval_label#:#Tanulási haladás frissítésének időköze (másodperc)
 common#:#lso_admin_interval_byline#:#A még nem teljesített Tanulási haladást minden  x. másodpercben újra lekérjük. Legyen óvatos! Túl alacsony érték negatívan hathat a szerver teljesítményére. A lehető legnagyobb értéket válassza!
-prg#:#prg_formatted_period#:#%d days###23 10 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable

@@ -242,29 +242,29 @@ class FileInputTest extends ILIAS_UI_TestBase
                     $resource_registry,
                     new FSLoader(
                         new DefaultRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
-                    ),
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
+                        ),
                         new GlyphRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
-                    ),
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
+                        ),
                         new FieldRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
+                        )
                     )
                 )
-            )
-        );
+            );
 
         return new TestDefaultRenderer($component_renderer_loader);
     }

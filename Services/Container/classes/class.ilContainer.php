@@ -1258,7 +1258,6 @@ class ilContainer extends ilObject
             return $i["obj_id"];
         }, $objects);
         $filter_data = $container_user_filter->getData();
-
         foreach ($filter_data as $key => $val) {
             if (count($obj_ids) == 0) {    // stop if no object ids are left
                 continue;
@@ -1306,6 +1305,7 @@ class ilContainer extends ilObject
                             $result_obj_ids[] = $rec["obj_id"];
                         }
                         $obj_ids = array_intersect($obj_ids, $result_obj_ids);
+                        $obj_ids = $this->legacyOnlineFilter($obj_ids, $objects, $val);
                     }
                 } elseif ($field_id == ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT) {
                     $result = null;
@@ -1416,4 +1416,65 @@ class ilContainer extends ilObject
 
         return $objects;
     }
+
+    /**
+     * Legacy online filter
+     *
+     * This can be removed, once all objects use the central online/offline property
+     *
+     * @param $obj_ids
+     * @param $objects
+     * @param $val
+     * @return mixed
+     */
+    protected function legacyOnlineFilter($obj_ids, $objects, $val)
+    {
+        $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt"];
+        foreach ($legacy_types as $type) {
+            $lobjects = array_filter($objects, function($o) use ($type) {
+                return ($o["type"] == $type);
+            });
+            $lobj_ids = array_map(function($i){
+                return $i["obj_id"];
+            }, $lobjects);
+            switch($type) {
+                case "glo":
+                    $status = ilObjGlossaryAccess::_lookupOnlineStatus($lobj_ids);
+                    break;
+                case "wiki":
+                    $status = ilObjWikiAccess::_lookupOnlineStatus($lobj_ids);
+                    break;
+                case "book":
+                    $status = ilObjBookingPoolAccess::_lookupOnlineStatus($lobj_ids);
+                    break;
+                case "qpl":
+                    $status = [];
+                    foreach ($lobj_ids as $lid) {
+                        $status[$lid] = ilObjQuestionPoolAccess::isOnline($lid);
+                    }
+                    break;
+                case "dcl":
+                    $status = [];
+                    foreach ($lobj_ids as $lid) {
+                        $status[$lid] = ilObjDataCollectionAccess::_lookupOnline($lid);
+                    }
+                    break;
+                case "prtt":
+                    $status = ilObjPortfolioTemplateAccess::_lookupOnlineStatus($lobj_ids);
+                    break;
+            }
+            foreach($status as $obj_id => $online) {
+                if ($val == 1 && !$online || $val == 2 && $online) {
+                    if (($key = array_search($obj_id, $obj_ids)) !== false) {
+                        unset($obj_ids[$key]);
+                    }
+                }  else if (!in_array($obj_id, $obj_ids)) {
+                    $obj_ids[] = $obj_id;
+                }
+            }
+        }
+
+        return $obj_ids;
+    }
+
 } // END class ilContainer

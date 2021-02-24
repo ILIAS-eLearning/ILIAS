@@ -734,6 +734,9 @@ class ilObjStudyProgramme extends ilContainer
                         continue;
                     }
                     $r_parent = $reference->getParent();
+                    if (is_null($r_parent)) {
+                        continue;
+                    }
                     array_push($queque, $r_parent);
                     $parents[] = $r_parent;
                 }
@@ -1005,8 +1008,8 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Remove a node from this object.
      *
-     * Throws when node is no child of the object. Throws, when manipulation
-     * of tree is not allowed due to invariants that need to hold on the tree.
+     * Throws when node is no child of the object.
+     * Throws when manipulation of tree is not allowed due to invariants that need to hold on the tree.
      *
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
@@ -1079,8 +1082,8 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Remove a leaf from this object.
      *
-     * Throws when leaf is not a child of this object. Throws, when manipulation
-     * of tree is not allowed due to invariants that need to hold on the tree.
+     * Throws when leaf is not a child of this object.
+     * Throws when manipulation of tree is not allowed due to invariants that need to hold on the tree.
      *
      * @throws ilException
      * @throws ilStudyProgrammeTreeException
@@ -1101,7 +1104,7 @@ class ilObjStudyProgramme extends ilContainer
     /**
      * Move this tree node to a new parent.
      *
-     * Throws, when manipulation of tree is not allowed due to invariants that
+     * Throws when manipulation of tree is not allowed due to invariants that
      * need to hold on the tree.
      *
      * @throws ilStudyProgrammeTreeException
@@ -1388,8 +1391,30 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function addMissingProgresses() : void
     {
-        foreach ($this->getAssignments() as $ass) {
-            $ass->addMissingProgresses();
+        $progress_repository = $this->progress_repository;
+        $log = $this->getLog();
+
+        foreach ($this->getAssignments() as $ass) { /** ilStudyProgrammeUserAssignment[] */
+            $id = $ass->getId();
+            $assignment = $ass->getSPAssignment();
+
+            $mapping = function (ilObjStudyProgramme $node) use ($id, $log, $progress_repository, $assignment) {
+                try {
+                    $node->getProgressForAssignment($id);
+                } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
+                    $log->debug("Adding progress for: " . $id . " " . $node->getId());
+                    $progress_repository->update(
+                        $progress_repository->createFor(
+                            $node->getRawSettings(),
+                            $assignment
+                        )->setStatus(
+                            ilStudyProgrammeProgress::STATUS_NOT_RELEVANT
+                        )
+                    );
+                }
+            };
+
+            $this->applyToSubTreeNodes($mapping, true);
         }
     }
 
@@ -1991,7 +2016,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $log = $DIC['ilLog'];
+        $log = $this->getLog();
         $lng->loadLanguageModule("prg");
         $lng->loadLanguageModule("mail");
 
@@ -2066,5 +2091,11 @@ class ilObjStudyProgramme extends ilContainer
         }
 
         return $send;
+    }
+
+
+    protected function getLog()
+    {
+        return ilLoggerFactory::getLogger($this->type);
     }
 }

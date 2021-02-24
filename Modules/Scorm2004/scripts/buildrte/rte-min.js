@@ -1,4 +1,4 @@
-// Build: 2018118230830 
+// Build: 2021217191655 
 
 function ADLAuxiliaryResource()
 {}
@@ -2591,8 +2591,12 @@ if(async)
 {xhttp.onreadystatechange=onStateChange;xhttp.send(data?String(data):'');}else
 {xhttp.send(data?String(data):'');return onStateChange();}}
 function sendJSONRequest(url,data,callback,user,password,headers)
-{if(typeof headers!=="object"){headers={};}
-headers['Accept']='text/javascript';headers['Accept-Charset']='UTF-8';var r=sendAndLoad(url,toJSONString(data),callback,user,password,headers);if(r.content){if(r.content.indexOf("login.php")>-1||r.content.indexOf("formlogin")>-1){var thref=window.location.href;thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";window.location.href=thref;}}
+{function unloadChrome(){if(navigator.userAgent.indexOf("Chrom")>-1){if(typeof(document.getElementById("res"))!="undefined"&&typeof(document.getElementById("res").contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.event.type=="beforeunload")){return true;}}
+return false;}
+if(typeof headers!=="object"){headers={};}
+headers['Accept']='text/javascript';headers['Accept-Charset']='UTF-8';if(url==this.config.store_url&&unloadChrome()){var r=sendAndLoad(url,toJSONString(data),true,user,password,headers);console.log("async request for chrome");return"1";}
+if(url==this.config.scorm_player_unload_url&&navigator.userAgent.indexOf("Chrom")>-1){navigator.sendBeacon(url,toJSONString(data));return"1";}
+var r=sendAndLoad(url,toJSONString(data),callback,user,password,headers);if(r.content){if(r.content.indexOf("login.php")>-1||r.content.indexOf("formlogin")>-1){var thref=window.location.href;thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";window.location.href=thref;}}
 if((r.status===200&&(/^text\/javascript;?.*/i).test(r.type))||r.status===0)
 {return parseJSONString(r.content);}
 else
@@ -2643,6 +2647,7 @@ var userInteraction=false;function launchTarget(target,isJump){if(userInteractio
 onItemUndeliver();mlaunch=msequencer.navigateStr(target,isJump);if(mlaunch.mSeqNonContent==null){onItemDeliver(activities[mlaunch.mActivityID]);}else{loadPage(gConfig.specialpage_url+"&page="+mlaunch.mSeqNonContent);}}
 function launchNavType(navType,isUserCurrentlyInteracting){if(!isUserCurrentlyInteracting&&userInteraction){userInteraction=false;return null;}
 if(navType=='SuspendAll'){err=currentAPI.SetValueIntern("cmi.exit","suspend");activities[msequencer.mSeqTree.mCurActivity.mActivityID].exit="suspend";}
+if(navType==='ExitAll'||navType==='Exit'||navType==='SuspendAll'){onWindowUnload();}
 onItemUndeliver();mlaunch=new ADLLaunch();if(navType==='Start'){mlaunch=msequencer.navigate(NAV_START);}
 if(navType==='ResumeAll'){mlaunch=msequencer.navigate(NAV_RESUMEALL);}
 if(navType==='Exit'){mlaunch=msequencer.navigate(NAV_EXIT);}
@@ -2960,7 +2965,7 @@ if(mObjStatus.mHasProgressMeasure)
 obj="cmi.objectives."+idx+".completion_status";err=currentAPI.SetValueIntern(obj,mObjStatus.mCompletionStatus);}}}}
 function syncCMIADLTree(){var mPRIMARY_OBJ_ID=null;var masteryStatus=null;var sessionTime=null;var entry=null;var normalScore=-1.0;var progressMeasure=null;var completionStatus=null;var SCOEntry=null;var suspended=false;SCOEntry=currentAPI.GetValueIntern("cmi.exit");completionStatus=currentAPI.GetValueIntern("cmi.completion_status");var completionSetBySCO=currentAPI.GetValueIntern("cmi.completion_status_SetBySco");if(completionStatus=="not attempted")completionStatus="incomplete";progressMeasure=currentAPI.GetValueIntern("cmi.progress_measure");if(progressMeasure==""||progressMeasure=="unknown")
 {progressMeasure=null;}
-masteryStatus=currentAPI.GetValueIntern("cmi.success_status");var masterySetBySCO=currentAPI.GetValueIntern("cmi.success_status_SetBySco");SCOEntry=currentAPI.GetValueIntern("cmi.entry");score=currentAPI.GetValueIntern("cmi.score.scaled");sessionTime=currentAPI.GetValueIntern("cmi.session_time");var act=msequencer.mSeqTree.getActivity(mlaunch.mActivityID);if(act.getIsTracked())
+masteryStatus=currentAPI.GetValueIntern("cmi.success_status");var masterySetBySCO=currentAPI.GetValueIntern("cmi.success_status_SetBySco");SCOEntry=currentAPI.GetValueIntern("cmi.entry");score=currentAPI.GetValueIntern("cmi.score.scaled");sessionTime=currentAPI.GetValueIntern("cmi.session_time");var act=msequencer.mSeqTree.getActivity(mlaunch.mActivityID);if(act&&act.getIsTracked())
 {var primaryObjID=null;var foundPrimaryObj=false;var setPrimaryObjSuccess=false;var setPrimaryObjScore=false;objs=act.getObjectives();if(objs!=null){for(var j=0;j<objs.length;j++){obj=objs[j];if(obj.mContributesToRollup==true){if(obj.mObjID!=null)primaryObjID=obj.mObjID;break;}}}
 var numObjs=currentAPI.GetValueIntern("cmi.objectives._count");for(var i=0;i<numObjs;i++){var obj="cmi.objectives."+i+".id";var objID=currentAPI.GetValueIntern(obj);if(primaryObjID!=null&&objID==primaryObjID)foundPrimaryObj=true;else foundPrimaryObj=false;obj="cmi.objectives."+i+".success_status";objMS=currentAPI.GetValueIntern(obj);var msSetBySCO=currentAPI.GetValueIntern(obj+"_SetBySco");if(objMS=="passed"){msequencer.setAttemptObjSatisfied(mlaunch.mActivityID,objID,"satisfied");if(foundPrimaryObj==true)
 {act.primaryStatusSetBySCO(currentAPI.GetValueIntern(obj+"_SetBySco")=='true');setPrimaryObjSuccess=true;masteryStatus=objMS;}}
@@ -3033,7 +3038,7 @@ updateNavForSequencing();if(!this.config.sequencing_enabled)updateNav();return t
 var apiIndents={'cmi':{'score':['raw','min','max','scaled'],'learner_preference':['audio_captioning','audio_level','delivery_speed','language']},'objective':{'score':['raw','min','max','scaled']}};function updateNav(ignore){function signActNode(){if(elm){if(activities[tree[i].mActivityID].href&&guiItemId==elm.id){removeClass(elm.parentNode,"ilc_rte_status_RTENotAttempted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEIncomplete",1);removeClass(elm.parentNode,"ilc_rte_status_RTECompleted",1);removeClass(elm.parentNode,"ilc_rte_status_RTEFailed",1);removeClass(elm.parentNode,"ilc_rte_status_RTEPassed",1);toggleClass(elm,"ilc_rte_tlink_RTETreeCurrent",1);toggleClass(elm.parentNode,"ilc_rte_status_RTERunning",1);}else{removeClass(elm,"ilc_rte_tlink_RTETreeCurrent");removeClass(elm.parentNode,"ilc_rte_status_RTERunning");}}}
 if(!all("treeView")){return;}
 if(ignore!=true){setToc();}
-var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
+var tree=msequencer.mSeqTree.mActivityMap;var disable;var first=true;for(i in tree){var disable=true;var disabled_str="";var test=null;if(mlaunch.mNavState&&typeof(mlaunch.mNavState.mChoice)!="undefined"&&mlaunch.mNavState.mChoice!=null){test=mlaunch.mNavState.mChoice[i];}
 if(test){if(test['mIsSelectable']==true&&test['mIsEnabled']==true){disable=false;}else{disable=true;disabled_str="Disabled";}}
 var elm=all(ITEM_PREFIX+tree[i].mActivityID);if(disable)
 {toggleClass(elm,'ilc_rte_tlink_RTETreeLinkDisabled',1);}

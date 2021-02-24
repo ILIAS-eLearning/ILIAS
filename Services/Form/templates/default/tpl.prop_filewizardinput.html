@@ -3,13 +3,14 @@
 	<div class="wzdrow form-inline">
 	<!-- BEGIN image -->	<img style="margin: 5px 0px 5px 0px;" src="{SRC_IMAGE}" alt="{ALT_IMAGE}" {WIDTH} {HEIGHT}  /><input type="hidden" name="picture_{ID}" value="{PICTURE_FILE}" /><br /><!-- END image -->
 		<input type="file" class="form-control" id="{ID}" name="{POST_VAR}" size="30" />
-		<button type="button" name="{CMD_ADD}" class="imagewizard_add btn btn-link" id="add_{ID}" onclick="javascript: return false;" >{ADD_BUTTON}</button>
-		<button type="button" name="{CMD_REMOVE}" class="imagewizard_remove btn btn-link" id="remove_{ID}" onclick="javascript: return false;">{REMOVE_BUTTON}</button>	
+		<button type="button" name="{CMD_ADD}" class="imagewizard_add btn btn-link" id="add_{ID}" data-val="{MAX_UPLOAD_VALUE}" onclick="javascript: return false;" >{ADD_BUTTON}</button>
+		<button type="button" name="{CMD_REMOVE}" class="imagewizard_remove btn btn-link" id="remove_{ID}" data-val="{MAX_UPLOAD_VALUE}" onclick="javascript: return false;">{REMOVE_BUTTON}</button>
 	<!-- BEGIN move -->
 		<button type="button" name="{CMD_UP}" class="imagewizard_up btn btn-link" id="up_{ID}" onclick="javascript: return false;" >{UP_BUTTON}</button>
 		<button type="button" name="{CMD_DOWN}" class="imagewizard_down btn btn-link" id="down_{ID}" onclick="javascript: return false;">{DOWN_BUTTON}</button>	
 	<!-- END move -->
 		<div class="help-block">{TXT_MAX_SIZE}</div>
+		<div class="help-block">{TXT_MAX_UPLOADS}</div>
 	<!-- BEGIN allowed_image_suffixes -->
 		<div class="help-block">{TXT_ALLOWED_SUFFIXES}</div>
 	<!-- END allowed_image_suffixes -->

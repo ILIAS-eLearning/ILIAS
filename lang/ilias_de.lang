@@ -43,6 +43,8 @@ common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
 common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
+common#:#tools#:#Tools
+common#:#more#:#Mehr
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
@@ -175,14 +177,14 @@ auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rol
 auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
 auth#:#auth_oidc_settings_session_duration#:#Dauer
 auth#:#auth_oidc#:#OpenID-Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenID-Connect-Attributen
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Profildaten zu OpenID-Connect-Attributen
 auth#:#auth_oidc_settings#:#Server-Einstellungen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_roles#:#Rollenzuordnung
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Connect-Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
-content#:#cont_lpe_openid_connect_login#:#OpenId-Connect-Login
+content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
@@ -224,7 +226,7 @@ common#:#lti_outcome_info#:#Sendet den Lernfortschrittstatus von LTI-Benutzern a
 lti#:#act_lti_for_obj_type#:#LTI für diese Objekttypen aktivieren
 lti#:#gbl_roles_to_users#:#LTI-Nutzern zugeordnete globale Rolle
 lti#:#consumers#:#Konsumenten
-lti#:#prefix#:#Prefix
+lti#:#prefix#:#Präfix
 lti#:#lti_consumer_key#:#Consumer Key
 lti#:#lti_consumer_secret#:#Consumer Secret
 lti#:#user_lng#:#Benutzersprache
@@ -417,6 +419,8 @@ administration#:#adm_activate_db_benchmark#:#Messung aktivieren
 administration#:#adm_activate_db_benchmark_desc#:#Die Messung wird automatisch nach einem Server-Request beendet.
 administration#:#adm_add_settings_template#:#Vorlagen hinzufügen
 administration#:#adm_layout_and_navigation#:#Layout und Navigation
+administration#:#adm_auth_reg#:#Authentifizierung Registrierung
+administration#:#adm_auth_login#:#Authentifizierung Login
 administration#:#adm_db_bench_by_first_table#:#Aggregiert nach dem ersten Tabellennamen
 administration#:#adm_db_bench_chronological#:#Chronologisch
 administration#:#adm_db_bench_slowest_first#:#Langsamste zuerst
@@ -624,7 +628,7 @@ adve#:#adve_grp_glo#:#Glossare
 adve#:#adve_grp_lm#:#ILIAS-Lernmodule
 adve#:#adve_grp_rep#:#Magazinseiten
 adve#:#adve_grp_scorm#:#SCORM-Module
-adve#:#adve_grp_test#:#Test and Assessment
+adve#:#adve_grp_test#:#Test und Assessment
 adve#:#adve_grp_wiki#:#Wikis
 adve#:#adve_page_editor_settings#:#ILIAS-Seiteneditor
 adve#:#adve_pe_general#:#Einstellungen
@@ -1922,6 +1926,7 @@ assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und akt
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
+assessment#:#autosavecontent#:#Inhalt Autosave
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
@@ -2958,6 +2963,7 @@ common#:#err_role_not_assignable#:#Der Rolle können an dieser Position keine Be
 common#:#err_session_expired#:#Ihre Session ist abgelaufen!
 common#:#err_wrong_header#:#Grund: Falscher Header
 common#:#err_wrong_login#:#Benutzername oder Passwort ungültig
+common#:#err_valid_login_account_creation_disabled#:#Die Authentifizierung war erfolgreich, jedoch ist die Erstellung neuer Benutzerkonten nicht aktiviert. Bitte wenden Sie Sich an Ihren Systemadministrator.
 common#:#err_wrong_password#:#Falsches Passwort
 common#:#error#:#Fehler
 common#:#error_parser#:#Fehler beim Starten des Parsers.
@@ -4265,7 +4271,7 @@ common#:#shib_department#:#Attribut für Departement
 common#:#shib_email#:#Attribut für E-Mailadresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
-common#:#shib_gender#:#Attribut für Anrede (muss 'm' oder 'f' sein)
+common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
 common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
@@ -6496,6 +6502,7 @@ form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmet
 form#:#form_please_select#:#Bitte auswählen
 form#:#form_retype_password#:#Passwort nochmals eingeben
 form#:#form_seconds#:#Sekunden
+form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Dateien:
 forum#:#activate_new_posts#:#Neue Beiträge freischalten
 forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
@@ -8495,6 +8502,7 @@ scormdebug#:#unknown#:#unbekannt
 search#:#add_members_header#:#Benutzer hinzufügen
 search#:#adv_md_search_title#:#Suche in den erweiterten Metadaten
 search#:#append_results#:#Ergebnisse anhängen
+search#:#search_field#:#Sucheingabefeld
 search#:#last_search_result#:#Letztes Suchergebnis
 search#:#lucene_activate_field#:#Suche aktivieren
 search#:#lucene_advanced_settings#:#Erweiterte Suche
@@ -10707,6 +10715,7 @@ rbac#:#rcat_visible#:#ECS-Kategorie ist sichtbar
 rbac#:#rcat_write#:#ECS-Kategorie bearbeiten
 search#:#search_filter_by_type#:#Typfilter
 search#:#search_off#:#Aus
+search#:#search_on#:#An
 ecs#:#ecs_cmap_enable#:#Kurszuordnung
 ecs#:#ecs_cmap_def_cat#:#Standard-Kategorie
 ecs#:#ecs_cmap_def_cat_info#:#Bitte geben Sie die Kategorie an, in welcher Kurse angelegt werde sollen, die über bestehende Regeln nicht zugeordnet werden können.
@@ -11311,6 +11320,8 @@ rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
+rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -11997,7 +12008,8 @@ cntr#:#exc_next_deadline_single#:#Abgabefrist
 file#:#repository_disk_quota_info#:#Wenn aktiviert, werden für alle Benutzer die Disk-Quota im Magazin geprüft und optional E-Mails an Administratoren und Benutzer versendet.
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
+survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern / Tutoren Ergebnisse zusenden
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert und Tutoren erhalten die Ergebnisse zugesendet.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
@@ -13910,7 +13922,6 @@ style#:#skin_name#:#Skin-Titel
 style#:#skin_version#:#Skin-Version
 style#:#skin#:#Skin
 style#:#style_id#:#Style-ID
-style#:#Style#:#Style
 style#:#style_name#:#Style-Titel
 style#:#image_dir#:#Icon-Ordner
 style#:#font_dir#:#Schrift-Ordner
@@ -14063,7 +14074,7 @@ didactic#:#activate_local_didactic_template#:#Gültigkeitsbereich
 didactic#:#effective_form#:#Vorlage wirksam ab
 didactic#:#more_translations#:#Weitere Übersetzungen
 didactic#:#didactic_template_update_import#:#Aktualisierung Didaktischer Vorlagen
-didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß des Imports angepasst. Objekte an denen diese Vorlage bereits angewandt wurde werden nicht verändert.
+didactic#:#didactic_template_update_import_info#:#Alle Eigenschaften werden gemäß der Importdatei angepasst. Objekte, die die Einstellungen dieser Vorlage bereits nutzen, werden nicht verändert.
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
 didactic#:#didactic_cannot_delete_auto_generated#:#Das Löschen von automatisch generierten Didaktischen Vorlagen ist nicht erlaubt.
@@ -14131,7 +14142,7 @@ iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
+iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
@@ -14828,6 +14839,8 @@ crs#:#crs_lhist_objective_completed#:#Bestanden $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ wurde abgeschlossen in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ wurde abgeschlossen.
 lhist#:#lhist_learning_history#:#Lernverlauf
+mme#:#flush#:#Verlorene Einträge löschen
+mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
@@ -14840,7 +14853,7 @@ mme#:#topitem_edit#:#Bearbeiten
 mme#:#topitem_delete#:#Löschen
 mme#:#topitem_translate#:#Übersetzen
 mme#:#topitem_position#:#Position
-mme#:#topitem_title#:#Title
+mme#:#topitem_title#:#Titel
 mme#:#topitem_active#:#Aktiv
 mme#:#topitem_subentries#:#Einträge
 mme#:#topitem_provider#:#Provider
@@ -15352,14 +15365,13 @@ exc#:#exc_task_peer_feedback#:#Peer-Feedback geben in Übungseinheit "%1"
 content#:#cont_Attention#:#Achtung
 content#:#cont_Confirmation#:#Bestätigung
 content#:#cont_Information#:#Information
-content#:#cont_Link#:#Link
 content#:#cont_Literature#:#Literatur
 content#:#cont_Separator#:#Begrenzer
 content#:#cont_StandardCenter#:#Standard Zentriert
 content#:#cont_Interaction#:#Interaktion
 content#:#cont_Background#:#Hintergrund
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
-certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit eineme aktiven Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv %s
+certificate#:#certificate_learning_progress_must_be_active#:#Nur Objekte mit aktivem Lernfortschritt dürfen ausgewählt werden. Bei folgenden Objekten ist der Lernfortschritt nicht aktiv: %s
 certificate#:#learning_progress_deactivated#:#Der Lernfortschritt für dieses Objekt ist deaktiviert. Zum Bearbeiten der Zertifikatsvorlage und zum Erhalten von Nutzerzertifikaten muss der Lernfortschritt aktiviert sein.
 exc#:#exc_tbl_action_open_submission#:#Abgaben öffnen
 exc#:#exc_copy_zip_error#:#Die Abgabe kann nicht geöffnet werden. Es ist ein Fehler beim Kopieren der Dateien aufgetreten.
@@ -15367,7 +15379,7 @@ exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originald
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
-wiki#:#wiki_notification_comment_subject#:#Es wurd ein Kommentar zur Seite "%s: %s" hinzugefügt
+wiki#:#wiki_notification_comment_subject#:#Es wurde ein Kommentar zur Seite "%s: %s" hinzugefügt
 wiki#:#wiki_notification_comment#:#die folgende Seite wurde kommentiert
 wiki#:#wiki_commented_by#:#Autor
 content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
@@ -15377,7 +15389,7 @@ content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deak
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
 content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
 content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
-content#:#cont_notification_comment_subject_lm#:#Es wurd ein Kommentar zur Seite %s: %s" hinzugefügt
+content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
@@ -15479,8 +15491,11 @@ svy#:#svy_status_finished#:#Beendet
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
-file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_resources_disk_quota#:#Disk-Quota für Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönlichen Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
+file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Speicherplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um Platz für neue Dateien zu schaffen.
+file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 common#:#personal_resources#:#Persönliche Ressourcen
 file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
@@ -16196,3 +16211,7 @@ common#:#lso_admin_form_title#:#Einstellungen
 common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
 common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
+prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
+tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".

@@ -70,6 +70,10 @@ grid-based layout
     height: 100%;
 	overflow: hidden;
 	width: 100%;
+	hyphens: auto;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
 	.il-maincontrols-mainbar {
 		.il-mainbar-close-slates {
 			display: none;
@@ -554,10 +558,12 @@ footer {
 @media print {
 	html body {
 		overflow: visible;
+		background: none;
 
 		.il-layout-page {
 			display: block;
 			overflow: visible;
+			background: none;
 
 			header,
 			.il-maincontrols,

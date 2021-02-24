@@ -1903,6 +1903,14 @@ class ilInitialisation
             $a_target = ILIAS_HTTP_PATH . "/" . $a_target;
         }
 
+        foreach (['ext_uid', 'soap_pw'] as $param) {
+            if (false === strpos($a_target, $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
+                $a_target = \ilUtil::appendUrlParameterString($a_target, $param . '=' . \ilUtil::stripSlashes(
+                    $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
+                ));
+            }
+        }
+
         if (ilContext::supportsRedirects()) {
             ilUtil::redirect($a_target);
         } else {

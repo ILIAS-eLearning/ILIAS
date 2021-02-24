@@ -53,7 +53,7 @@ function get_agent_name_by_class(string $class_name) : string
 // the setup for the command line version of the setup. Do not use this.
 function setup_exit($message)
 {
-    if (!defined("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES") && ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES) {
+    if (!defined("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES") || !ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES) {
         throw new \ILIAS\Setup\UnachievableException($message);
     }
 }

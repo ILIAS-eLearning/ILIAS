@@ -1834,6 +1834,7 @@ class ilPageObjectGUI
         
         // check cache (same parameters, non-edit mode and rendered time
         // > last change
+        $is_error = false;
         if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "presentation") &&
             !$this->getCompareMode() &&
             !$this->getAbstractOnly() &&
@@ -1845,12 +1846,18 @@ class ilPageObjectGUI
             $output = $this->obj->getRenderedContent();
         } else {
             $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
-
             $this->log->debug("Calling XSLT, content: " . substr($content, 0, 100));
-            $args = array( '/_xml' => $content, '/_xsl' => $xsl );
-            $xh = xslt_create();
-            $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-            
+            try {
+                $args = array( '/_xml' => $content, '/_xsl' => $xsl );
+                $xh = xslt_create();
+                $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+            } catch (Exception $e) {
+                $output = "";
+                if ($this->getOutputMode() == "edit") {
+                    $output = "<pre>".$e->getMessage()."<br>".htmlentities($content)."</pre>";
+                    $is_error = true;
+                }
+            }
             if (($this->getOutputMode() == "presentation" || $this->getOutputMode() == "preview")
                 && !$this->getAbstractOnly()
                 && $this->obj->old_nr == 0) {
@@ -1859,61 +1866,63 @@ class ilPageObjectGUI
             xslt_free($xh);
         }
 
-        // unmask user html
-        if (($this->getOutputMode() != "edit" ||
-                $this->user->getPref("ilPageEditor_HTMLMode") != "disable")
-            && !$this->getPageConfig()->getPreventHTMLUnmasking()) {
-            $output = str_replace("&lt;", "<", $output);
-            $output = str_replace("&gt;", ">", $output);
-        }
-        $output = str_replace("&amp;", "&", $output);
-        
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
-        $output = ilMathJax::getInstance()->insertLatexImages($output);
+        if (!$is_error) {
+            // unmask user html
+            if (($this->getOutputMode() != "edit" ||
+                    $this->user->getPref("ilPageEditor_HTMLMode") != "disable")
+                && !$this->getPageConfig()->getPreventHTMLUnmasking()) {
+                $output = str_replace("&lt;", "<", $output);
+                $output = str_replace("&gt;", ">", $output);
+            }
+            $output = str_replace("&amp;", "&", $output);
 
-        // insert page snippets
-        //$output = $this->insertContentIncludes($output);
+            include_once './Services/MathJax/classes/class.ilMathJax.php';
+            $output = ilMathJax::getInstance()->insertLatexImages($output);
 
-        // insert resource blocks
-        $output = $this->insertResources($output);
+            // insert page snippets
+            //$output = $this->insertContentIncludes($output);
 
-        // insert page toc
-        if ($this->getPageConfig()->getEnablePageToc()) {
-            $output = $this->insertPageToc($output);
-        }
+            // insert resource blocks
+            $output = $this->insertResources($output);
 
-        // insert advanced output trigger
-        $output = $this->insertAdvTrigger($output);
+            // insert page toc
+            if ($this->getPageConfig()->getEnablePageToc()) {
+                $output = $this->insertPageToc($output);
+            }
 
-        // workaround for preventing template engine
-        // from hiding paragraph text that is enclosed
-        // in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
-        $output = $this->replaceCurlyBrackets($output);
+            // insert advanced output trigger
+            $output = $this->insertAdvTrigger($output);
 
-        // remove all newlines (important for code / pre output)
-        $output = str_replace("\n", "", $output);
+            // workaround for preventing template engine
+            // from hiding paragraph text that is enclosed
+            // in curly brackets (e.g. "{a}", see ilLMEditorGUI::executeCommand())
+            $output = $this->replaceCurlyBrackets($output);
 
-        //echo htmlentities($output);
-        $output = $this->postOutputProcessing($output);
-        //echo htmlentities($output);
-        if ($this->getOutputMode() == "edit" &&
-            !$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation())) {
-            $output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
-        }
-        
-        // for all page components...
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
-        $defs = ilCOPagePCDef::getPCDefinitions();
-        foreach ($defs as $def) {
-            ilCOPagePCDef::requirePCClassByName($def["name"]);
-            $pc_class = $def["pc_class"];
-            $pc_obj = new $pc_class($this->getPageObject());
-            $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
-            $pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
-            $pc_obj->setFullscreenLink($this->determineFullscreenLink());
+            // remove all newlines (important for code / pre output)
+            $output = str_replace("\n", "", $output);
 
-            // post xsl page content modification by pc elements
-            $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
+            //echo htmlentities($output);
+            $output = $this->postOutputProcessing($output);
+            //echo htmlentities($output);
+            if ($this->getOutputMode() == "edit" &&
+                !$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation())) {
+                $output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
+            }
+
+            // for all page components...
+            include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                ilCOPagePCDef::requirePCClassByName($def["name"]);
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($this->getPageObject());
+                $pc_obj->setSourcecodeDownloadScript($this->determineSourcecodeDownloadScript());
+                $pc_obj->setFileDownloadLink($this->determineFileDownloadLink());
+                $pc_obj->setFullscreenLink($this->determineFullscreenLink());
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
+            }
         }
 
         $this->addResourcesToTemplate($main_tpl);

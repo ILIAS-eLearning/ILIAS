@@ -239,60 +239,30 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 
     public function sahs_questions()
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $this->setTabs();
         $this->setLocator();
-
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-        include_once("./Services/COPage/classes/class.ilPCQuestionGUI.php");
-
-        // load template for table
-        $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.scormeditor_sco_question.html", "Modules/Scorm2004");
-
-        $tbl = new ilTableGUI();
-        $tbl->setTitle("Questions for " . $this->node_object->getTitle());
-        $tbl->setHeaderNames(array("Question","Page"));
-        $cols = array("question","page");
-        //		$tbl->setHeaderVars($cols, $header_params);
-        $tbl->setHeaderVars($cols, 0);
-        $tbl->setColumnWidth(array("50%", "50%"));
-        $tbl->disable("sort");
-        $tbl->disable("footer");
 
         $tree = new ilTree($this->slm_object->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        $i = 0;
-
+        $questions = [];
         foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
             // get question ids
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($qids) > 0) {
                 // output questions
                 foreach ($qids as $qid) {
-                    $tpl->setCurrentBlock("tbl_content");
-                    $tpl->setVariable("TXT_PAGE_TITLE", $page["title"]);
-                    $ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $page["obj_id"]);
-                    $tpl->setVariable("HREF_EDIT_PAGE", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
-                    
-                    $qtitle = assQuestion::_getTitle($qid);
-                    $tpl->setVariable("TXT_QUESTION", $qtitle);
-                    $ilCtrl->setParameterByClass("ilscorm2004pagenodegui", "obj_id", $page["obj_id"]);
-                    //$tpl->setVariable("HREF_EDIT_QUESTION", $ilCtrl->getLinkTargetByClass("ilscorm2004pagenodegui", "edit"));
-                    
-                    $tpl->setVariable("CSS_ROW", ilUtil::switchColor($i++, "tblrow1", "tblrow2"));
-                    $tpl->parseCurrentBlock();
+                    $questions[] = [
+                        "page" => $page,
+                        "qid" => $qid
+                    ];
                 }
             }
         }
-        $tbl->render();
+
+        $tab = new ILIAS\Scorm2004\Editor\ilSCORMQuestionOverviewTableGUI($this, "sahs_questions");
+        $tab->setData($questions);
+        $this->tpl->setContent($tab->getHTML());
     }
 
     public function getEditTree()
@@ -769,110 +739,14 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
     
     public function sco_resources()
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
         $this->setTabs();
         $this->setLocator();
-        $i = 0;
-                
         $export_files = $this->getExportResources();
 
-        // create table
-        require_once("./Services/Table/classes/class.ilTableGUI.php");
-        $tbl = new ilTableGUI();
+        $tab = new \ILIAS\Scorm2004\Editor\ilSCORMMediaOverviewTableGUI($this, "sco_resources");
+        $tab->setData($export_files);
 
-        // load files templates
-        $tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
-
-        // load template for table content data
-        $tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.download_file_row.html", "Modules/LearningModule");
-
-        $num = 0;
-
-        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-
-        $tbl->setTitle($lng->txt("cont_files"));
-
-        $tbl->setHeaderNames(array($lng->txt("cont_format"),
-            $lng->txt("cont_file"),
-            $lng->txt("size"), $lng->txt("date"),
-            ""));
-        
-        $cols = array("format", "file", "size", "date", "download");
-        $header_params = array("ref_id" => $_GET["ref_id"], "obj_id" => $_GET["obj_id"],
-            "cmd" => "sco_resources", "cmdClass" => strtolower(get_class($this)),
-            "cmdNode" => $_GET["cmdNode"], "baseClass" => $_GET["baseClass"]);
-        $tbl->setHeaderVars($cols, $header_params);
-        $tbl->setColumnWidth(array("10%", "30%", "20%", "20%","20%"));
-        $tbl->disable("sort");
-
-        $tbl->setOrderColumn($_GET["sort_by"]);
-        $tbl->setOrderDirection($_GET["sort_order"]);
-        $tbl->setLimit($_GET["limit"]);
-        $tbl->setOffset($_GET["offset"]);
-        $tbl->setMaxCount($this->maxcount);		// ???
-        
-
-        $tbl->setMaxCount(count($export_files));
-
-        // footer
-        $tbl->setFooter("tblfooter", $lng->txt("previous"), $lng->txt("next"));
-        //$tbl->disable("footer");
-
-        $tbl->setMaxCount(count($export_files));
-        $export_files = array_slice($export_files, $_GET["offset"], $_GET["limit"]);
-        
-        $tbl->render();
-        if (count($export_files) > 0) {
-            $i = 0;
-            foreach ($export_files as $exp_file) {
-                /* remote files (youtube videos) have no size, so we allow them now
-                if (!$exp_file["size"] > 0)
-                {
-                    continue;
-                }
-                */
-                
-                $tpl->setCurrentBlock("tbl_content");
-                $tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-                $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-                $tpl->setVariable("CSS_ROW", $css_row);
-
-                $tpl->setVariable("TXT_SIZE", $exp_file["size"]);
-                $tpl->setVariable("TXT_FORMAT", $exp_file["type"]);
-                
-                $tpl->setVariable("TXT_DATE", $exp_file["date"]);
-                                                
-                if ($exp_file["size"] > 0) {
-                    $tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-                    $ilCtrl->setParameter($this, "resource", rawurlencode($exp_file["path"]));
-                    $ilCtrl->setParameter($this, "file_id", rawurlencode($exp_file["file_id"]));
-                    $tpl->setVariable(
-                        "LINK_DOWNLOAD",
-                        $ilCtrl->getLinkTarget($this, "downloadResource")
-                    );
-                } else {
-                    $tpl->setVariable("TXT_DOWNLOAD", $lng->txt("show"));
-                    $tpl->setVariable("LINK_TARGET", " target=\"_blank\"");
-                    $tpl->setVariable("LINK_DOWNLOAD", $exp_file["path"]);
-                }
-
-                $tpl->parseCurrentBlock();
-            }
-        } //if is_array
-        /* not found in template?
-        else
-        {
-            $tpl->setCurrentBlock("notfound");
-            $tpl->setVariable("TXT_OBJECT_NOT_FOUND", $lng->txt("obj_not_found"));
-            $tpl->setVariable("NUM_COLS", 4);
-            $tpl->parseCurrentBlock();
-        }
-         */
-        // $tpl->parseCurrentBlock();
+        $this->tpl->setContent($tab->getHTML());
     }
     
     public function downloadResource()

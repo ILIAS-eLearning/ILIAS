@@ -669,6 +669,7 @@ class ilFileUtils
             'gif',   // IMAGE__GIF,
             'gl',   // VIDEO__GL,
             'gan',
+            'ggb', // GEOGEBRA
             'gsd',   // AUDIO__X_GSM,
             'gsm',   // AUDIO__X_GSM,
             'gtar',   // APPLICATION__X_GTAR,

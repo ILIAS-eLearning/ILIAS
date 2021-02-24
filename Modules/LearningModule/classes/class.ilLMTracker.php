@@ -179,25 +179,17 @@ class ilLMTracker
      */
     public function trackLastPageAccess($usr_id, $lm_id, $obj_id)
     {
-        $ilDB = $this->db;
-
-        // first check if an entry for this user and this lm already exist, when so, delete
-        $q = "DELETE FROM lo_access " .
-            "WHERE usr_id = " . $ilDB->quote((int) $usr_id, "integer") . " " .
-            "AND lm_id = " . $ilDB->quote((int) $lm_id, "integer");
-        $ilDB->manipulate($q);
-
         $title = "";
-
-        $q = "INSERT INTO lo_access " .
-            "(timestamp,usr_id,lm_id,obj_id,lm_title) " .
-            "VALUES " .
-            "(" . $ilDB->now() . "," .
-            $ilDB->quote((int) $usr_id, "integer") . "," .
-            $ilDB->quote((int) $lm_id, "integer") . "," .
-            $ilDB->quote((int) $obj_id, "integer") . "," .
-            $ilDB->quote($title, "text") . ")";
-        $ilDB->manipulate($q);
+        $db = $this->db;
+        $db->replace("lo_access", [
+            "usr_id" => ["integer", $usr_id],
+            "lm_id" => ["integer", $lm_id]
+        ], [
+                "timestamp" => ["timestamp", ilUtil::now()],
+                "obj_id" => ["integer", $obj_id],
+                "lm_title" => ["text", $title]
+            ]
+        );
     }
 
 

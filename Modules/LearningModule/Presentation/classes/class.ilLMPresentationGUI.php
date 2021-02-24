@@ -878,6 +878,7 @@ class ilLMPresentationGUI
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");
         $exp->handleCommand();
+        return $exp;
     }
 
     /**
@@ -1603,7 +1604,7 @@ class ilLMPresentationGUI
 
         $media_obj = new ilObjMediaObject($this->requested_mob_id);
         if (!empty($_GET["pg_id"])) {
-            $pg_obj = $this->getLMPage($_GET["pg_id"]);
+            $pg_obj = $this->getLMPage($_GET["pg_id"], $_GET["pg_type"]);
             $pg_obj->buildDom();
 
             $xml = "<dummy>";
@@ -2927,12 +2928,23 @@ class ilLMPresentationGUI
      * @param
      * @return
      */
-    public function getLMPage($a_id)
+    public function getLMPage($a_id, $a_type = "")
     {
-        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
-            return new ilLMPage($a_id, 0, $this->lang);
+        $type = ($a_type == "mep")
+            ? "mep"
+            : "lm";
+
+        $lang = $this->lang;
+        if (!ilPageObject::_exists($type, $a_id, $lang)) {
+            $lang = "-";
         }
-        return new ilLMPage($a_id);
+
+        switch ($type) {
+            case "mep":
+                return new ilMediaPoolPage($a_id, 0, $lang);
+            default:
+                return new ilLMPage($a_id, 0, $lang);
+        }
     }
 
     /**

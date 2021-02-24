@@ -35,6 +35,10 @@ class ilTaggingSlateContentGUI
      */
     protected $access;
 
+    /**
+     * @var ilTree
+     */
+    protected $tree;
 
     /**
      * Constructor
@@ -48,6 +52,7 @@ class ilTaggingSlateContentGUI
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+        $this->tree = $DIC->repositoryTree();
 
         $this->lng->loadLanguageModule("tagging");
 
@@ -105,20 +110,25 @@ class ilTaggingSlateContentGUI
         }
         reset($this->tags);
 
-        foreach ($this->tags as $tag) {
-            $tpl->setCurrentBlock("linked_tag");
-            $ilCtrl->setParameter($this, "tag", rawurlencode($tag["tag"]));
-            $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
-            $tpl->setVariable("ON_CLICK", "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;");
-            $tpl->setVariable("TAG_TITLE", $tag["tag"]);
-            $tpl->setVariable("HREF_TAG", "#");
-            $tpl->setVariable(
-                "REL_CLASS",
-                ilTagging::getRelevanceClass($tag["cnt"], $max)
-            );
-            $tpl->parseCurrentBlock();
+        if (count($this->tags) > 0) {
+            foreach ($this->tags as $tag) {
+                $tpl->setCurrentBlock("linked_tag");
+                $ilCtrl->setParameter($this, "tag", rawurlencode($tag["tag"]));
+                $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
+                $tpl->setVariable("ON_CLICK",
+                    "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;");
+                $tpl->setVariable("TAG_TITLE", $tag["tag"]);
+                $tpl->setVariable("HREF_TAG", "#");
+                $tpl->setVariable(
+                    "REL_CLASS",
+                    ilTagging::getRelevanceClass($tag["cnt"], $max)
+                );
+                $tpl->parseCurrentBlock();
+            }
+            return $tpl->get();
+        } else {
+            return $this->ui->renderer()->render($this->getNoTagsUsedMessage());
         }
-        return $tpl->get();
     }
     
 
@@ -243,5 +253,40 @@ class ilTaggingSlateContentGUI
         ilUtil::sendSuccess($lng->txt("tag_tags_deleted"), true);
 
         $ilCtrl->returnToParent($this);
+    }
+
+    /**
+     * No tags used message box
+     *
+     * @return ILIAS\UI\Component\MessageBox\MessageBox
+     */
+    public function getNoTagsUsedMessage() : ILIAS\UI\Component\MessageBox\MessageBox
+    {
+
+        $txt = $this->lng->txt("no_tag_text_1") . "<br>";
+        $txt .= sprintf(
+                $this->lng->txt('no_tag_text_2'),
+                $this->getRepositoryTitle()
+            ) . "<br>";
+        $txt .= $this->lng->txt("no_tag_text_3");
+        $mbox = $this->ui->factory()->messageBox()->info($txt);
+        $mbox = $mbox->withLinks([$this->ui->factory()->link()->standard($this->getRepositoryTitle(), ilLink::_getStaticLink(1, 'root', true))]);
+
+        return $mbox;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRepositoryTitle()
+    {
+        $nd = $this->tree->getNodeData($this->tree->getRootId());
+        $title = $nd['title'];
+
+        if ($title == 'ILIAS') {
+            $title = $this->lng->txt('repository');
+        }
+
+        return $title;
     }
 }

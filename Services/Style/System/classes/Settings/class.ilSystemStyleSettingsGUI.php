@@ -248,7 +248,7 @@ class ilSystemStyleSettingsGUI
                 new ilSystemStyleMessage(
                     $this->lng->txt("personal_style_set_to") . " " . ilSystemStyleSettings::getCurrentUserPrefSkin() . ":" . ilSystemStyleSettings::getCurrentUserPrefStyle(),
                     ilSystemStyleMessage::TYPE_SUCCESS
-            )
+                )
             );
         }
         if (!$_POST["default"] && ilSystemStyleSettings::getCurrentDefaultSkin() == $new_skin->getId()) {
@@ -260,7 +260,7 @@ class ilSystemStyleSettingsGUI
                 new ilSystemStyleMessage(
                     $this->lng->txt("default_style_set_to") . " " . $system_style_conf->getDefaultSkinId() . ": " . $system_style_conf->getDefaultStyleId(),
                     ilSystemStyleMessage::TYPE_SUCCESS
-            )
+                )
             );
         }
         $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_skin->getId());

@@ -28,4 +28,7 @@
 		<context id="svy_context_rmd" class="ilSurveyMailTemplateReminderContext" />		
 	</mailtemplates>
 	<logging />
+	<pdfpurposes>
+		<pdfpurpose name="Results" preferred="PhantomJS" />
+	</pdfpurposes>
 </module>

@@ -97,14 +97,10 @@ class FormMailCodesGUI extends ilPropertyFormGUI
             }
         }
 
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $rbacsystem->checkAccess('smtp_mail', ilMailGlobalServices::getMailObjectRefId())) {
-            if ((int) $ilSetting->get('mail_allow_external')) {
-                $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
-            } else {
-                ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
-            }
+        if ((int) $ilSetting->get('mail_allow_external')) {
+            $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
         } else {
-            ilUtil::sendInfo($lng->txt("cannot_send_emails"));
+            ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
         }
     }
     

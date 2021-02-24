@@ -1,0 +1,35 @@
+name: checks
+on: [pull_request]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.2, 7.3, 7.4]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
+          tools: composer:v1
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: PHP Unit Test 
+        run: CI/PHPUnit/run_tests.sh
+
+      - name: Install PHP CS Fixer
+        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
+
+      - name: PHP CS Fixer
+        run: CI/PHP-CS-Fixer/run_check.sh
+
+      - name: Special Char Checker
+        run: CI/Special-Char-Checker/special-char-checker.sh

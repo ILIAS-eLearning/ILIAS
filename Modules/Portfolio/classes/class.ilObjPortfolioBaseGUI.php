@@ -743,6 +743,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $page_class = ($this->getType() == "prtt")
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
+        $button = null;
         if (ilPortfolioPage::lookupType($page_id) == ilPortfolioPage::TYPE_PAGE) {
             $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
             $button = $this->ui->factory()->button()->standard(
@@ -750,14 +751,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $this->ctrl->getLinkTargetByClass($page_class, "edit")
             );
         } else {
-            $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
-            $this->ctrl->setParameterByClass("ilobjbloggui", "prt_id", (int) $_GET["prt_id"]);
-            $button = $this->ui->factory()->button()->standard(
-                $this->lng->txt("edit"),
-                $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
-            );
+            if ($this->getType() != "prtt") {
+                $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
+                $this->ctrl->setParameterByClass("ilobjbloggui", "prt_id", (int) $_GET["prt_id"]);
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("edit"),
+                    $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
+                );
+            } else {    // portfolio template, blog page cannot be edited -> link to overview
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("edit"),
+                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliotemplategui"], "view")
+                );
+            }
         }
-        if ($this->checkPermissionBool("write")) {
+        if ($button && $this->checkPermissionBool("write")) {
             $this->tpl->setHeaderActionMenu($this->ui->renderer()->render($button));
         }
     }

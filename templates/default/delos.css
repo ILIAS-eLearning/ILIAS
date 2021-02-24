@@ -7598,14 +7598,11 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item:after {
   clear: both;
 }
-.il-item h4 {
-  padding-top: 0;
-  margin: 0;
+.il-item .il-item-title {
   font-size: 14px;
-  float: left;
 }
-.il-item h4 .btn-link,
-.il-item h4 a {
+.il-item .il-item-title .btn-link,
+.il-item .il-item-title a {
   font-size: inherit;
   line-height: 1.42857143;
 }
@@ -8802,6 +8799,10 @@ grid-based layout
   height: 100%;
   overflow: hidden;
   width: 100%;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
 }
 .il-layout-page .il-maincontrols-mainbar .il-mainbar-close-slates {
   display: none;
@@ -9180,10 +9181,12 @@ footer {
 @media print {
   html body {
     overflow: visible;
+    background: none;
   }
   html body .il-layout-page {
     display: block;
     overflow: visible;
+    background: none;
   }
   html body .il-layout-page header,
   html body .il-layout-page .il-maincontrols,
@@ -12100,6 +12103,9 @@ span.ilAlert {
 .breadcrumb {
   margin: 0.8em 0 20px 0;
   font-size: 90%;
+}
+.breadcrumb > li + li:before {
+  font-family: 'il-icons';
 }
 @media only screen and (max-width: 768px) {
   .breadcrumb {
@@ -15845,7 +15851,7 @@ tr.tblheader {
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
 }
-@media (max-width: 768px) {
+@media only screen and (max-width: 768px) {
   .table-responsive {
     overflow-x: auto;
     max-width: 94vw;
@@ -17295,6 +17301,10 @@ a.ilMediaLightboxClose:hover {
   margin: 50px auto 0;
   width: 640px;
   max-width: 100%;
+}
+.ilLightboxContent iframe {
+  width: 100%;
+  min-height: 400px;
 }
 /* Services/Membership */
 div.ilAttendanceListPrint td,
