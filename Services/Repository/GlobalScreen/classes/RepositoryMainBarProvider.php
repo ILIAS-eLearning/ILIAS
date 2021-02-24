@@ -84,7 +84,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
 
-        $p = $this;
         $entries[] = $this->mainmenu
             ->complex($this->if->identifier('last_visited'))
             ->withTitle($this->dic->language()->txt('last_visited'))
@@ -93,8 +92,10 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
-            ->withContentWrapper(function () use ($p) {
-                return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
+            ->withContentWrapper(function () {
+                $history_list = new \ilNavigationHistoryListMenuGUI();
+
+                return $this->dic->ui()->factory()->legacy($history_list->render());
             });
 
 
@@ -132,50 +133,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title())
             ->withAction($action());
     }
-
-
-
-    /**
-     * Render last visited
-     *
-     * @return string
-     */
-    protected function renderLastVisited()
-    {
-        $nav_items = [];
-        if (isset($this->dic['ilNavigationHistory'])) {
-            $nav_items = $this->dic['ilNavigationHistory']->getItems();
-        }
-        reset($nav_items);
-        $cnt = 0;
-        $first = true;
-        $item_groups = [];
-
-        $f = $this->dic->ui()->factory();
-        foreach ($nav_items as $k => $nav_item) {
-            if ($cnt >= 10) {
-                break;
-            }
-
-            if (!isset($nav_item["ref_id"]) || !isset($_GET["ref_id"])
-                || ($nav_item["ref_id"] != $_GET["ref_id"] || !$first)
-            ) {            // do not list current item
-                $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
-                $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
-                $items[] = $f->item()->standard(
-                    $f->link()->standard($ititle, $nav_item["link"])
-                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj_id), $ititle));
-            }
-            $first = false;
-        }
-
-        $item_groups[] = $f->item()->group("", $items);
-        $panel = $f->panel()->secondary()->listing("", $item_groups);
-
-        return $this->dic->ui()->renderer()->render([$panel]);
-    }
-
-
 
     /**
      * Render repository tree
