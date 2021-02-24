@@ -16505,3 +16505,4 @@ maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup
 tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
 tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
 tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
+form#:#form_invalid_uri#:#Ungültiges URI-Format.
