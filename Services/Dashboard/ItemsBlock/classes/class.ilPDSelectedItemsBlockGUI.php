@@ -870,15 +870,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
+
         $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
         $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),
-            '<a href="' . ilLink::_getStaticLink(1, 'root', true) . '">' . $this->getRepositoryTitle() . '</a>'
+            $this->getRepositoryTitle()
         ) . "<br>";
         $txt .= $this->lng->txt("rep_fav_intro3");
-        return $txt;
+        $mbox = $this->ui->factory()->messageBox()->info($txt);
+        $mbox = $mbox->withLinks([$this->ui->factory()->link()->standard($this->getRepositoryTitle(), ilLink::_getStaticLink(1, 'root', true))]);
+        return $this->ui->renderer()->render($mbox);
     }
 
     /**
