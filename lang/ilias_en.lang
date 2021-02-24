@@ -16212,3 +16212,6 @@ common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.

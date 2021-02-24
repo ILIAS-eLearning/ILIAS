@@ -16212,3 +16212,6 @@ common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
 common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
 prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
+tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
