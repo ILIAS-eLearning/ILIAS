@@ -55,7 +55,7 @@ class ilUriInputGUI extends ilTextInputGUI
         try {
             new \ILIAS\Data\URI($url);
         } catch (\Throwable $e) {
-            $this->setAlert($lng->txt("form_invalid_url"));
+            $this->setAlert($lng->txt("form_invalid_uri"));
             return false;
         }
 
