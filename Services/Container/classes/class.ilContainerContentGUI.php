@@ -329,7 +329,7 @@ abstract class ilContainerContentGUI
     /**
     * Get columngui output
     */
-    final private function __forwardToColumnGUI()
+    private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
