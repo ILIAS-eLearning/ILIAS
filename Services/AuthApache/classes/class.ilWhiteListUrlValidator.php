@@ -38,7 +38,7 @@ class ilWhiteListUrlValidator
                 return true;
             }
 
-            $firstChar = $validDomain{0};
+            $firstChar = $validDomain[0];
             if ('.' !== $firstChar) {
                 $validDomain = '.' . $validDomain;
             }

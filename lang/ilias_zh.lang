@@ -15129,3 +15129,13 @@ common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
 common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###11 12 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###11 12 2020 new variable
+book#:#book_set_delete#:#Delete###11 12 2020 new variable
+mme#:#flush#:#Remove Lost Items###11 12 2020 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###11 12 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_dropdown#:#Open Search Form###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable

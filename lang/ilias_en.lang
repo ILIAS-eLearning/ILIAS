@@ -1573,6 +1573,7 @@ assessment#:#sign_submission_info#:#If this is activated and a signature plugin 
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
+assessment#:#autosavecontent#:#Autosave Content
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -2292,6 +2293,7 @@ common#:#err_role_not_assignable#:#You cannot assign users to this role at this 
 common#:#err_session_expired#:#Your session is expired!
 common#:#err_wrong_header#:#Reason: Wrong header.
 common#:#err_wrong_login#:#Wrong Login or Password
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.
 common#:#err_wrong_password#:#Wrong Password
 common#:#error_parser#:#Error starting the parser.
 common#:#error_recipient#:#Error Recipient
@@ -3540,7 +3542,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -5307,6 +5309,7 @@ form#:#form_password_not_allowed_for_auth#:#It is not possible to change the pas
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 forum#:#activate_new_posts#:#Approve Postings
 forum#:#activate_only_current#:#Approve Posting
 forum#:#activate_post_txt#:#Would you really like to approve the current posting?
@@ -6886,6 +6889,8 @@ sahs#:#sahs_sco_objective#:#Objectives
 sahs#:#sahs_sequencing#:#Sequencing
 sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
+search#:#search_field#:#Search Input Field
+search#:#search_dropdown#:#Open Search Form
 search#:#adv_md_search_title#:#Search in Extended Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
@@ -11127,6 +11132,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -11718,6 +11725,8 @@ content#:#cont_auto_suspend_info#:#This option is for SCORM learning modules, wh
 administration#:#adm_captcha_anonymous_frm#:#Activate captcha for anonymous in forums. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_auth#:#Activate captcha for anonymous in login form. Please keep in mind that this may effect the accessibility of your installation.
 administration#:#adm_captcha_anonymous_reg#:#Activate captcha for anonymous in registration form. Please keep in mind that this may effect the accessibility of your installation.
+administration#:#adm_auth_reg#:#Authentication Registration
+administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_captcha_anonymous_wiki#:#Activate captcha for anonymous in wikis. Please keep in mind that this may effect the accessibility of your installation.
 auth#:#auth_auth_settings#:#Settings
 book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
@@ -13940,7 +13949,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
@@ -14589,6 +14598,8 @@ crs#:#crs_lhist_objective_completed#:#Mastered $3$ in $1$.
 trac#:#trac_lhist_obj_completed_in#:#$1$ was completed in $2$.
 trac#:#trac_lhist_obj_completed#:#$1$ was completed.
 lhist#:#lhist_learning_history#:#Learning History
+mme#:#flush#:#Remove Lost Items
+mme#:#msg_subitem_flushed#:#Lost Items removed.
 mme#:#main#:#Main Menu
 mme#:#subtab_topitems#:#Top Items
 mme#:#subtab_subitems#:#Items

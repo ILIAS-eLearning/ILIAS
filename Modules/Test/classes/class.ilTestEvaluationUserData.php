@@ -123,7 +123,7 @@ class ilTestEvaluationUserData
     /**
     * Test passes
     *
-    * @var array
+    * @var array<int, ilTestEvaluationPassData>
     */
     public $passes;
 
@@ -340,13 +340,21 @@ class ilTestEvaluationUserData
     {
         return $this->passes;
     }
-    
+
+    /**
+     * @param int $pass_nr
+     * @param ilTestEvaluationPassData $pass
+     */
     public function addPass($pass_nr, $pass)
     {
         $this->passes[$pass_nr] = $pass;
     }
-    
-    public function &getPass($pass_nr)
+
+    /**
+     * @param $pass_nr
+     * @return ilTestEvaluationPassData|null
+     */
+    public function getPass($pass_nr)
     {
         if (array_key_exists($pass_nr, $this->passes)) {
             return $this->passes[$pass_nr];
@@ -409,7 +417,7 @@ class ilTestEvaluationUserData
         return $this->questionTitles;
     }
 
-    public function &getQuestions($pass = 0)
+    public function getQuestions($pass = 0)
     {
         if (array_key_exists($pass, $this->questions)) {
             return $this->questions[$pass];
@@ -432,7 +440,7 @@ class ilTestEvaluationUserData
         );
     }
     
-    public function &getQuestion($index, $pass = 0)
+    public function getQuestion($index, $pass = 0)
     {
         if (array_key_exists($index, $this->questions[$pass])) {
             return $this->questions[$pass][$index];
@@ -526,6 +534,21 @@ class ilTestEvaluationUserData
     public function getRequestedHintsCountFromScoredPass()
     {
         return $this->getRequestedHintsCount($this->getScoredPass());
+    }
+
+    /**
+     * @return string
+     */
+    public function getExamIdFromScoredPass() : string
+    {
+        $examId = '';
+        $scoredPass = $this->getScoredPass();
+
+        if (isset($this->passes[$scoredPass]) && $this->passes[$scoredPass] instanceof ilTestEvaluationPassData) {
+            $examId = $this->passes[$scoredPass]->getExamId();
+        }
+
+        return $examId;
     }
     
     /**

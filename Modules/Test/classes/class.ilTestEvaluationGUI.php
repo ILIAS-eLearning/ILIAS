@@ -274,6 +274,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
                     $evaluationrow['reached'] = $userdata->getReached();
                     $evaluationrow['max'] = $userdata->getMaxpoints();
                     $evaluationrow['hint_count'] = $userdata->getRequestedHintsCountFromScoredPass();
+                    $evaluationrow['exam_id'] = $userdata->getExamIdFromScoredPass();
                     $percentage = $userdata->getReachedPointsInPercent();
                     $mark = $this->object->getMarkSchema()->getMatchingMark($percentage);
                     if (is_object($mark)) {
@@ -1011,6 +1012,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
+        $this->populateExamId($template, (int) $active_id, (int) $pass);
         $this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
@@ -1347,6 +1349,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
             }
         }
 
+        $this->populateExamId($tpl, (int) $active_id, (int) $pass);
         $this->populatePassFinishDate($tpl, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
         
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");

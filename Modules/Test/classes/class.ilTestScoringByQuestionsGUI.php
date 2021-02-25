@@ -47,7 +47,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl = $DIC->ui()->mainTemplate();
         
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_MANUAL_SCORING);
-        
+
         include_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
 
@@ -69,7 +69,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
         require_once 'Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php';
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
-        
+
         $table->setManualScoringPointsPostData($manPointsPost);
 
         $qst_id = $table->getFilterItemByPostVar('question')->getValue();
@@ -92,18 +92,20 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         if ($selected_questionData && is_numeric($passNr)) {
             $data = $this->object->getCompleteEvaluationData(false);
             $participants = $data->getParticipants();
-            
+
             require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
             $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
             $participantData->setActiveIdsFilter(array_keys($data->getParticipants()));
-            
+
             $participantData->setParticipantAccessFilter(
                 ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
             );
-            
+
             $participantData->load($this->object->getTestId());
                 
             foreach ($participantData->getActiveIds() as $active_id) {
+
+                /** @var $participant ilTestEvaluationUserData */
                 $participant = $participants[$active_id];
                 $testResultData = $this->object->getTestResult($active_id, $passNr - 1);
                 foreach ($testResultData as $questionData) {
@@ -111,6 +113,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         continue;
                     }
 
+                    $user = ilObjUser::_getUserData(array($participant->user_id));
                     $table_data[] = array(
                         'pass_id' => $passNr - 1,
                         'active_id' => $active_id,
@@ -118,6 +121,9 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                         'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                         'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
                         'participant' => $participant,
+                        'lastname' => $user[0]['lastname'],
+                        'firstname' => $user[0]['firstname'],
+                        'login' => $participant->getLogin(),
                     );
                 }
             }
@@ -141,30 +147,30 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $table->setData($table_data);
         $tpl->setContent($table->getHTML());
     }
-    
+
     protected function saveManScoringByQuestion()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        
+
         if (!isset($_POST['scoring']) || !is_array($_POST['scoring'])) {
             ilUtil::sendFailure($this->lng->txt('tst_save_manscoring_failed_unknown'));
             $this->showManScoringByQuestionParticipantsTable();
             return;
         }
-        
+
         $pass = key($_POST['scoring']);
         $activeData = current($_POST['scoring']);
-        
+
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
         $participantData->setActiveIdsFilter(array_keys($activeData));
-        
+
         $participantData->setParticipantAccessFilter(
             ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->ref_id)
         );
-        
+
         $participantData->load($this->object->getTestId());
-        
+
         include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
         include_once 'Modules/Test/classes/class.ilObjTestAccess.php';
         include_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
@@ -181,7 +187,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 if (!isset($skipParticipant[$pass])) {
                     $skipParticipant[$pass] = array();
                 }
-                
+
                 $skipParticipant[$pass][$active_id] = true;
                 
                 continue;
@@ -197,11 +203,11 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 }
 
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
-                
+
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
                     $oneExceededMaxPoints = true;
                 }
-                    
+
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
             }
         }
@@ -265,7 +271,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $scorer->setPreserveManualScores(true);
             $scorer->recalculateSolutions();
         }
-        
+
         $this->showManScoringByQuestionParticipantsTable();
     }
 
@@ -305,16 +311,35 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         
         $data = $this->object->getCompleteEvaluationData(false);
         $participant = $data->getParticipant($active_id);
-        
+
         $question_gui = $this->object->createQuestionGUI('', $question_id);
 
         $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
+
+        if($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+            $aresult_output = $question_gui->getAutoSavedSolutionOutput(
+                $active_id,
+                $pass,
+                false,
+                false,
+                false,
+                $this->object->getShowSolutionFeedback(),
+                false,
+                true
+            );
+            $tmp_tpl->setVariable('TEXT_ASOLUTION_OUTPUT', $this->lng->txt('autosavecontent'));
+            $tmp_tpl->setVariable('ASOLUTION_OUTPUT', $aresult_output);
+        }
+
         $result_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, false, $this->object->getShowSolutionFeedback(), false, true);
         $tmp_tpl->setVariable('TEXT_YOUR_SOLUTION', $this->lng->txt('answers_of') . ' ' . $participant->getName());
+
+
+
         $maxpoints = $question_gui->object->getMaximumPoints();
 
         $add_title = ' [' . $this->lng->txt('question_id_short') . ': ' . $question_id . ']';
-        
+
         if ($maxpoints == 1) {
             $tmp_tpl->setVariable('QUESTION_TITLE', $this->object->getQuestionTitle($question_gui->object->getTitle()) . ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')' . $add_title);
         } else {

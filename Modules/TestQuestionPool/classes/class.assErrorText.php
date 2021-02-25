@@ -789,7 +789,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                         }
                     } else {
                         $appendComma = "";
-                        if ($item{$posClosingBrackets + 2} == ',') {
+                        if ($item[$posClosingBrackets + 2] == ',') {
                             $appendComma = ",";
                         }
 

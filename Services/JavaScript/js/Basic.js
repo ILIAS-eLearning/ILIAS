@@ -1014,7 +1014,9 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 	 */
 	$.fn.inputFilter = function(inputFilter) {
 		return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function(e) {
-			if (inputFilter(this.value)) {
+			if ("-" === $.trim(this.value)) {
+				// https://mantis.ilias.de/view.php?id=29417
+			} else if (inputFilter(this.value)) {
 				this.oldValue = this.value;
 				this.oldSelectionStart = this.selectionStart;
 				this.oldSelectionEnd = this.selectionEnd;
@@ -1034,14 +1036,14 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
  */
 function numericInputCheck() {
 
-	const numericInput = $( '.ilcqinput_NumericInput' );
+	var numericInput = $( '.ilcqinput_NumericInput' );
 
 	// Only if present.
 	if ( numericInput.length ) {
 
 		// Append ilcqinput_NumericInputInvalid class for visually distinguishable numeric input fields.
 		// -> Onload.
-		let value = $( numericInput ).val().toString().replace( ',', '.' );
+		var value = $( numericInput ).val().toString().replace( ',', '.' );
 		if ( value && !$.isNumeric( value ) ) {
 			$( numericInput ).addClass( 'ilcqinput_NumericInputInvalid' );
 		} else {
@@ -1049,7 +1051,7 @@ function numericInputCheck() {
 		}
 		// -> OnChange.
 		$( numericInput ).on( 'change', function() {
-			let value = $( this ).val().toString().replace( ',', '.' );
+			var value = $( this ).val().toString().replace( ',', '.' );
 			if ( value && !$.isNumeric( value ) ) {
 				$( this ).addClass( 'ilcqinput_NumericInputInvalid' );
 			} else {

@@ -1409,3 +1409,17 @@ if (!$ilDB->indexExistsByFields('tax_tree', ['child'])) {
     $ilDB->addIndex('tax_tree', ['child'], 'i1');
 }
 ?>
+<#101>
+<?php
+// deleted
+?>
+<#102>
+<?php
+global $DIC;
+$DIC->database()->modifyTableColumn("usr_data", "login", [
+    "type" => \ilDBConstants::T_TEXT,
+    "length" => 190,
+    "notnull" => false,
+    "fixed" => false
+]);
+?>

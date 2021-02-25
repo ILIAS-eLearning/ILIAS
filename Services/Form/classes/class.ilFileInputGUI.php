@@ -513,6 +513,16 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         
         return $max_filesize;
     }
+
+    /**
+     * Get number of maximum file uploads as declared in php.ini
+     *
+     * @return int
+     */
+    protected function getMaxFileUploads()
+    {
+        return (int) ini_get("max_file_uploads");
+    }
     
     /**
     * Get deletion flag

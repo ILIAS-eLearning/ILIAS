@@ -54,7 +54,7 @@ class ilObjSurveyQuestionPoolListGUI extends ilObjectListGUI
 
         // general commands array
         include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolAccess.php");
-        $this->commands = ilObjSurveyQUestionPoolAccess::_getCommands();
+        $this->commands = ilObjSurveyQuestionPoolAccess::_getCommands();
     }
 
 

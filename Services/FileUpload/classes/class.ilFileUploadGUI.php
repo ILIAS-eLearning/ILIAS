@@ -404,7 +404,7 @@ class ilFileUploadGUI
      */
     private function makeJqueryId($a_id)
     {
-        if (is_string($a_id) && strlen($a_id) > 0 && $a_id{0} !== '#') {
+        if (is_string($a_id) && strlen($a_id) > 0 && $a_id[0] !== '#') {
             return '#' . $a_id;
         }
 

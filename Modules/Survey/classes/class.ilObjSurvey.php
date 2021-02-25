@@ -6263,7 +6263,7 @@ class ilObjSurvey extends ilObject
             $user = new \ilObjUser($a_user_id);
 
             $processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
-            $a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+            $a_message = $processor->resolve($user, $a_context_params);
         } catch (\Exception $e) {
             ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
         }

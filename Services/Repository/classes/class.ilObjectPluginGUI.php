@@ -80,12 +80,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->setAdminTabs();
             }
             
-            // add entry to navigation history
-            if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+            if ($ilAccess->checkAccess('read', '', $this->object->getRefId())) {
                 $ilNavigationHistory->addItem(
-                    $_GET["ref_id"],
-                    $ilCtrl->getLinkTarget($this, $this->getStandardCmd()),
-                    $this->getType()
+                    $this->object->getRefId(),
+                    ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
+                    $this->object->getType()
                 );
             }
         } else {
