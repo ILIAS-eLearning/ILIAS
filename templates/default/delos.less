@@ -296,6 +296,7 @@ span.ilAlert {
 
 .dropdown-header {
 	padding: 3px 10px;
+	color: @il-text-color;
 	background-color: @dropdown-header-bg;
 }
 .dropdown-menu {
@@ -1064,7 +1065,7 @@ div.il_info {
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
-	color: darken(@il-secondary-color, 10%);
+	color: darken(@il-secondary-color, 20%);
 	vertical-align: middle;
 	font-size: 26px;
     cursor: default;
@@ -2224,3 +2225,216 @@ div.ilGoogleMap {
 	border: 1px solid #ddd;
 	border-radius: .25em;
 }
+
+//WOHIN HIERMIT???
+.input-group-addon {
+	padding: 3px 8px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1;
+	color: @il-text-color;
+	text-align: center;
+	background-color: @il-main-dark-bg;
+	border: 1px solid @il-neutral-light-color;
+	border-radius: 0;
+  }
+
+  //Das .nav-bar CSS ist noch viel länger. Soll das in eine eigene .less Datei?
+  .navbar-default {
+	background-color: @il-main-dark-bg;
+	border-color: @il-neutral-lighter-color;
+  }
+  .navbar-default .navbar-brand {
+	color: @il-text-color;
+  }
+  .navbar-default .navbar-brand:hover,
+  .navbar-default .navbar-brand:focus {
+	color: @il-text-hover-color;
+	background-color: transparent;
+  }
+  .navbar-default .navbar-text {
+	color: @il-text-color;
+  }
+  .navbar-default .navbar-nav > li > a {
+	color: @il-text-color;
+  }
+  .navbar-default .navbar-nav > li > a:hover,
+  .navbar-default .navbar-nav > li > a:focus {
+	color: @il-text-hover-color;
+	background-color: transparent;
+  }
+  .navbar-default .navbar-nav > .active > a,
+  .navbar-default .navbar-nav > .active > a:hover,
+  .navbar-default .navbar-nav > .active > a:focus {
+	color: @il-text-color;
+	background-color: @il-neutral-lighter-color;
+  }
+  .navbar-default .navbar-nav > .disabled > a,
+  .navbar-default .navbar-nav > .disabled > a:hover,
+  .navbar-default .navbar-nav > .disabled > a:focus {
+	color: #ccc;
+	background-color: transparent;
+  }
+  .navbar-default .navbar-nav > .open > a,
+  .navbar-default .navbar-nav > .open > a:hover,
+  .navbar-default .navbar-nav > .open > a:focus {
+	color: @il-text-hover-color;
+	background-color: @il-neutral-lighter-color;
+  }
+  @media (max-width: 768px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+	  color: @il-text-color;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+	  color: @il-text-hover-color;
+	  background-color: transparent;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+	  color: @il-text-hover-color;
+	  background-color: @il-neutral-lighter-color;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
+	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+	  color: #ccc;
+	  background-color: transparent;
+	}
+  }
+  .navbar-default .navbar-toggle {
+	border-color: #ddd;
+  }
+  .navbar-default .navbar-toggle:hover,
+  .navbar-default .navbar-toggle:focus {
+	background-color: #ddd;
+  }
+  .navbar-default .navbar-toggle .icon-bar {
+	background-color: @il-text-light-color;
+  }
+  .navbar-default .navbar-collapse,
+  .navbar-default .navbar-form {
+	border-color: @il-neutral-lighter-color;
+  }
+  .navbar-default .navbar-link {
+	color: @il-text-color;
+  }
+  .navbar-default .navbar-link:hover {
+	color: @il-text-hover-color;
+  }
+  .navbar-default .btn-link {
+	color: @il-text-color;
+  }
+  .navbar-default .btn-link:hover,
+  .navbar-default .btn-link:focus {
+	color: @il-text-hover-color;
+  }
+  .navbar-default .btn-link[disabled]:hover,
+  fieldset[disabled] .navbar-default .btn-link:hover,
+  .navbar-default .btn-link[disabled]:focus,
+  fieldset[disabled] .navbar-default .btn-link:focus {
+	color: #ccc;
+  }
+  .navbar-inverse {
+	background-color: #222;
+	border-color: #080808;
+  }
+  .navbar-inverse .navbar-brand {
+	color: #9d9d9d;
+  }
+  .navbar-inverse .navbar-brand:hover,
+  .navbar-inverse .navbar-brand:focus {
+	color: #fff;
+	background-color: transparent;
+  }
+  .navbar-inverse .navbar-text {
+	color: #9d9d9d;
+  }
+  .navbar-inverse .navbar-nav > li > a {
+	color: #9d9d9d;
+  }
+  .navbar-inverse .navbar-nav > li > a:hover,
+  .navbar-inverse .navbar-nav > li > a:focus {
+	color: #fff;
+	background-color: transparent;
+  }
+  .navbar-inverse .navbar-nav > .active > a,
+  .navbar-inverse .navbar-nav > .active > a:hover,
+  .navbar-inverse .navbar-nav > .active > a:focus {
+	color: #fff;
+	background-color: #080808;
+  }
+  .navbar-inverse .navbar-nav > .disabled > a,
+  .navbar-inverse .navbar-nav > .disabled > a:hover,
+  .navbar-inverse .navbar-nav > .disabled > a:focus {
+	color: #444;
+	background-color: transparent;
+  }
+  .navbar-inverse .navbar-nav > .open > a,
+  .navbar-inverse .navbar-nav > .open > a:hover,
+  .navbar-inverse .navbar-nav > .open > a:focus {
+	color: #fff;
+	background-color: #080808;
+  }
+  @media (max-width: 768px) {
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
+	  border-color: #080808;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+	  background-color: #080808;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+	  color: #9d9d9d;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
+	  color: #fff;
+	  background-color: transparent;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
+	  color: #fff;
+	  background-color: #080808;
+	}
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+	  color: #444;
+	  background-color: transparent;
+	}
+  }
+  .navbar-inverse .navbar-toggle {
+	border-color: #333;
+  }
+  .navbar-inverse .navbar-toggle:hover,
+  .navbar-inverse .navbar-toggle:focus {
+	background-color: #333;
+  }
+  .navbar-inverse .navbar-toggle .icon-bar {
+	background-color: #fff;
+  }
+  .navbar-inverse .navbar-collapse,
+  .navbar-inverse .navbar-form {
+	border-color: #101010;
+  }
+  .navbar-inverse .navbar-link {
+	color: #9d9d9d;
+  }
+  .navbar-inverse .navbar-link:hover {
+	color: #fff;
+  }
+  .navbar-inverse .btn-link {
+	color: #9d9d9d;
+  }
+  .navbar-inverse .btn-link:hover,
+  .navbar-inverse .btn-link:focus {
+	color: #fff;
+  }
+  .navbar-inverse .btn-link[disabled]:hover,
+  fieldset[disabled] .navbar-inverse .btn-link:hover,
+  .navbar-inverse .btn-link[disabled]:focus,
+  fieldset[disabled] .navbar-inverse .btn-link:focus {
+	color: #444;
+  }
