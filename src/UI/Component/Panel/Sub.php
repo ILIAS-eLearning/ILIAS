@@ -21,4 +21,17 @@ interface Sub extends Panel
      * @return \ILIAS\UI\Component\Card\Card | null
      */
     public function getCard();
+
+    /**
+     * Sets the Secondary Panel to be displayed on the right of the Sub Panel
+     * @param \ILIAS\UI\Component\Panel\Secondary\Secondary $secondary
+     * @return Sub
+     */
+    public function withSecondaryPanel(\ILIAS\UI\Component\Panel\Secondary\Secondary $secondary);
+
+    /**
+     * Gets the Secondary Panel to be displayed on the right of the Sub Panel
+     * @return \ILIAS\UI\Component\Panel\Secondary\Secondary | null
+     */
+    public function getSecondaryPanel();
 }

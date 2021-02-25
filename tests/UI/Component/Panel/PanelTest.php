@@ -148,6 +148,20 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getCard(), $card);
     }
 
+    public function test_sub_with_secondary_panel()
+    {
+        $fp = $this->getPanelFactory();
+
+        $p = $fp->sub("Title", array(new ComponentDummy()));
+
+        $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
+        $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
+
+        $p = $p->withSecondaryPanel($secondary);
+
+        $this->assertEquals($p->getSecondaryPanel(), $secondary);
+    }
+
     public function test_report_get_title()
     {
         $f = $this->getPanelFactory();
@@ -239,6 +253,44 @@ EOT;
 EOT;
 
         $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function test_render_sub_with_secondary_panel()
+    {
+        $fp = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+        $p = $fp->sub("Title", array());
+        $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
+        $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
+        $p = $p->withSecondaryPanel($secondary);
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-sub panel-flex">
+	<div class="panel-heading ilBlockHeader clearfix">
+		<h3>Title</h3>
+	</div>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-sm-8"></div>
+			<div class="col-sm-4">
+				<div class="panel panel-secondary panel-flex">
+					<div class="panel-heading ilHeader clearfix">
+					    <h4 class="ilHeader">Legacy panel title</h4>
+                    </div>
+                    <div class="panel-body">Legacy content</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+EOT;
+
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected_html),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function test_render_report()
