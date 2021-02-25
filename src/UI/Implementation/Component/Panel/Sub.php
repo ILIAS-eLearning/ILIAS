@@ -22,6 +22,12 @@ class Sub extends Panel implements C\Panel\Sub
     private $card = null;
 
     /**
+     * Secondary panel to be displayed on the right of the Sub Panel
+     * @var C\Panel\Secondary\Secondary
+     */
+    private $secondary = null;
+
+    /**
      * @inheritdoc
      */
     public function withCard(C\Card\Card $card)
@@ -37,5 +43,23 @@ class Sub extends Panel implements C\Panel\Sub
     public function getCard()
     {
         return $this->card;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withSecondaryPanel(C\Panel\Secondary\Secondary $secondary)
+    {
+        $clone = clone $this;
+        $clone->secondary = $secondary;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSecondaryPanel()
+    {
+        return $this->secondary;
     }
 }
