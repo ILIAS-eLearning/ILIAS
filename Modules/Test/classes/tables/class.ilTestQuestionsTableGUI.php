@@ -46,7 +46,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     protected $obligatoryQuestionsHandlingEnabled = false;
     
     /**
-     * @var int
+     * @var float
      */
     protected $totalPoints = 0;
     
@@ -463,17 +463,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     }
     
     /**
-     * @return int
+     * @return float
      */
-    public function getTotalPoints() : int
+    public function getTotalPoints() : float
     {
         return $this->totalPoints;
     }
     
     /**
-     * @param int $totalPoints
+     * @param float $totalPoints
      */
-    public function setTotalPoints(int $totalPoints)
+    public function setTotalPoints(float $totalPoints)
     {
         $this->totalPoints = $totalPoints;
     }
