@@ -1,8 +1,5 @@
 # Chat Server Setup
 
-ILIAS provides several classes to create and
-send Emails/Messages for different purposes.
-
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”,
 “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
@@ -47,7 +44,6 @@ The latest version can be downloaded at the following URL: https://github.com/no
 
 In addition, [here](https://github.com/nodesource/distributions#deb "here") is an installation guide for the respective Unix-based operating system.
 
-
 The basic configuration is done within ILIAS in the section `Administration / Chat`. After the server and client settings have been saved, the configuration files `server.cfg` and` client.cfg` are stored in the external ILIAS data directory in the subdirectory `chatroom`. These files MUST be passed to start the Chat Server (see [Server Configuration](#Server Configuration)).
 
 ![](./docu/images/view-clientsettings_en.PNG)
@@ -58,8 +54,32 @@ The basic configuration is done within ILIAS in the section `Administration / Ch
 
 ### Chat Server Settings
 
-![](./docu/images/view-serversettings_adress_en.PNG)
+The settings to connect ILIAS to the chat server need to be provided via the
+[configuration for the setup of ILIAS](../../docs/configuration/install.md#install-ilias).
+Add a section "chatroom" on the toplevel of the JSON in the configuration file:
 
+```
+{
+    ...
+    "utilities" : {...},
+    "chatroom": {
+    }
+}
+```
+
+In this section, add the various confguration options according to you requirements.
+
+"address" and "port" of the server:
+
+```
+{
+    ...
+    "chatroom": {
+        "address" : "chat.myilias.de",
+        "port" : "8888"
+    }
+}
+```
 
 #### IP address / FQDN
 The IPv4 address or FQDN where the chat server is to be bound.
@@ -87,10 +107,17 @@ Examples:
 * `https://myilias.de/servers/chat` (relative path: "/servers/chat")
 * `https: // myilias.de` (relative path: [leave field empty])
 
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "sub_directory" : "https://myilias.de/servers/chat"
+    }
+}
+```
+
 #### Protokoll
-
-![](./docu/images/view-serversettings_protocol_en.PNG)
-
 
 * **HTTP**: There is an unencrypted communication over HTTP with the chat server.
 
@@ -100,10 +127,21 @@ Examples:
   *   Diffie-Hellman parameter: absolute server path to Diffie-Hellman file (eg: `/ etc / ssl / private / dhparam.pem`),
   *   Diffie-Hellman parameter creation (e.g., generated via: `openssl dhparam -out /etc/ssl/private/dhparam.pem 2048`).
 
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "https:" : {
+            "cert" : "/etc/ssl/certs/server.pem",
+            "key" : "/etc/ssl/private/server.key",
+            "dhparam" : "/etc/ssl/private/dhparam.pem"
+        }
+    }
+}
+```
+
 #### Logging
-
-![](./docu/images/view-serversettings_log_en.PNG)
-
 
 The paths for the chat server log and the error log can be specified OPTIONALLY.
 
@@ -122,11 +160,33 @@ The paths for the chat server log and the error log can be specified OPTIONALLY.
 
 If no paths are defined, the chat server creates the log file in the chat server directory.
 
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "log" : "/var/www/ilias/data/chat.log",
+        "log_level" : "warning",
+        "error_log" : "/var/www/ilias/data/chat_errors.log"
+    }
+}
+```
+
 #### Connection ILIAS to the server
 
 By default, ILIAS uses the IP address or FQDN set in the server configuration. It is recommended that the chat server is only locally accessible and made publicly available through a proxy server. In this case, another URL MUST be specified, via which the client can connect to the chat server.
 
-![](./docu/images/view-serversettings_ilias_proxy_en.PNG)
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "ilias_proxy" :
+            "ilias_url" : "https://chat.myilias.de"
+        }
+    }
+}
+```
 
 **Note:** It is possible to specify the URL with and without protocol definition. If no protocol is specified, the protocol definition setting for the URL will be used.
 
@@ -134,14 +194,35 @@ By default, ILIAS uses the IP address or FQDN set in the server configuration. I
 
 See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connection the browser (client) uses to the chat server. The URL MUST be reachable by all browser clients.
 
-![](./docu/images/view-serversettings_client_proxy_en.PNG)
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "client_proxy" :
+            "client_url" : "https://chat.myilias.de"
+        }
+    }
+}
+```
 
 #### Delete old messages
 
 The deletion of old messages can be activated by selecting a ***Interval***. After this interval, all past messages are deleted, depending on the configured threshold. Both messages from the repository chat and from the on-screen chats are deleted.
 
-![](./docu/images/view-serversettings_deletion_mode_en.PNG)
-
+```
+{
+    ...
+    "chatroom": {
+        ...
+        "deletion_interval" :
+            "deletion_unit" : "months",
+            "deletion_value" : "3",
+            "deletion_time" :  "03:00"
+        }
+    }
+}
+```
 
 ### General Settings
 
