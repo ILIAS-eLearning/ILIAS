@@ -72,7 +72,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
      */
     public function executeCommand()
     {
-        $this->checkPermission('read');
+        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
