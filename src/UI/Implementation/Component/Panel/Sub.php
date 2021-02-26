@@ -16,50 +16,26 @@ class Sub extends Panel implements C\Panel\Sub
     use ComponentHelper;
 
     /**
-     * Card to be displayed on the right of the Sub Panel
-     * @var C\Card\Card
+     * Component to be displayed on the right of the Sub Panel
+     * @var C\Card\Card | C\Panel\Secondary\Secondary
      */
-    private $card = null;
-
-    /**
-     * Secondary panel to be displayed on the right of the Sub Panel
-     * @var C\Panel\Secondary\Secondary
-     */
-    private $secondary = null;
+    private $component = null;
 
     /**
      * @inheritdoc
      */
-    public function withCard(C\Card\Card $card)
+    public function withFurtherInformation($component)
     {
         $clone = clone $this;
-        $clone->card = $card;
+        $clone->component = $component;
         return $clone;
     }
 
     /**
      * @inheritdoc
      */
-    public function getCard()
+    public function getFurtherInformation()
     {
-        return $this->card;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withSecondaryPanel(C\Panel\Secondary\Secondary $secondary)
-    {
-        $clone = clone $this;
-        $clone->secondary = $secondary;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getSecondaryPanel()
-    {
-        return $this->secondary;
+        return $this->component;
     }
 }

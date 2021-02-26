@@ -108,18 +108,13 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        if ($component->getCard()) {
-            $tpl->setCurrentBlock("with_card");
+        if ($component->getFurtherInformation()) {
+            $tpl->setCurrentBlock("with_further_information");
             $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
-            $tpl->setVariable("CARD", $default_renderer->render($component->getCard()));
-            $tpl->parseCurrentBlock();
-        } elseif ($component->getSecondaryPanel()) {
-            $tpl->setCurrentBlock("with_secondary_panel");
-            $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
-            $tpl->setVariable("SECONDARY", $default_renderer->render($component->getSecondaryPanel()));
+            $tpl->setVariable("INFO", $default_renderer->render($component->getFurtherInformation()));
             $tpl->parseCurrentBlock();
         }else {
-            $tpl->setCurrentBlock("no_right_side");
+            $tpl->setCurrentBlock("no_further_information");
             $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
             $tpl->parseCurrentBlock();
         }
