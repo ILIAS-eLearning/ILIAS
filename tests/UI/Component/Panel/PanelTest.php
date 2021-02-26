@@ -252,26 +252,32 @@ EOT;
 
         $html = $r->render($report);
 
-        $expected_html =
-                "<div class=\"panel panel-primary il-panel-report panel-flex\">" .
-                "   <div class=\"panel-heading ilHeader\">" .
-                "<h3 class=\"ilHeader\">Title</h3>" .
-                "   </div>" .
-                "   <div class=\"panel-body\">" .
-                "
-             <div class=\"panel panel-sub panel-flex\">" .
-                "           <div class=\"panel-heading ilBlockHeader clearfix\">" .
-                "               <h3>Title</h3>" .
-                "           </div>" .
-                "           <div class=\"panel-body\"><div class=\"row\">" .
-                "               <div class=\"col-sm-8\"></div>" .
-                "               <div class=\"col-sm-4\">" .
-                "                   <div class=\"il-card thumbnail\"><div class=\"card-no-highlight\"></div><div class=\"caption\"><div class=\"card-title\">Card Title</div></div></div>" .
-                "               </div>" .
-                "           </div></div>" .
-                "       </div>" .
-                "   </div>" .
-                "</div>";
+        $expected_html = <<<EOT
+<div class="panel panel-primary il-panel-report panel-flex">
+    <div class="panel-heading ilHeader">
+        <h3 class="ilHeader">Title</h3>
+    </div>
+    <div class="panel-body">
+        <div class="panel panel-sub panel-flex">
+            <div class="panel-heading ilBlockHeader clearfix">
+                <h3>Title</h3>
+            </div>
+            <div class="panel-body"><div class="row">
+                <div class="col-sm-8"></div>
+                    <div class="col-sm-4">
+                        <div class="il-card thumbnail">
+                            <div class="card-no-highlight"></div>
+                            <div class="caption">
+                                <div class="card-title">Card Title</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+EOT;
 
         $this->assertHTMLEquals($expected_html, $html);
     }
