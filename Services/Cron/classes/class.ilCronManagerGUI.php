@@ -34,6 +34,12 @@ class ilCronManagerGUI
      * @var \ilTemplate
      */
     protected $tpl;
+    /** @var \ILIAS\DI\RBACServices */
+    private $rbac;
+    /** @var ilErrorHandling */
+    private $error;
+    /** @var \ILIAS\DI\Container */
+    private $dic;
 
     /**
      * ilCronManagerGUI constructor.
@@ -46,12 +52,19 @@ class ilCronManagerGUI
         $this->ctrl = $DIC->ctrl();
         $this->settings = $DIC->settings();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->dic = $DIC;
+        $this->rbac = $DIC->rbac();
+        $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('cron');
     }
 
     public function executeCommand()
     {
+        if (!$this->rbac->system()->checkAccess('visible,read', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $class = $this->ctrl->getNextClass($this);
 
         switch ($class) {
@@ -76,12 +89,21 @@ class ilCronManagerGUI
         ilUtil::sendInfo($this->lng->txt('cronjob_last_start') . ": " . $tstamp);
         
         include_once "Services/Cron/classes/class.ilCronManagerTableGUI.php";
-        $tbl = new ilCronManagerTableGUI($this, "render");
+        $tbl = new ilCronManagerTableGUI(
+            $this,
+            "render",
+            $this->dic,
+            $this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)
+        );
         $this->tpl->setContent($tbl->getHTML());
     }
     
     public function edit(ilPropertyFormGUI $a_form = null)
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $id = $_REQUEST["jid"];
         if (!$id) {
             $this->ctrl->redirect($this, "render");
@@ -230,6 +252,10 @@ class ilCronManagerGUI
     
     public function update()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $id = $_REQUEST["jid"];
         if (!$id) {
             $this->ctrl->redirect($this, "render");
@@ -277,6 +303,10 @@ class ilCronManagerGUI
     
     public function confirmedRun()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $job_id = $_GET["jid"];
         if ($job_id) {
             if (ilCronManager::runJobManual($job_id)) {
@@ -296,6 +326,10 @@ class ilCronManagerGUI
     
     public function confirmedActivate()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -318,6 +352,10 @@ class ilCronManagerGUI
     
     public function confirmedDeactivate()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -339,6 +377,10 @@ class ilCronManagerGUI
     
     public function confirmedReset()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -374,6 +416,10 @@ class ilCronManagerGUI
     
     protected function confirm($a_action)
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if (!$jobs) {
             $this->ctrl->redirect($this, "render");
