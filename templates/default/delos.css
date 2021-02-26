@@ -12807,7 +12807,7 @@ select {
 .form-control {
   font-size: 12px;
   color: #434343;
-  border: 1px solid #757575;
+  border: 1px solid #a8a8a8;
 }
 .form-control[disabled],
 .form-control[readonly],
@@ -12971,7 +12971,7 @@ div.ilFormExternalSetting ul {
   padding-right: 25px;
 }
 div.ilFormExternalSetting span {
-  color: #c08030;
+  color: #B54F00;
   /* font-style: italic; */
 }
 div[id^="ilFormField"] {
@@ -14299,7 +14299,7 @@ tr.calstd {
 }
 table.il-cal-day tr.calstd + tr.calstdtime td.calempty,
 table.il-cal-week tr.calstd + tr.calstdtime td.calempty {
-  background-color: #f9f9f9;
+  background-color: white;
 }
 table.il-cal-day tr.calstd,
 table.il-cal-week tr.calstd {
@@ -18825,7 +18825,7 @@ table.mceToolbar td {
   color: #434343;
   text-align: center;
   background-color: #f9f9f9;
-  border: 1px solid #757575;
+  border: 1px solid #a8a8a8;
   border-radius: 0;
 }
 .navbar-default {
