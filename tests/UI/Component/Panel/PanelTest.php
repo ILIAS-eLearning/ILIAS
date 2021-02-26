@@ -181,8 +181,8 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
-	<div class="panel-heading ilHeader clearfix">
-		<h2 class="ilHeader">Title</h2>
+	<div class="panel-heading ilHeader">
+		<h2>Title</h2>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -311,8 +311,8 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
-	<div class="panel-heading ilHeader clearfix">
-		<h2 class="ilHeader">Title</h2> 
+	<div class="panel-heading ilHeader">
+		<h2>Title</h2> 
 		<div class="il-viewcontrol-sortation" id="">
 <div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
 <ul class="dropdown-menu">
@@ -349,8 +349,8 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-primary panel-flex">
-	<div class="panel-heading ilHeader clearfix">
-		<h2 class="ilHeader">Title</h2> 
+	<div class="panel-heading ilHeader">
+		<h2>Title</h2> 
 		<div class="il-viewcontrol-pagination">
 <span class="browse previous"><a class="glyph" href="http://ilias.de?page=0" aria-label="back">
 <span class="glyphicon
