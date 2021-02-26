@@ -143,9 +143,9 @@ class PanelTest extends ILIAS_UI_TestBase
 
         $card = new I\Component\Card\Card("Card Title");
 
-        $p = $p->withCard($card);
+        $p = $p->withFurtherInformation($card);
 
-        $this->assertEquals($p->getCard(), $card);
+        $this->assertEquals($p->getFurtherInformation(), $card);
     }
 
     public function test_sub_with_secondary_panel()
@@ -157,9 +157,9 @@ class PanelTest extends ILIAS_UI_TestBase
         $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
         $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
 
-        $p = $p->withSecondaryPanel($secondary);
+        $p = $p->withFurtherInformation($secondary);
 
-        $this->assertEquals($p->getSecondaryPanel(), $secondary);
+        $this->assertEquals($p->getFurtherInformation(), $secondary);
     }
 
     public function test_report_get_title()
@@ -222,7 +222,7 @@ EOT;
 
         $p = $fp->sub("Title", array())->withActions($actions);
         $card = new I\Component\Card\Card("Card Title");
-        $p = $p->withCard($card);
+        $p = $p->withFurtherInformation($card);
         $html = $r->render($p);
 
         $expected_html = <<<EOT
@@ -263,7 +263,7 @@ EOT;
         $p = $fp->sub("Title", array());
         $legacy = new I\Component\Legacy\Legacy("Legacy content", new SignalGenerator());
         $secondary = new I\Component\Panel\Secondary\Legacy("Legacy panel title", $legacy);
-        $p = $p->withSecondaryPanel($secondary);
+        $p = $p->withFurtherInformation($secondary);
         $html = $r->render($p);
 
         $expected_html = <<<EOT
@@ -299,7 +299,7 @@ EOT;
         $r = $this->getDefaultRenderer();
         $sub = $fp->sub("Title", array());
         $card = new I\Component\Card\Card("Card Title");
-        $sub = $sub->withCard($card);
+        $sub = $sub->withFurtherInformation($card);
         $report = $fp->report("Title", $sub);
 
         $html = $r->render($report);

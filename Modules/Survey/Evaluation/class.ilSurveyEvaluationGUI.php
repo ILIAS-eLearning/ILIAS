@@ -1038,12 +1038,12 @@ class ilSurveyEvaluationGUI
         $anchor_id = "svyrdq" . $question->getId();
         $title = "<span id='$anchor_id'>$qst_title</span>";
         $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
-            ->withCard($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
+            ->FurtherInformation($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
 
         //commit 715c28815 from phantom patch
         //$anchor = "<a name='".$anchor_id."'></a>";
         //$panel_qst_card = $ui_factory->panel()->sub($anchor.$qst_title, $ui_factory->legacy($svy_text))
-        //->withCard($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
+        //->withFurtherInformation($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
         
         array_push($this->array_panels, $panel_qst_card);
 
