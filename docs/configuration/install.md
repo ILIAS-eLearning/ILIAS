@@ -16,7 +16,7 @@
       1. [PHP Installation and Configuration](#php-installation)
       1. [Database Installation/Configuration](#database-installation)
          1. [MySQL Strict Mode \(5.6+\)](#mysql-strict-mode-56)
-         1. [MySQL Perfomance Tuning \(optional\)](#mysql-perfomance-tuning-optional)
+         1. [MySQL Performance Tuning \(optional\)](#mysql-performance-tuning-optional)
       1. [Install other Depedencies](#install-other-depedencies)
          1. [Optional Dependencies](#optional-dependencies)
    1. [Get the code](#get-code)
@@ -51,12 +51,17 @@ The necessary hardware to run an ILIAS installation is always dependent from the
 <a name="hardware"></a>
 ## Hardware
 
-We recommend a **common dual core server CPU**. Memory requirements are greatly
-variable, depending on the number of users and server activity. We recommend a
-minimum of **4096 MB of RAM**. We recommend **250 GB of harddrive** for usual
-ILIAS deployments. 25 GB would be used by the operating system and ILIAS itself.
-225 GB would remain for the database and files. For the web server WAN connection
-we recommend at least **100 Mbit/sec**.
+The hardware requirements for ILIAS vary widely, depending on the number of concurrent
+users you expect and the features you want to enable. Please be aware that ILIAS
+is not a webpage, but a highly interactive application, thus requirements will be
+higher than in case of the former. Snappiness of the system will highly depend on
+deploying enough resources and tailoring the system to your needs. In any case we
+recommend an absolute minimum of a common dual core server CPU, **4GB of RAM**,
+and a 100 Mbit/s internet connection. Roughly estimated the operating system and
+ILIAS itself will use around **25GB**. From there you can calculate your storage
+needs based on the amount of files and media content you expect to upload plus a
+few GBs for the database.
+
 
 <a name="recommended-setup-for-running-ilias"></a>
 ## Recommended Setup for Running ILIAS
@@ -125,7 +130,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 ## Other Platforms or Configurations
 
 Please note that other platforms and configurations should be possible, but it
-might be harder to find someone who can help when things go south. You shall not
+might be harder to find someone who can help when things go south. You should not
 use a different configuration unless you are an experienced system administrator.
 
 
@@ -203,15 +208,8 @@ systemctl restart httpd.service
 <a name="php-installation"></a>
 ### PHP Installation and Configuration
 
-On Debian/Ubuntu execute:
-```
-apt-get install libapache2-mod-php7.3 php7.3-gd php7.3-mysql php7.3-mbstring php7.3-curl php7.3-dom php7.3-zip php7.3-xml
-```
-
-On RHEL/CentOS execute:
-```
-yum install php
-```
+Refer to the to documentation of your installation to install either PHP 7.3 to
+PHP 7.4 including packages for gd, mysq, mbstring, curl, dom, zip and xml.
 
 To check if the installation was successfull create the file `/var/www/html/phpinfo.php`
 with the following contents:
@@ -225,7 +223,7 @@ Then point your browser to ```http://yourservername.org/phpinfo.php```. If you s
 the content of the file as shown above your configuration is **not** working. If
 you can see details of your PHP Configuration everything works fine. Search for
 the entry ```Loaded configuration file``` as we now made some changes to it (e.g.
-`/etc/php5/apache2/php.ini`).
+`/etc/php5/apache2/php.ini`). Delete the file `phpinfo.php` afterwards.
 
 We recommend the following settings for your php.ini:
 
@@ -375,11 +373,12 @@ commands:
 
 ```
 cd /var/www/html/
-git clone https://github.com/ILIAS-eLearning/ILIAS.git .
-git checkout release_7
+git clone https://github.com/ILIAS-eLearning/ILIAS.git . --single-branch
+git checkout release_X
 ```
 
-or unpack the downloaded archieve to the docroot
+or unpack the downloaded archieve to the docroot. Replace `release_X` with the
+branch or tag you actually want to install.
 
 The repository of ILIAS doesn't contain all code that is required to run. To
 download the required PHP-dependencies and to create static artifacts from
@@ -401,9 +400,7 @@ chown www-data:www-data `/var/www/html
 chown www-data:www-data `/var/www/files
 ```
 
-If you want to server other applications from your webserver, you might want to
-use subdirectories in the docroot and the files-directory for ILIAS. The commands
-above will directly serve ILIAS from the docroot.
+The commands above will directly serve ILIAS from the docroot.
 
 <a name="install-ilias"></a>
 ## Install ILIAS
@@ -456,10 +453,11 @@ configuration might look like this afterwards:
 }
 ```
 
-Run the ILIAS command line setup with your configuration file from your ILIAS folder:
+Run the ILIAS command line setup from within your ILIAS folder with your configuration
+file (located outside your doc-root!) as a parameter:
 
 ```
-php setup/setup.php install my-configuration.json
+php setup/setup.php install /foo/bar/my-configuration.json
 ```
 
 The installation will display what currently happens and might prompt you with
@@ -580,32 +578,9 @@ FromLineOverride=YES
 
 The recommended webserver configuration is either **Apache with mod_php** or
 **Nginx with PHP-FPM (> 1.3.8)**. Do NOT use **Apache with PHP-FPM** if you
-use WebDAV.
+want to use WebDAV. Find more information about the configuration of WebDAV
+in the [WebDAV Readme](../../Services/WebDAV/README.md).
 
-<a name="webdav-windows-explorer"></a>
-### WebDAV with Windows Explorer
-Because of a special behaviour in the Windows Explorer, it sometimes fails to
-add a WebDAV connection with the error code `0x80070043 The Network Name
-Cannot Be Found`.
-
-To prevent this behaviour, add the following rewrite rules to a .htaccess file
-in your webroot or to the corresponding section of the configuration of your
-webserver:
-
-```
-RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
-RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
-RewriteRule .* "-" [R=401,L]
-```
-
-<a name="webdav-mac-finder"></a>
-### WebDAV with Mac Finder
-To upload files, the WebDAV Client *Finder* on Mac uses chunked transfer encoding.
-Some webservers can't handle this way of uploading files and are serving ILIAS
-an empty files, which results in an empty file object on ILIAS. Due to a bug in
-apache, the configuration of **Apache with PHP-FPM** does not work with the *Mac
-Finder*. If you use WebDAV on your ILIAS installation, we recommend to either
-use **Apache with mod_php** or **Nginx with PHP-FPM (> 1.3.8)**.
 
 <a name="install-plugins-and-styles"></a>
 ### Install Plugins and Styles
@@ -616,7 +591,7 @@ To develop plugins, you can start in our [development guide](http://www.ilias.de
 A variety of free plugins is provided from our community via the [ILIAS Plugin Repository](http://www.ilias.de/docu/goto.php?target=cat_1442&client_id=docu).
 
 Custom styles are the way to modify the look of your ILIAS installation. Have
-a look in the [documentation of the System Styles](../../templates/Readme.md)
+a look in the [documentation of the System Styles and Custom Styles](../../templates/Readme.md)
 to learn how to build and install them.
 
 
@@ -676,11 +651,11 @@ layout templates. Then execute the following commands in your ILIAS basepath
 
 ```
 git fetch
-git checkout release_7
+git checkout release_X
 composer install --no-dev
 ```
 
-Replace `release_7` with the branch or tag you actually want to upgrade to. You can
+Replace `release_X` with the branch or tag you actually want to upgrade to. You can
 get a list of available branches by executing `git branch -a` and a list of
 all available tags by executing `git tag`. Never use `trunk` or ```*beta``` for
 production.
@@ -730,6 +705,9 @@ Both commands will display what currently happens and might prompt you with
 questions. You might want to have a look into the [documenation of the command line setup](../../setup/README.md)
 or into the help of the program itself `php setup/setup.php help`. It is the tool
 to manage and monitor your ILIAS installation.
+
+To check which update step gets currently executed run the following SQL-Statement
+on your ILIAS database: `SELECT * FROM `settings` WHERE keyword = "db_update_running"`.
 
 
 ## Information on Updates
