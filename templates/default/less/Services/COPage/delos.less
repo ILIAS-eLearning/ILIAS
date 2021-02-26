@@ -5,8 +5,8 @@ a.ilEditSubmit {
 	padding: 2px;
 	margin: 0;
 	border: 1px solid #bababa;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
+	border-bottom-color: @il-neutral-light-color;
+	border-right-color: @il-neutral-light-color;
 	text-decoration: none;
 	font-size: 80%;
 	line-height: 14px;
@@ -22,10 +22,10 @@ input.ilEditSubmit {
 	cursor: pointer;
 	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
 	border: 1px solid #bababa;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
+	border-bottom-color: @il-neutral-light-color;
+	border-right-color: @il-neutral-light-color;
 	&:hover {
-		color: black;
+		color: @il-text-hover-color;
 	}
 }
 
@@ -77,7 +77,7 @@ button.copg-add.dropdown-toggle.btn:hover,
 
 button.copg-add.dropdown-toggle.btn:hover {
 	background-color: #f3f3f3;
-	color: #797979;
+	color: @il-text-light-color;
 }
 
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
@@ -280,7 +280,7 @@ div.il-copg-button-group-wide {
 [dir="rtl"] div.ilTinyMenuSection {
 	float: right;
     border-right: none;
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid @il-neutral-lighter-color;
     padding: 0 0 4px 10px;
 	margin-right: 0;
 	margin-left: 10px;
@@ -316,7 +316,7 @@ div.il-copg-button-group-wide {
 				margin: 0;
 			}
 			.small {
-				color: #909090;
+				color: @il-text-light-color;
 				font-style: italic;
 			}
 		}
@@ -370,7 +370,7 @@ a.ilTinyMenuDropDown {
 div.ilc_page_toc_PageTOC {
 	font-size: 90%;
 	padding: 5px 5px 10px;
-	background-color: #fafafa;
+	background-color: @il-main-dark-bg;
 	border: 1px solid #f0f0f0;
 	float: left;
 }
@@ -520,11 +520,11 @@ span.ilDiffIns {
 
 a.nostyle:link, a.nostyle:visited {
 	text-decoration: none;
-	color: black;
+	color: @il-text-hover-color;
 }
 
 a.nostyle:hover {
-	color: black;
+	color: @il-text-hover-color;
 }
 
 #ilEditorPanel_c {
@@ -545,7 +545,7 @@ a.nostyle:hover {
 			width: 40px;
 			border-color: #d0d0d0;
 			color: #d0d0d0;
-			background-color: #fcfcfc;
+			background-color: @il-main-dark-bg;
 			cursor: default;
 			height: 21px;
 		}
@@ -757,14 +757,14 @@ p#copg-auto-save {
 
 #ed_datatable {
 
-	background-color: #ffffff;
+	background-color: @il-main-bg;
 
 	th {
-		background-color: #fbfbfb;
+		background-color: @il-main-dark-bg;
 		.dropdown button {
-			background-color: #fbfbfb;
+			background-color: @il-main-dark-bg;
 			text-align: center;
-			color: #303030;
+			color: @il-text-color;
 			width: 100%;
 			border: 0;
 		}
@@ -777,7 +777,7 @@ p#copg-auto-save {
 
 .copg-new-content-placeholder {
 	text-align: center;
-	color: #808080;
+	color: @il-text-light-color;
 	padding: 20px;
 }
 

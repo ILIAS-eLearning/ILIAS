@@ -5588,7 +5588,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel-footer {
   padding: 9px 12px;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
   border-top: 1px solid #ddd;
   border-bottom-right-radius: -1px;
   border-bottom-left-radius: -1px;
@@ -8574,7 +8574,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-workflow-container .no-longer-available:before {
   content: "\e033";
   color: #ddd;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
   border: none;
 }
 .il-workflow-container .not-available.in-progress:before,
@@ -11867,8 +11867,8 @@ table.std {
   border: 1px solid #9eadba;
 }
 .fullwidth_invisible {
-  color: #222;
-  background-color: white;
+  color: #434343;
+  background-color: #f9f9f9;
   width: 100%;
   border-spacing: 0;
 }
@@ -11924,8 +11924,8 @@ th.std {
 }
 th.option,
 td.option {
-  background-color: #f5f5f5;
-  color: #222;
+  background-color: white;
+  color: #434343;
   padding: 3px;
   font-weight: bold;
   vertical-align: top;
@@ -12777,21 +12777,21 @@ div.ilc_va_icont_VAccordICont {
 }
 /* Modules/ScormAicc */
 table.il_ScormTable {
-  color: #222;
+  color: #434343;
   background-color: #bbb;
   border-spacing: 1px;
   border: none;
 }
 td.il_ScormTableKey {
-  background-color: #e2e2e2;
-  color: #222;
+  background-color: #e0e0e0;
+  color: #434343;
   padding: 1px 3px;
   vertical-align: top;
   text-align: right;
 }
 td.il_ScormTableValue {
-  background: none #f7f7f7;
-  color: #222;
+  background: none #f9f9f9;
+  color: #434343;
   padding: 1px 3px;
   vertical-align: top;
   text-align: left;
@@ -13069,7 +13069,7 @@ div[id$="color-picker-menu"] {
 /* Services/UI/Explorer2 */
 table.ilExplorer {
   width: 100%;
-  background-color: #f6f6f6;
+  background-color: #f9f9f9;
 }
 body.il_Explorer {
   background: none #f9f9f9;
@@ -13085,10 +13085,10 @@ div.ilExpH {
 }
 td.ilExpBody {
   border-top: 1px solid #e0e0e0;
-  background-color: #fafafa;
+  background-color: #f9f9f9;
 }
 h1.ilExplorerHead {
-  color: #404040;
+  color: #434343;
   margin: 0;
   padding: 10px 5px 10px 28px;
   vertical-align: top;
@@ -13215,7 +13215,7 @@ a.ilTreeView:focus {
   padding: 0 5px;
   background: #e8eff7;
   border: 1px solid #aecff7;
-  color: black;
+  color: #2a2a2a;
   border-radius: 2px;
 }
 #vakata-contextmenu.jstree-context li.jstree-contextmenu-disabled a,
@@ -13322,7 +13322,7 @@ div.ilForumQuoteHead {
   }
 }
 div.ilFrmPostHeader span.small {
-  color: #909090;
+  color: #757575;
 }
 .ilFrmPostContentContainer {
   margin: 0 0 10px;
@@ -13446,8 +13446,8 @@ a.ilEditSubmit {
   padding: 2px;
   margin: 0;
   border: 1px solid #bababa;
-  border-bottom-color: #808080;
-  border-right-color: #808080;
+  border-bottom-color: #757575;
+  border-right-color: #757575;
   text-decoration: none;
   font-size: 80%;
   line-height: 14px;
@@ -13462,11 +13462,11 @@ input.ilEditSubmit {
   cursor: pointer;
   background: url("images/ButtonsBack.png") repeat-x bottom white;
   border: 1px solid #bababa;
-  border-bottom-color: #808080;
-  border-right-color: #808080;
+  border-bottom-color: #757575;
+  border-right-color: #757575;
 }
 input.ilEditSubmit:hover {
-  color: black;
+  color: #2a2a2a;
 }
 div.ilEditHelpline {
   margin: 3px 0;
@@ -13508,7 +13508,7 @@ button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus,
 }
 button.copg-add.dropdown-toggle.btn:hover {
   background-color: #f3f3f3;
-  color: #797979;
+  color: #757575;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
   left: 45%;
@@ -13715,7 +13715,7 @@ div.il-copg-button-group-wide {
   margin: 0;
 }
 #iltinymenu .bd div .small {
-  color: #909090;
+  color: #757575;
   font-style: italic;
 }
 #iltinymenu .btn-default .mce-ico {
@@ -13754,7 +13754,7 @@ a.ilTinyMenuDropDown {
 div.ilc_page_toc_PageTOC {
   font-size: 90%;
   padding: 5px 5px 10px;
-  background-color: #fafafa;
+  background-color: #f9f9f9;
   border: 1px solid #f0f0f0;
   float: left;
 }
@@ -13885,10 +13885,10 @@ span.ilDiffIns {
 a.nostyle:link,
 a.nostyle:visited {
   text-decoration: none;
-  color: black;
+  color: #2a2a2a;
 }
 a.nostyle:hover {
-  color: black;
+  color: #2a2a2a;
 }
 #ilEditorPanel_c {
   z-index: 3000 !important;
@@ -13905,7 +13905,7 @@ a.nostyle:hover {
   width: 40px;
   border-color: #d0d0d0;
   color: #d0d0d0;
-  background-color: #fcfcfc;
+  background-color: #f9f9f9;
   cursor: default;
   height: 21px;
 }
@@ -14077,15 +14077,15 @@ p#copg-auto-save {
   z-index: 10;
 }
 #ed_datatable {
-  background-color: #ffffff;
+  background-color: white;
 }
 #ed_datatable th {
-  background-color: #fbfbfb;
+  background-color: #f9f9f9;
 }
 #ed_datatable th .dropdown button {
-  background-color: #fbfbfb;
+  background-color: #f9f9f9;
   text-align: center;
-  color: #303030;
+  color: #434343;
   width: 100%;
   border: 0;
 }
@@ -14095,7 +14095,7 @@ p#copg-auto-save {
 }
 .copg-new-content-placeholder {
   text-align: center;
-  color: #808080;
+  color: #757575;
   padding: 20px;
 }
 .il-copg-drag {
@@ -14506,7 +14506,7 @@ a.ilWikiPageMissing:visited {
   color: red;
 }
 a.ilWikiPageMissing:hover {
-  color: black;
+  color: #2a2a2a;
 }
 ul.ilWikiBlockList {
   margin: 0 0 0 20px;
@@ -15365,7 +15365,7 @@ div.ilBlogListItemTitle h3 {
 }
 div.ilBlogListItemSubTitle {
   margin-top: 5px;
-  color: #909090;
+  color: #757575;
   font-size: 80%;
   text-align: right;
 }
@@ -15392,8 +15392,8 @@ td.ilBlogSideBlockContent {
 }
 td.ilBlogSideBlockCommand {
   font-size: 75%;
-  color: #909090;
-  border-bottom: 1px solid #e9e9e9;
+  color: #757575;
+  border-bottom: 1px solid #e0e0e0;
   padding: 1px 3px;
   background-color: #f9f9f9;
   text-align: right;
@@ -15452,7 +15452,7 @@ div.ilSkill > h4 {
   margin: 10px 0;
   padding: 0;
   font-size: 1em;
-  color: #909090;
+  color: #757575;
   float: left;
   clear: left;
 }
@@ -15491,7 +15491,7 @@ td.ilSkillLevel {
 }
 th.ilSkill,
 td.ilSkillLevel {
-  background-color: #f8f8f8;
+  background-color: #f9f9f9;
 }
 td.ilSkillSelf {
   background-color: #fff0e0;
@@ -15985,7 +15985,7 @@ div.ilc_TextPlaceHolderThumb,
 div.ilc_PredTextPlaceHolderThumb {
   margin: 1px;
   padding: 5px 2px 5px 0;
-  border: 1px solid gray;
+  border: 1px solid #434343;
   font-size: 10px;
   background: url("images/question_placeholder_thumb.png") no-repeat center;
   font-weight: bold;
@@ -16003,8 +16003,8 @@ div.ilc_HeadlineThumb {
   font-size: 11px;
   font-weight: bold;
   width: 100%;
-  border-bottom: 1px solid gray;
-  color: gray;
+  border-bottom: 1px solid #434343;
+  color: #434343;
   margin: 2px 0 4px;
 }
 /* Modules/Course */
@@ -16019,14 +16019,14 @@ div.ilc_HeadlineThumb {
 }
 td.option_value_details {
   background: none white;
-  color: #222;
+  color: #434343;
   padding: 3px;
   vertical-align: top;
   text-align: left;
 }
 td.option_value_center_details {
   background: none #ffe4e4;
-  color: #222;
+  color: #434343;
   padding: 3px;
   vertical-align: top;
   text-align: center;
@@ -16646,8 +16646,8 @@ td.ilBlockHeaderBig {
   padding: 3px 0;
   margin: 0 5px;
   text-align: left;
-  color: #696969;
-  border-bottom: 1px solid #dcdcdc;
+  color: #434343;
+  border-bottom: 1px solid #e0e0e0;
   /* box-shadow: 0 -2px 1px -1px white inset; no white lines */
 }
 div.ilBlockHeaderBig,
@@ -16752,7 +16752,7 @@ div.ilInfoScreenSec h2.ilHeader {
 .il_InfoScreenProperty {
   padding: 15px;
   vertical-align: top;
-  color: #696969;
+  color: #757575;
   font-style: italic;
 }
 .il_InfoScreenPropertyValue {
@@ -17782,7 +17782,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator {
   text-align: center;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator p {
   font-size: 0.9em;
@@ -18486,7 +18486,7 @@ span.ilProfileBadge .modal .img-responsive {
   line-height: 40px;
 }
 .ilLSOKioskTopBarControls .btn-link {
-  color: #f5f5f5;
+  color: #f9f9f9;
   font-size: 1em;
   font-weight: 600;
   margin-left: 15px;
