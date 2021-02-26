@@ -39,7 +39,8 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
     {
         return [
             new \ilIniFilesLoadedObjective(),
-            new \ilDatabaseInitializedObjective()
+            new \ilDatabaseInitializedObjective(),
+            new \ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
         ];
     }
 
