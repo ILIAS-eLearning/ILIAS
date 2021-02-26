@@ -1,19 +1,5 @@
 # ILIAS Installation
 
-Around since 1998, ILIAS is a powerful learning management system that fulfils
-all your requirements. Using its integrated tools, small and large businesses,
-universities, schools and public authorities are able to create tailored,
-individual learning scenarios.
-
-The international ILIAS community provides the direction for the development of
-ILIAS, which is then coordinated by the ILIAS Society. A professional network
-of service providers can make adjustments for you, as well as offering hosting
-and training.
-
-Anyone can use ILIAS - free of cost - and also take part in shaping its further
-development.
-
-
 # Table of Contents
 
 <!-- MarkdownTOC depth=0 autolink="true" bracket="round" autoanchor="true" style="ordered" indent="   " -->
