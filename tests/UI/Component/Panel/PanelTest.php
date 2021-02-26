@@ -255,7 +255,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
-        <h3 class="ilHeader">Title</h3>
+        <h3>Title</h3>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
