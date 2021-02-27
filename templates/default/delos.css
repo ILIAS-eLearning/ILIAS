@@ -11809,10 +11809,6 @@ html.il-no-tiny-bg body#tinymce {
 .fullwidth {
   width: 100%;
 }
-/* --- 3 column layout -- */
-#ilContentContainer {
-  /*min-height: 400px;*/
-}
 div.input {
   border: 1px solid #e0e0e0;
   padding: 3px;
@@ -12056,7 +12052,6 @@ a.il_ItemProperty:hover {
 span.il_ItemAlertProperty {
   color: #B54F00;
 }
-/* Table Links */
 /* --- description text ---*/
 div.il_Description,
 td.il_Description {
@@ -12406,7 +12401,6 @@ a.light:visited {
 a.light:hover {
   color: black;
 }
-/* Messages */
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
