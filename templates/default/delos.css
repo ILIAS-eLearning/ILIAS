@@ -6912,10 +6912,6 @@ button.close {
   color: #707070;
   font-size: 17px;
 }
-.panel .panel-heading.ilHeader .dropdown,
-.panel .panel-heading.ilBlockHeader .dropdown {
-  float: right;
-}
 .panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
 .panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
   color: white;
@@ -6926,6 +6922,7 @@ button.close {
 }
 .panel-flex .panel-heading {
   display: flex;
+  justify-content: space-between;
   flex-flow: row wrap;
 }
 .panel-flex .ilHeader {
@@ -6941,14 +6938,6 @@ button.close {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
-}
-.panel-flex .panel-heading .dropdown {
-  flex-grow: 1;
-  flex-shrink: 0;
-  order: 3;
-}
-.panel-flex .panel-heading .dropdown .dropdown-toggle {
-  float: right;
 }
 .panel-flex .il-viewcontrol-sortation {
   flex-grow: 1;
