@@ -201,7 +201,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     
     public function saveCustom()
     {
-        if (!$this->checkPermissionBool("create", "", $new_type)) {
+        if (!ilLTIConsumerAccess::hasCustomProviderCreationAccess()) {
             throw new ilLtiConsumerException('permission denied!');
         }
         
