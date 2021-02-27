@@ -300,7 +300,12 @@ class Renderer extends AbstractComponentRenderer
             }else{
                 //Note that aria-role='menuitems MUST-NOT have Aria-pressed to true;
                 $tpl->setCurrentBlock("with_aria_pressed");
-                $tpl->setVariable("ARIA_PRESSED", "true");
+                if($component->isEngaged()){
+                    $tpl->setVariable("ARIA_PRESSED", "true");
+                }else{
+                    $tpl->setVariable("ARIA_PRESSED", "false");
+
+                }
                 $tpl->parseCurrentBlock();
             }
         }
