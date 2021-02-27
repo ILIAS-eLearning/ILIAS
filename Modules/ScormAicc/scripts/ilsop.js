@@ -52,6 +52,7 @@ $( document ).ready( function() {
 					msg(sopGlobals.sop_system_check_https,true);
 				} else {
 					msg(sopGlobals.sop_system_check_error,true);
+					return;
 				}
 			}
 			inProgress();

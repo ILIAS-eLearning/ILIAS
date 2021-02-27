@@ -12003,8 +12003,8 @@ book#:#book_reservation_failed_overbooked#:#The booking failed because the objec
 common#:#obj_wiks#:#Wiki
 common#:#obj_wiks_desc#:#Global Wiki Settings
 blog#:#blog_edit_posting#:#Edit Posting
-sop#:#sop_check_system_requirements#:#Checking system requirements
-sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
+sop#:#sop_check_system_requirements#:#Checking system requirements. Please note: Since Firefox Version 81 browser.cache.offline.storage.enable must be enabled. Please navigate to "about:config", search for "browser.cache.offline.storage.enable" and toggle to true.
+sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features. Please use Mozilla Firefox.
 sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
 sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
 sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
