@@ -107,9 +107,13 @@ class Renderer extends AbstractComponentRenderer
             } else {
                 $aria_pressed = 'false';
             }
-            $tpl->setCurrentBlock("with_aria_pressed");
-            $tpl->setVariable("ARIA_PRESSED", $aria_pressed);
-            $tpl->parseCurrentBlock();
+
+            //Note that Bulky Buttons need to handle aria_pressed seperatly due to possible aria_role conflicts
+            if(!($component instanceof Bulky)){
+                $tpl->setCurrentBlock("with_aria_pressed");
+                $tpl->setVariable("ARIA_PRESSED", $aria_pressed);
+                $tpl->parseCurrentBlock();
+            }
         }
 
         $this->maybeRenderId($component, $tpl);
@@ -290,8 +294,20 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ARIA_ROLE", $aria_role);
             $tpl->parseCurrentBlock();
         }
-        if ($aria_role == Bulky::MENUITEM) {
-            $tpl->touchBlock("with_aria_haspopup");
+        if ($component->isEngageable()) {
+            if($aria_role == Bulky::MENUITEM){
+                $tpl->touchBlock("with_aria_haspopup");
+            }else{
+                //Note that aria-role='menuitems MUST-NOT have Aria-pressed to true;
+                $tpl->setCurrentBlock("with_aria_pressed");
+                if($component->isEngaged()){
+                    $tpl->setVariable("ARIA_PRESSED", "true");
+                }else{
+                    $tpl->setVariable("ARIA_PRESSED", "false");
+
+                }
+                $tpl->parseCurrentBlock();
+            }
         }
     }
 
