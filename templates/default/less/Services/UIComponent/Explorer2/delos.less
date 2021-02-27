@@ -2,7 +2,7 @@
 
 table.ilExplorer {
 	width: 100%;
-	background-color: #f6f6f6;
+	background-color: @il-main-dark-bg;
 }
 
 div.ilExplorerFrame {
@@ -12,7 +12,7 @@ td.ilExpH {
 }
 
 body.il_Explorer {
-	background: none #f9f9f9;
+	background: none @il-main-dark-bg;
 }
 
 div.il_Explorer {
@@ -27,12 +27,12 @@ div.ilExpH {
 }
 
 td.ilExpBody {
-	border-top: 1px solid #e0e0e0;
-	background-color: #fafafa;
+	border-top: 1px solid @il-neutral-lighter-color;
+	background-color: @il-main-dark-bg;
 }
 
 h1.ilExplorerHead {
-	color: #404040;
+	color: @il-text-color;
 	margin: 0;
 	padding: 10px 5px 10px 28px;
 	vertical-align: top;
@@ -86,8 +86,8 @@ a.ilTreeView {
 	//@media only screen and (max-width: 768px) {top: 140px;}
 	z-index: 1020;
 	bottom: 160px;
-	background-color: white;
-	border: 1px solid #e0e0e0;
+	background-color: @il-main-bg;
+	border: 1px solid @il-neutral-lighter-color;
 	border-left: none;
     .box-shadow(1px 1px 2px #b9b9b9);
 	width: 6px;
@@ -100,7 +100,7 @@ a.ilTreeView {
 		margin-left: -2px;
 		max-width: inherit;
 		background-color: white;
-		border-right: 2px solid #e0e0e0;
+		border-right: 2px solid @il-neutral-lighter-color;
 		width: 28px;
 		height: 28px;
 	}
@@ -117,7 +117,7 @@ a.ilTreeView {
 }
 
 [dir="rtl"] a.ilTreeView {
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-neutral-lighter-color;
 	border-right: none;
 	> img {
 		margin-left: 0;
@@ -142,12 +142,12 @@ a.ilTreeViewRight:hover {
 }
 
 .jstree.jstree-default a.disabled {
-	color: #303030 !important;
+	color: @il-text-color !important;
 	cursor: default !important;
 }
 
 .jstree.jstree-default a {
-	font-size: 90%;
+	font-size: 100%;
 	min-height: 22px;
 }
 
@@ -182,7 +182,7 @@ a.ilTreeViewRight:hover {
 	padding: 0 5px;
 	background: #e8eff7;
 	border: 1px solid #aecff7;
-	color: black;
+	color: @il-text-hover-color;
 	border-radius: 2px;
 }
 
@@ -196,7 +196,7 @@ a.ilTreeViewRight:hover {
 
 #vakata-contextmenu.jstree-context li.vakata-separator {
 	background: white;
-	border-top: 1px solid #e0e0e0;
+	border-top: 1px solid @il-neutral-lighter-color;
 	margin: 0;
 }
 

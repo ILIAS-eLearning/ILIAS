@@ -17,14 +17,14 @@ with the il- variable set here.
 //** Used to indicate some success, used to be @brand-info
 @il-info-color: #dcb496;
 //** Used to indicate some warning or to draw special focus to some element, used to be @brand-warning
-@il-warning-color: #fa8228;
+@il-warning-color: #B54F00;
 //** Used to indicate some warning or to draw special focus to some element, used to be @brand-danger
 @il-danger-color: #a94442;
 
 //** Neutral Color for various Backgrounds, used to be @gray-dark and @il-neutral-color
 @il-neutral-color: #434343;
 //** Light version of the @il-neutral-color, used to be @gray-light
-@il-neutral-light-color: #909090;
+@il-neutral-light-color: #757575;
 //** Lighter version of the @il-neutral-color,
 @il-neutral-lighter-color: #e0e0e0;
 
@@ -59,7 +59,7 @@ with the il- variable set here.
 //** Variant 2 of the extended color set in ILIAS
 @il-extended-color-2: #cddc39;
 //** Variant 3 of the extended color set in ILIAS
-@il-extended-color-3: #59a0a5;
+@il-extended-color-3: #26646d;
 //** Variant 4 of the extended color set in ILIAS
 @il-extended-color-4: #86cb92;
 //** Variant 5 of the extended color set in ILIAS
@@ -139,39 +139,39 @@ with the il- variable set here.
 @il-standard-page-logo-height: 45px;
 @il-standard-page-logo-width: 45px;
 @il-standard-page-header-height: 60px;
-@il-standard-page-header-bg-color: #fff;
-@il-standard-page-border-light-color: #ddd;
+@il-standard-page-header-bg-color: @il-main-bg;
+@il-standard-page-border-light-color: @il-neutral-lighter-color;
 @il-standard-page-content-padding: 20px;
 
 //** metabar
 @il-metabar-entry-height: 60px;
 @il-metabar-entry-width: 60px;
 @il-metabar-glyph-size: 2.3rem;
-@il-metabar-glyph-color: #aaa;
+@il-metabar-glyph-color: @il-neutral-light-color;
 @il-metabar-slates-width: 500px;
 
 //** breadcrumbs
 @il-standard-page-breadcrumbs-height: 33px;
-@il-standard-page-breadcrumbs-bg-color: #fff;
+@il-standard-page-breadcrumbs-bg-color: @il-main-bg;
 @il-standard-page-breadcrumbs-color: @il-link-color;
 @il-standard-page-breadcrumbs-active-color: @il-link-hover-color;
-@il-standard-page-breadcrumbs-divider-color: #bbb;
+@il-standard-page-breadcrumbs-divider-color: @il-neutral-light-color;
 @il-standard-page-breadcrumbs-font-weight: 600;
 @il-standard-page-breadcrumbs-seperator: " \e606";
 
 //** mainbar
-@il-maincontrols-mainbar-bg-color: #fff;
+@il-maincontrols-mainbar-bg-color: @il-main-bg;
 @il-mainbar-btn-height: 80px;
 @il-mainbar-btn-width: 80px;
-@il-mainbar-btn-color: #fff;
-@il-mainbar-btn-bg-color: #4a4a4a;
-@il-mainbar-btn-color-engaged: #4a4a4a;
-@il-mainbar-btn-bg-color-engaged: #fff;
+@il-mainbar-btn-color: white;
+@il-mainbar-btn-bg-color: @il-neutral-color;
+@il-mainbar-btn-color-engaged: @il-neutral-color;
+@il-mainbar-btn-bg-color-engaged: @il-main-bg;
 @il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
 @il-mainbar-btn-label-size: .9rem;
 @il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-btn-bg: @il-warning-color;
-@il-mainbar-tools-bg: @il-main-bg;
+@il-mainbar-tools-bg: @il-content-bg;
 @il-mainbar-tools-item-gap: 3px;
 
 //** tools
@@ -199,7 +199,7 @@ with the il- variable set here.
 @il-slate-bulky-label-size: 1.5rem;
 @il-slate-content-spacing: 2px;
 @il-standard-page-slate-width: 329px;
-@il-mainbar-slates-bg-color: #fff;
+@il-mainbar-slates-bg-color: @il-main-bg;
 @il-metabar-slates-bg-color: #fafafa;
 @il-mainbar-close-slate-btn-height: 45px;
 @il-metabar-close-slate-btn-height: 30px;
@@ -239,7 +239,7 @@ with the il- variable set here.
 @il-top-bar-dropdown-color: lighten(@il-neutral-color, 70%);
 @il-top-bar-dropdown-link-bg: transparent;
 @il-top-bar-dropdown-link-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-dropdown-link-hover-bg: lighten(@il-main-color, 53%);
+@il-top-bar-dropdown-link-hover-bg: @il-highlight-bg;
 @il-top-bar-dropdown-link-hover-color: lighten(@il-neutral-color, 42%);
 //** controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-height: 50px;
@@ -261,7 +261,7 @@ with the il- variable set here.
 //** that is the height of the complete header, that is that thingy upon the real content of the page.
 @il-header-height: ceil((@il-main-header-height + @il-top-bar-height - @il-header-border-bottom-height));
 //** controls the bg color of the main header.
-@il-main-header-bg: white;
+@il-main-header-bg: @il-main-bg;
 //** controls the position of the top of the main menu.
 @il-main-menu-top: -38px;
 //** controls the position of the left side of the main menu.
@@ -275,11 +275,11 @@ with the il- variable set here.
 @il-main-menu-link-bg: transparent;
 @il-main-menu-link-hover-bg: transparent;
 @il-main-menu-link-active-bg: #fafafa;
-@il-main-menu-dropdown-bg: #fafafa;
+@il-main-menu-dropdown-bg: @il-main-bg;
 @il-main-menu-dropdown-link-color: lighten(@il-neutral-color, 10%);
 @il-main-menu-dropdown-link-hover-color: darken(@il-neutral-color, 5%);
 @il-main-menu-dropdown-link-bg: transparent;
-@il-main-menu-dropdown-link-hover-bg: lighten(@il-main-color, 53%);
+@il-main-menu-dropdown-link-hover-bg: @il-highlight-bg;
 @il-main-menu-dropdown-header-bg: #f3f3f3;
 
 //== Footer
@@ -330,7 +330,7 @@ with the il- variable set here.
 @il-disabled-btn-border: #b0b0b0;
 @il-disabled-btn-color: #e0e0e0;
 //** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
-@il-btn-tag-bg: #75deea;
+@il-btn-tag-bg: #26646d;
 @il-btn-tag-bg-relevance-verylow: desaturate(@il-btn-tag-bg, 80%);
 @il-btn-tag-bg-relevance-low: desaturate(@il-btn-tag-bg, 60%);
 @il-btn-tag-bg-relevance-middle: desaturate(@il-btn-tag-bg, 40%);
@@ -395,28 +395,28 @@ with the il- variable set here.
 //## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
 
 //** Textcolor used in the forms sections bodies
-@il-standard-form-color: #808080;
+@il-standard-form-color: @il-text-color;
 //** Textcolor used in the bylines (descriptions) of the input fields of a form
-@il-standard-form-byline-color: lighten(@il-standard-form-color, 10%);
+@il-standard-form-byline-color: @il-text-light-color;
 //** Textcolor used in the labels (identifiers) of the input fields of a form
-@il-standard-form-label-color: darken(@il-standard-form-color, 20%);
+@il-standard-form-label-color: @il-text-color;
 //** Background color used in the
-@il-standard-form-bg: @il-main-dark-bg;
+@il-standard-form-bg: @il-main-bg;
 //** Textsize used in the forms body
 @il-standard-form-font-size: @il-font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
 @il-standard-form-byline-font-size: 90%;
 
 //** Textcolor used in the forms header, the sections header and the footer
-@il-standard-form-header-color: lighten(@il-standard-form-color, 10%);
+@il-standard-form-header-color: @il-text-color;
 //** Background color used in the forms header, the sections header and the footer
-@il-standard-form-header-bg: @il-main-bg;
+@il-standard-form-header-bg: @il-content-bg;
 //** Textsize color used in the forms header and the sections header
 @il-standard-form-header-font-size: ceil((@il-font-size-base * 1.3));
 //** Textsize color used in the form headers the section headers byline (description)
 @il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
-@il-standard-form-dependant-group-bg: darken(@il-standard-form-bg, 2%);
+@il-standard-form-dependant-group-bg: @il-main-dark-bg;
 
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 60px;
@@ -457,8 +457,8 @@ with the il- variable set here.
 //== Input Fields
 //
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
-@il-FormColor: #808080;
-@il-FormBgColor: #FDFDFD;
+@il-FormColor: @il-text-light-color;
+@il-FormBgColor: @il-main-bg;
 @il-FormInputFontSize: @il-font-size-small;
 @il-textarea-height: (floor(4 * (@il-standard-form-font-size * @il-line-height-base)) + (@padding-base-vertical * 2) + 2);
 
@@ -471,8 +471,8 @@ with the il- variable set here.
 //== Tables
 //
 //##
-@il-table-head-bg: lighten(@il-main-dark-bg, 1%);
-@il-data-table-bg: @il-main-dark-bg;
+@il-table-head-bg: @il-main-bg;
+@il-data-table-bg: @il-main-bg;
 @il-table-cmd-bg: @il-main-dark-bg;
 
 //** Presentation Table borders
@@ -483,7 +483,7 @@ with the il- variable set here.
 @il-table-presentation-rowcontrol-colwidth: 5%;
 @il-table-presentation-contents-colwidth: 95%;
 
-@il-table-presentation-details-viewcontrols-bg-color: lighten(@il-main-color, 50%);
+@il-table-presentation-details-viewcontrols-bg-color: @il-highlight-bg;
 @il-table-presentation-details-viewcontrols-btn-color: @il-main-color;
 @il-table-presentation-details-viewcontrols-btn-bg: white;
 
@@ -493,7 +493,7 @@ with the il- variable set here.
 @il-toolbar-margin: 15px; // Margin between toolbar items
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
-@il-toolbar-border: 1px solid #d8d8d8;
+@il-toolbar-border: 1px solid @il-neutral-lighter-color;
 
 //== Postings
 //
@@ -504,11 +504,11 @@ with the il- variable set here.
 //== Glyph
 //
 //##
-@il-glyph-color: @link-color;
-@il-glyph-hover-color: @link-hover-color;
+@il-glyph-color: @il-link-color;
+@il-glyph-hover-color: @il-link-hover-color;
 @il-glyph-highlighted-color: @il-warning-color;
-@il-glyph-highlighted-hover-color: darken(@il-warning-color, 15%);
-@il-glyph-disabled-color: #e0e0e0;
+@il-glyph-highlighted-hover-color: @il-warning-color;
+@il-glyph-disabled-color: @il-neutral-lighter-color;
 
 //== Counter
 //
@@ -537,7 +537,7 @@ with the il- variable set here.
 //## Customizes the Drozpones component
 
 //** Default background color used for dropzones.
-@il-dropzone-bg: white;
+@il-dropzone-bg: @il-main-bg;
 @il-dropzone-bg-inactive: #F4F4F4;
 //** Background color used when a dropzone is highlighted (not when hovered).
 @il-dropzone-highlight-bg: #FFFFD6;
@@ -589,9 +589,9 @@ with the il- variable set here.
 //** Text color of those tooltips
 @il-tooltip-color: white;
 //** Background color of those tooltips
-@il-tooltip-bg-color: lighten(@il-main-color, 10%);
+@il-tooltip-bg-color: @il-main-color;
 //** Border color of those tooltips
-@il-tooltip-border-color: lighten(@il-main-color, 10%);
+@il-tooltip-border-color: @il-main-color;
 //** Border radius of those tooltips
 @il-tooltip-border-radius: 4px;
 //** Shadow of those tooltips
@@ -601,24 +601,24 @@ with the il- variable set here.
 //== Divider
 //
 //##
-@il-divider-bg: darken(@il-main-dark-bg, 5%);
+@il-divider-bg: @il-main-dark-bg;
 
-@il-divider-color: lighten(@il-text-color, 10%);
+@il-divider-color: @il-text-color;
 
-@il-divider-color: lighten(@il-text-color, 10%);
+@il-divider-color: @il-text-color;
 
 //== Item
 //
 //##
 @il-item-divider-padding: 10px 0 0 0;
 @il-item-divider-margin: 0 0 10px 0;
-@il-item-divider-border-bottom: dashed 0.5px #E0E0E0;
+@il-item-divider-border-bottom: dashed 0.5px @il-neutral-lighter-color;
 @il-item-description-padding: 10px 0 0 0;
 @il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
-@il-item-border-bottom: 2px solid @il-neutral-light-color;
-@il-item-border-bottom-small: 1px solid @il-neutral-light-color;
+@il-item-border-bottom: 2px solid @il-content-bg;
+@il-item-border-bottom-small: 1px solid @il-content-bg;
 
 
 //== Charts
@@ -724,7 +724,7 @@ with the il- variable set here.
 //** border style for letter avatars
 @il-avatar-border-style: solid;
 //** border color for picture avatars
-@il-avatar-picture-border-color: #dddddd;
+@il-avatar-picture-border-color: @il-neutral-lighter-color;
 //** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
 @il-avatar-letter-border-color-contrast-lighten: 40%;
 @il-avatar-letter-border-color-contrast-darken: 20%;
@@ -745,17 +745,17 @@ with the il- variable set here.
 /** inline shadow of a message container **/
 @il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
 /** border configuration, the color is automatically computed from the three color variants **/
-@il-standard-page-system-info-border-color: #ddd;
+@il-standard-page-system-info-border-color: @il-neutral-lighter-color;
 @il-standard-page-system-info-border-top-and-bottom: none;
 @il-standard-page-system-info-border-left-and-right: none;
 /** nagtive or positive contrast color for text and glyph **/
-@il-standard-page-system-info-contrast: 45%;
+@il-standard-page-system-info-contrast: 50%;
 /** contrast threshold for contrast color **/
 @il-standard-page-system-info-contrast-threshold: 43%;
 /** three color variants for neutral, important, breaking Head Infos **/
-@il-standard-page-system-info-color-variant-neutral: lighten(@il-main-color, 45%); // looks nice with @il-mainbar-btn-bg-color as well
-@il-standard-page-system-info-color-variant-important: lighten(@il-danger-color, 30%);
-@il-standard-page-system-info-color-variant-breaking: rgb(236, 103, 94);
+@il-standard-page-system-info-color-variant-neutral: lighten(@il-main-color, 50%); // looks nice with @il-mainbar-btn-bg-color as well
+@il-standard-page-system-info-color-variant-important: lighten(@il-danger-color, 40%);
+@il-standard-page-system-info-color-variant-breaking: lighten(@il-danger-color, 5%);
 
 //== View Control
 //
@@ -770,12 +770,12 @@ with the il- variable set here.
 //
 //##
 @il-card-border: none;
-@il-card-background: @il-main-dark-bg;
+@il-card-background: @il-main-bg;
 @il-card-highlight-bg: @il-warning-color;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-text-light-color;
 @il-card-repository-head-color: rgba(0, 0, 0, 0.5);
-@il-card-repository-dropdown-border: #e0e0e0 1px solid;
+@il-card-repository-dropdown-border: @il-neutral-lighter-color 1px solid;
 @il-card-repository-outlined-icon-filter: invert(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
@@ -787,7 +787,7 @@ with the il- variable set here.
 //##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
 @il-workflow-icon-size: 21px;
 @il-workflow-icon-font-color: white;
-@il-workflow-available-text-color: #333;
+@il-workflow-available-text-color: @il-text-color;
 @il-workflow-unavailable-text-color: #ddd;
 
 //== Message Boxes
