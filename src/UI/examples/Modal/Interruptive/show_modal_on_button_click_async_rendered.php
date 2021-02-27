@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\Interruptive;
+
 function show_modal_on_button_click_async_rendered()
 {
     global $DIC;

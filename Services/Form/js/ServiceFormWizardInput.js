@@ -23,7 +23,7 @@ var ilWizardInput = {
 	addRow: function(e) {		
 		// clone row
 		var source = this.getRowFromEvent(e);				
-		var target = $(source).clone();		
+		var target = $(source).clone();
                 
 		// add events
 		this.initEvents(target);
@@ -36,6 +36,12 @@ var ilWizardInput = {
 		this.reindexRows(this.getContainerFromEvent(e));		
 
 		il.Form.registerFileUploadInputEventTrigger();
+
+		let current_upload_fields = $("#files").children().length;
+		let max_upload_fields = parseInt(source.children(".imagewizard_add").attr("data-val"));
+		if(current_upload_fields === max_upload_fields) {
+			$(".imagewizard_add").hide();
+		}
 	},
 	
 	removeRow: function(e) {		
@@ -51,7 +57,13 @@ var ilWizardInput = {
 			this.cleanRow(source);
 		}
 			
-		this.reindexRows(tbody);		
+		this.reindexRows(tbody);
+
+		let current_upload_fields = $("#files").children().length;
+		let max_upload_fields = parseInt(source.children(".imagewizard_remove").attr("data-val"));
+		if(current_upload_fields <= max_upload_fields) {
+			$(".imagewizard_add").show();
+		}
 	},
 	
 	moveRowUp: function(e) {		

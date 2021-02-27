@@ -7,9 +7,9 @@
  */
 class ilBuddySystemRelationRepository
 {
-    const TYPE_APPROVED = 'app';
-    const TYPE_REQUESTED = 'req';
-    const TYPE_IGNORED = 'ign';
+    private const TYPE_APPROVED = 'app';
+    private const TYPE_REQUESTED = 'req';
+    private const TYPE_IGNORED = 'ign';
 
     /** @var ilDBInterface */
     protected $db;
@@ -38,11 +38,11 @@ class ilBuddySystemRelationRepository
         $relations = [];
 
         $res = $this->db->queryF(
-            "
+            '
 			SELECT usr_id, buddy_usr_id, ts, %s rel_type FROM buddylist WHERE usr_id = %s
 			UNION
 			SELECT usr_id, buddy_usr_id, ts, (CASE WHEN ignored = 1 THEN %s ELSE %s END) rel_type FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s
-			",
+			',
             [
                 'text',
                 'integer',
@@ -75,10 +75,10 @@ class ilBuddySystemRelationRepository
     }
 
     /**
-     * @param $row
+     * @param array $row
      * @return ilBuddySystemRelation
      */
-    private function getRelationByDatabaseRecord($row)
+    private function getRelationByDatabaseRecord(array $row) : ilBuddySystemRelation
     {
         if (self::TYPE_APPROVED === $row['rel_type']) {
             return new ilBuddySystemRelation(new ilBuddySystemLinkedRelationState());
@@ -89,19 +89,16 @@ class ilBuddySystemRelationRepository
         return new ilBuddySystemRelation(new ilBuddySystemRequestedRelationState());
     }
 
-    /**
-     *
-     */
-    public function destroy()
+    public function destroy() : void
     {
         $this->db->queryF(
-            "DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s",
+            'DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
         );
 
         $this->db->queryF(
-            "DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s",
+            'DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
         );
@@ -110,7 +107,7 @@ class ilBuddySystemRelationRepository
     /**
      * @param ilBuddySystemRelation $relation
      */
-    private function addToApprovedBuddies(ilBuddySystemRelation $relation)
+    private function addToApprovedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->replace(
             'buddylist',
@@ -138,16 +135,16 @@ class ilBuddySystemRelationRepository
     /**
      * @param ilBuddySystemRelation $relation
      */
-    private function removeFromApprovedBuddies(ilBuddySystemRelation $relation)
+    private function removeFromApprovedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->manipulateF(
-            "DELETE FROM buddylist WHERE usr_id = %s AND buddy_usr_id = %s",
+            'DELETE FROM buddylist WHERE usr_id = %s AND buddy_usr_id = %s',
             ['integer', 'integer'],
             [$relation->getUsrId(), $relation->getBuddyUsrId()]
         );
 
         $this->db->manipulateF(
-            "DELETE FROM buddylist WHERE buddy_usr_id = %s AND usr_id = %s",
+            'DELETE FROM buddylist WHERE buddy_usr_id = %s AND usr_id = %s',
             ['integer', 'integer'],
             [$relation->getUsrId(), $relation->getBuddyUsrId()]
         );
@@ -155,9 +152,9 @@ class ilBuddySystemRelationRepository
 
     /**
      * @param ilBuddySystemRelation $relation
-     * @param boolean $ignored
+     * @param bool                  $ignored
      */
-    private function addToRequestedBuddies(ilBuddySystemRelation $relation, $ignored)
+    private function addToRequestedBuddies(ilBuddySystemRelation $relation, bool $ignored) : void
     {
         $this->db->replace(
             'buddylist_requests',
@@ -175,16 +172,16 @@ class ilBuddySystemRelationRepository
     /**
      * @param ilBuddySystemRelation $relation
      */
-    private function removeFromRequestedBuddies(ilBuddySystemRelation $relation)
+    private function removeFromRequestedBuddies(ilBuddySystemRelation $relation) : void
     {
         $this->db->manipulateF(
-            "DELETE FROM buddylist_requests WHERE usr_id = %s AND buddy_usr_id = %s",
+            'DELETE FROM buddylist_requests WHERE usr_id = %s AND buddy_usr_id = %s',
             ['integer', 'integer'],
             [$relation->getUsrId(), $relation->getBuddyUsrId()]
         );
 
         $this->db->manipulateF(
-            "DELETE FROM buddylist_requests WHERE buddy_usr_id = %s AND usr_id = %s",
+            'DELETE FROM buddylist_requests WHERE buddy_usr_id = %s AND usr_id = %s',
             ['integer', 'integer'],
             [$relation->getUsrId(), $relation->getBuddyUsrId()]
         );

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\File;
+
 /**
  * Example of how to process passwords.
  * Note that the value of Password is a Data\Password, not a string-primitive.
@@ -13,7 +16,7 @@ function in_form()
 
     // Step 1: Define the input field.
     // See the implementation of a UploadHandler in Services/UI/classes/class.ilUIDemoFileUploadHandlerGUI.php
-    $file = $ui->input()->field()->file(new ilUIDemoFileUploadHandlerGUI(), "File Upload", "You can drop your files here");
+    $file = $ui->input()->field()->file(new \ilUIDemoFileUploadHandlerGUI(), "File Upload", "You can drop your files here");
 
     // Step 2: Define the form and attach the field.
     $form = $ui->input()->container()->form()->standard('#', ['file' => $file]);

@@ -39,7 +39,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
                 RecursiveIteratorIterator::SELF_FIRST
             );
             foreach ($iter as $element) {
-                /** @var $element DOMNode */
+                /** @var DOMNode $element */
                 if (in_array(strtolower($element->nodeName), ['body'])) {
                     continue;
                 }
@@ -49,8 +49,6 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
                 }
             }
 
-            return false;
-        } catch (Exception $e) {
             return false;
         } catch (Throwable $e) {
             return false;

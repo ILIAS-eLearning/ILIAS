@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.mode.html", true, true);
 
+        $activate_first_item = false;
         $active = $component->getActive();
         if ($active == "") {
             $activate_first_item = true;
@@ -375,7 +376,7 @@ class Renderer extends AbstractComponentRenderer
     protected function renderId(Component\Component $component, $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
-        if(!$id){
+        if (!$id) {
             $id = $this->createId();
         }
         $tpl->setCurrentBlock($block);

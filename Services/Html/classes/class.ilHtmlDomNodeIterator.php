@@ -5,29 +5,27 @@
  * Class ilHtmlDomNodeIterator
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilHtmlDomNodeIterator implements \RecursiveIterator
+class ilHtmlDomNodeIterator implements RecursiveIterator
 {
     /** @var Integer */
     protected $position = 0;
 
-    /** @var \DOMNodeList */
+    /** @var DOMNodeList */
     protected $nodeList;
 
     /**
      * ilHtmlDomNodeIterator constructor.
-     * @param \DOMNode $el
+     * @param DOMNode $el
      */
-    public function __construct(\DOMNode $el)
+    public function __construct(DOMNode $el)
     {
         $this->position = 0;
-        if ($el instanceof \DOMDocument) {
+        if ($el instanceof DOMDocument) {
             $root = $el->documentElement;
+        } elseif ($el instanceof DOMElement) {
+            $root = $el;
         } else {
-            if ($el instanceof \DOMElement) {
-                $root = $el;
-            } else {
-                throw new \InvalidArgumentException("Invalid arguments, expected DOMElement or DOMDocument");
-            }
+            throw new InvalidArgumentException('Invalid arguments, expected DOMElement or DOMDocument');
         }
 
         $this->nodeList = $root->childNodes;
@@ -51,7 +49,7 @@ class ilHtmlDomNodeIterator implements \RecursiveIterator
 
     /**
      * @inheritdoc
-     * @return \DOMNode
+     * @return DOMNode
      */
     public function current()
     {

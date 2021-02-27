@@ -23,6 +23,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     protected $size = 40;
     protected $pending;
     protected $allow_deletion;
+    protected $filename_selection;
     
     protected static $check_wsp_quota;
 
@@ -500,6 +501,16 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $max_filesize = sprintf("%.1f MB", $max_filesize / 1024 / 1024);
         
         return $max_filesize;
+    }
+    
+    /**
+     * Get number of maximum file uploads as declared in php.ini
+     *
+     * @return int
+     */
+    protected function getMaxFileUploads()
+    {
+        return (int) ini_get("max_file_uploads");
     }
     
     /**

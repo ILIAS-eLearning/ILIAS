@@ -58,6 +58,13 @@ export default class ParagraphEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
+  selectionFn() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_FN);
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
   selectionAnchor() {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SELECTION_ANCHOR);
   }

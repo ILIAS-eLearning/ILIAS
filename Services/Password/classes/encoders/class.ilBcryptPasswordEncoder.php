@@ -12,10 +12,10 @@ require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncode
 class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 {
     /** @var int */
-    const MIN_SALT_SIZE = 16;
+    private const MIN_SALT_SIZE = 16;
 
     /** @var string */
-    const SALT_STORAGE_FILENAME = 'pwsalt.txt';
+    public const SALT_STORAGE_FILENAME = 'pwsalt.txt';
 
     /** @var string|null */
     private $client_salt = null;
@@ -85,7 +85,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isBackwardCompatibilityEnabled() : bool
     {
@@ -94,7 +94,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 
     /**
      * Set the backward compatibility $2a$ instead of $2y$ for PHP 5.3.7+
-     * @param boolean $backward_compatibility
+     * @param bool $backward_compatibility
      */
     public function setBackwardCompatibility(bool $backward_compatibility) : void
     {
@@ -102,7 +102,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSecurityFlawIgnored() : bool
     {
@@ -110,7 +110,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     }
 
     /**
-     * @param boolean $is_security_flaw_ignored
+     * @param bool $is_security_flaw_ignored
      */
     public function setIsSecurityFlawIgnored(bool $is_security_flaw_ignored) : void
     {
@@ -296,7 +296,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         $result = @file_put_contents($this->getClientSaltLocation(), $this->getClientSalt());
         if (!$result) {
             throw new ilPasswordException(sprintf(
-                "Could not store the client salt in: %s. Please contact an administrator.",
+                'Could not store the client salt in: %s. Please contact an administrator.',
                 $this->getClientSaltLocation()
             ));
         }

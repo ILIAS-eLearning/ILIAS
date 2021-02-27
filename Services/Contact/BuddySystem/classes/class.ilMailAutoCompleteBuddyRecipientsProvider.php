@@ -11,7 +11,7 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
      */
     protected function getFromPart()
     {
-        $joins = array();
+        $joins = [];
 
         $joins[] = implode(' ', [
             'INNER JOIN buddylist',

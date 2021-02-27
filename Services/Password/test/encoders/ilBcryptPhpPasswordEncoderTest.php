@@ -12,13 +12,13 @@ require_once 'Services/Password/test/ilPasswordBaseTest.php';
 class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
-    const VALID_COSTS = '08';
+    private const VALID_COSTS = '08';
 
     /** @var string */
-    const PASSWORD = 'password';
+    private const PASSWORD = 'password';
 
     /** @var string */
-    const WRONG_PASSWORD = 'wrong_password';
+    private const WRONG_PASSWORD = 'wrong_password';
 
     /**
      *
@@ -37,7 +37,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     {
         $data = [];
         for ($i = 4; $i <= 31; $i++) {
-            $data[sprintf("Costs: %s", (string) $i)] = [(string) $i];
+            $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
         }
 
         return $data;

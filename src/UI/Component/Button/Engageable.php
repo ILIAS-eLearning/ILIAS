@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Component;
+
 /**
  * Engageable Components have an "engaged" state and will be displayed accordingly.
  */

@@ -9,6 +9,7 @@ use ILIAS\ResourceStorage\Revision\FileStreamRevision;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
 
 /**
  * Class FileResourceHandler
@@ -50,6 +51,12 @@ interface StorageHandler
      * @return bool
      */
     public function storeStream(FileStreamRevision $revision) : bool;
+
+    /**
+     * @param CloneRevision $revision
+     * @return bool
+     */
+    public function cloneRevision(CloneRevision $revision) : bool;
 
     /**
      * @param Revision $revision

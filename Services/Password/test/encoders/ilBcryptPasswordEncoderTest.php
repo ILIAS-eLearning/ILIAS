@@ -14,19 +14,19 @@ use org\bovigo\vfs;
 class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
-    const VALID_COSTS = '08';
+    private const VALID_COSTS = '08';
 
     /** @var string */
-    const PASSWORD = 'password';
+    private const PASSWORD = 'password';
 
     /** @var string */
-    const WRONG_PASSWORD = 'wrong_password';
+    private const WRONG_PASSWORD = 'wrong_password';
 
     /** @var string */
-    const CLIENT_SALT = 'homer!12345_/';
+    private const CLIENT_SALT = 'homer!12345_/';
 
     /** @var string */
-    const PASSWORD_SALT = 'salt';
+    private const PASSWORD_SALT = 'salt';
 
     /** @var vfs\vfsStreamDirectory */
     protected $testDirectory;
@@ -105,7 +105,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     {
         $data = [];
         for ($i = 4; $i <= 31; $i++) {
-            $data[sprintf("Costs: %s", (string) $i)] = [(string) $i];
+            $data[sprintf('Costs: %s', (string) $i)] = [(string) $i];
         }
 
         return $data;
@@ -117,9 +117,9 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
      */
     private function getInstanceWithConfiguredDataDirectory() : ilBcryptPasswordEncoder
     {
-        $encoder = new ilBcryptPasswordEncoder(array(
+        $encoder = new ilBcryptPasswordEncoder([
             'data_directory' => $this->getTestDirectoryUrl()
-        ));
+        ]);
 
         return $encoder;
     }

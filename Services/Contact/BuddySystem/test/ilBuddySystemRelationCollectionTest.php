@@ -17,7 +17,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param $elements array
+     * @param array $elements
      */
     public function testElementsCanBeInitiallyAdded(array $elements) : void
     {
@@ -37,7 +37,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param $elements array
+     * @param array $elements
      */
     public function testElementsCanBeAddedAndRemoved(array $elements) : void
     {
@@ -89,7 +89,7 @@ class ilBuddySystemRelationCollectionTest extends ilBuddySystemBaseTest
 
     /**
      * @dataProvider provideElements
-     * @param $elements array
+     * @param array $elements
      */
     public function testIterator(array $elements) : void
     {

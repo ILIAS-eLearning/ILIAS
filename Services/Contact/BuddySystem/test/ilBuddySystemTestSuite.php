@@ -18,8 +18,8 @@ class ilBuddySystemTestSuite extends TestSuite
      */
     public static function suite() : self
     {
-        if (!defined("ANONYMOUS_USER_ID")) {
-            define("ANONYMOUS_USER_ID", 13);
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
         }
 
         require_once __DIR__ . '/ilBuddySystemBaseTest.php';
@@ -30,7 +30,7 @@ class ilBuddySystemTestSuite extends TestSuite
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
+            ),
             '/BaseTest\.php$/'
         ) as $file
         ) {
@@ -42,7 +42,7 @@ class ilBuddySystemTestSuite extends TestSuite
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
+            ),
             '/(?<!Base)Test\.php$/'
         ) as $file
         ) {

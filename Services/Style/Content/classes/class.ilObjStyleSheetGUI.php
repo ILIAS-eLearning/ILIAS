@@ -40,6 +40,8 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     public $cmd_refresh;
     public $cmd_delete;
 
+    protected $enable_write = false;
+
     /**
     * Constructor
     * @access public
@@ -69,6 +71,15 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         }
         $this->type = "sty";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+    }
+
+    /**
+     * Enable writing
+     * @param $a_write
+     */
+    public function enableWrite($a_write)
+    {
+        $this->enable_write = $a_write;
     }
 
     /**
@@ -207,7 +218,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     {
         $rbacsystem = $this->rbacsystem;
 
-        return ($rbacsystem->checkAccess("write", (int) $_GET["ref_id"])
+        return ($this->enable_write || $rbacsystem->checkAccess("write", (int) $_GET["ref_id"])
          || $rbacsystem->checkAccess("sty_write_content", (int) $_GET["ref_id"]));
     }
 

@@ -3,7 +3,7 @@
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class ilTermsOfServiceWithdrawalGUIHelper
@@ -93,11 +93,11 @@ class ilTermsOfServiceWithdrawalGUIHelper
     }
 
     /**
-     * @param RequestInterface $httpRequest
+     * @param ServerRequestInterface $httpRequest
      * @param object $guiClass
      */
     public function handleWithdrawalLogoutRequest(
-        RequestInterface $httpRequest,
+        ServerRequestInterface $httpRequest,
         object $guiClass
     ) : void {
         if (!isset($httpRequest->getQueryParams()['withdraw_consent'])) {
@@ -133,10 +133,10 @@ class ilTermsOfServiceWithdrawalGUIHelper
     }
 
     /**
-     * @param RequestInterface $httpRequest
+     * @param ServerRequestInterface $httpRequest
      * @return string
      */
-    public function getWithdrawalTextForLogoutScreen(RequestInterface $httpRequest) : string
+    public function getWithdrawalTextForLogoutScreen(ServerRequestInterface $httpRequest) : string
     {
         $withdrawalStatus = ($httpRequest->getQueryParams()['withdrawal_relogin_content'] ?? 0);
 
@@ -171,7 +171,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         );
 
         $question = $this->lng->txt('withdrawal_sure_account');
-        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion', false))  {
+        if (!$isLdapUser && (bool) $this->setting->get('tos_withdrawal_usr_deletion')) {
             $question = $this->lng->txt('withdrawal_sure_account_deletion');
         }
 
@@ -187,7 +187,7 @@ class ilTermsOfServiceWithdrawalGUIHelper
         ]);
 
         if ($isLdapUser) {
-            $message = nl2br(str_ireplace("[BR]", "\n", sprintf(
+            $message = nl2br(str_ireplace('[BR]', "\n", sprintf(
                 $this->lng->txt('withdrawal_mail_info') . $this->lng->txt('withdrawal_mail_text'),
                 $this->user->getFullname(),
                 $this->user->getLogin(),
@@ -213,9 +213,9 @@ class ilTermsOfServiceWithdrawalGUIHelper
     }
 
     /**
-     * @param RequestInterface $httpRequest
+     * @param ServerRequestInterface $httpRequest
      */
-    public function setWithdrawalInfoForLoginScreen(RequestInterface $httpRequest) : void
+    public function setWithdrawalInfoForLoginScreen(ServerRequestInterface $httpRequest) : void
     {
         if (isset($httpRequest->getQueryParams()['tos_withdrawal_type'])) {
             $withdrawalType = (int) $httpRequest->getQueryParams()['tos_withdrawal_type'];

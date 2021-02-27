@@ -12,9 +12,17 @@ use ilUtil;
 use InvalidArgumentException;
 
 /**
- * Class RepositoryMainBarProvider
+ * Repository related main menu items
+ * - Repository Home
+ * - Repository Tree
+ * - Last Visited
+ *
+ * Note: The Favourites menut item is currently part of the Dashboard PDMainBarProvider
+ * and should be moved here, since the Favourites services is implemented as a sub-service
+ * of the repository service.
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
@@ -145,7 +153,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $f = $this->dic->ui()->factory();
         foreach ($nav_items as $k => $nav_item) {
-            if ($cnt >= 10) {
+            if ($cnt++ >= 10) {
                 break;
             }
 

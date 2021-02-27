@@ -289,7 +289,10 @@ class ilMembershipCronNotifications extends ilCronJob
         if (is_array($sub) && sizeof($sub)) {
             $res .= "\n" . implode("\n", $sub);
         }
-        
+        // see 29967
+        $res = str_replace("<br />", " ", $res);
+        $res = strip_tags($res);
+
         return trim($res);
     }
 
@@ -458,7 +461,10 @@ class ilMembershipCronNotifications extends ilCronJob
         // :TODO: does it make sense to add client to subject?
         $client = $ilClientIniFile->readVariable('client', 'name');
         $subject = sprintf($lng->txt("crs_subject_course_group_notification"), $client);
-            
+
+        $mail_content = $ntf->composeAndGetMessage($a_user_id, null, "read", true);
+        $log->debug("sending mail content: ".$mail_content);
+
         // #10044
         $mail = new ilMail(ANONYMOUS_USER_ID);
         $mail->enqueue(
@@ -466,7 +472,7 @@ class ilMembershipCronNotifications extends ilCronJob
             null,
             null,
             $subject,
-            $ntf->composeAndGetMessage($a_user_id, null, "read", true),
+            $mail_content,
             []
         );
     }

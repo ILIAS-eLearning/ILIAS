@@ -61,4 +61,12 @@ class RamseyUuidWrapper implements Uuid
     {
         return $this->wrapped_uuid->toString();
     }
+
+    /**
+     * @return string
+     */
+    public function __toString() : string
+    {
+        return $this->toString();
+    }
 }

@@ -70,6 +70,13 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
         if ($a_user_id == "") {
             $a_user_id = $ilUser->getId();
         }
+
+        if (
+            $a_cmd == 'preview' &&
+            $a_permission == 'read'
+        ) {
+            return false;
+        }
         
         // check "global" online switch
         if (!self::_lookupOnline($a_obj_id) &&

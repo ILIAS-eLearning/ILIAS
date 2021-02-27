@@ -11,10 +11,13 @@ use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 
 /**
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class RevisionARRepository implements RevisionRepository
 {
@@ -23,14 +26,12 @@ class RevisionARRepository implements RevisionRepository
         return (new ARRevision())->getConnectorContainerName();
     }
 
-    /**
-     * @param StorableResource $resource
-     * @param UploadResult     $result
-     * @return UploadedFileRevision
-     */
-    public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision
-    {
-        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+    public function blankFromUpload(
+        InfoResolver $info_resolver,
+        StorableResource $resource,
+        UploadResult $result
+    ) : UploadedFileRevision {
+        $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new UploadedFileRevision($resource->getIdentification(), $result);
         $revision->setVersionNumber($new_version_number);
 
@@ -38,12 +39,25 @@ class RevisionARRepository implements RevisionRepository
     }
 
     public function blankFromStream(
+        InfoResolver $info_resolver,
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false
     ) : FileStreamRevision {
-        $new_version_number = $resource->getCurrentRevision()->getVersionNumber() + 1;
+        $new_version_number = $info_resolver->getNextVersionNumber();
         $revision = new FileStreamRevision($resource->getIdentification(), $stream, $keep_original);
+        $revision->setVersionNumber($new_version_number);
+
+        return $revision;
+    }
+
+    public function blankFromClone(
+        InfoResolver $info_resolver,
+        StorableResource $resource,
+        FileRevision $revision_to_clone
+    ) : CloneRevision {
+        $new_version_number = $info_resolver->getNextVersionNumber();
+        $revision = new CloneRevision($resource->getIdentification(), $revision_to_clone);
         $revision->setVersionNumber($new_version_number);
 
         return $revision;

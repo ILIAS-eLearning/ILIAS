@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
+
 function restrict_max_files_and_file_size()
 {
     global $DIC;

@@ -11,10 +11,10 @@ use ILIAS\UI\Factory;
 interface ilTermsOfServiceCriterionTypeGUI
 {
     /**
-     * @param ilRadioGroupInputGUI            $option
+     * @param ilRadioGroupInputGUI            $group
      * @param ilTermsOfServiceCriterionConfig $config
      */
-    public function appendOption(ilRadioGroupInputGUI $option, ilTermsOfServiceCriterionConfig $config) : void;
+    public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void;
 
     /**
      * @param ilPropertyFormGUI $form

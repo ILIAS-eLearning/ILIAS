@@ -149,7 +149,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $entity->withId(4711);
+        $entity = $entity->withId(4711);
 
         $dataGateway
             ->expects($this->atLeast(1))
@@ -201,7 +201,7 @@ class ilTermsOfServiceHelperTest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $entity->withId(4711);
+        $entity = $entity->withId(4711);
 
         $dataGateway
             ->expects($this->atLeast(1))

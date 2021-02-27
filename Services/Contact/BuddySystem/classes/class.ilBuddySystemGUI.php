@@ -11,8 +11,8 @@ use ILIAS\DI\HTTPServices;
  */
 class ilBuddySystemGUI
 {
-    const BS_REQUEST_HTTP_GET = 1;
-    const BS_REQUEST_HTTP_POST = 2;
+    private const BS_REQUEST_HTTP_GET = 1;
+    private const BS_REQUEST_HTTP_POST = 2;
 
     /** @var bool */
     protected static $isFrontendInitialized = false;
@@ -67,7 +67,7 @@ class ilBuddySystemGUI
         ) {
             $DIC->language()->loadLanguageModule('buddysystem');
 
-            $page->addJavascript('./Services/Contact/BuddySystem/js/buddy_system.js');
+            $page->addJavaScript('./Services/Contact/BuddySystem/js/buddy_system.js');
 
             $config = new stdClass();
             $config->http_post_url = $DIC->ctrl()->getFormActionByClass([
@@ -75,13 +75,13 @@ class ilBuddySystemGUI
                 'ilBuddySystemGUI'
             ], '', '', true, false);
             $config->transition_state_cmd = 'transitionAsync';
-            $page->addOnLoadCode("il.BuddySystem.setConfig(" . json_encode($config) . ");");
+            $page->addOnLoadCode('il.BuddySystem.setConfig(' . json_encode($config) . ');');
 
             $btn_config = new stdClass();
             $btn_config->bnt_class = 'ilBuddySystemLinkWidget';
 
-            $page->addOnLoadCode("il.BuddySystemButton.setConfig(" . json_encode($btn_config) . ");");
-            $page->addOnLoadCode("il.BuddySystemButton.init();");
+            $page->addOnLoadCode('il.BuddySystemButton.setConfig(' . json_encode($btn_config) . ');');
+            $page->addOnLoadCode('il.BuddySystemButton.init();');
 
             self::$isFrontendInitialized = true;
         }
@@ -117,12 +117,10 @@ class ilBuddySystemGUI
         switch ($type) {
             case self::BS_REQUEST_HTTP_POST:
                 return isset($_POST[$key]) && strlen($_POST[$key]);
-                break;
 
             case self::BS_REQUEST_HTTP_GET:
             default:
                 return isset($_GET[$key]) && strlen($_GET[$key]);
-                break;
         }
     }
 
@@ -136,7 +134,7 @@ class ilBuddySystemGUI
                 $relation->isUnlinked() &&
                 !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
             ) {
-                throw new ilException("The requested user does not want to get contact requests");
+                throw new ilException('The requested user does not want to get contact requests');
             }
         });
     }
@@ -181,12 +179,7 @@ class ilBuddySystemGUI
 
             ilBuddyList::getInstanceByGlobalUser()->{$cmd}($relation);
             ilUtil::sendSuccess($this->lng->txt($positiveFeedbackLanguageId), true);
-        } catch (ilBuddySystemRelationStateAlreadyGivenException $e) {
-            ilUtil::sendInfo(sprintf(
-                $this->lng->txt($e->getMessage()),
-                ilObjUser::_lookupLogin((int) $_GET['user_id'])
-            ), true);
-        } catch (ilBuddySystemRelationStateTransitionException $e) {
+        } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
             ilUtil::sendInfo(sprintf(
                 $this->lng->txt($e->getMessage()),
                 ilObjUser::_lookupLogin((int) $_GET['user_id'])
@@ -224,14 +217,14 @@ class ilBuddySystemGUI
 
             if (ilObjUser::_isAnonymous($usr_id)) {
                 throw new ilBuddySystemException(sprintf(
-                    "You cannot perform a state transition for the anonymous user (id: %s)",
+                    'You cannot perform a state transition for the anonymous user (id: %s)',
                     $usr_id
                 ));
             }
 
             if (!strlen(ilObjUser::_lookupLogin($usr_id))) {
                 throw new ilBuddySystemException(sprintf(
-                    "You cannot perform a state transition for a non existing user (id: %s)",
+                    'You cannot perform a state transition for a non existing user (id: %s)',
                     $usr_id
                 ));
             }
@@ -243,15 +236,13 @@ class ilBuddySystemGUI
                 $relation->isUnlinked() &&
                 !ilUtil::yn2tf(ilObjUser::_lookupPref($relation->getBuddyUsrId(), 'bs_allow_to_contact_me'))
             ) {
-                throw new ilException("The requested user does not want to get contact requests");
+                throw new ilException('The requested user does not want to get contact requests');
             }
 
             try {
                 $this->buddyList->{$action}($relation);
                 $response->success = true;
-            } catch (ilBuddySystemRelationStateAlreadyGivenException $e) {
-                $response->message = sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int) $usr_id));
-            } catch (ilBuddySystemRelationStateTransitionException $e) {
+            } catch (ilBuddySystemRelationStateAlreadyGivenException| ilBuddySystemRelationStateTransitionException $e) {
                 $response->message = sprintf($this->lng->txt($e->getMessage()), ilObjUser::_lookupLogin((int) $usr_id));
             } catch (Exception $e) {
                 $response->message = $this->lng->txt('buddy_bs_action_not_possible');

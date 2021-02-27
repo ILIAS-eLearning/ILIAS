@@ -33,7 +33,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
         if (!isset($config['cost']) && static::class == self::class) {
             // Determine the costs only if they are not passed in constructor
-            $this->setCosts((string) $this->benchmarkCost(0.05));
+            $this->setCosts((string) $this->benchmarkCost());
         }
 
         $this->init();

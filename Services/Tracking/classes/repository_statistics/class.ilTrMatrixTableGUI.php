@@ -125,7 +125,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
         $lng = $DIC['lng'];
 
-        $item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT);
+        $item = $this->addFilterItemByMetaType("name", ilTable2GUI::FILTER_TEXT, false, $lng->txt('login'));
         $this->filter["name"] = $item->getValue();
         
         // #14949 - is called before constructor, so we have to do it ourselves

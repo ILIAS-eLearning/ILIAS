@@ -81,7 +81,7 @@ public class DirectoryDataSource extends FileDataSource {
 				// Analyze encoding (transfer encoding), parse file extension
 				// and finally read content
 				try {
-					content.append(" " + handler.getContent(files.get(i)));
+					content.append(" " + handler.getContent(files.get(i), ""));
 				} 
 				catch (FileHandlerException e) {
 					logger.warn("Cannot parse file " + files.get(i).getAbsolutePath());

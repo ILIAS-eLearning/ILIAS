@@ -5,36 +5,36 @@
 		<pluginslot id="pgcp" name="PageComponent" />
 	</pluginslots>
 	<copage>
+		<pagecontent pc_type="plach" name="PlaceHolder" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="0" top_item="1" order_nr="5"/>
+		<pagecontent pc_type="par" name="Paragraph" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="10"/>
+		<pagecontent pc_type="media" name="MediaObject" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="20"/>
+		<pagecontent pc_type="flst" name="FileList" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="40"/>
+		<pagecontent pc_type="flit" name="FileItem" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
+		<pagecontent pc_type="dtab" name="DataTable" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="50"/>
+		<pagecontent pc_type="pcqst" name="Question" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="55" />
+		<pagecontent pc_type="qover" name="QuestionOverview" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="58"/>
+		<pagecontent pc_type="sec" name="Section" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="60"/>
+		<pagecontent pc_type="tabs" name="Tabs" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="65"/>
+		<pagecontent pc_type="tabstab" name="Tab" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
+		<pagecontent pc_type="grid" name="Grid" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="1" order_nr="67"/>
+		<pagecontent pc_type="gcell" name="GridCell" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
+		<pagecontent pc_type="iim" name="InteractiveImage" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="100"/>
 		<pagecontent pc_type="blog" name="Blog" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="100"/>
 		<pagecontent pc_type="incl" name="ContentInclude" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="0" top_item="1" order_nr="110"/>
-		<pagecontent pc_type="flit" name="FileItem" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
-		<pagecontent pc_type="flst" name="FileList" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="40"/>
-		<pagecontent pc_type="iim" name="InteractiveImage" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="100"/>
-		<pagecontent pc_type="list" name="List" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="220"/>
-		<pagecontent pc_type="li" name="ListItem" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
 		<pagecontent pc_type="lpe" name="LoginPageElement" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="120"/>
-		<pagecontent pc_type="map" name="Map" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="280"/>
-		<pagecontent pc_type="media" name="MediaObject" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="20"/>
-		<pagecontent pc_type="par" name="Paragraph" directory="classes" int_links="1" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="10"/>
-		<pagecontent pc_type="plach" name="PlaceHolder" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="0" top_item="1" order_nr="90"/>
-		<pagecontent pc_type="plug" name="Plugged" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="210"/>
 		<pagecontent pc_type="prof" name="Profile" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="130"/>
-		<pagecontent pc_type="pcqst" name="Question" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="70" />
-		<pagecontent pc_type="qover" name="QuestionOverview" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="80"/>
 		<pagecontent pc_type="repobj" name="Resources" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="150"/>
-		<pagecontent pc_type="sec" name="Section" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="60"/>
 		<pagecontent pc_type="skills" name="Skills" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="160"/>
-		<pagecontent pc_type="dtab" name="DataTable" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="50"/>
-		<pagecontent pc_type="tab" name="Table" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="200"/>
-		<pagecontent pc_type="td" name="TableData" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
-		<pagecontent pc_type="tabs" name="Tabs" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="170"/>
-		<pagecontent pc_type="tabstab" name="Tab" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
 		<pagecontent pc_type="vrfc" name="Verification" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="180"/>
 		<pagecontent pc_type="src" name="SourceCode" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="1" order_nr="190"/>
 		<pagecontent pc_type="templ" name="ContentTemplate" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="200"/>
+		<pagecontent pc_type="tab" name="Table" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="200"/>
+		<pagecontent pc_type="td" name="TableData" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
+		<pagecontent pc_type="plug" name="Plugged" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="210"/>
+		<pagecontent pc_type="list" name="List" directory="classes" int_links="0" style_classes="1" xsl="0" def_enabled="1" top_item="1" order_nr="220"/>
+		<pagecontent pc_type="li" name="ListItem" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
+		<pagecontent pc_type="map" name="Map" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="280"/>
 		<pageobject parent_type="stys" class_name="ilPageLayoutPage" directory="Layout/classes"/>
-		<pagecontent pc_type="grid" name="Grid" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="1" order_nr="200"/>
-		<pagecontent pc_type="gcell" name="GridCell" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="1" top_item="0" order_nr="0"/>
 	</copage>
 	<logging />
 </service>

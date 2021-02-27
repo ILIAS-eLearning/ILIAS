@@ -98,7 +98,8 @@ export default class PageModel {
       page_components_undo: [],
       sectionFormat: "",
       paragraphFormat: "",
-      addedSection: false
+      addedSection: false,
+      pasting: false
     };
 
     this.splitIds = [];
@@ -236,6 +237,20 @@ export default class PageModel {
    */
   getCopyItems() {
     return this.model.copyItems;
+  }
+
+  /**
+   * @param {boolean} b
+   */
+  activatePasting(b) {
+    this.model.pasting = b;
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isPasting() {
+    return this.model.pasting;
   }
 
   /**

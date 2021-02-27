@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Card\RepositoryObject;
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 

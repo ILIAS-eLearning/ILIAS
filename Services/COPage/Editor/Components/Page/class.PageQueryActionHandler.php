@@ -44,6 +44,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
      */
     protected $ctrl;
 
+    /**
+     * @var \ilPluginAdmin
+     */
+    protected $plugin_admin;
+
 
     function __construct(\ilPageObjectGUI $page_gui)
     {
@@ -54,6 +59,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $this->page_gui = $page_gui;
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
+        $this->plugin_admin = $DIC["ilPluginAdmin"];
 
         $this->ui_wrapper = new Server\UIWrapper($this->ui, $this->lng);
     }
@@ -105,7 +111,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->confirmation = $this->getConfirmationTemplate();
         $o->autoSaveInterval = $this->getAutoSaveInterval();
         $o->backUrl = $ctrl->getLinkTarget($this->page_gui, "edit");
-        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"]));
+        $o->pasting = (bool) (in_array(\ilEditClipboard::getAction(), ["copy", "cut"])) &&
+            count($this->user->getPCClipboardContent()) > 0;
         return new Server\Response($o);
     }
 
@@ -141,6 +148,23 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         foreach ($config->getEnabledTopPCTypes() as $def) {
             $commands[$def["pc_type"]] = $lng->txt("cont_ed_insert_" . $def["pc_type"]);
         }
+
+        $pl_names = $this->plugin_admin->getActivePluginsForSlot(
+            IL_COMP_SERVICE,
+            "COPage",
+            "pgcp"
+        );
+        foreach ($pl_names as $pl_name) {
+            $plugin = $this->plugin_admin->getPluginObject(
+                IL_COMP_SERVICE,
+                "COPage",
+                "pgcp",
+                $pl_name
+            );
+            $commands["plug_".$plugin->getPluginName()] =
+                $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
+        }
+
         return $commands;
     }
 

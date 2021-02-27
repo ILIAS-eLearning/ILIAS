@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Select;
+
 /**
  * Base example showing how to plug a Select into a form
  */

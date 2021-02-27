@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "ES5",
+    "module": "es2015",
+    "sourceMap": true,
+    "allowJs": true,
+    "importHelpers": false,
+  },
+  "include": [
+    "./src/**/*.js"
+  ],
+  "exclude": []
+}

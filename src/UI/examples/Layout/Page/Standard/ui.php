@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Layout\Page\Standard;
 
 use ILIAS\Data\URI;
 
@@ -14,7 +16,7 @@ function ui()
 }
 
 
-if ($_GET['new_ui'] == '1') {
+if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
     _initIliasForPreview();
 
     $f = $DIC->ui()->factory();
@@ -60,7 +62,7 @@ if ($_GET['new_ui'] == '1') {
 }
 
 
-if ($_GET['replaced'] == '1') {
+if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
     echo('Helo. Content from RPC.');
     exit();
 }

@@ -18,7 +18,7 @@ class ilObjContentPageAdministration extends ilObject2
     /**
      * @ineritdoc
      */
-    public function initType()
+    protected function initType()
     {
         $this->type = 'cpad';
     }

@@ -10,7 +10,7 @@ abstract class ilBuddySystemSubjectDependentRelationStateButtonRenderer extends 
     /**
      * @inheritDoc
      */
-    public function getTemplateVariablePrefix() : string
+    protected function getTemplateVariablePrefix() : string
     {
         if ($this->relation->isOwnedByActor()) {
             return 'REQUESTER_';

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Symbol\Glyph\Listoutdent;
+
 function listoutdent()
 {
     global $DIC;

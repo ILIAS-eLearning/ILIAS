@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\RoundTrip;
+
 function show_the_same_modal_with_different_buttons()
 {
     global $DIC;

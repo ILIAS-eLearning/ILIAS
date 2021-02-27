@@ -8,6 +8,7 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 /**
  * Interface StakeholderARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class StakeholderARRepository implements StakeholderRepository
 {

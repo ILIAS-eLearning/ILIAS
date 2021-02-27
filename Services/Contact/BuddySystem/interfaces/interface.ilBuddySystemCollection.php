@@ -14,7 +14,7 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
     public function add($element) : void;
 
     /**
-     * @param string|integer $key The index of the element to remove.
+     * @param string|int $key The index of the element to remove.
      * @throws InvalidArgumentException
      */
     public function remove($key) : void;
@@ -26,14 +26,14 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
     public function removeElement($element) : void;
 
     /**
-     * @param string|integer $key The index to check for.
+     * @param string|int $key The index to check for.
      * @return bool true if the collection contains the element, false otherwise.
      */
     public function containsKey($key) : bool;
 
     /**
      * @param mixed $element The element
-     * @return string|integer The index of the element.
+     * @return string|int The index of the element.
      */
     public function getKey($element);
 
@@ -49,14 +49,14 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
     public function contains($element) : bool;
 
     /**
-     * @param string|integer $key The index of the element to get.
+     * @param string|int $key The index of the element to get.
      * @return mixed
      */
     public function get($key);
 
     /**
-     * @param string |integer $key The index of the element to set.
-     * @param mixed $value
+     * @param string|int $key The index of the element to set.
+     * @param mixed       $value
      */
     public function set($key, $value) : void;
 
@@ -82,7 +82,7 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
      * @param callable $callable
      * @return self
      */
-    public function filter(callable $callable);
+    public function filter(callable $callable) : self;
 
     /**
      * Extracts a slice of $length elements starting at position $offset from the Collection.
@@ -92,7 +92,7 @@ interface ilBuddySystemCollection extends Countable, IteratorAggregate, ArrayAcc
      * @param int|null $length The maximum number of elements to return, or null for no limit.
      * @return self
      */
-    public function slice($offset, $length = null);
+    public function slice(int $offset, int $length = null) : self;
 
     /**
      * @return array

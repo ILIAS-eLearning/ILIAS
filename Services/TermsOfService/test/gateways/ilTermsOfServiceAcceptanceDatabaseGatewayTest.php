@@ -24,13 +24,14 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
     public function testAcceptanceIsTrackedAndCreatesANewTermsOfServicesVersionIfNecessary() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $entity->withUserId(666);
-        $entity->withDocumentId(4711);
-        $entity->withTitle('Document PHP Unit');
-        $entity->withSerializedCriteria('');
-        $entity->withText('PHP Unit');
-        $entity->withTimestamp(time());
-        $entity->withHash(md5($entity->getText()));
+        $entity = $entity
+            ->withUserId(666)
+            ->withDocumentId(4711)
+            ->withTitle('Document PHP Unit')
+            ->withSerializedCriteria('')
+            ->withText('PHP Unit')
+            ->withTimestamp(time())
+            ->withHash(md5($entity->getText()));
 
         $expected_id = 4711;
 
@@ -91,13 +92,14 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
     public function testAcceptanceIsTrackedAndRefersToAnExistingTermsOfServicesVersion() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $entity->withUserId(666);
-        $entity->withDocumentId(4711);
-        $entity->withTitle('Document PHP Unit');
-        $entity->withSerializedCriteria('');
-        $entity->withText('PHP Unit');
-        $entity->withTimestamp(time());
-        $entity->withHash(md5($entity->getText()));
+        $entity = $entity
+            ->withUserId(666)
+            ->withDocumentId(4711)
+            ->withTitle('Document PHP Unit')
+            ->withSerializedCriteria('')
+            ->withText('PHP Unit')
+            ->withTimestamp(time())
+            ->withHash(md5($entity->getText()));
 
         $expected_id = 4711;
 
@@ -183,7 +185,7 @@ class ilTermsOfServiceAcceptanceDatabaseGatewayTest extends ilTermsOfServiceBase
     public function testAcceptanceHistoryOfAUserCanBeDeleted() : void
     {
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $entity->withUserId(4711);
+        $entity = $entity->withUserId(4711);
 
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

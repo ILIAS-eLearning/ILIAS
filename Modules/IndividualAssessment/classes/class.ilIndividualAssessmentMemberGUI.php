@@ -329,7 +329,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
 
         try {
-            $grading = $member->getGrading()->withFinalize(true);
+            $grading = $member->getGrading()->withFinalized(true);
             $member = $member->withGrading($grading);
             $this->getObject()->membersStorage()->updateMember($member);
         } catch (ilIndividualAssessmentException $e) {

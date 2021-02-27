@@ -8,13 +8,13 @@
 class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 {
     /** @var string */
-    const APPLY_FILTER_CMD = 'applyContactsTableFilter';
+    private const APPLY_FILTER_CMD = 'applyContactsTableFilter';
 
     /** @var string */
-    const RESET_FILTER_CMD = 'resetContactsTableFilter';
+    private const RESET_FILTER_CMD = 'resetContactsTableFilter';
 
     /** @var string */
-    const STATE_FILTER_ELM_ID = 'relation_state_type';
+    private const STATE_FILTER_ELM_ID = 'relation_state_type';
 
     /** @var ilTemplate */
     protected $containerTemplate;
@@ -29,10 +29,10 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     protected $user;
 
     /**
-     * @param        $a_parent_obj
+     * @param object $a_parent_obj
      * @param string $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -50,7 +50,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $chatSettings = new ilSetting('chatroom');
-        $this->isChatEnabled = (bool) $chatSettings->get("chat_enabled", false);
+        $this->isChatEnabled = (bool) $chatSettings->get('chat_enabled');
 
         $this->setDefaultOrderDirection('ASC');
         $this->setDefaultOrderField('public_name');
@@ -70,7 +70,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt('name'), 'public_name');
         $this->addColumn($this->lng->txt('login'), 'login');
-        $this->addColumn('', '');
+        $this->addColumn('');
 
         $this->setRowTemplate('tpl.buddy_system_relation_table_row.html', 'Services/Contact/BuddySystem');
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -95,7 +95,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $options = [];
-        $state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray(false);
+        $state = ilBuddySystemRelationStateFactory::getInstance()->getStatesAsOptionArray();
         foreach ($state as $key => $option) {
             $options[$key] = $option;
         }

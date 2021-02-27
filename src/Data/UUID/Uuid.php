@@ -44,4 +44,11 @@ interface Uuid
      * @return string
      */
     public function toString() : string;
+
+    /**
+     * Enforce that UUID implementation implement the __toString() magic method
+     *
+     * @return string
+     */
+    public function __toString() : string;
 }

@@ -1802,6 +1802,7 @@ assessment#:#sign_submission_info#:#If this is activated and a signature plugin 
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
+assessment#:#autosavecontent#:#Autosave Content
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -3771,7 +3772,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -4705,7 +4706,7 @@ content#:#cont_text_placehl#:#Text Placeholder
 content#:#cont_text_quot#:#Quotation
 content#:#cont_text_str#:#Strong Text
 content#:#cont_text_tex#:#LaTeX Code
-content#:#cont_text_xln_link#:#External Link
+content#:#cont_text_xln#:#External Link
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
 content#:#cont_time#:#Time
 content#:#cont_toc_mode#:#Table of Contents Items
@@ -5562,6 +5563,7 @@ form#:#form_password_not_allowed_for_auth#:#It is not possible to change the pas
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 forum#:#activate_new_posts#:#Approve Postings
 forum#:#activate_only_current#:#Approve Posting
 forum#:#activate_post_txt#:#Would you really like to approve the current posting?
@@ -6056,7 +6058,7 @@ mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of syste
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
@@ -8629,7 +8631,7 @@ sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
-content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.
@@ -8917,7 +8919,7 @@ prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
-content#:#cont_ed_insert_profile#:#Insert Personal Data
+content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_update_profile#:#Edit Published Data
@@ -8926,7 +8928,7 @@ content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
-content#:#cont_ed_insert_verification#:#Insert Certificate
+content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_pc_vrfc#:#Certificate
 content#:#cont_insert_verification#:#Add Certificate
 content#:#cont_update_verification#:#Edit Certificate
@@ -11787,7 +11789,7 @@ crs#:#crs_mail_all#:#For all Participants
 grp#:#grp_mail_type#:#Mail to Members
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_all#:#For all Participants
-content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours
 content#:#cont_cach_mode#:#Mode
@@ -12145,7 +12147,8 @@ skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
@@ -12249,7 +12252,7 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_image_height#:#Height
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Insert My Courses
+content#:#cont_ed_insert_mcrs#:#Insert My Courses
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
@@ -12347,7 +12350,7 @@ survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List
+content#:#cont_ed_insert_amdpl#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
@@ -14218,7 +14221,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
@@ -15122,7 +15125,7 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Download Submission
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_lhist#:#Insert Learning History
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -16387,6 +16390,7 @@ adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 common#:#obj_adn#:#Administrative Notifications
 adn#:#main#:#Notifications
+adn#:#msg_type_0#:#Notice
 adn#:#msg_type_1#:#Notice
 adn#:#msg_type_2#:#Important
 adn#:#msg_type_3#:#Breaking News
@@ -16413,12 +16417,18 @@ adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notificatio
 adn#:#msg_form_title#:#Notification
 adn#:#msg_table_title#:#Notifications
 adn#:#common_actions#:#Actions
+adn#:#msg_error_false_date_configuration#:#Can't create a notification with this configuration of dates. The event must be within the display time.
 adn#:#common_add_msg#:#Add Notification
-adn#:#msg_reset_dismiss#:#Reset for all Users
-adn#:#msg_form_button_reset#:#Reset
-adn#:#msg_form_button_delete#:#Delete
-adn#:#msg_form_button_cancel#:#Cancel
-adn#:#msg_success_deleted#:#Notification sucessfully deletrd
+adn#:#btn_reset#:#Reset
+adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
+adn#:#btn_delete#:#Delete
+adn#:#btn_delete_confirm#:#Would you like to delete this Notification?
+adn#:#btn_cancel#:#Cancel
+adn#:#btn_edit#:#Edit
+adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_created#:#Notification created
+adn#:#msg_success_reset#:#Notification reset
+adn#:#msg_success_updated#:#Notification updated
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
@@ -16495,3 +16505,8 @@ rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
 rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
 prg#:#no_srctype_or_id#:#Id and type may not be empty.
 prg#:#auto_add_success#:#Add automatism successfully.
+maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
+form#:#form_invalid_uri#:#Invalid URI format.

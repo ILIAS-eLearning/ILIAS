@@ -13,7 +13,7 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
     /**
      * ilTermsOfServiceCriterionTypeFactory constructor.
      * @param ilRbacReview $rbacReview
-     * @param ilObjectDataCache $
+     * @param ilObjectDataCache $objectCache
      * @param string[] $countryCodes
      */
     public function __construct(ilRbacReview $rbacReview, ilObjectDataCache $objectCache, array $countryCodes)
@@ -51,7 +51,7 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
         }
 
         throw new ilTermsOfServiceCriterionTypeNotFoundException(sprintf(
-            "Did not find criterion type by ident: %s",
+            'Did not find criterion type by ident: %s',
             var_export($typeIdent, true)
         ));
     }

@@ -57,10 +57,10 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
     public function testGetAction()
     {
         $plain = "http://www.ilias.de";
-        $with_query = $plain."?query1=1";
-        $with_multi_query = $with_query."&query2=2";
-        $with_fragment = $plain."#fragment";
-        $with_multi_query_and_fragment_uri = $with_multi_query.$with_fragment;
+        $with_query = $plain . "?query1=1";
+        $with_multi_query = $with_query . "&query2=2";
+        $with_fragment = $plain . "#fragment";
+        $with_multi_query_and_fragment_uri = $with_multi_query . $with_fragment;
 
         $plain_uri = new \ILIAS\Data\URI($plain);
         $with_query_uri = new \ILIAS\Data\URI($with_query);
@@ -114,7 +114,9 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
     {
         $r = $this->getDefaultRenderer();
         $b = $this->factory->bulky($this->icon, "label", $this->target)
-            ->withAdditionalOnloadCode(function($id){return '';});
+            ->withAdditionalOnloadCode(function ($id) {
+                return '';
+            });
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de" id="id_1">'
@@ -125,24 +127,6 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals(
             $expected,
             $r->render($b)
-        );   
-    }
-
-    public function testRenderingWithAriaRoleMenuItem()
-    {
-        $r = $this->getDefaultRenderer();
-        $b = $this->factory->bulky($this->icon, "label", $this->target)->withAriaRole("menuitem");
-
-        $expected = ''
-            . '<a class="il-link link-bulky" href="http://www.ilias.de" aria-role="menuitem">'
-            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
-            . ' <span class="bulky-label">label</span>'
-            . '</a>';
-
-        $this->assertHTMLEquals(
-            $expected,
-            $r->render($b)
         );
     }
-
 }

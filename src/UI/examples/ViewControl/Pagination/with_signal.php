@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\ViewControl\Pagination;
 
 function with_signal()
 {

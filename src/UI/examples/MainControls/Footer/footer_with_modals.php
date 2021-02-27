@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\MainControls\Footer;
+
 function footer_with_modals()
 {
     global $DIC;

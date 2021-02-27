@@ -178,7 +178,7 @@ export default class PageUI {
           this.log("add dropdown: click");
           this.log(model);
 
-          const pasting = this.uiModel.pasting;
+          const pasting = model.isPasting();
 
           if (pasting) {
             li = li_templ.cloneNode(true);
@@ -195,14 +195,22 @@ export default class PageUI {
 
           // add each components
           for (const [ctype, txt] of Object.entries(uiModel.addCommands)) {
+            let cname, pluginName;
             li = li_templ.cloneNode(true);
             li.querySelector("a").innerHTML = txt;
-            let cname = this.getPCNameForType(ctype);
+            if (ctype.substr(0, 5) === "plug_") {
+              cname = "Plugged";
+              pluginName = ctype.substr(5);
+            } else {
+              cname = this.getPCNameForType(ctype);
+              pluginName = "";
+            }
             li.querySelector("a").addEventListener("click", (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().componentInsert(cname,
                 area.dataset.pcid,
-                hier_id));
+                hier_id,
+                pluginName));
             });
             ul.appendChild(li);
           }
@@ -262,9 +270,11 @@ export default class PageUI {
         this.log("*** Component click event");
         // start editing from page state
         if (this.model.getState() === this.model.STATE_PAGE) {
-          dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
-            area.dataset.pcid,
-            area.dataset.hierid));
+          if (area.dataset.cname !== "ContentInclude") {
+            dispatch.dispatch(action.page().editor().componentEdit(area.dataset.cname,
+                area.dataset.pcid,
+                area.dataset.hierid));
+          }
         } else if (this.model.getState() === this.model.STATE_COMPONENT) {
 
           // Invoke switch action, if click is on other component of same type

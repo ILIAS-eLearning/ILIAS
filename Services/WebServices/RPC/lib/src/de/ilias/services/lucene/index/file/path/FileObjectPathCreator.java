@@ -142,4 +142,9 @@ public class FileObjectPathCreator implements PathCreator {
 
 		return buildFile(el, null);
 	}
+
+	@Override
+	public String getExtension(CommandQueueElement el, ResultSet res) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
 }

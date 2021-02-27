@@ -160,12 +160,19 @@ class ComponentEntryTest extends TestCase
 
     public function testExamples()
     {
-        $this->assertEquals('src/UI/Factory/Entry1Title', $this->entry->getExamplesPath());
+        $this->assertEquals('src/UI/Entry1Title', $this->entry->getExamplesPath());
     }
 
 
     public function testJsonSerialize()
     {
         $this->assertEquals(include "tests/UI/Crawler/Fixture/EntryFixture.php", $this->entry->jsonSerialize());
+    }
+
+    public function testNamespace()
+    {
+        $this->assertEquals($this->entry_data["namespace"], $this->entry->getNamespace());
+        $this->entry->setNamespace("");
+        $this->assertEquals("", $this->entry->getNamespace());
     }
 }

@@ -405,7 +405,7 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setVariable("COUNT_ID", $id);
             $tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
-        }else{
+        } else {
             $id = $this->bindJSandApplyId($component, $tpl);
         }
 
@@ -460,7 +460,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("CHECKBOX_ID", $id."_".$name);
+            $tpl->setVariable("CHECKBOX_ID", $id . "_" . $name);
             $tpl->setVariable("VALUE", $opt_value);
             $tpl->setVariable("LABEL", $opt_label);
 

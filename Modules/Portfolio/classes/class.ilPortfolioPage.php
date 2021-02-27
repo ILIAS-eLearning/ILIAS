@@ -364,7 +364,7 @@ class ilPortfolioPage extends ilPageObject
                 "ilRepositoryGUI",
                 "ilObjPortfolioTemplateGUI",
                 "ilobjportfoliotemplategui"
-            ), "preview");
+            ), "preview", "", false, true);
         } else {
             if (!$a_offline) {
                 $href = "./goto.php?client_id=" . CLIENT_ID . "&amp;target=prtf_" . $pid . "_" . $a_target;

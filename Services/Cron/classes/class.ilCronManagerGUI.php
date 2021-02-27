@@ -28,6 +28,12 @@ class ilCronManagerGUI
     private $uiService;
     /** @var ilCronJobRepository */
     private $repository;
+    /** @var \ILIAS\DI\RBACServices */
+    private $rbac;
+    /** @var ilErrorHandling */
+    private $error;
+    /** @var \ILIAS\DI\Container */
+    private $dic;
 
     /**
      * ilCronManagerGUI constructor.
@@ -44,6 +50,9 @@ class ilCronManagerGUI
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->uiService = $DIC->uiService();
+        $this->dic = $DIC;
+        $this->rbac = $DIC->rbac();
+        $this->error = $DIC['ilErr'];
         $this->repository = new ilCronJobRepositoryImpl();
 
         $this->lng->loadLanguageModule('cron');
@@ -52,6 +61,10 @@ class ilCronManagerGUI
 
     public function executeCommand() : void
     {
+        if (!$this->rbac->system()->checkAccess('visible,read', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $class = $this->ctrl->getNextClass($this);
 
         switch (strtolower($class)) {
@@ -89,7 +102,12 @@ class ilCronManagerGUI
             true
         ));
 
-        $tbl = new ilCronManagerTableGUI($this, 'render');
+        $tbl = new ilCronManagerTableGUI(
+            $this,
+            'render',
+            $this->dic,
+            $this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)
+        );
         $this->tpl->setContent(implode('', [
             $this->uiRenderer->render([$message, $filter]),
             $tbl->populate(
@@ -103,6 +121,10 @@ class ilCronManagerGUI
     
     public function edit(ilPropertyFormGUI $a_form = null)
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $id = $_REQUEST["jid"];
         if (!$id) {
             $this->ctrl->redirect($this, "render");
@@ -252,6 +274,10 @@ class ilCronManagerGUI
     
     public function update()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $id = $_REQUEST["jid"];
         if (!$id) {
             $this->ctrl->redirect($this, "render");
@@ -299,6 +325,10 @@ class ilCronManagerGUI
     
     public function confirmedRun()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $job_id = $_GET["jid"];
         if ($job_id) {
             if (ilCronManager::runJobManual($job_id)) {
@@ -318,6 +348,10 @@ class ilCronManagerGUI
     
     public function confirmedActivate()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -340,6 +374,10 @@ class ilCronManagerGUI
     
     public function confirmedDeactivate()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -361,6 +399,10 @@ class ilCronManagerGUI
     
     public function confirmedReset()
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if ($jobs) {
             foreach ($jobs as $job) {
@@ -396,6 +438,10 @@ class ilCronManagerGUI
     
     protected function confirm($a_action)
     {
+        if (!$this->rbac->system()->checkAccess('write', SYSTEM_FOLDER_ID)) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $jobs = $this->getMultiActionData();
         if (!$jobs) {
             $this->ctrl->redirect($this, "render");

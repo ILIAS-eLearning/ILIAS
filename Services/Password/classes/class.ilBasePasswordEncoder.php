@@ -9,7 +9,7 @@
 abstract class ilBasePasswordEncoder implements ilPasswordEncoder
 {
     /** @var int Maximum password length */
-    const MAX_PASSWORD_LENGTH = 4096;
+    private const MAX_PASSWORD_LENGTH = 4096;
 
     /**
      * Compares two passwords.
