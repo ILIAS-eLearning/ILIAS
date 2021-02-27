@@ -18506,22 +18506,6 @@ span.ilProfileBadge .modal .img-responsive {
   cursor: default !important;
   text-decoration: none !important;
 }
-.ilLSOKioskMode #mainspacekeeper {
-  padding-top: 25px;
-}
-.ilLSOKioskMode .ilLeftNav {
-  top: 40px;
-  margin-left: 0px;
-  bottom: 5px !important;
-}
-.ilLSOKioskMode .ilLeftNav.disabled {
-  display: none;
-}
-.ilLSOKioskMode #il_right_col {
-  background-color: #e0e0e0;
-  margin-top: 20px;
-  padding: 5px;
-}
 .ilLSOKioskModeObjectHeader .il_HeaderInner {
   padding-bottom: 5px;
 }
@@ -18532,38 +18516,8 @@ span.ilProfileBadge .modal .img-responsive {
 .ilLSOKioskModeNavigation .navbar-form {
   line-height: 25px;
 }
-.ilLSOKioskTopBarControls {
-  float: left;
-  display: block;
-  line-height: 40px;
-}
-.ilLSOKioskTopBarControls .btn-link {
-  color: #f5f5f5;
-  font-size: 1em;
-  font-weight: 600;
-  margin-left: 15px;
-}
-.ilLSOKioskTopBarControls .btn-link:before {
-  content: "« ";
-}
-.ilLSOKioskTopBarControls .btn-link:hover {
-  text-decoration: underline;
-}
-.ilLSOKioskTopBarTitle {
-  text-align: center;
-}
-.ilLSOKioskTopBarTitle .ilTopTitle {
-  float: none;
-  padding: none;
-}
 .ilLSOKioskModeContent .panel-primary .panel-heading {
   display: none;
-}
-.ilLSOKioskModeCurriculum {
-  background-color: #f9f9f9;
-}
-.ilLSOKioskModeCurriculum .il-workflow-container {
-  padding: 5px;
 }
 .ilLearningHistoryShowMore {
   text-align: center;
