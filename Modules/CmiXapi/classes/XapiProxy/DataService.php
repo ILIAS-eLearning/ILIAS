@@ -4,36 +4,19 @@ namespace XapiProxy;
 
 class DataService
 {
-    protected static function getIniHost()
-    {
-        // Create ini-handler (onces)
-        ilInitialisation::initIliasIniFile();
-        global $ilIliasIniFile;
-        // Return [server] -> 'http_path' variable from 'ilias.init.php'
-        $http_path = $ilIliasIniFile->readVariable('server', 'http_path');
-        // Strip http:// & https://
-        if (strpos($http_path, 'https://') !== false) {
-            $http_path = substr($http_path, 8);
-        }
-        if (strpos($http_path, 'http://') !== false) {
-            $http_path = substr($http_path, 7);
-        }
-        // Return clean host
-        return $http_path;
-    }
-    
-    public static function initIlias($client_id)
+    public static function initIlias($client_id) 
     {
         define("CLIENT_ID", $client_id);
-        //define('IL_COOKIE_HTTPONLY', true); // Default Value
-        //define('IL_COOKIE_EXPIRE', 0);
-        //define('IL_COOKIE_PATH', '/');
-        //define('IL_COOKIE_DOMAIN', '');
+        // Im Plugin war das auskommentiert(?)
+        define('IL_COOKIE_HTTPONLY', true); // Default Value
+		define('IL_COOKIE_EXPIRE', 0);
+		define('IL_COOKIE_PATH', '/');
+		define('IL_COOKIE_DOMAIN', '');
         require_once('Services/Context/classes/class.ilContext.php');
-        \ilContext::init(\ilContext::CONTEXT_SCORM);
-        //UK
-        require_once("Services/Init/classes/class.ilInitialisation.php");
-        \ilInitialisation::initILIAS();
+         \ilContext::init(\ilContext::CONTEXT_SCORM);
+		 //UK
+		 require_once("Services/Init/classes/class.ilInitialisation.php");
+		\ilInitialisation::initILIAS();
         // Remember original values
         // $_ORG_SERVER = array(
           // 'HTTP_HOST'    => $_SERVER['HTTP_HOST'],
@@ -84,7 +67,7 @@ class ilInitialisation extends \ilInitialisation
     *
     * @see \ilInitialisation::initDatabase()
     */
-    public static function initDatabase()
+    public static function initDatabase() 
     {
         if (!isset($GLOBALS['ilDB'])) {
             parent::initGlobal("ilBench", "ilBenchmark", "./Services/Utilities/classes/class.ilBenchmark.php");
@@ -117,13 +100,13 @@ class ilInitialisation extends \ilInitialisation
             parent::initClientIniFile();
         }
     }
-    
-    //UK
+	
+	//UK
     public static function initLog()
     {
         if (!isset($GLOBALS['ilLog'])) {
             parent::initLog();
-            parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./Services/EventHandling/classes/class.ilAppEventHandler.php");
+			parent::initGlobal("ilAppEventHandler", "ilAppEventHandler", "./Services/EventHandling/classes/class.ilAppEventHandler.php");
         }
     }
 }

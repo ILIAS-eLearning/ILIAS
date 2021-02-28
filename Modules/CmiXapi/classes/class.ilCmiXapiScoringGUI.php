@@ -92,6 +92,7 @@ class ilCmiXapiScoringGUI
             ;
             //$table->setData($this->tableData);
         } catch (Exception $e) {
+            ilUtil::sendFailure($e->getMessage());
             $table = $this->buildTableGUI('fallback');
             $table->setData(array());
             $table->setMaxCount(0);
