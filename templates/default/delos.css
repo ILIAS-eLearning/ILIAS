@@ -6987,9 +6987,6 @@ button.close {
 .panel-secondary .panel-heading.ilHeader h3.ilHeader {
   font-size: 17px;
 }
-.panel-secondary .panel-body {
-  overflow: hidden;
-}
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
 }
@@ -7733,77 +7730,26 @@ ul.dropdown-menu > li > .btn:focus {
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
     padding: 6px 6px;
-    display: table;
     width: 100%;
   }
-  .panel-secondary .il-item h5 {
-    margin-top: 0;
-    font-size: 14px;
-    float: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .panel-secondary .il-item .il-item-title {
+    word-break: break-word;
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
     font-size: 11px;
-  }
-  .panel-secondary .il-item .il-item-divider,
-  .panel-secondary .il-item .il-item-property-name,
-  .panel-secondary .il-item .il-item-property-value {
-    display: none;
-  }
-  .panel-secondary .il-item .row {
-    display: table-row;
+    word-break: break-word;
   }
   .panel-secondary .il-item .col-sm-3 {
-    display: table-cell;
-    height: 100%;
-    padding: 0;
-    float: none;
-    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 0;
     width: 45px;
   }
   .panel-secondary .il-item .col-sm-3 img {
     width: 40px;
   }
   .panel-secondary .il-item .col-sm-9 {
-    position: static;
-    display: table-cell;
-    padding: 0 6px;
-    overflow: hidden;
-    max-width: 0;
-    float: none;
-    zoom: 1;
-    vertical-align: top;
-    /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
-				see known issues at https://caniuse.com/#search=calc */
-    width: 100%;
-  }
-  .panel-secondary .il-item .dropdown {
-    position: static;
-  }
-  .panel-secondary .il-item .dropdown-menu {
-    width: 100%;
-  }
-  .panel-secondary .il-item .dropdown-toggle {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin-top: -20px;
-    z-index: 1;
-  }
-  .panel-secondary .il-item .open > .dropdown-toggle.btn-default:hover,
-  .panel-secondary .il-item .open > .dropdown-toggle.btn-default {
-    background-color: transparent;
-  }
-  .panel-secondary .il-item button.dropdown-toggle {
-    background-color: transparent;
-    border: 0;
-  }
-  .panel-secondary .il-item button.dropdown-toggle > span {
-    display: none;
+    width: calc(100% - 45px);
   }
 }
 /* otherwise dropdowns in items with icon do not work */
@@ -7814,10 +7760,6 @@ ul.dropdown-menu > li > .btn:focus {
   overflow: visible;
 }
 @media only screen and (max-width: 768px) {
-  .il-item div.col-sm-3 > h5 {
-    font-size: 14px;
-    float: none;
-  }
   .il-item .il-item-divider {
     padding: 10px 0 0 0;
     margin: 0;
