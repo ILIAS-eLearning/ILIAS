@@ -929,3 +929,264 @@ $DIC->database()->modifyTableColumn("usr_data", "login", [
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+<#43>
+<?php
+if($ilDB->tableExists('cmix_lrs_types'))
+{
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'only_moveon') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'only_moveon', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'achieved') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'achieved', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'answered') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'answered', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'completed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'completed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'failed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'failed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'initialized') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'initialized', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'passed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'passed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'progressed') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'progressed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'satisfied') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_terminated') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'c_terminated', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'hide_data') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'hide_data', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'c_timestamp') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'c_timestamp', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'duration') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'duration', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'no_substatements') ) {
+        $ilDB->addTableColumn('cmix_lrs_types', 'no_substatements', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+}
+?>
+<#44>
+<?php
+if($ilDB->tableExists('cmix_settings'))
+{
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'only_moveon') ) {
+        $ilDB->addTableColumn('cmix_settings', 'only_moveon', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'achieved') ) {
+        $ilDB->addTableColumn('cmix_settings', 'achieved', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'answered') ) {
+        $ilDB->addTableColumn('cmix_settings', 'answered', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'completed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'completed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'failed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'failed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'initialized') ) {
+        $ilDB->addTableColumn('cmix_settings', 'initialized', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'passed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'passed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'progressed') ) {
+        $ilDB->addTableColumn('cmix_settings', 'progressed', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'satisfied') ) {
+        $ilDB->addTableColumn('cmix_settings', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_terminated') ) {
+        $ilDB->addTableColumn('cmix_settings', 'c_terminated', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'hide_data') ) {
+        $ilDB->addTableColumn('cmix_settings', 'hide_data', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'c_timestamp') ) {
+        $ilDB->addTableColumn('cmix_settings', 'c_timestamp', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'duration') ) {
+        $ilDB->addTableColumn('cmix_settings', 'duration', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+        ));
+    }
+
+    if ( !$ilDB->tableColumnExists('cmix_settings', 'no_substatements') ) {
+        $ilDB->addTableColumn('cmix_settings', 'no_substatements', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ));
+    }
+}
+?>
+
