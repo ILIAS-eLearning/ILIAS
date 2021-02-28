@@ -41,24 +41,15 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     {
         $this->initTable();
 
-        // @TODO add filter
         $users = $this->getParentObject()->object->getTrackedUsers($this->filter['lastname']);
         $attempts = $this->getParentObject()->object->getAttemptsForUsers();
         $versions = $this->getParentObject()->object->getModuleVersionForUsers();
         
-        include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
-        $allowExportPrivacy = $privacy->enabledExportSCORM();
-
         $data = array();
         foreach ($users as $user) {
             $tmp = array();
             $tmp['user'] = $user['user_id'];
-            if ($allowExportPrivacy == true) {
-                $tmp['name'] = $user['lastname'] . ', ' . $user['firstname'];
-            } else {
-                $tmp['name'] = $user['user_id'];
-            }
+            $tmp['name'] = $user['lastname'] . ', ' . $user['firstname'];
             $dt = new ilDateTime($user['last_access'], IL_CAL_DATETIME);
             $tmp['last_access'] = $dt->get(IL_CAL_UNIX);
             $tmp['attempts'] = (int) $attempts[$user['user_id']];
@@ -122,7 +113,6 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('user');
 
         $this->addMultiCommand('deleteTrackingForUser', $this->lng->txt('delete'));
-        $this->addMultiCommand('decreaseAttempts', $this->lng->txt('decrease_attempts'));
         $this->addMultiCommand('exportSelectionUsers', $this->lng->txt('export'));
     }
 }

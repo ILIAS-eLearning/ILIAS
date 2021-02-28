@@ -1011,45 +1011,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     }
 
 
-    /**
-     * Decrease attempts for user
-     * @global ilDB $ilDB
-     * @param array $a_user_id
-    */
-    public function decreaseAttemptsForUser($a_user_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        
-        foreach ($a_user_id as $user) {
-            //first check if there is a package_attempts entry
-            $val_set = $ilDB->queryF(
-                'SELECT package_attempts FROM sahs_user WHERE user_id = %s AND obj_id = %s',
-                array('integer','integer'),
-                array($user,$this->getID())
-            );
-            
-            $val_rec = $ilDB->fetchAssoc($val_set);
-            
-            if ($val_rec["package_attempts"] != null && $val_rec["package_attempts"] != 0) {
-                $new_rec = 0;
-                //decrease attempt by 1
-                if ((int) $val_rec["package_attempts"] > 0) {
-                    $new_rec = (int) $val_rec["package_attempts"] - 1;
-                }
-                $ilDB->manipulateF(
-                    'UPDATE sahs_user SET package_attempts = %s WHERE user_id = %s AND obj_id = %s',
-                    array('integer','integer','integer'),
-                    array($new_rec,$user,$this->getID())
-                );
-
-                //following 2 lines were before 4.4 only for SCORM 1.2
-                include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-                ilLPStatusWrapper::_updateStatus($this->getId(), $user);
-            }
-        }
-    }
-
     
     //helper function
     public function get_user_id($a_login)
@@ -1365,7 +1326,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return '0';
     }
 
-    public function deleteTrackingDataOfUsers($a_users)
+    public function deleteTrackingDataOfUsers(array $a_users)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

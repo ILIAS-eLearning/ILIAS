@@ -984,16 +984,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         }
     }
 
-
-    public function decreaseAttempts()
-    {
-        if (!isset($_POST["user"])) {
-            ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
-        }
-        $this->object->decreaseAttemptsForUser($_POST["user"]);
-        $this->ctrl->redirect($this, "modifyTrackingItems");
-    }
-    
+   
     
     /**
      * show tracking data of item
