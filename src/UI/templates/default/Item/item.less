@@ -10,6 +10,7 @@
 
 	.il-item-title {
 		font-size: @font-size-base;
+		display: inline-block;
 		.btn-link, a {
 			font-size: inherit;
 			line-height: @line-height-base;
@@ -26,6 +27,7 @@
 	}
 
 	.dropdown {
+		display: inline-block;
 		float: right;
 	}
 
@@ -90,6 +92,11 @@
 .il-notification-item{
 	//To give some extra space in case for vertical scroll bar
 	padding-right: @il-item-padding + 3px;
+	.il-item-notification-title{
+		display: inline-block;
+		margin: 0;
+	}
+
 	.il-item-additional-content{
 		clear:both;
 	}

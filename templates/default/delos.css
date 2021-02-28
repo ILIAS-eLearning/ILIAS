@@ -7594,6 +7594,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .il-item-title {
   font-size: 14px;
+  display: inline-block;
 }
 .il-item .il-item-title .btn-link,
 .il-item .il-item-title a {
@@ -7609,6 +7610,7 @@ ul.dropdown-menu > li > .btn:focus {
   border-bottom: dashed 0.5px #E0E0E0;
 }
 .il-item .dropdown {
+  display: inline-block;
   float: right;
 }
 .il-item .il-item-description {
@@ -7657,6 +7659,10 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-notification-item {
   padding-right: 15px;
+}
+.il-notification-item .il-item-notification-title {
+  display: inline-block;
+  margin: 0;
 }
 .il-notification-item .il-item-additional-content {
   clear: both;
