@@ -6898,16 +6898,21 @@ button.close {
   line-height: 21px;
   order: 1;
 }
-.panel-flex .ilBlockHeader h4 {
+.panel-flex .ilBlockHeader h4,
+.panel-flex .ilHeader h4 {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
 }
 .panel-flex .il-viewcontrol-sortation {
   flex-grow: 1;
-  flex-shrink: 0;
+  flex-shrink: 1;
   order: 2;
   margin-right: 8px;
+}
+.panel-flex .panel-heading .dropdown {
+  flex-shrink: 1;
+  order: 3;
 }
 .panel-flex .il-viewcontrol-pagination,
 .panel-flex .il-viewcontrol-section {
