@@ -213,7 +213,7 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
-	<div class="panel-heading ilBlockHeader clearfix">
+	<div class="panel-heading ilBlockHeader">
 		<h3>Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
@@ -259,7 +259,7 @@ EOT;
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
-            <div class="panel-heading ilBlockHeader clearfix">
+            <div class="panel-heading ilBlockHeader">
                 <h3>Title</h3>
             </div>
             <div class="panel-body"><div class="row">
