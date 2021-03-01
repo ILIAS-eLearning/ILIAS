@@ -273,10 +273,10 @@ class ilSystemStyleIconsGUI
                         $this->lng->txt("invalid_color") . $new_color,
                         ilSystemStyleMessage::TYPE_ERROR
                     ));
-                } elseif ($new_color != $old_color->getId()) {
-                    $color_changes[$old_color->getId()] = $new_color;
+                } elseif ($new_color != $old_color->getColor()) {
+                    $color_changes[$old_color->getColor()] = $new_color;
                     $message_stack->addMessage(new ilSystemStyleMessage(
-                        $this->lng->txt("color_changed_from") . " " . $old_color->getId() . " " .
+                        $this->lng->txt("color_changed_from") . " " . $old_color->getColor() . " " .
                         $this->lng->txt("color_changed_to") . " " . $new_color,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     ));
@@ -439,11 +439,11 @@ class ilSystemStyleIconsGUI
                         $this->lng->txt("invalid_color") . $new_color,
                         ilSystemStyleMessage::TYPE_ERROR
                     ));
-                } elseif ($new_color != $old_color->getId()) {
-                    $color_changes[$old_color->getId()] = $new_color;
+                } elseif ($new_color != $old_color->getColor()) {
+                    $color_changes[$old_color->getColor()] = $new_color;
 
                     $message_stack->addMessage(new ilSystemStyleMessage(
-                        $this->lng->txt("color_changed_from") . " " . $old_color->getId() . " " .
+                        $this->lng->txt("color_changed_from") . " " . $old_color->getColor() . " " .
                         $this->lng->txt("color_changed_to") . " " . $new_color,
                         ilSystemStyleMessage::TYPE_SUCCESS
                     ));
