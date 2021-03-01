@@ -7709,7 +7709,6 @@ ul.dropdown-menu > li > .btn:focus {
 .il-notification-item .dropdown {
   margin-top: -20px;
 }
-/* this is currently experimental, could be removed */
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
     padding: 6px 6px;
@@ -7733,6 +7732,9 @@ ul.dropdown-menu > li > .btn:focus {
   }
   .panel-secondary .il-item .col-sm-9 {
     width: calc(100% - 45px);
+  }
+  .panel-secondary .il-item .col-md-6 {
+    width: 100%;
   }
 }
 /* otherwise dropdowns in items with icon do not work */
