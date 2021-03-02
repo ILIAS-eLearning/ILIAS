@@ -95,7 +95,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         return $plugin['activation_possible'];
     }
 
-    protected function initEnvironment(Setup\Environment $environment) : ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment) : ?ILIAS\DI\Container
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);

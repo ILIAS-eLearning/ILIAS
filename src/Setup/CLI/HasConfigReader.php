@@ -25,6 +25,10 @@ trait HasConfigReader
             throw new \LogicException("\$this->config_reader not properly initialized.");
         }
 
+        if (!$agent->hasConfig()) {
+            return null;
+        }
+
         $config_file = $input->getArgument("config");
         $config_overwrites_raw = $input->getOption("config");
         $config_overwrites = [];
@@ -35,7 +39,9 @@ trait HasConfigReader
             }
             $config_overwrites[$vs[0]] = $vs[1];
         }
+
         $config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
+
         $trafo = $agent->getArrayToConfigTransformation();
         return $trafo->transform($config_content);
     }

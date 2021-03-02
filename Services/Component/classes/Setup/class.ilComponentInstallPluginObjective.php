@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Setup\Objective\ClientIdReadObjective;
 
 class ilComponentInstallPluginObjective implements Setup\Objective
 {
@@ -47,12 +48,10 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $setup_config = $environment->getConfigFor('common');
-        $db_config = $environment->getConfigFor('database');
-
         return [
-            new \ilIniFilesPopulatedObjective($setup_config),
-            new \ilDatabasePopulatedObjective($db_config),
+            new ClientIdReadObjective(),
+            new \ilIniFilesPopulatedObjective(),
+            new \ilDatabaseUpdatedObjective(),
             new \ilComponentPluginAdminInitObjective()
         ];
     }

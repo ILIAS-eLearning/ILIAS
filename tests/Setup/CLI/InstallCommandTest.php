@@ -45,6 +45,11 @@ class InstallCommandTest extends TestCase
             "d.e" => "bar",
         ];
 
+        $agent
+            ->expects($this->once())
+            ->method("hasConfig")
+            ->willReturn(true);
+
         $config_reader
             ->expects($this->once())
             ->method("readConfigFile")
@@ -121,6 +126,61 @@ class InstallCommandTest extends TestCase
         $tester->execute([
             "config" => $config_file,
             "--config" => ["a.b.c=foo", "d.e=bar"]
+        ]);
+    }
+
+    public function testPluginInstallation() : void
+    {
+        $agent = $this->createMock(Setup\AgentCollection::class);
+        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $command = new Setup\CLI\InstallCommand($agent_finder, $config_reader, []);
+
+        $tester = new CommandTester($command);
+
+        $objective = $this->createMock(Setup\Objective::class);
+        $env = $this->createMock(Setup\Environment::class);
+
+        $agent
+            ->expects($this->once())
+            ->method("hasConfig")
+            ->willReturn(false);
+
+        $agent_finder
+            ->expects($this->once())
+            ->method("getPluginAgent")
+            ->with("test")
+            ->willReturn($agent);
+
+        $agent
+            ->expects($this->once())
+            ->method("getInstallObjective")
+            ->with(null)
+            ->willReturn($objective);
+
+        $agent
+            ->expects($this->once())
+            ->method("getUpdateObjective")
+            ->with()
+            ->willReturn(new Setup\Objective\NullObjective());
+
+        $objective
+            ->expects($this->once())
+            ->method("getPreconditions")
+            ->willReturn([]);
+
+        $objective
+            ->expects($this->once())
+            ->method("achieve")
+            ->willReturn($env);
+
+        $objective
+            ->expects($this->once())
+            ->method("isApplicable")
+            ->willReturn(true);
+
+        $tester->execute([
+            "--plugin" => "test"
         ]);
     }
 }

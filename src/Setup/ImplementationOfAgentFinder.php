@@ -142,8 +142,7 @@ class ImplementationOfAgentFinder implements AgentFinder
         ));
 
         if (count($agent_classes) === 0) {
-            return new class($name) extends \ilPluginDefaultAgent {
-            };
+            return new class($name) extends \ilPluginDefaultAgent {};
         }
 
         $agents = [];

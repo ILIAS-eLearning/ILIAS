@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\Setup\Objective\ClientIdReadObjective;
 
 class ilComponentUpdatePluginObjective implements Setup\Objective
 {
@@ -48,6 +49,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
+            new ClientIdReadObjective(),
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
             new \ilComponentPluginAdminInitObjective()
@@ -59,7 +61,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
 
         $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
 
@@ -75,6 +77,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         }
 
         $GLOBALS["DIC"] = $ORIG_DIC;
+        $GLOBALS["ilDB"] = $ORIG_ilDB;
 
         return $environment;
     }
@@ -84,7 +87,7 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ORIG_DIC = $this->initEnvironment($environment);
+        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
 
         $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
 
@@ -93,11 +96,12 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         }
 
         $GLOBALS["DIC"] = $ORIG_DIC;
+        $GLOBALS["ilDB"] = $ORIG_ilDB;
 
         return $plugin['needs_update'];
     }
 
-    protected function initEnvironment(Setup\Environment $environment) : ILIAS\DI\Container
+    protected function initEnvironment(Setup\Environment $environment) : array
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
@@ -109,9 +113,12 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         // sub components of the various readers to run. This is a memento to the
         // fact, that dependency injection is something we want. Currently, every
         // component could just service locate the whole world via the global $DIC.
-        $DIC = $GLOBALS["DIC"];
+        $ORIG_DIC = $GLOBALS["DIC"];
+        $ORIG_ilDB = $GLOBALS["ilDB"];
+
         $GLOBALS["DIC"] = new DI\Container();
         $GLOBALS["DIC"]["ilDB"] = $db;
+        $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
         $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
@@ -142,6 +149,10 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             define('DEBUG', false);
         }
 
-        return $DIC;
+        if (!defined("ILIAS_ABSOLUTE_PATH")) {
+            define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+        }
+
+        return [$ORIG_DIC, $ORIG_ilDB];
     }
 }
