@@ -3580,12 +3580,12 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
         $this->ctrl->redirect($this, 'showThreads');
     }
-
+    
     /**
-     * @param bool $isDraft
-     * @return \ilPropertyFormGUI
+     * @param false $isDraft
+     * @return ilForumThreadFormGUI
      */
-    private function buildThreadForm($isDraft = false) : \ilPropertyFormGUI
+    private function buildThreadForm($isDraft = false): ilForumThreadFormGUI
     {
         $draftId = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
         $allowNotification = !$this->objProperties->isAnonymized();
@@ -3595,7 +3595,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $allowNotification = false;
         }
 
-        $form = new \ilForumThreadFormGUI(
+        $default_form = new \ilForumThreadFormGUI(
             $this,
             $this->objProperties,
             $this->isWritingWithPseudonymAllowed(),
@@ -3603,10 +3603,50 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $isDraft,
             $draftId
         );
+    
+        $default_form->addInputItem(ilForumThreadFormGUI::ALIAS_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::SUBJECT_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::MESSAGE_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::FILE_UPLOAD_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::ALLOW_NOTIFICATION_INPUT);
+        $default_form->addInputItem(ilForumThreadFormGUI::CAPTCHA_INPUT);
+    
+        $default_form->generateDefaultForm();
 
-        $this->decorateWithAutosave($form);
-
-        return $form;
+        $this->decorateWithAutosave($default_form);
+        
+        return $default_form;
+    }
+    
+    /**
+     * @param false $isDraft
+     * @return ilForumThreadFormGUI
+     */
+    private function buildMinimalThreadForm($isDraft = false): ilForumThreadFormGUI
+    {
+        $draftId = (int) ($this->httpRequest->getQueryParams()['draft_id'] ?? 0);
+        $allowNotification = !$this->objProperties->isAnonymized();
+        
+        $mail = new \ilMail($this->user->getId());
+        if (!$this->rbac->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
+            $allowNotification = false;
+        }
+        
+        $minimal_form = new \ilForumThreadFormGUI(
+            $this,
+            $this->objProperties,
+            $this->isWritingWithPseudonymAllowed(),
+            $allowNotification,
+            $isDraft,
+            $draftId
+        );
+        
+        $minimal_form->addInputItem(ilForumThreadFormGUI::ALIAS_INPUT);
+        $minimal_form->addInputItem(ilForumThreadFormGUI::SUBJECT_INPUT);
+        
+        $minimal_form->generateMinimalForm();
+        
+        return $minimal_form;
     }
 
     protected function createThreadObject()
@@ -3620,7 +3660,17 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $templateForWidthHandling = new \ilTemplate('tpl.create_thread_form.html', true, true, 'Modules/Forum');
-        $templateForWidthHandling->setVariable('CREATE_FORM', $this->buildThreadForm()->getHTML());
+    
+        $accordion = new ilAccordionGUI();
+        $accordion->setId('acc_' . $this->obj_id);
+        $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+    
+        $form = $this->buildThreadForm();
+        $minimal_form = $this->buildMinimalThreadForm();
+        $accordion->addItem($this->lng->txt('new_thread_with_post'), $form->getHTML());
+        $accordion->addItem($this->lng->txt('empty_thread'), $minimal_form->getHTML());
+      
+        $templateForWidthHandling->setVariable('CREATE_FORM', $accordion->getHTML());
         $templateForWidthHandling->parseCurrentBlock();
 
         $this->tpl->setContent($templateForWidthHandling->get());
@@ -3645,8 +3695,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $frm->setForumRefId($this->object->getRefId());
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
         $topicData = $frm->getOneTopic();
-
+    
+        $accordion = new ilAccordionGUI();
+        $accordion->setId('acc_' . $this->obj_id);
+        $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+    
         $form = $this->buildThreadForm($createFromDraft);
+        $minimal_form = $this->buildMinimalThreadForm($createFromDraft);
+        $accordion->addItem($this->lng->txt('new_thread_with_post'), $form->getHTML());
+        $accordion->addItem($this->lng->txt('empty_thread'), $minimal_form->getHTML());
+    
         if ($form->checkInput()) {
             $this->doCaptchaCheck();
 
@@ -3753,7 +3811,86 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $form->getItemByPostVar('alias')->setValue($this->user->getLogin());
         }
 
-        $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($accordion->getHTML());
+    }
+    
+    /**
+     * Refactored thread creation to method, refactoring to a separate class should be done in next refactoring steps
+     * @param ilForumPostDraft $draft
+     * @param bool $createFromDraft
+     */
+    private function createEmptyThread(\ilForumPostDraft $draft, bool $createFromDraft = false)
+    {
+        if (
+            !$this->access->checkAccess('add_thread', '', $this->object->getRefId()) ||
+            !$this->access->checkAccess('read', '', $this->object->getRefId())
+        ) {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+        
+        $frm = $this->object->Forum;
+        $frm->setForumId($this->object->getId());
+        $frm->setForumRefId($this->object->getRefId());
+        $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
+        $topicData = $frm->getOneTopic();
+        
+        $accordion = new ilAccordionGUI();
+        $accordion->setId('acc_' . $this->obj_id);
+        $accordion->setBehaviour(ilAccordionGUI::FIRST_OPEN);
+        
+        $form = $this->buildThreadForm($createFromDraft);
+        $minimal_form = $this->buildMinimalThreadForm($createFromDraft);
+        $accordion->addItem($this->lng->txt('new_thread_with_post'), $form->getHTML());
+        $accordion->addItem($this->lng->txt('empty_thread'), $minimal_form->getHTML());
+        
+        if ($minimal_form->checkInput()) {
+            
+            $userIdForDisplayPurposes = $this->user->getId();
+            if ($this->isWritingWithPseudonymAllowed()) {
+                $userIdForDisplayPurposes = 0;
+            }
+            
+            $status = 1;
+            if (
+                ($this->objProperties->isPostActivationEnabled() && !$this->is_moderator) ||
+                $this->objCurrentPost->isAnyParentDeactivated()
+            ) {
+                $status = 0;
+            }
+           
+                $userAlias = \ilForumUtil::getPublicUserAlias(
+                    $minimal_form->getInput('alias'),
+                    $this->objProperties->isAnonymized()
+                );
+                $newThread = new \ilForumTopic(0, true, true);
+                $newThread->setForumId($topicData['top_pk']);
+                $newThread->setThrAuthorId($this->user->getId());
+                $newThread->setDisplayUserId($userIdForDisplayPurposes);
+                $newThread->setSubject($this->handleFormInput($minimal_form->getInput('subject'), false));
+                $newThread->setUserAlias($userAlias);
+                
+                $newPost = $frm->generateThread(
+                    $newThread,
+                    "",
+                    0,
+                    0, // #19980
+                    $status
+                );
+            
+            $frm->setDbTable('frm_data');
+            $frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));
+            $frm->updateVisits($topicData['top_pk']);
+            
+            \ilUtil::sendSuccess($this->lng->txt('forums_thread_new_entry'), true);
+            $this->ctrl->redirect($this);
+        }
+        
+        $form->setValuesByPost();
+        if (!$this->objProperties->isAnonymized()) {
+            $form->getItemByPostVar('alias')->setValue($this->user->getLogin());
+        }
+        
+        $this->tpl->setContent($accordion->getHTML());
     }
 
     protected function publishThreadDraftObject()
@@ -3784,7 +3921,20 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->createThread($draft, false);
     }
-
+    
+    protected function addEmptyThreadObject()
+    {
+        $draft = new \ilForumPostDraft();
+        if (\ilForumPostDraft::isSavePostDraftAllowed()) {
+            $draftId = (int) ($this->httpRequest->getParsedBody()['draft_id'] ?? 0);
+            if ($draftId > 0) {
+                $draft = \ilForumPostDraft::newInstanceByDraftId($draftId);
+            }
+        }
+        
+        $this->createEmptyThread($draft, false);
+    }
+    
     protected function enableForumNotificationObject()
     {
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {

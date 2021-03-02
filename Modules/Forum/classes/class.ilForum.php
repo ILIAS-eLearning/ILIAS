@@ -567,20 +567,23 @@ class ilForum
             return $rootNodeId;
         }
 
-        return $this->generatePost(
-            $thread->getForumId(),
-            $thread->getId(),
-            $thread->getThrAuthorId(),
-            $thread->getDisplayUserId(),
-            $message,
-            $rootNodeId,
-            $notify,
-            $thread->getSubject(),
-            $thread->getUserAlias(),
-            $thread->getCreateDate(),
-            $status,
-            0
-        );
+        if(strlen(trim($message)) > 0 ) {
+            return $this->generatePost(
+                $thread->getForumId(),
+                $thread->getId(),
+                $thread->getThrAuthorId(),
+                $thread->getDisplayUserId(),
+                $message,
+                $rootNodeId,
+                $notify,
+                $thread->getSubject(),
+                $thread->getUserAlias(),
+                $thread->getCreateDate(),
+                $status,
+                0
+            );
+        }
+        return $rootNodeId;
     }
 
     /**

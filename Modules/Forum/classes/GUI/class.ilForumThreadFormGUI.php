@@ -6,6 +6,18 @@
  */
 class ilForumThreadFormGUI extends \ilPropertyFormGUI
 {
+    const ALIAS_INPUT = 'alias';
+    const SUBJECT_INPUT = 'subject';
+    const MESSAGE_INPUT = 'message';
+    const FILE_UPLOAD_INPUT = 'file_upload';
+    const ALLOW_NOTIFICATION_INPUT = 'allow_notification';
+    const CAPTCHA_INPUT = 'captcha';
+    
+    /**
+     * @var array
+     */
+    private $input_items = [];
+    
     /** @var \ilObjForumGUI */
     protected $delegatingGui;
 
@@ -49,22 +61,58 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
         $this->allowNotification = $allowNotification;
         $this->isDraftContext = $isDraftContext;
         $this->draftId = $draftId;
-
-        $this->initForm();
     }
-
+    
     /**
-     *
+     * @param $input_item
      */
-    protected function initForm()
+    public function addInputItem($input_item)
     {
-        $this->setTitleIcon(\ilUtil::getImagePath('icon_frm.svg'));
-        $this->setTableWidth('100%');
-        $this->setTitle($this->lng->txt('forums_new_thread'));
-        if ($this->isDraftContext) {
-            $this->setTitle($this->lng->txt('edit_thread_draft'));
+        $this->input_items[] = $input_item;
+    }
+    
+    /**
+     * @return array
+     */
+    private function getInputItems(): array
+    {
+        return $this->input_items;
+    }
+    
+    public function generateDefaultForm()
+    {
+        $this->generateInputItems();
+    
+        if (\ilForumPostDraft::isSavePostDraftAllowed() && !$this->user->isAnonymous()) {
+            $this->ctrl->setParameter($this->delegatingGui, 'draft_id', $this->draftId);
+            if (in_array($this->ctrl->getCmd(), ['publishThreadDraft', 'editThreadDraft', 'updateThreadDraft'])) {
+                $this->addCommandButton('publishThreadDraft', $this->lng->txt('publish'));
+                $this->addCommandButton('updateThreadDraft', $this->lng->txt('save_message'));
+                $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'updateThreadDraft'));
+            } else {
+                $this->addCommandButton('addThread', $this->lng->txt('create'));
+                $this->addCommandButton('saveThreadAsDraft', $this->lng->txt('save_message'));
+                $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'saveThreadAsDraft'));
+            }
+            $this->addCommandButton('cancelDraft', $this->lng->txt('cancel'));
+        } else {
+            $this->addCommandButton('addThread', $this->lng->txt('create'));
+            $this->addCommandButton('showThreads', $this->lng->txt('cancel'));
+            $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'addThread'));
         }
-
+    }
+    
+    public function generateMinimalForm()
+    {
+        $this->generateInputItems();
+    
+        $this->addCommandButton('addEmptyThread', $this->lng->txt('create'));
+        $this->addCommandButton('showThreads', $this->lng->txt('cancel'));
+        $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'addThread'));
+    }
+    
+    private function addAliasInput(): void
+    {
         if ($this->allowPseudonyms) {
             $alias = new \ilTextInputGUI($this->lng->txt('forums_your_name'), 'alias');
             $alias->setInfo($this->lng->txt('forums_use_alias'));
@@ -75,13 +123,19 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
             $alias->setValue($this->user->getLogin());
         }
         $this->addItem($alias);
-
+    }
+    
+    private function addSubjectInput(): void
+    {
         $subject = new \ilTextInputGUI($this->lng->txt('forums_thread'), 'subject');
         $subject->setMaxLength(255);
         $subject->setSize(50);
         $subject->setRequired(true);
         $this->addItem($subject);
-
+    }
+    
+    private function addMessageInput(): void
+    {
         $message = new ilTextAreaInputGUI($this->lng->txt('forums_the_post'), 'message');
         $message->setCols(50);
         $message->setRows(15);
@@ -91,7 +145,7 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
         $message->addButton('latex');
         $message->addButton('pastelatex');
         $message->addPlugin('ilfrmquote');
-
+        
         $message->removePlugin('advlink');
         $message->usePurifier(true);
         $message->setRTERootBlockElement('');
@@ -114,16 +168,19 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
         ));
         $message->setPurifier(\ilHtmlPurifierFactory::_getInstanceByType('frm_post'));
         $this->addItem($message);
-
+    }
+    
+    private function addFileUploadInput(): void
+    {
         if ($this->properties->isFileUploadAllowed()) {
             $files = new \ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
             $files->setFilenames([0 => '']);
             $this->addItem($files);
-
+            
             if ($this->isDraftContext) {
                 if ($this->draftId > 0) {
                     $threadDraft = \ilForumPostDraft::newInstanceByDraftId($this->draftId);
-                    if ((int) $threadDraft->getDraftId() > 0) {
+                    if ((int)$threadDraft->getDraftId() > 0) {
                         $draftFileData = new \ilFileDataForumDrafts(0, $threadDraft->getDraftId());
                         if (count($draftFileData->getFilesOfPost()) > 0) {
                             $existingFileSelection = new \ilCheckboxGroupInputGUI(
@@ -141,36 +198,67 @@ class ilForumThreadFormGUI extends \ilPropertyFormGUI
                 }
             }
         }
-
+    }
+    
+    private function addAllowNotificationInput(): void
+    {
         if ($this->allowNotification) {
             $notifyOnAnswer = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
             $notifyOnAnswer->setInfo($this->lng->txt('forum_notify_me'));
             $notifyOnAnswer->setValue(1);
             $this->addItem($notifyOnAnswer);
         }
-
+    }
+    
+    private function addCaptchaInput(): void
+    {
         if ($this->user->isAnonymous() && !$this->user->isCaptchaVerified() && \ilCaptchaUtil::isActiveForForum()) {
             $captcha = new \ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
             $captcha->setRequired(true);
             $this->addItem($captcha);
         }
-
-        if (\ilForumPostDraft::isSavePostDraftAllowed() && !$this->user->isAnonymous()) {
-            $this->ctrl->setParameter($this->delegatingGui, 'draft_id', $this->draftId);
-            if (in_array($this->ctrl->getCmd(), ['publishThreadDraft', 'editThreadDraft', 'updateThreadDraft'])) {
-                $this->addCommandButton('publishThreadDraft', $this->lng->txt('publish'));
-                $this->addCommandButton('updateThreadDraft', $this->lng->txt('save_message'));
-                $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'updateThreadDraft'));
-            } else {
-                $this->addCommandButton('addThread', $this->lng->txt('create'));
-                $this->addCommandButton('saveThreadAsDraft', $this->lng->txt('save_message'));
-                $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'saveThreadAsDraft'));
+    }
+    
+    private function generateInputItems(): void
+    {
+        $this->setTitleIcon(\ilUtil::getImagePath('icon_frm.svg'));
+        $this->setTableWidth('100%');
+        $this->setTitle($this->lng->txt('forums_new_thread'));
+        if ($this->isDraftContext) {
+            $this->setTitle($this->lng->txt('edit_thread_draft'));
+        }
+        
+        foreach ($this->getInputItems() as $input_item) {
+            switch ($input_item) {
+                case self::ALIAS_INPUT:
+                    $this->addAliasInput();
+                    break;
+                case self::SUBJECT_INPUT:
+                    $this->addSubjectInput();
+                    break;
+                case self::MESSAGE_INPUT:
+                    $this->addMessageInput();
+                    break;
+                case self::FILE_UPLOAD_INPUT:
+                    $this->addFileUploadInput();
+                    break;
+                case self::ALLOW_NOTIFICATION_INPUT:
+                    $this->addAllowNotificationInput();
+                    break;
+                case self::CAPTCHA_INPUT:
+                    $this->addCaptchaInput();
+                    break;
             }
-            $this->addCommandButton('cancelDraft', $this->lng->txt('cancel'));
-        } else {
-            $this->addCommandButton('addThread', $this->lng->txt('create'));
-            $this->addCommandButton('showThreads', $this->lng->txt('cancel'));
-            $this->setFormAction($this->ctrl->getFormAction($this->delegatingGui, 'addThread'));
+
+//         for PHP 8 use only
+//            match($input_item) {
+//                self::ALIAS_INPUT => $this->addAliasInput(),
+//                self::SUBJECT_INPUT => $this->addSubjectInput(),
+//                self::MESSAGE_INPUT => $this->addMessageInput(),
+//                self::FILE_UPLOAD_INPUT => $this->addFileUploadInput(),
+//                self::ALLOW_NOTIFICATION_INPUT=> $this->addAllowNotificationInput(),
+//                self::CAPTCHA_INPUT => $this->addCaptchaInput(),
+//            };
         }
     }
 }
