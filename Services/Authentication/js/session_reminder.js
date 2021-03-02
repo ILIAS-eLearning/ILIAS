@@ -71,7 +71,7 @@
 				dataType:'json',
 				type:    'POST',
 				data: {
-					session_id: properties.session_id
+					hash: properties.hash
 				},
 				success: function (response) {
 					if (response.message && typeof response.message == "string") {
@@ -130,13 +130,11 @@
 						properties: $.extend(
 							true, {},
 							{
-								url         :"",
-								client_id   :"",
-								session_name:"",
-								session_id  :"",
-								session_id_hash  :"",
-								frequency   :60,
-								debug       :0
+								url: "",
+								client_id: "",
+								hash: "",
+								frequency: 60,
+								debug: 0
 							},
 							params
 						)
