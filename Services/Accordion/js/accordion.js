@@ -97,6 +97,11 @@ il.Accordion = {
 				});
 				
 				t.on("click", { id: id, el: t}, il.Accordion.clickHandler);
+				t.on('keypress', function (e) {
+					if (e.which === 13 || e.which === 32) {
+						$(this).trigger('click');
+					}
+				});
 			});
 		}
 
