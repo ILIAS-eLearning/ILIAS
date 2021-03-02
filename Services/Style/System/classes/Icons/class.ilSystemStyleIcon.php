@@ -159,7 +159,7 @@ class ilSystemStyleIcon
             if (is_array($color_matches) && is_array($color_matches[0])) {
                 foreach ($color_matches[0] as $color_value) {
                     $numeric = strtoupper(str_replace("#", "", $color_value));
-                    $color = new ilSystemStyleIconColor($numeric, $color_value, $numeric, $color_value);
+                    $color = new ilSystemStyleIconColor("id_".$numeric, $color_value, $numeric, $color_value);
                     $this->getColorSet()->addColor($color);
                 }
             }
