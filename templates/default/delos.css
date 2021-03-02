@@ -15569,7 +15569,7 @@ th.ilSkillEntryHead {
 .ilPollDescription {
   margin: 5px;
   font-size: 80%;
-  color: #808080;
+  color: #757575;
 }
 .ilPollQuestion {
   display: inline-block;
@@ -15598,7 +15598,7 @@ img.ilPollQuestionImage {
 }
 .ilPollQuestionResultBar {
   width: 100%;
-  border: 1px solid #aaa;
+  border: 1px solid #A8A8A8;
   float: left;
   height: 18px;
 }
@@ -16714,11 +16714,11 @@ a.ilMediaLightboxClose {
   float: right;
   margin: 5px 0 10px 10px;
   cursor: pointer;
-  color: #808080;
+  color: #434343;
   font-size: 140%;
 }
 a.ilMediaLightboxClose:hover {
-  color: #a0a0a0;
+  color: #2a2a2a;
   text-decoration: none;
 }
 .ilLightboxContent {
@@ -17387,7 +17387,7 @@ div.ilChecklist ul li a:hover {
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
-  color: #808080;
+  color: #757575;
   font-size: 85%;
   text-decoration: none;
   padding: 0;
