@@ -154,10 +154,10 @@
 					});
 
 					internals.log("Session reminder started");
-					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id_hash") !== properties.session_id_hash) {
+					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id_hash") !== properties.hash) {
 						YAHOO.util.Cookie.set(cookie_prefix + "activation", "enabled");
 						YAHOO.util.Cookie.set(cookie_prefix + "status", "unlocked");
-						YAHOO.util.Cookie.set(cookie_prefix + "session_id_hash", properties.session_id_hash);
+						YAHOO.util.Cookie.set(cookie_prefix + "session_id_hash", properties.hash);
 						internals.log("Session cookie changed after new login or session reminder initially started for current session: Release lock and enabled reminder");
 					}
 
