@@ -243,7 +243,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
     }
   }
 }
-
 @media (min-width: @grid-float-breakpoint) {
   [dir="rtl"] .navbar-left  { .pull-right(); }
   [dir="rtl"] .navbar-right { .pull-left(); }
@@ -389,7 +388,7 @@ div.ilFrame {
 	max-width: 1200px;
     .box-shadow(0 0 40px #808080);
 	padding-top: 129px;
-	background-color: #f9f9f9;
+	background-color: @il-main-dark-bg;
 	min-height: 100%;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		margin: 0;
@@ -528,7 +527,7 @@ a {
 hr {
 	margin-bottom: .8em;
 	border: none;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid @il-main-border-color;
 }
 
 table {
@@ -730,7 +729,7 @@ input.fullwidth, textarea.fullwidth {
 }
 
 div.input {
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 	padding: 3px;
 	text-decoration: none;
 	font-size: 90%;
@@ -786,7 +785,7 @@ div.ilAdminRow {
 }
 
 table.std {
-	color: #222;
+	color: @il-text-color;
 	background-color: #bbb;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -840,7 +839,7 @@ tr.tbltitle {
 
 tr.std {
 	background-color: white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 }
 
@@ -880,7 +879,7 @@ th.option, td.option {
 
 td.sub_option {
 	background-color: white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	font-weight : bold;
 	vertical-align: top;
@@ -889,7 +888,7 @@ td.sub_option {
 
 td.option_value {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	vertical-align: top;
 	text-align: left;
@@ -902,7 +901,7 @@ td.option_value {
 
 td.option_value_center {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	vertical-align: top;
 	text-align: center;
@@ -911,7 +910,7 @@ td.option_value_center {
 
 td.option_desc, p.option_desc {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	font-style: italic;
 	font-weight: normal;
@@ -1345,7 +1344,7 @@ span.il_Helptext {
 .smallred {
 	text-decoration: none;
 	font-size: 90%;
-	color: red;
+	color: @il-danger-color;
 }
 
 .obligatory {
@@ -1357,18 +1356,18 @@ span.il_Helptext {
 .warning {
 	text-decoration: none;
 	font-weight: bold;
-	color: red;
+	color: @il-danger-color;
 }
 
 div.Access {
 	text-decoration: none;
 	font-weight: bold;
 	text-decoration: underline;
-	color: red;
+	color: @il-danger-color;
 }
 
 .asterisk {
-	color: red;
+	color: @il-danger-color;
 	font-size: 90%;
 }
 
@@ -1452,7 +1451,7 @@ div#bot_center_area {
 	position: fixed;
 	padding: 5px;
 	background-color: @body-bg;
-	border-top: 3px solid #e9e9e9;
+	border-top: 3px solid @il-main-border-color;
 	-webkit-overflow-scrolling: touch; /* Bug 11209 */
 	overflow: auto; /* Bug 11209 */
 }
@@ -1535,7 +1534,7 @@ div.ilRightPanel {
 /* Overlays, Blocks */
 .ilOverlay {
 	background-color: white;
-	border: 1px solid #d6d6d6;
+	border: 1px solid @il-main-border-color;
 	text-align: left;
 	position: absolute;
     .box-shadow(2px 2px 4px #c0c0c0);
@@ -1610,7 +1609,7 @@ div.ilHeaderBanner img.ilHeaderImg {
 
 div.ilBox {
 	background: url("@{il-background-images-path}FramedBack.png") repeat-x;
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 	padding: 10px;
 	margin-bottom: 20px;
 }
@@ -1664,7 +1663,7 @@ div.ilSideBarHead{
 
 div.ilSideBarHead h3{
 	font-size: 110%;
-	color: #606060;
+	color: @il-text-color;
 	display: inline;
 	padding: 0;
 }
@@ -1681,7 +1680,7 @@ div.ilSideBarContent{
 	display: block;
 	float: left;
 	background-color: @dropdown-bg;
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 	font-size: 90%;
     .box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
@@ -2091,7 +2090,7 @@ div.ilGoogleMap {
 
     pre,
     blockquote {
-        border: 1px solid #999;
+        border: 1px solid @il-main-border-dark-color;
         page-break-inside: avoid;
     }
 
@@ -2152,7 +2151,7 @@ div.ilGoogleMap {
     .table-bordered {
         th,
         td {
-            border: 1px solid #ddd !important;
+            border: 1px solid @il-main-border-color !important;
         }
     }
 
@@ -2219,222 +2218,9 @@ div.ilGoogleMap {
 	cursor: pointer;
 	display: inline-block;
 	padding: 0 .5em;
-	color: #666;
+	color: @il-neutral-light-color;
 	font-size: .9em;
 	line-height: 2;
-	border: 1px solid #ddd;
+	border: 1px solid @il-main-border-color;
 	border-radius: .25em;
 }
-
-//WOHIN HIERMIT???
-.input-group-addon {
-	padding: 3px 8px;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1;
-	color: @il-text-color;
-	text-align: center;
-	background-color: @il-main-dark-bg;
-	border: 1px solid lighten(@il-neutral-light-color,20%);
-	border-radius: 0;
-  }
-
-  //Das .nav-bar CSS ist noch viel länger. Soll das in eine eigene .less Datei?
-  .navbar-default {
-	background-color: @il-main-dark-bg;
-	border-color: @il-neutral-lighter-color;
-  }
-  .navbar-default .navbar-brand {
-	color: @il-text-color;
-  }
-  .navbar-default .navbar-brand:hover,
-  .navbar-default .navbar-brand:focus {
-	color: @il-text-hover-color;
-	background-color: transparent;
-  }
-  .navbar-default .navbar-text {
-	color: @il-text-color;
-  }
-  .navbar-default .navbar-nav > li > a {
-	color: @il-text-color;
-  }
-  .navbar-default .navbar-nav > li > a:hover,
-  .navbar-default .navbar-nav > li > a:focus {
-	color: @il-text-hover-color;
-	background-color: transparent;
-  }
-  .navbar-default .navbar-nav > .active > a,
-  .navbar-default .navbar-nav > .active > a:hover,
-  .navbar-default .navbar-nav > .active > a:focus {
-	color: @il-text-color;
-	background-color: @il-neutral-lighter-color;
-  }
-  .navbar-default .navbar-nav > .disabled > a,
-  .navbar-default .navbar-nav > .disabled > a:hover,
-  .navbar-default .navbar-nav > .disabled > a:focus {
-	color: #ccc;
-	background-color: transparent;
-  }
-  .navbar-default .navbar-nav > .open > a,
-  .navbar-default .navbar-nav > .open > a:hover,
-  .navbar-default .navbar-nav > .open > a:focus {
-	color: @il-text-hover-color;
-	background-color: @il-neutral-lighter-color;
-  }
-  @media (max-width: 768px) {
-	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
-	  color: @il-text-color;
-	}
-	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-	.navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-	  color: @il-text-hover-color;
-	  background-color: transparent;
-	}
-	.navbar-default .navbar-nav .open .dropdown-menu > .active > a,
-	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
-	.navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-	  color: @il-text-hover-color;
-	  background-color: @il-neutral-lighter-color;
-	}
-	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
-	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
-	.navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
-	  color: #ccc;
-	  background-color: transparent;
-	}
-  }
-  .navbar-default .navbar-toggle {
-	border-color: #ddd;
-  }
-  .navbar-default .navbar-toggle:hover,
-  .navbar-default .navbar-toggle:focus {
-	background-color: #ddd;
-  }
-  .navbar-default .navbar-toggle .icon-bar {
-	background-color: @il-text-light-color;
-  }
-  .navbar-default .navbar-collapse,
-  .navbar-default .navbar-form {
-	border-color: @il-neutral-lighter-color;
-  }
-  .navbar-default .navbar-link {
-	color: @il-text-color;
-  }
-  .navbar-default .navbar-link:hover {
-	color: @il-text-hover-color;
-  }
-  .navbar-default .btn-link {
-	color: @il-text-color;
-  }
-  .navbar-default .btn-link:hover,
-  .navbar-default .btn-link:focus {
-	color: @il-text-hover-color;
-  }
-  .navbar-default .btn-link[disabled]:hover,
-  fieldset[disabled] .navbar-default .btn-link:hover,
-  .navbar-default .btn-link[disabled]:focus,
-  fieldset[disabled] .navbar-default .btn-link:focus {
-	color: #ccc;
-  }
-  .navbar-inverse {
-	background-color: #222;
-	border-color: #080808;
-  }
-  .navbar-inverse .navbar-brand {
-	color: #9d9d9d;
-  }
-  .navbar-inverse .navbar-brand:hover,
-  .navbar-inverse .navbar-brand:focus {
-	color: #fff;
-	background-color: transparent;
-  }
-  .navbar-inverse .navbar-text {
-	color: #9d9d9d;
-  }
-  .navbar-inverse .navbar-nav > li > a {
-	color: #9d9d9d;
-  }
-  .navbar-inverse .navbar-nav > li > a:hover,
-  .navbar-inverse .navbar-nav > li > a:focus {
-	color: #fff;
-	background-color: transparent;
-  }
-  .navbar-inverse .navbar-nav > .active > a,
-  .navbar-inverse .navbar-nav > .active > a:hover,
-  .navbar-inverse .navbar-nav > .active > a:focus {
-	color: #fff;
-	background-color: #080808;
-  }
-  .navbar-inverse .navbar-nav > .disabled > a,
-  .navbar-inverse .navbar-nav > .disabled > a:hover,
-  .navbar-inverse .navbar-nav > .disabled > a:focus {
-	color: #444;
-	background-color: transparent;
-  }
-  .navbar-inverse .navbar-nav > .open > a,
-  .navbar-inverse .navbar-nav > .open > a:hover,
-  .navbar-inverse .navbar-nav > .open > a:focus {
-	color: #fff;
-	background-color: #080808;
-  }
-  @media (max-width: 768px) {
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-	  border-color: #080808;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-	  background-color: #080808;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
-	  color: #9d9d9d;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
-	  color: #fff;
-	  background-color: transparent;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
-	  color: #fff;
-	  background-color: #080808;
-	}
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
-	.navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {
-	  color: #444;
-	  background-color: transparent;
-	}
-  }
-  .navbar-inverse .navbar-toggle {
-	border-color: #333;
-  }
-  .navbar-inverse .navbar-toggle:hover,
-  .navbar-inverse .navbar-toggle:focus {
-	background-color: #333;
-  }
-  .navbar-inverse .navbar-toggle .icon-bar {
-	background-color: #fff;
-  }
-  .navbar-inverse .navbar-collapse,
-  .navbar-inverse .navbar-form {
-	border-color: #101010;
-  }
-  .navbar-inverse .navbar-link {
-	color: #9d9d9d;
-  }
-  .navbar-inverse .navbar-link:hover {
-	color: #fff;
-  }
-  .navbar-inverse .btn-link {
-	color: #9d9d9d;
-  }
-  .navbar-inverse .btn-link:hover,
-  .navbar-inverse .btn-link:focus {
-	color: #fff;
-  }
-  .navbar-inverse .btn-link[disabled]:hover,
-  fieldset[disabled] .navbar-inverse .btn-link:hover,
-  .navbar-inverse .btn-link[disabled]:focus,
-  fieldset[disabled] .navbar-inverse .btn-link:focus {
-	color: #444;
-  }
