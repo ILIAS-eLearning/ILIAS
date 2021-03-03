@@ -142,6 +142,7 @@ class ilIndividualAssessmentUserGradingTest extends TestCase
 
         $input = $grading->toFormInput(
             $f,
+            $df,
             $lng,
             $refinery,
             [
