@@ -220,6 +220,8 @@ class ilContactGUI
             $this->tabs_gui->addSubTab('mail_my_groups', $this->lng->txt('mail_my_groups'), $this->ctrl->getLinkTargetByClass('ilmailsearchgroupsgui'));
             $this->has_sub_tabs = true;
         } else {
+            $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_cadm.svg'));
+            
             $this->help->setScreenIdComponent('contacts');
 
             if (ilBuddySystem::getInstance()->isEnabled()) {
