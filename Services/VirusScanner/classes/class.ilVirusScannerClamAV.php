@@ -178,11 +178,9 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
 
             $file = ILIAS_LOG_DIR.'/clamd_status.log';
-            if(!file_exists($file)) {
-                $status_file = fopen($file, "w");
-                fwrite($status_file, 1);
-                fclose($status_file);
-            }
+            $status_file = fopen($file, "w");
+            fwrite($status_file, 1);
+            fclose($status_file);
             //end-patch skyguide
             return $this->scanResult;
 		}
