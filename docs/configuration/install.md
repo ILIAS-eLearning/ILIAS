@@ -329,7 +329,7 @@ We RECOMMEND to create a dedicated database user for ILIAS:
 mysql -u root -p
 CREATE DATABASE ilias CHARACTER SET utf8 COLLATE utf8_general_ci;
 CREATE USER 'ilias'@'localhost' IDENTIFIED BY 'password';
-GRANT LOCK TABLES on *.* TO 'ilias@localhost';
+GRANT LOCK TABLES on *.* TO 'ilias'@'localhost';
 GRANT ALL PRIVILEGES ON ilias.* TO 'ilias'@'localhost';
 FLUSH PRIVILEGES;
 ```
