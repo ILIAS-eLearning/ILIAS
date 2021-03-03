@@ -62,11 +62,17 @@ class ilFileSystemComponentDataDirectoryCreatedObjective extends Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-        $data_dir = $ini->readVariable('clients', 'datadir');
+        // case if it is a fresh ILIAS installation
+        if ($environment->hasConfigFor("filesystem")) {
+            $config = $environment->getConfigFor("filesystem");
+            return [
+                new ilFileSystemDirectoriesCreatedObjective($config)
+            ];
+        }
 
+        // case if ILIAS is already installed
         return [
-            new ilFileSystemDirectoriesCreatedObjective(new ilFileSystemSetupConfig($data_dir))
+            new ilIniFilesLoadedObjective()
         ];
     }
 
