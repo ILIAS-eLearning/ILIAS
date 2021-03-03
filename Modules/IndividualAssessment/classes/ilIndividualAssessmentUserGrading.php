@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 use \ILIAS\UI\Component\Input\Field;
 use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
 
 class ilIndividualAssessmentUserGrading
 {
@@ -148,6 +149,7 @@ class ilIndividualAssessmentUserGrading
 
     public function toFormInput(
         Field\Factory $input,
+        DataFactory $data_factory,
         \ilLanguage $lng,
         Refinery $refinery,
         array $grading_options,
@@ -206,7 +208,8 @@ class ilIndividualAssessmentUserGrading
         ;
 
         if (!is_null($this->getEventTime())) {
-            $event_time = $event_time->withValue($this->getEventTime()->format('d-m-Y'));
+            $format = $data_factory->dateFormat()->standard()->toString();
+            $event_time = $event_time->withValue($this->getEventTime()->format($format));
         }
 
         $notify = $input
