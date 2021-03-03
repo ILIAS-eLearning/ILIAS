@@ -466,4 +466,8 @@ foreach ($columns as $column) {
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+<#27>
+<?php
+$ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
+?>
 
