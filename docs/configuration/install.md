@@ -81,7 +81,7 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 
 For best results we RECOMMEND:
 
-  * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
+  * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 20.04 LTS
   * MySQL 5.6+
   * MariaDB 10.2
   * PHP 7.3
