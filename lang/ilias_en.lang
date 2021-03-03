@@ -11140,6 +11140,7 @@ survey#:#survey_reminder_frequency_days#:#Days
 survey#:#survey_notification_target_group#:#Target Group
 survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey
 survey#:#survey_notification_target_group_invited_info#:#Number of current recipients: %s
 survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])

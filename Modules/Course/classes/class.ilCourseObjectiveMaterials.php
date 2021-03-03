@@ -448,14 +448,18 @@ class ilCourseObjectiveMaterials
             "LEFT JOIN lm_data lmd ON lmd.obj_id = lm.obj_id " .
             "WHERE objective_id = " . $ilDB->quote($this->getObjectiveId(), 'integer') . " " .
             "ORDER BY position,obd.title,lmd.title";
-            
+
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (!$tree->isInTree($row->ref_id) or !$tree->isGrandChild($container_ref_id, $row->ref_id)) {
                 $this->delete($row->lm_ass_id);
                 continue;
             }
-            if ($row->obj_id > 0 && !ilLMObject::_exists($row->obj_id)) {
+            if (
+                $row->obj_id > 0 &&
+                ($row->type == 'pg' || $row->type == 'st') &&
+                !ilLMObject::_exists($row->obj_id)
+            ) {
                 continue;
             }
             $lm['ref_id'] = $row->ref_id;
