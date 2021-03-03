@@ -151,15 +151,20 @@ class ilVirusScannerClamAV extends ilVirusScanner
             chmod($a_filepath, $currentPermission);
         }
 
+
         //begin-patch skyguide
         if (strlen($this->scanResult)) {
             $this->log->info('Scan result ... ');
             $this->log->dump($this->scanResult, ilLogLevel::INFO);
         }
+        $is_debug_virus = false;
+        if ($a_origname == 'clamav_infected.txt') {
+            $is_debug_virus = true;
+        }
         //end-patch skyguide
 
         // sophie could be called
-        if ($this->hasDetections($this->scanResult)) {
+        if ($this->hasDetections($this->scanResult) || $is_debug_virus) {
             $this->scanFileIsInfected = true;
             //begin-patch skyguide
 			#$this->logScanResult();
