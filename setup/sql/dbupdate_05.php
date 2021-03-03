@@ -6349,4 +6349,7 @@ foreach ($columns as $column) {
     }
 }
 ?>
-
+<#5776>
+<?php
+$ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
+?>
