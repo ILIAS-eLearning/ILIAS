@@ -383,7 +383,8 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         if (strlen($GLOBALS['DIC']->user()->getEmail()) == 0) {
-            return $this->showExternalSettingsFormObject();
+            $this->showExternalSettingsFormObject();
+            return;
         }
 
         if ($isManualMail) {
