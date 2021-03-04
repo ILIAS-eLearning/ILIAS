@@ -284,40 +284,6 @@ class ilMailFolderGUI
 
         $table_html = $mailtable->getHTML();
 
-        $folder_options = [];
-        foreach ($folders as $folder) {
-            $folder_d = $mtree->getNodeData($folder['obj_id']);
-
-            if ($folder['obj_id'] == $this->currentFolderId) {
-                if ($folder['type'] === 'user_folder') {
-                    $isUserSubFolder = true;
-                } elseif ($folder['type'] === 'local') {
-                    $isUserRootFolder = true;
-                    $isUserSubFolder = false;
-                }
-            }
-
-            $folder_options[$folder['obj_id']] = sprintf(
-                $this->lng->txt('mail_change_to_folder'),
-                $this->lng->txt('mail_' . $folder['title'])
-            );
-            if ($folder['type'] === 'user_folder') {
-                $pre = '';
-                for ($i = 2; $i < $folder_d['depth'] - 1; $i++) {
-                    $pre .= '&nbsp;';
-                }
-
-                if ($folder_d['depth'] > 1) {
-                    $pre .= '+';
-                }
-
-                $folder_options[$folder['obj_id']] = sprintf(
-                    $this->lng->txt('mail_change_to_folder'),
-                    $pre . ' ' . $folder['title']
-                );
-            }
-        }
-
         if ($oneConfirmationDialogueRendered === false && $this->confirmTrashDeletion === false) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 
