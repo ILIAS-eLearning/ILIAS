@@ -19,14 +19,17 @@ with the il- variable set here.
 //** Used to indicate some warning or to draw special focus to some element, used to be @brand-warning
 @il-warning-color: #B54F00;
 //** Used to indicate some warning or to draw special focus to some element, used to be @brand-danger
-@il-danger-color: #a94442;
+@il-danger-color: #d00;
 
 //** Neutral Color for various Backgrounds, used to be @gray-dark and @il-neutral-color
 @il-neutral-color: #434343;
 //** Light version of the @il-neutral-color, used to be @gray-light
 @il-neutral-light-color: #757575;
-//** Lighter version of the @il-neutral-color,
-@il-neutral-lighter-color: #e0e0e0;
+
+//** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
+@il-main-border-color: #dddddd;
+//** Darker version of Base Border Color. Used as e.g. Text Inputs.
+@il-main-border-dark-color: #A8A8A8;
 
 //** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
 @il-main-bg: white;
@@ -38,11 +41,11 @@ with the il- variable set here.
 //** Currently used for several highlighting effects, such as hovering
 @il-highlight-bg: lighten(@il-main-color, 50%);
 
-//** Used to be @text-color
+//** Used to be @text-color. Can be used on all background colors.
 @il-text-color: @il-neutral-color;
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
-//** Used e.g. for Bylines in Forms. Used to be @il-light-text-color
+//** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
 @il-text-light-color: @il-neutral-light-color;
 
 //Used to be @link-color
@@ -140,7 +143,7 @@ with the il- variable set here.
 @il-standard-page-logo-width: 45px;
 @il-standard-page-header-height: 60px;
 @il-standard-page-header-bg-color: @il-main-bg;
-@il-standard-page-border-light-color: @il-neutral-lighter-color;
+@il-standard-page-border-light-color: @il-main-border-color;
 @il-standard-page-content-padding: 20px;
 
 //** metabar
@@ -434,7 +437,7 @@ with the il- variable set here.
 @il-standard-filter-bar-glyph-padding: 0.3em;
 
 //** Input Fields Area
-@il-standard-filter-input-section-border: 1px solid #dddddd;
+@il-standard-filter-input-section-border: 1px solid @il-main-border-color;
 @il-standard-filter-input-group-width: 100%;
 @il-standard-filter-input-group-height: 25px;
 @il-standard-filter-label-width: 30%;
@@ -493,7 +496,7 @@ with the il- variable set here.
 @il-toolbar-margin: 15px; // Margin between toolbar items
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
-@il-toolbar-border: 1px solid @il-neutral-lighter-color;
+@il-toolbar-border: 1px solid @il-main-border-color;
 
 //== Postings
 //
@@ -508,7 +511,7 @@ with the il- variable set here.
 @il-glyph-hover-color: @il-link-hover-color;
 @il-glyph-highlighted-color: @il-warning-color;
 @il-glyph-highlighted-hover-color: @il-warning-color;
-@il-glyph-disabled-color: @il-neutral-lighter-color;
+@il-glyph-disabled-color: @il-neutral-light-color;
 
 //== Counter
 //
@@ -547,9 +550,9 @@ with the il- variable set here.
 @il-dropzone-border-style: dashed;
 @il-dropzone-border-width: 1px;
 //** Default border color
-@il-dropzone-border-color: #9C9C9C;
+@il-dropzone-border-color: @il-main-border-dark-color;
 //** Border color used when a dropzone is hovered.
-@il-dropzone-border-color-hover: #606060;
+@il-dropzone-border-color-hover: darken(@il-main-border-dark-color, 10%);
 //** Border of one file after dragging them to the dropzone
 @il-dropzone-filelist-border-color: @il-dropzone-border-color;
 @il-dropzone-filelist-border-type: solid;
@@ -612,7 +615,7 @@ with the il- variable set here.
 //##
 @il-item-divider-padding: 10px 0 0 0;
 @il-item-divider-margin: 0 0 10px 0;
-@il-item-divider-border-bottom: dashed 0.5px @il-neutral-lighter-color;
+@il-item-divider-border-bottom: dashed 0.5px @il-main-border-color;
 @il-item-description-padding: 10px 0 0 0;
 @il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
@@ -724,7 +727,7 @@ with the il- variable set here.
 //** border style for letter avatars
 @il-avatar-border-style: solid;
 //** border color for picture avatars
-@il-avatar-picture-border-color: @il-neutral-lighter-color;
+@il-avatar-picture-border-color: @il-main-border-color;
 //** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
 @il-avatar-letter-border-color-contrast-lighten: 40%;
 @il-avatar-letter-border-color-contrast-darken: 20%;
@@ -733,7 +736,7 @@ with the il- variable set here.
 //** change the abbreviations font transform
 @il-avatar-letter-abbreviation-font-transform: inherit;
 //** all variants of letter avatar background colors (MUST be 26)
-@il-avatar-letter-color-variants: #1abc9c, #16a085, #f1c40f, #f39c12, #2ecc71, #27ae60, #e67e22, #d35400, #3498db, #2980b9, #e74c3c, #c0392b, #9b59b6, #8e44ad, #bdc3c7, #34495e, #2c3e50, #95a5a6, #7f8c8d, #ec87bf, #d870ad, #f69785, #9ba37e, #b49255, #b49255, #a94136;
+@il-avatar-letter-color-variants: #0e6252, #107360, #aa890a, #c87e0a, #176437, #196f3d, #bf6516, #a04000, #1d6fa5, #1b557a, #bf2718, #81261d, #713b87, #522764, #78848c, #34495e, #2c3e50, #566566, #90175a, #9e2b6e, #d22f10, #666d4e, #715a32, #83693a, #963a30;
 
 
 //== System Info
@@ -745,7 +748,7 @@ with the il- variable set here.
 /** inline shadow of a message container **/
 @il-standard-page-system-info-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
 /** border configuration, the color is automatically computed from the three color variants **/
-@il-standard-page-system-info-border-color: @il-neutral-lighter-color;
+@il-standard-page-system-info-border-color: @il-main-border-color;
 @il-standard-page-system-info-border-top-and-bottom: none;
 @il-standard-page-system-info-border-left-and-right: none;
 /** nagtive or positive contrast color for text and glyph **/
@@ -775,7 +778,7 @@ with the il- variable set here.
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-text-light-color;
 @il-card-repository-head-color: rgba(0, 0, 0, 0.5);
-@il-card-repository-dropdown-border: @il-neutral-lighter-color 1px solid;
+@il-card-repository-dropdown-border: @il-main-border-color 1px solid;
 @il-card-repository-outlined-icon-filter: invert(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
@@ -788,7 +791,7 @@ with the il- variable set here.
 @il-workflow-icon-size: 21px;
 @il-workflow-icon-font-color: white;
 @il-workflow-available-text-color: @il-text-color;
-@il-workflow-unavailable-text-color: #ddd;
+@il-workflow-unavailable-text-color: @il-main-border-color;
 
 //== Message Boxes
 //
@@ -812,7 +815,7 @@ with the il- variable set here.
 
 //== Characteristic Value Listing
 //** item rows layout
-@il-characteristic-value-border-color: #ddd;
+@il-characteristic-value-border-color: @il-main-border-color;
 
 //== DropDowns
 //
