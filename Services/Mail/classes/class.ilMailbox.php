@@ -269,7 +269,7 @@ class ilMailbox
 
         $mailer = new ilMail($this->usrId);
 
-        $subtree = $this->mtree->getSubtree($this->mtree->getNodeData($folderId));
+        $subtree = $this->mtree->getSubTree($this->mtree->getNodeData($folderId));
         $this->mtree->deleteTree($this->mtree->getNodeData($folderId));
 
         foreach ($subtree as $node) {

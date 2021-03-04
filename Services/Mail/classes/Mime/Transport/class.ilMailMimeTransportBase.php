@@ -75,21 +75,21 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                $this->getMailer()->AddAddress($recipient, '');
+                $this->getMailer()->addAddress($recipient, '');
             }
         }
 
         foreach ($mail->getCc() as $carbon_copies) {
             $cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
             foreach ($cc_pieces as $carbon_copy) {
-                $this->getMailer()->AddCC($carbon_copy, '');
+                $this->getMailer()->addCC($carbon_copy, '');
             }
         }
 
         foreach ($mail->getBcc() as $blind_carbon_copies) {
             $bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
             foreach ($bcc_pieces as $blind_carbon_copy) {
-                $this->getMailer()->AddBCC($blind_carbon_copy, '');
+                $this->getMailer()->addBCC($blind_carbon_copy, '');
             }
         }
 
@@ -104,19 +104,19 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->setFrom($mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(), false);
 
         foreach ($mail->getAttachments() as $attachment) {
-            $this->getMailer()->AddAttachment($attachment['path'], $attachment['name']);
+            $this->getMailer()->addAttachment($attachment['path'], $attachment['name']);
         }
 
         foreach ($mail->getImages() as $image) {
-            $this->getMailer()->AddEmbeddedImage($image['path'], $image['cid'], $image['name']);
+            $this->getMailer()->addEmbeddedImage($image['path'], $image['cid'], $image['name']);
         }
 
         if ($mail->getFinalBodyAlt()) {
-            $this->getMailer()->IsHTML(true);
+            $this->getMailer()->isHTML(true);
             $this->getMailer()->AltBody = $mail->getFinalBodyAlt();
             $this->getMailer()->Body = $mail->getFinalBody();
         } else {
-            $this->getMailer()->IsHTML(false);
+            $this->getMailer()->isHTML(false);
             $this->getMailer()->AltBody = '';
             $this->getMailer()->Body = $mail->getFinalBody();
         }
@@ -158,7 +158,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         };
 
         $this->onBeforeSend();
-        $result = $this->getMailer()->Send();
+        $result = $this->getMailer()->send();
         if ($result) {
             ilLoggerFactory::getLogger('mail')->info(sprintf(
                 'Successfully delegated external mail delivery'

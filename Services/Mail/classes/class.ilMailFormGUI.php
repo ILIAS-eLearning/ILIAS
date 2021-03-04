@@ -295,7 +295,7 @@ class ilMailFormGUI
         $form->addCommandButton('search', $this->lng->txt("search"));
         $form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
 
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($form->getHTML());
         $this->tpl->printToStdout();
     }
 

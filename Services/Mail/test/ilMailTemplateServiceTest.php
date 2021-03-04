@@ -13,7 +13,7 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
      */
     public function testDefaultTemplateCanBeSetByContext() : void
     {
-        $repo = $this->getMockbuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
+        $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 
         $template = new ilMailTemplate();
         $template->setTplId(1);
@@ -50,7 +50,7 @@ class ilMailTemplateServiceTest extends ilMailBaseTest
      */
     public function testDefaultTemplateForContextCanBeUnset() : void
     {
-        $repo = $this->getMockbuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
+        $repo = $this->getMockBuilder(ilMailTemplateRepository::class)->disableOriginalConstructor()->getMock();
 
         $template = new ilMailTemplate();
         $template->setTplId(1);

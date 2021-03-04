@@ -542,14 +542,14 @@ class ilMailTemplateGUI
             $form->addItem($id);
 
             $form->setTitle($this->lng->txt('mail_edit_tpl'));
-            $form->setFormAction($this->ctrl->getFormaction($this, 'updateTemplate'));
+            $form->setFormAction($this->ctrl->getFormAction($this, 'updateTemplate'));
 
             if ($this->isEditingAllowed()) {
                 $form->addCommandButton('updateTemplate', $this->lng->txt('save'));
             }
         } else {
             $form->setTitle($this->lng->txt('mail_create_tpl'));
-            $form->setFormAction($this->ctrl->getFormaction($this, 'insertTemplate'));
+            $form->setFormAction($this->ctrl->getFormAction($this, 'insertTemplate'));
 
             if ($this->isEditingAllowed()) {
                 $form->addCommandButton('insertTemplate', $this->lng->txt('save'));

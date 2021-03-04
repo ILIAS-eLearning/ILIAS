@@ -282,7 +282,7 @@ class ilMailFolderGUI
             );
         }
 
-        $table_html = $mailtable->getHtml();
+        $table_html = $mailtable->getHTML();
 
         $folder_options = [];
         foreach ($folders as $folder) {
