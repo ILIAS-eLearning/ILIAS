@@ -285,7 +285,7 @@ class ilAccountMail
         return true;
     }
     
-    public function replacePlaceholders($a_string, &$a_user, $a_amail, $a_lang)
+    public function replacePlaceholders($a_string, $a_user, $a_amail, $a_lang)
     {
         global $ilSetting, $tree;
         
