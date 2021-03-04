@@ -586,7 +586,7 @@ class ilFileDataMail extends ilFileData
         // store the disk space used in table mail_attachment.
         global $DIC;
 
-        $mail_data_dir = ilUtil::getDataDir('filesystem') . DIRECTORY_SEPARATOR . "mail";
+        $mail_data_dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR . "mail";
 
         $q = "SELECT path " .
             "FROM mail_attachment ma " .

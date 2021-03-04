@@ -288,7 +288,7 @@ class ilMailFormGUI
 
         $searchQuery = trim((string) ilSession::get('mail_search_search'));
         if ($searchQuery !== '') {
-            $inp->setValue(ilUtil::prepareFormOutput($searchQuery), true);
+            $inp->setValue(ilUtil::prepareFormOutput($searchQuery, true));
         }
         $form->addItem($inp);
 
