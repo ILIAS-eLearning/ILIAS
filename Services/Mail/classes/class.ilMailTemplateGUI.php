@@ -525,7 +525,7 @@ class ilMailTemplateGUI
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
         $placeholders->supportsRerenderSignal(
             'context',
-            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false)
+            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true)
         );
         if ($template === null) {
             $context_id = $generic_context->getId();

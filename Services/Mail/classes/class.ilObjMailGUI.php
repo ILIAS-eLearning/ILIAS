@@ -124,17 +124,15 @@ class ilObjMailGUI extends ilObjectGUI
             $this->tabs->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'view'),
-                array(
-                'view',
-                'save',
-                '',
-                'showExternalSettingsForm',
-                'saveExternalSettingsForm',
-                'sendTestUserMail',
-                'sendTestSystemMail'
-            ),
-                '',
-                ''
+                [
+                    'view',
+                    'save',
+                    '',
+                    'showExternalSettingsForm',
+                    'saveExternalSettingsForm',
+                    'sendTestUserMail',
+                    'sendTestSystemMail'
+                ]
             );
         }
 

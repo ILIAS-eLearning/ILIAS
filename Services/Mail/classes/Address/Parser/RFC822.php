@@ -703,7 +703,9 @@ class Mail_RFC822
         if (isset($route_addr)) {
             $mbox->mailbox = $route_addr['local_part'];
             $mbox->host = $route_addr['domain'];
-            $route_addr['adl'] !== '' ? $mbox->adl = $route_addr['adl'] : '';
+            if ($route_addr['adl'] !== '') {
+                $mbox->adl = $route_addr['adl'];
+            }
         } else {
             $mbox->mailbox = $addr_spec['local_part'];
             $mbox->host = $addr_spec['domain'];

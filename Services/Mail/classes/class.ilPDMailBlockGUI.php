@@ -307,7 +307,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $new_mail_subj = htmlentities($data['m_subject'], ENT_NOQUOTES, 'UTF-8');
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
         $this->ctrl->setParameter($this, 'mail_id', $data['mail_id']);
-        $new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail', "", false, false);
+        $new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail');
         $this->ctrl->clearParameters($this);
 
 

@@ -111,7 +111,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             // zoom 1; *display:inline for IE6 & 7
             $tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
         } else {
-            $tpl->setVariable("STYLE_PAR", '');
+            $tpl->setVariable("STYLE_PAR");
         }
 
         if (is_array($this->sub_items) && $this->sub_items) {

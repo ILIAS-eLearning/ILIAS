@@ -688,7 +688,7 @@ class ilMailFormGUI
                     $template_chb = new ilMailTemplateSelectInputGUI(
                         $this->lng->txt('mail_template_client'),
                         'template_id',
-                        $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
+                        $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true),
                         array('m_subject' => false, 'm_message' => true)
                     );
 

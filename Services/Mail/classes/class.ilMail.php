@@ -781,8 +781,7 @@ class ilMail
                 $subject,
                 $this->replacePlaceholders($message, 0, false),
                 $attachments,
-                $sentMailId,
-                false
+                $sentMailId
             );
         } else {
             $usrIds = $this->getUserIds([$to, $cc, $bcc]);
@@ -799,8 +798,7 @@ class ilMail
                 $subject,
                 $message,
                 $attachments,
-                $sentMailId,
-                false
+                $sentMailId
             );
         }
 
@@ -898,8 +896,7 @@ class ilMail
                 0,
                 $subject,
                 $individualMessage,
-                $user->getId(),
-                0
+                $user->getId()
             );
 
             if (count($attachments) > 0) {
@@ -1231,7 +1228,7 @@ class ilMail
             $rcp_bcc = '';
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc, true);
+        $numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc);
         if (
             $numberOfExternalAddresses > 0 &&
             !$this->isSystemMail() &&
@@ -1327,7 +1324,7 @@ class ilMail
             $this->mfile->saveFiles($internalMessageId, $attachments);
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc, true);
+        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc);
 
         if ($numberOfExternalAddresses > 0) {
             $externalMailRecipientsTo = $this->getEmailRecipients($to);
@@ -1431,8 +1428,7 @@ class ilMail
             0,
             $subject,
             $message,
-            $this->user_id,
-            0
+            $this->user_id
         );
     }
 

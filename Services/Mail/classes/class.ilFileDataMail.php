@@ -371,17 +371,19 @@ class ilFileDataMail extends ilFileData
         }
         return '';
     }
+
     /**
-    * unlink one uploaded file expects a filename e.g 'foo'
-    * @param string filename to delete
-    * @access	public
-    * @return bool
-    */
-    public function unlinkFile($a_filename)
+     * Unlink one uploaded file expects a filename e.g 'foo'
+     * @param string filename to delete
+     * @return bool
+     */
+    public function unlinkFile($a_filename) : bool
     {
         if (file_exists($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
             return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
         }
+
+        return false;
     }
 
     /**
@@ -467,23 +469,16 @@ class ilFileDataMail extends ilFileData
         }
         return true;
     }
+
     /**
-    * assign attachments to mail directory
-    * @param integer mail_id
-    * @param integer key for directory assignment
-    * @access	public
-    * @return bool
-    */
+     * assign attachments to mail directory
+     * @param integer mail_id
+     * @param integer key for directory assignment
+     */
     public function assignAttachmentsToDirectory($a_mail_id, $a_sent_mail_id)
     {
         global $ilDB;
         
-        /*		$query = "INSERT INTO mail_attachment ".
-                    "SET mail_id = ".$ilDB->quote($a_mail_id).", ".
-                    "path = ".$ilDB->quote($this->user_id."_".$a_sent_mail_id)." ";
-                $res = $this->ilias->db->query($query);
-        */
-
         $oStorage = self::getStorage($a_sent_mail_id, $this->user_id);
         $res = $ilDB->manipulateF(
             '

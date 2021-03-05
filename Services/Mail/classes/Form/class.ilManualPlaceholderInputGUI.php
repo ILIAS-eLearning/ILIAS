@@ -60,7 +60,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
 
-        parent::__construct('');
+        parent::__construct();
 
         $this->dependencyElementId = $dependencyElementId;
 

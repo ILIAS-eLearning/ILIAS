@@ -324,7 +324,7 @@ class ilMailFolderGUI
 
             $this->showFolder(true);
         } else {
-            $this->showFolder(false);
+            $this->showFolder();
         }
     }
 
