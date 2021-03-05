@@ -214,7 +214,7 @@ class ilFileDataMail extends ilFileData
             foreach ($a_attachments as $file) {
                 $path = $this->getAttachmentPath($file, $a_mail_id);
                 if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
-                    return 'ERROR: ' . $this->getMailPath() . '/'. $this->user_id . '_' . $file . ' cannot be created';
+                    return 'ERROR: ' . $this->getMailPath() . '/' . $this->user_id . '_' . $file . ' cannot be created';
                 }
             }
         } else {
@@ -294,14 +294,21 @@ class ilFileDataMail extends ilFileData
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
         
-        if (!$fp = @fopen($abs_path, 'w+')) {
+        if (!is_file($abs_path) || !is_readable($abs_path)) {
             return false;
         }
-        if (@fwrite($fp, $a_content) === false) {
-            @fclose($fp);
+
+        $fp = fopen($abs_path, 'w+');
+        if (!is_resource($fp)) {
             return false;
         }
-        @fclose($fp);
+
+        if (fwrite($fp, $a_content) === false) {
+            fclose($fp);
+            return false;
+        }
+
+        fclose($fp);
         return true;
     }
     
@@ -437,7 +444,7 @@ class ilFileDataMail extends ilFileData
         $oStorage->create();
         $storage_directory = $oStorage->getAbsolutePath();
                 
-        if (@!is_dir($storage_directory)) {
+        if (!is_dir($storage_directory)) {
             return false;
         }
         

@@ -307,12 +307,9 @@ class Mail_RFC822
             return $address;
         } elseif (strlen($address) > 0) {
             return $address;
-        } else {
-            return '';
         }
 
-        // If you got here then something's off
-        return false;
+        return '';
     }
 
     /**

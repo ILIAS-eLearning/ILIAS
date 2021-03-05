@@ -516,7 +516,13 @@ class ilMail
         }
 
         $row['attachments'] = unserialize(stripslashes($row['attachments']));
-        $row['tpl_ctx_params'] = (array) (@json_decode($row['tpl_ctx_params'], true));
+        
+        if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
+            $decoded = json_decode($row['tpl_ctx_params'], true);
+            $row['tpl_ctx_params'] = (array) ($decoded ?? []);
+        } else {
+            $row['tpl_ctx_params'] = [];
+        }
 
         return $row;
     }
@@ -568,7 +574,7 @@ class ilMail
                 'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', @json_encode((array) $a_tpl_context_params)]
+                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_context_params)]
             ],
             [
                 'mail_id' => ['integer', $a_draft_id]
@@ -668,7 +674,7 @@ class ilMail
             'm_subject' => array('text', $subject),
             'm_message' => array('clob', $message),
             'tpl_ctx_id' => array('text', $templateContextId),
-            'tpl_ctx_params' => array('blob', @json_encode((array) $templateContextParameters))
+            'tpl_ctx_params' => array('blob', json_encode((array) $templateContextParameters))
         ));
 
         $raiseEvent = (int) $usrId !== $this->mailbox->getUsrId();
@@ -1589,7 +1595,7 @@ class ilMail
             $lang->txt('mail_auto_generated_info'),
             $DIC->settings()->get('inst_name', 'ILIAS ' . ((int) ILIAS_VERSION_NUMERIC)),
             ilUtil::_getHttpPath()
-            ) . "\n\n";
+        ) . "\n\n";
     }
 
     /**

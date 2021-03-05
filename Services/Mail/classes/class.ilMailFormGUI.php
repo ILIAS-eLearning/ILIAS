@@ -270,7 +270,7 @@ class ilMailFormGUI
                 ilUtil::securePlainString($_POST["m_email"] ?? ''),
                 ilUtil::securePlainString($_POST["m_subject"] ?? ''),
                 ilUtil::securePlainString($_POST["m_message"] ?? ''),
-                (bool) ($_POST['use_placeholders']  ?? false),
+                (bool) ($_POST['use_placeholders'] ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
             );

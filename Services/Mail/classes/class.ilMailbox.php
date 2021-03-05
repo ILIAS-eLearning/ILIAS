@@ -246,7 +246,7 @@ class ilMailbox
         );
         $row = $this->db->fetchAssoc($res);
 
-        return is_array($row) && $row['obj_id'] > 0 ? true : false;
+        return is_array($row) && $row['obj_id'] > 0;
     }
 
     /**

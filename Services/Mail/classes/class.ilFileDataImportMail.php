@@ -181,7 +181,7 @@ class ilFileDataImportMail extends ilFileDataImport
     */
     public function _initDirectory()
     {
-        if (!@file_exists($this->mail_path)) {
+        if (!file_exists($this->mail_path)) {
             ilUtil::makeDir($this->mail_path);
         }
         return true;

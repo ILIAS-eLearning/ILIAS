@@ -97,11 +97,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
         switch ($_GET['cmd']) {
             case 'showMail':
                 return IL_SCREEN_CENTER;
-                break;
 
             default:
                 return IL_SCREEN_SIDE;
-                break;
         }
     }
 
