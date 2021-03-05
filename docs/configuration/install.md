@@ -210,7 +210,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 
     DocumentRoot /var/www/html/ilias/
     <Directory /var/www/html/>
-        Options FollowSymLinks -Indexes
+        Options +FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
@@ -254,7 +254,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php7.1-curl php7.1-dom php7.1-zip php7.1-xml php7.1-soap
+apt-get install libapache2-mod-php7.3 php7.3-gd php7.3-mysql php7.3-mbstring php7.3-curl php7.3-dom php7.3-zip php7.3-xml php7.3-soap composer
 ```
 
 On RHEL/CentOS execute:
