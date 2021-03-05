@@ -93,6 +93,12 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 define("CLIENT_WEB_DIR", dirname(__DIR__, 4) . "/data/" . $client_id);
             }
 
+            // if dir doesn't exists there are no steps to do,
+            // so don't initialize ilFileObjectToStorageMigrationHelper
+            if (!is_dir($legacy_files_dir)) {
+                return;
+            }
+
             if (!is_readable($legacy_files_dir)) {
                 throw new Exception("{$legacy_files_dir} is not readable, abort...");
             }
@@ -130,6 +136,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
+        if (is_null($this->helper)) {
+            return 0;
+        }
+
         return $this->helper->getAmountOfItems();
     }
 
