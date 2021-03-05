@@ -40,6 +40,9 @@ class ilAccountMail
     /** @var bool */
     private $attachConfiguredFiles = false;
 
+    /** @var array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null} */
+    private $amail = [];
+
     /**
     * constructor
     * @access	public
@@ -128,17 +131,6 @@ class ilAccountMail
     }
 
     /**
-    * set repository item target
-    *
-    * @access	public
-    * @param	string	$a_target		target as used in permanent links, e.g. crs_123
-    */
-    public function setTarget($a_target)
-    {
-        $this->u_target = $a_target;
-    }
-
-    /**
     * get target
     *
     * @access	public
@@ -158,17 +150,31 @@ class ilAccountMail
         unset($this->user);
         unset($this->target);
     }
-    
+
     /**
-    * get new account mail array (including subject and message body)
-    */
-    public function readAccountMail($a_lang)
+     * @param array $mailData
+     * @return array
+     */
+    private function ensureValidMailDataShape(array $mailData) : array
+    {
+        foreach (['lang', 'subject', 'body', 'sal_f', 'sal_g', 'sal_m', 'type'] as $key) {
+            if (!isset($mailData[$key])) {
+                $mailData[$key] = '';
+            }
+        }
+
+        $mailData['subject'] = trim($mailData['subject']);
+        $mailData['body'] = trim($mailData['body']);
+
+        return $mailData;
+    }
+
+    private function readAccountMail(string $a_lang) : array
     {
         if (!is_array($this->amail[$a_lang])) {
-            include_once('./Services/User/classes/class.ilObjUserFolder.php');
-            $this->amail[$a_lang] = ilObjUserFolder::_lookupNewAccountMail($a_lang);
-            $amail["body"] = trim($amail["body"]);
-            $amail["subject"] = trim($amail["subject"]);
+            $this->amail[$a_lang] = $this->ensureValidMailDataShape(
+                ilObjUserFolder::_lookupNewAccountMail($a_lang)
+            );
         }
 
         return $this->amail[$a_lang];
@@ -186,9 +192,9 @@ class ilAccountMail
             $pathToFile = '/' . implode('/', array_map(function ($pathPart) {
                 return trim($pathPart, '/');
             }, [
-                    $fs->getAbsolutePath(),
-                    $mailData['lang'],
-                ]));
+                $fs->getAbsolutePath(),
+                $mailData['lang'],
+            ]));
 
             $this->addAttachment($pathToFile, $mailData['att_file']);
         }
@@ -215,16 +221,14 @@ class ilAccountMail
         // determine language and get account mail data
         // fall back to default language if acccount mail data is not given for user language.
         $amail = $this->readAccountMail($user->getLanguage());
-        if ($amail['body'] == '' || $amail['subject'] == '') {
+        $lang = $user->getLanguage();
+        if ($amail['body'] === '' || $amail['subject'] === '') {
             $amail = $this->readAccountMail($ilSetting->get('language'));
             $lang = $ilSetting->get('language');
-        } else {
-            $lang = $user->getLanguage();
         }
         
         // fallback if mail data is still not given
-        if ($this->areLangVariablesUsedAsFallback() &&
-           ($amail['body'] == '' || $amail['subject'] == '')) {
+        if ($this->areLangVariablesUsedAsFallback() && ($amail['body'] === '' || $amail['subject'] === '')) {
             $lang = $user->getLanguage();
             $tmp_lang = new ilLanguage($lang);
                         
