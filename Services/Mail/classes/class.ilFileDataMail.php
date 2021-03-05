@@ -293,10 +293,6 @@ class ilFileDataMail extends ilFileData
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $name);
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
-        
-        if (!is_file($abs_path) || !is_readable($abs_path)) {
-            return false;
-        }
 
         $fp = fopen($abs_path, 'w+');
         if (!is_resource($fp)) {
