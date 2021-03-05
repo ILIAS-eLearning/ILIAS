@@ -69,12 +69,12 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $column
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($column)
+    public function numericOrdering($a_field)
     {
-        if ($column == 'filesize' || $column == 'filecreatedate') {
+        if ($a_field == 'filesize' || $a_field == 'filecreatedate') {
             return true;
         }
 

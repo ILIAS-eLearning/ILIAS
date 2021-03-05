@@ -103,18 +103,18 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($row)
+    protected function fillRow($a_set)
     {
-        foreach ($row as $column => $value) {
+        foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
                 continue;
             }
 
-            $value = $this->formatCellValue($column, $row);
+            $value = $this->formatCellValue($column, $a_set);
             $this->tpl->setVariable('VAL_' . strtoupper($column), $value);
         }
 
-        $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($row));
+        $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
     /**

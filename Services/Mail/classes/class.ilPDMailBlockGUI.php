@@ -167,9 +167,9 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow($mail)
+    public function fillRow($a_set)
     {
-        $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+        $user = ilMailUserCache::getUserObjectById($a_set['sender_id']);
         
         $this->tpl->touchBlock('usr_image_space');
         if ($user && $user->getId() != ANONYMOUS_USER_ID) {
@@ -177,7 +177,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('IMG_SENDER', $user->getPersonalPicturePath('xxsmall'));
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars($user->getPublicName()));
         } elseif (!$user) {
-            $this->tpl->setVariable('PUBLIC_NAME_LONG', $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
+            $this->tpl->setVariable('PUBLIC_NAME_LONG', $a_set['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
 
             $this->tpl->setCurrentBlock('image_container');
             $this->tpl->touchBlock('image_container');
@@ -188,11 +188,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
         }
 
-        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
+        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($a_set['send_time'], IL_CAL_DATE)));
 
-        $this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
+        $this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($a_set['m_subject'], ENT_NOQUOTES, 'UTF-8'));
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-        $this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+        $this->ctrl->setParameter($this, 'mail_id', $a_set['mail_id']);
         $this->tpl->setVariable('NEW_MAIL_LINK_READ', $this->ctrl->getLinkTarget($this, 'showMail'));
         $this->ctrl->clearParameters($this);
     }
@@ -285,18 +285,18 @@ class ilPDMailBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $mail) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
     {
         $f = $this->ui->factory();
 
-        $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+        $user = ilMailUserCache::getUserObjectById($data['sender_id']);
 
         if ($user && $user->getId() != ANONYMOUS_USER_ID) {
             $public_name_long = $user->getPublicName();
             $img_sender = $user->getPersonalPicturePath('xxsmall');
             $alt_sender = htmlspecialchars($user->getPublicName());
         } elseif (!$user) {
-            $public_name_long = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
+            $public_name_long = $data['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
             $img_sender = "";
             $alt_sender = "";
         } else {
@@ -305,10 +305,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
         }
 
-        $new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE));
-        $new_mail_subj = htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8');
+        $new_mail_date = ilDatePresentation::formatDate(new ilDate($data['send_time'], IL_CAL_DATE));
+        $new_mail_subj = htmlentities($data['m_subject'], ENT_NOQUOTES, 'UTF-8');
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
-        $this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);
+        $this->ctrl->setParameter($this, 'mail_id', $data['mail_id']);
         $new_mail_link = $this->ctrl->getLinkTarget($this, 'showMail', "", false, false);
         $this->ctrl->clearParameters($this);
 
