@@ -701,7 +701,7 @@ class ilMail
     /**
      * @param string $message
      * @param int $usrId
-     * @param boolean $replaceEmptyPlaceholders
+     * @param bool $replaceEmptyPlaceholders
      * @return string
      */
     protected function replacePlaceholders(
