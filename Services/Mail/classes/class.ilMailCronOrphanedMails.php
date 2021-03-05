@@ -57,8 +57,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * Get id
-     * @return string
+     * @inheritDoc
      */
     public function getId()
     {
@@ -66,7 +65,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getTitle()
     {
@@ -75,17 +74,16 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getDescription()
     {
         $this->init();
         return $this->lng->txt("mail_orphaned_mails_desc");
     }
-    
+
     /**
-     * Is to be activated on "installation"
-     * @return boolean
+     * @inheritDoc
      */
     public function hasAutoActivation()
     {
@@ -93,8 +91,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * Can the schedule be configured?
-     * @return boolean
+     * @inheritDoc
      */
     public function hasFlexibleSchedule()
     {
@@ -117,8 +114,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * Get schedule type
-     * @return int
+     * @inheritDoc
      */
     public function getDefaultScheduleType()
     {
@@ -126,8 +122,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * Get schedule value
-     * @return int|array
+     * @inheritDoc
      */
     public function getDefaultScheduleValue()
     {
@@ -135,7 +130,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
     public function hasCustomSettings()
     {
@@ -143,7 +138,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * @param ilPropertyFormGUI $a_form
+     * @inheritDoc
      */
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
     {
@@ -178,8 +173,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * @param ilPropertyFormGUI $a_form
-     * @return bool
+     * @inheritDoc
      */
     public function saveCustomSettings(ilPropertyFormGUI $a_form)
     {
@@ -203,8 +197,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     }
 
     /**
-     * Run job
-     * @return ilCronJobResult
+     * @inheritDoc
      */
     public function run()
     {

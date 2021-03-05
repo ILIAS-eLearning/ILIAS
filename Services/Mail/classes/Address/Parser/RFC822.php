@@ -473,13 +473,11 @@ class Mail_RFC822
             if (!$this->_validatePhrase($groupname)) {
                 $this->error = 'Group name did not validate.';
                 return false;
-            } else {
+            } elseif ($this->nestGroups) {
                 // Don't include groups if we are not nesting
                 // them. This avoids returning invalid addresses.
-                if ($this->nestGroups) {
-                    $structure = new stdClass;
-                    $structure->groupname = $groupname;
-                }
+                $structure = new stdClass();
+                $structure->groupname = $groupname;
             }
 
             $address['address'] = ltrim(substr($address['address'], strlen($groupname . ':')));
@@ -523,12 +521,10 @@ class Mail_RFC822
             }
 
             // Flat format
+        } elseif ($is_group) {
+            $structure = array_merge($structure, $addresses);
         } else {
-            if ($is_group) {
-                $structure = array_merge($structure, $addresses);
-            } else {
-                $structure = $addresses;
-            }
+            $structure = $addresses;
         }
 
         return $structure;
@@ -833,10 +829,8 @@ class Mail_RFC822
             if (!$this->_validateDliteral($arr[1])) {
                 return false;
             }
-        } else {
-            if (!$this->_validateAtom($subdomain)) {
-                return false;
-            }
+        } elseif (!$this->_validateAtom($subdomain)) {
+            return false;
         }
 
         // Got here, so return successful.

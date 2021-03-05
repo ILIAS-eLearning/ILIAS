@@ -575,16 +575,14 @@ class ilMailFolderGUI
                 ilUtil::sendInfo($this->lng->txt('mail_select_one'));
                 $this->errorDelete = true;
             }
+        } elseif (0 === count($mailIds)) {
+            ilUtil::sendInfo($this->lng->txt('mail_select_one'));
+        } elseif ($this->umail->moveMailsToFolder($mailIds, $trashFolderId)) {
+            ilUtil::sendSuccess($this->lng->txt('mail_moved_to_trash'), true);
+            $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->redirect($this, 'showFolder');
         } else {
-            if (0 === count($mailIds)) {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one'));
-            } elseif ($this->umail->moveMailsToFolder($mailIds, $trashFolderId)) {
-                ilUtil::sendSuccess($this->lng->txt('mail_moved_to_trash'), true);
-                $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $this->ctrl->redirect($this, 'showFolder');
-            } else {
-                ilUtil::sendFailure($this->lng->txt('mail_move_error'));
-            }
+            ilUtil::sendFailure($this->lng->txt('mail_move_error'));
         }
 
         $this->showFolder();

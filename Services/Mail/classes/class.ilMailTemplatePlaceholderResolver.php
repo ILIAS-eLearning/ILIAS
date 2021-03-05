@@ -27,7 +27,7 @@ class ilMailTemplatePlaceholderResolver
     /**
      * @param ilObjUser|null $user
      * @param array $contextParameters
-     * @param $replaceEmptyPlaceholders boolean
+     * @param $replaceEmptyPlaceholders bool
      * @return string
      */
     public function resolve(

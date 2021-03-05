@@ -172,13 +172,10 @@ class ilFileDataImportMail extends ilFileDataImport
             $this->ilias->raiseError("Mail import directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
         }
     }
+
     /**
-    * init directory
-    * overwritten method
-    * @access	public
-    * @static
-    * @return boolean
-    */
+     * @inheritDoc
+     */
     public function _initDirectory()
     {
         if (!file_exists($this->mail_path)) {

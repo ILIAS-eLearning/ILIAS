@@ -75,25 +75,21 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     {
         if ('tpl_id' === $column) {
             return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
-        } else {
-            if ('lang' === $column) {
-                return $this->lng->txt('meta_l_' . $row[$column]);
-            } else {
-                if ($column == 'context') {
-                    if (isset($this->contexts[$row[$column]])) {
-                        $isDefaultSuffix = '';
-                        if ($row['is_default']) {
-                            $isDefaultSuffix = $this->lng->txt('mail_template_default');
-                        }
-
-                        return implode('', [
-                            $this->contexts[$row[$column]]->getTitle(),
-                            $isDefaultSuffix
-                        ]);
-                    } else {
-                        return $this->lng->txt('mail_template_orphaned_context');
-                    }
+        } elseif ('lang' === $column) {
+            return $this->lng->txt('meta_l_' . $row[$column]);
+        } elseif ($column == 'context') {
+            if (isset($this->contexts[$row[$column]])) {
+                $isDefaultSuffix = '';
+                if ($row['is_default']) {
+                    $isDefaultSuffix = $this->lng->txt('mail_template_default');
                 }
+
+                return implode('', [
+                    $this->contexts[$row[$column]]->getTitle(),
+                    $isDefaultSuffix
+                ]);
+            } else {
+                return $this->lng->txt('mail_template_orphaned_context');
             }
         }
 

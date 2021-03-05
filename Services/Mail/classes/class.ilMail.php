@@ -82,7 +82,7 @@ class ilMail
     protected $senderFactory;
 
     /**
-     * @param integer $a_user_id
+     * @param int $a_user_id
      * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
      * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
      * @param ilAppEventHandler|null $eventHandler
@@ -585,18 +585,18 @@ class ilMail
     }
 
     /**
-     * @param integer $folderId
-     * @param integer $senderUsrId
+     * @param int $folderId
+     * @param int $senderUsrId
      * @param array $attachments
      * @param string $to
      * @param string $cc
      * @param string $bcc
      * @param string $status
-     * @param integer $email
+     * @param int $email
      * @param string $subject
      * @param string $message
-     * @param integer $usrId
-     * @param integer $usePlaceholders
+     * @param int $usrId
+     * @param int $usePlaceholders
      * @param string|null $templateContextId
      * @param array|null $templateContextParameters
      * @return int
