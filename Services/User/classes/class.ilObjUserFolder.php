@@ -639,9 +639,8 @@ class ilObjUserFolder extends ilObject
         if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             return $rec;
         }
-        return [
-            
-        ];
+
+        return [];
     }
 
     /**
