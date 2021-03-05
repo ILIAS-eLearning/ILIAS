@@ -448,6 +448,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.png';
         }
 
+        $result = null;
+
         try {
             if ($this->shouldUseLuceneSearch()) {
                 $query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
@@ -567,7 +569,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             }
             $css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
-            if ($this->shouldUseLuceneSearch()) {
+            if ($result instanceof ilMailSearchResult) {
                 $search_result = array();
                 foreach ($result->getFields($mail['mail_id']) as $content) {
                     if ('title' == $content[0]) {

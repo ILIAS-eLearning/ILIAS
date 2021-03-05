@@ -52,7 +52,7 @@ class ilFileDataMail extends ilFileData
     * Constructor
     * call base constructors
     * checks if directory is writable and sets the optional user_id
-    * @param integereger user_id
+    * @param int user_id
     * @access	public
     */
     public function __construct($a_user_id = 0)
@@ -492,38 +492,42 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * dassign attachments from mail directory
-    * @param integer mail_id
+    * @param int mail_id
     * @access	public
     * @return bool
     */
-    public function deassignAttachmentFromDirectory($a_mail_id)
+    public function deassignAttachmentFromDirectory($a_mail_id) : bool
     {
         global $ilDB;
         // IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
-        $res = $ilDB->query("SELECT path FROM mail_attachment
-				WHERE mail_id = " . $ilDB->quote($a_mail_id, 'integer'));
-    
+        $res = $ilDB->query('SELECT path FROM mail_attachment WHERE mail_id = ' . $ilDB->quote($a_mail_id, 'integer'));
+
+        $path = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $path = $row->path;
+            $path = (string) $row->path;
         }
-        if ($path) {
-            $res = $ilDB->query("SELECT COUNT(mail_id) count_mail_id FROM mail_attachment 
-					WHERE path = " . $ilDB->quote($path, 'text')) ;
-            
+
+        if ($path !== '') {
+            $res = $ilDB->query(
+                'SELECT COUNT(mail_id) count_mail_id FROM mail_attachment WHERE path = ' . $ilDB->quote($path, 'text')
+            ) ;
+
+            $cnt_mail_id = 0;
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $cnt_mail_id = $row->count_mail_id;
+                $cnt_mail_id = (int) $row->count_mail_id;
             }
-            if ($cnt_mail_id == 1) {
+
+            if ($cnt_mail_id === 1) {
                 $this->__deleteAttachmentDirectory($path);
             }
         }
 
         $res = $ilDB->manipulateF(
-            "DELETE FROM mail_attachment 
-				WHERE mail_id = %s",
-            array('integer'),
-            array($a_mail_id)
+            'DELETE FROM mail_attachment WHERE mail_id = %s',
+            ['integer'],
+            [$a_mail_id]
         );
+
         return true;
     }
 

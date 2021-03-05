@@ -54,6 +54,7 @@ class ilFSStorageMail extends ilFileSystemStorage
     
     public function getRelativePathExMailDirectory()
     {
+        $path = '';
         switch ($this->getStorageType()) {
             case self::STORAGE_DATA:
                 $path = ilUtil::getDataDir();

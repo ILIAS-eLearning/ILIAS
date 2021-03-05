@@ -672,6 +672,7 @@ class ilMailFormGUI
         }
         $form_gui->addItem($att);
 
+        $context = new ilMailTemplateGenericContext();
         if (ilMailFormCall::getContextId()) {
             $context_id = ilMailFormCall::getContextId();
 
@@ -716,8 +717,6 @@ class ilMailFormGUI
                     $context_id
                 ));
             }
-        } else {
-            $context = new ilMailTemplateGenericContext();
         }
 
         // MESSAGE

@@ -28,7 +28,7 @@ class ilFileDataImportMail extends ilFileDataImport
     * Constructor
     * call base constructors
     * checks if directory is writable and sets the optional obj_id
-    * @param integereger obj_id
+    * @param int obj_id
     * @access	public
     */
     public function __construct()

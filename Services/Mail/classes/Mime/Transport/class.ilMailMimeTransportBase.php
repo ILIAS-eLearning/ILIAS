@@ -75,21 +75,21 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
-                $this->getMailer()->addAddress($recipient, '');
+                $this->getMailer()->addAddress($recipient);
             }
         }
 
         foreach ($mail->getCc() as $carbon_copies) {
             $cc_pieces = array_filter(array_map('trim', explode(',', $carbon_copies)));
             foreach ($cc_pieces as $carbon_copy) {
-                $this->getMailer()->addCC($carbon_copy, '');
+                $this->getMailer()->addCC($carbon_copy);
             }
         }
 
         foreach ($mail->getBcc() as $blind_carbon_copies) {
             $bcc_pieces = array_filter(array_map('trim', explode(',', $blind_carbon_copies)));
             foreach ($bcc_pieces as $blind_carbon_copy) {
-                $this->getMailer()->addBCC($blind_carbon_copy, '');
+                $this->getMailer()->addBCC($blind_carbon_copy);
             }
         }
 
