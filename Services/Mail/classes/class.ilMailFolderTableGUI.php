@@ -47,14 +47,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
     /**
      * Constructor
-     * @param                    $a_parent_obj           Pass an instance of ilObjectGUI
+     * @param ilMailFolderGUI $a_parent_obj Pass an instance of ilObjectGUI
      * @param integer $a_current_folder_id Id of the current mail box folder
      * @param string $a_parent_cmd Command for the parent class
      * @param Factory|null $uiFactory
      * @param Renderer|null $uiRenderer
      */
     public function __construct(
-        $a_parent_obj,
+        ilMailFolderGUI $a_parent_obj,
         $a_current_folder_id,
         $a_parent_cmd = '',
         Factory $uiFactory = null,

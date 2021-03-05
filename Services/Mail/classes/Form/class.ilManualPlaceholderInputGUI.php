@@ -40,7 +40,7 @@ class ilManualPlaceholderInputGUI extends ilSubEnabledFormPropertyGUI
     protected $adviseText = '';
 
     /**
-     * @var \ilTemplate
+     * @var \ilGlobalPageTemplate
      */
     protected $tpl;
 

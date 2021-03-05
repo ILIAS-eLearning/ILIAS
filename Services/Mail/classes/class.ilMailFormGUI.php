@@ -10,7 +10,7 @@
 */
 class ilMailFormGUI
 {
-    /** @var ilTemplate */
+    /** @var ilGlobalPageTemplate */
     private $tpl;
 
     /** @var ilCtrl */

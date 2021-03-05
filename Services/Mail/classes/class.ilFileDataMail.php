@@ -214,7 +214,7 @@ class ilFileDataMail extends ilFileData
             foreach ($a_attachments as $file) {
                 $path = $this->getAttachmentPath($file, $a_mail_id);
                 if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
-                    return "ERROR: $this->getMailPath().'/'.$this->user_id.'_'.$file cannot be created";
+                    return 'ERROR: ' . $this->getMailPath() . '/'. $this->user_id . '_' . $file . ' cannot be created';
                 }
             }
         } else {
