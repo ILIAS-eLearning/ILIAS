@@ -93,7 +93,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     
     /**
      * Set text, which will be shown before the start date
-     * @param object $a_txt
+     * @param string $a_txt
      * @return
      */
     public function setStartText($a_txt)
@@ -112,7 +112,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
     /**
      * Set text, which will be shown before the end date
-     * @param object $a_txt
+     * @param string $a_txt
      * @return
      */
     public function setEndText($a_txt)
