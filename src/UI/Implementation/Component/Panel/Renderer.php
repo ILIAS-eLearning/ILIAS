@@ -113,7 +113,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
             $tpl->setVariable("INFO", $default_renderer->render($component->getFurtherInformation()));
             $tpl->parseCurrentBlock();
-        }else {
+        } else {
             $tpl->setCurrentBlock("no_further_information");
             $tpl->setVariable("BODY", $this->getContentAsString($component, $default_renderer));
             $tpl->parseCurrentBlock();
