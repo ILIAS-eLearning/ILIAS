@@ -576,4 +576,9 @@ while ($row = $ilDB->fetchAssoc($set)) {
     );
 }
 ?>
+<#31>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+
 
