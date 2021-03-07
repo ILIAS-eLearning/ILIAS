@@ -470,4 +470,110 @@ foreach ($columns as $column) {
 <?php
 $ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
 ?>
+<#28>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_users', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+    $ilDB->dropPrimaryKey('cmix_users');
+    $ilDB->addPrimaryKey('cmix_users', array('obj_id', 'usr_id', 'privacy_ident'));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_settings', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'privacy_name') ) {
+    $ilDB->addTableColumn('cmix_settings', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_ident') ) {
+    $ilDB->addTableColumn('lti_ext_provider', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name') ) {
+    $ilDB->addTableColumn('lti_ext_provider', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+?>
+<#29>
+<?php
+$set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
+while ($row = $ilDB->fetchAssoc($set)) {
+    $ident = 0;
+    $name = 0;
+    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+    if ($row['user_ident'] == 'real_email') {$ident = 3;}
+    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+    if ($row['user_name'] == 'firstname') {$name = 1;}
+    if ($row['user_name'] == 'lastname') {$name = 2;}
+    if ($row['user_name'] == 'fullname') {$name = 3;}
+    
+    $ilDB->update(
+        "cmix_users",
+        [
+            "privacy_ident" => ["integer", $ident]
+        ],
+        [	// where
+            "obj_id" => ["integer", $row['obj_id']]
+        ]
+    );
+    $ilDB->update(
+        "cmix_settings",
+        [
+            "privacy_ident" => ["integer", $ident],
+            "privacy_name"   => ["integer", $name]
+        ],
+        [	// where
+            "obj_id" => ["integer", $row['obj_id']]
+        ]
+    );
+}
+?>
+<#30>
+<?php
+$set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
+while ($row = $ilDB->fetchAssoc($set)) {
+    $ident = 0;
+    $name = 0;
+    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+    if ($row['user_ident'] == 'real_email') {$ident = 3;}
+    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+    if ($row['user_name'] == 'firstname') {$name = 1;}
+    if ($row['user_name'] == 'lastname') {$name = 2;}
+    if ($row['user_name'] == 'fullname') {$name = 3;}
+    
+    $ilDB->update(
+        "lti_ext_provider",
+        [
+            "privacy_ident" => ["integer", $ident],
+            "privacy_name"   => ["integer", $name]
+        ],
+        [	// where
+            "id" => ["integer", $row['id']]
+        ]
+    );
+}
+?>
 
