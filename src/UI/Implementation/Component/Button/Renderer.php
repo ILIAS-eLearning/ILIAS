@@ -25,6 +25,9 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Button\Month) {
             return $this->renderMonth($component, $default_renderer);
         } else {
+            /**
+             * @var $component Component\Button\Button
+             */
             return $this->renderButton($component, $default_renderer);
         }
     }
@@ -38,6 +41,7 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer)
     {
+        $tpl_name = "";
         if ($component instanceof Component\Button\Primary) {
             $tpl_name = "tpl.primary.html";
         }
@@ -181,7 +185,7 @@ class Renderer extends AbstractComponentRenderer
         $button_status = 'off';
         if ($component->isEngaged()) {
             $button_status = 'on';
-        };
+        }
 
         if ($component->isActive()) {
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($on_url, $off_url, $signals) {
@@ -215,7 +219,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\Component $component, $tpl)
+    protected function maybeRenderId(Component\JavaScriptBindable $component, $tpl)
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {

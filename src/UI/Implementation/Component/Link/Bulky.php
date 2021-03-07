@@ -14,7 +14,7 @@ class Bulky extends Link implements C\Link\Bulky
     use JavaScriptBindable;
 
     // allowed ARIA roles
-    const MENUITEM = 'menuitem';
+    public const MENUITEM = 'menuitem';
 
     /**
      * @var string
@@ -27,7 +27,7 @@ class Bulky extends Link implements C\Link\Bulky
     protected $aria_role;
 
     /**
-     * @var Symbol
+     * @var C\Symbol\Symbol
      */
     protected $symbol;
 

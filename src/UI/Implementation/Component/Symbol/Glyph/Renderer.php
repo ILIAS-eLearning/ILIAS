@@ -20,6 +20,9 @@ class Renderer extends AbstractComponentRenderer
      */
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
+        /**
+         * @var $component Glyph
+         */
         $this->checkComponent($component);
 
         $tpl_file = $this->getTemplateFilename();

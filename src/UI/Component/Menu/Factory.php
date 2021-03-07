@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Menu;
 
+use \ILIAS\UI\Component;
+use \ILIAS\UI\Component\Divider;
+
 /**
  * Tree factory
  */
@@ -42,8 +45,8 @@ interface Factory
      *          Drilldown Menus MUST contain more than one entry (Submenu or Button).
      *
      * ---
-     * @param 	\ILIAS\UI\Component\Clickable | string		$label
-     * @param 	array<\ILIAS\UI\Component\Menu\Sub | \ILIAS\UI\Component\Clickable | \ILIAS\UI\Component\Divider> $items
+     * @param 	Component\Clickable | string		$label
+     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Drilldown
      */
     public function drilldown($label, array $items) : Drilldown;
@@ -80,7 +83,7 @@ interface Factory
      *
      * ---
      * @param 	\ILIAS\UI\Component\Clickable | string		$label
-     * @param 	array<\ILIAS\UI\Component\Menu\Sub | \ILIAS\UI\Component\Clickable | \ILIAS\UI\Component\Divider> $items
+     * @param 	array<Component\Menu\Sub | Component\Clickable| Divider\Horizontal| Divider\Horizontal> $items
      * @return 	\ILIAS\UI\Component\Menu\Sub
      */
     public function sub($label, array $items) : Sub;

@@ -12,7 +12,7 @@ use ILIAS\UI\Component\Divider\Horizontal;
 interface Combined extends Slate
 {
     /**
-     * @param Slate|Bulky|Horizontal $entry
+     * @param Slate|Combined $entry
      */
     public function withAdditionalEntry($entry) : Combined;
 }

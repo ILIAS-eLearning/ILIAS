@@ -7,6 +7,7 @@ use \ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Item\Notification as NotificationItem;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Button\Bulky;
 
 /**
  * Class Notification

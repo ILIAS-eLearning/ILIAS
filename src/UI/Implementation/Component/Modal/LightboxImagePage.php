@@ -4,7 +4,9 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Modal\LightboxDescriptionEnabledPage;
+use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use \ILIAS\UI\Component\Modal\LightboxImagePage as ILightboxImagePage;
 
 /**
  * Class LightboxImagePage
@@ -14,7 +16,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class LightboxImagePage implements LightboxDescriptionEnabledPage
+class LightboxImagePage implements LightboxDescriptionEnabledPage, ILightboxImagePage
 {
     use ComponentHelper;
 

@@ -20,6 +20,10 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
+        /**
+         * @var $component Tree\Expandable
+         */
+
         $tpl_name = "tpl.tree.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
 
@@ -57,10 +61,6 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Trigger TreeRecursion::build and recurse into hierarchy by checking for
      * further children of the record.
-     * @param Tree\TreeRecursion $recursion
-     * @param mixed $record
-     * @param mixed $environment
-     * @return Node
      */
     protected function buildNode(
         Tree\TreeRecursion $recursion,

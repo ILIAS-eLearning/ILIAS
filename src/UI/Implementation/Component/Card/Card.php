@@ -42,7 +42,7 @@ class Card implements C\Card
     protected $title_action = '';
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $highlight = false;
 
@@ -133,6 +133,9 @@ class Card implements C\Card
         if (is_string($action)) {
             $clone->title_action = $action;
         } else {
+            /**
+             * @var $action Signal
+             */
             $clone->title_action = null;
             $clone->setTriggeredSignal($action, "click");
         }
