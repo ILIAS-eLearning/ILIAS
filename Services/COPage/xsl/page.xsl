@@ -3775,7 +3775,7 @@
 	</xsl:when>
 	</xsl:choose>
 
-		<div>
+		<div tabindex="0" role="button" aria-expanded="false">
 		<xsl:choose>
 		<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">
 			<xsl:attribute name="class">ilEditVAccordIHead</xsl:attribute>
@@ -3800,42 +3800,6 @@
 		</xsl:when>
 		</xsl:choose>
 		<xsl:attribute name="style"><xsl:if test="$cheight != 'null' and $mode != 'edit' and $mode != 'print' and $compare_mode = 'n' and ../@Type = 'HorizontalAccordion'">height: <xsl:value-of select="$cheight" />px;</xsl:if></xsl:attribute>
-		<xsl:if test="$javascript='disable'">
-			<!-- checkbox -->
-			<!--
-			<input type="checkbox" name="target[]">
-				<xsl:attribute name="value"><xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>
-				</xsl:attribute>
-			</input>
-			<select size="1" class="ilEditSelect">
-				<xsl:attribute name="name">command<xsl:value-of select="@HierId"/>
-				</xsl:attribute>
-				<xsl:if test = "$javascript = 'disable'">
-					<xsl:call-template name="EditMenuInsertItems"/>
-				</xsl:if>
-				<xsl:call-template name="ListItemMenu"/>
-			</select>
-			<input class="ilEditSubmit" type="submit">
-				<xsl:attribute name="value"><xsl:value-of select="//LVs/LV[@name='ed_go']/@value"/></xsl:attribute>
-				<xsl:attribute name="name">cmd[exec_<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/>]</xsl:attribute>
-			</input>
-			<br/>-->
-		</xsl:if>
-		<xsl:if test="$javascript = 'enable'">
-		<!--
-			<xsl:call-template name="Icon">
-				<xsl:with-param name="img_id">CONTENTi<xsl:value-of select="@HierId"/>:<xsl:value-of select="@PCID"/></xsl:with-param>
-				<xsl:with-param name="img_src"><xsl:value-of select="$img_item"/></xsl:with-param>
-				<xsl:with-param name="float">y</xsl:with-param>
-			</xsl:call-template>
-			<div style="position:absolute;left:0;top:0;visibility:hidden;">
-				<xsl:attribute name="id">contextmenu_i<xsl:value-of select="@HierId"/></xsl:attribute>
-				<table class="il_editmenu" cellspacing="0" cellpadding="3">
-					<xsl:call-template name="ListItemMenu"/>
-				</table>
-			</div>
-		-->
-		</xsl:if>
 		<div>
 			<xsl:choose>
 			<xsl:when test="$mode = 'edit' or $mode = 'print' or $compare_mode = 'y'">

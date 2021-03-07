@@ -1,3 +1,4 @@
+--math=always is deprecated and will be removed in the future.
 @font-face {
   font-family: 'Open Sans';
   src: url('fonts/OpenSansWeb/OpenSans-Regular.woff2') format('woff2'), url('fonts/OpenSansWeb/OpenSans-Regular.woff') format('woff');
