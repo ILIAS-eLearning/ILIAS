@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls\Footer;
-use ILIAS\UI\Component\MainControls\HeadInfo;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
@@ -110,7 +109,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMetabar(Metabar $meta_bar) : Page\Standard
+    public function withMetabar(MetaBar $meta_bar) : Page\Standard
     {
         $clone = clone $this;
         $clone->metabar = $meta_bar;
@@ -120,7 +119,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withMainbar(Mainbar $main_bar) : Page\Standard
+    public function withMainbar(MainBar $main_bar) : Page\Standard
     {
         $clone = clone $this;
         $clone->mainbar = $main_bar;
@@ -229,9 +228,9 @@ class Standard implements Page\Standard
 
     /**
      * @param bool $use_headers
-     * @return    Page
+     * @return    Page\Standard
      */
-    public function withHeaders($use_headers) : Page
+    public function withHeaders($use_headers) : Page\Standard
     {
         $clone = clone $this;
         $clone->with_headers = $use_headers;

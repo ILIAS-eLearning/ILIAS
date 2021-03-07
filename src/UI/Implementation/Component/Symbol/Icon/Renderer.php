@@ -10,9 +10,9 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
-    const DEFAULT_ICON_NAME = 'default';
-    const ICON_NAME_PATTERN = 'icon_%s.svg';
-    const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
+    public const DEFAULT_ICON_NAME = 'default';
+    public const ICON_NAME_PATTERN = 'icon_%s.svg';
+    public const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
 
     /**
      * @inheritdoc

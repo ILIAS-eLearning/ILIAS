@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Component\Button\Bulky;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
+use ILIAS\UI\Component\MainControls\Slate\Prompt;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;

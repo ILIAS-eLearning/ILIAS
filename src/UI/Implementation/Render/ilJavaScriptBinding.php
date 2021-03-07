@@ -9,7 +9,7 @@ namespace ILIAS\UI\Implementation\Render;
  */
 class ilJavaScriptBinding implements JavaScriptBinding
 {
-    const PREFIX = "il_ui_fw_";
+    public const PREFIX = "il_ui_fw_";
 
     /**
      * @var \ilGlobalTemplate

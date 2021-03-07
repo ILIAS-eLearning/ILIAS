@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Implementation\DefaultRenderer;
@@ -97,6 +98,9 @@ class Renderer extends AbstractComponentRenderer
 
         // Upload-Button
         if ($button) {
+            /**
+             * @var $button Button
+             */
             $button = $button->withUnavailableAction()->withAdditionalOnLoadCode(function ($id) use ($dropzoneId) {
                 return "$ (function() {il.UI.uploader.bindUploadButton('{$dropzoneId}', $('#{$id}'));});";
             });

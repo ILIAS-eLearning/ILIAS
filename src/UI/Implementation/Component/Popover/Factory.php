@@ -2,7 +2,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Popover;
 
-use ILIAS\UI\Component\Popover\Item;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**

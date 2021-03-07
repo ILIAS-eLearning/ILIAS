@@ -42,10 +42,12 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
     /**
      * @param Input $input
-     * @return Input|\ILIAS\UI\Implementation\Component\JavaScriptBindable
+     * @return Input
      */
     protected function setSignals(Input $input)
     {
+        $signals = null;
+
         foreach ($input->getTriggeredSignals() as $s) {
             $signals[] = [
                 "signal_id" => $s->getSignal()->getId(),
@@ -56,7 +58,9 @@ class FilterContextRenderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
-
+            /**
+             * @var $input Input
+             */
             $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
                 $code = "il.UI.input.setSignalsForId('$id', $signals);";
                 return $code;
@@ -115,15 +119,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         return $inputs;
     }
 
-
-    /**
-     * @param Template $input_tpl
-     * @param Input    $input
-     * @param RendererInterface $default_renderer
-     *
-     * @return string
-     */
-    protected function renderProxyFieldWithContext(Template $input_tpl, Input $input, RendererInterface $default_renderer)
+    protected function renderProxyFieldWithContext(Template $input_tpl, Component\Input\Field\Input $input, RendererInterface $default_renderer) : string
     {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.context_filter.html", true, true);
@@ -161,7 +157,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
      *
      * @return string
      */
-    protected function renderProxyField(Template $input_tpl, Input $input, RendererInterface $default_renderer)
+    protected function renderProxyField(Template $input_tpl, Component\Input\Field\Input $input, RendererInterface $default_renderer)
     {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.filter_field.html", true, true);
@@ -329,10 +325,10 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
 
     /**
-     * @param Component\JavascriptBindable $component
+     * @param Component\JavaScriptBindable $component
      * @param Template                     $tpl
      */
-    protected function renderId(Component\JavascriptBindable $component, $tpl)
+    protected function renderId(Component\JavaScriptBindable $component, $tpl)
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);

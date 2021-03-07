@@ -36,6 +36,9 @@ trait Engageable
      */
     public function withEngagedState(bool $state) : EngageableInterface
     {
+        /**
+         * @var $clone EngageableInterface
+         */
         $clone = clone $this;
         $clone->is_engageable = true;
         $clone->engaged = $state;

@@ -453,6 +453,8 @@ Again, consider the example if a user opens a modal by clicking on a button:
 
 This code snippet shows how to open a modal by clicking on a button:
 ```php
+global $DIC;
+$factory = $DIC->ui()->factory();
 $modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
 $button = $factory->button()->standard('Open Modal', '#')
   ->withOnClick($modal->getShowSignal());
@@ -466,6 +468,8 @@ which a signal is being triggered.
 Each triggerer component stores the signals it triggers. By cloning a component, these signals are cloned as well.
 This means that a cloned component may trigger the same signals as the original. Consider the following example:
  ```php
+global $DIC;
+$factory = $DIC->ui()->factory();
 $modal = $factory->modal()->roundtrip('Title', $factory->legacy('Hello World'));
 $button1 = $factory->button()->standard('Open Modal', '#')
   ->withOnClick($modal->getShowSignal());
