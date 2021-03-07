@@ -71,4 +71,4 @@ function with_js()
         );
 
     return $renderer->render([$set_status_button,$increment_novelty_button,$set_novelty_count_to_status_button,$combined_button]);
-};
+}

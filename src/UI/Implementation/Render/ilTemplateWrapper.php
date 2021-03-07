@@ -15,7 +15,7 @@ class ilTemplateWrapper implements Template
     protected $global_tpl;
 
     /**
-     * @var	ilTemplate
+     * @var	\ilTemplate
      */
     private $tpl;
 
@@ -54,7 +54,7 @@ class ilTemplateWrapper implements Template
      */
     public function setVariable($name, $value)
     {
-        return $this->tpl->setVariable($name, $value);
+        $this->tpl->setVariable($name, $value);
     }
 
     /**
@@ -73,6 +73,6 @@ class ilTemplateWrapper implements Template
      */
     public function addOnLoadCode($code)
     {
-        return $this->global_tpl->addOnLoadCode($code);
+        $this->global_tpl->addOnLoadCode($code);
     }
 }

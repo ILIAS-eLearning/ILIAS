@@ -23,7 +23,7 @@ abstract class File implements \ILIAS\UI\Component\Dropzone\File\File
     use Triggerer;
     use ComponentHelper;
     use JavaScriptBindable;
-    const DROP_EVENT = "drop"; // Name of the drop-event in JS, e.g. used with jQuery .on('drop', ...)
+    public const DROP_EVENT = "drop"; // Name of the drop-event in JS, e.g. used with jQuery .on('drop', ...)
     /**
      * @var string
      */

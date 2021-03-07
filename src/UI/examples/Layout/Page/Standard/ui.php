@@ -17,21 +17,21 @@ function ui()
 if ($_GET['new_ui'] == '1') {
     _initIliasForPreview();
 
+    global $DIC;
+
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer);
-    $mainbar = $mainbar
-        //->withActive("pws")
-        /**
-         * You can also activate a tool initially
-         * or remove all active states:
-         */
-         //->withActive("tool2")
-         //->withActive($mainbar::NONE_ACTIVE)
-        ;
+    /**
+     * You can also activate a tool initially
+     * or remove all active states:
+    $mainbar = $mainbar->withActive("pws")
+         ->withActive("tool2")
+         ->withActive($mainbar::NONE_ACTIVE);
+     */
 
     $footer = pagedemoFooter($f);
 
@@ -74,7 +74,7 @@ function _initIliasForPreview()
     chdir('../../../../../../');
     require_once("Services/Init/classes/class.ilInitialisation.php");
     require_once('src/UI/examples/Layout/Page/Standard/ui.php');
-    ilInitialisation::initILIAS();
+    \ilInitialisation::initILIAS();
 }
 
 function pagedemoCrumbs($f)

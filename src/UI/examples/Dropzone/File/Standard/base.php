@@ -14,7 +14,7 @@ function base()
 
             // The File-Dropzones will expect a valid json-Status (success true or false).
             echo json_encode([ 'success' => true, 'message' => 'Successfully uploaded file' ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // See above
             echo json_encode([ 'success' => false, 'message' => $e->getMessage() ]);
         }

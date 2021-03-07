@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer
 {
-    const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
+    public const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
     /**
      * @inheritdoc
      */

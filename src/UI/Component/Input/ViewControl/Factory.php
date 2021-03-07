@@ -29,7 +29,7 @@ interface Factory
      */
     public function fieldSelection(
         array $options,
-        string $label = FieldSelectionInterface::DEFAULT_DROPDOWN_LABEL,
-        string $button_label = FieldSelectionInterface::DEFAULT_BUTTON_LABEL
+        string $label = FieldSelection::DEFAULT_DROPDOWN_LABEL,
+        string $button_label = FieldSelection::DEFAULT_BUTTON_LABEL
     ) : FieldSelection;
 }

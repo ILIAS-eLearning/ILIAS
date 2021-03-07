@@ -136,7 +136,7 @@ abstract class Modal implements Component\Modal\Modal
     /**
      * Set the show and close signals for this modal
      */
-    protected function initSignals()
+    public function initSignals()
     {
         $this->show_signal = $this->signal_generator->create();
         $this->close_signal = $this->signal_generator->create();

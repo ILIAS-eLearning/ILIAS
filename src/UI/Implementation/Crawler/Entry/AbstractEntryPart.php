@@ -20,7 +20,7 @@ class AbstractEntryPart
     /**
      * AbstractEntryPart constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
         $this->f = new Crawler\Exception\Factory();
     }

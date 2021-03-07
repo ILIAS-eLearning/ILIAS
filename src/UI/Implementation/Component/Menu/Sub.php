@@ -15,15 +15,13 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  */
 class Sub extends LabeledMenu implements IMenu\Sub
 {
-    use JavaScriptBindable;
-
     /**
      * @var bool
      */
     protected $active = false;
 
     /**
-     * @param Component\Clickable | string $label
+     * @param \ILIAS\UI\Component\Clickable | string $label
      * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
      */
     public function __construct($label, array $items)

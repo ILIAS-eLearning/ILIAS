@@ -9,7 +9,7 @@ function many_pages_dropdown()
     $lng = $DIC['lng'];
 
     $parameter_name = 'page3';
-    $current_page = (int) @$_GET[$parameter_name];
+    $current_page = (int) (array_key_exists($parameter_name, $_GET) ? $_GET[$parameter_name] : 0);
 
     $pagination = $factory->viewControl()->pagination()
         ->withTargetURL($url, $parameter_name)

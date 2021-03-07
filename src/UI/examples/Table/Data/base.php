@@ -40,6 +40,8 @@ function base()
 
     // retrieve data and map records to table rows
     $data_retrieval = new class($dummy_records) extends T\DataRetrieval {
+        protected $records;
+
         public function __construct(array $dummy_records)
         {
             $this->records = $dummy_records;

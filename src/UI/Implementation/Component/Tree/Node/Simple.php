@@ -44,7 +44,7 @@ class Simple extends Node implements ISimple
     /**
      * @inheritdoc
      */
-    public function getIcon()
+    public function getIcon() : ?\ILIAS\UI\Component\Symbol\Icon\Icon
     {
         return $this->icon;
     }

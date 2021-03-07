@@ -24,6 +24,7 @@ function show_multi_step_modal()
         $button2 = $f->button()->standard('Registration', '#')
             ->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=register&replaceSignal=' . $replaceSignal->getId()));
 
+        $modal = null;
         if ($page == "login") {
             $legacy = $f->legacy("<p>The Login Page</p>");
             $modal = $f->modal()->roundtrip("Login", [$button1, $button2, $legacy]);

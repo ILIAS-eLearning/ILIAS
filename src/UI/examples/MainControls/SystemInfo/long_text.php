@@ -1,6 +1,6 @@
 <?php
 
-use ILIAS\UI\Component\MainControls\HeadInfo;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 
 function long_text()
 {

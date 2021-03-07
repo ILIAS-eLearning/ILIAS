@@ -20,16 +20,16 @@ function base_with_data()
 
     // Step 2, define form and form actions
     $DIC->ctrl()->setParameterByClass(
-        ilSystemStyleDocumentationGUI::class,
+        \ilSystemStyleDocumentationGUI::class,
         'example_name',
         'tag_inputs'
     );
     $DIC->ctrl()->saveParameterByClass(
-        ilSystemStyleDocumentationGUI::class,
+        \ilSystemStyleDocumentationGUI::class,
         'node_id'
     );
 
-    $form_action = $DIC->ctrl()->getFormActionByClass(ilSystemStyleDocumentationGUI::class);
+    $form_action = $DIC->ctrl()->getFormActionByClass(\ilSystemStyleDocumentationGUI::class);
     $form = $ui->input()->container()->form()->standard($form_action, [$multi_select_input]);
 
     // Step 4, implement some form data processing.

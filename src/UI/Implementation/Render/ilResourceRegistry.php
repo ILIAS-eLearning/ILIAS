@@ -11,7 +11,7 @@ namespace ILIAS\UI\Implementation\Render;
 class ilResourceRegistry implements ResourceRegistry
 {
     /**
-     * @var	ilGlobalTemplate
+     * @var	\ilGlobalTemplate
      */
     protected $il_template;
 
