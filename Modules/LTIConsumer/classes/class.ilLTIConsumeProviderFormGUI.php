@@ -148,53 +148,53 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader->setTitle($lng->txt('lti_con_prov_privacy_settings'));
         $this->addItem($sectionHeader);
         
-        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_ident'), 'user_ident');
+        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_user_id'),
-            ilLTIConsumeProvider::USER_IDENT_IL_UUID_USER_ID
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
+            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_USER_ID
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_user_id_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_user_id_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_login'),
-            ilLTIConsumeProvider::USER_IDENT_IL_UUID_LOGIN
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_login'),
+            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_LOGIN
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_login_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_login_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_ext_account'),
-            ilLTIConsumeProvider::USER_IDENT_IL_UUID_EXT_ACCOUNT
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account'),
+            ilLTIConsumeProvider::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_real_email'),
-            ilLTIConsumeProvider::USER_IDENT_REAL_EMAIL
+            $DIC->language()->txt('conf_privacy_ident_real_email'),
+            ilLTIConsumeProvider::PRIVACY_IDENT_REAL_EMAIL
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_real_email_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
         $item->addOption($op);
-        $item->setValue($this->provider->getUserIdent());
+        $item->setValue($this->provider->getPrivacyIdent());
         $item->setInfo(
-            $DIC->language()->txt('conf_user_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
         );
         $item->setRequired(false);
         $this->addItem($item);
         
-        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_name'), 'user_name');
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_none'), ilLTIConsumeProvider::USER_NAME_NONE);
-        $op->setInfo($DIC->language()->txt('conf_user_name_none_info'));
+        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), ilLTIConsumeProvider::PRIVACY_NAME_NONE);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_firstname'), ilLTIConsumeProvider::USER_NAME_FIRSTNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_firstname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_lastname'), ilLTIConsumeProvider::USER_NAME_LASTNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_lastname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_fullname'), ilLTIConsumeProvider::USER_NAME_FULLNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_fullname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
-        $item->setValue($this->provider->getUserName());
-        $item->setInfo($DIC->language()->txt('conf_user_name_info'));
+        $item->setValue($this->provider->getPrivacyName());
+        $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));
         $item->setRequired(false);
         $this->addItem($item);
         
@@ -350,8 +350,8 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         } else {
             $provider->setProviderKeyCustomizable(true);
         }
-        $provider->setUserIdent($this->getInput('user_ident'));
-        $provider->setUserName($this->getInput('user_name'));
+        $provider->setPrivacyIdent($this->getInput('privacy_ident'));
+        $provider->setPrivacyName($this->getInput('privacy_name'));
         $provider->setIncludeUserPicture((bool) $this->getInput('inc_usr_pic'));
         $provider->setIsExternalProvider((bool) $this->getInput('is_external_provider'));
         

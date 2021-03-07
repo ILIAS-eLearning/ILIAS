@@ -580,5 +580,54 @@ while ($row = $ilDB->fetchAssoc($set)) {
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
-
-
+<#32>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_ident') ) {
+    $ilDB->addTableColumn('cmix_lrs_types', 'privacy_ident', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_name') ) {
+    $ilDB->addTableColumn('cmix_lrs_types', 'privacy_name', array(
+        'type' => 'integer',
+        'length' => 2,
+        'notnull' => true,
+        'default' => 0
+    ));
+}
+$set = $ilDB->query("SELECT type_id, user_ident, user_name FROM cmix_lrs_types");
+while ($row = $ilDB->fetchAssoc($set)) {
+    $ident = 0;
+    $name = 0;
+    if ($row['user_ident'] == 'il_uuid_ext_account') {$ident = 1;}
+    if ($row['user_ident'] == 'il_uuid_login') {$ident = 2;}
+    if ($row['user_ident'] == 'real_email') {$ident = 3;}
+    if ($row['user_ident'] == 'il_uuid_random') {$ident = 4;}
+    if ($row['user_name'] == 'firstname') {$name = 1;}
+    if ($row['user_name'] == 'lastname') {$name = 2;}
+    if ($row['user_name'] == 'fullname') {$name = 3;}
+    
+    $ilDB->update(
+        "cmix_lrs_types",
+        [
+            "privacy_ident" => ["integer", $ident],
+            "privacy_name"   => ["integer", $name]
+        ],
+        [	// where
+            "type_id" => ["integer", $row['type_id']]
+        ]
+    );
+}
+?>
+<#33>
+<?php
+$ilDB->dropTableColumn("cmix_lrs_types", "user_ident");
+$ilDB->dropTableColumn("cmix_lrs_types", "user_name");
+$ilDB->dropTableColumn("cmix_settings", "user_ident");
+$ilDB->dropTableColumn("cmix_settings", "user_name");
+$ilDB->dropTableColumn("lti_ext_provider", "user_ident");
+$ilDB->dropTableColumn("lti_ext_provider", "user_name");
+?>

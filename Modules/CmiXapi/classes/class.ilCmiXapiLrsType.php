@@ -28,16 +28,16 @@ class ilCmiXapiLrsType
     const LAUNCH_TYPE_LINK = "link";
     const LAUNCH_TYPE_EMBED = "embed";
     
-    const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
-    const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
-    const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
-    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
-    const USER_IDENT_REAL_EMAIL = 'real_email';
+    const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
+    const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
+    const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
+    const PRIVACY_IDENT_REAL_EMAIL = 3;
+    const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
     
-    const USER_NAME_NONE = 'none';
-    const USER_NAME_FIRSTNAME = 'firstname';
-    const USER_NAME_LASTNAME = 'lastname';
-    const USER_NAME_FULLNAME = 'fullname';
+    const PRIVACY_NAME_NONE = 0;
+    const PRIVACY_NAME_FIRSTNAME = 1;
+    const PRIVACY_NAME_LASTNAME = 2;
+    const PRIVACY_NAME_FULLNAME = 3;
     
     const ENDPOINT_STATEMENTS_SUFFIX = 'statements';
     const ENDPOINT_AGGREGATE_SUFFIX = 'statements/aggregate';
@@ -50,8 +50,8 @@ class ilCmiXapiLrsType
     protected $lrs_endpoint;
     protected $lrs_key;
     protected $lrs_secret;
-    protected $user_ident;
-    protected $user_name;
+    protected $privacy_ident;
+    protected $privacy_name;
     protected $force_privacy_settings;
     protected $privacy_comment_default;
     protected $external_lrs;
@@ -246,24 +246,24 @@ class ilCmiXapiLrsType
         return $this->lrs_secret;
     }
     
-    public function setUserIdent($a_option)
+    public function setPrivacyIdent($a_option)
     {
-        $this->user_ident = $a_option;
+        $this->privacy_ident = $a_option;
     }
     
-    public function getUserIdent()
+    public function getPrivacyIdent()
     {
-        return $this->user_ident;
+        return $this->privacy_ident;
     }
     
-    public function setUserName($a_option)
+    public function setPrivacyName($a_option)
     {
-        $this->user_name = $a_option;
+        $this->privacy_name = $a_option;
     }
     
-    public function getUserName()
+    public function getPrivacyName()
     {
-        return $this->user_name;
+        return $this->privacy_name;
     }
 
     /**
@@ -591,8 +591,8 @@ class ilCmiXapiLrsType
             $this->setLrsEndpoint($row->lrs_endpoint);
             $this->setLrsKey($row->lrs_key);
             $this->setLrsSecret($row->lrs_secret);
-            $this->setUserIdent($row->user_ident);
-            $this->setUserName($row->user_name);
+            $this->setPrivacyIdent($row->privacy_ident);
+            $this->setPrivacyName($row->privacy_name);
             $this->setForcePrivacySettings((bool) $row->force_privacy_settings);
             $this->setPrivacyCommentDefault($row->privacy_comment_default);
             $this->setExternalLrs($row->external_lrs);
@@ -660,8 +660,8 @@ class ilCmiXapiLrsType
                 'lrs_endpoint' => array('text', $this->getLrsEndpoint()),
                 'lrs_key' => array('text', $this->getLrsKey()),
                 'lrs_secret' => array('text', $this->getLrsSecret()),
-                'user_ident' => array('text', $this->getUserIdent()),
-                'user_name' => array('text', $this->getUserName()),
+                'privacy_ident' => array('integer', $this->getPrivacyIdent()),
+                'privacy_name' => array('integer', $this->getPrivacyName()),
                 'force_privacy_settings' => array('integer', (int) $this->getForcePrivacySettings()),
                 'privacy_comment_default' => array('text', $this->getPrivacyCommentDefault()),
                 'external_lrs' => array('integer', $this->getExternalLrs()),

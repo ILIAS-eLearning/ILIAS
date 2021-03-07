@@ -102,20 +102,20 @@ class ilObjCmiXapi extends ilObject2
      * @var string
      */
     protected $userIdent;
-    const USER_IDENT_REAL_EMAIL = 'real_email';
-    const USER_IDENT_IL_UUID_USER_ID = 'il_uuid_user_id';
-    const USER_IDENT_IL_UUID_LOGIN = 'il_uuid_login';
-    const USER_IDENT_IL_UUID_EXT_ACCOUNT = 'il_uuid_ext_account';
-    const USER_IDENT_IL_UUID_RANDOM = 'il_uuid_random';
+    const PRIVACY_IDENT_IL_UUID_USER_ID = 0;
+    const PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT = 1;
+    const PRIVACY_IDENT_IL_UUID_LOGIN = 2;
+    const PRIVACY_IDENT_REAL_EMAIL = 3;
+    const PRIVACY_IDENT_IL_UUID_RANDOM = 4;
     
     /**
      * @var string
      */
     protected $userName;
-    const USER_NAME_NONE = 'none';
-    const USER_NAME_FIRSTNAME = 'firstname';
-    const USER_NAME_LASTNAME = 'lastname';
-    const USER_NAME_FULLNAME = 'fullname';
+    const PRIVACY_NAME_NONE = 0;
+    const PRIVACY_NAME_FIRSTNAME = 1;
+    const PRIVACY_NAME_LASTNAME = 2;
+    const PRIVACY_NAME_FULLNAME = 3;
 
     
     /**
@@ -216,8 +216,8 @@ class ilObjCmiXapi extends ilObject2
         $this->masteryScore = 0;
         $this->keepLpStatusEnabled = 1;
         
-        $this->userIdent = self::USER_IDENT_IL_UUID_USER_ID;
-        $this->userName = self::USER_NAME_NONE;
+        $this->userIdent = self::PRIVACY_IDENT_IL_UUID_USER_ID;
+        $this->userName = self::PRIVACY_NAME_NONE;
         $this->userPrivacyComment = '';
 
         $this->statementsReportEnabled = 0;
@@ -540,7 +540,7 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return string
      */
-    public function getUserIdent()
+    public function getPrivacyIdent()
     {
         return $this->userIdent;
     }
@@ -548,7 +548,7 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @param string $userIdent
      */
-    public function setUserIdent($userIdent)
+    public function setPrivacyIdent($userIdent)
     {
         $this->userIdent = $userIdent;
     }
@@ -556,7 +556,7 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return string
      */
-    public function getUserName()
+    public function getPrivacyName()
     {
         return $this->userName;
     }
@@ -564,7 +564,7 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @param string $userName
      */
-    public function setUserName($userName)
+    public function setPrivacyName($userName)
     {
         $this->userName = $userName;
     }
@@ -906,8 +906,8 @@ class ilObjCmiXapi extends ilObject2
             $this->setMasteryScore((float) $row['mastery_score']);
             $this->setKeepLpStatusEnabled((bool) $row['keep_lp']);
             
-            $this->setUserIdent($row['user_ident']);
-            $this->setUserName($row['user_name']);
+            $this->setPrivacyIdent($row['privacy_ident']);
+            $this->setPrivacyName($row['privacy_name']);
 
             $this->setOnlyMoveon((bool) $row['only_moveon']);
             $this->setAchieved((bool) $row['achieved']);
@@ -968,8 +968,8 @@ class ilObjCmiXapi extends ilObject2
             'launch_mode' => ['text', $this->getLaunchMode()],
             'mastery_score' => ['float', $this->getMasteryScore()],
             'keep_lp' => ['integer', (int) $this->isKeepLpStatusEnabled()],
-            'user_ident' => ['text', $this->getUserIdent()],
-            'user_name' => ['text', $this->getUserName()],
+            'privacy_ident' => ['integer', $this->getPrivacyIdent()],
+            'privacy_name' => ['integer', $this->getPrivacyName()],
             'usr_privacy_comment' => ['text', $this->getUserPrivacyComment()],
             'show_statements' => ['integer', (int) $this->isStatementsReportEnabled()],
             'xml_manifest' => ['text', $this->getXmlManifest()],
@@ -1049,8 +1049,8 @@ class ilObjCmiXapi extends ilObject2
         
         $query = "
 			UPDATE {$tableName}
-			SET user_ident = %s, 
-                user_name = %s, 
+			SET privacy_ident = %s, 
+                privacy_name = %s, 
                 only_moveon = %s, 
                 achieved = %s, 
                 answered = %s, 
@@ -1070,8 +1070,8 @@ class ilObjCmiXapi extends ilObject2
         
         $DIC->database()->manipulateF(
             $query,
-            ['text',
-             'text',
+            ['integer',
+             'integer',
              'integer',
              'integer',
              'integer',
@@ -1088,8 +1088,8 @@ class ilObjCmiXapi extends ilObject2
              'integer',
              'integer'
             ],
-            [$lrsType->getUserIdent(),
-             $lrsType->getUserName(),
+            [$lrsType->getPrivacyIdent(),
+             $lrsType->getPrivacyName(),
              $lrsType->getOnlyMoveon(),
              $lrsType->getAchieved(),
              $lrsType->getAnswered(),
@@ -1416,8 +1416,8 @@ class ilObjCmiXapi extends ilObject2
             'launch_mode' => $this->getLaunchMode(),
             'mastery_score' => $this->getMasteryScore(),
             'keep_lp' => (int) $this->isKeepLpStatusEnabled(),
-            'usr_ident' => $this->getUserIdent(),
-            'usr_name' => $this->getUserName(),
+            'privacy_ident' => $this->getPrivacyIdent(),
+            'privacy_name' => $this->getPrivacyName(),
             'usr_privacy_comment' => $this->getUserPrivacyComment(),
             'show_statements' => (int) $this->isStatementsReportEnabled(),
             'xml_manifest' => $this->getXmlManifest(),
@@ -1473,8 +1473,8 @@ class ilObjCmiXapi extends ilObject2
 		$new_obj->setLaunchMode($this->getLaunchMode());
 		$new_obj->setMasteryScore($this->getMasteryScore());
 		$new_obj->setKeepLpStatusEnabled($this->isKeepLpStatusEnabled());
-		$new_obj->setUserIdent($this->getUserIdent());
-		$new_obj->setUserName($this->getUserName());
+		$new_obj->setPrivacyIdent($this->getPrivacyIdent());
+		$new_obj->setPrivacyName($this->getPrivacyName());
 		$new_obj->setUserPrivacyComment($this->getUserPrivacyComment());
 		$new_obj->setStatementsReportEnabled($this->isStatementsReportEnabled());
 		$new_obj->setXmlManifest($this->getXmlManifest());

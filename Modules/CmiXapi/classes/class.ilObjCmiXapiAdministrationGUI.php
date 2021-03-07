@@ -231,59 +231,59 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $sectionHeader->setTitle('Privacy Settings');
         $form->addItem($sectionHeader);
         
-        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_ident'), 'user_ident');
+        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_ident'), 'privacy_ident');
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_user_id'),
-            ilCmiXapiLrsType::USER_IDENT_IL_UUID_USER_ID
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_user_id'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_USER_ID
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_user_id_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_user_id_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_login'),
-            ilCmiXapiLrsType::USER_IDENT_IL_UUID_LOGIN
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_login'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_LOGIN
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_login_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_login_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_ext_account'),
-            ilCmiXapiLrsType::USER_IDENT_IL_UUID_EXT_ACCOUNT
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_EXT_ACCOUNT
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_ext_account_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_il_uuid_random'),
-            ilCmiXapiLrsType::USER_IDENT_IL_UUID_RANDOM
+            $DIC->language()->txt('conf_privacy_ident_il_uuid_random'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_IL_UUID_RANDOM
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_random_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_il_uuid_random_info'));
         $item->addOption($op);
         $op = new ilRadioOption(
-            $DIC->language()->txt('conf_user_ident_real_email'),
-            ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
+            $DIC->language()->txt('conf_privacy_ident_real_email'),
+            ilCmiXapiLrsType::PRIVACY_IDENT_REAL_EMAIL
         );
-        $op->setInfo($DIC->language()->txt('conf_user_ident_real_email_info'));
+        $op->setInfo($DIC->language()->txt('conf_privacy_ident_real_email_info'));
         $item->addOption($op);
-        $item->setValue($lrsType->getUserIdent());
+        $item->setValue($lrsType->getPrivacyIdent());
         $item->setInfo(
-            $DIC->language()->txt('conf_user_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+            $DIC->language()->txt('conf_privacy_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
         );
         $item->setRequired(false);
         $form->addItem($item);
         
-        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_name'), 'user_name');
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_none'), ilCmiXapiLrsType::USER_NAME_NONE);
-        $op->setInfo($DIC->language()->txt('conf_user_name_none_info'));
+        $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), ilCmiXapiLrsType::PRIVACY_NAME_NONE);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_firstname'), ilCmiXapiLrsType::USER_NAME_FIRSTNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_firstname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_firstname'), ilCmiXapiLrsType::PRIVACY_NAME_FIRSTNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_firstname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_lastname'), ilCmiXapiLrsType::USER_NAME_LASTNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_lastname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_lastname'), ilCmiXapiLrsType::PRIVACY_NAME_LASTNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_lastname_info'));
         $item->addOption($op);
-        $op = new ilRadioOption($DIC->language()->txt('conf_user_name_fullname'), ilCmiXapiLrsType::USER_NAME_FULLNAME);
-        $op->setInfo($DIC->language()->txt('conf_user_name_fullname_info'));
+        $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_fullname'), ilCmiXapiLrsType::PRIVACY_NAME_FULLNAME);
+        $op->setInfo($DIC->language()->txt('conf_privacy_name_fullname_info'));
         $item->addOption($op);
-        $item->setValue($lrsType->getUserName());
-        $item->setInfo($DIC->language()->txt('conf_user_name_info'));
+        $item->setValue($lrsType->getPrivacyName());
+        $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));
         $item->setRequired(false);
         $form->addItem($item);
 
@@ -414,8 +414,8 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
         $lrsType->setLrsKey($form->getInput("lrs_key"));
         $lrsType->setLrsSecret($form->getInput("lrs_secret"));
         $lrsType->setExternalLrs($form->getInput("external_lrs"));
-        $lrsType->setUserIdent($form->getInput("user_ident"));
-        $lrsType->setUserName($form->getInput("user_name"));
+        $lrsType->setPrivacyIdent($form->getInput("privacy_ident"));
+        $lrsType->setPrivacyName($form->getInput("privacy_name"));
         $lrsType->setPrivacyCommentDefault($form->getInput("privacy_comment_default"));
         $lrsType->setRemarks($form->getInput("remarks"));
         

@@ -745,25 +745,25 @@ class ilObjLTIConsumer extends ilObject2
         $nameGiven = '-';
         $nameFamily = '-';
         $nameFull = '-';
-        switch ($this->getProvider()->getUserName()) {
-            case ilLTIConsumeProvider::USER_NAME_FIRSTNAME:
+        switch ($this->getProvider()->getPrivacyName()) {
+            case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFull = $DIC->user()->getFirstname();
                 break;
-            case ilLTIConsumeProvider::USER_NAME_LASTNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
                 $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
                 $usrName .= $DIC->user()->getLastname();
                 $nameFamily = $usrName;
                 $nameFull = $usrName;
                 break;
-            case ilLTIConsumeProvider::USER_NAME_FULLNAME:
+            case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
                 $nameGiven = $DIC->user()->getFirstname();
                 $nameFamily = $DIC->user()->getLastname();
                 $nameFull = $DIC->user()->getFullname();
                 break;
         }
 
-        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getUserIdent(), $DIC->user());
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
 
         $emailPrimary = $cmixUser->getUsrIdent();
 
