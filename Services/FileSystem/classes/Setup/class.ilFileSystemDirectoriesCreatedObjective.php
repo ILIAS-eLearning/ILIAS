@@ -35,10 +35,8 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
-
-        $data_dir = $ini->readVariable('clients', 'datadir');
+        $data_dir = $this->config->getDataDir();
         $web_dir = dirname(__DIR__, 4) . "/data";
 
         $client_data_dir = $data_dir . '/' . $client_id;
