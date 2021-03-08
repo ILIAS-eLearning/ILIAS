@@ -35,7 +35,9 @@ class Text extends Input implements C\Input\Field\Text
 
     public function withMaxLength(int $max_length)
     {
-        $clone = clone $this;
+        $clone = $this->withAdditionalTransformation(
+            $this->refinery->string()->hasMaxLength($max_length)
+        );
         $clone->max_length = $max_length;
 
         return $clone;
