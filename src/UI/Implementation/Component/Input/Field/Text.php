@@ -38,6 +38,7 @@ class Text extends Input implements C\Input\Field\Text
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_length)
         );
+
         $clone->max_length = $max_length;
 
         return $clone;
