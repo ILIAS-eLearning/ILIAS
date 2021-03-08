@@ -179,8 +179,8 @@ class TextInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $html = $this->normalizeHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$name\" class=\"control-label col-sm-3\">$label</label>"
-        . "	<div class=\"col-sm-9\">" . "		<input type=\"text\" name=\"$name\" maxlength=\"8\"  class=\"form-control form-control-sm\" />" . "		"
+        $expected = "<div class=\"form-group row\">" . "	<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+        . "	<div class=\"col-sm-9\">" . "		<input id=\"id_1\" type=\"text\" name=\"$name\" maxlength=\"8\"  class=\"form-control form-control-sm\" />" . "		"
             . "		" . "	</div>" . "</div>";
         $this->assertEquals($expected, $html);
     }
