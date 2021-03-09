@@ -182,6 +182,8 @@ class ilObjSCORMTracking
         $ilDB = $DIC['ilDB'];
         
         $b_updateStatus = false;
+        $i_score_max = 0;
+        $i_score_raw = 0;
         
         $b_messageLog = false;
         if ($ilLog->current_log_level == 30) {
@@ -256,6 +258,16 @@ class ilObjSCORMTracking
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
                     }
                 }
+                if ($a_data["left"] == 'cmi.core.score.max') {
+                    $i_score_max = $a_data["right"];
+                }
+                if ($a_data["left"] == 'cmi.core.score.raw') {
+                    $i_score_raw = $a_data["right"];
+                }
+            }
+            // mantis #30293
+            if ($i_score_max > 0 && $i_score_raw > 0) {
+                ilLTIAppEventListener::handleOutcomeWithoutLP($obj_id, $user_id, ($i_score_raw / $i_score_max) * 100);
             }
         }
         
