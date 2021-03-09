@@ -1,6 +1,9 @@
 <?php
+
+use ILIAS\Calendar\FileHandler\ilFileProperty;
+
 /**
- * Appointemtn file handler interface
+ * Appointment file handler interface
  *
  * @author Alex Killing <killing@leifos.de>
  *
@@ -8,5 +11,8 @@
  */
 interface ilAppointmentFileHandler
 {
-    public function getFiles();
+    /**
+     * @return ilFileProperty[]
+     */
+    public function getFiles() : array;
 }
