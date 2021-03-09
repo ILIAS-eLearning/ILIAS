@@ -55,8 +55,9 @@ The ILIAS code style can be checked/applied with/by different tools.
 When working with the `PhpStorm` IDE developers can import the
 [PhpStorm Code Style](./code-style-configs/php-storm.xml).
 
-Furthermore multiple [Git Hooks](./git-hooks.md#code-style-hooks) are provided
-to check or fix the code style of changed files in a Git commit.
+Furthermore multiple [Git Hooks](./git-hooks.md) are provided
+to [check or fix the code style](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks/hooks/code-style)
+of changed files in a Git commit.
 
 Developers can additionally use the [PHP Coding Standards Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer)
 to check or fix one or multiple files.
