@@ -1,4 +1,4 @@
-// Build: 2021217191655 
+// Build: 2021310214513 
 
 function ADLAuxiliaryResource()
 {}
@@ -2591,10 +2591,10 @@ if(async)
 {xhttp.onreadystatechange=onStateChange;xhttp.send(data?String(data):'');}else
 {xhttp.send(data?String(data):'');return onStateChange();}}
 function sendJSONRequest(url,data,callback,user,password,headers)
-{function unloadChrome(){if(navigator.userAgent.indexOf("Chrom")>-1){if(typeof(document.getElementById("res"))!="undefined"&&typeof(document.getElementById("res").contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.event.type=="beforeunload")){return true;}}
+{function unloadChrome(){if(navigator.userAgent.indexOf("Chrom")>-1){if((typeof(document.getElementById("res"))!="undefined"&&typeof(document.getElementById("res").contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.event.type=="beforeunload"))||(typeof(window.event)!="undefined"&&(window.event.type=="unload"||window.event.type=="beforeunload"))){return true;}}
 return false;}
 if(typeof headers!=="object"){headers={};}
-headers['Accept']='text/javascript';headers['Accept-Charset']='UTF-8';if(url==this.config.store_url&&unloadChrome()){var r=sendAndLoad(url,toJSONString(data),true,user,password,headers);console.log("async request for chrome");return"1";}
+headers['Accept']='text/javascript';headers['Accept-Charset']='UTF-8';if(url==this.config.store_url&&unloadChrome()){var r=sendAndLoad(url,toJSONString(data),true,user,password,headers);console.log("async request for chrome");windowOpenerLoc.reload();return"1";}
 if(url==this.config.scorm_player_unload_url&&navigator.userAgent.indexOf("Chrom")>-1){navigator.sendBeacon(url,toJSONString(data));return"1";}
 var r=sendAndLoad(url,toJSONString(data),callback,user,password,headers);if(r.content){if(r.content.indexOf("login.php")>-1||r.content.indexOf("formlogin")>-1){var thref=window.location.href;thref=thref.substring(0,thref.indexOf('ilias.php'))+"Modules/Scorm2004/templates/default/session_timeout.html";window.location.href=thref;}}
 if((r.status===200&&(/^text\/javascript;?.*/i).test(r.type))||r.status===0)
