@@ -94,7 +94,7 @@ class ilIndividualAssessmentMembersTableGUI
      */
     protected function getHeadline(ilIndividualAssessmentMember $record) : string
     {
-        return $record->lastname() . ", " . $record->firstname();
+        return $record->lastname() . ", " . $record->firstname() . " [" . $record->login() . "]";
     }
 
     /**

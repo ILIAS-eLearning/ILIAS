@@ -6,6 +6,7 @@ use ILIAS\File\Sanitation\FilePathSanitizer;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Revision\Revision;
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
  * Class ilObjFile
@@ -102,7 +103,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
          * @var $DIC Container
          */
         $this->manager = $DIC->resourceStorage()->manage();
-        $this->stakeholder = new ilObjFileStakeholder();
+        $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
         $this->upload = $DIC->upload();
         $this->version = 0;
         $this->max_version = 0;
@@ -113,10 +114,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     protected function initImplementation() : void
     {
-        if ($this->resource_id) {
-            $id = $this->manager->find($this->resource_id);
+        if ($this->resource_id && ($id = $this->manager->find($this->resource_id)) !== null) {
             $resource = $this->manager->getResource($id);
             $this->implementation = new ilObjFileImplementationStorage($resource);
+            $this->setMaxVersion($resource->getMaxRevision());
+            $this->setVersion($resource->getMaxRevision());
         } else {
             $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
                 $this->getFileName());
@@ -130,14 +132,15 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getTitle());
         $this->setVersion($r->getVersionNumber());
+        $this->setMaxVersion($r->getVersionNumber());
         $this->setFileSize($r->getInformation()->getSize());
         $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
-        $this->createPreview();
+        $this->createPreview(true);
         $this->addNewsNotification("file_updated");
     }
 
-    public function appendStream(FileStream $stream, string $title, bool $keep_existing = true) : int
+    public function appendStream(FileStream $stream, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
@@ -152,7 +155,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $revision->getVersionNumber();
     }
 
-    public function appendUpload(UploadResult $result, string $title, bool $keep_existing = true) : int
+    public function appendUpload(UploadResult $result, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevision($i, $result, $this->stakeholder, $title);
@@ -161,6 +164,36 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $revision = $this->manager->getCurrentRevision($i);
             $this->setResourceId($i->serialize());
             $this->initImplementation();
+        }
+        if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+            $this->setPageCount($result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
+        }
+        $this->updateObjectFromRevision($revision);
+
+        return $revision->getVersionNumber();
+    }
+
+    public function replaceWithStream(FileStream $stream, string $title) : int
+    {
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $revision = $this->manager->replaceWithStream($i, $stream, $this->stakeholder, $title);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
+        }
+        $this->updateObjectFromRevision($revision);
+
+        return $revision->getVersionNumber();
+    }
+
+    public function replaceWithUpload(UploadResult $result, string $title) : int
+    {
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $revision = $this->manager->replaceWithUpload($i, $result, $this->stakeholder, $title);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
+        }
+        if ($result->getMetaData()->has(ilCountPDFPagesPreProcessors::PAGE_COUNT)) {
+            $this->setPageCount($result->getMetaData()->get(ilCountPDFPagesPreProcessors::PAGE_COUNT));
         }
         $this->updateObjectFromRevision($revision);
 
@@ -361,7 +394,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setPageCount($row->page_count);
         $this->setResourceId($row->rid);
 
-        $this->initImplementation($DIC);
+        $this->initImplementation();
     }
 
     protected function doCloneObject($new_object, $a_target_id, $a_copy_id = 0)
@@ -395,9 +428,22 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         );
 
         // Copy Resource
-        $new_resource_identification = $this->manager->clone($this->manager->find($this->resource_id));
-        $new_object->setResourceId($new_resource_identification->serialize());
-        $new_object->update();
+        if ($this->resource_id
+            && ($identification = $this->manager->find($this->resource_id)) instanceof ResourceIdentification) {
+            $new_resource_identification = $this->manager->clone($identification);
+            $new_object->setResourceId($new_resource_identification->serialize());
+            $new_object->update();
+        } else {
+            // migrate
+            global $DIC;
+            $migration = new ilFileObjectToStorageMigrationRunner(
+                $DIC->fileSystem()->storage(),
+                $DIC->database(),
+                rtrim(CLIENT_DATA_DIR, "/") . '/ilFile/migration_log.csv'
+            );
+            $migration->setMigrateToNewObjectId((int) $new_object->getId());
+            $migration->migrate(new ilFileObjectToStorageDirectory($this->getId(), $this->getDirectory()));
+        }
 
         // copy all previews
         ilPreview::copyPreviews($this->getId(), $new_object->getId());
@@ -533,10 +579,12 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @description This Method is used to append a fileupload by it's POST-name to the current ilObjFile
+     * @deprecated
+     * @see         appendUpload(), appendStream()
      */
     public function getUploadFile($a_upload_file, string $title, bool $a_prevent_preview = false) : bool
     {
-        $this->prepareUpload($a_prevent_preview);
+        $this->prepareUpload();
 
         $results = $this->upload->getResults();
         $upload = $results[$a_upload_file];
@@ -578,24 +626,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_upload_file
-     * @param $a_filename
-     * @return bool
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @deprecated
-     */
-    public function addFileVersion($a_upload_file, $a_filename)
-    {
-        $this->prepareUpload();
-
-        $upload = $this->upload->getResults()[$a_upload_file];
-        $this->appendUpload($upload, $a_filename);
-
-        return true;
-    }
-
-    /**
      * @ineritdoc
+     * @deprecated
      */
     public function clearDataDirectory()
     {
@@ -604,6 +636,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     /**
      * @ineritdoc
+     * @deprecated
      */
     public function deleteVersions($a_hist_entry_ids = null)
     {
@@ -642,6 +675,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * Stores Files unzipped from uploaded archive in filesystem
      * @param string $a_upload_file
      * @param string $a_filename
+     * @deprecated
      */
 
     public function storeUnzipedFile($a_upload_file, $a_filename)
@@ -672,97 +706,18 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * Makes the specified version the current one and returns theSummary of rollbackVersion
+     * Makes the specified version the current one
      * @param int $version_id The id of the version to make the current one.
-     * @return array The new actual version.
      */
-    public function rollback($version_id)
+    public function rollback(int $version_id) : void
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        $source = $this->getSpecificVersion($version_id);
-        if ($source === false) {
-            $this->ilErr->raiseError($this->lng->txt("obj_not_found"), $this->ilErr->MESSAGE);
+        if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
+            $this->manager->rollbackRevision($i, $version_id);
+            $latest_revision = $this->manager->getCurrentRevision($i);
+            $this->updateObjectFromRevision($latest_revision);
+        } else {
+            throw new LogicException('only files with existing resource and revision can be replaced');
         }
-
-        // get the new version number
-        $new_version_nr = $this->getMaxVersion() + 1;
-        $this->setMaxVersion($new_version_nr);
-
-        // copy file
-        $source_path = $this->getDirectory($source["version"]) . "/" . $source["filename"];
-        $dest_dir = $this->getDirectory($new_version_nr);
-        if (@!is_dir($dest_dir)) {
-            ilUtil::makeDir($dest_dir);
-        }
-
-        copy($source_path, $dest_dir . "/" . $source["filename"]);
-
-        // create new history entry based on the old one
-        include_once("./Services/History/classes/class.ilHistory.php");
-        ilHistory::_createEntry($this->getId(), "rollback", $source["filename"] . ","
-            . $new_version_nr . ","
-            . $this->getMaxVersion() . "|"
-            . $source["version"] . "|"
-            . $ilUser->getId());
-
-        // get id of newest entry
-        $entries = ilHistory::_getEntriesForObject($this->getId());
-        $newest_entry_id = 0;
-        foreach ($entries as $entry) {
-            if ($entry["action"] == "rollback") {
-                $newest_entry_id = $entry["hist_entry_id"];
-            }
-        }
-        $new_version = $this->getSpecificVersion($newest_entry_id);
-        $new_version['version'] = $new_version_nr;
-        $new_version['max_version'] = $new_version_nr;
-
-        // change user back to the original uploader
-        ilHistory::_changeUserId($new_version["hist_entry_id"], $source["user_id"]);
-
-        // update this file with the new version
-        $this->updateWithVersion($new_version);
-
-        $this->addNewsNotification("file_updated");
-
-        return $new_version;
-    }
-
-    /**
-     * @param int $version_id
-     * @return array
-     * @deprecated
-     */
-    public function getSpecificVersion($version_id)
-    {
-        return $this->implementation->getSpecificVersion($version_id);
-    }
-
-    /**
-     * Updates the file object with the specified file version.
-     * @param array $version The version to update the file object with.
-     */
-    // FSX
-    protected function updateWithVersion($version)
-    {
-        // update title (checkFileExtension must be called before setFileName!)
-        $this->setTitle($this->checkFileExtension($version["filename"], $this->getTitle()));
-
-        $this->setVersion($version["version"]);
-        $this->setMaxVersion($version["max_version"]);
-        $this->setFileName($version["filename"]);
-
-        // evaluate mime type (reset file type before)
-        $this->setFileType("");
-        $this->setFileType($this->guessFileType($version["filename"]));
-
-        $this->update();
-
-        // refresh preview
-        $this->createPreview(true);
     }
 
     /**

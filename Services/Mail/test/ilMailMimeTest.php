@@ -47,7 +47,7 @@ class ilMailMimeTest extends ilMailBaseTest
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mail = new ilMimeMail();
-        $mail->send($transport);
+        $mail->Send($transport);
     }
 
     /**
@@ -69,7 +69,7 @@ class ilMailMimeTest extends ilMailBaseTest
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mail = new ilMimeMail();
-        $mail->send();
+        $mail->Send();
     }
 
     /**

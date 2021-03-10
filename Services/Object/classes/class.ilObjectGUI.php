@@ -213,8 +213,8 @@ class ilObjectGUI
         $this->prepare_output = $a_prepare_output;
         $this->creation_mode = false;
 
-        $this->ref_id = ($this->call_by_reference) ? $this->id : $_GET["ref_id"];
-        $this->obj_id = ($this->call_by_reference) ? $_GET["obj_id"] : $this->id;
+        $this->ref_id = (int) ($this->call_by_reference ? $this->id : ($_GET["ref_id"] ?? 0));
+        $this->obj_id = (int) ($this->call_by_reference ? ($_GET["obj_id"] ?? 0) : $this->id);
 
         if ($this->id != 0) {
             $this->link_params = "ref_id=" . $this->ref_id;
@@ -570,7 +570,7 @@ class ilObjectGUI
     *
     * @param	array		$a_actions		array with $command => $lang_var pairs
     */
-    final private function setActions($a_actions = "")
+    private function setActions($a_actions = "")
     {
         if (is_array($a_actions)) {
             foreach ($a_actions as $name => $lng) {
@@ -587,7 +587,7 @@ class ilObjectGUI
     *
     * @param	array		$a_actions		array with $command => $lang_var pairs
     */
-    final private function setSubObjects($a_sub_objects = "")
+    private function setSubObjects($a_sub_objects = "")
     {
         if (is_array($a_sub_objects)) {
             foreach ($a_sub_objects as $name => $options) {

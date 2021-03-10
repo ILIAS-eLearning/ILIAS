@@ -43,6 +43,7 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.mode.html", true, true);
 
+        $activate_first_item = false;
         $active = $component->getActive();
         if ($active == "") {
             $activate_first_item = true;
@@ -109,7 +110,7 @@ class Renderer extends AbstractComponentRenderer
         } else {
             $tpl->touchBlock($type . "_disabled");
         }
-        $this->maybeRenderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
+        $this->renderId($component, $tpl, $type . "_with_id", $uptype . "_ID");
     }
 
 
@@ -124,19 +125,16 @@ class Renderer extends AbstractComponentRenderer
         if ($triggeredSignals) {
             $internal_signal = $component->getSelectSignal();
             $signal = $triggeredSignals[0]->getSignal();
-            $options = json_encode($signal->getOptions());
 
-            $component = $component->withOnLoadCode(function ($id) use ($internal_signal, $signal) {
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($internal_signal, $signal) {
                 return "$(document).on('{$internal_signal}', function(event, signalData) {
 							il.UI.viewcontrol.sortation.onInternalSelect(event, signalData, '{$signal}', '{$id}');
 							return false;
 						})";
             });
-
-            //maybeRenderId does not return id
-            $id = $this->bindJavaScript($component);
-            $tpl->setVariable('ID', $id);
         }
+
+        $this->renderId($component, $tpl, "id", "ID");
 
         //setup entries
         $options = $component->getOptions();
@@ -375,14 +373,15 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var)
+    protected function renderId(Component\Component $component, $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
-        if ($id !== null) {
-            $tpl->setCurrentBlock($block);
-            $tpl->setVariable($template_var, $id);
-            $tpl->parseCurrentBlock();
+        if (!$id) {
+            $id = $this->createId();
         }
+        $tpl->setCurrentBlock($block);
+        $tpl->setVariable($template_var, $id);
+        $tpl->parseCurrentBlock();
     }
 
     /**

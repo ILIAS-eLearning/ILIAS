@@ -1228,7 +1228,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($parent_ref_id);
-        $gui->setDisabledObjectTypes(array("itgr", "sess"));
+        $gui->setDisabledObjectTypes(
+            array_merge(
+                [
+                    'itgr', 'sess'
+                ],
+                $objDefinition->getSideBlockTypes()
+            )
+        );
         $gui->setAfterCreationCallback($this->ref_id);
         $gui->render();
 

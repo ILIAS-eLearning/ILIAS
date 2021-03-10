@@ -104,6 +104,7 @@ class ilUtil
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
         }
+        $skin_img = "";
         if ($current_skin == "default") {
             $user_img = "." . $module_path . "/templates/default/" . $image_dir . "/" . $img;
             $skin_img = "." . $module_path . "/templates/default/images/" . $img;
@@ -2991,16 +2992,11 @@ class ilUtil
     }
 
     /**
-    * sub-function to sort an array
-    *
-    * @param	array	$a
-    * @param	array	$b
-    *
-    * @return	boolean	true on success / false on error
-    * @static
-    *
-    */
-    public static function sort_func($a, $b)
+     * @param array $left
+     * @param array $right
+     * @return int
+     */
+    public static function sort_func(array $left, array $right) : int
     {
         global $array_sortby,$array_sortorder;
 
@@ -3009,39 +3005,39 @@ class ilUtil
             $array_sortby = 0;
         }
 
+        $leftValue = (string) ($left[$array_sortby] ?? '');
+        $rightValue = (string) ($right[$array_sortby] ?? '');
+
         // this comparison should give optimal results if
         // locale is provided and mb string functions are supported
-        if ($array_sortorder == "asc") {
-            return ilStr::strCmp($a[$array_sortby], $b[$array_sortby]);
+        if ($array_sortorder === "asc") {
+            return ilStr::strCmp($leftValue, $rightValue);
+        } elseif ($array_sortorder === "desc") {
+            return ilStr::strCmp($rightValue, $leftValue);
         }
 
-        if ($array_sortorder == "desc") {
-            return !ilStr::strCmp($a[$array_sortby], $b[$array_sortby]);
-            return strcoll(ilStr::strToUpper($b[$array_sortby]), ilStr::strToUpper($a[$array_sortby]));
-        }
+        return 0;
     }
 
     /**
-    * sub-function to sort an array
-    *
-    * @param	array	$a
-    * @param	array	$b
-    *
-    * @return	boolean	true on success / false on error
-    * @static
-    *
-    */
-    public static function sort_func_numeric($a, $b)
+     * @param array $left
+     * @param array $right
+     * @return int
+     */
+    public static function sort_func_numeric(array $left, array $right) : int
     {
         global $array_sortby,$array_sortorder;
 
-        if ($array_sortorder == "asc") {
-            return $a["$array_sortby"] > $b["$array_sortby"];
+        $leftValue = (string) ($left[$array_sortby] ?? '');
+        $rightValue = (string) ($right[$array_sortby] ?? '');
+
+        if ($array_sortorder === "asc") {
+            return $leftValue <=> $rightValue;
+        } elseif ($array_sortorder === "desc") {
+            return $rightValue <=> $leftValue;
         }
 
-        if ($array_sortorder == "desc") {
-            return $a["$array_sortby"] < $b["$array_sortby"];
-        }
+        return 0;
     }
     /**
     * sortArray

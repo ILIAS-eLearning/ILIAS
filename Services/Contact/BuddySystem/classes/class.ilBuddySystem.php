@@ -75,7 +75,7 @@ class ilBuddySystem
             return false;
         }
 
-        self::$isEnabled = (bool) $this->settings->get('enabled', false);
+        self::$isEnabled = (bool) $this->settings->get('enabled');
         return self::$isEnabled;
     }
 }

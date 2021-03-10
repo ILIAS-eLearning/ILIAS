@@ -37,7 +37,7 @@ class ilMailSearchResult
     }
 
     /**
-     * @param integer $id
+     * @param int $id
      * @return array
      * @throws OutOfBoundsException
      */

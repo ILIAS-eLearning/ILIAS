@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\RoundTrip;
+
 function show_multi_step_modal()
 {
     global $DIC;
@@ -7,7 +10,7 @@ function show_multi_step_modal()
 
     $url = $_SERVER['REQUEST_URI'];
 
-    $page = $_GET["page"];
+    $page = isset($_GET["page"]) ? $_GET["page"] : "";
     if ($page == "") {
         $modal = $f->modal()->roundtrip("Modal Title", $f->legacy("b"));
         $asyncUrl = $url . '&page=login&replaceSignal=' . $modal->getReplaceSignal()->getId();
@@ -17,7 +20,7 @@ function show_multi_step_modal()
         $content = $r->render([$modal, $button]);
         return $content;
     } else {
-        $signalId = $_GET['replaceSignal'];
+        $signalId = isset($_GET["replaceSignal"]) ? $_GET["replaceSignal"] : "";
         $replaceSignal = new \ILIAS\UI\Implementation\Component\ReplaceSignal($signalId);
         $button1 = $f->button()->standard('Login', '#')
             ->withOnClick($replaceSignal->withAsyncRenderUrl($url . '&page=login&replaceSignal=' . $replaceSignal->getId()));

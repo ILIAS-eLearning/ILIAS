@@ -9,7 +9,7 @@
 abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
 {
     /** @var array */
-    private $elements = [];
+    private $elements;
 
     /**
      * ilBuddySystemArrayCollection constructor.
@@ -31,7 +31,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return $this->containsKey($offset);
     }
@@ -68,7 +68,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function count()
+    public function count() : int
     {
         return count($this->elements);
     }
@@ -87,7 +87,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     public function remove($key) : void
     {
         if (!isset($this->elements[$key]) && !array_key_exists($key, $this->elements)) {
-            throw new InvalidArgumentException(sprintf("Could not find an element for key: %s", $key));
+            throw new InvalidArgumentException(sprintf('Could not find an element for key: %s', $key));
         }
         unset($this->elements[$key]);
     }
@@ -99,7 +99,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     {
         $key = array_search($element, $this->elements, true);
         if (false === $key) {
-            throw new InvalidArgumentException("Could not find an key for the passed element.");
+            throw new InvalidArgumentException('Could not find an key for the passed element.');
         }
         unset($this->elements[$key]);
     }
@@ -179,7 +179,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function filter(callable $callable)
+    public function filter(callable $callable) : ilBuddySystemCollection
     {
         return new static(array_filter($this->elements, $callable));
     }
@@ -187,7 +187,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     /**
      * @inheritDoc
      */
-    public function slice($offset, $length = null)
+    public function slice(int $offset, int $length = null) : ilBuddySystemCollection
     {
         return new static(array_slice($this->elements, $offset, $length, true));
     }

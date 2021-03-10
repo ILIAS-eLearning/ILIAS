@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Table\Data;
 
 use ILIAS\UI\Implementation\Component\Table as T;
 use ILIAS\UI\Component\Table as I;

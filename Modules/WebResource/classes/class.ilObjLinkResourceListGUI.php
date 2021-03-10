@@ -132,7 +132,10 @@ class ilObjLinkResourceListGUI extends ilObjectListGUI
     */
     public function getCommandLink($a_cmd)
     {
-        if ($_REQUEST["wsp_id"] || $_REQUEST["cmdClass"] == "ilpersonalworkspacegui") {
+        if (
+            (isset($_REQUEST["wsp_id"]) && $_REQUEST["wsp_id"]) ||
+            (isset($_REQUEST["cmdClass"]) && $_REQUEST["cmdClass"] === "ilpersonalworkspacegui")
+        ) {
             if (ilObjLinkResourceAccess::_checkDirectLink($this->obj_id) &&
                 !ilLinkResourceList::checkListStatus($this->obj_id) &&
                 $a_cmd == '') {

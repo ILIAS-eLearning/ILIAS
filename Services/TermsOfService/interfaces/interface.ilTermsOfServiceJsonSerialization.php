@@ -7,5 +7,8 @@
  */
 interface ilTermsOfServiceJsonSerialization
 {
+    /**
+     * @return string
+     */
     public function toJson() : string;
 }

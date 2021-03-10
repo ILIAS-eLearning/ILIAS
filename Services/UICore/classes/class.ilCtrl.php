@@ -102,6 +102,11 @@ class ilCtrl
     protected $inner_base_class = "";
 
     /**
+     * @var string
+     */
+    protected $verified_cmd = '';
+
+    /**
      * control class constructor
      */
     public function __construct()
@@ -139,40 +144,30 @@ class ilCtrl
      */
     public function callBaseClass()
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        $baseClass = strtolower($_GET["baseClass"]);
+        $baseClass = strtolower($_GET['baseClass']);
 
         $module_class = ilCachedCtrl::getInstance();
         $mc_rec = $module_class->lookupModuleClass($baseClass);
 
-        $module = $mc_rec["module"];
-        $class = $mc_rec["class"];
-        $class_dir = $mc_rec["dir"];
-        
-        if ($module != "") {
-            $m_set = $ilDB->query("SELECT * FROM il_component WHERE name = " .
-                $ilDB->quote($module, "text"));
-            $m_rec = $ilDB->fetchAssoc($m_set);
-        } else {		// check whether class belongs to a service
+        $module = ($mc_rec['module'] ?? '');
+        $class = ($mc_rec['class'] ?? '');
+
+        if ($module === '') {
             $mc_rec = $module_class->lookupServiceClass($baseClass);
 
-            $service = $mc_rec["service"];
-            $class = $mc_rec["class"];
-            $class_dir = $mc_rec["dir"];
-            
-            if ($service == "") {
-                include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
-                throw new ilCtrlException("Could not find entry in modules.xml or services.xml for " .
-                    $baseClass . " <br/>" . str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"])));
+            $service = $mc_rec['service'];
+            $class = $mc_rec['class'];
+
+            if ($service === '') {
+                throw new ilCtrlException(
+                    "Could not find entry in modules.xml or services.xml for " .
+                    $baseClass . " <br/>" . str_replace("&", "<br />&", htmlentities($_SERVER["REQUEST_URI"]))
+                );
             }
 
-            $m_rec = ilComponent::getComponentInfo('Services', $service);
+            ilComponent::getComponentInfo('Services', $service);
         }
-        
-        // forward processing to base class
+
         $this->getCallStructure(strtolower($baseClass));
         $base_class_gui = new $class();
         $this->forwardCommand($base_class_gui);
@@ -239,6 +234,7 @@ class ilCtrl
     {
         $class = strtolower(get_class($a_gui_object));
 
+        $baseclass = '';
         if (count($class_path) > 0) {
             $class_path = array_merge($class_path, [$class]);
             $p = $this->getParameterArrayByClass($class_path);
@@ -253,7 +249,8 @@ class ilCtrl
             $current_inner_base_class = $this->inner_base_class;
             $this->use_current_to_determine_next = true;
 
-            if ($baseclass != $_GET["baseClass"]) {
+            $requestBaseClass = (string) ($_GET["baseClass"] ?? '');
+            if ($baseclass != $requestBaseClass) {
                 $this->inner_base_class = $baseclass;
             }
             $current_node = $this->current_node;
@@ -418,11 +415,11 @@ class ilCtrl
         if ($a_class != "") {
             $module_class = ilCachedCtrl::getInstance();
             $mc_rec = $module_class->lookupModuleClass($class);
-            $n_class = $mc_rec['lower_class'];
+            $n_class = $mc_rec['lower_class'] ?? '';
 
             if ($n_class == "") {
                 $mc_rec = $module_class->lookupServiceClass($class);
-                $n_class = $mc_rec['lower_class'];
+                $n_class = $mc_rec['lower_class'] ?? '';
             }
             
             if ($n_class != "") {
@@ -482,9 +479,9 @@ class ilCtrl
      *
      * @return	string		id of current command target node
      */
-    public function getCmdNode()
+    public function getCmdNode() : string
     {
-        return $_GET["cmdNode"];
+        return $_GET["cmdNode"] ?? '';
     }
 
     /**
@@ -700,7 +697,7 @@ class ilCtrl
         $objDefinition = $DIC["objDefinition"];
         
         // forward to learning progress settings if possible and accessible
-        if ($_GET["gotolp"] &&
+        if (isset($_GET["gotolp"]) && $_GET["gotolp"] &&
             $a_gui_obj) {
             $ref_id = $_GET["ref_id"];
             if (!$ref_id) {
@@ -1034,7 +1031,7 @@ class ilCtrl
      */
     public function getCmdClass()
     {
-        return strtolower($_GET["cmdClass"]);
+        return strtolower($_GET["cmdClass"] ?? '');
     }
 
     /**
@@ -1144,7 +1141,7 @@ class ilCtrl
                     $ilDB->quote($ilUser->getId(), "integer") .
                     " AND session_id = " . $ilDB->quote(session_id(), "text"));
                 $rec = $ilDB->fetchAssoc($res);
-                if ($rec["token"] != "") {
+                if (isset($rec["token"]) && $rec["token"] != "") {
                     $this->rtoken = $rec["token"];
                     return $rec["token"];
                 }
@@ -1793,7 +1790,7 @@ class ilCtrl
     private function getParentCidOfNode($a_node)
     {
         $class_ids = explode(":", $a_node);
-        return $class_ids[count($class_ids) - 2];
+        return $class_ids[count($class_ids) - 2] ?? '';
     }
 
     /**

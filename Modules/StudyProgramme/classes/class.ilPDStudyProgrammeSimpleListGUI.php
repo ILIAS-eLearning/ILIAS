@@ -37,7 +37,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
     protected $il_setting;
 
     /**
-     * @var ilStudyProgrammeUserAssignment[]
+     * @var ilStudyProgrammeAssignment[]
      */
     protected $users_assignments;
 
@@ -179,9 +179,9 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
     }
 
-    protected function hasPermission(ilStudyProgrammeUserAssignment $assignment, $permission)
+    protected function hasPermission(ilStudyProgrammeAssignment $assignment, $permission)
     {
-        $prg = $assignment->getStudyProgramme();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
         return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
@@ -191,12 +191,12 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
     }
 
-    protected function isVisible(ilStudyProgrammeUserAssignment $assignment)
+    protected function isVisible(ilStudyProgrammeAssignment $assignment)
     {
         return $this->hasPermission($assignment, "visible");
     }
 
-    protected function isReadable(ilStudyProgrammeUserAssignment $assignment)
+    protected function isReadable(ilStudyProgrammeAssignment $assignment)
     {
         if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
@@ -219,9 +219,10 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->il_user->getId());
     }
     
-    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)
+    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeAssignment $a_assignment)
     {
-        $progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
+        $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
+        $progress = $prg->getProgressForAssignment($a_assignment->getId());
         $progress_gui = new ilStudyProgrammeProgressListGUI($progress);
         $progress_gui->setOnlyRelevant(true);
         return $progress_gui;

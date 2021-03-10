@@ -37,7 +37,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
                 return 0 === count($this->filterEqualValues($value));
             },
             function ($txt, $value) {
-                return "The passed assignment must be unique for the document!";
+                return 'The passed assignment must be unique for the document!';
             },
             $dataFactory,
             $lng

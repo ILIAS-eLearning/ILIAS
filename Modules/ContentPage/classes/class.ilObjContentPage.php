@@ -99,7 +99,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
      */
     protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null)
     {
-        /** @var $new_obj self */
+        /** @var self $new_obj */
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
         $ot = ilObjectTranslation::getInstance($this->getId());
@@ -254,7 +254,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
     {
         $pageObjIds = [];
 
-        $sql = "SELECT DISTINCT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s";
+        $sql = 'SELECT DISTINCT page_id FROM page_object WHERE parent_id = %s AND parent_type = %s';
         $res = $this->db->queryF(
             $sql,
             ['integer', 'text'],

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\MainControls\MetaBar;
+
 /**
  * This is a rather extended example on the usage of the Notification Item async
  * functionality provided by src/UI/templates/js/Item/notification.js.
@@ -50,7 +53,7 @@ function extended_notifications()
     //Endpoint for adding one single aggreate item
     $async_add_aggregate = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=true';
 
-    if ($_GET['close_item'] === "true") {
+    if (isset($_GET['close_item']) && $_GET['close_item'] === "true") {
         //Note that we passe back JS logic here for further processing here
         $js = $f->legacy("")->withOnLoadCode(function ($id) use ($async_replace_content_load_url) {
             return "
@@ -62,7 +65,7 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_load_replace'] === "true") {
+    if (isset($_GET['async_load_replace']) && $_GET['async_load_replace'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
 
@@ -79,7 +82,7 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_load_replace_content'] === "true") {
+    if (isset($_GET['async_load_replace_content']) && $_GET['async_load_replace_content'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added);
@@ -87,7 +90,7 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['async_add_aggregate'] === "true") {
+    if (isset($_GET['async_add_aggregate']) && $_GET['async_add_aggregate'] === "true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
 
@@ -101,7 +104,7 @@ function extended_notifications()
     //we also change the description of the already existing parent Notification
     //Item holding the aggregates.
     $add_button = $f->button()->standard("Add Chat Notification", "#")
-                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url,$async_add_aggregate) {
+                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url, $async_add_aggregate) {
                         return "
                             $('#$id').click(function() {
                                 il.DemoScopeItem.getCounterObjectIfAny().incrementNoveltyCount(1);

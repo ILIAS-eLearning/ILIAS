@@ -27,7 +27,7 @@ class SystemInfoTest extends ILIAS_UI_TestBase
         $this->sig_gen = new SignalGenerator();
     }
 
-    public function testRendering()
+    public function testRenderingDefault()
     {
         $headline = 'That\'s one small step for [a] man';
         $information = 'Lorem IPsum dolor sit amet';
@@ -36,53 +36,156 @@ class SystemInfoTest extends ILIAS_UI_TestBase
 
         // Neutral
         $expected = <<<EOT
-		<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+    <div class="il-system-info-content-wrapper">
+        <div class="il-system-info-content">
+            <span class="il-system-info-headline">$headline</span>
+            <span class="il-system-info-body">$information</span>
+        </div>
+    </div>
+    <div class="il-system-info-actions">
+        <span class="il-system-info-more">
+            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+        </span>
+        <span class="il-system-info-close"></span>
+    </div>
+</div>
 EOT;
-        $actual = $r->render($system_info);
 
-        $this->assertEquals(
-            $this->brutallyTrimHTML($expected),
-            $this->brutallyTrimHTML($actual)
-        );
-
-        // Neutral explicit
-        $system_info = $system_info->withDenotation(SystemInfo::DENOTATION_NEUTRAL);
         $actual = $r->render($system_info);
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($actual)
         );
+    }
 
-        // Important
-        $system_info = $system_info->withDenotation(SystemInfo::DENOTATION_IMPORTANT);
+    public function testRenderingNeutral()
+    {
+        $headline = 'That\'s one small step for [a] man';
+        $information = 'Lorem IPsum dolor sit amet';
+        $r = $this->getDefaultRenderer();
+        $system_info = (new SystemInfo($this->sig_gen, $headline, $information))
+            ->withDenotation(SystemInfo::DENOTATION_NEUTRAL);
+
+        // Neutral
+        $expected = <<<EOT
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+    <div class="il-system-info-content-wrapper">
+        <div class="il-system-info-content">
+            <span class="il-system-info-headline">$headline</span>
+            <span class="il-system-info-body">$information</span>
+        </div>
+    </div>
+    <div class="il-system-info-actions">
+        <span class="il-system-info-more">
+            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+        </span>
+        <span class="il-system-info-close"></span>
+    </div>
+</div>
+EOT;
+
+        $actual = $r->render($system_info);
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($actual)
+        );
+    }
+
+    public function testRenderingImportant()
+    {
+        $headline = 'That\'s one small step for [a] man';
+        $information = 'Lorem IPsum dolor sit amet';
+        $r = $this->getDefaultRenderer();
+        $system_info = (new SystemInfo($this->sig_gen, $headline, $information))
+            ->withDenotation(SystemInfo::DENOTATION_IMPORTANT);
+
         $actual = $r->render($system_info);
         $expected = <<<EOT
-		<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+<div id="id" class="container-fluid il-system-info il-system-info-important" data-close-uri="" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+    <div class="il-system-info-content-wrapper">
+        <div class="il-system-info-content">
+            <span class="il-system-info-headline">$headline</span>
+            <span class="il-system-info-body">$information</span>
+        </div>
+    </div>
+    <div class="il-system-info-actions">
+        <span class="il-system-info-more">
+            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+        </span>
+        <span class="il-system-info-close"></span>
+    </div>
+</div>
 EOT;
+
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($actual)
         );
+    }
+
+    public function testRenderingBreaking()
+    {
+        $headline = 'That\'s one small step for [a] man';
+        $information = 'Lorem IPsum dolor sit amet';
+        $r = $this->getDefaultRenderer();
+        $system_info = (new SystemInfo($this->sig_gen, $headline, $information))
+            ->withDenotation(SystemInfo::DENOTATION_BREAKING);
 
         // Breaking
-        $system_info = $system_info->withDenotation(SystemInfo::DENOTATION_BREAKING);
-        $actual = $r->render($system_info);
         $expected = <<<EOT
-	<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"></span></div></div>
+<div id="id" class="container-fluid il-system-info il-system-info-breaking" data-close-uri="" role="alert" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+    <div class="il-system-info-content-wrapper">
+        <div class="il-system-info-content">
+            <span class="il-system-info-headline">$headline</span>
+            <span class="il-system-info-body">$information</span>
+        </div>
+    </div>
+    <div class="il-system-info-actions">
+        <span class="il-system-info-more">
+            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+        </span>
+        <span class="il-system-info-close"></span>
+    </div>
+</div>
 EOT;
+
+        $actual = $r->render($system_info);
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($actual)
         );
+    }
 
-        // Close Action
+
+    public function testRenderingCloseAction()
+    {
+        $headline = 'That\'s one small step for [a] man';
+        $information = 'Lorem IPsum dolor sit amet';
         $uri_string = 'http://one_giant_leap?for=mankind';
         $action = new URI($uri_string);
-        $system_info = $system_info->withDismissAction($action)->withDenotation(SystemInfo::DENOTATION_NEUTRAL);
-        $actual = $r->render($system_info);
+        $r = $this->getDefaultRenderer();
+        $system_info = (new SystemInfo($this->sig_gen, $headline, $information))
+            ->withDismissAction($action);
+
         $expected = <<<EOT
-<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-more"><div class="il-system-info-content"><span class="il-system-info-headline">$headline</span><span class="il-system-info-more"><a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a></span><span class="il-system-info-body">$information</span></div><div class="il-system-info-actions"><span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span></div></div>
+<div id="id" class="container-fluid il-system-info il-system-info-neutral" data-close-uri="$uri_string" aria-live="polite" aria-labelledby="il-system-info-headline" aria-describedby="il-system-info-headline">
+    <div class="il-system-info-content-wrapper">
+        <div class="il-system-info-content">
+            <span class="il-system-info-headline">$headline</span>
+            <span class="il-system-info-body">$information</span>
+        </div>
+    </div>
+    <div class="il-system-info-actions">
+        <span class="il-system-info-more">
+            <a class="glyph" href="#" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></a>
+        </span>
+        <span class="il-system-info-close"><a class="glyph" href="#" aria-label="close" id="id"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></span>
+    </div>
+</div>
 EOT;
+
+        $actual = $r->render($system_info);
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
             $this->brutallyTrimHTML($actual)

@@ -8,11 +8,11 @@
 class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBaseTest
 {
     /**
-     * @return ilTermsOfServiceDocumentTableDataProvider
+     * @return ilTermsOfServiceTableDataProvider
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws ReflectionException
      */
-    public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceDocumentTableDataProvider
+    public function testDocumentProviderCanBeCreatedByFactory() : ilTermsOfServiceTableDataProvider
     {
         $factory = new ilTermsOfServiceTableDataProviderFactory();
         $factory->setDatabaseAdapter($this->getMockBuilder(ilDBInterface::class)->getMock());

@@ -58,7 +58,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
+        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
         }
@@ -148,6 +148,7 @@ class Renderer extends AbstractComponentRenderer
             include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
             array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
             array_unshift($js_files, \iljQueryUtil::getLocaljQueryPath());
+            $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
         foreach ($js_files as $js_file) {

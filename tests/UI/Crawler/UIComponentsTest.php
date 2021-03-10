@@ -20,7 +20,7 @@ class UIComponentsTest extends TestCase
     protected $crawler;
 
     /**
-     * @var Crawler\FactoriesCrawler
+     * @var string
      */
     protected $path_to_base_factory = "src/UI/Factory.php";
 

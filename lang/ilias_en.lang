@@ -56,6 +56,7 @@ common#:#obj_nots#:#Notes
 note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Enable Comments
 administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
@@ -1801,6 +1802,7 @@ assessment#:#sign_submission_info#:#If this is activated and a signature plugin 
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_qst_added_to_pool_s#:#Successfully added the question to the selected pool.
 assessment#:#tst_qst_added_to_pool_p#:#Successfully added the questions to the selected pool.
+assessment#:#autosavecontent#:#Autosave Content
 auth#:#auth_account_migration_keep#:#Migrate Existing User Account
 auth#:#auth_account_migration_name#:#Migration
 auth#:#auth_account_migration_new#:#Create New User Account
@@ -3770,7 +3772,7 @@ common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
 common#:#shib_federation_name#:#Name of your Shibboleth federation
 common#:#shib_firstname#:#Attribute for first name
-common#:#shib_gender#:#Attribute for salutation (must be ‘m’ or ‘f’)
+common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the
 common#:#shib_general_wayf_login_instructions#:#In case you are not associated with the given organizations and you need access to a course on this server, please contact the
 common#:#shib_idp_list#:#Provide a list of Identity Providers to let the user choose from on the ILIAS login page.<br>On each line there must be a comma-separated tuple for <strong>providerID of IdP</strong> (see the Shibboleth metadata file) and <strong>Name of IdP</strong> as it shall be displayed in the drop-down list.<br>As an optional third parameter you can add the <strong>location of a Shibboleth session initiator</strong> that shall be used in case your ILIAS installation is part of a multi federation setup.
@@ -4696,7 +4698,7 @@ content#:#cont_text_code#:#Code:
 content#:#cont_text_com#:#Comment:
 content#:#cont_text_emp#:#Emphatic Text:
 content#:#cont_text_fn#:#Footnote:
-content#:#cont_text_iln#:#Internal Link
+content#:#cont_text_iln_link#:#Interal Link
 content#:#cont_text_imp#:#Important:
 content#:#cont_text_keyword#:#Keyword
 content#:#cont_text_placeh#:#Click and edit to insert text
@@ -5561,6 +5563,7 @@ form#:#form_password_not_allowed_for_auth#:#It is not possible to change the pas
 form#:#form_password_required_for_auth#:#Password is required for the chosen authentication method.
 form#:#form_retype_password#:#Retype Password
 form#:#form_seconds#:#Seconds
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:
 forum#:#activate_new_posts#:#Approve Postings
 forum#:#activate_only_current#:#Approve Posting
 forum#:#activate_post_txt#:#Would you really like to approve the current posting?
@@ -6055,7 +6058,7 @@ mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of syste
 maps#:#maps_enable_maps_info#:#Activates Maps in user profiles, groups and courses.
 maps#:#maps_enable_maps#:#Enable Maps
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_geolocation_server#:#Server for Reverse Geolocation
@@ -8628,7 +8631,7 @@ sahs#:#sahs_insert_ass#:#Insert Asset
 common#:#obj_ass#:#Asset
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym
-content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.
@@ -8916,7 +8919,7 @@ prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
-content#:#cont_ed_insert_profile#:#Insert Personal Data
+content#:#cont_ed_insert_prof#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
 content#:#cont_update_profile#:#Edit Published Data
@@ -8925,7 +8928,7 @@ content#:#cont_profile_mode_inherit#:#Automatic
 content#:#cont_profile_mode_inherit_info#:#Use your profile settings
 content#:#cont_profile_mode_manual#:#Manual
 content#:#cont_profile_mode_manual_info#:#Use the following data:
-content#:#cont_ed_insert_verification#:#Insert Certificate
+content#:#cont_ed_insert_vrfc#:#Insert Certificate
 content#:#cont_pc_vrfc#:#Certificate
 content#:#cont_insert_verification#:#Add Certificate
 content#:#cont_update_verification#:#Edit Certificate
@@ -11195,6 +11198,7 @@ survey#:#survey_reminder_frequency_days#:#Days
 survey#:#survey_notification_target_group#:#Target Group
 survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
+survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop
 survey#:#survey_notification_target_group_invited_info#:#Number of current recipients: %s
 survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
@@ -11387,6 +11391,8 @@ rbac#:#cld_permission#:#User can change permission settings
 rbac#:#cld_upload#:#User can upload files to the cloud object
 rbac#:#cld_download#:#User can download files from the cloud object
 rbac#:#cld_edit_permission#:#User can change permission settings
+rbac#:#edit_in_online_editor#:#Open in online editor
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor
 wsp#:#wsp_shared_date#:#Date of Share
 wsp#:#wsp_shared_type#:#Shared With
 wsp#:#wsp_shared_object_type#:#Type of Resource
@@ -11784,7 +11790,7 @@ crs#:#crs_mail_all#:#For all Participants
 grp#:#grp_mail_type#:#Mail to Members
 grp#:#grp_mail_tutors_only#:#For Administrators only
 grp#:#grp_mail_all#:#For all Participants
-content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours
 content#:#cont_cach_mode#:#Mode
@@ -12142,7 +12148,8 @@ skmg#:#skmg_suggested_resources#:#Suggested Resources
 cntr#:#exc_next_deadline_single#:#Deadline
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
-survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors
+survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys and results will be sent to tutors.
 cron#:#cron_action_activate_sure_multi#:#Are you sure you want to activate the following cron-jobs?
 cron#:#cron_action_deactivate_sure_multi#:#Are you sure you want to deactivate the following cron-jobs?
 cron#:#cron_action_reset_sure_multi#:#Are you sure you want to reset the following cron-jobs?
@@ -12246,7 +12253,7 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.
 blog#:#blog_abstract_image_width#:#Width
 blog#:#blog_abstract_image_height#:#Height
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Insert My Courses
+content#:#cont_ed_insert_mcrs#:#Insert My Courses
 content#:#cont_insert_my_courses#:#Insert My Courses
 content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
@@ -12344,7 +12351,7 @@ survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List
+content#:#cont_ed_insert_amdpl#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies
@@ -12994,7 +13001,8 @@ style#:#sty_type_ca_ihead#:#Carousel Item Header
 wiki#:#wiki_link_md_values#:#Automatic Linking
 wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
 cron#:#cron_result_status_fail#:#Failed
-content#:#cont_wiki_link_dialog#:#Link to Wiki Page (Dialog)
+content#:#cont_wiki_link_dialog#:#Wiki Page (Dialog)
+content#:#cont_link_user#:#User Profile
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Reply
@@ -14214,7 +14222,7 @@ iass#:#iass_internal_note#:#Internal record note
 iass#:#iass_status_completed#:#Completed
 iass#:#iass_status_failed#:#Failed
 iass#:#iass_status_pending#:#Status pending
-iass#:#iass_notify#:#Notify participant after finalization
+iass#:#iass_notify#:#Make Result available to Participant
 iass#:#iass_finalize#:#Finalize
 iass#:#il_iass_member#:#Participant
 iass#:#il_iass_members#:#Participants
@@ -15035,7 +15043,7 @@ mme#:#move_to_top_item#:#Move to Top Items
 mme#:#select_parent#:#Select Parent
 mme#:#msg_moved#:#Item successfully moved
 mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.
-mme#:#confirm_move#:#Would you like to move this Item to Top Items?
+mme#:#confirm_move#:#Would you like to move this item to Top Items?
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
@@ -15118,7 +15126,7 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship
 pd#:#pd_achievements#:#Achievements
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.
 prtf#:#prtf_download_submission#:#Download Submission
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_lhist#:#Insert Learning History
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -16092,7 +16100,7 @@ prg#:#last_edited_by#:#Last Editor
 prg#:#last_edited#:#Last edited
 prg#:#add_category#:#Add Category
 prg#:#modal_categories_title#:#Category to be monitored
-prg#:#category#:#Category RefId
+prg#:#category#:#Category
 common#:#obj_prgr#:#Link to Study Programme
 common#:#obj_prgrs#:#Links to Study Programmes
 prg#:#prgr_new#:#Create Study Programme Link
@@ -16299,6 +16307,10 @@ survey#:#svy_sum_score#:#Sum Score
 survey#:#svy_max_sum_score#:#Maximum Sum Score
 content#:#cont_select_none#:#Clear Selection
 feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.
+common#:#lso_admin_form_title#:#Settings
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! 
 common#:#mainbar_more_label#:#More
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.
@@ -16383,6 +16395,7 @@ adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 common#:#obj_adn#:#Administrative Notifications
 adn#:#main#:#Notifications
+adn#:#msg_type_0#:#Notice
 adn#:#msg_type_1#:#Notice
 adn#:#msg_type_2#:#Important
 adn#:#msg_type_3#:#Breaking News
@@ -16409,13 +16422,18 @@ adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notificatio
 adn#:#msg_form_title#:#Notification
 adn#:#msg_table_title#:#Notifications
 adn#:#common_actions#:#Actions
+adn#:#msg_error_false_date_configuration#:#Can't create a notification with this configuration of dates. The event must be within the display time.
 adn#:#common_add_msg#:#Add Notification
-adn#:#msg_reset_dismiss#:#Reset for all Users
-adn#:#msg_form_button_reset#:#Reset
-adn#:#msg_form_button_delete#:#Delete
-adn#:#msg_form_button_cancel#:#Cancel
-adn#:#msg_success_deleted#:#Notification sucessfully deletrd
-content#:#cont_link_user#:#User Link
+adn#:#btn_reset#:#Reset
+adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?
+adn#:#btn_delete#:#Delete
+adn#:#btn_delete_confirm#:#Would you like to delete this Notification?
+adn#:#btn_cancel#:#Cancel
+adn#:#btn_edit#:#Edit
+adn#:#msg_success_deleted#:#Notification sucessfully deleted
+adn#:#msg_success_created#:#Notification created
+adn#:#msg_success_reset#:#Notification reset
+adn#:#msg_success_updated#:#Notification updated
 content#:#cont_delete_content#:#Delete Content
 adve#:#adve_autosave#:#Automatic Saving Intervall
 adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.
@@ -16441,7 +16459,7 @@ mob#:#mob_upload_file#:#Upload File
 mob#:#mob_external_url#:#External URL
 mob#:#mob_choose_from_pool#:#Choose from Media Pool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
 common#:#objs_prgr#:#Links to Study Programmes
 rbac#:#prgr_copy#:#User can copy links to study programmes.
 rbac#:#prgr_delete#:#User can move or delete links to study programmes.
@@ -16457,10 +16475,6 @@ rbac#:#coms_visible#:#Administration of Comments is visible.
 rbac#:#coms_read#:#User has read access to administration of Comments.
 rbac#:#coms_write#:#User can edit settings of administration of Comments.
 rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
-rbac#:#coms_visible#:#Administration of Comments is visible.
-rbac#:#coms_read#:#User has read access to administration of Comments.
-rbac#:#coms_write#:#User can edit settings of administration of Comments.
-rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.
 rbac#:#cpad_visible#:#Administration of Content Pages is visible.
 rbac#:#cpad_read#:#User has read access to administration of Content Pages.
 rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.
@@ -16469,10 +16483,6 @@ rbac#:#fils_visible#:#Administration of File Services is visible.
 rbac#:#fils_read#:#User has read access to File Services administration.
 rbac#:#fils_write#:#User can edit and configure File Services.
 rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.
-rbac#:#fils_visible#:#Administration der Datei-Services ist sichtbar.
-rbac#:#fils_read#:#Lesezugriff auf Administration für Datei-Services
-rbac#:#fils_write#:#Konfiguration der Datei-Services bearbeiten
-rbac#:#fils_edit_permissions#:#Rechteeinstellungen der Administration für Datei-Services ändern
 rbac#:#lhts_visible#:#Administration of Learning History is visible.
 rbac#:#lhts_read#:#User has read access to Learning History administration.
 rbac#:#lhts_write#:#User can edit settings of Learning History administration.
@@ -16498,3 +16508,11 @@ rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.
 rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.
 rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.
 rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.
+prg#:#no_srctype_or_id#:#Id and type may not be empty.
+prg#:#auto_add_success#:#Add automatism successfully.
+maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
+form#:#form_invalid_uri#:#Invalid URI format.
+common#:#installation_status#:#Installation Status

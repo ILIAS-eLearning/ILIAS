@@ -1,13 +1,17 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Item\Notification;
+
 function async()
 {
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $async_close = $_SERVER['REQUEST_URI'] . '&close_item=true';
-    $async_replace_url = $_SERVER['REQUEST_URI'] . '&async_load_replace=true';
-    $async_replace_content_load_url = $_SERVER['REQUEST_URI'] . '&async_load_replace_content=true';
+    $request_uri = $_SERVER['REQUEST_URI'] ? $_SERVER['REQUEST_URI'] : "";
+    $async_close = $request_uri . '&close_item=true';
+    $async_replace_url = $request_uri . '&async_load_replace=true';
+    $async_replace_content_load_url = $request_uri . '&async_load_replace_content=true';
 
     //Creating a Mail Notification Item
     $icon = $f->symbol()->icon()->standard("chtr", "chtr");
@@ -16,7 +20,7 @@ function async()
 
     $async_item = $item->withAggregateNotifications([$item->withDescription("Original Item")]);
 
-    if ($_GET['async_load_replace']) {
+    if (isset($_GET['async_load_replace']) && $_GET['async_load_replace']) {
         $replacement = $async_item
             ->withDescription("The Item has been replaced Async.")
             ->withAggregateNotifications([$item->withDescription("This is a freshly async delivered Item.")
@@ -25,7 +29,7 @@ function async()
         exit;
     }
 
-    if ($_GET['async_load_replace_content']) {
+    if (isset($_GET['async_load_replace']) && $_GET['async_load_replace_content']) {
         $replacement = $async_item
             ->withDescription("The content of the Item has been replaced Async.")
             ->withAggregateNotifications([$item->withDescription("You will never see this")]);

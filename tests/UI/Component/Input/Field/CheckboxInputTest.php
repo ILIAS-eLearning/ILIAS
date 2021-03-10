@@ -53,9 +53,17 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
 
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>                    </div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+           <label for="id_1" class="control-label col-sm-3">label</label>
+           <div class="col-sm-9">
+              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
+              <div class="help-block">byline</div>
+           </div>
+        </div>
+        ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -69,10 +77,18 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+           <label for="id_1" class="control-label col-sm-3">label</label>
+           <div class="col-sm-9">
+              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
+              <div class="help-block">byline</div>
+              <div class="help-block alert alert-danger" role="alert"><img border="0" src="./templates/default/images/icon_alert.svg" alt="alert"/>an_error</div>
+           </div>
+        </div>
+        ');
 
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />          <div class=\"help-block\">byline</div>            <div class=\"help-block alert alert-danger\" role=\"alert\">        <img border=\"0\" src=\" ./templates/default/images/icon_alert.svg\" alt=\"alert\" />" . "			$error"
-                    . "		</div></div></div>";
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -84,9 +100,16 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
 
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+           <label for="id_1" class="control-label col-sm-3">label</label>
+           <div class="col-sm-9">
+              <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />
+           </div>
+        </div>
+        ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -99,9 +122,15 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label)->withValue($value)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
-
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  checked=\"checked\" name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+               <label for="id_1" class="control-label col-sm-3">label</label>
+               <div class="col-sm-9">
+                  <input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />
+               </div>
+            </div>
+        ');
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -126,9 +155,15 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withRequired(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
 
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label> <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" class=\"form-control form-control-sm\" />                                  </div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+           <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+           <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/></div>
+        </div>
+        ');
+
         $this->assertHTMLEquals($expected, $html);
     }
 
@@ -139,9 +174,15 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $checkbox = $f->checkbox($label)->withNameFrom($this->name_source)->withDisabled(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $r->render($checkbox);
+        $html = $this->brutallyTrimHTML($r->render($checkbox));
 
-        $expected = "<div class=\"form-group row\">  <label for=\"name_0\" class=\"control-label col-sm-3\">label</label>        <div class=\"col-sm-9\">          <input type=\"checkbox\"  value=\"checked\"  name=\"name_0\" disabled=\"disabled\" class=\"form-control form-control-sm\" />                                  </div></div>";
+        $expected = $this->brutallyTrimHTML('
+            <div class="form-group row">
+               <label for="id_1" class="control-label col-sm-3">label</label>
+               <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/></div>
+            </div>
+        ');
+
         $this->assertHTMLEquals($expected, $html);
     }
 

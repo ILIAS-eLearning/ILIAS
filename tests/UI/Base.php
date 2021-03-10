@@ -244,6 +244,11 @@ abstract class ILIAS_UI_TestBase extends TestCase
             ->getMock();
     }
 
+    public function getImagePathResolver()
+    {
+        return new ilImagePathResolver();
+    }
+
     public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
     {
         $ui_factory = $this->getUIFactory();
@@ -255,36 +260,39 @@ abstract class ILIAS_UI_TestBase extends TestCase
         }
 
         $refinery = $this->getRefinery();
+        $image_path_resolver = $this->getImagePathResolver();
 
-        $component_renderer_loader
-            = new Render\LoaderCachingWrapper(
-                new Render\LoaderResourceRegistryWrapper(
-                    $resource_registry,
-                    new Render\FSLoader(
-                        new DefaultRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                            ),
-                        new GlyphRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                          ),
-                        new FieldRendererFactory(
-                            $ui_factory,
-                            $tpl_factory,
-                            $lng,
-                            $js_binding,
-                            $refinery
-                          )
-                        )
+        $component_renderer_loader = new Render\LoaderCachingWrapper(
+            new Render\LoaderResourceRegistryWrapper(
+                $resource_registry,
+                new Render\FSLoader(
+                    new DefaultRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver
+                    ),
+                    new GlyphRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver
+                    ),
+                    new FieldRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver
                     )
-                );
+                )
+            )
+        );
         return new TestDefaultRenderer($component_renderer_loader);
     }
 

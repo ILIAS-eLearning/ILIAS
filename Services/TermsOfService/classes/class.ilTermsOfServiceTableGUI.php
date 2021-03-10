@@ -136,11 +136,11 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    final protected function fillRow($row)
+    final protected function fillRow($a_set)
     {
-        $this->prepareRow($row);
+        $this->prepareRow($a_set);
 
         foreach ($this->getColumnDefinition() as $index => $column) {
             if (!$this->isColumnVisible($index)) {
@@ -148,7 +148,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
             }
 
             $this->tpl->setCurrentBlock('column');
-            $value = $this->formatCellValue($column['field'], $row);
+            $value = $this->formatCellValue($column['field'], $a_set);
             if ((string) $value === '') {
                 $this->tpl->touchBlock('column');
             } else {
@@ -171,10 +171,8 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
     {
         if ($this->getExternalSegmentation() && $this->getExternalSorting()) {
             $this->determineOffsetAndOrder();
-        } else {
-            if (!$this->getExternalSegmentation() && $this->getExternalSorting()) {
-                $this->determineOffsetAndOrder(true);
-            }
+        } elseif (!$this->getExternalSegmentation() && $this->getExternalSorting()) {
+            $this->determineOffsetAndOrder(true);
         }
 
         $params = [];

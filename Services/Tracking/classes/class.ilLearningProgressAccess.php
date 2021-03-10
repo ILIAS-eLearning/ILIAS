@@ -86,7 +86,15 @@ class ilLearningProgressAccess
         ) {
             return true;
         }
-        
+
+        if (!$DIC->access()->checkAccess('read', '', $a_ref_id)) {
+            return false;
+        }
+        // edit learning progress is sufficient: #0029313
+        if ($DIC->access()->checkAccess('edit_learning_progress', '', $a_ref_id)) {
+            return true;
+        }
+
         if (!ilObjUserTracking::_hasLearningProgressLearner()) {
             return false;
         }
@@ -95,14 +103,9 @@ class ilLearningProgressAccess
             return false;
         }
         
-        if (!$DIC->access()->checkAccess('read', '', $a_ref_id)) {
-            return false;
-        }
-        
         if ($a_allow_only_read) {
             return true;
         }
-        
         return false;
     }
 }

@@ -13,24 +13,67 @@ var PACKABLE_TYPES = [
   'fixed32', 'sfixed32', 'float'
 ]
 
+var onfieldoptionvalue = function (tokens) {
+  var value = tokens.shift()
+  if (value !== '{') {
+    return value
+  }
+  value = {}
+  var field = ''
+  while (tokens.length) {
+    switch (tokens[0]) {
+      case '}':
+        tokens.shift()
+        return value
+      case ':':
+        tokens.shift()
+        value[field] = onfieldoptionvalue(tokens)
+        break
+      default:
+        field = tokens.shift()
+    }
+  }
+}
+
 var onfieldoptions = function (tokens) {
   var opts = {}
 
   while (tokens.length) {
     switch (tokens[0]) {
       case '[':
-      case ',':
+      case ',': {
         tokens.shift()
         var name = tokens.shift()
         if (name === '(') { // handling [(A) = B]
           name = tokens.shift()
           tokens.shift() // remove the end of bracket
         }
+        var field = []
+        if (tokens[0][0] === '.') {
+          field = tokens[0].substr(1).split('.')
+          tokens.shift()
+        }
         if (tokens[0] !== '=') throw new Error('Unexpected token in field options: ' + tokens[0])
         tokens.shift()
         if (tokens[0] === ']') throw new Error('Unexpected ] in field option')
-        opts[name] = tokens.shift()
+
+        // for option (A).b.c
+        // path will be ['A', 'b'] and lastFieldName 'c'
+        var path = [name].concat(field)
+        var lastFieldName = path.pop()
+
+        // opt references opts.A.b
+        var opt = path.reduce(function (opt, n, index) {
+          if (opt[n] == null) {
+            opt[n] = {}
+          }
+          return opt[n]
+        }, opts)
+
+        // now set opt['c'] that references opts.A.b['c']
+        opt[lastFieldName] = onfieldoptionvalue(tokens)
         break
+      }
       case ']':
         tokens.shift()
         return opts

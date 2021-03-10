@@ -227,10 +227,10 @@ class MainBarTest extends ILIAS_UI_TestBase
 				<nav class="il-mainbar" aria-label="mainbar_aria_label">
 					<div class="il-mainbar-triggers">
 						<div class="il-mainbar-entries" role="menubar" style="visibility: hidden">
-							<button class="btn btn-bulky" data-action="#" id="id_1" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
-							<button class="btn btn-bulky" data-action="#" id="id_2" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
-							<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1</span></button>
-							<button class="btn btn-bulky" id="id_9" role="menuitem" aria-haspopup="true" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button>
+							<button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
+							<button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
+							<button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button>
+							<button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button>
 						</div>
 					</div>
 				</nav>
@@ -241,11 +241,11 @@ class MainBarTest extends ILIAS_UI_TestBase
 					</div>
 					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content">
-							<button class="btn btn-bulky" id="id_4" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1.1</span></button>
+							<button class="btn btn-bulky" id="id_4" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1.1</span></button>
 
 							<div class="il-maincontrols-slate disengaged" id="id_7" data-depth-level="2">
 								<div class="il-maincontrols-slate-content" data-replace-marker="content">
-									<button class="btn btn-bulky" id="id_5" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1.1.1</span></button>
+									<button class="btn btn-bulky" id="id_5" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1.1.1</span></button>
 
 									<div class="il-maincontrols-slate disengaged" id="id_6" data-depth-level="3">
 										<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Password;
+
 /**
  * Example of how to process passwords.
  * Note that the value of Password is a Data\Password, not a string-primitive.

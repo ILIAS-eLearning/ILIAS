@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\ViewControl\Sortation;
+
 //Base example, show-casing how this control is used if firing leads to some
 //Reload of the page
 function _Base()
@@ -17,7 +20,7 @@ function _Base()
 
     //Note that the selected option needs to be displayed in the label
     $select_option = 'default_option';
-    if ($_GET['sortation']) {
+    if (isset($_GET['sortation']) && $_GET['sortation']) {
         $select_option = $_GET['sortation'];
     }
 

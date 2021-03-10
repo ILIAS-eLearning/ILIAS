@@ -7,16 +7,16 @@
  */
 class ilTermsOfServiceDocumentHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-    /** @var array */
-    private $allowedTags = [];
+    /** @var string[] */
+    private $allowedTags;
 
     /** @var string */
-    protected $cacheDirectory = '';
+    protected $cacheDirectory;
 
     /**
      * ilTermsOfServiceDocumentHtmlPurifier constructor.
-     * @param array|null $allowedTags
-     * @param string     $cacheDirectory
+     * @param string[]|null $allowedTags
+     * @param string|null $cacheDirectory
      */
     public function __construct(array $allowedTags = null, string $cacheDirectory = null)
     {

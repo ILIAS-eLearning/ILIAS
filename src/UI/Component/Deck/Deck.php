@@ -89,7 +89,7 @@ interface Deck extends \ILIAS\UI\Component\Component
     /**
      * Set the cards size to full:
      *  - 1 Cards on all screen sizes
-     * 
+     *
      * @param int Size of the card
      * @return Deck
      */

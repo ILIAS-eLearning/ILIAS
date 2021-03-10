@@ -282,41 +282,7 @@ class ilMailFolderGUI
             );
         }
 
-        $table_html = $mailtable->getHtml();
-
-        $folder_options = [];
-        foreach ($folders as $folder) {
-            $folder_d = $mtree->getNodeData($folder['obj_id']);
-
-            if ($folder['obj_id'] == $this->currentFolderId) {
-                if ($folder['type'] === 'user_folder') {
-                    $isUserSubFolder = true;
-                } elseif ($folder['type'] === 'local') {
-                    $isUserRootFolder = true;
-                    $isUserSubFolder = false;
-                }
-            }
-
-            $folder_options[$folder['obj_id']] = sprintf(
-                $this->lng->txt('mail_change_to_folder'),
-                $this->lng->txt('mail_' . $folder['title'])
-            );
-            if ($folder['type'] === 'user_folder') {
-                $pre = '';
-                for ($i = 2; $i < $folder_d['depth'] - 1; $i++) {
-                    $pre .= '&nbsp;';
-                }
-
-                if ($folder_d['depth'] > 1) {
-                    $pre .= '+';
-                }
-
-                $folder_options[$folder['obj_id']] = sprintf(
-                    $this->lng->txt('mail_change_to_folder'),
-                    $pre . ' ' . $folder['title']
-                );
-            }
-        }
+        $table_html = $mailtable->getHTML();
 
         if ($oneConfirmationDialogueRendered === false && $this->confirmTrashDeletion === false) {
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
@@ -358,7 +324,7 @@ class ilMailFolderGUI
 
             $this->showFolder(true);
         } else {
-            $this->showFolder(false);
+            $this->showFolder();
         }
     }
 
@@ -609,16 +575,14 @@ class ilMailFolderGUI
                 ilUtil::sendInfo($this->lng->txt('mail_select_one'));
                 $this->errorDelete = true;
             }
+        } elseif (0 === count($mailIds)) {
+            ilUtil::sendInfo($this->lng->txt('mail_select_one'));
+        } elseif ($this->umail->moveMailsToFolder($mailIds, $trashFolderId)) {
+            ilUtil::sendSuccess($this->lng->txt('mail_moved_to_trash'), true);
+            $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
+            $this->ctrl->redirect($this, 'showFolder');
         } else {
-            if (0 === count($mailIds)) {
-                ilUtil::sendInfo($this->lng->txt('mail_select_one'));
-            } elseif ($this->umail->moveMailsToFolder($mailIds, $trashFolderId)) {
-                ilUtil::sendSuccess($this->lng->txt('mail_moved_to_trash'), true);
-                $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
-                $this->ctrl->redirect($this, 'showFolder');
-            } else {
-                ilUtil::sendFailure($this->lng->txt('mail_move_error'));
-            }
+            ilUtil::sendFailure($this->lng->txt('mail_move_error'));
         }
 
         $this->showFolder();

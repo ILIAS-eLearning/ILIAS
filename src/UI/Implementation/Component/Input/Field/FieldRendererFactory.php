@@ -17,7 +17,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
                 $this->tpl_factory,
                 $this->lng,
                 $this->js_binding,
-                $this->refinery
+                $this->refinery,
+                $this->image_path_resolver
             );
         }
         return new Renderer(
@@ -25,7 +26,8 @@ class FieldRendererFactory extends Render\DefaultRendererFactory
             $this->tpl_factory,
             $this->lng,
             $this->js_binding,
-            $this->refinery
+            $this->refinery,
+            $this->image_path_resolver
         );
     }
 }

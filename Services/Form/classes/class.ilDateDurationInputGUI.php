@@ -34,6 +34,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     protected $toggle_fulltime_txt = '';
     protected $toggle_fulltime_checked = false;
     protected $allowOpenIntervals = false;
+    protected $invalid_input_start = '';
+    protected $invalid_input_end = '';
 
     /**
     * Constructor
@@ -91,7 +93,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     
     /**
      * Set text, which will be shown before the start date
-     * @param object $a_txt
+     * @param string $a_txt
      * @return
      */
     public function setStartText($a_txt)
@@ -110,7 +112,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
 
     /**
      * Set text, which will be shown before the end date
-     * @param object $a_txt
+     * @param string $a_txt
      * @return
      */
     public function setEndText($a_txt)
@@ -418,6 +420,7 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     {
         $ilUser = $this->user;
         $lng = $this->lng;
+        $toggle_id = null;
         
         $tpl = new ilTemplate("tpl.prop_datetime_duration.html", true, true, "Services/Form");
         

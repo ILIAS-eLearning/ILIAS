@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Textarea;
+
 /**
  * Example show how to create and render a disabled textarea field and attach it to a
  * form.

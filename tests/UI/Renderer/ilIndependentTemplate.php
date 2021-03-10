@@ -137,7 +137,7 @@ class ilIndependantTemplate extends ilTemplate
                         '%preserved%' . $this->closingDelimiter,
                     $this->openingDelimiter,
                     $ret
-                    );
+                );
             }
             return $ret;
         }

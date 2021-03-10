@@ -126,7 +126,6 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
             } else {
                 //add Links/Buttons as toplevel entries
@@ -144,7 +143,8 @@ class Renderer extends AbstractComponentRenderer
                     ";
                     return $js;
                 }
-            );
+            )->withAriaRole(IBulky::MENUITEM);
+
             $tpl->setCurrentBlock($block);
             $tpl->setVariable("BUTTON", $default_renderer->render($button));
             $tpl->parseCurrentBlock();
@@ -347,6 +347,7 @@ class Renderer extends AbstractComponentRenderer
                 $slate = $entry;
             } else {
                 $button = $entry;
+                $button = $button->withAriaRole(IBulky::MENUITEM);
                 $slate = null;
             }
 

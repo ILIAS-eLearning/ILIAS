@@ -304,7 +304,9 @@ class GlyphTest extends ILIAS_UI_TestBase
     {
         $glyph_reflection = new ReflectionClass(G\Glyph::class);
         $constant_values = array_values($glyph_reflection->getConstants());
-        return array_map(function ($val) {return [$val];}, $constant_values);
+        return array_map(function ($val) {
+            return [$val];
+        }, $constant_values);
     }
 
     public function counter_type_provider()
@@ -404,7 +406,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             $this->getTemplateFactory(),
             $this->getLanguage(),
             $this->getJavaScriptBinding(),
-            $this->getRefinery()
+            $this->getRefinery(),
+            new ilImagePathResolver()
         );
         $f = $this->getCounterFactory();
 

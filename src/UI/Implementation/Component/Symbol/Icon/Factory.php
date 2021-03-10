@@ -10,16 +10,24 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function standard($name, $aria_label, $size = 'small', $is_disabled = false)
-    {
-        return new Standard($name, $aria_label, $size, $is_disabled);
+    public function standard(
+        string $name,
+        string $label,
+        string $size = 'small',
+        bool $is_disabled = false
+    ) : I\Standard {
+        return new Standard($name, $label, $size, $is_disabled);
     }
 
     /**
      * @inheritdoc
      */
-    public function custom($icon_path, $aria_label, $size = 'small', $is_disabled = false)
-    {
-        return new Custom($icon_path, $aria_label, $size, $is_disabled);
+    public function custom(
+        string $icon_path,
+        string $label,
+        string $size = 'small',
+        bool $is_disabled = false
+    ) : I\Custom {
+        return new Custom($icon_path, $label, $size, $is_disabled);
     }
 }

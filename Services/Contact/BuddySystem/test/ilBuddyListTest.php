@@ -10,16 +10,13 @@ require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
  */
 class ilBuddyListTest extends ilBuddySystemBaseTest
 {
-    const BUDDY_LIST_OWNER_ID = -1;
-    const BUDDY_LIST_BUDDY_ID = -2;
+    private const BUDDY_LIST_OWNER_ID = -1;
+    private const BUDDY_LIST_BUDDY_ID = -2;
 
     /** @var ilBuddyList */
     protected $buddyList;
 
-    /**
-     *
-     */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->setGlobalVariable(
             'ilAppEventHandler',

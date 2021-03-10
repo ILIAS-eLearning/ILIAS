@@ -375,7 +375,7 @@ class ilFormPropertyGUI
         if (!is_object($parent)) {
             die("You must set parent for " . get_class($this) . " to use serialize feature.");
         }
-        $this->unserializeData($_SESSION["form_" . $parent->getId()][$this->getFieldId()]);
+        $this->unserializeData($_SESSION["form_" . $parent->getId()][$this->getFieldId()] ?? null);
     }
     
     /**

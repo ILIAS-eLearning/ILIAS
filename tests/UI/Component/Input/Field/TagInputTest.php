@@ -69,9 +69,16 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags, $byline)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
-
-        $expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>		<div class=\"help-block\">byline</div>			</div></div>";
+        $html = $this->brutallyTrimHTML($r->render($text));
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div class="help-block">byline</div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -87,10 +94,17 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags, $byline)->withNameFrom($this->name_source)->withError($error);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
-
-        $expected
-            = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>		<div class=\"help-block\">byline</div>		<div class=\"help-block alert alert-danger\" role=\"alert\">			<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />			an_error		</div>	</div></div>";
+        $html = $this->brutallyTrimHTML($r->render($text));
+        $expected = $this->brutallyTrimHTML('
+           <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+                <div class="help-block">byline</div>
+                <div class="help-block alert alert-danger" role="alert"><img border="0" src="./templates/default/images/icon_alert.svg" alt="alert" />an_error</div>
+            </div>
+        </div>     
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -104,9 +118,15 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
-
-        $expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
+        $html = $this->brutallyTrimHTML($r->render($text));
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/><input type="hidden" id="template-id_1" value="name_0[]"/></div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -121,10 +141,19 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags)->withValue($value)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"lorem,ipsum\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>		<input type=\"hidden\" id=\"tag-id_1-lorem\" name=\"name_0[]\" value='lorem'>		<input type=\"hidden\" id=\"tag-id_1-ipsum\" name=\"name_0[]\" value='ipsum'>	</div>					</div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag">
+                    <input type="text" id="id_1" value="lorem,ipsum" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/> <input type="hidden" id="tag-id_1-lorem" name="name_0[]" value="lorem"/>
+                    <input type="hidden" id="tag-id_1-ipsum" name="name_0[]" value="ipsum"/>
+                </div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -138,9 +167,16 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label<span class=\"asterisk\">*</span></label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+            </div>
+        </div>
+        ');
 
         $this->assertEquals($expected, $html);
     }
@@ -154,9 +190,16 @@ class TagInputTest extends ILIAS_UI_TestBase
         $text = $f->tag($label, $tags)->withNameFrom($this->name_source)->withDisabled(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">	<label for=\"name_0\" class=\"control-label col-sm-3\">label</label>	<div class=\"col-sm-9\">		<div id=\"container-id_1\" class=\"form-control form-control-sm il-input-tag disabled\">	<input type=\"text\" id=\"id_1\" value=\"\" class=\"form-control form-control-sm\"/> <input type=\"hidden\" id=\"template-id_1\" value='name_0[]'>	</div>					</div></div>";
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div id="container-id_1" class="form-control form-control-sm il-input-tag disabled"><input type="text" id="id_1" value="" class="form-control form-control-sm"/> <input type="hidden" id="template-id_1" value="name_0[]"/></div>
+            </div>
+        </div>
+        ');
 
         $this->assertEquals($expected, $html);
     }

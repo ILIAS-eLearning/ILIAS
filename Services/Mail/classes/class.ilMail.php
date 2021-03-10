@@ -82,7 +82,7 @@ class ilMail
     protected $senderFactory;
 
     /**
-     * @param integer $a_user_id
+     * @param int $a_user_id
      * @param ilMailAddressTypeFactory|null $mailAddressTypeFactory
      * @param ilMailRfc822AddressParserFactory|null $mailAddressParserFactory
      * @param ilAppEventHandler|null $eventHandler
@@ -516,7 +516,13 @@ class ilMail
         }
 
         $row['attachments'] = unserialize(stripslashes($row['attachments']));
-        $row['tpl_ctx_params'] = (array) (@json_decode($row['tpl_ctx_params'], true));
+        
+        if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
+            $decoded = json_decode($row['tpl_ctx_params'], true);
+            $row['tpl_ctx_params'] = (array) ($decoded ?? []);
+        } else {
+            $row['tpl_ctx_params'] = [];
+        }
 
         return $row;
     }
@@ -568,7 +574,7 @@ class ilMail
                 'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', @json_encode((array) $a_tpl_context_params)]
+                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_context_params)]
             ],
             [
                 'mail_id' => ['integer', $a_draft_id]
@@ -579,18 +585,18 @@ class ilMail
     }
 
     /**
-     * @param integer $folderId
-     * @param integer $senderUsrId
+     * @param int $folderId
+     * @param int $senderUsrId
      * @param array $attachments
      * @param string $to
      * @param string $cc
      * @param string $bcc
      * @param string $status
-     * @param integer $email
+     * @param int $email
      * @param string $subject
      * @param string $message
-     * @param integer $usrId
-     * @param integer $usePlaceholders
+     * @param int $usrId
+     * @param int $usePlaceholders
      * @param string|null $templateContextId
      * @param array|null $templateContextParameters
      * @return int
@@ -668,7 +674,7 @@ class ilMail
             'm_subject' => array('text', $subject),
             'm_message' => array('clob', $message),
             'tpl_ctx_id' => array('text', $templateContextId),
-            'tpl_ctx_params' => array('blob', @json_encode((array) $templateContextParameters))
+            'tpl_ctx_params' => array('blob', json_encode((array) $templateContextParameters))
         ));
 
         $raiseEvent = (int) $usrId !== $this->mailbox->getUsrId();
@@ -695,7 +701,7 @@ class ilMail
     /**
      * @param string $message
      * @param int $usrId
-     * @param boolean $replaceEmptyPlaceholders
+     * @param bool $replaceEmptyPlaceholders
      * @return string
      */
     protected function replacePlaceholders(
@@ -775,8 +781,7 @@ class ilMail
                 $subject,
                 $this->replacePlaceholders($message, 0, false),
                 $attachments,
-                $sentMailId,
-                false
+                $sentMailId
             );
         } else {
             $usrIds = $this->getUserIds([$to, $cc, $bcc]);
@@ -793,8 +798,7 @@ class ilMail
                 $subject,
                 $message,
                 $attachments,
-                $sentMailId,
-                false
+                $sentMailId
             );
         }
 
@@ -892,8 +896,7 @@ class ilMail
                 0,
                 $subject,
                 $individualMessage,
-                $user->getId(),
-                0
+                $user->getId()
             );
 
             if (count($attachments) > 0) {
@@ -1225,7 +1228,7 @@ class ilMail
             $rcp_bcc = '';
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc, true);
+        $numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc);
         if (
             $numberOfExternalAddresses > 0 &&
             !$this->isSystemMail() &&
@@ -1321,7 +1324,7 @@ class ilMail
             $this->mfile->saveFiles($internalMessageId, $attachments);
         }
 
-        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc, true);
+        $numberOfExternalAddresses = $this->getCountRecipients($to, $cc, $bcc);
 
         if ($numberOfExternalAddresses > 0) {
             $externalMailRecipientsTo = $this->getEmailRecipients($to);
@@ -1425,8 +1428,7 @@ class ilMail
             0,
             $subject,
             $message,
-            $this->user_id,
-            0
+            $this->user_id
         );
     }
 
@@ -1589,7 +1591,7 @@ class ilMail
             $lang->txt('mail_auto_generated_info'),
             $DIC->settings()->get('inst_name', 'ILIAS ' . ((int) ILIAS_VERSION_NUMERIC)),
             ilUtil::_getHttpPath()
-            ) . "\n\n";
+        ) . "\n\n";
     }
 
     /**

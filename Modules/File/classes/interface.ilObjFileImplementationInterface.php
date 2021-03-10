@@ -124,22 +124,6 @@ interface ilObjFileImplementationInterface
      */
     public function getVersions($version_ids = null) : array;
 
-    /**
-     * @param int $version_id The version id to get.
-     * @return array The specific version or false if the version was not found.
-     * @deprecated
-     *                        Gets a specific file version.
-     */
-    public function getSpecificVersion($version_id);
-
-    /**
-     * @param int $version_id The id of the version to make the current one.
-     * @return array The new actual version.
-     * @deprecated
-     *                        Makes the specified version the current one and returns theSummary of rollbackVersion
-     */
-    public function rollback($version_id);
-
     public function export($a_target_dir);
 
 }

@@ -181,15 +181,15 @@ class ilRepositoryGUI
         }
 
         // get user setting
-        if ($_SESSION["il_rep_mode"] == "") {
+        if (!ilSession::get("il_rep_mode")) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                $_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
+                ilSession::set("il_rep_mode", $ilUser->getPref("il_rep_mode"));
             }
         }
 
         // if nothing set, get default view
-        if ($_SESSION["il_rep_mode"] == "") {
-            $_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
+        if (!ilSession::get("il_rep_mode")) {
+            ilSession::set("il_rep_mode", $ilSetting->get("default_repository_view"));
         }
 
         $this->mode = ($_SESSION["il_rep_mode"] != "")
@@ -228,9 +228,12 @@ class ilRepositoryGUI
 
         // check creation mode
         // determined by "new_type" parameter
-        $new_type = ($_POST["new_type"] != "" && $ilCtrl->getCmd() == "create")
-            ? $_POST["new_type"]
-            : $_GET["new_type"];
+        $new_type = '';
+        if (isset($_POST["new_type"]) && is_string($_POST["new_type"]) && $_POST["new_type"] !== '') {
+            $new_type = $_POST["new_type"];
+        } elseif (isset($_GET["new_type"]) && is_string($_GET["new_type"]) && $_GET["new_type"] !== '') {
+            $new_type = $_GET["new_type"];
+        }
 
         if ($new_type != "" && $new_type != "sty") {
             $this->creation_mode = true;

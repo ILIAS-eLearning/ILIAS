@@ -89,33 +89,14 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Main Bar is a unique page section that bundles access to content-
-     *     based navigational strategies (like the repository tree) as well as
-     *     navigation to services unrelated to the actual content, like the
-     *     administrative settings.
-     *
-     *     Since the controls necessary for theses purposes might be quite complex,
-     *     they are summed up in an easy to grasp Icon or Glyph in conjunction with
-     *     a short text. Theses reductions form the entries for the Main Bar, which
-     *     thus is the primary list of navigational options for the user and the
-     *     usual starting point for the user to explore the system.
-     *
-     *     There are entries in the bar that are never modified by changing context,
-     *     but may vary according to e.g. the current user's permissions or settings
-     *     of the installation. There also is the tools-section of entries in the bar
-     *     that is used to show tools that are opened on request of the user, e.g. the
-     *     help, or depending on requirements of the content, e.g. a local navigation.
-     *
-     *     However, content actions, like  "new item"-actions, the actions-menu (with
-     *     comments, notes and tags), moving, linking or deleting objects and the like
-     *     are NOT part of the Main Bar.
-     *
-     *     Also, there should be a differentiation between elements of the Main Bar
-     *     and elements of e.g., the Personal Dekstop: The Personal Desktop provides
-     *     access to services and tools and displays further information at first
-     *     glance (e.g. the calendar). The Main Bar may reference those tools as well,
-     *     but rather in form of a link than a widget.
-     *
+     *     The Main Bar allows exploring the content and features of the plattform.
+     *     The Main Bar provides users their usual means to access to content, services and settings.
+     *     The Main Bar may offer access to content, services and settings independent
+     *     from what is presented in the content area.
+     *     The creation and management of repository objects are not part of the Main bar.
+     *     The Main Bar offers space for Tools to be displayed besides the actual content.
+     *     Tools home functionality that could not be placed elsewhere, there is no sophisticated concept.
+     *     We strive to keep the number of Tools low and hone the concept further.
      *   composition: >
      *     The Main Bar holds Slates and Bulky Buttons.
      *
@@ -179,12 +160,13 @@ interface Factory
      * rules:
      *   usage:
      *     1: There SHOULD be a Main Bar on the page.
-     *     2: If there is a Main Bar, it MUST be unique for the page.
-     *     3: >
+     *     2: There MUST NOT be more than one Main Bar on the page.
+     *     3: If there is a Main Bar, it MUST be unique for the page.
+     *     4: >
      *       Entries and Tools in the Main Bar, or for that matter, their respective
      *       slate-contents, MUST NOT be used to reflect the outcome of a user's
      *       action, e.g., display a success-message.
-     *     4: >
+     *     5: >
      *       Contents of the slates, both in Entries and Tools, MUST NOT be used
      *       to provide information of a content object if that information
      *       cannot be found in the content itself. They MUST NOT be used as

@@ -79,9 +79,9 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      */
     final protected function removeUnsupportedElements(array $elements) : array
     {
-        $supportedElements = array();
+        $supportedElements = [];
 
-        $notSupportedTags = array(
+        $notSupportedTags = [
             'rp',
             'rt',
             'rb',
@@ -92,7 +92,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
             'strike',
             'param',
             'object'
-        );
+        ];
 
         foreach ($elements as $element) {
             if (!in_array($element, $notSupportedTags)) {

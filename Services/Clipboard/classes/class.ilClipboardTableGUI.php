@@ -108,6 +108,21 @@ class ilClipboardTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("IMG_THUMB", $target);
                 $this->tpl->parseCurrentBlock();
             }
+            if ($med && ilUtil::deducibleSize($med->getFormat()) &&
+                $med->getLocationType() == "Reference") {
+                $size = @getimagesize($med->getLocation());
+                if ($size[0] > 0 && $size[1] > 0) {
+                    $wr = $size[0] / 80;
+                    $hr = $size[1] / 80;
+                    $r = max($wr, $hr);
+                    $w = (int) ($size[0] / $r);
+                    $h = (int) ($size[1] / $r);
+                    $this->tpl->setVariable(
+                        "IMG",
+                        ilUtil::img($med->getLocation(), "", $w, $h)
+                    );
+                }
+            }
         } elseif ($a_set["type"] == "incl") {
             $this->tpl->setCurrentBlock("thumbnail");
             $this->tpl->setVariable(

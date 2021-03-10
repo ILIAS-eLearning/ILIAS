@@ -99,6 +99,11 @@ class StorableFileResource implements StorableResource
         $this->revisions->add($revision);
     }
 
+    public function removeRevision(Revision $revision) : void
+    {
+        $this->revisions->remove($revision);
+    }
+
     /**
      * @inheritDoc
      */

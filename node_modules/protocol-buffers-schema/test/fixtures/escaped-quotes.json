@@ -20,7 +20,7 @@
             "required": false,
             "repeated": false,
             "options": {
-              "tagger.tags": "\"bson:\\\"_id,omitempty\\\"\""
+              "tagger.tags": "\"a:'Hello, there', bson:\\\"_id,omitempty\\\"\""
             }
           }
         ],

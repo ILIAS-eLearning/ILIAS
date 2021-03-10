@@ -72,7 +72,10 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
      */
     public function executeCommand()
     {
-        $this->checkPermission('read');
+        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
@@ -94,7 +97,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
                         $this->save();
                         break;
                     default:
-                        throw new Exception(__METHOD__ . " :: Unknown command " . $cmd);
+                        throw new Exception(__METHOD__ . ' :: Unknown command ' . $cmd);
                 }
         }
     }

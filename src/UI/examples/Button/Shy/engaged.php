@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Button\Shy;
+
 function engaged()
 {
     global $DIC;
@@ -8,5 +11,4 @@ function engaged()
     $button = $f->button()->shy("Engaged Button", "#")
                                   ->withEngagedState(true);
     return $renderer->render($button);
-
 };

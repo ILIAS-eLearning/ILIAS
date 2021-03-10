@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Layout\Page\Standard;
 
 use ILIAS\Data\URI;
 
@@ -14,7 +16,7 @@ function ui()
 }
 
 
-if ($_GET['new_ui'] == '1') {
+if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
     _initIliasForPreview();
 
     $f = $DIC->ui()->factory();
@@ -51,7 +53,7 @@ if ($_GET['new_ui'] == '1') {
         'Std. Page Demo' //view title
     )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
         ->withSystemInfos(
-            [$f->mainControls()->headInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
+            [$f->mainControls()->systemInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
                ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
         )
     ->withUIDemo(true);
@@ -60,7 +62,7 @@ if ($_GET['new_ui'] == '1') {
 }
 
 
-if ($_GET['replaced'] == '1') {
+if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
     echo('Helo. Content from RPC.');
     exit();
 }

@@ -92,4 +92,5 @@
                 array(
                 ),
             'path' => 'src/UI/Factory',
+            'namespace' => 'ILIAS\\UI\\Factory',
 );

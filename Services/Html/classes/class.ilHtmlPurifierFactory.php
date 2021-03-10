@@ -20,11 +20,9 @@ class ilHtmlPurifierFactory
         switch ($type) {
             case 'frm_post':
                 return new ilHtmlForumPostPurifier();
-                break;
 
             case 'qpl_usersolution':
                 return new ilAssHtmlUserSolutionPurifier();
-                break;
         }
 
         throw new ilHtmlPurifierNotFoundException(sprintf(

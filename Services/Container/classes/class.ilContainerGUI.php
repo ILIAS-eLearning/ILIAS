@@ -122,6 +122,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected $ui_filter;
 
+    /** @var bool  */
+    protected $edit_order = false;
+
+    /** @var bool */
+    protected $adminCommands = false;
+
     /**
     * Constructor
     * @access public
@@ -505,7 +511,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl = $this->tpl;
         
         // dont show icon, if role (permission gui->rolegui) is edited
-        if ($_GET["obj_id"] != "") {
+        if (isset($_GET["obj_id"]) && $_GET["obj_id"] != "") {
             return;
         }
         // hide for member view
@@ -670,7 +676,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($_SESSION["clipboard"]) {
+        if (ilSession::get("clipboard")) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
@@ -2474,16 +2480,16 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         return true;
     }
 
-    public function isActiveAdministrationPanel()
+    public function isActiveAdministrationPanel() : bool
     {
         // #10081
-        if ($_SESSION["il_cont_admin_panel"] &&
+        if (ilSession::get("il_cont_admin_panel") &&
             $this->object->getRefId() &&
             !$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             return false;
         }
         
-        return $_SESSION["il_cont_admin_panel"];
+        return (bool) ilSession::get("il_cont_admin_panel");
     }
     
     /**

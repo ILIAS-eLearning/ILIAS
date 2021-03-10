@@ -11,6 +11,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\RepositoryLink;
 
 /**
  * Class ilMMItemInformation
@@ -65,7 +66,12 @@ class ilMMItemInformation implements ItemInformation
         if (!$default_language) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
-
+        if ($item instanceof RepositoryLink && empty($item->getTitle())) {
+            $item = $item->withTitle(($item->getRefId() > 0) ?
+                \ilObject2::_lookupTitle(\ilObject2::_lookupObjectId($item->getRefId())) :
+                ""
+            );
+        }
         if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
             && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
         ) {

@@ -32,8 +32,6 @@
 		}
 
 		.dropdown {
-			float: right;
-
 			> button.dropdown-toggle {
 				color: @il-btn-standard-color;
 			}
@@ -51,6 +49,7 @@
 .panel-flex{
 	.panel-heading {
 		display: flex;
+		justify-content: space-between;
 		flex-flow: row wrap;
 	}
 	.ilHeader{
@@ -62,25 +61,22 @@
 		line-height: ceil(@font-size-h4 * 1.235);
 		order: 1;
 	}
-	.ilBlockHeader h4{
+	.ilBlockHeader h4,.ilHeader h4{
 		flex-grow: 99;
 		flex-shrink: 1;
 		order: 1;
 	}
-	.panel-heading .dropdown {
-		flex-grow: 1;
-		flex-shrink: 0;
-		order: 3;
-		.dropdown-toggle {
-			float: right;
-		}
-	}
 	.il-viewcontrol-sortation {
 		flex-grow: 1;
-		flex-shrink: 0;
+		flex-shrink: 1;
 		order: 2;
 		margin-right: @padding-base-horizontal;
 	}
+	.panel-heading .dropdown {
+		flex-shrink: 1;
+		order: 3;
+	}
+
 	.il-viewcontrol-pagination, .il-viewcontrol-section {
 		flex-grow: 1;
 		flex-shrink: 1;
@@ -113,8 +109,6 @@
 	}
 
 	.panel-body {
-		overflow: hidden;
-
 		.il-item-group{
 			margin: 0 -@padding-large-horizontal;
 			h3{

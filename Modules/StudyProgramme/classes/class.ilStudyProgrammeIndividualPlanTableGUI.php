@@ -27,7 +27,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
      */
     protected $sp_user_progress_db;
 
-    public function __construct(ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj, ilStudyProgrammeUserAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db)
+    public function __construct(ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj, ilStudyProgrammeAssignment $a_ass, \ilStudyProgrammeUserProgressDB $sp_user_progress_db)
     {
         $this->setId("manage_indiv");
 
@@ -147,8 +147,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function fetchData()
     {
-        $prg = $this->assignment->getStudyProgramme();
-        $prg_id = $prg->getId();
+        $prg_id = $this->assignment->getRootId();
+        $prg = ilObjStudyProgramme::getInstanceByObjId($prg_id);
+
         $ass_id = $this->assignment->getId();
         $usr_id = $this->assignment->getUserId();
         $plan = array();

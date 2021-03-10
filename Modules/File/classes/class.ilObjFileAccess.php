@@ -270,6 +270,11 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         return in_array($extension, self::$_inlineFileExtensionsArray);
     }
 
+    public function isMigrated():bool
+    {
+
+    }
+
     /**
      * Gets the file extension of the specified file name.
      * The file name extension is converted to lower case before it is returned.
@@ -406,6 +411,8 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
     public static function _preloadData($a_obj_ids, $a_ref_ids) : void
     {
         global $DIC;
+
+        $DIC->language()->loadLanguageModule('file');
         /**
          * @var $DIC Container
          */
@@ -419,12 +426,13 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[$row["obj_id"]]["date"] = $row["latest"];
         }
 
-        $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count" . " FROM file_data" . " WHERE "
+        $set = $DIC->database()->query("SELECT file_size, version, file_id, page_count, rid" . " FROM file_data" . " WHERE "
             . $DIC->database()->in("file_id", $a_obj_ids, "", "integer"));
         while ($row = $DIC->database()->fetchAssoc($set)) {
             self::$preload_list_gui_data[$row["file_id"]]["size"] = $row["file_size"];
             self::$preload_list_gui_data[$row["file_id"]]["version"] = $row["version"];
             self::$preload_list_gui_data[$row["file_id"]]["page_count"] = $row["page_count"];
+            self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
         }
 
         $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',

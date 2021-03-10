@@ -151,14 +151,13 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
                 'sortable' => false,
                 'width' => '10%'
             ];
-        };
+        }
 
         return $columns;
     }
 
     /**
-     * @param array $data
-     * @return array
+     * @inheritDoc
      */
     protected function preProcessData(array &$data) : void
     {
@@ -185,7 +184,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
     protected function formatCellValue(string $column, array $row) : string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
-            return \ilDatePresentation::formatDate(new \ilDateTime($row[$column], IL_CAL_UNIX));
+            return ilDatePresentation::formatDate(new ilDateTime($row[$column], IL_CAL_UNIX));
         } elseif ('sorting' === $column) {
             return $this->formatSorting($row);
         } elseif ('title' === $column) {
@@ -193,7 +192,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         } elseif ('actions' === $column) {
             return $this->formatActionsDropDown($column, $row);
         } elseif ('chb' === $column) {
-            return \ilUtil::formCheckbox(false, 'tos_id[]', $row['id']);
+            return ilUtil::formCheckbox(false, 'tos_id[]', $row['id']);
         } elseif ('criteria' === $column) {
             return $this->formatCriterionAssignments($column, $row);
         }
@@ -268,7 +267,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
 
         foreach ($row['criteriaAssignments'] as $criterion) {
-            /** @var $criterion ilTermsOfServiceDocumentCriterionAssignment */
+            /** @var ilTermsOfServiceDocumentCriterionAssignment $criterion */
 
             $this->ctrl->setParameter($this->getParentObject(), 'tos_id', $row['id']);
             $this->ctrl->setParameter($this->getParentObject(), 'crit_id', $criterion->getId());

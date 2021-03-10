@@ -7,8 +7,8 @@
  */
 class ilTermsOfServiceTableDataProviderFactory
 {
-    const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
-    const CONTEXT_DOCUMENTS = 'documents';
+    public const CONTEXT_ACCEPTANCE_HISTORY = 'acceptance_history';
+    public const CONTEXT_DOCUMENTS = 'documents';
 
     /** @var ilDBInterface|null */
     protected $db;
@@ -50,10 +50,10 @@ class ilTermsOfServiceTableDataProviderFactory
 
     /**
      * @param string $member
-     * @return ilTermsOfServiceMissingDatabaseAdapterException
+     * @return ilTermsOfServiceException
      * @throws InvalidArgumentException
      */
-    protected function getExceptionByMember(string $member)
+    protected function getExceptionByMember(string $member) : ilTermsOfServiceException
     {
         switch ($member) {
             case 'db':

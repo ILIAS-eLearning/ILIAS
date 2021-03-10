@@ -10,6 +10,7 @@
 
 	.il-item-title {
 		font-size: @font-size-base;
+		display: inline-block;
 		.btn-link, a {
 			font-size: inherit;
 			line-height: @line-height-base;
@@ -26,6 +27,7 @@
 	}
 
 	.dropdown {
+		display: inline-block;
 		float: right;
 	}
 
@@ -99,6 +101,11 @@
 .il-notification-item{
 	//To give some extra space in case for vertical scroll bar
 	padding-right: @il-item-padding + 3px;
+	.il-item-notification-title{
+		display: inline-block;
+		margin: 0;
+	}
+
 	.il-item-additional-content{
 		clear:both;
 	}
@@ -114,92 +121,38 @@
 
 }
 
-/* this is currently experimental, could be removed */
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {
 		padding: @padding-large-vertical @padding-small-horizontal;
-		display: table;
 		width: 100%;
 
-		h5 {
-			margin-top: 0;
-			font-size: @font-size-base;
-			float: none;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
+		.il-item-title {
+			word-break: break-word;
 		}
 
 		.il-item-description {
 			padding-top: 0;
 			font-size: @font-size-xs;
-		}
-
-		.il-item-divider, .il-item-property-name, .il-item-property-value {
-			display: none;
-		}
-
-		.row {
-			display: table-row;
+			word-break: break-word;
 		}
 
 		.col-sm-3 {
-			display: table-cell;
-			height: 100%;
-			padding: 0;
-			float: none;
-			vertical-align: top;
+			margin-top: @padding-base-vertical;
+			margin-left: 0;
 			width: 45px;
+			img {
+				width: 40px;
+			}
 		}
 
-		.col-sm-3 img {
-			width: 40px;
+		.col-sm-9{
+			width: calc(100% - 45px);
 		}
-
-		.col-sm-9 {
-			position: static;
-			display: table-cell;
-			padding: 0 @padding-small-horizontal;
-			overflow: hidden;
-			max-width: 0;
-			float: none;
-			zoom: 1;
-			vertical-align: top;
-			/* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
-				see known issues at https://caniuse.com/#search=calc */
+		.col-md-6{
 			width: 100%;
 		}
 
-		.dropdown {
-			position: static;
-		}
-
-		.dropdown-menu  {
-			width: 100%;
-		}
-
-		.dropdown-toggle {
-			position: absolute;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			margin-top: -20px;
-			z-index: 1;
-		}
-
-		.open > .dropdown-toggle.btn-default:hover, .open > .dropdown-toggle.btn-default {
-			background-color: transparent;
-		}
-
-		button.dropdown-toggle {
-			background-color: transparent;
-			border: 0;
-		}
-
-		button.dropdown-toggle > span {
-			display: none;
-		}
 	}
 }
 
@@ -209,13 +162,7 @@
 }
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
-
 	.il-item {
-		div.col-sm-3 > h5 {
-			font-size: @font-size-h6;
-			float: none;
-		}
-
 		.il-item-divider {
 			padding: @il-item-divider-padding;
 			margin: 0;

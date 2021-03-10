@@ -37,6 +37,10 @@ class ilGlobalCacheSettings implements Setup\Config
      * @var int
      */
     protected $log_level = self::LOG_LEVEL_NONE;
+    /**
+     * @var ilMemcacheServer[]
+     */
+    protected $memcached_nodes = [];
 
 
     /**
@@ -247,5 +251,18 @@ class ilGlobalCacheSettings implements Setup\Config
         }
 
         return '';
+    }
+
+    public function addMemcachedNode(ilMemcacheServer $node_id) : void
+    {
+        $this->memcached_nodes[] = $node_id;
+    }
+
+    /**
+     * @return ilMemcacheServer[]
+     */
+    public function getMemcachedNodes() : array
+    {
+        return $this->memcached_nodes;
     }
 }

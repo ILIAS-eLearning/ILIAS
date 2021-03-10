@@ -27,8 +27,8 @@
 	<copage>
 		<pageobject parent_type="prtf" class_name="ilPortfolioPage" directory="classes"/>
 		<pageobject parent_type="prtt" class_name="ilPortfolioTemplatePage" directory="classes"/>
-		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="250"/>
-		<pagecontent pc_type="mcrs" name="MyCourses" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="260"/>
+		<pagecontent pc_type="cach" name="ConsultationHours" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="138"/>
+		<pagecontent pc_type="mcrs" name="MyCourses" directory="classes" int_links="0" style_classes="0" xsl="0" def_enabled="0" top_item="1" order_nr="137"/>
 	</copage>
 
 	<web_access_checker>

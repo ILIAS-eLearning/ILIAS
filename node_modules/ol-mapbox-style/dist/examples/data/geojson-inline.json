@@ -1,0 +1,1039 @@
+{
+  "zoom": 6,
+  "center": [5, 5],
+  "layers": [{
+    "source": "points",
+    "type": "symbol",
+    "id": "points",
+    "layout": {
+      "icon-image": {
+        "property": "cat",
+        "type": "categorical",
+        "default": "",
+        "stops": [
+          [1, "accommodation_camping"],
+          [2, "amenity_firestation"]
+        ]
+      }
+    }
+  }],
+  "name": "QGIS project",
+  "sources": {
+    "points": {
+      "data": {
+        "type": "FeatureCollection",
+        "crs": {
+          "type": "name",
+          "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+          }
+        },
+        "features": [{
+          "type": "Feature",
+          "properties": {
+            "n": 2,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 3,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 4,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 5,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 6,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 7,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 8,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 9,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 10,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 11,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [0.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 12,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 13,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 14,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 15,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 16,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 17,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 18,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 19,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 20,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 21,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [1.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 22,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 23,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 24,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 25,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 26,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 27,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 28,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 29,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 30,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 31,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [2.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 32,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 33,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 34,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 35,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 36,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 37,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 38,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 39,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 40,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 41,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [3.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 42,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 43,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 44,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 45,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 46,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 47,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 48,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 49,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 50,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 51,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [4.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 52,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 53,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 54,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 55,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 56,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 57,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 58,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 59,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 60,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 61,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [5.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 62,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 63,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 64,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 65,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 66,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 67,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 68,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 69,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 70,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 71,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [6.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 72,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 73,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 74,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 75,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 76,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 77,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 78,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 79,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 80,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 81,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [7.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 82,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 83,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 84,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 85,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 86,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 87,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 88,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 89,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 90,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 91,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [8.5, 9.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 92,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 0.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 93,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 1.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 94,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 2.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 95,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 3.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 96,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 4.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 97,
+            "cat": 1
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 5.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 98,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 6.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 99,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 7.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 100,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 8.5]
+          }
+        }, {
+          "type": "Feature",
+          "properties": {
+            "n": 101,
+            "cat": 2
+          },
+          "geometry": {
+            "type": "Point",
+            "coordinates": [9.5, 9.5]
+          }
+        }]
+      },
+      "type": "geojson"
+    }
+  },
+  "version": 8,
+  "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+  "sprite": "./sprites"
+}

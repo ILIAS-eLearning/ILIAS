@@ -6323,4 +6323,33 @@ if ($ilDB->tableColumnExists("reg_access_limit", "limit_relative_y")) {
     $ilDB->dropTableColumn("reg_access_limit", "limit_relative_y");
 }
 ?>
+<#5775>
+<?php
+$table_name = 'il_adn_notifications';
+$columns = [
+    'event_start',
+    'event_end',
+    'display_start',
+    'display_end',
+    'create_date',
+    'last_update',
+];
 
+foreach ($columns as $column) {
+    if ($ilDB->tableExists($table_name)) {
+        if ($ilDB->tableColumnExists($table_name, $column)) {
+            $ilDB->dropTableColumn($table_name, $column);
+        }
+        $ilDB->addTableColumn($table_name, $column, array(
+            "type" => "integer",
+            "notnull" => false,
+            "length" => 8,
+            "default" => 0
+        ));
+    }
+}
+?>
+<#5776>
+<?php
+$ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
+?>

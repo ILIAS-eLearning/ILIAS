@@ -52,7 +52,7 @@ class Factory implements I\Container\Factory
     /**
      * @inheritdoc
      */
-    public function viewControl(): I\Container\ViewControl\Factory
+    public function viewControl() : I\Container\ViewControl\Factory
     {
         return $this->viewcontrol_factory;
     }

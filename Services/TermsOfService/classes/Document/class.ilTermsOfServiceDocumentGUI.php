@@ -432,7 +432,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             }
 
             foreach ($documents as $document) {
-                /** @var $document ilTermsOfServiceDocument */
+                /** @var ilTermsOfServiceDocument $document */
                 $confirmation->addItem('tos_id[]', $document->getId(), implode(' | ', [
                     $document->getTitle()
                 ]));
@@ -448,7 +448,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected function processDocumentDeletion(array $documents) : void
     {
         foreach ($documents as $document) {
-            /** @var $document ilTermsOfServiceDocument */
+            /** @var ilTermsOfServiceDocument $document */
             $document->delete();
         }
 

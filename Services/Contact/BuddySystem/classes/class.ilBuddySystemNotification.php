@@ -58,7 +58,7 @@ class ilBuddySystemNotification
 
             $personalProfileLink = $recipientLanguage->txt('buddy_noti_cr_profile_not_published');
             if ($this->hasPublicProfile((int) $user->getId())) {
-                $personalProfileLink = ilLink::_getStaticLink($this->sender->getId(), 'usr', true);
+                $personalProfileLink = ilLink::_getStaticLink($this->sender->getId(), 'usr');
             }
 
             $bodyParams = [

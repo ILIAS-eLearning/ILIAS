@@ -30,6 +30,10 @@ class ilFileObjectToStorageVersion
      * @var int
      */
     protected $owner = 6;
+    /**
+     * @var int
+     */
+    protected $creation_date_timestamp = 0;
 
     /**
      * ilFileObjectToStorageVersion constructor.
@@ -39,6 +43,7 @@ class ilFileObjectToStorageVersion
      * @param string $title
      * @param string $action
      * @param int    $owner
+     * @param int    $creation_date_timestamp
      */
     public function __construct(
         int $version,
@@ -46,6 +51,7 @@ class ilFileObjectToStorageVersion
         string $filename,
         string $title,
         string $action,
+        int $creation_date_timestamp,
         int $owner = 6
     ) {
         $this->version = $version;
@@ -54,6 +60,7 @@ class ilFileObjectToStorageVersion
         $this->title = $title;
         $this->action = $action;
         $this->owner = $owner;
+        $this->creation_date_timestamp = $creation_date_timestamp;
     }
 
     /**
@@ -102,6 +109,14 @@ class ilFileObjectToStorageVersion
     public function getOwner() : int
     {
         return $this->owner;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCreationDateTimestamp() : int
+    {
+        return $this->creation_date_timestamp;
     }
 
 }

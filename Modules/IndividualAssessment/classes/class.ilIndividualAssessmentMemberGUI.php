@@ -191,46 +191,46 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
-        $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $action = $this->ctrl->getFormAction($this, 'update');
-        $this->ctrl->clearParameterByClass(self::class, 'usr_id');
-
         $this->setToolbar();
-        $form = $this->buildForm($action, true);
+        $form = $this->buildForm($this->getFormActionForCommand(self::CMD_UPDATE), true);
         $this->tpl->setContent($this->renderer->render($form));
     }
 
     protected function update()
     {
         $form = $this
-            ->buildForm($this->ctrl->getFormAction($this, self::CMD_UPDATE), true)
+            ->buildForm($this->getFormActionForCommand(self::CMD_UPDATE), true)
             ->withRequest($this->request)
         ;
 
         /** @var ilIndividualAssessmentUserGrading $grading */
         $grading = $form->getData();
-        if (!is_null($grading)) {
-            if ($grading->getFile() == '') {
-                $storage = $this->getUserFileStorage();
-                $storage->deleteCurrentFile();
-            }
-
-            if ($grading->isFinalized()) {
-                $not_finalized_grading = $grading->withFinalized(false);
-                $this->saveMember($not_finalized_grading);
-                $this->finalizeConfirmation();
-                return;
-            }
-
-            $this->saveMember($grading);
-
-            if ($this->getObject()->isActiveLP()) {
-                ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
-            }
-
-            ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
-            $this->redirect(self::CMD_EDIT);
+        if (is_null($grading)) {
+            $this->tpl->setContent($this->renderer->render($form));
+            return;
         }
+
+        if ($grading->getFile() == '') {
+            $storage = $this->getUserFileStorage();
+            $storage->deleteCurrentFile();
+        }
+
+        if ($grading->isFinalized()) {
+            $not_finalized_grading = $grading->withFinalized(false);
+            $this->saveMember($not_finalized_grading);
+            $this->finalizeConfirmation();
+            return;
+        }
+
+        $this->saveMember($grading);
+
+        if ($this->getObject()->isActiveLP()) {
+            ilIndividualAssessmentLPInterface::updateLPStatusOfMember($this->getMember());
+        }
+
+        ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
+        $this->redirect(self::CMD_EDIT);
+
     }
 
     protected function amend()
@@ -240,13 +240,18 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return;
         }
 
+        $this->setToolbar();
+        $form = $this->buildForm($this->getFormActionForCommand(self::CMD_SAVE_AMEND), true, true);
+        $this->tpl->setContent($this->renderer->render($form));
+    }
+
+    protected function getFormActionForCommand(string $cmd) : string
+    {
         $this->ctrl->setParameterByClass(self::class, 'usr_id', $this->getExaminee()->getId());
-        $action = $this->ctrl->getFormAction($this, self::CMD_SAVE_AMEND);
+        $action = $this->ctrl->getFormAction($this, $cmd);
         $this->ctrl->clearParameterByClass(self::class, 'usr_id');
 
-        $this->setToolbar();
-        $form = $this->buildForm($action, true, true);
-        $this->tpl->setContent($this->renderer->render($form));
+        return $action;
     }
 
     protected function downloadFile()
@@ -294,6 +299,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     ) : ILIAS\UI\Component\Input\Container\Form\Form {
         $section = $this->getMember()->getGrading()->toFormInput(
             $this->input_factory->field(),
+            $this->data_factory,
             $this->lng,
             $this->refinery_factory,
             $this->getPossibleLPStates(),
@@ -329,7 +335,7 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
         }
 
         try {
-            $grading = $member->getGrading()->withFinalize(true);
+            $grading = $member->getGrading()->withFinalized(true);
             $member = $member->withGrading($grading);
             $this->getObject()->membersStorage()->updateMember($member);
         } catch (ilIndividualAssessmentException $e) {
@@ -469,7 +475,14 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
     {
         $name = $this->getFileName();
 
-        if (is_null($name)) {
+        $ids = array_filter($file_ids, function ($id) {
+            if ($id == "") {
+                return false;
+            }
+            return true;
+        });
+
+        if (is_null($name) || count($ids) === 0) {
             return [];
         }
 

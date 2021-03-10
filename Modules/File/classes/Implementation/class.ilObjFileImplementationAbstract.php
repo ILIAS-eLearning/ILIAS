@@ -102,12 +102,6 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
 
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function rollback($version_id)
-    {
 
-    }
 
 }

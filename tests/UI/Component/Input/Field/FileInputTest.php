@@ -117,10 +117,33 @@ class FileInputTest extends ILIAS_UI_TestBase
         $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label</label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>		<div class="help-block">byline</div>			</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+           <label for="id_1" class="control-label col-sm-3">label</label>	
+           <div class="col-sm-9">
+              <div class="il-input-file" id="id_1">
+                 <div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                 <div class="il-input-file-filelist">
+                    <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                       <div class="dz-details">
+                          <div class="il-input-file-fileinfo">
+                             <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                             <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                             <div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>
+                          </div>
+                          <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			
+                          <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                       </div>
+                    </div>
+                 </div>
+                 <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+              </div>
+              <div class="help-block">byline</div>
+           </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -135,10 +158,38 @@ class FileInputTest extends ILIAS_UI_TestBase
         $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source)->withError($error);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label</label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>		<div class="help-block">byline</div>		<div class="help-block alert alert-danger" role="alert">			<img border="0" src="./templates/default/images/icon_alert.svg" alt="alert" />			an_error		</div>	</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div class="il-input-file" id="id_1">
+                    <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                    <div class="il-input-file-filelist">
+                        <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                            <div class="dz-details">
+                                <div class="il-input-file-fileinfo">
+                                    <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                                    <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                                    <div class="il-input-file-fileinfo-close">
+                                        <button type="button" class="close" data-dz-remove><span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                                    </div>
+                                </div>
+                                <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
+                                <!--			<div class="dz-success-mark"><span>✔</span></div>-->
+                                <!--			<div class="dz-error-mark"><span>✘</span></div>-->
+                                <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+                </div>
+                <div class="help-block">byline</div>
+                <div class="help-block alert alert-danger" role="alert"><img border="0" src="./templates/default/images/icon_alert.svg" alt="alert" />an_error</div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -151,10 +202,36 @@ class FileInputTest extends ILIAS_UI_TestBase
         $text = $f->file($this->getUploadHandler(), $label)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label</label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>					</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div class="il-input-file" id="id_1">
+                    <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                    <div class="il-input-file-filelist">
+                        <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                            <div class="dz-details">
+                                <div class="il-input-file-fileinfo">
+                                    <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                                    <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                                    <div class="il-input-file-fileinfo-close">
+                                        <button type="button" class="close" data-dz-remove><span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                                    </div>
+                                </div>
+                                <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
+                                <!--			<div class="dz-success-mark"><span>✔</span></div>-->
+                                <!--			<div class="dz-error-mark"><span>✘</span></div>-->
+                                <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+                </div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -168,10 +245,36 @@ class FileInputTest extends ILIAS_UI_TestBase
         $text = $f->file($this->getUploadHandler(), $label)->withValue($value)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label</label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>					</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div class="il-input-file" id="id_1">
+                    <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                    <div class="il-input-file-filelist">
+                        <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                            <div class="dz-details">
+                                <div class="il-input-file-fileinfo">
+                                    <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                                    <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                                    <div class="il-input-file-fileinfo-close">
+                                        <button type="button" class="close" data-dz-remove><span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                                    </div>
+                                </div>
+                                <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
+                                <!--			<div class="dz-success-mark"><span>✔</span></div>-->
+                                <!--			<div class="dz-error-mark"><span>✘</span></div>-->
+                                <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+                </div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -180,14 +283,39 @@ class FileInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $label = "label";
-        $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label)->withNameFrom($this->name_source)->withRequired(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label<span class="asterisk">*</span></label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>					</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
+            <div class="col-sm-9">
+                <div class="il-input-file" id="id_1">
+                    <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                    <div class="il-input-file-filelist">
+                        <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                            <div class="dz-details">
+                                <div class="il-input-file-fileinfo">
+                                    <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                                    <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                                    <div class="il-input-file-fileinfo-close">
+                                        <button type="button" class="close" data-dz-remove><span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                                    </div>
+                                </div>
+                                <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
+                                <!--			<div class="dz-success-mark"><span>✔</span></div>-->
+                                <!--			<div class="dz-error-mark"><span>✘</span></div>-->
+                                <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+                </div>
+            </div>
+        </div>
+        ');
         $this->assertEquals($expected, $html);
     }
 
@@ -196,21 +324,42 @@ class FileInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $label = "label";
-        $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label)->withNameFrom($this->name_source)->withDisabled(true);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected
-            = '<div class="form-group row">	<label for="name_0" class="control-label col-sm-3">label</label>	<div class="col-sm-9">		<div class="il-input-file" id="id_1"><div class="il-input-file-dropzone">	<button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div><div class="il-input-file-filelist">	<div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red" data-file-id="">		<div class="dz-details">			<div class="il-input-file-fileinfo">				<div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>				<div data-dz-size class="il-input-file-fileinfo-size"></div>				<div class="il-input-file-fileinfo-close">					<button type="button" class="close" data-dz-remove>						<span aria-hidden="true">&times;</span>						<span class="sr-only">Close</span>					</button>				</div>			</div>			<!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->			<!--			<div class="dz-success-mark"><span>✔</span></div>-->			<!--			<div class="dz-error-mark"><span>✘</span></div>-->			<div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>		</div>	</div></div><input class="input-template" type="hidden" name="name_0[]" value="" data-file-id=""></div>					</div></div>';
+        $expected = $this->brutallyTrimHTML('
+        <div class="form-group row">
+            <label for="id_1" class="control-label col-sm-3">label</label>
+            <div class="col-sm-9">
+                <div class="il-input-file" id="id_1">
+                    <div class="il-input-file-dropzone"><button class="btn btn-link" data-action="#" id="id_2">select_files_from_computer</button></div>
+                    <div class="il-input-file-filelist">
+                        <div class="il-input-file-template dz-preview dz-file-preview" style="display: block; border: 1px solid red;" data-file-id="">
+                            <div class="dz-details">
+                                <div class="il-input-file-fileinfo">
+                                    <div class="il-input-file-fileinfo-title"><span data-dz-name></span></div>
+                                    <div data-dz-size class="il-input-file-fileinfo-size"></div>
+                                    <div class="il-input-file-fileinfo-close">
+                                        <button type="button" class="close" data-dz-remove><span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+                                    </div>
+                                </div>
+                                <!--			<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>-->
+                                <!--			<div class="dz-success-mark"><span>✔</span></div>-->
+                                <!--			<div class="dz-error-mark"><span>✘</span></div>-->
+                                <div class="dz-error-message il-input-file-error"><span data-dz-errormessage></span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="input-template" type="hidden" name="name_0[]" value="" data-file-id="" />
+                </div>
+            </div>
+        </div>
+        ');
 
         $this->assertEquals($expected, $html);
     }
-
-    //
-    //
-    //
 
     protected function buildButtonFactory()
     {
@@ -223,7 +372,6 @@ class FileInputTest extends ILIAS_UI_TestBase
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
-
     public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
     {
         $ui_factory = $this->getUIFactory();
@@ -235,6 +383,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         }
 
         $refinery = $this->getRefinery();
+        $img_resolver = new ilImagePathResolver();
 
         $component_renderer_loader
             = new LoaderCachingWrapper(
@@ -246,21 +395,24 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
+                            $refinery,
+                            $img_resolver
                         ),
                         new GlyphRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
+                            $refinery,
+                            $img_resolver
                         ),
                         new FieldRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,
                             $js_binding,
-                            $refinery
+                            $refinery,
+                            $img_resolver
                         )
                     )
                 )

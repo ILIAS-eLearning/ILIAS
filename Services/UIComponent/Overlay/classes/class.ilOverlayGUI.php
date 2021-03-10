@@ -21,6 +21,14 @@ class ilOverlayGUI
     protected $anchor_anch_corner = "";
     protected $auto_hide = false;
     protected $close_el = null;
+    /** @var string */
+    protected $trigger_el_id = '';
+    /** @var string */
+    protected $trigger_event = '';
+    /** @var string */
+    protected $trigger_anchor_el_id = '';
+    /** @var string */
+    protected $overlay_el_id = '';
     
     /**
      * Constructor

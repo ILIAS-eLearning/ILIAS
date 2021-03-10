@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Input\Field\Tag;
+
 /**
  * Example show how to create and render a basic tag input field and attach it to a
  * form. This example does not contain any data processing.
@@ -15,7 +18,7 @@ function base_with_value()
         "Basic TagInput",
         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
         "Just some tags"
-        )->withValue(["Interesting"]);
+    )->withValue(["Interesting"]);
 
     //Step 2, define form and form actions
     $form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);

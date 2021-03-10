@@ -368,7 +368,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
             $row = $ilDB->fetchAssoc($result);
         }
 
-        return ($row['complete']) ? true : false;
+        return isset($row['complete']) && $row['complete'];
     }
 
     /**

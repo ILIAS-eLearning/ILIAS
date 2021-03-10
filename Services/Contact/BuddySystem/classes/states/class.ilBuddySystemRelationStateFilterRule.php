@@ -33,7 +33,7 @@ abstract class ilBuddySystemRelationStateFilterRule
 
     /**
      * @param ilBuddySystemRelationState $state
-     * @return boolean
+     * @return bool
      */
     abstract public function __invoke(ilBuddySystemRelationState $state) : bool;
 }

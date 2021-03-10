@@ -148,7 +148,7 @@ class ilSkinXMLTest extends TestCase
         $this->skin->addStyle($this->substyle2);
         $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1]);
         $this->assertEquals($this->skin->getSubstylesOfStyle("style2"), [$this->substyle2->getId() => $this->substyle2]);
-        $this->skin->updateParentStyleOfSubstyles($this->style2->getId(),$this->style1->getId());
+        $this->skin->updateParentStyleOfSubstyles($this->style2->getId(), $this->style1->getId());
         $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1,$this->substyle2->getId() => $this->substyle2]);
     }
 

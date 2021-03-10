@@ -132,11 +132,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 	
 	<div class="il-card-repository-head">
 		<div>
-			<div class="icon crs medium" aria-label="Course">
-
-
-</div>
-
+			<img class="icon crs medium" src="./templates/default/images/icon_crs.svg" alt="Course" />
 		</div>
 		<div>
 			
@@ -175,11 +171,7 @@ EOT;
 			
 		</div>
 		<div>
-			<div class="icon cert medium outlined" aria-label="Certificate">
-
-
-</div>
-
+			<img class="icon cert medium outlined" src="./templates/default/images/outlined/icon_cert.svg" alt="Certificate" />
 		</div>
 		<div class="il-card-repository-dropdown">
 			
@@ -245,7 +237,6 @@ EOT;
 
     public function test_render_with_actions()
     {
-        $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
         $items = array(
@@ -253,36 +244,29 @@ EOT;
         );
         $dropdown = new I\Component\Dropdown\Standard($items);
         $c = $c->withActions($dropdown);
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
-        $expected_html = <<<EOT
-<div class="il-card thumbnail">
-	
-	<div class="il-card-repository-head">
-		<div>
-			
-		</div>
-		<div>
-			
-		</div>
-		<div class="il-card-repository-dropdown">
-			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
-<ul class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >Visit ILIAS</button>
-</li>
-</ul>
-</div>
-
-		</div>
-	</div>
-<img src="src" class="img-standard" alt="alt" />
-	<div class="card-no-highlight"></div>
-	<div class="caption">
-		<div class="card-title">Card Title</div>
-	</div>
-	
-</div>
-EOT;
+        $expected_html = $this->brutallyTrimHTML('
+            <div class="il-card thumbnail">
+                <div class="il-card-repository-head">
+                    <div></div>
+                    <div></div>
+                    <div class="il-card-repository-dropdown">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></button>
+                            <ul class="dropdown-menu">
+                                <li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2">Visit ILIAS</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <img src="src" class="img-standard" alt="alt" />
+                <div class="card-no-highlight"></div>
+                <div class="caption">
+                    <div class="card-title">Card Title</div>
+                </div>
+            </div>
+        ');
 
         $this->assertHTMLEquals($expected_html, $html);
     }

@@ -9,8 +9,8 @@ require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
  */
 abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
 {
-    const RELATION_OWNER_ID = -1;
-    const RELATION_BUDDY_ID = -2;
+    private const RELATION_OWNER_ID = -1;
+    private const RELATION_BUDDY_ID = -2;
 
     /** @var bool */
     protected $backupGlobals = false;
@@ -18,10 +18,7 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
     /** @var ilBuddySystemRelation */
     protected $relation;
 
-    /**
-     *
-     */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->relation = new ilBuddySystemRelation($this->getInitialState());
         $this->relation->setUsrId(self::RELATION_OWNER_ID);

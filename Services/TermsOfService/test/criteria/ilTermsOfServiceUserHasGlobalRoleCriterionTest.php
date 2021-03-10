@@ -32,7 +32,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     /**
      * @inheritDoc
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         parent::setUp();
 

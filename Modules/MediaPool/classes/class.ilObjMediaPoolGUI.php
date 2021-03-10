@@ -833,7 +833,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ret = $page_gui->showPage(true);
 
         //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("MEDIA_CONTENT", $ret);
+        $tpl->setVariable("MEDIA_CONTENT", "<div>".$ret."</div>");
 
 
         $tpl->printToStdout();
@@ -1998,7 +1998,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setPreventDoubleSubmission(false);
 
-        $item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
+        $item = new ilFileStandardDropzoneInputGUI(
+            'cancel',
+            $lng->txt("mep_media_files"),
+            'media_files'
+        );
         $item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
         $item->setMaxFiles(20);
         $form->addItem($item);

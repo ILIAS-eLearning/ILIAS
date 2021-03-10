@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Modal\LightboxTextPage;
+
 function show_a_single_text()
 {
     global $DIC;

@@ -178,7 +178,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $this->ui_factory->legacy($form->getHtml())
         );
 
-        $submit = $this->ui_factory->button()->primary($this->txt('save'), "#")->withOnLoadCode(
+        $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
                 return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
             }
@@ -245,6 +245,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             (is_null($src_type) || $src_type == "") ||
             (is_null($src_id) || $src_id == 0)
         ) {
+            ilUtil::sendFailure($this->txt('no_srctype_or_id'), true);
+            $this->ctrl->redirect($this, self::CMD_VIEW);
             return;
         }
 
@@ -265,6 +267,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
+        ilUtil::sendSuccess($this->txt("auto_add_success"), true);
+        $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     protected function deleteConfirmation()
@@ -688,12 +692,12 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         if ($is_enabled) {
             $items[] = $this->ui_factory->button()->shy(
-                $this->txt('disable'),
+                $this->txt('deactivate'),
                 $this->ctrl->getLinkTarget($this, self::CMD_DISABLE)
             );
         } else {
             $items[] = $this->ui_factory->button()->shy(
-                $this->txt('enable'),
+                $this->txt('activate'),
                 $this->ctrl->getLinkTarget($this, self::CMD_ENABLE)
             );
         }

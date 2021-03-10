@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\MainControls\Footer;
+
 function footer()
 {
     global $DIC;
@@ -14,15 +17,15 @@ function footer()
     $footer = $f->mainControls()->footer($links, $text)
         ->withPermanentURL(
             $df->uri(
-                $_SERVER['REQUEST_SCHEME'] .
+                isset($_SERVER['REQUEST_SCHEME']) ?  $_SERVER['REQUEST_SCHEME']:"http" .
                 '://' .
-                $_SERVER['SERVER_NAME'] .
+                    (isset($_SERVER['SERVER_NAME']) ?  $_SERVER['SERVER_NAME']:"localhost") .
                 ':' .
-                $_SERVER['SERVER_PORT'] .
+                    (isset($_SERVER['SERVER_PORT']) ?  $_SERVER['SERVER_PORT']:"80") .
                 str_replace(
                     'ilias.php',
                     'goto.php?target=xxx12345',
-                    $_SERVER['SCRIPT_NAME']
+                    isset($_SERVER['SCRIPT_NAME']) ?  $_SERVER['SCRIPT_NAME']:""
                 )
             )
         );

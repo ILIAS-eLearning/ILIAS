@@ -7,7 +7,7 @@
  */
 class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceSignableDocument
 {
-    const TABLE_NAME = 'tos_documents';
+    private const TABLE_NAME = 'tos_documents';
 
     /**
      * @var string
@@ -153,7 +153,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         parent::create();
 
         foreach ($this->criteria as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
             $criterionAssignment->setDocId($this->getId());
             $criterionAssignment->store();
         }
@@ -169,16 +168,16 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
         $this->setModificationTs(time());
 
         foreach ($this->criteria as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
             $criterionAssignment->setDocId($this->getId());
             $criterionAssignment->store();
         }
 
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
             $found = array_filter(
                 $this->criteria,
-                function (ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use ($criterionAssignment) {
+                static function (ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use (
+                    $criterionAssignment
+                ) : bool {
                     return $criterionToMatch->getId() == $criterionAssignment->getId();
                 }
             );
@@ -199,7 +198,6 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     public function delete()
     {
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
             $criterionAssignment->delete();
         }
 
@@ -223,10 +221,9 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     public function attachCriterion(ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment) : void
     {
         foreach ($this->criteria as $currentAssignment) {
-            /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
             if ($currentAssignment->equals($criterionAssignment)) {
                 throw new ilTermsOfServiceDuplicateCriterionAssignmentException(sprintf(
-                    "Cannot attach duplicate criterion with criterion typeIdent %s and value: %s",
+                    'Cannot attach duplicate criterion with criterion typeIdent %s and value: %s',
                     $criterionAssignment->getCriterionId(),
                     var_export($criterionAssignment->getCriterionValue(), true)
                 ));
@@ -255,7 +252,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
         if ($numCriteriaAfterRemoval === $numCriteriaBeforeRemoval) {
             throw new OutOfBoundsException(sprintf(
-                "Could not find any criterion with criterion typeIdent %s and value: %s",
+                'Could not find any criterion with criterion typeIdent %s and value: %s',
                 $criterionAssignment->getCriterionId(),
                 var_export($criterionAssignment->getCriterionValue(), true)
             ));
@@ -275,7 +272,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
             $criteria = ilTermsOfServiceDocumentCriterionAssignment::where(['doc_id' => $this->getId()])->get();
             foreach ($criteria as $criterionAssignment) {
-                /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
+                /** @var ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment */
                 $this->criteria[] = $criterionAssignment;
             }
 

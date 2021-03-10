@@ -33,20 +33,20 @@ interface ilPasswordEncoder
 
     /**
      * Returns whether or not the encoder requires a salt
-     * @return boolean
+     * @return bool
      */
     public function requiresSalt() : bool;
 
     /**
      * Returns whether or not the a encoded password needs to be re-encoded
-     * @param $encoded string
-     * @return boolean
+     * @param string $encoded
+     * @return bool
      */
     public function requiresReencoding(string $encoded) : bool;
 
     /**
      * Returns whether or not the encoder is supported by the runtime (PHP, HHVM, ...)
-     * @return boolean
+     * @return bool
      */
     public function isSupportedByRuntime() : bool;
 }

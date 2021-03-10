@@ -12412,7 +12412,7 @@ assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all corr
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).###23 12 2015 new variable
 common#:#user_not_found_to_delete#:#A user could not be found to delete.###23 12 2015 new variable
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
 rbac#:#role_confirm_block_role#:#Save Role Status###23 12 2015 new variable
 rbac#:#role_blocked#:#: <i>Role will be blocked</i>###23 12 2015 new variable
@@ -15938,7 +15938,7 @@ prg#:#last_edited_by#:#Last Editor###07 02 2020 new variable
 prg#:#last_edited#:#Last edited###07 02 2020 new variable
 prg#:#add_category#:#Add Category###07 02 2020 new variable
 prg#:#modal_categories_title#:#Category to be monitored###07 02 2020 new variable
-prg#:#category#:#Category RefId###07 02 2020 new variable
+prg#:#category#:#Category###07 02 2020 new variable
 common#:#obj_prgr#:#Link to Study Programme###07 02 2020 new variable
 common#:#obj_prgrs#:#Links to Study Programmes###07 02 2020 new variable
 prg#:#prgr_new#:#Create Study Programme Link###07 02 2020 new variable

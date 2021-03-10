@@ -152,7 +152,7 @@ class ilGroupXMLWriter extends ilXmlWriter
         $attrs["id"] = "il_" . $this->ilias->getSetting('inst_id') . '_grp_' . $this->group_obj->getId();
         
         switch ($this->group_obj->readGroupStatus()) {
-            case GRP_TYPE_PUBLIC:
+            case GRP_TYPE_OPEN:
                 $attrs['type'] = 'open';
                 break;
                 

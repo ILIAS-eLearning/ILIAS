@@ -55,6 +55,7 @@ common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
 common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
+common#:#tools#:#Tools
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
 administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
@@ -1455,7 +1456,7 @@ assessment#:#finish_pass_for_user_confirmation#:#Wollen Sie den Test Durchlauf f
 assessment#:#finish_pass_for_all_users#:#Wollen Sie wirklich die Test Durchläufe für alle Benutzer beenden?
 assessment#:#finish_all_user_passes#:#Alle Testdurchläufe beenden
 assessment#:#finish_unfinished_passes#:#Beendet noch offene Testdurchläufe
-assessment#:#finish_unfinished_passes_desc#:#Testdurchläufe, welche noch nicht beendet wurden, wo aber entweder ein Ende konfiguriert ist, oder welche die Maximale Bearbietungsdauer überschritten haben, werden beendet.
+assessment#:#finish_unfinished_passes_desc#:#Noch nicht beendete Testdurchläufe werden automatisch beendet – vorausgesetzt, es wurde für diese Tests ein Endzeitpunkt festgelegt oder Teilnehmende haben die maximale Bearbeitungsdauer überschritten.
 assessment#:#tst_general_properties#:#Einstellungen des Tests
 assessment#:#tst_heading_scoring#:#Bewertung
 assessment#:#tst_hide_side_list#:#Fragenliste aus
@@ -1898,6 +1899,7 @@ assessment#:#sign_submission_info#:#Das Signatur-Plugin muss installiert und akt
 assessment#:#tst_corrections_manscore_reset_warning#:#Es liegen %s manuelle Bewertungen für die Frage "%s (ID: %s)" vor. Alle manuellen Bewertungen werden zurückgesetzt wenn die Frage gespeichert wird.
 assessment#:#tst_qst_added_to_pool_s#:#Die Frage wurde erfolgreich in den Fragenpool übernommen.
 assessment#:#tst_qst_added_to_pool_p#:#Die Fragen wurden erfolgreich in den Fragenpool übernommen.
+assessment#:#autosavecontent#:#Inhalt Autosave
 auth#:#auth_account_code#:#Code
 auth#:#auth_account_code_info#:#Um Ihr Benutzerkonto zu reaktivieren, können Sie einen ILIAS-Benutzerkonten-Code benutzen.
 auth#:#auth_account_code_title#:#Benutzerkonten-Code
@@ -4288,7 +4290,7 @@ common#:#shib_department#:#Attribut für Departement
 common#:#shib_email#:#Attribut für E-Mailadresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
-common#:#shib_gender#:#Attribut für Anrede (muss 'm' oder 'f' sein)
+common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
 common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
@@ -4901,19 +4903,19 @@ content#:#cont_ed_insert_flst#:#Dateiliste einfügen
 content#:#cont_ed_insert_iim#:#Interaktives Bild einfügen
 content#:#cont_ed_insert_incl#:#Inhaltsbaustein einfügen
 content#:#cont_ed_insert_list#:#Erweiterte Liste einfügen
-content#:#cont_ed_insert_login_page_element#:#Login-Seitenelement einfügen
+content#:#cont_ed_insert_lpe#:#Login-Seitenelement einfügen
 content#:#cont_ed_insert_map#:#Karte einfügen
 content#:#cont_ed_insert_media#:#Bild/Audio/Video einfügen
 content#:#cont_ed_insert_par#:#Text einfügen
 content#:#cont_ed_insert_pcqst#:#Frage einfügen
 content#:#cont_ed_insert_plach#:#Platzhalter einfügen
-content#:#cont_ed_insert_profile#:#Persönliche Daten einfügen
+content#:#cont_ed_insert_prof#:#Persönliche Daten einfügen
 content#:#cont_ed_insert_qover#:#Fragenübersicht einfügen
 content#:#cont_ed_insert_repobj#:#Materialienliste einfügen
 content#:#cont_ed_insert_sec#:#Block einfügen
 content#:#cont_ed_insert_skills#:#Kompetenzen einfügen
 content#:#cont_ed_insert_tabs#:#Akkordeon einfügen
-content#:#cont_ed_insert_verification#:#Zertifikat einfügen
+content#:#cont_ed_insert_vrfc#:#Zertifikat einfügen
 content#:#cont_ed_item_down#:#Eintrag nach unten verschieben
 content#:#cont_ed_item_up#:#Eintrag nach oben verschieben
 content#:#cont_ed_list#:#Erweiterte Liste
@@ -5393,7 +5395,7 @@ content#:#cont_text_code#:#Programmcode:
 content#:#cont_text_com#:#Kommentar:
 content#:#cont_text_emp#:#Betonter Text:
 content#:#cont_text_fn#:#Fußnote:
-content#:#cont_text_iln#:#Interner Link, z.B.:
+content#:#cont_text_iln_link#:#Interner Link
 content#:#cont_text_imp#:#Wichtig:
 content#:#cont_text_keyword#:#Schlagwort
 content#:#cont_text_placeh#:#Klicken und bearbeiten, um einen Text einzufügen
@@ -5401,7 +5403,7 @@ content#:#cont_text_placehl#:#Text-Platzhalter
 content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
-content#:#cont_text_xln#:#Externer Link:
+content#:#cont_text_xln#:#Externer Link
 content#:#cont_third_and_more#:#Dritte oder später
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
@@ -6522,6 +6524,7 @@ form#:#form_password_required_for_auth#:#Für die gewählte Authentifizierungmet
 form#:#form_please_select#:#Bitte auswählen
 form#:#form_retype_password#:#Passwort nochmals eingeben
 form#:#form_seconds#:#Sekunden
+form#:#form_msg_max_upload#:#Maximale Anzahl von gleichzeitig hochladbaren Dateien:
 forum#:#activate_new_posts#:#Neue Beiträge freischalten
 forum#:#activate_only_current#:#Beitrag freischalten
 forum#:#activate_post#:#Freischalten
@@ -9211,7 +9214,7 @@ survey#:#median#:#Median
 survey#:#median_between#:#zwischen
 survey#:#menuback#:#Zurück
 survey#:#menubacktosurvey#:#Zurück zur Umfrage
-survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangscodes ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
+survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das Versenden des Zugangsschlüssels ein. Sie sollten die Platzhalter [code] (Zugangsschlüssel), [url] (die URL zu dieser Umfrage) verwenden und Platzhalter, die Sie in den Importdaten der Mailempfänger verwendet haben: %s. Die Platzhalter werden mit den importierten Teilnehmerdaten ersetzt.
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein nummerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
@@ -9259,7 +9262,7 @@ survey#:#percentage_of_selections#:#Anteil an den insgesamt ausgewählten Antwor
 survey#:#phrase_added#:#Phrase hinzugefügt
 survey#:#phrase_new#:#Neue Phrase erstellen
 survey#:#phrase_saved#:#Die Phrase wurde erfolgreich gespeichert
-survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangscode [code].
+survey#:#please_enter_mail_code#:#Bitte verwenden Sie den Platzhalter für den Zugangsschlüssel [code].
 survey#:#please_enter_mail_url#:#Bitte verwenden Sie den Platzhalter für die URL [url].
 survey#:#please_select#:#-- bitte auswählen --
 survey#:#preview#:#Vorschau
@@ -10876,7 +10879,7 @@ tos#:#tos_account_reg_not_possible#:#Eine Selbstregistrierung ist aktuell nicht 
 tos#:#tos_reevaluate_on_login#:#Prüfe neue Nutzungsvereinbarung beim Login
 tos#:#tos_reevaluate_on_login_desc#:#Falls aktiviert, wird nach erfolgreicher Anmeldung über die Weboberfläche geprüft, ob ein ggf. bereits akzeptiertes Dokument keine Gültigkeit mehr hat, da sich die Vorlagekriterien des Benutzers geändert haben. Ist dies der Fall, und kann ILIAS ein neues Dokument finden, so muss der Benutzer dieses neu aktepzieren.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
-tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos. 
+tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 ecs#:#ecs_sync_trees#:#CMS-Verzeichnisbäume aktualisieren
 rbac#:#chtr_delete#:#Chat löschen oder verschieben
 ecs#:#ecs_role_mappings#:#Rollenzuordnung für Kurse/Gruppen
@@ -11193,6 +11196,7 @@ survey#:#survey_reminder_frequency_days#:#Tage
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_target_group_parent_course#:#Alle Teilnehmer des übergeordneten Kurses/Gruppe, welche die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeordneter Kurs/Gruppe - keine Erinnerung möglich!
+survey#:#survey_notification_target_group_invited#:#Teilnehmer, denen die Umfrage auf den Persönlichen Schreibtisch gelegt wurde und die die Umfrage noch nicht abgeschlossen haben
 survey#:#survey_notification_target_group_invited_info#:#Aktuelle Anzahl der Empfänger: %s
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
 survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
@@ -11376,6 +11380,8 @@ rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
 rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
 rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
 rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
+rbac#:#edit_in_online_editor#:#In Online-Editor bearbeiten
+rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
 wsp#:#wsp_shared_date#:#Freigabedatum
 wsp#:#wsp_shared_type#:#Freigegeben für
 wsp#:#wsp_shared_object_type#:#Typ der Ressource
@@ -11743,7 +11749,7 @@ grp#:#grp_mail_tutors_only#:#Nur für Administratoren
 grp#:#grp_mail_all#:#Für alle Mitglieder
 grp#:#grp_mail_tutors_only_info#:#Nur Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
 grp#:#grp_mail_all_info#:#Mitglieder und Administratoren können die Funktion "Mail an Mitglieder" im Reiter Mitglieder nutzen.
-content#:#cont_ed_insert_consultation_hours#:#Sprechstunden einfügen
+content#:#cont_ed_insert_cach#:#Sprechstunden einfügen
 content#:#cont_insert_consultation_hours#:#Sprechstunden hinzufügen
 content#:#cont_update_consultation_hours#:#Sprechstunden bearbeiten
 content#:#cont_cach_mode#:#Modus
@@ -12061,7 +12067,8 @@ rep#:#rep_time_period#:#Zeitraum
 cntr#:#exc_next_deadline_single#:#Abgabefrist
 trac#:#trac_object_statistics_info#:#Wenn aktiviert, werden Daten für die Zugriffsstatistiken gesammelt.
 ldap#:#ldap_user_sync_cron_info#:#Wenn aktiviert, werden Benutzerkonten aus dem LDAP-Verzeichnis importiert und optional laufend synchronisiert.
-survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert.
+survey#:#survey_reminder_cron#:#Benutzer an Teilnahme erinnern / Tutoren Ergebnisse zusenden
+survey#:#survey_reminder_cron_info#:#Wenn aktiviert, werden Benutzer an die Teilnahme an Umfragen erinnert und Tutoren erhalten die Ergebnisse zugesendet.
 cron#:#cron_action_activate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs aktivieren?
 cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs deaktivieren?
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
@@ -12189,7 +12196,7 @@ blog#:#blog_abstract_image_info#:#Das erste Bild des Beitrags wird auf die hier 
 blog#:#blog_abstract_image_width#:#Breite
 blog#:#blog_abstract_image_height#:#Höhe
 blog#:#blog_abstract_image_pixels#:#Px
-content#:#cont_ed_insert_my_courses#:#Meine Kurse einfügen
+content#:#cont_ed_insert_mcrs#:#Meine Kurse einfügen
 content#:#cont_insert_my_courses#:#Meine Kurse einfügen
 content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
@@ -12286,7 +12293,7 @@ survey#:#svy_mail_own_results_subject#:#Umfrage "%s" - Ihre Antworten
 survey#:#svy_results_view_own#:#Teilnehmer kann eigene Antworten einsehen
 wiki#:#wiki_wpg#:#Wiki-Seite
 wiki#:#wiki_advmd_block_title#:#Benutzerdefinierte Metadaten der Seite
-content#:#cont_ed_insert_amd_page_list#:#Seitenliste einfügen
+content#:#cont_ed_insert_amdpl#:#Seitenliste einfügen
 content#:#cont_insert_amd_page_list#:#Seitenliste einfügen
 content#:#cont_update_amd_page_list#:#Seitenliste bearbeiten
 obj#:#obj_tool_setting_taxonomies#:#Taxonomien
@@ -12815,7 +12822,7 @@ administration#:#language_merge_local_changes_info#:#Mischt alle lokalen Änderu
 administration#:#language_remove_local_file_info#:#Entfernt die Datei Customizing/global/lang/ilias_%s.lang.local und setzt den Status der Sprache von "Mit lokaler Version installiert" auf "Installiert". Die Einträge in der Datenbank sind davon nicht betroffen.
 administration#:#language_save_dist#:#Backup der Standard-Sprachdatei erzeugen
 administration#:#language_save_dist_info#:#Erzeugt ein Backup der Standard-Sprachdatei im externen ILIAS-Datenverzeichnis. Dies hilft nach einem ILIAS-Update, Konflikte von eigenen Änderungen mit aktualisierten Sprachvariablen zu finden.
-administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt.
+administration#:#language_saved_dist#:#Das Backup der Standard-Sprachdatei wurde erzeugt und im externen ILIAS-Datenverzeichnis abgelegt.
 administration#:#language_save_dist_failed#:#Das Backup der Standard-Sprachdatei konnte nicht geschrieben werden.
 crs#:#crs_loc_type_initial_all_info#:#Anhand der Ergebnisse des Einstiegstests empfiehlt ILIAS Lerninhalte für die  noch nicht erreichten Lernziele. Ein Qualifizierender Test prüft zum Abschluss  die Erreichung aller Lernziele.
 crs#:#crs_loc_type_qualified_info#:#Der Kurs startet mit einem Test, der individuell prüft, ob die Kursmitglieder die Lernziele bereits beherrschen. Beim Bestehen des Tests, brauchen weder weitere Lerninhalte noch Tests bearbeitet werden. Für alle nicht erreichten Lernziele empfiehlt ILIAS Lerninhalte. Die Erreichung dieser Lernziele wird in einem weiteren Testdurchlauf abgeprüft.
@@ -13003,7 +13010,8 @@ style#:#sty_type_ca_ihead#:#Karussell - Kopfzeile Element
 wiki#:#wiki_link_md_values#:#Automatische Verlinkung
 wiki#:#wiki_link_md_values_info#:#Verlinkt automatisch Eigenschaftenwerte im Seitenblock mit gleichlautenden Wikiseiten (wenn vorhanden).
 cron#:#cron_result_status_fail#:#Fehler
-content#:#cont_wiki_link_dialog#:#Link zu einer Wikiseite (Dialog)
+content#:#cont_wiki_link_dialog#:#Wikiseite (Dialog)
+content#:#cont_link_user#:#Benutzerprofil
 link#:#link_link#:#Link
 common#:#toggle_dropdown#:#Toggle Dropdown
 forum#:#reply_to_postings#:#Antworten
@@ -13718,7 +13726,7 @@ rbac#:#sess_edit_learning_progress#:#Benutzer kann Lernfortschrittseinstellungen
 rbac#:#read_results#:#Umfrageergebnisse
 rbac#:#svy_read_results#:#Benutzer hat Zugriff auf alle Umfrageergebnisse
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".###23 12 2015 new variable
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
+maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.###23 12 2015 new variable
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.###23 12 2015 new variable
 crs#:#event_user_selection_include_role#:#Binde alle Benutzer der Rolle "%1$s" ein
 crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warteliste" ein
@@ -14206,7 +14214,7 @@ iass#:#iass_internal_note#:#Interne Anmerkungen zur Prüfung
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
 iass#:#iass_status_pending#:#Noch nicht bewertet
-iass#:#iass_notify#:#Teilnehmer nach abschließender Bewertung benachrichtigen
+iass#:#iass_notify#:#Ergebnis dem Teilnehmer zugänglich machen
 iass#:#iass_finalize#:#Abschließen
 iass#:#il_iass_member#:#Teilnehmer
 iass#:#il_iass_members#:#Teilnehmer
@@ -14929,13 +14937,17 @@ lhist#:#lhist_learning_history#:#Lernverlauf
 mme#:#flush#:#Verlorene Einträge löschen
 mme#:#msg_subitem_flushed#:#Verlorene Einträge wurden gelöscht.
 mme#:#main#:#Hauptmenü
-mme#:#select_parent#:#Haupteintrag auswählen
+mme#:#select_parent#:#Zugehörigen Haupteintrag auswählen
 mme#:#subtab_topitems#:#Haupteinträge
 mme#:#subtab_subitems#:#Einträge
 mme#:#tab_back#:#Zurück
 mme#:#topitem_add#:#Haupteintrag hinzufügen
 mme#:#restore#:#Hauptmenu zurücksetzen
+mme#:#msg_moved#:#Eintrag wurde erfolgreich verschoben.
+mme#:#msg_not_moved#:#Eintrag konnte nicht verschoben werden, wähle einen gültigen Haupteintrag aus.
+mme#:#confirm_move#:#Möchten Sie diesen Eintrag zu einem Haupteintrag machen?
 mme#:#move_to_item#:#Zu Einträge verschieben
+mme#:#move_to_top_item#:#In Haupteinträge verschieben
 mme#:#msg_restore_confirm#:#Alle angelegten Einträge und Übersetzungen werden gelöscht, die Standardeinträge werden auf ihren Ursprungszustand zurückgesetzt. Alle Anpassungen am Hauptmenu gehen verloren.
 mme#:#msg_restored#:#Hauptmenu zurückgesetzt
 mme#:#topitem_edit#:#Bearbeiten
@@ -15094,7 +15106,7 @@ prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
-content#:#cont_ed_insert_learning_history#:#Lernverlauf
+content#:#cont_ed_insert_lhist#:#Lernverlauf einfügen
 lhist#:#lhist_all#:#All
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_manual#:#Manual
@@ -15472,7 +15484,7 @@ exc#:#exc_find_zip_error#:#Die Abgabe kann nicht geöffnet werden. Die Originald
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 exc#:#exc_compare_submissions#:#Vergleiche Lösungsabgaben
 exc#:#exc_compare_selected_submissions#:#Vergleiche ausgewählte Lösungsabgaben
-wiki#:#wiki_notification_comment_subject#:#Es wurd ein Kommentar zur Seite "%s: %s" hinzugefügt
+wiki#:#wiki_notification_comment_subject#:#Es wurde ein Kommentar zur Seite "%s: %s" hinzugefügt
 wiki#:#wiki_notification_comment#:#die folgende Seite wurde kommentiert
 wiki#:#wiki_commented_by#:#Autor
 content#:#cont_notification_activated#:#Benachrichtigung aktiviert (Gesamtes Lernmodul)
@@ -15482,7 +15494,7 @@ content#:#cont_notification_deactivate_page#:#Benachrichtigungen für Seite deak
 content#:#cont_notification_activate_lm#:#Benachrichtigungen für Lernmodul aktivieren
 content#:#cont_notification_activate_page#:#Benachrichtigungen für Seite aktivieren
 content#:#cont_notification_deactivated#:#Benachrichtigungen wurden deaktiviert.
-content#:#cont_notification_comment_subject_lm#:#Es wurd ein Kommentar zur Seite %s: %s" hinzugefügt
+content#:#cont_notification_comment_subject_lm#:#Es wurde ein Kommentar zur Seite %s: %s" hinzugefügt
 content#:#cont_change_notification_salutation#:#Hallo %s,
 content#:#cont_notification_comment_lm#:#die folgende Seite wurde kommentiert
 content#:#cont_notification_update_lm#:#das folgende Lernmodul wurde geändert
@@ -15574,7 +15586,7 @@ dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt
 dash#:#dash_click_here#:#Hier klicken
 svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
 svy#:#svy_invite_participants#:#Teilnehmer einladen
-svy#:#svy_codes#:#Zugriffscodes
+svy#:#svy_codes#:#Zugangsschlüssel
 svy#:#svy_part_overview#:#Übersicht
 svy#:#svy_remove_participants#:#Teilnehmer entfernen
 svy#:#svy_status#:#Status
@@ -16074,7 +16086,7 @@ prg#:#last_edited_by#:#Zuletzt bearbeitet von
 prg#:#last_edited#:#Zuletzt bearbeitet
 prg#:#add_category#:#Kategorie hinzufügen
 prg#:#modal_categories_title#:#Zu überwachende Kategorie
-prg#:#category#:#Kategorie (RefId)
+prg#:#category#:#Kategorie
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
 prg#:#prgr_new#:#Neuer Link zum Studienprogramm
@@ -16293,6 +16305,10 @@ survey#:#svy_sum_score#:#Skalenpunktesumme
 survey#:#svy_max_sum_score#:#Maximale Skalenpunktesumme
 content#:#cont_select_none#:#Auswahl aufheben
 feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
+common#:#lso_admin_form_title#:#Einstellungen
+common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
+common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden. 
 common#:#mainbar_more_label#:#Mehr
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
@@ -16398,11 +16414,12 @@ mob#:#mob_upload_file#:#Datei hochladen
 mob#:#mob_external_url#:#Externe URL
 mob#:#mob_choose_from_pool#:#Aus Medienpool
 mob#:#mob_url#:#URL
-mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.
+mob#:#mob_url_info#:#Externe URL, z.B. Youtube oder Vimeo URL.
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 common#:#obj_adn#:#Ankündigungen
 adn#:#main#:#Ankündigungen
+adn#:#msg_type_0#:#Hinweis
 adn#:#msg_type_1#:#Hinweis
 adn#:#msg_type_2#:#Wichtig
 adn#:#msg_type_3#:#Eilmeldung
@@ -16429,12 +16446,16 @@ adn#:#msg_limit_to_roles_info#:#Nur ausgewählte Rollen sehen die Ankündigung.
 adn#:#msg_form_title#:#Ankündigung
 adn#:#msg_table_title#:#Ankündigungen
 adn#:#common_actions#:#Aktionen
+adn#:#msg_error_false_date_configuration#:#Mit dieser Konfiguration von Daten kann keine Benachrichtigung erstellt werden. Das Ereignis muss innerhalb der Anzeigezeit liegen.
 adn#:#common_add_msg#:#Ankündigung hinzufügen
 adn#:#msg_reset_dismiss#:#Für alle Benutzer zurücksetzen
 adn#:#msg_form_button_reset#:#Zurücksetzen
 adn#:#msg_form_button_delete#:#Löschen
 adn#:#msg_form_button_cancel#:#Abbrechen
 adn#:#msg_success_deleted#:#Ankündigung erfolgreich gelöscht
+adn#:#msg_success_created#:#Ankündigung erstellt
+adn#:#msg_success_reset#:#Ankündigung zurückgesetzt
+adn#:#msg_success_updated#:#Ankündigung aktualisiert
 common#:#objs_prgr#:#Links zu Studienprogrammen
 rbac#:#prgr_copy#:#Links zu Studienprogrammen kopieren
 rbac#:#prgr_delete#:#Links zu Studienprogrammen verschieben oder löschen
@@ -16483,3 +16504,11 @@ rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_write#:#Einstellungen in Administration für xAPI/cmi5 ändern
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
+prg#:#no_srctype_or_id#:#Id und Typ dürfen nicht leer sein.
+prg#:#auto_add_success#:#Automatismus erfolgreich hinzugefügt.
+maps#:#maps_https_for_reverse_lookup#:#Https für Reverse Lookup
+tagging#:#no_tag_text_1#:#Sie haben aktuell noch keine Tags genutzt. Um dies zu tun, müssen Sie zwei Schritte machen:
+tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
+form#:#form_invalid_uri#:#Ungültiges URI-Format.
+common#:#installation_status#:#Status Installation

@@ -7,7 +7,7 @@
  */
 class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implements ilTermsOfServiceEvaluableCriterion, ilTermsOfServiceEquatable
 {
-    const TABLE_NAME = 'tos_criterion_to_doc';
+    private const TABLE_NAME = 'tos_criterion_to_doc';
 
     /**
      * @var string

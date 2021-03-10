@@ -40,12 +40,18 @@ class SectionInputTest extends ILIAS_UI_TestBase
                     <div class="il-section-input-header-byline">section byline</div>
                 </div>
                 <div class="form-group row">
-                    <label for="" class="control-label col-sm-3">input1</label>
-                    <div class="col-sm-9"><div class="help-block">in 1</div></div>
+                    <label for="id_1" class="control-label col-sm-3">input1</label>
+                    <div class="col-sm-9">
+                        <input id="id_1" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">in 1</div>
+                    </div>
                 </div>
                 <div class="form-group row">
-                    <label for="" class="control-label col-sm-3">input2</label>
-                    <div class="col-sm-9"><div class="help-block">in 2</div></div>
+                    <label for="id_2" class="control-label col-sm-3">input2</label>
+                    <div class="col-sm-9">
+                        <input id="id_2" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">in 2</div>
+                    </div>
                 </div>
             </div>
 EOT;

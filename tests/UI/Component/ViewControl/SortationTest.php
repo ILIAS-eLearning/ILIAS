@@ -70,18 +70,45 @@ class SortationTest extends ILIAS_UI_TestBase
 
         $html = $this->normalizeHTML($r->render($s));
         $this->assertEquals(
-            $this->getSortationExpectedHTML(),
+            $this->getSortationExpectedHTML(true),
             $html
         );
     }
 
-    protected function getSortationExpectedHTML()
+    public function testRenderingWithJsBinding()
     {
+        $f = $this->getFactory();
+        $r = $this->getDefaultRenderer();
+        $s = $f->sortation($this->options)->withAdditionalOnLoadCode(function ($id) {
+            return "";
+        });
+
+        $html = $this->normalizeHTML($r->render($s));
+        $this->assertEquals(
+            $this->getSortationExpectedHTML(true),
+            $html
+        );
+    }
+
+    protected function getSortationExpectedHTML(bool $with_id = false)
+    {
+        $id = "";
+        $button1_id = "id_1";
+        $button2_id = "id_2";
+        $button3_id = "id_3";
+
+        if ($with_id) {
+            $id = "id=\"id_1\"";
+            $button1_id = "id_2";
+            $button2_id = "id_3";
+            $button3_id = "id_4";
+        }
+
         $expected = <<<EOT
-<div class="il-viewcontrol-sortation" id=""><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
-	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="id_1">Best</button></li>
-	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="id_2">Most Recent</button></li>
-	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="id_3">Oldest</button></li></ul></div>
+<div class="il-viewcontrol-sortation" $id><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="?sortation=internal_rating" id="$button1_id">Best</button></li>
+	<li><button class="btn btn-link" data-action="?sortation=date_desc" id="$button2_id">Most Recent</button></li>
+	<li><button class="btn btn-link" data-action="?sortation=date_asc" id="$button3_id">Oldest</button></li></ul></div>
 </div>
 EOT;
         return $this->normalizeHTML($expected);

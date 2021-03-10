@@ -1,14 +1,13 @@
-import View from 'ol/view';
-import Map from 'ol/map';
-import TileLayer from 'ol/layer/tile';
-import OSM from 'ol/source/osm';
-import {default as control} from 'ol/control';
-import FullScreen from 'ol/control/fullscreen';
-import {default as transform} from 'ol/proj';
-import Overlay from 'ol/overlay';
+import View from 'ol/View';
+import Map from 'ol/Map';
+import TileLayer from 'ol/layer/Tile';
+import OSM from 'ol/source/OSM';
+import {defaults as control} from 'ol/control';
+import FullScreen from 'ol/control/FullScreen';
+import {transform} from 'ol/proj';
+import Overlay from 'ol/Overlay';
 
 export default class ServiceOpenLayers {
-
     /**
      * Create a ServiceOpenLayers object.
      *
@@ -41,7 +40,8 @@ export default class ServiceOpenLayers {
 			let geo = map[7];
 			let pos = this.posToOSM([map[1], map[0]]);
 
-			this.geolocationURL = "http://"+ geo;
+			this.geolocationURL = geo;
+
 			this.initView(id, pos, zoom);
 			this.initMap(id, replace_marker);
 			this.initUserMarkers(id, pos, replace_marker, central_marker);
@@ -57,18 +57,19 @@ export default class ServiceOpenLayers {
      * @return {void}
      */
     initView(id, pos, zoom) {
-        this.views[id] = new View();
-		this.views[id].setCenter(pos);
-		this.views[id].setMaxZoom(18);
-		this.views[id].setMinZoom(0);
-		this.views[id].setZoom(zoom);
+        this.views[id] = new View({
+            center: pos,
+            maxZoom: 18,
+            minZoom: 0,
+            zoom: zoom
+        });
 
 		// Bind the maps zoom level to the select box zoom.
-		this.views[id].on("propertychange", function(e) {
+		this.views[id].on("propertychange", (e) => {
 			if(e.key === 'resolution') {
 				$("#" + id + "_zoom").val(Math.floor(this.views[id].getZoom()));
 			}
-		}, this);
+		});
     }
 
     /**
@@ -87,14 +88,14 @@ export default class ServiceOpenLayers {
                 }),
             ],
             target: id,
-            controls: new control.defaults().extend([
+            controls: new control().extend([
                 new FullScreen()
             ]),
             loadTilesWhileAnimating: true,
             view: this.views[id]
         });
 
-        this.map.on("click", function(e) {
+        this.map.on("click", (e) => {
             e.preventDefault();
             let center = e.coordinate;
             this.jumpTo(id, center);
@@ -103,7 +104,7 @@ export default class ServiceOpenLayers {
                 this.setMarker(id, center);
             }
             this.updateInputFields(id, center);
-        }, this);
+        });
     }
 
     /**
@@ -141,7 +142,7 @@ export default class ServiceOpenLayers {
      * @return 	{array} 		[longitude, latitude]
      */
     posToHuman(pos) {
-        return transform.transform(pos, "EPSG:3857", "EPSG:4326")
+        return transform(pos, "EPSG:3857", "EPSG:4326")
     }
 
     /**
@@ -151,7 +152,7 @@ export default class ServiceOpenLayers {
      * @return 	{array} 		[longitude, latitude]
      */
     posToOSM(pos) {
-        return transform.transform(pos, "EPSG:4326", "EPSG:3857");
+        return transform(pos, "EPSG:4326", "EPSG:3857");
     }
 
     /**
@@ -205,6 +206,7 @@ export default class ServiceOpenLayers {
         })(this))
             .fail(function() {
                 $("#" + id + "_address").val("");
+                alert("Could not connect to reverse geo location server. Please contact an administrator of the ILIAS installation.")
             })
             .always( function() {
                 $("#" + id + "_addr").removeAttr("disabled");
@@ -270,11 +272,12 @@ export default class ServiceOpenLayers {
      * @returns {void}
      */
     moveToUserMarkerAndOpen(id, j) {
-        let user_marker = this.user_markers[j];
+        let user_marker = this.user_markers[id][j];
         if (user_marker) {
+            let pos = this.posToOSM([user_marker[0], user_marker[1]]);
             this.deleteAllPopups();
-            this.jumpTo(id, user_marker[0], 16);
-            this.setPopup(id, user_marker[0], user_marker[1]);
+            this.jumpTo(id, pos, 16);
+            this.setPopup(id, pos, user_marker[2]);
         }
         else {
             console.log("No user marker no. "+j+" for map "+id);
@@ -301,7 +304,7 @@ export default class ServiceOpenLayers {
         append.innerHTML = elem;
         container.appendChild(append);
 
-        let popup = new this.ol.Overlay({
+        let popup = new Overlay({
             element: append,
             insertFirst: false
         });

@@ -80,5 +80,4 @@ class Factory implements IMainControls\Factory
     {
         return new \ILIAS\UI\Implementation\Component\MainControls\SystemInfo($this->signal_generator, $headline, $information_text);
     }
-
 }

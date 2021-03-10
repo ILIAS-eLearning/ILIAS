@@ -137,8 +137,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             $item_html[$ref_id]['html'] = $html;
             $item_html[$ref_id]['type'] = $type;
         }
-            
-        $this->tpl->setVariable("HREF_IMG", $item_list_gui->default_command["link"]);
         
         global $DIC;
 

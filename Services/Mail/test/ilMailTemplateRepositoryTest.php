@@ -14,7 +14,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      */
     public function testEntityCanBeSaved() : ilMailTemplate
     {
-        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -46,7 +46,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      */
     public function testEntityCanBeModified(ilMailTemplate $template) : ilMailTemplate
     {
-        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -64,7 +64,7 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      */
     public function testEntityCanBeDeleted(ilMailTemplate $template) : void
     {
-        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $repository = new ilMailTemplateRepository($db);
 
@@ -78,8 +78,8 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
      */
     public function testTemplateCanBeFoundById() : void
     {
-        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
-        $statement = $this->getMockbuilder(ilDBStatement::class)->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $templateId = 666;
 
@@ -103,8 +103,8 @@ class ilMailTemplateRepositoryTest extends ilMailBaseTest
     {
         $this->expectException(OutOfBoundsException::class);
 
-        $db = $this->getMockbuilder(ilDBInterface::class)->getMock();
-        $statement = $this->getMockbuilder(ilDBStatement::class)->getMock();
+        $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $db->expects($this->once())->method('queryF')->willReturn($statement);
         $db->expects($this->once())->method('numRows')->willReturn(0);

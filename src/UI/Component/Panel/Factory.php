@@ -48,14 +48,15 @@ interface Factory
      *   purpose: >
      *       Sub Panels are used to structure the content of Standard panels further into titled sections.
      *   composition: >
-     *       Sub Panels consist of a title and a content section. They may contain a Card on their right side to display
-     *       meta information about the content displayed.
+     *       Sub Panels consist of a title and a content section. They may contain either a Card or a Secondary Panel on
+     *       their right side to display meta information about the content displayed.
      *   rivals:
      *      Standard Panel: >
      *        The Standard Panel might contain a Sub Panel.
      *      Card: >
      *        The Sub Panels may contain one Card.
-     *
+     *      Secondary Panel: >
+     *        The Sub Panels may contain one Secondary Panel.
      * rules:
      *   usage:
      *      1: Sub Panels MUST only be inside Standard Panels

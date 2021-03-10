@@ -302,7 +302,7 @@ class ilCustomBlock
             "WHERE " .
                 "context_obj_id = " . $ilDB->quote($this->getContextObjId(), "integer") .
                 " AND context_obj_type = " . $ilDB->quote($this->getContextObjType(), "text");
-        if ($a_include_sub_obj_id) {
+        if ($a_include_sub_obj) {
             $query .= " AND context_sub_obj_id = " . $ilDB->quote($this->getContextSubObjId(), "integer") .
                 " AND " . $ilDB->equals("context_sub_obj_type", $this->getContextSubObjType(), "text", true);
             //" AND context_sub_obj_type = ".$ilDB->quote($this->getContextSubObjType(), "text")."";

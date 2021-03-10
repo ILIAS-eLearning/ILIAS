@@ -525,7 +525,7 @@ class ilMailTemplateGUI
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
         $placeholders->supportsRerenderSignal(
             'context',
-            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false)
+            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true)
         );
         if ($template === null) {
             $context_id = $generic_context->getId();
@@ -542,14 +542,14 @@ class ilMailTemplateGUI
             $form->addItem($id);
 
             $form->setTitle($this->lng->txt('mail_edit_tpl'));
-            $form->setFormAction($this->ctrl->getFormaction($this, 'updateTemplate'));
+            $form->setFormAction($this->ctrl->getFormAction($this, 'updateTemplate'));
 
             if ($this->isEditingAllowed()) {
                 $form->addCommandButton('updateTemplate', $this->lng->txt('save'));
             }
         } else {
             $form->setTitle($this->lng->txt('mail_create_tpl'));
-            $form->setFormAction($this->ctrl->getFormaction($this, 'insertTemplate'));
+            $form->setFormAction($this->ctrl->getFormAction($this, 'insertTemplate'));
 
             if ($this->isEditingAllowed()) {
                 $form->addCommandButton('insertTemplate', $this->lng->txt('save'));

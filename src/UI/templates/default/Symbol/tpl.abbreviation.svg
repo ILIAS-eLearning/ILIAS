@@ -1,0 +1,15 @@
+<text
+   style="
+      font-style:normal;
+      font-weight:normal;
+      font-size:14px;
+      font-family:sans-serif;
+      letter-spacing:0px;
+      fill:#000;
+      fill-opacity:1;
+    "
+    x="50%"
+    y="55%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+  >{ABBREVIATION}</text>

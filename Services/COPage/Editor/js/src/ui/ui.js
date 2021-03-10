@@ -144,6 +144,7 @@ export default class UI {
       // move page component model to model
       console.log(this.uiModel);
       this.model.model("page").setComponentModel(this.uiModel.pcModel);
+      this.model.model("page").activatePasting(this.uiModel.pasting);
       this.uiModel.pcModel = null;
 
       this.toolSlate.init(this.uiModel);

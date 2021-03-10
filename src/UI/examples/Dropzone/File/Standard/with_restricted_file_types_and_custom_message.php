@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+namespace ILIAS\UI\examples\Dropzone\File\Standard;
+
 function with_restricted_file_types_and_custom_message()
 {
     global $DIC;

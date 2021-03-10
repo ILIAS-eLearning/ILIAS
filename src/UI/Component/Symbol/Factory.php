@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Symbol;
 
@@ -10,12 +9,11 @@ namespace ILIAS\UI\Component\Symbol;
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
      *   purpose: >
-     *     Icons are quickly comprehensible and recognizable graphics that are presented with a text label.
+     *     Icons are quickly comprehensible and recognizable graphics.
      *     They indicate the functionality or nature of the element they illustrate:
      *     Icons will mainly be used in front of object-titles, e.g. in the
      *     header, the tree and in repository listing.
@@ -23,8 +21,6 @@ interface Factory
      *     functionality is not available for the intended audience.
      *   composition: >
      *     Icons come in three fixed sizes: small, medium and large.
-     *     They can be presented with an additional "abbreviation",
-     *     a text of a few characters that will be rendered on top of the image.
      *     The Disabled Icons are visually muted: A color shade covers the Icon.
      *   effect: >
      *     Icons themselves are not interactive; however they are allowed
@@ -46,11 +42,10 @@ interface Factory
      *     1: Icons MUST have a class indicating their usage.
      *     2: Icons MUST be tagged with a CSS-class indicating their size.
      *   accessibility:
-     *     1: Icons MUST bear an aria-label.
+     *     1: Icons MUST bear an alt-text.
      *     2: Disabled Icons MUST bear an aria-label indicating the disabled status.
      *   wording:
-     *     1: The aria-label MUST state the represented object-type.
-     *     2: The abbreviation SHOULD consist of one or two letters.
+     *     1: The alt-text MUST state the represented object-type.
      * ---
      *
      * @return \ILIAS\UI\Component\Symbol\Icon\Factory

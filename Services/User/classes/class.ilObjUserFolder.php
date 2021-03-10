@@ -625,9 +625,9 @@ class ilObjUserFolder extends ilObject
 
     /**
      * @param string $a_lang
-     * @return array
+     * @return array{lang: string, subject: string|null, body: string|null, salf_m: string|null sal_f: string|null, sal_g: string|null, type: string, att_file: string|null}
      */
-    public static function _lookupNewAccountMail($a_lang)
+    public static function _lookupNewAccountMail(string $a_lang) : array
     {
         global $DIC;
 
@@ -639,7 +639,8 @@ class ilObjUserFolder extends ilObject
         if ($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             return $rec;
         }
-        return array();
+
+        return [];
     }
 
     /**

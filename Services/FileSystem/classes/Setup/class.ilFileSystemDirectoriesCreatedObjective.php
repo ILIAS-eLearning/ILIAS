@@ -35,16 +35,22 @@ class ilFileSystemDirectoriesCreatedObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
+        $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
+        $data_dir = $this->config->getDataDir();
+        $web_dir = dirname(__DIR__, 4) . "/data";
+
+        $client_data_dir = $data_dir . '/' . $client_id;
+        $client_web_dir = $web_dir . '/' . $client_id;
+
         return [
-            new ilIniFilesPopulatedObjective($common_config),
-            new Setup\Objective\DirectoryCreatedObjective($this->config->getDataDir()),
-            new Setup\Objective\DirectoryCreatedObjective($this->config->getWebDir()),
+            new ilIniFilesPopulatedObjective(),
+            new Setup\Objective\DirectoryCreatedObjective($data_dir),
+            new Setup\Objective\DirectoryCreatedObjective($web_dir),
             new Setup\Objective\DirectoryCreatedObjective(
-                $this->config->getWebDir() . "/" . $common_config->getClientId()
+                $client_web_dir
             ),
             new Setup\Objective\DirectoryCreatedObjective(
-                $this->config->getDataDir() . "/" . $common_config->getClientId()
+                $client_data_dir
             )
         ];
     }
