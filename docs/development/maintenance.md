@@ -24,7 +24,7 @@ ILIAS is currently maintained by three types of Maintainerships:
 
 - First Component Maintainer
 - Second Component Maintainer
-- [Coordinator Model](maintenance-coordinator.md) 
+- [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) 
  
 The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
 listed component maintainer (see below):
@@ -653,7 +653,7 @@ a new maintainer to the product manager, if the employee leaves the company.
 	* Tester: [TESTER MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
 
 
-Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.md):
+Components in the Coordinator Model [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * **Refinery**
 	* Coordinators: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html), [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
@@ -666,7 +666,7 @@ Components in the Coordinator Model [Coordinator Model](maintenance-coordinator.
     * Used in Directories: src/UI
 
 
-The following directories are currently maintained under the [Coordinator Model](maintenance-coordinator.md):
+The following directories are currently maintained under the [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md):
 
 * src/Refinery
 * src/UI
