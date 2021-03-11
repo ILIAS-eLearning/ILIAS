@@ -10,6 +10,7 @@
 
 		margin: 0;
 		padding: @panel-heading-padding;
+		padding-bottom: @padding-small-vertical;
 
 		border: none;
 		.box-shadow(none);
@@ -17,12 +18,14 @@
 			margin: 0;
 			color: @panel-heading-color;
 			font-size: @font-size-h2;
+			line-height: @line-height-large;
+			font-weight: 600;
 		}
 
 		h3, h3.ilHeader {
 			margin: 0;
 			color: @panel-heading-color;
-			font-size: @font-size-h3;
+			font-size: @font-size-h4;
 		}
 
 		h4, h4.ilBlockHeader {
@@ -161,7 +164,7 @@
 
 	&:first-child{
 		.panel-heading{
-			padding-top: @padding-small-vertical;
+			padding: @panel-heading-padding;
 		}
 	}
 }

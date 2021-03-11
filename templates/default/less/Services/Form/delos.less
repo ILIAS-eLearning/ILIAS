@@ -35,6 +35,11 @@ form.form-inline {
 	.box-shadow(none);
 }
 
+.form-control:focus-visible {
+	.box-shadow(none);
+	outline: @il-focus-outline;
+}
+
 textarea.form-control {
 	max-width: 100%;
 }
@@ -111,11 +116,14 @@ label {
 }
 
 .form-horizontal .help-block {
-	color: @il-standard-form-byline-color;
+	color: @il-standard-form-color;
 	margin: 2px 0 4px;
 	padding: 0;
 	font-size: @il-standard-form-byline-font-size;
 	clear: both;
+	&:last-child {
+		margin: 2px 0 10px;
+	}
 }
 
 td.form-inline > div.form-group {
@@ -151,6 +159,7 @@ input[type="file"].form-control {
 .ilSubForm {
 	background-color: @il-standard-form-dependant-group-bg;
 	padding: 3px 0;
+	margin-bottom: 10px;
 	.form-group {
 		margin: 0;
 		@media (max-width: @grid-float-breakpoint-max) {
