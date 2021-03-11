@@ -22,6 +22,10 @@ class ilDclRecordEditGUI
     const REDIRECT_RECORD_LIST = 1;
     const REDIRECT_DETAIL = 2;
     /**
+     * @var bool
+     */
+    protected $tableview_id;
+    /**
      * @var int
      */
     protected $record_id;
@@ -86,6 +90,10 @@ class ilDclRecordEditGUI
         $this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_REQUEST['table_id'];
         $this->tableview_id = $_REQUEST['tableview_id'];
+        if (!$this->tableview_id) {
+            $this->tableview_id = ilDclCache::getTableCache($this->table_id)
+                                         ->getFirstTableViewId($this->parent_obj->ref_id);
+        }
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
 
