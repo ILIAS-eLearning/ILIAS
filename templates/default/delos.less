@@ -297,7 +297,11 @@ span.ilAlert {
 	padding: 3px 10px;
 	color: @il-text-color;
 	background-color: @dropdown-header-bg;
+	margin-bottom: 4px;
 	border-bottom: 1px solid @il-main-border-color;
+	> h2 {
+		margin-bottom: 2px;
+	}
 }
 .dropdown-menu {
 	background-color: @dropdown-bg;
@@ -560,15 +564,15 @@ tr, td {
 code {
 	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
 	font-size: 90%;
-	color: #858585;
+	color: @il-text-light-color;
 }
 
 ::selection {
-	background: lighten(@il-main-color, 48%);
+	background: lighten(@il-main-color, 50%);
 }
 
 ::-moz-selection {
-	background: lighten(@il-main-color, 48%);
+	background: lighten(@il-main-color, 50%);
 }
 
 textarea {
@@ -704,7 +708,7 @@ html.il-no-tiny-bg body#tinymce {
 }
 
 div.input {
-	border: 1px solid @il-main-border-color;
+	border: 1px solid @il-main-border-dark-color;
 	padding: 3px;
 	text-decoration: none;
 	font-size: 90%;
@@ -776,7 +780,7 @@ table.std {
 }
 
 table.nobackground {
-	color: black;
+	color: @il-text-color;
 	background-color: inherit;
 	border-spacing: 0;
 	padding: 3px;
@@ -1113,7 +1117,7 @@ div.il_HeaderInner {
 	margin-bottom: 5px;
 	overflow: visible;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		color: #222;
+		color: @il-text-color;
 	}
 	&.media {
 		margin-top: 0;

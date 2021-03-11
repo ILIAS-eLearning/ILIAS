@@ -48,10 +48,13 @@ with the il- variable set here.
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
 @il-text-light-color: @il-neutral-light-color;
 
-//Used to be @link-color
+//** Used to be @link-color
 @il-link-color: @il-main-color;
-//Used to be @link-hover-color
+//** Used to be @link-hover-color
 @il-link-hover-color: darken(@il-link-color, 10%);
+
+//** Used to set focus on interactive elements for keyboard navigation. 
+@il-focus-color: #0078D7;
 
 //== Extended Colors
 //
@@ -60,7 +63,7 @@ with the il- variable set here.
 //** Variant 1 of the extended color set in ILIAS
 @il-extended-color-1: #f3de2c;
 //** Variant 2 of the extended color set in ILIAS
-@il-extended-color-2: #cddc39;
+@il-extended-color-2: #d38000;
 //** Variant 3 of the extended color set in ILIAS
 @il-extended-color-3: #26646d;
 //** Variant 4 of the extended color set in ILIAS
@@ -350,8 +353,6 @@ with the il- variable set here.
 //** margin of tags
 @il-btn-tag-margin: 2px 4px 2px 0;
 
-@il-tab-focus-outline: 1px dotted @il-highlight-bg;
-
 //== Toggle Buttons
 //
 //##
@@ -408,7 +409,7 @@ with the il- variable set here.
 //** Textsize used in the forms body
 @il-standard-form-font-size: @il-font-size-small;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
-@il-standard-form-byline-font-size: 90%;
+@il-standard-form-byline-font-size: 85%;
 
 //** Textcolor used in the forms header, the sections header and the footer
 @il-standard-form-header-color: @il-text-color;
@@ -604,7 +605,7 @@ with the il- variable set here.
 //== Divider
 //
 //##
-@il-divider-bg: @il-main-dark-bg;
+@il-divider-bg: @il-main-bg;
 
 @il-divider-color: @il-text-color;
 
@@ -631,7 +632,7 @@ with the il- variable set here.
 @il-chart-item-active-bg: @il-main-color;
 @il-chart-item-active-color: white;
 @il-chart-item-inactive-bg: #e0e0e0;
-@il-chart-item-inactive-color: @il-text-light-color;
+@il-chart-item-inactive-color: @il-text-color;
 @il-chart-item-space: 2px;
 
 //** Progress Meter: minimal width
@@ -772,7 +773,7 @@ with the il- variable set here.
 //== Card
 //
 //##
-@il-card-border: none;
+@il-card-border: 1px solid @il-main-border-color;
 @il-card-background: @il-main-bg;
 @il-card-highlight-bg: @il-warning-color;
 @il-card-highlight-height: @padding-large-vertical;
@@ -820,4 +821,7 @@ with the il- variable set here.
 //== DropDowns
 //
 //##
-@il-font-size-dropdown: ceil((@font-size-base * 1.0));
+@il-font-size-dropdown: @font-size-base;
+
+//VORSCHLAG
+@il-focus-outline: 2px solid @il-focus-color;

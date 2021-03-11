@@ -2746,14 +2746,14 @@ output {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(129, 152, 183, 0.6);
 }
 .form-control::-moz-placeholder {
-  color: #c2c2c2;
+  color: #757575;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #c2c2c2;
+  color: #757575;
 }
 .form-control::-webkit-input-placeholder {
-  color: #c2c2c2;
+  color: #757575;
 }
 .form-control::-ms-expand {
   background-color: transparent;
@@ -6884,6 +6884,7 @@ button.close {
   background-color: #f9f9f9;
   margin: 0;
   padding: 9px 12px;
+  padding-bottom: 3px;
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -6895,6 +6896,8 @@ button.close {
   margin: 0;
   color: #434343;
   font-size: 19px;
+  line-height: 1.33;
+  font-weight: 600;
 }
 .panel .panel-heading.ilHeader h3,
 .panel .panel-heading.ilBlockHeader h3,
@@ -6902,7 +6905,7 @@ button.close {
 .panel .panel-heading.ilBlockHeader h3.ilHeader {
   margin: 0;
   color: #434343;
-  font-size: 19px;
+  font-size: 17px;
 }
 .panel .panel-heading.ilHeader h4,
 .panel .panel-heading.ilBlockHeader h4,
@@ -7017,7 +7020,7 @@ button.close {
   margin: 0;
 }
 .panel-sub:first-child .panel-heading {
-  padding-top: 3px;
+  padding: 9px 12px;
 }
 .il-panel-report .thumbnail {
   margin-bottom: 0;
@@ -7057,6 +7060,7 @@ button.close {
   position: relative;
   background-color: white;
   border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   /* see bug #24947 */
 }
 .il-card img {
@@ -7252,9 +7256,9 @@ button.close {
 .btn {
   font-size: 12px;
 }
-.btn:focus {
-  outline: 1px dotted #e2e8ef;
-  outline-offset: -1px;
+.btn:focus-visible {
+  outline: 2px solid #0078D7;
+  outline-offset: 0px;
 }
 .btn:active,
 .btn.engaged {
@@ -7558,7 +7562,7 @@ a fieldset[disabled] .active {
 }
 h4.il-divider {
   padding: 3px 6px;
-  background-color: #f9f9f9;
+  background-color: white;
   display: block;
   font-size: 12px;
   line-height: 1.5;
@@ -7703,6 +7707,10 @@ ul.dropdown-menu > li > .btn:focus {
 .il-notification-item {
   padding-right: 15px;
 }
+.il-notification-item .il-item-notification-title {
+  display: inline-block;
+  margin: 0;
+}
 .il-notification-item .il-item-additional-content {
   clear: both;
 }
@@ -7845,6 +7853,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin: 0;
   font-weight: 600;
   font-size: 12px;
+  padding: 3px;
   padding-left: 100px;
 }
 .breadcrumb_wrapper .breadcrumb span.crumb {
@@ -7882,7 +7891,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-chart-scale-bar-item {
   font-size: 11px;
   padding: 1px 5px;
-  color: #757575;
+  color: #434343;
   text-align: center;
   background-color: #e0e0e0;
   text-overflow: ellipsis;
@@ -8551,7 +8560,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   font-weight: bold;
 }
 .il-workflow-header .il-workflow-title {
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
   color: #4c6586;
   font-size: 2.6rem;
   font-weight: 300;
@@ -10570,9 +10579,9 @@ footer {
     top: calc(22.5px / 4);
   }
 }
-.il-link:focus {
-  outline: 1px dotted #e2e8ef;
-  outline-offset: -1px;
+.il-link:focus-visible {
+  outline: 2px solid #0078D7;
+  outline-offset: 0px;
 }
 .il-link:active,
 .il-link.engaged {
@@ -10996,24 +11005,24 @@ the il- variable in your less code and not the boostrap variable in your less co
   background-color: #a59509;
 }
 .extended-color-variant-2.il-extended-color-variant-standard {
-  color: #616913;
-  background-color: #cddc39;
+  color: #3a2300;
+  background-color: #d38000;
 }
 .extended-color-variant-2.il-extended-color-variant-light {
-  color: #95a21d;
-  background-color: #dce776;
+  color: #7c4b00;
+  background-color: #ffa51b;
 }
 .extended-color-variant-2.il-extended-color-variant-lighter {
-  color: #9daa1e;
-  background-color: #e7eea1;
+  color: #865200;
+  background-color: #ffba4e;
 }
 .extended-color-variant-2.il-extended-color-variant-dark {
-  color: #f9fbe6;
-  background-color: #a1af1f;
+  color: #ffdaa0;
+  background-color: #8c5500;
 }
 .extended-color-variant-2.il-extended-color-variant-darker {
   color: #ffffff;
-  background-color: #818c19;
+  background-color: #633c00;
 }
 .extended-color-variant-3.il-extended-color-variant-standard {
   color: #000000;
@@ -11335,6 +11344,50 @@ the il- variable in your less code and not the boostrap variable in your less co
     display: none;
   }
 }
+:focus-visible {
+  outline: 2px solid #0078D7;
+  outline-offset: 0px;
+}
+a:focus {
+  outline-offset: 0px;
+}
+a:focus-visible {
+  outline: 2px solid #0078D7;
+}
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+  outline-offset: 0px;
+}
+input[type="file"]:focus-visible,
+input[type="radio"]:focus-visible,
+input[type="checkbox"]:focus-visible {
+  outline: 2px solid #0078D7;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline-offset: 0px;
+}
+.btn:focus-visible,
+.btn:active:focus-visible,
+.btn.active:focus-visible,
+.btn.focus-visible,
+.btn:active.focus-visible,
+.btn.active.focus-visible {
+  outline: 2px solid #0078D7;
+}
+.btn-bulky:focus-visible,
+.link-bulky:focus-visible {
+  border: 2px solid #0078D7;
+  outline: none !important;
+}
+#tinymce:focus-visible {
+  outline: none !important;
+}
 /* flex grid support start */
 .row-flex {
   display: -webkit-box;
@@ -11455,7 +11508,11 @@ span.ilAlert {
   padding: 3px 10px;
   color: #434343;
   background-color: white;
+  margin-bottom: 4px;
   border-bottom: 1px solid #dddddd;
+}
+.dropdown-header > h2 {
+  margin-bottom: 2px;
 }
 .dropdown-menu {
   background-color: white;
@@ -11704,13 +11761,13 @@ td {
 code {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
   font-size: 90%;
-  color: #858585;
+  color: #757575;
 }
 ::selection {
-  background: #dce2eb;
+  background: #e2e8ef;
 }
 ::-moz-selection {
-  background: #dce2eb;
+  background: #e2e8ef;
 }
 @media only screen and (max-width: 768px) {
   textarea {
@@ -11821,7 +11878,7 @@ html.il-no-tiny-bg body#tinymce {
   /*min-height: 400px;*/
 }
 div.input {
-  border: 1px solid #dddddd;
+  border: 1px solid #A8A8A8;
   padding: 3px;
   text-decoration: none;
   font-size: 90%;
@@ -11880,7 +11937,7 @@ table.std {
   border-spacing: 0;
 }
 table.nobackground {
-  color: black;
+  color: #434343;
   background-color: inherit;
   border-spacing: 0;
   padding: 3px;
@@ -12181,7 +12238,7 @@ div.il_HeaderInner {
 }
 @media only screen and (max-width: 768px) {
   div.il_HeaderInner {
-    color: #222;
+    color: #434343;
   }
 }
 div.il_HeaderInner.media {
@@ -12836,6 +12893,11 @@ form.form-inline {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.form-control:focus-visible {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: 2px solid #0078D7;
+}
 textarea.form-control {
   max-width: 100%;
 }
@@ -12907,8 +12969,11 @@ label {
   color: #434343;
   margin: 2px 0 4px;
   padding: 0;
-  font-size: 90%;
+  font-size: 85%;
   clear: both;
+}
+.form-horizontal .help-block:last-child {
+  margin: 2px 0 10px;
 }
 td.form-inline > div.form-group {
   display: block;
@@ -12939,6 +13004,7 @@ input[type="file"].form-control {
 .ilSubForm {
   background-color: #f9f9f9;
   padding: 3px 0;
+  margin-bottom: 10px;
 }
 .ilSubForm .form-group {
   margin: 0;
@@ -15522,10 +15588,10 @@ th.ilSkillEntryHead {
   padding-bottom: 3px;
 }
 .ilSkillEvalItem.ilSkillEvalType1 {
-  border-color: #dcb496;
+  border-color: #26646d;
 }
 .ilSkillEvalItem.ilSkillEvalType2 {
-  border-color: #26646d;
+  border-color: #d38000;
 }
 .ilSkillLevelDescription,
 .ilSkillMaterial,
@@ -15549,16 +15615,16 @@ th.ilSkillEntryHead {
   padding-bottom: 2px;
 }
 .ilSkillEvalItem.ilSkillEvalType3 {
-  border-color: #6ea03c;
+  border-color: #557b2e;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType1 {
-  color: #dcb496;
-}
-.ilSkillEvalItem > .row > .ilSkillEvalType2 {
   color: #26646d;
 }
+.ilSkillEvalItem > .row > .ilSkillEvalType2 {
+  color: #d38000;
+}
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
-  color: #6ea03c;
+  color: #557b2e;
 }
 .ilSkillFilter .ilToolbar select.form-control {
   display: block;
@@ -16383,7 +16449,9 @@ div#ilContRepIntro img {
   margin-bottom: 10px;
 }
 .ilContainerTileRows {
-  margin: 10px -20px 0 -20px;
+  margin: 0px -15px 0 -15px;
+  padding: 6px 12px;
+  background-color: white;
 }
 .ilContainerTileRows > .il-deck {
   margin: 0 5px;
@@ -18474,7 +18542,7 @@ span.ilProfileBadge .modal .img-responsive {
   display: none;
 }
 .ilLSOKioskMode #il_right_col {
-  background-color: #e0e0e0;
+  background-color: #f9f9f9;
   margin-top: 20px;
   padding: 5px;
 }
@@ -18483,7 +18551,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilLSOKioskModeNavigation {
   margin-bottom: 10px;
-  background-color: #e0e0e0;
+  background-color: #f9f9f9;
 }
 .ilLSOKioskModeNavigation .navbar-form {
   line-height: 25px;
