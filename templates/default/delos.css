@@ -12306,24 +12306,6 @@ footer.ilFooter .ilPermalinkContainer > label {
 [dir="rtl"] footer.ilFooter {
   text-align: right;
 }
-#devmodeBlock {
-  background-color: white;
-  color: black;
-  border: 1px dashed grey;
-  padding: 10px;
-  margin-top: 25px;
-}
-@media only screen and (max-width: 768px) {
-  #devmodeBlock {
-    position: absolute;
-  }
-}
-@media only screen and (max-width: 768px) {
-  #devmodeBlock table {
-    table-layout: fixed;
-    width: 100%;
-  }
-}
 /* ----------------- invisible border ------------- */
 div.invisible_border {
   margin: 15px;
