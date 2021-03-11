@@ -1,4 +1,3 @@
---math=always is deprecated and will be removed in the future.
 @font-face {
   font-family: 'Open Sans';
   src: url('fonts/OpenSansWeb/OpenSans-Regular.woff2') format('woff2'), url('fonts/OpenSansWeb/OpenSans-Regular.woff') format('woff');
@@ -7826,6 +7825,38 @@ ul.dropdown-menu > li > .btn:focus {
   color: #bbb;
   padding: 8px 10px;
   font-family: "il-icons";
+}
+.breadcrumb {
+  padding: 0 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: transparent;
+  border-radius: 0px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #557196;
+  content: " \e606\00a0";
+}
+.breadcrumb > .active {
+  color: #3a4c65;
+}
+/* Breadcrumb */
+.breadcrumb {
+  margin: 0.8em 0 20px 0;
+  font-size: 90%;
+}
+.breadcrumb > li + li:before {
+  font-family: 'il-icons';
+}
+@media only screen and (max-width: 768px) {
+  .breadcrumb {
+    margin: 0 0 0 0;
+    padding: 0 5px;
+  }
 }
 /************/
 /* ScaleBar */
