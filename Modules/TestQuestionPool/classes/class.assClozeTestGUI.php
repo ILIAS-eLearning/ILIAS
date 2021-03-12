@@ -865,6 +865,16 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     }
 
     /**
+     * Question type specific support of intermediate solution output
+     * The function getSolutionOutput respects getUseIntermediateSolution()
+     * @return bool
+     */
+    public function supportsIntermediateSolutionOutput()
+    {
+        return true;
+    }
+
+    /**
      * Get the question solution output
      *
      * @param integer $active_id             The active user id
@@ -894,7 +904,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $user_solution = array();
         if (($active_id > 0) && (!$show_correct_solution)) {
             // get the solutions of a user
-            $user_solution = &$this->object->getSolutionValues($active_id, $pass);
+            $user_solution = $this->object->getSolutionValues($active_id, $pass, !$this->getUseIntermediateSolution());
             if (!is_array($user_solution)) {
                 $user_solution = array();
             }
