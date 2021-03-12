@@ -2,6 +2,7 @@
 
 import HTMLTransform from "./html-transform.js";
 import TinyDomTransform from "./tiny-dom-transform.js";
+import CB from "./tiny-wrapper-cb-types.js";
 
 /**
  * Wraps tiny
@@ -90,10 +91,8 @@ export default class TinyWrapper {
   */
 
   /**
-   * @param splitOnReturnCallback
-   * @param mergeCallback
    */
-  constructor(splitOnReturnCallback, mergeCallback) {
+  constructor() {
     this.debug = false;
     this.mergePrevious = false;
     this.mergeNextContent = "";
@@ -121,10 +120,34 @@ export default class TinyWrapper {
       Sub: { inline: 'sub', classes: 'ilc_sub_Sub' }
     };
 
+    this.cb = [];
+
     this.lib = tinyMCE;
     this.htmlTransform = new HTMLTransform();
-    this.splitOnReturnCallback = splitOnReturnCallback;
-    this.mergeCallback = mergeCallback;
+  }
+
+  /**
+   *
+   * @param {integer} type
+   * @param {Function} cb
+   */
+  addCallback(type, cb) {
+    if (typeof this.cb[type] !== 'object' || !Array.isArray(this.cb[type])) {
+      this.cb[type] = [];
+    }
+    this.cb[type].push(cb);
+  }
+
+  /**
+   *
+   * @param {integer} type
+   * @return {*[]|*}
+   */
+  getCallbacks(type) {
+    if (typeof this.cb[type] === 'object' && Array.isArray(this.cb[type])) {
+      return this.cb[type];
+    }
+    return [];
   }
 
   /**
@@ -160,7 +183,7 @@ export default class TinyWrapper {
   }
 
 
-  getConfig(after_init, after_keyup, previous, next) {
+  getConfig() {
     this.log("*** getting config " + this.content_css);
     if (!this.config) {
       this.config = {
@@ -199,7 +222,7 @@ export default class TinyWrapper {
           this.pastePostProcess(pl, o);
         },
         setup: (tiny) => {
-          this.setup(tiny, after_init, after_keyup, previous, next);
+          this.setup(tiny);
         },
       };
     }
@@ -254,17 +277,20 @@ export default class TinyWrapper {
     this.pasting = true;
   }
 
-  setup(tiny, after_init, after_keyup, previous, next) {
+  setup(tiny) {
     this.log("tiny-wrapper.init.setup");
     this.tiny = tiny;
     const wrapper = this;
 
     // if this does not work this.tiny = this.lib.get(this.id); ??
 
-
     tiny.on('KeyUp', function (ev) {
       wrapper.autoResize();
-      after_keyup();
+
+      wrapper.getCallbacks(CB.KEY_UP).forEach((cb) => {
+        cb();
+      });
+
       const currentRng = tiny.selection.getRng();
 
       // down, right
@@ -274,16 +300,32 @@ export default class TinyWrapper {
           currentRng.startOffset === currentRng.endOffset &&
           currentRng.startOffset === wrapper.forwardOffset    // means offset did not change = end
         ) {
-          if (next) {
-            next();
+          if (ev.keyCode === 39) {
+            wrapper.getCallbacks(CB.SWITCH_RIGHT).forEach((cb) => {
+              cb();
+            });
+          }
+          if (ev.keyCode === 40) {
+            wrapper.getCallbacks(CB.SWITCH_DOWN).forEach((cb) => {
+              cb();
+            });
           }
         }
       }
 
       // up, left
       if ([37,38].includes(ev.keyCode)) {
-        if (wrapper.gotoPrevious && previous) {
-          previous();
+        if (wrapper.gotoPrevious) {
+          if (ev.keyCode === 37) {
+            wrapper.getCallbacks(CB.SWITCH_LEFT).forEach((cb) => {
+              cb();
+            });
+          }
+          if (ev.keyCode === 38) {
+            wrapper.getCallbacks(CB.SWITCH_UP).forEach((cb) => {
+              cb();
+            });
+          }
         }
       }
 
@@ -296,7 +338,9 @@ export default class TinyWrapper {
           let sp = dom.create("span", {class: 'split-point'}, " ");
           tiny.selection.setNode(sp);
 
-          wrapper.mergeCallback(wrapper, true);
+          wrapper.getCallbacks(CB.MERGE).forEach((cb) => {
+            cb(wrapper, true);
+          });
 
           // select and remove splitpoint
           dom = tiny.dom;
@@ -318,7 +362,9 @@ export default class TinyWrapper {
           let sp = dom.create("span", {class: 'split-point'}, " ");
           tiny.selection.setNode(sp);
 
-          wrapper.mergeCallback(wrapper, false);
+          wrapper.getCallbacks(CB.MERGE).forEach((cb) => {
+            cb(wrapper, false);
+          });
 
           // select and remove splitpoint
           dom = tiny.dom;
@@ -391,19 +437,17 @@ export default class TinyWrapper {
       if (ev.keyCode === 9 && !ev.shiftKey) {
         ev.preventDefault();
         ev.stopPropagation();
-        /*        if (par_ui.current_td !== "")
-                {
-                  //par_ui.editNextCell();                              // MISSING
-                }*/
+        wrapper.getCallbacks(CB.TAB).forEach((cb) => {
+          cb(wrapper, false);
+        });
       }
 
       if (ev.keyCode === 9 && ev.shiftKey) {
         ev.preventDefault();
         ev.stopPropagation();
-        /*if (wrapper.current_td != "")
-        {
-          //par_ui.editPreviousCell();                          // MISSING
-        }*/
+        wrapper.getCallbacks(CB.SHIFT_TAB).forEach((cb) => {
+          cb(wrapper, false);
+        });
       }
     });
 
@@ -487,9 +531,10 @@ export default class TinyWrapper {
       $('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
       $('#tinytarget_ifr').contents().find("html").css("overflow", "auto");
 
-      if (after_init) {
-        after_init();
-      }
+
+      wrapper.getCallbacks(CB.AFTER_INIT).forEach((cb) => {
+        cb();
+      });
     });
   }
 
@@ -502,21 +547,24 @@ export default class TinyWrapper {
     this.focusTiny(true);
   }
 
-  initEdit(content_element, text, characteristic, after_init, after_keyup, previous, next) {
+  initEdit(content_element, text, characteristic) {
     const wrapper = this;
     this.log('tiny-wrapper.initEdit');
 
     this.setGhostAt(content_element);
 
+    this.addCallback(CB.AFTER_INIT, () => {
+      wrapper.autoScroll();
+    });
+
     if (!this.tiny) {
       this.createTextAreaForTiny();
-      this.lib.init(this.getConfig(() => {
-        after_init();
-        wrapper.autoScroll();
-      }, after_keyup, previous, next));
+      this.lib.init(this.getConfig());
     } else {
       this.showAfter(content_element);
-      after_init();
+      wrapper.getCallbacks(CB.AFTER_INIT).forEach((cb) => {
+        cb();
+      });
       wrapper.autoScroll();
     }
   }
@@ -919,7 +967,7 @@ export default class TinyWrapper {
     let html = this.htmlTransform;
     let children = tiny.dom.getRoot().childNodes;
     if (children.length > 1) {
-      if (this.splitOnReturn && this.splitOnReturnCallback) {
+      if (this.splitOnReturn) {
         let dummy = document.createElement("div");
         dummy.innerHTML = tiny.getContent().replace("\n", "");        // we are not using the dom directly, since getContent() removes tiny internal stuff
         children = dummy.childNodes;
@@ -932,7 +980,9 @@ export default class TinyWrapper {
             contents.push(html.p2br(children[k].outerHTML));   // should be only lists
           }
         }
-        this.splitOnReturnCallback(this, contents);
+        this.getCallbacks(CB.SPLIT_ON_RETURN).forEach((cb) => {
+          cb(this, contents);
+        });
       }
     }
   }
