@@ -500,20 +500,62 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 return $d['user_id'];
             }, $data));
 
+            $user_columns = [];
+            $odf_ids = [];
+            foreach ($this->getSelectedUserColumns() as $field) {
+                if (substr($field, 0, 3) == 'odf') {
+                    $odf_ids[] = substr($field, 4);
+                }
+                else {
+                    $user_columns[] = $field;
+                }
+            }
+
             // user data fields
             $query = new ilUserQuery();
             $query->setLimit(9999);
-            $query->setAdditionalFields($this->getSelectedUserColumns());
+            $query->setAdditionalFields($user_columns);
             $query->setUserFilter($user_ids);
             $ud = $query->query();
+
             $usr_data = [];
             foreach ($ud["set"] as $v) {
-                foreach ($this->getSelectedUserColumns() as $c) {
-                    $usr_data[$v["usr_id"]][$c] = $v[$c];
+                foreach ($user_columns as $c) {
+                    if (isset($usr_data[$v["usr_id"]])) {
+                        $usr_data[$v["usr_id"]][$c] = $v[$c];
+                    }
                 }
             }
             foreach ($data as $key => $v) {
-                $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                if (isset($usr_data[$v["user_id"]])) {
+                    $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                }
+            }
+
+            // object specific user data fields of parent course or group
+            if ($odf_ids) {
+                $parent = $this->getParentGroupCourse();
+                $parent_obj_id = ilObject::_lookupObjectId($parent['ref_id']);
+
+                $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
+                $odf_data = ilCourseUserData::_getValuesByObjId($parent_obj_id);
+
+                $usr_data = [];
+                foreach ($odf_data as $usr_id => $fields) {
+                    if (in_array($usr_id, $user_ids)) {
+                        foreach ($fields as $field_id => $value) {
+                            if (in_array($field_id, $odf_ids)) {
+                                $usr_data[$usr_id]['odf_' . $field_id] = $value;
+                            }
+                        }
+                    }
+                }
+
+                foreach ($data as $key => $v) {
+                    if (isset($usr_data[$v["user_id"]])) {
+                        $data[$key] = array_merge($v, $usr_data[$v["user_id"]]);
+                    }
+                }
             }
         }
 
