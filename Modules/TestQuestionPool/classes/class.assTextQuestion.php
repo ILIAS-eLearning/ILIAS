@@ -1065,4 +1065,17 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
         return '';
     }
+    public function countWords($text)
+    {
+        $text = str_replace('&nbsp;', ' ', $text);
+
+        $text = preg_replace('/[.,:;!?\-_#\'"+*\\/=()&%§$]/m', '', $text);
+
+        $text = preg_replace('/^\s*/m', '', $text);
+        $text = preg_replace('/\s*$/m', '', $text);
+        $text = preg_replace('/\s+/m', ' ', $text);
+
+        return count(explode(' ', $text));
+    }
+
 }

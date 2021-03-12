@@ -205,6 +205,16 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $act_no_of_chars = $this->object->countLetters($user_solution);
             $template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
                 $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+
+            if ($this->object->isWordCounterEnabled()) {
+                $template->setCurrentBlock('word_count');
+                $template->setVariable(
+                    'WORD_COUNT',
+                    $this->lng->txt('qst_essay_written_words') .
+                    ' <b>' . $this->object->countWords($solution) . '</b>'
+                );
+                $template->parseCurrentBlock();
+            }
         }
         if (($active_id > 0) && (!$show_correct_solution)) {
             if ($graphicalOutput) {
@@ -400,6 +410,14 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("CHARACTERS", $this->lng->txt("characters"));
             $template->parseCurrentBlock();
         }
+
+        if ($this->object->isWordCounterEnabled()) {
+            $template->setCurrentBlock("word_counter");
+            $template->setVariable("QID", $this->object->getId());
+            $template->setVariable("WORDCOUNTER", $this->lng->txt("qst_essay_allready_written_words"));
+            $template->parseCurrentBlock();
+        }
+
         $template->setVariable("QID", $this->object->getId());
         $template->setVariable("ESSAY", ilUtil::prepareFormOutput($user_solution));
         $questiontext = $this->object->getQuestion();
@@ -589,6 +607,12 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
     {
+        // wordcounter
+        $wordcounter = new ilCheckboxInputGUI($this->lng->txt('qst_essay_wordcounter_enabled'), 'wordcounter');
+        $wordcounter->setInfo($this->lng->txt('qst_essay_wordcounter_enabled_info'));
+        $wordcounter->setChecked($this->object->isWordCounterEnabled());
+        $form->addItem($wordcounter);
+
         // maxchars
         $maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
         $maxchars->setSize(5);
