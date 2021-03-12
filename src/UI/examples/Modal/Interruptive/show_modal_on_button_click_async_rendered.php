@@ -33,7 +33,8 @@ function show_modal_on_button_click_async_rendered()
     }
 
     // Display POST data of affected items in a panel
-    if (isset($_POST['interruptive_items']) && $_GET['modal_nr'] === '2') {
+    if (array_key_exists('interruptive_items', $_POST)
+        && array_key_exists('modal_nr', $_GET) && $_GET['modal_nr'] === '2') {
         $panel = $factory->panel()->standard(
             'Affected Items',
             $factory->legacy(print_r($_POST['interruptive_items'], true))
