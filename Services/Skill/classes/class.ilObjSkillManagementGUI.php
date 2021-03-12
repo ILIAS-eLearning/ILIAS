@@ -191,15 +191,15 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             );
 
             $this->tabs_gui->addTab(
-                "settings",
-                $lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "editSettings")
-            );
-
-            $this->tabs_gui->addTab(
                 "profiles",
                 $lng->txt("skmg_skill_profiles"),
                 $this->ctrl->getLinkTargetByClass("ilskillprofilegui")
+            );
+
+            $this->tabs_gui->addTab(
+                "settings",
+                $lng->txt("settings"),
+                $this->ctrl->getLinkTarget($this, "editSettings")
             );
 
             if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
