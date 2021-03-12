@@ -7,7 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat as DateFormat;
-use ILIAS\Refinery as Refinary;
+use ILIAS\Refinery as Refinery;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -53,7 +53,7 @@ class Duration extends Group implements C\Input\Field\Duration
 
     /**
      * @param DataFactory $data_factory
-     * @param Refinary\Factory $field_factory
+     * @param Refinery\Factory $field_factory
      * @param string $label
      * @param string $byline
      */
