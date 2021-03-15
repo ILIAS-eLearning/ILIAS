@@ -534,8 +534,14 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             if ($odf_ids) {
                 $parent = $this->getParentGroupCourse();
                 $parent_obj_id = ilObject::_lookupObjectId($parent['ref_id']);
+                $parent_obj_type = ilObject::_lookupType($parent_obj_id);
 
-                $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
+                $confirmation_required = ($parent_obj_type == 'crs')
+                    ? ilPrivacySettings::_getInstance()->courseConfirmationRequired()
+                    : ilPrivacySettings::_getInstance()->groupConfirmationRequired();
+                if ($confirmation_required) {
+                    $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
+                }
                 $odf_data = ilCourseUserData::_getValuesByObjId($parent_obj_id);
 
                 $usr_data = [];
