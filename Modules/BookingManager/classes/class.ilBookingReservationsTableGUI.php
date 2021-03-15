@@ -521,9 +521,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             $usr_data = [];
             foreach ($ud["set"] as $v) {
                 foreach ($user_columns as $c) {
-                    if (isset($usr_data[$v["usr_id"]])) {
-                        $usr_data[$v["usr_id"]][$c] = $v[$c];
-                    }
+                    $usr_data[$v["usr_id"]][$c] = $v[$c];
                 }
             }
             foreach ($data as $key => $v) {
