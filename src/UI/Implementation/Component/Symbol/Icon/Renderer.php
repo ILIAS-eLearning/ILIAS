@@ -50,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
             $image = file_get_contents($imagepath);
             $image = substr($image, strpos($image, '<svg '));
             $image = trim(str_replace('</svg>', $abbreviation, $image));
-            $imagepath = "data:image/svg+xml;base64, " . base64_encode($image);
+            $imagepath = "data:image/svg+xml;base64," . base64_encode($image);
         }
 
         $tpl->setVariable("CUSTOMIMAGE", $imagepath);
