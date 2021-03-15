@@ -188,6 +188,11 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.text.html", true, true);
         $this->applyName($component, $tpl);
+
+        if ($component->getMaxLength()) {
+            $tpl->setVariable("MAX_LENGTH", $component->getMaxLength());
+        }
+
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
@@ -462,7 +467,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.multiselect.html", true, true);
         $name = $this->applyName($component, $tpl);
-        
+
         $value = $component->getValue();
         $tpl->setVariable("VALUE", $value);
 
