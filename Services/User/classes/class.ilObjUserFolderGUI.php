@@ -1251,6 +1251,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             "importFile"
         );
         $fi->setSuffixes(array("xml", "zip"));
+        $fi->setRequired(true);
         //$fi->enableFileNameSelection();
         //$fi->setInfo($lng->txt(""));
         $this->form->addItem($fi);
@@ -1599,9 +1600,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 }
             } //foreach role
 
-            $l_roles[""] = "";
             natcasesort($l_roles);
-            $l_roles[""] = $this->lng->txt("usrimport_ignore_role");
+            $l_roles["ignore"] = $this->lng->txt("usrimport_ignore_role");
 
             $roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory());
             $local_selects = [];
@@ -1615,14 +1615,14 @@ class ilObjUserFolderGUI extends ilObjectGUI
                         1
                     ) == '#') ? $role['name'] : '#' . $role['name'];
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
-                    $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "";
+                    $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
                     if ($this->object->getRefId() == USER_FOLDER_ID) {
                         // There are too many roles in a large ILIAS installation
                         // that's why whe show only a choice with the the option "ignore",
                         // and the matching roles.
                         $selectable_roles = array();
-                        $selectable_roles[""] = $this->lng->txt("usrimport_ignore_role");
+                        $selectable_roles["ignore"] = $this->lng->txt("usrimport_ignore_role");
                         foreach ($matching_role_ids as $id) {
                             $selectable_roles[$role_id . "-" . $id] = $l_roles[$id];
                         }
@@ -1640,7 +1640,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     } else {
                         $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
-                            if ($local_role_id !== "") {
+                            if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
                         }
