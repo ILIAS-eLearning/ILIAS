@@ -76,7 +76,12 @@ class ilSetupAgent implements Setup\Agent
                 new ilSetupConfigStoredObjective($config, true),
                 $config->getRegisterNIC()
                         ? new ilNICKeyRegisteredObjective($config)
-                        : new ilNICKeyStoredObjective($config)
+                        : new Setup\ObjectiveCollection(
+                            "",
+                            false,
+                            new ilNICKeyStoredObjective($config),
+                            new ilInstIdDefaultStoredObjective($config)
+                        )
             )
         );
     }
