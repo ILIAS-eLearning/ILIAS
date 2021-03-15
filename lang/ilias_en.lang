@@ -14522,6 +14522,7 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Settings
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_contained_in#:#Contained in
