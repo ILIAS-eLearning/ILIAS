@@ -16,6 +16,7 @@ class ilContentPagePageConfig extends ilPageConfig
         $this->setSinglePageMode(true);
         $this->setEnablePermissionChecks(true);
         $this->setMultiLangSupport(true);
+        $this->setUsePageContainer(false);
 
         $mediaPoolSettings = new ilSetting('mobs');
         if ($mediaPoolSettings->get('mep_activate_pages')) {
