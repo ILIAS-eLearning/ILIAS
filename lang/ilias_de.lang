@@ -14555,8 +14555,8 @@ iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
 skmg#:#skmg_selected_skills#:#Kompetenzeinträge
-skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
-skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
