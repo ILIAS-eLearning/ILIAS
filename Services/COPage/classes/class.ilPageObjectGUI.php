@@ -1325,6 +1325,10 @@ class ilPageObjectGUI
                 $tpl->parseCurrentBlock();
             }
 
+            if ($this->getPageConfig()->getUsePageContainer()) {
+                $tpl->setVariable("PAGE_CONTAINER_CLASS", "ilc_page_cont_PageContainer");
+            }
+
             $tpl->setVariable(
                 "WYSIWYG_ACTION",
                 $this->ctrl->getFormActionByClass("ilpageeditorgui", "", "", true)
@@ -3449,7 +3453,7 @@ class ilPageObjectGUI
     protected function isPageContainerToBeRendered()
     {
         return (
-            $this->getRenderPageContainer() || $this->getOutputMode() == self::PREVIEW
+            $this->getRenderPageContainer() || ($this->getOutputMode() == self::PREVIEW && $this->getPageConfig()->getUsePageContainer())
         );
     }
 
