@@ -13108,7 +13108,7 @@ skmg#:#skmg_status_draft_info#:#Eintrag wird Benutzern nicht angezeigt.
 skmg#:#skmg_status_outdated#:#Veraltet
 skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
 skmg#:#skmg_status_publish#:#Veröffentlicht
-skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden, falls alle übergeordneten Einträge ebenfalls freigegeben sind. Sobald die Kompetenz genutzt wird, kann sie nicht mehr gelöscht oder der Status "In Vorbereitung" gesetzt werden.
+skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden, falls alle übergeordneten Einträge ebenfalls freigegeben sind.
 skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
 skmg#:#skmg_suggested_resources#:#Zugewiesene Magazinobjekte
 skmg#:#skmg_sure_delete_self_evaluation#:#Möchten Sie die folgenden Selbsteinschätzungen wirklich löschen?
