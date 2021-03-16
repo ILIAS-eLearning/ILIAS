@@ -22,11 +22,64 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
         $settings = new ilGlobalCacheSettings();
         $settings->readFromIniFile($client_ini);
+
+        $service = ilGlobalCache::lookupServiceClassName($settings->getService());
         $storage->storeConfigText(
             "service",
-            $settings->getService(),
+            $service,
             "The backend that is used for the ILIAS cache."
         );
+
+        $servers = ilMemcacheServer::get();
+        if (
+            $service === ilGlobalCache::lookupServiceClassName(ilGlobalCache::TYPE_MEMCACHED) &&
+            count($servers) > 0
+        ) {
+            $server_collection = [];
+            foreach ($servers as $server) {
+                $active = new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_BOOL,
+                    $server->isActive()
+                );
+                $host = new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_TEXT,
+                    $server->getHost()
+                );
+                $port = new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_TEXT,
+                    $server->getPort()
+                );
+                $weight = new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_TEXT,
+                    $server->getWeight()
+                );
+
+                $server_collection[] = new Setup\Metrics\Metric(
+                    Setup\Metrics\Metric::STABILITY_CONFIG,
+                    Setup\Metrics\Metric::TYPE_COLLECTION,
+                    [
+                        "active" => $active,
+                        "host" => $host,
+                        "port" => $port,
+                        "weight" => $weight
+                    ],
+                    "Configured memcached node."
+                );
+            }
+
+            $nodes = new Setup\Metrics\Metric(
+                Setup\Metrics\Metric::STABILITY_CONFIG,
+                Setup\Metrics\Metric::TYPE_COLLECTION,
+                $server_collection,
+                "Collection of configured memcached nodes."
+            );
+            $storage->store("memcached_nodes", $nodes);
+        }
+
         $component_activation = [];
         foreach (ilGlobalCache::getAvailableComponents() as $component) {
             $component_activation[$component] = new Setup\Metrics\Metric(
