@@ -325,11 +325,15 @@ export default class ParagraphUIActionHandler {
 
   handleSaveResponse(pcid, pl, page_model) {
     const still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
-    if (pl.renderedContent && !still_editing) {
-      this.ui.replaceRenderedParagraph(pcid, pl.renderedContent);
-    }
-    if (pl.last_update && still_editing) {
-      this.ui.showLastUpdate(pl.last_update);
+    if (pl.error) {
+      this.ui.showError(pl.error);
+    } else {
+      if (pl.renderedContent && !still_editing) {
+        this.ui.replaceRenderedParagraph(pcid, pl.renderedContent);
+      }
+      if (pl.last_update && still_editing) {
+        this.ui.showLastUpdate(pl.last_update);
+      }
     }
   }
 
@@ -357,14 +361,19 @@ export default class ParagraphUIActionHandler {
 
   handleSaveResponseSplit(pl, page_model) {
     let still_editing;
-    for (const [pcid, renderedContent] of Object.entries(pl.renderedContent)) {
-      still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
-      if (renderedContent && !still_editing) {
-        this.ui.replaceRenderedParagraph(pcid, renderedContent);
+
+    if (pl.error) {
+      this.ui.showError(pl.error);
+    } else {
+      for (const [pcid, renderedContent] of Object.entries(pl.renderedContent)) {
+        still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
+        if (renderedContent && !still_editing) {
+          this.ui.replaceRenderedParagraph(pcid, renderedContent);
+        }
       }
-    }
-    if (pl.last_update) {
-      this.ui.showLastUpdate(pl.last_update);
+      if (pl.last_update) {
+        this.ui.showLastUpdate(pl.last_update);
+      }
     }
   }
 

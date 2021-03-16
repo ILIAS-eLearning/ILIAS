@@ -102,6 +102,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->pageTopActions = $this->getTopActions();
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
+        $o->errorMessage = $this->getErrorMessage();
         $o->config = $this->getConfig();
         $o->components = $this->getComponentsEditorUI();
         $o->pcModel = $this->getPCModel();
@@ -451,6 +452,17 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $lng = $this->lng;
 
         $html = $this->ui_wrapper->getRenderedInfoBox($lng->txt("cont_sel_el_use_paste"));
+
+        return $html;
+    }
+
+    /**
+     * Confirmation screen for cut/paste step
+     * @return string
+     */
+    protected function getErrorMessage()
+    {
+        $html = $this->ui_wrapper->getRenderedFailureBox();
 
         return $html;
     }
