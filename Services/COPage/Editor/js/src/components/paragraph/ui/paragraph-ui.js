@@ -643,7 +643,7 @@ export default class ParagraphUI {
     this.tinyWrapper.setContent(text, characteristic);
     for (let k = 0; k < newParagraphs.length; k++) {
       this.tinyWrapper.stopEditing();
-      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, characteristic);
+      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, "Standard");
       afterPcid = newParagraphs[k].pcid;
     }
   }
@@ -1152,4 +1152,13 @@ export default class ParagraphUI {
     this.tinyWrapper.stopEditing();
     this.editParagraph(previousPcid, true);
   }
+
+  showError(error) {
+    this.pageModifier.displayError(error);
+  }
+
+  clearError() {
+    this.pageModifier.clearError();
+  }
+
 }

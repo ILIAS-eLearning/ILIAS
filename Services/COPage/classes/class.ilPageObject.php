@@ -2662,7 +2662,7 @@ abstract class ilPageObject
             include_once("./Services/User/classes/class.ilUserUtil.php");
             $lock = $this->getEditLockInfo();
             $errors[0] = array(0 => 0,
-                               1 => "nocontent#" . $this->lng->txt("cont_not_saved_edit_lock_expired") . "<br />" .
+                               1 => $this->lng->txt("cont_not_saved_edit_lock_expired") . "<br />" .
                                    $this->lng->txt("obj_usr") . ": " .
                                    ilUserUtil::getNamePresentation($lock["edit_lock_user"]) . "<br />" .
                                    $this->lng->txt("content_until") . ": " .

@@ -47,8 +47,12 @@ export default (function ($, il) {
 
     // ui
     const toolSlate = new ToolSlate();
-    const pageModifier = new PageModifier();
+    const pageModifier = new PageModifier(toolSlate);
     const ui = new UI(client, dispatcher, actionFactory, model, toolSlate, pageModifier);
+
+    client.setDefaultErrorHandler((error) => {
+      pageModifier.displayError(error);
+    });
 
     // remaining dependecies for ui action handler
     uiActionHandler.setUI(ui);

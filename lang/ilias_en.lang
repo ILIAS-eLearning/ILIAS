@@ -16517,3 +16517,7 @@ tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the av
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
 common#:#installation_status#:#Installation Status
+copg#:#copg_an_error_occured#:#An error occured.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Error
+copg#:#copg_page_element_not_found#:#Page element not found.

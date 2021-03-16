@@ -13,9 +13,11 @@ export default class PageModifier {
   //pageUI = null;
 
   /**
+   * @param {ToolSlate} toolSlate
    */
-  constructor() {
+  constructor(toolSlate) {
     this.pageUI = null;
+    this.toolSlate = toolSlate;
   }
 
   setPageUI(pageUI) {
@@ -118,8 +120,14 @@ export default class PageModifier {
       }
     );
 
-    const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
-    b.addEventListener("click", onclick);
+    if (button_txt) {
+      const b = document.querySelector("#il-copg-ed-modal .modal-footer button");
+      b.addEventListener("click", onclick);
+    } else {
+      document.querySelectorAll("#il-copg-ed-modal .modal-footer").forEach((b) => {
+        b.remove();
+      });
+    }
   }
 
   hideCurrentModal() {
@@ -145,5 +153,19 @@ export default class PageModifier {
 
   redirect(url) {
     window.location.replace(url);
+  }
+
+  displayError(error) {
+    const uiModel = this.pageUI.uiModel;
+    this.toolSlate.displayError(uiModel.errorMessage);
+    const pm = this;
+    console.log(document.querySelector("#copg-editor-slate-error ul li a"));
+    document.querySelector("#copg-editor-slate-error ul li a").addEventListener("click", () => {
+      pm.showModal(il.Language.txt("copg_error"), error);
+    });
+  }
+
+  clearError() {
+    this.toolSlate.clearError();
   }
 }

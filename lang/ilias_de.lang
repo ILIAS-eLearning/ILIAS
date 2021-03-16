@@ -16515,3 +16515,7 @@ tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügba
 tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
 common#:#installation_status#:#Status Installation
+copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Problem
+copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
