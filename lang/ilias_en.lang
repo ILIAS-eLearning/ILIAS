@@ -14569,8 +14569,8 @@ survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
 skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific competence.
+skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
