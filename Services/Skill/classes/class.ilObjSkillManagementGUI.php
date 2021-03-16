@@ -26,6 +26,21 @@ class ilObjSkillManagementGUI extends ilObjectGUI
      */
     protected $tabs;
 
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    protected $ui_fac;
+
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $ui_ren;
+
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
     protected $skill_tree;
     
     /**
@@ -47,6 +62,9 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
@@ -240,79 +258,68 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilTabs->activateTab("settings");
 
         $skmg_set = new ilSkillManagementSettings();
-        $enable_skmg = $skmg_set->isActivated();
 
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this));
-        $form->setTitle($lng->txt("skmg_settings"));
-        
         // Enable skill management
-        $cb_prop = new ilCheckboxInputGUI(
-            $lng->txt("skmg_enable_skmg"),
-            "enable_skmg"
-        );
-        $cb_prop->setValue("1");
-        $cb_prop->setChecked($enable_skmg);
-        $form->addItem($cb_prop);
+        $check_enable = $this->ui_fac->input()->field()->checkbox($lng->txt("skmg_enable_skmg"))
+            ->withValue((bool) $skmg_set->isActivated());
 
         // Hide Competence Profile Data before Self-Assessment
-        $cb_prop = new ilCheckboxInputGUI(
+        $check_hide_prof = $this->ui_fac->input()->field()->checkbox(
             $lng->txt("skmg_hide_profile_self_eval"),
-            "hide_profile_self_eval"
-        );
-        $cb_prop->setValue("1");
-        $cb_prop->setInfo($lng->txt("skmg_hide_profile_self_eval_info"));
-        $cb_prop->setChecked($skmg_set->getHideProfileBeforeSelfEval());
-        $form->addItem($cb_prop);
+            $lng->txt("skmg_hide_profile_self_eval_info")
+        )->withValue((bool) $skmg_set->getHideProfileBeforeSelfEval());
 
         // Allow local assignment of global profiles
-        $cb_prop = new ilCheckboxInputGUI(
-            $lng->txt("skmg_local_assignment_profiles"),
-            "local_assignment_profiles"
-        );
-        $cb_prop->setValue("1");
-        $cb_prop->setChecked($skmg_set->getLocalAssignmentOfProfiles());
-        $form->addItem($cb_prop);
+        $check_loc_ass_prof = $this->ui_fac->input()->field()->checkbox($lng->txt("skmg_local_assignment_profiles"))
+                               ->withValue((bool) $skmg_set->getLocalAssignmentOfProfiles());
 
         // Allow creation of local profiles
-        $cb_prop = new ilCheckboxInputGUI(
+        $check_create_loc_prof = $this->ui_fac->input()->field()->checkbox(
             $lng->txt("skmg_allow_local_profiles"),
-            "allow_local_profiles"
+            $lng->txt("skmg_allow_local_profiles_info")
+        )->withValue((bool) $skmg_set->getAllowLocalProfiles());
+
+        //section
+        $section_settings = $this->ui_fac->input()->field()->section(
+            ["check_enable" => $check_enable,
+             "check_hide_prof" => $check_hide_prof,
+             "check_loc_ass_prof" => $check_loc_ass_prof,
+             "check_create_loc_prof" => $check_create_loc_prof],
+            $lng->txt("skmg_settings")
         );
-        $cb_prop->setValue("1");
-        $cb_prop->setInfo($lng->txt("skmg_allow_local_profiles_info"));
-        $cb_prop->setChecked($skmg_set->getAllowLocalProfiles());
-        $form->addItem($cb_prop);
-        
-        // command buttons
-        if ($this->checkPermissionBool("write")) {
-            $form->addCommandButton("saveSettings", $lng->txt("save"));
+
+        // form and form action handling
+        $ilCtrl->setParameterByClass(
+            'ilobjskillmanagementgui',
+            'skill_settings',
+            'skill_settings_config'
+        );
+
+        $form = $this->ui_fac->input()->container()->form()->standard(
+            $ilCtrl->getFormAction($this, "editSettings"),
+            ["section_settings" => $section_settings]
+        );
+
+        if ($this->request->getMethod() == "POST"
+            && $this->request->getQueryParams()["skill_settings"] == "skill_settings_config") {
+
+            if (!$this->checkPermissionBool("write")) {
+                return;
+            }
+
+            $form = $form->withRequest($this->request);
+            $result = $form->getData();
+
+            $skmg_set->activate((int) $result["section_settings"]["check_enable"]);
+            $skmg_set->setHideProfileBeforeSelfEval((int) $result["section_settings"]["check_hide_prof"]);
+            $skmg_set->setLocalAssignmentOfProfiles((int) $result["section_settings"]["check_loc_ass_prof"]);
+            $skmg_set->setAllowLocalProfiles((int) $result["section_settings"]["check_create_loc_prof"]);
+
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $ilCtrl->redirect($this, "editSettings");
         }
 
-        $this->tpl->setContent($form->getHTML());
-    }
-
-    /**
-    * Save skill management settings
-    */
-    public function saveSettings()
-    {
-        $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
-
-        if (!$this->checkPermissionBool("write")) {
-            return;
-        }
-
-        $skmg_set = new ilSkillManagementSettings();
-        $skmg_set->activate((int) $_POST["enable_skmg"]);
-        $skmg_set->setHideProfileBeforeSelfEval((int) $_POST["hide_profile_self_eval"]);
-        $skmg_set->setLocalAssignmentOfProfiles((int) $_POST["local_assignment_profiles"]);
-        $skmg_set->setAllowLocalProfiles((int) $_POST["allow_local_profiles"]);
-
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-        
-        $ilCtrl->redirect($this, "editSettings");
+        $this->tpl->setContent($this->ui_ren->render([$form]));
     }
 
     /**
