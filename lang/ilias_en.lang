@@ -12079,7 +12079,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_status_draft#:#Draft (Offline)
 skmg#:#skmg_status_draft_info#:#Item will be hidden.
 skmg#:#skmg_status_publish#:#Published
-skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
 skmg#:#skmg_status_outdated#:#Outdated
 skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status#:#Status
