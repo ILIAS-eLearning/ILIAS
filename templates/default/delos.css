@@ -7562,6 +7562,7 @@ a fieldset[disabled] .active {
 }
 h4.il-divider {
   padding: 3px 6px;
+  margin-bottom: 0px;
   background-color: white;
   display: block;
   font-size: 12px;
@@ -11842,6 +11843,11 @@ html.il-no-tiny-bg body#tinymce {
 .ilWhiteSpaceNowrap {
   white-space: nowrap;
 }
+.ilWhiteSpaceNowrap.ilRight a,
+.ilWhiteSpaceNowrap.ilRight .btn-group {
+  padding-left: 6px;
+  border: 1px solid transparent;
+}
 .ilPositionRelative {
   position: relative;
 }
@@ -15891,7 +15897,7 @@ span.bibl_text_inline_Emph {
   float: right;
 }
 .ilPlayerPreviewDescriptionDownload a {
-  color: #a0a0a0;
+  color: white;
 }
 .mejs-overlay-button {
   background-image: url("images/bigplay.svg");
