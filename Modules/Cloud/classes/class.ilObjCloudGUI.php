@@ -14,8 +14,8 @@ include_once("class.ilCloudConnector.php");
  * @author       Fabian Schmid <fs@studer-raimann.ch>
  *
  * @ilCtrl_Calls ilObjCloudGUI: ilPermissionGUI, ilNoteGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI,
- * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI,
+ * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginUploadGUI, ilCloudPluginCreateFolderGUI, ilCloudPluginSettingsGUI
+ * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginDeleteGUI, ilCloudPluginActionListGUI, ilCloudPluginItemCreationListGUI
  * @ilCtrl_Calls ilObjCloudGUI: ilCloudPluginFileTreeGUI, ilCloudPluginInitGUI, ilCloudPluginHeaderActionGUI, ilCloudPluginInfoScreenGUI
  *
  * @extends      ilObject2GUI
@@ -246,17 +246,17 @@ class ilObjCloudGUI extends ilObject2GUI
         // tab for the "show content" command
         if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
             $ilTabs->addTab("content", $lng->txt("content"), $ilCtrl->getLinkTarget($this, "render"));
-            $ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+            $ilTabs->addTab("id_info", $lng->txt("info_short"), $this->ctrl->getLinkTargetByClass(ilInfoScreenGUI::class, "showSummary"));
         }
 
         // a "properties" tab
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $ilTabs->addTab("settings", $lng->txt("settings"), $ilCtrl->getLinkTargetByClass("ilcloudpluginsettingsgui", "editSettings"));
+            $ilTabs->addTab("settings", $lng->txt("settings"), $ilCtrl->getLinkTargetByClass(ilCloudPluginSettingsGUI::class, "editSettings"));
         }
 
         // edit permissions
         if ($ilAccess->checkAccess('edit_permission', "", $this->object->getRefId())) {
-            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
+            $ilTabs->addTab("id_permissions", $lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, "perm"));
         }
     }
 
