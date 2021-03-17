@@ -138,11 +138,10 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             $webdav_id->setValue($this->document->getId());
             $this->addItem($webdav_id);
         } else {
-            $document_upload = new ilFileStandardDropzoneInputGUI($document_label, 'document');
+            $document_upload = new ilFileInputGUI($document_label, 'document');
             $document_upload->setInfo($document_by_line);
             $document_upload->setRequired($document_already_exists ? false : true);
             $document_upload->setDisabled(!$this->is_editable);
-            $document_upload->setMaxFiles(1);
             $document_upload->setSuffixes(['html', 'htm', 'txt']);
             $this->addItem($document_upload);
         }
