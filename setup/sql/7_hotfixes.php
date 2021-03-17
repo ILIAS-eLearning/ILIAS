@@ -631,3 +631,16 @@ $ilDB->dropTableColumn("cmix_settings", "user_name");
 $ilDB->dropTableColumn("lti_ext_provider", "user_ident");
 $ilDB->dropTableColumn("lti_ext_provider", "user_name");
 ?>
+<#34>
+<?php
+$ilDB->replace(
+    'settings',
+    [
+        'module' => ['text', 'adve'],
+        'keyword' => ['text', 'autosave']
+    ],
+    [
+        'value' => ['text', '30']
+    ]
+);
+?>

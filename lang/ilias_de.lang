@@ -16520,3 +16520,4 @@ copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
 copg#:#copg_details#:#Details
 copg#:#copg_error#:#Problem
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
+adve#:#adve_autosave_info_min_10#:#Bitte setzen sie den Wert auf mindestens 10 Sekunden, falls sie Funktion nutzen.
