@@ -101,8 +101,8 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
      */
     private function getItemSorter() : Closure
     {
-        return function (isItem $a, isItem $b) {
-            return $a->getPosition() <=> $b->getPosition();
+        return function (isItem &$a, isItem &$b) {
+            return $a->getPosition() > $b->getPosition();
         };
     }
 
