@@ -13284,6 +13284,9 @@ img.il_ExplorerIcon {
   height: 20px;
   width: 20px;
 }
+.ilExplorerContainer {
+  padding: 2px 0 6px 0;
+}
 .ilExplorerContainer .jstree-default .jstree-anchor {
   height: auto;
 }
