@@ -1058,6 +1058,8 @@ class ilPageObjectGUI
                 break;
 
             case "ilpageeditorgui":
+                $this->setEditorToolContext();
+
                 if (!$this->getEnableEditing()) {
                     ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this, "preview");
@@ -2605,6 +2607,19 @@ class ilPageObjectGUI
     }
 
     /**
+     * Set editor tool context
+     */
+    protected function setEditorToolContext()
+    {
+        $collection = $this->tool_context->current()->getAdditionalData();
+        if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
+            $collection->replace(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        } else {
+            $collection->add(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        }
+    }
+
+    /**
      * Init editing
      * @param
      * @return
@@ -2617,7 +2632,7 @@ class ilPageObjectGUI
             $this->ctrl->redirect($this, "preview");
         }
 
-        $this->tool_context->current()->addAdditionalData(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        $this->setEditorToolContext();
 
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
