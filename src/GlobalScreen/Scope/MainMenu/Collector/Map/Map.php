@@ -77,12 +77,9 @@ class Map implements Filterable, Walkable
     public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
     {
         $this->applyFilters();
+        $item = $this->filtered->offsetGet($identification->serialize());
 
-        if ($this->filtered->offsetExists($identification->serialize())) {
-            return $this->filtered->offsetGet($identification->serialize());
-        }
-
-        return $this->getLostItem($identification);
+        return $item ?? $this->getLostItem($identification);
     }
 
     /**
