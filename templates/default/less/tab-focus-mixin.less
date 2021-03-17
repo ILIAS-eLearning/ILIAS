@@ -1,7 +1,15 @@
-:focus-visible {
-    outline: @il-focus-outline;
+// In order not to manually overwrite the focus in all places, the following bootstrap focus mixin is overwritten ilias/libs/bower/bower_components/bootstrap/less/mixins/tab-focus.less.
+
+.tab-focus() {
+    // WebKit-specific. Other browsers will keep their default outline style.
+    // (Initially tried to also force default via `outline: initial`,
+    // but that seems to erroneously remove the outline in Firefox altogether.)
+    outline: none;
     outline-offset: 0px;
-}
+    &:focus-visible {
+        outline: @il-focus-outline;
+    }
+  }
 
 .il-tab-focus(){
 	&:focus-visible{
@@ -12,49 +20,4 @@
 	&:active,&.engaged{
 		outline: none;
 	}
-}
-
-a:focus {
-    outline-offset: 0px;
-  }
-a:focus-visible {
-    outline: @il-focus-outline;
-}
-
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus {
-    outline-offset: 0px;
-}
-input[type="file"]:focus-visible,
-input[type="radio"]:focus-visible,
-input[type="checkbox"]:focus-visible {
-    outline: @il-focus-outline;
-}
-
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-    outline-offset: 0px;
-}
-
-.btn:focus-visible,
-.btn:active:focus-visible,
-.btn.active:focus-visible,
-.btn.focus-visible,
-.btn:active.focus-visible,
-.btn.active.focus-visible {
-    outline: @il-focus-outline;
-}
-
-.btn-bulky:focus-visible,
-.link-bulky:focus-visible {
-    border: 2px solid @il-focus-color;
-    outline: none !important;
-}
-#tinymce:focus-visible {
-    outline: none !important;
 }

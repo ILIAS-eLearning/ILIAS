@@ -1123,6 +1123,11 @@ a:focus {
 a:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+  outline: none;
+  outline-offset: 0px;
+}
+a:focus:focus-visible {
+  outline: 2px solid #0078D7;
 }
 figure {
   margin: 0;
@@ -2713,6 +2718,13 @@ input[type="radio"]:focus,
 input[type="checkbox"]:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+  outline: none;
+  outline-offset: 0px;
+}
+input[type="file"]:focus:focus-visible,
+input[type="radio"]:focus:focus-visible,
+input[type="checkbox"]:focus:focus-visible {
+  outline: 2px solid #0078D7;
 }
 output {
   display: block;
@@ -3192,6 +3204,16 @@ select[multiple].input-lg {
 .btn.active.focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+  outline: none;
+  outline-offset: 0px;
+}
+.btn:focus:focus-visible,
+.btn:active:focus:focus-visible,
+.btn.active:focus:focus-visible,
+.btn.focus:focus-visible,
+.btn:active.focus:focus-visible,
+.btn.active.focus:focus-visible {
+  outline: 2px solid #0078D7;
 }
 .btn:hover,
 .btn:focus,
@@ -9645,6 +9667,13 @@ footer {
 .il-maincontrols-metabar .link-bulky:active {
   box-shadow: none;
 }
+.il-maincontrols-mainbar .btn-bulky:focus-visible,
+.il-maincontrols-metabar .btn-bulky:focus-visible,
+.il-maincontrols-mainbar .link-bulky:focus-visible,
+.il-maincontrols-metabar .link-bulky:focus-visible {
+  border: 2px solid #0078D7;
+  outline: none;
+}
 .il-maincontrols-mainbar .bulky-label,
 .il-maincontrols-metabar .bulky-label {
   white-space: normal;
@@ -11345,50 +11374,6 @@ the il- variable in your less code and not the boostrap variable in your less co
     display: none;
   }
 }
-:focus-visible {
-  outline: 2px solid #0078D7;
-  outline-offset: 0px;
-}
-a:focus {
-  outline-offset: 0px;
-}
-a:focus-visible {
-  outline: 2px solid #0078D7;
-}
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus {
-  outline-offset: 0px;
-}
-input[type="file"]:focus-visible,
-input[type="radio"]:focus-visible,
-input[type="checkbox"]:focus-visible {
-  outline: 2px solid #0078D7;
-}
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus,
-.btn.focus,
-.btn:active.focus,
-.btn.active.focus {
-  outline-offset: 0px;
-}
-.btn:focus-visible,
-.btn:active:focus-visible,
-.btn.active:focus-visible,
-.btn.focus-visible,
-.btn:active.focus-visible,
-.btn.active.focus-visible {
-  outline: 2px solid #0078D7;
-}
-.btn-bulky:focus-visible,
-.link-bulky:focus-visible {
-  border: 2px solid #0078D7;
-  outline: none !important;
-}
-#tinymce:focus-visible {
-  outline: none !important;
-}
 /* flex grid support start */
 .row-flex {
   display: -webkit-box;
@@ -12122,6 +12107,7 @@ a.il_ItemProperty:hover {
 span.il_ItemAlertProperty {
   color: #B54F00;
 }
+/* Table Links */
 /* --- description text ---*/
 div.il_Description,
 td.il_Description {
@@ -12453,6 +12439,7 @@ a.light:visited {
 a.light:hover {
   color: black;
 }
+/* Messages */
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
