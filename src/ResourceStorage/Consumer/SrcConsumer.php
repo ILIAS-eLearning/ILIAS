@@ -2,15 +2,14 @@
 
 namespace ILIAS\ResourceStorage\Consumer;
 
-use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
 
 /**
- * Class FileStreamConsumer
+ * Class SrcConsumer
  * @package ILIAS\ResourceStorage\Consumer
  */
-class FileStreamConsumer implements StreamConsumer
+class SrcConsumer
 {
     use GetRevisionTrait;
 
@@ -25,7 +24,7 @@ class FileStreamConsumer implements StreamConsumer
     /**
      * @var int|null
      */
-    protected $revision_number = null;
+    protected $revision_number;
 
     /**
      * DownloadConsumer constructor.
@@ -38,17 +37,20 @@ class FileStreamConsumer implements StreamConsumer
         $this->storage_handler = $storage_handler;
     }
 
-    public function getStream() : FileStream
+    public function getSrc() : string
     {
         $revision = $this->getRevision();
+        $stream = $this->storage_handler->getStream($revision);
+        $base64 = base64_encode($stream->getContents());
+        $mime = $revision->getInformation()->getMimeType();
 
-        return $this->storage_handler->getStream($revision);
+        return "data:{$mime};base64,{$base64}";
     }
 
     /**
      * @inheritDoc
      */
-    public function setRevisionNumber(int $revision_number) : FileStreamConsumer
+    public function setRevisionNumber(int $revision_number) : SrcConsumer
     {
         $this->revision_number = $revision_number;
         return $this;

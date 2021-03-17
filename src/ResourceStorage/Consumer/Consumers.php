@@ -49,4 +49,9 @@ class Consumers
     {
         return $this->consumer_factory->fileStream($this->resource_builder->get($identification));
     }
+
+    public function src(ResourceIdentification $identification) : SrcConsumer
+    {
+        return $this->consumer_factory->src($this->resource_builder->get($identification));
+    }
 }
