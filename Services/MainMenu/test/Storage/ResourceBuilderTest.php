@@ -139,7 +139,7 @@ class ResourceBuilderTest extends TestCase
                                   ->willReturn(new StorableFileResource($identification));
 
         $this->revision_repository->expects($this->once())
-                                  ->method('blank')
+                                  ->method('blankFromUpload')
                                   ->willReturn(new UploadedFileRevision($identification, $result));
 
         $resource = $this->resource_builder->new($result);
