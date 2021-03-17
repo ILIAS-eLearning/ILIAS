@@ -46,15 +46,15 @@ export default class AutoSave {
     this.auto_save_running = false;
     this.auto_save_ts = 0;
     this.autoSaveInterval = 0;
-    this.onAutoSave = null;
+    this.onAutoSave = [];
   }
 
   setInterval(sec) {
     this.autoSaveInterval = sec;
   }
 
-  setOnAutoSave(onAutoSave) {
-    this.onAutoSave = onAutoSave;
+  addOnAutoSave(onAutoSave) {
+    this.onAutoSave.push(onAutoSave);
   }
 
 
@@ -134,9 +134,10 @@ export default class AutoSave {
 
   autoSave() {
     this.log("AutoSave: save");
-
-    if (this.onAutoSave) {
-      this.onAutoSave();
+    let f;
+    for (let i = 0; i < this.onAutoSave.length; i++) {
+      f = this.onAutoSave[i];
+      f();
     }
     this.resetAutoSave();
   }

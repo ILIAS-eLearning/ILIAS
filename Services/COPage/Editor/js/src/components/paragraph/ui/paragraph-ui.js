@@ -171,6 +171,7 @@ export default class ParagraphUI {
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
+    const pageModel = this.page_model;
 
     this.uiModel = uiModel;
     let t = this;
@@ -183,8 +184,10 @@ export default class ParagraphUI {
 
     this.log("set interval: " + this.uiModel.autoSaveInterval);
     this.autoSave.setInterval(this.uiModel.autoSaveInterval);
-    this.autoSave.setOnAutoSave(() => {
-      dispatch.dispatch(action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic()));
+    this.autoSave.addOnAutoSave(() => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        dispatch.dispatch(action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic()));
+      }
     });
 
     this.initWrapperCallbacks();
