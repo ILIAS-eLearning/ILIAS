@@ -160,5 +160,6 @@ class ilObjCourseReference extends ilContainerReference
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         $new_obj->enableMemberUpdate($this->isMemberUpdateEnabled());
         $new_obj->update();
+        return $new_obj;
     }
 }
