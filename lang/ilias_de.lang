@@ -1711,6 +1711,7 @@ assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
+assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
