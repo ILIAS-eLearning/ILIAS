@@ -657,7 +657,7 @@ class ilCalendarSettings
         $this->storage->set('course_cal', (int) $this->isCourseCalendarEnabled());
         $this->storage->set('course_cal_visible', (int) $this->isCourseCalendarVisible());
         $this->storage->set('group_cal', (int) $this->isGroupCalendarEnabled());
-        $this->storage->set('group_cal_visisble', (int) $this->isGroupCalendarVisible());
+        $this->storage->set('group_cal_visible', (int) $this->isGroupCalendarVisible());
         $this->storage->set('notification_user', (int) $this->isUserNotificationEnabled());
         $this->storage->set('webcal_sync', (int) $this->isWebCalSyncEnabled());
         $this->storage->set('webcal_sync_hours', (int) $this->getWebCalSyncHours());
@@ -692,9 +692,9 @@ class ilCalendarSettings
         $this->enableConsultationHours($this->storage->get('consultation_hours', $this->areConsultationHoursEnabled()));
         $this->enableCGRegistration($this->storage->get('cg_registration', $this->isCGRegistrationEnabled()));
         $this->enableCourseCalendar($this->storage->get('course_cal', $this->isCourseCalendarEnabled()));
-        $this->setCourseCalendarVisible($this->storage->get('course_cal_vis', $this->isCourseCalendarVisible()));
+        $this->setCourseCalendarVisible($this->storage->get('course_cal_visible', $this->isCourseCalendarVisible()));
         $this->enableGroupCalendar($this->storage->get('group_cal', $this->isGroupCalendarEnabled()));
-        $this->setGroupCalendarVisible($this->storage->get('group_cal_vis', $this->isGroupCalendarVisible()));
+        $this->setGroupCalendarVisible($this->storage->get('group_cal_visible', $this->isGroupCalendarVisible()));
         $this->enableUserNotification($this->storage->get('notification_user', $this->isUserNotificationEnabled()));
         $this->enableWebCalSync($this->storage->get('webcal_sync', $this->isWebCalSyncEnabled()));
         $this->setWebCalSyncHours($this->storage->get('webcal_sync_hours', $this->getWebCalSyncHours()));
