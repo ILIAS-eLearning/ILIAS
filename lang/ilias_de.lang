@@ -11122,7 +11122,7 @@ survey#:#survey_360_add_self_appraisee#:#Fügen Sie sich selbst als Feedback-Neh
 survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_select_appraisee#:#Auswählen
 survey#:#survey_360_appraisee#:#Feedback-Nehmer
-skmg#:#skmg_skill_profiles#:#Profile
+skmg#:#skmg_skill_profiles#:#Kompetenzprofile
 skmg#:#skmg_add_local_profile#:#Lokales Profil hinzufügen
 skmg#:#skmg_add_profile#:#Profil hinzufügen
 skmg#:#skmg_edit_profile#:#Profil bearbeiten
@@ -12101,7 +12101,7 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Einige Objekte können nicht gelöscht 
 skmg#:#skmg_status_draft#:#In Vorbereitung (Offline)
 skmg#:#skmg_status_draft_info#:#Eintrag wird Benutzern nicht angezeigt.
 skmg#:#skmg_status_publish#:#Veröffentlicht
-skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind. Sobald die Kompetenz genutzt wird, kann sie nicht mehr gelöscht oder der Status "In Vorbereitung" gesetzt werden.
+skmg#:#skmg_status_publish_info#:#Die Kompetenz kann von Benutzern genutzt werden falls alle übergeordneten Einträge ebenfalls freigegeben sind.
 skmg#:#skmg_status_outdated#:#Veraltet
 skmg#:#skmg_status_outdated_info#:#Der Eintrag kann von Benutzer nicht mehr als persönliche Kompetenz neu ausgewählt werden. Wurde die Kompetenz bereits früher ausgewählt, so bleibt diese Auswahl weiterhin bestehen.
 skmg#:#skmg_status#:#Status
@@ -14512,6 +14512,7 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
+auth#:#auth_saml_err_sqlite_driver#:#Die SAML-Authentifizierung benötigt die SQLite-Treiber für PHP. Bitte installieren Sie diese und versuchen Sie es erneut.
 dateplaner#:#cal_origin#:#Herkunft
 dateplaner#:#cal_list#:#Liste
 dateplaner#:#cal_grp_curr_crs_cons#:#Sprechstunden
@@ -14553,10 +14554,10 @@ common#:#second_email#:#Zweite E-Mail
 iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
-skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
+skmg#:#skmg_assigned_profiles#:#Zugewiesene Kompetenzprofile
 skmg#:#skmg_selected_skills#:#Kompetenzeinträge
-skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
-skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
+skmg#:#skmg_hide_profile_self_eval#:#Profil-Zielausprägung nach Selbsteinschätzung anzeigen
+skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzen wird die Profil-Zielausprägung erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_local_assignment_profiles#:#Lokale Zuordnung von globalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles#:#Erstellung von lokalen Profilen erlauben
 skmg#:#skmg_allow_local_profiles_info#:#Nutzer mit dem Recht 'Einstellungen bearbeiten' in Kursen und Gruppen können lokale Kompetenzprofile erstellen und dabei global definierte Kompetenzen verwenden.
@@ -16515,3 +16516,7 @@ tagging#:#no_tag_text_2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügba
 tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objektes und wählen Sie "<i>Tags setzen</i>".
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
 common#:#installation_status#:#Status Installation
+copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Problem
+copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.

@@ -32,8 +32,14 @@ class ParagraphResponseFactory
         $rendered_content = null;
         $last_change = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } else if (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             $rendered_content = $this->getParagraphOutput($page_gui, $pcid);
             $last_change = $page_gui->getPageObject()->getLastChange();
@@ -65,8 +71,14 @@ class ParagraphResponseFactory
         $rendered_content = null;
         $last_change = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } else if (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             foreach ($pcids as $pcid) {
                 $rendered_content[$pcid] = $this->getParagraphOutput($page_gui, $pcid);

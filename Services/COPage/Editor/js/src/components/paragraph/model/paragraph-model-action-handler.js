@@ -110,7 +110,7 @@ export default class ParagraphModelActionHandler {
               splitIds.push(pcid);
               this.pageModel.setPCModel(pcid, {
                 text: params.contents[k],
-                characteristic: params.characteristic
+                characteristic: "Standard"
               });
               this.pageModel.setCurrentPageComponent("Paragraph", pcid, "");
               this.pageModel.setUndoPCModel(

@@ -1356,10 +1356,11 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 {
 	function unloadChrome() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
-			if (typeof(document.getElementById("res")) != "undefined" 
+			if ((typeof(document.getElementById("res")) != "undefined" 
 				&& typeof(document.getElementById("res").contentWindow) != "undefined" 
 				&& typeof(document.getElementById("res").contentWindow.event) != "undefined" 
-				&& (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")) {
+				&& (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")) 
+                || (typeof(window.event) != "undefined" && (window.event.type=="unload" || window.event.type=="beforeunload"))) {
 				return true;
 			}
 		}
@@ -1374,6 +1375,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 		console.log("async request for chrome");
 		// navigator.sendBeacon(url, toJSONString(data));
 		// console.log('use sendBeacon');
+        windowOpenerLoc.reload();
 		return "1";
 	}
 	if (url == this.config.scorm_player_unload_url && navigator.userAgent.indexOf("Chrom") > -1) {

@@ -46,6 +46,11 @@ abstract class ilPageConfig
     /**
      * @var bool
      */
+    protected $use_page_container = true;
+
+    /**
+     * @var bool
+     */
     protected $enable_permission_checks = false;
 
     /**
@@ -656,4 +661,23 @@ abstract class ilPageConfig
     {
         return $this->edit_lock_support;
     }
+
+    /**
+     * Set if page container css class should be used
+     * @param bool $a_val use page container
+     */
+    function setUsePageContainer($a_val)
+    {
+        $this->use_page_container = $a_val;
+    }
+
+    /**
+     * Get if page container css class should be used
+     * @return bool use page container class
+     */
+    function getUsePageContainer()
+    {
+        return $this->use_page_container;
+    }
+
 }

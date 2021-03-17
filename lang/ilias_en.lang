@@ -11124,7 +11124,7 @@ survey#:#survey_360_add_self_appraisee#:#Add yourself as appraisee to this surve
 survey#:#survey_360_list_title#:#360° Mode
 survey#:#survey_360_select_appraisee#:#Select
 survey#:#survey_360_appraisee#:#Appraisee
-skmg#:#skmg_skill_profiles#:#Profiles
+skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
@@ -11133,7 +11133,7 @@ skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Levels
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
-skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
+skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
 skmg#:#skmg_assigned_users#:#Assigned Roles and Users
 skmg#:#skmg_assign_user#:#Assign User
@@ -12099,8 +12099,8 @@ skmg#:#skmg_number#:#Number
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
 skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
-skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill
-skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
+skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Competence
+skmg#:#skmg_usage_type_info_prof#:#Used in Competence Profiles
 skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resource
 skmg#:#skmg_usage_obj_objects#:#Object(s)
 skmg#:#skmg_usage_obj_users#:#User(s)
@@ -12139,9 +12139,9 @@ skmg#:#skmg_cannot_delete_nodes_in_use#:#Some items cannot be deleted, because t
 skmg#:#skmg_status_draft#:#Draft (Offline)
 skmg#:#skmg_status_draft_info#:#Item will be hidden.
 skmg#:#skmg_status_publish#:#Published
-skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too. Once items are used, the status cannot be set to draft anymore, neither can they be deleted.
+skmg#:#skmg_status_publish_info#:#Item can be used if all parents are published, too.
 skmg#:#skmg_status_outdated#:#Outdated
-skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal skill, or newly assigned to repository objects or skill profiles. However existing assignments and data are still presented.
+skmg#:#skmg_status_outdated_info#:#Item cannot be newly selected by users as personal competence, or newly assigned to repository objects or competence profiles. However existing assignments and data are still presented.
 skmg#:#skmg_status#:#Status
 ldap#:#ldap_choose_role#:#Choose Role
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.
@@ -13806,7 +13806,7 @@ rbac#:#sty_write_page_layout#:#Edit Page Layouts
 rbac#:#stys_sty_write_page_layout#:#Edit Page Layouts
 skmg#:#skmg_import_skills#:#Import
 skmg#:#skmg_input_file#:#Import File
-skmg#:#skmg_skill_in_use#:#This skill is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
+skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 form#:#form_no_link#:#No Link
 copg#:#copg_sec_link_info#:#If you set a link on the whole section, please ensure that no other interactive elements are included within the section. Otherwise their behaviour may be erratically.
 logging#:#log_error_message#:#Sorry, an error occured. A logfile has been created which can be identified via the code "%s".
@@ -14523,6 +14523,7 @@ auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_configure_idp#:#Configure SAML IDP: %s
 auth#:#saml_tab_head_idp#:#IDP
 auth#:#auth_saml_idp_settings#:#IDP Settings
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_owner#:#Owner
 dateplaner#:#cal_contained_in#:#Contained in
@@ -14566,10 +14567,10 @@ mail#:#mail_both_email#:#Both E-Mail Addresses
 common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
-skmg#:#skmg_assigned_profiles#:#Assigned Profiles
+skmg#:#skmg_assigned_profiles#:#Assigned Competence Profiles
 skmg#:#skmg_selected_skills#:#Competence Records
-skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
-skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
+skmg#:#skmg_hide_profile_self_eval#:#Hide Profile Target Level without Self Evaluation
+skmg#:#skmg_hide_profile_self_eval_info#:#Profile Target Level will not be shown to a user, if no self evaluation has been done for a specific competence.
 skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles
 skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles
 skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.
@@ -16517,3 +16518,7 @@ tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the av
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
 common#:#installation_status#:#Installation Status
+copg#:#copg_an_error_occured#:#An error occured.
+copg#:#copg_details#:#Details
+copg#:#copg_error#:#Error
+copg#:#copg_page_element_not_found#:#Page element not found.

@@ -14,6 +14,7 @@ export default class ToolSlate {
    */
   constructor() {
     this.content_id = "copg-editor-slate-content";
+    this.error_id = "copg-editor-slate-error";
   }
 
   /**
@@ -40,4 +41,11 @@ export default class ToolSlate {
     this.setContent(this.uiModel.components[component][key]);
   }
 
+  displayError(error) {
+    $("#copg-editor-slate-error").html(error);
+  }
+
+  clearError() {
+    $("#copg-editor-slate-error").html('');
+  }
 }
