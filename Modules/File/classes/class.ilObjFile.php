@@ -127,7 +127,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
-    private function updateObjectFromRevision(Revision $r) : void
+    private function updateObjectFromRevision(Revision $r, bool $create_previews = true) : void
     {
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getTitle());
@@ -136,7 +136,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setFileSize($r->getInformation()->getSize());
         $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
-        $this->createPreview(true);
+        if ($create_previews) {
+            $this->createPreview(true);
+        }
         $this->addNewsNotification("file_updated");
     }
 
@@ -431,8 +433,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($this->resource_id
             && ($identification = $this->manager->find($this->resource_id)) instanceof ResourceIdentification) {
             $new_resource_identification = $this->manager->clone($identification);
+            $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
             $new_object->setResourceId($new_resource_identification->serialize());
-            $new_object->update();
+            $new_object->initImplementation();
+            $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
         } else {
             // migrate
             global $DIC;
@@ -523,7 +527,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->deletePreview();
 
         // delete resource
-        $this->manager->remove($this->manager->find($this->getResourceId()), $this->stakeholder);
+        $identification = $this->getResourceId();
+        if ($identification) {
+            $this->manager->remove($this->manager->find($identification), $this->stakeholder);
+        }
     }
 
     /**
