@@ -171,6 +171,7 @@ export default class ParagraphUI {
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
+    const pageModel = this.page_model;
 
     this.uiModel = uiModel;
     let t = this;
