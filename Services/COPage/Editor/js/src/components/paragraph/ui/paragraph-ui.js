@@ -183,8 +183,11 @@ export default class ParagraphUI {
 
     this.log("set interval: " + this.uiModel.autoSaveInterval);
     this.autoSave.setInterval(this.uiModel.autoSaveInterval);
-    this.autoSave.setOnAutoSave(() => {
-      dispatch.dispatch(action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic()));
+    this.autoSave.addOnAutoSave(() => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        let act = action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic());
+        dispatch.dispatch(act);
+      }
     });
 
     this.initWrapperCallbacks();
@@ -764,12 +767,17 @@ export default class ParagraphUI {
     });
     wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
       if (pageModel.getCurrentPCName() === "Paragraph") {
-        let pcId = pageModel.getCurrentPCId();
+        let pcId;
+        pcId = pageModel.getCurrentPCId();
         let pcModel = pageModel.getPCModel(pcId);
-        wrapper.initContent(pcModel.text, pcModel.characteristic);
+        if (pcModel) {
+          wrapper.initContent(pcModel.text, pcModel.characteristic);
+        }
         parUI.showToolbar();
-        parUI.setParagraphClass(pcModel.characteristic);
-        parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
+        if (pcModel) {
+          parUI.setParagraphClass(pcModel.characteristic);
+          parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
+        }
         if (parUI.switchToEnd) {
           wrapper.switchToEnd();
         }
@@ -995,8 +1003,6 @@ export default class ParagraphUI {
       cnt++;
     });
 
-    console.log("****");
-    console.log(content);
 
     /*
     pcarea.querySelectorAll("div", (d) => {

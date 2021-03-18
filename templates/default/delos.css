@@ -7814,9 +7814,9 @@ ul.dropdown-menu > li > .btn:focus {
   display: inline-block;
 }
 .breadcrumb > li + li:before {
-  content: " \e606\00a0";
   padding: 0 5px;
   color: #557196;
+  content: " \e606\00a0";
 }
 .breadcrumb > .active {
   color: #3a4c65;
