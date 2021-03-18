@@ -186,7 +186,8 @@ export default class ParagraphUI {
     this.autoSave.setInterval(this.uiModel.autoSaveInterval);
     this.autoSave.addOnAutoSave(() => {
       if (pageModel.getCurrentPCName() === "Paragraph") {
-        dispatch.dispatch(action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic()));
+        let act = action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic());
+        dispatch.dispatch(act);
       }
     });
 
@@ -767,12 +768,17 @@ export default class ParagraphUI {
     });
     wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
       if (pageModel.getCurrentPCName() === "Paragraph") {
-        let pcId = pageModel.getCurrentPCId();
+        let pcId;
+        pcId = pageModel.getCurrentPCId();
         let pcModel = pageModel.getPCModel(pcId);
-        wrapper.initContent(pcModel.text, pcModel.characteristic);
+        if (pcModel) {
+          wrapper.initContent(pcModel.text, pcModel.characteristic);
+        }
         parUI.showToolbar();
-        parUI.setParagraphClass(pcModel.characteristic);
-        parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
+        if (pcModel) {
+          parUI.setParagraphClass(pcModel.characteristic);
+          parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
+        }
         if (parUI.switchToEnd) {
           wrapper.switchToEnd();
         }
@@ -998,8 +1004,6 @@ export default class ParagraphUI {
       cnt++;
     });
 
-    console.log("****");
-    console.log(content);
 
     /*
     pcarea.querySelectorAll("div", (d) => {
