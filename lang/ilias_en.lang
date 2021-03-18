@@ -1389,6 +1389,7 @@ assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available P
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_type#:#Test Type
 assessment#:#exam_id#:#Testpass ID:
+assessment#:#exam_id_label#:#Exam Id
 assessment#:#examid_in_test_pass#:#Display Test Pass ID
 assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
 assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
