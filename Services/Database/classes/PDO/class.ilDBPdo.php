@@ -1179,7 +1179,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $field_values[$k] = $col[1];
         }
 
-        $q = "REPLACE INTO " . $table . " (" . implode($fields, ",") . ") VALUES (" . implode($placeholders, ",") . ")";
+        $q = "REPLACE INTO " . $table . " (" . implode(",", $fields) . ") VALUES (" . implode(",", $placeholders) . ")";
 
         $r = $this->manipulateF($q, $types, $values);
 
