@@ -81,11 +81,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $st_chars = ilPCParagraphGUI::_getStandardCharacteristics();
         $chars = ilPCParagraphGUI::_getStandardCharacteristics();
 
+
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
             include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style = new ilObjStyleSheet($a_style_id);
-            $types = array("text_block", "heading1", "heading2", "heading3");
+            $types = array("heading1", "heading2", "heading3", "text_block");
             $chars = array();
             foreach ($types as $t) {
                 $chars = array_merge($chars, $style->getCharacteristics($t));
@@ -97,7 +98,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 } else {
                     $new_chars[$char] = $char;
                 }
-                asort($new_chars);
+//                asort($new_chars);
             }
             $chars = $new_chars;
         }

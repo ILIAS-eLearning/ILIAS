@@ -16526,3 +16526,6 @@ copg#:#copg_page_element_not_found#:#Page element not found.
 adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
 content#:#cont_keyword#:#Keyword
 content#:#cont_footnote#:#Footnote
+content#:#cont_Book#:#Book
+content#:#cont_Numbers#:#Numbers
+content#:#cont_Verse#:#Verse/Stanza
