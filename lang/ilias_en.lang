@@ -4193,7 +4193,7 @@ content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on placeholders to add new elements.
+content#:#cont_add_elements#:#Click on a plus symbol to add new elements.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_tab#:#Add Panel
 content#:#cont_added_comment#:#Comment has been added to history.
@@ -4289,12 +4289,14 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_downloads#:#Enable Download
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.
+content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b> content elements on placeholders to <b>move</b> elements.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left_float#:#Align: Left Float
 content#:#cont_ed_align_left#:#Align: Left
