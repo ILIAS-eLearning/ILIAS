@@ -2147,6 +2147,8 @@ class ilPageObjectGUI
             ]
         ];
 
+        // more...
+
         // links
         $links = [];
         if ($a_wiki_links) {
@@ -2167,12 +2169,14 @@ class ilPageObjectGUI
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }
-        $menu["cont_links"][] = ["text" => '<i class="mce-ico mce-i-link"></i>', "action" => $links];
+
 
         // more
         $menu["cont_more_functions"] = [];
+        $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_link").'<i class="mce-ico mce-i-link"></i>', "action" => $links];
+
         if ($a_keywords) {
-            $menu["cont_more_functions"][] = ["text" => 'kw', "action" => "selection.keyword", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_keyword"), "action" => "selection.keyword", "data" => []];
         }
         $mathJaxSetting = new ilSetting("MathJax");
         if (ilPageEditorSettings::lookupSettingByParentType(
@@ -2181,7 +2185,7 @@ class ilPageObjectGUI
             true
         )) {
             if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+                $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
             }
         }
         if (ilPageEditorSettings::lookupSettingByParentType(
@@ -2189,10 +2193,10 @@ class ilPageObjectGUI
             "active_fn",
             true
         )) {
-            $menu["cont_more_functions"][] = ["text" => 'fn', "action" => "selection.fn", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_footnote"), "action" => "selection.fn", "data" => []];
         }
         if ($a_anchors) {
-            $menu["cont_more_functions"][] = ["text" => 'anc', "action" => "selection.anchor", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_anchor"), "action" => "selection.anchor", "data" => []];
         }
 
         $btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
