@@ -16210,3 +16210,13 @@ common#:#more#:#More###05 02 2021 new variable
 rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
 rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
 prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable
