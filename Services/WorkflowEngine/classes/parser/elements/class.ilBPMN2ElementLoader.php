@@ -34,7 +34,7 @@ class ilBPMN2ElementLoader
     public function load($element_name)
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
-        $type = strtolower(substr($element_name, @$matches[0][1]));
+        $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));
         if ($type == 'basedgateway') {
             // Fixing a violation of the standards naming convention by the standard here.
             $type = 'gateway';
