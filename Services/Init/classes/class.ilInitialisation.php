@@ -1063,12 +1063,8 @@ class ilInitialisation
      */
     protected static function handleDevMode()
     {
-        if (defined(SHOWNOTICES) && SHOWNOTICES) {
-            // no further differentiating of php version regarding to 5.4 neccessary
-            // when the error reporting is set to E_ALL anyway
-
-            // add notices to error reporting
-            error_reporting(E_ALL);
+        if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
+            error_reporting(-1);
         }
 
         if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
