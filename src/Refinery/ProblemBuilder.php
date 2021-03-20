@@ -58,8 +58,7 @@ trait ProblemBuilder
                 $args[0] = $error;
                 for ($i = 0; $i < count($args); $i++) {
                     $v = $args[$i];
-                    if ((is_array($v) || is_object($v) || is_null($v))
-                    && !method_exists($v, "__toString")) {
+                    if ((is_array($v) || (is_object($v) && !method_exists($v, "__toString")) || is_null($v))) {
                         if (is_array($v)) {
                             $args[$i] = "array";
                         } elseif (is_null($v)) {
