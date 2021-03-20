@@ -19,6 +19,9 @@ class ilLoggingActivityTest extends TestCase
     /** vfsStream Test Directory, see setup. */
     public $test_dir;
 
+    private $workflow;
+    private $node;
+
     public function setUp() : void
     {
         chdir(dirname(__FILE__));
