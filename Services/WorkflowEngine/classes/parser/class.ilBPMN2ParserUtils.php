@@ -151,8 +151,8 @@ class ilBPMN2ParserUtils
             'subject_id' => $subject_extension['attributes']['id'] ?? '',
             'context_type' => $context_extension['attributes']['type'] ?? '',
             'context_id' => $context_extension['attributes']['id'] ?? '',
-            'listening_start' => $timeframe_extension['attributes']['start'] ?? '',
-            'listening_end' => $timeframe_extension['attributes']['end'] ?? ''
+            'listening_start' => $timeframe_extension['attributes']['start'] ?? null,
+            'listening_end' => $timeframe_extension['attributes']['end'] ?? null
         );
         
         return $event_definition;

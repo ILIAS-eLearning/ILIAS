@@ -126,12 +126,16 @@ class ilBPMN2Parser
     public function getProcessNodeFromArray($bpmn2)
     {
         $process = array();
-        foreach ((array) @$bpmn2['children'] as $bpmn2_part) {
-            if ($bpmn2_part['name'] == 'process') {
-                $process = $bpmn2_part;
-                break;
+
+        if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
+            foreach ($bpmn2['children'] as $bpmn2_part) {
+                if ($bpmn2_part['name'] == 'process') {
+                    $process = $bpmn2_part;
+                    break;
+                }
             }
         }
+
         return $process;
     }
 
@@ -143,12 +147,16 @@ class ilBPMN2Parser
     public function getMessageNodesFromArray($bpmn2)
     {
         $messages = array();
-        foreach ((array) @$bpmn2['children'] as $bpmn2_part) {
-            if ($bpmn2_part['name'] == 'message') {
-                $messages[] = $bpmn2_part;
-                break;
+
+        if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
+            foreach ($bpmn2['children'] as $bpmn2_part) {
+                if ($bpmn2_part['name'] == 'message') {
+                    $messages[] = $bpmn2_part;
+                    break;
+                }
             }
         }
+
         return $messages;
     }
 
