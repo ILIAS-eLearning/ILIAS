@@ -21,7 +21,7 @@ class ilBPMN2ParserUtils
      */
     public function load_string($xml_string)
     {
-        $node = @simplexml_load_string($xml_string);
+        $node = new SimpleXMLElement($xml_string);
         return $this->add_node($node);
     }
 
