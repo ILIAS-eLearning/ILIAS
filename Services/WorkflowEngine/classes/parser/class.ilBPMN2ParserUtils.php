@@ -123,7 +123,7 @@ class ilBPMN2ParserUtils
 
                 foreach ($extension_elements as $child) {
                     $prefix = 'ilias:';
-                    if ($child['namespace'] == 'ilias') {
+                    if (isset($child['namespace']) && $child['namespace'] == 'ilias') {
                         $prefix = '';
                     }
                     if ($child['name'] == $prefix . 'eventDescriptor') {
@@ -145,14 +145,14 @@ class ilBPMN2ParserUtils
         }
 
         $event_definition = array(
-            'type' => $descriptor_extension['attributes']['type'],
-            'content' => $descriptor_extension['attributes']['name'],
-            'subject_type' => $subject_extension['attributes']['type'],
-            'subject_id' => $subject_extension['attributes']['id'],
-            'context_type' => $context_extension['attributes']['type'],
-            'context_id' => $context_extension['attributes']['id'],
-            'listening_start' => $timeframe_extension['attributes']['start'],
-            'listening_end' => $timeframe_extension['attributes']['end']
+            'type' => $descriptor_extension['attributes']['type'] ?? '',
+            'content' => $descriptor_extension['attributes']['name'] ?? '',
+            'subject_type' => $subject_extension['attributes']['type'] ?? '',
+            'subject_id' => $subject_extension['attributes']['id'] ?? '',
+            'context_type' => $context_extension['attributes']['type'] ?? '',
+            'context_id' => $context_extension['attributes']['id'] ?? '',
+            'listening_start' => $timeframe_extension['attributes']['start'] ?? '',
+            'listening_end' => $timeframe_extension['attributes']['end'] ?? ''
         );
         
         return $event_definition;
@@ -172,8 +172,11 @@ class ilBPMN2ParserUtils
             foreach ($elements['children'] as $element) {
                 if ($element['name'] == $type) {
                     foreach ((array) $element['children'] as $event_child) {
-                        if ($event_child['name'] == 'timerEventDefinition') {
-                            if ($event_child['children'][0]['name'] == 'timeDate') {
+                        if (isset($event_child['name']) && $event_child['name'] == 'timerEventDefinition') {
+                            if (
+                                isset($event_child['children'][0]['name']) &&
+                                $event_child['children'][0]['name'] == 'timeDate'
+                            ) {
                                 $content = $event_child['children'][0]['content'];
                                 $start = date('U', strtotime($content));
                                 $end = 0;
@@ -190,7 +193,10 @@ class ilBPMN2ParserUtils
                                 );
                             }
 
-                            if ($event_child['children'][0]['name'] == 'timeDuration') {
+                            if (
+                                isset($event_child['children'][0]['name']) &&
+                                $event_child['children'][0]['name'] == 'timeDuration'
+                            ) {
                                 $content = $event_child['children'][0]['content'];
                                 $interval = new \DateInterval(strtotime($content));
                                 $duration = ($interval->d * 24 * 60 * 60) + ($interval->h * 60 * 60) +
@@ -226,7 +232,7 @@ class ilBPMN2ParserUtils
             if ($child['name'] == 'extensionElements') {
                 foreach ($child['children'] as $extension) {
                     $prefix = 'ilias:';
-                    if ($extension['namespace'] == 'ilias') {
+                    if (isset($extension['namespace']) && $extension['namespace'] == 'ilias') {
                         $prefix = '';
                     }
                     if ($extension['name'] == $prefix . 'properties') {
@@ -278,7 +284,10 @@ class ilBPMN2ParserUtils
             if ($child['name'] == 'extensionElements') {
                 foreach ($child['children'] as $extension) {
                     $prefix = 'ilias:';
-                    if ($extension['children'][0]['namespace'] == 'ilias') {
+                    if (
+                        isset($extension['children'][0]['namespace']) &&
+                        $extension['children'][0]['namespace'] == 'ilias'
+                    ) {
                         $prefix = '';
                     }
                     if ($extension['name'] == $prefix . 'properties') {
@@ -311,7 +320,10 @@ class ilBPMN2ParserUtils
             if ($child['name'] == 'extensionElements') {
                 foreach ($child['children'] as $extension) {
                     $prefix = 'ilias:';
-                    if ($extension['children'][0]['namespace'] == 'ilias') {
+                    if (
+                        isset($extension['children'][0]['namespace']) &&
+                        $extension['children'][0]['namespace'] == 'ilias'
+                    ) {
                         $prefix = '';
                     }
                     if ($extension['name'] == $prefix . 'properties') {
@@ -343,7 +355,10 @@ class ilBPMN2ParserUtils
             if ($child['name'] == 'extensionElements') {
                 foreach ($child['children'] as $extension) {
                     $prefix = 'ilias:';
-                    if ($extension['children'][0]['namespace'] == 'ilias') {
+                    if (
+                        isset($extension['children'][0]['namespace']) &&
+                        $extension['children'][0]['namespace'] == 'ilias'
+                    ) {
                         $prefix = '';
                     }
                     if ($extension['name'] == $prefix . 'properties') {
@@ -376,12 +391,15 @@ class ilBPMN2ParserUtils
             if ($child['name'] == 'extensionElements') {
                 foreach ($child['children'] as $extension) {
                     $prefix = 'ilias:';
-                    if ($extension['children'][0]['namespace'] == 'ilias') {
+                    if (
+                        isset($extension['children'][0]['namespace']) &&
+                        $extension['children'][0]['namespace'] == 'ilias'
+                    ) {
                         $prefix = '';
                     }
-                    if ($extension['name'] == $prefix . 'properties') {
+                    if (isset($extension['name']) && $extension['name'] == $prefix . 'properties') {
                         foreach ((array) $extension['children'] as $child) {
-                            if ($child['attributes']['name'] == 'mailtext') {
+                            if (isset($child['attributes']['name']) && $child['attributes']['name'] == 'mailtext') {
                                 $retval['mailtext'] = base64_encode($child['content']);
                             }
                         }
