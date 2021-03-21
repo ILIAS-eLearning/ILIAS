@@ -1356,11 +1356,31 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 {
 	function unloadChrome() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
-			if ((typeof(document.getElementById("res")) != "undefined" 
-				&& typeof(document.getElementById("res").contentWindow) != "undefined" 
-				&& typeof(document.getElementById("res").contentWindow.event) != "undefined" 
-				&& (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")) 
-                || (typeof(window.event) != "undefined" && (window.event.type=="unload" || window.event.type=="beforeunload"))) {
+			if (
+                   (
+                    typeof(document.getElementById("res")) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.event) != "undefined" 
+                    && (document.getElementById("res").contentWindow.event.type=="unload" || document.getElementById("res").contentWindow.event.type=="beforeunload")
+                   ) 
+                || (
+                    typeof(window.event) != "undefined" 
+                    && (window.event.type=="unload" || window.event.type=="beforeunload" || window.event.type=="click")
+                   )
+                || ( //LM in frame
+                    typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
+                   )
+                || ( //Articulate Rise
+                    typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload" 
+                        || document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"
+                       )
+                   )
+                ) {
 				return true;
 			}
 		}

@@ -1,4 +1,4 @@
-// Build: 2021310214735 
+// Build: 2021321174933 
 
 function ADLAuxiliaryResource()
 {}
@@ -2591,7 +2591,7 @@ if(async)
 {xhttp.onreadystatechange=onStateChange;xhttp.send(data?String(data):'');}else
 {xhttp.send(data?String(data):'');return onStateChange();}}
 function sendJSONRequest(url,data,callback,user,password,headers)
-{function unloadChrome(){if(navigator.userAgent.indexOf("Chrom")>-1){if((typeof(document.getElementById("res"))!="undefined"&&typeof(document.getElementById("res").contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.event.type=="beforeunload"))||(typeof(window.event)!="undefined"&&(window.event.type=="unload"||window.event.type=="beforeunload"))){return true;}}
+{function unloadChrome(){if(navigator.userAgent.indexOf("Chrom")>-1){if((typeof(document.getElementById("res"))!="undefined"&&typeof(document.getElementById("res").contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.event.type=="beforeunload"))||(typeof(window.event)!="undefined"&&(window.event.type=="unload"||window.event.type=="beforeunload"||window.event.type=="click"))||(typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0])!="undefined"&&typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow)!="undefined")||(typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1])!="undefined"&&typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow)!="undefined"&&typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event)!="undefined"&&(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload"||document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"))){return true;}}
 return false;}
 if(typeof headers!=="object"){headers={};}
 headers['Accept']='text/javascript';headers['Accept-Charset']='UTF-8';if(url==this.config.store_url&&unloadChrome()){var r=sendAndLoad(url,toJSONString(data),true,user,password,headers);console.log("async request for chrome");windowOpenerLoc.reload();return"1";}

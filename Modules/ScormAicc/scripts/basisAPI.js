@@ -78,7 +78,31 @@ function sendRequest (url, data, callback, user, password, headers) {
 	
 	function useSendBeacon() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
-			if (typeof(window.sahs_content) != "undefined" && typeof(window.sahs_content.event) != "undefined" && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")) {
+			if (
+                (
+                    typeof(window.sahs_content) != "undefined" 
+                    && typeof(window.sahs_content.event) != "undefined" 
+                    && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")
+                )
+                || (
+                    typeof(window.event) != "undefined" 
+                    && (window.event.type=="unload" || window.event.type=="beforeunload" || window.event.type=="click")
+                )
+                || (//LM in frame
+                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
+                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
+                )
+                || ( //Articulate Rise
+                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
+                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
+                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload" 
+                        || document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"
+                       )
+                   )
+
+               ) {
 				return true;
 			}
 		}
@@ -195,7 +219,9 @@ function message(s_send){
 
 function warning(s_send){
 	s_send = 'lm_'+iv.objId+': '+s_send;
-	sendRequest ('./ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='+iv.refId+'&cmd=logWarning', s_send);
+    if (navigator.userAgent.indexOf("Chrom") < 0) {
+        sendRequest ('./ilias.php?baseClass=ilSAHSPresentationGUI&ref_id='+iv.refId+'&cmd=logWarning', s_send);
+    }
 }
 
 // avoid sessionTimeOut
