@@ -114,9 +114,9 @@ class ilCollectFilesJob extends AbstractJob
         $ilAccess = $DIC->access();
         if ($ilAccess->checkAccessOfUser($user->getId(), "read", "", $a_ref_id)) {
             $file = new ilObjFile($a_ref_id);
-            $source_dir = $file->getDirectory($file->getVersion()) . "/" . $file->getFileName();
+            $source_dir = $file->getFile();
             if (@!is_file($source_dir)) {
-                $source_dir = $file->getDirectory() . "/" . $file->getFileName();
+                return false;
             }
             $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
 
