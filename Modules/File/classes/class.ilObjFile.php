@@ -120,8 +120,11 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->setMaxVersion($resource->getMaxRevision());
             $this->setVersion($resource->getMaxRevision());
         } else {
-            $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
-                $this->getFileName());
+            $this->implementation = new ilObjFileImplementationLegacy(
+                (int) $this->getId(),
+                (int) $this->getVersion(),
+                (string) $this->getFileName()
+            );
             $s = new FilePathSanitizer($this);
             $s->sanitizeIfNeeded();
         }
