@@ -46,9 +46,9 @@ class ilMailMimeSubjectBuilder
             if ($contextPrefix !== '') {
                 $prefix = str_replace(['[', ']',], '', $prefix);
                 if ($prefix !== '') {
-                    $prefix = '[' . $prefix . ' : ' . $contextPrefix . ']';
+                    $prefix = '#' . $prefix . ' : ' . $contextPrefix . ']';
                 } else {
-                    $prefix = '[' . $contextPrefix . ']';
+                    $prefix = '#' . $contextPrefix . ']';
                 }
             }
 
