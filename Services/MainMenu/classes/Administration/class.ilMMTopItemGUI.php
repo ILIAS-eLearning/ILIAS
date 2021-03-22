@@ -17,7 +17,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_RESTORE = 'restore';
     const CMD_CREATE = 'topitem_create';
     const CMD_EDIT = 'topitem_edit';
-    const CMD_DELETE = 'topitem_delete';
+    const CMD_DELETE = 'delete';
     const CMD_CONFIRM_DELETE = 'topitem_confirm_delete';
     const CMD_TRANSLATE = 'topitem_translate';
     const CMD_UPDATE = 'topitem_update';

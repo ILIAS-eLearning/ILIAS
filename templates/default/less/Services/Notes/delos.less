@@ -1,12 +1,18 @@
 /* Services/Notes */
 
+#notes_embedded_outer {
+    background-color: @il-main-bg;
+}
+#notes_embedded_outer .il_ContainerItemCommands {
+    padding-top: 15px;
+}
 div.ilNotes {
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-bg;
 	padding: 15px;
 }
 
 #ilRightPanel div.ilNotes {
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-bg;
 }
 
 div.ilNotes .fullwidth_invisible {
@@ -33,7 +39,7 @@ div.ilNoteText {
 }
 
 div.ilNotesHeader {
-	background-color: #f0f0f0;
+	background-color: @il-main-dark-bg;
 	margin-bottom: 5px;
 	padding: @padding-base-vertical @padding-base-horizontal;
 	h3 {
@@ -56,7 +62,7 @@ div.ilNotesHeader {
 
 h3.ilNotesHeader {
 	font-size: 110%;
-	color: #606060;
+	color: @il-text-color;
 	display: inline;
 }
 
@@ -68,7 +74,7 @@ h4.ilNoteTitle {
 
 td.ilNoteList {
 	padding: 10px 5px;
-	border-top: 1px solid #f0f0f0;
+	border-top: 1px solid @il-main-border-color;
 	vertical-align: top;
 }
 

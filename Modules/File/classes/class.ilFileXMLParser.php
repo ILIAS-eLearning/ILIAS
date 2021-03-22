@@ -436,7 +436,7 @@ class ilFileXMLParser extends ilSaxParser
                     ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
                 }
 
-            $this->file->addNewsNotification("file_updated");
+            $this->file->notifyUpdate($this->file->getId(), $this->file->getDescription());
         }
     }
 
