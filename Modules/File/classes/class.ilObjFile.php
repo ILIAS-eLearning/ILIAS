@@ -20,6 +20,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileMetadata;
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
+    use ilObjFileNews;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -142,7 +143,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($create_previews) {
             $this->createPreview(true);
         }
-        $this->addNewsNotification("file_updated");
     }
 
     public function appendStream(FileStream $stream, string $title) : int
@@ -375,6 +375,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doCreate($a_upload = false)
     {
         $this->createProperties($a_upload);
+        $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
     protected function doRead()
@@ -460,9 +461,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $obj_settings->cloneSettings($new_object->getId());
         unset($obj_settings);
 
-        // add news notification
-        $new_object->addNewsNotification("file_created");
-
         return $new_object;
     }
 
@@ -486,6 +484,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
                 $this->getId(),
             ],
         ]);
+
+        $this->notifyUpdate($this->getId(), $this->getDescription());
 
         return true;
     }
@@ -602,28 +602,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->appendUpload($upload, $title);
 
         return true;
-    }
-
-    public function addNewsNotification($a_lang_var)
-    {
-        if ($this->isHidden()) {
-            return;
-        }
-
-        global $DIC;
-
-        // Add Notification to news
-        $news_item = new ilNewsItem();
-        $news_item->setContext($this->getId(), $this->getType());
-        $news_item->setPriority(NEWS_NOTICE);
-        $news_item->setTitle($a_lang_var);
-        $news_item->setContentIsLangVar(true);
-        if ($this->getDescription() !== "") {
-            $news_item->setContent("<p>" . $this->getDescription() . "</p>");
-        }
-        $news_item->setUserId($DIC->user()->getId());
-        $news_item->setVisibility(NEWS_USERS);
-        $news_item->create();
     }
 
     /**
