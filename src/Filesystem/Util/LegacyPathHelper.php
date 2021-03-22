@@ -29,9 +29,18 @@ final class LegacyPathHelper
     public static function deriveFilesystemFrom(string $absolute_path) : Filesystem
     {
         list(
-            $web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp
-            )
-            = self::listPaths();
+            $web,
+            $webRelativeWithLeadingDot,
+            $webRelativeWithoutLeadingDot,
+            $storage,
+            $customizing,
+            $customizingRelativeWithLeadingDot,
+            $libs,
+            $libsRelativeWithLeadingDot,
+            $temp,
+            $nodeModules,
+            $nodeModulesWithLeadingDot
+            ) = self::listPaths();
 
         switch (true) {
             case self::checkPossiblePath($temp, $absolute_path):
@@ -52,6 +61,10 @@ final class LegacyPathHelper
                 return self::filesystems()->libs();
             case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
                 return self::filesystems()->libs();
+            case self::checkPossiblePath($nodeModules, $absolute_path):
+                return self::filesystems()->nodeModules();
+            case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):
+                return self::filesystems()->nodeModules();
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }
@@ -68,9 +81,18 @@ final class LegacyPathHelper
     public static function createRelativePath(string $absolute_path) : string
     {
         list(
-            $web, $webRelativeWithLeadingDot, $webRelativeWithoutLeadingDot, $storage, $customizing, $customizingRelativeWithLeadingDot, $libs, $libsRelativeWithLeadingDot, $temp
-            )
-            = self::listPaths();
+            $web,
+            $webRelativeWithLeadingDot,
+            $webRelativeWithoutLeadingDot,
+            $storage,
+            $customizing,
+            $customizingRelativeWithLeadingDot,
+            $libs,
+            $libsRelativeWithLeadingDot,
+            $temp,
+            $nodeModules,
+            $nodeModulesWithLeadingDot
+            ) = self::listPaths();
 
         switch (true) {
             // web without ./
@@ -99,6 +121,11 @@ final class LegacyPathHelper
                 // ./libs
             case self::checkPossiblePath($libsRelativeWithLeadingDot, $absolute_path):
                 return self::resolveRelativePath($libsRelativeWithLeadingDot, $absolute_path);
+            // node_modules/
+            case self::checkPossiblePath($nodeModules, $absolute_path):
+                // ./node_modules
+            case self::checkPossiblePath($nodeModulesWithLeadingDot, $absolute_path):
+                return self::resolveRelativePath($nodeModulesWithLeadingDot, $absolute_path);
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }
@@ -160,6 +187,8 @@ final class LegacyPathHelper
         $libs = ILIAS_ABSOLUTE_PATH . '/libs';
         $libsRelativeWithLeadingDot = "./libs";
         $temp = CLIENT_DATA_DIR . "/temp";
+        $nodeModules = ILIAS_ABSOLUTE_PATH . '/node_modules';
+        $nodeModulesWithLeadingDot = './node_modules';
 
         return array($web,
                      $webRelativeWithLeadingDot,
@@ -169,7 +198,9 @@ final class LegacyPathHelper
                      $customizingRelativeWithLeadingDot,
                      $libs,
                      $libsRelativeWithLeadingDot,
-                     $temp
+                     $temp,
+                     $nodeModules,
+                     $nodeModulesWithLeadingDot
         );
     }
 }
