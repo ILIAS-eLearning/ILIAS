@@ -13,21 +13,18 @@
 */
 
 //** brand-primary is used as main colors for links and buttons.
-@brand-primary:         #4c6586;
-@brand-secondary:       #6ea03c;
+@il-main-color:         #4c6586;
+@il-secondary-color:       #6ea03c;
 @brand-success:         #6ea03c;
 @brand-info:            #dcb496;
 @brand-warning:         #fa8228;
 @brand-danger:          #fa8228;
 
-@mid-gray: #434343;
+@il-neutral-color: #434343;
 @il-primary-container-bg: white;
 @il-secondary-container-bg: #f9f9f9;
 
 @il-highlight-bg: #ffffd0;
-/* @il-highlight-bg: saturate(lighten(@brand-warning, 34%), 80%); */
-/* @il-highlight-bg: lighten(@brand-secondary, 44%); */
-/* @il-highlight-bg: lighten(#21c5d8, 40%); */
 @il-brand-3rd: #21c5d8;
 
 
@@ -35,7 +32,7 @@
 * To use the delos background images in your skin,
 * please change this value (in custom less data or in variables.less of your custom skin) to "../../../../templates/default/images/"
 */
-@background-images-path: "images/";
+@il-background-images-path: "images/";
 
 /** if left unchanged, you have to copy delos fonts folder to your skin folder.
 * To use the delos fonts in your skin,
@@ -45,7 +42,7 @@
 
 //== Scaffolding
 @body-bg:               #f0f0f0;
-@link-color:            lighten(@brand-primary, 5%);
+@link-color:            lighten(@il-main-color, 5%);
 @link-hover-color:      darken(@link-color, 15%);
 
 
@@ -94,7 +91,7 @@
 //== Navs
 @nav-link-padding:          5px 10px;
 @nav-tabs-border-color:     #e0e0e0;
-/* @nav-tabs-link-hover-border-color: @brand-primary; */
+/* @nav-tabs-link-hover-border-color: @il-main-color; */
 @nav-tabs-active-link-hover-border-color: #e0e0e0;
 
 // this is related to the main menu
@@ -150,7 +147,7 @@
 //##
 @input-border-radius:	0;
 @input-border:			#ccc;
-@input-border-focus:	lighten(@brand-primary, 20%);
+@input-border-focus:	lighten(@il-main-color, 20%);
 @ilFormInputFontSize: @font-size-small;
 @input-height-base:	(floor((@ilFormInputFontSize * @line-height-small)) + (@padding-base-vertical * 2) + 2);
 
@@ -158,7 +155,7 @@
 @ilFormBgColor:            	#fdfdfd;
 
 /* ILIAS variables candidates */
-@ilMainMenuColor:			lighten(@brand-primary, 10%);
+@ilMainMenuColor:			lighten(@il-main-color, 10%);
 @ilButtonFontSize: 	@font-size-small;
 
 
@@ -166,7 +163,7 @@
 //
 //##
 
-@panel-bg:                    @il-secondary-container-bg;
+@panel-bg:                    @il-main-dark-bg;
 @panel-body-padding:          15px;
 @panel-heading-padding:       10px 15px;
 @panel-footer-padding:        @panel-heading-padding;
@@ -176,19 +173,19 @@
 @panel-inner-border:          #ddd;
 @panel-footer-bg:             #f5f5f5;
 
-@panel-default-text:          @mid-gray;
+@panel-default-text:          @il-neutral-color;
 @panel-default-border:        none;
-@panel-default-heading-bg:    @il-secondary-container-bg;
+@panel-default-heading-bg:    @il-main-dark-bg;
 
-@panel-primary-text:          @mid-gray;
+@panel-primary-text:          @il-neutral-color;
 @panel-primary-border:        none;
-@panel-primary-heading-bg:    @il-primary-container-bg;
+@panel-primary-heading-bg:    @il-main-dark-bg;
 
 //== DropDowns
 //
 //##
 @dropdown-link-hover-bg: #f2f2f2;
-@dropdown-link-hover-bg: lighten(@brand-primary, 53%);
+@dropdown-link-hover-bg: lighten(@il-main-color, 53%);
 
 //== Tables
 //
@@ -205,16 +202,16 @@
 @table-bg-accent:               white;
 
 //** Border color for table and cell borders.
-@table-border-color:            #ddd;
+@table-border-color:            @il-main-border-color;
 
 @il-table-head-bg:             	lighten(@il-secondary-container-bg, 1%);
-@il-data-table-bg:             	@il-secondary-container-bg;
-@il-table-cmd-bg:				@il-secondary-container-bg;
+@il-data-table-bg:             	@il-main-dark-bg;
+@il-table-cmd-bg:		@il-main-dark-bg;
 
 //== Toolbar
 @navbar-height: 40px;
 @il-toolbar-margin: 15px; // Margin between toolbar items
-@il-toolbar-bg: @il-secondary-container-bg;
+@il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: @navbar-height;
 @il-toolbar-border: 1px solid #d8d8d8;
 
@@ -224,12 +221,12 @@
 
 //== bootstrap date time picker (/Services/Calendar/)
 @bs-datetimepicker-timepicker-font-size: 1.2em;
-@bs-datetimepicker-active-bg: @brand-primary;
-@bs-datetimepicker-active-color: @brand-primary;
+@bs-datetimepicker-active-bg: @il-main-color;
+@bs-datetimepicker-active-color: @il-main-color;
 @bs-datetimepicker-border-radius: @border-radius-base;
-@bs-datetimepicker-btn-hover-bg: @mid-gray;
-@bs-datetimepicker-disabled-color: @mid-gray;
-@bs-datetimepicker-alternate-color: @mid-gray;
+@bs-datetimepicker-btn-hover-bg: @il-neutral-color;
+@bs-datetimepicker-disabled-color: @il-neutral-color;
+@bs-datetimepicker-alternate-color: @il-neutral-color;
 @bs-datetimepicker-secondary-border-color: #ccc;
 @bs-datetimepicker-secondary-border-color-rgba: rgba(0, 0, 0, 0.2);
 @bs-datetimepicker-primary-border-color: white;
@@ -247,7 +244,7 @@
 @il-counter-margin-left: -4px;
 
 //== Status Counter
-@il-counter-status-bg: lighten(@mid-gray, 40%);
+@il-counter-status-bg: lighten(@il-neutral-color, 40%);
 @il-counter-status-margin-top: 10px;
 
 //== Novelty Counter

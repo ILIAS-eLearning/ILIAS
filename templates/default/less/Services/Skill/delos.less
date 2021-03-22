@@ -1,7 +1,7 @@
 /* Services/Skill */
 
 div.ilSkill {
-	background: @il-primary-container-bg;
+	background: @il-main-dark-bg;
 	padding: 15px;
 	margin-bottom: 20px;
 	margin-top: 10px;
@@ -18,13 +18,13 @@ div.ilSkill > h4 {
 	margin: 10px 0;
 	padding: 0;
 	font-size: 1em;
-	color: #909090;
+	color: @il-text-light-color;
 	float: left;
 	clear: left;
 }
 
 table.ilSkill, td.ilSkill, th.ilSkill {
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 }
 
 div.ilSkillActions {
@@ -61,7 +61,7 @@ td.ilSkillLevel {
 }
 
 th.ilSkill, td.ilSkillLevel{
-	background-color: #f8f8f8;
+	background-color: @il-main-dark-bg;
 }
 
 td.ilSkillSelf {
@@ -93,11 +93,11 @@ th.ilSkillEntryHead {
 
 
 .ilSkillEvalItem.ilSkillEvalType1 {
-	border-color: @brand-info;
+	border-color: @il-extended-color-3;
 }
 
 .ilSkillEvalItem.ilSkillEvalType2 {
-	border-color: @il-extended-color-3;
+	border-color: @il-extended-color-2;
 }
 
 .ilSkillLevelDescription, .ilSkillMaterial, .ilSkillSuggResources {
@@ -124,19 +124,19 @@ th.ilSkillEntryHead {
 
 
 .ilSkillEvalItem.ilSkillEvalType3 {
-	border-color: @brand-secondary;
+	border-color: darken(@il-secondary-color, 10%);
 }
 
 .ilSkillEvalItem > .row > .ilSkillEvalType1 {
-	color: @brand-info;
-}
-
-.ilSkillEvalItem > .row > .ilSkillEvalType2 {
 	color: @il-extended-color-3;
 }
 
+.ilSkillEvalItem > .row > .ilSkillEvalType2 {
+	color: @il-extended-color-2;
+}
+
 .ilSkillEvalItem > .row > .ilSkillEvalType3 {
-	color: @brand-secondary;
+	color: darken(@il-secondary-color, 10%);
 }
 
 .ilSkillFilter .ilToolbar select.form-control {

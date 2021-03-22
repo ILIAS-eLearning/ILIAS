@@ -8,6 +8,14 @@ label, input[type=checkbox], input[type=radio], select {
 
 .form-control {
 	font-size: @il-standard-form-font-size;
+	color: @il-text-color;
+	border: 1px solid @il-main-border-dark-color;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: @il-main-dark-bg;
 }
 
 .form-horizontal {
@@ -25,6 +33,11 @@ form.form-inline {
 
 .form-control, .form-control:focus {
 	.box-shadow(none);
+}
+
+.form-control:focus-visible {
+	.box-shadow(none);
+	outline: @il-focus-outline;
 }
 
 textarea.form-control {
@@ -103,11 +116,14 @@ label {
 }
 
 .form-horizontal .help-block {
-	color: @il-standard-form-byline-color;
+	color: @il-standard-form-color;
 	margin: 2px 0 4px;
 	padding: 0;
 	font-size: @il-standard-form-byline-font-size;
 	clear: both;
+	&:last-child {
+		margin: 2px 0 10px;
+	}
 }
 
 td.form-inline > div.form-group {
@@ -143,6 +159,7 @@ input[type="file"].form-control {
 .ilSubForm {
 	background-color: @il-standard-form-dependant-group-bg;
 	padding: 3px 0;
+	margin-bottom: 10px;
 	.form-group {
 		margin: 0;
 		@media (max-width: @grid-float-breakpoint-max) {
@@ -187,7 +204,7 @@ div.ilFormExternalSetting ul {
 }
 
 div.ilFormExternalSetting span {
-	color: #c08030;
+	color: @il-warning-color;
 	/* font-style: italic; */
 }
 

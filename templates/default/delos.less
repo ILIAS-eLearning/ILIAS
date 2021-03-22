@@ -107,8 +107,8 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Symbol/symbol.less";
 @import "@{uibase}Link/link.less";
 
-@import "less/variables.less";             // customized
-
+@import "less/variables.less"; //ILIAS Less variables
+@import "less/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
 
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
@@ -125,7 +125,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "less/multi-line-cap.less";
 
 // tab focus ilias mixin
-@import "less/tab-focus-mixin.less";
+@import "less/focus-mixin.less";
 
 /* flex grid support start */
 
@@ -244,7 +244,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
     }
   }
 }
-
 @media (min-width: @grid-float-breakpoint) {
   [dir="rtl"] .navbar-left  { .pull-right(); }
   [dir="rtl"] .navbar-right { .pull-left(); }
@@ -297,7 +296,13 @@ span.ilAlert {
 
 .dropdown-header {
 	padding: 3px 10px;
+	color: @il-text-color;
 	background-color: @dropdown-header-bg;
+	margin-bottom: 4px;
+	border-bottom: 1px solid @il-main-border-color;
+	> h2 {
+		margin-bottom: 2px;
+	}
 }
 .dropdown-menu {
 	background-color: @dropdown-bg;
@@ -389,7 +394,7 @@ div.ilFrame {
 	max-width: 1200px;
     .box-shadow(0 0 40px #808080);
 	padding-top: 129px;
-	background-color: #f9f9f9;
+	background-color: @il-main-dark-bg;
 	min-height: 100%;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		margin: 0;
@@ -434,8 +439,8 @@ div.ilFrame {
 	padding: 5px;
 	margin-left: 15px;
 	overflow: auto;
-	background-color: @il-secondary-container-bg;
-	border-right: 3px solid lighten(@mid-gray, 33%);
+	background-color: @il-main-bg;
+	border-right: 3px solid lighten(@il-neutral-color, 33%);
 	z-index: 100;
 	position: fixed;
 	top: @il-header-height;
@@ -450,7 +455,7 @@ div.ilFrame {
 	margin-right: 15px;
 	border-right: none;
 	//See 20986 with according JF decision
-	border-left: 3px solid lighten(@mid-gray, 33%);
+	border-left: 3px solid lighten(@il-neutral-color, 33%);
 }
 
 /* --------------------------------------------------------------
@@ -528,7 +533,7 @@ a {
 hr {
 	margin-bottom: .8em;
 	border: none;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid @il-main-border-color;
 }
 
 table {
@@ -560,15 +565,15 @@ tr, td {
 code {
 	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
 	font-size: 90%;
-	color: #858585;
+	color: @il-text-light-color;
 }
 
 ::selection {
-	background: lighten(@brand-primary, 48%);
+	background: lighten(@il-main-color, 50%);
 }
 
 ::-moz-selection {
-	background: lighten(@brand-primary, 48%);
+	background: lighten(@il-main-color, 50%);
 }
 
 textarea {
@@ -656,6 +661,13 @@ html.il-no-tiny-bg body#tinymce {
 	white-space: nowrap;
 }
 
+.ilWhiteSpaceNowrap.ilRight {
+	a, .btn-group {
+		padding-left: @il-padding-small-horizontal;
+		border: 1px solid transparent;
+	}
+}
+
 .ilPositionRelative {
 	position: relative;
 }
@@ -693,44 +705,12 @@ html.il-no-tiny-bg body#tinymce {
   width: 700px;
 }
 
-div#mainspacekeeper {
-}
-
-div#mainscrolldiv {
-}
-
 .fullwidth {
 	width: 100%;
 }
 
-/* --- 3 column layout -- */
-
-#ilContentContainer {
-	/*min-height: 400px;*/
-}
-
-.il_ColumnLayout {
-}
-
-#il_left_col {
-}
-
-#il_center_col {
-}
-
-#il_center_col.one_side_col {
-}
-#il_center_col.two_side_col {
-}
-
-#il_right_col {
-}
-
-input.fullwidth, textarea.fullwidth {
-}
-
 div.input {
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-dark-color;
 	padding: 3px;
 	text-decoration: none;
 	font-size: 90%;
@@ -786,7 +766,7 @@ div.ilAdminRow {
 }
 
 table.std {
-	color: #222;
+	color: @il-text-color;
 	background-color: #bbb;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -795,14 +775,14 @@ table.std {
 
 
 .fullwidth_invisible {
-	color: #222;
-	background-color: white;
+	color: @il-text-color;
+	background-color: @il-main-dark-bg;
 	width: 100%;
 	border-spacing: 0;
 }
 
 table.nobackground {
-	color: black;
+	color: @il-text-color;
 	background-color: inherit;
 	border-spacing: 0;
 	padding: 3px;
@@ -830,17 +810,13 @@ td.nobackground {
 	vertical-align: top;
 }
 
-
-.tbltitle {
-}
-
 tr.tbltitle {
 	border-bottom: 1px solid #9eadba;
 }
 
 tr.std {
 	background-color: white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 }
 
@@ -865,8 +841,8 @@ td.std, th.std {
 }
 
 th.option, td.option {
-	background-color: #f5f5f5;
-	color: #222;
+	background-color: @il-main-bg;
+	color: @il-text-color;
 	padding: 3px;
 	font-weight : bold;
 	vertical-align: top;
@@ -880,7 +856,7 @@ th.option, td.option {
 
 td.sub_option {
 	background-color: white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	font-weight : bold;
 	vertical-align: top;
@@ -889,7 +865,7 @@ td.sub_option {
 
 td.option_value {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	vertical-align: top;
 	text-align: left;
@@ -902,7 +878,7 @@ td.option_value {
 
 td.option_value_center {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	vertical-align: top;
 	text-align: center;
@@ -911,7 +887,7 @@ td.option_value_center {
 
 td.option_desc, p.option_desc {
 	background: none white;
-	color: #222;
+	color: @il-text-color;
 	padding: 3px;
 	font-style: italic;
 	font-weight: normal;
@@ -1016,18 +992,7 @@ span.il_ItemAlertProperty {
 	color: @brand-warning;
 }
 
-span.il_ItemProperty {
-}
-
-
-
 /* Table Links */
-a.tblheader, a.tblheader:visited {
-}
-
-a.tblheader:hover {
-}
-
 /* --- description text ---*/
 div.il_Description, td.il_Description {
 	margin: 2px 0 5px;
@@ -1065,7 +1030,7 @@ div.il_info {
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
-	color: darken(@brand-secondary, 10%);
+	color: darken(@il-secondary-color, 20%);
 	vertical-align: middle;
 	font-size: 26px;
     cursor: default;
@@ -1090,7 +1055,7 @@ h2.ilHeader {
 	margin: 0;
 	display: inline;
 	font-size: @font-size-h3;
-	color: lighten(@mid-gray,30%);
+	color: @il-neutral-color;
 }
 
 #headerimage {
@@ -1112,9 +1077,6 @@ h2.ilHeader {
 	margin-left: 10px;
 	float: right;
 }
-
-
-span.ilHeader {}
 
 div.ilHeadAction {
 	float: right;
@@ -1141,7 +1103,7 @@ div.ilHeadAction a:hover {
 div.ilHeaderDesc {
 	font-size: 90%;
 	padding: 0;
-	color: lighten(@text-color, 25%);
+	color: @il-text-color;
 	font-weight: 300;
 }
 
@@ -1157,7 +1119,7 @@ div.il_HeaderInner {
 	margin-bottom: 5px;
 	overflow: visible;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		color: #222;
+		color: @il-text-color;
 	}
 	&.media {
 		margin-top: 0;
@@ -1177,7 +1139,7 @@ div.il_TreeIcons {
 
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
-	color: @text-color;
+	color: @il-text-color;
 	font-size: 90%;
 }
 a.permalink_label {
@@ -1291,25 +1253,6 @@ footer.ilFooter {
 	text-align: right;
 }
 
-#devmodeBlock {
-    background-color: white;
-    color: black;
-    border: 1px dashed grey;
-    padding: 10px;
-    margin-top: 25px;
-	@media only screen and (max-width: @grid-float-breakpoint-max) {
-		//#23684
-		position: absolute;
-	}
-    table {
-        @media only screen and (max-width: @grid-float-breakpoint-max) {
-            table-layout: fixed;
-            width: 100%;
-        }
-    }
-}
-
-
 /* ----------------- invisible border ------------- */
 div.invisible_border {
 	margin: 15px;
@@ -1345,7 +1288,7 @@ span.il_Helptext {
 .smallred {
 	text-decoration: none;
 	font-size: 90%;
-	color: red;
+	color: @il-danger-color;
 }
 
 .obligatory {
@@ -1357,18 +1300,18 @@ span.il_Helptext {
 .warning {
 	text-decoration: none;
 	font-weight: bold;
-	color: red;
+	color: @il-danger-color;
 }
 
 div.Access {
 	text-decoration: none;
 	font-weight: bold;
 	text-decoration: underline;
-	color: red;
+	color: @il-danger-color;
 }
 
 .asterisk {
-	color: red;
+	color: @il-danger-color;
 	font-size: 90%;
 }
 
@@ -1399,7 +1342,7 @@ div.Access {
 
 /* ----------------- alternative text styles ------------- */
 .light {
-	color: #909090;
+	color: @il-text-light-color;
 }
 
 /* ----------------- normal links ------------- */
@@ -1413,25 +1356,6 @@ a.light:hover {
 }
 
 /* Messages */
-div.ilInfoMessage,
-div.ilFailureMessage,
-div.ilSuccessMessage,
-div.ilQuestionMessage {
-}
-
-div.ilFailureMessage {
-}
-
-div.ilSuccessMessage {
-}
-
-div.ilQuestionMessage {
-}
-
-div.ilMessageBox {
-}
-
-
 /* ------------------ blind image - spacer gif --------------
    please use this style class always when using this blind image */
 img.spacer {
@@ -1452,7 +1376,7 @@ div#bot_center_area {
 	position: fixed;
 	padding: 5px;
 	background-color: @body-bg;
-	border-top: 3px solid #e9e9e9;
+	border-top: 3px solid @il-main-border-color;
 	-webkit-overflow-scrolling: touch; /* Bug 11209 */
 	overflow: auto; /* Bug 11209 */
 }
@@ -1535,7 +1459,7 @@ div.ilRightPanel {
 /* Overlays, Blocks */
 .ilOverlay {
 	background-color: white;
-	border: 1px solid #d6d6d6;
+	border: 1px solid @il-main-border-color;
 	text-align: left;
 	position: absolute;
     .box-shadow(2px 2px 4px #c0c0c0);
@@ -1596,9 +1520,6 @@ div.ilHeaderBanner img.ilHeaderImg {
 	width: 100%;
 }
 
-.ilFrameFixedWidth h1.ilHeader {
-}
-
 .ilFrameFixedWidth div.ilHeaderDesc {
 	padding-left: 0;
 }
@@ -1609,8 +1530,8 @@ div.ilHeaderBanner img.ilHeaderImg {
 }
 
 div.ilBox {
-	background: url("@{background-images-path}FramedBack.png") repeat-x;
-	border: 1px solid #e0e0e0;
+	background: url("@{il-background-images-path}FramedBack.png") repeat-x;
+	border: 1px solid @il-main-border-color;
 	padding: 10px;
 	margin-bottom: 20px;
 }
@@ -1664,7 +1585,7 @@ div.ilSideBarHead{
 
 div.ilSideBarHead h3{
 	font-size: 110%;
-	color: #606060;
+	color: @il-text-color;
 	display: inline;
 	padding: 0;
 }
@@ -1681,7 +1602,7 @@ div.ilSideBarContent{
 	display: block;
 	float: left;
 	background-color: @dropdown-bg;
-	border: 1px solid #e0e0e0;
+	border: 1px solid @il-main-border-color;
 	font-size: 90%;
     .box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
@@ -1963,7 +1884,7 @@ div.ilNewObjectSelector {
 }
 
 .yui-panel-container {
-	color: @text-color;
+	color: @il-text-color;
 }
 .mceEditor, .mceLayout {
 	width: 100% !important;
@@ -2091,7 +2012,7 @@ div.ilGoogleMap {
 
     pre,
     blockquote {
-        border: 1px solid #999;
+        border: 1px solid @il-main-border-dark-color;
         page-break-inside: avoid;
     }
 
@@ -2152,7 +2073,7 @@ div.ilGoogleMap {
     .table-bordered {
         th,
         td {
-            border: 1px solid #ddd !important;
+            border: 1px solid @il-main-border-color !important;
         }
     }
 
@@ -2219,9 +2140,9 @@ div.ilGoogleMap {
 	cursor: pointer;
 	display: inline-block;
 	padding: 0 .5em;
-	color: #666;
+	color: @il-neutral-light-color;
 	font-size: .9em;
 	line-height: 2;
-	border: 1px solid #ddd;
+	border: 1px solid @il-main-border-color;
 	border-radius: .25em;
 }
