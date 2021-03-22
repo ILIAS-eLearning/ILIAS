@@ -26,6 +26,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 use ilMMCustomItemStorage;
 use ilMMItemStorage;
 use ilMMTypeHandlerLink;
@@ -112,6 +114,14 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         }
         if ($item instanceof hasAction) {
             $item = $item->withAction("#");
+            // always close MainBar when a link has been clicked
+            $item = $item->addComponentDecorator(static function (Component $c) : Component {
+                if ($c instanceof JavaScriptBindable) {
+                    return $c->withAdditionalOnLoadCode(function ($id) {
+                        return "$('#$id').click(function() { il.UI.maincontrols.mainbar.disengageAll();})";
+                    });
+                }
+            });
         }
         if ($item instanceof isChild) {
             $mm_item = ilMMItemStorage::find($identification->serialize());
