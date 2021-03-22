@@ -410,9 +410,15 @@ class ilFileXMLParser extends ilSaxParser
 
         foreach ($this->versions as $version) {
             if (!file_exists($version["tmpFilename"])) {
-                ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . $version["tmpFilename"] . '" file not found.');
+                // try to get first file of dir
+                $files = scandir(dirname($version["tmpFilename"]));
+                $version["tmpFilename"] = rtrim(dirname($version["tmpFilename"]),
+                        "/") . "/" . $files[2];// because [0] = "." [1] = ".."
+                if (!file_exists($version["tmpFilename"])) {
+                    ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
 
-                continue;
+                    continue;
+                }
             }
 
             if (filesize($version["tmpFilename"]) == 0) {
