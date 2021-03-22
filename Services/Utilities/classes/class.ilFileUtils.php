@@ -550,8 +550,10 @@ class ilFileUtils
         static $fileadmin_ref_id;
 
         if ($fileadmin_ref_id === null) {
-            $id = (int) reset(ilObject2::_getObjectsByType('facs'))['obj_id'];
-            $fileadmin_ref_id = (int) reset(ilObject2::_getAllReferences($id));
+            $objects_by_type = ilObject2::_getObjectsByType('facs');
+            $id = (int) reset($objects_by_type)['obj_id'];
+            $references = ilObject2::_getAllReferences($id);
+            $fileadmin_ref_id = (int) reset($references);
         }
         if ($DIC->rbac()->system()->checkAccess('upload_blacklisted_files', $fileadmin_ref_id)) {
             return array();
