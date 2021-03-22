@@ -19,6 +19,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
  * Class MainMenuMainCollector
@@ -55,10 +56,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information                 = $information;
-        $this->providers                   = $providers;
+        $this->information = $information;
+        $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map                         = new Map();
+        $this->map = new Map();
     }
 
     /**
@@ -147,21 +148,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
         // Override parent from configuration
         $this->map->walk(function (isItem &$item) {
-            if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
+            if ($item instanceof isChild) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
-                    $item->overrideParent($parent->getProviderIdentification());
+                    if ($parent instanceof Lost && $parent->getProviderIdentification()->serialize() === '') {
+                        $item->overrideParent($parent->getProviderIdentification());
+                    }
                 }
             }
-            /*if ($item instanceof isInterchangeableItem) {
-                $parent_identification = $this->information->getParent($item);
-                if (!$parent_identification instanceof NullIdentification) {
-                    $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
-                    $parent->appendChild($item);
-                }
-                $item->overrideParent($parent_identification);
-            }*/
 
             return $item;
         });
