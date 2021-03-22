@@ -1153,8 +1153,8 @@ class ilRbacReview
     
     /**
      * Check if role is a global role
-     * @param type $a_role_id
-     * @return type
+     * @param int $a_role_id
+     * @return bool
      * @todo refactor rolf => DONE
      */
     public function isGlobalRole($a_role_id)

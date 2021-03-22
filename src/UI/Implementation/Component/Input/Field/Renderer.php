@@ -6,7 +6,8 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\DateFormat as DateFormat;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Input\Field as F;
+use ILIAS\UI\Implementation\Component\Input\Field as F;
+use ILIAS\UI\Component\Input\Field as FI;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
@@ -20,9 +21,9 @@ use ILIAS\UI\Implementation\Render\Template;
  */
 class Renderer extends AbstractComponentRenderer
 {
-    const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
+    public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
 
-    const DATEPICKER_FORMAT_MAPPING = [
+    public const DATEPICKER_FORMAT_MAPPING = [
         'd' => 'DD',
         'jS' => 'Do',
         'l' => 'dddd',
@@ -104,7 +105,7 @@ class Renderer extends AbstractComponentRenderer
 
 
     protected function wrapInFormContext(
-        F\FormInput $component,
+        FI\FormInput $component,
         string $input_html,
         string $id,
         string $dependant_group_html = ''
@@ -136,21 +137,21 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeDisable(F\FormInput $component, Template $tpl) : void
+    protected function maybeDisable(FI\FormInput $component, Template $tpl) : void
     {
         if ($component->isDisabled()) {
             $tpl->setVariable("DISABLED", 'disabled="disabled"');
         }
     }
 
-    protected function applyName(F\FormInput $component, Template $tpl) : ?string
+    protected function applyName(FI\FormInput $component, Template $tpl) : ?string
     {
         $name = $component->getName();
         $tpl->setVariable("NAME", $name);
         return $name;
     }
 
-    protected function bindJSandApplyId(F\FormInput $component, Template $tpl) : string
+    protected function bindJSandApplyId(FI\FormInput $component, Template $tpl) : string
     {
         $id = $this->bindJavaScript($component) ?? $this->createId();
         $tpl->setVariable("ID", $id);
@@ -165,7 +166,7 @@ class Renderer extends AbstractComponentRenderer
      * for this specific component and the placement of {VALUE} in its template.
      * Please note: this may not work for customized templates!
      */
-    protected function applyValue(F\FormInput $component, Template $tpl, callable $escape = null)
+    protected function applyValue(FI\FormInput $component, Template $tpl, callable $escape = null)
     {
         $value = $component->getValue();
         if (!is_null($escape)) {
@@ -226,7 +227,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getValue()) {
             $tpl->touchBlock("value");
         }
-
+        /**
+         * @var $component F\OptionalGroup
+         */
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "il.UI.Input.groups.optional.init('{$id}')";
         });
@@ -242,6 +245,9 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.radio.html", true, true);
 
+        /**
+         * @var $component F\SwitchableGroup
+         */
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return "il.UI.Input.groups.switchable.init('{$id}')";
         });
@@ -281,6 +287,9 @@ class Renderer extends AbstractComponentRenderer
         $this->applyName($component, $tpl);
 
         $configuration = $component->getConfiguration();
+        /**
+         * @var $component F\Tag
+         */
         $component = $component->withAdditionalOnLoadCode(
             function ($id) use ($configuration) {
                 $encoded = json_encode($configuration);
@@ -397,6 +406,9 @@ class Renderer extends AbstractComponentRenderer
             $min = $component->getMinLimit();
             $max = $component->getMaxLimit();
 
+            /**
+             * @var $component F\Textarea
+             */
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($counter_id_prefix, $min, $max) {
                 return "il.UI.textarea.changeCounter('$id','$counter_id_prefix','$min','$max');";
             });
@@ -405,7 +417,7 @@ class Renderer extends AbstractComponentRenderer
 
             $tpl->setVariable("COUNT_ID", $id);
             $tpl->setVariable("FEEDBACK_MAX_LIMIT", $max);
-        }else{
+        } else {
             $id = $this->bindJSandApplyId($component, $tpl);
         }
 
@@ -460,7 +472,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("CHECKBOX_ID", $id."_".$name);
+            $tpl->setVariable("CHECKBOX_ID", $id . "_" . $name);
             $tpl->setVariable("VALUE", $opt_value);
             $tpl->setVariable("LABEL", $opt_label);
 
@@ -508,7 +520,7 @@ class Renderer extends AbstractComponentRenderer
             'format' => $format,
             'locale' => $this->getLangKey()
         ];
-        $config = array_merge($config, $component->getAdditionalPickerConfig());
+        $config = array_merge($config, $component->getAdditionalPickerconfig());
 
         $min_date = $component->getMinValue();
         if (!is_null($min_date)) {
@@ -526,6 +538,10 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $disabled = $component->isDisabled();
+
+        /**
+         * @var $component F\DateTime
+         */
         $component = $component->withAdditionalOnLoadCode(function ($id) use ($config, $disabled) {
             $js = '$("#' . $id . '").datetimepicker(' . json_encode($config) . ');';
             if ($disabled) {
@@ -538,11 +554,14 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-    protected function renderDurationField(Duration $component, RendererInterface $default_renderer) : string
+    protected function renderDurationField(F\Duration $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.duration.html", true, true);
         $this->applyName($component, $tpl);
 
+        /**
+         * @var $component F\Duration
+         */
         $component = $component->withAdditionalOnLoadCode(
             function ($id) {
                 return "$(document).ready(function() {
@@ -579,6 +598,10 @@ class Renderer extends AbstractComponentRenderer
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $component->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
+
+        /**
+         * @var $component F\File
+         */
         $component = $component->withAdditionalOnLoadCode(
             function ($id) use ($settings) {
                 $settings = json_encode($settings);
@@ -671,6 +694,9 @@ class Renderer extends AbstractComponentRenderer
         if ($signals !== null) {
             $signals = json_encode($signals);
 
+            /**
+             * @var $input Input
+             */
             $input = $input->withAdditionalOnLoadCode(function ($id) use ($signals) {
                 $code = "il.UI.input.setSignalsForId('$id', $signals);";
                 return $code;
@@ -728,7 +754,7 @@ class Renderer extends AbstractComponentRenderer
         ];
     }
 
-    protected function renderFileInput(Component\Input\Field\File $input) : Component\Input\Field\File
+    protected function renderFileInput(F\File $input) : Component\Input\Field\File
     {
         $component = $this->setSignals($input);
         /**

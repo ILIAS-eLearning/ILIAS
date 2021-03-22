@@ -126,7 +126,7 @@ class ilMailAttachmentGUI
             );
         }
 
-        $this->tpl->setContent($confirmation->getHtml());
+        $this->tpl->setContent($confirmation->getHTML());
         $this->tpl->printToStdout();
     }
 
@@ -233,7 +233,7 @@ class ilMailAttachmentGUI
         }
         $table->setData($data);
 
-        $this->tpl->setContent($table->getHtml());
+        $this->tpl->setContent($table->getHTML());
         $this->tpl->printToStdout();
     }
 }

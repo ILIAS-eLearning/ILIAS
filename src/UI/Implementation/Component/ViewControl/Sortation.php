@@ -16,7 +16,7 @@ class Sortation implements C\ViewControl\Sortation
     use Triggerer;
 
     /**
-     * @var Signal
+     * @var \ILIAS\UI\Component\Signal
      */
     protected $select_signal;
 
@@ -41,10 +41,14 @@ class Sortation implements C\ViewControl\Sortation
     protected $active;
 
     /**
-     * @var arrary<string,string>
+     * @var array<string,string>
      */
     protected $options = array();
 
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
     public function __construct(array $options, SignalGeneratorInterface $signal_generator)
     {

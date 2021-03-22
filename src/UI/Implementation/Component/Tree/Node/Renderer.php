@@ -6,6 +6,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Tree\Node;
 
 use ILIAS\Data\URI;
+use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -63,6 +64,9 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("highlighted");
         }
 
+        /**
+         * @var $component Node\Simple|Node\Bylined
+         */
         $triggered_signals = $component->getTriggeredSignals();
         if (count($triggered_signals) > 0) {
             $component = $this->triggerFurtherSignals($component, $triggered_signals);
@@ -80,13 +84,11 @@ class Renderer extends AbstractComponentRenderer
             if ($component->isExpanded()) {
                 $tpl->touchBlock("expanded");
                 $tpl->setVariable("ARIA_EXPANDED", "true");
-            }
-            else {
+            } else {
                 $tpl->setVariable("ARIA_EXPANDED", "false");
             }
             $tpl->parseCurrentBlock();
-        }
-        else {
+        } else {
             $tpl->setVariable("ARIA_ROLE", "none");
         }
 
@@ -101,12 +103,15 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Relay signals (beyond expansion) to the node's js.
      * @param Node\Node $component
-     * @param Signal[] $triggered_signals
+     * @param TriggeredSignal[] $triggered_signals
      */
     protected function triggerFurtherSignals(Node\Node $component, array $triggered_signals)
     {
         $signals = [];
         foreach ($triggered_signals as $s) {
+            /**
+             * @var $s TriggeredSignal
+             */
             $signals[] = [
                 "signal_id" => $s->getSignal()->getId(),
                 "event" => $s->getEvent(),

@@ -160,9 +160,11 @@ class ilSamlSettingsGUI
             $factory = new ilSamlAuthFactory();
             $this->samlAuth = $factory->auth();
         } catch (Throwable $e) {
-            ilUtil::sendFailure($e->getMessage());
-        } catch (Exception $e) {
-            ilUtil::sendFailure($e->getMessage());
+            if ('Database error: could not find driver' === $e->getMessage()) {
+                ilUtil::sendFailure($this->lng->txt('auth_saml_err_sqlite_driver'));
+            } else {
+                ilUtil::sendFailure($e->getMessage());
+            }
         }
 
         $this->help->setScreenIdComponent('auth');

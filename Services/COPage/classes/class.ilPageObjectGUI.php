@@ -1067,6 +1067,8 @@ class ilPageObjectGUI
                 break;
 
             case "ilpageeditorgui":
+                $this->setEditorToolContext();
+
                 if (!$this->getEnableEditing()) {
                     ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
                     $this->ctrl->redirect($this, "preview");
@@ -1323,6 +1325,10 @@ class ilPageObjectGUI
                 $tpl->setCurrentBlock("change_comment");
                 $tpl->setVariable("TXT_ADD_COMMENT", $this->lng->txt("cont_add_change_comment"));
                 $tpl->parseCurrentBlock();
+            }
+
+            if ($this->getPageConfig()->getUsePageContainer()) {
+                $tpl->setVariable("PAGE_CONTAINER_CLASS", "ilc_page_cont_PageContainer");
             }
 
             $tpl->setVariable(
@@ -2141,6 +2147,8 @@ class ilPageObjectGUI
             ]
         ];
 
+        // more...
+
         // links
         $links = [];
         if ($a_wiki_links) {
@@ -2161,12 +2169,14 @@ class ilPageObjectGUI
         if ($a_user_links) {
             $links[] = ["text" => $lng->txt("cont_link_user"), "action" => "link.user", "data" => []];
         }
-        $menu["cont_links"][] = ["text" => '<i class="mce-ico mce-i-link"></i>', "action" => $links];
+
 
         // more
         $menu["cont_more_functions"] = [];
+        $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_link").'<i class="mce-ico mce-i-link"></i>', "action" => $links];
+
         if ($a_keywords) {
-            $menu["cont_more_functions"][] = ["text" => 'kw', "action" => "selection.keyword", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_keyword"), "action" => "selection.keyword", "data" => []];
         }
         $mathJaxSetting = new ilSetting("MathJax");
         if (ilPageEditorSettings::lookupSettingByParentType(
@@ -2175,7 +2185,7 @@ class ilPageObjectGUI
             true
         )) {
             if ($mathJaxSetting->get("enable") || defined("URL_TO_LATEX")) {
-                $menu["cont_more_functions"][] = ["text" => 'tex', "action" => "selection.tex", "data" => []];
+                $menu["cont_more_functions"][] = ["text" => 'Tex', "action" => "selection.tex", "data" => []];
             }
         }
         if (ilPageEditorSettings::lookupSettingByParentType(
@@ -2183,10 +2193,10 @@ class ilPageObjectGUI
             "active_fn",
             true
         )) {
-            $menu["cont_more_functions"][] = ["text" => 'fn', "action" => "selection.fn", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_footnote"), "action" => "selection.fn", "data" => []];
         }
         if ($a_anchors) {
-            $menu["cont_more_functions"][] = ["text" => 'anc', "action" => "selection.anchor", "data" => []];
+            $menu["cont_more_functions"][] = ["text" => $lng->txt("cont_anchor"), "action" => "selection.anchor", "data" => []];
         }
 
         $btpl = new ilTemplate("tpl.tiny_menu.html", true, true, "Services/COPage");
@@ -2620,6 +2630,19 @@ class ilPageObjectGUI
     }
 
     /**
+     * Set editor tool context
+     */
+    protected function setEditorToolContext()
+    {
+        $collection = $this->tool_context->current()->getAdditionalData();
+        if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
+            $collection->replace(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        } else {
+            $collection->add(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        }
+    }
+
+    /**
      * Init editing
      * @param
      * @return
@@ -2632,7 +2655,7 @@ class ilPageObjectGUI
             $this->ctrl->redirect($this, "preview");
         }
 
-        $this->tool_context->current()->addAdditionalData(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        $this->setEditorToolContext();
 
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
@@ -2684,6 +2707,7 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_saving");
         $this->lng->toJS("cont_ed_par");
         $this->lng->toJS("cont_no_block");
+        $this->lng->toJS("copg_error");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
@@ -3448,7 +3472,7 @@ class ilPageObjectGUI
     protected function isPageContainerToBeRendered()
     {
         return (
-            $this->getRenderPageContainer() || $this->getOutputMode() == self::PREVIEW
+            $this->getRenderPageContainer() || ($this->getOutputMode() == self::PREVIEW && $this->getPageConfig()->getUsePageContainer())
         );
     }
 

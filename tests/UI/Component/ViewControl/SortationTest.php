@@ -75,10 +75,13 @@ class SortationTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithJsBinding(){
+    public function testRenderingWithJsBinding()
+    {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();
-        $s = $f->sortation($this->options)->withAdditionalOnLoadCode(function($id){return "";});
+        $s = $f->sortation($this->options)->withAdditionalOnLoadCode(function ($id) {
+            return "";
+        });
 
         $html = $this->normalizeHTML($r->render($s));
         $this->assertEquals(
@@ -94,7 +97,7 @@ class SortationTest extends ILIAS_UI_TestBase
         $button2_id = "id_2";
         $button3_id = "id_3";
 
-        if($with_id){
+        if ($with_id) {
             $id = "id=\"id_1\"";
             $button1_id = "id_2";
             $button2_id = "id_3";

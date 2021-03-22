@@ -397,8 +397,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $js_binding,
                             $refinery,
                             $img_resolver
-                    ),
-
+                        ),
                         new GlyphRendererFactory(
                             $ui_factory,
                             $tpl_factory,
@@ -406,7 +405,7 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $js_binding,
                             $refinery,
                             $img_resolver
-                    ),
+                        ),
                         new FieldRendererFactory(
                             $ui_factory,
                             $tpl_factory,
@@ -414,10 +413,10 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $js_binding,
                             $refinery,
                             $img_resolver
+                        )
                     )
                 )
-            )
-        );
+            );
 
         return new TestDefaultRenderer($component_renderer_loader);
     }

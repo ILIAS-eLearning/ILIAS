@@ -28,7 +28,7 @@ interface Duration extends Group
 
     /**
      * Return the lowest value the input accepts.
-     * @return  \Duration | null
+     * @return  Duration | null
      */
     public function getMinValue();
 
@@ -39,7 +39,7 @@ interface Duration extends Group
 
     /**
      * Return the maximum date the input accepts.
-     * @return  \Duration | null
+     * @return  Duration | null
      */
     public function getMaxValue();
 

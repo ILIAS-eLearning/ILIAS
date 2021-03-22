@@ -6069,7 +6069,7 @@ class ilObjSurvey extends ilObject
             $user = new \ilObjUser($a_user_id);
 
             $processor = new \ilMailTemplatePlaceholderResolver($context, $a_message);
-            $a_message = $processor->resolve($user, \ilMailFormCall::getContextParameters());
+            $a_message = $processor->resolve($user, $a_context_params);
         } catch (\Exception $e) {
             ilLoggerFactory::getLogger('mail')->error(__METHOD__ . ' has been called with invalid context.');
         }
@@ -6154,15 +6154,23 @@ class ilObjSurvey extends ilObject
         $_GET["baseClass"] = "ilObjSurveyGUI";
 
         $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
-            
-        $gui = new ilSurveyEvaluationGUI($this);
 
-        $url = $ilCtrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEvaluationGUI"), "evaluationdetails", "", false, false);
-
-        $html = $gui->evaluation(1, true, true);
-
+        try {
+            $gui = new ilSurveyEvaluationGUI($this);
+            $html = $gui->evaluation(1, true, true);
+        } catch (Exception $exception) {
+            $_GET["ref_id"] = $old_ref_id;
+            $_GET["baseClass"] = $old_base_class;
+            throw $exception;
+        }
         $_GET["ref_id"] = $old_ref_id;
         $_GET["baseClass"] = $old_base_class;
+
+        $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
+        $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
+        $html = str_replace('.css$Id$', ".css", $html);
+        $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
+        $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
 
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");

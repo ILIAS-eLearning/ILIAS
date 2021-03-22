@@ -10,7 +10,7 @@
 */
 class ilMailFormGUI
 {
-    /** @var ilTemplate */
+    /** @var ilGlobalPageTemplate */
     private $tpl;
 
     /** @var ilCtrl */
@@ -270,7 +270,7 @@ class ilMailFormGUI
                 ilUtil::securePlainString($_POST["m_email"] ?? ''),
                 ilUtil::securePlainString($_POST["m_subject"] ?? ''),
                 ilUtil::securePlainString($_POST["m_message"] ?? ''),
-                (bool) ($_POST['use_placeholders']  ?? false),
+                (bool) ($_POST['use_placeholders'] ?? false),
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
             );
@@ -288,14 +288,14 @@ class ilMailFormGUI
 
         $searchQuery = trim((string) ilSession::get('mail_search_search'));
         if ($searchQuery !== '') {
-            $inp->setValue(ilUtil::prepareFormOutput($searchQuery), true);
+            $inp->setValue(ilUtil::prepareFormOutput($searchQuery, true));
         }
         $form->addItem($inp);
 
         $form->addCommandButton('search', $this->lng->txt("search"));
         $form->addCommandButton('cancelSearch', $this->lng->txt("cancel"));
 
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($form->getHTML());
         $this->tpl->printToStdout();
     }
 
@@ -331,15 +331,13 @@ class ilMailFormGUI
         if (strlen(trim($_SESSION["mail_search_search"])) == 0) {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
+        } elseif (strlen(trim($_SESSION["mail_search_search"])) < 3) {
+            $this->lng->loadLanguageModule('search');
+            ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
+            $this->searchUsers(false);
         } else {
-            if (strlen(trim($_SESSION["mail_search_search"])) < 3) {
-                $this->lng->loadLanguageModule('search');
-                ilUtil::sendInfo($this->lng->txt('search_minimum_three'));
-                $this->searchUsers(false);
-            } else {
-                $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
-                $this->ctrl->redirectByClass("ilmailsearchgui");
-            }
+            $this->ctrl->setParameterByClass("ilmailsearchgui", "search", urlencode($_SESSION["mail_search_search"]));
+            $this->ctrl->redirectByClass("ilmailsearchgui");
         }
     }
 
@@ -672,6 +670,7 @@ class ilMailFormGUI
         }
         $form_gui->addItem($att);
 
+        $context = new ilMailTemplateGenericContext();
         if (ilMailFormCall::getContextId()) {
             $context_id = ilMailFormCall::getContextId();
 
@@ -687,7 +686,7 @@ class ilMailFormGUI
                     $template_chb = new ilMailTemplateSelectInputGUI(
                         $this->lng->txt('mail_template_client'),
                         'template_id',
-                        $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true, false),
+                        $this->ctrl->getLinkTarget($this, 'getTemplateDataById', '', true),
                         array('m_subject' => false, 'm_message' => true)
                     );
 
@@ -716,8 +715,6 @@ class ilMailFormGUI
                     $context_id
                 ));
             }
-        } else {
-            $context = new ilMailTemplateGenericContext();
         }
 
         // MESSAGE
@@ -785,7 +782,7 @@ class ilMailFormGUI
         $quoted = str_replace('%', '\%', $quoted);
         $quoted = str_replace('_', '\_', $quoted);
 
-        $mailFormObj = new ilMailForm;
+        $mailFormObj = new ilMailForm();
         $result = $mailFormObj->getRecipientAsync("%" . $quoted . "%", ilUtil::stripSlashes($search));
 
         echo json_encode($result);

@@ -11,6 +11,7 @@ use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
  */
 abstract class BaseConsumer implements DeliveryConsumer
 {
+    use GetRevisionTrait;
 
     /**
      * @var StorageHandler
@@ -32,28 +33,11 @@ abstract class BaseConsumer implements DeliveryConsumer
      */
     public function __construct(StorableResource $resource, StorageHandler $storage_handler)
     {
-        $this->resource        = $resource;
+        $this->resource = $resource;
         $this->storage_handler = $storage_handler;
     }
 
-    /**
-     * @return \ILIAS\ResourceStorage\Revision\Revision|null
-     */
-    protected function getRevision() : \ILIAS\ResourceStorage\Revision\Revision
-    {
-        if ($this->revision_number !== null) {
-            if ($this->resource->hasSpecificRevision($this->revision_number)) {
-                $revision = $this->resource->getSpecificRevision($this->revision_number);
-            } else {
-                throw new \OutOfBoundsException("there is no version $this->revision_number of resource {$this->resource->getIdentification()->serialize()}");
-            }
-        } else {
-            $revision = $this->resource->getCurrentRevision();
-        }
-        return $revision;
-    }
-
-    abstract function run() : void;
+    abstract public function run() : void;
 
     /**
      * @inheritDoc

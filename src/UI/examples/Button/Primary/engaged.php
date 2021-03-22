@@ -11,5 +11,4 @@ function engaged()
     $button = $f->button()->primary("Engaged Button", "#")
                                   ->withEngagedState(true);
     return $renderer->render($button);
-
-};
+}

@@ -27,7 +27,7 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 
         $this->lng = $DIC->language();
 
-        parent::__construct('');
+        parent::__construct();
     }
 
     /**

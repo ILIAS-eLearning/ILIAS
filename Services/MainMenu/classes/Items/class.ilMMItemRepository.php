@@ -72,6 +72,16 @@ class ilMMItemRepository
         return $this->main_collector->getSingleItemFromRaw($identification);
     }
 
+    public function getSingleItemFromFilter(IdentificationInterface $identification) : isItem
+    {
+        return $this->main_collector->getSingleItemFromFilter($identification);
+    }
+
+    public function resolveIdentificationFromString(string $identification_string) : IdentificationInterface
+    {
+        return $this->services->identification()->fromSerializedIdentification($identification_string);
+    }
+
     /**
      * @return ilMMItemRepository
      */

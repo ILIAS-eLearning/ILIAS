@@ -229,7 +229,7 @@ abstract class AbstractComponentRenderer implements ComponentRenderer
      * Add onload-code for triggerer.
      *
      * @param	Triggerer	$triggerer
-     * @return 	Triggerer
+     * @return 	JavaScriptBindable
      */
     private function addTriggererOnLoadCode(Triggerer $triggerer)
     {

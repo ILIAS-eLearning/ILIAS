@@ -280,10 +280,10 @@ interface Factory
      *        Some Buttons can be stateful; when engaged, the state MUST be
      *        reflected in the "aria-pressed"-, respectively the "aria-checked"-attribute.
      *        If the Button is not stateful (which is the default), the
-     *        aria-attribute SHOULD be omitted.
-     *
+     *        aria-attribute SHOULD be omitted. Further if the Button carries the aria-role "menuitem",
+     *        the "aria-pressed" and "aria-checked"-attributes MUST be ommitted as well.
      * ---
-     * @param	\ILIAS\UI\Component\Symbol\Icon\Icon | \ILIAS\UI\Component\Symbol\Glyph\Glyph		$icon_or_glyph
+     * @param	\ILIAS\UI\Component\Symbol\Symbol		$icon_or_glyph
      * @param	string		$label
      * @param	string		$action
      * @return  \ILIAS\UI\Component\Button\Bulky

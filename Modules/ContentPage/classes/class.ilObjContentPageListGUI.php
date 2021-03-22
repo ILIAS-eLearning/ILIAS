@@ -111,4 +111,12 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
 
         return $properties;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function checkInfoPageOnAsynchronousRendering() : bool
+    {
+        return true;
+    }
 }

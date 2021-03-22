@@ -3,7 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
+use ILIAS\UI\Implementation\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 
@@ -12,10 +12,10 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);
+        $tpl = null;
         /**
          * @var $component Avatar
          */
-
         if ($component instanceof Component\Symbol\Avatar\Letter) {
             $tpl = $this->getTemplate('tpl.avatar_letter.html', true, true);
             $tpl->setVariable('ARIA_LABEL', $component->getUsername());

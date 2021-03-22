@@ -22,7 +22,7 @@ class ilFileDataMail extends ilFileData
 {
     /**
     * user id
-    * @var integer user_id
+    * @var int user_id
     * @access private
     */
     public $user_id;
@@ -52,7 +52,7 @@ class ilFileDataMail extends ilFileData
     * Constructor
     * call base constructors
     * checks if directory is writable and sets the optional user_id
-    * @param integereger user_id
+    * @param int user_id
     * @access	public
     */
     public function __construct($a_user_id = 0)
@@ -188,7 +188,7 @@ class ilFileDataMail extends ilFileData
     /**
     * get the path of a specific attachment
     * @param string filename
-    * @param integer mail_id
+    * @param int mail_id
     * @return string path
     */
     public function getAttachmentPath($a_filename, $a_mail_id)
@@ -204,7 +204,7 @@ class ilFileDataMail extends ilFileData
     /**
     * adopt attachments (in case of forwarding a mail)
     * @param array attachments
-    * @param integer mail_id
+    * @param int mail_id
     * @access	public
     * @return string error message
     */
@@ -214,7 +214,7 @@ class ilFileDataMail extends ilFileData
             foreach ($a_attachments as $file) {
                 $path = $this->getAttachmentPath($file, $a_mail_id);
                 if (!copy($path, $this->getMailPath() . '/' . $this->user_id . '_' . $file)) {
-                    return "ERROR: $this->getMailPath().'/'.$this->user_id.'_'.$file cannot be created";
+                    return 'ERROR: ' . $this->getMailPath() . '/' . $this->user_id . '_' . $file . ' cannot be created';
                 }
             }
         } else {
@@ -293,15 +293,18 @@ class ilFileDataMail extends ilFileData
         $this->rotateFiles($this->getMailPath() . '/' . $this->user_id . '_' . $name);
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
-        
-        if (!$fp = @fopen($abs_path, 'w+')) {
+
+        $fp = fopen($abs_path, 'w+');
+        if (!is_resource($fp)) {
             return false;
         }
-        if (@fwrite($fp, $a_content) === false) {
-            @fclose($fp);
+
+        if (fwrite($fp, $a_content) === false) {
+            fclose($fp);
             return false;
         }
-        @fclose($fp);
+
+        fclose($fp);
         return true;
     }
     
@@ -368,17 +371,19 @@ class ilFileDataMail extends ilFileData
         }
         return '';
     }
+
     /**
-    * unlink one uploaded file expects a filename e.g 'foo'
-    * @param string filename to delete
-    * @access	public
-    * @return bool
-    */
-    public function unlinkFile($a_filename)
+     * Unlink one uploaded file expects a filename e.g 'foo'
+     * @param string filename to delete
+     * @return bool
+     */
+    public function unlinkFile($a_filename) : bool
     {
         if (file_exists($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename))) {
             return unlink($this->mail_path . '/' . basename($this->user_id . '_' . $a_filename));
         }
+
+        return false;
     }
 
     /**
@@ -393,7 +398,7 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Saves all attachment files in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-     * @param integer $a_mail_id id of mail in sent box
+     * @param int $a_mail_id id of mail in sent box
      * @param array $a_attachments to save
      */
     public function saveFiles($a_mail_id, array $a_attachments)
@@ -426,7 +431,7 @@ class ilFileDataMail extends ilFileData
     
     /**
     * save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-    * @param integer mail id of mail in sent box
+    * @param int mail id of mail in sent box
     * @param array filenames to save
     * @access	public
     * @return bool
@@ -437,7 +442,7 @@ class ilFileDataMail extends ilFileData
         $oStorage->create();
         $storage_directory = $oStorage->getAbsolutePath();
                 
-        if (@!is_dir($storage_directory)) {
+        if (!is_dir($storage_directory)) {
             return false;
         }
         
@@ -464,23 +469,16 @@ class ilFileDataMail extends ilFileData
         }
         return true;
     }
+
     /**
-    * assign attachments to mail directory
-    * @param integer mail_id
-    * @param integer key for directory assignment
-    * @access	public
-    * @return bool
-    */
+     * assign attachments to mail directory
+     * @param int mail_id
+     * @param int key for directory assignment
+     */
     public function assignAttachmentsToDirectory($a_mail_id, $a_sent_mail_id)
     {
         global $ilDB;
         
-        /*		$query = "INSERT INTO mail_attachment ".
-                    "SET mail_id = ".$ilDB->quote($a_mail_id).", ".
-                    "path = ".$ilDB->quote($this->user_id."_".$a_sent_mail_id)." ";
-                $res = $this->ilias->db->query($query);
-        */
-
         $oStorage = self::getStorage($a_sent_mail_id, $this->user_id);
         $res = $ilDB->manipulateF(
             '
@@ -492,38 +490,42 @@ class ilFileDataMail extends ilFileData
     }
     /**
     * dassign attachments from mail directory
-    * @param integer mail_id
+    * @param int mail_id
     * @access	public
     * @return bool
     */
-    public function deassignAttachmentFromDirectory($a_mail_id)
+    public function deassignAttachmentFromDirectory($a_mail_id) : bool
     {
         global $ilDB;
         // IF IT'S THE LAST MAIL CONTAINING THESE ATTACHMENTS => DELETE ATTACHMENTS
-        $res = $ilDB->query("SELECT path FROM mail_attachment
-				WHERE mail_id = " . $ilDB->quote($a_mail_id, 'integer'));
-    
+        $res = $ilDB->query('SELECT path FROM mail_attachment WHERE mail_id = ' . $ilDB->quote($a_mail_id, 'integer'));
+
+        $path = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $path = $row->path;
+            $path = (string) $row->path;
         }
-        if ($path) {
-            $res = $ilDB->query("SELECT COUNT(mail_id) count_mail_id FROM mail_attachment 
-					WHERE path = " . $ilDB->quote($path, 'text')) ;
-            
+
+        if ($path !== '') {
+            $res = $ilDB->query(
+                'SELECT COUNT(mail_id) count_mail_id FROM mail_attachment WHERE path = ' . $ilDB->quote($path, 'text')
+            ) ;
+
+            $cnt_mail_id = 0;
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $cnt_mail_id = $row->count_mail_id;
+                $cnt_mail_id = (int) $row->count_mail_id;
             }
-            if ($cnt_mail_id == 1) {
+
+            if ($cnt_mail_id === 1) {
                 $this->__deleteAttachmentDirectory($path);
             }
         }
 
         $res = $ilDB->manipulateF(
-            "DELETE FROM mail_attachment 
-				WHERE mail_id = %s",
-            array('integer'),
-            array($a_mail_id)
+            'DELETE FROM mail_attachment WHERE mail_id = %s',
+            ['integer'],
+            [$a_mail_id]
         );
+
         return true;
     }
 
@@ -586,7 +588,7 @@ class ilFileDataMail extends ilFileData
         // store the disk space used in table mail_attachment.
         global $DIC;
 
-        $mail_data_dir = ilUtil::getDataDir('filesystem') . DIRECTORY_SEPARATOR . "mail";
+        $mail_data_dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR . "mail";
 
         $q = "SELECT path " .
             "FROM mail_attachment ma " .

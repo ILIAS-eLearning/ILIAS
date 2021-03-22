@@ -46,7 +46,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
         $subject = 'phpunit';
-        $this->assertEquals($subject, $subjectBuilder->subject($subject, false));
+        $this->assertEquals($subject, $subjectBuilder->subject($subject));
         $this->assertEquals($subject, $subjectBuilder->subject($subject, false, 'Course'));
     }
 

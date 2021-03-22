@@ -342,7 +342,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     public function saveMapsObject()
     {
         require_once("Services/Maps/classes/class.ilMapUtil.php");
-        
+
         $ilCtrl = $this->ctrl;
         if (ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
             ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));

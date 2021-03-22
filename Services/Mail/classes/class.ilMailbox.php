@@ -246,7 +246,7 @@ class ilMailbox
         );
         $row = $this->db->fetchAssoc($res);
 
-        return is_array($row) && $row['obj_id'] > 0 ? true : false;
+        return is_array($row) && $row['obj_id'] > 0;
     }
 
     /**
@@ -269,7 +269,7 @@ class ilMailbox
 
         $mailer = new ilMail($this->usrId);
 
-        $subtree = $this->mtree->getSubtree($this->mtree->getNodeData($folderId));
+        $subtree = $this->mtree->getSubTree($this->mtree->getNodeData($folderId));
         $this->mtree->deleteTree($this->mtree->getNodeData($folderId));
 
         foreach ($subtree as $node) {

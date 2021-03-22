@@ -35,6 +35,7 @@ class ilContainerPageConfig extends ilPageConfig
         $this->setMultiLangSupport(true);
         $this->setSinglePageMode(true);
         $this->setEnablePermissionChecks(true);
+        $this->setUsePageContainer(false);
 
         $mset = new ilSetting("mobs");
         if ($mset->get("mep_activate_pages")) {

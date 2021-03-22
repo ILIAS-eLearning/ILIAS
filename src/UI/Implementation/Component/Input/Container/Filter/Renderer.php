@@ -5,7 +5,8 @@
 namespace ILIAS\UI\Implementation\Component\Input\Container\Filter;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Input\Container\Filter;
+use ILIAS\UI\Implementation\Component\Button\Toggle;
+use ILIAS\UI\Implementation\Component\Input\Container\Filter;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template;
@@ -33,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
      *
      * @param Filter\Standard $component
      * @param RendererInterface $default_renderer
-     * @return Template string
+     * @return string
      */
     protected function renderStandard(Filter\Standard $component, RendererInterface $default_renderer)
     {
@@ -41,6 +42,9 @@ class Renderer extends AbstractComponentRenderer
 
         // JavaScript
         $component = $this->registerSignals($component);
+        /**
+         * @var $component Filter\Standard
+         */
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID_FILTER', $id);
 
@@ -61,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param Filter\Filter $filter
-     * @return Component\JavaScriptBindable
+     * @return string
      */
     protected function registerSignals(Filter\Filter $filter)
     {
@@ -186,10 +190,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ACTION", $component->getToggleOnAction());
         $tpl->parseCurrentBlock();
 
-        $component->getToggleOnAction();
         $signal_generator = new SignalGenerator();
         $toggle_on_signal = $signal_generator->create();
         $toggle_on_action = $component->getToggleOnAction();
+        /**
+         * @var $toggle Toggle
+         */
         $toggle = $f->button()->toggle("", $toggle_on_signal, $component->getToggleOffAction(), $component->isActivated())
             ->withAdditionalOnLoadCode(function ($id) use ($toggle_on_signal, $toggle_on_action) {
                 $code = "$(document).on('{$toggle_on_signal}',function(event) {

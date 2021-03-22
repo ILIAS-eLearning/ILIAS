@@ -20,7 +20,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Valid" implementation of iterator interface
-     * @return  boolean true/false
+     * @return bool
      */
     public function valid()
     {
@@ -44,7 +44,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
 
     /**
      * "Key" implementation of iterator interface
-     * @return  boolean true/false
+     * @return string
      */
     public function key()
     {

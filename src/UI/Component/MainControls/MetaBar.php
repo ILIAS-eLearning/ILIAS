@@ -17,8 +17,8 @@ interface MetaBar extends Component, JavaScriptBindable
      * Append an entry.
      *
      * @param string $id
-     * @param Bulky|Slate $entry
-     * @throws InvalidArgumentException 	if $id is already taken
+     * @param Button\Bulky|\ILIAS\UI\Component\MainControls\Slate\Slate $entry
+     * @throws \InvalidArgumentException 	if $id is already taken
      */
     public function withAdditionalEntry(string $id, $entry) : MetaBar;
 

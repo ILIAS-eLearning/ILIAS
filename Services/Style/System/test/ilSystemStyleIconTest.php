@@ -101,10 +101,10 @@ class ilSystemStyleIconTest extends TestCase
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
         $expected_color_set = new ilSystemStyleIconColorSet();
-        $color1 = new ilSystemStyleIconColor("505050", "505050", "505050", "505050");
-        $color2 = new ilSystemStyleIconColor("6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
-        $color3 = new ilSystemStyleIconColor("838383", "838383", "838383", "838383");
-        $color4 = new ilSystemStyleIconColor("8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
+        $color1 = new ilSystemStyleIconColor("id_505050", "505050", "505050", "505050");
+        $color2 = new ilSystemStyleIconColor("id_6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
+        $color3 = new ilSystemStyleIconColor("id_838383", "838383", "838383", "838383");
+        $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
         $expected_color_set->addColor($color1);
         $expected_color_set->addColor($color2);
         $expected_color_set->addColor($color3);
@@ -121,10 +121,10 @@ class ilSystemStyleIconTest extends TestCase
         $icon->changeColors(['505050' => '555555']);
 
         $expected_color_set = new ilSystemStyleIconColorSet();
-        $color1 = new ilSystemStyleIconColor("555555", "555555", "555555", "555555");
-        $color2 = new ilSystemStyleIconColor("6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
-        $color3 = new ilSystemStyleIconColor("838383", "838383", "838383", "838383");
-        $color4 = new ilSystemStyleIconColor("8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
+        $color1 = new ilSystemStyleIconColor("id_555555", "555555", "555555", "555555");
+        $color2 = new ilSystemStyleIconColor("id_6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
+        $color3 = new ilSystemStyleIconColor("id_838383", "838383", "838383", "838383");
+        $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
         $expected_color_set->addColor($color1);
         $expected_color_set->addColor($color2);
         $expected_color_set->addColor($color3);
@@ -141,10 +141,10 @@ class ilSystemStyleIconTest extends TestCase
         $icon->changeColors(['505050' => '555555']);
 
         $expected_color_set = new ilSystemStyleIconColorSet();
-        $color1 = new ilSystemStyleIconColor("555555", "555555", "555555", "555555");
-        $color2 = new ilSystemStyleIconColor("6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
-        $color3 = new ilSystemStyleIconColor("838383", "838383", "838383", "838383");
-        $color4 = new ilSystemStyleIconColor("8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
+        $color1 = new ilSystemStyleIconColor("id_555555", "555555", "555555", "555555");
+        $color2 = new ilSystemStyleIconColor("id_6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
+        $color3 = new ilSystemStyleIconColor("id_838383", "838383", "838383", "838383");
+        $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
         $expected_color_set->addColor($color1);
         $expected_color_set->addColor($color2);
         $expected_color_set->addColor($color3);

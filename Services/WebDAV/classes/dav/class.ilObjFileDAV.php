@@ -96,9 +96,9 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function get()
     {
         if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
-            $r_id = $this->obj->getResourceId();
-            $identification = $this->resource_manager->find($r_id);
-            if ($this->getSize() > 0) {
+            if ($this->getSize() > 0 &&
+                ($r_id = $this->obj->getResourceId()) &&
+                ($identification = $this->resource_manager->find($r_id))) {
                 return $this->resource_consumer->stream($identification)->getStream()->getContents();
             }
             
@@ -249,7 +249,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 break;
         }
 
-        $this->obj->addNewsNotification("file_updated");
+        $this->obj->notifyUpdate();
     }
 
     /**

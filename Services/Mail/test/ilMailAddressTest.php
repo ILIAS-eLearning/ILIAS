@@ -29,7 +29,7 @@ class ilMailAddressTest extends ilMailBaseTest
      */
     public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address) : void
     {
-        $this->assertEquals($address->getMailbox(), self::LOCAL_PART);
-        $this->assertEquals($address->getHost(), self::DOMAIN_PART);
+        $this->assertEquals(self::LOCAL_PART, $address->getMailbox());
+        $this->assertEquals(self::DOMAIN_PART, $address->getHost());
     }
 }

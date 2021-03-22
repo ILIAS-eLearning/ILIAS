@@ -375,6 +375,8 @@ class ilObjRoleGUI extends ilObjectGUI
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
         }
         
+        $this->tabs_gui->activateTab('edit_properties');
+        
         // Show copy role button
         if ($this->object->getId() != SYSTEM_ROLE_ID) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
@@ -1242,18 +1244,6 @@ class ilObjRoleGUI extends ilObjectGUI
                 get_class($this)
             );
         }
-        /*
-                if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
-                {
-                    $force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
-                        ? true
-                        : false;
-                    $this->tabs_gui->addTarget("default_perm_settings",
-                        $this->ctrl->getLinkTarget($this, "perm"), array("perm", "adoptPermSave", "permSave"),
-                        get_class($this),
-                        "", $force_active);
-                }
-        */
         if ($this->checkAccess('write', 'edit_permission') and $this->showDefaultPermissionSettings()) {
             $this->tabs_gui->addTarget(
                 "default_perm_settings",

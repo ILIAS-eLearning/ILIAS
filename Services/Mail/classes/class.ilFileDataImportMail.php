@@ -28,7 +28,7 @@ class ilFileDataImportMail extends ilFileDataImport
     * Constructor
     * call base constructors
     * checks if directory is writable and sets the optional obj_id
-    * @param integereger obj_id
+    * @param int obj_id
     * @access	public
     */
     public function __construct()
@@ -172,16 +172,13 @@ class ilFileDataImportMail extends ilFileDataImport
             $this->ilias->raiseError("Mail import directory is not readable/writable by webserver", $this->ilias->error_obj->FATAL);
         }
     }
+
     /**
-    * init directory
-    * overwritten method
-    * @access	public
-    * @static
-    * @return boolean
-    */
+     * @inheritDoc
+     */
     public function _initDirectory()
     {
-        if (!@file_exists($this->mail_path)) {
+        if (!file_exists($this->mail_path)) {
             ilUtil::makeDir($this->mail_path);
         }
         return true;

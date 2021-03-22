@@ -10,6 +10,7 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 /**
  * Class ResourceARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 class ResourceARRepository implements ResourceRepository
 {

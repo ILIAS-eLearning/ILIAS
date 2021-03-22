@@ -11,16 +11,16 @@ use ILIAS\UI\Component\Input\ViewControl\ViewControl as BaseControl;
  */
 interface FieldSelection extends BaseControl
 {
-    const DEFAULT_DROPDOWN_LABEL = 'selection';
-    const DEFAULT_BUTTON_LABEL = 'refresh';
+    public const DEFAULT_DROPDOWN_LABEL = 'selection';
+    public const DEFAULT_BUTTON_LABEL = 'refresh';
 
-    public function getDropdownLabel(): string;
-    public function getButtonLabel(): string;
-    public function getInput(): Input;
+    public function getDropdownLabel() : string;
+    public function getButtonLabel() : string;
+    public function getInput() : \ILIAS\UI\Component\Input\Field\Input;
 
     /**
      * This is an internal signal, used to submit the current choice
      */
-    public function getSubmissionTrigger(): Signal;
-    public function withResetSignals(): FieldSelection;
+    public function getSubmissionTrigger() : \ILIAS\UI\Component\Signal;
+    public function withResetSignals() : FieldSelection;
 }

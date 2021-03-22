@@ -32,7 +32,7 @@ interface Radio extends FormInput
      * Get byline for a single option.
      * Returns null, if none present.
      *
-     * @param sring 	$value
+     * @param string 	$value
      *
      * @return array|null
      */

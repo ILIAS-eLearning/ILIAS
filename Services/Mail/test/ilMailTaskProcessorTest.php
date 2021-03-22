@@ -24,7 +24,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
     /**
      * @throws ReflectionException
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -59,7 +59,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+        $backgroundTask = $this->getMockBuilder(ilMailDeliveryJob::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -128,7 +128,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+        $backgroundTask = $this->getMockBuilder(ilMailDeliveryJob::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -206,7 +206,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+        $backgroundTask = $this->getMockBuilder(ilMailDeliveryJob::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -297,7 +297,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask = $this->getMockbuilder(ilMailDeliveryJob::class)
+        $backgroundTask = $this->getMockBuilder(ilMailDeliveryJob::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -41,6 +41,8 @@ function base()
     // as null an throw an InvalidArgumentException. Also see comment in withInput of Input Fields and related bug:
     // https://mantis.ilias.de/view.php?id=27909 . An other approach is performed in ilPluginsOverviewTableFilterGUI
     // Where the exception is catched and an empty array returned.
+    $filter_data = [];
+
     if ($DIC->http()->request()->getMethod() == "POST") {
         $filter_data = $DIC->uiService()->filter()->getData($filter);
     } else {

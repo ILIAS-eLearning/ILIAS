@@ -26,13 +26,9 @@ trait ilObjFileMetadata
             return true;
         }
 
-        // not upload mode
-        ilHistory::_createEntry($this->getId(), "create", $this->getFileName() . ",1" . ",1");
-        $this->addNewsNotification("file_created");
-
         // New Item
         $default_visibility = ilNewsItem::_getDefaultVisibilityForRefId($_GET['ref_id']);
-        if ($default_visibility == "public") {
+        if ($default_visibility === "public") {
             ilBlockSetting::_write("news", "public_notifications", 1, 0, $this->getId());
         }
 

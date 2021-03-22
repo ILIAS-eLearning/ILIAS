@@ -11,7 +11,7 @@ class Breadcrumbs implements B\Breadcrumbs
     use ComponentHelper;
 
     /**
-     * @var Link\Standard[]     list of links
+     * @var \ILIAS\UI\Component\Link\Standard[]     list of links
      */
     protected $crumbs;
 

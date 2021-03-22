@@ -75,25 +75,21 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     {
         if ('tpl_id' === $column) {
             return \ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
-        } else {
-            if ('lang' === $column) {
-                return $this->lng->txt('meta_l_' . $row[$column]);
-            } else {
-                if ($column == 'context') {
-                    if (isset($this->contexts[$row[$column]])) {
-                        $isDefaultSuffix = '';
-                        if ($row['is_default']) {
-                            $isDefaultSuffix = $this->lng->txt('mail_template_default');
-                        }
-
-                        return implode('', [
-                            $this->contexts[$row[$column]]->getTitle(),
-                            $isDefaultSuffix
-                        ]);
-                    } else {
-                        return $this->lng->txt('mail_template_orphaned_context');
-                    }
+        } elseif ('lang' === $column) {
+            return $this->lng->txt('meta_l_' . $row[$column]);
+        } elseif ($column == 'context') {
+            if (isset($this->contexts[$row[$column]])) {
+                $isDefaultSuffix = '';
+                if ($row['is_default']) {
+                    $isDefaultSuffix = $this->lng->txt('mail_template_default');
                 }
+
+                return implode('', [
+                    $this->contexts[$row[$column]]->getTitle(),
+                    $isDefaultSuffix
+                ]);
+            } else {
+                return $this->lng->txt('mail_template_orphaned_context');
             }
         }
 
@@ -103,18 +99,18 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    protected function fillRow($row)
+    protected function fillRow($a_set)
     {
-        foreach ($row as $column => $value) {
+        foreach ($a_set as $column => $value) {
             if ($column === 'tpl_id' && $this->readOnly) {
                 continue;
             }
 
-            $value = $this->formatCellValue($column, $row);
+            $value = $this->formatCellValue($column, $a_set);
             $this->tpl->setVariable('VAL_' . strtoupper($column), $value);
         }
 
-        $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($row));
+        $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
     /**

@@ -95,19 +95,6 @@ class ilPCTableGUI extends ilPageContentGUI
             $lng->txt("pg"),
             $this->ctrl->getParentReturn($this)
         );
-        $ilTabs->addTarget(
-            "cont_table_properties",
-            $ilCtrl->getLinkTarget($this, "edit"),
-            "edit",
-            get_class($this)
-        );
-
-        $ilTabs->addTarget(
-            "cont_table_cell_properties",
-            $ilCtrl->getLinkTarget($this, "editCellStyle"),
-            "editCellStyle",
-            get_class($this)
-        );
 
         if ($data_tab_txt_key == "") {
             $data_tab_txt_key = "cont_table_edit_cells";
@@ -117,6 +104,20 @@ class ilPCTableGUI extends ilPageContentGUI
             $data_tab_txt_key,
             $ilCtrl->getLinkTarget($this, "editData"),
             "editData",
+            get_class($this)
+        );
+
+        $ilTabs->addTarget(
+            "cont_table_properties",
+            $ilCtrl->getLinkTarget($this, "editProperties"),
+            "editProperties",
+            get_class($this)
+        );
+
+        $ilTabs->addTarget(
+            "cont_table_cell_properties",
+            $ilCtrl->getLinkTarget($this, "editCellStyle"),
+            "editCellStyle",
             get_class($this)
         );
 
@@ -169,10 +170,15 @@ class ilPCTableGUI extends ilPageContentGUI
         return parent::getTemplateOptions("table");
     }
 
+    public function edit()
+    {
+        $this->ctrl->redirect($this, "editData");
+    }
+
     /**
     * edit properties form
     */
-    public function edit()
+    public function editProperties()
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -846,7 +852,7 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->setProperties();
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
-            $this->ctrl->redirect($this, "edit");
+            $this->ctrl->redirect($this, "editProperties");
         //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
         } else {
             $this->pg_obj->addHierIDs();

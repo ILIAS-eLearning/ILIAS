@@ -44,7 +44,7 @@ function with_usage_in_legacy_form()
                     });
                     $uploadResult = count($uploadedPDFs) == 0;
                     echo json_encode(array( 'success' => $uploadResult ));
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo json_encode(array( 'success' => false ));
                 }
                 exit();

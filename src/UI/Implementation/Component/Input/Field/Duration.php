@@ -7,8 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\DateFormat as DateFormat;
-use ILIAS\Refinery\Transformation\Factory as TransformationFactory;
-use ILIAS\Refinery\Validation\Factory as ValidationFactory;
+use ILIAS\Refinery as Refinery;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\JavaScriptBindable as JSBindabale;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
@@ -17,13 +16,13 @@ use ILIAS\UI\Implementation\Component\Input\Field\DateTime as DTField;
 /**
  * This implements the duration input group.
  */
-class Duration extends Group implements C\Input\Field\Duration, JSBindabale
+class Duration extends Group implements C\Input\Field\Duration
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
     /**
-     * @var DateFormat
+     * @var DateFormat\DateFormat
      */
     protected $format;
 
@@ -51,11 +50,6 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale
      * @var string
      */
     protected $timezone;
-
-    /**
-     * @var TransformationFactory
-     */
-    protected $transformation_factory;
 
     /**
      * @param DataFactory $data_factory

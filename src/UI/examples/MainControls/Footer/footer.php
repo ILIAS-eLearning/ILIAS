@@ -17,16 +17,16 @@ function footer()
     $footer = $f->mainControls()->footer($links, $text)
         ->withPermanentURL(
             $df->uri(
-                isset($_SERVER['REQUEST_SCHEME']) ?  $_SERVER['REQUEST_SCHEME']:"http".
+                isset($_SERVER['REQUEST_SCHEME']) ?  $_SERVER['REQUEST_SCHEME']:"http" .
                 '://' .
-                    (isset($_SERVER['SERVER_NAME']) ?  $_SERVER['SERVER_NAME']:"localhost").
+                    (isset($_SERVER['SERVER_NAME']) ?  $_SERVER['SERVER_NAME']:"localhost") .
                 ':' .
-                    (isset($_SERVER['SERVER_PORT']) ?  $_SERVER['SERVER_PORT']:"80").
-                str_replace(
+                    (isset($_SERVER['SERVER_PORT']) ?  $_SERVER['SERVER_PORT']:"80") .
+                '/' . ltrim(str_replace(
                     'ilias.php',
                     'goto.php?target=xxx12345',
                     isset($_SERVER['SCRIPT_NAME']) ?  $_SERVER['SCRIPT_NAME']:""
-                )
+                ), '/')
             )
         );
 

@@ -226,6 +226,7 @@ class ilObjFileGUI extends ilObject2GUI
         global $DIC;
 
         $upload = $DIC->upload();
+        $upload->register(new ilCountPDFPagesPreProcessors());
         $post = $DIC->http()->request()->getParsedBody();
 
         if (!$upload->hasBeenProcessed()) {
@@ -233,6 +234,11 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         foreach ($upload->getResults() as $result) {
+            if (!$result->isOK()) {
+                $response->error = $result->getStatus()->getMessage();
+                $send_respose($response);
+                continue;
+            }
             // Create new FileObject
             $file = new ilObjFile();
             $this->object_id = $file->create();
@@ -521,6 +527,7 @@ class ilObjFileGUI extends ilObject2GUI
         $info->addSection($this->lng->txt("file_info"));
         $info->addProperty($this->lng->txt("filename"), $this->object->getFileName());
         $info->addProperty($this->lng->txt("type"), $this->object->getFileType());
+        $info->addProperty( $this->lng->txt("resource_id"), $this->object->getResourceId());
 
         $info->addProperty($this->lng->txt("size"),
             ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long'));
@@ -558,7 +565,6 @@ class ilObjFileGUI extends ilObject2GUI
             include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
 
             // get context for access checks later on
-            $context;
             switch ($this->id_type) {
                 case self::WORKSPACE_NODE_ID:
                 case self::WORKSPACE_OBJECT_ID:
@@ -715,7 +721,7 @@ class ilObjFileGUI extends ilObject2GUI
         // file input
         include_once("Services/Form/classes/class.ilDragDropFileInputGUI.php");
         $dnd_input = new ilDragDropFileInputGUI($this->lng->txt("files"), "upload_files");
-        $dnd_input->setArchiveSuffixes(array("zip"));
+        $dnd_input->setArchiveSuffixes(["zip"]);
         $dnd_input->setCommandButtonNames(self::CMD_UPLOAD_FILES, "cancel");
         $dnd_form_gui->addItem($dnd_input);
 
@@ -726,7 +732,7 @@ class ilObjFileGUI extends ilObject2GUI
         $dnd_form_gui->setTableWidth("100%");
         $dnd_form_gui->setTarget($this->getTargetFrame("save"));
         $dnd_form_gui->setTitle($this->lng->txt("upload_files_title"));
-        $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'), $this->lng->txt('obj_file'));
+        $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'));
 
         $this->ctrl->setParameter($this, "new_type", "file");
         $dnd_form_gui->setFormAction($this->ctrl->getFormAction($this, self::CMD_UPLOAD_FILES));
@@ -737,15 +743,13 @@ class ilObjFileGUI extends ilObject2GUI
     protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
     {
         $lg = parent::initHeaderAction($a_sub_type, $a_sub_id);
-        if (is_object($lg)) {
-            if ($this->object->hasRating()) {
-                $lg->enableRating(
-                    true,
-                    null,
-                    false,
-                    array("ilcommonactiondispatchergui", "ilratinggui")
-                );
-            }
+        if ($lg instanceof ilObjectListGUI && $this->object->hasRating()) {
+            $lg->enableRating(
+                true,
+                null,
+                false,
+                [ilCommonActionDispatcherGUI::class, ilRatingGUI::class]
+            );
         }
 
         return $lg;

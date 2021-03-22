@@ -124,13 +124,10 @@ class ilFormatMail extends ilMail
     * @access	public
     * @param array names to append
     * @param string rcp type ('to','cc','bc')
-    * @return string
+    * @return array
     */
     public function appendSearchResult($a_names, $a_type)
     {
-        if (empty($this->mail_data)) {
-            return false;
-        }
         $name_str = implode(',', $a_names);
         switch ($a_type) {
             case 'to':
@@ -158,6 +155,7 @@ class ilFormatMail extends ilMail
                 break;
 
         }
+
         return $this->mail_data;
     }
 

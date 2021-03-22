@@ -43,7 +43,6 @@ class ParagraphStyleSelector
         $a_chars = \ilPCParagraphGUI::_getCharacteristics($this->style_id);
         $ui_wrapper = $this->ui_wrapper;
         $ui = $this->ui;
-
         $buttons = [];
         foreach ($a_chars as $char => $char_lang) {
             $t = "text_block";

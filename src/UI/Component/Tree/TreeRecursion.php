@@ -40,7 +40,7 @@ interface TreeRecursion
      * for nodes, as well as the (unspecified) $environment as configured at the Tree.
      * $record is the data the node should be build for.
      *
-     * @return Node
+     * @return Node\Node
      */
     public function build(
         Node\Factory $factory,

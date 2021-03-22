@@ -153,12 +153,10 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
 
         switch ($this->save_mode) {
             case self::MODE_ADD:
-                $this->file->addFileVersion($file_temp_name, $input_title);
+                $this->file->appendUpload($result, $input_title);
                 break;
             case self::MODE_REPLACE:
-                $this->file->deleteVersions(); // FSX
-                $this->file->clearDataDirectory();
-                $this->file->replaceFile($file_temp_name, $input_title);
+                $this->file->replaceWithUpload($result, $input_title);
                 break;
         }
 

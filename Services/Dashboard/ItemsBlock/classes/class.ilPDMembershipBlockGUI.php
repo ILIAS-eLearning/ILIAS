@@ -77,7 +77,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_mo_mem_dash");
         return $txt;

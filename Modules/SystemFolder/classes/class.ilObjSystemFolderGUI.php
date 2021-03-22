@@ -4,6 +4,12 @@
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
+use ILIAS\Setup\Metrics;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
+use ILIAS\Setup\ImplementationOfAgentFinder;
+use ILIAS\Data\Factory;
+use ILIAS\Setup\CLI\StatusCommand;
+
 /**
  * Class ilObjSystemFolderGUI
  *
@@ -987,9 +993,11 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
-                
+
+        $ilTabs->addSubTabTarget("installation_status", $ilCtrl->getLinkTarget($this, "showServerInstallationStatus"));
+
         $ilTabs->addSubTabTarget("server_data", $ilCtrl->getLinkTarget($this, "showServerInfo"));
-        
+
         if ($rbacsystem->checkAccess("write", $this->object->getRefId())) {
             $ilTabs->addSubTabTarget("java_server", $ilCtrl->getLinkTarget($this, "showJavaServer"));
         }
@@ -1132,6 +1140,46 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->form->setTitle($lng->txt("server_data"));
         $this->form->setFormAction($this->ctrl->getFormAction($this));
+    }
+
+    protected function showServerInstallationStatusObject() : void
+    {
+        $this->setServerInfoSubTabs("installation_status");
+        $this->renderServerStatus();
+    }
+
+    protected function renderServerStatus() : void
+    {
+        global $DIC;
+        $f = $DIC->ui()->factory();
+        $r = $DIC->ui()->renderer();
+        $refinery = $DIC->refinery();
+
+        $metric = $this->getServerStatusInfo($refinery);
+        $report = $metric->toUIReport($f, $this->lng->txt("installation_status"));
+
+        $this->tpl->setContent($r->render($report));
+    }
+
+    protected function getServerStatusInfo(ILIAS\Refinery\Factory $refinery) : ILIAS\Setup\Metrics\Metric
+    {
+        $data = new Factory();
+        $lng = new ilSetupLanguage('en');
+        $interface_finder = new ImplementationOfInterfaceFinder();
+        $plugin_raw_reader = new ilPluginRawReader();
+
+        $agent_finder = new ImplementationOfAgentFinder(
+            $refinery,
+            $data,
+            $lng,
+            $interface_finder,
+            $plugin_raw_reader,
+            []
+        );
+
+        $st = new StatusCommand($agent_finder);
+
+        return $st->getMetrics($agent_finder->getAgents());
     }
     
     //

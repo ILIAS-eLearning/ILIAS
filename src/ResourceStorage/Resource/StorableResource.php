@@ -59,6 +59,11 @@ interface StorableResource
     /**
      * @param Revision $revision
      */
+    public function removeRevision(Revision $revision) : void;
+
+    /**
+     * @param Revision $revision
+     */
     public function replaceRevision(Revision $revision) : void;
 
     /**

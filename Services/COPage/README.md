@@ -4,6 +4,12 @@ Be warned. This component is one of the oldest in ILIAS with lots of complexity 
 
 Feel free to make any pull requests to the ROADMAP.md to document pain points you would like to have being addressed in the future.
 
+## Business Rules
+
+Copying content
+- Media objects are referenced when pages are copied. This behaviour is relevant for almost all copy processes that include COPage content.
+
+
 ## Consumer Documentation
 
 This component implements the ILIAS page editor as being used e.g. in learning modules, wikis, content pages in courses and other containers.

@@ -19,9 +19,9 @@ use ILIAS\Data\URI;
 
 class Renderer extends AbstractComponentRenderer
 {
-    const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
-    const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
-    const BLOCK_METABAR_ENTRIES = 'meta_element';
+    public const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
+    public const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
+    public const BLOCK_METABAR_ENTRIES = 'meta_element';
 
     private $signals_for_tools = [];
     private $trigger_signals = [];
@@ -126,7 +126,6 @@ class Renderer extends AbstractComponentRenderer
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
             } else {
                 //add Links/Buttons as toplevel entries
@@ -144,7 +143,8 @@ class Renderer extends AbstractComponentRenderer
                     ";
                     return $js;
                 }
-            );
+            )->withAriaRole(IBulky::MENUITEM);
+
             $tpl->setCurrentBlock($block);
             $tpl->setVariable("BUTTON", $default_renderer->render($button));
             $tpl->parseCurrentBlock();
@@ -166,11 +166,14 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("ARIA_LABEL", $this->txt('mainbar_aria_label'));
         $more_btn_label = $this->txt('mainbar_more_label');
-        //add "more"-slate
-        $more_slate = $f->maincontrols()->slate()->combined(
+        /**
+         * @var $more_slate Slate
+         */
+        $more_slate = $f->mainControls()->slate()->combined(
             $more_btn_label,
             $f->symbol()->glyph()->more()
-        )->withAriaRole(ISlate::MENU);
+        );
+        $more_slate = $more_slate->withAriaRole(ISlate::MENU);
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
             $more_slate
@@ -230,8 +233,11 @@ class Renderer extends AbstractComponentRenderer
         $more_symbol = $f->symbol()->glyph()->disclosure()
             ->withCounter($f->counter()->novelty(0))
             ->withCounter($f->counter()->status(0));
-        $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''))
-            ->withAriaRole(ISlate::MENU);
+        /**
+         * @var $more_slate Slate
+         */
+        $more_slate = $f->mainControls()->slate()->combined($more_label, $more_symbol);
+        $more_slate = $more_slate->withAriaRole(ISlate::MENU);
         $entries[] = $more_slate;
 
         $this->renderTriggerButtonsAndSlates(
@@ -347,6 +353,7 @@ class Renderer extends AbstractComponentRenderer
                 $slate = $entry;
             } else {
                 $button = $entry;
+                $button = $button->withAriaRole(IBulky::MENUITEM);
                 $slate = null;
             }
 

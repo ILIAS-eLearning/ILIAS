@@ -136,7 +136,7 @@ class Factory implements \ILIAS\UI\Factory
         C\Counter\Factory $counter_factory,
         C\Button\Factory $button_factory,
         C\Listing\Factory $listing_factory,
-        C\Image\Factory	$image_factory,
+        C\Image\Factory $image_factory,
         C\Panel\Factory $panel_factory,
         C\Modal\Factory $modal_factory,
         C\Dropzone\Factory $dropzone_factory,

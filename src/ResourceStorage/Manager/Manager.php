@@ -9,6 +9,8 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Stream\FileStream;
+use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 
 /**
  * Class StorageManager
@@ -31,27 +33,22 @@ class Manager
         $this->resource_builder = $b;
     }
 
-
-    // Identifications
-
-    /**
-     * this is the fast-lane: in most cases you want to store a uploaded file in
-     * the storage and use it's identification.
-     * @param UploadResult        $result
-     * @param ResourceStakeholder $stakeholder
-     * @param string|null         $title
-     * @return ResourceIdentification
-     */
     public function upload(
         UploadResult $result,
         ResourceStakeholder $stakeholder,
-        string $title = null
+        string $revision_title = null
     ) : ResourceIdentification {
         if ($result->isOK()) {
+            $info_resolver = new UploadInfoResolver(
+                $result,
+                1,
+                $stakeholder->getOwnerOfNewResources(),
+                $revision_title ?? $result->getName()
+            );
+
             $resource = $this->resource_builder->new(
                 $result,
-                $title,
-                $stakeholder->getOwnerOfNewResources()
+                $info_resolver
             );
             $resource->addStakeholder($stakeholder);
             $this->resource_builder->store($resource);
@@ -64,13 +61,20 @@ class Manager
     public function stream(
         FileStream $stream,
         ResourceStakeholder $stakeholder,
-        string $title = null
+        string $revision_title = null
     ) : ResourceIdentification {
+
+        $info_resolver = new StreamInfoResolver(
+            $stream,
+            1,
+            $stakeholder->getOwnerOfNewResources(),
+            $revision_title ?? $stream->getMetadata()['uri']
+        );
+
         $resource = $this->resource_builder->newFromStream(
             $stream,
-            true,
-            $title,
-            $stakeholder->getOwnerOfNewResources()
+            $info_resolver,
+            true
         );
         $resource->addStakeholder($stakeholder);
         $this->resource_builder->store($resource);
@@ -120,9 +124,50 @@ class Manager
             if (!$this->resource_builder->has($identification)) {
                 throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
             }
-
             $resource = $this->resource_builder->get($identification);
-            $this->resource_builder->append($resource, $result, $revision_title);
+            $info_resolver = new UploadInfoResolver(
+                $result,
+                $resource->getMaxRevision() + 1,
+                $stakeholder->getOwnerOfNewResources(),
+                $revision_title ?? $result->getName()
+            );
+
+            $this->resource_builder->append(
+                $resource,
+                $result,
+                $info_resolver
+            );
+            $resource->addStakeholder($stakeholder);
+
+            $this->resource_builder->store($resource);
+
+            return $resource->getCurrentRevision();
+        }
+        throw new \LogicException("Can't handle UploadResult: " . $result->getStatus()->getMessage());
+    }
+
+    public function replaceWithUpload(
+        ResourceIdentification $identification,
+        UploadResult $result,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
+        if ($result->isOK()) {
+            if (!$this->resource_builder->has($identification)) {
+                throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+            }
+            $resource = $this->resource_builder->get($identification);
+            $info_resolver = new UploadInfoResolver(
+                $result,
+                $resource->getMaxRevision() + 1,
+                $stakeholder->getOwnerOfNewResources(),
+                $revision_title ?? $result->getName()
+            );
+            $this->resource_builder->replaceWithUpload(
+                $resource,
+                $result,
+                $info_resolver
+            );
             $resource->addStakeholder($stakeholder);
 
             $this->resource_builder->store($resource);
@@ -143,7 +188,50 @@ class Manager
         }
 
         $resource = $this->resource_builder->get($identification);
-        $this->resource_builder->appendFromStream($resource, $stream, true, $revision_title);
+        $info_resolver = new StreamInfoResolver(
+            $stream,
+            $resource->getMaxRevision() + 1,
+            $stakeholder->getOwnerOfNewResources(),
+            $revision_title ?? $stream->getMetadata()['uri']
+        );
+
+        $this->resource_builder->appendFromStream(
+            $resource,
+            $stream,
+            $info_resolver,
+            true
+        );
+        $resource->addStakeholder($stakeholder);
+
+        $this->resource_builder->store($resource);
+
+        return $resource->getCurrentRevision();
+    }
+
+    public function replaceWithStream(
+        ResourceIdentification $identification,
+        FileStream $stream,
+        ResourceStakeholder $stakeholder,
+        string $revision_title = null
+    ) : Revision {
+        if (!$this->resource_builder->has($identification)) {
+            throw new \LogicException("Resource not found, can't append new version in: " . $identification->serialize());
+        }
+
+        $resource = $this->resource_builder->get($identification);
+        $info_resolver = new StreamInfoResolver(
+            $stream,
+            $resource->getMaxRevision() + 1,
+            $stakeholder->getOwnerOfNewResources(),
+            $revision_title ?? $stream->getMetadata()['uri']
+        );
+
+        $this->resource_builder->replaceWithStream(
+            $resource,
+            $stream,
+            $info_resolver,
+            true
+        );
         $resource->addStakeholder($stakeholder);
 
         $this->resource_builder->store($resource);
@@ -159,6 +247,24 @@ class Manager
     public function updateRevision(Revision $revision) : bool
     {
         $this->resource_builder->storeRevision($revision);
+
+        return true;
+    }
+
+    public function rollbackRevision(ResourceIdentification $identification, int $revision_number) : bool
+    {
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->appendFromRevision($resource, $revision_number);
+        $this->resource_builder->store($resource);
+
+        return true;
+    }
+
+    public function removeRevision(ResourceIdentification $identification, int $revision_number) : bool
+    {
+        $resource = $this->resource_builder->get($identification);
+        $this->resource_builder->removeRevision($resource, $revision_number);
+        $this->resource_builder->store($resource);
 
         return true;
     }

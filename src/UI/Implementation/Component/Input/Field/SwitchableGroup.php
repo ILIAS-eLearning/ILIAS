@@ -109,6 +109,8 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
             throw new \LogicException("Can only collect if input has a name.");
         }
 
+        $key = "";
+
         if (!$this->isDisabled()) {
             $key = $post_input->get($this->getName());
             $clone = $this->withValue($key);
@@ -117,7 +119,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
             $clone = $this;
         }
 
-        if ($clone->inputs[$key]->getContent()->isError()) {
+        if (array_key_exists($key, $clone->inputs) && $clone->inputs[$key]->getContent()->isError()) {
             $clone->content = $clone->data_factory->error($this->lng->txt("ui_error_in_group"));
         } else {
             $clone->content = $this->applyOperationsTo($clone->getValue());

@@ -198,51 +198,25 @@ class ilDownloadFilesBackgroundTask
                 if ($files = $file_handler->getFiles()) {
                     $this->has_files = true;
                 }
-                //if file_system_path is set, it is the real path of the file (courses use ids as names file->getId())
-                //otherwise $file_with_absolut_path is the path. ($file->getName())
-                foreach ($files as $file_system_path => $file_with_absolut_path) {
-                    #22198 check if the key is a string defined by ILIAS or a number set by PHP as a sequential key
-                    //[/Sites/data/client/ilCourse/2/crs_xx/info/1] => /Sites/data/client/ilCourse/2/crs_xxx/info/image.png
-                    //[0] =>  /Sites/data/client/ilFile/3/file_3xx/001/image.png
-                    if (is_string($file_system_path)) {
-                        $file_with_absolut_path = $file_system_path;
-                        $file_id = (int) basename($file_system_path);
-                        $basename = $this->getEventFileNameFromId($event['event'], $file_id);
-                    } else {
-                        $basename = ilUtil::getASCIIFilename(basename($file_with_absolut_path));
-                    }
-                    $def->addCopyDefinition(
-                        $file_with_absolut_path,
-                        $folder_date . '/' . $folder_app . '/' . $basename
-                    );
 
-                    $this->logger->debug('Added new copy definition: ' . $folder_date . '/' . $folder_app . '/' . $basename . ' -> ' . $file_with_absolut_path);
+                $this->logger->dump($files);
+                foreach ($files as $idx => $file_property) {
+                    $this->logger->debug('Filename:' . $file_property->getFileName());
+                    $this->logger->debug('Absolute path: ' . $file_property->getAbsolutePath());
+
+                    $def->addCopyDefinition(
+                        $file_property->getAbsolutePath(),
+                        $folder_date . '/' . $folder_app . '/' . $file_property->getFileName()
+                    );
+                    $this->logger->debug('Added new copy definition: ' .
+                        $folder_date .  '/' . $folder_app . '/' . $file_property->getFileName() . ' => ' .
+                        $file_property->getAbsolutePath()
+                    );
                 }
             }
             else {
                 $this->logger->info('Ignoring obj_id: ' . $obj_id . ' already processed.');
             }
         }
-    }
-
-    /**
-     * Only courses store the files using the id for naming.
-     * @param ilCalendarEntry
-     * @return string
-     */
-    private function getEventFileNameFromId(ilCalendarEntry $a_event, $a_file_id)
-    {
-        $filename = "";
-        $cat_id = ilCalendarCategoryAssignments::_lookupCategory($a_event->getEntryId());
-        $cat = ilCalendarCategory::getInstanceByCategoryId($cat_id);
-        $cat_type = $cat->getType();
-        $obj_id = $cat->getObjId();
-        $obj_type = ilObject::_lookupType($obj_id);
-
-        if ($cat_type == ilCalendarCategory::TYPE_OBJ && $obj_type == "crs") {
-            $course_file = new ilCourseFile((int) $a_file_id);
-            $filename = $course_file->getFileName();
-        }
-        return ilUtil::getASCIIFilename($filename);
     }
 }

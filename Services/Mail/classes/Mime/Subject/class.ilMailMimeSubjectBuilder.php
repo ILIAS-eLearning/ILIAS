@@ -36,7 +36,7 @@ class ilMailMimeSubjectBuilder
 
         if ($addPrefix) {
             // #9096
-            $globalPrefix = $this->settings->get('mail_subject_prefix', false);
+            $globalPrefix = $this->settings->get('mail_subject_prefix');
             if (!is_string($globalPrefix)) {
                 $globalPrefix = $this->defaultPrefix;
             }

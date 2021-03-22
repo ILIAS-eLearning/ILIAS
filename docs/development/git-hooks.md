@@ -1,83 +1,36 @@
 ##  Git Hooks
 
-This document lists some useful Git hooks to create a better development
-experience for a contributor of the ILIAS project.
+This document contains some basic information regarding Git hooks in ILIAS.
+It describes how Git hooks can be installed/activated [manually](#creating-git-hooks)
+and where to find some offial Git hooks provided by the ILIAS community.
+Furtheremore it contains installation instructions for [CaptainHook](#the-easy-way-captainhook---git-hook-library),
+a Git hook PHP library used by ILIAS to manage and execute a shared Git
+hook configuration amongst contributers.
 
 **Table of Contents**
 * [General](#general)
 * [Usage](#usage)
-  * [Install Development Dependencies](#install-development-dependencies)
-  * [Creating Git Hooks](#creating-git-hooks)
-    * [Code Style Hooks](#code-style-hooks)
-  * [CaptainHook - Git Hook Library](#captainhook---git-hook-library)
+  * [The Easy Way: CaptainHook - Git Hook Library](#the-easy-way-captainhook---git-hook-library)
     * [Installation](#installation)
     * [Troubleshooting](#troubleshooting)
+  * [The Manualy Way: Creating Git Hooks](#the-manual-way-creating-git-hooks)
+    * [ILIAS Git Hooks](#ilias-git-hooks)
 
 ### General
 
-Git hooks are powerful tools that can be used on dedicated events during the
-development workflow.
+Git hooks are scripts that run automatically every time a particular
+event occurs in a Git repository and thus can be a powerful tool
+in the ILIAS development workflow.
 Check out the [documentation about Git Hooks](https://git-scm.com/docs/githooks)
 for more information.
-
-All the following hooks can be found in the
-[ILIAS Developer Tools](https://github.com/ILIAS-eLearning/DeveloperTools)
-as separated files.
 
 ### Usage
 
 Preconditions:
-* [composer](https://getcomposer.org/) must be installed
 * [Git](https://git-scm.com/) must be configured for the local project and
   the development environment
 
-__Please be aware that these recommendations are for a development environment
-only, and may not be used in production environments__
-
-#### Install Development Dependencies
-
-To use the following Git hooks, the composer development dependencies need to
-be installed.
-
-Move to the directory with the `composer.json`
-
-```
-$ cd libs/composer
-```
-
-Install the development dependencies
-
-```
-$ composer install --dev
-```
-
-#### Creating Git Hooks
-
-Move to directory where Git hooks are stored.
-
-```
-$ cd .git/hooks
-```
-
-By default every hook has the suffix `.sample`.
-Removing this suffix will activate the hook.
-
-```
-$ mv pre-commit.sample pre-commit
-```
-
-##### Code Style Hooks
-
-The ILIAS project serves several Git Hooks stored in the official
-[Developer Tools Repository](https://github.com/ILIAS-eLearning/DeveloperTools)
-Check the
-[git_hooks code style folder](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks/hooks/code-style)
-to create specific git hook adapted to the needs of the development process.
-
-The official [ILIAS pre-commit](https://github.com/ILIAS-eLearning/DeveloperTools/blob/master/git_hooks/hooks/pre-commit)
-uses a dry-run to check your code style and returns the line that needs to change according to the defined code style.
-
-#### CaptainHook - Git Hook Library
+#### The Easy Way: CaptainHook - Git Hook Library
 
 ILIAS provides a [shared Git hook configuration](../../captainhook.json) for
 [CaptainHook](https://github.com/CaptainHookPhp/captainhook), a Git hook
@@ -122,3 +75,43 @@ Please make sure you do **not commit** a changed `captainhook.json` file be acci
 * If the Git hooks have been installed once, changing branches could be an issue **if**
 *CaptainHook* is **not** installed or the `captainhook.json` file is missing in the branch
 just checked out.
+
+#### The Manual Way: Creating Git Hooks
+
+Git hooks recide in the `.git/hooks` directory of a Git repository.
+To install/activate a Git hook first enter this directory.
+
+```bash
+cd .git/hooks
+```
+
+By default every hook has the suffix `.sample`. This suffix prevents them
+from beeing executed by default when a particular Git event occurs.
+
+Removing this suffix will activate the hook.
+
+```bash
+mv pre-commit.sample pre-commit
+```
+
+Git hooks can be implemented by using any scripting language as long as they
+can be run as an executable. There can only be one script for each particular
+Git event.
+
+If a script exits with a status set to `1`, the actual execution of
+the Git event will be aborted, otherwise an exit status set to `0`
+will continue the Git workflow as expected.
+
+##### ILIAS Git Hooks
+
+The ILIAS community provides a bunch of Git hook scripts which can be used to
+optimize the development workflow and to enforce certain policies regarding
+the ILIAS code base.
+
+__Please be aware that these recommendations are for a development environment
+only, and may not be used in production environments__
+
+The Git hook scripts can be found in the
+[git_hooks](https://github.com/ILIAS-eLearning/DeveloperTools/tree/master/git_hooks)
+folder of the official [ILIAS Developer Tools](https://github.com/ILIAS-eLearning/DeveloperTools)
+GitHub repository.

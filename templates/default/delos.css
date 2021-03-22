@@ -6937,10 +6937,6 @@ button.close {
   color: #434343;
   font-size: 17px;
 }
-.panel .panel-heading.ilHeader .dropdown,
-.panel .panel-heading.ilBlockHeader .dropdown {
-  float: right;
-}
 .panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
 .panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
   color: white;
@@ -6951,6 +6947,7 @@ button.close {
 }
 .panel-flex .panel-heading {
   display: flex;
+  justify-content: space-between;
   flex-flow: row wrap;
 }
 .panel-flex .ilHeader {
@@ -6962,24 +6959,21 @@ button.close {
   line-height: 21px;
   order: 1;
 }
-.panel-flex .ilBlockHeader h4 {
+.panel-flex .ilBlockHeader h4,
+.panel-flex .ilHeader h4 {
   flex-grow: 99;
   flex-shrink: 1;
   order: 1;
 }
-.panel-flex .panel-heading .dropdown {
-  flex-grow: 1;
-  flex-shrink: 0;
-  order: 3;
-}
-.panel-flex .panel-heading .dropdown .dropdown-toggle {
-  float: right;
-}
 .panel-flex .il-viewcontrol-sortation {
   flex-grow: 1;
-  flex-shrink: 0;
+  flex-shrink: 1;
   order: 2;
   margin-right: 8px;
+}
+.panel-flex .panel-heading .dropdown {
+  flex-shrink: 1;
+  order: 3;
 }
 .panel-flex .il-viewcontrol-pagination,
 .panel-flex .il-viewcontrol-section {
@@ -7002,9 +6996,6 @@ button.close {
 }
 .panel-secondary .panel-heading.ilHeader h3.ilHeader {
   font-size: 17px;
-}
-.panel-secondary .panel-body {
-  overflow: hidden;
 }
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
@@ -7666,6 +7657,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .il-item-title {
   font-size: 14px;
+  display: inline-block;
 }
 .il-item .il-item-title .btn-link,
 .il-item .il-item-title a {
@@ -7681,6 +7673,7 @@ ul.dropdown-menu > li > .btn:focus {
   border-bottom: dashed 0.5px #dddddd;
 }
 .il-item .dropdown {
+  display: inline-block;
   float: right;
 }
 .il-item .il-item-description {
@@ -7743,81 +7736,32 @@ ul.dropdown-menu > li > .btn:focus {
 .il-notification-item .dropdown {
   margin-top: -20px;
 }
-/* this is currently experimental, could be removed */
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
     padding: 6px 6px;
-    display: table;
     width: 100%;
   }
-  .panel-secondary .il-item h5 {
-    margin-top: 0;
-    font-size: 14px;
-    float: none;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .panel-secondary .il-item .il-item-title {
+    word-break: break-word;
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
     font-size: 11px;
-  }
-  .panel-secondary .il-item .il-item-divider,
-  .panel-secondary .il-item .il-item-property-name,
-  .panel-secondary .il-item .il-item-property-value {
-    display: none;
-  }
-  .panel-secondary .il-item .row {
-    display: table-row;
+    word-break: break-word;
   }
   .panel-secondary .il-item .col-sm-3 {
-    display: table-cell;
-    height: 100%;
-    padding: 0;
-    float: none;
-    vertical-align: top;
+    margin-top: 3px;
+    margin-left: 0;
     width: 45px;
   }
   .panel-secondary .il-item .col-sm-3 img {
     width: 40px;
   }
   .panel-secondary .il-item .col-sm-9 {
-    position: static;
-    display: table-cell;
-    padding: 0 6px;
-    overflow: hidden;
-    max-width: 0;
-    float: none;
-    zoom: 1;
-    vertical-align: top;
-    /* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
-				see known issues at https://caniuse.com/#search=calc */
+    width: calc(100% - 45px);
+  }
+  .panel-secondary .il-item .col-md-6 {
     width: 100%;
-  }
-  .panel-secondary .il-item .dropdown {
-    position: static;
-  }
-  .panel-secondary .il-item .dropdown-menu {
-    width: 100%;
-  }
-  .panel-secondary .il-item .dropdown-toggle {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin-top: -20px;
-    z-index: 1;
-  }
-  .panel-secondary .il-item .open > .dropdown-toggle.btn-default:hover,
-  .panel-secondary .il-item .open > .dropdown-toggle.btn-default {
-    background-color: transparent;
-  }
-  .panel-secondary .il-item button.dropdown-toggle {
-    background-color: transparent;
-    border: 0;
-  }
-  .panel-secondary .il-item button.dropdown-toggle > span {
-    display: none;
   }
 }
 /* otherwise dropdowns in items with icon do not work */
@@ -7828,10 +7772,6 @@ ul.dropdown-menu > li > .btn:focus {
   overflow: visible;
 }
 @media only screen and (max-width: 768px) {
-  .il-item div.col-sm-3 > h5 {
-    font-size: 14px;
-    float: none;
-  }
   .il-item .il-item-divider {
     padding: 10px 0 0 0;
     margin: 0;
@@ -7890,6 +7830,38 @@ ul.dropdown-menu > li > .btn:focus {
   color: #757575;
   padding: 8px 10px;
   font-family: "il-icons";
+}
+.breadcrumb {
+  padding: 0 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: transparent;
+  border-radius: 0px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #557196;
+  content: " \e606\00a0";
+}
+.breadcrumb > .active {
+  color: #3a4c65;
+}
+/* Breadcrumb */
+.breadcrumb {
+  margin: 0.8em 0 20px 0;
+  font-size: 90%;
+}
+.breadcrumb > li + li:before {
+  font-family: 'il-icons';
+}
+@media only screen and (max-width: 768px) {
+  .breadcrumb {
+    margin: 0 0 0 0;
+    padding: 0 5px;
+  }
 }
 /************/
 /* ScaleBar */
@@ -10089,12 +10061,10 @@ footer {
 **************************************************************
 */
 .il-system-info {
-  width: 100%;
   line-height: 20px;
   padding-top: 3px;
   padding-bottom: 3px;
   height: calc(3px + 3px + 20px);
-  z-index: 1;
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -10144,30 +10114,27 @@ footer {
 }
 .il-system-info.full {
   height: auto;
+  overflow: visible;
 }
-.il-system-info div.il-system-info-content {
+.il-system-info div.il-system-info-content-wrapper {
   flex-grow: 4;
   flex-shrink: 1;
   flex-basis: auto;
-  overflow-y: hidden;
+  overflow: hidden;
 }
-.il-system-info div.il-system-info-content span {
-  display: inline-block;
-}
-.il-system-info div.il-system-info-content span.il-system-info-headline {
+.il-system-info div.il-system-info-content-wrapper span.il-system-info-headline {
   text-transform: uppercase;
   font-weight: bold;
   margin-right: 8px;
-}
-.il-system-info div.il-system-info-content span.il-system-info-more {
-  display: none;
 }
 .il-system-info div.il-system-info-actions {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: 60px;
-  align-self: flex-end;
   text-align: right;
+}
+.il-system-info div.il-system-info-actions span.il-system-info-more {
+  display: none;
 }
 .il-system-info:not(:first-child) {
   border-top: none;
@@ -13691,12 +13658,14 @@ div.ilEditVAccordICont {
   border: 0;
 }
 .ilTinyMenuSection .btn svg {
-  fill: white;
+  fill: black;
   margin: -8px;
+}
+.ilTinyMenuSection .btn[disabled] svg {
+  fill: #D0D0D0;
 }
 div.ilTinyMenuSection,
 .il-copg-button-group {
-  float: left;
   white-space: nowrap;
   /* border-right: 1px solid #e0e0e0; */
   /* padding: 0 10px 4px 0; */
@@ -13717,6 +13686,11 @@ div.ilTinyMenuSection p,
     padding: 0 10px 0 0;
     border-right: 0 none;
   }
+}
+div.ilTinyMenuSection button.btn {
+  background: white;
+  border: 0;
+  color: black;
 }
 div.il-copg-button-group ul.dropdown-menu {
   right: auto;
@@ -14033,6 +14007,7 @@ div.ilCOPGMediaPrint {
   width: 95%;
 }
 .ilTinyParagraphClassSelector ul.dropdown-menu,
+.ilTinyMenuSection > div.dropdown:nth-child(2) > ul.dropdown-menu,
 .ilSectionClassSelector ul.dropdown-menu {
   right: auto;
 }
@@ -14078,7 +14053,8 @@ div.ilCOPGMediaPrint {
   margin: 5px 0;
 }
 #copg-editor-slate-content p.ilTinyInfo {
-  padding: 2px;
+  padding: 4px;
+  width: 100%;
 }
 @media only screen and (max-width: 768px) {
   #copg-editor-slate-content p.ilTinyInfo {
@@ -18518,6 +18494,7 @@ span.ilProfileBadge .modal .img-responsive {
   margin-top: 20px;
   padding: 5px;
 }
+
 .ilLSOKioskModeObjectHeader .il_HeaderInner {
   padding-bottom: 5px;
 }
@@ -18552,14 +18529,9 @@ span.ilProfileBadge .modal .img-responsive {
   float: none;
   padding: none;
 }
+
 .ilLSOKioskModeContent .panel-primary .panel-heading {
   display: none;
-}
-.ilLSOKioskModeCurriculum {
-  background-color: #f9f9f9;
-}
-.ilLSOKioskModeCurriculum .il-workflow-container {
-  padding: 5px;
 }
 .ilLearningHistoryShowMore {
   text-align: center;

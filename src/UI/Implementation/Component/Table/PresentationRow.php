@@ -7,6 +7,7 @@ use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\Signal;
 
 class PresentationRow implements T\PresentationRow
 {
@@ -39,7 +40,7 @@ class PresentationRow implements T\PresentationRow
     private $subheadline;
 
     /**
-     * @var	ILIAS\UI\Component\Button\Button|ILIAS\UI\Component\Dropdown\Dropdown|null
+     * @var	\ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Dropdown\Dropdown|null
      */
     private $action;
 
@@ -68,10 +69,14 @@ class PresentationRow implements T\PresentationRow
      */
     private $data;
 
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
+
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
         $this->signal_generator = $signal_generator;
-        $this->actions = null;
         $this->initSignals();
     }
 

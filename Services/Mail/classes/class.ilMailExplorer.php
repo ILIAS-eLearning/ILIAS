@@ -102,14 +102,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent($node)
+    public function getNodeContent($a_node)
     {
-        $content = $node['title'];
+        $content = $a_node['title'];
 
-        if ($node['child'] == $this->getNodeId($this->getRootNode())) {
+        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
             $content = $this->lng->txt('mail_folders');
-        } elseif ($node['depth'] < 3) {
-            $content = $this->lng->txt('mail_' . $node['title']);
+        } elseif ($a_node['depth'] < 3) {
+            $content = $this->lng->txt('mail_' . $a_node['title']);
         }
 
         return $content;
@@ -118,13 +118,13 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeIcon($node)
+    public function getNodeIcon($a_node)
     {
-        if ($node['child'] == $this->getNodeId($this->getRootNode())) {
+        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
         } else {
-            $iconType = $node['m_type'];
-            if ($node['m_type'] === 'user_folder') {
+            $iconType = $a_node['m_type'];
+            if ($a_node['m_type'] === 'user_folder') {
                 $iconType = 'local';
             }
 
@@ -137,14 +137,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeHref($node)
+    public function getNodeHref($a_node)
     {
-        if ($node['child'] == $this->getNodeId($this->getRootNode())) {
-            $node['child'] = 0;
+        if ($a_node['child'] == $this->getNodeId($this->getRootNode())) {
+            $a_node['child'] = 0;
         }
 
-        $this->ctrl->setParameterByClass('ilMailFolderGUI', 'mobj_id', $node['child']);
-        $href = $this->ctrl->getLinkTargetByClass(['ilMailGUI', 'ilMailFolderGUI'], '', '', false, false);
+        $this->ctrl->setParameterByClass('ilMailFolderGUI', 'mobj_id', $a_node['child']);
+        $href = $this->ctrl->getLinkTargetByClass(['ilMailGUI', 'ilMailFolderGUI']);
         $this->ctrl->clearParametersByClass('ilMailFolderGUI');
 
         return $href;

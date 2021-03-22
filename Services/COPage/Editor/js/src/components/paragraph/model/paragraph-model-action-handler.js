@@ -49,6 +49,10 @@ export default class ParagraphModelActionHandler {
 
         case PAGE_ACTIONS.COMPONENT_INSERT:
           this.pageModel.setAddedSection(false);
+          this.pageModel.setPCModel(this.pageModel.getCurrentPCId(), {
+            text: '',
+            characteristic: 'Standard'
+          });
           break;
 
         case PAGE_ACTIONS.COMPONENT_EDIT:
@@ -110,7 +114,7 @@ export default class ParagraphModelActionHandler {
               splitIds.push(pcid);
               this.pageModel.setPCModel(pcid, {
                 text: params.contents[k],
-                characteristic: params.characteristic
+                characteristic: "Standard"
               });
               this.pageModel.setCurrentPageComponent("Paragraph", pcid, "");
               this.pageModel.setUndoPCModel(

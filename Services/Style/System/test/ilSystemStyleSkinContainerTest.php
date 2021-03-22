@@ -112,7 +112,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $container->updateSkin();
-        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() .$this->skin->getId()));
+        $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
     }
 
     public function testUpdateSkinWithChangedID()
@@ -251,7 +251,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . "/style1css.less"));
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $skin_copy->getId() . "/style1css-variables.less"));
 
-        $this->assertEquals($skin->getName()." Copy", $skin_copy->getName());
+        $this->assertEquals($skin->getName() . " Copy", $skin_copy->getName());
         $this->assertEquals("0.1", $skin_copy->getVersion());
     }
 
@@ -263,7 +263,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $skin_copy = $container_copy->getSkin();
 
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "inject"));
-        $this->assertEquals($skin->getName()." inject", $skin_copy->getName());
+        $this->assertEquals($skin->getName() . " inject", $skin_copy->getName());
         $this->assertEquals("0.1", $skin_copy->getVersion());
     }
 

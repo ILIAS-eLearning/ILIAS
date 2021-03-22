@@ -47,14 +47,14 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
     /**
      * Constructor
-     * @param                    $a_parent_obj           Pass an instance of ilObjectGUI
-     * @param integer $a_current_folder_id Id of the current mail box folder
+     * @param ilMailFolderGUI $a_parent_obj Pass an instance of ilObjectGUI
+     * @param int $a_current_folder_id Id of the current mail box folder
      * @param string $a_parent_cmd Command for the parent class
      * @param Factory|null $uiFactory
      * @param Renderer|null $uiRenderer
      */
     public function __construct(
-        $a_parent_obj,
+        ilMailFolderGUI $a_parent_obj,
         $a_current_folder_id,
         $a_parent_cmd = '',
         Factory $uiFactory = null,
@@ -380,10 +380,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
                         }
                     }
                 }
-            } else {
-                if ($key !== 'deleteMails' || $this->isTrashFolder()) {
-                    $this->addMultiCommand($key, $action);
-                }
+            } elseif ($key !== 'deleteMails' || $this->isTrashFolder()) {
+                $this->addMultiCommand($key, $action);
             }
         }
 
@@ -447,6 +445,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $txt_folder = $this->lng->txt('mail_' . $this->_folderNode['title']);
             $img_folder = 'icon' . substr($this->_folderNode['title'], 1) . '.png';
         }
+
+        $result = null;
 
         try {
             if ($this->shouldUseLuceneSearch()) {
@@ -536,20 +536,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']),
                     false
                 );
+            } elseif ($mail['sender_id'] == ANONYMOUS_USER_ID) {
+                $mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
+                $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
             } else {
-                if ($mail['sender_id'] == ANONYMOUS_USER_ID) {
-                    $mail['img_sender'] = ilUtil::getImagePath('HeaderIconAvatar.svg');
-                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
-                } else {
-                    $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+                $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
 
-                    if ($user) {
-                        $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
-                        $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
-                    } else {
-                        $mail['img_sender'] = '';
-                        $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
-                    }
+                if ($user) {
+                    $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
+                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
+                } else {
+                    $mail['img_sender'] = '';
+                    $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
                 }
             }
 
@@ -567,7 +565,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             }
             $css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
-            if ($this->shouldUseLuceneSearch()) {
+            if ($result instanceof ilMailSearchResult) {
                 $search_result = array();
                 foreach ($result->getFields($mail['mail_id']) as $content) {
                     if ('title' == $content[0]) {

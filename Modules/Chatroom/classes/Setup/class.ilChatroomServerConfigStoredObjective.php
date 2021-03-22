@@ -39,7 +39,8 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
     {
         return [
             new \ilIniFilesLoadedObjective(),
-            new \ilDatabaseInitializedObjective()
+            new \ilDatabaseInitializedObjective(),
+            new \ilFileSystemComponentDataDirectoryCreatedObjective("chatroom")
         ];
     }
 
@@ -71,7 +72,7 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $settings['cert'] = $this->config->getCert();
         $settings['key'] = $this->config->getKey();
         $settings['dhparam'] = $this->config->getDhparam();
-        $settings['log'] = (int) $this->config->getLog();
+        $settings['log'] = $this->config->getLog();
         $settings['log_level'] = $this->config->getLogLevel();
         $settings['error_log'] = $this->config->getErrorLog();
         $settings['ilias_proxy'] = (int) $this->config->hasIliasProxy();

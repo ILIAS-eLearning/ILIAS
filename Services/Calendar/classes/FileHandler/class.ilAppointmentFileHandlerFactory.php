@@ -10,6 +10,10 @@ include_once("./Services/Calendar/classes/Appointment/class.ilCalendarAppointmen
  */
 class ilAppointmentFileHandlerFactory extends ilCalendarAppointmentBaseFactory
 {
+    /**
+     * @param $a_appointment
+     * @return ilAppointmentFileHandler
+     */
     public static function getInstance($a_appointment)
     {
         include_once('./Services/Calendar/classes/class.ilCalendarCategoryAssignments.php');

@@ -41,6 +41,9 @@ class Textarea extends Input implements C\Input\Field\Textarea
      */
     public function withMaxLimit($max_limit)
     {
+        /**
+         * @var $clone Textarea
+         */
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_limit)
         );
@@ -64,6 +67,9 @@ class Textarea extends Input implements C\Input\Field\Textarea
      */
     public function withMinLimit($min_limit)
     {
+        /**
+         * @var $clone Textarea
+         */
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMinLength($min_limit)
         );

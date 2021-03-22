@@ -27,6 +27,7 @@ class UIWrapper
     {
         $this->ui = $ui;
         $this->lng = $lng;
+        $this->lng->loadLanguageModule("copg");
     }
 
     /**
@@ -66,6 +67,15 @@ class UIWrapper
         $ui = $this->ui;
         $f = $ui->factory();
         $m = $f->messageBox()->info($text);
+        return $ui->renderer()->renderAsync($m);
+    }
+
+    public function getRenderedFailureBox() {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->failure($this->lng->txt("copg_an_error_occured"))
+            ->withLinks([$f->link()->standard($this->lng->txt("copg_details"), "#")]);
+
         return $ui->renderer()->renderAsync($m);
     }
 

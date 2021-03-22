@@ -4,10 +4,13 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropdown;
 
+use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use \ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Implementation\Component\Dropdown\Dropdown;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -18,10 +21,13 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
+        /**
+         * @var $component Dropdown
+         */
         return $this->renderDropdown($component, $default_renderer);
     }
 
-    protected function renderDropdown(Component\Dropdown\Dropdown $component, RendererInterface $default_renderer)
+    protected function renderDropdown(Dropdown $component, RendererInterface $default_renderer)
     {
 
         // get template
@@ -59,11 +65,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param array $items
-     * @param ilTemplate $tpl
-     */
-    protected function renderItems($items, $tpl, $default_renderer)
+    protected function renderItems(array $items, Template $tpl, RendererInterface $default_renderer)
     {
         foreach ($items as $item) {
             $tpl->setCurrentBlock("item");
@@ -73,7 +75,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
 
-    protected function maybeRenderId(Component\Component $component, $tpl, $block, $template_var)
+    protected function maybeRenderId(JavaScriptBindable $component, Template $tpl, $block, $template_var)
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
@@ -82,23 +84,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
     }
-
-
-    /**
-     * Append a block to touch during rendering and return cloned instance
-     *
-     * @param string 	$block
-     *
-     * @return Renderer
-     */
-    public function withBlocksToBeTouched($block)
-    {
-        assert(is_string($block));
-        $clone = clone $this;
-        $clone->touch_blocks[] = $block;
-        return $clone;
-    }
-
 
     /**
      * @inheritdoc

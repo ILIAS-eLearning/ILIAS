@@ -439,15 +439,17 @@ export default class PageUI {
     const model = this.model;
     const multi = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.multi']");
     const single = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.single']");
-    if (model.getState() === model.STATE_PAGE) {
-      multi.disabled = false;
-      single.disabled = true;
-    } else {
-      multi.disabled = true;
-      single.disabled = false;
-    }
     multi.classList.remove("engaged");
     single.classList.remove("engaged");
+    if (model.getState() === model.STATE_PAGE) {
+      //multi.disabled = false;
+      //single.disabled = true;
+      single.classList.add("engaged");
+    } else {
+      //multi.disabled = true;
+      //single.disabled = false;
+      multi.classList.add("engaged");
+    }
   }
 
   initFormatButtons() {
@@ -574,7 +576,7 @@ export default class PageUI {
         break;
 
       default:
-        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions);
+        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions + this.uiModel.multiEditHelp);
         this.initTopActions();
         this.initMultiButtons();
         break;

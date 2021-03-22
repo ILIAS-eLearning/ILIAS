@@ -1,6 +1,7 @@
 import ACTIONS from "../actions/paragraph-action-types.js";
 import PAGE_ACTIONS from "../../page/actions/page-action-types.js";
 import TinyWrapper from "./tiny-wrapper.js";
+import TINY_CB from "./tiny-wrapper-cb-types.js";
 import AutoSave from "./auto-save.js";
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
@@ -115,13 +116,17 @@ export default class ParagraphUI {
     this.actionFactory = actionFactory;
     this.page_model = page_model;
     this.toolSlate = toolSlate;
-    this.tinyWrapper = new TinyWrapper((tiny, contents) => {
+    this.tinyWrapper = new TinyWrapper();
+    this.switchToEnd = false;
+
+    this.tinyWrapper.addCallback(TINY_CB.SPLIT_ON_RETURN, (tiny, contents) => {
       dispatcher.dispatch(actionFactory.paragraph().editor().
-        splitParagraph(this.page_model.getCurrentPCId(), tiny.getText(), tiny.getCharacteristic(), contents));
-    }, (tiny, previous) => {
+      splitParagraph(this.page_model.getCurrentPCId(), tiny.getText(), tiny.getCharacteristic(), contents));
+    });
+    this.tinyWrapper.addCallback(TINY_CB.MERGE, (tiny, previous) => {
       this.checkMerge(tiny, previous);
-    }
-    );
+    });
+
     this.pageModifier = pageModifier;
     this.autoSave = autosave;
     this.pc_id_str = '';
@@ -166,6 +171,7 @@ export default class ParagraphUI {
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
+    const pageModel = this.page_model;
 
     this.uiModel = uiModel;
     let t = this;
@@ -178,9 +184,14 @@ export default class ParagraphUI {
 
     this.log("set interval: " + this.uiModel.autoSaveInterval);
     this.autoSave.setInterval(this.uiModel.autoSaveInterval);
-    this.autoSave.setOnAutoSave(() => {
-      dispatch.dispatch(action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic()));
+    this.autoSave.addOnAutoSave(() => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        let act = action.paragraph().editor().autoSave(wrapper.getText(), wrapper.getCharacteristic());
+        dispatch.dispatch(act);
+      }
     });
+
+    this.initWrapperCallbacks();
   }
 
   initTinyWrapper() {
@@ -636,7 +647,7 @@ export default class ParagraphUI {
     this.tinyWrapper.setContent(text, characteristic);
     for (let k = 0; k < newParagraphs.length; k++) {
       this.tinyWrapper.stopEditing();
-      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, characteristic);
+      this.insertParagraph(newParagraphs[k].pcid, afterPcid, newParagraphs[k].model.text, "Standard");
       afterPcid = newParagraphs[k].pcid;
     }
   }
@@ -725,27 +736,64 @@ export default class ParagraphUI {
     }
   }
 
+  initWrapperCallbacks() {
+    const wrapper = this.tinyWrapper;
+    const parUI = this;
+    const pageModel = parUI.page_model;
+
+    wrapper.addCallback(TINY_CB.SWITCH_LEFT, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.switchToPrevious();
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_UP, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.switchToPrevious();
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_RIGHT, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.switchToNext();
+      }
+    });
+    wrapper.addCallback(TINY_CB.SWITCH_DOWN, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.switchToNext();
+      }
+    });
+    wrapper.addCallback(TINY_CB.KEY_UP, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        parUI.autoSave.handleAutoSaveKeyPressed();
+      }
+    });
+    wrapper.addCallback(TINY_CB.AFTER_INIT, () => {
+      if (pageModel.getCurrentPCName() === "Paragraph") {
+        let pcId;
+        pcId = pageModel.getCurrentPCId();
+        let pcModel = pageModel.getPCModel(pcId);
+        if (pcModel) {
+          wrapper.initContent(pcModel.text, pcModel.characteristic);
+        }
+        parUI.showToolbar();
+        if (pcModel) {
+          parUI.setParagraphClass(pcModel.characteristic);
+          parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
+        }
+        if (parUI.switchToEnd) {
+          wrapper.switchToEnd();
+        }
+      }
+    });
+  }
+
   editParagraph(pcId, switchToEnd)
   {
     this.log("paragraph-ui.editParagraph");
     let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcId + "']");
     let pc_model = this.page_model.getPCModel(pcId);
     const wrapper = this.tinyWrapper;
-    wrapper.initEdit(content_el, pc_model.text, pc_model.characteristic, () => {
-      wrapper.initContent(pc_model.text, pc_model.characteristic);
-      this.showToolbar();
-      this.setParagraphClass(pc_model.characteristic);
-      this.setSectionClassSelector(this.getSectionClass(pcId));
-      if (switchToEnd) {
-        wrapper.switchToEnd();
-      }
-    }, () => {
-      this.autoSave.handleAutoSaveKeyPressed();
-    }, () => {
-      this.switchToPrevious();
-    }, () => {
-      this.switchToNext();
-    });
+    this.switchToEnd = switchToEnd;
+    wrapper.initEdit(content_el, pc_model.text, pc_model.characteristic);
   }
 
   eventT(ed)
@@ -956,8 +1004,6 @@ export default class ParagraphUI {
       cnt++;
     });
 
-    console.log("****");
-    console.log(content);
 
     /*
     pcarea.querySelectorAll("div", (d) => {
@@ -1113,4 +1159,13 @@ export default class ParagraphUI {
     this.tinyWrapper.stopEditing();
     this.editParagraph(previousPcid, true);
   }
+
+  showError(error) {
+    this.pageModifier.displayError(error);
+  }
+
+  clearError() {
+    this.pageModifier.clearError();
+  }
+
 }

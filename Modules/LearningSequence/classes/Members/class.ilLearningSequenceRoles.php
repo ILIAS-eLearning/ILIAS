@@ -139,10 +139,12 @@ class ilLearningSequenceRoles
         return $this->join($user_id, $role);
     }
 
-    public function join(int $user_id) : bool
+    public function join(int $user_id, int $role = null) : bool
     {
-        $role = $this->getDefaultMemberRole();
-        $this->rbacadmin->assignUser($role, $user_id, false);
+        if (is_null($role)) {
+            $role = $this->getDefaultMemberRole();
+        }
+        $this->rbacadmin->assignUser($role, $user_id);
         return true;
     }
 

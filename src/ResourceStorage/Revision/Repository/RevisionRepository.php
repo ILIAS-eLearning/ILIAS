@@ -10,26 +10,36 @@ use ILIAS\ResourceStorage\Revision\RevisionCollection;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Lock\LockingRepository;
+use ILIAS\ResourceStorage\Revision\CloneRevision;
+use ILIAS\ResourceStorage\Revision\FileRevision;
+use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 
 /**
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @internal
  */
 interface RevisionRepository extends LockingRepository
 {
 
-    /**
-     * @param StorableResource $resource
-     * @param UploadResult     $result
-     * @return UploadedFileRevision
-     */
-    public function blank(StorableResource $resource, UploadResult $result) : UploadedFileRevision;
+    public function blankFromUpload(
+        InfoResolver $info_resolver,
+        StorableResource $resource,
+        UploadResult $result
+    ) : UploadedFileRevision;
 
     public function blankFromStream(
+        InfoResolver $info_resolver,
         StorableResource $resource,
         FileStream $stream,
         bool $keep_original = false
     ) : FileStreamRevision;
+
+    public function blankFromClone(
+        InfoResolver $info_resolver,
+        StorableResource $resource,
+        FileRevision $revision_to_clone
+    ) : CloneRevision;
 
     /**
      * @param Revision $revision

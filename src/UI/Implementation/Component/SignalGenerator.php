@@ -9,7 +9,7 @@ namespace ILIAS\UI\Implementation\Component;
  */
 class SignalGenerator implements SignalGeneratorInterface
 {
-    const PREFIX = 'il_signal_';
+    public const PREFIX = 'il_signal_';
 
     /**
      * @inheritdoc

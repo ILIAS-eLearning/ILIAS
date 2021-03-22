@@ -9,7 +9,7 @@ use ILIAS\UI\Component;
 
 class GlyphRendererFactory extends Render\DefaultRendererFactory
 {
-    const USE_BUTTON_CONTEXT_FOR = [
+    public const USE_BUTTON_CONTEXT_FOR = [
         'BulkyButton',
         'BulkyLink'
     ];

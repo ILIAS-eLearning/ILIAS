@@ -11,8 +11,10 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 class Bulky extends Link implements C\Link\Bulky
 {
-
     use JavaScriptBindable;
+
+    // allowed ARIA roles
+    public const MENUITEM = 'menuitem';
 
     /**
      * @var string
@@ -20,9 +22,21 @@ class Bulky extends Link implements C\Link\Bulky
     protected $label;
 
     /**
-     * @var Symbol
+     * @var string
+     */
+    protected $aria_role;
+
+    /**
+     * @var C\Symbol\Symbol
      */
     protected $symbol;
+
+    /**
+     * @var string[]
+     */
+    protected static $allowed_aria_roles = array(
+        self::MENUITEM
+    );
 
     public function __construct(C\Symbol\Symbol $symbol, string $label, \ILIAS\Data\URI $target)
     {
@@ -45,5 +59,34 @@ class Bulky extends Link implements C\Link\Bulky
     public function getSymbol() : C\Symbol\Symbol
     {
         return $this->symbol;
+    }
+
+    /**
+     * Get a button like this, but with an additional ARIA role.
+     *
+     * @param string $aria_role
+     * @return Bulky
+     */
+    public function withAriaRole(string $aria_role) : Bulky
+    {
+        $this->checkArgIsElement(
+            "role",
+            $aria_role,
+            self::$allowed_aria_roles,
+            implode('/', self::$allowed_aria_roles)
+        );
+        $clone = clone $this;
+        $clone->aria_role = $aria_role;
+        return $clone;
+    }
+
+    /**
+     * Get the ARIA role on the button.
+     *
+     * @return string|null
+     */
+    public function getAriaRole() : ?string
+    {
+        return $this->aria_role;
     }
 }

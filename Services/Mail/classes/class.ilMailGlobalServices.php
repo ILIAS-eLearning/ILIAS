@@ -15,7 +15,7 @@ class ilMailGlobalServices
      *
      * Cache array key for mail object reference id
      *
-     * @var    integer
+     * @var    int
      *
      */
     const CACHE_TYPE_REF_ID = 0;
@@ -24,7 +24,7 @@ class ilMailGlobalServices
      *
      * Cache array key for number of new mails
      *
-     * @var    integer
+     * @var    int
      *
      */
     const CACHE_TYPE_NEW_MAILS = 1;
@@ -45,7 +45,7 @@ class ilMailGlobalServices
      * Determines the reference id of the mail object and stores this information in a local cache variable
      *
      * @access    public
-     * @return    integer    The reference id of the mail object
+     * @return    int    The reference id of the mail object
      * @static
      *
      */
@@ -88,7 +88,7 @@ class ilMailGlobalServices
      * @access    public
      * @param $usr_id
      * @param int $leftInterval
-     * @return    integer    The number on unread mails (system messages + inbox mails) for the passed user id
+     * @return int The number on unread mails (system messages + inbox mails) for the passed user id
      * @static
      *
      */

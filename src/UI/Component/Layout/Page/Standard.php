@@ -7,9 +7,10 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\SystemInfo;
-use ILIAS\UI\Component\MainControls\Mainbar;
-use ILIAS\UI\Component\MainControls\Metabar;
+use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\ModeInfo;
+use ILIAS\UI\Component\MainControls\Footer;
 
 /**
  * This describes the Page.
@@ -18,11 +19,11 @@ interface Standard extends Page, JavaScriptBindable
 {
 
     /**
-     * @param Metabar $meta_bar
+     * @param MetaBar $meta_bar
      *
      * @return Standard
      */
-    public function withMetabar(Metabar $meta_bar) : Standard;
+    public function withMetabar(MetaBar $meta_bar) : Standard;
 
     /**
      * @param Mainbar $main_bar

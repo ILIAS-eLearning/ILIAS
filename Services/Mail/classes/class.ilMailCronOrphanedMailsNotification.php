@@ -47,14 +47,14 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
             $this->appendBody($this->getLanguage()->txt('orphaned_mail_body'));
             $this->appendBody("\n\n");
             
-            $body = $this->getOrphandMailsBody();
-            $this->appendBody($body);
+            $this->appendOrphandMailsBody();
+
             $this->appendBody(ilMail::_getInstallationSignature());
             $this->sendMimeMail($this->getCurrentRecipient());
         }
     }
     
-    public function getOrphandMailsBody()
+    public function appendOrphandMailsBody()
     {
         $additional_information = $this->getAdditionalInformation();
         $mail_folders = $additional_information['mail_folders'];

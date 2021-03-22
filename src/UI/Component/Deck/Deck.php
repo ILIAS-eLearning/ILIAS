@@ -21,12 +21,12 @@ interface Deck extends \ILIAS\UI\Component\Component
      *      Large:         1 (xs-12) 2 (sm-6)  2 (md-6) 3 (lg-4)
      *      Extra Large:   1 (xs-12) 1 (sm-12) 2 (md-6) 2 (lg-6)
      */
-    const SIZE_XS = 1;
-    const SIZE_S = 2;
-    const SIZE_M = 3;
-    const SIZE_L = 4;
-    const SIZE_XL = 6;
-    const SIZE_FULL = 12;
+    public const SIZE_XS = 1;
+    public const SIZE_S = 2;
+    public const SIZE_M = 3;
+    public const SIZE_L = 4;
+    public const SIZE_XL = 6;
+    public const SIZE_FULL = 12;
 
     /**
      * Set the cards to be displayed in the deck
@@ -89,7 +89,7 @@ interface Deck extends \ILIAS\UI\Component\Component
     /**
      * Set the cards size to full:
      *  - 1 Cards on all screen sizes
-     * 
+     *
      * @param int Size of the card
      * @return Deck
      */

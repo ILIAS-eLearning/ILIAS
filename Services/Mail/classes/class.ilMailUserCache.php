@@ -56,7 +56,7 @@ class ilMailUserCache
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
-                $user = new ilObjUser;
+                $user = new ilObjUser();
                 $user->setId($row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);

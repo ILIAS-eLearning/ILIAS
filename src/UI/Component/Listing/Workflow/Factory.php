@@ -32,7 +32,7 @@ interface Factory
      *
      * @param string 	$label
      * @param string 	$description
-     * @param null|string|Signal 	$action
+     * @param null|string|\ILIAS\UI\Component\Signal 	$action
      * @return  \ILIAS\UI\Component\Listing\Workflow\Step
      */
     public function step($label, $description = '', $action = null);

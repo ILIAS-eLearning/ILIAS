@@ -22,6 +22,10 @@ class ilDclRecordEditGUI
     const REDIRECT_RECORD_LIST = 1;
     const REDIRECT_DETAIL = 2;
     /**
+     * @var bool
+     */
+    protected $tableview_id;
+    /**
      * @var int
      */
     protected $record_id;
@@ -86,6 +90,10 @@ class ilDclRecordEditGUI
         $this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_REQUEST['table_id'];
         $this->tableview_id = $_REQUEST['tableview_id'];
+        if (!$this->tableview_id) {
+            $this->tableview_id = ilDclCache::getTableCache($this->table_id)
+                                         ->getFirstTableViewId($this->parent_obj->ref_id);
+        }
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
 
@@ -121,7 +129,7 @@ class ilDclRecordEditGUI
         $this->ctrl->saveParameter($this, 'redirect');
         if ($this->record_id) {
             $this->record = ilDclCache::getRecordCache($this->record_id);
-            if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) or !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
+            if (!($this->record->hasPermissionToEdit($this->parent_obj->ref_id) and $this->record->hasPermissionToView($this->parent_obj->ref_id)) && !$this->record->hasPermissionToDelete($this->parent_obj->ref_id)) {
                 $this->accessDenied();
             }
             $this->table = $this->record->getTable();

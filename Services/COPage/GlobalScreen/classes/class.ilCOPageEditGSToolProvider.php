@@ -57,6 +57,6 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getContent() : string
     {
-        return "<div id='copg-editor-slate-content'></div>";
+        return "<div id='copg-editor-slate-error'></div><div id='copg-editor-slate-content'></div>";
     }
 }

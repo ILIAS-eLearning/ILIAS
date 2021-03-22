@@ -12,7 +12,10 @@
  */
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
+    /** @var \ILIAS\DI\RBACServices */
     private $rbac;
+    /** @var ilErrorHandling */
+    private $error;
 
     /**
      * Contructor
@@ -21,7 +24,9 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
+
         $this->rbac = $DIC->rbac();
+        $this->error = $DIC['ilErr'];
 
         $this->type = 'frma';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -33,6 +38,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
      */
     public function executeCommand()
     {
+        if (!$this->rbac->system()->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
+        }
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 

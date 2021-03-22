@@ -8,6 +8,7 @@ const ACTIONS = {
   INSERT: "insert",                        // inserts paragraph
   UPDATE: "update",                        // update paragraph
   UPDATE_AUTO: "update.auto",              // auto update paragraph
+  INSERT_AUTO: "insert.auto",              // auto insert paragraph
   SPLIT: "split",              // split paragraph
   CMD_SECTION_CLASS: "cmd.sec.class",    // section format
   CMD_MERGE_PREVIOUS: "cmd.merge.previous",    // merge with previous paragraph
