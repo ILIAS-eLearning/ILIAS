@@ -1,12 +1,12 @@
 /* --- Services/COPage ---*/
 
 a.ilEditSubmit {
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
+	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
 	padding: 2px;
 	margin: 0;
 	border: 1px solid #bababa;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
+	border-bottom-color: @il-neutral-light-color;
+	border-right-color: @il-neutral-light-color;
 	text-decoration: none;
 	font-size: 80%;
 	line-height: 14px;
@@ -20,12 +20,12 @@ input.ilEditSubmit {
 	font-size: 12px;
 	line-height: 14px;
 	cursor: pointer;
-	background: url("@{background-images-path}ButtonsBack.png") repeat-x bottom white;
+	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
 	border: 1px solid #bababa;
-	border-bottom-color: #808080;
-	border-right-color: #808080;
+	border-bottom-color: @il-neutral-light-color;
+	border-right-color: @il-neutral-light-color;
 	&:hover {
-		color: black;
+		color: @il-text-hover-color;
 	}
 }
 
@@ -77,15 +77,15 @@ button.copg-add.dropdown-toggle.btn:hover,
 
 button.copg-add.dropdown-toggle.btn:hover {
 	background-color: #f3f3f3;
-	color: #797979;
+	color: @il-text-light-color;
 }
 
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
 	left: 45%;
 }
 button.copg-add:hover {
-	color: lighten(@brand-secondary, 10%);
-	background-color: lighten(@brand-secondary, 52%);
+	color: lighten(@il-secondary-color, 10%);
+	background-color: lighten(@il-secondary-color, 52%);
 }
 
 div.il_droparea {
@@ -101,9 +101,9 @@ div.il_droparea {
 
 
 div.il_droparea:hover, div.ilCOPGDropActice, .il_droparea_valid_target {
-	border-color: lighten(@brand-secondary, 10%);
-	color: lighten(@brand-secondary, 10%);
-	background-color: lighten(@brand-secondary, 52%);	
+	border-color: lighten(@il-secondary-color, 10%);
+	color: lighten(@il-secondary-color, 10%);
+	background-color: lighten(@il-secondary-color, 52%);
 }
 
 div.ilCOPGNoPageContent {
@@ -123,13 +123,13 @@ div.il_editarea {
 
 .copg-state-page, .copg-state-multi {
 	div.il_editarea:hover {
-		border: 2px solid @brand-primary;
+		border: 2px solid @il-main-color;
 	}
 }
 
 div.ilEditLabel {
 	position: absolute;
-	background-color: @brand-primary;
+	background-color: @il-main-color;
 	color: #f0f0f0;
 	font-size: 70%;
 	padding: 1px 3px;
@@ -148,7 +148,7 @@ div.ilEditLabel {
 }
 
 div.il_editarea_selected:hover > div.ilEditLabel {
-	background-color: @brand-secondary;
+	background-color: @il-secondary-color;
 }
 
 
@@ -167,18 +167,18 @@ div.il_editarea_disabled {
 	font-size: @font-size-small;
 	margin-top: -22px;
 	padding: 2px 5px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-dark-bg;
 }
 
 
 div.il_editarea_selected, div.copg-current-edit, #tinytarget_ifr {
 	border-style: solid;
 	border-width: 2px;
-	border-color: lighten(@brand-secondary, 30%);
+	border-color: lighten(@il-secondary-color, 30%);
 }
 
 div.il_editarea_selected:hover {
-	border-color: @brand-secondary;
+	border-color: @il-secondary-color;
 }
 
 div.il_editarea_disabled_selected
@@ -260,7 +260,7 @@ div.ilTinyMenuSection, .il-copg-button-group {
 	p {
 		margin-bottom: 5px;
 		padding: 2px 5px;
-		background-color: darken(@il-secondary-container-bg, 4%);
+		background-color: darken(@il-main-dark-bg, 4%);
 	}
 
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -289,7 +289,7 @@ div.il-copg-button-group-wide {
 [dir="rtl"] div.ilTinyMenuSection {
 	float: right;
     border-right: none;
-    border-left: 1px solid #e0e0e0;
+    border-left: 1px solid @il-main-border-color;
     padding: 0 0 4px 10px;
 	margin-right: 0;
 	margin-left: 10px;
@@ -315,13 +315,6 @@ div.il-copg-button-group-wide {
 }
 
 #iltinymenu {
-	/*z-index: 1040 !important;
-	position: fixed;
-	left: 0;
-	right: 0;
-	top: 0;
-	background-color: @il-secondary-container-bg;
-    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));*/
 	.bd {
 		div {
 			&.last {
@@ -332,7 +325,7 @@ div.il-copg-button-group-wide {
 				margin: 0;
 			}
 			.small {
-				color: #909090;
+				color: @il-text-light-color;
 				font-style: italic;
 			}
 		}
@@ -386,7 +379,7 @@ a.ilTinyMenuDropDown {
 div.ilc_page_toc_PageTOC {
 	font-size: 90%;
 	padding: 5px 5px 10px;
-	background-color: #fafafa;
+	background-color: @il-main-dark-bg;
 	border: 1px solid #f0f0f0;
 	float: left;
 }
@@ -430,7 +423,7 @@ td.ilc_PageDisabled {
 	padding: 20px;
 	border: 1px solid #9eadba;
 	margin-bottom: 0;
-	border-left: 3px dotted red;
+	border-left: 3px dotted @il-danger-color;
 }
 
 div.ilc_DefinitionHeader {
@@ -509,7 +502,7 @@ div.ilEditModified, div.ilEditDeleted, div.ilEditNew {
 }
 
 div.ilEditModified {
-	border-color: @brand-primary;
+	border-color: @il-main-color;
 }
 
 div.ilEditDeleted {
@@ -517,7 +510,7 @@ div.ilEditDeleted {
 }
 
 div.ilEditNew {
-	border-color: @brand-secondary;
+	border-color: @il-secondary-color;
 }
 
 .ilCOPGCompareLegend {
@@ -531,16 +524,16 @@ span.ilDiffDel {
 }
 
 span.ilDiffIns {
-	background-color: lighten(@brand-secondary, 30%);
+	background-color: lighten(@il-secondary-color, 30%);
 }
 
 a.nostyle:link, a.nostyle:visited {
 	text-decoration: none;
-	color: black;
+	color: @il-text-hover-color;
 }
 
 a.nostyle:hover {
-	color: black;
+	color: @il-text-hover-color;
 }
 
 #ilEditorPanel_c {
@@ -591,13 +584,13 @@ a.nostyle:hover {
 	text-align: center;
 	display: table-cell;
 	vertical-align: middle;
-	background-color: darken(@brand-secondary, 20%);
+	background-color: darken(@il-secondary-color, 20%);
 	color: white;
 }
 
 .ilCOPgEditStyleSelectionItem {
 	padding: 10px;
-	background-color: @il-primary-container-bg;
+	background-color: @il-main-dark-bg;
 	cursor: pointer;
 }
 
@@ -638,9 +631,9 @@ div.ilc_question_MultipleChoice .ilc_qanswer_Answer > div:first-child {
 
 
 div.ilCOPGMediaPrint {
-	background-color: @il-secondary-container-bg !important;
+	background-color: @il-main-dark-bg !important;
 	position: relative !important;
-	background-image: url("@{background-images-path}play.svg") !important;
+	background-image: url("@{il-background-images-path}play.svg") !important;
 	background-position: 50% 50% !important;
 	background-repeat: no-repeat !important;
 	background-size: auto 90% !important;
@@ -773,14 +766,14 @@ p#copg-auto-save {
 
 #ed_datatable {
 
-	background-color: #ffffff;
+	background-color: @il-main-bg;
 
 	th {
-		background-color: #fbfbfb;
+		background-color: @il-main-dark-bg;
 		.dropdown button {
-			background-color: #fbfbfb;
+			background-color: @il-main-dark-bg;
 			text-align: center;
-			color: #303030;
+			color: @il-text-color;
 			width: 100%;
 			border: 0;
 		}
@@ -793,13 +786,13 @@ p#copg-auto-save {
 
 .copg-new-content-placeholder {
 	text-align: center;
-	color: #808080;
+	color: @il-text-light-color;
 	padding: 20px;
 }
 
 .il-copg-drag {
 	width: 40px;
-	border: 1px solid @brand-primary;
+	border: 1px solid @il-main-color;
 	height: 30px;
 	z-index: 100000;
 }

@@ -23,7 +23,7 @@
 			&,
 			&:hover,
 			&:focus {
-				background-color: lighten(@gray, 15%);
+				background-color: @il-neutral-color;
 				color: white;
 				border: 0 none;
 			}
@@ -43,7 +43,7 @@
 	padding: 0;
 	margin:  7px 15px 23px;
 	border: 0 none;
-	border-bottom: 2px solid lighten(@gray, 15%);
+	border-bottom: 2px solid @il-neutral-color;
 }
 
 .ilSetupContent #ilTab {
@@ -51,7 +51,6 @@
 }
 
 .ilTabsContentOuter {
-	/* background-color: white; */
 	padding: 0;
 }
 
@@ -59,8 +58,6 @@
 #ilSubTab {
 	padding: 5px 20px;
 	margin: -23px 0 10px;
-	/* border-bottom: 1px solid lighten(@mid-gray, 55%);
-	box-shadow: 0 2px 1px -1px white; */
 	> li {
 		> a {
 			border-radius: 0;
@@ -68,14 +65,14 @@
 			font-size: (@font-size-small * 0.97);
 			/* font-weight: 600; */
 			&:hover {
-				color: @link-hover-color;
+				color: @il-link-hover-color;
 			}
 		}
 		&.active > a {
 			&,
 			&:hover,
 			&:focus {
-				color: @link-color;
+				color: @il-link-color;
 				background-color: transparent;
 				text-decoration: underline;
 			}

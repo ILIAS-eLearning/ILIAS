@@ -35,7 +35,7 @@
 		.reset-filter();
 		border: 0 none;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			background-color: @il-secondary-container-bg;
+			background-color: @il-main-dark-bg;
 		}
 	}
 	.dropdown-menu {
@@ -105,7 +105,7 @@
 			&:focus {
 				//background-color: lighten(@ilMainMenuColor, 42%);
 				outline: 0 none;
-				border-top: 4px solid @brand-primary;
+				border-top: 4px solid @il-main-color;
 				background-color: @il-main-menu-link-active-bg;
 				color: @il-main-menu-link-active-color;
                 .box-shadow(3px 9px 9px 0px rgba(0,0,0,0.176));
@@ -208,7 +208,7 @@
 }
 
 input.ilOpenIDBox {
-	background: url("@{background-images-path}openid.png") no-repeat 1px 2px white;
+	background: url("@{il-background-images-path}openid.png") no-repeat 1px 2px white;
 	padding-left: 20px;
 }
 

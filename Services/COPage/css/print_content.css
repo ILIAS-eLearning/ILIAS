@@ -14,7 +14,7 @@ a.menu:link, a.menu:visited {
 }
 
 table.fullwidth_invisible {
-	color:#222222;
+	color:#434343;
 	background-color:#FFFFFF;
 	width:100%;
 	border-spacing:0px;
@@ -116,7 +116,7 @@ html.ilc_Fullscreen, body.ilc_Fullscreen
 
 table.ilc_FileList
 {
-	color: #222222;
+	color: #434343;
 	background-color: #c0c0c0;
 	width: 100%;
 	border-spacing: 1px;
