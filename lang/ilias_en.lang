@@ -7208,10 +7208,8 @@ search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for users
-search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_grp_title#:#Group Name
 search#:#search_hide_adv_search#:#Hide Advanced Search
-search#:#search_index#:#Indexed search
 search#:#search_like_info#:#Choose this option to get best results.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lom#:#LOM Metadata

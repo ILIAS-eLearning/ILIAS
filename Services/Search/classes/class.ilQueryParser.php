@@ -83,13 +83,6 @@ class ilQueryParser
 
     public function setMinWordLength($a_length, $a_force = false)
     {
-        // Due to a bug in mysql fulltext search queries with min_word_legth < 3
-        // might freeze the system.
-        // Thus min_word_length cannot be set to values < 3 if the mysql fulltext is used.
-        if (!$a_force and $this->settings->enabledIndex() and $a_length < 3) {
-            ilLoggerFactory::getLogger('src')->debug('Disabled min word length');
-            return false;
-        }
         $this->min_word_length = $a_length;
         return true;
     }

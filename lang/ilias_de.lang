@@ -8602,10 +8602,8 @@ search#:#search_for_crs_members#:#Nach Kursen suchen
 search#:#search_for_grp_members#:#Nach Gruppen suchen
 search#:#search_for_role_members#:#Nach Rollen suchen
 search#:#search_for_users#:#Nach Benutzern suchen
-search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_grp_title#:#Gruppenname
 search#:#search_hide_adv_search#:#Erweiterte Suche ausblenden
-search#:#search_index#:#Indizierte Suche
 search#:#search_item_filter_form#:#Suche nach Typ
 search#:#search_item_filter_form_info#:#Suche wird auf die ausgewählten Objekttypen beschränkt.
 search#:#search_like_info#:#Wählen Sie diese Suchart, um möglichst genaue Treffer zu erhalten. Auf größeren Installationen kann die Suchgeschwindigkeit jedoch zu langsam sein.

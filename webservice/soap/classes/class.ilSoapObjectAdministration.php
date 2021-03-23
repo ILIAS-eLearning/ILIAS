@@ -336,7 +336,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         include_once './Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser($a_title);
-        $query_parser->setMinWordLength(0, true);
+        $query_parser->setMinWordLength(0);
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {

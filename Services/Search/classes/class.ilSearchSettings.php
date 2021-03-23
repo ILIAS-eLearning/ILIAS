@@ -14,7 +14,6 @@
 class ilSearchSettings
 {
     const LIKE_SEARCH = 0;
-    const INDEX_SEARCH = 1;
     const LUCENE_SEARCH = 2;
     
     const OPERATOR_AND = 1;
@@ -46,7 +45,6 @@ class ilSearchSettings
 
     public $ilias = null;
     public $max_hits = null;
-    public $index = null;
 
     public function __construct()
     {
@@ -187,10 +185,6 @@ class ilSearchSettings
     public function enabledIndex()
     {
         return $this->index ? true : false;
-    }
-    public function enableIndex($a_status)
-    {
-        $this->index = $a_status;
     }
     public function enabledLucene()
     {
@@ -437,7 +431,6 @@ class ilSearchSettings
         $ilSetting = $DIC['ilSetting'];
 
         $this->ilias->setSetting('search_max_hits', $this->getMaxHits());
-        $this->ilias->setSetting('search_index', (int) $this->enabledIndex());
         $this->ilias->setSetting('search_lucene', (int) $this->enabledLucene());
         
         $this->ilias->setSetting('lucene_default_operator', $this->getDefaultOperator());
@@ -472,7 +465,6 @@ class ilSearchSettings
         $ilSetting = $DIC['ilSetting'];
         
         $this->setMaxHits($this->ilias->getSetting('search_max_hits', 10));
-        $this->enableIndex($this->ilias->getSetting('search_index', 0));
         $this->enableLucene($this->ilias->getSetting('search_lucene', 0));
         
         $this->setDefaultOperator($this->ilias->getSetting('lucene_default_operator', self::OPERATOR_AND));
