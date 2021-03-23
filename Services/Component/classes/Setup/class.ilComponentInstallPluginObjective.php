@@ -117,9 +117,21 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getLogger()
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
+            public function __construct() {}
+            public static function getRootLogger()
             {
+                return new class() extends ilLogger {
+                    public function __construct() {}
+                    public function write($m, $l = ilLogLevel::INFO) {}
+                };
+            }
+            public static function getLogger($a)
+            {
+                return new class() extends ilLogger {
+                    public function __construct() {}
+                    public function write($m, $l = ilLogLevel::INFO) {}
+                };
             }
         };
         $GLOBALS["DIC"]["ilBench"] = null;
@@ -133,16 +145,28 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
-        $GLOBALS["DIC"]["ilUser"] = new class() {
+        $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
             public $prefs = [];
-            public function __construct()
-            {
-                $this->prefs['language'] = 'en';
+
+            public function __construct() {
+                $this->prefs["language"] = "en";
             }
         };
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);
+        }
+
+        if (!defined('SYSTEM_ROLE_ID')) {
+            define('SYSTEM_ROLE_ID', '2');
+        }
+
+        if (!defined("CLIENT_ID")) {
+            define('CLIENT_ID', $client_ini->readVariable('client', 'name'));
+        }
+
+        if (!defined("ILIAS_WEB_DIR")) {
+            define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
         }
 
         return $DIC;
