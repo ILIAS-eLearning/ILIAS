@@ -720,7 +720,6 @@ class ilMailFormGUI
             $context = new ilMailTemplateGenericContext();
         }
 
-        // MESSAGE
         $inp = new ilTextAreaInputGUI($this->lng->txt('message_content'), 'm_message');
         //$inp->setValue(htmlspecialchars($mailData["m_message"], false));
         $inp->setValue($mailData["m_message"]);
@@ -729,10 +728,8 @@ class ilMailFormGUI
         $inp->setRows(10);
         $form_gui->addItem($inp);
 
-        // PLACEHOLDERS
         $chb = new ilCheckboxInputGUI($this->lng->txt('mail_serial_letter_placeholders'), 'use_placeholders');
-        $chb->setOptionTitle($this->lng->txt('activate_serial_letter_placeholders'));
-        $chb->setValue(1);
+        $chb->setValue('1');
         if (isset($mailData['use_placeholders']) && $mailData['use_placeholders']) {
             $chb->setChecked(true);
         }
