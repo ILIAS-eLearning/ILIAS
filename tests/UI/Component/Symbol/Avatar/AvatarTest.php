@@ -136,7 +136,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $str = '/path/to/picture.jpg';
         $letter = $f->picture($str, 'ro');
         $html = $this->normalizeHTML($r->render($letter));
-        $expected = '<div class="il-avatar il-avatar-picture il-avatar-size-large" aria-label="ro">	<img src="/path/to/picture.jpg"/></div>';
+        $expected = '<div class="il-avatar il-avatar-picture il-avatar-size-large" aria-label="ro">	<img src="/path/to/picture.jpg" alt="ro"/></div>';
         $this->assertEquals($expected, $html);
     }
 

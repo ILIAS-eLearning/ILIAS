@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
+use ILIAS\UI\Factory;
 
 /**
  * Class ilUserAvatarResolver
@@ -48,6 +49,10 @@ class ilUserAvatarResolver
      * @var string
      */
     private $size = 'small';
+    /**
+     * @var Factory
+     */
+    protected $ui;
 
     /**
      *  constructor.
@@ -114,10 +119,10 @@ class ilUserAvatarResolver
     public function getAvatar() : Avatar
     {
         if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->abbreviation);
-        } else {
-            return $this->ui->symbol()->avatar()->letter($this->abbreviation);
+            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login);
         }
+
+        return $this->ui->symbol()->avatar()->letter($this->login);
     }
 
     public function getLegacyPictureURL() : string
@@ -125,7 +130,6 @@ class ilUserAvatarResolver
         global $DIC;
         if ($this->useUploadedFile()) {
             return $this->uploaded_file . '?t=' . rand(1, 99999);
-            ;
         }
         /** @var $avatar ilUserAvatarBase */
 
