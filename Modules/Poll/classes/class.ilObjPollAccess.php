@@ -78,13 +78,6 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
             return false;
         }
         
-        // check "global" online switch
-        if (!self::_lookupOnline($a_obj_id) &&
-            !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {
-            $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
-            return false;
-        }
-        
         return true;
     }
     

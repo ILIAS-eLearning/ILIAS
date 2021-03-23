@@ -6353,3 +6353,21 @@ foreach ($columns as $column) {
 <?php
 $ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->quote('btsk', ilDBConstants::T_TEXT));
 ?>
+<#5777>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5778>
+<?php
+if ($ilDB->tableColumnExists("il_poll", "online_status")) {
+    $res = $ilDB->query("SELECT id, online_status FROM il_poll");
+    $updateStatement = $ilDB->prepareManip("UPDATE object_data SET offline = ? WHERE obj_id = ?", ['status', 'id']);
+    while ($row = $ilDB->fetchAssoc($res)) {
+        //il_poll online_status is true if online, object_data offline is true if offline
+        $row['offline'] = ($row['online_status'] == 1) ? 0 : 1;
+        $ilDB->execute($updateStatement, [$row['offline'], $row['id']]);
+    }
+
+    $ilDB->dropTableColumn("il_poll", "online_status");
+}
+?>
