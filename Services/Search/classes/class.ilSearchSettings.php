@@ -182,10 +182,6 @@ class ilSearchSettings
         return $seas_ref_id = $row->ref_id;
     }
 
-    public function enabledIndex()
-    {
-        return $this->index ? true : false;
-    }
     public function enabledLucene()
     {
         return $this->lucene ? true : false;
