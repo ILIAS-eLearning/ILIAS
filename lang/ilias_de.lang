@@ -6917,7 +6917,6 @@ ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zwe
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
-mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
 mail#:#back_to_folder#:#Zurück zum Ordner
