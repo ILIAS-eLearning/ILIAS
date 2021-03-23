@@ -33,7 +33,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->setExternalSegmentation(true);
         parent::__construct($a_parent_obj);
         $this->item_repository = $item_repository;
-        $this->lng             = $this->parent_obj->lng;
+        $this->lng = $this->parent_obj->lng;
         $this->setData($this->resolveData());
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         if ($this->access->hasUserPermissionTo('write')) {
@@ -49,7 +49,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('topitem_title'));
         $this->addColumn($this->lng->txt('topitem_active'));
         $this->addColumn($this->lng->txt('topitem_subentries'));
-        $this->addColumn($this->lng->txt('topitem_css_id'));
         $this->addColumn($this->lng->txt('topitem_type'));
         $this->addColumn($this->lng->txt('topitem_provider'));
         $this->addColumn($this->lng->txt('topitem_actions'));
@@ -64,7 +63,7 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $position++;
         global $DIC;
         $renderer = $DIC->ui()->renderer();
-        $factory  = $DIC->ui()->factory();
+        $factory = $DIC->ui()->factory();
 
         $item_facade = $this->item_repository->repository()->getItemFacade($DIC->globalScreen()->identification()->fromSerializedIdentification($a_set['identification']));
 
@@ -73,7 +72,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
-        $this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
         $this->tpl->setVariable('POSITION', $position * 10);
         if ($item_facade->isActivated()) {
             $this->tpl->touchBlock('is_active');
@@ -95,9 +93,9 @@ class ilMMTopItemTableGUI extends ilTable2GUI
 
             $rendered_modal = "";
             if ($item_facade->isDeletable()) {
-                $ditem  = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
+                $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
-                $m      = $factory->modal()
+                $m = $factory->modal()
                                   ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
                                   ->withAffectedItems([$ditem]);
 
