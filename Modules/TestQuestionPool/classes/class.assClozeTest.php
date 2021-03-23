@@ -573,6 +573,22 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     }
 
     /**
+    * Returns the cloze text as HTML (with optional nl2br)
+    * Fix for Mantis 29987: We assume Tiny embeds any text in tags, so if no tags are present, we derive it's
+    * non-HTML content and apply nl2br.
+    *
+    * @return string The cloze text string as HTML
+    * @see $cloze_text
+    */
+    public function getClozeTextHTML(): string
+    {
+        if($this->cloze_text !== strip_tags($this->cloze_text)) {
+            return $this->cloze_text;
+        }
+        return nl2br($this->cloze_text);
+    }
+
+    /**
     * Returns the start tag of a cloze gap
     *
     * @return string The start tag of a cloze gap
