@@ -6368,10 +6368,6 @@ $ilDB->replace(
 ?>
 <#5778>
 <?php
-$ilCtrlStructureReader->getStructure();
-?>
-<#5779>
-<?php
 if ($ilDB->tableColumnExists("il_poll", "online_status")) {
     $res = $ilDB->query("SELECT id, online_status FROM il_poll");
     $updateStatement = $ilDB->prepareManip("UPDATE object_data SET offline = ? WHERE obj_id = ?", ['status', 'id']);
