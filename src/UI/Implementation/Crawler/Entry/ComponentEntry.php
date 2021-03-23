@@ -354,7 +354,7 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
         $this->setChildren(array_merge($this->children, $children));
     }
 
-    public function getExamples() : array
+    public function getExamples() : ?array
     {
         return $this->examples;
     }
