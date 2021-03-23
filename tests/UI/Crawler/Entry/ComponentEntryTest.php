@@ -158,11 +158,15 @@ class ComponentEntryTest extends TestCase
 
 
 
-    public function testExamples()
+    public function testExamplePath()
     {
         $this->assertEquals('src/UI/Entry1Title', $this->entry->getExamplesPath());
     }
 
+    public function testExamplesNull()
+    {
+        $this->assertEquals(null, $this->entry->getExamples());
+    }
 
     public function testJsonSerialize()
     {
