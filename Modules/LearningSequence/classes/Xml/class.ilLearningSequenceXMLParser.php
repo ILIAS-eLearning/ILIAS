@@ -89,10 +89,10 @@ class ilLearningSequenceXMLParser extends ilSaxParser
                 $this->counter++;
                 break;
             case "abstract":
-                $this->settings["abstract"] = trim($this->cdata);
+                $this->settings["abstract"] = base64_decode(trim($this->cdata));
                 break;
             case "extro":
-                $this->settings["extro"] = trim($this->cdata);
+                $this->settings["extro"] = base64_decode(trim($this->cdata));
                 break;
             case "abstract_img":
                 $this->settings["abstract_img"] = trim($this->cdata);
