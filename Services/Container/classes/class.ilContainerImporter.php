@@ -130,8 +130,31 @@ class ilContainerImporter extends ilXmlImporter
                 $this->cont_log->warning('Cannot create instance for ref_id: ' . $new_ref_id);
                 continue;
             }
-            $obj->setOfflineStatus($offline == '0' ? false : true);
-            $obj->update();
+            if ($obj->supportsOfflineHandling()) {
+                if ($this->isRootNode($obj->getRefId(), $mapping)) {
+                    $obj->setOfflineStatus(true);
+                } else {
+                    $obj->setOfflineStatus(false);
+                }
+                $obj->update();
+            }
         }
+    }
+
+    /**
+     * @param int             $ref_id
+     * @param ilImportMapping $mapping
+     * @return bool
+     */
+    protected function isRootNode(int $ref_id, ilImportMapping $mapping) : bool
+    {
+        global $DIC;
+
+        $tree = $DIC->repositoryTree();
+        $parent_id = $tree->getParentId($ref_id);
+        if ($parent_id) {
+            return (int) $parent_id === (int) $mapping->getTargetId();
+        }
+        return false;
     }
 }
