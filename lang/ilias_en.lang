@@ -5945,7 +5945,6 @@ ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#back_to_folder#:#Back to Folder
