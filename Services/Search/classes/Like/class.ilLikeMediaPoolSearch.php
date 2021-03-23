@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilFulltextMediaPoolSearch
+* Class ilLikeMediaPoolSearch
 *
 * class for searching media pool folders and titles of mob's
 *

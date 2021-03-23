@@ -74,9 +74,7 @@ class ilQueryParser
         include_once './Services/Search/classes/class.ilSearchSettings.php';
         $this->settings = ilSearchSettings::getInstance();
 
-        if (!$this->setMinWordLength(1)) {
-            $this->setMinWordLength(MIN_WORD_LENGTH);
-        }
+        $this->setMinWordLength(1);
         
         $this->setAllowedWildcards(false);
     }

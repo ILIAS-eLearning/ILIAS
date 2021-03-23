@@ -24,7 +24,7 @@
 /**
 * Class ilTestSearch
 *
-* Abstract class for test search. Should be inherited by ilFulltextTestSearch
+* Abstract class for test search.
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$

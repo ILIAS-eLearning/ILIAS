@@ -24,7 +24,7 @@
 /**
 * Class ilLMContentSearch
 *
-* Abstract class for lm content. Should be inherited by ilFulltextLMContentSearch
+* Abstract class for lm content.
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
