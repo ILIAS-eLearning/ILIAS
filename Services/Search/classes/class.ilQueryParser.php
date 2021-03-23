@@ -81,7 +81,7 @@ class ilQueryParser
         $this->setAllowedWildcards(false);
     }
 
-    public function setMinWordLength($a_length, $a_force = false)
+    public function setMinWordLength($a_length)
     {
         $this->min_word_length = $a_length;
         return true;
