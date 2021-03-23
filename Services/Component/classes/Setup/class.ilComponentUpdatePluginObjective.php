@@ -121,9 +121,54 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() {
-            public function getLogger()
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
+            public function __construct()
             {
+            }
+            public function write($m, $l = ilLogLevel::INFO)
+            {
+            }
+            public function info($msg)
+            {
+            }
+            public function warning($msg)
+            {
+            }
+            public function error($msg)
+            {
+            }
+            public function debug($msg, $a = [])
+            {
+            }
+            public function dump($msg, $a = ilLogLevel::INFO)
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilLoggerFactory"] = new class() extends ilLoggerFactory {
+            public function __construct()
+            {
+            }
+            public static function getRootLogger()
+            {
+                return new class() extends ilLogger {
+                    public function __construct()
+                    {
+                    }
+                    public function write($m, $l = ilLogLevel::INFO)
+                    {
+                    }
+                };
+            }
+            public static function getLogger($a)
+            {
+                return new class() extends ilLogger {
+                    public function __construct()
+                    {
+                    }
+                    public function write($m, $l = ilLogLevel::INFO)
+                    {
+                    }
+                };
             }
         };
         $GLOBALS["DIC"]["ilBench"] = null;
@@ -133,15 +178,30 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilLog"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
-        $GLOBALS["DIC"]["tree"] = null;
+        $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
+            public function __construct()
+            {
+            }
+        };
         $GLOBALS["DIC"]["ilAppEventHandler"] = null;
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
-        $GLOBALS["DIC"]["ilUser"] = new class() {
-            public $prefs = [];
+        $GLOBALS["DIC"]["rbacadmin"] = new class() extends ilRbacAdmin {
             public function __construct()
             {
-                $this->prefs['language'] = 'en';
+            }
+        };
+        $GLOBALS["DIC"]["rbacreview"] = new class() extends ilRbacReview {
+            public function __construct()
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
+            public $prefs = [];
+
+            public function __construct()
+            {
+                $this->prefs["language"] = "en";
             }
         };
 
@@ -151,6 +211,18 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
 
         if (!defined("ILIAS_ABSOLUTE_PATH")) {
             define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+        }
+
+        if (!defined('SYSTEM_ROLE_ID')) {
+            define('SYSTEM_ROLE_ID', '2');
+        }
+
+        if (!defined("CLIENT_ID")) {
+            define('CLIENT_ID', $client_ini->readVariable('client', 'name'));
+        }
+
+        if (!defined("ILIAS_WEB_DIR")) {
+            define('ILIAS_WEB_DIR', dirname(__DIR__, 4) . "/data/");
         }
 
         return [$ORIG_DIC, $ORIG_ilDB];
