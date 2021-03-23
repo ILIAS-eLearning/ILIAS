@@ -11,7 +11,7 @@ use ILIAS\UI\Component\JavaScriptBindable;
 /**
  * This describes a Submenu, i.e. an item for a menu providing further items.
  */
-interface Sub extends LabeledMenu, JavaScriptBindable
+interface Sub extends LabeledMenu
 {
     /**
      * Configure this Submenu to be active when the menu is loaded.

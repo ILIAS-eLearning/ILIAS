@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
 
+use ILIAS\UI\Component\ViewControl\HasViewControls as HasViewControlsInterface;
+
 /**
  * Trait for panels supporting view controls
  */
@@ -17,8 +19,11 @@ trait HasViewControls
     /**
      * @inheritDoc
      */
-    public function withViewControls(array $view_controls) : \ILIAS\UI\Component\Component
+    public function withViewControls(array $view_controls) : HasViewControlsInterface
     {
+        /**
+         * @var $clone HasViewControlsInterface
+         */
         $clone = clone $this;
         $clone->view_controls = $view_controls;
         return $clone;

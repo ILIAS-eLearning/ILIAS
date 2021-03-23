@@ -17,7 +17,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 abstract class Prompt extends Slate implements ISlate\Prompt
 {
     /**
-     * @var ILIAS\UI\Component\Counter\Factory
+     * @var \ILIAS\UI\Component\Counter\Factory
      */
     protected $counter_factory;
 

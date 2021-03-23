@@ -175,9 +175,13 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         $lngHelper->expects($this->atLeastOnce())->method('getLanguageByIsoCode')->willReturn($lng);
         $lngHelper->expects($this->atLeastOnce())->method('getCurrentLanguage')->willReturn($lng);
 
-        $expectedIdsConstraint = self::logicalAnd(...array_map(function (ilOrgUnitUser $user) {
-            return self::containsEqual($user->getUserId());
-        }, $superiors));
+        if ($superiors === []) {
+            $expectedIdsConstraint = [];
+        } else {
+            $expectedIdsConstraint = self::logicalAnd(...array_map(function (ilOrgUnitUser $user) {
+                return self::containsEqual($user->getUserId());
+            }, $superiors));
+        }
 
         $firstAndLastnames = array_map(function (ilOrgUnitUser $user, int $key) {
             return "PhpSup{$key} UnitSup{$key}";

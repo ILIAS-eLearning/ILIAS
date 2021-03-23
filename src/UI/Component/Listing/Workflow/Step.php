@@ -11,15 +11,15 @@ use ILIAS\UI\Component\Component;
  */
 interface Step extends Component
 {
-    const AVAILABLE = 1;
-    const NOT_AVAILABLE = 2;
-    const NOT_ANYMORE = 3;
-    const ACTIVE = 4;
+    public const AVAILABLE = 1;
+    public const NOT_AVAILABLE = 2;
+    public const NOT_ANYMORE = 3;
+    public const ACTIVE = 4;
 
-    const NOT_STARTED = 1;
-    const IN_PROGRESS = 2;
-    const SUCCESSFULLY = 3;
-    const UNSUCCESSFULLY = 4;
+    public const NOT_STARTED = 1;
+    public const IN_PROGRESS = 2;
+    public const SUCCESSFULLY = 3;
+    public const UNSUCCESSFULLY = 4;
 
     /**
      * Get the label of this step.
@@ -69,7 +69,7 @@ interface Step extends Component
     /**
      * Get the action of this Step.
      *
-     * @return	null | Signal | string
+     * @return	null | \ILIAS\UI\Component\Signal  | string
      */
     public function getAction();
 }

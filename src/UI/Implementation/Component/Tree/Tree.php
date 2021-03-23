@@ -31,7 +31,7 @@ abstract class Tree implements ITree\Tree
     protected $label;
 
     /**
-     * @var TreeRecursion
+     * @var ITree\TreeRecursion
      */
     protected $recursion;
 

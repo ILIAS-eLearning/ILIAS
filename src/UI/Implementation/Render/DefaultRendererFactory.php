@@ -35,6 +35,11 @@ class DefaultRendererFactory implements RendererFactory
      */
     protected $refinery;
 
+    /**
+     * ImagePathResolver
+     */
+    protected $image_path_resolver;
+
     public function __construct(
         RootFactory $ui_factory,
         TemplateFactory $tpl_factory,

@@ -792,7 +792,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeText();
+        $output =$this->object->getClozeTextHTML();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:
@@ -902,7 +902,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output_solution.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeText();
+        $output = $this->object->getClozeTextHTML();
         $assClozeGapCombinationObject = new assClozeGapCombination();
         $check_for_gap_combinations = $assClozeGapCombinationObject->loadFromDb($this->object->getId());
 
@@ -1183,7 +1183,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_cloze_question_output.html", true, true, "Modules/TestQuestionPool");
-        $output = $this->object->getClozeText();
+        $output = $this->object->getClozeTextHTML();
         foreach ($this->object->getGaps() as $gap_index => $gap) {
             switch ($gap->getType()) {
                 case CLOZE_TEXT:

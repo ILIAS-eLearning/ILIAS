@@ -75,6 +75,11 @@ class ilPageEditorGUI
     protected $request;
 
     /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
+
+    /**
     * Constructor
     *
     * @param	object		$a_page_object		page object
@@ -97,6 +102,8 @@ class ilPageEditorGUI
         $this->request = $DIC->http()->request();
 
         $this->log = ilLoggerFactory::getLogger('copg');
+
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
         // initiate variables
         $this->ctrl = $ilCtrl;
@@ -352,6 +359,8 @@ class ilPageEditorGUI
         // Step FC (forward command)
         $this->log->debug("before FC: next_class:" . $next_class . ", pc_id:" . $pc_id .
                 ", hier_id:" . $hier_id . ", ctype:" . $ctype . ", cmd:" . $cmd . ", _GET[cmd]: " . $_GET["cmd"]);
+
+
         switch ($next_class) {
             case "ilinternallinkgui":
                 $link_gui = new ilInternalLinkGUI(

@@ -25,11 +25,6 @@ class Factory implements Field\Factory
     protected $data_factory;
 
     /**
-     * @var Validation\Factory
-     */
-    protected $validation_factory;
-
-    /**
      * @var SignalGeneratorInterface
      */
     protected $signal_generator;

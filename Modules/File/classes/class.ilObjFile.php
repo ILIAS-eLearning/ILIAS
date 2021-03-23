@@ -20,6 +20,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     use ilObjFileMetadata;
     use ilObjFileUsages;
     use ilObjFilePreviewHandler;
+    use ilObjFileNews;
 
     public const MODE_FILELIST = "filelist";
     public const MODE_OBJECT = "object";
@@ -120,14 +121,17 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->setMaxVersion($resource->getMaxRevision());
             $this->setVersion($resource->getMaxRevision());
         } else {
-            $this->implementation = new ilObjFileImplementationLegacy($this->getId(), $this->getVersion(),
-                $this->getFileName());
+            $this->implementation = new ilObjFileImplementationLegacy(
+                (int) $this->getId(),
+                (int) $this->getVersion(),
+                (string) $this->getFileName()
+            );
             $s = new FilePathSanitizer($this);
             $s->sanitizeIfNeeded();
         }
     }
 
-    private function updateObjectFromRevision(Revision $r) : void
+    private function updateObjectFromRevision(Revision $r, bool $create_previews = true) : void
     {
         $this->setTitle($r->getTitle());
         $this->setFileName($r->getTitle());
@@ -136,8 +140,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->setFileSize($r->getInformation()->getSize());
         $this->setFileType($r->getInformation()->getMimeType());
         $this->update();
-        $this->createPreview(true);
-        $this->addNewsNotification("file_updated");
+        if ($create_previews) {
+            $this->createPreview(true);
+        }
     }
 
     public function appendStream(FileStream $stream, string $title) : int
@@ -370,6 +375,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     protected function doCreate($a_upload = false)
     {
         $this->createProperties($a_upload);
+        $this->notifyCreation($this->getId(), $this->getDescription());
     }
 
     protected function doRead()
@@ -431,8 +437,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         if ($this->resource_id
             && ($identification = $this->manager->find($this->resource_id)) instanceof ResourceIdentification) {
             $new_resource_identification = $this->manager->clone($identification);
+            $new_current_revision = $this->manager->getCurrentRevision($new_resource_identification);
             $new_object->setResourceId($new_resource_identification->serialize());
-            $new_object->update();
+            $new_object->initImplementation();
+            $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
         } else {
             // migrate
             global $DIC;
@@ -452,9 +460,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_object->getId());
         unset($obj_settings);
-
-        // add news notification
-        $new_object->addNewsNotification("file_created");
 
         return $new_object;
     }
@@ -479,6 +484,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
                 $this->getId(),
             ],
         ]);
+
+        $this->notifyUpdate($this->getId(), $this->getDescription());
 
         return true;
     }
@@ -523,7 +530,10 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->deletePreview();
 
         // delete resource
-        $this->manager->remove($this->manager->find($this->getResourceId()), $this->stakeholder);
+        $identification = $this->getResourceId();
+        if ($identification) {
+            $this->manager->remove($this->manager->find($identification), $this->stakeholder);
+        }
     }
 
     /**
@@ -592,28 +602,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $this->appendUpload($upload, $title);
 
         return true;
-    }
-
-    public function addNewsNotification($a_lang_var)
-    {
-        if ($this->isHidden()) {
-            return;
-        }
-
-        global $DIC;
-
-        // Add Notification to news
-        $news_item = new ilNewsItem();
-        $news_item->setContext($this->getId(), $this->getType());
-        $news_item->setPriority(NEWS_NOTICE);
-        $news_item->setTitle($a_lang_var);
-        $news_item->setContentIsLangVar(true);
-        if ($this->getDescription() !== "") {
-            $news_item->setContent("<p>" . $this->getDescription() . "</p>");
-        }
-        $news_item->setUserId($DIC->user()->getId());
-        $news_item->setVisibility(NEWS_USERS);
-        $news_item->create();
     }
 
     /**

@@ -1711,6 +1711,7 @@ assessment#:#tst_title_output_hide_points#:#Nur Fragentitel
 assessment#:#tst_title_output_no_title#:#Weder Fragentitel noch erreichbare Punkte
 assessment#:#tst_type#:#Test-Typ
 assessment#:#exam_id#:#ILIAS-Prüfungsnummer:
+assessment#:#exam_id_label#:#ILIAS-Prüfungsnummer
 assessment#:#examid_in_test_pass#:#ILIAS-Prüfungsnummer anzeigen
 assessment#:#examid_in_test_pass_desc#:#Im Test wird eine ILIAS-Prüfungsnummer angezeigt. Für jeden Testdurchlauf wird eine eigene Nummer erzeugt.
 assessment#:#examid_in_test_res#:#ILIAS-Prüfungsnummer anzeigen
@@ -4730,7 +4731,7 @@ content#:#cont_active_areas#:#Auslöser
 content#:#cont_add_area#:#Bereich hinzufügen
 content#:#cont_add_change_comment#:#Überarbeitungskommentar hinzufügen
 content#:#cont_add_definition#:#Definition hinzufügen
-content#:#cont_add_elements#:#Klicken Sie auf einen Platzhalter, um ein neues Element hinzuzufügen.
+content#:#cont_add_elements#:#<b>Klicken</b> Sie auf ein <b>Plus-Symbol</b>, um ein neues Element <b>hinzuzufügen</b>.
 content#:#cont_add_file#:#Datei hinzufügen
 content#:#cont_add_images#:#Bild hinzufügen
 content#:#cont_add_popup#:#Popup hinzufügen
@@ -4861,14 +4862,16 @@ content#:#cont_dir_created#:#Verzeichnis wurde angelegt.
 content#:#cont_dir_deleted#:#Das Verzeichnis wurde gelöscht.
 content#:#cont_dir_file#:#Verzeichnis/Datei
 content#:#cont_dir_renamed#:#Das Verzeichnis wurde umbenannt.
-content#:#cont_double_click_to_delete#:#Mit einem Doppel-Klick auf ein Content-Element wählen Sie dieses für die De-/Aktivierung und für das Löschen aus.
+content#:#cont_shift_click_to_select#:#Mit <b>Shift + Klick</b> <b>wählen</b> Sie ein Seitenelement <b>aus</b> und wechseln in den Auswahlmodus.
+content#:#cont_click_multi_select#:#<b>Klicken</b> Sie Seitenelemente um diese <b>auszuwählen</b> oder die Auswahl wieder aufzuheben.
+content#:#cont_click_edit#:#<b>Klicken</b> Sie ein <b>Seitenelement</b>, um es zu <b>bearbeiten</b>.
 content#:#cont_download_no_download#:#Die Download-Funktion ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_no_menu#:#Das Lernmodulmenü ist zur Zeit deaktiviert. Daher wird die Datei den Lernenden nicht angeboten.
 content#:#cont_download_title#:#Titel der Download-Datei
 content#:#cont_downloads#:#Download
 content#:#cont_downloads_desc#:#Der Reiter "Download" wird in der Präsentationsansicht angezeigt. Dort können Benutzer freigegebene Exportdateien herunterladen, zum Beispiel für Offline-Nutzung oder Import.
 content#:#cont_downloads_public_desc#:#Erlaubt das Herunterladen auch für nichtangemeldete Benutzer (Öffentlicher Bereich)
-content#:#cont_drag_and_drop_elements#:#Um Content-Elemente zu bewegen, ziehen Sie diese mit der Maus auf die Platzhalter.
+content#:#cont_drag_and_drop_elements#:#<b>Ziehen</b> Sie ein Seitenelement mit der Maus auf einen Platzhalter um es zu <b>bewegen</b>.
 content#:#cont_drag_element_click_save#:#Bewegen Sie das Element an die gewünschte Position und klicken dann auf "Speichern".
 content#:#cont_ed_align_center#:#Mittig ausrichten
 content#:#cont_ed_align_left#:#Links ausrichten
@@ -6914,7 +6917,6 @@ ldap#:#ldap_user_scope_info#:#Bereich für die Benutzersuche. Wählen Sie im Zwe
 ldap#:#ldap_user_sync#:#Einstellungen zur Benutzersynchronisierung
 ldap#:#ldap_user_sync_info#:#Legt fest, ob noch nicht in ILIAS vorhandene Benutzer automatisch beim ersten Login oder aber regelmäßig per Cron-Job angelegt werden.
 mail#:#mail_serial_letter_placeholders#:#Platzhalter für Serienbrief
-mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Chatraum auswählen
 mail#:#back_to_folder#:#Zurück zum Ordner
@@ -16517,3 +16519,9 @@ copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
 copg#:#copg_details#:#Details
 copg#:#copg_error#:#Problem
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
+adve#:#adve_autosave_info_min_10#:#Bitte setzen sie den Wert auf mindestens 10 Sekunden, falls sie Funktion nutzen.
+content#:#cont_keyword#:#Schlagwort
+content#:#cont_footnote#:#Fußnote
+content#:#cont_Book#:#Buchdruck
+content#:#cont_Numbers#:#Zahlen
+content#:#cont_Verse#:#Lyrik/Strophe

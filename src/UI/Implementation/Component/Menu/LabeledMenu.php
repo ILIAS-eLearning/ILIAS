@@ -14,10 +14,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  */
 abstract class LabeledMenu extends Menu implements IMenu\LabeledMenu
 {
-    use ComponentHelper;
-
     /**
-     * @var Component | string
+     * @var \ILIAS\UI\Component\Component | string
      */
     protected $label;
 
@@ -45,7 +43,7 @@ abstract class LabeledMenu extends Menu implements IMenu\LabeledMenu
      */
     protected function checkLabelParameter($label)
     {
-        $classes = [Component\Clickable::class, \string::class];
+        $classes = [Component\Clickable::class, "string"];
         $check = [$label];
         $this->checkArgListElements("label", $check, $classes);
     }

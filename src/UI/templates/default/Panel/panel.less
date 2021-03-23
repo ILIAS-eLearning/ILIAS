@@ -6,10 +6,11 @@
 	border: none;
 
 	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
-		background-color: @il-secondary-container-bg;
+		background-color: @il-main-dark-bg;
 
 		margin: 0;
 		padding: @panel-heading-padding;
+		padding-bottom: @padding-small-vertical;
 
 		border: none;
 		.box-shadow(none);
@@ -17,12 +18,14 @@
 			margin: 0;
 			color: @panel-heading-color;
 			font-size: @font-size-h2;
+			line-height: @line-height-large;
+			font-weight: 600;
 		}
 
 		h3, h3.ilHeader {
 			margin: 0;
 			color: @panel-heading-color;
-			font-size: @font-size-h3;
+			font-size: @font-size-h4;
 		}
 
 		h4, h4.ilBlockHeader {
@@ -40,7 +43,7 @@
 
 	.panel-body {
 		padding: @padding-large-vertical @padding-large-horizontal;
-		background-color: @il-primary-container-bg;
+		background-color: @il-main-bg;
 
 	}
 }
@@ -82,7 +85,7 @@
 		flex-shrink: 1;
 		flex-basis: 100%;
 		order: 4;
-		background-color:@il-secondary-container-bg;
+		background-color:@il-main-dark-bg;
 		text-align:center;
 		padding-top:@padding-base-horizontal;
 	}
@@ -155,7 +158,7 @@
 
 	&:first-child{
 		.panel-heading{
-			padding-top: @padding-small-vertical;
+			padding: @panel-heading-padding;
 		}
 	}
 }
@@ -176,7 +179,7 @@
 
 //Listing Panel
 .il-panel-listing-std-container {
-	background-color: @il-secondary-container-bg;
+	background-color: @il-main-dark-bg;
 	margin-bottom: @il-standard-page-content-padding;
 
 	> h2 {

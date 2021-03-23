@@ -5,7 +5,6 @@
 namespace ILIAS\UI\Component\Panel\Listing;
 
 use ILIAS\UI\Component\Item;
-use ILIAS\UI\Component\Panel\Listing\Group;
 
 /**
  * Interface Factory

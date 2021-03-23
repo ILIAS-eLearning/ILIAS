@@ -50,7 +50,7 @@ class Step implements C\Listing\Workflow\Step
         $this->checkStringArg("string", $description);
         $this->checkArg(
             "action",
-            is_null($action) || is_string($action) || $action instanceof Signal,
+            is_null($action) || is_string($action) || $action instanceof \ILIAS\UI\Component\Signal,
             $this->wrongTypeMessage("string or Signal", gettype($action))
         );
 

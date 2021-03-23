@@ -94,8 +94,17 @@ class ilChatroomAdmin
             array($this->config_id)
         );
 
-        $row['default_config'] !== null ? $def_conf = $row['default_config'] : $def_conf = "{}";
-        $row['client_settings'] !== null ? $clnt_set = $row['client_settings'] : $clnt_set = "{}";
+        $def_conf = '{}';
+        $clnt_set = '{}';
+        if (is_array($row)) {
+            if ($row['default_config'] !== null) {
+                $def_conf = $row['default_config'];
+            }
+
+            if ($row['client_settings'] !== null) {
+                $clnt_set = $row['client_settings'];
+            }
+        }
 
         $DIC->database()->manipulateF(
             "

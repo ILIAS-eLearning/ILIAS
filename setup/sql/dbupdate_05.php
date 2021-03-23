@@ -6355,9 +6355,22 @@ $ilDB->manipulate('delete from log_components where component_id = ' . $ilDB->qu
 ?>
 <#5777>
 <?php
-$ilCtrlStructureReader->getStructure();
+$ilDB->replace(
+    'settings',
+    [
+        'module' => ['text', 'adve'],
+        'keyword' => ['text', 'autosave']
+    ],
+    [
+        'value' => ['text', '30']
+    ]
+);
 ?>
 <#5778>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5779>
 <?php
 if ($ilDB->tableColumnExists("il_poll", "online_status")) {
     $res = $ilDB->query("SELECT id, online_status FROM il_poll");

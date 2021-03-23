@@ -1,6 +1,6 @@
 .btn {
 	font-size: @il-button-font-size;
-	.il-tab-focus();
+	.il-focus();
 }
 
 //This is legacy for the old forms implementation. Can be removed as soon as the old implementation is removed.
@@ -75,33 +75,33 @@ a[disabled], a fieldset[disabled] & {
     display: inline-block;
     white-space: nowrap;
     padding: @padding-xs-vertical @padding-xs-horizontal;
-    margin: @btn-tag-margin;
-    border-radius: @btn-tag-border-radius;
+    margin: @il-btn-tag-margin;
+    border-radius: @il-btn-tag-border-radius;
 
   &.btn-tag-relevance-verylow {
-    border-color: @btn-tag-bg-relevance-verylow;
-    background-color: @btn-tag-bg-relevance-verylow;
-    color: @btn-tag-fg-relevance-verylow;
+    border-color: @il-btn-tag-bg-relevance-verylow;
+    background-color: @il-btn-tag-bg-relevance-verylow;
+    color: @il-btn-tag-fg-relevance-verylow;
   }
   &.btn-tag-relevance-low {
-    border-color: @btn-tag-bg-relevance-low;
-    background-color: @btn-tag-bg-relevance-low;
-    color: @btn-tag-fg-relevance-low;
+    border-color: @il-btn-tag-bg-relevance-low;
+    background-color: @il-btn-tag-bg-relevance-low;
+    color: @il-btn-tag-fg-relevance-low;
   }
   &.btn-tag-relevance-middle {
-    border-color: @btn-tag-bg-relevance-middle;
-    background-color: @btn-tag-bg-relevance-middle;
-    color: @btn-tag-fg-relevance-middle;
+    border-color: @il-btn-tag-bg-relevance-middle;
+    background-color: @il-btn-tag-bg-relevance-middle;
+    color: @il-btn-tag-fg-relevance-middle;
   }
   &.btn-tag-relevance-high {
-    border-color: @btn-tag-bg-relevance-high;
-    background-color: @btn-tag-bg-relevance-high;
-    color: @btn-tag-fg-relevance-high;
+    border-color: @il-btn-tag-bg-relevance-high;
+    background-color: @il-btn-tag-bg-relevance-high;
+    color: @il-btn-tag-fg-relevance-high;
   }
   &.btn-tag-relevance-veryhigh {
-    border-color: @btn-tag-bg;
-    background-color: @btn-tag-bg-relevance-veryhigh;
-    color: @btn-tag-fg-relevance-veryhigh;
+    border-color: @il-btn-tag-bg;
+    background-color: @il-btn-tag-bg-relevance-veryhigh;
+    color: @il-btn-tag-fg-relevance-veryhigh;
   }
 }
 
@@ -119,7 +119,7 @@ a[disabled], a fieldset[disabled] & {
 
 // button with loading animation
 .il-btn-with-loading-animation {
-	background-image: url("@{background-images-path}loader.svg");
+	background-image: url("@{il-background-images-path}loader.svg");
 	background-repeat: no-repeat;
 	background-position: right center;
 	padding-right: 18px;

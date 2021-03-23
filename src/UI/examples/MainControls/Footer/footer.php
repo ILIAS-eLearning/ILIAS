@@ -22,11 +22,11 @@ function footer()
                     (isset($_SERVER['SERVER_NAME']) ?  $_SERVER['SERVER_NAME']:"localhost") .
                 ':' .
                     (isset($_SERVER['SERVER_PORT']) ?  $_SERVER['SERVER_PORT']:"80") .
-                str_replace(
+                '/' . ltrim(str_replace(
                     'ilias.php',
                     'goto.php?target=xxx12345',
                     isset($_SERVER['SCRIPT_NAME']) ?  $_SERVER['SCRIPT_NAME']:""
-                )
+                ), '/')
             )
         );
 

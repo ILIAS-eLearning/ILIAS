@@ -8,7 +8,7 @@ namespace ILIAS\UI\Implementation\Component\Menu;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Menu;
+use ILIAS\UI\Implementation\Component\Menu;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -19,6 +19,9 @@ class Renderer extends AbstractComponentRenderer
     {
         $this->checkComponent($component);
 
+        /**
+         * @var $component Menu\Menu
+         */
         $html = $this->renderMenu($component, $default_renderer);
 
         if ($component instanceof Menu\Drilldown) {
@@ -40,9 +43,6 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Render a Menu.
-     * @param Menu  $component
-     * @param RendererInterface $default_renderer
-     * @return string
      */
     protected function renderMenu(
         Menu\Menu $component,
@@ -51,6 +51,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl_name = "tpl.menuitem.html";
         $tpl = $this->getTemplate($tpl_name, true, true);
 
+        /**
+         * @var $label Component\Component
+         */
         $label = $this->maybeConvertLabelToShy($component->getLabel());
         $tpl->setVariable('LABEL', $default_renderer->render($label));
 
@@ -59,6 +62,9 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->touchBlock('active');
             }
         }
+        /**
+         * @var $component Menu\Menu
+         */
         $component = $component->withAdditionalOnLoadCode(function ($id) {
             return '';
         });
@@ -81,9 +87,6 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * Wrap an entry like Clickable or Divider to fit the menu-structure.
-     * @param Component  $component
-     * @param RendererInterface $default_renderer
-     * @return string
      */
     protected function wrapMenuEntry(
         Component\Component $component,
@@ -101,8 +104,6 @@ class Renderer extends AbstractComponentRenderer
     /**
      * A string will be converted to a Shy Button, any Clickables
      * will be returned as they are.
-     * @param mixed  $label
-     * @return Component\Clickable
      */
     protected function maybeConvertLabelToShy($label) : Component\Clickable
     {

@@ -1,6 +1,6 @@
 /* Services/Tags */
 
-@il-tag-bg: lighten(@il-extended-color-3, 20%);
+@il-tag-bg: @il-extended-color-3;
 
 .ilTagCloud {
 	font-size: @font-size-small;
@@ -21,7 +21,7 @@
 a.ilTag:hover, a.ilTag:active {
 	text-decoration: none;
 	color: white;
-	background-color: saturate(@il-tag-bg, 40%);;
+	background-color: saturate(@il-tag-bg, 40%);
 }
 
 .ilTagRelVeryHigh {

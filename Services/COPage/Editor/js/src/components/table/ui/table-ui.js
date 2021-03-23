@@ -119,6 +119,7 @@ export default class TableUI {
 
     const action = this.actionFactory;
     const dispatch = this.dispatcher;
+    const pageModel = this.page_model;
 
     this.uiModel = uiModel;
     let t = this;
@@ -131,8 +132,10 @@ export default class TableUI {
     //this.initMenu();
     this.initCellEditing();
     this.initDropdowns();
-    this.autoSave.setOnAutoSave(() => {
-      dispatch.dispatch(action.table().editor().autoSave());
+    this.autoSave.addOnAutoSave(() => {
+      if (pageModel.getCurrentPCName() === "Table") {
+        dispatch.dispatch(action.table().editor().autoSave());
+      }
     });
 
     this.initWrapperCallbacks();

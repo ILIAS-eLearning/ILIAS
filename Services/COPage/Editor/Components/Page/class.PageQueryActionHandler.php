@@ -99,6 +99,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->dropdown = $r->render($dd);
         $o->addCommands = $this->getAddCommands();
         $o->pageEditHelp = $this->getPageEditHelp();
+        $o->multiEditHelp = $this->getMultiEditHelp();
         $o->pageTopActions = $this->getTopActions();
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
@@ -171,8 +172,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
     /**
      * Get page help (drag drop explanation)
-     * @param
-     * @return
+     * @return string
      */
     protected function getPageEditHelp()
     {
@@ -184,7 +184,24 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl->setVariable("PLUS", \ilGlyphGUI::get(\ilGlyphGUI::ADD));
         $tpl->setVariable("DRAG_ARROW", \ilGlyphGUI::get(\ilGlyphGUI::DRAG));
         $tpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
-        $tpl->setVariable("TXT_SEL", $lng->txt("cont_double_click_to_delete"));
+        $tpl->setVariable("TXT_EDIT", $lng->txt("cont_click_edit"));
+        $tpl->setVariable("TXT_SEL", $lng->txt("cont_shift_click_to_select"));
+        $tpl->parseCurrentBlock();
+
+        return $tpl->get();
+    }
+
+    /**
+     * Get page help (drag drop explanation)
+     * @return string
+     */
+    protected function getMultiEditHelp()
+    {
+        $lng = $this->lng;
+        $lng->loadLanguageModule("content");
+        $tpl = new \ilTemplate("tpl.page_edit_help.html", true, true, "Services/COPage/Editor");
+        $tpl->setCurrentBlock("multi-help");
+        $tpl->setVariable("TXT_SEL", $lng->txt("cont_click_multi_select"));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();

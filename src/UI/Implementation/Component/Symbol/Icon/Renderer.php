@@ -10,9 +10,9 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
-    const DEFAULT_ICON_NAME = 'default';
-    const ICON_NAME_PATTERN = 'icon_%s.svg';
-    const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
+    public const DEFAULT_ICON_NAME = 'default';
+    public const ICON_NAME_PATTERN = 'icon_%s.svg';
+    public const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
 
     /**
      * @inheritdoc
@@ -50,7 +50,7 @@ class Renderer extends AbstractComponentRenderer
             $image = file_get_contents($imagepath);
             $image = substr($image, strpos($image, '<svg '));
             $image = trim(str_replace('</svg>', $abbreviation, $image));
-            $imagepath = "data:image/svg+xml;base64, " . base64_encode($image);
+            $imagepath = "data:image/svg+xml;base64," . base64_encode($image);
         }
 
         $tpl->setVariable("CUSTOMIMAGE", $imagepath);

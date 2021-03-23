@@ -234,6 +234,11 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         foreach ($upload->getResults() as $result) {
+            if (!$result->isOK()) {
+                $response->error = $result->getStatus()->getMessage();
+                $send_respose($response);
+                continue;
+            }
             // Create new FileObject
             $file = new ilObjFile();
             $this->object_id = $file->create();

@@ -301,7 +301,6 @@ export default class ParagraphUIActionHandler {
       pcmodel.text,
       pcmodel.characteristic
     );
-    console.log(this.client);
     this.client.sendCommand(update_action).then(result => {
       const pl = result.getPayload();
       this.handleSaveResponse(pcid, pl, page_model);

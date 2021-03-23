@@ -4,6 +4,16 @@ namespace ILIAS\UI\examples\Tree\Expandable;
 
 class DataNode
 {
+    /**
+     * @var string
+     */
+    protected $label = "";
+
+    /**
+     * @var array
+     */
+    protected $children = [];
+
     public function __construct(string $label, array $children = [])
     {
         $this->label = $label;

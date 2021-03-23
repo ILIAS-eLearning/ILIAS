@@ -13,7 +13,7 @@ use ILIAS\Data\Range;
  */
 interface Pagination extends C\Component, JavaScriptBindable, Triggerer
 {
-    const DEFAULT_DROPDOWN_LABEL = 'pagination_label_x_of_y';
+    public const DEFAULT_DROPDOWN_LABEL = 'pagination_label_x_of_y';
 
     /**
      * Get a Pagination with this target-url.

@@ -53,7 +53,11 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
             );
         }
 
-        return parent::withValue($value);
+        /**
+         * @var $clone Checkbox
+         */
+        $clone = parent::withValue($value);
+        return $clone;
     }
 
 

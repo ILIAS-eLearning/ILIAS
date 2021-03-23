@@ -8,6 +8,7 @@ use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class Renderer
@@ -21,7 +22,7 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         /**
-         * @var Component\Legacy\Legacy $component
+         * @var Legacy $component
          */
         $this->checkComponent($component);
 

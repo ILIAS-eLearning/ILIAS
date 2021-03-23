@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Container\Form;
 
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Component\Input\Container\Form;
+use ILIAS\UI\Implementation\Component\Input\Container\Form;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 

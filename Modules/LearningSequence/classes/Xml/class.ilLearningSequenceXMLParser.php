@@ -97,7 +97,7 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             case "abstract_img":
                 $this->settings["abstract_img"] = trim($this->cdata);
                 break;
-            case "extor_img":
+            case "extro_img":
                 $this->settings["extro_img"] = trim($this->cdata);
                 break;
             case "abstract_img_data":

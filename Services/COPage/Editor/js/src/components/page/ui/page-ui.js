@@ -576,7 +576,7 @@ export default class PageUI {
         break;
 
       default:
-        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions);
+        this.toolSlate.setContent(this.uiModel.pageTopActions + this.uiModel.multiActions + this.uiModel.multiEditHelp);
         this.initTopActions();
         this.initMultiButtons();
         break;

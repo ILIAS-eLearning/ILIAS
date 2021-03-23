@@ -36,6 +36,10 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
      */
     protected $signal_mask;
 
+    /**
+     * @var SignalGeneratorInterface
+     */
+    protected $signal_generator;
 
     public function __construct(
         DataFactory $data_factory,
@@ -103,7 +107,11 @@ class Password extends Input implements C\Input\Field\Password, Triggerable
         if ($special) {
             $constraints[] = $pw_validation->hasSpecialChars();
         }
-        return $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
+        /**
+         * @var $clone Password
+         */
+        $clone = $this->withAdditionalTransformation($this->refinery->logical()->parallel($constraints));
+        return $clone;
     }
 
     /**

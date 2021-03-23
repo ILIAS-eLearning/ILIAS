@@ -267,14 +267,22 @@ class ResourceBuilder
             $new_resource->addStakeholder($stakeholder);
         }
 
-        foreach ($resource->getAllRevisions() as $revision) {
+        foreach ($resource->getAllRevisions() as $existing_revision) {
+            if (!$existing_revision instanceof FileRevision) {
+                continue;
+            }
+            $info_resolver = new ClonedRevisionInfoResolver(
+                $existing_revision->getVersionNumber(),
+                $existing_revision
+            );
+
             $stream = new FileStreamConsumer($resource, $this->storage_handler);
-            $stream->setRevisionNumber($revision->getVersionNumber());
+            $stream->setRevisionNumber($existing_revision->getVersionNumber());
+
             $cloned_revision = new FileStreamRevision($new_resource->getIdentification(), $stream->getStream(), true);
-            $cloned_revision->setTitle($revision->getTitle());
-            $cloned_revision->setOwnerId($revision->getOwnerId());
-            $cloned_revision->setVersionNumber($revision->getVersionNumber());
-            $cloned_revision->setInformation($revision->getInformation());
+            $this->populateRevisionInfo($cloned_revision, $info_resolver);
+            $cloned_revision->setVersionNumber($existing_revision->getVersionNumber());
+
             $new_resource->addRevision($cloned_revision);
         }
         $this->store($new_resource);

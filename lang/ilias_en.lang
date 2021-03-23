@@ -1610,6 +1610,7 @@ assessment#:#tst_title_output_no_title#:#Neither Question Titles nor Available P
 assessment#:#tst_title_output#:#Show Question Title
 assessment#:#tst_type#:#Test Type
 assessment#:#exam_id#:#Testpass ID:
+assessment#:#exam_id_label#:#Exam Id
 assessment#:#examid_in_test_pass#:#Display Test Pass ID
 assessment#:#examid_in_test_pass_desc#:#A test pass ID is displayed in the test. A new ID is generated for every test pass.
 assessment#:#examid_in_test_res#:#ILIAS Test Pass ID
@@ -4193,7 +4194,7 @@ content#:#cont_active#:#Enable Menu
 content#:#cont_add_area#:#Add Area
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on placeholders to add new elements.
+content#:#cont_add_elements#:#Click on a plus symbol to add new elements.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_tab#:#Add Panel
 content#:#cont_added_comment#:#Comment has been added to history.
@@ -4289,12 +4290,14 @@ content#:#cont_dir_created#:#Directory has been created.
 content#:#cont_dir_deleted#:#Directory has been deleted.
 content#:#cont_dir_file#:#Directory/File
 content#:#cont_dir_renamed#:#Directory has been renamed.
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.
 content#:#cont_download_title#:#Download Title
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
 content#:#cont_downloads#:#Enable Download
-content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.
+content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b> content elements on placeholders to <b>move</b> elements.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left_float#:#Align: Left Float
 content#:#cont_ed_align_left#:#Align: Left
@@ -5942,7 +5945,6 @@ ldap#:#ldap_user_scope#:#Search Scope
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
 ldap#:#ldap_user_sync#:#User Synchronization Settings
 mail#:#mail_serial_letter_placeholders#:#Serial-Letter Placeholders
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders
 mail#:#bc#:#BCC
 chatroom#:#chat_select_room#:#Select Chat Room
 mail#:#back_to_folder#:#Back to Folder
@@ -16521,3 +16523,9 @@ copg#:#copg_an_error_occured#:#An error occured.
 copg#:#copg_details#:#Details
 copg#:#copg_error#:#Error
 copg#:#copg_page_element_not_found#:#Page element not found.
+adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
+content#:#cont_keyword#:#Keyword
+content#:#cont_footnote#:#Footnote
+content#:#cont_Book#:#Book
+content#:#cont_Numbers#:#Numbers
+content#:#cont_Verse#:#Verse/Stanza

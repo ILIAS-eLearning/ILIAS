@@ -2,8 +2,8 @@
 	// margin-bottom:  @il-slate-content-padding;
 	// height: @il-top-bar-height;
 	.il-workflow-title {
-		background-color: @il-slate-bulky-bg-color;
-		color: @brand-primary;
+		background-color: @il-content-bg;
+		color: @il-main-color;
 		font-size: 2.6rem;
 		font-weight: 300;
 		margin-bottom:  @il-slate-content-padding*3;
@@ -15,20 +15,20 @@
 	padding: 0;
 	.il-workflow-step {
 		&:before {
-			background-color: @workflow-icon-font-color;
-			border: @workflow-icon-size*0.05 solid @brand-primary;
+			background-color: @il-workflow-icon-font-color;
+			border: @il-workflow-icon-size*0.05 solid @il-main-color;
 			border-radius: 50%;
-			color: @workflow-icon-font-color;
+			color: @il-workflow-icon-font-color;
 			content: "";
 			font-family: Glyphicons Halflings;
-			font-size: floor(@workflow-icon-size*0.52381);
-			height: @workflow-icon-size;
-			line-height: ceil(@workflow-icon-size*0.9);
-			margin-left: floor(@workflow-icon-size*0.25);
-			padding-left: ceil(@workflow-icon-size*0.04761);
+			font-size: floor(@il-workflow-icon-size*0.52381);
+			height: @il-workflow-icon-size;
+			line-height: ceil(@il-workflow-icon-size*0.9);
+			margin-left: floor(@il-workflow-icon-size*0.25);
+			padding-left: ceil(@il-workflow-icon-size*0.04761);
 			position: absolute;
 			text-align: center;
-			width: @workflow-icon-size;
+			width: @il-workflow-icon-size;
 		}
 		&:last-child .text {
 			border-left: none;
@@ -39,22 +39,22 @@
 	.no-longer-available {
 		&:before {
 			content: "\e033";
-			color: @workflow-unavailable-text-color;
+			color: @il-workflow-unavailable-text-color;
 			background-color: @panel-footer-bg;
 			border: none;
 		}
 		&.in-progress {
 			&:before {
-				background-color: lighten(@brand-primary, 30%);
-				color: @workflow-icon-font-color;
+				background-color: lighten(@il-main-color, 30%);
+				color: @il-workflow-icon-font-color;
 			}
 			.text span {
-				color: @mid-gray;
+				color: @il-neutral-color;
 				opacity: .5;
 			}
 		}
 		.text {
-			color: @workflow-unavailable-text-color;
+			color: @il-workflow-unavailable-text-color;
 		}
 	}
 	.no-longer-available {
@@ -66,8 +66,8 @@
 	.completed-successfully,
 	.completed-unsuccessfully {
 		&:before {
-			background-color: @workflow-unavailable-text-color;
-			color: @workflow-icon-font-color;
+			background-color: @il-workflow-unavailable-text-color;
+			color: @il-workflow-icon-font-color;
 		}
 	}
 	.completed-successfully {
@@ -84,45 +84,45 @@
 	.available.completed-unsuccessfully,
 	.in-progress {
 		&:before {
-			background-color: @brand-primary;
+			background-color: @il-main-color;
 		}
 	}
 	//active
 	.active {
 		&:before {
 			margin: 0;
-			width: @workflow-icon-size*1.5;
-			height: @workflow-icon-size*1.5;
-			font-size: @workflow-icon-size*0.75;
+			width: @il-workflow-icon-size*1.5;
+			height: @il-workflow-icon-size*1.5;
+			font-size: @il-workflow-icon-size*0.75;
 		}
 		&.completed-successfully:before,
 		&.completed-unsuccessfully:before {
-	    	line-height: @workflow-icon-size*1.5;
-			background-color: @brand-primary;
+	    	line-height: @il-workflow-icon-size*1.5;
+			background-color: @il-main-color;
 		}
 		.text {
 			.il-workflow-step-label,
 			.il-workflow-step-label .btn.btn-link {
-				color: @brand-primary;
-				font-size: @workflow-icon-size*0.9;
+				color: @il-main-color;
+				font-size: @il-workflow-icon-size*0.9;
 				font-weight: 400;
 			}
 		}
 	}
 	//text
 	.text {
-		border-left: 1px dashed @mid-gray;
-		font-size: @workflow-icon-size*0.7;
-		margin-left: floor(@workflow-icon-size*0.75);
-		padding: 0 0 @workflow-icon-size*1.5 @workflow-icon-size;
+		border-left: 1px dashed @il-neutral-color;
+		font-size: @il-workflow-icon-size*0.7;
+		margin-left: floor(@il-workflow-icon-size*0.75);
+		padding: 0 0 @il-workflow-icon-size*1.5 @il-workflow-icon-size;
 		.il-workflow-step-label {
 			display: block;
 		}
 	}
 	.available .il-workflow-step-label,
 	.available .il-workflow-step-label .btn.btn-link {
-		color: @workflow-available-text-color;
-		font-size: @workflow-icon-size*0.7;
+		color: @il-workflow-available-text-color;
+		font-size: @il-workflow-icon-size*0.7;
 		font-weight: 300;
 		margin-top: -(@il-slate-content-padding/2);
 	}

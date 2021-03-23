@@ -59,10 +59,10 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilDB"] = $db;
         $GLOBALS["DIC"]["ilBench"] = null;
 
-        $objIds = ilObject::_getObjectsByType('chta');
-        $objId = current($objIds);
+        $chatAdministrations = ilObject::_getObjectsByType('chta');
+        $chatAdministration = current($chatAdministrations);
 
-        $chat_admin = new ilChatroomAdmin($objId);
+        $chat_admin = new ilChatroomAdmin((int) $chatAdministration['obj_id']);
         $settings = $chat_admin->loadGeneralSettings();
 
         $settings['address'] = $this->config->getAddress();
@@ -72,7 +72,7 @@ class ilChatroomServerConfigStoredObjective implements Setup\Objective
         $settings['cert'] = $this->config->getCert();
         $settings['key'] = $this->config->getKey();
         $settings['dhparam'] = $this->config->getDhparam();
-        $settings['log'] = (int) $this->config->getLog();
+        $settings['log'] = $this->config->getLog();
         $settings['log_level'] = $this->config->getLogLevel();
         $settings['error_log'] = $this->config->getErrorLog();
         $settings['ilias_proxy'] = (int) $this->config->hasIliasProxy();

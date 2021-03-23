@@ -27,6 +27,11 @@ class Factory implements Component\Input\Factory
     protected $container_factory;
 
     /**
+     * @var ViewControl\Factory
+     */
+    protected $control_factory;
+
+    /**
      * @param SignalGeneratorInterface $signal_generator
      */
     public function __construct(

@@ -1,57 +1,29 @@
 <?php
 
-namespace ILIAS\MainMenu\Tests;
+namespace ILIAS\ResourceStorage\Resource;
 
-use ILIAS\FileUpload\Collection\EntryLockingStringMap;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\ResourceStorage\Identification\IdentificationGenerator;
-use ILIAS\ResourceStorage\Identification\ResourceIdentification;
-use ILIAS\ResourceStorage\Information\Information;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Resource\ResourceBuilder;
-use ILIAS\ResourceStorage\Resource\StorableFileResource;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Revision\Revision;
-use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\ResourceStorage\AbstractBaseTest;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\UploadedFileInterface;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
+use ILIAS\ResourceStorage\Information\Information;
+use ILIAS\ResourceStorage\Revision\Revision;
+use Psr\Http\Message\UploadedFileInterface;
+use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
+use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
+use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\Lock\LockHandlerResult;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
-
-class DummyIDGenerator implements IdentificationGenerator
-{
-    private $id = 'dummy';
-
-    /**
-     * DummyIDGenerator constructor.
-     * @param string $id
-     */
-    public function __construct(string $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUniqueResourceIdentification() : ResourceIdentification
-    {
-        return new ResourceIdentification($this->id);
-    }
-}
 
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ResourceBuilderTest extends TestCase
+class ResourceBuilderTest extends AbstractBaseTest
 {
-
     /**
      * @var Revision|\PHPUnit\Framework\MockObject\MockObject
      */
@@ -93,13 +65,9 @@ class ResourceBuilderTest extends TestCase
      */
     protected $locking;
 
-    /**
-     * @inheritDoc
-     */
     protected function setUp() : void
     {
         parent::setUp();
-
         $this->storage_handler = $this->createMock(StorageHandler::class);
         $this->revision_repository = $this->createMock(RevisionRepository::class);
         $this->resource_repository = $this->createMock(ResourceRepository::class);
@@ -118,7 +86,70 @@ class ResourceBuilderTest extends TestCase
         $this->revision = $this->createMock(Revision::class);
     }
 
-    public function testNewResource() : void
+    public function testNewUpload() : void
+    {
+        // EXPECTED VALUES
+        $expected_file_name = 'info.xml';
+        $expected_owner_id = 6;
+        $expected_version_number = 99;
+        $expected_mime_type = 'text/xml';
+        $expected_size = 128;
+
+        // PRECONDITIONS
+        $identification = $this->id_generator->getUniqueResourceIdentification();
+
+        $upload_result = $this->getDummyUploadResult(
+            $expected_file_name,
+            $expected_mime_type,
+            $expected_size
+        );
+
+        $info_resolver = new UploadInfoResolver(
+            $upload_result,
+            $expected_version_number,
+            $expected_owner_id,
+            $upload_result->getName()
+        );
+
+        // MOCKS
+        $blank_resource = new StorableFileResource($identification);
+        $this->resource_repository->expects($this->once())
+                                  ->method('blank')
+                                  ->willReturn($blank_resource);
+
+        $blank_revision = new UploadedFileRevision($blank_resource->getIdentification(), $upload_result);
+        $blank_revision->setVersionNumber($info_resolver->getNextVersionNumber());
+        $this->revision_repository->expects($this->once())
+                                  ->method('blankFromUpload')
+                                  ->with(
+                                      $info_resolver,
+                                      $blank_resource,
+                                      $upload_result
+                                  )
+                                  ->willReturn($blank_revision);
+
+        // RUN
+        $resource = $this->resource_builder->new(
+            $upload_result,
+            $info_resolver
+        );
+
+        $this->assertEquals($identification->serialize(), $resource->getIdentification()->serialize());
+        $this->assertEquals($expected_version_number, $resource->getCurrentRevision()->getVersionNumber());
+        $this->assertEquals($expected_version_number, $resource->getMaxRevision());
+        $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getTitle());
+        $this->assertEquals($expected_owner_id, $resource->getCurrentRevision()->getOwnerId());
+        $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
+        $this->assertEquals($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
+        $this->assertEquals($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
+
+//        $resource->addStakeholder($stakeholder);
+//        $this->resource_builder->store($resource);
+        // END RUN
+
+    }
+
+    private function prepareNewResource() : void
     {
         $file_id = 'my_file_id';
         $file_name = 'testfile.txt';
@@ -155,7 +186,8 @@ class ResourceBuilderTest extends TestCase
         $this->resource_repository->expects($this->once())->method('store')->with($resource);
         $this->storage_handler->expects($this->once())->method('storeUpload')->with($revision);
         $this->revision_repository->expects($this->once())->method('store')->with($revision);
-        $this->information_repository->expects($this->once())->method('store')->with($revision->getInformation(), $revision);
+        $this->information_repository->expects($this->once())->method('store')->with($revision->getInformation(),
+            $revision);
 
         $locking_result = $this->createMock(LockHandlerResult::class);
         $locking_result->expects($this->once())->method('runAndUnlock')->willReturnCallback(
@@ -182,19 +214,5 @@ class ResourceBuilderTest extends TestCase
         $this->locking->expects($this->once())->method('lockTables')->willReturn($locking_result);
         $this->resource_builder->store($resource);
     }
-
-    /**
-     * @return UploadResult
-     */
-    private function getUploadResult(string $file_name, string $mime_type, int $size) : UploadResult
-    {
-        return new UploadResult(
-            $file_name,
-            $size,
-            $mime_type,
-            new EntryLockingStringMap(),
-            new ProcessingStatus(ProcessingStatus::OK, 'No processors were registered.'),
-            'dummy/path'
-        );
-    }
 }
+

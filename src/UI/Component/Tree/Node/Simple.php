@@ -12,7 +12,6 @@ interface Simple extends Node, AsyncNode
 {
     /**
      * Get the icon for this Node.
-     * @return Icon|null
      */
-    public function getIcon();
+    public function getIcon() : ?\ILIAS\UI\Component\Symbol\Icon\Icon;
 }
