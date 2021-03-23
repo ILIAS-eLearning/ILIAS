@@ -16,8 +16,16 @@ abstract class ilDclTableViewBaseDefaultValue extends ActiveRecord
      */
     public static function findSingle($data_type_id, $tview_id) {
         $storage_location = ilDclCache::getDatatype($data_type_id)->getStorageLocation();
-        $class = ilDclDefaultValueFactory::STORAGE_LOCATION_MAPPING[$storage_location];
-        return $class::getCollection()->where(array("tview_set_id" => $tview_id))->first();
+        if (is_null($storage_location) || $storage_location == 0) {
+            return null;
+        }
+
+        try {
+            $class = ilDclDefaultValueFactory::STORAGE_LOCATION_MAPPING[$storage_location];
+            return $class::getCollection()->where(array("tview_set_id" => $tview_id))->first();
+        } catch (Exception $ex) {
+            return null;
+        }
     }
 
 
