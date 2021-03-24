@@ -163,8 +163,9 @@ class ilObjPollGUI extends ilObject2GUI
     protected function getEditFormCustomValues(array &$a_values)
     {
         include_once "Services/Object/classes/class.ilObjectActivation.php";
-        
-        $a_values["online"] = $this->object->IsOnline();
+
+
+        $a_values["online"] = !$this->object->getOfflineStatus();
         $a_values["results"] = $this->object->getViewResults();
         $a_values["access_period"]["start"] = $this->object->getAccessBegin()
             ? new ilDateTime($this->object->getAccessBegin(), IL_CAL_UNIX)
@@ -198,7 +199,7 @@ class ilObjPollGUI extends ilObject2GUI
     protected function updateCustom(ilPropertyFormGUI $a_form)
     {
         $this->object->setViewResults($a_form->getInput("results"));
-        $this->object->setOnline($a_form->getInput("online"));
+        $this->object->setOfflineStatus(($a_form->getInput("online") == 1 ) ? 0 : 1);
         $this->object->setSortResultByVotes($a_form->getInput("sort"));
         $this->object->setShowComments($a_form->getInput("comment"));
         $this->object->setShowResultsAs($a_form->getInput("show_results_as"));
