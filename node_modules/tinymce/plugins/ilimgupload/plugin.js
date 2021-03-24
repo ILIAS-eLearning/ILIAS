@@ -590,7 +590,7 @@
         }else{
             image.style.verticalAlign =value;
         }
-    }
+    };
     var defaultData = function() {
         return {
             src: '',
@@ -1247,14 +1247,15 @@
             info.hasImageTitle ? [imageTitle] : [],
             [alignment],
             info.hasDimensions ? [imageDimensions] : [],
-            [{
+            /* The caption sometimes appears on the right side of the image: remove the possibility to set captions */
+            /*[{
                 type: 'grid',
                 columns: 2,
                 items: flatten([
                     classList.toArray(),
                     info.hasImageCaption ? [caption] : []
                 ])
-            }],      
+            }], */     
         ]);
     };
     var makeTab$1 = function(info) {
@@ -1730,8 +1731,8 @@
     };
 
     var register = function(editor) {
-        editor.addCommand('mceilimgupload', Dialog(editor).open);
-        editor.addCommand('mceUpdateilimgupload', function(_ui, data) {
+        editor.addCommand('mceIlimgupload', Dialog(editor).open);
+        editor.addCommand('mceUpdateIlimgupload', function(_ui, data) {
             editor.undoManager.transact(function() {
                 return insertOrUpdateImage(editor, data);
             });
