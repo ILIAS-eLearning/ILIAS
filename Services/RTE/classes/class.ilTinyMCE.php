@@ -58,6 +58,7 @@ class ilTinyMCE extends ilRTE
             'code',
             'charmap'
         );
+        $this->contextMenuItems= array('cut','copy','paste', 'link','unlink','ilimgupload','imagetools','table');
 
         $this->setStyleSelect(false);
         $this->addInternalTinyMCEImageManager();
@@ -210,6 +211,8 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('BUTTONS_1', self::removeRedundantSeparators($buttons_1));
             $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
             $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
+
+            $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
             
             $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
             include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -239,6 +242,29 @@ class ilTinyMCE extends ilRTE
         if ($this->getRemoveImgContextMenuItem() && $tpl->blockExists('remove_img_context_menu_item')) {
             $tpl->touchBlock('remove_img_context_menu_item');
         }
+    }
+    //https://github.com/ILIAS-eLearning/ILIAS/pull/3088#issuecomment-805830050
+    /**
+     * addContextmenuItem
+     *
+     * @param  mixed $item
+     * @return void
+     */
+    public function addContextmenuItem(string $item = "")
+    {
+        if (!empty($item)) {
+            array_push($this->contextMenuItems, $item);
+        }
+    }
+    
+    /**
+     * removeAllContextMenuItems
+     *
+     * @return void
+     */
+    public function removeAllContextMenuItems()
+    {
+        $this->contextMenuItems = array();
     }
 
     /**
@@ -270,6 +296,8 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
         $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
         
+        $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
+
         $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         //$tpl->setVariable("STYLESHEET_LOCATION", $this->getContentCSS());

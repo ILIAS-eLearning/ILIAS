@@ -198,7 +198,7 @@ tinymce.init({
     image_caption: true,
     quickbars_selection_toolbar: '',
     noneditable_noneditable_class: 'mceNonEditable',
-    contextmenu: 'cut copy paste link unlink ilimgupload imagetools table',
+    contextmenu: '{CONTEXT_MENU_ITEMS}',
     skin: 'oxide',
     entities: "60,lt,62,gt,38,amp",
     content_css: "{STYLESHEET_LOCATION}",
