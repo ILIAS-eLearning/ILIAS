@@ -7196,7 +7196,7 @@ search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
 search#:#search_any#:#-- Any --
 search#:#search_area_info#:#Please select an area where the search should start.
-search#:#search_area#:#Area
+search#:#search_area#:#Search Area
 search#:#search_auto_complete_length#:#Number of Auto Complete List Entries
 search#:#search_choose_object_type#:#Please choose one object type.
 search#:#search_content#:#Page Content
@@ -10436,6 +10436,7 @@ content#:#cont_resources_of_type#:#Resources of Type
 content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
 common#:#search_globally#:#Globally
 common#:#search_at_current_position#:#At Current Position
+common#:#label_search_options#:#Search Area
 ecs#:#ecs_crs_export#:#Course Releases
 ecs#:#ecs_crs_export_obj_settings#:#Course Release Settings
 ecs#:#ecs_crs_export_disabled#:#Do not release this Course
