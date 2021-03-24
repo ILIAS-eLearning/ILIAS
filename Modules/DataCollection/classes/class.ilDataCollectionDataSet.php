@@ -207,6 +207,11 @@ class ilDataCollectionDataSet extends ilDataSet
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
                     $tableview->setRoles($a_rec['roles']);
+                    $tableview->setStepVs($a_rec['step_vs']);
+                    $tableview->setStepC($a_rec['step_c']);
+                    $tableview->setStepE($a_rec['step_e']);
+                    $tableview->setStepO($a_rec['step_o']);
+                    $tableview->setStepS($a_rec['step_s']);
                     $tableview->create(false);    //do not create default setting as they are imported too
                 }
                 $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_tableview', $a_rec['id'], $tableview->getId());
@@ -518,6 +523,11 @@ class ilDataCollectionDataSet extends ilDataSet
                     'table_id' => 'integer',
                     'title' => 'text',
                     'roles' => 'text',
+                    'step_vs' => 'integer',
+                    'step_c' => 'integer',
+                    'step_e' => 'integer',
+                    'step_o' => 'integer',
+                    'step_s' => 'integer',
                     'description' => 'text',
                     'tableview_order' => 'integer',
                 );
