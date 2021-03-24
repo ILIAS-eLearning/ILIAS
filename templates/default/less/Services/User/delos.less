@@ -1,10 +1,9 @@
 /* Services/User */
 
 div.ilProfile {
-	width: 450px;
+	max-width: 450px;
 	margin: 0 auto;
 	background-color: @il-main-dark-bg;
-	border: 1px solid @il-main-border-color;
 	padding: 15px;
 	+ div.ilPermalinkContainer {
 		margin-top: 20px;
@@ -12,6 +11,10 @@ div.ilProfile {
 			vertical-align: bottom;
 		}
 	}
+}
+
+img.ilProfileImage {
+	width: 100%;
 }
 
 h3.ilProfileName {
