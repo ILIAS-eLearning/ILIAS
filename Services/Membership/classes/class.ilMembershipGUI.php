@@ -1078,8 +1078,9 @@ class ilMembershipGUI
                 );
             }
             
-            $childs = (array) $GLOBALS['DIC']['tree']->getChildsByType($this->getParentObject()->getRefId(), 'sess');
-            if (count($childs)) {
+            $tree = $DIC->repositoryTree();
+            $children = (array) $tree->getSubTree($tree->getNodeData($this->getParentObject()->getRefId()), false, 'sess');
+            if (count($children)) {
                 $tabs->addSubTabTarget(
                     'events',
                     $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilsessionoverviewgui'), 'listSessions'),
