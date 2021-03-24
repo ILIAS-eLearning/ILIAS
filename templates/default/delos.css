@@ -6896,7 +6896,7 @@ button.close {
 .il-counter-status {
   padding: 2px 4px;
   margin-top: 10px;
-  background-color: #a9a9a9;
+  background-color: #757575;
 }
 .panel {
   border: none;
@@ -7073,7 +7073,7 @@ button.close {
   position: relative;
   background-color: white;
   border: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 0px 0px rgba(0, 0, 0, 0.15);
   /* see bug #24947 */
 }
 .il-card img {
@@ -10079,10 +10079,10 @@ footer {
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: #4c6586;
+  color: #3a4c65;
 }
 .il-system-info.il-system-info-neutral a.glyph {
-  color: #4c6586;
+  color: #3a4c65;
 }
 .il-system-info.il-system-info-important {
   -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
@@ -10093,24 +10093,24 @@ footer {
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: #aa0000;
+  color: #770000;
 }
 .il-system-info.il-system-info-important a.glyph {
-  color: #aa0000;
+  color: #770000;
 }
 .il-system-info.il-system-info-breaking {
   -webkit-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
   box-shadow: inset 0px -10px 4px -10px rgba(0, 0, 0, 0.25);
-  background-color: #f70000;
+  background-color: #aa0000;
   border-top: #dddddd none;
   border-bottom: #dddddd none;
   border-left: #dddddd none;
   border-right: #dddddd none;
-  color: #fff7f7;
+  color: #ffdddd;
 }
 .il-system-info.il-system-info-breaking a.glyph {
-  color: #fff7f7;
+  color: #ffdddd;
 }
 .il-system-info.full {
   height: auto;
@@ -11022,24 +11022,24 @@ the il- variable in your less code and not the boostrap variable in your less co
   background-color: #633c00;
 }
 .extended-color-variant-3.il-extended-color-variant-standard {
-  color: #000000;
-  background-color: #26646d;
+  color: #081517;
+  background-color: #307c88;
 }
 .extended-color-variant-3.il-extended-color-variant-light {
-  color: #10292d;
-  background-color: #3895a2;
+  color: #194248;
+  background-color: #43acbd;
 }
 .extended-color-variant-3.il-extended-color-variant-lighter {
-  color: #123034;
-  background-color: #4db2c1;
+  color: #1c484f;
+  background-color: #69bdca;
 }
 .extended-color-variant-3.il-extended-color-variant-dark {
-  color: #89ccd6;
-  background-color: #143338;
+  color: #a5d7df;
+  background-color: #1d4c53;
 }
 .extended-color-variant-3.il-extended-color-variant-darker {
-  color: #d5edf0;
-  background-color: #09181a;
+  color: #f0f8fa;
+  background-color: #133035;
 }
 .extended-color-variant-4.il-extended-color-variant-standard {
   color: #378144;
@@ -11840,7 +11840,7 @@ div.input {
   overflow: auto;
 }
 div.input:focus {
-  border-color: #a0b0ff;
+  border-color: #0078D7;
 }
 input[type=text].numeric {
   text-align: right;
@@ -12393,7 +12393,6 @@ div.Access {
 .bold {
   font-weight: bold;
 }
-/* ----------------- alternative text styles ------------- */
 .light {
   color: #757575;
 }
@@ -15194,7 +15193,7 @@ div.ilTableFilterLabel label {
 }
 div.ilTableFilterInput {
   min-width: 150px;
-  padding: 5px 0;
+  padding: 0 0 5px 0;
 }
 div.ilTableFilterInput select {
   width: 100%;
@@ -15536,7 +15535,7 @@ th.ilSkillEntryHead {
   padding-bottom: 3px;
 }
 .ilSkillEvalItem.ilSkillEvalType1 {
-  border-color: #26646d;
+  border-color: #307C88;
 }
 .ilSkillEvalItem.ilSkillEvalType2 {
   border-color: #d38000;
@@ -15566,7 +15565,7 @@ th.ilSkillEntryHead {
   border-color: #557b2e;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType1 {
-  color: #26646d;
+  color: #307C88;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType2 {
   color: #d38000;
@@ -17346,7 +17345,7 @@ div.ilSurveyPageEditActionMenu {
   padding: 6px 12px;
 }
 .ilTag {
-  background-color: #26646d;
+  background-color: #307C88;
   /* background-color: lighten(@brand-primary, 10%); */
   color: white;
   display: inline-block;
@@ -17359,19 +17358,19 @@ a.ilTag:hover,
 a.ilTag:active {
   text-decoration: none;
   color: white;
-  background-color: #097a8a;
+  background-color: #0b97ad;
 }
 .ilTagRelHigh {
-  background-color: #35595e;
+  background-color: #3e727a;
 }
 .ilTagRelMiddle {
-  background-color: #434e50;
+  background-color: #4c686c;
 }
 .ilTagRelLow {
-  background-color: #4a4a4a;
+  background-color: #595e5f;
 }
 .ilTagRelVeryLow {
-  background-color: #4a4a4a;
+  background-color: #5c5c5c;
 }
 .ilTag.ilHighlighted {
   background-color: #B54F00;
