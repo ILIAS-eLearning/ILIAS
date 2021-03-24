@@ -23,10 +23,12 @@ tinymce.init({
     plugin_insertdate_dateFormat: "%d.%m.%Y",
     plugin_insertdate_timeFormat: "%H:%M:%S",
     save_onsavecallback: "saveTextarea",
-    handle_event_callback: "charCounter",
     resize: 'true',
     font_formats: "Arial=sans-serif;Courier=monospace;Times Roman=serif",
     fontsize_formats: "8pt,10pt,12pt,14pt,18pt,24pt,36pt",
-    setup: function(ed) { ed.on('init', ilTinyMceInitCallback); }
+    setup: function(ed) { 
+        ed.on('init', ilTinyMceInitCallback);
+        ed.on('keyup', charCounter);
+    }
 });
 <!-- END tinymce -->
