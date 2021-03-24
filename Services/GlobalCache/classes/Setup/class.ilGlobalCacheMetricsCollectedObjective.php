@@ -3,6 +3,7 @@
 /* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
+use ILIAS\DI;
 
 class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
@@ -15,10 +16,20 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
 
     public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        if (!$client_ini) {
+
+        if (!$client_ini || !$db) {
             return;
         }
+
+        // ATTENTION: This is a total abomination. It only exists to allow various
+        // sub components of the various readers to run. This is a memento to the
+        // fact, that dependency injection is something we want. Currently, every
+        // component could just service locate the whole world via the global $DIC.
+        $DIC = $GLOBALS["DIC"];
+        $GLOBALS["DIC"] = new DI\Container();
+        $GLOBALS["DIC"]["ilDB"] = $db;
 
         $settings = new ilGlobalCacheSettings();
         $settings->readFromIniFile($client_ini);
@@ -98,5 +109,7 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             "component_activation",
             $component_activation
         );
+
+        $GLOBALS["DIC"] = $DIC;
     }
 }
