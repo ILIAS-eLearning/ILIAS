@@ -4911,6 +4911,7 @@ common#:#scorm_without_session_info#:#Dies sichert die Speicherung von SCORM-Ler
 common#:#search#:#Suche
 common#:#search_active#:#Aktive Benutzer
 common#:#search_at_current_position#:#An der aktuellen Position
+common#:#label_search_options#:#Suchbereich
 common#:#search_engine#:#Lesbare .html-URLs
 common#:#search_for#:#Suchen
 common#:#search_globally#:#Im gesamten Magazin
