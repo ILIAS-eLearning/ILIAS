@@ -35,26 +35,26 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         $chat_admin = new ilChatroomAdmin($objId);
         $settings = $chat_admin->loadGeneralSettings();
 
-        if (!is_null($settings)) {
+        if (count($settings) > 0) {
             $storage->storeConfigText(
                 "address",
-                $settings['address'],
+                $settings['address'] ?? "",
                 "IP-Address/FQN of Chat Server."
             );
-            $storage->storeStableCounter(
+            $storage->storeConfigText(
                 "port",
-                $settings['port'],
+                $settings['port'] ?? "",
                 "Port of the chat server."
             );
             $storage->storeConfigText(
                 "sub_directory",
-                $settings['sub_directory'],
+                $settings['sub_directory'] ?? "",
                 "http(s)://[IP/Domain]/[SUB_DIRECTORY]"
             );
 
             $storage->storeConfigText(
                 "protocol",
-                $settings['protocol'],
+                $settings['protocol'] ?? "",
                 "Protocol used for connection (http/https)."
             );
 
@@ -62,17 +62,17 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $cert = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['cert']
+                    $settings['cert'] ?? ""
                 );
                 $key = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['key']
+                    $settings['key'] ?? ""
                 );
                 $dhparam = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['dhparam']
+                    $settings['dhparam'] ?? ""
                 );
                 $https = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
@@ -89,17 +89,17 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
 
             $storage->storeConfigText(
                 "log",
-                $settings['log'],
+                $settings['log'] ?? "",
                 "Absolute server path to the chat server's log file."
             );
             $storage->storeConfigText(
                 "log_level",
-                $settings['log_level'],
+                $settings['log_level'] ?? "",
                 "Possible values are emerg, alert, crit error, warning, notice, info, debug, silly."
             );
             $storage->storeConfigText(
                 "error_log",
-                $settings['error_log'],
+                $settings['error_log'] ?? "",
                 "Absolute server path to the chat server's error log file."
             );
 
@@ -107,7 +107,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $ilias_url = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['ilias_url']
+                    $settings['ilias_url'] ?? ""
                 );
                 $ilias_proxy = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
@@ -130,7 +130,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $client_url = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['client_url']
+                    $settings['client_url'] ?? ""
                 );
                 $client_proxy = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
@@ -153,17 +153,17 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $deletion_unit = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['deletion_unit']
+                    $settings['deletion_unit'] ?? ""
                 );
                 $deletion_value = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
-                    Setup\Metrics\Metric::TYPE_COUNTER,
-                    $settings['deletion_value']
+                    Setup\Metrics\Metric::TYPE_TEXT,
+                    (string)$settings['deletion_value'] ?? ""
                 );
                 $deletion_time = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    $settings['deletion_time']
+                    $settings['deletion_time'] ?? ""
                 );
                 $deletion_mode = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
