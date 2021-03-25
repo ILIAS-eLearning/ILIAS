@@ -7,6 +7,8 @@ use ILIAS\Data\DataSize;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
+use InvalidArgumentException;
+use Iterator as PhpIterator;
 
 /**
  * Class SizeRangeFilterIterator
@@ -17,27 +19,27 @@ class SizeRangeFilterIterator extends \FilterIterator
 {
     /** @var FileSystem */
     private $filesystem;
-
     /** @var NumberComparator[] */
     private $comparators = [];
 
     /**
      * @param Filesystem $filesystem
-     * @param \Iterator $iterator The Iterator to filter
+     * @param PhpIterator $iterator The Iterator to filter
      * @param NumberComparator[] $comparators An array of NumberComparator instances
+     * @throws InvalidArgumentException
      */
-    public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)
+    public function __construct(Filesystem $filesystem, PhpIterator $iterator, array $comparators)
     {
         array_walk($comparators, function ($comparator) {
             if (!($comparator instanceof NumberComparator)) {
                 if (is_object($comparator)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new InvalidArgumentException(sprintf(
                         'Invalid comparator given: %s',
                         get_class($comparator)
                     ));
                 }
 
-                throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
+                throw new InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
             }
         });
 

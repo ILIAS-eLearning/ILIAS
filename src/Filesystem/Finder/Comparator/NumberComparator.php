@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
+use InvalidArgumentException;
+
 /**
  * Class NumberComparator
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -13,20 +15,20 @@ class NumberComparator extends BaseComparator
     /**
      * NumberComparator constructor.
      * @param string $test
+     * @throws InvalidArgumentException
      */
     public function __construct(string $test)
     {
         if (!preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
-            throw new \InvalidArgumentException(sprintf('Don\'t understand "%s" as a number test.', $test));
+            throw new InvalidArgumentException(sprintf('Don\'t understand "%s" as a number test.', $test));
         }
 
         $target = $matches[2];
         if (!is_numeric($target)) {
-            throw new \InvalidArgumentException(sprintf('Invalid number "%s".', $target));
+            throw new InvalidArgumentException(sprintf('Invalid number "%s".', $target));
         }
 
         if (isset($matches[3])) {
-            // magnitude
             switch (strtolower($matches[3])) {
                 case 'k':
                     $target *= 1000;

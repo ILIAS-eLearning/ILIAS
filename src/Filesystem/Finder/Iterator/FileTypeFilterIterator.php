@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\DTO\Metadata;
+use Iterator as PhpIterator;
 
 /**
  * Class FileTypeFilterIterator
@@ -12,18 +13,18 @@ use ILIAS\Filesystem\DTO\Metadata;
  */
 class FileTypeFilterIterator extends \FilterIterator
 {
-    const ALL = 0;
-    const ONLY_FILES = 1;
-    const ONLY_DIRECTORIES = 2;
+    public const ALL = 0;
+    public const ONLY_FILES = 1;
+    public const ONLY_DIRECTORIES = 2;
 
     /** @var int */
     private $mode = self::ALL;
 
     /**
-     * @param \Iterator $iterator The Iterator to filter
+     * @param PhpIterator $iterator The Iterator to filter
      * @param int $mode The mode (self::ALL or self::ONLY_FILES or self::ONLY_DIRECTORIES)
      */
-    public function __construct(\Iterator $iterator, int $mode)
+    public function __construct(PhpIterator $iterator, int $mode)
     {
         $this->mode = $mode;
         parent::__construct($iterator);

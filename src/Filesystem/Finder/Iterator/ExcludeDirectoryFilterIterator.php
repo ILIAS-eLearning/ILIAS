@@ -3,45 +3,47 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
 
+use FilterIterator;
 use ILIAS\Filesystem\DTO\Metadata;
+use InvalidArgumentException;
+use Iterator as PhpIterator;
+use RecursiveIterator;
 
 /**
  * Class ExcludeDirectoryFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class ExcludeDirectoryFilterIterator extends \FilterIterator implements \RecursiveIterator
+class ExcludeDirectoryFilterIterator extends FilterIterator implements RecursiveIterator
 {
-    /** @var \Iterator|\RecursiveIterator */
+    /** @var PhpIterator|RecursiveIterator */
     private $iterator;
-
     /** @var bool */
     private $isRecursive = false;
-
     /** @var string[] */
     private $excludedDirs = [];
-
     /** @var string */
     private $excludedPattern = '';
 
     /**
-     * @param \Iterator $iterator The Iterator to filter
+     * @param PhpIterator $iterator The Iterator to filter
      * @param string[] $directories An array of directories to exclude
+     * @throws InvalidArgumentException
      */
-    public function __construct(\Iterator $iterator, array $directories)
+    public function __construct(PhpIterator $iterator, array $directories)
     {
         array_walk($directories, function ($directory) {
             if (!is_string($directory)) {
                 if (is_object($directory)) {
-                    throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
+                    throw new InvalidArgumentException(sprintf('Invalid directory given: %s', get_class($directory)));
                 }
 
-                throw new \InvalidArgumentException(sprintf('Invalid directory given: %s', gettype($directory)));
+                throw new InvalidArgumentException(sprintf('Invalid directory given: %s', gettype($directory)));
             }
         });
 
         $this->iterator = $iterator;
-        $this->isRecursive = $iterator instanceof \RecursiveIterator;
+        $this->isRecursive = $iterator instanceof RecursiveIterator;
 
         $patterns = [];
         foreach ($directories as $directory) {

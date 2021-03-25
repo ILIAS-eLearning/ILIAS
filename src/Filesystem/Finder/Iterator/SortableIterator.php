@@ -3,39 +3,44 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
 
+use ArrayIterator;
 use ILIAS\Filesystem\DTO\Metadata;
 use ILIAS\Filesystem\Filesystem;
+use InvalidArgumentException;
+use IteratorAggregate;
+use Traversable;
+use Closure;
 
 /**
  * Class SortableIterator
  * @package ILIAS\Filesystem\Finder\Iterator
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class SortableIterator implements \IteratorAggregate
+class SortableIterator implements IteratorAggregate
 {
-    const SORT_BY_NONE = 0;
-    const SORT_BY_NAME = 1;
-    const SORT_BY_TYPE = 2;
-    const SORT_BY_NAME_NATURAL = 4;
-    const SORT_BY_TIME = 5;
+    public const SORT_BY_NONE = 0;
+    public const SORT_BY_NAME = 1;
+    public const SORT_BY_TYPE = 2;
+    public const SORT_BY_NAME_NATURAL = 4;
+    public const SORT_BY_TIME = 5;
 
     /** @var FileSystem */
     private $filesystem;
 
-    /** @var \Traversable */
+    /** @var Traversable */
     private $iterator;
 
-    /** @var callable|\Closure|int */
+    /** @var callable|Closure|int */
     private $sort;
 
     /**
      * Sortable constructor.
      * @param Filesystem $filesystem
-     * @param \Traversable $iterator
-     * @param int|callable|\Closure $sort
+     * @param Traversable $iterator
+     * @param int|callable|Closure $sort
      * @param bool $reverseOrder
      */
-    public function __construct(Filesystem $filesystem, \Traversable $iterator, $sort, $reverseOrder = false)
+    public function __construct(Filesystem $filesystem, Traversable $iterator, $sort, $reverseOrder = false)
     {
         $this->filesystem = $filesystem;
         $this->iterator = $iterator;
@@ -85,7 +90,7 @@ class SortableIterator implements \IteratorAggregate
                 };
             }
         } else {
-            throw new \InvalidArgumentException('The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.');
+            throw new InvalidArgumentException('The SortableIterator takes a PHP callable or a valid built-in sort algorithm as an argument.');
         }
     }
 
@@ -105,6 +110,6 @@ class SortableIterator implements \IteratorAggregate
             uasort($array, $this->sort);
         }
 
-        return new \ArrayIterator($array);
+        return new ArrayIterator($array);
     }
 }

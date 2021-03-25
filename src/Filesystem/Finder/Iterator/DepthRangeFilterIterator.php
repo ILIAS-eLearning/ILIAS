@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace ILIAS\Filesystem\Finder\Iterator;
 
 use ILIAS\Filesystem\Finder\Comparator\NumberComparator;
+use InvalidArgumentException;
+use RecursiveIteratorIterator;
 
 /**
  * Class DepthRangeFilterIterator
@@ -17,21 +19,22 @@ class DepthRangeFilterIterator extends \FilterIterator
 
     /**
      * DepthRangeFilterIterator constructor.
-     * @param \RecursiveIteratorIterator $iterator
+     * @param RecursiveIteratorIterator $iterator
      * @param NumberComparator[] $comparators
+     * @throws InvalidArgumentException
      */
-    public function __construct(\RecursiveIteratorIterator $iterator, array $comparators)
+    public function __construct(RecursiveIteratorIterator $iterator, array $comparators)
     {
         array_walk($comparators, function ($comparator) {
             if (!($comparator instanceof NumberComparator)) {
                 if (is_object($comparator)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new InvalidArgumentException(sprintf(
                         'Invalid comparator given: %s',
                         get_class($comparator)
                     ));
                 }
 
-                throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
+                throw new InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
             }
         });
 

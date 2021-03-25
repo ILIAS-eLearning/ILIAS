@@ -3,40 +3,43 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Iterator;
 
+use FilterIterator;
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Finder\Comparator\DateComparator;
 use ILIAS\Filesystem\DTO\Metadata;
+use InvalidArgumentException;
+use Iterator as PhpIterator;
 
 /**
  * Class DateRangeFilterIterator
  * @package ILIAS\Filesystem\Finder\Iterator
  * @author  Michael Jansen <mjansen@databay.de>
  */
-class DateRangeFilterIterator extends \FilterIterator
+class DateRangeFilterIterator extends FilterIterator
 {
     /** @var FileSystem */
     private $filesystem;
-
     /** @var DateComparator[] */
     private $comparators = [];
 
     /**
      * @param Filesystem $filesystem
-     * @param \Iterator $iterator The Iterator to filter
+     * @param PhpIterator $iterator The Iterator to filter
      * @param DateComparator[] $comparators An array of DateComparator instances
+     * @throws InvalidArgumentException
      */
-    public function __construct(FileSystem $filesystem, \Iterator $iterator, array $comparators)
+    public function __construct(Filesystem $filesystem, PhpIterator $iterator, array $comparators)
     {
         array_walk($comparators, function ($comparator) {
             if (!($comparator instanceof DateComparator)) {
                 if (is_object($comparator)) {
-                    throw new \InvalidArgumentException(sprintf(
+                    throw new InvalidArgumentException(sprintf(
                         'Invalid comparator given: %s',
                         get_class($comparator)
                     ));
                 }
 
-                throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
+                throw new InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));
             }
         });
 

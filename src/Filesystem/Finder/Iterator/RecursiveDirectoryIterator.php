@@ -15,10 +15,8 @@ class RecursiveDirectoryIterator implements \RecursiveIterator
 {
     /** @var Filesystem */
     private $filesystem;
-
     /** @var string */
     protected $dir;
-
     /** @var Metadata[] */
     protected $files = [];
 

@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Filesystem\Finder\Comparator;
 
+use InvalidArgumentException;
+
 /**
  * Class Base
  * @package ILIAS\Filesystem\Finder\Comparator
@@ -12,7 +14,6 @@ abstract class BaseComparator
 {
     /** @var string */
     private $target = '';
-
     /** @var string */
     private $operator = '==';
 
@@ -42,6 +43,7 @@ abstract class BaseComparator
 
     /**
      * @param string $operator
+     * @throws InvalidArgumentException
      */
     public function setOperator(string $operator)
     {
@@ -50,7 +52,7 @@ abstract class BaseComparator
         }
 
         if (!in_array($operator, ['>', '<', '>=', '<=', '==', '!='])) {
-            throw new \InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
+            throw new InvalidArgumentException(sprintf('Invalid operator "%s".', $operator));
         }
 
         $this->operator = $operator;
