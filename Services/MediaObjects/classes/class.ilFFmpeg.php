@@ -268,7 +268,7 @@ class ilFFmpeg
         $sec = (int) $a_sec;
         $cmd = "-y -i " . ilUtil::escapeShellArg($a_file) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilUtil::escapeShellArg($target_file);
         //echo "-$cmd-"; exit;
-        $ret = self::exec($cmd . " 2>&1");
+        $ret = self::exec($cmd );
         self::$last_return = $ret;
         
         if (is_file($target_file)) {

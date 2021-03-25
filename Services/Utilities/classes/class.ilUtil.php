@@ -3456,10 +3456,10 @@ class ilUtil
         // nothing todo, just append args
         elseif ($args) {
             $cmd .= " " . $args;
+            $cmd = escapeshellcmd($cmd);
         }
 
         exec($cmd, $arr);
-
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
 
         return $arr;
