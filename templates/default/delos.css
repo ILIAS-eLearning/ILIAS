@@ -15910,10 +15910,9 @@ div.iosCaptchaInputCommandContainer .audio {
 }
 /* Services/User */
 div.ilProfile {
-  width: 450px;
+  max-width: 450px;
   margin: 0 auto;
   background-color: #f9f9f9;
-  border: 1px solid #dddddd;
   padding: 15px;
 }
 div.ilProfile + div.ilPermalinkContainer {
@@ -15921,6 +15920,9 @@ div.ilProfile + div.ilPermalinkContainer {
 }
 div.ilProfile + div.ilPermalinkContainer .input-group-btn {
   vertical-align: bottom;
+}
+img.ilProfileImage {
+  width: 100%;
 }
 h3.ilProfileName {
   margin: 0 0 10px;

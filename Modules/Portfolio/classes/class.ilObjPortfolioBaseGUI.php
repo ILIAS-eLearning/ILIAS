@@ -24,6 +24,21 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected $perma_link; // [string]
     protected $page_id; // [int]
     protected $page_mode; // [string] preview|edit
+
+    /**
+     * @var int
+     */
+    protected $requested_ppage;
+
+    /**
+     * @var int
+     */
+    protected $requested_user_page;
+
+    /**
+     * @var string
+     */
+    protected $requested_back_url = "";
     
     /**
      * @var \ILIAS\DI\UIServices
@@ -54,6 +69,19 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->lng->loadLanguageModule("prtf");
         $this->lng->loadLanguageModule("user");
         $this->lng->loadLanguageModule("obj");
+
+        $this->requested_ppage = (int) $_REQUEST["ppage"];
+        $this->requested_user_page = (int) $_REQUEST["user_page"];
+
+        // temp sanitization, should be done smarter in the future
+        $back = str_replace("&amp;", ":::", $_REQUEST["back_url"]);
+        $back = preg_replace(
+            "/[^a-zA-Z0-9_\.\?=:\s]/",
+            "",
+            $back);
+        $this->requested_back_url = str_replace(":::", "&amp;", $back);
+
+        $this->ctrl->setParameterbyClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));
     }
     
     protected function addLocatorItems()
@@ -84,19 +112,19 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     protected function determinePageCall()
     {
         // edit
-        if (isset($_REQUEST["ppage"])) {
+        if ($this->requested_ppage > 0) {
             if (!$this->checkPermissionBool("write")) {
                 $this->ctrl->redirect($this, "view");
             }
             
-            $this->page_id = $_REQUEST["ppage"];
+            $this->page_id = $this->requested_ppage;
             $this->page_mode = "edit";
             $this->ctrl->setParameter($this, "ppage", $this->page_id);
             return true;
         }
         // preview
         else {
-            $this->page_id = $_REQUEST["user_page"];
+            $this->page_id = $this->requested_user_page;
             $this->page_mode = "preview";
             $this->ctrl->setParameter($this, "user_page", $this->page_id);
             return false;
@@ -585,7 +613,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->clearTargets();
             
         $pages = ilPortfolioPage::getAllPortfolioPages($portfolio_id);
-        $current_page = (int) $_GET["user_page"];
+        $current_page = $this->requested_user_page;
         
         // validate current page
         if ($pages && $current_page) {
@@ -617,8 +645,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $back_caption = "";
                         
         // public profile
-        if ($_REQUEST["back_url"]) {
-            $back = $_REQUEST["back_url"];
+        if ($this->requested_back_url != "") {
+            $back = $this->requested_back_url;
         } elseif ($_GET["baseClass"] != "ilPublicUserProfileGUI" &&
             $this->user_id && $this->user_id != ANONYMOUS_USER_ID) {
             if (!$this->checkPermissionBool("write")) {

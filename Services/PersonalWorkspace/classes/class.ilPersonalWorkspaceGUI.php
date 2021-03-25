@@ -62,7 +62,10 @@ class ilPersonalWorkspaceGUI
      */
     protected $locator;
 
-    protected $tree; // [ilTree]
+    /**
+     * @var ilTree
+     */
+    protected $tree;
     protected $node_id; // [int]
 
     /**
@@ -97,7 +100,7 @@ class ilPersonalWorkspaceGUI
         $ilCtrl->saveParameter($this, "wsp_id");
 
         $this->node_id = (int) $_REQUEST["wsp_id"];
-        if (!$this->node_id) {
+        if (!$this->node_id || !$this->tree->isInTree($this->node_id)) {
             $this->node_id = $this->tree->getRootId();
         }
         $this->tool_context = $DIC->globalScreen()->tool()->context();
