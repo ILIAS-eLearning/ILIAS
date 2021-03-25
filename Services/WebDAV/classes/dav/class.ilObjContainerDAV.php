@@ -64,7 +64,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             if ($this->dav_helper->isValidFileNameWithValidFileExtension($name)) {
                 if ($this->childExists($name)) {
                     $file_dav = $this->getChild($name);
-                    $file_dav->put($data);
+                    return $file_dav->put($data);
                 } else {
                     $file_obj = new ilObjFile();
                     $file_obj->setTitle($name);
@@ -80,7 +80,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_obj->update();
 
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
-                    $file_dav->handleFileUpload($data, "create");
+                    return $file_dav->handleFileUpload($data, "create");
                 }
             } else {
                 // Throw forbidden if invalid extension or filename. As far as we know, it is sadly not
@@ -90,8 +90,6 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         } else {
             throw new Forbidden('No write access');
         }
-
-        return $file_dav->getETag();
     }
 
     /**
