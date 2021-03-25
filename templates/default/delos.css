@@ -7483,29 +7483,29 @@ a fieldset[disabled] .active {
   border-radius: 3px;
 }
 .btn-tag.btn-tag-relevance-verylow {
-  border-color: #4a4a4a;
-  background-color: #4a4a4a;
-  color: #ffffff;
+  border-color: #b0b0b0;
+  background-color: #b0b0b0;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-low {
-  border-color: #4a4a4a;
-  background-color: #4a4a4a;
-  color: #ffffff;
+  border-color: #a5b8ba;
+  background-color: #a5b8ba;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-middle {
-  border-color: #434e50;
-  background-color: #434e50;
-  color: #ffffff;
+  border-color: #95c5ca;
+  background-color: #95c5ca;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-high {
-  border-color: #35595e;
-  background-color: #35595e;
-  color: #ffffff;
+  border-color: #85d1da;
+  background-color: #85d1da;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-veryhigh {
-  border-color: #26646d;
-  background-color: #26646d;
-  color: #ffffff;
+  border-color: #75deea;
+  background-color: #75deea;
+  color: #000000;
 }
 .btn-link {
   padding: 0;
@@ -7532,24 +7532,24 @@ a fieldset[disabled] .active {
   cursor: default !important;
 }
 .btn-tag.btn-tag-relevance-verylow {
-  background-color: #4a4a4a;
-  color: #ffffff;
+  background-color: #b0b0b0;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-low {
-  background-color: #4a4a4a;
-  color: #ffffff;
+  background-color: #a5b8ba;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-middle {
-  background-color: #434e50;
-  color: #ffffff;
+  background-color: #95c5ca;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-high {
-  background-color: #35595e;
-  color: #ffffff;
+  background-color: #85d1da;
+  color: #000000;
 }
 .btn-tag.btn-tag-relevance-veryhigh {
-  background-color: #26646d;
-  color: #ffffff;
+  background-color: #75deea;
+  color: #000000;
 }
 .il-toggle-button {
   position: relative;
@@ -17364,9 +17364,9 @@ div.ilSurveyPageEditActionMenu {
   padding: 6px 12px;
 }
 .ilTag {
-  background-color: #307C88;
+  background-color: #75deea;
   /* background-color: lighten(@brand-primary, 10%); */
-  color: white;
+  color: #000000;
   display: inline-block;
   white-space: nowrap;
   padding: 1px 5px;
@@ -17376,20 +17376,24 @@ div.ilSurveyPageEditActionMenu {
 a.ilTag:hover,
 a.ilTag:active {
   text-decoration: none;
-  color: white;
-  background-color: #0b97ad;
+  color: #000000;
+  background-color: #5fd9e7;
 }
 .ilTagRelHigh {
-  background-color: #3e727a;
+  background-color: #85d1da;
+  color: #000000;
 }
 .ilTagRelMiddle {
-  background-color: #4c686c;
+  background-color: #95c5ca;
+  color: #000000;
 }
 .ilTagRelLow {
-  background-color: #595e5f;
+  background-color: #a5b8ba;
+  color: #000000;
 }
 .ilTagRelVeryLow {
-  background-color: #5c5c5c;
+  background-color: #b0b0b0;
+  color: #000000;
 }
 .ilTag.ilHighlighted {
   background-color: #B54F00;

@@ -1,16 +1,14 @@
 /* Services/Tags */
 
-@il-tag-bg: @il-extended-color-3;
-
 .ilTagCloud {
 	font-size: @font-size-small;
 	padding: @padding-large-vertical @padding-large-horizontal;
 }
 
 .ilTag {
-	background-color: @il-tag-bg;
+	background-color: @il-btn-tag-bg;
 	/* background-color: lighten(@brand-primary, 10%); */
-	color: white;
+	color: @il-btn-tag-fg-relevance-veryhigh;
 	display: inline-block;
 	white-space: nowrap;
 	padding: 1px 5px;
@@ -20,24 +18,28 @@
 
 a.ilTag:hover, a.ilTag:active {
 	text-decoration: none;
-	color: white;
-	background-color: saturate(@il-tag-bg, 40%);
+	color: @il-btn-tag-fg-relevance-veryhigh;
+	background-color: darken(@il-btn-tag-bg, 5%);
 }
 
 .ilTagRelVeryHigh {
 
 }
 .ilTagRelHigh {
-	background-color: desaturate(@il-tag-bg, 15%);
+	background-color: @il-btn-tag-bg-relevance-high;
+	color: @il-btn-tag-fg-relevance-high;
 }
 .ilTagRelMiddle {
-	background-color: desaturate(@il-tag-bg, 30%);
+	background-color: @il-btn-tag-bg-relevance-middle;
+	color: @il-btn-tag-fg-relevance-middle;
 }
 .ilTagRelLow {
-	background-color: desaturate(@il-tag-bg, 45%);
+	background-color: @il-btn-tag-bg-relevance-low;
+	color: @il-btn-tag-fg-relevance-low;
 }
 .ilTagRelVeryLow {
-	background-color: desaturate(@il-tag-bg, 60%);
+	background-color: @il-btn-tag-bg-relevance-verylow;
+	color: @il-btn-tag-fg-relevance-verylow;
 }
 
 .ilTag.ilHighlighted {
