@@ -249,7 +249,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
                 break;
         }
 
-        $this->obj->notifyUpdate();
+        $this->obj->notifyUpdate($this->obj->getId());
     }
 
     /**
