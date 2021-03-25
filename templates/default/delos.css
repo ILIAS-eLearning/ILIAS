@@ -11022,24 +11022,24 @@ the il- variable in your less code and not the boostrap variable in your less co
   background-color: #633c00;
 }
 .extended-color-variant-3.il-extended-color-variant-standard {
-  color: #234042;
-  background-color: #59a0a5;
+  color: #081517;
+  background-color: #307c88;
 }
 .extended-color-variant-3.il-extended-color-variant-light {
-  color: #3b696d;
-  background-color: #87bbbe;
+  color: #194248;
+  background-color: #43acbd;
 }
 .extended-color-variant-3.il-extended-color-variant-lighter {
-  color: #3e7073;
-  background-color: #a8ced0;
+  color: #1c484f;
+  background-color: #69bdca;
 }
 .extended-color-variant-3.il-extended-color-variant-dark {
-  color: #ddeced;
-  background-color: #407377;
+  color: #a5d7df;
+  background-color: #1d4c53;
 }
 .extended-color-variant-3.il-extended-color-variant-darker {
-  color: #ffffff;
-  background-color: #32595c;
+  color: #f0f8fa;
+  background-color: #133035;
 }
 .extended-color-variant-4.il-extended-color-variant-standard {
   color: #378144;
@@ -15535,7 +15535,7 @@ th.ilSkillEntryHead {
   padding-bottom: 3px;
 }
 .ilSkillEvalItem.ilSkillEvalType1 {
-  border-color: #234042;
+  border-color: #307C88;
 }
 .ilSkillEvalItem.ilSkillEvalType2 {
   border-color: #d38000;
@@ -15565,7 +15565,7 @@ th.ilSkillEntryHead {
   border-color: #557b2e;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType1 {
-  color: #59a0a5;
+  color: #307C88;
 }
 .ilSkillEvalItem > .row > .ilSkillEvalType2 {
   color: #d38000;
