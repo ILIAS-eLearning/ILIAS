@@ -74,13 +74,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
             if ($this->versioning_enabled === true) {
                 // Stolen from ilObjFile->addFileVersion
-                $this->handleFileUpload($data, 'new_version');
+                return $this->handleFileUpload($data, 'new_version');
             } else {
-                $this->handleFileUpload($data, 'replace');
+                return $this->handleFileUpload($data, 'replace');
             }
-
-
-            return $this->getETag();
         }
         throw new Exception\Forbidden("Permission denied. No write access for this file");
     }
@@ -199,6 +196,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 
         $upload = fopen($path_with_file, 'read');
         
+        if (fstat($upload)['size'] === 0) {
+            return null;
+        }
+        
         $stream = Streams::ofResource($upload);
         if ($a_file_action === 'replace') {
             $this->obj->replaceWithStream($stream, $this->obj->getTitle());
@@ -215,6 +216,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);
             ilPreview::createPreview($this->obj, true);
         }
+        
+        return $this->getETag();
     }
 
 
