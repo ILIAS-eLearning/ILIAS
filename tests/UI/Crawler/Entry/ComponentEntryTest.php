@@ -165,7 +165,7 @@ class ComponentEntryTest extends TestCase
 
     public function testExamplesNull()
     {
-        $this->assertEquals(null, $this->entry->getExamples());
+        $this->assertEquals([], $this->entry->getExamples());
     }
 
     public function testJsonSerialize()
