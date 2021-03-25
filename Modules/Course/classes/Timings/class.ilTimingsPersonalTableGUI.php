@@ -196,8 +196,8 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $current_row = $this->parseTitle($current_row, $item);
             
             $item = $this->parseUserTimings($item);
+            $current_row['start'] = $item['suggestion_start'];
 
-            
             if (array_key_exists($item['ref_id'], $failed)) {
                 $current_row['failed'] = true;
                 $current_row['failure'] = $failed[$item['ref_id']];
@@ -205,6 +205,9 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
             $current_row['item'] = $item;
             $rows[] = $current_row;
         }
+        // stable sort first title, second start
+        $rows = ilUtil::sortArray($rows, 'title', 'asc', false);
+        $rows = ilUtil::sortArray($rows, 'start', 'asc', true);
         $this->setData($rows);
     }
     
