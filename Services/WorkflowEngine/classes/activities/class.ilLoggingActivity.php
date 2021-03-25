@@ -78,11 +78,12 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     private function checkFileWriteability($a_log_file)
     {
-        /** @noinspection PhpUsageOfSilenceOperatorInspection */
-        @$file_handle = fopen($a_log_file, 'a+');
-        if ($file_handle == null) {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowFilesystemException.php';
+        if (!is_writable(dirname($a_log_file))) {
+            throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
+        }
+
+        $file_handle = fopen($a_log_file, 'a+');
+        if (!is_resource($file_handle)) {
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
         }
         fclose($file_handle);

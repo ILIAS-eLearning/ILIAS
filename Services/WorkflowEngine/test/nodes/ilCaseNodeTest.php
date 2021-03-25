@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use org\bovigo\vfs;
+
 /**
  * ilCaseNodeTest is part of the petri net based workflow engine.
  *
@@ -16,6 +18,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 {
     /** @var ilEmptyWorkflow $workflow */
     public $workflow;
+    private $test_dir;
 
     public function setUp() : void
     {
@@ -24,6 +27,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
+        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
     public function tearDown() : void
@@ -243,7 +247,7 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 
         require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
         $activity = new ilLoggingActivity($node);
-        $activity->setLogFile('ilTransitionLog.txt');
+        $activity->setLogFile(vfs\vfsStream::url('example/ilTransitionLog.txt'));
         $activity->setLogLevel('MESSAGE');
         $activity->setLogMessage('TEST');
         $node->addActivity($activity);
@@ -254,10 +258,9 @@ class ilCaseNodeTest extends ilWorkflowEngineBaseTest
 
         // Assert
         $expected = ' :: MESSAGE :: TEST';
-        $fp = fopen('ilTransitionLog.txt', 'r');
+        $fp = fopen(vfs\vfsStream::url('example/ilTransitionLog.txt'), 'r');
         $line = fgets($fp);
         $actual = substr($line, 25, strlen($line) - 27);
-        @unlink('ilTransitionLog.txt'); // TODO: Use vfsStrream
         $this->assertEquals(
             $expected,
             $actual

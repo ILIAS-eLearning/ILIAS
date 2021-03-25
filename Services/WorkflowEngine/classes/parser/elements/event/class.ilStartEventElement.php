@@ -31,30 +31,29 @@ class ilStartEventElement extends ilBaseElement
         $hasChildren = (isset($element['children']) && is_array($element['children']) && count($element['children']) > 0);
         if ($hasChildren) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'messageEventDefinition') {
-                    $class_object->registerStartEventRef($child['attributes']['messageRef']);
+                if (isset($child['name']) && $child['name'] == 'messageEventDefinition') {
+                    $class_object->registerStartEventRef($child['attributes']['messageRef'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
-                        $child['attributes']['messageRef'],
+                        $child['attributes']['messageRef'] ?? '',
                         'message',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'signalEventDefinition') {
-                    $class_object->registerStartSignalRef($child['attributes']['signalRef']);
+                if (isset($child['name']) && $child['name'] == 'signalEventDefinition') {
+                    $class_object->registerStartSignalRef($child['attributes']['signalRef'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
-                        $child['attributes']['signalRef'],
+                        $child['attributes']['signalRef'] ?? '',
                         'signal',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'timerEventDefinition') {
-                    $class_object->registerStartTimerRef($child['attributes']['id']);
+                if (isset($child['name']) && $child['name'] == 'timerEventDefinition') {
+                    $class_object->registerStartTimerRef($child['attributes']['id'] ?? '');
                     $event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement(
-                        $child['attributes']['id'],
+                        $child['attributes']['id'] ?? '',
                         'startEvent',
                         $this->bpmn2_array
                     );
-                    //$event_definition = $class_object->getTimeDateEventDefinition($child['attributes']['id']);
                 }
             }
         }

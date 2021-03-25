@@ -29,6 +29,8 @@ class ilCaseNode extends ilBaseNode
     /** @var bool $is_exclusive */
     public $is_exclusive;
 
+    private $condition_emitter_pairs = [];
+
     /**
      * Default constructor.
      *
@@ -139,7 +141,7 @@ class ilCaseNode extends ilBaseNode
             }
         }
 
-        foreach ((array) $this->condition_emitter_pairs as $pair) {
+        foreach ($this->condition_emitter_pairs as $pair) {
             $eval_function = function ($that) use ($pair) {
                 return eval($pair['expression']);
             };

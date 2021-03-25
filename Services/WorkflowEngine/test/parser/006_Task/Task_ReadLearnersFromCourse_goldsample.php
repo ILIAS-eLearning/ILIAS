@@ -16,7 +16,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			{
 		
 			$this->defineInstanceVar("DataInput_1", "dataInput", false, "", "mixed", "undefined" );
-			$this->registerInputVar("DataInput_1", array());
+			$this->registerInputVar("DataInput_1", array("type" => "robjselect","allowedtype" => "crs","requirement" => "required","caption" => "Kurs","description" => "Bitte wählen Sie einen Kurs für den Prozess aus."));
 
 			$_v_StartEvent_1 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_1);
