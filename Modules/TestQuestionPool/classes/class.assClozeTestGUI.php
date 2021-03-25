@@ -297,6 +297,12 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $form->addItem($hi);
         }
 
+        // lifecycle
+        $lifecycle = new ilSelectInputGUI($this->lng->txt('qst_lifecycle'), 'lifecycle');
+        $lifecycle->setOptions($this->object->getLifecycle()->getSelectOptions($this->lng));
+        $lifecycle->setValue($this->object->getLifecycle()->getIdentifier());
+        $form->addItem($lifecycle);
+
         // questiontext
         $question = new ilTextAreaInputGUI($this->lng->txt("question"), "question");
         $question->setValue($this->object->prepareTextareaOutput($this->object->getQuestion()));
