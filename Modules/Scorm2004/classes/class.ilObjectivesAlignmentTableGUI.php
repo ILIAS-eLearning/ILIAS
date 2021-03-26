@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for learning objectives alignments
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScormAicc
-*/
+ * TableGUI class for learning objectives alignments
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjectivesAlignmentTableGUI extends ilTable2GUI
 {
     public function __construct(
@@ -42,8 +37,6 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
         );
         $this->getScos();
         $this->setNoEntriesText($lng->txt("sahs_oa_no_scos"));
-        //$this->setTitle($lng->txt("sahs_objectives_alignment"));
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         $this->setTitle(
             ilScorm2004Node::_lookupTitle($this->chap),
             "icon_chap.svg"
@@ -86,7 +79,6 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
 
         $lng->loadLanguageModule("assessment");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
         $node_object = ilSCORM2004NodeFactory::getInstance(
             $this->slm_object,
             $a_set["child"],
@@ -106,12 +98,9 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
         }
         
         // pages
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
         $childs = $this->tree->getChilds($a_set["child"]);
         foreach ($childs as $child) {
             // get question ids
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $child["child"]);
 
             if (count($qids) > 0) {

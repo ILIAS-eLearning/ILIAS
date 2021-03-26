@@ -1,21 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-require_once "./Services/Container/classes/class.ilContainer.php";
-
-
-/** @defgroup ModulesCategory Modules/Category
- */
 
 /**
-* Class ilObjCategory
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-* @ingroup ModulesCategory
-*/
+ * Class ilObjCategory
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjCategory extends ilContainer
 {
     /**
@@ -53,11 +45,9 @@ class ilObjCategory extends ilContainer
         }
         
         // put here category specific stuff
-        include_once('./Services/User/classes/class.ilObjUserFolder.php');
         ilObjUserFolder::_updateUserFolderAssignment($this->ref_id, USER_FOLDER_ID);
 
         // taxonomies
-        include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
         foreach (ilObjTaxonomy::getUsageOfObject($this->getId()) as $tax_id) {
             if ($tax_id) {
                 $tax = new ilObjTaxonomy($tax_id);
@@ -96,11 +86,9 @@ class ilObjCategory extends ilContainer
     
                                 
         // clone taxonomies
-            
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+
         $all_tax = ilObjTaxonomy::getUsageOfObject($this->getId());
         if (sizeof($all_tax)) {
-            include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
             
             $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
             $mappings = $cwo->getMappings();
@@ -145,7 +133,6 @@ class ilObjCategory extends ilContainer
     */
     public function addAdditionalSubItemInformation(&$a_item_data)
     {
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
     }
 } // END class.ilObjCategory

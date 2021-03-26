@@ -6134,17 +6134,7 @@ class ilObjSurvey extends ilObject
 
         $log = ilLoggerFactory::getLogger("svy");
         
-        include_once "./Services/Mail/classes/class.ilMail.php";
-        include_once "./Services/User/classes/class.ilObjUser.php";
-        include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-        include_once "./Services/User/classes/class.ilUserUtil.php";
-        
-        include_once "./Services/Link/classes/class.ilLink.php";
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-        
-        // somehow needed in cron-calls
-        //$ilCtrl->setTargetScript("ilias.php");
-        //$ilCtrl->initBaseClass("ilobjsurveygui");
         
         // yeah, I know...
         $old_ref_id = $_GET["ref_id"];
@@ -6188,7 +6178,6 @@ class ilObjSurvey extends ilObject
         }
         
         // prepare mail attachment
-        require_once 'Services/Mail/classes/class.ilFileDataMail.php';
         $att = "survey_" . $this->getRefId() . ".pdf";
         $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
         $mail_data->copyAttachmentFile($pdf, $att);

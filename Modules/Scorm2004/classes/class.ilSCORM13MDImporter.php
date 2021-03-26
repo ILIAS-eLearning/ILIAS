@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once 'Services/MetaData/classes/class.ilMDXMLCopier.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * SCORM 13 Metadata importer
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM13MDImporter extends ilMDXMLCopier
 {
@@ -99,8 +95,6 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
      */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
-        include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
-        //echo "<br>BEGIN:".$a_name;
         $this->path[count($this->path)] = $a_name;
 
         if (!$this->getMDParsingStatus()) {

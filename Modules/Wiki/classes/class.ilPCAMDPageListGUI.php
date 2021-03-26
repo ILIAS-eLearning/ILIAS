@@ -2,19 +2,13 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Wiki/classes/class.ilPCAMDPageList.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
-
 /**
-* Class ilPCAMDPageListGUI
-*
-* Handles user commands on advanced md page list
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $I$
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilPCAMDPageListGUI
+ *
+ * Handles user commands on advanced md page list
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCAMDPageListGUI extends ilPageContentGUI
 {
     /**
@@ -94,7 +88,6 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {
@@ -111,8 +104,7 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         ));
         $mode->setRequired(true);
         $form->addItem($mode);
-                
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
+
         $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH, 'wiki', $this->getPage()->getWikiId(), 'wpg', $this->getPage()->getId());
         $this->record_gui->setPropertyForm($form);
         

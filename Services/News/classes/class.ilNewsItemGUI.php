@@ -608,7 +608,6 @@ class ilNewsItemGUI
 
         $ilTabs->clearTargets();
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
 
         // set confirm/cancel commands

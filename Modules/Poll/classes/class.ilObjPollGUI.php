@@ -1,20 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjPollGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
-*
-* @ilCtrl_Calls ilObjPollGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
-*
-* @extends ilObject2GUI
-*/
+ * Class ilObjPollGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjPollGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjPollGUI: ilPermissionGUI, ilObjectCopyGUI, ilExportGUI
+ */
 class ilObjPollGUI extends ilObject2GUI
 {
     /**
@@ -77,8 +72,6 @@ class ilObjPollGUI extends ilObject2GUI
         $lng = $this->lng;
         
         // activation
-        
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
         $this->lng->loadLanguageModule('rep');
         
         $section = new ilFormSectionHeaderGUI();
@@ -95,8 +88,7 @@ class ilObjPollGUI extends ilObject2GUI
         $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'online');
         $online->setInfo($this->lng->txt('poll_activation_online_info') . $act_obj_info);
         $a_form->addItem($online);
-        
-        include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
+
         $dur = new ilDateDurationInputGUI($this->lng->txt('rep_visibility_until'), "access_period");
         $dur->setShowTime(true);
         $a_form->addItem($dur);
@@ -162,9 +154,6 @@ class ilObjPollGUI extends ilObject2GUI
 
     protected function getEditFormCustomValues(array &$a_values)
     {
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
-
-
         $a_values["online"] = !$this->object->getOfflineStatus();
         $a_values["results"] = $this->object->getViewResults();
         $a_values["access_period"]["start"] = $this->object->getAccessBegin()
@@ -203,8 +192,7 @@ class ilObjPollGUI extends ilObject2GUI
         $this->object->setSortResultByVotes($a_form->getInput("sort"));
         $this->object->setShowComments($a_form->getInput("comment"));
         $this->object->setShowResultsAs($a_form->getInput("show_results_as"));
-        
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
+
         $period = $a_form->getItemByPostVar("access_period");
         if ($period->getStart() && $period->getEnd()) {
             $this->object->setAccessType(ilObjectActivation::TIMINGS_ACTIVATION);
@@ -291,7 +279,6 @@ class ilObjPollGUI extends ilObject2GUI
                 break;
             
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -299,13 +286,11 @@ class ilObjPollGUI extends ilObject2GUI
             case "ilpermissiongui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("id_permissions");
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             
             case "ilobjectcopygui":
-                include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType("poll");
                 $this->ctrl->forwardCommand($cp);
@@ -314,7 +299,6 @@ class ilObjPollGUI extends ilObject2GUI
             case 'ilexportgui':
                 $this->prepareOutput();
                 $ilTabs->activateTab("export");
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ilCtrl->forwardCommand($exp_gui);
@@ -376,8 +360,7 @@ class ilObjPollGUI extends ilObject2GUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveQuestion"));
         $form->setTitle($lng->txt("obj_poll"));
@@ -509,8 +492,7 @@ class ilObjPollGUI extends ilObject2GUI
         
         $ilTabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_answers");
-    
-        include_once "Modules/Poll/classes/class.ilPollAnswerTableGUI.php";
+
         $tbl = new ilPollAnswerTableGUI($this, "showParticipants");
         $tpl->setContent($tbl->getHTML());
     }
@@ -529,8 +511,7 @@ class ilObjPollGUI extends ilObject2GUI
         
         $ilTabs->activateTab("participants");
         $this->setParticipantsSubTabs("result_users");
-        
-        include_once "Modules/Poll/classes/class.ilPollUserTableGUI.php";
+
         $tbl = new ilPollUserTableGUI($this, "showParticipantVotes");
         $tpl->setContent($tbl->getHTML());
     }
@@ -548,7 +529,6 @@ class ilObjPollGUI extends ilObject2GUI
         
         $ilTabs->activateTab("participants");
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($lng->txt("poll_delete_votes_sure"));
 
@@ -601,8 +581,7 @@ class ilObjPollGUI extends ilObject2GUI
         } else {
             $_SESSION["last_poll_vote"][$this->object->getId()] = $_POST["aw"];
         }
-        
-        include_once "Services/Link/classes/class.ilLink.php";
+
         ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
     }
     
@@ -611,12 +590,10 @@ class ilObjPollGUI extends ilObject2GUI
         $ilUser = $this->user;
         $tree = $this->tree;
         $lng = $this->lng;
-        
-        include_once "./Services/Notification/classes/class.ilNotification.php";
+
         ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), true);
         
         ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-        include_once "Services/Link/classes/class.ilLink.php";
         ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
     }
     
@@ -625,12 +602,10 @@ class ilObjPollGUI extends ilObject2GUI
         $ilUser = $this->user;
         $tree = $this->tree;
         $lng = $this->lng;
-        
-        include_once "./Services/Notification/classes/class.ilNotification.php";
+
         ilNotification::setNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->object->getId(), false);
         
         ilUtil::sendSuccess($lng->txt("settings_saved"), true);
-        include_once "Services/Link/classes/class.ilLink.php";
         ilUtil::redirect(ilLink::_getLink($tree->getParentId($this->ref_id)));
     }
     
@@ -639,7 +614,6 @@ class ilObjPollGUI extends ilObject2GUI
         $ilUser = $this->user;
         
         // recipients
-        include_once "./Services/Notification/classes/class.ilNotification.php";
         $users = ilNotification::getNotificationsForObject(
             ilNotification::TYPE_POLL,
             $this->object->getId(),
@@ -649,8 +623,7 @@ class ilObjPollGUI extends ilObject2GUI
         if (!sizeof($users)) {
             return;
         }
-                                            
-        include_once "./Services/Notification/classes/class.ilSystemNotification.php";
+
         $ntf = new ilSystemNotification();
         $ntf->setLangModules(array("poll"));
         $ntf->setRefId($this->ref_id);
@@ -714,7 +687,6 @@ class ilObjPollGUI extends ilObject2GUI
             $container_id = $tree->getParentId($ref_id);
 
             // #11810
-            include_once "Services/Link/classes/class.ilLink.php";
             ilUtil::redirect(ilLink::_getLink($container_id) .
                 "#poll" . ilObject::_lookupObjId($id[0]));
         }

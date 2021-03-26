@@ -2921,7 +2921,6 @@ class ilPageObjectGUI
             return;
         }
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -3416,7 +3415,6 @@ class ilPageObjectGUI
         $this->ctrl->setParameter($this, "totransl", $l);
         $this->lng->loadLanguageModule("meta");
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("cont_page_translation_does_not_exist") . ": " .

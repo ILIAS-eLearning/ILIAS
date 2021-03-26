@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for wiki page templates
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesWIki
  */
 class ilWikiPageTemplatesTableGUI extends ilTable2GUI
 {
@@ -31,11 +26,8 @@ class ilWikiPageTemplatesTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
         $templates = new ilWikiPageTemplate($a_wiki_id);
         $this->setData($templates->getAllInfo());
         $this->setTitle($lng->txt(""));

@@ -1096,7 +1096,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("info_" . $action . "_sure"));
@@ -3104,7 +3103,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));

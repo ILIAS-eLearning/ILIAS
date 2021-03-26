@@ -1,17 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Object/classes/class.ilObject2.php";
-require_once "Services/Object/classes/class.ilObjectActivation.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * Class ilObjPoll
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
-*
-* @extends ilObject2
 */
 class ilObjPoll extends ilObject2
 {
@@ -228,7 +222,6 @@ class ilObjPoll extends ilObject2
         $this->setShowResultsAs($row["show_results_as"]);
         
         // #14661
-        include_once("./Services/Notes/classes/class.ilNote.php");
         $this->setShowComments(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
         
         if ($this->ref_id) {
@@ -276,7 +269,6 @@ class ilObjPoll extends ilObject2
             
             
             // block handling
-            include_once "Modules/Poll/classes/class.ilPollBlock.php";
             $block = new ilPollBlock();
             $block->setType("poll");
             $block->setContextObjId($this->getId());
@@ -299,7 +291,6 @@ class ilObjPoll extends ilObject2
             );
             
             // #14661
-            include_once("./Services/Notes/classes/class.ilNote.php");
             ilNote::activateComments($this->getId(), 0, $this->getType(), $this->getShowComments());
             
             if ($this->ref_id) {
@@ -403,7 +394,6 @@ class ilObjPoll extends ilObject2
     public function deleteImage()
     {
         if ($this->id) {
-            include_once "Modules/Poll/classes/class.ilFSStoragePoll.php";
             $storage = new ilFSStoragePoll($this->id);
             $storage->delete();
             
@@ -420,7 +410,6 @@ class ilObjPoll extends ilObject2
      */
     public static function initStorage($a_id, $a_subdir = null)
     {
-        include_once "Modules/Poll/classes/class.ilFSStoragePoll.php";
         $storage = new ilFSStoragePoll($a_id);
         $storage->create();
         

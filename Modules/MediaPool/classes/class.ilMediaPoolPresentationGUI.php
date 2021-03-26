@@ -94,7 +94,6 @@ class ilMediaPoolPresentationGUI
 
         switch ($next_class) {
             case "ilobjmediapoolgui":
-                require_once("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
                 $mep_gui = new ilObjMediaPoolGUI($_GET["ref_id"]);
                 $ilCtrl->forwardCommand($mep_gui);
                 break;

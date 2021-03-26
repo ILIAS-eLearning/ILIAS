@@ -1,27 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php");
-require_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Export.php");
-include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
-include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjSCORMLearningModuleGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>, Hendrik Holtmann <holtmann@mac.com>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
-* $Id: class.ilObjSCORMLearningModuleGUI.php 13133 2007-01-30 11:13:06Z akill $
-*
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilSCORM2004TrackingItemsPerScoFilterGUI, ilSCORM2004TrackingItemsPerUserFilterGUI, ilSCORM2004TrackingItemsTableGUI
-* @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLTIProviderObjectSettingGUI
-*
-* @ingroup ModulesScormAicc
-*/
+ * Class ilObjSCORMLearningModuleGUI
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Hendrik Holtmann <holtmann@mac.com>
+ * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+ *
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilInfoScreenGUI, ilSCORM2004ChapterGUI, ilSCORM2004SeqChapterGUI, ilSCORM2004PageNodeGUI, ilSCORM2004ScoGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCertificateGUI, ilObjStyleSheetGUI, ilNoteGUI, ilSCORM2004AssetGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilSCORM2004TrackingItemsPerScoFilterGUI, ilSCORM2004TrackingItemsPerUserFilterGUI, ilSCORM2004TrackingItemsTableGUI
+ * @ilCtrl_Calls ilObjSCORM2004LearningModuleGUI: ilLTIProviderObjectSettingGUI
+ */
 class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 {
     /**
@@ -101,7 +94,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
 
         // update expander
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
         $form_gui = new ilSCORM2004OrganizationHFormGUI();
         $form_gui->setTree($this->getEditTree());
         $form_gui->updateExpanded();
@@ -120,35 +112,30 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
             // chapters
             case "ilscorm2004chaptergui":
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ChapterGUI.php");
                 $chap_gui = new ilSCORM2004ChapterGUI($this->object, $_GET["obj_id"]);
                 $chap_gui->setParentGUI($this);
                 return $ilCtrl->forwardCommand($chap_gui);
 
                 // sequencing chapters
             case "ilscorm2004seqchaptergui":
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004SeqChapterGUI.php");
                 $chap_gui = new ilSCORM2004SeqChapterGUI($this->object, $_GET["obj_id"]);
                 $chap_gui->setParentGUI($this);
                 return $ilCtrl->forwardCommand($chap_gui);
 
                 // scos
             case "ilscorm2004scogui":
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
                 $sco_gui = new ilSCORM2004ScoGUI($this->object, $_GET["obj_id"]);
                 $sco_gui->setParentGUI($this);
                 return $ilCtrl->forwardCommand($sco_gui);
 
             // assets
             case "ilscorm2004assetgui":
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php");
                 $ass_gui = new ilSCORM2004AssetGUI($this->object, $_GET["obj_id"]);
                 $ass_gui->setParentGUI($this);
                 return $ilCtrl->forwardCommand($ass_gui);
 
                 // pages
             case "ilscorm2004pagenodegui":
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php");
                 $page_gui = new ilSCORM2004PageNodeGUI($this->object, $_GET["obj_id"]);
                 $page_gui->setParentGUI($this);
                 $ilCtrl->forwardCommand($page_gui);
@@ -181,7 +168,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     public function editOrganization($a_to_organization = true)
     {
         if ($_GET["obj_id"] > 0) {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
             $type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
         }
         if (in_array($type, array("sco", "chap", "seqc", "page"))) {
@@ -224,8 +210,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $anchor = ($a_anchor_node != "")
             ? "node_" . $a_anchor_node
             : "";
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+
         $type = ilSCORM2004Node::_lookupType($_GET["obj_id"]);
         $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
         switch ($type) {
@@ -361,8 +346,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt("cont_lm_properties"));
@@ -700,8 +684,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
     
         // localization
@@ -931,8 +914,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $this->form = new ilPropertyFormGUI();
     
         // title
@@ -1000,8 +982,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $tree = $this->tree;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilGlossarySelectorGUI.php");
+
         $exp = new ilGlossarySelectorGUI(
             $ilCtrl->getLinkTarget($this, "selectGlossary"),
             "ilobjscorm2004learningmodulegui"
@@ -1086,7 +1067,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->setSubTabs("settings", "style");
         $ilTabs->setTabActive("settings");
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         
         $fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -1375,7 +1355,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->tpl->setVariable("TXT_EXP2_BTN", $lng->txt("collapse_all"));
         $this->tpl->parseCurrentBlock();
 
-        require_once("./Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorer.php");
         $exp = new ilSCORM2004EditorExplorer(
             $this->ctrl->getLinkTarget($this, "edit"),
             $this->object
@@ -1417,7 +1396,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->tpl->setVariable("ACTION", $this->ctrl->getLinkTarget($this, "showTree"));
         $this->tpl->parseCurrentBlock();
 
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery($this->tpl);
 
         $this->tpl->printToStdout(false);
@@ -1439,15 +1417,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         
         $ilTabs->setTabActive("sahs_sequencing");
         
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-
         if (!$this->object->getSequencingExpertMode()) {
             $ilToolbar->addButton(
                 $lng->txt("sahs_activate_expert_mode"),
                 $ilCtrl->getLinkTarget($this, "confirmExpertMode")
             );
         } else {
-            include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
             $list = new ilNestedList();
             $t = $this->object->getTree();
             $root_node = $t->getNodeData($t->getRootId());
@@ -1493,7 +1468,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         
         $ilTabs->setTabActive("sahs_sequencing");
             
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
         $cgui->setHeaderText($lng->txt("sahs_activate_expert_mode_info"));
@@ -1530,8 +1504,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
         $t = $this->object->getTree();
         $root_node = $t->getNodeData($t->getRootId());
         $nodes = $this->object->getTree()->getSubtree($root_node);
@@ -1596,7 +1568,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             : 0;
 
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this));
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "0" => $lng->txt("all")
         );
@@ -1606,8 +1577,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $si->setValue($cur_chap);
         $ilToolbar->addInputItem($si, true);
         $ilToolbar->addFormButton($lng->txt("change"), "selectLObjChapter");
-        
-        include_once("./Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php");
+
         $obj_table = new ilObjectivesAlignmentTableGUI(
             $this,
             "showLearningObjectivesAlignment",
@@ -1677,8 +1647,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             "exportHTMLOne" => $this->lng->txt("scorm_create_export_file_html_one")
         );
 
-        //
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $si = new ilSelectInputGUI($this->lng->txt('type'), "select_export");
         $si->setOptions($buttons);
         $ilToolbar->addInputItem($si, true);
@@ -1687,7 +1655,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         $export_files = $this->object->getExportFiles();
 
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
         $table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList');
         $data = array();
         foreach ($export_files as $exp_file) {
@@ -1775,20 +1742,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             get_class($this)
         );
 
-        // learning progress
-        /*	Later, only if tracking data exists
-         include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
-         if(ilObjUserTracking::_enabledLearningProgress())
-         {
-            $tabs_gui->addTarget('learning_progress',
-            $this->ctrl->getLinkTargetByClass(array('illearningprogressgui'),''),
-            '',
-            array('illplistofobjectsgui','illplistofsettingsgui','illearningprogressgui','illplistofprogressgui'));
-            }
-            */
-
         // edit meta
-        include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
         $mdgui = new ilObjectMetaDataGUI($this->object);
         $mdtab = $mdgui->getTab();
         if ($mdtab) {
@@ -1902,7 +1856,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
 
         $ilCtrl->setParameter($this, "backcmd", "showOrganization");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
         $form_gui = new ilSCORM2004OrganizationHFormGUI();
         $form_gui->setParentCommand($a_gui_obj, $a_gui_cmd);
         $form_gui->setFormAction($a_form_action);
@@ -1946,9 +1899,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         // notes
         $ilCtrl->setParameter($this, "nodes_mode", $a_mode);
-        include_once("Services/Notes/classes/class.ilNoteGUI.php");
         $node_id = $_GET["obj_id"];
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         $node_type = ($node_id > 0)
             ? ilSCORM2004Node::_lookupType($node_id)
             : "sahs";
@@ -1981,8 +1932,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -1997,9 +1946,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $parent_id = $node_id;
             $target = IL_FIRST_NODE;
         }
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-        
         $chap_ids = array();
         for ($i = 1; $i <= $num; $i++) {
             $chap = new ilSCORM2004Chapter($this->object);
@@ -2027,17 +1973,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
         $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 
         if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $slm_tree->getParentId($node_id);
@@ -2074,17 +2015,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
         $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 
         if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $slm_tree->getParentId($node_id);
@@ -2121,8 +2057,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -2130,8 +2064,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $num = ilSCORM2004OrganizationHFormGUI::getPostMulti();
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         if (!ilSCORM2004OrganizationHFormGUI::getPostFirstChild()) {	// insert after node id
             $parent_id = $slm_tree->getParentId($node_id);
             $target = $node_id;
@@ -2165,13 +2097,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      */
     public function insertScenarioGUI()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $tpl = $this->tpl;
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
-
         $templates = array();
         $description = null;
         $image = null;
@@ -2244,17 +2169,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $ilCtrl = $this->ctrl;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
 
         $node_id = $_POST["node_id"];
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004SeqTemplate.php");
 
         if (!$_POST["first_child"]) {	// insert after node id
             $parent_id = $slm_tree->getParentId($node_id);
@@ -2371,8 +2290,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
         $slm_tree = new ilTree($this->object->getId());
         $slm_tree->setTreeTablePK("slm_id");
         $slm_tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -2381,10 +2298,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $node_id = $_POST["node_id"];
         $layout_id = $_POST["layout_id"];
         
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-
         if (!$_POST["first_child"]) {	// insert after node id
             $parent_id = $slm_tree->getParentId($node_id);
             $target = $node_id;
@@ -2464,8 +2377,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
 
         if (is_array($_POST["title"])) {
-            include_once("./Services/MetaData/classes/class.ilMD.php");
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
             foreach ($_POST["title"] as $id => $title) {
                 $node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
                 if (is_object($node_obj)) {
@@ -2503,7 +2414,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         // SAVE POST VALUES
         $_SESSION["saved_post"] = $_POST["id"];
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $confirmation_gui = new ilConfirmationGUI();
 
         if ($a_form_action == "") {
@@ -2517,7 +2427,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
 
         // Add items to delete
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
@@ -2556,18 +2465,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $tree->setTreeTablePK("slm_id");
 
         // delete all selected objects
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
         foreach ($_POST["id"] as $id) {
             if ($id != IL_FIRST_NODE) {
                 $obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
                     $obj->setSLMId($this->object->getId());
-
-                    /*include_once("./Services/History/classes/class.ilHistory.php");
-                     ilHistory::_createEntry($this->object->getId(), "delete_".$obj->getType(),
-                        array(ilLMObject::_lookupTitle($id), $id),
-                        $this->object->getType());*/
 
                     $obj->delete();
                 }
@@ -2612,8 +2515,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
-        
         $items = ilUtil::stripSlashesArray($_POST["id"]);
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
         foreach ($items as $k => $item) {
@@ -2631,7 +2532,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         ilSCORM2004Node::clipboardCopy($this->object->getId(), $items);
 
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("copy");
         ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_copied"), true);
 
@@ -2645,8 +2545,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         
         $items = ilUtil::stripSlashesArray($_POST["id"]);
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
@@ -2666,7 +2564,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         ilSCORM2004Node::clipboardCut($this->object->getId(), $items);
         
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("cut");
 
         ilUtil::sendInfo($lng->txt("cont_selected_items_have_been_cut"), true);
@@ -2680,9 +2577,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     public function insertPageClip()
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+
         ilSCORM2004Node::insertPageClip($this->object);
         
         $ilCtrl->redirect(
@@ -2698,9 +2593,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     public function insertScoClip()
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         ilSCORM2004Node::insertScoClip($this->object);
         
         $ilCtrl->redirect(
@@ -2716,9 +2608,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     public function insertAssetClip()
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         ilSCORM2004Node::insertAssetClip($this->object);
         
         $ilCtrl->redirect(
@@ -2734,9 +2623,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     public function insertChapterClip()
     {
         $ilCtrl = $this->ctrl;
-        $ilUser = $this->user;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
         ilSCORM2004Node::insertChapterClip($this->object);
         
         $ilCtrl->redirect(
@@ -2751,15 +2637,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      */
     public function insertLMChapterClip($a_confirm = false, $a_perform = false)
     {
-        $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-
 
         $pf = "";
         foreach (ilSCORM2004OrganizationHFormGUI::getPostFields() as $f => $v) {
@@ -2775,7 +2657,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
         $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
 
-        include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
         $form = new ilLMChapterImportForm($this->object, $node_id, $first_child, $a_confirm);
         $tpl->setContent($form->getHTML() . $pf . "</form>");
 
@@ -2809,7 +2690,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
         $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
 
-        include_once("./Modules/Scorm2004/classes/class.ilLMChapterImportForm.php");
         $form = new ilLMChapterImportForm($this->object, $node_id, $first_child);
         $form->performInserts();
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -2897,7 +2777,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
         $export_files = $this->object->getExportFiles();
 
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php";
         $table_gui = new ilSCORM2004ExportTableGUI($this, 'showExportList', true);
         $data = array();
         foreach ($export_files as $exp_file) {
@@ -2930,7 +2809,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     */
     public function deleteExportFile()
     {
-        include_once "./Services/Utilities/classes/class.ilUtil.php";
         $export = new ilSCORM2004Export($this->object);
         foreach ($_POST['file'] as $idx => $file) {
             $export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
@@ -2988,14 +2866,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         ilUtil::renameExecutables($this->object->getDataDirectory());
         unlink($file_path);
         
-        include_once("./Modules/Scorm2004/classes/ilSCORM13Package.php");
         $rte_pkg = new ilSCORM13Package();
         $rte_pkg->il_import($this->object->getDataDirectory(), $this->object->getId(), $DIC["ilias"], false, true);
 
-        //increase module version is it necessary?
-        //$this->object->setModuleVersion($module_version+1);
-        //$this->object->update();
-            
         //redirect to view player
         ilUtil::redirect("ilias.php?baseClass=ilSAHSPresentationGUI&ref_id=" . $this->object->getRefID() . "&envEditor=1");
     }

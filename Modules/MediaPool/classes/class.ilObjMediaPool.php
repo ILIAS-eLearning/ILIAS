@@ -1,23 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once "./Services/MetaData/classes/class.ilMDLanguageItem.php";
-require_once("./Modules/Folder/classes/class.ilObjFolder.php");
-require_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
-
-/** @defgroup ModulesMediaPool Modules/MediaPool
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Media pool object
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * Media pool object
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaPool extends ilObject
 {
     protected $mep_tree;
@@ -249,7 +238,6 @@ class ilObjMediaPool extends ilObject
             switch ($child["type"]) {
                 case "mob":
                     if (ilObject::_lookupType($fid) == "mob") {
-                        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                         $mob = new ilObjMediaObject($fid);
                         $mob->delete();
                     }
@@ -350,7 +338,6 @@ class ilObjMediaPool extends ilObject
         
         // Keyword filter
         if ($a_keyword_filter) {
-            include_once './Services/MetaData/classes/class.ilMDKeyword.php';
             $res = ilMDKeyword::_searchKeywords($a_keyword_filter, 'mob', 0);
             
             foreach ($objs as $obj) {
@@ -479,14 +466,12 @@ class ilObjMediaPool extends ilObject
             }
 
             if ($node["type"] == "pg") {
-                include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
                 if (ilPageObject::_exists("mep", $node["child"])) {
                     $pg = new ilMediaPoolPage($node["child"]);
                     $pg->delete();
                 }
             }
-            
-            include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+
             $item = new ilMediaPoolItem($node["child"]);
             $item->delete();
         }
@@ -591,10 +576,6 @@ class ilObjMediaPool extends ilObject
      */
     public function copyTreeContent($a_new_obj, $a_target_parent, $a_source_parent)
     {
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        
         // get all chapters of root lm
         $nodes = $this->getTree()->getChilds($a_source_parent);
         foreach ($nodes as $node) {
@@ -645,7 +626,6 @@ class ilObjMediaPool extends ilObject
     public function exportXML($a_mode = "")
     {
         if (in_array($a_mode, array("master", "masternomedia"))) {
-            include_once("./Services/Export/classes/class.ilExport.php");
             $exp = new ilExport();
             $conf = $exp->getConfig("Modules/MediaPool");
             $conf->setMasterLanguageOnly(true, ($a_mode == "master"));

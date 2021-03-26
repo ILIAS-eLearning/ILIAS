@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWikiAccess
-*
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilObjWikiAccess
+ *
+ * @author 		Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjWikiAccess extends ilObjectAccess
 {
     /**
@@ -124,7 +119,6 @@ class ilObjWikiAccess extends ilObjectAccess
                     return false;
                 }
 
-                include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
                 $info = ilExcRepoObjAssignment::getInstance()->getAccessInfo($a_ref_id, $a_user_id);
                 if (!$info->isGranted()) {
                     $ilAccess->addInfoItem(IL_NO_OBJECT_ACCESS, implode(" / ", $info->getNotGrantedReasons()));
@@ -153,7 +147,6 @@ class ilObjWikiAccess extends ilObjectAccess
         
         if ($t_arr[1] == "wpage") {
             $wpg_id = (int) $t_arr[2];
-            include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
             $w_id = ilWikiPage::lookupWikiId($wpg_id);
             if ((int) $t_arr[3] > 0) {
                 $refs = array((int) $t_arr[3]);

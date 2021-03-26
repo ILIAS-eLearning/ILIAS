@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Sco
-*
-* SCO class for SCORM 2004 Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * SCO class for SCORM 2004 Editing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilSCORM2004Sco extends ilSCORM2004Asset
 {
     protected $hide_obj_page = false;
@@ -134,7 +127,6 @@ class ilSCORM2004Sco extends ilSCORM2004Asset
         $a_copied_nodes[$this->getId()] = $sco->getId();
 
         // copy meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $new_md = $md->cloneMD($a_target_slm->getId(), $sco->getId(), $this->getType());
 

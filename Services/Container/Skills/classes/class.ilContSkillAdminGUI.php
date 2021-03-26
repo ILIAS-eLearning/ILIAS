@@ -337,7 +337,6 @@ class ilContSkillAdminGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listMembers");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ctrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("cont_really_deassign_skills"));
@@ -456,7 +455,6 @@ class ilContSkillAdminGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listCompetences");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ctrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("cont_really_remove_skill_from_course"));

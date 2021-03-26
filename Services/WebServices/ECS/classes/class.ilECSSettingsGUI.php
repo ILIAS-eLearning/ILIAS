@@ -287,7 +287,6 @@ class ilECSSettingsGUI
         $ilTabs->clearSubTabs();
         $ilTabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, 'overview'));
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('delete'), 'doDelete');

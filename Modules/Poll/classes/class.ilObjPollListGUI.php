@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjPollListGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
-*
-* @extends ilObjectListGUI
-*/
+ * Class ilObjPollListGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjPollListGUI extends ilObjectListGUI
 {
     /**
@@ -29,7 +24,6 @@ class ilObjPollListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjpollgui";
 
         // general commands array
-        include_once('./Modules/Poll/classes/class.ilObjPollAccess.php');
         $this->commands = ilObjPollAccess::_getCommands();
     }
     

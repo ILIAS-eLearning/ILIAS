@@ -1235,7 +1235,6 @@ class ilSurveyParticipantsGUI
         );
         
         // #13320
-        require_once "Services/Link/classes/class.ilLink.php";
         $url = ilLink::_getStaticLink($this->object->getRefId());
         
         $tbl = new ilSurveyAppraiseesTableGUI($this, "editRaters", true, !$this->object->isAppraiseeClosed($appr_id), $url); // #11285

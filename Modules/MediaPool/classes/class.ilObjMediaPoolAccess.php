@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjMediaPoolAccess
-*
-*
-* @author 		Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * Class ilObjMediaPoolAccess
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaPoolAccess extends ilObjectAccess
 {
 

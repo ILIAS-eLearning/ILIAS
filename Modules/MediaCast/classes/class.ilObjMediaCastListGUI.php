@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* ListGUI class for media cast objects.
-*
-* @author 	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-*
-* @ingroup ModulesMediaCast
-*/
+ * ListGUI class for media cast objects.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaCastListGUI extends ilObjectListGUI
 {
     /**
@@ -30,7 +24,6 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjmediacastgui";
         
         // general commands array
-        include_once('./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php');
         $this->commands = ilObjMediaCastAccess::_getCommands();
     }
 
@@ -66,11 +59,7 @@ class ilObjMediaCastListGUI extends ilObjectListGUI
     public function getProperties()
     {
         $lng = $this->lng;
-        $ilUser = $this->user;
-
         $props = array();
-
-        include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
 
         if (!ilObjMediaCastAccess::_lookupOnline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),

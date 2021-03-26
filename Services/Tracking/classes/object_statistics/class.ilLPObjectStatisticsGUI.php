@@ -348,7 +348,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         );
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
         $cgui->setHeaderText($lng->txt("trac_sure_delete_data"));

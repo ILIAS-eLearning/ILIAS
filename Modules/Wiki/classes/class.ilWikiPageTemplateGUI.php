@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki page template gui class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesWiki
  */
 class ilWikiPageTemplateGUI
 {
@@ -70,7 +68,6 @@ class ilWikiPageTemplateGUI
     public function listTemplates()
     {
         // list pages
-        include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
         $pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
         $options = array("" => $this->lng->txt("please_select"));
         foreach ($pages as $p) {
@@ -85,7 +82,6 @@ class ilWikiPageTemplateGUI
         $this->toolbar->setCloseFormTag(false);
 
         if (count($options) > 0) {
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
             $si = new ilSelectInputGUI($this->lng->txt("wiki_pages"), "templ_page_id");
             $si->setOptions($options);
             $this->toolbar->addInputItem($si);
@@ -94,14 +90,11 @@ class ilWikiPageTemplateGUI
         }
 
         // empty page as template?
-        include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
         $cb = new ilCheckboxInputGUI($this->lng->txt("wiki_empty_page_template"), "empty_page_templ");
         $cb->setChecked($this->wiki->getEmptyPageTemplate());
         $this->toolbar->addInputItem($cb, true);
         $this->toolbar->addFormButton($this->lng->txt("save"), "saveTemplateSettings");
 
-
-        include_once("./Modules/Wiki/classes/class.ilWikiPageTemplatesTableGUI.php");
         $tab = new ilWikiPageTemplatesTableGUI($this, "listTemplates", $this->wiki->getId());
         $tab->setOpenFormTag(false);
         $tab->setCloseFormTag(true);
@@ -113,7 +106,6 @@ class ilWikiPageTemplateGUI
      */
     public function add()
     {
-        include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
         $wpt->save((int) $_POST["templ_page_id"]);
         ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);
@@ -125,7 +117,6 @@ class ilWikiPageTemplateGUI
      */
     public function remove()
     {
-        include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
 
         if (is_array($_POST["id"])) {
@@ -144,7 +135,6 @@ class ilWikiPageTemplateGUI
     public function saveTemplateSettings()
     {
         if (is_array($_POST["all_ids"])) {
-            include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
             foreach ($_POST["all_ids"] as $id) {
                 $wpt = new ilWikiPageTemplate($this->wiki->getId());
                 $wpt->save((int) $id, (int) $_POST["new_pages"][$id], (int) $_POST["add_to_page"][$id]);
@@ -167,7 +157,6 @@ class ilWikiPageTemplateGUI
     {
         $page_id = (int) $_GET["wpg_id"];
         if ($page_id) {
-            include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->remove($page_id);
             ilUtil::sendSuccess($this->lng->txt("wiki_template_status_removed"), true);
@@ -180,7 +169,6 @@ class ilWikiPageTemplateGUI
     {
         $page_id = (int) $_GET["wpg_id"];
         if ($page_id) {
-            include_once("./Modules/Wiki/classes/class.ilWikiPageTemplate.php");
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->save($page_id);
             ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);

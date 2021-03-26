@@ -1,21 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Sequencing
-*
-* Sequencing Template class for SCORM 2004 Editing
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
-
-require_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-
-
+ * Class ilSCORM2004Sequencing
+ *
+ * Sequencing Template class for SCORM 2004 Editing
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ */
 class ilSCORM2004Sequencing extends ilSCORM2004Item
 {
 

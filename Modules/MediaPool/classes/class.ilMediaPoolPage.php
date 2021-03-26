@@ -1,16 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
-* Class ilMediaPoolPage
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * Class ilMediaPoolPage
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilMediaPoolPage extends ilPageObject
 {
     /**
@@ -60,7 +57,6 @@ class ilMediaPoolPage extends ilPageObject
         
 
         // delete internal links information to this page
-        //		include_once("./Services/Link/classes/class.ilInternalLink.php");
         //		ilInternalLink::_deleteAllLinksToTarget("mep", $this->getId());
                 
         
@@ -126,9 +122,6 @@ class ilMediaPoolPage extends ilPageObject
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-    
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
         return ilMediaPoolItem::lookupTitle($a_page_id);
     }
 
@@ -202,7 +195,6 @@ class ilMediaPoolPage extends ilPageObject
             // check whether page exists
             $skip = false;
             if ($ut == "pg") {
-                include_once("./Services/COPage/classes/class.ilPageObject.php");
                 if (!ilPageObject::_exists($ct, $us_rec["usage_id"])) {
                     $skip = true;
                 }

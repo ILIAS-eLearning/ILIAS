@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for recent changes in wiki
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesMediaPool
-*/
+ * TableGUI class for recent changes in wiki
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilMediaPoolTableGUI extends ilTable2GUI
 {
     /**
@@ -113,7 +109,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         if ($this->showAdvMetadata()) {
             // adv metadata init (adds filter)
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
             $this->adv_filter_record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, 'mep', $this->media_pool->getId(), 'mob');
             $this->adv_filter_record_gui->setTableGUI($this);
             $this->adv_filter_record_gui->parse();
@@ -235,7 +230,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public function getHTML()
     {
         $html = parent::getHTML();
-        include_once("./Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php");
         $html .= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
         return $html;
     }
@@ -247,11 +241,8 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public function initFilter()
     {
         $lng = $this->lng;
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-        
+
         // title/description
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
         $ti->setMaxLength(64);
         $ti->setSize(20);
@@ -277,7 +268,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->filter['caption'] = $ca->getValue();
         
         // format
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "" => $lng->txt("mep_all"),
             );
@@ -350,7 +340,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         // add advanced metadata
         if ($this->showAdvMetadata()) {
-            include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
             $objs = ilAdvancedMDValues::queryForRecords(
                 $this->media_pool->getRefId(),
                 "mep",
@@ -515,7 +504,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     }
                     
                     // output media info
-                    include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
                     $this->tpl->setVariable(
                         "MEDIA_INFO",
                         ilObjMediaObjectGUI::_getMediaInfoHTML($mob)
@@ -561,7 +549,6 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects) {
             $path = $this->tree->getPathFull($this->current_folder);
 
-            include_once("./Services/Locator/classes/class.ilLocatorGUI.php");
             $loc = new ilLocatorGUI();
             foreach ($path as $p) {
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $p["child"]);

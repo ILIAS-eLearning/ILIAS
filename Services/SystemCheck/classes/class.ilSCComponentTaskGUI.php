@@ -105,7 +105,6 @@ abstract class ilSCComponentTaskGUI
      */
     protected function showSimpleConfirmation($a_text, $a_btn_text, $a_cmd)
     {
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->getCtrl()->getFormAction($this));
         $confirm->setConfirm($a_btn_text, $a_cmd);

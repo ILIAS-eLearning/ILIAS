@@ -414,7 +414,6 @@ class ilMemberExportGUI
             $this->ctrl->redirect($this, 'show');
         }
         
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirmation_gui = new ilConfirmationGUI();
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
         $confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);

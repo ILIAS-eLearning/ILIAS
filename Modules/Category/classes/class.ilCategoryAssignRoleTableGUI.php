@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for role assignments
  *
  * @extends ilTable2GUI
  * @author Fabian Wolf <wolf@leifos.com>
- * @ingroup ModulesCategory
  */
 class ilCategoryAssignRoleTableGUI extends ilTable2GUI
 {

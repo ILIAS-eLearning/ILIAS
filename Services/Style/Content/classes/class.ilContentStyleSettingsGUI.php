@@ -246,7 +246,6 @@ class ilContentStyleSettingsGUI
     {
         $this->checkPermission("sty_write_content");
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 
         $this->ctrl->setParameter($this, "to_style", $_POST["to_style"]);
 
@@ -277,7 +276,6 @@ class ilContentStyleSettingsGUI
         }
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));

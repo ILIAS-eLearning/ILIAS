@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Services/Xml/classes/class.ilSaxParser.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* XML  parser for folder xml
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesFolder
-*/
+ * XML  parser for folder xml
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilFolderXmlParser extends ilSaxParser
 {
     /**
@@ -100,7 +95,6 @@ class ilFolderXmlParser extends ilSaxParser
 
             case 'Sorting':
             case 'Sort':
-                include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
                 ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->getFolder()->getId());
                 break;
                 

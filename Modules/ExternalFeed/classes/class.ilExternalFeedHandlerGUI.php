@@ -85,7 +85,6 @@ class ilExternalFeedHandlerGUI
 
         switch ($next_class) {
             case 'ilobjexternalfeedgui':
-                require_once "./Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php";
                 $ef_gui = new ilObjExternalFeedGUI("", (int) $_GET["ref_id"], true, false);
                 $this->ctrl->forwardCommand($mc_gui);
                 break;

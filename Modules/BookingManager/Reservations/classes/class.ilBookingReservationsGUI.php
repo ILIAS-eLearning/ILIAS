@@ -595,7 +595,6 @@ class ilBookingReservationsGUI
                 if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
                     $cal_entry_id = $res->getCalendarEntry();
                     if ($cal_entry_id) {
-                        include_once 'Services/Calendar/classes/class.ilCalendarEntry.php';
                         $entry = new ilCalendarEntry($cal_entry_id);
                         $entry->delete();
                     }

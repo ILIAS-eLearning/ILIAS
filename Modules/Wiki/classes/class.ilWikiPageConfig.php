@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Wiki page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesWiki
  */
 class ilWikiPageConfig extends ilPageConfig
 {
@@ -40,7 +36,6 @@ class ilWikiPageConfig extends ilPageConfig
     public function configureByObjectId($a_obj_id)
     {
         if ($a_obj_id > 0) {
-            include_once("./Modules/Wiki/classes/class.ilObjWiki.php");
             $this->setEnablePageToc(ilObjWiki::_lookupPageToc($a_obj_id));
         }
     }

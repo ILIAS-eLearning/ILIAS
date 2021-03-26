@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilSCORM2004Asset
  *
  * Asset class for SCORM 2004 Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesScorm2004
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM2004Asset extends ilSCORM2004Node
 {
@@ -62,8 +58,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
      */
     public function create($a_upload = false, $a_template = false)
     {
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
         parent::create($a_upload);
         if (!$a_template) {
             $this->insertDefaultSequencingItem();
@@ -118,7 +112,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_copied_nodes[$this->getId()] = $ass->getId();
 
         // copy meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $new_md = $md->cloneMD($a_target_slm->getId(), $ass->getId(), $this->getType());
 
@@ -223,14 +216,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
     public function exportPDF($a_inst, $a_target_dir, &$expLog)
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $a_xml_writer = new ilXmlWriter;
         $a_xml_writer->xmlStartTag("ContentObject", array("Type" => "SCORM2004SCO"));
         $this->exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, $expLog, $a_xml_writer);
         $a_xml_writer->xmlEndTag("ContentObject");
-        include_once 'Services/Transformation/classes/class.ilXML2FO.php';
         $xml2FO = new ilXML2FO();
         $xml2FO->setXSLTLocation('./Modules/Scorm2004/templates/xsl/contentobject2fo.xsl');
         $xml2FO->setXMLString($a_xml_writer->xmlDumpMem());
@@ -241,7 +230,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $fo_ext = $fo_xml->xpath("//fo:declarations");
         $fo_ext = $fo_ext[0];
         $results = array();
-        include_once "./Services/Utilities/classes/class.ilFileUtils.php";
         ilFileUtils::recursive_dirscan($a_target_dir . "/objects", $results);
         if (is_array($results["file"])) {
             foreach ($results["file"] as $key => $value) {
@@ -259,26 +247,18 @@ class ilSCORM2004Asset extends ilSCORM2004Node
     public function exportPDFPrepareXmlNFiles($a_inst, $a_target_dir, &$expLog, &$a_xml_writer)
     {
         $this->exportHTML4PDF($a_inst, $a_target_dir, $expLog);
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $this->exportXMLPageObjects($a_target_dir, $a_xml_writer, $a_inst, $expLog);
         $this->exportXMLMediaObjects($a_xml_writer, $a_inst, $a_target_dir, $expLog);
         $this->exportFileItems($a_target_dir, $expLog);
-
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
 
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
         foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, 'page') as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
-            
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
+
             $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($q_ids) > 0) {
-                include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
                 foreach ($q_ids as $q_id) {
                     $q_obj = assQuestion::_instanciateQuestion($q_id);
                     $qti_file = fopen($a_target_dir . "/qti_" . $q_id . ".xml", "w");
@@ -305,9 +285,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_one_file = "",
         $a_sco_tpl = null
     ) {
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php";
-        include_once "./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php";
-        include_once "./Services/MetaData/classes/class.ilMD.php";
 
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
@@ -324,24 +301,15 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         // alex, 4 Apr 09
         //
 
-        //		if ($a_one_file == "")
-        //		{
         $sco_tpl = new ilGlobalTemplate("tpl.sco.html", true, true, "Modules/Scorm2004");
-        //		}
-        //		else
-        //		{
-        //			$sco_tpl = $a_sco_tpl;
-        //		}
 
         if ($mode != 'pdf' && $a_one_file == "") {
-            include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
             $pg_exp = new ilCOPageHTMLExport($a_target_dir);
             $pg_exp->getPreparedMainTemplate($sco_tpl);
             
             // init and question lang vars
             $lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
             $sco_tpl->setCurrentBlock("init");
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $sco_tpl->setVariable(
                 "TXT_INIT_CODE",
                 ilPCQuestion::getJSTextInitCode($lk)
@@ -403,14 +371,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         }
 
         //notify Question Exporter of new SCO
-        require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
         ilQuestionExporter::indicateNewSco();
 
         // init export (this initialises glossary template)
         ilSCORM2004PageGUI::initExport();
-        $terms = array();
         $terms = $this->getGlossaryTermIds();
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
         $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
         $sco_q_ids = array();
         foreach ($pages as $page) {
@@ -473,19 +438,16 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                     }
                 }
             }
-            //exit;
+
             // collect all file items
-            include_once("./Services/COPage/classes/class.ilPCFileList.php");
             $file_ids = ilPCFileList::collectFileItems($page_obj->getSCORM2004Page(), $page_obj->getSCORM2004Page()->getDomDoc());
             foreach ($file_ids as $file_id) {
                 $this->file_ids[$file_id] = $file_id;
             }
 
             if ($mode == 'pdf') {
-                include_once("./Services/COPage/classes/class.ilPCQuestion.php");
                 $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
                 foreach ($q_ids as $q_id) {
-                    include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                     $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
                     $q_gui->outAdditionalOutput();
@@ -502,7 +464,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             
             // get all question ids of the sco
             if ($a_one_file != "") {
-                include_once("./Services/COPage/classes/class.ilPCQuestion.php");
                 $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
                 foreach ($q_ids as $i) {
                     if (!in_array($i, $sco_q_ids)) {
@@ -651,7 +612,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         if (trim($sco_description) != "") {
             $a_tpl->setCurrentBlock("sco_desc");
             $a_tpl->setVariable("TXT_DESC", $lng->txt("description"));
-            include_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $a_tpl->setVariable("VAL_DESC", self::convertLists($sco_description));
             $a_tpl->parseCurrentBlock();
         }
@@ -683,7 +643,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
      */
     public static function convertLists($a_text)
     {
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
         $a_text = nl2br($a_text);
         $a_text = str_replace(array("\n", "\r"), "", $a_text);
         $a_text = str_replace("<br>", "<br />", $a_text);
@@ -723,9 +682,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
     public function exportXMLPageObjects($a_target_dir, &$a_xml_writer, $a_inst, &$expLog)
     {
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php";
-        include_once "./Modules/Scorm2004/classes/class.ilSCORM2004Page.php";
-
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
@@ -750,10 +706,8 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 $this->file_ids[$file_id] = $file_id;
             }
 
-            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($q_ids) > 0) {
-                include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
                 foreach ($q_ids as $q_id) {
                     $q_obj = assQuestion::_instantiateQuestion($q_id);
                     // see #16557
@@ -771,8 +725,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
     public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         $linked_mobs = array();
         if (is_array($this->mob_ids)) {
             // mobs directly embedded into pages
@@ -815,7 +767,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
     */
     public function exportFileItems($a_target_dir, &$expLog)
     {
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         if (is_array($this->file_ids)) {
             foreach ($this->file_ids as $file_id) {
                 $expLog->write(date("[y-m-d H:i:s] ") . "File Item " . $file_id);
@@ -829,7 +780,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             }
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $linked_mobs = array();
         if (is_array($this->mob_ids)) {
             // mobs directly embedded into pages
@@ -874,7 +824,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
      */
     public function exportXMLMetaData(&$a_xml_writer)
     {
-        include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getSLMId(), $this->getId(), $this->getType());
         $md2xml->setExportMode(true);
         $md2xml->startExport();
@@ -884,8 +833,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
     public function getExportFiles()
     {
         $file = array();
-
-        require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Export.php");
 
         $export = new ilSCORM2004Export($this);
         foreach ($export->getSupportedExportTypes() as $type) {

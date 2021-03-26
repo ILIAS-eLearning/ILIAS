@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Media Pool Data set class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - mep_tree: data from a join on mep_tree and mep_item
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesMediaPool
  */
 class ilMediaPoolDataSet extends ilDataSet
 {
@@ -298,8 +295,6 @@ class ilMediaPoolDataSet extends ilDataSet
                     return;
                 }
 
-                include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {
@@ -378,7 +373,6 @@ class ilMediaPoolDataSet extends ilDataSet
                             $imp_id[2] == "pg"
                         ) {
                             $pg_id = $imp_id[3];
-                            include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
                             $pool = ilMediaPoolItem::getPoolForItemId($pg_id);
                             $pool = current($pool);
                             if ($pool == $this->getTranslationLM()->getId()) {

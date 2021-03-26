@@ -533,7 +533,6 @@ class ilConditionHandlerGUI
         }
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this, "listConditions"));
         $cgui->setHeaderText($this->lng->txt("rbac_condition_delete_sure"));

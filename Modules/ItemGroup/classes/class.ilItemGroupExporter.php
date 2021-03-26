@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for item groups
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesItemGroup
  */
 class ilItemGroupExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilItemGroupExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupDataSet.php");
         $this->ds = new ilItemGroupDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");

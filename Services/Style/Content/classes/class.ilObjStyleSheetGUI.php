@@ -944,7 +944,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     public function deleteObject($a_error = false)
     {
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this));
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
@@ -1486,7 +1485,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 }
             }
 
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("sty_confirm_char_deletion"));
@@ -1514,7 +1512,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
 
@@ -1985,7 +1982,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listColors");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("sty_confirm_color_deletion"));
@@ -2179,7 +2175,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listMediaQueries");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("sty_sure_del_mqueries"));
@@ -2621,7 +2616,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTemplates");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("sty_confirm_template_deletion"));

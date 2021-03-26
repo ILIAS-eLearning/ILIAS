@@ -569,7 +569,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             $cmd = 'confirmedUnsubscribe';
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 

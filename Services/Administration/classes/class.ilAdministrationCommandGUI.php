@@ -116,7 +116,6 @@ class ilAdministrationCommandGUI
             $ilErr->raiseError($this->lng->txt('no_checkbox'), $ilErr->MESSAGE);
         }
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormActionByClass(get_class($this->getContainer()), 'cancel'));
         $confirm->setHeaderText('');

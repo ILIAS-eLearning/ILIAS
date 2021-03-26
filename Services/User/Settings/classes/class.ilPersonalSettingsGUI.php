@@ -846,7 +846,6 @@ class ilPersonalSettingsGUI
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
         
-        include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('user_delete_own_account_logout_confirmation'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -907,7 +906,6 @@ class ilPersonalSettingsGUI
         $this->__initSubTabs("deleteOwnAccount");
         $ilTabs->activateTab("delacc");
 
-        include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('user_delete_own_account_final_confirmation'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));

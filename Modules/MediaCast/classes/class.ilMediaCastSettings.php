@@ -174,16 +174,11 @@ class ilMediaCastSettings
      */
     private function initStorage()
     {
-        include_once('./Services/Administration/classes/class.ilSetting.php');
         $this->storage = new ilSetting('mcst');
-        include_once('./Modules/MediaCast/classes/class.ilObjMediaCast.php');
         $this->purposeSuffixes = array_flip(ilObjMediaCast::$purposes);
                
         $this->purposeSuffixes["Standard"] = $this->supported_suffixes;
-        //$this->purposeSuffixes["AudioPortable"] = array("mp3");
-        //$this->purposeSuffixes["VideoPortable"] = array("mp4","mov");
         $this->setDefaultAccess("users");
-        include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $mimeTypes = array_unique(array_values(ilMimeTypeUtil::getExt2MimeMap()));
         sort($mimeTypes);
         $this->setMimeTypes($this->supported_mime_types);

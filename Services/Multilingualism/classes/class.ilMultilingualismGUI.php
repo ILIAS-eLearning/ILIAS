@@ -291,7 +291,6 @@ class ilMultilingualismGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($ilCtrl->getFormAction($this));
         if ($this->getTitleDescrOnlyMode()) {
@@ -373,7 +372,6 @@ class ilMultilingualismGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listTranslations");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("obj_conf_delete_lang"));

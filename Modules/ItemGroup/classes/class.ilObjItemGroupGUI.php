@@ -1,21 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
-include_once("./Modules/ItemGroup/classes/class.ilObjItemGroup.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * User Interface class for item groups
  *
- * @author Alex Killing <alex.killing@gmx.de>
- *
- * $Id$
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjItemGroupGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjItemGroupGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI
  * @ilCtrl_isCalledBy ilObjItemGroupGUI: ilRepositoryGUI, ilAdministrationGUI
- * @ingroup ModulesItemGroup
  */
 class ilObjItemGroupGUI extends ilObject2GUI
 {
@@ -100,13 +94,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 $this->prepareOutput();
                 $ilTabs->activateTab("perm_settings");
                 $this->addHeaderAction();
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -165,7 +157,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $a_form->addItem($cb);
 
         // behaviour
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $options = ilItemGroupBehaviour::getAll();
         $si = new ilSelectInputGUI($this->lng->txt("itgr_behaviour"), "behaviour");
         $si->setInfo($this->lng->txt("itgr_behaviour_info"));
@@ -204,13 +195,11 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 
         $parent_ref_id = $tree->getParentId($this->object->getRefId());
         
-        include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($parent_ref_id);
         $gui->setDisabledObjectTypes(array("itgr", "sess"));
         $gui->setAfterCreationCallback($this->object->getRefId());
         $gui->render();
         
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupItemsTableGUI.php");
         $tab = new ilItemGroupItemsTableGUI($this, "listMaterials");
         $tpl->setContent($tab->getHTML());
     }
@@ -223,8 +212,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $ilCtrl = $this->ctrl;
         
         $this->checkPermission("write");
-
-        include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
 
         $item_group_items = new ilItemGroupItems($this->object->getRefId());
         $items = is_array($_POST['items'])
@@ -266,7 +253,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
         $parent_type = ilObject::_lookupType($parent_obj_id);
         
-        include_once("./Services/Link/classes/class.ilLink.php");
         $ilTabs->setBackTarget(
             $lng->txt('obj_' . $parent_type),
             ilLink::_getLink($parent_ref_id),
@@ -314,7 +300,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
         $par_id = $tree->getParentId($ref_id);
         
         if ($ilAccess->checkAccess("read", "", $par_id)) {
-            include_once("./Services/Link/classes/class.ilLink.php");
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
@@ -334,15 +319,12 @@ class ilObjItemGroupGUI extends ilObject2GUI
     public function gotoParent()
     {
         $ilAccess = $this->access;
-        $ilErr = $this->error;
-        $lng = $this->lng;
         $tree = $this->tree;
         
         $ref_id = $this->object->getRefId();
         $par_id = $tree->getParentId($ref_id);
         
         if ($ilAccess->checkAccess("read", "", $par_id)) {
-            include_once("./Services/Link/classes/class.ilLink.php");
             ilUtil::redirect(ilLink::_getLink($par_id));
             exit;
         }
@@ -356,7 +338,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
     public function afterSaveCallback(ilObject $a_obj)
     {
         // add new object to materials
-        include_once './Modules/ItemGroup/classes/class.ilItemGroupItems.php';
         $items = new ilItemGroupItems($this->object->getRefId());
         $items->addItem($a_obj->getRefId());
         $items->update();
@@ -381,7 +362,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
     public function updateCustom(ilPropertyFormGUI $a_form)
     {
         $this->object->setHideTitle(!$a_form->getInput("show_title"));
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         $behaviour = ($a_form->getInput("show_title"))
             ? $a_form->getInput("behaviour")
             : ilItemGroupBehaviour::ALWAYS_OPEN;

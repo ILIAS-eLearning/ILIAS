@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjPollAccess
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
-*
-*/
+ * Class ilObjPollAccess
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
 {
     /**
@@ -105,7 +100,6 @@ class ilObjPollAccess extends ilObjectAccess implements ilWACCheckingClass
      */
     public static function _isActivated($a_ref_id)
     {
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         $item = ilObjectActivation::getItem($a_ref_id);
         switch ($item['timing_type']) {
             case ilObjectActivation::TIMINGS_ACTIVATION:

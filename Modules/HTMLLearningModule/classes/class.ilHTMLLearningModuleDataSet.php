@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * HTML learning module data set class
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesHTMLLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHTMLLearningModuleDataSet extends ilDataSet
 {
@@ -99,7 +96,6 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
      */
     public function getXmlRecord($a_entity, $a_version, $a_set)
     {
-        include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
         $lm = new ilObjFileBasedLM($a_set["Id"], false);
         $dir = $lm->getDataDirectory();
         $a_set["Dir"] = $dir;
@@ -121,7 +117,6 @@ class ilHTMLLearningModuleDataSet extends ilDataSet
         switch ($a_entity) {
             case "htlm":
                 
-                include_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
                 } else {

@@ -1,14 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
 /**
  * Wiki news renderer
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModuleWiki
  */
 class ilWikiNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
@@ -19,11 +16,9 @@ class ilWikiNewsRendererGUI extends ilNewsDefaultRendererGUI
      */
     public function getObjectLink()
     {
-        include_once("./Services/Link/classes/class.ilLink.php");
         $n = $this->getNewsItem();
         if ($n->getContextSubObjType() == "wpg"
             && $n->getContextSubObjId() > 0) {
-            include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
             $wptitle = ilWikiPage::lookupTitle($n->getContextSubObjId());
             if ($wptitle != "") {
                 $add = "_" . ilWikiUtil::makeUrlTitle($wptitle);

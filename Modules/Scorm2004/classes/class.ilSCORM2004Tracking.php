@@ -1,114 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Tracking
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* @ingroup ModulesScormAicc
-*/
+ * Class ilSCORM2004Tracking
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilSCORM2004Tracking
 {
     public static function _getInProgress($scorm_item_id, $a_obj_id)
     {
-        die("Not Implemented: ilSCORM2004Tracking_getInProgress");
-        /*
-                global $DIC;
-
-                $ilDB = $DIC->database();
-
-                if(is_array($scorm_item_id))
-                {
-                    $where = "WHERE sco_id IN(";
-                    $where .= implode(",",ilUtil::quoteArray($scorm_item_id));
-                    $where .= ") ";
-                    $where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
-
-                }
-                else
-                {
-                    $where = "WHERE sco_id = ".$ilDB->quote($scorm_item_id)." ";
-                    $where .= ("AND obj_id = ".$ilDB->quote($a_obj_id)." ");
-                }
-
-
-                $query = "SELECT user_id,sco_id FROM scorm_tracking ".
-                    $where.
-                    "GROUP BY user_id, sco_id";
-
-
-                $res = $ilDB->query($query);
-                while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-                {
-                    $in_progress[$row->sco_id][] = $row->user_id;
-                }
-                return is_array($in_progress) ? $in_progress : array();
-        */
+        throw new Exception("Not Implemented: ilSCORM2004Tracking_getInProgress");
     }
 
     public static function _getCompleted($scorm_item_id, $a_obj_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        die("Not Implemented: ilSCORM2004Tracking_getCompleted");
-        /*
-                if(is_array($scorm_item_id))
-                {
-                    $where = "WHERE sco_id IN(".implode(",",ilUtil::quoteArray($scorm_item_id)).") ";
-                }
-                else
-                {
-                    $where = "sco_id = ".$ilDB->quote($scorm_item_id)." ";
-                }
-
-                $query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-                    $where.
-                    "AND obj_id = ".$ilDB->quote($a_obj_id)." ".
-                    "AND lvalue = 'cmi.core.lesson_status' ".
-                    "AND ( rvalue = 'completed' ".
-                    "OR rvalue = 'passed')";
-                $res = $ilDB->query($query);
-                while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-                {
-                    $user_ids[] = $row->user_id;
-                }
-                return $user_ids ? $user_ids : array();
-        */
+        throw new Exception("Not Implemented: ilSCORM2004Tracking_getCompleted");
     }
 
     public static function _getFailed($scorm_item_id, $a_obj_id)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        
-        die("Not Implemented: ilSCORM2004Tracking_getFailed");
-        /*
-                if(is_array($scorm_item_id))
-                {
-                    $where = "WHERE sco_id IN('".implode("','",$scorm_item_id)."') ";
-                }
-                else
-                {
-                    $where = "sco_id = '".$scorm_item_id."' ";
-                }
-
-                $query = "SELECT DISTINCT(user_id) FROM scorm_tracking ".
-                    $where.
-                    "AND obj_id = '".$a_obj_id."' ".
-                    "AND lvalue = 'cmi.core.lesson_status' ".
-                    "AND rvalue = 'failed'";
-                $res = $ilDB->query($query);
-                while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-                {
-                    $user_ids[] = $row->user_id;
-                }
-                return $user_ids ? $user_ids : array();
-        */
+        throw new Exception("Not Implemented: ilSCORM2004Tracking_getFailed");
     }
 
     /**
@@ -428,7 +341,6 @@ class ilSCORM2004Tracking
             $time = self::getSumTotalTimeSecondsFromScos($a_obj_id, $a_user_id, true);
         }
 
-        include_once("./Services/Tracking/classes/class.ilChangeEvent.php");
         ilChangeEvent::_recordReadEvent(
             $a_type,
             $a_ref_id,
@@ -498,7 +410,6 @@ class ilSCORM2004Tracking
         }
         $time = 0;
         foreach ($scos as $sco) {
-            include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
             $data_set = $ilDB->queryF(
                 '
 				SELECT total_time

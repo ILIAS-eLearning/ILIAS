@@ -1,17 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExternalFeedGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI, ilExportGUI
-* @ilCtrl_IsCalledBy ilObjExternalFeedGUI: ilRepositoryGUI, ilAdministrationGUI
-*/
+ * Class ilObjExternalFeedGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjExternalFeedGUI: ilExternalFeedBlockGUI, ilPermissionGUI, ilExportGUI
+ * @ilCtrl_IsCalledBy ilObjExternalFeedGUI: ilRepositoryGUI, ilAdministrationGUI
+ */
 class ilObjExternalFeedGUI extends ilObjectGUI
 {
     /**
@@ -55,7 +53,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $ilTabs->activateTab("id_permissions");
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -75,11 +72,9 @@ class ilObjExternalFeedGUI extends ilObjectGUI
             case "ilexportgui":
                 $this->prepareOutput();
                 $ilTabs->activateTab("export");
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
                 break;
 
             default:
@@ -240,7 +235,6 @@ class ilObjExternalFeedGUI extends ilObjectGUI
         $container_id = $tree->getParentId($ref_id);
 
         // #14870
-        include_once "Services/Link/classes/class.ilLink.php";
         ilUtil::redirect(ilLink::_getLink($container_id));
     }
-} // END class.ilObjExternalFeed
+}

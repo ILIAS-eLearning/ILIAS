@@ -1,21 +1,13 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004PageNodeGUI
-*
-* User Interface for Scorm 2004 Page Nodes
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilSCORM2004PageNodeGUI: ilSCORM2004PageGUI, ilAssGenFeedbackPageGUI
-*
-* @ingroup ModulesScorm2004
-*/
+ * User Interface for Scorm 2004 Page Nodes
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilSCORM2004PageNodeGUI: ilSCORM2004PageGUI, ilAssGenFeedbackPageGUI
+ */
 class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
 {
 
@@ -68,7 +60,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                 $showViewInFrameset = true;
 
                 $ilCtrl->setReturn($this, "edit");
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
                 $page_gui = new ilSCORM2004PageGUI(
                     $this->slm_object->getType(),
                     $this->node_object->getId(),
@@ -78,7 +69,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                 );
                 $page_gui->setEditPreview(true);
                 $page_gui->setPresentationTitle($this->node_object->getTitle());
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
                     $this->slm_object->getStyleSheetId(),
                     "sahs"
@@ -92,7 +82,6 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                                 )
                     );
                     if (count($sco->getGlossaryTermIds()) > 1) {
-                        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
                         $page_gui->setGlossaryOverviewInfo(
                             ilSCORM2004ScoGUI::getGlossaryOverviewId(),
                             $sco

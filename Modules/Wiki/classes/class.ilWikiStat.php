@@ -350,8 +350,6 @@ class ilWikiStat
      */
     protected static function getAverageRating($a_wiki_id, $a_page_id = null)
     {
-        include_once "Services/Rating/classes/class.ilRating.php";
-        
         if (!$a_page_id) {
             return ilRating::getOverallRatingForObject(
                 $a_wiki_id,

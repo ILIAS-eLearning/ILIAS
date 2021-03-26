@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * LM Chapter
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id\$
- * @ingroup
  */
 class ilLMChapterImportForm
 {
@@ -38,7 +36,6 @@ class ilLMChapterImportForm
 
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
         $this->slm = $a_slm;
         $this->tree = new ilSCORM2004Tree($this->slm->getId());
         $this->node_id = $a_node_id;
@@ -107,9 +104,6 @@ class ilLMChapterImportForm
      */
     public function getHTML()
     {
-        $ilUser = $this->user;
-
-        include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
         $this->list = new ilNestedList();
         $this->list->setListClass("noStyle");
 
@@ -222,7 +216,6 @@ class ilLMChapterImportForm
                     // create new node of ctype, put it under parent (respect after node from hierarchy)
                     switch ($ctype) {
                         case "chap":
-                            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
                             $chap = new ilSCORM2004Chapter($this->slm);
                             $chap->setTitle($a_node["title"]);
                             $chap->setSLMId($this->slm->getId());
@@ -232,7 +225,6 @@ class ilLMChapterImportForm
                             break;
 
                         case "ass":
-                            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
                             $ass = new ilSCORM2004Asset($this->slm);
                             $ass->setTitle($a_node["title"]);
                             $ass->setSLMId($this->slm->getId());
@@ -242,7 +234,6 @@ class ilLMChapterImportForm
                             break;
 
                         case "sco":
-                            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
                             $sco = new ilSCORM2004Sco($this->slm);
                             $sco->setTitle($a_node["title"]);
                             $sco->setSLMId($this->slm->getId());
@@ -252,7 +243,6 @@ class ilLMChapterImportForm
                             break;
 
                         case "pg":
-                            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
                             $copied_nodes = array();
                             $a_node["insert_id"] = ilSCORM2004Node::pasteTree(
                                 $this->slm,

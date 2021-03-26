@@ -74,7 +74,6 @@ class ilExPeerReview
         if (!$this->hasPeerReviewGroups()) {
             $user_ids = $this->getValidPeerReviewUsers();
 
-            include_once("./Modules/Exercise/PeerReview/class.ExcPeerReviewDistribution.php");
             $distribution = new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $this->assignment->getPeerReviewMin());
 
             foreach ($user_ids as $rater_id) {

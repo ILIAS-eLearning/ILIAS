@@ -129,18 +129,15 @@ class WikiHtmlExport
 
         $this->log->debug("buildExportFile...");
         //init the mathjax rendering for HTML export
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         if (in_array($this->getMode(), [self::MODE_USER, self::MODE_USER_COMMENTS])) {
-            include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
             $this->user_html_exp = new \ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser, ($this->getMode() == self::MODE_USER_COMMENTS));
         }
 
         $ascii_name = str_replace(" ", "_", \ilUtil::getASCIIFilename($this->wiki->getTitle()));
 
         // create export file
-        include_once("./Services/Export/classes/class.ilExport.php");
         \ilExport::_createExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
@@ -282,7 +279,6 @@ class WikiHtmlExport
 
         // page
         $this->log->debug("init page gui");
-        include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
         $wpg_gui = new \ilWikiPageGUI($a_page_id);
         $wpg_gui->setOutputMode("offline");
         $page_content = $wpg_gui->showPage();
@@ -303,7 +299,6 @@ class WikiHtmlExport
         $ep_tpl->setVariable("COMMENTS", $comments);
 
         // export template: right content
-        include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
         $bl = new \ilWikiImportantPagesBlockGUI();
         $tpl->setRightContent($bl->getHTML(true));
 
@@ -322,7 +317,6 @@ class WikiHtmlExport
         $this->log->debug("write file: " . $file);
         if (!($fp = @fopen($file, "w+"))) {
             $this->log->error("Could not open " . $file . " for writing.");
-            include_once("./Modules/Wiki/exceptions/class.ilWikiExportException.php");
             throw new \ilWikiExportException("Could not open \"" . $file . "\" for writing.");
         }
 
@@ -348,7 +342,6 @@ class WikiHtmlExport
      */
     public function getUserExportFile()
     {
-        include_once("./Services/Export/classes/class.ilExport.php");
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
         $this->log->debug("dir: " . $exp_dir);

@@ -2,22 +2,18 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Container/classes/class.ilContainerGUI.php";
-
 /**
-* Class ilObjCategoryGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
-*
-* @ingroup ModulesCategory
-*/
+ * Class ilObjCategoryGUI
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
+ *
+ * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
+ */
 class ilObjCategoryGUI extends ilContainerGUI
 {
     /**
@@ -69,8 +65,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         parent::__construct($a_data, (int) $a_id, $a_call_by_reference, false);
         
         if (is_object($this->object)) {
-            include_once("./Services/Container/classes/class.ilContainer.php");
-            include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
             $this->info_screen_enabled = ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
@@ -92,8 +86,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         switch ($next_class) {
             case "ilobjusergui":
-                include_once('./Services/User/classes/class.ilObjUserGUI.php');
-                
                 $this->tabs_gui->setTabActive('administrate_users');
                 if (!$_GET['obj_id']) {
                     $this->gui_obj = new ilObjUserGUI("", $_GET['ref_id'], true, false);
@@ -114,7 +106,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 break;
 
             case "ilobjuserfoldergui":
-                include_once('./Services/User/classes/class.ilObjUserFolderGUI.php');
 
                 $this->gui_obj = new ilObjUserFolderGUI("", (int) $_GET['ref_id'], true, false);
                 $this->gui_obj->setUserOwnerId((int) $_GET['ref_id']);
@@ -132,7 +123,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             case "ilcolumngui":
                 $this->checkPermission("read");
                 $this->prepareOutput();
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setVariable(
                     "LOCATION_CONTENT_STYLESHEET",
                     ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
@@ -143,7 +133,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -156,7 +145,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 break;
                 
             case 'ilcontainerlinklistgui':
-                include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
                 $link_list_gui = new ilContainerLinkListGUI();
                 $ret = &$this->ctrl->forwardCommand($link_list_gui);
                 break;
@@ -173,7 +161,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
 
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('cat');
                 $this->ctrl->forwardCommand($cp);
@@ -184,7 +171,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 break;
                 
             case 'ilusertablegui':
-                include_once './Services/User/classes/class.ilUserTableGUI.php';
                 $u_table = new ilUserTableGUI($this, "listUsers");
                 $u_table->initFilter();
                 $this->ctrl->setReturn($this, 'listUsers');
@@ -193,14 +179,12 @@ class ilObjCategoryGUI extends ilContainerGUI
             
             case "ilcommonactiondispatchergui":
                 $this->prepareOutput();
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
                 $did = new ilDidacticTemplateGUI($this);
                 $this->ctrl->forwardCommand($did);
                 break;
@@ -208,7 +192,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             case 'ilexportgui':
                 $this->prepareOutput();
                 $this->tabs_gui->setTabActive('export');
-                include_once './Services/Export/classes/class.ilExportGUI.php';
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -219,7 +202,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->prepareOutput();
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
                 $transgui = new ilObjectTranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
@@ -228,7 +210,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->initTaxSubTabs();
-                include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
                 $tax = new ilObjTaxonomyGUI();
                 $tax->setAssignedObject($this->object->getId());
                 $tax->setMultiple(true);
@@ -271,7 +252,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 // add entry to navigation history
                 if (!$this->getCreationMode() &&
                     $ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
-                    include_once("./Services/Link/classes/class.ilLink.php");
                     $ilNavigationHistory->addItem(
                         $_GET["ref_id"],
                         ilLink::_getLink($_GET["ref_id"], "cat"),
@@ -280,7 +260,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 }
 
                 $this->prepareOutput();
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 if (is_object($this->object)) {
                     $this->tpl->setVariable(
                         "LOCATION_CONTENT_STYLESHEET",
@@ -322,9 +301,7 @@ class ilObjCategoryGUI extends ilContainerGUI
      */
     public function getObjectMetadataGUI()
     {
-        include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
         $md_gui = new ilObjectMetaDataGUI($this->object);
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
         if (ilContainer::_lookupContainerSetting(
             $this->object->getId(),
             ilObjectServiceSettingsGUI::TAXONOMIES,
@@ -459,7 +436,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 
             // metadata / taxonomies
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI($this->object);
             if (ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
@@ -478,7 +454,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             }
         }
 
-        include_once './Services/User/classes/class.ilUserAccountSettings.php';
         if (
             ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and
             $rbacsystem->checkAccess('cat_administrate_users', $this->ref_id)) {
@@ -544,7 +519,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $tree = $this->tree;
 
         // default: sort by title
-        include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
         $settings = new ilContainerSortingSettings($a_new_object->getId());
         $settings->setSortMode(ilContainer::SORT_TITLE);
         $settings->save();
@@ -552,7 +526,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         // inherit parents content style, if not individual
         $parent_ref_id = $tree->getParentId($a_new_object->getRefId());
         $parent_id = ilObject::_lookupObjId($parent_ref_id);
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $style_id = ilObjStyleSheet::lookupObjectStyle($parent_id);
         if ($style_id > 0) {
             if (ilObjStyleSheet::_lookupStandard($style_id)) {
@@ -598,7 +571,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         // #10986
         $this->tabs_gui->setTabActive('info_short');
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
 
         $info->enablePrivateNotes();
@@ -619,7 +591,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             }
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'cat', $this->object->getId());
         $record_gui->setInfoObject($info);
         $record_gui->parse();
@@ -689,14 +660,12 @@ class ilObjCategoryGUI extends ilContainerGUI
             return true;
         }
         
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt('ext_cat_settings'));
         $this->form->addCommandButton('updateInfo', $this->lng->txt('save'));
         $this->form->addCommandButton('editInfo', $this->lng->txt('cancel'));
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'cat', $this->object->getId());
         $this->record_gui->setPropertyForm($this->form);
         $this->record_gui->parse();
@@ -753,7 +722,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->lng->loadLanguageModule($this->object->getType());
         $this->setEditTabs();
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
@@ -803,7 +771,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         // icon settings
 
         // Edit ecs export settings
-        include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
         $ecs = new ilECSCategorySettings($this->object);
         $ecs->addSettingsToForm($form, 'cat');
         
@@ -812,7 +779,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $sh->setTitle($this->lng->txt('obj_features'));
         $form->addItem($sh);
 
-        include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
             $form,
@@ -877,13 +843,11 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->saveListPresentation($form);
 
                 // BEGIN ChangeEvent: Record update
-                require_once('Services/Tracking/classes/class.ilChangeEvent.php');
                 ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
                 ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
                 // END ChangeEvent: Record update
                 
                 // services
-                include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
                 ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                     $this->object->getId(),
                     $form,
@@ -904,7 +868,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                     ilContainer::_deleteContainerSettings($this->object->getId(), "block_limit");
                 }
                 // Update ecs export settings
-                include_once 'Modules/Category/classes/class.ilECSCategorySettings.php';
                 $ecs = new ilECSCategorySettings($this->object);
                 if ($ecs->handleSettingsUpdate()) {
                     return $this->afterUpdate();
@@ -1036,8 +999,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
-        require_once("./Modules/Category/classes/class.ilCategoryImportParser.php");
-
         $import_dir = ilObjCategoryGUI::_getImportDir();
 
         // create user import directory if necessary
@@ -1079,7 +1040,6 @@ class ilObjCategoryGUI extends ilContainerGUI
     */
     protected function resetFilterObject()
     {
-        include_once("./Services/User/classes/class.ilUserTableGUI.php");
         $utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
         $utab->resetOffset();
         $utab->resetFilter();
@@ -1096,7 +1056,6 @@ class ilObjCategoryGUI extends ilContainerGUI
     {
         $ilTabs = $this->tabs;
         
-        include_once("./Services/User/classes/class.ilUserTableGUI.php");
         $utab = new ilUserTableGUI($this, "listUsers", ilUserTableGUI::MODE_LOCAL_USER);
         $utab->resetOffset();
         $utab->writeFilterToSession();
@@ -1109,9 +1068,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilUser = $this->user;
         $ilErr = $this->error;
         $ilToolbar = $this->toolbar;
-
-        include_once './Services/User/classes/class.ilLocalUser.php';
-        include_once './Services/User/classes/class.ilObjUserGUI.php';
 
         $rbacsystem = $this->rbacsystem;
         $rbacreview = $this->rbacreview;
@@ -1155,7 +1111,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         $this->lng->loadLanguageModule('user');
         
-        include_once("./Services/User/classes/class.ilUserTableGUI.php");
         $utab = new ilUserTableGUI($this, 'listUsers', ilUserTableGUI::MODE_LOCAL_USER);
         $this->tpl->setVariable('USERS_TABLE', $utab->getHTML());
 
@@ -1167,7 +1122,6 @@ class ilObjCategoryGUI extends ilContainerGUI
      */
     protected function addUserAutoCompleteObject()
     {
-        include_once './Services/User/classes/class.ilUserAutoComplete.php';
         $auto = new ilUserAutoComplete();
         $auto->setSearchFields(array('login','firstname','lastname','email'));
         $auto->enableFieldSearchableCheck(true);
@@ -1184,7 +1138,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 
     public function performDeleteUsersObject()
     {
-        include_once './Services/User/classes/class.ilLocalUser.php';
         $this->checkPermission("cat_administrate_users");
 
         foreach ($_POST['user_ids'] as $user_id) {
@@ -1212,7 +1165,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             return true;
         }
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('sure_delete_selected_users'));
@@ -1237,8 +1189,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilTabs = $this->tabs;
         
         $this->checkPermission("cat_administrate_users");
-
-        include_once './Services/User/classes/class.ilLocalUser.php';
 
         if (!isset($_GET['obj_id'])) {
             ilUtil::sendFailure('no_user_selected');
@@ -1289,7 +1239,6 @@ class ilObjCategoryGUI extends ilContainerGUI
             ++$counter;
         }
 
-        include_once('./Modules/Category/classes/class.ilCategoryAssignRoleTableGUI.php');
         $table = new ilCategoryAssignRoleTableGUI($this, "assignRoles");
         $tmp_obj = &ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
@@ -1304,7 +1253,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         $rbacadmin = $this->rbacadmin;
         $this->checkPermission("cat_administrate_users");
 
-        include_once './Services/User/classes/class.ilLocalUser.php';
         // check hack
         if (!isset($_GET['obj_id']) or !in_array($_REQUEST['obj_id'], ilLocalUser::_getAllUserIds())) {
             ilUtil::sendFailure('no_user_selected');
@@ -1443,9 +1391,6 @@ class ilObjCategoryGUI extends ilContainerGUI
     protected function getTaxonomiesForRefId()
     {
         $tree = $this->tree;
-        
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
-        include_once "Services/Taxonomy/classes/class.ilObjTaxonomy.php";
         
         // see ilTaxMDGUI::getSelectableTaxonomies()
         

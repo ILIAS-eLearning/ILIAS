@@ -1,16 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjMediaCast
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Class ilObjMediaCast
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaCast extends ilObject
 {
     /**
@@ -253,7 +249,6 @@ class ilObjMediaCast extends ilObject
     */
     public function getDiskUsage()
     {
-        require_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
         return ilObjMediaCastAccess::_lookupDiskUsage($this->id);
     }
     
@@ -357,7 +352,6 @@ class ilObjMediaCast extends ilObject
         // delete all items
         $med_items = $this->getItemsArray();
         foreach ($med_items as $item) {
-            include_once("./Services/News/classes/class.ilNewsItem.php");
             $news_item = new ilNewsItem($item["id"]);
             $news_item->delete();
         }
@@ -378,7 +372,6 @@ class ilObjMediaCast extends ilObject
     public function readItems($a_oldest_first = false)
     {
         //
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $it = new ilNewsItem();
         $it->setContextObjId($this->getId());
         $it->setContextObjType($this->getType());
@@ -478,7 +471,6 @@ class ilObjMediaCast extends ilObject
         $new_obj->setViewMode($this->getViewMode());
         $new_obj->update();
 
-        include_once("./Services/Block/classes/class.ilBlockSetting.php");
         $pf = ilBlockSetting::_lookup("news", "public_feed", 0, $this->getId());
         $keeprss = (int) ilBlockSetting::_lookup("news", "keep_rss_min", 0, $this->getId());
         ilBlockSetting::_write("news", "public_feed", $pf, 0, $new_obj->getId());
@@ -490,7 +482,6 @@ class ilObjMediaCast extends ilObject
         
 
         // clone LP settings
-        include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
@@ -517,7 +508,6 @@ class ilObjMediaCast extends ilObject
         $ilUser = $this->user;
 
         $item_mapping = [];
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         foreach ($this->readItems(true) as $item) {
             // copy media object
             $mob_id = $item["mob_id"];
@@ -526,7 +516,6 @@ class ilObjMediaCast extends ilObject
 
             // copy news item
             // create new media cast item
-            include_once("./Services/News/classes/class.ilNewsItem.php");
             $mc_item = new ilNewsItem();
             $mc_item->setMobId($new_mob->getId());
             $mc_item->setContentType(NEWS_AUDIO);
@@ -547,7 +536,6 @@ class ilObjMediaCast extends ilObject
     public function handleLPUpdate($a_user_id, $a_mob_id)
     {
         // using read events to persist mob status
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         ilChangeEvent::_recordReadEvent(
             "mob",
             $this->getRefId(),
@@ -556,7 +544,6 @@ class ilObjMediaCast extends ilObject
         );
         
         // trigger LP update
-        require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($this->getId(), $a_user_id);
     }
 

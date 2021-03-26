@@ -1,17 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once 'Services/WebServices/ECS/classes/class.ilECSObjectSettings.php';
 
 /**
-* Class ilECSCategorySettings
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* $Id: class.ilObjCourseGUI.php 31646 2011-11-14 11:39:37Z jluetzen $
-*
-* @ingroup Modules/Category
-*/
+ * Class ilECSCategorySettings
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilECSCategorySettings extends ilECSObjectSettings
 {
     protected function getECSObjectType()

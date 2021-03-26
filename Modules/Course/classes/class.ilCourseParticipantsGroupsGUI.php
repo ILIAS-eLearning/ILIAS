@@ -79,7 +79,6 @@ class ilCourseParticipantsGroupsGUI
         $lng = $DIC['lng'];
         $tpl = $DIC['tpl'];
         
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($ilCtrl->getFormAction($this, 'remove'));
         $confirm->addHiddenItem("grp_id", $_GET["grp_id"]);

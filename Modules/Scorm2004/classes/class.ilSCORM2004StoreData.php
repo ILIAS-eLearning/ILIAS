@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004StoreData
-*
-* @author Alex Killing <alex.killing@gmx.de>, Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
-*
-* @ingroup ModulesScormAicc
-*/
+ * Class ilSCORM2004StoreData
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
+ */
 class ilSCORM2004StoreData
 {
     public static function scormPlayerUnload($userId = null, $packageId, $time_from_lms)
@@ -47,7 +45,6 @@ class ilSCORM2004StoreData
 
                 $ilObjDataCache = $DIC["ilObjDataCache"];
                 // sync access number and time in read event table
-                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
                 ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int) $_GET['ref_id'], $time_from_lms);
                 //end sync access number and time in read event table
             }
@@ -354,33 +351,6 @@ class ilSCORM2004StoreData
         return $result;
     }
 
-
-    // private function setGlobalObjectivesAndGetGlobalStatus($userId, $packageId, $data) {
-
-    // global $DIC;
-    // $ilLog = $DIC['ilLog'];
-    // $changed_seq_utilities=$data->changed_seq_utilities;
-    // $ilLog->write("SCORM2004 adl_seq_utilities changed: ".$changed_seq_utilities);
-    // if ($changed_seq_utilities == 1) {
-    // $returnAr=ilSCORM2004StoreData::writeGObjective($data->adl_seq_utilities, $userId, $packageId);
-    // }
-    // // $completed=$returnAr[0];
-    // // $satisfied=$returnAr[1];
-    // // $measure=$returnAr[2];
-    // self::ensureObjectDataCacheExistence();
-
-    // $lp_mode=$data->lp_mode;
-    // if ($lp_mode=="12") //12=scorm_package
-    // {
-    // include_once './Services/Tracking/classes/status/class.ilLPStatusSCORMPackage.php';
-    // $new_global_status=ilLPStatusSCORMPackage::determineStatus($packageId, $userId);
-    // }
-    // else $new_global_status = $data->now_global_status; //6=selected scos, 0=no tracking
-    // $ilLog->write("new_global_status=".$new_global_status);
-    // return $new_global_status;
-    // }
-
-
     protected static function setGlobalObjectives($userId, $packageId, $data)
     {
         global $DIC;
@@ -419,15 +389,12 @@ class ilSCORM2004StoreData
 
         // update learning progress
         if ($new_global_status != null) {//could only happen when synchronising from SCORM Offline Player
-            include_once("./Services/Tracking/classes/class.ilObjUserTracking.php");
-            include_once("./Services/Tracking/classes/class.ilLPStatus.php");
             ilLPStatus::writeStatus($packageId, $userId, $new_global_status, $data->percentageCompleted);
 
             //			here put code for soap to MaxCMS e.g. when if($saved_global_status != $new_global_status)
         }
         // sync access number and time in read event table
         if ($time_from_lms == false) {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tracking.php");
             ilSCORM2004Tracking::_syncReadEvent($packageId, $userId, "sahs", (int) $_GET['ref_id'], $time_from_lms);
         }
         //end sync access number and time in read event table
@@ -611,7 +578,6 @@ class ilSCORM2004StoreData
         
         // update learning progress here not necessary because integrated in setCMIdata
         // check _updateStatus for cmi_gobjective
-        //		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
         //		ilLPStatusWrapper::_updateStatus($package, $user);
         
         return $returnAr;

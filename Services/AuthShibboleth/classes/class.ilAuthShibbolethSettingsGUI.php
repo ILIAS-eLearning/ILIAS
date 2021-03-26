@@ -389,7 +389,6 @@ class ilAuthShibbolethSettingsGUI
             return false;
         }
         $this->tabs_gui->setSubTabActive('shib_role_assignment');
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         // set confirm/cancel commands
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "deleteRules"));

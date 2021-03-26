@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceFolderAccess
-*
-*
-* @author 	Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilObjFolderAccess.php 26739 2010-11-28 20:33:51Z smeyer $
-*
-*/
+ * Class ilObjWorkspaceFolderAccess
+ *
+ * @author 	Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjWorkspaceFolderAccess extends ilObjectAccess
 {
     private static $folderSettings;

@@ -1,36 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-require_once("./Services/Xml/classes/class.ilSaxParser.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Category Import Parser
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesCategory
-*/
+ * Category Import Parser
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilCategoryImportParser extends ilSaxParser
 {
     /**
@@ -130,14 +106,9 @@ class ilCategoryImportParser extends ilSaxParser
     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
-        $rbacadmin = $this->rbacadmin;
-        $rbacreview = $this->rbacreview;
-        $rbacsystem = $this->rbacsystem;
-      
         switch ($a_name) {
             case "Category":
                 $cur_parent = $this->parent[$this->parent_cnt - 1];
-                require_once("Modules/Category/classes/class.ilObjCategory.php");
                 $this->category = new ilObjCategory;
                 $this->category->setImportId($a_attribs["Id"] . " (#" . $cur_parent . ")");
                 $this->default_language = $a_attribs["DefaultLanguage"];

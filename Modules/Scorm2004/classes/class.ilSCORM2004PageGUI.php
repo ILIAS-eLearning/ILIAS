@@ -1,22 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
-require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilSCORM2004Page GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ilCtrl_Calls ilSCORM2004PageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilSCORM2004PageGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilSCORM2004PageGUI: ilObjectMetaDataGUI, ilQuestionEditGUI, ilAssQuestionFeedbackEditingGUI
- *
- * @ingroup ModulesScormAicc
  */
 class ilSCORM2004PageGUI extends ilPageObjectGUI
 {
@@ -47,8 +40,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
 
         parent::__construct($a_parent_type, $a_id, $a_old_nr);
         $this->getPageObject()->setGlossaryId($this->glo_id);
-        
-        include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
+
         $this->enableNotes(true, $this->slm_id);
     }
     
@@ -150,7 +142,6 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
         $html = array();
         if (count($q_ids) > 0) {
             foreach ($q_ids as $q_id) {
-                include_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
                 $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                 $q_gui->setRenderPurpose(assQuestionGUI::RENDER_PURPOSE_PREVIEW);
                 $q_gui->outAdditionalOutput();
@@ -244,7 +235,6 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
                         $ltarget = "";
                         if ($this->getOutputMode() == "offline") {
                             if (ilObject::_lookupType($target_id) == "file") {
-                                include_once("./Modules/File/classes/class.ilObjFile.php");
                                 $href = "./files/file_" . $target_id . "/" . ilObjFile::_lookupFileName($target_id);
                                 $ltarget = "_blank";
                             }
@@ -273,9 +263,6 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
      */
     public function postOutputProcessing($a_output)
     {
-        //var_dump($this->glossary_links);
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
-
         if ($this->scorm_mode != "export") {
             $tpl = new ilTemplate("tpl.glossary_entries.html", true, true, "Modules/Scorm2004");
         } else {

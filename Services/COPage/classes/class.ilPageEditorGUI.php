@@ -615,7 +615,6 @@ class ilPageEditorGUI
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $this->ctrl->returnToParent($this);
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($ilCtrl->getFormAction($this));
             $cgui->setHeaderText($lng->txt("copg_confirm_el_deletion"));

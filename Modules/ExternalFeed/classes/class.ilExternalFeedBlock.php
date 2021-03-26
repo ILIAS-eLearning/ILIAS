@@ -1,14 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Block/classes/class.ilCustomBlock.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
-* Custom block for external feeds.
-*
-* @author alex killing <alex.killing@gmx.de
-* @version $Id$
-*/
+ * Custom block for external feeds.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilExternalFeedBlock extends ilCustomBlock
 {
     /**

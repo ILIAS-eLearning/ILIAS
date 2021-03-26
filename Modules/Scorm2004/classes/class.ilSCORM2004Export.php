@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-//require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Export class for SCORM 2004 object
-*/
+ * Export class for SCORM 2004 object
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilScorm2004Export
 {
     /**
@@ -164,10 +163,7 @@ class ilScorm2004Export
     {
 
         // init the mathjax rendering for HTML export
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
         // create directories
         $this->createExportDirectory();
@@ -175,7 +171,6 @@ class ilScorm2004Export
 
         // get Log File
         $expDir = $this->export_dir;
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -200,10 +195,7 @@ class ilScorm2004Export
     */
     public function buildExportFileHTML()
     {
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-
         // init the mathjax rendering for HTML export
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
 
         // create directories
@@ -212,7 +204,6 @@ class ilScorm2004Export
 
         // get Log File
         $expDir = $this->export_dir;
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -236,10 +227,7 @@ class ilScorm2004Export
     */
     public function buildExportFileHTMLOne()
     {
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
-
         // init the mathjax rendering for HTML export
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
 
         // create directories
@@ -248,7 +236,6 @@ class ilScorm2004Export
 
         // get Log File
         $expDir = $this->export_dir;
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -272,10 +259,7 @@ class ilScorm2004Export
         $result = "";
 
         // init the mathjax rendering for HTML export
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
         // create directories
         $this->createExportDirectory();
@@ -283,7 +267,6 @@ class ilScorm2004Export
 
         // get Log File
         $expDir = $this->export_dir;
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -309,10 +292,7 @@ class ilScorm2004Export
     {
 
         // don't render mathjax before fo code is generated
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->init(ilMathJax::PURPOSE_DEFERRED_PDF);
-
-        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
         // create directories
         $this->createExportDirectory();
@@ -320,7 +300,6 @@ class ilScorm2004Export
 
         // get Log File
         $expDir = $this->export_dir;
-        include_once './Services/Logging/classes/class.ilLog.php';
         $expLog = new ilLog($expDir, "export.log");
         $expLog->delete();
         $expLog->setLogFormat("");
@@ -337,8 +316,6 @@ class ilScorm2004Export
 
         fputs(fopen($this->export_dir . "/" . $this->subdir . '/temp.fo', 'w+'), $fo_string);
 
-        $ilLog = $this->log;
-        include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo_string);
             //ilUtil::deliverData($pdf_base64->scalar,'learning_progress.pdf','application/pdf');

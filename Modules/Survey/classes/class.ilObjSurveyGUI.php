@@ -1803,7 +1803,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
                     if ($ilUser->getId() == ANONYMOUS_USER_ID ||
                         !$ilUser->getEmail()) {
-                        require_once "Services/Form/classes/class.ilTextInputGUI.php";
                         $mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
                         $mail->setSize(25);
                         $mail->setValue($ilUser->getEmail());
@@ -2249,9 +2248,6 @@ class ilObjSurveyGUI extends ilObjectGUI
         $finished = $this->object->getSurveyParticipants(array($a_active_id));
         $finished = array_pop($finished);
         $finished = ilDatePresentation::formatDate(new ilDateTime($finished["finished_tstamp"], IL_CAL_UNIX));
-                
-        require_once "Services/Mail/classes/class.ilMail.php";
-        require_once "Services/Link/classes/class.ilLink.php";
                 
         $body = ilMail::getSalutation($ilUser->getId()) . "\n\n";
         $body .= $this->lng->txt("svy_mail_own_results_body") . "\n";

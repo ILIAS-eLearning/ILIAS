@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * SCORM 2004 page configuration
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesScorm
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM2004PageConfig extends ilPageConfig
 {
@@ -37,7 +33,6 @@ class ilSCORM2004PageConfig extends ilPageConfig
     public function configureByObjectId($a_obj_id)
     {
         if ($a_obj_id > 0) {
-            include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
             $this->setLocalizationLanguage(
                 ilObjSAHSLearningModule::getAffectiveLocalization($a_obj_id)
             );

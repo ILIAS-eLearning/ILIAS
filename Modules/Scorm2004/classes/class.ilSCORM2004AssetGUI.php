@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php");
-require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilSCORM2004AssetGUI
@@ -10,11 +8,7 @@ require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
  * User Interface for Scorm 2004 Asset Nodes
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilSCORM2004AssetGUI: ilMDEditorGUI, ilNoteGUI, ilPCQuestionGUI, ilSCORM2004PageGUI
- *
- * @ingroup ModulesScorm2004
  */
 class ilSCORM2004AssetGUI extends ilSCORM2004ScoGUI
 {

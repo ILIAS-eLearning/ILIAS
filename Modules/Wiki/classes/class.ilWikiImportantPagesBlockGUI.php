@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Important pages wiki block
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesWiki
  */
 class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 {
@@ -90,7 +85,6 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
 
         $this->export = $a_export;
 
-        include_once './Modules/Wiki/classes/class.ilWikiPerm.php';
         if (!$this->export && ilWikiPerm::check("edit_wiki_navigation", $_GET["ref_id"])) {
             $this->addBlockCommand(
                 $ilCtrl->getLinkTargetByClass("ilobjwikigui", "editImportantPages"),
@@ -122,13 +116,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     protected function getLegacyContent() : string
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilAccess = $this->access;
-        
-        $tpl = new ilTemplate("tpl.wiki_imp_pages_block.html", true, true, "Modules/Wiki");
-
         $cpar[0] = $cpar[1] = 0;
-        include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
         
         $list = new ilNestedList();
         $list->setItemClass("ilWikiBlockItem");

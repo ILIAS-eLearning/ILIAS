@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use OrgUnit\PublicApi\OrgUnitUserService;
 
@@ -122,7 +122,6 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
             return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
         } else {
             if ('svy_link' == $placeholder_id) {
-                require_once './Services/Link/classes/class.ilLink.php';
                 return ilLink::_getLink($context_parameters['ref_id'], 'svy');
             }
         }

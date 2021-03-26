@@ -1173,7 +1173,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
         $links = new ilLinkResourceItems($this->object->getId());
         
-        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this, 'view'));
         $confirm->setHeaderText($this->lng->txt('webr_sure_delete_items'));

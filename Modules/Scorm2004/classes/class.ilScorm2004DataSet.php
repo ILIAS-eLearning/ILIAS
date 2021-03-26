@@ -1,7 +1,11 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
+/**
+ * Class ilScorm2004DataSet
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilScorm2004DataSet extends ilDataSet
 {
     protected $temp_dir = array();
@@ -111,7 +115,6 @@ class ilScorm2004DataSet extends ilDataSet
     {
         if ($a_entity == "sahs") {
             // build traditional author export file
-            include_once './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php';
             $lm = new ilObjSCORM2004LearningModule($a_set["Id"], false);
             $export = new ilScorm2004Export($lm, 'SCORM 2004 3rd');
             $zip = $export->buildExportFile();
@@ -163,7 +166,6 @@ class ilScorm2004DataSet extends ilDataSet
         switch ($a_entity) {
             case "sahs":
                 $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);
-                include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
                 $lm = new ilObjSCORM2004LearningModule($new_obj_id, false);
 
                 $lm->setEditable($a_rec["Editable"]);

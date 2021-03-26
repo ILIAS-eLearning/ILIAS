@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
-* folder xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesCategory
-*/
+ * folder xml importer
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilCategoryImporter extends ilXmlImporter
 {
     private $category = null;
@@ -29,7 +25,6 @@ class ilCategoryImporter extends ilXmlImporter
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {
-        include_once './Modules/Category/classes/class.ilObjCategory.php';
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $refs = ilObject::_getAllReferences($new_id);
             $this->category = ilObjectFactory::getInstanceByRefId(end($refs), false);
@@ -42,7 +37,6 @@ class ilCategoryImporter extends ilXmlImporter
             $this->category->create(true);
         }
 
-        include_once './Modules/Category/classes/class.ilCategoryXmlParser.php';
 
         try {
             $parser = new ilCategoryXmlParser($a_xml, 0);
@@ -87,9 +81,6 @@ class ilCategoryImporter extends ilXmlImporter
      */
     public function finalProcessing($a_mapping)
     {
-        //echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
-        // get all categories of the import
-        include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
         $maps = $a_mapping->getMappingsOfEntity("Modules/Category", "cat");
         foreach ($maps as $old => $new) {
             if ($old != "new_id" && (int) $old > 0) {

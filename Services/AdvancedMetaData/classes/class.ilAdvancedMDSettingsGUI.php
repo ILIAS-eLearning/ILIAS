@@ -468,7 +468,6 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
     
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -537,7 +536,6 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -705,7 +703,6 @@ class ilAdvancedMDSettingsGUI
         $this->initRecordObject();
         $this->setRecordSubTabs(2);
 
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands

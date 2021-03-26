@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceRootFolderAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
-*
-*/
+ * Class ilObjWorkspaceRootFolderAccess
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjWorkspaceRootFolderAccess extends ilObjectAccess
 {
     /**

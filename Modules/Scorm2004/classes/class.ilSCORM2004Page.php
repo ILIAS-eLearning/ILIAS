@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilSCORM2004Page
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScormAicc
-*/
+ * Class ilSCORM2004Page
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilSCORM2004Page extends ilPageObject
 {
     protected $glossary_id = 0;
@@ -98,8 +94,6 @@ class ilSCORM2004Page extends ilPageObject
     */
     public function createWithLayoutId($a_layout_id)
     {
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
-
         //get XML Data for Layout
         $layout_obj = new ilPageLayout($a_layout_id);
         
@@ -189,25 +183,6 @@ class ilSCORM2004Page extends ilPageObject
         $a_xml_writer->xmlEndTag("PageObject");
     }
 
-
-    /**
-     * export page alias to xml
-     */
-    /* todo: this needs to be adopted
-     function _exportXMLAlias(&$a_xml_writer, $a_id, $a_inst = 0)
-     {
-        $attrs = array();
-        $a_xml_writer->xmlStartTag("PageObject", $attrs);
-
-        $attrs = array();
-        $attrs["OriginId"] = "il_".$a_inst.
-        "_pg_".$a_id;
-        $a_xml_writer->xmlElement("PageAlias", $attrs);
-
-        $a_xml_writer->xmlEndTag("PageObject");
-        }
-        */
-
     /**
      * export page objects meta data to xml (see ilias_co.dtd)
      *
@@ -216,26 +191,11 @@ class ilSCORM2004Page extends ilPageObject
      */
     public function exportXMLMetaData(&$a_xml_writer)
     {
-        include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getParentId(), $this->getId(), gettype($this));
         $md2xml->setExportMode(true);
         $md2xml->startExport();
         $a_xml_writer->appendXML($md2xml->getXML());
     }
-
-
-    /* todo: this needs to be adopted
-     function modifyExportIdentifier($a_tag, $a_param, $a_value)
-     {
-        if ($a_tag == "Identifier" && $a_param == "Entry")
-        {
-        $a_value = "il_".IL_INST_ID."_pg_".$this->getId();
-        //$a_value = ilUtil::insertInstIntoID($a_value);
-        }
-
-        return $a_value;
-        }
-        */
 
     /**
      * export page objects meta data to xml (see ilias_co.dtd)
@@ -250,7 +210,6 @@ class ilSCORM2004Page extends ilPageObject
         $this->insertInstIntoIDs($a_inst);
         $cont_obj = $this->getContentObject("pg");
         $this->mobs_contained = $this->collectMediaObjects(false);
-        include_once("./Services/COPage/classes/class.ilPCFileList.php");
         $this->files_contained = ilPCFileList::collectFileItems($this, $this->getDomDoc());
         $xml = $this->getXMLFromDom(false, false, false, "", true);
         $xml = str_replace("&", "&amp;", $xml);

@@ -593,7 +593,6 @@ class ilCalendarAppointmentGUI
         // Show edit single/all appointments
         $this->ctrl->saveParameter($this, array('seed','app_id','dt','idate'));
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         #$confirm->setHeaderText($this->lng->txt('cal_edit_app_sure'));
@@ -851,8 +850,7 @@ class ilCalendarAppointmentGUI
 
         $tpl = $DIC['tpl'];
 
-        include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
-        
+
         $this->ctrl->saveParameter($this, array('seed','app_id','dt','idate'));
 
         $confirm = new ilConfirmationGUI();
@@ -1247,7 +1245,6 @@ class ilCalendarAppointmentGUI
         );
             
         
-        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI;
         
         $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
@@ -1301,7 +1298,6 @@ class ilCalendarAppointmentGUI
         );
             
         
-        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI;
         
         $this->ctrl->setParameter($this, 'dstart', (int) $_REQUEST['dstart']);
@@ -1460,7 +1456,6 @@ class ilCalendarAppointmentGUI
 
         $title = ilDatePresentation::formatPeriod($entry->getStart(), $entry->getEnd());
         
-        include_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $conf = new ilConfirmationGUI;
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('cal_cancel_booking_info'));

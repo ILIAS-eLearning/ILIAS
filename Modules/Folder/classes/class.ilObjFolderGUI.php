@@ -1,25 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjFolderGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ilCtrl_Calls ilObjFolderGUI: ilPermissionGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
-* @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepUtilGUI
-*
-* @extends ilObjectGUI
-*/
-
-require_once "./Services/Container/classes/class.ilContainerGUI.php";
-
+ * Class ilObjFolderGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjFolderGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilCourseContentGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepUtilGUI
+ */
 class ilObjFolderGUI extends ilContainerGUI
 {
     /**
@@ -70,7 +64,6 @@ class ilObjFolderGUI extends ilContainerGUI
         }
         
         // Trac access - see ilObjCourseGUI
-        include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
         ilLearningProgress::_tracProgress(
             $GLOBALS["ilUser"]->getId(),
             $this->object->getId(),
@@ -115,7 +108,6 @@ class ilObjFolderGUI extends ilContainerGUI
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -123,15 +115,13 @@ class ilObjFolderGUI extends ilContainerGUI
 
             case 'ilcoursecontentgui':
                 $this->prepareOutput();
-                include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
                 $course_content_obj = new ilCourseContentGUI($this);
                 $this->ctrl->forwardCommand($course_content_obj);
                 break;
             
             case "illearningprogressgui":
                 $this->prepareOutput();
-                include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-                
+
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
@@ -158,7 +148,6 @@ class ilObjFolderGUI extends ilContainerGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
 
-                include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
                 $cp = new ilObjectCopyGUI($this);
                 $cp->setType('fold');
                 $this->ctrl->forwardCommand($cp);
@@ -172,7 +161,6 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->prepareOutput();
                     
                 $this->tabs_gui->setTabActive('export');
-                include_once './Services/Export/classes/class.ilExportGUI.php';
                 $exp = new ilExportGUI($this);
                 $exp->addFormat('xml');
                 $this->ctrl->forwardCommand($exp);
@@ -186,7 +174,6 @@ class ilObjFolderGUI extends ilContainerGUI
 
             case 'ildidactictemplategui':
                 $this->ctrl->setReturn($this, 'edit');
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
                 $did = new ilDidacticTemplateGUI($this);
                 $this->ctrl->forwardCommand($did);
                 break;
@@ -200,7 +187,6 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->checkPermissionBool("write");
                 $this->prepareOutput();
                 $this->setSubTabs("settings_trans");
-                include_once("./Services/Object/classes/class.ilObjectTranslationGUI.php");
                 $transgui = new ilObjectTranslationGUI($this);
                 $this->ctrl->forwardCommand($transgui);
                 break;
@@ -255,12 +241,10 @@ class ilObjFolderGUI extends ilContainerGUI
     protected function initEditForm()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
 
         $lng->loadLanguageModule($this->object->getType());
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
@@ -320,7 +304,6 @@ class ilObjFolderGUI extends ilContainerGUI
     {
         // we cannot use $this->object->getOrderType()
         // if set to inherit it will be translated to parent setting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $sort = new ilContainerSortingSettings($this->object->getId());
         $a_values["sor"] = $sort->getSortMode();
     }
@@ -362,7 +345,6 @@ class ilObjFolderGUI extends ilContainerGUI
     
     protected function afterSave(ilObject $a_new_object)
     {
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $sort = new ilContainerSortingSettings($a_new_object->getId());
         $sort->setSortMode(ilContainer::SORT_INHERIT);
         $sort->update();
@@ -396,7 +378,6 @@ class ilObjFolderGUI extends ilContainerGUI
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
         }
 
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         $info = new ilInfoScreenGUI($this);
         
         $GLOBALS['ilTabs']->activateTab('info_short');
@@ -482,7 +463,6 @@ class ilObjFolderGUI extends ilContainerGUI
         }
 
         // learning progress
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'learning_progress',
@@ -552,8 +532,6 @@ class ilObjFolderGUI extends ilContainerGUI
 
         // if folder is in a course, modify item list gui according to course requirements
         if ($course_ref_id = $tree->checkForParentType($this->object->getRefId(), 'crs')) {
-            include_once("./Modules/Course/classes/class.ilObjCourse.php");
-            include_once("./Modules/Course/classes/class.ilObjCourseGUI.php");
             $course_obj_id = ilObject::_lookupObjId($course_ref_id);
             ilObjCourseGUI::_modifyItemGUI(
                 $a_item_list_gui,
@@ -575,14 +553,12 @@ class ilObjFolderGUI extends ilContainerGUI
         if (!$crs_ref = $tree->checkForParentType($this->ref_id, 'crs')) {
             return false;
         }
-        include_once './Modules/Course/classes/class.ilObjCourse.php';
         if (!$this->ctrl->getCmd() and ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($crs_ref)) == ilContainer::VIEW_TIMING) {
             if (!isset($_SESSION['crs_timings'])) {
                 $_SESSION['crs_timings'] = true;
             }
             
             if ($_SESSION['crs_timings'] == true) {
-                include_once './Modules/Course/classes/class.ilCourseContentGUI.php';
                 $course_content_obj = new ilCourseContentGUI($this);
                 $this->ctrl->setCmdClass(get_class($course_content_obj));
                 $this->ctrl->setCmd('editUserTimings');

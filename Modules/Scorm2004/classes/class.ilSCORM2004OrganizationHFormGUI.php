@@ -1,15 +1,13 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilHierarchyFormGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
-* This class allows quick editing of a chapter/sco/page hierarchy
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class allows quick editing of a chapter/sco/page hierarchy
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
 {
     /**
@@ -46,9 +44,6 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
         $ilUser = $this->user;
 
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
         $page_layouts = (count(ilPageLayout::activeLayouts()) > 0);
         $special_pages = (count(ilPageLayout::activeLayouts(true)) > 0);
         

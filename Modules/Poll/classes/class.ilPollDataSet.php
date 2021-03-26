@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Poll Dataset class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - poll_answer: data from table il_poll_answer
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ModulesBlog
  */
 class ilPollDataSet extends ilDataSet
 {
@@ -162,11 +159,9 @@ class ilPollDataSet extends ilDataSet
     public function getXmlRecord($a_entity, $a_version, $a_set)
     {
         if ($a_entity == "poll") {
-            include_once("./Modules/Poll/classes/class.ilObjPoll.php");
             $dir = ilObjPoll::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            include_once("./Services/Notes/classes/class.ilNote.php");
             $a_set["ShowComments"] = ilNote::commentsActivated($a_set["Id"], 0, "poll");
         }
 
@@ -183,8 +178,6 @@ class ilPollDataSet extends ilDataSet
     {
         switch ($a_entity) {
             case "poll":
-                include_once("./Modules/Poll/classes/class.ilObjPoll.php");
-                
                 // container copy
                 if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"])) {
                     $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);

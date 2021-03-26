@@ -1,39 +1,15 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
-require_once "./Services/Container/classes/class.ilContainer.php";
-
 /**
-* Class ilObjFolder
-*
-* @author Wolfgang Merkens <wmerkens@databay.de>
-* @version $Id: class.ilObjFolder.php 40448 2013-03-08 10:02:02Z jluetzen $
-*
-* @extends ilObject
-*/
+ * Class ilObjFolder
+ *
+ * @author Wolfgang Merkens <wmerkens@databay.de>
+ */
 class ilObjFolder extends ilContainer
 {
     public $folder_tree;
@@ -75,7 +51,6 @@ class ilObjFolder extends ilContainer
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
         
         // Copy learning progress settings
-        include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         $obj_settings = new ilLPObjSettings($this->getId());
         $obj_settings->cloneSettings($new_obj->getId());
         unset($obj_settings);
@@ -116,7 +91,6 @@ class ilObjFolder extends ilContainer
     {
         parent::cloneDependencies($a_target_id, $a_copy_id);
 
-        include_once('Services/Object/classes/class.ilObjectActivation.php');
         ilObjectActivation::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
         
         return true;
@@ -138,7 +112,6 @@ class ilObjFolder extends ilContainer
             $container_ref_id = $tree->checkForParentType($this->ref_id, 'crs');
         }
         if ($container_ref_id) {
-            include_once("./Modules/Course/classes/class.ilObjCourseAccess.php");
             $view_mode = ilObjCourseAccess::_lookupViewMode(ilObject::_lookupObjId($container_ref_id));
             if ($view_mode == ilContainer::VIEW_SESSIONS ||
                 $view_mode == ilContainer::VIEW_BY_TYPE ||
@@ -156,7 +129,6 @@ class ilObjFolder extends ilContainer
     */
     public function addAdditionalSubItemInformation(&$a_item_data)
     {
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
     }
     
@@ -169,12 +141,9 @@ class ilObjFolder extends ilContainer
      */
     public function read()
     {
-        $tree = $this->tree;
-        
         parent::read();
         
         // Inherit order type from parent course (if exists)
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
     }
-} // END class.ilObjFolder
+}

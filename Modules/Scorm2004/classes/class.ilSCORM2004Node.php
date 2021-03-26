@@ -1,19 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class
- *
  * Base class for Scorm 2004 Nodes (Chapters, Pages, SCOs)
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesScorm2004
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSCORM2004Node
 {
@@ -45,11 +37,7 @@ class ilSCORM2004Node
         $this->setSLMObject($a_slm_object);
         $this->setSLMId($a_slm_object->getId());
 
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Tree.php");
         $this->tree = new ilSCORM2004Tree($a_slm_object->getId());
-        /*$this->tree = new ilTree($a_slm_object->getId());
-        $this->tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
-        $this->tree->setTreeTablePK("slm_id");*/
 
         if ($a_id != 0) {
             $this->read();
@@ -238,8 +226,6 @@ class ilSCORM2004Node
     */
     public function MDUpdateListener($a_element)
     {
-        include_once 'Services/MetaData/classes/class.ilMD.php';
-
         switch ($a_element) {
             case 'General':
 
@@ -270,7 +256,6 @@ class ilSCORM2004Node
     {
         $ilUser = $this->user;
 
-        include_once 'Services/MetaData/classes/class.ilMDCreator.php';
         $md_creator = new ilMDCreator($this->getSLMId(), $this->getId(), $this->getType());
         $md_creator->setTitle($this->getTitle());
         $md_creator->setTitleLanguage($ilUser->getPref('language'));
@@ -288,10 +273,6 @@ class ilSCORM2004Node
     */
     public function updateMetaData()
     {
-        include_once("Services/MetaData/classes/class.ilMD.php");
-        include_once("Services/MetaData/classes/class.ilMDGeneral.php");
-        include_once("Services/MetaData/classes/class.ilMDDescription.php");
-
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
         $md_gen->setTitle($this->getTitle());
@@ -313,7 +294,6 @@ class ilSCORM2004Node
     public function deleteMetaData()
     {
         // Delete meta data
-        include_once('Services/MetaData/classes/class.ilMD.php');
         $md = new ilMD($this->getSLMId(), $this->getId(), $this->getType());
         $md->deleteAll();
     }
@@ -510,7 +490,6 @@ class ilSCORM2004Node
 
         $ilDB = $DIC->database();
         
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         if (is_int(strpos($a_id, "_"))) {
             $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
         }
@@ -541,7 +520,6 @@ class ilSCORM2004Node
             "WHERE slm_id = " . $ilDB->quote($a_slm_object->getId(), "integer") . " ";
         $obj_set = $ilDB->query($query);
 
-        require_once("./Modules/Scorm2004/classes/class.ilSCORM2004NodeFactory.php");
         while ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
             $node_obj = ilSCORM2004NodeFactory::getInstance($a_slm_object, $obj_rec["obj_id"], false);
 
@@ -737,9 +715,6 @@ class ilSCORM2004Node
         $ilUser = $DIC->user();
         
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
         $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
         
@@ -800,9 +775,6 @@ class ilSCORM2004Node
         $ilUser = $DIC->user();
         
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
         $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
         
@@ -859,13 +831,8 @@ class ilSCORM2004Node
         global $DIC;
 
         $ilUser = $DIC->user();
-        $ilCtrl = $DIC->ctrl();
-        $ilLog = $DIC["ilLog"];
-        
+
         // @todo: move this to a service since it can be used here, too
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
         $node_id = ilSCORM2004OrganizationHFormGUI::getPostNodeId();
         $first_child = ilSCORM2004OrganizationHFormGUI::getPostFirstChild();
         
@@ -955,17 +922,14 @@ class ilSCORM2004Node
             $item_slm_id = ilSCORM2004Node::_lookupSLMID($a_item_id);
             $item_type = ilSCORM2004Node::_lookupType($a_item_id);
 
-            include_once("./Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModule.php");
             $slm_obj = new ilObjSCORM2004LearningModule($item_slm_id, false);
 
             $ilLog->write("Getting from clipboard type " . $item_type . ", " .
                 "Item ID: " . $a_item_id . ", of original SLM: " . $item_slm_id);
         } elseif (in_array($a_source_parent_type, array("lm"))) {
-            include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
             $item_lm_id = ilLMObject::_lookupContObjId($a_item_id);
             $item_type = ilLMObject::_lookupType($a_item_id, $item_lm_id);
 
-            include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
             $lm_obj = new ilObjLearningModule($item_lm_id, false);
 
             $ilLog->write("Getting from clipboard type " . $item_type . ", " .
@@ -975,19 +939,14 @@ class ilSCORM2004Node
 
 
         if ($item_type == "chap") {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Chapter.php");
             $item = new ilSCORM2004Chapter($slm_obj, $a_item_id);
         } elseif ($item_type == "page") {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
             $item = new ilSCORM2004PageNode($slm_obj, $a_item_id);
         } elseif ($item_type == "sco") {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Sco.php");
             $item = new ilSCORM2004Sco($slm_obj, $a_item_id);
         } elseif ($item_type == "ass") {
-            include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Asset.php");
             $item = new ilSCORM2004Asset($slm_obj, $a_item_id);
         } elseif ($item_type == "pg") {
-            include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
             $item = new ilLMPageObject($lm_obj, $a_item_id);
         }
 
@@ -996,7 +955,6 @@ class ilSCORM2004Node
             // @todo: check whether st is NOT in tree
             
             // "move" metadata to new lm
-            include_once("Services/MetaData/classes/class.ilMD.php");
             $md = new ilMD($item_slm_id, $item->getId(), $item->getType());
             $new_md = $md->cloneMD($a_target_slm->getId(), $item->getId(), $item->getType());
             
@@ -1019,7 +977,6 @@ class ilSCORM2004Node
         if ($a_as_copy) {
             if ($a_source_parent_type == "lm") {
                 if ($item_type = "pg") {
-                    include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
                     $target_item = ilSCORM2004PageNode::copyPageFromLM($a_target_slm, $item);
                 }
             } else {
@@ -1069,25 +1026,15 @@ class ilSCORM2004Node
     //objectives per node
     public function getObjectives()
     {
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Objective.php");
         return ilSCORM2004Objective::fetchAllObjectives($this->slm_object, $this->getId());
     }
     
     public function deleteSeqInfo()
     {
-        include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Item.php");
         $seq_item = new ilSCORM2004Item($this->getId());
         $seq_item -> delete();
     }
-    
-    //function currently unused - shouldn't be removed if subchapter support may be added in the future
-    //	public function parentHasSeqTemplate(){
-    //		include_once("./Modules/Scorm2004/classes/seq_editor/class.ilSCORM2004Utilities.php");
-    //		$seq_util = new ilSCORM2004Utilities($this->getId());
-    //		return $seq_util -> parentHasSeqTemplate($this->slm_object);
-    //	}
-    
-    
+
     public function exportAsScorm12()
     {
         //to implement

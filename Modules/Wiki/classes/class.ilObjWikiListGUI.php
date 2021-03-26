@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* ListGUI class for wiki objects.
-*
-* @author 	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-*
-* @ingroup ModulesWiki
-*/
+ * ListGUI class for wiki objects.
+ *
+ * @author 	Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjWikiListGUI extends ilObjectListGUI
 {
     /**
@@ -30,7 +24,6 @@ class ilObjWikiListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjwikigui";
         
         // general commands array
-        include_once('./Modules/Wiki/classes/class.ilObjWikiAccess.php');
         $this->commands = ilObjWikiAccess::_getCommands();
     }
 
@@ -70,15 +63,12 @@ class ilObjWikiListGUI extends ilObjectListGUI
 
         $props = array();
 
-        include_once("./Modules/Wiki/classes/class.ilObjWikiAccess.php");
-
         if (!ilObjWikiAccess::_lookupOnline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                 "value" => $lng->txt("offline"));
         }
 
         $lng->loadLanguageModule("wiki");
-        include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
         $info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->ref_id, $this->user->getId());
         if (count($info) > 0) {
             $sub = ilExSubmission::getSubmissionsForFilename($this->ref_id, array(ilExAssignment::TYPE_WIKI_TEAM));

@@ -601,7 +601,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tabs_gui->setTabActive('settings');
         $this->tabs_gui->setSubTabActive('crs_info_settings');
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -1045,7 +1044,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $tpl = $DIC['tpl'];
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this, "setLPSync"));
         $cgui->setHeaderText($this->lng->txt("crs_status_determination_sync"));
@@ -1936,7 +1934,6 @@ class ilObjCourseGUI extends ilContainerGUI
         }
                 
         $this->tabs_gui->setTabActive('crs_unsubscribe');
-        include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('crs_unsubscribe_sure'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -3119,7 +3116,6 @@ class ilObjCourseGUI extends ilContainerGUI
     {
         ilUtil::sendQuestion($this->lng->txt('crs_objectives_reset_sure'));
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('reset'), 'reset');
@@ -3430,7 +3426,6 @@ class ilObjCourseGUI extends ilContainerGUI
      */
     protected function redirectLocToTestConfirmation($a_objective_id, $a_test_id)
     {
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($GLOBALS['DIC']['ilCtrl']->getFormAction($this));
         

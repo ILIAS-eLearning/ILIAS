@@ -274,7 +274,6 @@ class ilLDAPSettingsGUI
         $this->setSubTabs();
         $this->tabs_gui->setTabActive('role_assignments');
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -1541,7 +1540,6 @@ class ilLDAPSettingsGUI
             return false;
         }
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
@@ -1604,7 +1602,6 @@ class ilLDAPSettingsGUI
             return false;
         }
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands

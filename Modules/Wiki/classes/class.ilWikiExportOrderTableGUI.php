@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for ordering pages to be printed/exported
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesWiki
  */
 class ilWikiExportOrderTableGUI extends ilTable2GUI
 {
@@ -51,8 +46,7 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
                 
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         $this->addCommandButton($this->getParentCmd(), $lng->txt("refresh"));
-        
-        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
+
         $button = ilSubmitButton::getInstance();
         $button->setOmitPreventDoubleSubmission((bool) $a_pdf_export);
         $button->setCaption("continue");

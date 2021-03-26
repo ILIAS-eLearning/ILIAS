@@ -1,22 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilWikiPage GUI class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
-* @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
-* @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
-*
-* @ingroup ModulesWiki
-*/
+ * Class ilWikiPage GUI class
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilWikiPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilWikiPageGUI: ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
+ * @ilCtrl_Calls ilWikiPageGUI: ilCommonActionDispatcherGUI, ilRatingGUI, ilWikiStatGUI
+ * @ilCtrl_Calls ilWikiPageGUI: ilObjectMetaDataGUI, ilPropertyFormGUI
+ */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
     /**
@@ -70,8 +65,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getPageObject()->setWikiRefId($this->getWikiRefId());
         
         // content style
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        
         $tpl->setCurrentBlock("SyntaxStyle");
         $tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",
@@ -157,7 +150,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                         
             case "ilratinggui":
                 // for rating side block
-                include_once("./Services/Rating/classes/class.ilRatingGUI.php");
                 $rating_gui = new ilRatingGUI();
                 $rating_gui->setObject(
                     $this->getPageObject()->getParentId(),
@@ -171,7 +163,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 break;
 
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $gui->enableCommentsSettings(false);
                 $gui->setRatingCallback($this, "preview");
@@ -183,7 +174,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                     $this->tabs_gui->clearTargets(); // see ilObjWikiGUI::getTabs()
                     $this->getTabs("statistics");
 
-                    include_once "Modules/Wiki/classes/class.ilWikiStatGUI.php";
                     $gui = new ilWikiStatGUI(
                         $this->getPageObject()->getParentId(),
                         $this->getPageObject()->getId()
@@ -213,7 +203,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 }
 
                 if ($_GET["ntf"]) {
-                    include_once "./Services/Notification/classes/class.ilNotification.php";
                     switch ($_GET["ntf"]) {
                         case 1:
                             ilNotification::setNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $this->getPageObject()->getParentId(), false);
@@ -265,11 +254,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
     */
     public static function getGUIForTitle($a_wiki_id, $a_title, $a_old_nr = 0, $a_wiki_ref_id = 0)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
-        include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
         $id = ilWikiPage::getPageIdForTitle($a_wiki_id, $a_title);
         $page_gui = new ilWikiPageGUI($id, $a_old_nr, $a_wiki_ref_id);
         
@@ -293,7 +277,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $wiki_id = $this->getPageObject()->getParentId();
         $page_id = $this->getPageObject()->getId();
         
-        include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
         $dispatcher = new ilCommonActionDispatcherGUI(
             ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
             $ilAccess,
@@ -303,7 +286,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
         $dispatcher->setSubObject("wpg", $page_id);
 
-        include_once "Services/Object/classes/class.ilObjectListGUI.php";
         ilObjectListGUI::prepareJSLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
@@ -327,7 +309,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // notification
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once "./Services/Notification/classes/class.ilNotification.php";
             if (ilNotification::hasNotification(ilNotification::TYPE_WIKI, $ilUser->getId(), $wiki_id)) {
                 $this->ctrl->setParameter($this, "ntf", 1);
                 if (ilNotification::hasOptOut($wiki_id)) {
@@ -443,7 +424,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl->setLoginTargetPar("wiki_" . $_GET["ref_id"] . $append);
 
         // last edited info
-        include_once("./Services/User/classes/class.ilUserUtil.php");
         $wtpl->setVariable(
             "LAST_EDITED_INFO",
             $lng->txt("wiki_last_edited") . ": " .
@@ -462,7 +442,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         
         //highlighting
         if ($_GET["srcstring"] != "") {
-            include_once './Services/Search/classes/class.ilUserSearchCache.php';
             $cache = ilUserSearchCache::_getInstance($ilUser->getId());
             $cache->switchSearchType(ilUserSearchCache::LAST_QUERY);
             $search_string = $cache->getQuery();
@@ -472,8 +451,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 $search_string = $search_string["lom_content"];
             }
 
-            include_once("./Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php");
-            include_once("./Services/Search/classes/class.ilQueryParser.php");
             $p = new ilQueryParser($search_string);
             $p->parse();
 
@@ -491,16 +468,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     
     public function showPage()
     {
-        $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
-        
         // content style
-        /*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-                $tpl->setCurrentBlock("ContentStyle");
-                $tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath(0));
-                $tpl->parseCurrentBlock();
-        */
         $this->setTemplateOutput(false);
         
         if (!$this->getAbstractOnly()) {
@@ -520,15 +488,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $this->getWikiPage()->increaseViewCnt();
         
         // enable object statistics
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         ilChangeEvent::_recordReadEvent(
             "wiki",
             $this->getWikiPage()->getWikiRefId(),
             $this->getWikiPage()->getWikiId(),
             $ilUser->getId()
         );
-        
-        include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
+
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_READ, $this->getWikiPage());
     }
 
@@ -538,9 +504,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
     public function postOutputProcessing($a_output)
     {
         $ilCtrl = $this->ctrl;
-
-        //echo htmlentities($a_output);
-        include_once("./Modules/Wiki/classes/class.ilWikiUtil.php");
 
         $ilCtrl->setParameterByClass("ilobjwikigui", "from_page", ilWikiUtil::makeUrlTitle($_GET["page"]));
         $output = ilWikiUtil::replaceInternalLinks(
@@ -553,7 +516,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         // metadata in print view
         if ($this->getOutputMode() == "print" && $this->wiki instanceof ilObjWiki) {
-            include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");
             $mdgui = new ilObjectMetaDataGUI($this->wiki, "wpg", $this->getId());
             $md = $mdgui->getKeyValueList();
             if ($md != "") {
@@ -571,8 +533,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
     public function whatLinksHere()
     {
         $tpl = $this->tpl;
-        
-        include_once("./Modules/Wiki/classes/class.ilWikiPagesTableGUI.php");
         
         $this->setSideBlock($_GET["wpg_id"]);
         $table_gui = new ilWikiPagesTableGUI(
@@ -642,14 +602,11 @@ class ilWikiPageGUI extends ilPageObjectGUI
     */
     public function deleteWikiPageConfirmationScreen()
     {
-        $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
         if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"])) {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $confirmation_gui = new ilConfirmationGUI();
             $confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
             $confirmation_gui->setHeaderText($lng->txt("wiki_page_deletion_confirmation"));
@@ -696,7 +653,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
             }
             
             // notes/comments
-            include_once("./Services/Notes/classes/class.ilNote.php");
             $cnt_note_users = ilNote::getUserCount(
                 $this->getPageObject()->getParentId(),
                 $this->getPageObject()->getId(),
@@ -730,12 +686,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
     */
     public function confirmWikiPageDeletion()
     {
-        $ilAccess = $this->access;
-        $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
         if (ilWikiPerm::check("delete_wiki_pages", $_GET["ref_id"])) {
             $this->getPageObject()->delete();
             
@@ -783,7 +736,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         $pages = ilWikiPage::getAllWikiPages(ilObject::_lookupObjId($this->getWikiRefId()));
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         
         // because of PDF export
@@ -801,7 +753,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $op3 = new ilRadioOption($lng->txt("wiki_selected_pages"), "selection");
         $radg->addOption($op3);
 
-        include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
         $nl = new ilNestedListInputGUI("", "obj_id");
         $op3->addSubItem($nl);
 
@@ -848,7 +799,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         if (!is_array($_POST["wordr"])) {
             switch (trim($_POST["sel_type"])) {
                 case "wiki":
-                    include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                     $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
                     foreach ($all_pages as $p) {
                         $pg_ids[] = $p["id"];
@@ -900,11 +850,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
         );
         
         if (!sizeof($all_pages)) {
-            include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
             $all_pages = ilWikiPage::getAllWikiPages($this->getPageObject()->getWikiId());
         }
         
-        include_once "Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php";
         $tbl = new ilWikiExportOrderTableGUI($this, "printViewOrderList", $a_pdf_export, $all_pages, $pg_ids);
         $this->tpl->setContent($tbl->getHTML());
     }
@@ -919,12 +867,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
      */
     public function blockWikiPage()
     {
-        $ilAccess = $this->access;
-        $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
         if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"])) {
             $this->getPageObject()->setBlocked(true);
             $this->getPageObject()->update();
@@ -940,12 +885,9 @@ class ilWikiPageGUI extends ilPageObjectGUI
      */
     public function unblockWikiPage()
     {
-        $ilAccess = $this->access;
-        $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Wiki/classes/class.ilWikiPerm.php");
         if (ilWikiPerm::check("activate_wiki_protection", $_GET["ref_id"])) {
             $this->getPageObject()->setBlocked(false);
             $this->getPageObject()->update();
@@ -988,7 +930,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // new name
@@ -1075,17 +1016,14 @@ class ilWikiPageGUI extends ilPageObjectGUI
     public function observeNoteAction($a_wiki_id, $a_page_id, $a_type, $a_action, $a_note_id)
     {
         // #10040 - get note text
-        include_once "Services/Notes/classes/class.ilNote.php";
         $note = new ilNote($a_note_id);
         $note = $note->getText();
         
-        include_once "./Services/Notification/classes/class.ilNotification.php";
         ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
     }
         
     public function updateStatsRating($a_wiki_id, $a_wiki_type, $a_page_id, $a_page_type)
     {
-        include_once "./Modules/Wiki/classes/class.ilWikiStat.php";
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_RATING, $this->getPageObject());
     }
     
@@ -1101,14 +1039,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
             
         $page = $this->getWikiPage();
         
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "updateAdvancedMetaData"));
         
         // :TODO:
         $form->setTitle($lng->txt("wiki_advmd_block_title") . ": " . $page->getTitle());
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'wiki', $page->getWikiId(), 'wpg', $page->getId());
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();
@@ -1249,7 +1185,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->addCommandButton("addWikiLink", $lng->txt("wiki_add_link"));
         $form->addCommandButton("searchWikiLink", $lng->txt("search"));
@@ -1306,7 +1241,6 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $result[] = $entry;
         }
 
-        include_once './Services/JSON/classes/class.ilJsonUtil.php';
         echo ilJsonUtil::encode($result);
         exit;
     }
@@ -1366,18 +1300,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
-        include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
         $wiki_ass = ilExAssignmentTypes::getInstance()->getById(ilExAssignment::TYPE_WIKI_TEAM);
 
         $ass_id = (int) $_GET["ass"];
         $wiki_ass->submitWiki($ass_id, $this->user->getId(), $this->getWikiRefId());
-
-        /*
-        include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
-        include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";
-        $exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
-        $exc_gui->submitBlog($this->node_id);*/
 
         ilUtil::sendSuccess($lng->txt("wiki_finalized"), true);
         $ilCtrl->redirectByClass("ilObjWikiGUI", "gotoStartPage");

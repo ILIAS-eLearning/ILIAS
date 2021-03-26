@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Export2 class for media pools
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesMediaPool
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolExporter extends ilXmlExporter
 {
@@ -23,7 +20,6 @@ class ilMediaPoolExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolDataSet.php");
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -45,8 +41,6 @@ class ilMediaPoolExporter extends ilXmlExporter
      */
     public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
     {
-        include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
         $pg_ids = array();
         $mob_ids = array();
 
@@ -80,8 +74,6 @@ class ilMediaPoolExporter extends ilXmlExporter
      */
     public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
     {
-        include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
         $pg_ids = array();
         $mob_ids = array();
 

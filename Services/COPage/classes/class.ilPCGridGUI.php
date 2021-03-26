@@ -255,7 +255,6 @@ class ilPCGridGUI extends ilPageContentGUI
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
-            include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
             $cgui = new ilConfirmationGUI();
             $cgui->setFormAction($this->ctrl->getFormAction($this));
             $cgui->setHeaderText($this->lng->txt("cont_grid_cell_confirm_deletion"));

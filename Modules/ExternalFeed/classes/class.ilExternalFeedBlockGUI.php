@@ -127,7 +127,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $this->setBlockId($this->feed_block->getId());
         
         // get feed object
-        include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
         $this->feed = new ilExternalFeed();
         $this->feed->setUrl($this->feed_block->getFeedUrl());
         
@@ -493,9 +492,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     public function showFeedItem()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        include_once("./Services/News/classes/class.ilNewsItem.php");
 
         $this->feed->fetch();
         foreach ($this->feed->getItems() as $item) {
@@ -566,12 +562,10 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 
         $lng->loadLanguageModule("feed");
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setTarget("_top");
 
         // Import file
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("import_file"), "importfile");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
@@ -606,7 +600,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $this->initImportForm($new_type);
         if ($this->form->checkInput()) {
             // todo: make some check on manifest file
-            include_once("./Services/Export/classes/class.ilImport.php");
             $imp = new ilImport((int) $_GET['ref_id']);
             $new_id = $imp->importObject(
                 $newObj,
@@ -643,8 +636,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $lng = $this->lng;
         
         $lng->loadLanguageModule("block");
-        
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         
         $this->form_gui = new ilPropertyFormGUI();
         

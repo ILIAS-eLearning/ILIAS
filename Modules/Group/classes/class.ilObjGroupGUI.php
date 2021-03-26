@@ -728,7 +728,6 @@ class ilObjGroupGUI extends ilContainerGUI
             }
             
             
-            include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
             ilUtil::sendQuestion($this->lng->txt('grp_warn_grp_type_changed'));
             $confirm = new ilConfirmationGUI();
             $confirm->setFormAction($this->ctrl->getFormAction($this));
@@ -1007,7 +1006,6 @@ class ilObjGroupGUI extends ilContainerGUI
         
         $this->tabs_gui->setTabActive('grp_btn_unsubscribe');
         
-        include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt('grp_dismiss_myself'));
         $cgui->setFormAction($this->ctrl->getFormAction($this));

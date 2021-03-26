@@ -1128,7 +1128,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             return false;
         }
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands

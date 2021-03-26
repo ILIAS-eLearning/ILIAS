@@ -755,7 +755,6 @@ class ilSurveyExecutionGUI
 
                 if ($ilUser->getId() == ANONYMOUS_USER_ID ||
                     !$ilUser->getEmail()) {
-                    require_once "Services/Form/classes/class.ilTextInputGUI.php";
                     $mail = new ilTextInputGUI($this->lng->txt("email"), "mail");
                     $mail->setSize(25);
                     $ilToolbar->addInputItem($mail, true);

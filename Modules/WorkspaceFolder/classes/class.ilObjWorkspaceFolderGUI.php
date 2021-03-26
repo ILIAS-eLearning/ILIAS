@@ -1,20 +1,15 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceFolderGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
-* $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
-*
-* @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
-*
-* @extends ilObject2GUI
-*/
+ * Class ilObjWorkspaceFolderGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ *
+ * @ilCtrl_Calls ilObjWorkspaceFolderGUI: ilCommonActionDispatcherGUI, ilObjectOwnershipManagementGUI
+ */
 class ilObjWorkspaceFolderGUI extends ilObject2GUI
 {
     /**
@@ -194,7 +189,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
         switch ($next_class) {
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -202,7 +196,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             case "ilobjectownershipmanagementgui":
                 $this->prepareOutput();
                 $this->tabs_gui->activateTab("ownership");
-                include_once("Services/Object/classes/class.ilObjectOwnershipManagementGUI.php");
                 $gui = new ilObjectOwnershipManagementGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -247,20 +240,17 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         unset($_SESSION['clipboard']['wsp2repo']);
         
         // add new item
-        include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($this->node_id);
         $gui->setMode(ilObjectDefinition::MODE_WORKSPACE);
         $gui->setCreationUrl($ilCtrl->getLinkTarget($this, "create"));
         $gui->render();
     
-        include_once "Services/Object/classes/class.ilObjectListGUI.php";
         ilObjectListGUI::prepareJsLinks(
             "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
         
-        include_once "Modules/WorkspaceFolder/classes/class.ilWorkspaceContentGUI.php";
         $gui = new ilWorkspaceContentGUI(
             $this,
             $this->node_id,
@@ -275,7 +265,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         );
         $tpl->setContent($gui->render());
 
-        include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
         $exp = new ilWorkspaceExplorerGUI($ilUser->getId(), $this, "render", $this, "", "wsp_id");
         $exp->setTypeWhiteList(array("wsrt", "wfld"));
         $exp->setSelectableTypes(array("wsrt", "wfld"));
@@ -532,7 +521,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         // move/copy in personal workspace
         if (!$_SESSION['clipboard']['wsp2repo']) {
-            include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
             $exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, "showMoveIntoObjectTree", $this, "");
             $exp->setTypeWhiteList(array("wsrt", "wfld"));
             $exp->setSelectableTypes(array("wsrt", "wfld"));
@@ -561,7 +549,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
         // move/copy to repository
         else {
-            require_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
             $exp = new ilPasteIntoMultipleItemsExplorer(
                 ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
                 '',
@@ -732,7 +719,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 }
             } // copy the node
             elseif ($mode == "copy") {
-                include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
                 $copy_id = ilCopyWizardOptions::_allocateCopyId();
                 $wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
                 $this->wsp_log->debug("Copy ID: " . $copy_id . ", Source Node: " . $source_node_id
@@ -789,14 +775,12 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     {
         $tpl = $this->tpl;
     
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id, $a_load_data);
         $tpl->setContent($tbl->getHTML());
     }
     
     public function applyShareFilter()
     {
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
         $tbl->writeFilterToSession();
@@ -806,7 +790,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     
     public function resetShareFilter()
     {
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
         $tbl->resetFilter();
@@ -845,7 +828,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         $object_data = $this->getAccessHandler()->getObjectDataFromNode($a_node_id);
         
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
         $form->setTitle($lng->txt("wsp_password_for") . ": " . $object_data["title"]);
@@ -873,7 +855,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
          
         $form = $this->initPasswordForm($node_id);
         if ($form->checkInput()) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $password = ilWorkspaceAccessHandler::getSharedNodePassword($node_id);
             $input = md5($form->getInput("password"));
             if ($input == $password) {
@@ -913,9 +894,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function listSharedResourcesOfOtherUser()
     {
-        $ilCtrl = $this->ctrl;
-
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
         $tbl = new ilWorkspaceShareTableGUI($this, "share", $this->getAccessHandler(), $this->node_id);
         $tbl->resetOffset();
         $tbl->resetFilter();
@@ -947,7 +925,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         //$parent_node = $this->tree->getParentId($node_id);
         //$this->ctrl->setParameter($this, "wsp_id", $parent_node);
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($lng->txt("info_delete_sure") . "<br/>" .
             $lng->txt("info_delete_warning_no_trash"));
@@ -1021,7 +998,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-            include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -1041,7 +1017,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-            include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -1093,7 +1068,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                         $main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
                         $main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
 
-                        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
                         $button = ilSubmitButton::getInstance();
                         $button->setCaption("download_selected_items");
                         $button->addCSSClass("ilbgtasksubmit");

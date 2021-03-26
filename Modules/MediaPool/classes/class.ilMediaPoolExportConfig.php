@@ -1,14 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("./Services/Export/classes/class.ilExportConfig.php");
 /**
  * Export configuration for media pools
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesMediaPool
  */
 class ilMediaPoolExportConfig extends ilExportConfig
 {

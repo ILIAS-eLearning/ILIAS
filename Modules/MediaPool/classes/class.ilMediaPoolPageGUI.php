@@ -1,21 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
-include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilMediaPoolPage GUI class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
-* @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI
-*
-* @ingroup ModulesMediaPool
-*/
+ * Class ilMediaPoolPage GUI class
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ *
+ * @ilCtrl_Calls ilMediaPoolPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilMediaPoolPageGUI: ilPublicUserProfileGUI
+ */
 class ilMediaPoolPageGUI extends ilPageObjectGUI
 {
     /**
@@ -35,11 +29,9 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
-        $tpl = $DIC["tpl"];
         
         parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $this->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(0));
 
         $this->setEditPreview(true);
@@ -89,9 +81,6 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-        
-        include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
         $id = ilMediaPoolPage::getPageIdForTitle($a_media_pool_id, $a_title);
         $page_gui = new ilMediaPoolPageGUI($id, $a_old_nr);
         
@@ -116,24 +105,15 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     public function showPage($a_no_title = false)
     {
         $tpl = $this->tpl;
-        $ilCtrl = $this->ctrl;
 
         // get raw page content is used for including into other pages
         if (!$this->getRawPageContent()) {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $tpl->setCurrentBlock("ContentStyle");
             $tpl->setVariable(
                 "LOCATION_CONTENT_STYLESHEET",
                 ilObjStyleSheet::getContentStylePath(0)
             );
             $tpl->parseCurrentBlock();
-
-            /*            $tpl->setCurrentBlock("SyntaxStyle");
-                        $tpl->setVariable(
-                            "LOCATION_SYNTAX_STYLESHEET",
-                            ilObjStyleSheet::getSyntaxStylePath()
-                        );
-                        $tpl->parseCurrentBlock();*/
         }
 
         $this->setTemplateOutput(false);

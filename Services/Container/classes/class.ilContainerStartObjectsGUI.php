@@ -209,7 +209,6 @@ class ilContainerStartObjectsGUI
         $this->setTabs();
 
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($this->ctrl->getFormAction($this, "listStructure"));
         $cgui->setHeaderText($this->lng->txt("crs_starter_delete_sure"));

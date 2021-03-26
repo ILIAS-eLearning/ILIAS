@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Select file for being added into file lists
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesScorm2004
-*/
+ * Select file for being added into file lists
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilGlossarySelectorGUI extends ilExplorer
 {
     /**

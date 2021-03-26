@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Block/classes/class.ilBlockGUI.php");
-include_once("./Modules/Poll/classes/class.ilObjPoll.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* BlockGUI class for polls.
-*
-* @author Jörg Lützenkirchen
-* @version $Id$
-*
-* @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
-* @ingroup ModulesPoll
-*/
+ * BlockGUI class for polls.
+ *
+ * @author Jörg Lützenkirchen
+ * @ilCtrl_IsCalledBy ilPollBlockGUI: ilColumnGUI
+ */
 class ilPollBlockGUI extends ilBlockGUI
 {
     public static $block_type = "poll";
@@ -228,7 +222,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
                         // pie chart
                         if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
-                            include_once("./Services/Chart/classes/class.ilChart.php");
 
                             $chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
                             $chart->setSize("100%", 200);
@@ -257,7 +250,6 @@ class ilPollBlockGUI extends ilBlockGUI
                             $this->tpl->setVariable("PIE_CHART", $chart->getHTML());
                         } // bar chart
                         else {
-                            include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
 
                             $this->tpl->setCurrentBlock("answer_result");
                             foreach ($order as $answer_id) {
@@ -306,7 +298,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
             $img = $a_poll->getImageFullPath();
             if ($img) {
-                require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
                 $this->tpl->setVariable("URL_IMAGE", ilWACSignedPath::signFile($img));
             }
         }
@@ -381,7 +372,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
         if (!$this->poll_block->getMessage($ilUser->getId())) {
             // notification
-            include_once "./Services/Notification/classes/class.ilNotification.php";
             if (ilNotification::hasNotification(ilNotification::TYPE_POLL, $ilUser->getId(), $this->poll_block->getPoll()->getId())) {
                 $this->addBlockCommand(
                     $ilCtrl->getLinkTargetByClass(
@@ -431,9 +421,6 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     private function commentJSCall()
     {
-        include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-        include_once("./Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
-
         $refId = $this->getRefId();
         $objectId = ilObject2::_lookupObjectId($refId);
 
@@ -475,8 +462,6 @@ class ilPollBlockGUI extends ilBlockGUI
      */
     public function getNumberOfComments($ref_id)
     {
-        include_once("./Services/Notes/classes/class.ilNote.php");
-
         $obj_id = ilObject2::_lookupObjectId($ref_id);
         $number = ilNote::_countNotesAndComments($obj_id);
 

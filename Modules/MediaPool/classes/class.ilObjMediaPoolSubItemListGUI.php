@@ -1,38 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Services/Link/classes/class.ilLink.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Show media pool items
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ModulesMediaPool
-*/
+ * Show media pool items
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
 {
     /**
@@ -52,8 +26,7 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
             }
             $this->tpl->setCurrentBlock('subitem');
             $this->tpl->setVariable('SEPERATOR', ':');
-            
-            include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
+
             switch (ilMediaPoolItem::lookupType($sub_item)) {
                 case 'fold':
                     $this->tpl->setVariable('LINK', ilLink::_getLink($this->getRefId(), 'mep', array(), '_' . $sub_item));
@@ -81,7 +54,6 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
             // begin-patch mime_filter
 
             if (!$this->parseImage($sub_item)) {
-                include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
                 $this->tpl->setVariable('SUBITEM_TYPE', $lng->txt('obj_' . ilMediaPoolItem::lookupType($sub_item)));
                 $this->tpl->setVariable('SEPERATOR', ':');
             }
@@ -101,11 +73,9 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
     
     protected function parseImage($a_sub_id)
     {
-        include_once './Modules/MediaPool/classes/class.ilMediaPoolItem.php';
         $sub_id = ilMediaPoolItem::lookupForeignId($a_sub_id);
         // output thumbnail (or mob icon)
         if (ilObject::_lookupType($sub_id) == "mob") {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
             $mob = new ilObjMediaObject($sub_id);
             $med = $mob->getMediaItem("Standard");
             $target = $med->getThumbnailTarget();

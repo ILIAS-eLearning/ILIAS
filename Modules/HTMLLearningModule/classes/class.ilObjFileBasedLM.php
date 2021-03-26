@@ -1,22 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-/** @defgroup ModulesHTMLLearningModule Modules/HTMLLearningModule
- */
-
-require_once "./Services/Object/classes/class.ilObject.php";
-//require_once "Services/MetaData/classes/class.ilMDLanguageItem.php";
 
 /**
-* File Based Learning Module (HTML) object
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* $Id$
-*
-* @ingroup ModulesHTMLLearningModule
-*/
+ * File Based Learning Module (HTML) object
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjFileBasedLM extends ilObject
 {
     public $tree;
@@ -133,7 +124,6 @@ class ilObjFileBasedLM extends ilObject
     */
     public function getDiskUsage()
     {
-        require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
         return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
     }
 

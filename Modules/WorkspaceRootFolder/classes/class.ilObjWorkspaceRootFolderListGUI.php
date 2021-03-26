@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceRootFolderListGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
-*
-* @extends ilObjectListGUI
-*/
+ * Class ilObjWorkspaceRootFolderListGUI
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
 {
     /**
@@ -28,7 +23,6 @@ class ilObjWorkspaceRootFolderListGUI extends ilObjectListGUI
         $this->gui_class_name = "ilobjworkspacerootfoldergui";
 
         // general commands array
-        include_once('./Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderAccess.php');
         $this->commands = ilObjWorkspaceRootFolderAccess::_getCommands();
     }
 

@@ -241,7 +241,6 @@ class ilRatingCategoryGUI
             return $this->listCategories();
         }
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($lng->txt("rating_category_delete_sure") . "<br/>" .
             $lng->txt("info_delete_warning_no_trash"));

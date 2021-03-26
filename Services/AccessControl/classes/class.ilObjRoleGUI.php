@@ -650,8 +650,7 @@ class ilObjRoleGUI extends ilObjectGUI
         }
         ilUtil::sendQuestion($question);
         
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
-        
+
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setHeaderText($question);

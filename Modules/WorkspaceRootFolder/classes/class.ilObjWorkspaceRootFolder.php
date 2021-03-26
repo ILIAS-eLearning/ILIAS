@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Object/classes/class.ilObject2.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjWorkspaceRootFolder
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilObjRootFolder.php 23143 2010-03-09 12:15:33Z smeyer $Id: class.ilObjRootFolder.php,v 1.12 2003/11/20 17:04:19 shofmann Exp $
-*
-* @extends ilObject2
-*/
+ * Class ilObjWorkspaceRootFolder
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
 {
 

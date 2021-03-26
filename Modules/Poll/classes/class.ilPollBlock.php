@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Block/classes/class.ilCustomBlock.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Custom block for polls
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*/
+ * Custom block for polls
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPollBlock extends ilCustomBlock
 {
     /**
@@ -40,7 +38,6 @@ class ilPollBlock extends ilCustomBlock
      */
     public function setRefId($a_id)
     {
-        include_once "Modules/Poll/classes/class.ilObjPoll.php";
         $this->poll = new ilObjPoll($a_id, true);
         $this->answers = $this->poll->getAnswers();
     }
@@ -66,8 +63,7 @@ class ilPollBlock extends ilCustomBlock
         if (!sizeof($this->answers)) {
             return false;
         }
-        
-        include_once "Modules/Poll/classes/class.ilObjPollAccess.php";
+
         $this->active = ilObjPollAccess::_isActivated($a_ref_id);
         if (!$this->active) {
             return false;

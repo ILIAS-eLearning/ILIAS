@@ -1,26 +1,16 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * User Interface class for file based learning modules (HTML)
 *
-* @author Alex Killing <alex.killing@gmx.de>
-*
-* $Id$
+* @author Alexander Killing <killing@leifos.de>
 *
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilFileSystemGUI, ilObjectMetaDataGUI, ilPermissionGUI, ilLearningProgressGUI, ilInfoScreenGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilCommonActionDispatcherGUI
 * @ilCtrl_Calls ilObjFileBasedLMGUI: ilExportGUI
-* @ingroup ModulesHTMLLearningModule
 */
-
-require_once("./Services/Object/classes/class.ilObjectGUI.php");
-require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLM.php");
-require_once("./Services/Table/classes/class.ilTableGUI.php");
-require_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
-
 class ilObjFileBasedLMGUI extends ilObjectGUI
 {
     /**
@@ -107,7 +97,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             case 'ilobjectmetadatagui':
                 $this->checkPermission("write");
                 $ilTabs->activateTab('id_meta_data');
-                include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
                 $md_gui = new ilObjectMetaDataGUI($this->object);
                 $this->ctrl->forwardCommand($md_gui);
                 break;
@@ -130,7 +119,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($fs_gui);
                                             
                 // try to set start file automatically
-                require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
                 if (!ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId())) {
                     $do_update = false;
                                         
@@ -183,7 +171,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
             case "illearningprogressgui":
                 $ilTabs->activateTab('id_learning_progress');
-                include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
@@ -194,23 +181,19 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 
             case 'ilpermissiongui':
                 $ilTabs->activateTab('id_permissions');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
                 $ilTabs->activateTab("export");
-                include_once("./Services/Export/classes/class.ilExportGUI.php");
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $exp_gui->addFormat("html", "", $this, "exportHTML");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
-//				$this->tpl->show();
                 break;
 
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -275,9 +258,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $obj_service = $this->getObjectService();
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -300,7 +281,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $this->form->addItem($cb);
 
         // startfile
-        require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
         $ne = new ilNonEditableValueGUI($lng->txt("cont_startfile"), "");
@@ -330,7 +310,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
      */
     public function getSettingsFormValues()
     {
-        require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
 
         $values = array();
@@ -434,7 +413,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         if (!$newObj->getStartFile()) {
             // try to set start file automatically
             $files = array();
-            include_once "Services/Utilities/classes/class.ilFileUtils.php";
             ilFileUtils::recursive_dirscan($newObj->getDataDirectory(), $files);
             if (is_array($files["file"])) {
                 $zip_file = null;
@@ -531,7 +509,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
 
         // #9483
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once "Services/Tracking/classes/class.ilLearningProgress.php";
             ilLearningProgress::_tracProgress(
                 $ilUser->getId(),
                 $this->object->getId(),
@@ -539,9 +516,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 "htlm"
             );
         }
-
-        require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
-        require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
         ilWACSignedPath::signFolderOfStartFile($startfile);
@@ -583,7 +557,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         $ilTabs->activateTab('id_info');
         
         $this->lng->loadLanguageModule("meta");
-        include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
@@ -603,7 +576,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
             // #15127
-            include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
             $button->setCaption("view");
             $button->setPrimary(true);
@@ -669,7 +641,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             );
         }
         
-        include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
         if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
             $ilTabs->addTab(
                 "id_learning_progress",
@@ -679,7 +650,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
         }
 
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI($this->object);
             $mdtab = $mdgui->getTab();
             if ($mdtab) {
@@ -709,7 +679,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             );
         }
 
-        require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMAccess.php");
         $startfile = ilObjFileBasedLMAccess::_determineStartUrl($this->object->getId());
         if ($ilAccess->checkAccess('read', '', $this->ref_id)) {
             if ($startfile != "") {
@@ -823,8 +792,6 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
     {
         $inst_id = IL_INST_ID;
 
-        include_once("./Services/Export/classes/class.ilExport.php");
-        
         ilExport::_createExportDirectory(
             $this->object->getId(),
             "html",

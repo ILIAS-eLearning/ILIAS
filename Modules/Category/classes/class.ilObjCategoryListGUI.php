@@ -1,36 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjCategoryListGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ingroup ModulesCategory
-*/
+ * Class ilObjCategoryListGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
 
@@ -61,14 +37,12 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         $this->type = "cat";
         $this->gui_class_name = "ilobjcategorygui";
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;
         }
 
         // general commands array
-        include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
         $this->commands = ilObjCategoryAccess::_getCommands();
     }
 
@@ -79,8 +53,6 @@ class ilObjCategoryListGUI extends ilObjectListGUI
     */
     public function getInfoScreenStatus()
     {
-        include_once("./Services/Container/classes/class.ilContainer.php");
-        include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
@@ -121,7 +93,6 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         // BEGIN WebDAV
         switch ($a_cmd) {
             case 'mount_webfolder':
-                require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
                 if (ilDAVActivationChecker::_isActive()) {
                     global $DIC;
                     $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());

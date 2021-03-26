@@ -465,7 +465,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        include_once("Services/Utilities/classes/class.ilConfirmationGUI.php");
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
