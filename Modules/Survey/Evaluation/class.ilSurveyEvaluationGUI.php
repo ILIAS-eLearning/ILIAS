@@ -1749,7 +1749,7 @@ class ilSurveyEvaluationGUI
         $this->tpl->setContent($dtmpl->get());
 
         $html = $this->tpl->printToString();
-        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid).".pdf");
+        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");
     }
 
     /**

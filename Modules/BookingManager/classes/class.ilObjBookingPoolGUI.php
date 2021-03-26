@@ -426,7 +426,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             $this->object->getId(),
             $a_form,
             array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
-            );
+        );
     }
     
     /**
@@ -519,7 +519,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 "perm_settings",
                 $this->lng->txt("perm_settings"),
                 $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
-                );
+            );
         }
     }
     

@@ -971,7 +971,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT * FROM exc_assignment " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         
         // #16172 - might be deleted
@@ -1146,7 +1146,7 @@ class ilExAssignment
         $ilDB->manipulate(
             "DELETE FROM exc_assignment WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $exc = new ilObjExercise($this->getExerciseId(), false);
         $exc->updateAllUsersStatus();
         
@@ -1338,7 +1338,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT MAX(order_nr) mnr FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_exc_id, "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             return (int) $rec["mnr"];
         }
@@ -1396,7 +1396,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT " . $a_field . " FROM exc_assignment " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
 
         $rec = $ilDB->fetchAssoc($set);
 
@@ -1438,7 +1438,7 @@ class ilExAssignment
                 " order_nr = " . $ilDB->quote($nr, "integer") .
                 " WHERE id = " . $ilDB->quote((int) $k, "integer") .
                 " AND exc_id = " . $ilDB->quote((int) $a_ex_id, "integer")
-                );
+            );
             $nr += 10;
         }
     }
@@ -1455,14 +1455,14 @@ class ilExAssignment
             "SELECT id FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " ORDER BY time_stamp ASC"
-            );
+        );
         $nr = 10;
         while ($rec = $ilDB->fetchAssoc($set)) {
             $ilDB->manipulate(
                 "UPDATE exc_assignment SET " .
                 " order_nr = " . $ilDB->quote($nr, "integer") .
                 " WHERE id = " . $ilDB->quote($rec["id"], "integer")
-                );
+            );
             $nr += 10;
         }
     }
@@ -1480,7 +1480,7 @@ class ilExAssignment
             "SELECT count(*) cntm FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " AND mandatory = " . $ilDB->quote(1, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["cntm"];
     }
@@ -1497,7 +1497,7 @@ class ilExAssignment
         $set = $ilDB->query(
             "SELECT count(*) cntm FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["cntm"];
     }
@@ -1515,7 +1515,7 @@ class ilExAssignment
             "SELECT * FROM exc_assignment " .
             " WHERE exc_id = " . $ilDB->quote($a_ex_id, "integer") .
             " AND id = " . $ilDB->quote($a_ass_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }
@@ -2450,7 +2450,7 @@ class ilExAssignment
                     " order_nr = " . $db->quote($order_nr, "integer") .
                     " WHERE assignment_id = " . $db->quote($this->getId(), "integer") .
                     " AND id = " . $db->quote($rec["id"], "integer")
-                    );
+                );
                 $order_nr += 10;
                 $numbered_files[] = $rec["filename"];
             } else {	// file does not exist, delete entry

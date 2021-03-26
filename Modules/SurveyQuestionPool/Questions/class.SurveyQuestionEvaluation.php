@@ -159,7 +159,7 @@ abstract class SurveyQuestionEvaluation
                     $total
                             ? $selections[$scale] / $total
                             : null
-                    );
+                );
                 $a_results->addVariable($var);
             }
         }

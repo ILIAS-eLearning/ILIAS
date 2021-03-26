@@ -954,7 +954,7 @@ class ilLMPresentationGUI
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "",  $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());

@@ -874,7 +874,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 false,
                 ilUtil::getImagePath("icon_pg.svg"),
                 $lng->txt("wiki_page")
-                );
+            );
         }
 
         $this->form->addItem($radg);

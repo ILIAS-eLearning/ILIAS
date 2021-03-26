@@ -1399,7 +1399,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
                     )
-                );
+            );
         }
         
         $form->addCommandButton("saveProperties", $this->lng->txt("save"));

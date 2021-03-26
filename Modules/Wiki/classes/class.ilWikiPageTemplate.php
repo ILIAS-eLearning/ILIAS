@@ -56,7 +56,7 @@ class ilWikiPageTemplate
             " (t.wpage_id = p.id) " .
             " WHERE t.wiki_id = " . $this->db->quote($this->wiki_id, "integer") .
             $and
-            );
+        );
         $templates = array();
         while ($rec = $this->db->fetchAssoc($set)) {
             $templates[] = $rec;
@@ -79,7 +79,7 @@ class ilWikiPageTemplate
             "SELECT * FROM wiki_page_template " .
             " WHERE wiki_id = " . $this->db->quote($this->wiki_id, "integer") .
             " AND wpage_id = " . $this->db->quote($a_id, "integer")
-            );
+        );
         if (!$this->db->fetchAssoc($set)) {
             $this->db->manipulate("INSERT INTO wiki_page_template " .
                 "(wiki_id, wpage_id, new_pages, add_to_page) VALUES (" .
@@ -95,7 +95,7 @@ class ilWikiPageTemplate
                 " add_to_page = " . $this->db->quote($a_add_to_page, "integer") .
                 " WHERE wiki_id = " . $this->db->quote($this->wiki_id, "integer") .
                 " AND wpage_id = " . $this->db->quote($a_id, "integer")
-                );
+            );
         }
     }
 

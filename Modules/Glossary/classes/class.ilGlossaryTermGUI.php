@@ -375,7 +375,7 @@ class ilGlossaryTermGUI
                 $tpl->setVariable(
                     "TXT_DEFINITION",
                     $this->lng->txt("cont_definition") . " " . ($j + 1)
-                        );
+                );
                 $tpl->parseCurrentBlock();
             }
 
@@ -461,7 +461,7 @@ class ilGlossaryTermGUI
                 $tpl->setVariable(
                     "TXT_DEFINITION",
                     $this->lng->txt("cont_definition") . " " . ($j + 1)
-                        );
+                );
                 $tpl->parseCurrentBlock();
             }
 
@@ -535,7 +535,7 @@ class ilGlossaryTermGUI
         );
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
-        $dtpl =  new ilTemplate("tpl.glossary_definition_delete.html", true, true, "Modules/Glossary");
+        $dtpl = new ilTemplate("tpl.glossary_definition_delete.html", true, true, "Modules/Glossary");
         ilUtil::sendQuestion($this->lng->txt("info_delete_sure"));
 
         $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
@@ -710,7 +710,7 @@ class ilGlossaryTermGUI
                 "git" .
                 "_" . $_GET["term_id"] . "_" . $_GET["ref_id"] . "&client_id=" . CLIENT_ID,
                 "_top"
-        );
+            );
         }
 
         // back to glossary
