@@ -931,7 +931,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget($this->lng->txt('usrf'), $ilCtrl->getLinkTarget($this, 'view'));
 
-        if (!$rbacsystem->checkAccess("write", $this->object->getRefId())) {
+        if (!$rbacsystem->checkAccess('create_usr', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
