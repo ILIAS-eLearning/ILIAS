@@ -167,24 +167,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             if (sizeof($mem_usage)) {
                 $ftpl->setVariable("MEMORY_USAGE", "<br>" . implode(" | ", $mem_usage));
             }
-
-            if (!empty($_GET["do_dev_validate"]) && $ftpl->blockExists("xhtml_validation")) {
-                require_once("Services/XHTMLValidator/classes/class.ilValidatorAdapter.php");
-                $template2 = clone($this);
-                $ftpl->setCurrentBlock("xhtml_validation");
-                $ftpl->setVariable(
-                    "VALIDATION",
-                    ilValidatorAdapter::validate($template2->get(
-                        "DEFAULT",
-                        false,
-                        false,
-                        false,
-                        true
-                    ), $_GET["do_dev_validate"])
-                );
-                $ftpl->parseCurrentBlock();
-            }
-
+            
             // controller history
             if (is_object($ilCtrl) && $ftpl->blockExists("c_entry") &&
                 $ftpl->blockExists("call_history")) {
