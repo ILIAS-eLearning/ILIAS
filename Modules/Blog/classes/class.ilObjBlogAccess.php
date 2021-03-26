@@ -140,7 +140,5 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
             return false;
         }
         return true;
-
     }
-
 }

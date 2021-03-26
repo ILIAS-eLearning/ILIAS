@@ -48,14 +48,16 @@ class ilGlossaryExporter extends ilXmlExporter
                 $ref_id = current($all_refs);
 
                 // see #29014, we include referenced terms in the export as well
-                $terms = ilGlossaryTerm::getTermList($ref_id,
-                "",
-                "",
-                "",
-                0,
-                false,
-                null,
-                true);
+                $terms = ilGlossaryTerm::getTermList(
+                    $ref_id,
+                    "",
+                    "",
+                    "",
+                    0,
+                    false,
+                    null,
+                    true
+                );
 
                 foreach ($terms as $t) {
                     $defs = ilGlossaryDefinition::getDefinitionList($t["id"]);

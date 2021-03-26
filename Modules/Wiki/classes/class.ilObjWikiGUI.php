@@ -961,7 +961,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA
                     )
-                );
+            );
         }
         
         // :TODO: sorting
@@ -2232,7 +2232,7 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function initUserHTMLExportObject()
     {
-        $this->log->debug("init: ".$this->req_with_comments);
+        $this->log->debug("init: " . $this->req_with_comments);
         $this->checkPermission("wiki_html_export");
         $this->object->initUserHTMLExport($this->req_with_comments);
     }
@@ -2242,7 +2242,7 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function startUserHTMLExportObject()
     {
-        $this->log->debug("start: ".$this->req_with_comments);
+        $this->log->debug("start: " . $this->req_with_comments);
         $this->checkPermission("wiki_html_export");
         $this->object->startUserHTMLExport($this->req_with_comments);
     }
@@ -2252,7 +2252,7 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     public function getUserHTMLExportProgressObject()
     {
-        $this->log->debug("get progress: ".$this->req_with_comments);
+        $this->log->debug("get progress: " . $this->req_with_comments);
         $this->checkPermission("wiki_html_export");
         $p = $this->object->getUserHTMLExportProgress($this->req_with_comments);
 

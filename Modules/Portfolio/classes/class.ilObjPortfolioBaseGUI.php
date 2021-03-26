@@ -61,7 +61,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ui = $DIC->ui();
         
         $this->ui = $DIC->ui();
-		
+        
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->user_id = $ilUser->getId();
@@ -78,7 +78,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $back = preg_replace(
             "/[^a-zA-Z0-9_\.\?=:\s]/",
             "",
-            $back);
+            $back
+        );
         $this->requested_back_url = str_replace(":::", "&amp;", $back);
 
         $this->ctrl->setParameterbyClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));
@@ -316,7 +317,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     public function view()
     {
-	    $ctrl = $this->ctrl;
+        $ctrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
         $ilSetting = $this->settings;
         $tree = $this->tree;
@@ -378,7 +379,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $table = new ilPortfolioPageTableGUI($this, "view");
         
 
-		$this->tpl->setContent($message.$table->getHTML().$modal_html);
+        $this->tpl->setContent($message . $table->getHTML() . $modal_html);
     }
     
     /**
@@ -897,7 +898,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         ilUtil::deliverFile($zip, $this->object->getTitle() . ".zip", '', false, true);
     }
     
-    function exportWithComments()
+    public function exportWithComments()
     {
         $this->export(true);
     }

@@ -7,6 +7,7 @@ namespace ILIAS\LearningModule\Menu;
 use ILIAS\UI\Implementation\Component\SignalGenerator;/**
  * @author Alexander Killing <killing@leifos.de>
  */
+
 class ilLMMenuGUI
 {
     /**
@@ -80,7 +81,6 @@ class ilLMMenuGUI
         // print selection
         if ($this->lm->isActivePrintView() && $access->checkAccess("read", "", $this->lm->getRefId())) {
             if (!$this->offline) {
-
                 $ui->mainTemplate()->addJavaScript("./Services/Form/js/Form.js");
                 $modal = $ui->factory()->modal()->roundtrip(
                     $lng->txt("cont_print_view"),
@@ -105,7 +105,6 @@ class ilLMMenuGUI
 
         if ($this->lm->isActiveDownloads() && !$this->offline && $is_public &&
             $access->checkAccess("read", "", $this->lm->getRefId())) {
-
             $modal = $ui->factory()->modal()->roundtrip(
                 $lng->txt("download"),
                 $ui->factory()->legacy('some modal')
@@ -146,9 +145,9 @@ class ilLMMenuGUI
                     "label" => $entry["title"],
                     "signal" => $signal,
                     "modal" => null,
-                    "on_load" => "$(document).on('".
-                        $signal->getId().
-                        "', function(event, signalData) {il.LearningModule.openMenuLink('".$entry["link"]."');});"
+                    "on_load" => "$(document).on('" .
+                        $signal->getId() .
+                        "', function(event, signalData) {il.LearningModule.openMenuLink('" . $entry["link"] . "');});"
                 ];
             }
         }
@@ -156,5 +155,4 @@ class ilLMMenuGUI
 
         return $entries;
     }
-
 }

@@ -566,16 +566,16 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
     /**
      * @inheritDoc
      */
-    public static function getMaxSumScore(int $survey_id): int
+    public static function getMaxSumScore(int $survey_id) : int
     {
         global $DIC;
 
         // we need sum of scale values of multiple choice questions (type 1)
         $db = $DIC->database();
         $set = $db->queryF(
-            "SELECT SUM(scale) sum_sum_score FROM svy_svy_qst sq ".
-            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
-            "JOIN svy_variable v ON (v.question_fi = q.question_id) ".
+            "SELECT SUM(scale) sum_sum_score FROM svy_svy_qst sq " .
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) " .
+            "JOIN svy_variable v ON (v.question_fi = q.question_id) " .
             "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ",
             ["integer", "integer"],
             [$survey_id, 1]
@@ -583,5 +583,4 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         $rec = $db->fetchAssoc($set);
         return (int) $rec["sum_sum_score"];
     }
-
 }

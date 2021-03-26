@@ -855,6 +855,5 @@ class ilObjBlog extends ilObject2
     
     protected function handleQuotaUpdate()
     {
-
     }
 }

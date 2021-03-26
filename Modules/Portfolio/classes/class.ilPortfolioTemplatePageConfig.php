@@ -36,7 +36,7 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 
         $validator = new ilCertificateActiveValidator();
         if (true === $validator->validate()) {
-             $all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
+            $all[] = ilPCPlaceHolderGUI::TYPE_VERIFICATION;
         }
         
         return $all;

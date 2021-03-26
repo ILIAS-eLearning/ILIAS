@@ -313,7 +313,7 @@ class ilBookingPreferencesGUI
                         $book_obj = new ilBookingObject($obj_id);
                         return $book_obj->getTitle();
                     }, $obj_ids)) . $booking_str
-                    );
+                );
             }
         }
 

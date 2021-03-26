@@ -8,6 +8,7 @@ use ILIAS\User\Export\UserHtmlExport;/**
  * Wiki HTML exporter class
  * @author Alex Killing <alex.killing@gmx.de>
  */
+
 class WikiHtmlExport
 {
     /**
@@ -191,8 +192,8 @@ class WikiHtmlExport
             $this->log->debug("zip: " . $zip_file);
             //var_dump($zip_file);
             //exit;
-            $this->log->debug("zip, export dir: ".$this->export_dir);
-            $this->log->debug("zip, export file: ".$zip_file);
+            $this->log->debug("zip, export dir: " . $this->export_dir);
+            $this->log->debug("zip, export file: " . $zip_file);
             \ilUtil::zip($this->export_dir, $zip_file);
             \ilUtil::delDir($this->export_dir);
         }
@@ -288,7 +289,7 @@ class WikiHtmlExport
         $page_content = $wpg_gui->showPage();
 
         // export template: page content
-        $this->log->debug("init page gui-".$this->getMode()."-");
+        $this->log->debug("init page gui-" . $this->getMode() . "-");
         $ep_tpl = new \ilTemplate(
             "tpl.export_page.html",
             true,

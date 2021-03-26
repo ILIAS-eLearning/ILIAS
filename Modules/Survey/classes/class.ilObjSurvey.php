@@ -1061,7 +1061,7 @@ class ilObjSurvey extends ilObject
      * Set calculate sum score
      * @param bool $a_val calculate sum score
      */
-    function setCalculateSumScore(bool $a_val)
+    public function setCalculateSumScore(bool $a_val)
     {
         $this->calculate_sum_score = $a_val;
     }
@@ -1070,7 +1070,7 @@ class ilObjSurvey extends ilObject
      * Get calculate sum score
      * @return bool calculate sum score
      */
-    function getCalculateSumScore(): bool
+    public function getCalculateSumScore() : bool
     {
         return $this->calculate_sum_score;
     }
@@ -6229,7 +6229,7 @@ class ilObjSurvey extends ilObject
      * Get max sum score
      * @return int
      */
-    public function getMaxSumScore(): int
+    public function getMaxSumScore() : int
     {
         $sum_score = 0;
         foreach (ilObjSurveyQuestionPool::_getQuestionClasses() as $c) {
@@ -6237,5 +6237,4 @@ class ilObjSurvey extends ilObject
         }
         return $sum_score;
     }
-
 } // END class.ilObjSurvey

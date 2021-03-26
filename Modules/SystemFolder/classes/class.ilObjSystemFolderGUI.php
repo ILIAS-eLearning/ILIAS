@@ -361,7 +361,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                     $ts,
                     false,
                     true
-                    )
+                )
             );
             $this->tpl->setVariable("TXT_LOG_SCAN", $this->lng->txt("log_scan"));
             $this->tpl->setVariable("TXT_LOG_SCAN_DESC", $this->lng->txt("log_scan_desc"));

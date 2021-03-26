@@ -541,7 +541,7 @@ class ilSurveyExecutionGUI
                 $show_title = ($this->object->getShowQuestionTitles() && !$data["compressed_first"]);
                 $question_output = $question_gui->getWorkingForm($working_data, $show_title, $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId(), $compress_view);
                 if ($data["compressed"]) {
-                    $question_output = '<div class="il-svy-qst-compressed">'.$question_output.'</div>';
+                    $question_output = '<div class="il-svy-qst-compressed">' . $question_output . '</div>';
                 }
                 $stpl->setVariable("QUESTION_OUTPUT", $question_output);
                 $this->ctrl->setParameter($this, "qid", $data["question_id"]);
