@@ -225,7 +225,6 @@ class ilLMPresentationGUI
 
         if ($claim_repo_context) {
             $DIC->globalScreen()->tool()->context()->claim()->repository();
-
         }
 
         if (!$ilCtrl->isAsynch()) {
@@ -300,7 +299,7 @@ class ilLMPresentationGUI
      * Get service
      * @return ilLMPresentationService
      */
-    public function getService(): \ilLMPresentationService
+    public function getService() : \ilLMPresentationService
     {
         return $this->service;
     }
@@ -751,7 +750,6 @@ class ilLMPresentationGUI
             //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
             $this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
             ilYuiUtil::initConnection($this->tpl);
-
         }
     }
 
@@ -978,7 +976,7 @@ class ilLMPresentationGUI
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "",  $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
@@ -2010,12 +2008,12 @@ class ilLMPresentationGUI
         $tpl = new ilTemplate("tpl.lm_print_selection.html", true, true, "Modules/LearningModule");
 
 //        $this->ilLocator(true);
-/*        $this->tpl->addBlockFile(
-            "ADM_CONTENT",
-            "adm_content",
-            "tpl.lm_print_selection.html",
-            "Modules/LearningModule"
-        );*/
+        /*        $this->tpl->addBlockFile(
+                    "ADM_CONTENT",
+                    "adm_content",
+                    "tpl.lm_print_selection.html",
+                    "Modules/LearningModule"
+                );*/
 
         // set title header
 //        $this->tpl->setTitle($this->getLMPresentationTitle());
@@ -2992,8 +2990,7 @@ class ilLMPresentationGUI
         $lang = $this->lang;
         if (!ilPageObject::_exists($type, $a_id, $lang)) {
             $lang = "-";
-            if ($this->lang != "-" && ilPageObject::_exists($type
-                    , $a_id, $this->ot->getFallbackLanguage())) {
+            if ($this->lang != "-" && ilPageObject::_exists($type, $a_id, $this->ot->getFallbackLanguage())) {
                 $lang = $this->ot->getFallbackLanguage();
             }
         }
@@ -3091,5 +3088,4 @@ class ilLMPresentationGUI
         }
         return "";
     }
-
 }

@@ -626,7 +626,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             "UPDATE il_wiki_data SET " .
             " startpage = " . $ilDB->quote(ilWikiUtil::makeDbTitle($a_name), "text") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
 
     /**
@@ -691,7 +691,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $set = $ilDB->query(
             "SELECT * FROM il_wiki_imp_pages WHERE " .
             " wiki_id = " . $ilDB->quote($a_wiki_id, "integer") . " ORDER BY ord ASC "
-            );
+        );
 
         $imp_pages = array();
 
@@ -716,7 +716,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         $set = $ilDB->query(
             "SELECT MAX(ord) as m FROM il_wiki_imp_pages WHERE " .
             " wiki_id = " . $ilDB->quote($a_wiki_id, "integer")
-            );
+        );
 
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["m"];
@@ -781,7 +781,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             "DELETE FROM il_wiki_imp_pages WHERE "
             . " wiki_id = " . $ilDB->quote($this->getId(), "integer")
             . " AND page_id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
 
         $this->fixImportantPagesNumbering();
     }
@@ -828,7 +828,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 " indent = " . $ilDB->quote($v["indent"], "integer") .
                 " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
                 " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
-                );
+            );
             $ord += 10;
         }
         
@@ -863,7 +863,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
                 ", indent = " . $ilDB->quote($v["indent"], "integer") .
                 " WHERE wiki_id = " . $ilDB->quote($v["wiki_id"], "integer") .
                 " AND page_id = " . $ilDB->quote($v["page_id"], "integer")
-                );
+            );
             $ord += 10;
         }
     }
@@ -1142,5 +1142,4 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
         }
         return true;
     }
-
 }

@@ -1014,7 +1014,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
             "SELECT id FROM glossary " .
             " WHERE " . $this->db->in("id", $glo_ids, false, "integer") .
             " AND is_online = " . $this->db->quote("y", "text")
-            );
+        );
         $online_glo_ids = array();
         while ($rec = $this->db->fetchAssoc($set)) {
             $online_glo_ids[] = $rec["id"];

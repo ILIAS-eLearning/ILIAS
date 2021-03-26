@@ -801,7 +801,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ret = $page_gui->showPage(true);
 
         //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("MEDIA_CONTENT", "<div>".$ret."</div>");
+        $tpl->setVariable("MEDIA_CONTENT", "<div>" . $ret . "</div>");
 
 
         $tpl->printToStdout();
@@ -1525,7 +1525,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjmediapoolgui", "ilinfoscreengui"),
                     "showSummary"
-                 ),
+                ),
                 array("showSummary", "infoScreen"),
                 "",
                 "",

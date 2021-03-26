@@ -222,7 +222,6 @@ class ilPollBlockGUI extends ilBlockGUI
 
                         // pie chart
                         if ($this->poll_block->showResultsAs() == ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
-
                             $chart = ilChart::getInstanceByType(ilCHart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
                             $chart->setSize("100%", 200);
                             $chart->setAutoResize(true);
@@ -250,7 +249,6 @@ class ilPollBlockGUI extends ilBlockGUI
                             $this->tpl->setVariable("PIE_CHART", $chart->getHTML());
                         } // bar chart
                         else {
-
                             $this->tpl->setCurrentBlock("answer_result");
                             foreach ($order as $answer_id) {
                                 $pbar = ilProgressBar::getInstance();

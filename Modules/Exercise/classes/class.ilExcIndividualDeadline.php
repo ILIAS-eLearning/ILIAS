@@ -122,7 +122,7 @@ class ilExcIndividualDeadline
             " WHERE ass_id = " . $this->db->quote($this->ass_id, "integer") .
             " AND member_id = " . $this->db->quote($this->participant_id, "integer") .
             " AND is_team = " . $this->db->quote($this->is_team, "integer")
-            );
+        );
         $rec = $this->db->fetchAssoc($set);
 
         $this->setIndividualDeadline((int) $rec["tstamp"]);

@@ -641,7 +641,7 @@ class ilGlossaryDefinition
                 "UPDATE glossary_definition SET " .
                 " short_text_dirty = " . $ilDB->quote(1, "integer") .
                 " WHERE term_id = " . $ilDB->quote($term_id, "integer")
-                );
+            );
         }
     }
 

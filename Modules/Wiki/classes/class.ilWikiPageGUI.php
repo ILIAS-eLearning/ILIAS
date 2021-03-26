@@ -765,7 +765,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
                 false,
                 ilUtil::getImagePath("icon_pg.svg"),
                 $lng->txt("wiki_page")
-                );
+            );
         }
 
         $this->form->addItem($radg);
@@ -1333,7 +1333,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
      */
     public function getCommentsHTMLExport()
     {
-        return $this->getNotesHTML($this->getPageObject(),
+        return $this->getNotesHTML(
+            $this->getPageObject(),
             false,
             ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()),
             false,
@@ -1341,5 +1342,4 @@ class ilWikiPageGUI extends ilPageObjectGUI
             true
         );
     }
-
 }

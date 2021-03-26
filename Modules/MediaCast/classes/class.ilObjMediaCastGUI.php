@@ -99,11 +99,11 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 $this->ctrl->setReturn($this, "listItems");
                 $ilTabs->activateTab("content");
                 $this->addContentSubTabs("manage");
-                $creation = new ilMediaCreationGUI([ilMediaCreationGUI::TYPE_ALL], function($mob_id) {
+                $creation = new ilMediaCreationGUI([ilMediaCreationGUI::TYPE_ALL], function ($mob_id) {
                     $this->afterUpload($mob_id);
-                }, function($mob_id, $long_desc) {
+                }, function ($mob_id, $long_desc) {
                     $this->afterUrlSaving($mob_id, $long_desc);
-                },function($mob_ids) {
+                }, function ($mob_ids) {
                     $this->afterPoolInsert($mob_ids);
                 });
                 $creation->setAllSuffixes($this->purposeSuffixes["Standard"]);
@@ -350,7 +350,6 @@ class ilObjMediaCastGUI extends ilObjectGUI
             // we had other purposes as source as well, but
             // currently only "Standard" is implemented in the convertFile method
             foreach (array("Standard") as $p) {
-
                 $med = $mob->getMediaItem($p);
                 if (is_object($med)) {
                     if (ilFFmpeg::supportsImageExtraction($med->getFormat())) {
@@ -710,8 +709,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
 //        if ($_POST["mimetype_" . $purpose] != "") {
 //            $mediaItem->setFormat($_POST["mimetype_" . $purpose]);
 //        } elseif ($mediaItem->getLocation() != "") {
-            $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType == "Reference"));
-            $mediaItem->setFormat($format);
+        $format = ilObjMediaObject::getMimeType($mediaItem->getLocation(), ($locationType == "Reference"));
+        $mediaItem->setFormat($format);
 //        }
 
         if (isset($file)) {
@@ -1725,7 +1724,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
      * After mob upload
      * @param $mob_id
      */
-    protected function afterUpload($mob_id) {
+    protected function afterUpload($mob_id)
+    {
         $mob = new ilObjMediaObject($mob_id);
         $med_item = $mob->getMediaItem("Standard");
         $med_item->determineDuration();
@@ -1738,7 +1738,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
      * @param $mob_id
      * @param $long_desc
      */
-    protected function afterUrlSaving($mob_id, $long_desc) {
+    protected function afterUrlSaving($mob_id, $long_desc)
+    {
         $this->addMobsToCast([$mob_id], $long_desc);
     }
 
@@ -1747,7 +1748,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
      * @param array $mob_ids
      * @param string $long_desc
      */
-    protected function addMobsToCast($mob_ids, $long_desc = "") {
+    protected function addMobsToCast($mob_ids, $long_desc = "")
+    {
         $ctrl = $this->ctrl;
         $user = $this->user;
 
@@ -1774,9 +1776,9 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->addMobsToCast($mob_ids);
     }
 
-    protected function handleAutoplayTriggerObject () {
+    protected function handleAutoplayTriggerObject()
+    {
         $this->user->writePref("mcst_autoplay", (int) $_GET["autoplay"]);
         exit;
     }
-
 }

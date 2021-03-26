@@ -117,7 +117,7 @@ class ilObjContentObject extends ilObject
         $set = $ilDB->query(
             "SELECT * FROM lm_glossaries " .
             " WHERE lm_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $glos = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $glos[] = $rec["glo_id"];
@@ -307,7 +307,7 @@ class ilObjContentObject extends ilObject
         $ilDB->manipulate(
             "DELETE FROM lm_glossaries WHERE " .
             " lm_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         foreach ($this->getAutoGlossaries() as $glo_id) {
             $ilDB->manipulate("INSERT INTO lm_glossaries " .
                 "(lm_id, glo_id) VALUES (" .
@@ -635,7 +635,7 @@ class ilObjContentObject extends ilObject
         $ilDB->manipulate(
             "DELETE FROM lm_glossaries WHERE " .
             " lm_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         
         return true;
@@ -709,7 +709,7 @@ class ilObjContentObject extends ilObject
             "UPDATE content_object SET " .
             " header_page = " . $ilDB->quote($a_page_id, "integer") .
             " WHERE id = " . $ilDB->quote($a_lm_id, "integer")
-            );
+        );
     }
 
     /**
@@ -1420,7 +1420,7 @@ class ilObjContentObject extends ilObject
             " OR l2.rgt > l1.rgt OR l2.lft > l1.rgt OR l2.rgt < l1.lft)" .
             " AND l1.lm_id = " . $ilDB->quote($this->getId(), "integer") .
             " ORDER BY lm_data.create_date DESC"
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $tree->renumber();
         }
@@ -1485,7 +1485,7 @@ class ilObjContentObject extends ilObject
                             " child = " . $ilDB->quote($pg_copy->getId(), "integer") .
                             " WHERE child = " . $ilDB->quote($cobj->getId(), "integer") .
                             " AND lm_id = " . $ilDB->quote($this->getId(), "integer")
-                            );
+                        );
                     } elseif ($cobj->getType() == "st") {
                         // make a copy of it
                         $st_copy = $cobj->copy($this);
@@ -1496,7 +1496,7 @@ class ilObjContentObject extends ilObject
                             " child = " . $ilDB->quote($st_copy->getId(), "integer") .
                             " WHERE child = " . $ilDB->quote($cobj->getId(), "integer") .
                             " AND lm_id = " . $ilDB->quote($this->getId(), "integer")
-                            );
+                        );
                         
                         // make all childs refer to the copy now
                         $ilDB->manipulate(
@@ -1504,7 +1504,7 @@ class ilObjContentObject extends ilObject
                             " parent = " . $ilDB->quote($st_copy->getId(), "integer") .
                             " WHERE parent = " . $ilDB->quote($cobj->getId(), "integer") .
                             " AND lm_id = " . $ilDB->quote($this->getId(), "integer")
-                            );
+                        );
                     }
                 }
             }
@@ -1605,7 +1605,7 @@ class ilObjContentObject extends ilObject
                     " WHERE child = %s ",
                     array("integer"),
                     array($rec["child"])
-                    );
+                );
                 while ($rec3 = $ilDB->fetchAssoc($set3)) {
                     $issues[] = "Multi-reference item: " . print_r($rec3, true);
                 }
@@ -1618,7 +1618,7 @@ class ilObjContentObject extends ilObject
             " WHERE lm_id = %s AND type = %s",
             array("integer", "text"),
             array($this->getId(), "pg")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (!ilPageObject::_exists("lm", $rec["obj_id"], "-")) {
                 $issues[] = "Missing COPage: " . print_r($rec, true);
@@ -2033,16 +2033,16 @@ class ilObjContentObject extends ilObject
         ilUtil::delDir($a_target_dir);
         ilUtil::makeDir($a_target_dir);
         //ilUtil::makeDir($a_target_dir."/res");
-        
+
         // export everything to html
         $this->exportHTML($a_target_dir . "/res", $log, false, "scorm");
-        
+
         // build manifest file
         include("./Modules/LearningModule/classes/class.ilLMContObjectManifestBuilder.php");
         $man_builder = new ilLMContObjectManifestBuilder($this);
         $man_builder->buildManifest();
         $man_builder->dump($a_target_dir);
-        
+
         // copy scorm 1.2 schema definitions
         copy("Modules/LearningModule/scorm_xsd/adlcp_rootv1p2.xsd", $a_target_dir . "/adlcp_rootv1p2.xsd");
         copy("Modules/LearningModule/scorm_xsd/imscp_rootv1p1p2.xsd", $a_target_dir . "/imscp_rootv1p1p2.xsd");
@@ -2063,7 +2063,7 @@ class ilObjContentObject extends ilObject
 
         $dest_file = $this->getExportDirectory("scorm") . "/" . $date . "__" . IL_INST_ID . "__" .
             $this->getType() . "_" . $this->getId() . ".zip";
-        
+
         rename($zip_file, $dest_file);
         ilUtil::delDir($a_target_dir);
     }*/
@@ -2701,7 +2701,7 @@ class ilObjContentObject extends ilObject
         $set = $ilDB->query(
             "SELECT * FROM lm_glossaries " .
             " WHERE lm_id = " . $ilDB->quote($a_lm_id, "integer")
-            );
+        );
         $glos = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $glos[] = $rec["glo_id"];

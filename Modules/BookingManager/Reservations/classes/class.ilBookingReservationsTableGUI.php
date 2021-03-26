@@ -519,8 +519,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             foreach ($this->getSelectedUserColumns() as $field) {
                 if (substr($field, 0, 3) == 'odf') {
                     $odf_ids[] = substr($field, 4);
-                }
-                else {
+                } else {
                     $user_columns[] = $field;
                 }
             }
@@ -703,7 +702,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         }
 
 
-        if($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', $a_set['booking_reservation_id']);
             $this->tpl->setVariable("URL_ACTION", $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmDelete'));
             $ilCtrl->setParameter($this->parent_obj, 'reservation_id', "");

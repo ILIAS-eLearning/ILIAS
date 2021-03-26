@@ -181,10 +181,13 @@ class ilLMTracker
     {
         $title = "";
         $db = $this->db;
-        $db->replace("lo_access", [
+        $db->replace(
+            "lo_access",
+            [
             "usr_id" => ["integer", $usr_id],
             "lm_id" => ["integer", $lm_id]
-        ], [
+        ],
+            [
                 "timestamp" => ["timestamp", ilUtil::now()],
                 "obj_id" => ["integer", $obj_id],
                 "lm_title" => ["text", $title]

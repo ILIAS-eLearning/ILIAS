@@ -410,7 +410,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                     $this->ctrl->getLinkTargetByClass(
                         array("ilobjcategorygui", "ilinfoscreengui"),
                         "showSummary"
-                     ),
+                    ),
                     array("showSummary","", "infoScreen"),
                     "",
                     "",
@@ -441,7 +441,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::TAXONOMIES,
                 false
-                )) {
+            )) {
                 $mdgui->enableTaxonomyDefinition(true);
             }
             $mdtab = $mdgui->getTab();
@@ -790,7 +790,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                     ilObjectServiceSettingsGUI::TAG_CLOUD,
                     ilObjectServiceSettingsGUI::FILTER
                 )
-            );
+        );
 
         $form->addCommandButton("update", $this->lng->txt("save"));
 

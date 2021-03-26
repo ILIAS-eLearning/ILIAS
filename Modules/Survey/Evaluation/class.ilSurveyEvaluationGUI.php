@@ -1757,7 +1757,7 @@ class ilSurveyEvaluationGUI
         $this->tpl->setContent($dtmpl->get());
 
         $html = $this->tpl->printToString();
-        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid).".pdf");
+        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");
     }
 
     /**
@@ -1838,18 +1838,17 @@ class ilSurveyEvaluationGUI
     /**
      * Show sum score table
      */
-    function sumscore()
+    public function sumscore()
     {
         $ilToolbar = $this->toolbar;
 
-        if(!$this->hasResultsAccess() &&
-            $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL)
-        {
-            ilUtil::sendFailure($this->lng->txt("no_permission"), TRUE);
+        if (!$this->hasResultsAccess() &&
+            $this->object->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+            ilUtil::sendFailure($this->lng->txt("no_permission"), true);
             $this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
 
-        ilUtil::sendInfo($this->lng->txt("svy_max_sum_score").": " . $this->object->getMaxSumScore());
+        ilUtil::sendInfo($this->lng->txt("svy_max_sum_score") . ": " . $this->object->getMaxSumScore());
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
 
@@ -1867,10 +1866,10 @@ class ilSurveyEvaluationGUI
         $sum_scores = $this->getSumScores($finished_ids);
         $table_gui = new ilSumScoreTableGUI($this, 'sumscore', $this->object->hasAnonymizedResults());
         $table_gui->setSumScores($sum_scores);
-        $this->tpl->setContent($table_gui->getHTML().$modal);
+        $this->tpl->setContent($table_gui->getHTML() . $modal);
     }
 
-    protected function getSumScores(array $a_finished_ids = null): array
+    protected function getSumScores(array $a_finished_ids = null) : array
     {
         $sum_scores = [];
         foreach ($this->filterSurveyParticipantsByAccess($a_finished_ids) as $p) {
@@ -1880,10 +1879,9 @@ class ilSurveyEvaluationGUI
             ];
         }
 
-        foreach($this->object->getSurveyQuestions() as $qdata)
-        {
+        foreach ($this->object->getSurveyQuestions() as $qdata) {
             $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);
-            foreach($q_eval->getSumScores() as $finished_id => $sum_score) {
+            foreach ($q_eval->getSumScores() as $finished_id => $sum_score) {
                 if ($sum_score === null) {
                     $sum_scores[$finished_id]["score"] = null;
                 }

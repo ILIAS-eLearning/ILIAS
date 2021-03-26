@@ -122,7 +122,7 @@ class ilExportIDTableGUI extends ilTable2GUI
                         ilUtil::getImagePath("icon_alert.svg"),
                         $lng->txt("alert")
                     )
-                    );
+                );
             }
             $this->tpl->setVariable(
                 "EXPORT_ID",
@@ -148,7 +148,7 @@ class ilExportIDTableGUI extends ilTable2GUI
                     ilUtil::getImagePath("icon_alert.svg"),
                     $lng->txt("alert")
                 )
-                );
+            );
             if (!$this->dup_info_given) {
                 ilUtil::sendInfo($lng->txt("content_some_export_ids_multiple_times"));
                 $this->dup_info_given = true;

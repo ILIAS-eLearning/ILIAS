@@ -265,7 +265,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             0,
             array(1 => $this->lng->txt("survey_question_pool_usage_active"),
                 0 => $this->lng->txt("survey_question_pool_usage_inactive"))
-            );
+        );
         
         
         $config->addSetting(
@@ -273,21 +273,21 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             ilSettingsTemplateConfig::BOOL,
             $lng->txt("start_date"),
             true
-            );
+        );
 
         $config->addSetting(
             "enabled_end_date",
             ilSettingsTemplateConfig::BOOL,
             $lng->txt("end_date"),
             true
-            );
+        );
 
         $config->addSetting(
             "show_question_titles",
             ilSettingsTemplateConfig::BOOL,
             $lng->txt("svy_show_questiontitles"),
             true
-            );
+        );
 
         
         // #17585
@@ -297,7 +297,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             ilSettingsTemplateConfig::BOOL,
             $lng->txt("survey_access_codes"),
             true
-            );
+        );
         
         $config->addSetting(
             "evaluation_access",
@@ -308,7 +308,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             array(ilObjSurvey::EVALUATION_ACCESS_OFF => $this->lng->txt("evaluation_access_off"),
                 ilObjSurvey::EVALUATION_ACCESS_ALL => $this->lng->txt("evaluation_access_all"),
                 ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS => $this->lng->txt("evaluation_access_participants"))
-            );
+        );
         
         $config->addSetting(
             "anonymization_options",
@@ -318,7 +318,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
             0,
             array("statpers" => $this->lng->txt("survey_results_personalized"),
                 "statanon" => $this->lng->txt("survey_results_anonymized"))
-            );
+        );
         
         /*
         $config->addSetting(

@@ -218,7 +218,7 @@ class ilLMNavigationStatus
     /**
      * @return int
      */
-    public function getSuccessorPageId(): int
+    public function getSuccessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -278,7 +278,7 @@ class ilLMNavigationStatus
      * Get predecessor page id
      * @return int
      */
-    public function getPredecessorPageId(): int
+    public function getPredecessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
@@ -324,5 +324,4 @@ class ilLMNavigationStatus
 
         return 0;
     }
-
 }

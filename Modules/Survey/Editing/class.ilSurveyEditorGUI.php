@@ -1119,7 +1119,7 @@ class ilSurveyEditorGUI
                     $form->getInput("heading"),
                     true,
                     ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")
-            ),
+                ),
                 $form->getInput("insertbefore")
             );
             $this->ctrl->redirect($this, "questions");

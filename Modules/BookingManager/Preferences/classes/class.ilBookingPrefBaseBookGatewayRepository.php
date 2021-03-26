@@ -43,7 +43,7 @@ class ilBookingPrefBasedBookGatewayRepository
             " AND pref_booking_hash	= %s ",
             array("integer", "integer", "text"),
             array(ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES, time(), "0")
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             $pool_ids[] = $rec["booking_pool_id"];
         }

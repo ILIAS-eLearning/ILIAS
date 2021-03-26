@@ -571,9 +571,9 @@ class ilBookingReservationsGUI
         $details = sprintf($this->lng->txt('X_reservations_of'), count($ids)) . ' ' . $obj->getTitle();
         if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $details .= ", " . ilDatePresentation::formatPeriod(
-                    new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
-                    new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
-                );
+                new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
+                new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
+            );
         }
 
         $conf->addItem('rsv_ids', implode(',', $ids), $details);

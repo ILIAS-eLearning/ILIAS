@@ -1208,12 +1208,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
      */
     public function getCommentsHTMLExport()
     {
-        $notes_gui = new ilNoteGUI($this->portfolio_id,
-            $this->getPageObject()->getId(), "pfpg");
+        $notes_gui = new ilNoteGUI(
+            $this->portfolio_id,
+            $this->getPageObject()->getId(),
+            "pfpg"
+        );
         $notes_gui->enablePublicNotes(true);
         $notes_gui->setRepositoryMode(false);
         $notes_gui->setExportMode();
         return  $notes_gui->getNotesHTML();
     }
-
 }

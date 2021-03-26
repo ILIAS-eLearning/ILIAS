@@ -82,7 +82,6 @@ class ilWikiHandlerGUI
             }
 
             if (ilWikiPage::exists($obj_id, $page)) {
-
                 $add = "_" . rawurlencode($page);
 
                 $page_id = ilWikiPage::getPageIdForTitle($obj_id, $page);

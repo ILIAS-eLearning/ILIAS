@@ -201,7 +201,6 @@ class ilObjPortfolio extends ilObjPortfolioBase
     
     protected function handleQuotaUpdate()
     {
-
     }
     
     public static function getAvailablePortfolioLinksForUserIds(array $a_owner_ids, $a_back_url = null)
@@ -244,5 +243,4 @@ class ilObjPortfolio extends ilObjPortfolioBase
         }
         return true;
     }
-
 }

@@ -101,7 +101,7 @@ class LMHtmlExport
         $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
             $this->lm->getStyleSheetId(),
             "lm"
-            ));
+        ));
         $this->export_format = $export_format;
 
         // get learning module presentation gui class
@@ -140,7 +140,7 @@ class LMHtmlExport
             true,
             "html",
             false
-            );
+        );
     }
 
 

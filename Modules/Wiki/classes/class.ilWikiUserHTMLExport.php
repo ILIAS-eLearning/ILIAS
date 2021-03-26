@@ -60,7 +60,7 @@ class ilWikiUserHTMLExport
         $this->read();
         $this->log = ilLoggerFactory::getLogger('wiki');
         $this->with_comments = $with_comments;
-        $this->log->debug("comments: ".$this->with_comments);
+        $this->log->debug("comments: " . $this->with_comments);
     }
 
     /**
@@ -73,9 +73,9 @@ class ilWikiUserHTMLExport
     {
         $set = $this->db->query(
             "SELECT * FROM wiki_user_html_export " .
-            " WHERE wiki_id  = " . $this->db->quote($this->wiki->getId(), "integer").
-            " AND with_comments = ". $this->db->quote($this->with_comments, "integer")
-            );
+            " WHERE wiki_id  = " . $this->db->quote($this->wiki->getId(), "integer") .
+            " AND with_comments = " . $this->db->quote($this->with_comments, "integer")
+        );
         if (!$this->data = $this->db->fetchAssoc($set)) {
             $this->data = array();
         }
@@ -170,7 +170,7 @@ class ilWikiUserHTMLExport
             " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer") .
             " AND usr_id = " . $this->db->quote($this->user->getId(), "integer") .
             " AND with_comments = " . $this->db->quote($this->with_comments, "integer")
-            );
+        );
 
         $this->read();
     }
@@ -185,9 +185,9 @@ class ilWikiUserHTMLExport
     {
         $set = $this->db->query(
             "SELECT progress, status FROM wiki_user_html_export " .
-            " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer").
+            " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer") .
             " AND with_comments = " . $this->db->quote($this->with_comments, "integer")
-            );
+        );
         $rec = $this->db->fetchAssoc($set);
 
         return array("progress" => (int) $rec["progress"], "status" => (int) $rec["status"]);

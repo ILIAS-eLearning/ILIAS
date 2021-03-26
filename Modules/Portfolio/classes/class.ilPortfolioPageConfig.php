@@ -47,7 +47,7 @@ class ilPortfolioPageConfig extends ilPageConfig
 
         $validator = new ilCertificateActiveValidator();
         if (true === $validator->validate()) {
-             $this->setEnablePCType("Verification", true);
+            $this->setEnablePCType("Verification", true);
         }
         $skmg_set = new ilSetting("skmg");
         if ($skmg_set->get("enable_skmg")) {

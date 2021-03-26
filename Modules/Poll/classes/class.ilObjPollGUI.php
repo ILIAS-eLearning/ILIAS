@@ -188,7 +188,7 @@ class ilObjPollGUI extends ilObject2GUI
     protected function updateCustom(ilPropertyFormGUI $a_form)
     {
         $this->object->setViewResults($a_form->getInput("results"));
-        $this->object->setOfflineStatus(($a_form->getInput("online") == 1 ) ? 0 : 1);
+        $this->object->setOfflineStatus(($a_form->getInput("online") == 1) ? 0 : 1);
         $this->object->setSortResultByVotes($a_form->getInput("sort"));
         $this->object->setShowComments($a_form->getInput("comment"));
         $this->object->setShowResultsAs($a_form->getInput("show_results_as"));

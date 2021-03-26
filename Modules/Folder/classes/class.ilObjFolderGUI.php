@@ -442,7 +442,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjfoldergui", "ilinfoscreengui"),
                     "showSummary"
-                 ),
+                ),
                 array("showSummary","", "infoScreen"),
                 "",
                 "",

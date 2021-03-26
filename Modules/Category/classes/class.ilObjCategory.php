@@ -89,7 +89,6 @@ class ilObjCategory extends ilContainer
 
         $all_tax = ilObjTaxonomy::getUsageOfObject($this->getId());
         if (sizeof($all_tax)) {
-            
             $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
             $mappings = $cwo->getMappings();
             
