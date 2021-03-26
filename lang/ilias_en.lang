@@ -10199,7 +10199,7 @@ dcl#:#dcl_activate_notification#:#Enable Notification
 dcl#:#dcl_table_id#:#Table ID
 dcl#:#dcl_add_new_record#:#Add New Entry
 dcl#:#dcl_list_fields#:#Fields
-dcl#:#dcl_list_visibility_and_filter#:#List
+dcl#:#dcl_list_visibility_and_filter#:#Overview
 dcl#:#dcl_view_settings#:#View Settings
 dcl#:#dcl_view_configuration#:#View Configuration
 dcl#:#dcl_configuration_complete#:#Configuration Complete
@@ -10255,8 +10255,8 @@ dcl#:#dcl_tableviews#:#Views
 dcl#:#dcl_tableviews_table#:#Views of Selected Table
 dcl#:#dcl_tableview#:#View
 dcl#:#dcl_detailed_view#:#Single
-dcl#:#dcl_edit_entry_rules#:#Editing
-dcl#:#dcl_create_entry_rules#:#Creation
+dcl#:#dcl_edit_entry_rules#:#Entry Editing
+dcl#:#dcl_create_entry_rules#:#Entry Creation
 dcl#:#dcl_tableview_copy#:#View successfully copied
 dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained letters. Please try again.
 dcl#:#dcl_tableview_add#:#Add New View

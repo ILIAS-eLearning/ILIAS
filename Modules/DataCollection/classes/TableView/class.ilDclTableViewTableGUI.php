@@ -101,7 +101,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
         $this->tpl->setVariable("DCL_CONFIG",
-            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok.svg') : ilUtil::getImagePath('icon_not_ok.svg')
+            $a_set->validateConfigCompletion() ? ilUtil::getImagePath('icon_ok_monochrome.svg', "/Modules/DataCollection") : ilUtil::getImagePath('icon_not_ok_monochrome.svg', "/Modules/DataCollection")
         );
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
     }
