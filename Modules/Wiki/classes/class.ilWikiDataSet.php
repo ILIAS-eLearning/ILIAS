@@ -278,8 +278,9 @@ class ilWikiDataSet extends ilDataSet
                         " FROM il_wiki_page" .
                         " WHERE " . $ilDB->in("wiki_id", $a_ids, false, "integer"));
                     foreach ($this->data as $k => $v) {
-                        $set = $ilDB->queryF("SELECT * FROM wiki_page_template " .
-                            " WHERE wiki_id = %s ".
+                        $set = $ilDB->queryF(
+                            "SELECT * FROM wiki_page_template " .
+                            " WHERE wiki_id = %s " .
                             " AND wpage_id = %s ",
                             ["integer", "integer"],
                             [$v["WikiId"], $v["Id"]]

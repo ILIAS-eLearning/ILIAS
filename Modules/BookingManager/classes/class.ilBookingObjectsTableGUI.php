@@ -378,12 +378,17 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             // now the call has been moved here, but still this needs improvement
             if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
                 if (is_object($this->filter['period']['from'])) {
-                    $ilCtrl->setParameter($this->parent_obj, 'sseed',
-                        $this->filter['period']['from']->get(IL_CAL_DATE));
+                    $ilCtrl->setParameter(
+                        $this->parent_obj,
+                        'sseed',
+                        $this->filter['period']['from']->get(IL_CAL_DATE)
+                    );
                 }
 
-                $items[] = $this->ui_factory->button()->shy($lng->txt('book_assign_participant'),
-                    $ilCtrl->getLinkTarget($this->parent_obj, 'assignParticipants'));
+                $items[] = $this->ui_factory->button()->shy(
+                    $lng->txt('book_assign_participant'),
+                    $ilCtrl->getLinkTarget($this->parent_obj, 'assignParticipants')
+                );
 
                 $ilCtrl->setParameter($this->parent_obj, 'sseed', '');
             }

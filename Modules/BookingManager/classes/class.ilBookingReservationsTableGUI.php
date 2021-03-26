@@ -505,8 +505,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             foreach ($this->getSelectedUserColumns() as $field) {
                 if (substr($field, 0, 3) == 'odf') {
                     $odf_ids[] = substr($field, 4);
-                }
-                else {
+                } else {
                     $user_columns[] = $field;
                 }
             }

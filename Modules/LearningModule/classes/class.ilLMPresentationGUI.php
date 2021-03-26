@@ -808,7 +808,6 @@ class ilLMPresentationGUI
             $exp->setOfflineMode(true);
         }
         if (!$exp->handleCommand()) {
-
             if ($a_get_explorer) {
                 return $exp;
             } else {
