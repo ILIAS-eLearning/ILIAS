@@ -10032,7 +10032,7 @@ dcl#:#dcl_activate_notification#:#Benachrichtigung
 dcl#:#dcl_table_id#:#Tabellen ID
 dcl#:#dcl_add_new_record#:#Eintrag hinzufügen
 dcl#:#dcl_list_fields#:#Felder
-dcl#:#dcl_list_visibility_and_filter#:#Liste
+dcl#:#dcl_list_visibility_and_filter#:#Übersicht
 dcl#:#dcl_view_settings#:#Ansichtseinstellungen
 dcl#:#dcl_view_configuration#:#Ansichtskonfiguration
 dcl#:#dcl_configuration_complete#:#Konfiguration abgeschlossen
@@ -10408,7 +10408,7 @@ dcl#:#dcl_display_action_menu#:#Kopieren
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_tableviews#:#Ansichten
 dcl#:#dcl_tableviews_table#:#Ansichten der ausgewählten Tabelle
-dcl#:#dcl_tableview#:#Übersicht
+dcl#:#dcl_tableview#:#Ansicht
 dcl#:#dcl_detailed_view#:#Einzelansicht
 dcl#:#dcl_edit_entry_rules#:#Eintragsbearbeitung
 dcl#:#dcl_create_entry_rules#:#Eintragserstellung
