@@ -144,7 +144,7 @@ class assClozeTestExport extends assQuestionExport
                         $a_xml_writer->xmlStartTag("render_choice", $attrs);
 
                         // add answers
-                        foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answeritem) {
+                        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answeritem) {
                             $attrs = array(
                                 "ident" => $answeritem->getOrder()
                             );
@@ -249,7 +249,7 @@ class assClozeTestExport extends assQuestionExport
             $gap = $this->object->getGap($i);
             switch ($gap->getType()) {
                 case CLOZE_SELECT:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
+                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -279,7 +279,7 @@ class assClozeTestExport extends assQuestionExport
                     }
                     break;
                 case CLOZE_TEXT:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
+                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );
@@ -307,7 +307,7 @@ class assClozeTestExport extends assQuestionExport
                     }
                     break;
                 case CLOZE_NUMERIC:
-                    foreach ($gap->getItems(new ilArrayElementOrderKeeper()) as $answer) {
+                    foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $answer) {
                         $attrs = array(
                             "continue" => "Yes"
                         );

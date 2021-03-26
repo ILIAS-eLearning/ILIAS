@@ -1,10 +1,13 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+require_once __DIR__ . "/assBaseTestCase.php";
+
 /**
 * Unit tests
 *
 * @author Maximilian Becker <mbecker@databay.de>
+* @author Marvin Beym <mbeym@databay.de>
 *
 * @ingroup ModulesTestQuestionPool
 */
@@ -52,7 +55,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
         $expected = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
-        
+
         $actual = $instance->getItems(new ilArrayElementShuffler());
         $this->assertNotEquals($expected, $actual);
     }
@@ -83,16 +86,21 @@ class assClozeSelectGapTest extends assBaseTestCase
 
         $instance->setType(true);
 
-        $expected = array($item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8);
+        $sequence = [$item1, $item3, $item2, $item4, $item5, $item6, $item7, $item8];
+        $expectedSequence = array_reverse($sequence);
 
-        $actual = $instance->getItems(new ilArrayElementShuffler());
+        $randomElmProvider = $this->getMockBuilder(ilRandomArrayElementProvider::class)->getMock();
+        $randomElmProvider->expects($this->once())
+                          ->method('shuffle')
+                          ->with($sequence)
+                          ->willReturn($expectedSequence);
 
-        $this->assertNotEquals($expected, $actual);
+        $actual = $instance->getItems($randomElmProvider);
+        $this->assertEquals($actual, $expectedSequence);
     }
 
     public function test_getItemswithoutShuffle_shouldReturnItemsInOrder()
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
 
@@ -110,7 +118,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $instance->setType(false);
 
         $expected = array($item1, $item2, $item3, $item4);
-        $actual = $instance->getItems(new ilArrayElementOrderKeeper());
+        $actual = $instance->getItems(new ilDeterministicArrayElementProvider());
 
         $this->assertEquals($expected, $actual);
     }
