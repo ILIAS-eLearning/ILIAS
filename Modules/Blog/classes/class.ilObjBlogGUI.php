@@ -3043,14 +3043,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         }
     }
 
-	/**
-	 * Handle export choice
-	 * @param
-	 * @return
-	 */
-	protected function exportWithComments()
-	{
-		$this->export(true);
-	}
-
+    /**
+     * Handle export choice
+     * @param
+     * @return
+     */
+    protected function exportWithComments()
+    {
+        $this->export(true);
+    }
 }

@@ -56,7 +56,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
      * @param	string		$a_text		link text
      * @param	string		$a_frame	link frame target
      */
-    function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
+    public function insertCommand($a_href, $a_text, $a_frame = "", $a_img = "", $a_cmd = "", $a_onclick = "")
     {
         $ctrl = $this->ctrl;
 
@@ -66,12 +66,10 @@ class ilObjBlogListGUI extends ilObjectListGUI
         }
 
         // #11099
-        $chksum = md5($a_href.$a_text);
-        if($a_href == "#" ||
-            !in_array($chksum, $this->prevent_duplicate_commands))
-        {
-            if($a_href != "#")
-            {
+        $chksum = md5($a_href . $a_text);
+        if ($a_href == "#" ||
+            !in_array($chksum, $this->prevent_duplicate_commands)) {
+            if ($a_href != "#") {
                 $this->prevent_duplicate_commands[] = $chksum;
             }
 
@@ -102,17 +100,29 @@ class ilObjBlogListGUI extends ilObjectListGUI
         }
     }
 
-    function getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
-        $a_use_asynch = false, $a_get_asynch_commands = false, $a_asynch_url = "") {
-
-
-        $html = parent::getListItemHTML($a_ref_id, $a_obj_id, $a_title, $a_description,
-            $a_use_asynch, $a_get_asynch_commands, $a_asynch_url);
+    public function getListItemHTML(
+        $a_ref_id,
+        $a_obj_id,
+        $a_title,
+        $a_description,
+        $a_use_asynch = false,
+        $a_get_asynch_commands = false,
+        $a_asynch_url = ""
+    ) {
+        $html = parent::getListItemHTML(
+            $a_ref_id,
+            $a_obj_id,
+            $a_title,
+            $a_description,
+            $a_use_asynch,
+            $a_get_asynch_commands,
+            $a_asynch_url
+        );
 
         if (!is_null($this->comment_modal)) {
-        global $DIC;
-        $renderer = $DIC->ui()->renderer();
-            $html.= $renderer->render($this->comment_modal);
+            global $DIC;
+            $renderer = $DIC->ui()->renderer();
+            $html .= $renderer->render($this->comment_modal);
         }
         return $html;
     }
