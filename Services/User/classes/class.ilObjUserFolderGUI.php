@@ -1215,17 +1215,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 'view'
             )
         );
-
-        if (!$rbacsystem->checkAccess(
-            "write",
-            $this->object->getRefId()
-        )) {
+        if (!$rbacsystem->checkAccess('create_usr', $this->object->getRefId())) {
             $this->ilias->raiseError(
                 $this->lng->txt("permission_denied"),
-                $this->ilias->error_obj->MESSAGE
-            );
+                $this->ilias->error_obj->MESSAGE);
         }
-
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
     }
