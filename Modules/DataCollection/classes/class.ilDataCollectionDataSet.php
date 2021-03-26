@@ -207,6 +207,11 @@ class ilDataCollectionDataSet extends ilDataSet
                         $a_rec['roles'] = json_decode($a_rec['roles']);
                     }
                     $tableview->setRoles($a_rec['roles']);
+                    is_null($a_rec['step_vs']) ? $tableview->setStepVs(1) : $tableview->setStepVs($a_rec['step_vs']);
+                    is_null($a_rec['step_c']) ? $tableview->setStepC(0) : $tableview->setStepVs($a_rec['step_c']);
+                    is_null($a_rec['step_e']) ? $tableview->setStepE(0) : $tableview->setStepVs($a_rec['step_e']);
+                    is_null($a_rec['step_o']) ? $tableview->setStepO(0) : $tableview->setStepVs($a_rec['step_o']);
+                    is_null($a_rec['step_s']) ? $tableview->setStepS(0) : $tableview->setStepVs($a_rec['step_s']);
                     $tableview->create(false);    //do not create default setting as they are imported too
                 }
                 $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_tableview', $a_rec['id'], $tableview->getId());
@@ -252,12 +257,12 @@ class ilDataCollectionDataSet extends ilDataSet
                     $setting->setInFilter($a_rec['in_filter']);
                     $setting->setFilterValue($a_rec['filter_value'] ? $a_rec['filter_value'] : null);
                     $setting->setFilterChangeable($a_rec['filter_changeable']);
-                    $setting->setRequiredCreate($a_rec['required_create']);
-                    $setting->setLockedCreate($a_rec['locked_create']);
-                    $setting->setVisibleCreate($a_rec['visible_create']);
-                    $setting->setVisibleEdit($a_rec['visible_edit']);
-                    $setting->setRequiredEdit($a_rec['required_edit']);
-                    $setting->setLockedEdit($a_rec['locked_edit']);
+                    is_null($a_rec['required_create']) ? $setting->setRequiredCreate(0) : $setting->setRequiredCreate($a_rec['required_create']);
+                    is_null($a_rec['locked_create']) ? $setting->setLockedCreate(0) : $setting->setLockedCreate($a_rec['locked_create']);
+                    is_null($a_rec['visible_create']) ? $setting->setVisibleCreate(1) : $setting->setVisibleCreate($a_rec['visible_create']);
+                    is_null($a_rec['visible_edit']) ? $setting->setVisibleEdit(1) : $setting->setVisibleEdit($a_rec['visible_edit']);
+                    is_null($a_rec['required_edit']) ? $setting->setRequiredEdit(0) : $setting->setRequiredEdit($a_rec['required_edit']);
+                    is_null($a_rec['locked_edit']) ? $setting->setLockedEdit(0) : $setting->setLockedEdit($a_rec['locked_edit']);
                     $setting->setDefaultValue($a_rec['default_value']);
                     $setting->create();
                 }
@@ -518,6 +523,11 @@ class ilDataCollectionDataSet extends ilDataSet
                     'table_id' => 'integer',
                     'title' => 'text',
                     'roles' => 'text',
+                    'step_vs' => 'integer',
+                    'step_c' => 'integer',
+                    'step_e' => 'integer',
+                    'step_o' => 'integer',
+                    'step_s' => 'integer',
                     'description' => 'text',
                     'tableview_order' => 'integer',
                 );
