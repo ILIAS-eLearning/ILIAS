@@ -427,6 +427,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         
         $tpl = $this->tpl;
         $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/SurveyQuestionPool/templates/default/categorywizard.js");
+        $tpl->addJavascript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
     }
 }

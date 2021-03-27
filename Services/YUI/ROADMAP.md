@@ -8,7 +8,6 @@ Event (util.Event)
 - Form -> HierarchyForm, ColorPicker, flashAddParam
 - Scorm2004 (not used?)
 - TestQuestionPool
-- SurveyQuestionPool
 - Style trbl_color_picker
 
 Dom
