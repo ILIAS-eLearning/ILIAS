@@ -91,7 +91,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         // a better place in the future
         ilNoteGUI::initJavascript(
             $this->ctrl->getLinkTargetByClass(
-                array("ilnotegui"), "", "", true, false));
+                array("ilnotegui"),
+                "",
+                "",
+                true,
+                false
+            )
+        );
 
         // trigger assignment tool
         $this->triggerAssignmentTool();

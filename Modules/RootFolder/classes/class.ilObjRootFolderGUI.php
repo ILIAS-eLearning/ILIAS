@@ -181,9 +181,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 if ($cmd == "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
-                    try{
+                    try {
                         $this->checkPermission("read");
-                    }catch (ilObjectException $exception){
+                    } catch (ilObjectException $exception) {
                         $this->ctrl->redirectToURL("login.php?client_id=" . CLIENT_ID . "&cmd=force_login");
                     }
                 }

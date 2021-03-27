@@ -1042,7 +1042,7 @@ class ilExSubmission
             if ($a_ass->getAssignmentType()->isSubmissionAssignedToTeam()) {
                 $targetdir = $team_dir . ilUtil::getASCIIFilename(
                     $item["name"]
-                    );
+                );
                 if ($targetdir == "") {
                     continue;
                 }

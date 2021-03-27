@@ -738,7 +738,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                         if (!$template_settings["evaluation_access"]["hide"]) {
                             $this->object->setEvaluationAccess($_POST["evaluation_access"]);
                         }
-                        $this->object->setCalculateSumScore((int)$_POST["calculate_sum_score"]);
+                        $this->object->setCalculateSumScore((int) $_POST["calculate_sum_score"]);
                         $hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
                         if (!$hasDatasets) {
                             $hide_codes = $template_settings["acc_codes"]["hide"];
@@ -1407,7 +1407,7 @@ class ilObjSurveyGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
                     )
-                );
+            );
         }
         
         $form->addCommandButton("saveProperties", $this->lng->txt("save"));

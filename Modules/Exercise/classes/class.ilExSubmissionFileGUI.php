@@ -141,8 +141,10 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
                     $ilToolbar->addText($dl);
                 }
 
-                $b = $this->ui->factory()->button()->standard($this->lng->txt("file_add"),
-                    $this->ctrl->getLinkTarget($this, "uploadForm"));
+                $b = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("file_add"),
+                    $this->ctrl->getLinkTarget($this, "uploadForm")
+                );
                 $ilToolbar->addStickyItem($b);
                 
                 if (!$max_files ||

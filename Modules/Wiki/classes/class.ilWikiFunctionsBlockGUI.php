@@ -345,7 +345,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 
         // manage
         if (ilWikiPerm::check("wiki_html_export", $this->ref_id)) {
-
             if (!$this->wiki->isCommentsExportPossible()) {
                 $actions[] = array(
                     "txt" => $lng->txt("wiki_html_export"),
@@ -387,10 +386,10 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
             $tpl->setCurrentBlock("action");
             if ($a["modal"] != "") {
                 $signal = $a["modal"]->getShowSignal();
-                $onclick = "$(document).trigger('".$signal."', {'id': '".$signal."','triggerer':$(this), 'options': JSON.parse('[]')}); return false;";
-                $tpl->setVariable("ONCLICK", ' onclick="'.$onclick.'" ');
+                $onclick = "$(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;";
+                $tpl->setVariable("ONCLICK", ' onclick="' . $onclick . '" ');
                 $tpl->setVariable("HREF", "#");
-                $modal_html.= $this->ui->renderer()->render($a["modal"]);
+                $modal_html .= $this->ui->renderer()->render($a["modal"]);
             } else {
                 $tpl->setVariable("HREF", $a["href"]);
             }
@@ -403,6 +402,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
             $tpl->touchBlock("item");
         }
 
-        return $tpl->get().$modal_html;
+        return $tpl->get() . $modal_html;
     }
 }

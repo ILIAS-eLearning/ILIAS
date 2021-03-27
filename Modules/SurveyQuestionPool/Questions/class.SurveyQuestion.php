@@ -2103,7 +2103,7 @@ class SurveyQuestion
         $set = $ilDB->query(
             "SELECT obj_fi FROM svy_question " .
             " WHERE question_id = " . $ilDB->quote($a_qid, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["obj_fi"];
     }
@@ -2129,9 +2129,8 @@ class SurveyQuestion
      * @param int $survey_id
      * @return int
      */
-    public static function getMaxSumScore(int $survey_id): int
+    public static function getMaxSumScore(int $survey_id) : int
     {
         return 0;
     }
-
 }

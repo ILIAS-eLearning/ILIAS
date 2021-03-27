@@ -92,7 +92,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
             ilUtil::stripSlashes($this->getOrderDirection()),
             ilUtil::stripSlashes($this->getOffset()),
             ilUtil::stripSlashes($this->getLimit())
-            );
+        );
 
         if (count($questions["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
@@ -102,7 +102,7 @@ class ilLMQuestionListTableGUI extends ilTable2GUI
                 ilUtil::stripSlashes($this->getOrderDirection()),
                 ilUtil::stripSlashes($this->getOffset()),
                 ilUtil::stripSlashes($this->getLimit())
-                );
+            );
         }
 
         $this->setMaxCount($questions["cnt"]);

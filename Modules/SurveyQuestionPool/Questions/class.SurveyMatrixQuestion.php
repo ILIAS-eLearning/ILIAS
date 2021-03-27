@@ -1554,7 +1554,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     /**
      * @inheritDoc
      */
-    public static function getMaxSumScore(int $survey_id): int
+    public static function getMaxSumScore(int $survey_id) : int
     {
         global $DIC;
 
@@ -1562,10 +1562,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $db = $DIC->database();
 
         $set = $db->queryF(
-            "SELECT MAX(scale) max_sum_score, q.question_id FROM svy_svy_qst sq ".
-            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
-            "JOIN svy_variable v ON (v.question_fi = q.question_id) ".
-            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ".
+            "SELECT MAX(scale) max_sum_score, q.question_id FROM svy_svy_qst sq " .
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) " .
+            "JOIN svy_variable v ON (v.question_fi = q.question_id) " .
+            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s " .
             "GROUP BY (q.question_id)",
             ["integer", "integer"],
             [$survey_id, 5]
@@ -1576,10 +1576,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
         }
 
         $set = $db->queryF(
-            "SELECT COUNT(mr.id_svy_qst_matrixrows) cnt_rows, q.question_id FROM svy_svy_qst sq ".
-            "JOIN svy_question q ON (sq.question_fi = q.question_id) ".
-            "JOIN svy_qst_matrixrows mr ON (mr.question_fi = q.question_id) ".
-            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s ".
+            "SELECT COUNT(mr.id_svy_qst_matrixrows) cnt_rows, q.question_id FROM svy_svy_qst sq " .
+            "JOIN svy_question q ON (sq.question_fi = q.question_id) " .
+            "JOIN svy_qst_matrixrows mr ON (mr.question_fi = q.question_id) " .
+            "WHERE sq.survey_fi  = %s AND q.questiontype_fi = %s " .
             "GROUP BY (q.question_id)",
             ["integer", "integer"],
             [$survey_id, 5]
@@ -1596,5 +1596,4 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
         return $sum_sum_score;
     }
-
 }

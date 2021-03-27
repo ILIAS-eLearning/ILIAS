@@ -217,7 +217,7 @@ class ilLMObject
         $set = $ilDB->query(
             "SELECT * FROM lm_data " .
             " WHERE lm_id = " . $ilDB->quote($a_lm_id, "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             self::$data_records[$rec["obj_id"]] = $rec;
         }

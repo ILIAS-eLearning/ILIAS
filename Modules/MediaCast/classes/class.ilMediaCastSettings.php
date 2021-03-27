@@ -32,7 +32,7 @@
 */
 class ilMediaCastSettings
 {
-    private  $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
+    private $supported_suffixes = ["mp4", "mp3", "jpg", "jpeg", "png", "gif", "svg"];
     private $supported_mime_types = [
         "video/mp4" => "video/mp4",
         "audio/mpeg" => "audio/mpeg",

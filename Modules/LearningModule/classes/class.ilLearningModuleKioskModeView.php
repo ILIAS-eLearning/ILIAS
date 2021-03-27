@@ -148,7 +148,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     /**
      * @inheritDoc
      */
-    public function buildControls(State $state, ControlBuilder $builder): ControlBuilder
+    public function buildControls(State $state, ControlBuilder $builder) : ControlBuilder
     {
         global $DIC;
 
@@ -206,7 +206,7 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
     /**
      * @param ControlBuilder $builder
      */
-    protected function maybeBuildLearningProgressToggleControl(ControlBuilder $builder): ControlBuilder
+    protected function maybeBuildLearningProgressToggleControl(ControlBuilder $builder) : ControlBuilder
     {
         $learningProgress = \ilObjectLP::getInstance($this->lm->getId());
         if ($learningProgress->getCurrentMode() == \ilLPObjSettings::LP_MODE_MANUAL) {
@@ -284,6 +284,4 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
             )
         );
     }
-
-
 }

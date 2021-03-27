@@ -72,24 +72,22 @@ abstract class SurveyQuestionEvaluation
      *
      * @return array, key is active id, value is sum score for question|null if not supported
      */
-    public function getSumScores(): array
+    public function getSumScores() : array
     {
         $ilDB = $this->db;
 
         $res = [];
 
-        $sql = "SELECT svy_answer.* FROM svy_answer".
-            " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)".
-            " WHERE svy_answer.question_fi = ".$ilDB->quote($this->question->getId(), "integer").
-            " AND svy_finished.survey_fi = ".$ilDB->quote($this->getSurveyId(), "integer");
-        if(is_array($this->finished_ids))
-        {
-            $sql .= " AND ".$ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
+        $sql = "SELECT svy_answer.* FROM svy_answer" .
+            " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)" .
+            " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
+            " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
+        if (is_array($this->finished_ids)) {
+            $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
         }
         $set = $ilDB->query($sql);
         $cnt_answer_records = [];
-        while($row = $ilDB->fetchAssoc($set))
-        {
+        while ($row = $ilDB->fetchAssoc($set)) {
             $cnt_answer_records[(int) $row["active_fi"]] += 1;
             if ($this->supportsSumScore()) {
                 $res[(int) $row["active_fi"]] += $row["value"] + 1;
@@ -111,7 +109,7 @@ abstract class SurveyQuestionEvaluation
      * @param int
      * @return bool
      */
-    protected function isSumScoreValid(int $nr_answer_records): bool
+    protected function isSumScoreValid(int $nr_answer_records) : bool
     {
         return true;
     }
@@ -120,7 +118,7 @@ abstract class SurveyQuestionEvaluation
      * Supports sum score?
      * @return bool
      */
-    protected function supportsSumScore(): bool
+    protected function supportsSumScore() : bool
     {
         return false;
     }
@@ -217,7 +215,7 @@ abstract class SurveyQuestionEvaluation
                     $total
                             ? $selections[$scale] / $total
                             : null
-                    );
+                );
                 $a_results->addVariable($var);
             }
         }

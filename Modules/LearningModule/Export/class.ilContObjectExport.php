@@ -239,7 +239,7 @@ class ilContObjectExport
         // create directories
         $this->cont_obj->createExportDirectory("scorm");
 
-        $target_dir = $this->export_dir."/".$this->subdir;
+        $target_dir = $this->export_dir . "/" . $this->subdir;
 
         ilUtil::delDir($target_dir);
         ilUtil::makeDir($target_dir);
@@ -285,7 +285,7 @@ class ilContObjectExport
         rename($zip_file, $dest_file);
         ilUtil::delDir($target_dir);
 
-      // get html content
+        // get html content
 //        $this->cont_obj->exportSCORM($this->export_dir . "/" . $this->subdir, $expLog);
     }
 }
