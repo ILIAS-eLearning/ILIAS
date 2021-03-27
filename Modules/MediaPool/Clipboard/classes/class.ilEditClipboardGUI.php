@@ -1,20 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilEditClipboardGUI
-*
-* Clipboard for editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
-*
-* @ingroup ServicesClipboard
-*/
+ * Clipboard for editing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilEditClipboardGUI: ilObjMediaObjectGUI
+ */
 class ilEditClipboardGUI
 {
     /**
@@ -187,13 +180,11 @@ class ilEditClipboardGUI
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
 
-        include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
         $but = ilLinkButton::getInstance();
         $but->setUrl($ilCtrl->getLinkTargetByClass("ilobjmediaobjectgui", "create"));
         $but->setCaption("cont_create_mob");
         $ilToolbar->addButtonInstance($but);
 
-        include_once("./Services/Clipboard/classes/class.ilClipboardTableGUI.php");
         $table_gui = new ilClipboardTableGUI($this, "view");
         $tpl->setContent($table_gui->getHTML());
     }

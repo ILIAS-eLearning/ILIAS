@@ -852,7 +852,6 @@ class ilPageEditorGUI
     */
     public function insertFromClipboard()
     {
-        include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
         $ids = ilEditClipboardGUI::_getSelectedIDs();
         include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
         if ($ids != "") {

@@ -1,17 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
 
 /**
-* TableGUI clipboard items
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesClipboard
-*/
+ * TableGUI clipboard items
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilClipboardTableGUI extends ilTable2GUI
 {
     /**
@@ -43,8 +39,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $lng->loadLanguageModule("mep");
 
@@ -55,7 +50,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate(
             "tpl.clipboard_tbl_row.html",
-            "Services/Clipboard"
+            "Modules/MediaPool/Clipboard"
         );
         $this->getItems();
         
@@ -94,9 +89,7 @@ class ilClipboardTableGUI extends ilTable2GUI
     */
     protected function fillRow($a_set)
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
 
         if ($a_set["type"] == "mob") {
             // output thumbnail
@@ -156,7 +149,6 @@ class ilClipboardTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
         
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
         if ($a_set["type"] == "mob") {
             $this->tpl->setVariable(
                 "MEDIA_INFO",
