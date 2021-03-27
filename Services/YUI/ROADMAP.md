@@ -5,17 +5,16 @@ This service is deprecated.
 ## Usages
 
 Event (util.Event)
-- Form -> HierarchyForm, ColorPicker, flashAddParam
+- Form -> HierarchyForm, flashAddParam
 - Scorm2004 (not used?)
 - TestQuestionPool
-- Style trbl_color_picker
+
 
 Dom
 - DataCollection
 - GlobalTemplate
 - PropertyForm
 - ...
-
 
 DragDrop
 - Survey
@@ -62,10 +61,6 @@ Overlay
 - TermsOfService
 - AdvancedSelectionList
 - Overlay
-
-ColorPicker
-- Form
-- Style
 
 Cookie
 - Authentication (SessionReminder)

@@ -203,30 +203,6 @@ class ilYuiUtil
         $tpl->addCss(self::YUI_BASE . "/menu/assets/skins/sam/menu.css");
     }
 
-
-    /**
-     * init color picker button
-     *
-     * @access public
-     * @return void
-     * @static
-     */
-    public static function initColorPicker()
-    {
-        global $DIC;
-
-        $tpl = $DIC["tpl"];
-
-        self::initButtonControl();
-
-        $tpl->addJavaScript(self::YUI_BASE . "/dragdrop/dragdrop-min.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/slider/slider-min.js");
-        $tpl->addJavaScript(self::YUI_BASE . "/colorpicker/colorpicker-min.js");
-
-        $tpl->addCss('./Services/Form/css/color_picker.css');
-        $tpl->addCss(self::YUI_BASE . "/colorpicker/assets/skins/sam/colorpicker.css");
-    }
-
     /**
      *
      */

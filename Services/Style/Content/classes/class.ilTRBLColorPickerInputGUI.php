@@ -250,9 +250,6 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
     {
         $lng = $this->lng;
         
-        include_once('./Services/YUI/classes/class.ilYuiUtil.php');
-        ilYuiUtil::initColorPicker();
-        
         $layout_tpl = new ilTemplate("tpl.prop_trbl_layout.html", true, true, "Services/Style/Content");
         
         $funcs = array(
@@ -261,49 +258,38 @@ class ilTRBLColorPickerInputGUI extends ilTextInputGUI
             "right" => "getRightValue");
         
         foreach ($this->dirs as $dir) {
-            /*switch($dir)
-            {
-                case "all": $value = strtoupper(trim($this->getAllValue())); break;
-                case "top": $value = strtoupper(trim($this->getTopValue())); break;
-                case "bottom": $value = strtoupper(trim($this->getBottomValue())); break;
-                case "left": $value = strtoupper(trim($this->getLeftValue())); break;
-                case "right": $value = strtoupper(trim($this->getRightValue())); break;
-            }*/
             $f = $funcs[$dir];
             $value = trim($this->$f());
             if (!$this->getAcceptNamedColors() || substr($value, 0, 1) != "!") {
                 $value = strtoupper($value);
             }
 
-            $ctpl = new ilTemplate("tpl.prop_trbl_color.html", true, true, "Services/Style/Content");
-
-            $js_tpl = new ilTemplate('tpl.trbl_color_picker.js', true, true, 'Services/Style/Content');
-            $js_tpl->setVariable('THUMB_PATH', ilUtil::getImagePath('color_picker_thumb.png', 'Services/Form'));
-            $js_tpl->setVariable('HUE_THUMB_PATH', ilUtil::getImagePath('color_picker_hue_thumb.png', 'Services/Form'));
-            $js_tpl->setVariable('COLOR_ID', $this->getFieldId() . "_" . $dir);
+            $tpl = new ilTemplate('tpl.prop_color.html', true, true, 'Services/Form');
+            $tpl->setVariable('COLOR_ID', $this->getFieldId() . "_" . $dir);
             $ic = ilColorPickerInputGUI::determineHexcode($value);
             if ($ic == "") {
                 $ic = "FFFFFF";
             }
-            $js_tpl->setVariable('INIT_COLOR_SHORT', $ic);
-            $js_tpl->setVariable('INIT_COLOR', '#' . $value);
-            $js_tpl->setVariable('POST_VAR', $this->getPostVar());
-            $js_tpl->setVariable('DIR', $dir);
-        
-        
+            $tpl->setVariable('INIT_COLOR_SHORT', $ic);
+            $tpl->setVariable('POST_VAR', $this->getPostVar());
+
             if ($this->getDisabled()) {
-                $ctpl->setVariable('COLOR_DISABLED', 'disabled="disabled"');
-            } else {
-                $ctpl->setVariable('PROP_COLOR_JS', $js_tpl->get());
+                $a_tpl->setVariable('COLOR_DISABLED', 'disabled="disabled"');
             }
-            $ctpl->setVariable("POST_VAR", $this->getPostVar());
-            $ctpl->setVariable("PROP_COLOR_ID", $this->getFieldId() . "_" . $dir);
-            
-            $ctpl->setVariable("PROPERTY_VALUE_COLOR", $value);
-            $ctpl->setVariable("DIR", $dir);
-            $ctpl->setVariable("TXT_DIR", $lng->txt("sty_$dir"));
-            
-            $layout_tpl->setVariable(strtoupper($dir), $ctpl->get());
+
+            $tpl->setVariable("POST_VAR", $this->getPostVar() . "[" . $dir . "][value]");
+            $tpl->setVariable("PROP_COLOR_ID", $this->getFieldId() . "_" . $dir);
+
+            if (substr(trim($this->getValue()), 0, 1) == "!" && $this->getAcceptNamedColors()) {
+                $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput(trim($this->getValue())));
+            } else {
+                $tpl->setVariable("PROPERTY_VALUE_COLOR", ilUtil::prepareFormOutput($value));
+                $tpl->setVariable('INIT_COLOR', '#' . $value);
+            }
+
+            $tpl->setVariable("TXT_PREFIX", $lng->txt("sty_$dir"));
+
+            $layout_tpl->setVariable(strtoupper($dir), $tpl->get());
         }
 
         $a_tpl->setCurrentBlock("prop_generic");
