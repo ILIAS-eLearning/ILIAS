@@ -13401,6 +13401,17 @@ div.ilFrmPostHeader span.small {
     height: 50px;
   }
 }
+@media only screen and (min-width: 1200px) {
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-2 {
+    padding-left: 50px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-3 {
+    padding-left: 100px;
+  }
+  .sort_by_posts .ilFrmPostRow.ilFrmPost-level-4 {
+    padding-left: 150px;
+  }
+}
 .ilFrmPostCensorshipAdvice {
   margin: 0;
   padding: 0;

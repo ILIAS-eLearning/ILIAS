@@ -811,7 +811,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             $rowCol = 'tblrowmarked';
             $tpl->setVariable('ROWCOL', ' ' . $rowCol);
-            $tpl->setVariable('DEPTH', (int) ($referencePosting->getDepth() - 1));
+            $depth = (int) ($referencePosting->getDepth() - 1);
+            if ($this->selectedSorting === ilForumProperties::VIEW_TREE) {
+                $depth += 1;
+            }
+            $tpl->setVariable('DEPTH', $depth);
 
             $this->ctrl->setParameter($this, 'pos_pk', $referencePosting->getId());
             $this->ctrl->setParameter($this, 'thr_pk', $referencePosting->getThreadId());
@@ -2033,7 +2037,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             }
         }
 
-        $selected_draft_id = (int)$_GET['draft_id'];
+        $selected_draft_id = (int) $_GET['draft_id'];
         $draftObj = new ilForumPostDraft(
             $this->user->getId(),
             $this->objCurrentPost->getId(),
@@ -2699,7 +2703,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         if (
             isset($this->httpRequest->getQueryParams()['viewmode']) &&
-            (int) $this->httpRequest->getQueryParams()['viewmode']  !== (int) $this->selectedSorting
+            (int) $this->httpRequest->getQueryParams()['viewmode'] !== (int) $this->selectedSorting
         ) {
             $this->selectedSorting = (int) $this->httpRequest->getQueryParams()['viewmode'];
         }
@@ -2836,7 +2840,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             );
         }
 
-       $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$this->selectedSorting]);
+        $threadContentTemplate->setVariable('LIST_TYPE', $this->viewModeOptions[$this->selectedSorting]);
 
         $numberOfPostings = 0;
 
