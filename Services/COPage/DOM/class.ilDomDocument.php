@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Dom document wrapper.
- *
- * @author author <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup Services/Dom
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDomDocument
 {
@@ -15,7 +13,7 @@ class ilDomDocument
 
     /**
      * Constructor
-     * @param	DOMDocument		PHP dom document
+     * @param DOMDocument        PHP dom document
      */
     public function __construct()
     {
@@ -36,7 +34,7 @@ class ilDomDocument
             return call_user_func_array(array($this->doc, $a_method), $a_args);
         }
     }
-    
+
     /**
      * Get
      */
@@ -56,7 +54,7 @@ class ilDomDocument
     {
         $this->_delegate->$a_mem = $a_val;
     }
-    
+
     /**
      * Handle error
      */
