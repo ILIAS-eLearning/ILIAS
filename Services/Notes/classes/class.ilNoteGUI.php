@@ -106,14 +106,14 @@ class ilNoteGUI
      */
     protected $log;
 
-   /**
-    * constructor, specifies notes set
-    *
-    * @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
-    * @param	$a_obj_id		int		subobject id (0 for repository items, user id for personal desktop)
-    * @param	$a_obj_type		string	"pd" for personal desktop
-    * @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
-    */
+    /**
+     * constructor, specifies notes set
+     *
+     * @param	$a_rep_obj_id	int		object id of repository object (0 for personal desktop)
+     * @param	$a_obj_id		int		subobject id (0 for repository items, user id for personal desktop)
+     * @param	$a_obj_type		string	"pd" for personal desktop
+     * @param	$a_include_subobjects	string		include all subobjects of rep object (e.g. pages)
+     */
     public function __construct(
         $a_rep_obj_id = "",
         $a_obj_id = "",
@@ -1625,8 +1625,6 @@ class ilNoteGUI
 
         $lng->toJs(array("private_notes", "notes_public_comments"), $tpl);
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-        ilYuiUtil::initPanel(false, $tpl);
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavascript("./Services/Notes/js/ilNotes.js");
@@ -1730,7 +1728,7 @@ class ilNoteGUI
      */
     protected function notifyObserver($a_action, $a_note)
     {
-        $this->log->debug("Notifying Observers (".count($this->observer).").");
+        $this->log->debug("Notifying Observers (" . count($this->observer) . ").");
         if (is_array($this->observer) && count($this->observer) > 0) {
             foreach ($this->observer as $item) {
                 $param = $a_note->getObject();
@@ -1832,7 +1830,7 @@ class ilNoteGUI
         }
 
 
-        $b = $f->button()->shy($lng->txt("notes_add_edit_comment"), "#")->withAdditionalOnLoadCode(function ($id) use ($hash,$update_url,$widget_el_id) {
+        $b = $f->button()->shy($lng->txt("notes_add_edit_comment"), "#")->withAdditionalOnLoadCode(function ($id) use ($hash, $update_url, $widget_el_id) {
             return "$(\"#$id\").click(function(event) { " . self::getListCommentsJSCall($hash, "ilNotes.updateWidget(\"" . $widget_el_id . "\",\"" . $update_url . "\");") . "});";
         });
         if ($ctrl->isAsynch()) {
@@ -1852,17 +1850,17 @@ class ilNoteGUI
     }
 
     /**
-	 * Set export mode
-	 */
-	public function setExportMode()
-	{
-		$this->hide_new_form = true;
-		$this->no_actions = true;
-		$this->enable_sorting = false;
+     * Set export mode
+     */
+    public function setExportMode()
+    {
+        $this->hide_new_form = true;
+        $this->no_actions = true;
+        $this->enable_sorting = false;
         $this->user_img_export_html = true;
-	}
+    }
 
-	/**
+    /**
      * Update widget
      *
      * @param

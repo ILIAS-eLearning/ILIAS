@@ -27,14 +27,11 @@ DomEvent
 - Test
 - Calendar
 
+
 Panel
 - Test
-- COPage
-- Notes
-- Tagging
 - TermsOfService
-- Tracking
-- Explorer2
+
 
 Connection
 - Cloud

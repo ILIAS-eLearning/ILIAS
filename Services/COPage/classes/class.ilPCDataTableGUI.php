@@ -97,7 +97,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
-        ilYuiUtil::initPanel(false);
         $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
         //$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
         $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
@@ -168,7 +167,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-
                     $dtpl->setCurrentBlock("cell");
                     
                     if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
@@ -436,7 +434,5 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $ilTabs = $this->tabs;
         
         parent::setTabs("cont_ed_edit_data");
-        
     }
-
 }

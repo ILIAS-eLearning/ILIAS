@@ -108,7 +108,6 @@ class ilYuiUtil
         $tpl->addJavaScript(self::YUI_BASE . "/yahoo-dom-event/yahoo-dom-event.js");
     }
 
-
     /**
      * Init yui panel
      *

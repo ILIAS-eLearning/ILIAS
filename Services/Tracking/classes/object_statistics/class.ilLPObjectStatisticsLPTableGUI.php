@@ -530,7 +530,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $tpl = $DIC['tpl'];
         
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
-        ilYuiUtil::initPanel();
+        ilYuiUtil::initOverlay();
         include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         
