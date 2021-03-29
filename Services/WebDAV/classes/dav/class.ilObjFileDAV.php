@@ -72,7 +72,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function put($data)
     {
         if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
-            if ($this->versioning_enabled === true) {
+            if ($this->versioning_enabled === true ||
+                $this->obj->getVersion() === '1' && $this->getSize() === 0) {
                 // Stolen from ilObjFile->addFileVersion
                 return $this->handleFileUpload($data, 'new_version');
             } else {
