@@ -16,4 +16,14 @@ interface Standard extends Form
      * @return    string
      */
     public function getPostURL();
+
+    /**
+     * Sets the caption of the submit button of the form
+     */
+    public function withSubmitCaption(string $caption) : Standard;
+
+    /**
+     * Gets the submit caption of the form
+     */
+    public function getSubmitCaption() : ?string;
 }
