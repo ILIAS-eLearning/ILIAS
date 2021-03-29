@@ -23,6 +23,11 @@ class ilCmiXapiUser
      * @var int
      */
     protected $usrId;
+
+    /**
+     * @var int
+     */
+    protected $privacyIdent;
     
     /**
      * @var bool
@@ -43,6 +48,7 @@ class ilCmiXapiUser
     {
         $this->objId = $objId;
         $this->usrId = $usrId;
+        $this->privacyIdent = $privacyIdent;
         $this->proxySuccess = false;
         $this->fetchUntil = new ilCmiXapiDateTime(0, IL_CAL_UNIX);
         $this->usrIdent = '';
@@ -223,8 +229,9 @@ class ilCmiXapiUser
     /**
      * @param int $objId
      * @param int $usrId
+     * @param int $privacyIdent
      */
-    public static function saveProxySuccess($objId, $usrId) //TODO
+    public static function saveProxySuccess($objId, $usrId, $privacyIdent) //TODO
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -235,7 +242,8 @@ class ilCmiXapiUser
             ),
             array(
                 'obj_id' => array('integer', (int) $objId),
-                'usr_id' => array('integer', (int) $usrId)
+                'usr_id' => array('integer', (int) $usrId),
+                'privacy_ident' => array('integer', (int) $privacyIdent)
             )
         );
     }
