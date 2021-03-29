@@ -63,7 +63,7 @@ class assClozeTestImport extends assQuestionImport
                         $presentation->material[$entry["index"]]
                     );
                     
-                    if ($questiontext === null) {
+                    if ($questiontext === '&nbsp;') {
                         $questiontext = $materialString;
                     } else {
                         array_push($clozetext, $materialString);
