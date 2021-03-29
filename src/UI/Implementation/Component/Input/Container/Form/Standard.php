@@ -14,6 +14,11 @@ class Standard extends Form implements C\Input\Container\Form\Standard
 {
 
     /**
+     * @var String
+     */
+    protected $submit_caption;
+
+    /**
      * @var string
      */
     protected $post_url;
@@ -33,5 +38,24 @@ class Standard extends Form implements C\Input\Container\Form\Standard
     public function getPostURL()
     {
         return $this->post_url;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withSubmitCaption(string $caption) : Standard
+    {
+        $clone = clone $this;
+        $clone->submit_caption = $caption;
+
+        return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSubmitCaption() : ?string
+    {
+        return $this->submit_caption;
     }
 }

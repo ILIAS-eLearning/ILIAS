@@ -38,7 +38,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $f = $this->getUIFactory();
-        $submit_button = $f->button()->standard($this->txt("save"), "");
+        $submit_button = $f->button()->standard($component->getSubmitCaption() ?? $this->txt("save"), "");
 
         $tpl->setVariable("BUTTONS_TOP", $default_renderer->render($submit_button));
         $tpl->setVariable("BUTTONS_BOTTOM", $default_renderer->render($submit_button));
