@@ -8097,6 +8097,23 @@ ul.dropdown-menu > li > .btn:focus {
   border: 1px solid #a8a8a8;
   border-radius: 0;
 }
+.form-horizontal .help-block {
+  color: #434343;
+  font-size: 85%;
+  margin: 2px 0 4px;
+  padding: 0;
+  clear: both;
+}
+.form-horizontal .help-block:last-child {
+  margin: 2px 0 10px;
+}
+.form-horizontal .help-block.alert-danger {
+  margin: 3px 0 0;
+  padding: 0 3px 0 3px;
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
 .il-input-tag {
   height: auto;
   min-height: 1.42857143;
@@ -12889,9 +12906,6 @@ select.form-control {
   padding-top: 0;
   line-height: normal;
 }
-.form-horizontal .help-block {
-  line-height: normal;
-}
 .form-horizontal div.radio label.radio-inline {
   line-height: 25px;
 }
@@ -12919,16 +12933,6 @@ select.form-control {
 }
 label {
   font-weight: normal;
-}
-.form-horizontal .help-block {
-  color: #434343;
-  margin: 2px 0 4px;
-  padding: 0;
-  font-size: 85%;
-  clear: both;
-}
-.form-horizontal .help-block:last-child {
-  margin: 2px 0 10px;
 }
 td.form-inline > div.form-group {
   display: block;

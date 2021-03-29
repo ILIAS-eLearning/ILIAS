@@ -87,26 +87,17 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $pwd = $f->password($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($pwd));
-        $expected = ""
-            . "<div class=\"form-group row\">"
-                . " <label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-                . " <div class=\"col-sm-9\">"
-                    . " <div class=\"il-input-password\" id=\"id_1\">"
-                        . " <input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
-                    . " </div>"
-                    . " <div class=\"help-block\">$byline</div>"
-                    . " <div class=\"help-block alert alert-danger\" role=\"alert\">"
-                        . " <img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />"
-                        . " $error"
-                    . " </div>"
-                . " </div>"
-            . "</div>";
+        $html = $this->brutallyTrimHTML($r->render($pwd));
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+   <label for="id_1" class="control-label col-sm-3">label</label>
+   <div class="col-sm-9">
+      <div class="help-block alert alert-danger" role="alert">an_error</div>
+      <div class="il-input-password" id="id_1"><input type="password" name="name_0" class="form-control form-control-sm" /></div>
+      <div class="help-block">byline</div>
+   </div>
+</div>');
 
-        $html = preg_replace('!\s+!', ' ', $html);
-        $expected = preg_replace('!\s+!', ' ', $expected);
-        $html = explode(' ', $html); //so you can actually _see_ the difference...
-        $expected = explode(' ', $expected);
         $this->assertEquals($expected, $html);
     }
 

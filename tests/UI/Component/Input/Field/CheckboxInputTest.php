@@ -82,9 +82,9 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         <div class="form-group row">
            <label for="id_1" class="control-label col-sm-3">label</label>
            <div class="col-sm-9">
+              <div class="help-block alert alert-danger" role="alert">an_error</div>
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
               <div class="help-block">byline</div>
-              <div class="help-block alert alert-danger" role="alert"><img border="0" src="./templates/default/images/icon_alert.svg" alt="alert"/>an_error</div>
            </div>
         </div>
         ');
