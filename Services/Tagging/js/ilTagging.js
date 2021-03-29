@@ -41,43 +41,6 @@ ilTagging =
 			}
 		});
 		this.sendAjaxGetRequest({cmd: "getHTML", cadh: this.hash}, {mode: 'list_tags'});
-		return;
-
-
-
-	if (!this.panel)
-		{
-			var n = document.getElementById('ilTagsPanel');
-			if (!n)
-			{
-				var b = $("body");
-				b.append("<div class='yui-skin-sam'><div id='ilTagsPanel' class='ilOverlay' style='overflow:auto;'>" +
-					"&nbsp;</div>");
-				var n = document.getElementById('ilTagsPanel');
-			}
-			
-			il.Overlay.add("ilTagsPanel", {yuicfg: {}});
-			il.Overlay.show(e, "ilTagsPanel");
-			this.panel = true;
-
-		}
-		else
-		{
-			il.Overlay.show(e, "ilTagsPanel");
-		}
-		
-		ilTagging.insertPanelHTML("");
-
-		var obj = document.getElementById('ilTagsPanel');
-		obj.style.position = 'fixed';
-		obj.style.top = '0px';
-		obj.style.bottom = '0px';
-		obj.style.right = '0px';
-		obj.style.left = '';
-		obj.style.width = '500px';
-		obj.style.height = '100%';
-		
-		this.sendAjaxGetRequest({cmd: "getHTML", cadh: this.hash}, {mode: 'list_tags'});
 	},
 
 	cmdAjaxLink: function (e, url)

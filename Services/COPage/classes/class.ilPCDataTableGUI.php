@@ -98,7 +98,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
         $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-        //$this->tpl->addJavascript("./Services/COPage/js/page_editing.js");
         $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
 
         // get all rows
