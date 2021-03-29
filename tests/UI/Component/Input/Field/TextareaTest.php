@@ -247,18 +247,18 @@ class TextareaTest extends ILIAS_UI_TestBase
         $error = "an_error";
         $textarea = $f->textarea($label, $byline)->withNameFrom($this->name_source)->withError($error);
 
-        $expected = "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
-            . "<textarea id=\"id_1\" name=\"$name\" class=\"form-control form-control-sm\"></textarea>"
-            . "<div class=\"help-block\">$byline</div>"
-            . "<div class=\"help-block alert alert-danger\" role=\"alert\">"
-            . "<img border=\"0\" src=\"./templates/default/images/icon_alert.svg\" alt=\"alert\" />"
-            . "$error</div></div></div>";
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+   <label for="id_1" class="control-label col-sm-3">label</label>
+   <div class="col-sm-9">
+      <div class="help-block alert alert-danger" role="alert">an_error</div>
+      <textarea id="id_1" name="name_0" class="form-control form-control-sm"></textarea>
+      <div class="help-block">This is just a byline Min: 5</div>
+   </div>
+</div>
+');
 
-        $html = $this->normalizeHTML($r->render($textarea));
-        $html = trim(preg_replace('/\t+/', '', $html));
-        $expected = trim(preg_replace('/\t+/', '', $expected));
+        $html = $this->brutallyTrimHTML($r->render($textarea));
         $this->assertEquals($expected, $html);
     }
 
