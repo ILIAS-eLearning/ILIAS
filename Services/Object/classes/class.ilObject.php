@@ -1114,35 +1114,37 @@ class ilObject
     }
     
     /**
-    * only called in ilTree::saveSubTree
-    */
-    public static function _setDeletedDate($a_ref_id)
+     * @param $a_ref_id
+     * @param int $a_deleted_by
+     */
+    public static function _setDeletedDate($a_ref_id, $a_deleted_by)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        $query = "UPDATE object_reference SET deleted= " . $ilDB->now() . ' ' .
+        $query = "UPDATE object_reference SET " .
+            'deleted = ' . $ilDB->now() . ', '.
+            'deleted_by = ' . $ilDB->quote($a_deleted_by, \ilDBConstants::T_INTEGER) . ' ' .
             "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $res = $ilDB->manipulate($query);
     }
     
     /**
      * Set deleted date
-     * @param type $a_ref_ids
-     * @return type
+     * @param int[] $a_ref_ids
+     * @param int $a_user_id
+     * @return void
      */
-    public static function setDeletedDates($a_ref_ids)
+    public static function setDeletedDates($a_ref_ids, $a_user_id)
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        $log = $DIC->logger()->root();
-        
-        $query = 'UPDATE object_reference SET deleted = ' . $ilDB->now() . ' ' .
-                'WHERE ' . $ilDB->in('ref_id', (array) $a_ref_ids, false, 'integer');
 
-        $log->debug(__METHOD__ . ': Query is ' . $query);
+        $query = 'UPDATE object_reference SET ' .
+            'deleted = ' . $ilDB->now() . ', ' .
+            'deleted_by = ' . $ilDB->quote($a_user_id, ilDBConstants::T_INTEGER) . ' ' .
+            'WHERE ' . $ilDB->in('ref_id', (array) $a_ref_ids, false, ilDBConstants::T_INTEGER);
         $ilDB->manipulate($query);
         return;
     }
@@ -1155,8 +1157,9 @@ class ilObject
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        $query = "UPDATE object_reference SET deleted = " . $ilDB->quote(null, 'timestamp') .
+
+        $query = "UPDATE object_reference SET deleted = " . $ilDB->quote(null, 'timestamp'). ', ' .
+            'deleted_by = ' . $ilDB->quote(0, \ilDBConstants::T_INTEGER). ' '.
             " WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $ilDB->manipulate($query);
     }
