@@ -307,7 +307,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                     $objLastPost->getUserAlias(),
                     $objLastPost->getImportName(),
                     array(
-                         'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'viewThread') . '#' . $objLastPost->getId()
+                         'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
                     )
                 );
 
