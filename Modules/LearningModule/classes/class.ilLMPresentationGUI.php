@@ -4,6 +4,8 @@
 require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
 require_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
 require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+require_once 'Modules/LearningModule/classes/class.ilLMPageObject.php';
+
 
 /**
 * Class ilLMPresentationGUI
