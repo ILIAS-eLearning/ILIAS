@@ -13544,12 +13544,12 @@ button.copg-add.dropdown-toggle.btn:focus .glyphicon-plus,
 button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus,
 #copg-editor-help .glyphicon-plus {
   border-radius: 50%;
-  background-color: #f3f3f3;
-  padding: 4px;
-  color: #b6b6b6;
+  background-color: #4c6586;
+  padding: 2.8px 2.9px 3.5px 4px;
+  color: white;
 }
 button.copg-add.dropdown-toggle.btn:hover {
-  background-color: #f3f3f3;
+  background-color: #e2e8ef;
   color: #757575;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
