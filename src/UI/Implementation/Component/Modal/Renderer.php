@@ -117,8 +117,7 @@ class Renderer extends AbstractComponentRenderer
         $modal = $this->registerSignals($modal);
         $id = $this->bindJavaScript($modal);
         $tpl->setVariable('ID', $id);
-        $value = $modal->getFormAction();
-        $tpl->setVariable('FORM_ACTION', $value);
+        $tpl->setVariable('FORM_ACTION', $modal->getFormAction());
         $tpl->setVariable('TITLE', $modal->getTitle());
         $tpl->setVariable('MESSAGE', $modal->getMessage());
         if (count($modal->getAffectedItems())) {
@@ -135,7 +134,6 @@ class Renderer extends AbstractComponentRenderer
             }
         }
         $tpl->setVariable('ACTION_BUTTON_LABEL', $this->txt($modal->getActionButtonLabel()));
-        $tpl->setVariable('ACTION_BUTTON', $modal->getActionButtonLabel());
         $tpl->setVariable('CANCEL_BUTTON_LABEL', $this->txt($modal->getCancelButtonLabel()));
         return $tpl->get();
     }

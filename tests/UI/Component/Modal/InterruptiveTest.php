@@ -82,7 +82,7 @@ class InterruptiveTest extends ModalBase
 					<div class="alert alert-warning il-modal-interruptive-message" role="alert">Message</div>
 				</div>
 				<div class="modal-footer">
-					<input type="submit" class="btn btn-primary" value="delete" name="cmd[delete]">
+					<input type="submit" class="btn btn-primary" value="delete">
 					<a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a>
 				</div>
 			</div>
