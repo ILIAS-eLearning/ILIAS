@@ -416,7 +416,7 @@ class ilFileXMLParser extends ilSaxParser
             $import_file_version_path = $version["tmpFilename"];
 
             $stream = Streams::ofResource(fopen($import_file_version_path, 'rb'));
-            $this->file->appendStream($stream, $this->file->getFileName());
+            $this->file->appendStream($stream, $this->file->getTitle());
         }
     }
 
