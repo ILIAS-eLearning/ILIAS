@@ -734,13 +734,14 @@ class ilSurveyEvaluationGUI
     
     public function evaluation($details = 0, $pdf = false, $return_pdf = false)
     {
-        $rbacsystem = $this->rbacsystem;
         $ilToolbar = $this->toolbar;
         $tree = $this->tree;
         $ui = $this->ui;
 
         $ui_factory = $ui->factory();
         $ui_renderer = $ui->renderer();
+
+        $this->lng->loadLanguageModule("survey");
 
         $this->log->debug("check access");
 
@@ -768,18 +769,19 @@ class ilSurveyEvaluationGUI
 
         $this->log->debug("check access ok");
 
+        // setup toolbar
+
         if (!$pdf) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
+            if ($this->object->get360Mode()) {
+                $appr_id = $this->getAppraiseeId();
+                $this->addApprSelectionToToolbar();
+            }
         }
-
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
-                
-        if ($this->object->get360Mode()) {
-            $appr_id = $this->getAppraiseeId();
-            $this->addApprSelectionToToolbar();
-        }
-
         $results = array();
+
+        $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "Modules/Survey");
+
         if (!$this->object->get360Mode() || $appr_id) {
             if ($details) {
                 $captions = new ilSelectInputGUI($this->lng->txt("svy_eval_captions"), "cp");
@@ -882,7 +884,6 @@ class ilSurveyEvaluationGUI
                 $results[] = $q_res;
                         
                 if ($details) {
-                    //$this->renderDetails($details_view, $details_figure, $dtmpl, $qdata, $q_eval, $q_res);
                     $this->renderDetails($details_view, $details_figure, $qdata, $q_eval, $q_res, $pdf);
 
                     // TABLE OF CONTENTS
@@ -916,21 +917,23 @@ class ilSurveyEvaluationGUI
                 $dtmpl->setVariable("PANEL_REPORT", $render_report);
 
                 //print the main template
-                $this->tpl->setVariable('DETAIL', $dtmpl->get());
+                $eval_tpl->setVariable('DETAIL', $dtmpl->get());
             }
         }
-        
-        $this->tpl->setVariable('MODAL', $modal);
+
+        $eval_tpl->setVariable('MODAL', $modal);
         if (!$details) {
             $table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);
-            $this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
+            $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
         }
         unset($dtmpl);
         unset($table_gui);
         unset($modal);
         
-        
+
+        //
         // print header
+        //
         
         $path = "";
         $path_full = $tree->getPathFull($this->object->getRefId());
@@ -938,9 +941,8 @@ class ilSurveyEvaluationGUI
             $path .= " &raquo; ";
             $path .= $data['title'];
         }
-        
-        ilDatePresentation::setUseRelativeDates(false);
 
+        ilDatePresentation::setUseRelativeDates(false);
         $props = array(
             $this->lng->txt("link") => ilLink::_getStaticLink($this->object->getRefId()),
             $this->lng->txt("path") => $path,
@@ -949,17 +951,29 @@ class ilSurveyEvaluationGUI
                 : $this->lng->txt("svy_eval_detail"),
             $this->lng->txt("date") => ilDatePresentation::formatDate(new ilDateTime(time(), IL_CAL_UNIX)),
         );
-        
-        $this->tpl->setCurrentBlock("print_header_bl");
+        $eval_tpl->setCurrentBlock("print_header_bl");
         foreach ($props as $key => $value) {
-            $this->tpl->setVariable("HEADER_PROP_KEY", $key);
-            $this->tpl->setVariable("HEADER_PROP_VALUE", $value);
-            $this->tpl->parseCurrentBlock();
+            $eval_tpl->setVariable("HEADER_PROP_KEY", $key);
+            $eval_tpl->setVariable("HEADER_PROP_VALUE", $value);
+            $eval_tpl->parseCurrentBlock();
         }
 
         $this->log->debug("end");
+
+        $this->tpl->setContent($eval_tpl->get());
+
         if ($pdf) {
+
+            $this->tpl->setTitle($this->object->getTitle());
+            $this->tpl->setTitleIcon(
+                ilObject::_getIcon("", "big", $this->object->getType()),
+                $this->lng->txt("obj_" . $this->object->getType())
+            );
+            $this->tpl->setDescription($this->object->getDescription());
+
+
             $html = $this->tpl->printToString();
+
             if ($return_pdf) {
                 return $html;
             } else {
