@@ -361,7 +361,9 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $obj_service = $this->getObjectService();
-        
+		
+		$this->object->checkMasteryScoreValues();
+
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
@@ -654,9 +656,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
      */
     public function getPropertiesFormValues()
     {
-        //check/select only once
-        $this->object->checkMasteryScoreValues();
-
         $values = array();
         $values["Fobject_title"] = $this->object->getTitle();
         $values["Fobject_description"] = $this->object->getDescription();
