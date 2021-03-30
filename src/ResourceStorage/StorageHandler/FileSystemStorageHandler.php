@@ -96,7 +96,8 @@ class FileSystemStorageHandler implements StorageHandler
     {
         try {
             if ($revision->keepOriginal()) {
-                $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $revision->getStream());
+                $stream = $revision->getStream();
+                $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
 
             } else {
                 $this->fs->rename(LegacyPathHelper::createRelativePath($revision->getStream()->getMetadata('uri')),
