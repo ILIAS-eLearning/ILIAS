@@ -54,18 +54,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $check->setCaption("check_languages");
             $this->toolbar->addButtonInstance($check);
 
-
-            if (!$this->settings->get('lang_detection')) {
-                $detect = ilLinkButton::getInstance();
-                $detect->setUrl($this->ctrl->getLinkTarget($this, "enableLanguageDetection"));
-                $detect->setCaption("lng_enable_language_detection");
-                $this->toolbar->addButtonInstance($detect);
-            } else {
-                $detect = ilLinkButton::getInstance();
-                $detect->setUrl($this->ctrl->getLinkTarget($this, "disableLanguageDetection"));
-                $detect->setCaption("lng_disable_language_detection");
-                $this->toolbar->addButtonInstance($detect);
-            }
         }
 
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -74,6 +62,22 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $download->setUrl($this->ctrl->getLinkTarget($this, "listDeprecated"));
             $download->setCaption("lng_download_deprecated");
             $this->toolbar->addButtonInstance($download);
+        }
+
+        if ($this->checkPermissionBool('write')) {
+            if (!$this->settings->get('lang_detection')) {
+
+                // Toggle Button for auto language detection (toggle off)
+                $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), false)
+                    ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_enable_language_detection"));
+                $this->toolbar->addComponent($toggleButton);
+            } else {
+
+                // Toggle Button for auto language detection (toggle on)
+                $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), true)
+                    ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_disable_language_detection"));
+                $this->toolbar->addComponent($toggleButton);
+            }
         }
 
         $ltab = new ilLanguageTableGUI($this, "view", $this->object);

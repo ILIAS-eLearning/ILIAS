@@ -13224,6 +13224,7 @@ note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
 note#:#note_comment_notification_link#:#Link
+lng#:#language_detection#:#Automatische Spracherkennung
 lng#:#lng_enable_language_detection#:#Automatische Spracherkennung aktivieren
 lng#:#lng_disable_language_detection#:#Automatische Spracherkennung deaktivieren
 trac#:#trac_mode_content_visited#:#Besuch
