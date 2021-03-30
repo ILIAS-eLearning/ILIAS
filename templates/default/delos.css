@@ -16926,6 +16926,9 @@ div#il_startup_logo img {
 .ilToolbar li.ilToolbarGroup .navbar-text {
   margin-right: 0;
 }
+.ilToolbar .btn[disabled] {
+  padding: 3px 6px;
+}
 .ilToolbar .ilToolbarStickyItems {
   float: left;
   margin-left: 15px;
