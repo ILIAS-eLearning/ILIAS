@@ -1370,6 +1370,11 @@ function sendJSONRequest (url, data, callback, user, password, headers)
                 || ( //LM in frame
                     typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
                     && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
+                    && typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event) != "undefined" 
+                    && (
+                        document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="unload" 
+                        || document.getElementById("res").contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="beforeunload"
+                       )
                    )
                 || ( //Articulate Rise
                     typeof(document.getElementById("res").contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
@@ -1395,7 +1400,7 @@ function sendJSONRequest (url, data, callback, user, password, headers)
 		console.log("async request for chrome");
 		// navigator.sendBeacon(url, toJSONString(data));
 		// console.log('use sendBeacon');
-        windowOpenerLoc.reload();
+        try{windowOpenerLoc.reload();} catch(e){}
 		return "1";
 	}
 	if (url == this.config.scorm_player_unload_url && navigator.userAgent.indexOf("Chrom") > -1) {

@@ -88,10 +88,6 @@ function sendRequest (url, data, callback, user, password, headers) {
                     typeof(window.event) != "undefined" 
                     && (window.event.type=="unload" || window.event.type=="beforeunload" || window.event.type=="click")
                 )
-                || (//LM in frame
-                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
-                )
                 || ( //Articulate Rise
                     typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
                     && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
