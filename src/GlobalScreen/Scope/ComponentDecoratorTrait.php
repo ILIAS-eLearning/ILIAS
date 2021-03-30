@@ -37,7 +37,7 @@ trait ComponentDecoratorTrait
         if ($this->component_decorator instanceof Closure) {
             $existing = $this->component_decorator;
             $this->component_decorator = static function (Component $c) use ($component_decorator, $existing) : Component {
-                $component = $existing();
+                $component = $existing($c);
 
                 return $component_decorator($component);
             };
