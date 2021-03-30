@@ -223,7 +223,7 @@ div.ilc_iim_ContentPopup {
   border-style: solid;
   border-width: 2px;
   background-color: #FFFFFF;
-  border-color: #A0A0A0;
+  border-color: #A8A8A8;
 }
 div.ilc_qover_Correct {
   background-repeat: no-repeat;
@@ -361,9 +361,9 @@ div.ilc_ha_ihead_HAccordIHead {
   height: auto !important;
   height: 300px;
   background-position: center 10px;
-  color: #909090;
+  color: #434343;
   cursor: pointer;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   padding-top: 13px;
   padding-right: 15px;
   padding-left: 23px;
@@ -371,7 +371,7 @@ div.ilc_ha_ihead_HAccordIHead {
   background-repeat: no-repeat;
 }
 div.ilc_ha_ihead_HAccordIHead:hover {
-  color: #909090;
+  color: #2a2a2a;
   background-color: #FFFFD0;
 }
 div.ilc_ha_ihcap_HAccordIHeadCap {
@@ -508,7 +508,7 @@ div.ilc_page_Page {
 div.ilc_page_cont_PageContainer {
   background-color: #FFFFFF;
   border-width: 1px;
-  border-color: #D6D6D6;
+  border-color: #dddddd;
   padding: 20px;
   margin: 0px;
   border-style: solid;
@@ -663,7 +663,7 @@ div.ilc_va_ihead_VAccordIHead {
   text-transform: uppercase;
   font-size: 20px;
   padding-right: 3px;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   background-position: 20px center;
   border-style: none;
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_col.svg");
@@ -673,7 +673,7 @@ div.ilc_va_ihead_VAccordIHead {
   padding-bottom: 3px;
   padding-top: 3px;
   padding-left: 54px;
-  color: #909090;
+  color: #434343;
 }
 div.ilc_va_ihead_VAccordIHead:hover {
   background-color: #FFFFD0;
@@ -786,19 +786,22 @@ li.ilc_qordli_OrderListItem {
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 0px;
-  background-color: #f5f7fa;
+  background-color: #e2e8ef;
   margin-right: 0px;
   cursor: move;
   padding: 10px;
 }
 li.ilc_qordli_OrderListItemHorizontal {
   cursor: move;
-  background-color: #f5f7fa;
+  background-color: #e2e8ef;
   padding: 10px;
   margin-right: 10px;
   margin-bottom: 5px;
   margin-top: 5px;
   float: left;
+}
+li.ilc_qordli_OrderListItemHorizontal div.ilc_qanswer_Answer {
+  padding: 0;
 }
 span.ilc_text_inline_Accent {
   color: #6EA03C;
@@ -814,7 +817,7 @@ span.ilc_text_inline_Emph {
 }
 span.ilc_qetcorr_ErrorTextCorrected {
   text-decoration: line-through;
-  color: #808080;
+  color: #757575;
 }
 span.ilc_text_inline_Important {
   text-decoration: underline;
@@ -1055,16 +1058,16 @@ ul.ilc_qordul_OrderListHorizontal {
   list-style: none;
 }
 div.ilc_ha_iheada_HAccordIHeadActive {
-  color: #909090;
+  color: #434343;
   padding-right: 15px;
   padding-top: 13px;
-  background-color: #F9F9F9;
+  background-color: #f9f9f9;
   padding-bottom: 3px;
   padding-left: 25px;
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_col.svg");
 }
 div.ilc_ha_iheada_HAccordIHeadActive:hover {
-  color: #909090;
+  color: #2a2a2a;
 }
 div.ilc_va_iheada_VAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_exp.svg");
@@ -1072,11 +1075,11 @@ div.ilc_va_iheada_VAccordIHeadActive {
   padding-top: 3px;
   font-size: 20px;
   padding-bottom: 3px;
-  color: #909090;
-  background-color: #F9F9F9;
+  color: #434343;
+  background-color: #f9f9f9;
   text-transform: uppercase;
   padding-right: 3px;
 }
 div.ilc_va_iheada_VAccordIHeadActive:hover {
-  color: #909090;
+  color: #2a2a2a;
 }

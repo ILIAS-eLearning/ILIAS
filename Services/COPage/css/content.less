@@ -1,3 +1,7 @@
+@import "../../../node_modules/bootstrap/less/variables.less";    // original
+@import "../../../templates/default/less/variables.less"; //ILIAS Less variables
+@import "../../../templates/default/less/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+
 @image_path: '../../../libs/ilias/Style/basic_style/images/';
 
 a.ilc_qetitem_ErrorTextItem
@@ -1003,7 +1007,7 @@ li.ilc_qordli_OrderListItem
 	margin-top: 5px;
 	margin-bottom: 5px;
 	margin-left: 0px;
-	background-color: #f5f7fa;
+	background-color: @il-highlight-bg;
 	margin-right: 0px;
 	cursor: move;
 	padding: 10px;
@@ -1012,12 +1016,16 @@ li.ilc_qordli_OrderListItem
 li.ilc_qordli_OrderListItemHorizontal
 {
 	cursor: move;
-	background-color: #f5f7fa;
+	background-color: @il-highlight-bg;
 	padding: 10px;
 	margin-right: 10px;
 	margin-bottom: 5px;
 	margin-top: 5px;
 	float: left;
+	div.ilc_qanswer_Answer{
+		padding: 0;
+	}
+
 }
 
 span.ilc_text_inline_Accent
