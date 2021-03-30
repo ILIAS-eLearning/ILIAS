@@ -31,7 +31,7 @@ class TopParentItemRenderer extends BaseTypeRenderer
         foreach ($item->getChildren() as $child) {
             $component = $child->getTypeInformation()->getRenderer()->getComponentForItem($child, false);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
-                $slate = $slate->withAdditionalEntry($component);
+                $slate = $slate->withAdditionalEntry($component, $this->hash($child->getProviderIdentification()->serialize()));
             }
         }
 

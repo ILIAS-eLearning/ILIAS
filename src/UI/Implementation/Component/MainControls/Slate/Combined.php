@@ -20,14 +20,14 @@ class Combined extends Slate implements ISlate\Combined
     const ENTRY_ACTION_TRIGGER = 'trigger';
 
     /**
-     * @var array<Slate|BulkyButton|BulkyLink>
+     * @var array<Slate|IBulkyButton|IBulkyLink>
      */
     protected $contents = [];
 
     /**
      * @inheritdoc
      */
-    public function withAdditionalEntry($entry) : ISlate\Combined
+    public function withAdditionalEntry($entry, ?string $id = null) : ISlate\Combined
     {
         $classes = [
             IBulkyButton::class,
@@ -39,7 +39,11 @@ class Combined extends Slate implements ISlate\Combined
         $this->checkArgListElements("Slate, Bulky -Button or -Link", $check, $classes);
 
         $clone = clone $this;
-        $clone->contents[] = $entry;
+        if ($id) {
+            $clone->contents[$id] = $entry;
+        } else {
+            $clone->contents[] = $entry;
+        }
         return $clone;
     }
 
