@@ -72,7 +72,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     {
         $this->redirectIfNoPermission('read');
 
-        $user_id = $chat_user->getUserId($this->ilUser);
+        $user_id = $chat_user->getUserId();
 
         $this->navigationHistory->addItem($_GET['ref_id'], $this->ilCtrl->getLinkTargetByClass('ilrepositorygui', 'view'), 'chtr');
 
@@ -363,9 +363,9 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      * Chatroom and Chatuser get prepared before $this->showRoom method
      * is called. If custom usernames are allowed, $this->showNameSelection
      * method is called if user isn't already registered in the Chatroom.
-     * @param string $method
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         include_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 

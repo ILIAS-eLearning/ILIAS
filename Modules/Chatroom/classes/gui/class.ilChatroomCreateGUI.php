@@ -34,9 +34,9 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->gui->switchToVisibleMode();
         $this->gui->createObject();

@@ -33,9 +33,9 @@ class ilChatroomKickGUI extends ilChatroomGUIHandler
 
     /**
      * Displays window box to kick a user fetched from $_REQUEST['user'].
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->redirectIfNoPermission(array('read', 'moderate'));
 
