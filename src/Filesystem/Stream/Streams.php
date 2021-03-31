@@ -71,4 +71,10 @@ final class Streams
         $resource = $stream->detach();
         return self::ofResource($resource);
     }
+
+    public function ofZipResource(\ZipArchive $zip, int $index) : FileStream
+    {
+
+    }
+
 }

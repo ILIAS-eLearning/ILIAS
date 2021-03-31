@@ -16,6 +16,10 @@ class Standard extends Item implements C\Item\Standard
      * @var null|string|\ILIAS\UI\Component\Image\Image
      */
     protected $lead = null;
+    /**
+     * @var null|C\Chart\ProgressMeter\ProgressMeter
+     */
+    protected $chart = null;
 
     /**
      * @inheritdoc
@@ -82,5 +86,23 @@ class Standard extends Item implements C\Item\Standard
     public function getLead()
     {
         return $this->lead;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withProgress(C\Chart\ProgressMeter\ProgressMeter $chart) : C\Item\Item
+    {
+        $clone = clone $this;
+        $clone->chart = $chart;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProgress() : ?C\Chart\ProgressMeter\ProgressMeter
+    {
+        return $this->chart;
     }
 }

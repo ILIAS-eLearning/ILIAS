@@ -90,21 +90,21 @@ class ExpandableTreeTest extends ILIAS_UI_TestBase
 				<span class="node-line"><span class="node-label">1</span></span>
 
 				<ul role="group">
-					<li id="" class="il-tree-node node-simple" role="none">
+					<li id="" class="il-tree-node node-simple" role="treeitem">
 						<span class="node-line"><span class="node-label">1.1</span></span>
 					</li>
 					<li id="" class="il-tree-node node-simple expandable" role="treeitem" aria-expanded="false">
 						<span class="node-line"><span class="node-label">1.2</span></span>
 
 						<ul role="group">
-							<li id="" class="il-tree-node node-simple" role="none">
+							<li id="" class="il-tree-node node-simple" role="treeitem">
 								<span class="node-line"><span class="node-label">1.2.1</span></span>
 							</li>
 						</ul>
 					</li>
 				</ul>
 			</li>
-			<li id="" class="il-tree-node node-simple" role="none">
+			<li id="" class="il-tree-node node-simple" role="treeitem">
 				<span class="node-line"><span class="node-label">2</span></span>
 			</li>
 		</ul>

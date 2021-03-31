@@ -77,16 +77,29 @@ class Renderer extends AbstractComponentRenderer
 
         // lead
         $lead = $component->getLead();
+        $progress = $component->getProgress();
         if ($lead != null) {
             if (is_string($lead)) {
                 $tpl->setCurrentBlock("lead_text");
                 $tpl->setVariable("LEAD_TEXT", $lead);
                 $tpl->parseCurrentBlock();
+                if ($progress != null) {
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                }
+                else {
+                    $tpl->touchBlock("item_with_lead");
+                }
             }
             if ($lead instanceof Component\Image\Image) {
                 $tpl->setCurrentBlock("lead_image");
                 $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
+                if ($progress != null) {
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                }
+                else {
+                    $tpl->touchBlock("item_with_lead");
+                }
             }
             if ($lead instanceof Component\Symbol\Icon\Icon) {
                 $tpl->setCurrentBlock("lead_icon");
@@ -98,7 +111,22 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setCurrentBlock("lead_start");
                 $tpl->parseCurrentBlock();
             }
-            $tpl->touchBlock("lead_end");
+            if ($progress != null && $lead instanceof Component\Symbol\Icon\Icon) {
+                $tpl->setCurrentBlock("progress_end_with_lead_icon");
+                $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+                $tpl->parseCurrentBlock();
+            } elseif ($progress != null) {
+                $tpl->setCurrentBlock("progress_end");
+                $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+                $tpl->parseCurrentBlock();
+            } else {
+                $tpl->touchBlock("lead_end");
+            }
+        } elseif ($progress != null) {
+            $tpl->touchBlock("item_with_progress");
+            $tpl->setCurrentBlock("progress_end");
+            $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
+            $tpl->parseCurrentBlock();
         }
         // actions
         $actions = $component->getActions();
