@@ -8,6 +8,7 @@ require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use \ILIAS\Data;
+use function PHPUnit\Framework\assertNull;
 
 class WithButtonNoUIFactory extends NoUIFactory
 {
@@ -104,7 +105,24 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_submit_caption()
+    public function test_submit_caption() {
+        $f = $this->buildFactory();
+        $if = $this->buildInputFactory();
+
+        $url = "MY_URL";
+        $form = $f->standard($url, [
+            $if->text("label", "byline"),
+        ]);
+
+        $this->assertNull($form->getSubmitCaption());
+
+        $caption = 'Caption';
+        $form = $form->withSubmitCaption($caption);
+
+        $this->assertEquals($caption, $form->getSubmitCaption());
+    }
+
+    public function test_submit_caption_render()
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
