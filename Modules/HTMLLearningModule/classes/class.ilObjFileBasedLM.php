@@ -206,6 +206,8 @@ class ilObjFileBasedLM extends ilObject
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
         }
 
         // copy content

@@ -1802,7 +1802,7 @@ class ilObjStyleSheet extends ilObject
     *
     * static (to avoid full reading)
     */
-    public static function getContentStylePath($a_style_id, $add_random = true)
+    public static function getContentStylePath($a_style_id, $add_random = true, $add_token = true)
     {
         global $DIC;
 
@@ -1834,8 +1834,10 @@ class ilObjStyleSheet extends ilObject
             if ($add_random) {
                 $path .= "?dummy=$rand";
             }
-            require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
-            $path = ilWACSignedPath::signFile($path);
+            if ($add_token) {
+                require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
+                $path = ilWACSignedPath::signFile($path);
+            }
 
             return $path;
         } else {		// todo: work this out
