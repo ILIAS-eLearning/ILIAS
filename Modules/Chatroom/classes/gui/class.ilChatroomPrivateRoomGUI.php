@@ -12,7 +12,10 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
  */
 class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault($method)
+    /**
+     * @inheritDoc
+     */
+    public function executeDefault($requestedMethod)
     {
     }
 

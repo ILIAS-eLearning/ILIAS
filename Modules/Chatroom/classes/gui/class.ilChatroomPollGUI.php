@@ -10,7 +10,10 @@
  */
 class ilChatroomPollGUI extends ilChatroomGUIHandler
 {
-    public function executeDefault($method)
+    /**
+     * @inheritDoc
+     */
+    public function executeDefault($requestedMethod)
     {
         echo "{success: true}";
         exit;

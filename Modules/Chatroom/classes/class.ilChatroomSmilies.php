@@ -356,32 +356,6 @@ class ilChatroomSmilies
      */
     public static function _prepareKeywords($words)
     {
-        $keywordscheck = true;
-
-        // check keywords
-        $keywords_unchecked = explode("\n", $words);
-        if (count($keywords_unchecked) <= 0) {
-            $keywordscheck = false;
-        }
-
-        if ($keywordscheck) {
-            $keywords = array();
-
-            foreach ($keywords_unchecked as $word) {
-                if (trim($word)) {
-                    $keywords[] = trim($word);
-                }
-            }
-        }
-
-        if ($keywordscheck && count($keywords) <= 0) {
-            $keywordscheck = false;
-        }
-
-        if ($keywordscheck) {
-            return $keywords;
-        } else {
-            return array();
-        }
+        return array_filter(array_map('trim', explode("\n", $words)));
     }
 }

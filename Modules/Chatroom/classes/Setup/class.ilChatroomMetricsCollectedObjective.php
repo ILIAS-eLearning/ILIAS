@@ -7,7 +7,7 @@ use ILIAS\DI;
 
 class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    public function getTentativePreconditions(Setup\Environment $environment) : array
+    protected function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
             new \ilIniFilesLoadedObjective(),
@@ -16,7 +16,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
-    public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
+    protected function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
@@ -158,7 +158,7 @@ class ilChatroomMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
                 $deletion_value = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,
                     Setup\Metrics\Metric::TYPE_TEXT,
-                    (string)$settings['deletion_value'] ?? ""
+                    (string) $settings['deletion_value'] ?? ""
                 );
                 $deletion_time = new Setup\Metrics\Metric(
                     Setup\Metrics\Metric::STABILITY_CONFIG,

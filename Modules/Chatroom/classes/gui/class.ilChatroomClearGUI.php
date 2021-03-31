@@ -14,9 +14,9 @@ require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
 class ilChatroomClearGUI extends ilChatroomGUIHandler
 {
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->redirectIfNoPermission('moderate');
 

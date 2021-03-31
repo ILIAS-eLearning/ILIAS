@@ -11,11 +11,9 @@
 class ilChatroomInfoGUI extends ilChatroomGUIHandler
 {
     /**
-     * Prepares and displays the info screen.
-     * @param string $method
-     * @throws ilCtrlException
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->redirectIfNoPermission('visible');
 
