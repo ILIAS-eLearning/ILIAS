@@ -14,7 +14,7 @@ class Standard extends Form implements C\Input\Container\Form\Standard
 {
 
     /**
-     * @var String
+     * @var ?string
      */
     protected $submit_caption;
 
