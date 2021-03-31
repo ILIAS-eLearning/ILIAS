@@ -739,16 +739,13 @@ class ilObjSCORMTracking
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-
-        //$user_id = $ilUser->getID();
         $user_id = (int) $_GET["p"];
         $ref_id = (int) $_GET["ref_id"];
-        // $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_id = (int) $_GET["package_id"];
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited = $_POST['last_visited'];
+            $last_visited = (string) $_GET['last_visited'];
             $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
             $ilDB->manipulateF(
                 'UPDATE sahs_user 
