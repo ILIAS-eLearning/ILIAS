@@ -167,6 +167,10 @@ class WikiHtmlExport
         $this->export_util->exportCOPageFiles($this->wiki->getStyleSheetId(), "wiki");
 
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->export_dir);
+        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
+            $this->wiki->getStyleSheetId(),
+            "wiki"
+        ));
 
         // export pages
         $this->log->debug("export pages");
