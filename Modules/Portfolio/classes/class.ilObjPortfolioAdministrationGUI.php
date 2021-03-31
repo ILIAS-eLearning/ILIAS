@@ -36,6 +36,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
     {
         global $DIC;
 
+        $this->rbacsystem = $DIC->rbac()->system();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $this->ctrl = $DIC->ctrl();
@@ -93,7 +94,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $tabs = $this->tabs_gui;
 
 
-        if ($this->checkPermissionBool("visible,read")) {
+        if ($this->hasReadPermission()) {
             $tabs->addTab(
                 "settings",
                 $lng->txt("settings"),
@@ -152,23 +153,24 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
         
-        $this->checkPermission("write");
-        
-        $form = $this->initFormSettings();
-        if ($form->checkInput()) {
-            $ilSetting->set('user_portfolios', (int) $form->getInput("prtf"));
-            
-            $banner = (bool) $form->getInput("banner");
-            
-            $prfa_set = new ilSetting("prfa");
-            $prfa_set->set("banner", $banner);
-            $prfa_set->set("banner_width", (int) $form->getInput("width"));
-            $prfa_set->set("banner_height", (int) $form->getInput("height"));
-            $prfa_set->set("mask", (bool) $form->getInput("mask"));
-            $prfa_set->set("mycrs", (bool) $form->getInput("mycrs"));
-            
-            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-            $ilCtrl->redirect($this, "editSettings");
+        if ($this->hasWritePermission()) {
+
+            $form = $this->initFormSettings();
+            if ($form->checkInput()) {
+                $ilSetting->set('user_portfolios', (int) $form->getInput("prtf"));
+
+                $banner = (bool) $form->getInput("banner");
+
+                $prfa_set = new ilSetting("prfa");
+                $prfa_set->set("banner", $banner);
+                $prfa_set->set("banner_width", (int) $form->getInput("width"));
+                $prfa_set->set("banner_height", (int) $form->getInput("height"));
+                $prfa_set->set("mask", (bool) $form->getInput("mask"));
+                $prfa_set->set("mycrs", (bool) $form->getInput("mycrs"));
+
+                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+                $ilCtrl->redirect($this, "editSettings");
+            }
         }
         
         $form->setValuesByPost();
@@ -184,7 +186,25 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         
         $ilCtrl->redirect($this, "view");
     }
-        
+
+    /**
+     * Has write permission
+     * @return bool
+     */
+    protected function hasWritePermission()
+    {
+        return $this->rbacsystem->checkAccess("write", $this->object->getRefId());
+    }
+
+    /**
+     * Has read permission
+     * @return bool
+     */
+    protected function hasReadPermission()
+    {
+        return $this->rbacsystem->checkAccess("read", $this->object->getRefId());
+    }
+
     /**
      * Init settings property form
      *
@@ -194,13 +214,12 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilSetting = $this->settings;
-        $ilAccess = $this->access;
-        
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('prtf_settings'));
         
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+        if ($this->hasWritePermission()) {
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
@@ -244,7 +263,6 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $mask->setInfo($lng->txt("prtf_allow_html_info"));
         $mask->setChecked($prfa_set->get("mask", false));
         $form->addItem($mask);*/
-
         $gui = ilAdministrationSettingsFormHandler::getSettingsGUIInstance("adve");
         $ne = new ilNonEditableValueGUI($lng->txt("prtf_allow_html"), "", true);
         $this->ctrl->setParameter($gui, "ref_id", $gui->object->getRefId());
@@ -331,7 +349,7 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        if ($this->checkPermissionBool("write")) {
+        if ($this->hasWritePermission()) {
             if ($request->getMethod() == "POST") {
                 $form = $form->withRequest($request);
                 $data = $form->getData();

@@ -65,13 +65,15 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('adve');
         $this->lng->loadLanguageModule('meta');
 
-        if (!$rbacsystem->checkAccess('read', $this->object->getRefId())) {
-            $this->ilias->raiseError($this->lng->txt("msg_no_perm_read_adve"), $this->ilias->error_obj->WARNING);
-        }
     }
     
     public function executeCommand()
     {
+        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+            $mess = str_replace("%s", $this->object->getTitle(), $this->lng->txt("msg_no_perm_read_item"));
+            $this->ilias->raiseError($mess, $this->ilias->error_obj->WARNING);
+        }
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
