@@ -115,7 +115,7 @@ class ilUnitConfigurationRepository
                 'question_fi' => array('integer', (int) $a_question_fi)
             )
         );
-
+        self::$result_buffer = null;
         return $next_id;
     }
 
@@ -201,6 +201,7 @@ class ilUnitConfigurationRepository
                 )
             );
         }
+        self::$result_buffer = null;
     }
 
     public function getCategoryUnitCount($id)
@@ -294,30 +295,38 @@ class ilUnitConfigurationRepository
         if ($affectedRows > 0) {
             $this->clearUnits();
         }
+        self::$result_buffer = null;
         return null;
     }
+
+    public static $result_buffer;
 
     protected function loadUnits()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $result = $ilDB->query(
-            "
+        if (self::$result_buffer == null) {
+            $result = $ilDB->query(
+                "
 			SELECT units.*, il_qpl_qst_fq_ucat.category, baseunits.unit baseunit_title
 			FROM il_qpl_qst_fq_unit units
 			INNER JOIN il_qpl_qst_fq_ucat ON il_qpl_qst_fq_ucat.category_id = units.category_fi
 			LEFT JOIN il_qpl_qst_fq_unit baseunits ON baseunits.unit_id = units.baseunit_fi
 			ORDER BY il_qpl_qst_fq_ucat.category, units.sequence"
-        );
+            );
 
-        if ($result->numRows()) {
-            while ($row = $ilDB->fetchAssoc($result)) {
-                $unit = new assFormulaQuestionUnit();
-                $unit->initFormArray($row);
-                $this->addUnit($unit);
+
+            if ($result->numRows()) {
+                while ($row = $ilDB->fetchAssoc($result)) {
+                    $unit = new assFormulaQuestionUnit();
+                    $unit->initFormArray($row);
+                    $this->addUnit($unit);
+                }
             }
+            self::$result_buffer = $this->units;
         }
+        $this->units = self::$result_buffer;
     }
 
     public function getCategorizedUnits()
@@ -364,6 +373,7 @@ class ilUnitConfigurationRepository
     protected function clearUnits()
     {
         $this->units = array();
+        self::$result_buffer = null;
     }
 
     protected function addUnit($unit)
@@ -508,6 +518,7 @@ class ilUnitConfigurationRepository
             array('integer', 'integer', 'integer'),
             array((int) $sequence, $unit_id, $this->getConsumerId())
         );
+        self::$result_buffer = null;
     }
 
     public function checkDeleteUnit($id, $category_id = null)
@@ -601,6 +612,7 @@ class ilUnitConfigurationRepository
             array('text', 'integer', 'integer'),
             array($category->getCategory(), $this->getConsumerId(), $category->getId())
         );
+        self::$result_buffer = null;
     }
 
     /**
@@ -635,6 +647,7 @@ class ilUnitConfigurationRepository
             )
         );
         $category->setId($next_id);
+        self::$result_buffer = null;
     }
 
     /**
@@ -697,6 +710,7 @@ class ilUnitConfigurationRepository
         if ($ar > 0) {
             $this->clearUnits();
         }
+        self::$result_buffer = null;
         return null;
     }
 
@@ -731,6 +745,7 @@ class ilUnitConfigurationRepository
         $unit->setSequence(0);
 
         $this->clearUnits();
+        self::$result_buffer = null;
     }
 
     /**
@@ -764,6 +779,7 @@ class ilUnitConfigurationRepository
                 $this->clearUnits();
             }
         }
+        self::$result_buffer = null;
     }
 
     /**
@@ -858,5 +874,6 @@ class ilUnitConfigurationRepository
                 );
             }
         }
+        self::$result_buffer = null;
     }
 }
