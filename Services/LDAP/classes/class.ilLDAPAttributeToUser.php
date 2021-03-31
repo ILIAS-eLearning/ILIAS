@@ -368,6 +368,10 @@ class ilLDAPAttributeToUser
                     case 'email':
                         $this->writer->xmlElement('Email', array(), $value);
                         break;
+
+                    case 'second_email':
+                        $this->writer->xmlElement('Email', array(), $value);
+                        break;
                         
                     case 'matriculation':
                         $this->writer->xmlElement('Matriculation', array(), $value);
