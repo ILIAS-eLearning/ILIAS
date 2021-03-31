@@ -883,6 +883,8 @@ class ilSurveyEvaluationGUI
                         $qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
                         if ($qblock["show_blocktitle"]) {
                             $list->addListNode($qdata["questionblock_title"], "q" . $qdata["questionblock_id"]);
+                        } else {
+                            $list->addListNode("", "q" . $qdata["questionblock_id"]);
                         }
                         $this->last_questionblock_id = $qdata["questionblock_id"];
                     }
