@@ -79,7 +79,7 @@ export default class PageUI {
 
     this.debug = true;
     this.droparea = "<div class='il_droparea'></div>";
-    this.add = "<span class='glyphicon glyphicon-plus'></span>";
+    this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
     this.model = {};
     this.uiModel = {};
 
