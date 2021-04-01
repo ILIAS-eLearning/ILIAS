@@ -12,13 +12,14 @@
 
 
 # get the files from this PR to the last head
-GITFILES=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD ${TRAVIS_BRANCH}))
+URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
+CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
 
 echo "Scanning changed files for special chars ..."
 
 FILES=()
 COUNTER=0
-for PHPFILE in $GITFILES;
+for PHPFILE in $CHANGED_FILES;
 do
   FELONE="$(pwd)/$PHPFILE"
 

@@ -1,30 +1,16 @@
 #!/bin/bash
-source CI/Import/Functions.sh
-source CI/Import/Variables.sh
 
-if [[ -x "$PHP_CS_FIXER" ]]
-  then
-  	$PHP_CS_FIXER fix --config=./CI/PHP-CS-Fixer/code-format.php_cs --dry-run -vvv > "$PHP_CS_FIXER_RESULTS_PATH"
-	
-	PIPE_EXIT_CODE=`echo ${PIPESTATUS[0]}`
-	
-	printLn "Command exited with code: $PIPE_EXIT_CODE"
+URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
+CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
 
-	# We disabled reporting because we can't implement it right now
-	# Priority has the base function so that the tests work
-	#printLn "Cloning results repository, copy results file."
-	#if [ -d "$TRAVIS_RESULTS_DIRECTORY" ]; then
-	#	printLn "Starting to remove old temp directory"
-	#	rm -rf "$TRAVIS_RESULTS_DIRECTORY"
-	#fi
-
-	#cd tmp && git clone $CI_RESULTS_REPO
-
-	#printLn "Switching directory and run results handling."
-	#cp "$PHP_CS_FIXER_RESULTS_PATH" "$TRAVIS_RESULTS_DIRECTORY/data/"
-	#cd "$TRAVIS_RESULTS_DIRECTORY" && ./run.sh
-	
-else
-	printLn "No php-cs-fixer found, please install it with the following command:"
-	printLn "\tcomposer require friendsofphp/php-cs-fixer"
-fi
+for FILE in ${CHANGED_FILES}
+do
+	echo "Check file: ${FILE}"
+	RUNCSFIXER=$(libs/composer/vendor/bin/php-cs-fixer fix --using-cache=no --diff --config=./CI/PHP-CS-Fixer/code-format.php_cs ${FILE})
+	RESULT=$?
+	if [[ ${RESULT} -ne 0 ]]
+	then
+		exit ${RESULT}
+  fi
+done
+exit 0
