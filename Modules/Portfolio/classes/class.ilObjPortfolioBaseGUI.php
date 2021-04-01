@@ -71,7 +71,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $back = preg_replace(
             "/[^a-zA-Z0-9_\.\?=:\s]/",
             "",
-            $back);
+            $back
+        );
         $this->requested_back_url = str_replace(":::", "&amp;", $back);
 
         $this->ctrl->setParameterbyClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));

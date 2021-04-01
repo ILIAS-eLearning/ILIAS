@@ -67,7 +67,7 @@ class ilWikiUserHTMLExport
         $set = $this->db->query(
             "SELECT * FROM wiki_user_html_export " .
             " WHERE wiki_id  = " . $this->db->quote($this->wiki->getId(), "integer")
-            );
+        );
         if (!$this->data = $this->db->fetchAssoc($set)) {
             $this->data = array();
         }
@@ -157,7 +157,7 @@ class ilWikiUserHTMLExport
             " status = " . $this->db->quote((int) $a_status, "integer") .
             " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer") .
             " AND usr_id = " . $this->db->quote($this->user->getId(), "integer")
-            );
+        );
 
         $this->read();
     }
@@ -173,7 +173,7 @@ class ilWikiUserHTMLExport
         $set = $this->db->query(
             "SELECT progress, status FROM wiki_user_html_export " .
             " WHERE wiki_id = " . $this->db->quote($this->wiki->getId(), "integer")
-            );
+        );
         $rec = $this->db->fetchAssoc($set);
 
         return array("progress" => (int) $rec["progress"], "status" => (int) $rec["status"]);

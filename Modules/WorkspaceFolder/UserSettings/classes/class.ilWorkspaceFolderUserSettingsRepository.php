@@ -49,7 +49,7 @@ class ilWorkspaceFolderUserSettingsRepository
             " AND wfld_id = %s ",
             array("integer", "integer"),
             array($this->user_id, $wfld_id)
-            );
+        );
         $rec = $db->fetchAssoc($set);
         return (int) $rec["sortation"];
     }

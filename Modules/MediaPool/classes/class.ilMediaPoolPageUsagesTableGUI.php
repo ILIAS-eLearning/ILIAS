@@ -67,7 +67,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                     $page_obj = ilPageObjectFactory::getInstance($us_arr[0], $usage["id"]);
                     $usage["page"] = $page_obj;
                     $repo_tree = $this->repo_tree;
-                    $ref_ids = array_filter(ilObject::_getAllReferences($page_obj->getRepoObjId()), function($ref_id) use ($repo_tree) {
+                    $ref_ids = array_filter(ilObject::_getAllReferences($page_obj->getRepoObjId()), function ($ref_id) use ($repo_tree) {
                         return $repo_tree->isInTree($ref_id);
                     });
                     $usage["ref_ids"] = $ref_ids;
@@ -180,7 +180,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                 }
 
                 if ($usage["trash"]) {
-                    $item["obj_title"].= " (".$lng->txt("trash").")";
+                    $item["obj_title"] .= " (" . $lng->txt("trash") . ")";
                 }
 
                 break;
@@ -218,7 +218,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
                 }
                 $ver .= $sep . $version["hist_nr"];
                 if ($version["lang"] != "") {
-                    $ver.= "/".$version["lang"];
+                    $ver .= "/" . $version["lang"];
                 }
                 $sep = ", ";
             }

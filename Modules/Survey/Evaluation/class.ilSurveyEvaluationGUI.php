@@ -883,6 +883,8 @@ class ilSurveyEvaluationGUI
                         $qblock = ilObjSurvey::_getQuestionblock($qdata["questionblock_id"]);
                         if ($qblock["show_blocktitle"]) {
                             $list->addListNode($qdata["questionblock_title"], "q" . $qdata["questionblock_id"]);
+                        } else {
+                            $list->addListNode("", "q" . $qdata["questionblock_id"]);
                         }
                         $this->last_questionblock_id = $qdata["questionblock_id"];
                     }
@@ -1749,7 +1751,7 @@ class ilSurveyEvaluationGUI
         $this->tpl->setContent($dtmpl->get());
 
         $html = $this->tpl->printToString();
-        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid).".pdf");
+        $this->generateAndSendPDF($html, $this->object->getTitle() . " - " . SurveyQuestion::_getTitle($qid) . ".pdf");
     }
 
     /**
