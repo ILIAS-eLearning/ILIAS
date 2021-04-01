@@ -79,7 +79,6 @@ class Renderer extends AbstractComponentRenderer
 
         if (count($subnodes) > 0 || $async) {
             $tpl->touchBlock("expandable");
-            $tpl->setVariable("ARIA_ROLE", "treeitem");
             $tpl->setCurrentBlock("aria_expanded");
             if ($component->isExpanded()) {
                 $tpl->touchBlock("expanded");
@@ -88,8 +87,6 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("ARIA_EXPANDED", "false");
             }
             $tpl->parseCurrentBlock();
-        } else {
-            $tpl->setVariable("ARIA_ROLE", "none");
         }
 
         if (count($subnodes) > 0) {

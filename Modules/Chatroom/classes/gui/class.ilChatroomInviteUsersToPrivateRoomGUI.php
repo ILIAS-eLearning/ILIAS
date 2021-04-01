@@ -14,17 +14,13 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
 {
 
     /**
-     * @param string $method
-     * @return mixed
+     * @inheritDoc
      */
-    public function executeDefault($method)
+    public function executeDefault($requestedMethod)
     {
         $this->byLogin();
     }
 
-    /**
-     *
-     */
     public function byLogin()
     {
         $this->inviteById(ilObjUser::_lookupId($_REQUEST['user']));

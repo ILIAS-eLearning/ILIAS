@@ -76,6 +76,39 @@ Please make sure you do **not commit** a changed `captainhook.json` file be acci
 *CaptainHook* is **not** installed or the `captainhook.json` file is missing in the branch
 just checked out.
 
+##### Additional Custom Actions
+You can merge some additional custom actions with the standard actions of the captainhook.json:
+Create your own config-file and add actions or settings you to merge with the default. Make sure, 
+you have the config option `includes` defined to include the standard-configuration `captainhook.json`, 
+e.g a file `captainhook.local.json` (which will be ignored in the repo):
+
+````json
+{
+  "config": {
+    "includes": [
+      "captainhook.json"
+    ]
+  },
+
+  "pre-push": {
+    "enabled": true,
+    "actions": [
+      {
+        "action": "./CI/PHPUnit/run_tests.sh"
+      }
+    ]
+  }
+}
+
+````
+You must reinstall captainhook with your local config. Go to the ILIAS
+main directory and execute:
+
+```bash
+libs/composer/vendor/bin/captainhook install -c captainhook.local.json
+```
+
+
 #### The Manual Way: Creating Git Hooks
 
 Git hooks recide in the `.git/hooks` directory of a Git repository.

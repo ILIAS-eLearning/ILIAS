@@ -8206,6 +8206,9 @@ ul.dropdown-menu > li > .btn:focus {
 .il-filter-bar .glyph {
   padding-right: 0.3em;
 }
+.il-filter.disabled .il-filter-bar-controls .btn-bulky {
+  display: none;
+}
 .il-filter-bar-controls {
   float: right;
 }
@@ -9454,8 +9457,11 @@ footer {
 }
 @media only screen and (max-width: 768px) {
   .il-maincontrols-slate span.glyph {
-    min-width: 45px;
+    width: 45px;
     text-align: left;
+  }
+  .il-maincontrols-slate .il-avatar-picture {
+    margin-right: 22.5px;
   }
 }
 .il-maincontrols-metabar {
@@ -13519,17 +13525,15 @@ button.copg-add.dropdown-toggle.btn:hover {
   height: 30px;
   border: 0;
 }
-button.copg-add.dropdown-toggle.btn .glyphicon-plus,
-button.copg-add.dropdown-toggle.btn:focus .glyphicon-plus,
-button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus,
-#copg-editor-help .glyphicon-plus {
-  border-radius: 50%;
-  background-color: #f3f3f3;
-  padding: 4px;
-  color: #b6b6b6;
+button.copg-add.dropdown-toggle.btn .glyphicon-plus-sign,
+button.copg-add.dropdown-toggle.btn:focus .glyphicon-plus-sign,
+button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus-sign,
+#copg-editor-help .glyphicon-plus-sign {
+  color: #4c6586;
+  font-size: 18px;
 }
 button.copg-add.dropdown-toggle.btn:hover {
-  background-color: #f3f3f3;
+  background-color: #e2e8ef;
   color: #757575;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
@@ -16908,6 +16912,9 @@ div#il_startup_logo img {
 }
 .ilToolbar li.ilToolbarGroup .navbar-text {
   margin-right: 0;
+}
+.ilToolbar .btn[disabled] {
+  padding: 3px 6px;
 }
 .ilToolbar .ilToolbarStickyItems {
   float: left;
