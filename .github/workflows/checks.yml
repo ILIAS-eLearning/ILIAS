@@ -11,14 +11,14 @@ jobs:
         php: [7.3, 7.4]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
-          tools: composer:v2
+          tools: composer:v1
           coverage: none
 
       - name: Install dependencies
