@@ -6380,3 +6380,70 @@ if ($ilDB->tableColumnExists("il_poll", "online_status")) {
     $ilDB->dropTableColumn("il_poll", "online_status");
 }
 ?>
+<#5779>
+<?php
+$query = 'select value from settings where  module = ' . $ilDB->quote('common', ilDBConstants::T_TEXT) . ' ' .
+    'and keyword = ' . $ilDB->quote('language', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+$default = 'en';
+while ($row  = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $default = $row->value;
+}
+$query = 'update adv_md_record set lang_default = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_default = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update md_record_int
+$query = 'select record_id from adv_md_record_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select record_id from adv_md_record_int where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and record_id = ' . $ilDB->quote($row->record_id, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from adv_md_record_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and record_id = ' . $ilDB->quote($row->record_id, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_md_record_int set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update md_field_int
+$query = 'select field_id from adv_md_field_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select field_id from adv_md_field_int where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from adv_md_field_int where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_md_field_int set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+
+// update adv_mdf_enum
+$query = 'select field_id, lang_code, idx from adv_mdf_enum ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = 'select field_id, lang_code, idx from  adv_mdf_enum where lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+        'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+        'and idx = ' . $ilDB->quote($row->idx, ilDBConstants::T_INTEGER);
+    $setres = $ilDB->query($query);
+    if ($setres->numRows()) {
+        $query = 'delete from  adv_mdf_enum where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT) . ' ' .
+            'and field_id = ' . $ilDB->quote($row->field_id, ilDBConstants::T_INTEGER) . ' ' .
+            'and idx = ' . $ilDB->quote($row->idx, ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+    }
+}
+$query = 'update adv_mdf_enum set lang_code = ' . $ilDB->quote($default, ilDBConstants::T_TEXT) . ' ' .
+    'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
+$ilDB->manipulate($query);
+?>
