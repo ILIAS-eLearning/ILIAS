@@ -174,6 +174,7 @@ tinymce.init({
     skin: 'oxide',
     entities: "60,lt,62,gt,38,amp",
     content_css: "{STYLESHEET_LOCATION}",
+    content_style: 'html { overflow: initial; }',
     fix_list_elements: true,
     valid_elements: "{VALID_ELEMENTS}",
     <!-- BEGIN formelements -->

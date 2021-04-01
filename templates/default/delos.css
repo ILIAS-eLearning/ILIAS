@@ -11815,6 +11815,7 @@ body.mceContentBody {
 }
 body#tinymce {
   background-color: white;
+  overflow: initial;
 }
 html.il-no-tiny-bg body#tinymce {
   background-color: transparent;
