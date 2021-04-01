@@ -386,7 +386,11 @@ class ilLDAPQuery
         foreach ($group_names as $group) {
             $user = $a_ldap_user_name;
             if ($this->getServer()->enabledGroupMemberIsDN()) {
+                if ($this->getServer()->enabledEscapeDN()) {
+                    $user = ldap_escape($ldap_user_data['dn'], "", LDAP_ESCAPE_FILTER);
+                } else {
                 $user = $ldap_user_data['dn'];
+            }
             }
             
             $filter = sprintf(
