@@ -711,3 +711,18 @@ $query = 'update adv_mdf_enum set lang_code = ' . $ilDB->quote($default, ilDBCon
     'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
 $ilDB->manipulate($query);
 ?>
+<#36>
+<?php
+if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
+    $ilDB->addTableColumn(
+        'ldap_server_settings',
+        'escape_dn',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
