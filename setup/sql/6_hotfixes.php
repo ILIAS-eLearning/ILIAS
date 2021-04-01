@@ -1189,4 +1189,18 @@ if($ilDB->tableExists('cmix_settings'))
     }
 }
 ?>
-
+<#45>
+<?php
+if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
+    $ilDB->addTableColumn(
+        'ldap_server_settings',
+        'escape_dn',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
