@@ -202,6 +202,7 @@ tinymce.init({
     skin: 'oxide',
     entities: "60,lt,62,gt,38,amp",
     content_css: "{STYLESHEET_LOCATION}",
+    content_style: 'html { overflow: initial; }',
     fix_list_elements: true,
     <!-- BEGIN formelements -->
     extended_valid_elements: "form[name|id|action|method|enctype|accept-charset|onsubmit|onreset|target],input[id|name|type|value|size|maxlength|checked|accept|s rc|width|height|disabled|readonly|tabindex|accessk ey|onfocus|onblur|onchange|onselect],textarea[id|name|rows|cols|disabled|readonly|tabindex|acces skey|onfocus|onblur|onchange|onselect],option[name|id|value],select[id|name|type|value|size|maxlength|checked|accept|s rc|width|height|disabled|readonly|tabindex|accessk ey|onfocus|onblur|onchange|onselect|length|options |selectedIndex]",

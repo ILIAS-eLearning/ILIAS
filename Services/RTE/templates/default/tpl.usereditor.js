@@ -20,6 +20,7 @@ tinymce.init({
     valid_elements: "{VALID_ELEMENTS}",
     entities: "60,lt,62,gt,38,amp",
     content_css: "{STYLESHEET_LOCATION}",
+    content_style: 'html { overflow: initial; }',
     plugin_insertdate_dateFormat: "%d.%m.%Y",
     plugin_insertdate_timeFormat: "%H:%M:%S",
     save_onsavecallback: "saveTextarea",
