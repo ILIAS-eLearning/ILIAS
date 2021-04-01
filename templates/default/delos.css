@@ -9484,8 +9484,11 @@ footer {
 }
 @media only screen and (max-width: 768px) {
   .il-maincontrols-slate span.glyph {
-    min-width: 45px;
+    width: 45px;
     text-align: left;
+  }
+  .il-maincontrols-slate .il-avatar-picture {
+    margin-right: 22.5px;
   }
 }
 .il-maincontrols-metabar {
