@@ -146,11 +146,18 @@ class PageQueryActionHandler implements Server\QueryActionHandler
 
         $commands = [];
 
+        // content types
         $config = $this->page_gui->getPageConfig();
         foreach ($config->getEnabledTopPCTypes() as $def) {
             $commands[$def["pc_type"]] = $lng->txt("cont_ed_insert_" . $def["pc_type"]);
         }
 
+        // content templates
+        if (count($this->page_gui->getPageObject()->getContentTemplates()) > 0) {
+            $commands["templ"] = $lng->txt("cont_ed_insert_templ");
+        }
+
+        // plugins
         $pl_names = $this->plugin_admin->getActivePluginsForSlot(
             IL_COMP_SERVICE,
             "COPage",
