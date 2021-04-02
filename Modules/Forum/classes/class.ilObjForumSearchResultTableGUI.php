@@ -41,7 +41,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
      * Fill result row
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
         $this->tpl->setVariable('HREF_ITEM', $a_set['link']);
         $this->tpl->setVariable('TXT_ITEM_TITLE', $a_set['title']);
