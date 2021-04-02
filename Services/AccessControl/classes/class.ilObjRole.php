@@ -58,10 +58,10 @@ class ilObjRole extends ilObject
     
     /**
      *
-     * @param type $a_title
-     * @param type $a_description
-     * @param type $a_tpl_name
-     * @param type $a_ref_id
+     * @param string $a_title
+     * @param string $a_description
+     * @param string $a_tpl_name
+     * @param int $a_ref_id
      * @return ilObjRole
      */
     public static function createDefaultRole($a_title, $a_description, $a_tpl_name, $a_ref_id)
