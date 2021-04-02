@@ -17578,6 +17578,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   border-bottom: 1px solid #e9e9e9;
   background-color: #f9f9f9;
 }
+.ilAwarenessItem > div[role='button']:focus-visible {
+  outline: 2px solid #0078D7;
+}
 .ilAwarenessItem ul {
   margin: 0;
   padding: 0;
