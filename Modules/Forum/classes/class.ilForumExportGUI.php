@@ -404,7 +404,7 @@ class ilForumExportGUI
         }
 
         ilUtil::deliverData(
-            $tpl->get('DEFAULT', false, false, false, true, false, false),
+            $tpl->get(),
             'forum_html_export_' . $_GET['ref_id'] . '.html'
         );
     }
