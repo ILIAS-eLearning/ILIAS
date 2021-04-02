@@ -79,6 +79,7 @@ class ilRepositoryGUI
     public $cmd;
     public $mode;
     public $ctrl;
+    private $http;
 
     /**
     * Constructor
@@ -104,6 +105,7 @@ class ilRepositoryGUI
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->http = $DIC->http();
 
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -219,6 +221,15 @@ class ilRepositoryGUI
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
         $ilErr = $this->error;
+
+        if (
+            ($this->user->isAnonymous() || !($this->user->getId() >= 1)) &&
+            !ilPublicSectionSettings::getInstance()->isEnabledForDomain(
+                $this->http->request()->getServerParams()['SERVER_NAME']
+            )
+        ) {
+            $this->ctrl->redirectToURL('./login.php?cmd=force_login');
+        }
 
         $this->tool_context->claim()->repository();
         $show_tree = ($_SESSION["il_rep_mode"] == "flat")
