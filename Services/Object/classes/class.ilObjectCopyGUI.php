@@ -664,7 +664,7 @@ class ilObjectCopyGUI
     /**
      * Sets $type.
      *
-     * @param object $type
+     * @param string $type
      * @see ilObjectCopyGUI::$type
      */
     public function setType($type)
