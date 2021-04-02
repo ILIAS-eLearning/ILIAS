@@ -1874,18 +1874,15 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
         if ($this->isTopLevelReplyCommand()) {
             $this->replyEditForm->setFormAction(
-                $this->ctrl->getFormAction($this, 'saveTopLevelPost'),
-                'frm_page_bottom'
+                $this->ctrl->getFormAction($this, 'saveTopLevelPost', 'frm_page_bottom')
             );
         } elseif (in_array($this->requestAction, ['publishDraft', 'editdraft'])) {
             $this->replyEditForm->setFormAction(
-                $this->ctrl->getFormAction($this, 'publishDraft'),
-                $this->objCurrentPost->getId()
+                $this->ctrl->getFormAction($this, 'publishDraft', $this->objCurrentPost->getId())
             );
         } else {
             $this->replyEditForm->setFormAction(
-                $this->ctrl->getFormAction($this, 'savePost'),
-                $this->objCurrentPost->getId()
+                $this->ctrl->getFormAction($this, 'savePost', $this->objCurrentPost->getId())
             );
         }
         $this->ctrl->clearParameters($this);
