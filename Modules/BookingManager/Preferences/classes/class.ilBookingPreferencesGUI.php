@@ -283,7 +283,7 @@ class ilBookingPreferencesGUI
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
-                        $ctrl->getLinkTargetByClass("ilBookingObjectGUI", "displayPostInfo")
+                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessGUI"], "displayPostInfo")
                     );
                     $post_info_button = "<br>" . $ui->renderer()->render($b);
                 }
