@@ -102,7 +102,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::INFO_TAB_VISIBILITY,
                 true
-                ));
+            ));
             //$info->setOptionTitle($lng->txt('obj_tool_setting_info_tab'));
             $info->setInfo($lng->txt('obj_tool_setting_info_tab_info'));
             $form->addItem($info);
@@ -183,7 +183,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::CUSTOM_METADATA,
                 false
-                ));
+            ));
             $form->addItem($md);
         }
                 
@@ -198,7 +198,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::TAG_CLOUD,
                     false
-                    ));
+                ));
                 $form->addItem($tag);
             }
         }
@@ -211,7 +211,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::TAXONOMIES,
                 false
-                ));
+            ));
             $form->addItem($tax);
         }
         
@@ -228,7 +228,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::AUTO_RATING_NEW_OBJECTS,
                 false
-                ));
+            ));
             $form->addItem($rate);
         }
         
@@ -243,7 +243,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::BADGES,
                     false
-                    ));
+                ));
                 $form->addItem($bdg);
             }
         }
@@ -305,7 +305,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 "filter_show_empty",
                 false
-                ));
+            ));
             $filter->addSubItem($filter_show_empty);
         }
         // booking tool
@@ -353,7 +353,6 @@ class ilObjectServiceSettingsGUI
         // calendar
         if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
             if (ilCalendarSettings::_getInstance()->isEnabled()) {
-
                 $active = (int) $form->getInput(self::CALENDAR_ACTIVATION);
                 $visible = (int) $form->getInput(self::CALENDAR_VISIBILITY);
                 ilContainer::_writeContainerSetting(

@@ -14,7 +14,6 @@ class MediaType
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -23,7 +22,8 @@ class MediaType
      * @param $mime
      * @return bool
      */
-    public function usesParameterProperty(string $mime): bool {
+    public function usesParameterProperty(string $mime) : bool
+    {
         return !in_array($mime, ["image/x-ms-bmp", "image/gif", "image/jpeg", "image/x-portable-bitmap",
                      "image/png", "image/psd", "image/tiff", "application/pdf"]);
     }
@@ -34,7 +34,7 @@ class MediaType
      *
      * This should be the same behaviour as mp3/flv in page.xsl
      */
-    public function usesAutoStartParameterOnly(string $location, string $mime): bool
+    public function usesAutoStartParameterOnly(string $location, string $mime) : bool
     {
         $lpath = pathinfo($location);
         if ($lpath["extension"] == "mp3" && $mime == "audio/mpeg") {
@@ -51,16 +51,15 @@ class MediaType
 
     /**
      */
-    public function isImage(string $mime): bool
+    public function isImage(string $mime) : bool
     {
         return is_int(strpos($mime, "image"));
     }
 
     /**
      */
-    public function usesAltTextProperty(string $mime): bool
+    public function usesAltTextProperty(string $mime) : bool
     {
         return $this->isImage($mime);
     }
-
 }

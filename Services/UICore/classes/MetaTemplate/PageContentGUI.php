@@ -16,7 +16,7 @@ class PageContentGUI
     private $template_file;
 
     /**
-     * @var bool 
+     * @var bool
      */
     private $hiddenTitle = false;
 

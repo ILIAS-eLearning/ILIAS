@@ -2454,11 +2454,11 @@ class ilObjectListGUI
     /**
     * insert all commands into html code
     *
-	 * @param bool $a_use_asynch
-	 * @param bool $a_get_asynch_commands
-	 * @param string $a_asynch_url
-	 * @param bool $a_header_actions
-	 * @return string
+     * @param bool $a_use_asynch
+     * @param bool $a_get_asynch_commands
+     * @param string $a_asynch_url
+     * @param bool $a_header_actions
+     * @return string
     */
     public function insertCommands(
         $a_use_asynch = false,
@@ -3245,8 +3245,10 @@ class ilObjectListGUI
                 $this->tpl->setVariable("ALT_ICON", $lng->txt("obj_" . $this->getIconImageType()));
             } else {
                 include_once("Services/Component/classes/class.ilPlugin.php");
-                $this->tpl->setVariable("ALT_ICON",
-                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_" . $this->getIconImageType()));
+                $this->tpl->setVariable(
+                    "ALT_ICON",
+                    ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_" . $this->getIconImageType())
+                );
             }
 
             $this->tpl->setVariable(
@@ -3835,8 +3837,7 @@ class ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?\ILIAS\UI\Component\Card\Card
-    {
+    ) : ?\ILIAS\UI\Component\Card\Card {
         $ui = $this->ui;
 
         $this->initItem(
@@ -3874,8 +3875,11 @@ class ilObjectListGUI
             $button =
                 $ui->factory()->button()->shy("Open", "")->withAdditionalOnLoadCode(function ($id) use ($def_command) {
                     return
-                        "$('#$id').click(function(e) { window.open('" . str_replace("&amp;", "&",
-                            $def_command["link"]) . "', '" . $def_command["frame"] . "');});";
+                        "$('#$id').click(function(e) { window.open('" . str_replace(
+                            "&amp;",
+                            "&",
+                            $def_command["link"]
+                        ) . "', '" . $def_command["frame"] . "');});";
                 });
             $actions[] = $button;
         }
@@ -3909,16 +3913,23 @@ class ilObjectListGUI
             if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
                 $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command) {
                     return
-                        "$('#$id').click(function(e) { window.open('" . str_replace("&amp;", "&",
-                            $def_command["link"]) . "', '" . $def_command["frame"] . "');});";
+                        "$('#$id').click(function(e) { window.open('" . str_replace(
+                            "&amp;",
+                            "&",
+                            $def_command["link"]
+                        ) . "', '" . $def_command["frame"] . "');});";
                 });
 
                 $button =
-                    $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use ($def_command
+                    $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
+                        $def_command
                     ) {
                         return
-                            "$('#$id').click(function(e) { window.open('" . str_replace("&amp;", "&",
-                                $def_command["link"]) . "', '" . $def_command["frame"] . "');});";
+                            "$('#$id').click(function(e) { window.open('" . str_replace(
+                                "&amp;",
+                                "&",
+                                $def_command["link"]
+                            ) . "', '" . $def_command["frame"] . "');});";
                     });
                 $title = $ui->renderer()->render($button);
             } else {
@@ -3932,10 +3943,10 @@ class ilObjectListGUI
             }
             $app_info = ilSessionAppointment::_lookupAppointment($obj_id);
             $title = ilSessionAppointment::_appointmentToString(
-                    $app_info['start'],
-                    $app_info['end'],
-                    $app_info['fullday']
-                ) . $title;
+                $app_info['start'],
+                $app_info['end'],
+                $app_info['fullday']
+            ) . $title;
         }
 
         $icon = $this->ui->factory()

@@ -137,7 +137,7 @@ class ilBlockSetting
                 " user_id = " . $ilDB->quote($user_id, "integer") .
                 " AND " . $ilDB->in("type", $blocks, false, "text") .
                 " AND " . $ilDB->in("setting", $settings, false, "text")
-                );
+            );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $key = $rec["type"] . ":" . $rec["setting"] . ":" . $user_id . ":0";
                 self::$setting[$key] = $rec["value"];
@@ -290,7 +290,7 @@ class ilBlockSetting
             " WHERE block_id = %s AND type = %s AND user_id = %s",
             array("integer", "text", "integer"),
             array($block_id, $block_type, 0)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             self::_write($block_type, $rec["setting"], $rec["value"], 0, $new_block_id);
         }

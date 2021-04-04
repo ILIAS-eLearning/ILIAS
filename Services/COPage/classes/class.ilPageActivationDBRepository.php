@@ -57,7 +57,8 @@ class ilPageActivationDBRepository
         return $active;
     }
 
-    protected function getData(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "") {
+    protected function getData(string $parent_type, array $ids, bool $check_scheduled_activation = false, string $lang = "")
+    {
         $db = $this->db;
         $set = $db->queryF(
             "SELECT page_id, active, activation_start, activation_end, show_activation_info FROM page_object WHERE " .
@@ -65,7 +66,7 @@ class ilPageActivationDBRepository
             " AND parent_type = %s AND lang = %s",
             ["text", "text"],
             [$parent_type, $lang]
-            );
+        );
         $active = [];
         $now = ilUtil::now();
         while ($rec = $db->fetchAssoc($set)) {

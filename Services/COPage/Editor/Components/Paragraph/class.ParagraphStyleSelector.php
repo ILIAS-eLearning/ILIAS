@@ -10,7 +10,6 @@ namespace ILIAS\COPage\Editor\Components\Paragraph;
  */
 class ParagraphStyleSelector
 {
-
     public static $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
 
     /**
@@ -58,5 +57,4 @@ class ParagraphStyleSelector
         $dd = $ui->factory()->dropdown()->standard($buttons)->withLabel($a_selected);
         return $dd;
     }
-
 }

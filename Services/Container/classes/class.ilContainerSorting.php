@@ -143,7 +143,7 @@ class ilContainerSorting
             " WHERE obj_id = %s ",
             array("integer"),
             array($this->obj_id)
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             if ($rec["block_ids"] != "") {
                 $ilLog->debug("Got block sorting for obj_id = " . $this->obj_id . ": " . $rec["block_ids"]);
@@ -154,7 +154,8 @@ class ilContainerSorting
                     return $block_id;
                 }, explode(";", $rec["block_ids"])));
 
-                $ilDB->replace("container_sorting_bl",
+                $ilDB->replace(
+                    "container_sorting_bl",
                     array("obj_id" => array("integer", $target_obj_id)),
                     array("block_ids" => array("text", $new_ids))
                 );

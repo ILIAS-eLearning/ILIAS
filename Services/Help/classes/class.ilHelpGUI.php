@@ -199,7 +199,7 @@ class ilHelpGUI
             $sep = ",";
         }*/
         $refId = (string) ($_GET["ref_id"] ?? 0);
-        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "."  . $refId);
+        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "." . $refId);
     }
     
 
@@ -686,11 +686,10 @@ class ilHelpGUI
      * @return string
      * @throws Throwable
      */
-    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item): string
+    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) : string
     {
         global $DIC;
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
         return $mmc->getItemInformation()->customTranslationForUser($item)->getTitle();
     }
-
 }

@@ -109,7 +109,7 @@ class ilContainerMemberSkills
             "SELECT * FROM cont_member_skills " .
             " WHERE obj_id = " . $db->quote($this->getObjId(), "integer") .
             " AND user_id = " . $db->quote($this->getUserId(), "integer")
-            );
+        );
         $this->skill_levels = array();
         while ($rec = $this->db->fetchAssoc($set)) {
             $this->skill_levels[$rec["skill_id"] . ":" . $rec["tref_id"]] = $rec["level_id"];

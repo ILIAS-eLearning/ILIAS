@@ -319,7 +319,7 @@ class ilNotification
             " AND activated = %s ",
             array("integer", "integer", "integer"),
             array($type, $user_id, 1)
-            );
+        );
         $ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             $ids[] = $rec["id"];

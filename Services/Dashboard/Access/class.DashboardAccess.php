@@ -40,7 +40,7 @@ class DashboardAccess
     /**
      * Get dashboard settings ref id
      */
-    protected function getSettingsRefId(): int
+    protected function getSettingsRefId() : int
     {
         if (self::$setting_ref_id == 0) {
             $set = $this->db->queryF(
@@ -61,7 +61,8 @@ class DashboardAccess
     /**
      * @param int $user_id
      */
-    public function canChangePresentation(int $user_id): bool {
+    public function canChangePresentation(int $user_id) : bool
+    {
         return $this->rbac_system->checkAccessOfUser($user_id, "change_presentation", $this->getSettingsRefId());
     }
 }

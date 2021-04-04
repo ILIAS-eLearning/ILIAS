@@ -1339,7 +1339,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $ilLocator->addItem(
                 ilObject::_lookupTitle(
                     ilObject::_lookupObjId($_GET["ref_id"])
-            ),
+                ),
                 $this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", "")
             );
 

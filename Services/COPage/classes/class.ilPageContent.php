@@ -504,5 +504,4 @@ abstract class ilPageContent
     {
         return null;
     }
-
 }

@@ -52,7 +52,7 @@ class ilPageQuestionProcessor
             "SELECT * FROM page_qst_answer WHERE " .
             " qst_id = " . $ilDB->quote($a_id, "integer") . " AND " .
             " user_id = " . $ilDB->quote($ilUser->getId(), "integer")
-            );
+        );
         
         /*
         if ($rec = $ilDB->fetchAssoc($set))
@@ -119,7 +119,7 @@ class ilPageQuestionProcessor
         $set = $ilDB->query(
             "SELECT count(user_id) usr_cnt FROM page_qst_answer WHERE " .
             " qst_id = " . $ilDB->quote($a_q_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $all = $rec["usr_cnt"];
 
@@ -133,7 +133,7 @@ class ilPageQuestionProcessor
                 " qst_id = " . $ilDB->quote($a_q_id, "integer") . " AND " .
                 " passed = " . $ilDB->quote(1, "integer") . " AND " .
                 " try = " . $ilDB->quote(1, "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             $first = $rec["usr_cnt"];
             
@@ -142,7 +142,7 @@ class ilPageQuestionProcessor
                 " qst_id = " . $ilDB->quote($a_q_id, "integer") . " AND " .
                 " passed = " . $ilDB->quote(1, "integer") . " AND " .
                 " try = " . $ilDB->quote(2, "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             $second = $rec["usr_cnt"];
 
@@ -151,7 +151,7 @@ class ilPageQuestionProcessor
                 " qst_id = " . $ilDB->quote($a_q_id, "integer") . " AND " .
                 " passed = " . $ilDB->quote(1, "integer") . " AND " .
                 " try >= " . $ilDB->quote(3, "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             $third_or_more = $rec["usr_cnt"];
         }

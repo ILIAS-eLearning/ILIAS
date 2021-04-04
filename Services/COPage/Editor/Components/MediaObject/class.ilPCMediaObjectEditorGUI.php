@@ -12,7 +12,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
     /**
      * @inheritDoc
      */
-    function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id): array {
+    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
+    {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -32,7 +33,8 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
     /**
      * @inheritDoc
      */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid): string {
+    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
+    {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -50,7 +52,9 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $pc_media_gui = new ilPCMediaObjectGUI(
             $page_gui->getPageObject(),
             $pc_media,
-            $page_gui->getPageObject()->getHierIdForPcId($pcid), $pcid);
+            $page_gui->getPageObject()->getHierIdForPcId($pcid),
+            $pcid
+        );
         $pc_media_gui->getCharacteristicsOfCurrentStyle("media_cont");
 
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");
@@ -113,7 +117,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
 
         $link = $ui_wrapper->getRenderedLink($lng->txt("cont_advanced_settings"), "Page", "link", "component.settings");
 
-        return $html.$link;
+        return $html . $link;
     }
 
     /**
@@ -210,12 +214,16 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         $lng = $DIC->language();
 
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
-        $l = $ui_wrapper->getRenderedLink($lng->txt("cont_choose_media_pool"), "MediaObject", "media-action", "select.pool",
-        ["url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")]);
+        $l = $ui_wrapper->getRenderedLink(
+            $lng->txt("cont_choose_media_pool"),
+            "MediaObject",
+            "media-action",
+            "select.pool",
+            ["url" => $ctrl->getLinkTargetByClass("ilpcmediaobjectgui", "insert")]
+        );
         $ctrl->setParameterByClass("ilpcmediaobjectgui", "subCmd", "poolSelection");
 
         return $l;
         //http://scorsese.local/ilias_6/ilias.php?ref_id=86&obj_id=3&active_node=3&hier_id=pg&subCmd=poolSelection&cmd=insert&cmdClass=ilpcmediaobjectgui&cmdNode=ow:oi:o3:o6:ek:ec&baseClass=ilLMEditorGUI
     }
-
 }

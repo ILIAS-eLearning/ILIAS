@@ -116,7 +116,7 @@ class ilMediaItem
      * Set duration
      * @param int $a_val duration
      */
-    function setDuration($a_val)
+    public function setDuration($a_val)
     {
         $this->duration = $a_val;
     }
@@ -125,7 +125,7 @@ class ilMediaItem
      * Get duration
      * @return int duration
      */
-    function getDuration()
+    public function getDuration()
     {
         return $this->duration;
     }
@@ -869,13 +869,13 @@ class ilMediaItem
                 if (is_file($thumb_file_small)) {
                     $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small.".$format."?dummy=" . $random->int(1, 999999);
+                        $this->getPurpose() . "_small." . $format . "?dummy=" . $random->int(1, 999999);
                 }
             } else {
                 if (is_file($thumb_file)) {
                     $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . ".".$format."?dummy=" . $random->int(1, 999999);
+                        $this->getPurpose() . "." . $format . "?dummy=" . $random->int(1, 999999);
                 }
             }
         }
@@ -1207,7 +1207,8 @@ class ilMediaItem
         }
     }
 
-    public function determineDuration() {
+    public function determineDuration()
+    {
         $ana = new ilMediaAnalyzer();
         $ana->setFile(ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation());
         $ana->analyzeFile();

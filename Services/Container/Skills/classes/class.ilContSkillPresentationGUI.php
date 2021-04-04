@@ -195,10 +195,10 @@ class ilContSkillPresentationGUI
 
         $obj_id = ilObject::_lookupObjId($ref_id);
         if ($access->checkAccess('read', '', $ref_id) && ilContainer::_lookupContainerSetting(
-                $obj_id,
-                ilObjectServiceSettingsGUI::SKILLS,
-                false
-            )) {
+            $obj_id,
+            ilObjectServiceSettingsGUI::SKILLS,
+            false
+        )) {
             $skmg_set = new ilSetting("skmg");
             if ($skmg_set->get("enable_skmg")) {
                 return true;
@@ -206,5 +206,4 @@ class ilContSkillPresentationGUI
         }
         return false;
     }
-
 }

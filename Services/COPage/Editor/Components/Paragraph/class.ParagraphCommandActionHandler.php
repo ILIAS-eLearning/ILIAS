@@ -42,7 +42,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -226,7 +226,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                     $page,
                     $content,
                     \ilUtil::stripSlashes($p["model"]["characteristic"]),
-                    ":".\ilUtil::stripSlashes($p["pcid"]),
+                    ":" . \ilUtil::stripSlashes($p["pcid"]),
                     $insert_id
                 );
                 $all_pc_ids[] = $p["pcid"];
@@ -383,5 +383,4 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         }
         return $this->ui_wrapper->sendPage($this->page_gui);
     }
-
 }

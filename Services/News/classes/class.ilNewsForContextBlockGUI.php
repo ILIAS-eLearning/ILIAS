@@ -142,12 +142,12 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             0,
             $prevent_aggregation,
             $forum_grouping
-            );
+        );
 
         $this->acache->storeEntry(
             $ilUser->getId() . ":" . $_GET["ref_id"],
             serialize($news_data)
-            );
+        );
 
         //		}
         //var_dump($news_data);
@@ -733,7 +733,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 $tpl->setVariable(
                     "VAL_CREATION_DATE",
                     ilDatePresentation::formatDate(new ilDateTime($item["creation_date"], IL_CAL_DATETIME))
-                    );
+                );
                 $tpl->setVariable("TXT_CREATED", $lng->txt("created"));
                 $tpl->parseCurrentBlock();
             }
@@ -1083,7 +1083,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $dt_prop = new ilDateTimeInputGUI(
                 $lng->txt("news_hide_news_date"),
                 "hide_news_date"
-                );
+            );
             $dt_prop->setRequired(true);
             if ($hide_news_date != "") {
                 $dt_prop->setDate(new ilDateTime($hide_news_date[0] . ' ' . $hide_news_date[1], IL_CAL_DATETIME));

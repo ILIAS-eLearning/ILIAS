@@ -122,8 +122,7 @@ class ilContSkillTableGUI extends ilTable2GUI
 
         if ($a_set["profile"] != null) {
             $tpl->setVariable("PROFILE", $a_set["profile"]);
-        }
-        else {
+        } else {
             $tpl->setCurrentBlock("checkbox");
             $tpl->setVariable("ID", $a_set["base_skill_id"] . ":" . $a_set["tref_id"]);
             $tpl->parseCurrentBlock();

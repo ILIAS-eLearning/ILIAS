@@ -417,7 +417,7 @@ class ilPCSection extends ilPageContent
                         "unix_ts" => array("integer", $from)
                         ),
                     array()
-                    );
+                );
             }
             $to = $res->nodeset[$i]->get_attribute("ActiveTo");
             if ($to != "") {

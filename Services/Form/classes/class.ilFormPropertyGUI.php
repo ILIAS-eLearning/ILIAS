@@ -517,7 +517,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for filter
      * @return string
      */
-    public function getTableFilterLabelFor() {
+    public function getTableFilterLabelFor()
+    {
         return $this->getFieldId();
     }
 
@@ -525,8 +526,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for form
      * @return string
      */
-    public function getFormLabelFor() {
+    public function getFormLabelFor()
+    {
         return $this->getFieldId();
     }
-
 }

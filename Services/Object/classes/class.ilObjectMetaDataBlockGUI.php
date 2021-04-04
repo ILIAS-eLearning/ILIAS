@@ -127,7 +127,6 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
 
         $defs = $this->values->getDefinitions();
         foreach ($this->values->getADTGroup()->getElements() as $element_id => $element) {
-
             $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($defs[$element_id]->getRecordId());
 
             $btpl->setCurrentBlock("item");

@@ -151,5 +151,4 @@ class ilCOPagePCDef
         }
         return null;
     }
-
 }

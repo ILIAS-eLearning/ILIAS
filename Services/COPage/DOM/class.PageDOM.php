@@ -23,5 +23,4 @@ class PageDOM
     {
         $this->doc = $doc;
     }
-
 }

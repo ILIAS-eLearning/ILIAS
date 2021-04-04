@@ -517,7 +517,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $resize = new ilCheckboxInputGUI(
                     $lng->txt("cont_resize_img"),
                     "full_resize"
-                    );
+                );
                 $op2->addSubItem($resize);
             }
         }

@@ -46,7 +46,6 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
         );
         $access_granted_favourites = [];
         foreach ($favourites as $idx => $favourite) {
-
             if (!$this->access->checkAccess('read', '', $favourite['ref_id'])) {
                 continue;
             }

@@ -37,7 +37,7 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -125,5 +125,4 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
 
         return $this->ui_wrapper->sendPage($this->page_gui);
     }
-
 }

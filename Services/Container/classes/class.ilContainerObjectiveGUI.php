@@ -1336,7 +1336,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     (bool) $this->loc_settings->worksWithInitialTest(),
                     $a_objective->getObjectiveId(),
                     $a_lo_result
-            )
+                )
             );
         }
         

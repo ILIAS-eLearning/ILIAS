@@ -65,7 +65,7 @@ class ilHelpMapping
                             "module_id" => array("integer", 0)
                             ),
                         array()
-                        );
+                    );
                 }
             }
         }
@@ -99,7 +99,7 @@ class ilHelpMapping
                 "module_id" => array("integer", $a_module_id)
                 ),
             array()
-            );
+        );
     }
     
     
@@ -119,7 +119,7 @@ class ilHelpMapping
             "DELETE FROM help_map WHERE " .
             " chap = " . $ilDB->quote($a_chap, "integer") .
             " AND module_id = " . $ilDB->quote($a_module_id, "integer")
-            );
+        );
     }
     
     /**
@@ -139,7 +139,7 @@ class ilHelpMapping
             " WHERE chap = " . $ilDB->quote($a_chap, "integer") .
             " AND module_id = " . $ilDB->quote($a_module_id, "integer") .
             " ORDER BY component, screen_id, screen_sub_id"
-            );
+        );
         $screen_ids = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($rec["screen_id"] == "-") {
@@ -201,7 +201,7 @@ class ilHelpMapping
                 " AND screen_sub_id = " . $ilDB->quote($sc_id[2], "text") .
                 " AND module_id = " . $ilDB->quote($module, "integer") .
                 " ORDER BY lm_tree.lft"
-                );
+            );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 if ($rec["perm"] != "" && $rec["perm"] != "-") {
                     // check special "create*" permission
@@ -287,7 +287,7 @@ class ilHelpMapping
                 " AND screen_id = " . $ilDB->quote($sc_id[1], "text") .
                 " AND screen_sub_id = " . $ilDB->quote($sc_id[2], "text") .
                 " AND module_id = " . $ilDB->quote($module, "integer")
-                );
+            );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 return true;
                 

@@ -22,7 +22,7 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
 
     /**
      * @param ilButtonBase $button
-     *                            
+     *
      */
     public function __construct(\ILIAS\UI\Component\Button\Button $link, \ILIAS\UI\Renderer $renderer)
     {
@@ -34,7 +34,7 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
      * @return string
      */
     public function getContent() : string
-    {   
+    {
         return $this->renderer->render([$this->link]);
     }
 }

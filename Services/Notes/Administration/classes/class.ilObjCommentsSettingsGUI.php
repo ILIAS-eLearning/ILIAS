@@ -248,6 +248,4 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 return array(array("editSettings", $fields));
         }
     }
-
-
 }

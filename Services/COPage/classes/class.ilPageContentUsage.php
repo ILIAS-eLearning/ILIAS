@@ -98,7 +98,7 @@ class ilPageContentUsage
             " usage_lang = " . $ilDB->quote($a_lang, "text") . " AND " .
             " usage_type = " . $ilDB->quote($a_usage_type, "text") .
             $hist_str
-            );
+        );
 
         $usages = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
