@@ -1,10 +1,8 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\GlobalScreen\Services;
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Services/Container/classes/class.ilContainer.php";
 
 /**
  * Class ilContainerGUI
@@ -12,8 +10,6 @@ require_once "./Services/Container/classes/class.ilContainer.php";
  * root folder, course, group, category, folder
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version $Id$
- * @extends ilObjectGUI
  */
 class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 {
@@ -212,7 +208,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $values = parent::getEditFormValues();
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         $values['didactic_type'] =
             'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
 
@@ -225,7 +220,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function afterUpdate()
     {
         // check if template is changed
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         $current_tpl_id = (int) ilDidacticTemplateObjSettings::lookupTemplateId(
             $this->object->getRefId()
         );
@@ -235,7 +229,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $_REQUEST['tplid'] = $new_tpl_id;
 
             // redirect to didactic template confirmation
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php';
             $this->ctrl->setReturn($this, 'edit');
             $this->ctrl->setCmdClass('ildidactictemplategui');
             $this->ctrl->setCmd('confirmTemplateSwitch');
@@ -256,7 +249,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilTabs->clearTargets();
 
         $cmd = $ilCtrl->getCmd();
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
         $this->ctrl->setReturn($this, "editStyleProperties");
         $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
         $style_gui->omitLocator();
@@ -322,12 +314,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // page object
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
-        include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
 
         $lng->loadLanguageModule("content");
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId()));
         // $this->tpl->setCurrentBlock("SyntaxStyle");
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
@@ -347,7 +336,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // get page object
         $this->ctrl->setReturnByClass("ilcontainerpagegui", "edit");
         $page_gui = new ilContainerPageGUI($this->object->getId());
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $page_gui->setStyleId(
             ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->object->getStyleSheetId(),
@@ -428,17 +416,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // if page does not exist, return nothing
-        include_once("./Services/COPage/classes/class.ilPageUtil.php");
         if (!ilPageUtil::_existsAndNotEmpty(
             "cont",
             $this->object->getId()
         )) {
             return "";
         }
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
-        include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
-
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
@@ -451,11 +434,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->tpl->parseCurrentBlock();
 
         // get page object
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $ot = ilObjectTranslation::getInstance($this->object->getId());
         $lang = $ot->getEffectiveContentLang($ilUser->getCurrentLanguage(), "cont");
         $page_gui = new ilContainerPageGUI($this->object->getId(), 0, $lang);
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $page_gui->setStyleId(
             ilObjStyleSheet::getEffectiveContentStyleId(
                 $this->object->getStyleSheetId(),
@@ -486,7 +467,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->showTreeFlatIcon();
 
                 // Member view
-                include_once './Services/Container/classes/class.ilMemberViewGUI.php';
                 ilMemberViewGUI::showMemberViewSwitch($this->object->getRefId());
             }
         }
@@ -501,7 +481,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             return;
         }
         // hide for member view
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return;
         }
@@ -529,7 +508,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $icon = ilObject::_getIcon($this->object->getId(), "big", $this->object->getType());
             $this->tpl->setTitleIcon($icon, $this->lng->txt("obj_" . $this->object->getType()));
 
-            include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
             $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
             $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
             $this->tpl->setAlertProperties($lgui->getAlertProperties());
@@ -541,7 +519,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function showPossibleSubObjects()
     {
-        include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->render();
     }
@@ -560,26 +537,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         switch ($view_mode) {
             // all items in one block
             case ilContainer::VIEW_SIMPLE:
-                include_once("./Services/Container/classes/class.ilContainerSimpleContentGUI.php");
                 $container_view = new ilContainerSimpleContentGUI($this);
                 break;
 
             case ilContainer::VIEW_OBJECTIVE:
-                include_once('./Services/Container/classes/class.ilContainerObjectiveGUI.php');
                 $container_view = new ilContainerObjectiveGUI($this);
                 break;
 
             // all items in one block
             case ilContainer::VIEW_SESSIONS:
             case ilCourseConstants::IL_CRS_VIEW_TIMING: // not nice this workaround
-                include_once("./Services/Container/classes/class.ilContainerSessionsContentGUI.php");
                 $container_view = new ilContainerSessionsContentGUI($this);
                 break;
 
             // all items in one block
             case ilContainer::VIEW_BY_TYPE:
             default:
-                include_once("./Services/Container/classes/class.ilContainerByTypeContentGUI.php");
                 $container_view = new ilContainerByTypeContentGUI($this, $this->container_user_filter);
                 break;
         }
@@ -663,7 +636,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-            include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -683,7 +655,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-            include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
             $toolbar = new ilToolbarGUI();
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -761,13 +732,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         } else {
             if ($this->edit_order) {
                 if ($this->object->gotItems() and $ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-                    include_once('./Services/Container/classes/class.ilContainer.php');
-
                     if ($this->isActiveOrdering()) {
                         // #11843
                         $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
-                        include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
                         $toolbar = new ilToolbarGUI();
                         $this->ctrl->setParameter($this, "type", "");
                         $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -794,7 +762,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     // #11843
                     $GLOBALS['tpl']->setPageFormAction($this->ctrl->getFormAction($this));
 
-                    include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
                     $toolbar = new ilToolbarGUI();
                     $this->ctrl->setParameter($this, "type", "");
                     $this->ctrl->setParameter($this, "item_ref_id", "");
@@ -1067,7 +1034,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $a_tpl->parseCurrentBlock();
             $nbsp = false;
         }
-        include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
         if ($this->isActiveAdministrationPanel() &&
             ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
             $a_tpl->setCurrentBlock('block_position');
@@ -1491,7 +1457,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
         }
 
-        include_once './Services/Container/classes/BackgroundTasks/class.ilDownloadContainerFilesBackgroundTask.php';
         $download_job = new ilDownloadContainerFilesBackgroundTask(
             $GLOBALS['DIC']->user()->getId(),
             $_POST["id"],
@@ -1801,7 +1766,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $tree->moveTree($ref_id, $folder_ref_id);
                     $rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 
-                    include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
                     ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
                     // BEGIN ChangeEvent: Record cut event.
@@ -1834,7 +1798,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($command == 'link') {
             $linked_to_folders = array();
 
-            include_once "Services/AccessControl/classes/class.ilRbacLog.php";
             $rbac_log_active = ilRbacLog::isActive();
 
             foreach ($_POST['nodes'] as $folder_ref_id) {
@@ -1962,7 +1925,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $t = new ilToolbarGUI();
         $t->setFormAction($this->ctrl->getFormAction($this, "performPasteIntoMultipleObjects"));
 
-        include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $b = ilSubmitButton::getInstance();
         $b->setCaption($txt_var);
         $b->setCommand("performPasteIntoMultipleObjects");
@@ -2213,7 +2175,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->tree->moveTree($ref_id, $this->object->getRefId());
                 $rbacadmin->adjustMovedObjectPermissions($ref_id, $old_parent);
 
-                include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
                 ilConditionHandler::_adjustMovedObjectConditions($ref_id);
 
                 // BEGIN ChangeEvent: Record cut event.
@@ -2330,7 +2291,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             unset($tmp_obj);
         }
 
-        include_once("./Services/Object/classes/class.ilObjClipboardTableGUI.php");
         $tab = new ilObjClipboardTableGUI($this, "clipboard");
         $tab->setData($data);
         $tpl->setContent($tab->getHTML());
@@ -2434,8 +2394,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function cloneWizardPageObject($a_tree_view = true)
     {
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardPageFactory.php');
-
         $ilObjDataCache = $this->obj_data_cache;
         $tree = $this->tree;
 
@@ -2540,17 +2498,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function cloneAllObject()
     {
-        $ilLog = $this->log;
         $ilCtrl = $this->ctrl;
-
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 
         $ilAccess = $this->access;
         $ilErr = $this->error;
         $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
-        $ilUser = $this->user;
 
         $new_type = $_REQUEST['new_type'];
         $ref_id = (int) $_GET['ref_id'];
@@ -2579,7 +2531,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $options
         );
 
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
             ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result['ref_id']);
@@ -2598,7 +2549,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function saveSortingObject()
     {
-        include_once('Services/Container/classes/class.ilContainerSorting.php');
         $sorting = ilContainerSorting::_getInstance($this->object->getId());
 
         // Allow comma
@@ -2753,7 +2703,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             );
         }
 
-        include_once("./Services/Container/classes/class.ilContainerPageGUI.php");
         $page_gui = new ilContainerPageGUI($this->object->getId());
         $style_id = $this->object->getStyleSheetId();
         if (ilObject::_lookupType($style_id) == "sty") {
@@ -2765,10 +2714,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilCtrl->getHTML($page_gui);
         $ilTabs->setTabActive("obj_sty");
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $lng->loadLanguageModule("style");
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         $fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -2877,7 +2824,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilSetting = $this->settings;
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         if ($ilSetting->get("fixed_content_style_id") <= 0 &&
             (ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
                 || $this->object->getStyleSheetId() == 0)) {
@@ -2905,7 +2851,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                       "obj_id" => $obj_id,
                       "type" => $type
         );
-        include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
         $item_list_gui = ilObjectListGUIFactory::_getListGUIByType($type);
         $item_list_gui->setContainerObject($this);
 
@@ -2971,7 +2916,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function initFormPasswordInstruction()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -3023,10 +2967,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $container_view = $this->getContentGUI();
 
         // list item is session material (not part of "_all"-items - see below)
-        include_once './Modules/Session/classes/class.ilEventItems.php';
         $event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
         if (in_array((int) $_GET["child_ref_id"], $event_items)) {
-            include_once('./Services/Object/classes/class.ilObjectActivation.php');
             foreach ($this->object->items["sess"] as $id) {
                 $items = ilObjectActivation::getItemsByEvent($id['obj_id']);
                 foreach ($items as $event_item) {
@@ -3092,7 +3034,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl->setVariable('FILE_LOCKS', 0);
         $tpl->setVariable('UPLOAD_FILESIZE', ilFMSettings::getInstance()->getMaxFileSize());
 
-        include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
         $header_top_title = ilObjSystemFolder::_getHeaderTitle();
         $tpl->setVariable('HEADER_TITLE', $header_top_title ? $header_top_title : '');
         echo $tpl->get();
@@ -3107,11 +3048,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function initEditForm()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
         $lng->loadLanguageModule($this->object->getType());
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
@@ -3143,7 +3081,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $form->addItem($title);
 
         if ($this->getCreationMode() != true && sizeof($trans->getLanguages()) > 1) {
-            include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
             $languages = ilMDLanguageItem::_getLanguages();
             $title->setInfo(
                 $this->lng->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .
@@ -3171,9 +3108,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function initSortingForm(ilPropertyFormGUI $form, array $a_sorting_settings)
     {
-        include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-        include_once './Services/Container/classes/class.ilContainer.php';
-
         $settings = new ilContainerSortingSettings($this->object->getId());
         $sort = new ilRadioGroupInputGUI($this->lng->txt('sorting_header'), "sorting");
 
@@ -3391,7 +3325,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function saveSortingSettings(ilPropertyFormGUI $form)
     {
-        include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
         $settings = new ilContainerSortingSettings($this->object->getId());
         $settings->setSortMode($form->getInput("sorting"));
 
@@ -3506,8 +3439,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject()
     {
         $lng = $this->lng;
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-
         if (!isset($_POST["trash_id"])) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");
@@ -3523,7 +3454,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function getTreeSelectorGUI($cmd)
     {
-        include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
         $exp = new ilRepositorySelectorExplorerGUI($this, "showPasteTree");
         // TODO: The study programme 'prg' is not included here, as the
         // ilRepositorySelectorExplorerGUI only handles static rules for

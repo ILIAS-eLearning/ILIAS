@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * High level business class, interface to front ends
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAwarenessAct
 {
@@ -76,7 +74,6 @@ class ilAwarenessAct
      */
     public function getAwarenessData($a_filter)
     {
-        include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
         $data = ilAwarenessData::getInstance($this->user_id);
         $data->setRefId($this->getRefId());
         $data->setFilter($a_filter);
@@ -90,7 +87,6 @@ class ilAwarenessAct
      */
     public function getAwarenessUserCounter()
     {
-        include_once("./Services/Awareness/classes/class.ilAwarenessData.php");
         $data = ilAwarenessData::getInstance($this->user_id);
         $data->setRefId($this->getRefId());
         return $data->getUserCounter();
@@ -129,7 +125,6 @@ class ilAwarenessAct
         //var_dump($d); exit;
         $lng->loadLanguageModule('mail');
 
-        include_once("./Services/Object/classes/class.ilObjectFactory.php");
         //$recipient = ilObjectFactory::getInstanceByObjId($this->user_id);
         $bodyParams = array(
             'online_user_names' => implode("<br />", $new_online_users)

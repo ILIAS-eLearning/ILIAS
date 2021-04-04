@@ -151,7 +151,6 @@ class ilAdministrationCommandGUI
     {
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        include_once './Services/Object/classes/class.ilObjectGUI.php';
         $_SESSION['saved_post'] = $_POST['id'];
         $object = new ilObjectGUI(array(), 0, false, false);
         $object->confirmedDeleteObject();
@@ -169,7 +168,6 @@ class ilAdministrationCommandGUI
 
         $_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
-        include_once './Services/Container/classes/class.ilContainerGUI.php';
         $container = new ilContainerGUI(array(), 0, false, false);
         $container->cutObject();
         return true;
@@ -192,7 +190,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->showMoveIntoObjectTreeObject();
         return true;
@@ -215,7 +212,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->showLinkIntoMultipleObjectsTreeObject();
         return true;
@@ -232,7 +228,6 @@ class ilAdministrationCommandGUI
 
         $_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
-        include_once './Services/Container/classes/class.ilContainerGUI.php';
         $container = new ilContainerGUI(array(), 0, false, false);
         $container->linkObject();
         return true;
@@ -255,7 +250,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['item_ref_id'], true, false);
         $container->pasteObject();
         return true;
@@ -274,7 +268,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->performPasteIntoMultipleObjectsObject();
         return true;

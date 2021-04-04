@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * TableGUI class for access keys
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesAccessibility
 */
 class ilAccessKeyTableGUI extends ilTable2GUI
 {
@@ -40,9 +36,6 @@ class ilAccessKeyTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
-        // get keys
-        include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
         
         $keys = ilAccessKey::getKeys();
         $data = array();

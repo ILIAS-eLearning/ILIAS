@@ -79,9 +79,6 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 
     public function removeFromSystemObject()
     {
-        $rbacsystem = $this->rbacsystem;
-        
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
         $ru = new ilRepUtilGUI($this);
         $ru->removeObjectsFromSystem($_POST["id"], true);
         $this->ctrl->redirect($this, "view");
@@ -95,7 +92,6 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 
         switch ($next_class) {
             case 'ilpermissiongui':
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = &$this->ctrl->forwardCommand($perm_gui);
                 break;

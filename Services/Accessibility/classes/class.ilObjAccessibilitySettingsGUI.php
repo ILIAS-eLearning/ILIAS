@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Accessibility Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
-* @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
-*
-* @ingroup ServicesAccessibility
-*/
+ * Accessibility Settings.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ *
+ * @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
+ * @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
+ */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
     /**
@@ -90,7 +86,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -267,7 +262,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 
         $this->tabs_gui->setTabActive('acc_access_keys');
         
-        include_once("./Services/Accessibility/classes/class.ilAccessKeyTableGUI.php");
         $table = new ilAccessKeyTableGUI($this, "editAccessKeys");
         
         $tpl->setContent($table->getHTML());
@@ -283,7 +277,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $ilAccess = $this->access;
         
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
-            include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
             ilAccessKey::writeKeys(ilUtil::stripSlashesArray($_POST["acckey"]));
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }

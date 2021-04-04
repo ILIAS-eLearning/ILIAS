@@ -159,11 +159,9 @@ class ilAdministrationSettingsFormHandler
         
         // cron jobs - special handling
                 
-        include_once "Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php";
         $parent_gui = new ilObjSystemFolderGUI(null, SYSTEM_FOLDER_ID, true);
         $parent_gui->setCreationMode(true);
         
-        include_once "Services/Cron/classes/class.ilCronManagerGUI.php";
         $gui = new ilCronManagerGUI();
         $data = $gui->addToExternalSettingsForm($a_form_id);
         if (is_array($data) && sizeof($data)) {

@@ -1,19 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once './Services/Container/classes/class.ilContainerXmlWriter.php';
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* container structure export
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesContainer
-*/
+ * container structure export
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerExporter extends ilXmlExporter
 {
     private $writer = null;
@@ -47,7 +40,6 @@ class ilContainerExporter extends ilXmlExporter
         $pg_ids = array();
         
         // container pages
-        include_once("./Services/Container/classes/class.ilContainerPage.php");
         foreach ($a_ids as $id) {
             if (ilContainerPage::_exists("cont", $id)) {
                 $pg_ids[] = "cont:" . $id;
@@ -55,7 +47,6 @@ class ilContainerExporter extends ilXmlExporter
         }
         
         // container start objects pages
-        include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php");
         foreach ($a_ids as $id) {
             if (ilContainerStartObjectsPage::_exists("cstr", $id)) {
                 $pg_ids[] = "cstr:" . $id;
@@ -73,7 +64,6 @@ class ilContainerExporter extends ilXmlExporter
         // style
         $style_ids = array();
         foreach ($a_ids as $id) {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style_id = ilObjStyleSheet::lookupObjectStyle($id);
             // see #24888
             $style_id = ilObjStyleSheet::getEffectiveContentStyleId($style_id);

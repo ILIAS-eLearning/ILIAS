@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * Awareness tool administration
 *
 * @author Alex Killing <killing@leifos.com>
-* @version $Id$
-*
 * @ilCtrl_Calls ilObjAwarenessAdministrationGUI: ilPermissionGUI, ilUserActionAdminGUI
 * @ilCtrl_IsCalledBy ilObjAwarenessAdministrationGUI: ilAdministrationGUI
-*
-* @ingroup ServicesAwareness
 */
 class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
@@ -55,8 +51,6 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'iluseractionadmingui':
-                include_once("./Services/User/Actions/classes/class.ilUserActionAdminGUI.php");
-                include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
                 $gui = new ilUserActionAdminGUI();
                 $gui->setActionContext(new ilAwarenessUserActionContext());
                 $this->tabs_gui->setTabActive('settings');
@@ -66,7 +60,6 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -171,7 +164,6 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             $pd_set = new ilSetting("pd");
             $pd_set->set("user_activity_time", (int) $_POST["time_removal"]);
 
-            include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
             $prov = ilAwarenessUserProviderFactory::getAllProviders();
             foreach ($prov as $p) {
                 $p->setActivationMode($form->getInput("up_act_mode_" . $p->getProviderId()));
@@ -204,7 +196,6 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('awareness_settings'));
@@ -261,7 +252,6 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
         $en->addSubItem($osd);
 
 
-        include_once("./Services/Awareness/classes/class.ilAwarenessUserProviderFactory.php");
         $prov = ilAwarenessUserProviderFactory::getAllProviders();
         foreach ($prov as $p) {
             // activation mode

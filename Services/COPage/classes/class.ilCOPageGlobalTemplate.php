@@ -214,9 +214,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        // The corresponding $ilBench->start invocation is in inc.header.php
-        $ilBench = $DIC["ilBench"];
-        $ilBench->stop("Core", "ElapsedTimeUntilFooter");
         $ftpl->setVariable(
             "ELAPSED_TIME",
             ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'

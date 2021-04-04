@@ -342,10 +342,8 @@ class ilAccordionGUI
             $tpl = $DIC["tpl"];
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection($tpl);
 
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQueryUI($tpl);
 
         foreach (self::getLocalJavascriptFiles() as $f) {
@@ -473,7 +471,6 @@ class ilAccordionGUI
         $options["int_id"] = $this->getId();
 
         if ($this->getUseSessionStorage() && $this->getId() != "") {
-            include_once("./Services/Accordion/classes/class.ilAccordionPropertiesStorage.php");
             $stor = new ilAccordionPropertiesStorage();
             
             $ctab = $stor->getProperty(
@@ -536,7 +533,6 @@ class ilAccordionGUI
         $options["show_all_element"] = $this->getShowAllElement();
         $options["hide_all_element"] = $this->getHideAllElement();
 
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
         $tpl->setVariable("OPTIONS", $str = ilJsonUtil::encode($options));
         $tpl->setVariable("ACC_ID", $options["id"]);
         //echo "<br><br><br><br><br><br>".$str;

@@ -1,36 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjAdvancedEditing
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @extends ilObject
-*/
+ * Class ilObjAdvancedEditing
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilObjAdvancedEditing extends ilObject
 {
     public $setting;
@@ -46,7 +22,6 @@ class ilObjAdvancedEditing extends ilObject
         global $DIC;
 
         $this->lng = $DIC->language();
-        include_once "./Services/Administration/classes/class.ilSetting.php";
         $this->setting = new ilSetting("advanced_editing");
         $this->type = "adve";
         parent::__construct($a_id, $a_call_by_reference);
@@ -98,8 +73,6 @@ class ilObjAdvancedEditing extends ilObject
     */
     public static function _getUsedHTMLTags($a_module = "")
     {
-        $usedtags = array();
-        include_once "./Services/Administration/classes/class.ilSetting.php";
         $setting = new ilSetting("advanced_editing");
         $tags = $setting->get("advanced_editing_used_html_tags_" . $a_module);
         if (strlen($tags)) {
@@ -199,7 +172,6 @@ class ilObjAdvancedEditing extends ilObject
     */
     public static function _getRichTextEditor()
     {
-        include_once "./Services/Administration/classes/class.ilSetting.php";
         $setting = new ilSetting("advanced_editing");
         $js = $setting->get("advanced_editing_javascript_editor");
         return $js;
@@ -214,7 +186,6 @@ class ilObjAdvancedEditing extends ilObject
     */
     public function setRichTextEditor($a_js_editor)
     {
-        include_once "./Services/Administration/classes/class.ilSetting.php";
         $setting = new ilSetting("advanced_editing");
         $setting->set("advanced_editing_javascript_editor", $a_js_editor);
     }
@@ -247,7 +218,6 @@ class ilObjAdvancedEditing extends ilObject
                 }
             }
             
-            include_once "./Services/Administration/classes/class.ilSetting.php";
             $setting = new ilSetting("advanced_editing");
             $setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge((array) $a_html_tags, $auto_added_tags)));
             

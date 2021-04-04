@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  *
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAwareness
  */
 class ilAwarenessData
 {
@@ -31,10 +29,7 @@ class ilAwarenessData
     {
         $this->user_id = $a_user_id;
 
-        include_once("./Services/Awareness/classes/class.ilAwarenessUserCollector.php");
         $this->user_collector = ilAwarenessUserCollector::getInstance($a_user_id);
-        include_once("./Services/User/Actions/classes/class.ilUserActionCollector.php");
-        include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
         $this->action_collector = ilUserActionCollector::getInstance($a_user_id, new ilAwarenessUserActionContext());
     }
 
@@ -175,7 +170,6 @@ class ilAwarenessData
             }
         }
 
-        include_once("./Services/User/classes/class.ilUserUtil.php");
         $names = ilUserUtil::getNamePresentation(
             $all_online_user_ids,
             true,
@@ -265,7 +259,6 @@ class ilAwarenessData
                     }
                 }
 
-                include_once("./Services/User/classes/class.ilUserUtil.php");
                 $names = ilUserUtil::getNamePresentation(
                     $user_ids,
                     true,
