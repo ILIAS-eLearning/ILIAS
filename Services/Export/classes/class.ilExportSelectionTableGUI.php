@@ -1,19 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Services/Export/classes/class.ilExportOptions.php';
-include_once './Services/Export/classes/class.ilExportFileInfo.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Object selection for export
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesExport
-*/
+ * Object selection for export
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilExportSelectionTableGUI extends ilTable2GUI
 {
 
@@ -182,7 +175,6 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             if (!$objDefinition->allowExport($node['type'])) {
                 #continue;
             }
-            include_once("./Modules/File/classes/class.ilObjFileAccess.php");
             if ($node['type'] == "file" &&
                 ilObjFileAccess::_isFileHidden($node['title'])) {
                 continue;

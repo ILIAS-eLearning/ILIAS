@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCMediaObject
-*
-* Media content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCMediaObject
+ *
+ * Media content object (see ILIAS DTD)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPCMediaObject extends ilPageContent
 {
     /**
@@ -296,7 +292,6 @@ class ilPCMediaObject extends ilPageContent
     public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
     {
         if (!$a_page->getImportMode()) {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $mob_ids = ilObjMediaObject::_getMobsOfObject(
                 $a_page->getParentType() . ":pg",
                 $a_page->getId(),
@@ -323,7 +318,6 @@ class ilPCMediaObject extends ilPageContent
      */
     public static function beforePageDelete($a_page)
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mob_ids = ilObjMediaObject::_getMobsOfObject(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
@@ -409,7 +403,6 @@ class ilPCMediaObject extends ilPageContent
             }
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         ilObjMediaObject::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),

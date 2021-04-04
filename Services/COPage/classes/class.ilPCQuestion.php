@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCQuestion
-*
-* Assessment Question of ilPageObject
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCQuestion
+ *
+ * Assessment Question of ilPageObject
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPCQuestion extends ilPageContent
 {
     /**
@@ -104,8 +98,6 @@ class ilPCQuestion extends ilPageContent
      */
     public function copyPoolQuestionIntoPage($a_q_id, $a_hier_id)
     {
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $question = assQuestion::_instanciateQuestion($a_q_id);
         $duplicate_id = $question->copyObject(0, $question->getTitle());
         $duplicate = assQuestion::_instanciateQuestion($duplicate_id);
@@ -188,8 +180,6 @@ class ilPCQuestion extends ilPageContent
         global $DIC;
 
         $ilDB = $DIC->database();
-        
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         
         $ilDB->manipulateF(
             "DELETE FROM page_question WHERE page_parent_type = %s " .
@@ -301,7 +291,6 @@ class ilPCQuestion extends ilPageContent
             // #14154
             $q_ids = $this->getPage()->getQuestionIds();
             if (sizeof($q_ids)) {
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                     // object check due to #16557
@@ -427,7 +416,6 @@ class ilPCQuestion extends ilPageContent
             $q_ids = $this->getPage()->getQuestionIds();
             if (count($q_ids) > 0) {
                 foreach ($q_ids as $q_id) {
-                    include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
                     $as = ilPageQuestionProcessor::getAnswerStatus($q_id, $ilUser->getId());
                     $code[] = "ilias.questions.initAnswer(" . $q_id . ", " . (int) $as["try"] . ", " . ($as["passed"] ? "true" : "null") . ");";
                 }

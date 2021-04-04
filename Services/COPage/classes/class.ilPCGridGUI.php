@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCGrid.php");
-require_once("./Services/COPage/classes/class.ilPCGridCell.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Responsive Grid UI class
  *
  * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ServicesCOPage
  */
 class ilPCGridGUI extends ilPageContentGUI
 {
@@ -99,7 +94,6 @@ class ilPCGridGUI extends ilPageContentGUI
         $lng = $this->lng;
 
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_ed_insert_grid"));
@@ -213,7 +207,6 @@ class ilPCGridGUI extends ilPageContentGUI
 
         $this->setTabs();
         $this->tabs->activateTab("settings");
-        include_once("./Services/COPage/classes/class.ilPCGridCellTableGUI.php");
         $table_gui = new ilPCGridCellTableGUI($this, "edit", $this->content_obj);
         $this->tpl->setContent($table_gui->getHTML());
     }

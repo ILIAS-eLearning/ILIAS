@@ -1,19 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCTable.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class ilPCTableGUI
- *
  * User Interface for Table Editing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
@@ -199,10 +191,8 @@ class ilPCTableGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
         $ilUser = $this->user;
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_mode == "create") {
@@ -451,7 +441,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $mobs = $this->pg_obj->getMultimediaXML();
         if ($this->getStyleId() > 0) {
             if (ilObject::_lookupType($this->getStyleId()) == "sty") {
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $style = new ilObjStyleSheet($this->getStyleId());
                 $template_xml = $style->getTemplateXML();
             }
@@ -657,7 +646,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilTabs->setSubTabActive("cont_style");
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
@@ -1013,7 +1001,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilTabs->setTabActive("cont_table_cell_properties");
 
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
@@ -1084,8 +1071,6 @@ class ilPCTableGUI extends ilPageContentGUI
     public function getEditDataTable($initial = false)
     {
         $ilCtrl = $this->ctrl;
-
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 
         $dtpl = new ilTemplate("tpl.tabledata2.html", true, true, "Services/COPage");
         $dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
@@ -1180,7 +1165,6 @@ class ilPCTableGUI extends ilPageContentGUI
                             true,
                             false
                         );
-                        include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
                         $s_text = ilPCParagraphGUI::xml2outputJS(
                             $s_text,
                             "TableContent",

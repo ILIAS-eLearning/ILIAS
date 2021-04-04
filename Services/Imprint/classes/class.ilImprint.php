@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilImprint
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @ingroup ModulesImprint
-*/
+ * Class ilImprint
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilImprint extends ilPageObject
 {
     /**

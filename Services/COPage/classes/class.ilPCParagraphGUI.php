@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCParagraph.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCParagraphGUI
-*
-* User Interface for Paragraph Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCParagraphGUI
+ *
+ * User Interface for Paragraph Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCParagraphGUI extends ilPageContentGUI
 {
     /**
@@ -84,7 +79,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style = new ilObjStyleSheet($a_style_id);
             $types = array("heading1", "heading2", "heading3", "text_block");
             $chars = array();
@@ -119,7 +113,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style = new ilObjStyleSheet($a_style_id);
             $types = array("text_inline");
             foreach ($types as $t) {
@@ -369,13 +362,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
             array("<li class='ilc_list_item_StandardListItem'></li>"),
             $s_text
         );
-        //$s_text = str_replace("<SimpleBulletList><br />", "<SimpleBulletList>", $s_text);
-        //$s_text = str_replace("<SimpleNumberedList><br />", "<SimpleNumberedList>", $s_text);
-        //$s_text = str_replace("</SimpleListItem><br />", "</SimpleListItem>", $s_text);
-
 
         // spans
-        include_once("./Services/COPage/classes/class.ilPageContentGUI.php");
         foreach (ilPageContentGUI::_getCommonBBButtons() as $bb => $cl) {
             if (!in_array($bb, array("code", "tex", "fn", "xln", "sub", "sup"))) {
                 $s_text = str_replace(
@@ -557,7 +545,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
      */
     public static function getStyleSelector($a_selected, $a_chars, $a_use_callback = false)
     {
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setPullRight(false);
         $selection->setFormSelectMode(
@@ -626,7 +613,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         $lng = $DIC->language();
 
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setPullRight(false);
         $selection->setFormSelectMode(
@@ -715,8 +701,6 @@ class ilPCParagraphGUI extends ilPageContentGUI
     */
     private function setStyle()
     {
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        
         if ($this->pg_obj->getParentType() == "gdf" ||
             $this->pg_obj->getParentType() == "lm") {
             if ($this->pg_obj->getParentType() != "gdf") {

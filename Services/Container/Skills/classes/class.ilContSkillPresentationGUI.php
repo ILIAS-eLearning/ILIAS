@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Skill presentatio for container (course/group)
  *
  * @author Alex Killing <killing@leifos.de>
- * @ingroup ServicesContainer
  * @ilCtrl_Calls ilContSkillPresentationGUI: ilPersonalSkillsGUI
  */
 class ilContSkillPresentationGUI
@@ -84,7 +83,6 @@ class ilContSkillPresentationGUI
         $this->container_gui = $a_container_gui;
         $this->container = $a_container_gui->object;
 
-        include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
         $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());

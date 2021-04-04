@@ -399,7 +399,6 @@ class ilObjectActivation
         if ($item['changeable'] &&
             $item['timing_type'] == self::TIMINGS_PRESETTING) {
             // cognos-blu-patch: begin
-            include_once './Modules/Course/classes/Timings/class.ilTimingUser.php';
             $user_data = new ilTimingUser($a_item['ref_id'], $ilUser->getId());
             if ($user_data->isScheduled()) {
                 $a_item['start'] = $user_data->getStart()->get(IL_CAL_UNIX);
@@ -425,7 +424,6 @@ class ilObjectActivation
         
         // #7359 - session sorting should always base on appointment date
         if ($a_item['type'] == 'sess') {
-            include_once('./Modules/Session/classes/class.ilSessionAppointment.php');
             $info = ilSessionAppointment::_lookupAppointment($a_item['obj_id']);
 
             // #11987
@@ -611,7 +609,6 @@ class ilObjectActivation
             return false;
         }
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
         $mappings = $cp_options->getMappings();
              
@@ -746,7 +743,6 @@ class ilObjectActivation
      */
     public static function getItemsByEvent($a_event_id)
     {
-        include_once 'Modules/Session/classes/class.ilEventItems.php';
         $event_items = new ilEventItems($a_event_id);
         return self::processListItems($event_items->getItems());
     }
@@ -759,7 +755,6 @@ class ilObjectActivation
      */
     public static function getItemsByItemGroup($a_item_group_ref_id)
     {
-        include_once 'Modules/ItemGroup/classes/class.ilItemGroupItems.php';
         $ig_items = new ilItemGroupItems($a_item_group_ref_id);
         $items = $ig_items->getValidItems();
         return self::processListItems($items);
@@ -773,7 +768,6 @@ class ilObjectActivation
      */
     public static function getItemsByObjective($a_objective_id)
     {
-        include_once('./Modules/Course/classes/class.ilCourseObjectiveMaterials.php');
         $item_ids = ilCourseObjectiveMaterials::_getAssignedMaterials($a_objective_id);
         return self::processListItems($item_ids);
     }
@@ -857,7 +851,6 @@ class ilObjectActivation
         
         $filtered = array();
         
-        include_once 'Modules/Session/classes/class.ilEventItems.php';
         $event_items = ilEventItems::_getItemsOfContainer($a_container_ref_id);
         foreach (self::getTimingsAdministrationItems($a_container_ref_id) as $item) {
             if (!in_array($item['ref_id'], $event_items) &&

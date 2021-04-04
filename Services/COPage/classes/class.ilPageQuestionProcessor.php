@@ -1,12 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Page question processor
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
  */
 class ilPageQuestionProcessor
 {
@@ -34,15 +33,10 @@ class ilPageQuestionProcessor
         $ilUser = $DIC->user();
         $ilLog = $DIC["ilLog"];
         $ilDB = $DIC->database();
-        //$a_type = "assOrderingQuestion";
-        //$a_id = 74;
-        //$a_answer = '{"tries":1,"wrong":2,"passed":false,"answer":[true,true,false,true,false],"interactionId":null,"choice":["1","2","5","4","3"]}';
         $ilLog->write($a_type);
         $ilLog->write($a_id);
         $ilLog->write($a_answer);
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
         $answer = ilJsonUtil::decode($a_answer);
-        $tries = $answer->tries;
         $passed = $answer->passed;
         $choice = $answer->choice;
         $points = self::calculatePoints($a_type, $a_id, $choice);
@@ -53,31 +47,7 @@ class ilPageQuestionProcessor
             " qst_id = " . $ilDB->quote($a_id, "integer") . " AND " .
             " user_id = " . $ilDB->quote($ilUser->getId(), "integer")
         );
-        
-        /*
-        if ($rec = $ilDB->fetchAssoc($set))
-        {
-            $ilDB->manipulate("UPDATE page_qst_answer SET ".
-                " try = try + 1,".
-                " passed = ".$ilDB->quote($passed, "integer").",".
-                " points = ".$ilDB->quote($points, "float").
-                " WHERE qst_id = ".$ilDB->quote($a_id, "integer").
-                " AND user_id = ".$ilDB->quote($ilUser->getId(), "integer")
-                );
-        }
-        else
-        {
-            $ilDB->manipulate("INSERT INTO page_qst_answer ".
-                "(qst_id, user_id, try, passed, points) VALUES (".
-                $ilDB->quote($a_id, "integer").",".
-                $ilDB->quote($ilUser->getId(), "integer").",".
-                $ilDB->quote(1, "integer").",".
-                $ilDB->quote($passed, "integer").",".
-                $ilDB->quote($points, "float").
-                ")");
-        }
-        */
-        
+
         // #15146
         if (!$ilDB->fetchAssoc($set)) {
             $ilDB->replace(
@@ -173,11 +143,8 @@ class ilPageQuestionProcessor
     {
         global $DIC;
 
-        $ilLog = $DIC["ilLog"];
-
         switch ($a_type) {
             case "assSingleChoice":
-                include_once("./Modules/TestQuestionPool/classes/class.assSingleChoice.php");
                 $q = new assSingleChoice();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -189,7 +156,6 @@ class ilPageQuestionProcessor
                 break;
 
             case "assMultipleChoice":
-                include_once("./Modules/TestQuestionPool/classes/class.assMultipleChoice.php");
                 $q = new assMultipleChoice();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -203,7 +169,6 @@ class ilPageQuestionProcessor
                 break;
 
             case "assClozeTest":
-                include_once("./Modules/TestQuestionPool/classes/class.assClozeTest.php");
                 $q = new assClozeTest();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -261,7 +226,6 @@ class ilPageQuestionProcessor
                 break;
 
             case "assMatchingQuestion":
-                include_once("./Modules/TestQuestionPool/classes/class.assMatchingQuestion.php");
                 $q = new assMatchingQuestion();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -277,7 +241,6 @@ class ilPageQuestionProcessor
                 
                 // TODO-LSD: change calculation strategy according to lsd cleanup changes
                 
-                include_once("./Modules/TestQuestionPool/classes/class.assOrderingQuestion.php");
                 $q = new assOrderingQuestion();
                 $q->loadFromDb($a_id);
                 $points = 0;
@@ -295,7 +258,6 @@ class ilPageQuestionProcessor
                 break;
 
             case "assImagemapQuestion":
-                include_once("./Modules/TestQuestionPool/classes/class.assImagemapQuestion.php");
                 $q = new assImagemapQuestion();
                 $q->loadFromDb($a_id);
                 $points = 0;

@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilExportOptions.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* XML parser for container structure
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesContainer
-*/
+ * XML parser for container structure
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilContainerXmlParser
 {
     /**
@@ -151,7 +147,6 @@ class ilContainerXmlParser
         $visible = (string) $timing['Visible'];
         $changeable = (string) $timing['Changeable'];
         
-        include_once './Services/Object/classes/class.ilObjectActivation.php';
         $crs_item = new ilObjectActivation();
         $crs_item->setTimingType($type);
         $crs_item->toggleVisible((bool) $visible);
@@ -211,7 +206,6 @@ class ilContainerXmlParser
         // A mapping for this object already exists => create reference
         $new_obj_id = $this->getMapping()->getMapping('Services/Container', 'objs', $obj_id);
         if ($new_obj_id) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
             $obj = ilObjectFactory::getInstanceByObjId($new_obj_id, false);
             if ($obj instanceof  ilObject) {
                 $obj->createReference();

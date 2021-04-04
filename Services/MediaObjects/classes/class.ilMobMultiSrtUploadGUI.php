@@ -50,7 +50,6 @@ class ilMobMultiSrtUploadGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtUpload.php");
         $this->multi_srt = new ilMobMultiSrtUpload($a_multi_srt);
         $this->toolbar = $ilToolbar;
     }
@@ -76,7 +75,6 @@ class ilMobMultiSrtUploadGUI
 
         // upload file
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this), true);
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($this->lng->txt("cont_subtitle_file") . " (.zip)", "subtitle_file");
         $fi->setSuffixes(array("zip"));
         $this->toolbar->addInputItem($fi, true);
@@ -103,7 +101,6 @@ class ilMobMultiSrtUploadGUI
      */
     public function showMultiSubtitleConfirmationTable()
     {
-        include_once("./Services/MediaObjects/classes/class.ilMobMultiSrtConfirmationTable2GUI.php");
         $tab = new ilMobMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
         $this->tpl->setContent($tab->getHTML());
     }

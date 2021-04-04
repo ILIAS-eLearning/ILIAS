@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * GUI class for object translation handling.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesObject
  *
  * @ilCtrl_IsCalledBy ilMultilingualismeGUI: ilDidacticTemplateSettingsGUI
  */
@@ -62,7 +60,6 @@ class ilMultilingualismGUI
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
 
-        include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
         $this->obj_trans = ilMultilingualism::getInstance($a_obj_id, $a_type);
     }
 
@@ -116,7 +113,6 @@ class ilMultilingualismGUI
 
         $this->addToolbar();
 
-        include_once("./Services/Multilingualism/classes/class.ilMultilingualismTableGUI.php");
         $table = new ilMultilingualismTableGUI(
             $this,
             "listTranslations",
@@ -196,7 +192,7 @@ class ilMultilingualismGUI
                 ilUtil::stripSlashes($v),
                 ilUtil::stripSlashes($_POST["desc"][$k]),
                 $is_default
-                );
+            );
         }
         $this->obj_trans->save();
 
@@ -235,17 +231,14 @@ class ilMultilingualismGUI
      */
     public function getMultiLangForm($a_add = false)
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // master language
         if (!$a_add) {
-            include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
             $options = ilMDLanguageItem::_getLanguages();
             $si = new ilSelectInputGUI($lng->txt("obj_master_lang"), "master_lang");
             $si->setOptions($options);
@@ -255,7 +248,6 @@ class ilMultilingualismGUI
 
         // additional languages
         if ($a_add) {
-            include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
             $options = ilMDLanguageItem::_getLanguages();
             $options = array("" => $lng->txt("please_select")) + $options;
             $si = new ilSelectInputGUI($lng->txt("obj_additional_langs"), "additional_langs");

@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * TableGUI class for competences in containers
  *
  * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ServicesContainer
  */
 class ilContSkillTableGUI extends ilTable2GUI
 {

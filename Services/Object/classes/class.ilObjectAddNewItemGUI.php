@@ -180,7 +180,6 @@ class ilObjectAddNewItemGUI
 
             $grp_map = $pos_group_map = array();
             
-            include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
             $groups = ilObjRepositorySettings::getNewItemGroups();
             
             // no groups => use default
@@ -264,7 +263,6 @@ class ilObjectAddNewItemGUI
                         }
                         
                         if ($subitem["plugin"]) {
-                            include_once("./Services/Component/classes/class.ilPlugin.php");
                             $title = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                         } else {
                             // #13088
@@ -302,7 +300,6 @@ class ilObjectAddNewItemGUI
             $base_url .= "&crtcb=" . $this->url_creation_callback;
         }
         
-        include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $gl = new ilGroupedListGUI();
         $gl->setAsDropDown(true, true);
 
@@ -373,10 +370,7 @@ class ilObjectAddNewItemGUI
         }
                 
         $ov_id = "il_add_new_item_ov";
-        $ov_trigger_id = $ov_id . "_tr";
-        
 
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $adv = new ilAdvancedSelectionListGUI();
         $adv->setListTitle($lng->txt("cntr_add_new_item"));
         $this->getHTML();
@@ -388,7 +382,6 @@ class ilObjectAddNewItemGUI
         return;
 
         // toolbar
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
         $button = ilLinkButton::getInstance();
         $button->setId($ov_trigger_id);
         $button->setCaption("cntr_add_new_item");

@@ -223,7 +223,6 @@ class ilObjectDefinition // extends ilSaxParser
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
         foreach ($pl_names as $pl_name) {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
             if (!isset($grouped_obj[$pl_id])) {
                 $grouped_obj[$pl_id] = array(
@@ -1184,10 +1183,8 @@ class ilObjectDefinition // extends ilSaxParser
         $ilPluginAdmin = $this->plugin_admin;
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
         foreach ($pl_names as $pl_name) {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
-                include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
                 $loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
                 // The plugin_id is the same as the type_id in repository object plugins.
                 $pl = ilObjectPlugin::getPluginObjectByType($pl_id);

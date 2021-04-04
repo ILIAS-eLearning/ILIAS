@@ -104,7 +104,7 @@ class ilCOPagePCDef
         $pc_def = self::getPCDefinitionByName($a_name);
         $pc_class = "ilPC" . $pc_def["name"];
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        include_once($pc_path);
+        //include_once($pc_path);
     }
     
     /**
@@ -118,7 +118,7 @@ class ilCOPagePCDef
         $pc_def = self::getPCDefinitionByName($a_name);
         $pc_class = "ilPC" . $pc_def["name"] . "GUI";
         $pc_path = "./" . $pc_def["component"] . "/" . $pc_def["directory"] . "/class." . $pc_class . ".php";
-        include_once($pc_path);
+        //include_once($pc_path);
     }
     
     /**

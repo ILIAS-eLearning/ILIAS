@@ -82,7 +82,6 @@ class ilContainerSkillGUI
         switch ($next_class) {
             case "ilcontskillpresentationgui":
                 if ($this->access->checkAccess("read", "", $this->ref_id)) {
-                    include_once("./Services/Container/Skills/classes/class.ilContSkillPresentationGUI.php");
                     $gui = new ilContSkillPresentationGUI($this->container_gui);
                     $ctrl->forwardCommand($gui);
                 }
@@ -90,7 +89,6 @@ class ilContainerSkillGUI
 
             case "ilcontskilladmingui":
                 if ($this->access->checkAccess("write", "", $this->ref_id) || $this->access->checkAccess("grade", "", $this->ref_id)) {
-                    include_once("./Services/Container/Skills/classes/class.ilContSkillAdminGUI.php");
                     $gui = new ilContSkillAdminGUI($this->container_gui);
                     $ctrl->forwardCommand($gui);
                 }

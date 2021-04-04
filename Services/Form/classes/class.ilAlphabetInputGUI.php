@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a text property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a text property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
     /**

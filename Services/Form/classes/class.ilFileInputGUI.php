@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/UIComponent/Toolbar/interfaces/interface.ilToolbarItem.php';
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a file property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a file property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
 {
     /**
@@ -264,7 +260,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $_FILES[$this->getPostVar()]["name"] = ilUtil::stripSlashes($_FILES[$this->getPostVar()]["name"]);
 
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         $_FILES[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"]);
 
         // remove trailing '/'
@@ -273,8 +268,6 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $filename = $_FILES[$this->getPostVar()]["name"];
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
         $suffix = $filename_arr["extension"];
-        $mimetype = $_FILES[$this->getPostVar()]["type"];
-        $size_bytes = $_FILES[$this->getPostVar()]["size"];
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
         $_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];

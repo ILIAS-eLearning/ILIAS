@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Data class for like feature. DB related operations.
@@ -12,9 +12,6 @@
  * We internally save "" as "-" here.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesLike
  */
 class ilLikeData
 {
@@ -215,7 +212,6 @@ class ilLikeData
     public function getExpressionCounts($obj_id, $obj_type, $sub_obj_id, $sub_obj_type, $news_id)
     {
         if (!is_array($this->data[$obj_id])) {
-            include_once("./Services/Like/exceptions/class.ilLikeDataException.php");
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
 
@@ -274,7 +270,6 @@ class ilLikeData
     public function getExpressionEntries($obj_id, $obj_type, $sub_obj_id, $sub_obj_type, $news_id)
     {
         if (!is_array($this->data[$obj_id])) {
-            include_once("./Services/Like/exceptions/class.ilLikeDataException.php");
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
 
@@ -310,7 +305,6 @@ class ilLikeData
     public function getExpressionEntriesForObject($obj_id, $since_ts = null)
     {
         if (!is_array($this->data[$obj_id])) {
-            include_once("./Services/Like/exceptions/class.ilLikeDataException.php");
             throw new ilLikeDataException("No data loaded for object $obj_id.");
         }
         $exp = array();

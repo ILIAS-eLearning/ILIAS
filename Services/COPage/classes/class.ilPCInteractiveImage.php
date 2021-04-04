@@ -65,7 +65,6 @@ class ilPCInteractiveImage extends ilPageContent
                 $this->setMediaObject(new ilObjMediaObject($mob_id));
             }
         }
-        include_once("./Services/COPage/classes/class.ilMediaAliasItem.php");
         $this->std_alias_item = new ilMediaAliasItem(
             $this->dom,
             $this->readHierId(),

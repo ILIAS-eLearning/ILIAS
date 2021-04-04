@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCContentInclude.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCContentIncludeGUI
-*
-* User Interface for Content Includes (Snippets) Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCContentIncludeGUI
+ *
+ * User Interface for Content Includes (Snippets) Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCContentIncludeGUI extends ilPageContentGUI
 {
     /**
@@ -111,8 +106,6 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 
             $ilCtrl->setParameter($this, "subCmd", "");
 
-            include_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
-            include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
             $pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
             $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
             $mpool_table = new ilMediaPoolTableGUI(
@@ -140,10 +133,6 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
-        //		$this->getTabs($ilTabs, true);
-        //		$ilTabs->setSubTabActive("cont_mob_from_media_pool");
-
-        include_once "./Services/COPage/classes/class.ilPoolSelectorGUI.php";
         $ilCtrl->setParameter($this, "subCmd", "poolSelection");
         $exp = new ilPoolSelectorGUI($this, "insert");
 
@@ -161,14 +150,9 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     */
     public function create()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
         if (is_array($_POST["id"])) {
             for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
                 // similar code in ilpageeditorgui::insertFromClipboard
-                include_once("./Modules/MediaPool/classes/class.ilMediaPoolItem.php");
-                include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
                 $this->content_obj = new ilPCContentInclude($this->getPage());
                 $this->content_obj->create($this->pg_obj, $_GET["hier_id"], $this->pc_id);
                 $this->content_obj->setContentType("mep");

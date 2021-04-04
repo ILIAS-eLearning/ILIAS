@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * FFmpeg wrapper
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup Services/MediaObjects
  */
 class ilFFmpeg
 {
@@ -180,54 +178,7 @@ class ilFFmpeg
         //$info = `ffmpeg -i $path$file 2>&1 /dev/null`;
         //@fields = split(/\n/, $info);
     }
-    
-    /**
-     * Convert file to target mime type
-     *
-     * @param string $a_file source file (full path included)
-     * @param string $a_target_mime target mime type
-     * @param string $a_target_dir target directory (no trailing "/")
-     * @param string $a_target_filename target file name (no path!)
-     *
-     * @return string new file (full path)
-     */
-    public static function convert($a_file, $a_target_mime, $a_target_dir = "", $a_target_filename = "")
-    {
-        return; // currently not supported
 
-        if (self::$formats[$a_target_mime]["target"] != true) {
-            include_once("./Services/MediaObjects/exceptions/class.ilFFmpegException.php");
-            throw new ilFFmpegException("Format " . $a_target_mime . " is not supported");
-        }
-        $pars = self::$formats[$a_target_mime]["parameters"];
-        $spi = pathinfo($a_file);
-        
-        // use source directory if no target directory is passed
-        $target_dir = ($a_target_dir != "")
-            ? $a_target_dir
-            : $spi['dirname'];
-            
-        // use source filename if no target filename is passed
-        $target_filename = ($a_target_filename != "")
-            ? $a_target_filename
-            : $spi['filename'] . "." . self::$formats[$a_target_mime]["suffix"];
-        
-        $target_file = $target_dir . "/" . $target_filename;
-        
-        $cmd = "-y -i " . ilUtil::escapeShellArg($a_file) . " " . $pars . " " . ilUtil::escapeShellArg($target_file);
-
-        $ret = self::exec($cmd . " 2>&1");
-        self::$last_return = $ret;
-        
-        if (is_file($target_file)) {
-            return $target_file;
-        } else {
-            include_once("./Services/MediaObjects/exceptions/class.ilFFmpegException.php");
-            throw new ilFFmpegException("It was not possible to convert file " . basename($a_file) . ".");
-        }
-        //ffmpeg -i MOV012.3gp -vcodec libx264 -strict experimental -acodec aac -sameq -ab 64k -ar 44100 MOV012.mp4
-    }
-    
     /**
      * Get last return values
      *
@@ -274,7 +225,6 @@ class ilFFmpeg
         if (is_file($target_file)) {
             return $target_file;
         } else {
-            include_once("./Services/MediaObjects/exceptions/class.ilFFmpegException.php");
             throw new ilFFmpegException("It was not possible to extract an image from " . basename($a_file) . ".");
         }
     }

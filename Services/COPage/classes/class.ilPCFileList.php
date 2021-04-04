@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCFileList
-*
-* File List content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCFileList
+ *
+ * File List content object (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCFileList extends ilPageContent
 {
     public $list_node;
@@ -251,7 +245,6 @@ class ilPCFileList extends ilPageContent
     {
         if (!$a_page->getImportMode()) {
             // pc filelist
-            include_once("./Modules/File/classes/class.ilObjFile.php");
             $file_ids = ilObjFile::_getFilesOfObject(
                 $a_page->getParentType() . ":pg",
                 $a_page->getId(),
@@ -284,7 +277,6 @@ class ilPCFileList extends ilPageContent
         $files = self::collectFileItems($a_page, $a_page->getDomDoc());
         
         // delete all file usages
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         ilObjFile::_deleteAllUsages(
             $a_page->getParentType() . ":pg",
             $a_page->getId(),
@@ -292,7 +284,6 @@ class ilPCFileList extends ilPageContent
             $a_page->getLanguage()
         );
 
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         foreach ($files as $file_id) {
             if (ilObject::_exists($file_id)) {
                 $file_obj = new ilObjFile($file_id, false);
@@ -320,7 +311,6 @@ class ilPCFileList extends ilPageContent
     public static function saveFileUsage($a_page, $a_domdoc, $a_old_nr = 0)
     {
         $file_ids = self::collectFileItems($a_page, $a_domdoc);
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         ilObjFile::_deleteAllUsages($a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($file_ids as $file_id) {
             ilObjFile::_saveUsage(

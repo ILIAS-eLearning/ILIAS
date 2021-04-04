@@ -1,13 +1,10 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package		Services/Form
  */
 abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
@@ -124,7 +121,6 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("CMD_UP", $this->buildMultiValueSubmitVar($identifier, $i, 'up'));
                 $tpl->setVariable("CMD_DOWN", $this->buildMultiValueSubmitVar($identifier, $i, 'down'));
                 $tpl->setVariable("ID", $this->getMultiValuePosIndexedFieldId($identifier, $i));
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                 $tpl->parseCurrentBlock();
@@ -145,7 +141,6 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
                 $tpl->setVariable("ID_REMOVE", $this->getMultiValuePosIndexedSubFieldId($identifier, 'remove', $i));
                 $tpl->setVariable("CMD_ADD", $this->buildMultiValueSubmitVar($identifier, $i, 'add'));
                 $tpl->setVariable("CMD_REMOVE", $this->buildMultiValueSubmitVar($identifier, $i, 'remove'));
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
                 $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             }

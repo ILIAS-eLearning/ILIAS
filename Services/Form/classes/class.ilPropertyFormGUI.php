@@ -1,49 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilFormGUI.php");
-
-// please do not add any more includes here if things are not really
-// highly re-used
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-include_once("./Services/Form/classes/class.ilCustomInputGUI.php");
-include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-include_once("./Services/Form/classes/class.ilFileInputGUI.php");
-include_once("./Services/Form/classes/class.ilImageFileInputGUI.php");
-include_once('./Services/Form/classes/class.ilFlashFileInputGUI.php');
-include_once("./Services/Form/classes/class.ilLocationInputGUI.php");
-include_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-include_once("./Services/Form/classes/class.ilCheckboxGroupInputGUI.php");
-include_once("./Services/Form/classes/class.ilFormSectionHeaderGUI.php");
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-include_once("./Services/Form/classes/class.ilTextInputGUI.php");
-include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
-include_once("./Services/Form/classes/class.ilFeedUrlInputGUI.php");
-include_once("./Services/Form/classes/class.ilNonEditableValueGUI.php");
-include_once("./Services/Form/classes/class.ilRegExpInputGUI.php");
-include_once('./Services/Form/classes/class.ilColorPickerInputGUI.php');
-include_once('./Services/Form/classes/class.ilPasswordInputGUI.php');
-include_once('./Services/Form/classes/class.ilUserLoginInputGUI.php');
-include_once('./Services/Form/classes/class.ilEMailInputGUI.php');
-include_once('./Services/Form/classes/class.ilHiddenInputGUI.php');
-include_once('./Services/Form/classes/class.ilNumberInputGUI.php');
-include_once('./Services/Form/classes/class.ilCSSRectInputGUI.php');
-include_once('./Services/Form/classes/class.ilTextWizardInputGUI.php');
-include_once './Services/Form/classes/class.ilFileWizardInputGUI.php';
-include_once './Services/Form/classes/class.ilFormulaInputGUI.php';
-include_once './Services/Form/classes/class.ilBirthdayInputGUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a property form user interface
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
-* @ingroup	ServicesForm
-*/
+ * This class represents a property form user interface
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilPropertyFormGUI: ilFormPropertyDispatchGUI
+ */
 class ilPropertyFormGUI extends ilFormGUI
 {
     /**
@@ -127,12 +91,10 @@ class ilPropertyFormGUI extends ilFormGUI
         $ilCtrl = $this->ctrl;
         
         $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
                 $ilCtrl->saveParameter($this, 'postvar');
-                include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $item = $this->getItemByPostVar($_REQUEST["postvar"]);
                 $form_prop_dispatch->setItem($item);
@@ -650,7 +612,6 @@ class ilPropertyFormGUI extends ilFormGUI
         $tpl = $DIC["tpl"];
         $ilSetting = $this->settings;
     
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initEvent();
         ilYuiUtil::initDom();
 

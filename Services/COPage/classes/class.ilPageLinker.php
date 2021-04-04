@@ -168,7 +168,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
                         if ($obj_type == "usr") {
-                            include_once("./Services/User/classes/class.ilUserUtil.php");
                             $back = $this->profile_back_url;
                             //var_dump($back); exit;
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
@@ -180,7 +179,6 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                                 );
                             }
                             $href = "";
-                            include_once("./Services/User/classes/class.ilUserUtil.php");
                             if (ilUserUtil::hasPublicProfile($target_id)) {
                                 $href = $this->ctrl->getLinkTargetByClass(
                                     ["ildashboardgui", "ilpublicuserprofilegui"],

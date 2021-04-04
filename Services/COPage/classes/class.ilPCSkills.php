@@ -132,7 +132,6 @@ class ilPCSkills extends ilPageContent
      */
     public static function saveSkillUsage($a_page, $a_domdoc, $a_old_nr = 0)
     {
-        include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
         $skl_ids = self::collectSkills($a_page, $a_domdoc);
         ilPageContentUsage::deleteAllUsages(
             "skmg",

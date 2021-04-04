@@ -1,19 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPCImageMapEditorGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User interface class for page content map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPCIIMTriggerEditorGUI: ilInternalLinkGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * User interface class for page content map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilPCIIMTriggerEditorGUI: ilInternalLinkGUI
+ */
 class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 {
     /**
@@ -49,13 +43,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $this->ctrl = $DIC->ctrl();
         $tpl = $DIC["tpl"];
         
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQueryUI();
 
         $tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
         $tpl->addJavascript("./Services/COPage/js/ilCOPagePCInteractiveImage.js");
 
-        include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
         ilAccordionGUI::addJavaScript();
         ilAccordionGUI::addCss();
 
@@ -105,7 +97,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             $ilCtrl->getLinkTarget($this, "editMapAreas")
         );
         
-        include_once("./Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php");
         $image_map_table = new ilPCIIMTriggerTableGUI(
             $this,
             "editMapAreas",
@@ -128,7 +119,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         // toolbar
         $tb = new ilToolbarGUI();
         $tb->setFormAction($ilCtrl->getFormAction($this));
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "Rect" => $lng->txt("cont_Rect"),
             "Circle" => $lng->txt("cont_Circle"),
@@ -172,9 +162,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     public function initAreaEditingForm($a_edit_property)
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
@@ -324,7 +311,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     {
 
         // for question html get the page gui object
-        include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
         $pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
         $pg_gui->setOutputMode(ilPageObjectGUI::PREVIEW);
         $pg_gui->getPageConfig()->setEnableSelfAssessment(true);
@@ -335,7 +321,6 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
                 $a_output = str_replace($pg_gui->pl_start . "Question;il__qst_$k" . $pg_gui->pl_end, " " . $h, $a_output);
             }
         }
-        //		$a_output = $pg_gui->selfAssessmentRendering($a_output);
 
         return $a_output;
     }

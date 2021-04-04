@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Media Pool Data set class
@@ -322,7 +321,6 @@ class ilMediaObjectDataSet extends ilDataSet
     public function getXmlRecord($a_entity, $a_version, $a_set)
     {
         if ($a_entity == "mob") {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
             $dir = ilObjMediaObject::_getDirectory($a_set["Id"]);
             $a_set["Dir"] = $dir;
         }
@@ -344,9 +342,6 @@ class ilMediaObjectDataSet extends ilDataSet
         switch ($a_entity) {
             case "mob":
 
-//var_dump($a_rec);
-
-                include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $newObj = new ilObjMediaObject();
                 $newObj->setType("mob");
                 $newObj->setTitle($a_rec["Title"]);
@@ -369,7 +364,6 @@ class ilMediaObjectDataSet extends ilDataSet
                     $this->mob_log->debug("s:-$source_dir-,t:-$target_dir-");
                     ilUtil::rCopy($source_dir, $target_dir);
                     ilObjMediaObject::renameExecutables($target_dir);
-                    include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
                     ilMediaSvgSanitizer::sanitizeDir($target_dir);	// see #20339
                 }
 
@@ -386,7 +380,6 @@ class ilMediaObjectDataSet extends ilDataSet
             case "mob_media_item":
 
                 // determine parent mob
-                include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $mob_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob", $a_rec["MobId"]);
                 if (is_object($this->current_mob) && $this->current_mob->getId() == $mob_id) {
                     $mob = $this->current_mob;
@@ -394,7 +387,6 @@ class ilMediaObjectDataSet extends ilDataSet
                     $mob = new ilObjMediaObject($mob_id);
                 }
 
-                include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
                 $newObj = new ilMediaItem();
                 $newObj->setMobId($mob_id);
                 $newObj->setWidth($a_rec["Width"]);
@@ -416,7 +408,6 @@ class ilMediaObjectDataSet extends ilDataSet
             case "mob_mi_parameter":
 
                 // get media item
-                include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
                 $med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
                 if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id) {
                     $med = $this->current_media_item;
@@ -429,7 +420,6 @@ class ilMediaObjectDataSet extends ilDataSet
 
             case "mob_mi_map_area":
                 // get media item
-                include_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
                 $med_id = (int) $a_mapping->getMapping("Services/MediaObjects", "mob_media_item", $a_rec["MiId"]);
                 if (is_object($this->current_media_item) && $this->current_media_item->getId() == $med_id) {
                     $med = $this->current_media_item;
@@ -437,7 +427,6 @@ class ilMediaObjectDataSet extends ilDataSet
                     $med = new ilMediaItem($med_id);
                 }
 
-                include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
                 $map_area = new ilMapArea();
                 $map_area->setItemId($med_id);
                 $map_area->setNr($a_rec["Nr"]);
@@ -452,7 +441,6 @@ class ilMediaObjectDataSet extends ilDataSet
                 $map_area->setHighlightMode($a_rec["HighlightMode"]);
                 $map_area->setHighlightClass($a_rec["HighlightClass"]);
                 $map_area->create();
-                
                 break;
         }
     }

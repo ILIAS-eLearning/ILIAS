@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Online help application class
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
  */
 class ilHelp
 {
@@ -258,7 +257,6 @@ class ilHelp
         } else {
             $hm = (int) $ilSetting->get("help_module");
             if ($hm > 0) {
-                include_once("./Services/Help/classes/class.ilObjHelpSettings.php");
                 $lm_id = ilObjHelpSettings::lookupModuleLmId($hm);
             }
         }

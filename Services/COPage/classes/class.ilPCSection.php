@@ -1,19 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCSection
-*
-* Section content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCSection
+ *
+ * Section content object (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCSection extends ilPageContent
 {
     /**
@@ -122,7 +117,6 @@ class ilPCSection extends ilPageContent
      */
     public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
     {
-        include_once("./Services/COPage/classes/class.ilPCSection.php");
         self::saveTimings($a_page);
     }
 

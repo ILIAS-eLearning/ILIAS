@@ -1,21 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
-require_once("./Services/Object/classes/class.ilObjectGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjMediaObjectGUI
-*
-* Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
-*
-* @ingroup ServicesMediaObjects
-*/
+ * Class ilObjMediaObjectGUI
+ *
+ * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
+ */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
     /**
@@ -225,15 +219,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public function executeCommand()
     {
         $tpl = $this->tpl;
-        $ilAccess = $this->access;
-        $ilErr = $this->error;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case 'ilobjectmetadatagui':
-                include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());
                 // object is subtype, so we have to do it ourselves
                 $md_gui->addMDObserver($this->object, 'MDUpdateListener', 'General');
@@ -255,7 +246,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
                 
             case "ilfilesystemgui":
-                include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
                 $fs_gui = new ilFileSystemGUI(ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId());
                 $fs_gui->setAllowedSuffixes(ilObjMediaObject::getRestrictedFileTypes());
                 $fs_gui->setForbiddenSuffixes(ilObjMediaObject::getForbiddenFileTypes());
@@ -276,7 +266,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
                 $ret = $this->ctrl->forwardCommand($fs_gui);
                 ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20187
-                include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
                 ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
                 break;
 
@@ -323,8 +312,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         
         if ($a_mode == "edit") {
             $std_item = $this->object->getMediaItem("Standard");
@@ -381,7 +368,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $radio_size->addOption($op1);
         
         // width height
-        include_once("./Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php");
         $width_height = new ilWidthHeightInputGUI($lng->txt("cont_width") .
                 " / " . $lng->txt("cont_height"), "standard_width_height");
         $width_height->setConstrainProportions(true);
@@ -885,7 +871,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     
         ilObjMediaObject::renameExecutables($mob_dir);
-        include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
         $a_mob->update();
     }
@@ -969,7 +954,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         if ($std_item->getLocationType() == "LocalFile") {
             $file = $mob_dir . "/" . $std_item->getLocation();
 
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             $size = ilMediaImageUtil::getImageSize($file);
 
             $std_item->setWidth($size[0]);
@@ -990,7 +974,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         if ($full_item->getLocationType() == "LocalFile") {
             $file = $mob_dir . "/" . $full_item->getLocation();
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             $size = ilMediaImageUtil::getImageSize($file);
             $full_item->setWidth($size[0]);
             $full_item->setHeight($size[1]);
@@ -1229,7 +1212,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
 
             ilObjMediaObject::renameExecutables(ilObjMediaObject::_getDirectory($this->object->getId()));
-            include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
             ilMediaSvgSanitizer::sanitizeDir(ilObjMediaObject::_getDirectory($this->object->getId()));	// see #20339
 
             $this->object->update();
@@ -1454,7 +1436,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             );
         }
         ilObjMediaObject::renameExecutables($mob_dir);
-        include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
 
         $this->ctrl->saveParameter($this, "cdir");
@@ -1675,7 +1656,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $cmd = "showUsages";
         }
 
-        include_once("./Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php");
         $usages_table = new ilMediaObjectUsagesTableGUI(
             $this,
             $cmd,
@@ -1753,7 +1733,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
             // output keywords
             if ($type == "Standard") {
-                include_once './Services/MetaData/classes/class.ilMDKeyword.php';
                 if (count($kws = ilMDKeyword::lookupKeywords(0, $med->getMobId()))) {
                     $tpl->setCurrentBlock('additional_info');
                     $tpl->setVariable('ADD_INFO', $lng->txt('keywords') . ': ' . implode(', ', $kws));
@@ -1856,7 +1835,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 );
             }
 
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI(null, $this->object->getType(), $this->object->getId());
             $mdtab = $mdgui->getTab("ilobjmediaobjectgui");
             if ($mdtab) {
@@ -1888,12 +1866,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $tpl = $this->tpl;
 
-        include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
-
-        /*$codecs = ilFFmpeg::getSupportedCodecsInfo();
-        $codec_str = implode($codecs, "<br />");
-        $tpl->setContent($codec_str);*/
-        
         $formats = ilFFmpeg::getSupportedFormatsInfo();
         $formats_str = implode("<br />", $formats);
         $tpl->setContent($formats_str);
@@ -1913,13 +1885,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $a_tpl = $tpl;
         }
         
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQUery($a_tpl);
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         $a_tpl->addJavascript(iljQueryUtil::getLocalMaphilightPath());
         $a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
         
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
     
@@ -1972,14 +1941,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         
         // upload file
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("mob_subtitle_file") . " (.srt)", "subtitle_file");
         $fi->setSuffixes(array("srt"));
         $ilToolbar->addInputItem($fi, true);
         
         // language
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-        include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
         $options = ilMDLanguageItem::_getLanguages();
         $si = new ilSelectInputGUI($this->lng->txt("mob_language"), "language");
         $si->setOptions($options);
@@ -1991,7 +1957,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilToolbar->addSeparator();
         $ilToolbar->addFormButton($lng->txt("mob_upload_multi_srt"), "uploadMultipleSubtitleFileForm");
         
-        include_once("./Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php");
         $tab = new ilMobSubtitleTableGUI($this, "listSubtitleFiles", $this->object);
             
         $tpl->setContent($tab->getHTML());
@@ -2078,7 +2043,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         // upload file
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($lng->txt("mob_subtitle_file") . " (.zip)", "subtitle_file");
         $fi->setSuffixes(array("zip"));
         $ilToolbar->addInputItem($fi, true);
@@ -2109,7 +2073,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
         $this->setPropertiesSubTabs("subtitles");
 
-        include_once("./Services/MediaObjects/classes/class.ilMultiSrtConfirmationTable2GUI.php");
         $tab = new ilMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
         $tpl->setContent($tab->getHTML());
     }

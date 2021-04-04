@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Page History Table GUI Class
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Page History Table GUI Class
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilPageHistoryTableGUI extends ilTable2GUI
 {
     /**
@@ -111,21 +107,7 @@ class ilPageHistoryTableGUI extends ilTable2GUI
             
         if (ilObject::_exists($a_set["user"])) {
             // user name
-            $user = ilObjUser::_lookupName($a_set["user"]);
-            $login = ilObjUser::_lookupLogin($a_set["user"]);
-            //$this->tpl->setVariable("TXT_LINKED_USER",
-            //	$user["lastname"].", ".$user["firstname"]." [".$login."]");
-                
-            // profile link
-            include_once("./Services/User/classes/class.ilUserUtil.php");
             $name_pres = ilUserUtil::getNamePresentation($a_set["user"], true, true, $ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd()));
-            //$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user", $a_set["user"]);
-            //$ilCtrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-            //	rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
-            //$this->tpl->setVariable("USER_LINK",
-            //	$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-            //$img = ilObjUser::_getPersonalPicturePath($a_set["user"], "xxsmall");
-            //$this->tpl->setVariable("IMG_USER", $img);
             $this->tpl->setVariable("TXT_USER", $name_pres);
         }
             

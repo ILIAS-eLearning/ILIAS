@@ -1,9 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCDataTable.php");
-require_once("./Services/COPage/classes/class.ilPCTableGUI.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPCTableGUI
@@ -11,9 +8,6 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  * User Interface for Data Table Editing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
@@ -86,8 +80,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->setTabs();
 
         $this->displayValidationError();
-        
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
         
         $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tabledata.html", "Services/COPage");
         $dtpl = $this->tpl;
@@ -256,7 +248,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $lng = $this->lng;
 
         // handle input data
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
         $data = array();
         //var_dump($_POST["cell"]);
         //var_dump($_GET);
@@ -303,8 +294,6 @@ class ilPCDataTableGUI extends ilPCTableGUI
         }
 
         // handle input data
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
-        include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
         $data = array();
         foreach ($_POST as $k => $content) {
             if (substr($k, 0, 5) != "cell_") {

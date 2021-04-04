@@ -234,8 +234,6 @@ abstract class ilDataSet
             $arr["set"][] = $this->getJsonRecord($d);
         }
         
-        include_once("./Services/JSON/classes/class.ilJsonUtil.php");
-
         return ilJsonUtil::encode($arr);
     }
 
@@ -275,7 +273,6 @@ abstract class ilDataSet
         
         
         // step 2: init writer
-        include_once "./Services/Xml/classes/class.ilXmlWriter.php";
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();

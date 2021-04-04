@@ -75,7 +75,6 @@ abstract class ilPageConfig
 
         $this->lng = $DIC->language();
         // load pc_defs
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $this->pc_defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($this->pc_defs as $def) {
             $this->setEnablePCType($def["name"], (bool) $def["def_enabled"]);

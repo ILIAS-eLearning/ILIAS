@@ -1,15 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User Interface Class for Navigation History
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilNavigationHistoryGUI:
-*/
+ * User Interface Class for Navigation History
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilNavigationHistoryGUI:
+ */
 class ilNavigationHistoryGUI
 {
     /**
@@ -68,7 +67,6 @@ class ilNavigationHistoryGUI
         $ilNavigationHistory = $this->nav_history;
         $lng = $this->lng;
         
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setFormSelectMode(
             "url_ref_id",
@@ -87,7 +85,6 @@ class ilNavigationHistoryGUI
         $selection->setHeaderIcon(ilAdvancedSelectionListGUI::NO_ICON);
         $selection->setItemLinkClass("small");
         $selection->setUseImages(true);
-        include_once("./Services/Accessibility/classes/class.ilAccessKey.php");
         $selection->setAccessKey(ilAccessKey::LAST_VISITED);
         
         $items = $ilNavigationHistory->getItems();

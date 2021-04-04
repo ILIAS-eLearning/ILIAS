@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPageLayout
-*
-* Class for Page Layouts
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id$
-*
-* @ingroup ServicesStyle
-*/
+ * Class for Page Layouts
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ */
 class ilPageLayout
 {
     /**
@@ -233,7 +229,6 @@ class ilPageLayout
      */
     public function getXMLContent()
     {
-        include_once "Services/COPage/Layout/classes/class.ilPageLayoutPage.php";
         $layout_page = new ilPageLayoutPage($this->layout_id);
         return $layout_page->getXMLContent();
     }
@@ -357,7 +352,6 @@ class ilPageLayout
      */
     public static function import($a_filename, $a_filepath)
     {
-        include_once("./Services/Export/classes/class.ilImport.php");
         $imp = new ilImport();
         $imp->importEntity(
             $a_filepath,

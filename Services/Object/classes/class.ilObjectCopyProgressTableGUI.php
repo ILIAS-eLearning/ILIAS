@@ -1,17 +1,10 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 /**
  * Table gui for copy progress
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
- *
- * @ingroup ServicesObject
  */
 class ilObjectCopyProgressTableGUI extends ilTable2GUI
 {
@@ -89,7 +82,6 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($set['type'], $set['obj_id']));
         $this->tpl->setVariable('TYPE_STR', $this->lng->txt('obj_' . $set['type']));
 
-        include_once './Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php';
         $progress = ilProgressBar::getInstance();
         $progress->setType(ilProgressBar::TYPE_SUCCESS);
         $progress->setMin(0);
@@ -128,7 +120,6 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
             $set[$counter]['title'] = ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id));
             $set[$counter]['description'] = ilObject::_lookupDescription(ilObject::_lookupObjId($ref_id));
             
-            include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
             $copy_info = ilCopyWizardOptions::_getInstance($copy_id);
             $copy_info->read();
             $set[$counter]['max_steps'] = $copy_info->getRequiredSteps();

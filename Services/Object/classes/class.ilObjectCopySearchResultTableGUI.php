@@ -1,38 +1,13 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Presentation of search results
  *
  * Used for object cloning
  *
- * @version $Id$
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- * @ingroup ServicesObject
  */
 class ilObjectCopySearchResultTableGUI extends ilTable2GUI
 {
@@ -81,7 +56,6 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
         if (!$objDefinition->isPlugin($this->type)) {
             $title = $this->lng->txt('obj_' . $this->type . '_duplicate');
         } else {
-            include_once "Services/Component/classes/class.ilPlugin.php";
             $plugin = ilObjectPlugin::getPluginObjectByType($this->type);
             $title = $plugin->txt('obj_' . $this->type . '_duplicate');
         }
@@ -159,7 +133,6 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TXT_PATHES', $this->lng->txt('pathes'));
         
         foreach ((array) $set['refs'] as $reference) {
-            include_once './Services/Tree/classes/class.ilPathGUI.php';
             $path = new ilPathGUI();
             
             $this->tpl->setCurrentBlock('path');

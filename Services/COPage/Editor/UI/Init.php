@@ -55,7 +55,6 @@ class Init
             $main_tpl->addJavascript("./node_modules/tinymce/tinymce.min.js");
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         \ilYuiUtil::initConnection();
         $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
     }

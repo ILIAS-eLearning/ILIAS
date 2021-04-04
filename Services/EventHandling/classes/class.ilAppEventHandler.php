@@ -193,7 +193,6 @@ class ilAppEventHandler
         $this->logger->debug("Finished event listener handling, started event propagation for event hook plugins ...");
 
         // get all event hook plugins and forward the event to them
-        include_once("./Services/Component/classes/class.ilPluginAdmin.php");
         $plugins = ilPluginAdmin::getActivePluginsForSlot("Services", "EventHandling", "evhk");
         foreach ($plugins as $pl) {
             $plugin = ilPluginAdmin::getPluginObject(

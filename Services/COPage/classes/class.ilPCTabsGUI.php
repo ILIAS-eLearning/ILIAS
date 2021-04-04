@@ -1,19 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCTabs.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCTabsGUI
-*
-* User Interface for Tabbed Content
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * User Interface for Tabbed Content
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCTabsGUI extends ilPageContentGUI
 {
     /**
@@ -108,14 +101,11 @@ class ilPCTabsGUI extends ilPageContentGUI
     public function initForm($a_mode = "edit")
     {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
         $lng = $this->lng;
 
-        include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
         ilAccordionGUI::addCss();
 
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_mode != "edit") {
@@ -461,7 +451,6 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $this->setTabs();
         $ilTabs->activateTab("cont_tabs");
-        include_once("./Services/COPage/classes/class.ilPCTabsTableGUI.php");
         $table_gui = new ilPCTabsTableGUI($this, "edit", $this->content_obj);
         $tpl->setContent($table_gui->getHTML());
     }

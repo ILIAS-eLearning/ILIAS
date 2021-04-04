@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Help system data set class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesHelp
  */
 class ilHelpDataSet extends ilDataSet
 {
@@ -125,8 +121,6 @@ class ilHelpDataSet extends ilDataSet
         switch ($a_entity) {
             case "help_map":
                 
-                include_once("./Services/Help/classes/class.ilHelpMapping.php");
-                
                 // without module ID we do nothing
                 $module_id = $a_mapping->getMapping('Services/Help', 'help_module', 0);
                 $t = $a_mapping->getAllMappings();
@@ -160,8 +154,6 @@ class ilHelpDataSet extends ilDataSet
                 break;
                 
             case "help_tooltip":
-                
-                include_once("./Services/Help/classes/class.ilHelp.php");
                 
                 // without module ID we do nothing
                 $module_id = $a_mapping->getMapping('Services/Help', 'help_module', 0);

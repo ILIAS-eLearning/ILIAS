@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilContainerRenderer
-*
-* @author Jörg Lützenkirchen  <luetzenkirchen@leifos.com>
-* @version $Id: class.ilContainerGUI.php 52026 2014-08-05 10:22:06Z smeyer $
-*/
+ * Class ilContainerRenderer
+ *
+ * @author Jörg Lützenkirchen  <luetzenkirchen@leifos.com>
+ */
 class ilContainerRenderer
 {
     /**
@@ -653,7 +652,6 @@ class ilContainerRenderer
             if (!$objDefinition->isPlugin($a_type)) {
                 $title = $lng->txt("objs_" . $a_type);
             } else {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
                 $pl = ilObjectPlugin::getPluginObjectByType($a_type);
                 $title = $pl->txt("objs_" . $a_type);
             }
@@ -661,7 +659,6 @@ class ilContainerRenderer
             $title = $a_text;
         }
 
-        include_once("./Modules/ItemGroup/classes/class.ilItemGroupBehaviour.php");
         if (is_array($a_data)) {
             foreach ($a_data as $k => $v) {
                 $a_tpl->setCurrentBlock("cb_data");

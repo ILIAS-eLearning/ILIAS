@@ -242,7 +242,6 @@ class ilObject
 
             // check number of records
             if ($ilDB->numRows($object_set) == 0) {
-                include_once("./Services/Object/exceptions/class.ilObjectNotFoundException.php");
                 throw new ilObjectNotFoundException("ilObject::read(): Object with obj_id: " . $this->id .
                     " (" . $this->type . ") not found!");
                 return;
@@ -262,7 +261,6 @@ class ilObject
             $ilLog->write($message);
                 
             // raise error
-            include_once("./Services/Object/exceptions/class.ilObjectTypeMismatchException.php");
             throw new ilObjectTypeMismatchException($message);
             return;
         }
@@ -812,8 +810,6 @@ class ilObject
 
         $app_event = $DIC->event();
 
-        include_once 'Services/MetaData/classes/class.ilMD.php';
-
         $app_event->raise(
             'Services/Object',
             'update',
@@ -852,8 +848,6 @@ class ilObject
     public function createMetaData()
     {
         global $DIC;
-
-        include_once 'Services/MetaData/classes/class.ilMDCreator.php';
 
         $ilUser = $DIC["ilUser"];
 
@@ -901,7 +895,6 @@ class ilObject
     public function deleteMetaData()
     {
         // Delete meta data
-        include_once('Services/MetaData/classes/class.ilMD.php');
         $md = new ilMD($this->getId(), 0, $this->getType());
         $md->deleteAll();
     }
@@ -1541,44 +1534,25 @@ class ilObject
                 $this->getType() . ", title: " . $this->getTitle());
             
             // keep log of core object data
-            include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
             ilObjectDataDeletionLog::add($this);
             
             // remove news
-            include_once("./Services/News/classes/class.ilNewsItem.php");
             $news_item = new ilNewsItem();
             $news_item->deleteNewsOfContext($this->getId(), $this->getType());
-            include_once("./Services/Block/classes/class.ilBlockSetting.php");
             ilBlockSetting::_deleteSettingsOfBlock($this->getId(), "news");
 
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
             ilDidacticTemplateObjSettings::deleteByObjId($this->getId());
 
-            /* remove notes (see infoscreen gui)
-               as they can be seen as personal data we are keeping them for now
-            include_once("Services/Notes/classes/class.ilNote.php");
-            foreach(array(IL_NOTE_PRIVATE, IL_NOTE_PUBLIC) as $note_type)
-            {
-                foreach(ilNote::_getNotesOfObject($this->id, 0, $this->type, $note_type) as $note)
-                {
-                    $note->delete();
-                }
-            }
-            */
-                        
             // BEGIN WebDAV: Delete WebDAV properties
             $query = "DELETE FROM dav_property " .
                 "WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
             $res = $ilDB->manipulate($query);
             // END WebDAV: Delete WebDAV properties
 
-            include_once './Services/WebServices/ECS/classes/class.ilECSImport.php';
             ilECSImport::_deleteByObjId($this->getId());
             
-            include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
             ilAdvancedMDValues::_deleteByObjId($this->getId());
             
-            include_once("Services/Tracking/classes/class.ilLPObjSettings.php");
             ilLPObjSettings::_deleteByObjId($this->getId());
 
             $remove = true;
@@ -1591,7 +1565,6 @@ class ilObject
 
         // delete object_reference entry
         if ($this->referenced) {
-            include_once "Services/Object/classes/class.ilObjectActivation.php";
             ilObjectActivation::deleteAllEntries($this->getRefId());
 
             $ilAppEventHandler->raise('Services/Object', 'deleteReference', array( 'ref_id' => $this->getRefId()));
@@ -1612,11 +1585,9 @@ class ilObject
             // TODO: Do this for role templates too
             $rbacadmin->revokePermission($this->getRefId(), 0, false);
 
-            include_once "Services/AccessControl/classes/class.ilRbacLog.php";
             ilRbacLog::delete($this->getRefId());
 
             // Remove applied didactic template setting
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
             ilDidacticTemplateObjSettings::deleteByRefId($this->getRefId());
         }
 
@@ -1651,14 +1622,12 @@ class ilObject
     {
         ilLoggerFactory::getLogger('obj')->debug('Applying didactic template with id: ' . (int) $a_tpl_id);
         if ($a_tpl_id) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
             foreach (ilDidacticTemplateActionFactory::getActionsByTemplateId($a_tpl_id) as $action) {
                 $action->setRefId($this->getRefId());
                 $action->apply();
             }
         }
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         ilDidacticTemplateObjSettings::assignTemplate($this->getRefId(), $this->getId(), (int) $a_tpl_id);
         return $a_tpl_id ? true : false;
     }
@@ -1837,7 +1806,6 @@ class ilObject
         $location = $objDefinition->getLocation($this->getType());
         $class_name = ('ilObj' . $objDefinition->getClassName($this->getType()));
         
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance($a_copy_id);
         
         if (!$options->isTreeCopyDisabled() && !$a_omit_tree) {
@@ -1877,7 +1845,6 @@ class ilObject
             ilLoggerFactory::getLogger('obj')->debug('Tree copy is disabled');
         }
         
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         ilAdvancedMDValues::_cloneValues($this->getId(), $new_obj->getId());
 
         // BEGIN WebDAV: Clone WebDAV properties
@@ -1915,7 +1882,6 @@ class ilObject
     {
         $tree = $this->tree;
         
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
         if (!$cp_options->isRootNode($this->getRefId())) {
             return $this->getTitle();
@@ -1957,13 +1923,10 @@ class ilObject
      */
     public function cloneDependencies($a_target_id, $a_copy_id)
     {
-        include_once './Services/Conditions/classes/class.ilConditionHandler.php' ;
         ilConditionHandler::cloneDependencies($this->getRefId(), $a_target_id, $a_copy_id);
         
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
         $tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId($this->getRefId());
         if ($tpl_id) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
             $factory = new ilObjectFactory();
             $obj = $factory->getInstanceByRefId($a_target_id, false);
             if ($obj instanceof ilObject) {
@@ -2244,7 +2207,6 @@ class ilObject
                 break;
                 
             case "sess":
-                include_once "Modules/Session/classes/class.ilObjSession.php";
                 foreach ($missing_obj_ids as $obj_id) {
                     $sess = new ilObjSession($obj_id, false);
                     $a_obj_title_map[$obj_id] = $sess->getFirstAppointment()->appointmentToString();
@@ -2295,8 +2257,6 @@ class ilObject
             $parent_ref_id = $tree->checkForParentType($a_ref_id, "crs");
         }
         if ($parent_ref_id) {
-            include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-            
             // get auto rate setting
             $parent_obj_id = ilObject::_lookupObjId($parent_ref_id);
             return ilContainer::_lookupContainerSetting(

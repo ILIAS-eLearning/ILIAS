@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilImportConfig.php");
 /**
  * Import configuration for help modules
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesHelp
  */
 class ilHelpImportConfig extends ilImportConfig
 {

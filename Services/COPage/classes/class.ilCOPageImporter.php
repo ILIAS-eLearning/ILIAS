@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Importer class for pages
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ModulesMediaPool
  */
 class ilCOPageImporter extends ilXmlImporter
 {
@@ -37,7 +34,6 @@ class ilCOPageImporter extends ilXmlImporter
         /** @var ilPluginAdmin $ilPluginAdmin */
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-        include_once("./Services/COPage/classes/class.ilCOPageDataSet.php");
         $this->ds = new ilCOPageDataSet();
         $this->ds->setDSPrefix("ds");
         $this->config = $this->getImport()->getConfig("Services/COPage");
@@ -68,7 +64,6 @@ class ilCOPageImporter extends ilXmlImporter
         $this->log->debug("entity: " . $a_entity . ", id: " . $a_id);
 
         if ($a_entity == "pgtp") {
-            include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
             $parser = new ilDataSetImportParser(
                 $a_entity,
                 $this->getSchemaVersion(),
@@ -86,8 +81,6 @@ class ilCOPageImporter extends ilXmlImporter
             if ($pg_id != "") {
                 $id = explode(":", $pg_id);
                 if (count($id) == 2) {
-                    include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-
                     while (substr($a_xml, 0, 11) == "<PageObject") {
                         $l1 = strpos($a_xml, ">");
 
@@ -162,10 +155,7 @@ class ilCOPageImporter extends ilXmlImporter
         foreach ($pages as $p) {
             $id = explode(":", $p);
             if (count($id) == 3) {
-                include_once("./Services/COPage/classes/class.ilPageObject.php");
                 if (ilPageObject::_exists($id[0], $id[1], $id[2], true)) {
-                    include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
-
                     /** @var ilPageObject $new_page */
                     $new_page = ilPageObjectFactory::getInstance($id[0], $id[1], 0, $id[2]);
                     $new_page->buildDom();

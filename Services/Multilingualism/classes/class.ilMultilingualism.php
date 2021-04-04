@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class handles translation mode for an object.
@@ -22,9 +22,7 @@
  *   this mode will not get informed about this, so they can not internally
  *   assign existing content to the master lang
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesObject
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMultilingualism
 {
@@ -59,7 +57,6 @@ class ilMultilingualism
         $this->setType($a_type);
 
         if ($this->getObjId() <= 0) {
-            include_once("./Services/Object/exceptions/class.ilObjectException.php");
             throw new ilObjectException("ilObjectTranslation: No object ID passed.");
         }
 
@@ -347,7 +344,7 @@ class ilMultilingualism
                 (string) trim($trans->title),
                 (string) trim($trans->description),
                 (int) $trans["default"] != 0?true:false
-                );
+            );
         }
     }
 }

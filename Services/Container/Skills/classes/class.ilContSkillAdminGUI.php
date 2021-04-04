@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Container skills administration
  *
  * @author Alex Killing <killing@leifos.de>
- * @ingroup ServicesContainer
  * @ilCtrl_Calls ilContSkillAdminGUI: ilSkillProfileGUI
  */
 class ilContSkillAdminGUI
@@ -98,7 +97,6 @@ class ilContSkillAdminGUI
 
         $this->skill_tree = new ilSkillTree();
 
-        include_once("./Services/Container/Skills/classes/class.ilContainerSkills.php");
         $this->container_skills = new ilContainerSkills($this->container->getId());
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
         $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
@@ -159,7 +157,6 @@ class ilContSkillAdminGUI
         $tabs->activateSubTab("members");
 
         // table
-        include_once("./Services/Container/Skills/classes/class.ilContSkillMemberTableGUI.php");
         $tab = new ilContSkillMemberTableGUI($this, "listMembers", $this->container_skills);
 
         $tpl->setContent($tab->getHTML());
@@ -186,10 +183,8 @@ class ilContSkillAdminGUI
      */
     public function initCompetenceAssignmentForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
-        include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->user_id);
         $mem_levels = $mem_skills->getSkillLevels();
 
@@ -269,7 +264,6 @@ class ilContSkillAdminGUI
             }
         }
 
-        include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->user_id);
         $mem_skills->saveLevelForSkills($levels);
 
@@ -294,7 +288,6 @@ class ilContSkillAdminGUI
             $user_ids[] = $_GET["usr_id"];
         }
 
-        include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
         $not_changed = array();
         foreach ($user_ids as $user_id) {
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
@@ -361,7 +354,6 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
 
         foreach ($_POST["usr_id"] as $user_id) {
-            include_once("./Services/Container/Skills/classes/class.ilContainerMemberSkills.php");
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
             $mem_skills->removeAllSkillLevels($this->container->getRefId());
         }
@@ -392,7 +384,6 @@ class ilContSkillAdminGUI
         );
 
         // table
-        include_once("./Services/Container/Skills/classes/class.ilContSkillTableGUI.php");
         $tab = new ilContSkillTableGUI(
             $this,
             "listCompetences",
@@ -813,7 +804,6 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // publish

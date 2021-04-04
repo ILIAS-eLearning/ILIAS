@@ -356,7 +356,6 @@ class ilPCTableData extends ilPageContent
     */
     public function fixHideAndSpans()
     {
-        include_once("./Services/COPage/classes/class.ilPCTable.php");
         $table_obj = new ilPCTable($this->getPage());
         $table_obj->setNode($this->table_pc_node);
         $table_obj->readHierId();

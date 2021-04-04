@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("./Services/Component/classes/class.ilPlugin.php");
- 
 /**
-* Abstract parent class for all page component plugin classes.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Abstract parent class for all page component plugin classes.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 abstract class ilPageComponentPlugin extends ilPlugin
 {
     const TXT_CMD_INSERT = "cmd_insert";

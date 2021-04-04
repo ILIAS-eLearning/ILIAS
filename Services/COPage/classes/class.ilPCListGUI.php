@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCList.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCListGUI
-*
-* User Interface for LM List Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCListGUI
+ *
+ * User Interface for LM List Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCListGUI extends ilPageContentGUI
 {
 
@@ -146,7 +141,6 @@ class ilPCListGUI extends ilPageContentGUI
     public function initListForm($a_mode = "edit")
     {
         $lng = $this->lng;
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
     
         // type
@@ -154,7 +148,6 @@ class ilPCListGUI extends ilPageContentGUI
         $op1 = new ilRadioOption($lng->txt("cont_bullet_list"), "Unordered");
         
         // style of bullet list
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "bullet_style"

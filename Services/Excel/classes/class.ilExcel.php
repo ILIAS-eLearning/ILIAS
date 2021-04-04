@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './libs/composer/vendor/autoload.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -17,7 +16,6 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
  * Wrapper for Microsoft Excel Import/Export (based on PHPSpreadsheet, formerPHPExcel which is deprecated)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ServicesExcel
  */
 class ilExcel
 {

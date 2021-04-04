@@ -147,12 +147,9 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $filename = $name;
                 $filename_arr = pathinfo($name);
                 $suffix = $filename_arr["extension"];
-                $mimetype = $pictures["type"][$index];
-                $size_bytes = $pictures["size"][$index];
                 $temp_name = $pictures["tmp_name"][$index];
                 $error = $pictures["error"][$index];
 
-                include_once("./Services/Utilities/classes/class.ilStr.php");
                 $_FILES[$this->getPostVar()]["name"][$index] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"][$index]);
 
 
@@ -253,7 +250,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                 $tpl->parseCurrentBlock();
@@ -275,7 +271,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 );
             }
             
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());

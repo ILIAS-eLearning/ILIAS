@@ -159,7 +159,6 @@ class ilContainerNewsSettingsGUI
         if ($this->has_cron_notifications) {
             if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
                 $ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
-                include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
                 ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
             }
         }
@@ -235,7 +234,6 @@ class ilContainerNewsSettingsGUI
     {
         $form = $this->initForm();
         if ($form->checkInput()) {
-            include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
             //non container objects force this news block (forums etc.)
             if (!$this->has_block_forced) {
                 $this->object->setNewsBlockActivated($form->getInput(ilObjectServiceSettingsGUI::NEWS_VISIBILITY));
@@ -262,7 +260,6 @@ class ilContainerNewsSettingsGUI
                 if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
                     $ref_id = array_pop(ilObject::_getAllReferences($this->object->getId()));
 
-                    include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
                     ilMembershipNotifications::importFromForm($ref_id, $form);
                 }
             }

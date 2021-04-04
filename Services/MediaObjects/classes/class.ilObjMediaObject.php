@@ -1,28 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_MODE_ALIAS", 1);
 define("IL_MODE_OUTPUT", 2);
 define("IL_MODE_FULL", 3);
 
-require_once("./Services/MediaObjects/classes/class.ilMediaItem.php");
-include_once "./Services/Object/classes/class.ilObject.php";
-
-/** @defgroup ServicesMediaObjects Services/MediaObjects
- */
-
 /**
-* Class ilObjMediaObject
-*
-* Todo: this class must be integrated with group/folder handling
-*
-* ILIAS Media Object
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMediaObjects
-*/
+ * Class ilObjMediaObject
+ *
+ * Todo: this class must be integrated with group/folder handling
+ *
+ * ILIAS Media Object
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjMediaObject extends ilObject
 {
     /**
@@ -99,9 +91,6 @@ class ilObjMediaObject extends ilObject
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         if (is_int(strpos($a_id, "_"))) {
             $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
         }
@@ -191,8 +180,6 @@ class ilObjMediaObject extends ilObject
     */
     public function MDUpdateListener($a_element)
     {
-        include_once 'Services/MetaData/classes/class.ilMD.php';
-
         switch ($a_element) {
             case 'General':
 
@@ -224,8 +211,6 @@ class ilObjMediaObject extends ilObject
     */
     public function createMetaData()
     {
-        include_once 'Services/MetaData/classes/class.ilMDCreator.php';
-
         $ilUser = $this->user;
 
         $md_creator = new ilMDCreator(0, $this->getId(), $this->getType());
@@ -245,10 +230,6 @@ class ilObjMediaObject extends ilObject
     */
     public function updateMetaData()
     {
-        include_once("Services/MetaData/classes/class.ilMD.php");
-        include_once("Services/MetaData/classes/class.ilMDGeneral.php");
-        include_once("Services/MetaData/classes/class.ilMDDescription.php");
-
         $md = new ilMD(0, $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
         $md_gen->setTitle($this->getTitle());
@@ -269,7 +250,6 @@ class ilObjMediaObject extends ilObject
     public function deleteMetaData()
     {
         // Delete meta data
-        include_once('Services/MetaData/classes/class.ilMD.php');
         $md = new ilMD(0, $this->getId(), $this->getType());
         $md->deleteAll();
     }
@@ -817,7 +797,6 @@ class ilObjMediaObject extends ilObject
                 $xml = "<MediaObject>";
 
                 // meta data
-                include_once("Services/MetaData/classes/class.ilMD2XML.php");
                 $md2xml = new ilMD2XML(0, $this->getId(), $this->getType());
                 $md2xml->setExportMode(true);
                 $md2xml->startExport();
@@ -967,7 +946,6 @@ class ilObjMediaObject extends ilObject
         xslt_free($xh);
 
         // unmask user html
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "../../css/style.css");
         $tpl->setVariable("LOCATION_STYLESHEET", "../../css/system.css");
         $tpl->setVariable("MEDIA_CONTENT", $output);
@@ -1173,7 +1151,6 @@ class ilObjMediaObject extends ilObject
             // check whether page exists
             $skip = false;
             if ($ut == "pg") {
-                include_once("./Services/COPage/classes/class.ilPageObject.php");
                 if (!ilPageObject::_exists($ct, $us_rec["usage_id"])) {
                     $skip = true;
                 }
@@ -1197,7 +1174,6 @@ class ilObjMediaObject extends ilObject
         }
         
         // get usages in news items (media casts)
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $news_usages = ilNewsItem::_lookupMediaObjectUsages($a_id);
         foreach ($news_usages as $nu) {
             $ret[] = $nu;
@@ -1250,10 +1226,8 @@ class ilObjMediaObject extends ilObject
                 switch ($cont_type) {
                     case "qpl":
                         // Question Pool *Question* Text (Test)
-                        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
                         $qinfo = assQuestion::_getQuestionInfo($id);
                         if ($qinfo["original_id"] > 0) {
-                            include_once("./Modules/Test/classes/class.ilObjTest.php");
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
                             $obj_id = $qinfo["obj_fi"];		// usage in pool
@@ -1284,15 +1258,12 @@ class ilObjMediaObject extends ilObject
                         // Exercise assignment
                         $returned_pk = $a_usage['id'];
                         // #15995 - we are just checking against exercise object
-                        include_once 'Modules/Exercise/classes/class.ilExSubmission.php';
                         $obj_id = ilExSubmission::lookupExerciseIdForReturnedId($returned_pk);
                         break;
                     
                     case "frm":
                         // Forum
                         $post_pk = $a_usage['id'];
-                        include_once 'Modules/Forum/classes/class.ilForumPost.php';
-                        include_once 'Modules/Forum/classes/class.ilForum.php';
                         $oPost = new ilForumPost($post_pk);
                         $frm_pk = $oPost->getForumId();
                         $obj_id = ilForum::_lookupObjIdForForumId($frm_pk);
@@ -1301,8 +1272,6 @@ class ilObjMediaObject extends ilObject
                     
                     case "frm~d":
                         $draft_id = $a_usage['id'];
-                        include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-                        include_once 'Modules/Forum/classes/class.ilForum.php';
                         $oDraft = ilForumPostDraft::newInstanceByDraftId($draft_id);
                         
                         $frm_pk = $oDraft->getForumId();
@@ -1310,9 +1279,6 @@ class ilObjMediaObject extends ilObject
                         break;
                     case "frm~h":
                         $history_id = $a_usage['id'];
-                        include_once 'Modules/Forum/classes/class.ilForumDraftsHistory.php';
-                        include_once 'Modules/Forum/classes/class.ilForumPostDraft.php';
-                        include_once 'Modules/Forum/classes/class.ilForum.php';
                         $oHistoryDraft = new ilForumDraftsHistory($history_id);
                         $oDraft = ilForumPostDraft::newInstanceByDraftId($oHistoryDraft->getDraftId());
                         
@@ -1343,31 +1309,25 @@ class ilObjMediaObject extends ilObject
                 switch ($cont_type) {
                     // question feedback // parent obj id is q id
                     case "qfbg":
-                        include_once('./Services/COPage/classes/class.ilPageObject.php');
                         $id = ilPageObject::lookupParentId($id, 'qfbg');
                         // note: no break here, we only altered the $id to the question id
 
                         // no break
                     case "qpl":
                         // Question Pool Question Pages
-                        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
                         $qinfo = assQuestion::_getQuestionInfo($id);
                         if ($qinfo["original_id"] > 0) {
-                            include_once("./Modules/Test/classes/class.ilObjTest.php");
                             $obj_id = ilObjTest::_lookupTestObjIdForQuestionId($id);	// usage in test
                         } else {
                             $obj_id = $qinfo["obj_fi"];		// usage in pool
                         }
                         if ($obj_id == 0) {	// this is the case, if question is in learning module -> get lm id
-                            include_once("./Services/COPage/classes/class.ilPCQuestion.php");
                             $pinfo = ilPCQuestion::_getPageForQuestionId($id, "lm");
                             if ($pinfo && $pinfo["parent_type"] == "lm") {
-                                include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                                 $obj_id = ilLMObject::_lookupContObjID($pinfo["page_id"]);
                             }
                             $pinfo = ilPCQuestion::_getPageForQuestionId($id, "sahs");
                             if ($pinfo && $pinfo["parent_type"] == "sahs") {
-                                include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
                                 $obj_id = ilSCORM2004Node::_lookupSLMID($pinfo["page_id"]);
                             }
                         }
@@ -1375,7 +1335,6 @@ class ilObjMediaObject extends ilObject
                         
                     case "lm":
                         // learning modules
-                        include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                         $obj_id = ilLMObject::_lookupContObjID($id);
                         break;
                 
@@ -1387,32 +1346,27 @@ class ilObjMediaObject extends ilObject
                     
                     case "wpg":
                         // wiki page
-                        include_once 'Modules/Wiki/classes/class.ilWikiPage.php';
                         $obj_id = ilWikiPage::lookupObjIdByPage($id);
                         break;
                     
                     case "sahs":
                         // sahs page
                         // can this implementation be used for other content types, too?
-                        include_once('./Services/COPage/classes/class.ilPageObject.php');
                         $obj_id = ilPageObject::lookupParentId($id, 'sahs');
                         break;
                     
                     case "prtf":
                         // portfolio
-                        include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
                         $obj_id = ilPortfolioPage::findPortfolioForPage($id);
                         break;
                     
                     case "prtt":
                         // portfolio template
-                        include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
                         $obj_id = ilPortfolioTemplatePage::findPortfolioForPage($id);
                         break;
                     
                     case "blp":
                         // blog
-                        include_once('./Services/COPage/classes/class.ilPageObject.php');
                         $obj_id = ilPageObject::lookupParentId($id, 'blp');
                         break;
                     
@@ -1441,7 +1395,6 @@ class ilObjMediaObject extends ilObject
 
             // News Context Object (e.g. MediaCast)
             case "news":
-                include_once("./Services/News/classes/class.ilNewsItem.php");
                 $obj_id = ilNewsItem::_lookupContextObjId($id);
                 break;
         }
@@ -1485,7 +1438,6 @@ class ilObjMediaObject extends ilObject
     */
     public static function getMimeType($a_file, $a_external = null)
     {
-        include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $mime = ilMimeTypeUtil::lookupMimeType($a_file, ilMimeTypeUtil::APPLICATION__OCTET_STREAM, $a_external);
         return $mime;
     }
@@ -1518,7 +1470,6 @@ class ilObjMediaObject extends ilObject
         }
         
         if (ilUtil::deducibleSize($a_format)) {
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             if ($a_type == "File") {
                 $size = ilMediaImageUtil::getImageSize($a_file);
             } else {
@@ -1613,7 +1564,6 @@ class ilObjMediaObject extends ilObject
         $media_object->setDescription($format);
 
         if (ilUtil::deducibleSize($format)) {
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             $size = ilMediaImageUtil::getImageSize($file);
             $media_item->setWidth($size[0]);
             $media_item->setHeight($size[1]);
@@ -1621,7 +1571,6 @@ class ilObjMediaObject extends ilObject
         $media_item->setHAlign("Left");
 
         self::renameExecutables($mob_dir);
-        include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
 
         $media_object->update();
@@ -1646,7 +1595,6 @@ class ilObjMediaObject extends ilObject
             ilUtil::moveUploadedFile($tmp_name, $a_name, $dir . "/" . $a_name, true, $a_mode);
         }
         self::renameExecutables($mob_dir);
-        include_once("./Services/MediaObjects/classes/class.ilMediaSvgSanitizer.php");
         ilMediaSvgSanitizer::sanitizeDir($mob_dir);	// see #20339
     }
     
@@ -1756,7 +1704,6 @@ class ilObjMediaObject extends ilObject
             $int_links = ilMapArea::_getIntLinks($med_item->getId());
             foreach ($int_links as $k => $int_link) {
                 if ($int_link["Type"] == "MediaObject") {
-                    include_once("./Services/Link/classes/class.ilInternalLink.php");
                     $l_id = ilInternalLink::_extractObjIdOfTarget($int_link["Target"]);
                     if (ilObject::_exists($l_id)) {
                         if (!in_array($l_id, $linked) &&
@@ -1866,7 +1813,6 @@ class ilObjMediaObject extends ilObject
         );
         
         // meta data
-        include_once("Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD(0, $this->getId(), "mob");
         $new_md = $md->cloneMD(0, $new_obj->getId(), "mob");
 
@@ -1929,7 +1875,6 @@ class ilObjMediaObject extends ilObject
                     if ($this->getVideoPreviewPic() != "") {
                         $this->removeAdditionalFile($this->getVideoPreviewPic(true));
                     }
-                    include_once("./Services/MediaObjects/classes/class.ilFFmpeg.php");
                     $med = $this->getMediaItem("Standard");
                     $mob_file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $med->getLocation();
                     ilFFmpeg::extractImage(
@@ -2017,9 +1962,7 @@ class ilObjMediaObject extends ilObject
     public function uploadMultipleSubtitleFile($a_file)
     {
         $lng = $this->lng;
-        $ilUser = $this->user;
 
-        include_once("./Services/MediaObjects/exceptions/class.ilMediaObjectsException.php");
         if (!is_file($a_file["tmp_name"])) {
             throw new ilMediaObjectsException($lng->txt("mob_file_could_not_be_uploaded"));
         }
@@ -2046,7 +1989,6 @@ class ilObjMediaObject extends ilObject
     {
         $items = array();
 
-        include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
         $lang_codes = ilMDLanguageItem::_getPossibleLanguageCodes();
 
         $dir = $this->getMultiSrtUploadDir();

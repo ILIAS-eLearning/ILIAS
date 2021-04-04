@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject2.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Help settings application class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesHelp
  */
 class ilObjHelpSettings extends ilObject2
 {
@@ -97,16 +92,7 @@ class ilObjHelpSettings extends ilObject2
     {
         $id = $this->createHelpModule();
         
-        // create and insert object in objecttree
-        /*include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-        $newObj = new ilObjContentObject();
-        $newObj->setType("lm");
-        $newObj->setTitle("Help Module");
-        $newObj->create(true);
-        $newObj->createLMTree();*/
-
         try {
-            include_once("./Services/Export/classes/class.ilImport.php");
             $imp = new ilImport();
             $conf = $imp->getConfig("Services/Help");
             $conf->setModuleId($id);
@@ -119,7 +105,6 @@ class ilObjHelpSettings extends ilObject2
             $t = $imp->getTemporaryImportDir();
 
             // create and insert object in objecttree
-            include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
             $newObj = new ilObjContentObject();
             $newObj->setType("lm");
             $newObj->setTitle("Help Module");
@@ -135,10 +120,8 @@ class ilObjHelpSettings extends ilObject2
             foreach ($files as $file) {
                 if (is_int(strpos($file["entry"], "__help_")) &&
                     is_int(strpos($file["entry"], ".zip"))) {
-                    include_once("./Services/Export/classes/class.ilImport.php");
                     $imp = new ilImport();
                     $imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $id);
-                    include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                     $chaps = ilLMObject::getObjectList($newObj->getId(), "st");
                     foreach ($chaps as $chap) {
                         $chap_arr = explode("_", $chap["import_id"]);
@@ -268,17 +251,14 @@ class ilObjHelpSettings extends ilObject2
 
         // delete learning module
         if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
-            include_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
             $lm = new ilObjLearningModule($rec["lm_id"], false);
             $lm->delete();
         }
         
         // delete mappings
-        include_once("./Services/Help/classes/class.ilHelpMapping.php");
         ilHelpMapping::deleteEntriesOfModule($a_id);
         
         // delete tooltips
-        include_once("./Services/Help/classes/class.ilHelp.php");
         ilHelp::deleteTooltipsOfModule($a_id);
         
         // delete help module record

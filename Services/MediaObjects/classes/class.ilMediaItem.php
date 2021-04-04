@@ -630,7 +630,6 @@ class ilMediaItem
                 $loc = $this->getLocation();
             }
 
-            include_once("./Services/MediaObjects/classes/class.ilMediaImageUtil.php");
             $size = ilMediaImageUtil::getImageSize($loc);
             if ($size[0] > 0 && $size[1] > 0) {
                 return array("width" => $size[0], "height" => $size[1]);
@@ -1197,7 +1196,6 @@ class ilMediaItem
      */
     public function extractUrlParameters()
     {
-        include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
         $par = ilExternalMediaAnalyzer::extractUrlParameters(
             $this->getLocation(),
             $this->getParameters()

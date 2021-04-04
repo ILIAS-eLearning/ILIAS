@@ -1,20 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
-require_once("./Services/COPage/classes/class.ilPCInteractiveImage.php");
-include_once("./Services/COPage/classes/class.ilMediaAliasItem.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * User interface class for interactive images
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilPCInteractiveImageGUI: ilPCIIMTriggerEditorGUI
- *
- * @ingroup ServicesCOPage
  */
 class ilPCInteractiveImageGUI extends ilPageContentGUI
 {
@@ -210,7 +202,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // image file
@@ -475,7 +466,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $ilCtrl->getLinkTarget($this, "addOverlayImages")
         );
         
-        include_once("./Services/COPage/classes/class.ilPCIIMOverlaysTableGUI.php");
         $tab = new ilPCIIMOverlaysTableGUI(
             $this,
             "listOverlayImages",
@@ -514,13 +504,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         
         $ilTabs->setTabActive("list_overlays");
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTitle($lng->txt("cont_add_images"));
         $form->setFormAction($ilCtrl->getFormAction($this));
         
         // file input
-        include_once("./Services/Form/classes/class.ilFileWizardInputGUI.php");
         $fi = new ilFileWizardInputGUI($lng->txt("file"), "ovfile");
         $fi->setSuffixes(array("gif", "jpeg", "jpg", "png"));
         $fi->setFilenames(array(0 => ''));
@@ -649,7 +637,6 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $ilCtrl->getLinkTarget($this, "addPopup")
         );
         
-        include_once("./Services/COPage/classes/class.ilPCIIMPopupTableGUI.php");
         $tab = new ilPCIIMPopupTableGUI(
             $this,
             "listContentPopups",

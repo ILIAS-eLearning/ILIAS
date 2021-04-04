@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Object data set class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - transl: data from obj_content_master_lang
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesObject
  */
 class ilObjectDataSet extends ilDataSet
 {
@@ -158,9 +155,6 @@ class ilObjectDataSet extends ilDataSet
                 case "5.1.0":
                 case "5.2.0":
                 case "5.4.0":
-                    include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-                    include_once("./Services/Container/classes/class.ilContainer.php");
-
                     $this->data = array();
                     foreach ($a_ids as $id) {
                         // info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
@@ -271,7 +265,6 @@ class ilObjectDataSet extends ilDataSet
             case "transl_entry":
                 $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
                 if ($new_id > 0) {
-                    include_once("./Services/Object/classes/class.ilObjectTranslation.php");
                     $transl = ilObjectTranslation::getInstance($new_id);
                     $transl->addLanguage(
                         $a_rec["LangCode"],
@@ -287,7 +280,6 @@ class ilObjectDataSet extends ilDataSet
             case "transl":
                 $new_id = $this->getNewObjId($a_mapping, $a_rec['ObjId']);
                 if ($new_id > 0) {
-                    include_once("./Services/Object/classes/class.ilObjectTranslation.php");
                     $transl = ilObjectTranslation::getInstance($new_id);
                     $transl->setMasterLanguage($a_rec["MasterLang"]);
                     $transl->save();
@@ -295,9 +287,6 @@ class ilObjectDataSet extends ilDataSet
                 break;
 
             case "service_settings":
-                include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
-                include_once("./Services/Container/classes/class.ilContainer.php");
-
                 // info, news, custom metadata, tags, taxonomies, auto rating (all stored in container settings)
                 $settings = array(
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,

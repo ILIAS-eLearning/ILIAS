@@ -268,7 +268,6 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
     {
         $prog_langs = array(
             "" => "other");
-        include_once("./Services/UIComponent/SyntaxHighlighter/classes/class.ilSyntaxHighlighter.php");
         foreach (ilSyntaxHighlighter::getSupportedLanguagesV51() as $k => $v) {
             $prog_langs[$k] = $v;
         }
@@ -285,17 +284,13 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
      */
     public function initPropertyForm($a_title, $a_cmd, $a_cmd_cancel)
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTitle($a_title);
         $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
         $form->addCommandButton($a_cmd, $this->lng->txt("save"));
         $form->addCommandButton($a_cmd_cancel, $this->lng->txt("cancel"));
 
-
-        require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
         $lang_var = ilMDLanguageItem::_getLanguages();
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $lang = new ilSelectInputGUI($this->lng->txt("language"), "par_language");
         $lang->setOptions($lang_var);
         $form->addItem($lang);
@@ -304,24 +299,17 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $code_style = new ilSelectInputGUI($this->lng->txt("cont_src"), "par_subcharacteristic");
         $code_style->setOptions($prog_langs);
         $form->addItem($code_style);
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $line_number = new ilCheckboxInputGUI($this->lng->txt("cont_show_line_numbers"), "par_showlinenumbers");
         $form->addItem($line_number);
-        //$indent = new ilCheckboxInputGUI($this->lng->txt("cont_autoindent"), "par_autoindent");
-        //$form->addItem($indent);
 
-
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $code = new ilTextAreaInputGUI("", "par_content");
         $code->setRows(12);
         $form->addItem($code);
 
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $downlaod_title = new ilTextInputGUI($this->lng->txt("cont_download_title"), "par_downloadtitle");
         $downlaod_title->setSize(40);
         $form->addItem($downlaod_title);
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $file = new ilFileInputGUI($this->lng->txt("import_file"), "userfile");
         $form->addItem($file);
 

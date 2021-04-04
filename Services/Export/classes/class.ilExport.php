@@ -1,15 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Export
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-* @defgroup ServicesExport Services/Export
-* @ingroup	ServicesExport
-*/
+ * Export
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ */
 class ilExport
 {
     /**
@@ -52,7 +49,6 @@ class ilExport
         $a_class = "il" . $comp_arr[1] . "ExportConfig";
         $export_config_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
         if (!is_file($export_config_file)) {
-            include_once("./Services/Export/exceptions/class.ilExportException.php");
             throw new ilExportException('Component "' . $a_comp . '" does not provide ExportConfig class.');
         }
         include_once($export_config_file);
@@ -149,7 +145,6 @@ class ilExport
         }
         
         if (in_array($a_obj_type, self::$new_file_structure)) {
-            include_once './Services/FileSystem/classes/class.ilFileSystemStorage.php';
             $dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR;
             $dir .= 'il' . $objDefinition->getClassName($a_obj_type) . $ent . DIRECTORY_SEPARATOR;
             $dir .= ilFileSystemStorage::_createPathFromId($a_obj_id, $a_obj_type) . DIRECTORY_SEPARATOR;
@@ -157,7 +152,6 @@ class ilExport
             return $dir;
         }
 
-        include_once './Services/Export/classes/class.ilImportExportFactory.php';
         $exporter_class = ilImportExportFactory::getExporterClass($a_obj_type);
         $export_dir = call_user_func(array($exporter_class,'lookupExportDirectory'), $a_obj_type, $a_obj_id, $a_type, $a_entity);
 
@@ -321,7 +315,6 @@ class ilExport
         }
         
         // manifest writer
-        include_once "./Services/Xml/classes/class.ilXmlWriter.php";
         $this->manifest_writer = new ilXmlWriter();
         $this->manifest_writer->xmlHeader();
         $this->manifest_writer->xmlStartTag(
@@ -349,7 +342,6 @@ class ilExport
 
         $this->cnt = array();
                 
-        include_once './Services/Export/classes/class.ilImportExportFactory.php';
         $class = ilImportExportFactory::getExporterClass($a_type);
         $comp = ilImportExportFactory::getComponentForExport($a_type);
         
@@ -366,7 +358,6 @@ class ilExport
 
         // Store info about export
         if ($success) {
-            include_once './Services/Export/classes/class.ilExportFileInfo.php';
             $exp = new ilExportFileInfo($a_id);
             $exp->setVersion($a_target_release);
             $exp->setCreationDate(new ilDateTime($ts, IL_CAL_UNIX));
@@ -421,7 +412,6 @@ class ilExport
         $class = "il" . $c[1] . "Exporter";
         
         // manifest writer
-        include_once "./Services/Xml/classes/class.ilXmlWriter.php";
         $this->manifest_writer = new ilXmlWriter();
         $this->manifest_writer->xmlHeader();
         $this->manifest_writer->xmlStartTag(
@@ -492,7 +482,6 @@ class ilExport
         if (!class_exists($a_class)) {
             $export_class_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
             if (!is_file($export_class_file)) {
-                include_once("./Services/Export/exceptions/class.ilExportException.php");
                 throw new ilExportException('Export class file "' . $export_class_file . '" not found.');
             }
             include_once($export_class_file);

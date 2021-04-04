@@ -1,29 +1,25 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* New implementation of ilObjectGUI. (beta)
-*
-* Differences to the ilObject implementation:
-* - no $this->tree anymore
-* - no $this->formaction anymore
-* - no $this->return_location anymore
-* - no $this->target_frame anymore
-* - no $this->actions anymore
-* - no $this->sub_objects anymore
-* - no $this->data anymore
-* - no $this->prepare_output anymore
-*
-*
-* All new modules should derive from this class.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesObject
-*/
+ * New implementation of ilObjectGUI. (beta)
+ *
+ * Differences to the ilObject implementation:
+ * - no $this->tree anymore
+ * - no $this->formaction anymore
+ * - no $this->return_location anymore
+ * - no $this->target_frame anymore
+ * - no $this->actions anymore
+ * - no $this->sub_objects anymore
+ * - no $this->data anymore
+ * - no $this->prepare_output anymore
+ *
+ *
+ * All new modules should derive from this class.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 abstract class ilObject2GUI extends ilObjectGUI
 {
     protected $object_id;
@@ -113,10 +109,8 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::WORKSPACE_NODE_ID:
                 $ilUser = $DIC["ilUser"];
                 $this->node_id = $a_id;
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                 $this->tree = new ilWorkspaceTree($ilUser->getId());
                 $this->object_id = $this->tree->lookupObjectId($this->node_id);
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
                 $params[] = "wsp_id";
                 break;
@@ -124,23 +118,19 @@ abstract class ilObject2GUI extends ilObjectGUI
             case self::WORKSPACE_OBJECT_ID:
                 $ilUser = $DIC["ilUser"];
                 $this->object_id = $a_id;
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                 $this->tree = new ilWorkspaceTree($ilUser->getId());
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $this->access_handler = new ilWorkspaceAccessHandler($this->tree);
                 $params[] = "obj_id"; // ???
                 break;
             
             case self::PORTFOLIO_OBJECT_ID:
                 $this->object_id = $a_id;
-                include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
                 $this->access_handler = new ilPortfolioAccessHandler();
                 $params[] = "prt_id";
                 break;
 
             case self::OBJECT_ID:
                 $this->object_id = $a_id;
-                include_once "Services/Object/classes/class.ilDummyAccessHandler.php";
                 $this->access_handler = new ilDummyAccessHandler();
                 $params[] = "obj_id";
                 break;
@@ -195,8 +185,6 @@ abstract class ilObject2GUI extends ilObjectGUI
             case "ilworkspaceaccessgui":
                 if ($this->node_id) {
                     $this->tabs_gui->activateTab("id_permissions");
-
-                    include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
                     $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
                     $this->ctrl->forwardCommand($wspacc);
                     break;
@@ -733,7 +721,6 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $a_obj->setPermissions($a_parent_node_id);
 
                 // rbac log
-                include_once "Services/AccessControl/classes/class.ilRbacLog.php";
                 $rbac_log_roles = $rbacreview->getParentRoleIds($this->node_id, false);
                 $rbac_log = ilRbacLog::gatherFaPa($this->node_id, array_keys($rbac_log_roles), true);
                 ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->node_id, $rbac_log);
@@ -844,7 +831,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             if (!$this->creation_mode && $this->object_id) {
-                include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
                 $dispatcher = new ilCommonActionDispatcherGUI(
                     ilCommonActionDispatcherGUI::TYPE_WORKSPACE,
                     $this->getAccessHandler(),
@@ -855,7 +841,6 @@ abstract class ilObject2GUI extends ilObjectGUI
                 
                 $dispatcher->setSubObject($a_sub_type, $a_sub_id);
                 
-                include_once "Services/Object/classes/class.ilObjectListGUI.php";
                 ilObjectListGUI::prepareJSLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
@@ -897,7 +882,6 @@ abstract class ilObject2GUI extends ilObjectGUI
             $a_append .= "_wsp";
         }
         
-        include_once('Services/PermanentLink/classes/class.ilPermanentLinkGUI.php');
         $plink = new ilPermanentLinkGUI($this->getType(), $this->node_id, $a_append);
         $plink->setIncludePermanentLinkText(false);
         $plink->setAlignCenter($a_center);

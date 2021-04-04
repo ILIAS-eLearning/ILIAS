@@ -1,16 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User interface class for map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
-*
-* @ingroup ServicesMediaObjects
-*/
+ * User interface class for map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
+ */
 class ilImageMapEditorGUI
 {
     /**
@@ -136,7 +134,6 @@ class ilImageMapEditorGUI
         // toolbar
         $tb = new ilToolbarGUI();
         $tb->setFormAction($ilCtrl->getFormAction($this));
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "WholePicture" => $lng->txt("cont_WholePicture"),
             "Rect" => $lng->txt("cont_Rect"),
@@ -189,7 +186,6 @@ class ilImageMapEditorGUI
     */
     public function getImageMapTableHTML()
     {
-        include_once("./Services/MediaObjects/classes/class.ilImageMapTableGUI.php");
         $image_map_table = new ilImageMapTableGUI($this, "editMapAreas", $this->media_object);
         return $image_map_table->getHTML();
     }
@@ -331,7 +327,6 @@ class ilImageMapEditorGUI
 
         $area_type = $_SESSION["il_map_edit_area_type"];
         $coords = $_SESSION["il_map_edit_coords"];
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         $cnt_coords = ilMapArea::countCoords($coords);
 
         // decide what to do next
@@ -397,11 +392,9 @@ class ilImageMapEditorGUI
     ) {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
-        
+
         $area_type = $_SESSION["il_map_edit_area_type"];
         $coords = $_SESSION["il_map_edit_coords"];
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         $cnt_coords = ilMapArea::countCoords($coords);
 
         $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
@@ -449,7 +442,6 @@ class ilImageMapEditorGUI
             if ($a_edit_property != "shape") {
                 // prepare link gui
                 $ilCtrl->setParameter($this, "linkmode", "map");
-                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $this->tpl->setCurrentBlock("int_link_prep");
                 $this->tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
                     $ilCtrl->getLinkTargetByClass(
@@ -493,9 +485,7 @@ class ilImageMapEditorGUI
     public function initAreaEditingForm($a_edit_property)
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
         $form->setCloseTag(false);

@@ -1,13 +1,9 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Multi-language properties
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageMultiLang
 {
@@ -37,12 +33,10 @@ class ilPageMultiLang
         $this->setParentId($a_parent_id);
 
         if ($this->getParentType() == "") {
-            include_once("./Services/COPage/exceptions/class.ilCOPageException.php");
             throw new ilCOPageException("ilPageMultiLang: No parent type passed.");
         }
         
         if ($this->getParentId() <= 0) {
-            include_once("./Services/COPage/exceptions/class.ilCOPageException.php");
             throw new ilCOPageException("ilPageMultiLang: No parent ID passed.");
         }
         
