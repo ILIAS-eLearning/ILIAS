@@ -26,7 +26,7 @@ class ParagraphResponseFactory
      * @param string           $pcid
      * @return Server\Response
      */
-    public function getResponseObject(\ilPageObjectGUI $page_gui, $updated, string $pcid): Server\Response
+    public function getResponseObject(\ilPageObjectGUI $page_gui, $updated, string $pcid) : Server\Response
     {
         $error = null;
         $rendered_content = null;
@@ -35,7 +35,7 @@ class ParagraphResponseFactory
         if ($updated !== true) {
             if (is_array($updated)) {
                 $error = implode("<br />", $updated);
-            } else if (is_string($updated)) {
+            } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
                 $error = print_r($updated, true);
@@ -65,7 +65,7 @@ class ParagraphResponseFactory
      * @param string           $pcid
      * @return Server\Response
      */
-    public function getResponseObjectMulti(\ilPageObjectGUI $page_gui, $updated, array $pcids): Server\Response
+    public function getResponseObjectMulti(\ilPageObjectGUI $page_gui, $updated, array $pcids) : Server\Response
     {
         $error = null;
         $rendered_content = null;
@@ -74,7 +74,7 @@ class ParagraphResponseFactory
         if ($updated !== true) {
             if (is_array($updated)) {
                 $error = implode("<br />", $updated);
-            } else if (is_string($updated)) {
+            } elseif (is_string($updated)) {
                 $error = $updated;
             } else {
                 $error = print_r($updated, true);
@@ -118,5 +118,4 @@ class ParagraphResponseFactory
 
         return $html;
     }
-
 }

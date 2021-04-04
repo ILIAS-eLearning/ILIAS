@@ -50,7 +50,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected $plugin_admin;
 
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -127,8 +127,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $config = new \stdClass();
         $config->user = $this->user->getLogin();
         $config->content_css =
-            \ilObjStyleSheet::getContentStylePath((int) $this->page_gui->getStyleId()).", ".
-            \ilUtil::getStyleSheetLocation().", ".
+            \ilObjStyleSheet::getContentStylePath((int) $this->page_gui->getStyleId()) . ", " .
+            \ilUtil::getStyleSheetLocation() . ", " .
             "./Services/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
 
@@ -170,7 +170,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 "pgcp",
                 $pl_name
             );
-            $commands["plug_".$plugin->getPluginName()] =
+            $commands["plug_" . $plugin->getPluginName()] =
                 $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
         }
 
@@ -235,11 +235,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             $tpl->setVariable("MESSAGE", $mess);
             $b = $ui->factory()->button()->standard(
                 $lng->txt("cont_finish_editing"),
-                $ctrl->getLinkTarget($this->page_gui, "releasePageLock"));
+                $ctrl->getLinkTarget($this->page_gui, "releasePageLock")
+            );
         } else {
             $b = $ui->factory()->button()->standard(
                 $lng->txt("cont_finish_editing"),
-                $ctrl->getLinkTarget($this->page_gui, "finishEditing"));
+                $ctrl->getLinkTarget($this->page_gui, "finishEditing")
+            );
         }
         $tpl->setVariable("MESSAGE2", $this->getMultiLangInfo());
         $tpl->setVariable("QUIT_BUTTON", $ui->renderer()->renderAsync($b));
@@ -248,7 +250,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             [
                 ["Page", "switch.single", $lng->txt("cont_edit_comp")],
                 ["Page", "switch.multi", $lng->txt("cont_edit_multi")]
-            ]);
+            ]
+        );
         $tpl->setVariable("SWITCH", $html);
 
         return $tpl->get();
@@ -406,7 +409,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                         $ctrl->setParameter($this->page_gui, "totransl", $_GET["totransl"]);
                     }
                 }
-
             }
         }
 
@@ -494,7 +496,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Format selection
      */
-    protected function getFormatSelection() {
+    protected function getFormatSelection()
+    {
         $lng = $this->lng;
         $ui = $this->ui;
         $tpl = new \ilTemplate("tpl.format_selection.html", true, true, "Services/COPage/Editor");
@@ -507,8 +510,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $sec_sel = new SectionStyleSelector($this->ui_wrapper, (int) $this->page_gui->getStyleId());
         $tpl->setVariable("SEC_SELECTOR", $ui->renderer()->renderAsync($sec_sel->getStyleSelector("", "format", "format.section", "format")));
 
-        $tpl->setVariable("SAVE_BUTTON", $this->ui_wrapper->getRenderedButton(
-            $lng->txt("save"),  "format", "format.save")
+        $tpl->setVariable(
+            "SAVE_BUTTON",
+            $this->ui_wrapper->getRenderedButton(
+                $lng->txt("save"),
+                "format",
+                "format.save"
+            )
         );
         return $tpl->get();
     }
@@ -528,7 +536,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
      * @param array $query
      * @return Server\Response
      */
-    protected function componentEditFormResponse($query): Server\Response {
+    protected function componentEditFormResponse($query) : Server\Response
+    {
         $pc_edit = \ilCOPagePCDef::getPCEditorInstanceByName($query["cname"]);
         $form = "";
         if (!is_null($pc_edit)) {
@@ -537,7 +546,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                 $this->page_gui->getPageObject()->getParentType(),
                 $this->page_gui,
                 (int) $this->page_gui->getStyleId(),
-                $query["pcid"]);
+                $query["pcid"]
+            );
         }
         $o = new \stdClass();
         $o->editForm = $form;
@@ -570,7 +580,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
      * Get components ui elements
      * @return array
      */
-    protected function getComponentsDefinitions() {
+    protected function getComponentsDefinitions()
+    {
         $pcdef = [];
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
@@ -582,7 +593,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get modal template
      */
-    public function getModalTemplate() {
+    public function getModalTemplate()
+    {
         $ui = $this->ui;
         $modal = $ui->factory()->modal()->roundtrip('#title#', $ui->factory()->legacy('#content#'))
                     ->withActionButtons([
@@ -597,10 +609,11 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     /**
      * Get confirmation template
      */
-    public function getConfirmationTemplate() {
+    public function getConfirmationTemplate()
+    {
         $ui = $this->ui;
 
-        $confirmation= $ui->factory()->messageBox()->confirmation("#text#");
+        $confirmation = $ui->factory()->messageBox()->confirmation("#text#");
 
         return $ui->renderer()->renderAsync($confirmation);
     }
@@ -614,7 +627,4 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $aset = new \ilSetting("adve");
         return (int) $aset->get("autosave");
     }
-
-
-
 }

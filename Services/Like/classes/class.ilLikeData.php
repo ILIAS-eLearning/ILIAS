@@ -173,7 +173,7 @@ class ilLikeData
             " AND sub_obj_type = " . $ilDB->quote($a_sub_obj_type, "text") .
             " AND news_id = " . $ilDB->quote($a_news_id, "integer") .
             " AND like_type = " . $ilDB->quote($a_like_type, "integer")
-            );
+        );
     }
 
     /**

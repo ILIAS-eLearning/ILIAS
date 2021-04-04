@@ -600,15 +600,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     /**
      * @inheritDoc
      */
-    public function getTableFilterLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getTableFilterLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
 
     /**
      * @inheritDoc
      */
-    public function getFormLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getFormLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
-
 }

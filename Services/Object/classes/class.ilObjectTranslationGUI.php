@@ -40,7 +40,7 @@ class ilObjectTranslationGUI
     protected $title_descr_only = true;
 
     /**
-     * @var bool 
+     * @var bool
      */
     protected $fallback_lang_mode = true;
     
@@ -89,18 +89,18 @@ class ilObjectTranslationGUI
 
     /**
      * Set enable fallback language
-     * @param bool $a_val 
+     * @param bool $a_val
      */
-    function setEnableFallbackLanguage($a_val)
+    public function setEnableFallbackLanguage($a_val)
     {
         $this->fallback_lang_mode = $a_val;
     }
 
     /**
      * Get enable fallback language
-     * @return bool 
+     * @return bool
      */
-    function getEnableFallbackLanguage()
+    public function getEnableFallbackLanguage()
     {
         return $this->fallback_lang_mode;
     }
@@ -253,7 +253,7 @@ class ilObjectTranslationGUI
                 ilUtil::stripSlashes($v),
                 ilUtil::stripSlashes($_POST["desc"][$k]),
                 $is_default
-                );
+            );
         }
         $this->obj_trans->save();
         if (method_exists($this->obj, "setObjectTranslation")) {
@@ -531,7 +531,7 @@ class ilObjectTranslationGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         // default language set?
-        if (!isset($_POST["check"]) || count ($_POST["check"]) !== 1) {
+        if (!isset($_POST["check"]) || count($_POST["check"]) !== 1) {
             ilUtil::sendFailure($this->lng->txt("obj_select_one_language"));
             $this->listTranslations(true);
             return;
@@ -547,5 +547,4 @@ class ilObjectTranslationGUI
         ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "listTranslations");
     }
-
-    }
+}

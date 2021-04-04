@@ -1397,7 +1397,7 @@ class ilTable2GUI extends ilTableGUI
             foreach ((array) $this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
                 $this->tpl->parseCurrentBlock();
@@ -1436,7 +1436,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
                     $width = (is_numeric($column["width"]))
-                        ? $column["width"]."px"
+                        ? $column["width"] . "px"
                         : $column["width"];
                     $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " style=\"width:" . $width . "\"");
                 }
@@ -1480,7 +1480,7 @@ class ilTable2GUI extends ilTableGUI
             // only set width if a value is given for that column
             if ($column["width"] != "") {
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
             }

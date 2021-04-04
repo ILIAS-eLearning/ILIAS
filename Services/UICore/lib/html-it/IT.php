@@ -468,7 +468,7 @@ class HTML_Template_IT
                         '%preserved%' . $this->closingDelimiter,
                     $this->openingDelimiter,
                     $ret
-                    );
+                );
             }
             return $ret;
         }
@@ -537,7 +537,7 @@ class HTML_Template_IT
                     $placeholder,
                     $this->blockdata[$innerblock],
                     $outer
-                        );
+                );
                 $this->blockdata[$innerblock] = "";
             }
         }
@@ -548,7 +548,7 @@ class HTML_Template_IT
                     array(
                                     &$this, '_addPregDelimiters'),
                     $regs
-                                );
+                );
                 $funcReplace = 'preg_replace';
             } else {
                 $funcReplace = 'str_replace';
@@ -558,7 +558,7 @@ class HTML_Template_IT
                 $values = array_map(
                     array(&$this, '_preserveOpeningDelimiter'),
                     $values
-                        );
+                );
             }
 
             $outer = $funcReplace($regs, $values, $outer);
@@ -618,7 +618,7 @@ class HTML_Template_IT
             $this->variableCache = array_merge(
                 $this->variableCache,
                 $variable
-                                    );
+            );
         } else {
             $this->variableCache[$variable] = $value;
         }
@@ -795,7 +795,7 @@ class HTML_Template_IT
                     $template,
                     $removeUnknownVariables,
                     $removeEmptyBlocks
-                    ) : false;
+                ) : false;
     } // end func LoadTemplatefile
 
     /**
@@ -896,7 +896,7 @@ class HTML_Template_IT
                                         '__' . $name . '__' .
                                         $this->closingDelimiter,
                         $this->blocklist[$blockname]
-                               );
+                    );
                     $this->blockinner[$blockname][] = $name;
                     $this->blockparents[$name] = $blockname;
                 }

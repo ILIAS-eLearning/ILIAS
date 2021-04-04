@@ -705,23 +705,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $toolbar->setLeadingImage(
                     ilUtil::getImagePath("arrow_upright.svg"),
                     $lng->txt("actions")
-                    );
+                );
                 $toolbar->addFormButton(
                     $this->lng->txt('delete_selected_items'),
                     'delete'
-                    );
+                );
                 $toolbar->addFormButton(
                     $this->lng->txt('move_selected_items'),
                     'cut'
-                    );
+                );
                 $toolbar->addFormButton(
                     $this->lng->txt('copy_selected_items'),
                     'copy'
-                    );
+                );
                 $toolbar->addFormButton(
                     $this->lng->txt('link_selected_items'),
                     'link'
-                    );
+                );
                 // add download button if multi download enabled
                 $folder_set = new ilSetting('fold');
                 if ((bool) $folder_set->get('enable_multi_download') === true) {
@@ -729,7 +729,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $toolbar->addFormButton(
                         $this->lng->txt('download_selected_items'),
                         'download'
-                        );
+                    );
                 }
             }
             if ($this->object->getType() == 'crs' or $this->object->getType() == 'grp') {
@@ -742,8 +742,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $this->ctrl->getLinkTargetByClass(
                         'ilObjectCopyGUI',
                         'adoptContent'
-                        )
-                    );
+                    )
+                );
             }
             //			}
             /*else
@@ -3257,7 +3257,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function initFormTitleDescription(ilPropertyFormGUI $form)
     {
-
         if ($this->getCreationMode() != true) {
             /** @var ilObjectTranslation $trans */
             $trans = $this->object->getObjectTranslation();
@@ -3309,7 +3308,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     ' (' . ilContainerSortingSettings::sortModeToString(
                         ilContainerSortingSettings::lookupSortModeFromParentContainer(
                             $this->object->getId()
-                            )
+                        )
                     ) . ') '
             );
             $sort_inherit->setValue(ilContainer::SORT_INHERIT);

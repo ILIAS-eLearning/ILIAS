@@ -966,7 +966,7 @@ class ilColumnGUI
                             $GLOBALS['ilCtrl']->getContextObjId(),
                             ilObjectServiceSettingsGUI::USE_NEWS,
                             true
-                    )) &&
+                        )) &&
                     ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         'cont_show_news',

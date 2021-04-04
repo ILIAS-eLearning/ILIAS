@@ -244,7 +244,7 @@ class ilCtrl
             $p = $this->getParameterArrayByClass($class_path);
             $nr = $p["cmdNode"];
             $baseclass = $p["baseClass"];
-            $this->inner_base_class =  $p["cmdNode"];
+            $this->inner_base_class = $p["cmdNode"];
         } else {
             $nr = $this->getNodeIdForTargetClass($this->current_node, $class);
             $nr = $nr["node_id"];
@@ -894,8 +894,9 @@ class ilCtrl
      */
     protected function getReadableNode($node)
     {
-        return implode(":",
-            array_map(function($cid) {
+        return implode(
+            ":",
+            array_map(function ($cid) {
                 return $this->getClassForCid($cid);
             }, explode(":", $node))
         );
@@ -1845,7 +1846,7 @@ class ilCtrl
             " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
             " child = " . $ilDB->quote($a_child, "text") . " AND " .
             " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return;
         }

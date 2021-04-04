@@ -104,8 +104,8 @@ class ilPCGrid extends ilPageContent
         $s,
         $m,
         $l,
-        $xl)
-    {
+        $xl
+    ) {
         switch ($post_layout_template) {
             case ilPCGridGUI::TEMPLATE_TWO_COLUMN:
                 $this->addGridCell(12, 6, 6, 6);

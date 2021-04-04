@@ -895,7 +895,7 @@ abstract class ilPageObject
         $content_object = $this->getContentObjectForPcId($pcid);
         $node = $content_object->getNode();
         $node = $node->parent_node();
-        while($node) {
+        while ($node) {
             if ($node->node_name() == "PageContent") {
                 $pcid = $node->get_attribute("PCID");
                 if ($pcid != "") {
@@ -1422,7 +1422,7 @@ abstract class ilPageObject
         if ($this->dom) {
             require_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $xpc = xpath_new_context($this->dom);
-            $path = "//PageContent[@PCID='".$pcid."']/Paragraph[1]";
+            $path = "//PageContent[@PCID='" . $pcid . "']/Paragraph[1]";
             $res = xpath_eval($xpc, $path);
             if (count($res->nodeset) > 0) {
                 $cont_node = $res->nodeset[0]->parent_node();
@@ -5236,5 +5236,4 @@ abstract class ilPageObject
         }
         return true;
     }
-
 }

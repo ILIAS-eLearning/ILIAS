@@ -227,7 +227,7 @@ class ilObjTaxonomy extends ilObject2
         $ilDB->manipulate(
             "DELETE FROM tax_data WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
 
@@ -241,7 +241,7 @@ class ilObjTaxonomy extends ilObject2
         $set = $ilDB->query(
             "SELECT * FROM tax_data " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setSortingMode($rec["sorting_mode"]);
         $this->setItemSorting($rec["item_sorting"]);
@@ -259,7 +259,7 @@ class ilObjTaxonomy extends ilObject2
             " sorting_mode = " . $ilDB->quote((int) $this->getSortingMode(), "integer") . ", " .
             " item_sorting = " . $ilDB->quote((int) $this->getItemSorting(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
     
     /**
@@ -297,7 +297,7 @@ class ilObjTaxonomy extends ilObject2
                     "obj_id" => array("integer", $a_obj_id)
                     ),
                 array()
-                );
+            );
         }
     }
     
@@ -316,7 +316,7 @@ class ilObjTaxonomy extends ilObject2
         $set = $ilDB->query(
             "SELECT tax_id FROM tax_usage " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
         $tax = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (!$a_include_titles) {
@@ -345,7 +345,7 @@ class ilObjTaxonomy extends ilObject2
         $ilDB->manipulate(
             "DELETE FROM tax_usage WHERE " .
             " tax_id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     
@@ -385,7 +385,7 @@ class ilObjTaxonomy extends ilObject2
         $set = $ilDB->query(
             "SELECT " . $a_field . " FROM tax_data " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         return $rec[$a_field];

@@ -391,7 +391,7 @@ class ilSettingsTemplateGUI
                     $s["id"],
                     $_POST["value_" . $s["id"]],
                     $_POST["hide_" . $s["id"]]
-                           );
+                );
             }
         }
     }

@@ -872,7 +872,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function getNoItemFoundContent() : string
     {
-
         $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
         $txt .= sprintf(
             $this->lng->txt('rep_fav_intro2'),

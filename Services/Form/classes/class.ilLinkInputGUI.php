@@ -404,12 +404,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
         // list mode
         if ($has_list) {
-            $mode_type = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode_type");
+            $mode_type = new ilRadioGroupInputGUI("", $this->getPostVar() . "_mode_type");
             $mode_single = new ilRadioOption($lng->txt("webr_link_type_single"), "single");
             $mode_type->addOption($mode_single);
             $mode_list = new ilRadioOption($lng->txt("webr_link_type_list"), "list");
             $mode_type->addOption($mode_list);
-            $mode = new ilRadioGroupInputGUI($lng->txt("webr_link_target"), $this->getPostVar()."_mode");
+            $mode = new ilRadioGroupInputGUI($lng->txt("webr_link_target"), $this->getPostVar() . "_mode");
             if (!$this->getRequired()) {
                 $no = new ilRadioOption($lng->txt("form_no_link"), "no");
                 $mode->addOption($no);

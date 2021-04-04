@@ -144,6 +144,4 @@ class ilPCDataTable extends ilPCTable
         //exit;
         return true;
     }
-
-
 }

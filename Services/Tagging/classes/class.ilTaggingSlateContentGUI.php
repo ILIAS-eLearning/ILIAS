@@ -11,7 +11,6 @@ use ILIAS\Filesystem\Stream\Streams;
  */
 class ilTaggingSlateContentGUI
 {
-
     const CURRENT_TAG_KEY = "tag_current_tag";
 
     /**
@@ -79,8 +78,11 @@ class ilTaggingSlateContentGUI
 
         $this->tags = ilTagging::getTagsForUser($this->user->getId(), 1000000);
 
-        $this->requested_tag = str_replace("-->", "",
-            $this->http->request()->getQueryParams()["tag"]);
+        $this->requested_tag = str_replace(
+            "-->",
+            "",
+            $this->http->request()->getQueryParams()["tag"]
+        );
         if ($this->requested_tag == "") {
             $this->requested_tag = $this->getCurrentTag();
         }
@@ -147,8 +149,10 @@ class ilTaggingSlateContentGUI
                 $tpl->setCurrentBlock("linked_tag");
                 $ilCtrl->setParameter($this, "tag", rawurlencode($tag["tag"]));
                 $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
-                $tpl->setVariable("ON_CLICK",
-                    "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;");
+                $tpl->setVariable(
+                    "ON_CLICK",
+                    "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;"
+                );
                 $tpl->setVariable("TAG_TITLE", $tag["tag"]);
                 $tpl->setVariable("HREF_TAG", "#");
                 $tpl->setVariable(
@@ -226,7 +230,7 @@ class ilTaggingSlateContentGUI
     {
         $this->send($this->renderResourcesForTag());
     }
-        /**
+    /**
      * Show tag cloud
      * @throws ilTemplateException
      */
@@ -270,7 +274,7 @@ class ilTaggingSlateContentGUI
                     $inaccessible = true;
                 }
                 if ($inaccessible) {
-                    ilTagging::deleteTagOfObjectForUser($ilUser->getId(), $obj["obj_id"], $obj["obj_type"], $obj["sub_obj_id"], $obj["sub_obj_type"],$tag);
+                    ilTagging::deleteTagOfObjectForUser($ilUser->getId(), $obj["obj_id"], $obj["obj_type"], $obj["sub_obj_id"], $obj["sub_obj_type"], $tag);
                 }
             }
         }
@@ -287,12 +291,11 @@ class ilTaggingSlateContentGUI
      */
     public function getNoTagsUsedMessage() : ILIAS\UI\Component\MessageBox\MessageBox
     {
-
         $txt = $this->lng->txt("no_tag_text_1") . "<br>";
         $txt .= sprintf(
-                $this->lng->txt('no_tag_text_2'),
-                $this->getRepositoryTitle()
-            ) . "<br>";
+            $this->lng->txt('no_tag_text_2'),
+            $this->getRepositoryTitle()
+        ) . "<br>";
         $txt .= $this->lng->txt("no_tag_text_3");
         $mbox = $this->ui->factory()->messageBox()->info($txt);
         $mbox = $mbox->withLinks([$this->ui->factory()->link()->standard($this->getRepositoryTitle(), ilLink::_getStaticLink(1, 'root', true))]);
@@ -323,7 +326,8 @@ class ilTaggingSlateContentGUI
     protected function send(string $output)
     {
         $this->http->saveResponse($this->http->response()->withBody(
-            Streams::ofString($output)));
+            Streams::ofString($output)
+        ));
         $this->http->sendResponse();
         $this->http->close();
     }
@@ -353,5 +357,4 @@ class ilTaggingSlateContentGUI
     {
         $this->store->set(self::CURRENT_TAG_KEY, "");
     }
-
 }

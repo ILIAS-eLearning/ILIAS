@@ -122,7 +122,7 @@ class ilAccessKey
         $set = $ilDB->query(
             "SELECT * FROM acc_access_key " .
             " WHERE lang_key = " . $ilDB->quote($lang_key, "text")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $keys[$rec["function_id"]] = $rec["access_key"];
         }
@@ -153,7 +153,7 @@ class ilAccessKey
             "SELECT * FROM acc_access_key " .
             " WHERE lang_key = " . $ilDB->quote($lang_key, "text") .
             " AND function_id = " . $ilDB->quote($a_func_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $key = $rec["access_key"];
         }
@@ -175,7 +175,7 @@ class ilAccessKey
         $ilDB->manipulate(
             "DELETE FROM acc_access_key WHERE " .
             "lang_key = " . $ilDB->quote($a_lang_key, "text")
-            );
+        );
         
         foreach ($a_keys as $func_id => $acc_key) {
             $ilDB->manipulate("INSERT INTO acc_access_key " .

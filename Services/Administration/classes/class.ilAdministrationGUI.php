@@ -180,7 +180,7 @@ class ilAdministrationGUI
 
         if ((
             $next_class == "iladministrationgui" || $next_class == ""
-            ) && ($this->ctrl->getCmd() == "return")) {
+        ) && ($this->ctrl->getCmd() == "return")) {
             // get GUI of current object
             $obj_type = ilObject::_lookupType($this->cur_ref_id, true);
             $class_name = $this->objDefinition->getClassName($obj_type);

@@ -1123,7 +1123,7 @@ class ilObject
 
         $ilDB = $DIC->database();
         $query = "UPDATE object_reference SET " .
-            'deleted = ' . $ilDB->now() . ', '.
+            'deleted = ' . $ilDB->now() . ', ' .
             'deleted_by = ' . $ilDB->quote($a_deleted_by, \ilDBConstants::T_INTEGER) . ' ' .
             "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $res = $ilDB->manipulate($query);
@@ -1158,8 +1158,8 @@ class ilObject
 
         $ilDB = $DIC->database();
 
-        $query = "UPDATE object_reference SET deleted = " . $ilDB->quote(null, 'timestamp'). ', ' .
-            'deleted_by = ' . $ilDB->quote(0, \ilDBConstants::T_INTEGER). ' '.
+        $query = "UPDATE object_reference SET deleted = " . $ilDB->quote(null, 'timestamp') . ', ' .
+            'deleted_by = ' . $ilDB->quote(0, \ilDBConstants::T_INTEGER) . ' ' .
             " WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
         $ilDB->manipulate($query);
     }

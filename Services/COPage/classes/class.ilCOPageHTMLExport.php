@@ -172,8 +172,10 @@ class ilCOPageHTMLExport
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir . "/" . $style->getImagesDirectory());
-            $this->exportResourceFile($this->exp_dir,
-                ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false));
+            $this->exportResourceFile(
+                $this->exp_dir,
+                ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false)
+            );
         }
         
         // export syntax highlighting style

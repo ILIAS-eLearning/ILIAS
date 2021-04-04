@@ -142,18 +142,18 @@ class ilObjectTranslation
 
     /**
      * Set fallback language
-     * @param string $a_val 
+     * @param string $a_val
      */
-    function setFallbackLanguage($a_val)
+    public function setFallbackLanguage($a_val)
     {
         $this->fallback_language = $a_val;
     }
 
     /**
      * Get fallback language
-     * @return string 
+     * @return string
      */
-    function getFallbackLanguage()
+    public function getFallbackLanguage()
     {
         return $this->fallback_language;
     }

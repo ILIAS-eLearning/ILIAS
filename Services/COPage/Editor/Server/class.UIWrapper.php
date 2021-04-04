@@ -42,8 +42,8 @@ class UIWrapper
         string $content,
         string $type,
         string $action,
-        array $data = null): \ILIAS\UI\Component\Button\Standard
-    {
+        array $data = null
+    ) : \ILIAS\UI\Component\Button\Standard {
         $ui = $this->ui;
         $f = $ui->factory();
         $b = $f->button()->standard($content, "");
@@ -63,14 +63,16 @@ class UIWrapper
         return $b;
     }
 
-    public function getRenderedInfoBox($text) {
+    public function getRenderedInfoBox($text)
+    {
         $ui = $this->ui;
         $f = $ui->factory();
         $m = $f->messageBox()->info($text);
         return $ui->renderer()->renderAsync($m);
     }
 
-    public function getRenderedFailureBox() {
+    public function getRenderedFailureBox()
+    {
         $ui = $this->ui;
         $f = $ui->factory();
         $m = $f->messageBox()->failure($this->lng->txt("copg_an_error_occured"))
@@ -87,7 +89,7 @@ class UIWrapper
      * @param array|null $data
      * @return string
      */
-    public function getRenderedButton(string $content, string $type, string $action, array $data = null): string
+    public function getRenderedButton(string $content, string $type, string $action, array $data = null) : string
     {
         $ui = $this->ui;
         $b = $this->getButton($content, $type, $action, $data);
@@ -124,20 +126,23 @@ class UIWrapper
      * @param                    $buttons
      * @return string
      */
-    public function getRenderedForm(\ilPropertyFormGUI $form, $buttons) {
+    public function getRenderedForm(\ilPropertyFormGUI $form, $buttons)
+    {
         $form->clearCommandButtons();
         $cnt = 0;
         foreach ($buttons as $button) {
             $cnt++;
-            $form->addCommandButton("", $button[2], "cmd-".$cnt);
+            $form->addCommandButton("", $button[2], "cmd-" . $cnt);
         }
         $html = $form->getHTML();
         $cnt = 0;
         foreach ($buttons as $button) {
             $cnt++;
-            $html = str_replace("id='cmd-".$cnt."'",
-                " data-copg-ed-type='form-button' data-copg-ed-action='".$button[1]."' data-copg-ed-component='".$button[0]."'",
-                $html);
+            $html = str_replace(
+                "id='cmd-" . $cnt . "'",
+                " data-copg-ed-type='form-button' data-copg-ed-action='" . $button[1] . "' data-copg-ed-component='" . $button[0] . "'",
+                $html
+            );
         }
         return $html;
     }
@@ -157,23 +162,25 @@ class UIWrapper
         return new Response($data);
     }
 
-    public function getRenderedViewControl($actions): string
+    public function getRenderedViewControl($actions) : string
     {
         $ui = $this->ui;
         $cnt = 0;
         $view_modes = [];
         foreach ($actions as $act) {
             $cnt++;
-            $view_modes[$act[2]] = "cmd-".$cnt;
+            $view_modes[$act[2]] = "cmd-" . $cnt;
         }
         $vc = $ui->factory()->viewControl()->mode($view_modes, "");
         $html = $ui->renderer()->render($vc);
         $cnt = 0;
         foreach ($actions as $act) {
             $cnt++;
-            $html = str_replace('data-action="cmd-'.$cnt.'"',
-                " data-copg-ed-type='view-control' data-copg-ed-action='".$act[1]."' data-copg-ed-component='".$act[0]."'",
-                $html);
+            $html = str_replace(
+                'data-action="cmd-' . $cnt . '"',
+                " data-copg-ed-type='view-control' data-copg-ed-action='" . $act[1] . "' data-copg-ed-component='" . $act[0] . "'",
+                $html
+            );
         }
         $html = str_replace("id=", "data-id=", $html);
         return $html;
@@ -193,8 +200,8 @@ class UIWrapper
         string $component,
         string $type,
         string $action,
-        array $data = null): \ILIAS\UI\Component\Button\Shy
-    {
+        array $data = null
+    ) : \ILIAS\UI\Component\Button\Shy {
         $ui = $this->ui;
         $f = $ui->factory();
         $l = $f->button()->shy($content, "");
@@ -223,7 +230,7 @@ class UIWrapper
      * @param array|null $data
      * @return string
      */
-    public function getRenderedLink(string $content, string $component, string $type, string $action, array $data = null): string
+    public function getRenderedLink(string $content, string $component, string $type, string $action, array $data = null) : string
     {
         $ui = $this->ui;
         $l = $this->getLink($content, $component, $type, $action, $data);
@@ -243,5 +250,4 @@ class UIWrapper
         $i = $f->symbol()->icon()->standard($type, $type, 'medium');
         return $r->render($i);
     }
-
 }

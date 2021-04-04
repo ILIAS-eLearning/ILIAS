@@ -1026,7 +1026,6 @@ class ilPCTable extends ilPageContent
                 $cells = $row->child_nodes();
                 foreach ($cells as $cell) {
                     if ($cell->node_name() == "TableData") {
-
                         $text = ilPCParagraph::xml2output(
                             $this->getCellText($y, $x),
                             true,
@@ -1043,5 +1042,4 @@ class ilPCTable extends ilPageContent
 
         return $model;
     }
-
 }

@@ -30,8 +30,8 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
     /**
      * @inheritDoc
      */
-    function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id): array {
-
+    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
+    {
         $form = $this->getCreationForm($page_gui, $ui_wrapper);
 
         return [
@@ -53,7 +53,9 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
         $sec_gui = new ilPCSectionGUI($page_gui->getPageObject(), null, "", "");
         $sec_gui->setPageConfig($page_gui->getPageConfig());
 
-        $html = $ctrl->getHTML($sec_gui, [
+        $html = $ctrl->getHTML(
+            $sec_gui,
+            [
             "form" => true,
             "ui_wrapper" => $ui_wrapper,
             "buttons" => [["Page", "component.save", $lng->txt("save")],
@@ -70,8 +72,8 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
     /**
      * @inheritDoc
      */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid): string {
-
+    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
+    {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -84,7 +86,9 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
         $sec_gui = new ilPCSectionGUI($page_gui->getPageObject(), $sec, $hier_id, $pcid);
         $sec_gui->setPageConfig($page_gui->getPageConfig());
 
-        $html = $ctrl->getHTML($sec_gui, [
+        $html = $ctrl->getHTML(
+            $sec_gui,
+            [
                 "form" => true,
                 "ui_wrapper" => $ui_wrapper,
                 "buttons" => [["Page", "component.update", $lng->txt("save")],
@@ -94,5 +98,4 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
 
         return $html;
     }
-
 }

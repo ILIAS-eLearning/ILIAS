@@ -154,7 +154,7 @@ class ilHelpDataSet extends ilDataSet
                             $a_rec["ScreenSubId"],
                             $a_rec["Perm"],
                             $module_id
-                            );
+                        );
                     }
                 }
                 break;

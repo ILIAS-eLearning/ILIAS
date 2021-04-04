@@ -648,7 +648,7 @@ class ilPageContentGUI
             $hier_id = $this->hier_id;
         }
         $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
-        $ilCtrl->returnToParent($this, "add".$pcid);
+        $ilCtrl->returnToParent($this, "add" . $pcid);
     }
 
     protected function getParentReturn($hier_id = "")
@@ -658,7 +658,6 @@ class ilPageContentGUI
         }
         $ilCtrl = $this->ctrl;
         $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
-        return $ilCtrl->getParentReturn($this)."#add".$pcid;
+        return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
     }
-
 }

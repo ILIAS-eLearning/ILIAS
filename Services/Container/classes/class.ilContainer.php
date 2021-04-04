@@ -1281,7 +1281,7 @@ class ilContainer extends ilObject
                         " AND type = %s",
                         array("text"),
                         array($val)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["obj_id"];
@@ -1316,7 +1316,7 @@ class ilContainer extends ilObject
                         " AND m.contact = %s",
                         array("integer"),
                         array(1)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["obj_id"];
@@ -1330,7 +1330,7 @@ class ilContainer extends ilObject
                         " AND description = %s ",
                         array("text"),
                         array('il_copyright_entry__' . IL_INST_ID . '__' . $val)
-                        );
+                    );
                     $result_obj_ids = [];
                     while ($rec = $db->fetchAssoc($set)) {
                         $result_obj_ids[] = $rec["rbac_id"];
@@ -1431,13 +1431,13 @@ class ilContainer extends ilObject
     {
         $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt"];
         foreach ($legacy_types as $type) {
-            $lobjects = array_filter($objects, function($o) use ($type) {
+            $lobjects = array_filter($objects, function ($o) use ($type) {
                 return ($o["type"] == $type);
             });
-            $lobj_ids = array_map(function($i){
+            $lobj_ids = array_map(function ($i) {
                 return $i["obj_id"];
             }, $lobjects);
-            switch($type) {
+            switch ($type) {
                 case "glo":
                     $status = ilObjGlossaryAccess::_lookupOnlineStatus($lobj_ids);
                     break;
@@ -1463,12 +1463,12 @@ class ilContainer extends ilObject
                     $status = ilObjPortfolioTemplateAccess::_lookupOnlineStatus($lobj_ids);
                     break;
             }
-            foreach($status as $obj_id => $online) {
+            foreach ($status as $obj_id => $online) {
                 if ($val == 1 && !$online || $val == 2 && $online) {
                     if (($key = array_search($obj_id, $obj_ids)) !== false) {
                         unset($obj_ids[$key]);
                     }
-                }  else if (!in_array($obj_id, $obj_ids)) {
+                } elseif (!in_array($obj_id, $obj_ids)) {
                     $obj_ids[] = $obj_id;
                 }
             }
@@ -1476,5 +1476,4 @@ class ilContainer extends ilObject
 
         return $obj_ids;
     }
-
 } // END class ilContainer

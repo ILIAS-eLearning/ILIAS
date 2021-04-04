@@ -120,8 +120,6 @@ class ilPCTableGUI extends ilPageContentGUI
             "editCellStyle",
             get_class($this)
         );
-
-
     }
     
     /**
@@ -1083,7 +1081,8 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->tpl->setContent($this->getEditDataTable(true));
     }
 
-    public function getEditDataTable($initial = false) {
+    public function getEditDataTable($initial = false)
+    {
         $ilCtrl = $this->ctrl;
 
         include_once("./Services/COPage/classes/class.ilPCParagraph.php");
@@ -1132,9 +1131,9 @@ class ilPCTableGUI extends ilPageContentGUI
                         $move_backward = true;
                     }
                     $dtpl->setCurrentBlock("col_icon");
-                    $dtpl->setVariable("NR_COLUMN", $j+1);
+                    $dtpl->setVariable("NR_COLUMN", $j + 1);
                     $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("COLUMN_CAPTION", $j+1);
+                    $dtpl->setVariable("COLUMN_CAPTION", $j + 1);
                     $dtpl->parseCurrentBlock();
                 }
                 $dtpl->setCurrentBlock("row");
@@ -1157,15 +1156,14 @@ class ilPCTableGUI extends ilPageContentGUI
                         $move_type = "both";
                     }
                     $dtpl->setCurrentBlock("row_icon");
-                    $dtpl->setVariable("NR_ROW", $i+1);
+                    $dtpl->setVariable("NR_ROW", $i + 1);
                     $dtpl->setVariable("PCID_ROW", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("ROW_CAPTION", $i+1);
+                    $dtpl->setVariable("ROW_CAPTION", $i + 1);
                     $dtpl->parseCurrentBlock();
                 }
 
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-
                     if ($this->content_obj->getType() == "dtab") {
                         $dtpl->touchBlock("cell_type");
                         //$dtpl->setCurrentBlock("cell_type");
@@ -1229,5 +1227,4 @@ class ilPCTableGUI extends ilPageContentGUI
 
         return $dtpl->get();
     }
-
 }

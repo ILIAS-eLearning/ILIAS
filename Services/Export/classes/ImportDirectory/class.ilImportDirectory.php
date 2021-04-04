@@ -63,6 +63,4 @@ abstract class ilImportDirectory implements ilImportDirectoryHandler
     {
         $this->relative_path = self::PATH_UPLOAD_PREFIX . '/' . $this->getPathPrefix();
     }
-
-
 }

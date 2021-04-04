@@ -313,17 +313,17 @@ class ilObjectActivationGUI
             }
 
             if ($valid) {
-            $this->getActivation()->update($this->getItemId(), $this->getParentId());
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, "edit");
-        } else {
+                $this->getActivation()->update($this->getItemId(), $this->getParentId());
+                ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
+                $this->ctrl->redirect($this, "edit");
+            } else {
                 ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
             }
         }
 
-            $form->setValuesByPost();
-            $this->edit($form);
-        }
+        $form->setValuesByPost();
+        $this->edit($form);
+    }
 
     /**
      * @return bool

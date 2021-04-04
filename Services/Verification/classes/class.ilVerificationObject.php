@@ -299,6 +299,5 @@ abstract class ilVerificationObject extends ilObject2
     
     protected function handleQuotaUpdate()
     {
-       
     }
 }

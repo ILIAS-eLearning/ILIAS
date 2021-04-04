@@ -387,7 +387,7 @@ class ilTagging
             "SELECT DISTINCT user_id, firstname, lastname FROM il_tag JOIN usr_data ON (user_id = usr_id) " .
             " WHERE LOWER(tag) = LOWER(" . $ilDB->quote($a_tag, "text") . ")" .
             " ORDER BY lastname, firstname"
-            );
+        );
         $users = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $users[] = array("id" => $rec["user_id"]);

@@ -393,7 +393,7 @@ class ilTemplate extends HTML_Template_ITX
                     $template,
                     $removeUnknownVariables,
                     $removeEmptyBlocks
-                    ) : false;
+                ) : false;
         // copied.
     }
     

@@ -126,7 +126,7 @@ class ilNavigationHistory
                     "last_visited" => array("clob", serialize($this->getItems()))),
             array(
                 "usr_id" => array("integer", $ilUser->getId()))
-            );
+        );
     }
     
     /**
@@ -161,7 +161,7 @@ class ilNavigationHistory
             $set = $ilDB->query(
                 "SELECT last_visited FROM usr_data " .
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             $db_entries = unserialize($rec["last_visited"]);
             $cnt = count($items);
@@ -219,7 +219,7 @@ class ilNavigationHistory
                     "last_visited" => array("clob", serialize(array()))),
             array(
                 "usr_id" => array("integer", $ilUser->getId()))
-            );
+        );
     }
 
     /**

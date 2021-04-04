@@ -826,7 +826,7 @@ class ilObjectActivation
     public static function getTimingsAdministrationItems($a_parent_id)
     {
         $items = self::getItems($a_parent_id, false);
-        $active = $availability  = $inactive = [];
+        $active = $availability = $inactive = [];
         foreach ($items as $item) {
             if ($item['timing_type'] == self::TIMINGS_DEACTIVATED) {
                 $inactive[] = $item;

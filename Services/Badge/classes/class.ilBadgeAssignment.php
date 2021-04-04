@@ -368,7 +368,7 @@ class ilBadgeAssignment
             " WHERE ub.user_id = %s AND ub.tstamp >= %s AND ub.tstamp <= %s",
             array("integer","integer","integer"),
             array($a_user_id, $a_ts_from, $a_ts_to)
-            );
+        );
         $res = [];
         while ($rec = $db->fetchAssoc($set)) {
             $res[] = $rec;

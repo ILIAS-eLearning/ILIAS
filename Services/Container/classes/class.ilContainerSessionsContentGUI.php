@@ -291,8 +291,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         array $items,
         ilContainer $container,
         bool $admin_panel_enabled = false,
-        bool $include_side_block = false) : array
-    {
+        bool $include_side_block = false
+    ) : array {
         global $DIC;
 
         $user = $DIC->user();
@@ -395,6 +395,4 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $items[(int) $admin_panel_enabled][(int) $include_side_block] = $sort->sortItems($items);
         return $items;
     }
-
-
 } // END class.ilContainerSessionsContentGUI

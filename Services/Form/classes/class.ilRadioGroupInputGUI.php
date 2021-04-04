@@ -271,8 +271,8 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
     /**
      * @inheritDoc
      */
-    public function getFormLabelFor() {
+    public function getFormLabelFor()
+    {
         return "";
     }
-
 }

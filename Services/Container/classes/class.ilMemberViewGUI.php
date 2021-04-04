@@ -73,7 +73,7 @@ class ilMemberViewGUI
                 "members_view",
                 $lng->txt('mem_view_activate'),
                 $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset")
-                );
+            );
             $ilCtrl->clearParametersByClass("ilrepositorygui");
             return true;
         }

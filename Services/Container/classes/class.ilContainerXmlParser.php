@@ -204,7 +204,7 @@ class ilContainerXmlParser
      * @param object $parent_node
      * @return int | null
      */
-    protected function createObject($ref_id, $obj_id, $type, $title, $parent_node) :? int
+    protected function createObject($ref_id, $obj_id, $type, $title, $parent_node) : ? int
     {
         $objDefinition = $this->obj_definition;
 

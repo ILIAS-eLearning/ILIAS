@@ -64,7 +64,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         $this->lng->loadLanguageModule('adve');
         $this->lng->loadLanguageModule('meta');
-
     }
     
     public function executeCommand()

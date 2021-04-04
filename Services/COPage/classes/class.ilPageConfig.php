@@ -130,7 +130,7 @@ abstract class ilPageConfig
      *
      * @return boolean enable pc type true/false
      */
-    public function getEnabledTopPCTypes(): array
+    public function getEnabledTopPCTypes() : array
     {
         $types = [];
         foreach ($this->pc_defs as $def) {
@@ -666,7 +666,7 @@ abstract class ilPageConfig
      * Set if page container css class should be used
      * @param bool $a_val use page container
      */
-    function setUsePageContainer($a_val)
+    public function setUsePageContainer($a_val)
     {
         $this->use_page_container = $a_val;
     }
@@ -675,9 +675,8 @@ abstract class ilPageConfig
      * Get if page container css class should be used
      * @return bool use page container class
      */
-    function getUsePageContainer()
+    public function getUsePageContainer()
     {
         return $this->use_page_container;
     }
-
 }

@@ -50,7 +50,7 @@ class ilHelp
             "SELECT tt_text FROM help_tooltip " .
             " WHERE tt_id = " . $ilDB->quote($a_tt_id, "text") .
             " AND module_id = " . $ilDB->quote($module_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         if ($rec["tt_text"] != "") {
             $t = $rec["tt_text"];
@@ -65,7 +65,7 @@ class ilHelp
                 "SELECT tt_text FROM help_tooltip " .
                 " WHERE tt_id = " . $ilDB->quote($gen_tt_id, "text") .
                 " AND module_id = " . $ilDB->quote($module_id, "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             if ($rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
@@ -177,7 +177,7 @@ class ilHelp
             " tt_id = " . $ilDB->quote($a_tt_id, "text") . ", " .
             " comp = " . $ilDB->quote($comp, "text") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     
@@ -219,7 +219,7 @@ class ilHelp
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     /**
@@ -237,7 +237,7 @@ class ilHelp
         $ilDB->manipulate(
             "DELETE FROM help_tooltip WHERE " .
             " module_id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
 
     /**

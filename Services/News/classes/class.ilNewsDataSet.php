@@ -123,7 +123,6 @@ class ilNewsDataSet extends ilDataSet
                     break;
             }
         }
-
     }
     
     /**
@@ -180,7 +179,7 @@ class ilNewsDataSet extends ilDataSet
             case "news_settings":
 
                 $dummy_dataset = new ilObjectDataSet();
-                $new_obj_id = $dummy_dataset->getNewObjId($a_mapping,  $a_rec["ObjId"]);
+                $new_obj_id = $dummy_dataset->getNewObjId($a_mapping, $a_rec["ObjId"]);
 
                 if ($new_obj_id > 0 && $a_schema_version == "5.4.0") {
                     foreach ([

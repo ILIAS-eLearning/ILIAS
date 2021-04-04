@@ -259,7 +259,6 @@ class ilMemberViewSettings
             ) {
                 $this->deactivate();
             }
-
         }
     }
     

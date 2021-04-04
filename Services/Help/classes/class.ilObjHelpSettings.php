@@ -83,7 +83,7 @@ class ilObjHelpSettings extends ilObject2
             "UPDATE help_module SET " .
             " lm_id = " . $ilDB->quote($a_lm_id, "integer") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
     
     
@@ -216,7 +216,7 @@ class ilObjHelpSettings extends ilObject2
         $set = $ilDB->query(
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
             return ilObject::_lookupTitle($rec["lm_id"]);
@@ -239,7 +239,7 @@ class ilObjHelpSettings extends ilObject2
         $set = $ilDB->query(
             "SELECT lm_id FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["lm_id"];
     }
@@ -263,7 +263,7 @@ class ilObjHelpSettings extends ilObject2
         $set = $ilDB->query(
             "SELECT * FROM help_module " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         // delete learning module

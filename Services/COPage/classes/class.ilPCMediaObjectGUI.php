@@ -1295,7 +1295,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      * @param
      * @return
      */
-    public function getStyleInput(): ilAdvSelectInputGUI
+    public function getStyleInput() : ilAdvSelectInputGUI
     {
         // characteristic selection
         $char_prop = new ilAdvSelectInputGUI(

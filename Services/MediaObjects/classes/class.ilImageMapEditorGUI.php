@@ -539,14 +539,14 @@ class ilImageMapEditorGUI
                     $_SESSION["il_map_il_target"],
                     $_SESSION["il_map_il_type"],
                     $_SESSION["il_map_il_targetframe"]
-                    );
+                );
             }
             $ne->setValue(
                 $link_str .
                     '&nbsp;<a id="iosEditInternalLinkTrigger" href="#">' .
                     "[" . $lng->txt("cont_get_link") . "]" .
                     '</a>'
-                    );
+            );
             $int->addSubItem($ne);
                 
             // no link
