@@ -52,6 +52,11 @@ class ilBookingScheduleGUI
     protected $schedule_id;
 
     /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
      * Constructor
      * @param	object	$a_parent_obj
      */
@@ -103,7 +108,8 @@ class ilBookingScheduleGUI
         $ilAccess = $this->access;
 
         $table = new ilBookingSchedulesTableGUI($this, 'render', $this->ref_id);
-        
+
+        $bar = "";
         if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             // if we have schedules but no objects - show info
             if (sizeof($table->getData())) {
@@ -112,7 +118,7 @@ class ilBookingScheduleGUI
                 }
             }
             
-            $bar = new ilToolbarGUI;
+            $bar = new ilToolbarGUI();
             $bar->addButton($lng->txt('book_add_schedule'), $ilCtrl->getLinkTarget($this, 'create'));
             $bar = $bar->getHTML();
         }
@@ -250,21 +256,6 @@ class ilBookingScheduleGUI
                 $deadline_opts->setValue("slot_end");
             }
 
-            /*
-            if($schedule->getRaster())
-            {
-                $type->setValue("flexible");
-                $raster->setValue($schedule->getRaster());
-                $rent_min->setValue($schedule->getMinRental());
-                $rent_max->setValue($schedule->getMaxRental());
-                $break->setValue($schedule->getAutoBreak());
-            }
-            else
-            {
-                $type->setValue("fix");
-            }
-            */
-
             $definition->setValue($schedule->getDefinitionBySlots());
 
             $form_gui->addCommandButton("update", $lng->txt("save"));
@@ -288,7 +279,7 @@ class ilBookingScheduleGUI
 
         $form = $this->initForm();
         if ($form->checkInput()) {
-            $obj = new ilBookingSchedule;
+            $obj = new ilBookingSchedule();
             $this->formToObject($form, $obj);
             $obj->save();
 
@@ -331,8 +322,9 @@ class ilBookingScheduleGUI
      */
     protected function setDefinitionFromPost(ilPropertyFormGUI $form)
     {
-        $days = $form->getInput("days");
+        $days = (array) $form->getInput("days");
         if ($days) {
+            $days_fields = [];
             $days_group = $form->getItemByPostVar("days");
             foreach ($days_group->getOptions() as $option) {
                 $days_fields[$option->getValue()] = $option;

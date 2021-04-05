@@ -14,8 +14,13 @@ class ilObjUseBookDBRepository
     const TABLE_NAME = 'book_obj_use_book';
 
     /**
+     * @var \ilDBInterface
+     */
+    protected $db;
+
+    /**
      * ilObjUseBookDBRepository constructor.
-     * @param \ilDBInterfacee $db
+     * @param \ilDBInterface $db
      */
     public function __construct(\ilDBInterface $db)
     {

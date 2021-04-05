@@ -15,7 +15,7 @@ class ilBookingPreferencesGUI
     protected $ctrl;
 
     /**
-     * @var ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $main_tpl;
 

@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Cron for booking manager notification
  *
  * @author Alex Killing <killing@leifos.com>
- * @ingroup ModulesBookingManager
  */
 class ilBookCronNotification extends ilCronJob
 {
@@ -69,7 +67,6 @@ class ilBookCronNotification extends ilCronJob
     
     public function getDefaultScheduleValue()
     {
-        return;
     }
     
     public function hasAutoActivation()
@@ -268,8 +265,6 @@ class ilBookCronNotification extends ilCronJob
 
     /**
      * Send user notifications
-     *
-     * @return int
      */
     protected function sendUserNotifications($res)
     {
@@ -293,8 +288,6 @@ class ilBookCronNotification extends ilCronJob
 
     /**
      * Send admin notifications
-     *
-     * @return int
      */
     protected function sendAdminNotifications($res)
     {

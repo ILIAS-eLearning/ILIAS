@@ -82,7 +82,7 @@ class ilObjectServiceSettingsGUI
     /**
      * Init service settings form
      * @param ilPropertyFormGUI $form
-     * @param type $services
+     * @param array $services
      */
     public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
     {

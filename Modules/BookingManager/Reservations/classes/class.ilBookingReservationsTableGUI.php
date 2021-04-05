@@ -45,7 +45,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
      * @var array ids of context objects (e.g. course ids)
      */
     protected $context_obj_ids;
-    
+
+    /**
+     * @var ilAdvancedMDRecordGUI
+     */
+    protected $record_gui;
+
     /**
      * Constructor
      * @param	object	$a_parent_obj
@@ -652,14 +657,15 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
             }
             $this->tpl->setVariable("VALUE_SLOT", $a_set["slot"]);
             $this->tpl->setVariable("VALUE_COUNTER", $a_set["counter"]);
+        } elseif (in_array(
+            $a_set['status'],
+            array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE)
+        )) {
+            $this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_' . $a_set['status']));
         } else {
-            if (in_array($a_set['status'], array(ilBookingReservation::STATUS_CANCELLED, ilBookingReservation::STATUS_IN_USE))) {
-                $this->tpl->setVariable("TXT_STATUS", $lng->txt('book_reservation_status_' . $a_set['status']));
-            } else {
-                $this->tpl->setVariable("TXT_STATUS", "&nbsp;");
-            }
+            $this->tpl->setVariable("TXT_STATUS", "&nbsp;");
         }
-        
+
         if ($this->advmd) {
             foreach ($this->advmd as $item) {
                 $advmd_id = (int) $item["id"];

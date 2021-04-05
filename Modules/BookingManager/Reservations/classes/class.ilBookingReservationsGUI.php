@@ -21,6 +21,66 @@ class ilBookingReservationsGUI
     protected $context_obj_id;
 
     /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var \ilGlobalTemplateInterface
+     */
+    protected $tpl;
+
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
+
+    /**
+     * @var \ilAccessHandler
+     */
+    protected $access;
+
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs_gui;
+
+    /**
+     * @var \ilObjUser
+     */
+    protected $user;
+
+    /**
+     * @var ilObjBookingPool
+     */
+    protected $pool;
+
+    /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
+     * @var int
+     */
+    protected $book_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $pbooked_user;
+
+    /**
+     * @var string
+     */
+    protected $reservation_id;
+
+    /**
+     * @var int
+     */
+    protected $booked_user;
+
+    /**
      * ilBookingReservationsGUI constructor.
      * @param ilObjBookingPool $pool
      * @param ilBookingHelpAdapter $help

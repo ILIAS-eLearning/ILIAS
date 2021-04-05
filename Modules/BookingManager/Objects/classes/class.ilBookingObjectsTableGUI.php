@@ -36,6 +36,11 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected $ui_renderer;
 
     /**
+     * @var ilAdvancedMDRecordGUI
+     */
+    protected $record_gui;
+
+    /**
      * @var bool
      */
     protected $active_management;
@@ -186,7 +191,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
         }
         
-        foreach ($data as $item) {
+        foreach ($data as $idx => $item) {
             $item_id = $item["booking_object_id"];
             
             // available for given period?

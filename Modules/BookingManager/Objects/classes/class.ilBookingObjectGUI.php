@@ -76,6 +76,36 @@ class ilBookingObjectGUI
     protected $object_id;
 
     /**
+     * @var string
+     */
+    protected $seed;
+
+    /**
+     * @var string
+     */
+    protected $sseed;
+
+    /**
+     * @var ilObjBookingPoolGUI
+     */
+    protected $pool_gui;
+
+    /**
+     * @var array
+     */
+    protected $rsv_ids = [];
+
+    /**
+     * @var ilAdvancedMDRecordGUI
+     */
+    protected $record_gui;
+
+    /**
+     * @var int
+     */
+    protected $ref_id;
+
+    /**
      * Constructor
      * @param	object	$a_parent_obj
      */
@@ -97,7 +127,6 @@ class ilBookingObjectGUI
 
         $this->context_obj_id = $context_obj_id;
 
-        /** @var ilObjBookingPoolGUI $this->pool_gui */
         $this->pool_gui = $a_parent_obj;
         $this->pool_has_schedule =
             ($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
@@ -250,8 +279,10 @@ class ilBookingObjectGUI
         $lng = $this->lng;
         $ilAccess = $this->access;
 
+        $bar = "";
+
         if ($this->isManagementActivated() && $ilAccess->checkAccess('write', '', $this->getPoolRefId())) {
-            $bar = new ilToolbarGUI;
+            $bar = new ilToolbarGUI();
             $bar->addButton($lng->txt('book_add_object'), $ilCtrl->getLinkTarget($this, 'create'));
             $bar = $bar->getHTML();
         }
@@ -449,7 +480,7 @@ class ilBookingObjectGUI
             }
             
             if ($valid) {
-                $obj = new ilBookingObject;
+                $obj = new ilBookingObject();
                 $obj->setPoolId($this->getPoolObjId());
                 $obj->setTitle($form->getInput("title"));
                 $obj->setDescription($form->getInput("desc"));
