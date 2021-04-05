@@ -130,10 +130,10 @@ class ilObjSystemFolder extends ilObject
         return $row->obj_id;
     }
 
-    public static function _getHeaderTitle()
+    public static function _getHeaderTitle() : string
     {
         /**
-         * @var $ilDB ilDB
+         * @var $ilDB ilDBInterface
          * @var $ilUser ilObjUser
          */
         global $DIC;
@@ -143,14 +143,18 @@ class ilObjSystemFolder extends ilObject
 
         $id = ilObjSystemFolder::_getId();
 
-        $q = "SELECT title,description FROM object_translation " .
+        $title = '';
+
+        $q = "SELECT title FROM object_translation " .
             "WHERE obj_id = " . $ilDB->quote($id, 'integer') . " " .
             "AND lang_default = 1";
         $r = $ilDB->query($q);
         $row = $ilDB->fetchObject($r);
-        $title = $row->title;
+        if ($row !== null) {
+            $title = (string) $row->title;
+        }
 
-        $q = "SELECT title,description FROM object_translation " .
+        $q = "SELECT title FROM object_translation " .
             "WHERE obj_id = " . $ilDB->quote($id, 'integer') . " " .
             "AND lang_code = " .
             $ilDB->quote($ilUser->getCurrentLanguage(), 'text') . " " .
@@ -158,8 +162,8 @@ class ilObjSystemFolder extends ilObject
         $r = $ilDB->query($q);
         $row = $ilDB->fetchObject($r);
 
-        if ($row) {
-            $title = $row->title;
+        if ($row !== null) {
+            $title = (string) $row->title;
         }
 
         return $title;
