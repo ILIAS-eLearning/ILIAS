@@ -45,10 +45,8 @@ class ilExAssignmentTypesGUI
      * @param int $a_id type id
      * @return ilExAssignmentTypeGUIInterface
      */
-    public function getById($a_id)
+    public function getById($a_id) : ilExAssignmentTypeGUIInterface
     {
-        // @todo: check id
-
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
                 return new ilExAssTypeUploadGUI();
@@ -76,6 +74,7 @@ class ilExAssignmentTypesGUI
         }
 
         // we should throw some exception here
+        throw new ilExcUnknownAssignmentTypeException("Unkown Assignment Type ($a_id).");
     }
 
     /**

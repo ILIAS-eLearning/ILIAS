@@ -10,7 +10,7 @@
 class ilExAssignment
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -1066,7 +1066,7 @@ class ilExAssignment
             "fb_cron" => array("integer", $this->hasFeedbackCron()),
             "team_tutor" => array("integer", $this->getTeamTutor()),
             "max_file" => array("integer", $this->getMaxFile()),
-            "portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+            "portfolio_template" => array("integer", $this->getPortfolioTemplateId()),
             "min_char_limit" => array("integer", $this->getMinCharLimit()),
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "relative_deadline" => array("integer", $this->getRelativeDeadline()),
@@ -1117,7 +1117,7 @@ class ilExAssignment
             "fb_cron" => array("integer", $this->hasFeedbackCron()),
             "team_tutor" => array("integer", $this->getTeamTutor()),
             "max_file" => array("integer", $this->getMaxFile()),
-            "portfolio_template" => array("integer", $this->getPortFolioTemplateId()),
+            "portfolio_template" => array("integer", $this->getPortfolioTemplateId()),
             "min_char_limit" => array("integer", $this->getMinCharLimit()),
             "max_char_limit" => array("integer", $this->getMaxCharLimit()),
             "deadline_mode" => array("integer", $this->getDeadlineMode()),
@@ -1205,10 +1205,8 @@ class ilExAssignment
     
     /**
      * Clone assignments of exercise
-     * @param
-     * @return
      */
-    public static function cloneAssignmentsOfExercise($a_old_exc_id, $a_new_exc_id, array $a_crit_cat_map)
+    public static function cloneAssignmentsOfExercise(int $a_old_exc_id, int $a_new_exc_id, array $a_crit_cat_map)
     {
         $ass_data = self::getInstancesByExercise($a_old_exc_id);
         foreach ($ass_data as $d) {
@@ -1854,13 +1852,9 @@ class ilExAssignment
     
     /**
      * Clear multi feedback directory
-     *
-     * @param array
-     * @return
      */
     public function clearMultiFeedbackDirectory()
     {
-        $lng = $this->lng;
         $ilUser = $this->user;
         
         $storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
@@ -1870,21 +1864,16 @@ class ilExAssignment
     
     /**
      * Save multi feedback files
-     *
-     * @param
-     * @return
      */
-    public function saveMultiFeedbackFiles($a_files, ilObjExercise $a_exc)
+    public function saveMultiFeedbackFiles(array $a_files, ilObjExercise $a_exc)
     {
         if ($this->getExerciseId() != $a_exc->getId()) {
-            return;
+            return null;
         }
         
         $fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
         $fstorage->create();
-        
-        $team_map = array();
-        
+
         $mf_files = $this->getMultiFeedbackFiles();
         foreach ($mf_files as $f) {
             $user_id = $f["user_id"];
@@ -1925,9 +1914,7 @@ class ilExAssignment
         
         $this->clearMultiFeedbackDirectory();
     }
-    
-    
-    
+
     
     /**
      * Handle calendar entries for deadline(s)
@@ -2158,13 +2145,14 @@ class ilExAssignment
         return false;
     }
     
-    public function getGlobalFeedbackFilePath()
+    public function getGlobalFeedbackFilePath() : string
     {
         $file = $this->getFeedbackFile();
         if ($file) {
             $path = $this->getGlobalFeedbackFileStoragePath();
             return $path . "/" . $file;
         }
+        return "";
     }
 
     /**
@@ -2341,7 +2329,7 @@ class ilExAssignment
             //first of all check the suffix and change if necessary
             $filename = ilUtil::getSafeFilename($a_filename);
 
-            if (!self::instructionFileExistsInDb($filename, $a_ass_id)) {
+            if (self::instructionFileExistsInDb($filename, $a_ass_id) == 0) {
                 if ($a_order_nr == 0) {
                     $order_val = self::instructionFileOrderGetMax($a_ass_id);
                     $order = $order_val + 10;
@@ -2406,11 +2394,11 @@ class ilExAssignment
     }
 
     /**
-     * @param $a_filename
-     * @param $a_ass_id assignment id
-     * @return int if the file exists or not in the DB
+     * @param string $a_filename
+     * @param int $a_ass_id
+     * @return int
      */
-    public static function instructionFileExistsInDb($a_filename, $a_ass_id)
+    public static function instructionFileExistsInDb(string $a_filename, int $a_ass_id) : int
     {
         global $DIC;
 
@@ -2425,6 +2413,8 @@ class ilExAssignment
 
             return $db->numRows($result);
         }
+
+        return 0;
     }
 
     public function fixInstructionFileOrdering()

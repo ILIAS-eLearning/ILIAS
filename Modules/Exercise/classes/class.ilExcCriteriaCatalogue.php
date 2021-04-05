@@ -118,12 +118,16 @@ class ilExcCriteriaCatalogue
             ,"pos" => array("integer", $this->getPosition())
         );
     }
-    protected function getLastPosition()
+
+    /**
+     * @return int
+     */
+    protected function getLastPosition() : int
     {
         $ilDB = $this->db;
         
         if (!$this->getParent()) {
-            return;
+            return 0;
         }
         
         $set = $ilDB->query("SELECT MAX(pos) pos" .
@@ -149,12 +153,13 @@ class ilExcCriteriaCatalogue
         }
     }
     
-    public function save()
+    public function save() : void
     {
         $ilDB = $this->db;
         
         if ($this->id) {
-            return $this->update();
+            $this->update();
+            return;
         }
         
         $this->id = $ilDB->nextId("exc_crit_cat");
@@ -167,12 +172,13 @@ class ilExcCriteriaCatalogue
         $ilDB->insert("exc_crit_cat", $fields);
     }
     
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
         
         if (!$this->id) {
-            return $this->save();
+            $this->save();
+            return;
         }
         
         $primary = array("id" => array("integer", $this->id));

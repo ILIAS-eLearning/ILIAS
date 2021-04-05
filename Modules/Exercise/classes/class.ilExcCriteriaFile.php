@@ -116,7 +116,10 @@ class ilExcCriteriaFile extends ilExcCriteria
         }
         return true;
     }
-    
+
+    /**
+     * @return false|mixed
+     */
     public function getFileByHash()
     {
         $hash = trim($_GET["fuf"]);
@@ -127,6 +130,7 @@ class ilExcCriteriaFile extends ilExcCriteria
                 }
             }
         }
+        return false;
     }
     
     public function getHTML($a_value)

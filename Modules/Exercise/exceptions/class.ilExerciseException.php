@@ -1,11 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
- 
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  * Exercise exceptions class
  *
  * @author Alex Killing <alex.killing@hmx.de>, Roland Küstermann <roland@kuestermann.com>
- *
  */
 class ilExerciseException extends ilException
 {

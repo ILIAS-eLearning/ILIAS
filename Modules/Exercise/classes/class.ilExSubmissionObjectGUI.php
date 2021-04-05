@@ -715,7 +715,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $exc_id = $ass->getExerciseId();
         
         // #11173 - ref_id is needed for notifications
-        $exc_ref_id = array_shift(ilObject::_getAllReferences($exc_id));
+        $ref_ids = ilObject::_getAllReferences($exc_id);
+        $exc_ref_id = current($ref_ids);
         $exc = new ilObjExercise($exc_ref_id, true);
                 
         return new self($exc, $sub);

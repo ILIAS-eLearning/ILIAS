@@ -176,20 +176,6 @@ class ilExerciseMembers
     }
 
     /**
-     * Deassign members
-     */
-    public function deassignMembers($a_members)
-    {
-        if (is_array($a_members)) {
-            foreach ($a_members as $member) {
-                $this->deassignMember($member);
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Read all members
      */
     public function read()

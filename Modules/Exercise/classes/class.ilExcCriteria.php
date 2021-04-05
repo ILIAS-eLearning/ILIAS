@@ -11,22 +11,64 @@
 abstract class ilExcCriteria
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
-    protected $id; // [int]
-    protected $parent; // [int]
-    protected $title; // [string]
-    protected $desc; // [string]
-    protected $required; // [bool]
-    protected $pos; // [int]
-    protected $def; // [string]
-    
-    protected $form; // [ilPropertyFormGUI]
-    protected $ass; // [ilExAssignment]
-    protected $giver_id; // [int]
-    protected $peer_id; // [int]
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     */
+    protected $parent;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $desc;
+
+    /**
+     * @var bool
+     */
+    protected $required;
+
+    /**
+     * @var int
+     */
+    protected $pos;
+
+    /**
+     * @var string
+     */
+    protected $def;
+
+    /**
+     * @var ilPropertyFormGUI
+     */
+    protected $form;
+
+    /**
+     * @var ilExAssignment
+     */
+    protected $ass;
+
+    /**
+     * @var int
+     */
+    protected $giver_id;
+
+    /**
+     * @var int
+     */
+    protected $peer_id;
     
     protected function __construct()
     {
@@ -34,8 +76,12 @@ abstract class ilExcCriteria
 
         $this->db = $DIC->database();
     }
-    
-    public static function getInstanceById($a_id)
+
+    /**
+     * @param int $a_id
+     * @return ilExcCriteria|null
+     */
+    public static function getInstanceById(int $a_id) : ?ilExcCriteria
     {
         global $DIC;
 
@@ -50,6 +96,8 @@ abstract class ilExcCriteria
             $obj->importFromDB($row);
             return $obj;
         }
+
+        return null;
     }
     
     public static function getInstancesByParentId($a_parent_id)
@@ -239,12 +287,16 @@ abstract class ilExcCriteria
                 : null)
         );
     }
-    protected function getLastPosition()
+
+    /**
+     * @return int
+     */
+    protected function getLastPosition() : int
     {
         $ilDB = $this->db;
         
         if (!$this->getParent()) {
-            return;
+            return 0;
         }
         
         $set = $ilDB->query("SELECT MAX(pos) pos" .
@@ -259,7 +311,8 @@ abstract class ilExcCriteria
         $ilDB = $this->db;
         
         if ($this->id) {
-            return $this->update();
+            $this->update();
+            return null;
         }
         
         $this->id = $ilDB->nextId("exc_crit");
@@ -279,7 +332,8 @@ abstract class ilExcCriteria
         $ilDB = $this->db;
         
         if (!$this->id) {
-            return $this->save();
+            $this->save();
+            return null;
         }
         
         $primary = array("id" => array("integer", $this->id));

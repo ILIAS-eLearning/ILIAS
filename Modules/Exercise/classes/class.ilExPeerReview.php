@@ -10,7 +10,7 @@
 class ilExPeerReview
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -19,8 +19,15 @@ class ilExPeerReview
      */
     protected $user;
 
-    protected $assignment; // [$a_assignment]
-    protected $assignment_id; // [int]
+    /**
+     * @var ilExAssignment
+     */
+    protected $assignment;
+
+    /**
+     * @var int
+     */
+    protected $assignment_id;
         
     public function __construct(ilExAssignment $a_assignment)
     {
@@ -115,7 +122,7 @@ class ilExPeerReview
         return $all;
     }
     
-    public function validatePeerReviewGroups()
+    public function validatePeerReviewGroups() : ?array
     {
         if ($this->hasPeerReviewGroups()) {
             $all_exc = ilExerciseMembers::_getMembers($this->assignment->getExerciseId());
@@ -165,9 +172,16 @@ class ilExPeerReview
                 "invalid_giver_ids" => $invalid_giver_ids,
                 "reviews" => $all_reviews);
         }
+
+        return null;
     }
-    
-    public function getPeerReviewValues($a_giver_id, $a_peer_id)
+
+    /**
+     * @param int $a_giver_id
+     * @param int $a_peer_id
+     * @return array
+     */
+    public function getPeerReviewValues(int $a_giver_id, int $a_peer_id) : array
     {
         $peer = null;
         foreach ($this->getPeerReviewsByGiver($a_giver_id) as $item) {
@@ -176,7 +190,7 @@ class ilExPeerReview
             }
         }
         if (!$peer) {
-            return;
+            return [];
         }
         $data = $peer["pcomment"];
         if ($data) {
@@ -187,6 +201,7 @@ class ilExPeerReview
             }
             return $items;
         }
+        return [];
     }
     
     public function getPeerReviewsByGiver($a_user_id)
@@ -211,7 +226,7 @@ class ilExPeerReview
         return $res;
     }
     
-    public function getPeerMaskedId($a_giver_id, $a_peer_id)
+    public function getPeerMaskedId(int $a_giver_id, int $a_peer_id)
     {
         foreach ($this->getPeerReviewsByGiver($a_giver_id) as $idx => $peer) {
             if ($peer["peer_id"] == $a_peer_id) {

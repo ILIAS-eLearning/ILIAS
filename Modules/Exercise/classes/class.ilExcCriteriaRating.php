@@ -125,8 +125,7 @@ class ilExcCriteriaRating extends ilExcCriteria
         );
                 
         // render current rating
-        // $ilCtrl->setParameter($this->parent_obj, "peer_id", $peer_id);
-        return $this->renderWidget($a_ass, $a_giver_id, $a_peer_id);
+        return $this->renderWidget();
     }
     
     public function validate($a_value)

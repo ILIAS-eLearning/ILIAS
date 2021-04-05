@@ -19,6 +19,11 @@
 class ilExerciseDataSet extends ilDataSet
 {
     /**
+     * @var ilObjExercise
+     */
+    protected $current_exc;
+
+    /**
      * Get supported versions
      *
      * @param
@@ -288,9 +293,6 @@ class ilExerciseDataSet extends ilDataSet
 
     /**
      * Read data
-     *
-     * @param
-     * @return
      */
     public function readData($a_entity, $a_version, $a_ids, $a_field = "")
     {
@@ -516,9 +518,6 @@ class ilExerciseDataSet extends ilDataSet
     
     /**
      * Import record
-     *
-     * @param
-     * @return
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
@@ -532,7 +531,7 @@ class ilExerciseDataSet extends ilDataSet
                 } else {
                     $newObj = new ilObjExercise();
                     $newObj->setType("exc");
-                    $newObj->create(true);
+                    $newObj->create();
                 }
                 
                 $newObj->setTitle($a_rec["Title"]);
