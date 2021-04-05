@@ -156,6 +156,41 @@ class ilObjectListGUI
     protected static $tpl_component = "Services/Container";
 
     /**
+     * @var bool
+     */
+    protected $delete_enabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $cut_enabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $subscribe_enabled = false;
+
+    /**
+     * @var bool
+     */
+    protected $link_enabled = false;
+
+    /**
+     * @var string
+     */
+    protected $gui_class_name = "";
+
+    /**
+     * @var array
+     */
+    protected $commands = [];
+
+    /**
+     * @var \ilAdvancedSelectionListGUI
+     */
+    protected $current_selection_list;
+
+    /**
      * @var ilPathGUI|null
      */
     protected $path_gui = null;

@@ -41,6 +41,11 @@ class ilObjBlog extends ilObject2
     protected $overview_postings = 5; // [int]
     protected $authors = true; // [bool]
     protected $order;
+
+    /**
+     * @var int
+     */
+    protected $nav_mode_list_months_with_post = 0;
     
     const NAV_MODE_LIST = 1;
     const NAV_MODE_MONTH = 2;
@@ -49,8 +54,8 @@ class ilObjBlog extends ilObject2
     const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
     const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
     const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
-    
-    public function initType()
+
+    protected function initType()
     {
         $this->type = "blog";
     }
@@ -139,7 +144,7 @@ class ilObjBlog extends ilObject2
             $ilDB->manipulate("UPDATE il_blog" .
                     " SET ppic = " . $ilDB->quote($this->hasProfilePicture(), "integer") .
                     ",bg_color = " . $ilDB->quote($this->getBackgroundColor(), "text") .
-                    ",font_color = " . $ilDB->quote($this->getFontcolor(), "text") .
+                    ",font_color = " . $ilDB->quote($this->getFontColor(), "text") .
                     ",img = " . $ilDB->quote($this->getImage(), "text") .
                     ",rss_active = " . $ilDB->quote($this->hasRSS(), "integer") .
                     ",approval = " . $ilDB->quote($this->hasApproval(), "integer") .
@@ -311,7 +316,7 @@ class ilObjBlog extends ilObject2
      *
      * @param bool $a_as_thumb
      */
-    public function getImageFullPath($a_as_thumb = false)
+    public function getImageFullPath($a_as_thumb = false) : string
     {
         if ($this->img) {
             $path = $this->initStorage($this->id);
@@ -321,6 +326,7 @@ class ilObjBlog extends ilObject2
                 return $path . "thb_" . $this->img;
             }
         }
+        return "";
     }
     
     /**
@@ -341,11 +347,11 @@ class ilObjBlog extends ilObject2
     /**
      * Init file system storage
      *
-     * @param type $a_id
-     * @param type $a_subdir
+     * @param int $a_id
+     * @param string $a_subdir
      * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
+    public static function initStorage(int $a_id, string $a_subdir = null) : string
     {
         $storage = new ilFSStorageBlog($a_id);
         $storage->create();
@@ -794,7 +800,7 @@ class ilObjBlog extends ilObject2
         return array();
     }
     
-    public function getLocalContributorRole($a_node_id)
+    public function getLocalContributorRole($a_node_id) : int
     {
         $rbacreview = $this->rbacreview;
         
@@ -803,9 +809,10 @@ class ilObjBlog extends ilObject2
                 return $role_id;
             }
         }
+        return 0;
     }
     
-    public function getLocalEditorRole($a_node_id)
+    public function getLocalEditorRole($a_node_id) : int
     {
         $rbacreview = $this->rbacreview;
         
@@ -814,6 +821,7 @@ class ilObjBlog extends ilObject2
                 return $role_id;
             }
         }
+        return 0;
     }
     
     public function getAllLocalRoles($a_node_id)

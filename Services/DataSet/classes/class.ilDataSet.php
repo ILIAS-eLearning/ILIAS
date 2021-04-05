@@ -1,26 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* A dataset contains in data in a common structure that can be
-* shared and transformed for different purposes easily, examples
-* - transform associative arrays into (set-)xml and back (e.g. for import/export)
-* - transform assiciative arrays into json and back (e.g. for ajax requests)
-*
-* The general structure is:
-* - entity name (many times this corresponds to a table name)
-* - structure (this is a set of field names and types pairs)
-*   currently supported types: text, integer, timestamp
-*   planned: date, time, clob
-*   types correspond to db types, see
-*   http://www.ilias.de/docu/goto.php?target=pg_25354_42&client_id=docu
-* - records (similar to records of a database query; associative arrays)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup
-*/
+ * A dataset contains in data in a common structure that can be
+ * shared and transformed for different purposes easily, examples
+ * - transform associative arrays into (set-)xml and back (e.g. for import/export)
+ * - transform assiciative arrays into json and back (e.g. for ajax requests)
+ *
+ * The general structure is:
+ * - entity name (many times this corresponds to a table name)
+ * - structure (this is a set of field names and types pairs)
+ *   currently supported types: text, integer, timestamp
+ *   planned: date, time, clob
+ *   types correspond to db types, see
+ *   http://www.ilias.de/docu/goto.php?target=pg_25354_42&client_id=docu
+ * - records (similar to records of a database query; associative arrays)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 abstract class ilDataSet
 {
     public $dircnt;
@@ -35,7 +33,12 @@ abstract class ilDataSet
     const EXPORT_ID_INVALID = 7;
 
     /**
-     * @var ilDB
+     * array
+     */
+    protected $data = [];
+
+    /**
+     * @var \ilDBInterface
      */
     protected $db;
 

@@ -1,6 +1,7 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>

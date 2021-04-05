@@ -113,6 +113,11 @@ class ilObjectGUI
     public $omit_locator = false;
 
     /**
+     * @var string
+     */
+    protected $type = "";
+
+    /**
      * @var ilTabsGUI
      */
     protected $tabs_gui = null;

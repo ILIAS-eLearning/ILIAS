@@ -22,7 +22,7 @@ class ilPageObjectGUI
     const PRINTING = "print";
 
     /**
-     * @var ilTemplate
+     * @var ilGlobalTemplateInterface
      */
     protected $tpl;
 
@@ -153,6 +153,7 @@ class ilPageObjectGUI
         $a_prevent_get_id = false,
         $a_lang = ""
     ) {
+        /** @var ILIAS\DI\Container $DIC $ */
         global $DIC;
 
         $this->log = ilLoggerFactory::getLogger('copg');

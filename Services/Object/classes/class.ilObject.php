@@ -18,7 +18,7 @@ class ilObject
     protected $objDefinition;
 
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -313,7 +313,7 @@ class ilObject
     /**
     * get object id
     * @access	public
-    * @return	integer	object id
+    * @return	int	object id
     */
     public function getId() : int
     {

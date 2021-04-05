@@ -43,7 +43,7 @@ abstract class ilPageObject
     public static $exists = array();
 
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
