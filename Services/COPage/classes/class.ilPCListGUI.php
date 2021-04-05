@@ -179,7 +179,6 @@ class ilPCListGUI extends ilPageContentGUI
         $op2 = new ilRadioOption($lng->txt("cont_numbered_list"), "Ordered");
 
         // style of numbered list
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "number_style"

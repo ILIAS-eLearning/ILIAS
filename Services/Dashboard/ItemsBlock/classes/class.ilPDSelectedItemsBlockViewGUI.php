@@ -179,7 +179,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
      */
     protected function preloadItemGroups(array $item_groups)
     {
-        require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
         $listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
         $obj_ids = [];

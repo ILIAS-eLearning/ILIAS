@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* performance measurement class
-*
-* Author: Alex Killing <Alex.Killing@gmx.de>
-*
-* @version	$Id$
-*/
+ * performance measurement class
+ *
+ * Author: Alex Killing <Alex.Killing@gmx.de>
+ */
 class ilBenchmark
 {
 
@@ -131,7 +129,6 @@ class ilBenchmark
                 
                 $diff = round($diff, 4);
                 
-                include_once("./Services/Logging/classes/class.ilLog.php");
                 $slow_request_log = new ilLog(
                     $ilIliasIniFile->readVariable("log", "slow_request_log_path"),
                     $ilIliasIniFile->readVariable("log", "slow_request_log_file"),

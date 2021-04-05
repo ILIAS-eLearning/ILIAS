@@ -679,7 +679,6 @@ class HTML_Template_IT
     protected function init()
     {
         $this->free();
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
 
         if ($blockdata = $blocks->get($this->real_filename)) {
@@ -919,7 +918,6 @@ class HTML_Template_IT
 
         $filename = $this->fileRoot . $filename;
 
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
         $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
         if (!$content = $ilGlobalCache->get($filename)) {

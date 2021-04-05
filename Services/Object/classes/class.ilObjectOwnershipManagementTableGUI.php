@@ -1,18 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Table for object role permissions
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesObject
-*/
+ * Table for object role permissions
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 {
     /**
@@ -118,7 +112,6 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         if (!$objDefinition->isPlugin($row["type"])) {
             $txt_type = $lng->txt("obj_" . $row["type"]);
         } else {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $txt_type = ilObjectPlugin::lookupTxtById($row["type"], "obj_" . $row["type"]);
         }
         
@@ -140,14 +133,12 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
         
-        include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
         $agui = new ilAdvancedSelectionListGUI();
         $agui->setId($this->id . "-" . $a_ref_id);
         $agui->setListTitle($lng->txt("actions"));
         
         $ilCtrl->setParameter($this->parent_obj, "ownid", $a_ref_id);
                 
-        include_once "Services/Link/classes/class.ilLink.php";
         $agui->addItem(
             $lng->txt("show"),
             "",

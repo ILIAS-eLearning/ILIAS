@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Media Cast Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjTaggingSettingsGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjTaggingSettingsGUI: ilAdministrationGUI
-*
-* @ingroup ServicesTagging
-*/
+ * Media Cast Settings.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilObjTaggingSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjTaggingSettingsGUI: ilAdministrationGUI
+ */
 class ilObjTaggingSettingsGUI extends ilObjectGUI
 {
     /**
@@ -75,7 +71,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -207,8 +202,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         
         $tags_set = new ilSetting("tags");
         
-        
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('tagging_settings'));
@@ -237,7 +230,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
 
         $form->addItem($cb_prop);
                 
-        include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_TAGGING,
             $form,
@@ -285,7 +277,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             $forb_str = implode(" ", $tags_array);
         }
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         
         // tags
@@ -363,7 +354,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
             : $_GET["tag"];
         
         // tag input
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("tagging_tag"), "tag");
         $ti->setSize(15);
         $ti->setValue($tag);
@@ -373,7 +363,6 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "searchUsersForTag"));
         
         if ($a_search) {
-            include_once("./Services/Tagging/classes/class.ilUserForTagTableGUI.php");
             $ilCtrl->setParameter($this, "tag", $tag);
             $table = new ilUserForTagTableGUI(
                 $this,

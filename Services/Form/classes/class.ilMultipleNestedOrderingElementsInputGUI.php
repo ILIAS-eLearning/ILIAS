@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesInputGUI.php';
-require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 /**
  *
  * @author Nadia Ahmad <nahmad@databay.de>
- * @version $Id: $
- * @ingroup	ServicesForm
  */
-
 abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMultiValuesInputGUI
 {
     const HTML_LIST_TAG_UL = 'ul';
@@ -46,7 +42,6 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     {
         parent::__construct($a_title, $a_postvar);
         
-        require_once 'Services/Form/classes/class.ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover.php';
         $manipulator = new ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover();
         $this->addFormValuesManipulator($manipulator);
     }
@@ -452,8 +447,6 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         }
         
         if ($this->isInteractionEnabled()) {
-            require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
-            
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             

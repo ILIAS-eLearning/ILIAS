@@ -474,8 +474,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->form = new ilPropertyFormGUI();
     
         if ($this->cgrp == "test") {
-            require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
-        
             $this->form->setTitle($lng->txt("adve_activation"));
             $cb = new ilCheckboxInputGUI($this->lng->txt("advanced_editing_tst_editing"), "tst_page_edit");
             $cb->setInfo($this->lng->txt("advanced_editing_tst_editing_desc"));
@@ -752,7 +750,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
         $ilTabs->activateTab("adve_char_selector_settings");
                 
-        require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
         $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
         $char_selector->getConfig()->setAvailability($ilSetting->get('char_selector_availability'));
         $char_selector->getConfig()->setDefinition($ilSetting->get('char_selector_definition'));
@@ -774,7 +771,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
 
         $this->checkPermission("write");
         
-        require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
         $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
         $form = $this->initCharSelectorSettingsForm($char_selector);
         if ($form->checkInput()) {
@@ -789,4 +785,4 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $form->setValuesByPost();
         $tpl->setContent($form->getHTML());
     }
-} // END class.ilObjAdvancedEditingGUI
+}

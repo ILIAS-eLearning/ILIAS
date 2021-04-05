@@ -58,7 +58,6 @@ class ilImageMapEditorGUI
 
         switch ($next_class) {
             case "ilinternallinkgui":
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
                 $link_gui->setSetLinkTargetScript(
                     $ilCtrl->getLinkTarget(
@@ -71,7 +70,6 @@ class ilImageMapEditorGUI
                 break;
 
             default:
-                require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
                 ilObjMediaObjectGUI::includePresentationJS();
                 if (isset($_POST["editImagemapForward"]) ||
                     isset($_POST["editImagemapForward_x"]) ||
@@ -682,14 +680,12 @@ class ilImageMapEditorGUI
         }
         switch ($a_type) {
             case "StructureObject":
-                require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("chapter") .
                     ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
                 break;
 
             case "PageObject":
-                require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("page") .
                     ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
@@ -702,7 +698,6 @@ class ilImageMapEditorGUI
                 break;
 
             case "MediaObject":
-                require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("mob") .
                     ": " . $mob->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;

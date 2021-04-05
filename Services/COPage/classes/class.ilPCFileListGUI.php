@@ -309,7 +309,6 @@ class ilPCFileListGUI extends ilPageContentGUI
             $form->addItem($ti);
             
             // language
-            require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
             $lang = ilMDLanguageItem::_getLanguages();
             $si = new ilSelectInputGUI($lng->txt("language"), "flst_language");
             $si->setOptions($lang);

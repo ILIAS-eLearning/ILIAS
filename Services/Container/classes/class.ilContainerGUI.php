@@ -1715,9 +1715,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ref_ids = $_SESSION['clipboard']['ref_ids'];
         unset($_SESSION['clipboard']['ref_ids']);
 
-        // BEGIN ChangeEvent: Record paste event.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-        // END ChangeEvent: Record paste event.
 
         // process COPY command
         if ($command == 'copy') {
@@ -1727,7 +1724,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
                     $oldNode_data = $tree->getNodeData($ref_id);
                     if ($oldNode_data['parent'] == $folder_ref_id) {
-                        require_once 'Modules/File/classes/class.ilObjFileAccess.php';
                         $newTitle = ilObjFileAccess::_appendNumberOfCopyToFilename($oldNode_data['title'], null);
                         $newRef = $this->cloneNodes($ref_id, $folder_ref_id, $refIdMapping, $newTitle);
                     } else {
@@ -1846,7 +1842,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $linked_targets = array();
             $links = [];
             if (count($linked_to_folders)) {
-                require_once 'Services/Link/classes/class.ilLink.php';
                 foreach ($linked_to_folders as $ref_id => $title) {
                     $linked_targets[] = '<a href="' . ilLink::_getLink($ref_id) . '">' . $title . '</a>';
                     $links[] = $ui->factory()->link()->standard($title, ilLink::_getLink($ref_id));
@@ -2033,9 +2028,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $is_child = [];
         $not_allowed_subobject = [];
 
-        // BEGIN ChangeEvent: Record paste event.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-        // END ChangeEvent: Record paste event.
 
         //var_dump($_SESSION["clipboard"]);exit;
         if (!in_array($_SESSION["clipboard"]["cmd"], array("cut", "link", "copy"))) {
@@ -2133,35 +2125,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
-
-            /* old implementation
-
-            foreach($ref_ids as $ref_id)
-            {
-                $revIdMapping = array();
-
-                $oldNode_data = $tree->getNodeData($ref_id);
-                if ($oldNode_data['parent'] == $this->object->getRefId())
-                {
-                    require_once 'Modules/File/classes/class.ilObjFileAccess.php';
-                    $newTitle = ilObjFileAccess::_appendNumberOfCopyToFilename($oldNode_data['title'],null);
-                    $newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, $newTitle);
-                }
-                else
-                {
-                    $newRef = $this->cloneNodes($ref_id, $this->object->getRefId(), $refIdMapping, null);
-                }
-
-                // BEGIN ChangeEvent: Record copy event.
-                $old_parent_data = $tree->getParentNodeData($ref_id);
-                $newNode_data = $tree->getNodeData($newRef);
-                ilChangeEvent::_recordReadEvent($oldNode_data['type'], $ref_id,
-                    $oldNode_data['obj_id'], $ilUser->getId());
-                ilChangeEvent::_recordWriteEvent($newNode_data['obj_id'], $ilUser->getId(), 'add',
-                    $this->object->getId());
-                ilChangeEvent::_catchupWriteEvents($newNode_data['obj_id'], $ilUser->getId());
-                // END ChangeEvent: Record copy event.
-            }*/
 
             $ilLog->write("ilObjectGUI::pasteObject(), copy finished");
         }

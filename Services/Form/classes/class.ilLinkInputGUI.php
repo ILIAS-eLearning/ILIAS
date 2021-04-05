@@ -169,7 +169,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         switch ($next_class) {
             case "ilinternallinkgui":
                 $lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI(
                     $this->int_link_default_type,
                     $this->int_link_default_obj

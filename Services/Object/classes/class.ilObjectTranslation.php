@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class handles translation mode for an object.
@@ -27,8 +27,6 @@
  *   master language
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesObject
  */
 class ilObjectTranslation
 {
@@ -57,7 +55,6 @@ class ilObjectTranslation
         $this->setObjId($a_obj_id);
 
         if ($this->getObjId() <= 0) {
-            include_once("./Services/Object/exceptions/class.ilObjectException.php");
             throw new ilObjectException("ilObjectTranslation: No object ID passed.");
         }
 

@@ -438,7 +438,6 @@ class ilInternalLinkGUI
                     $this->changeTargetObject("lm");
                 }
 
-                require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
                 $cont_obj = new ilObjLearningModule($this->parent_ref_id, true);
 
                 // get all chapters
@@ -534,7 +533,6 @@ class ilInternalLinkGUI
                     $tpl->setCurrentBlock("chapter_list");
                     $tpl->parseCurrentBlock();
                 } else {
-                    require_once("./Modules/MediaPool/classes/class.ilObjMediaPool.php");
                     $med_pool = new ilObjMediaPool($this->parent_ref_id, true);
                     // get current folders
                     $fobjs = $med_pool->getChilds($this->parent_fold_id, "fold");
@@ -637,7 +635,6 @@ class ilInternalLinkGUI
             // wiki page link
             case "WikiPage":
                 $wiki_id = ilObject::_lookupObjId($this->parent_ref_id);
-                require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                 $wpages = ilWikiPage::getAllWikiPages($wiki_id);
 
                 // get all glossary items
@@ -669,7 +666,6 @@ class ilInternalLinkGUI
             case "PortfolioPage":
             case "PortfolioTemplatePage":
                 $prtf_id = $this->parent_obj_id;
-                require_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
                 $ppages = ilPortfolioPage::getAllPortfolioPages($prtf_id);
 
                 // get all glossary items
@@ -1052,8 +1048,6 @@ class ilInternalLinkGUI
             : "tblrow1";
 
         if ($this->getSetLinkTargetScript() != "") {
-            require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-            require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
             ilImageMapEditorGUI::_recoverParameters();
             if ($a_type == "MediaObject") {
                 $this->outputThumbnail($tpl, $a_obj_id);

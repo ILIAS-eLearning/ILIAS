@@ -191,7 +191,6 @@ class ilTaggingSlateContentGUI
         });
 
         // resource list
-        include_once("./Services/Tagging/classes/class.ilTagging.php");
         $objs = ilTagging::getObjectsForTagAndUser($ilUser->getId(), $tag);
 
         $f = $this->ui->factory();

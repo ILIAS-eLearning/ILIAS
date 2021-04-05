@@ -1,17 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Tabs GUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Tabs GUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTabsGUI
 {
-
     /**
      * @var ilCtrl
      */
@@ -488,8 +485,6 @@ class ilTabsGUI
             }
             $pre = $pre2 = "";
 
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-
             // back 2 tab
             if ($this->back_2_title != "") {
                 $tpl->setCurrentBlock("back_2_tab");
@@ -564,7 +559,6 @@ class ilTabsGUI
                 if (!$this->getSetupMode()) {
                     $ttext = $ilHelp->getTabTooltipText($target["id"]);
                     if ($ttext != "") {
-                        include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                         ilTooltipGUI::addTooltip(
                             $pre . "tab_" . $target["id"],
                             $ttext,
@@ -607,7 +601,6 @@ class ilTabsGUI
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
 
                 // non tabbed links
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 foreach ($this->non_tabbed_link as $link) {
                     $tpl->setCurrentBlock("tab");
                     $tpl->setVariable("TAB_TYPE", "nontabbed");
@@ -622,7 +615,6 @@ class ilTabsGUI
                     if (!$this->getSetupMode()) {
                         $ttext = $ilHelp->getTabTooltipText($link["id"]);
                         if ($ttext != "") {
-                            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                             ilTooltipGUI::addTooltip(
                                 "nontab_" . $link["id"],
                                 $ttext,

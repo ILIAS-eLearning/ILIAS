@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Tagging/classes/class.ilTagging.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilTaggingGUI. User interface class for tagging engine.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesTagging
-*/
+ * Class ilTaggingGUI. User interface class for tagging engine.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTaggingGUI
 {
     /**
@@ -294,7 +289,6 @@ class ilTaggingGUI
         $lng->loadLanguageModule("tagging");
         $lng->toJs("tagging_tags", $tpl);
 
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavascript("./Services/Tagging/js/ilTagging.js");
         

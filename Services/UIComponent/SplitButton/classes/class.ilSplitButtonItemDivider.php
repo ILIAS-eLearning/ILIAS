@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButtonSeparatorMenuItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilSplitButtonItemDivider
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesUIComponent
  */
 class ilSplitButtonItemDivider implements ilSplitButtonSeparatorMenuItem
 {

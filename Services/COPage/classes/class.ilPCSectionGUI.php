@@ -172,7 +172,6 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
         
         // characteristic selection
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"

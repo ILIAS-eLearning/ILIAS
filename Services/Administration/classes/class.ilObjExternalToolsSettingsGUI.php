@@ -1,20 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjExternalToolsSettingsGUI
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjExternalToolsSettingsGUI
+ *
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @ilCtrl_Calls ilObjExternalToolsSettingsGUI: ilPermissionGUI
+ */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
     /**
@@ -262,8 +255,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     */
     public function editMapsObject()
     {
-        require_once("Services/Maps/classes/class.ilMapUtil.php");
-        
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -335,8 +326,6 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     */
     public function saveMapsObject()
     {
-        require_once("Services/Maps/classes/class.ilMapUtil.php");
-
         $ilCtrl = $this->ctrl;
         if (ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
             ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));

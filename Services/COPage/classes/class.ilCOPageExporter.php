@@ -50,7 +50,6 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         // collect all page component plugins that have their own exporter
-        require_once('Services/COPage/classes/class.ilPageComponentPluginExporter.php');
         foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
             if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'

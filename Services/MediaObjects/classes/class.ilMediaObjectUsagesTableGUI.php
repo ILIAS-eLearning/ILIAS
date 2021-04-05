@@ -145,9 +145,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                 //$this->tpl->setVariable("TXT_OBJECT", $usage["type"].":".$usage["id"]);
                 switch ($cont_type) {
                     case "lm":
-                        require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-                        require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-                        require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                         if (ilObject::_lookupType($page_obj->getParentId()) == "lm") {
                             $lm_obj = new ilObjLearningModule($page_obj->getParentId(), false);
                             $item["obj_type_txt"] = $this->lng->txt("obj_" . $cont_type);
@@ -162,7 +159,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
                         break;
 
                     case "wpg":
-                        require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                         $item["obj_type_txt"] = $this->lng->txt("obj_wiki");
                         $item["obj_title"] = ilObject::_lookupTitle($page_obj->getParentId());
                         $item["sub_txt"] = $this->lng->txt("pg");

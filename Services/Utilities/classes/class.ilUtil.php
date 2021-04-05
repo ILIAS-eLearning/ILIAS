@@ -1,24 +1,19 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * @defgroup ServicesUtilities Services/Utilities
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 
 /**
-* Util class
-* various functions, usage as namespace
-*
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup	ServicesUtilities
-*/
+ * Util class
+ * various functions, usage as namespace
+ *
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilUtil
 {
     protected static $db_supports_distinct_umlauts;
@@ -43,7 +38,6 @@ class ilUtil
             ? "big"
             : "small";
 
-        include_once("./Services/Object/classes/class.ilObject.php");
         $filename = ilObject::_getIcon("", $size, $a_type);
 
         return "<img src=\"" . $filename . "\" alt=\"" . $lng->txt("obj_" . $a_type) . "\" title=\"" . $lng->txt("obj_" . $a_type) . "\" border=\"0\" vspace=\"0\"/>";
@@ -63,7 +57,6 @@ class ilUtil
      */
     public static function getTypeIconPath($a_type, $a_obj_id, $a_size = 'small')
     {
-        include_once("./Services/Object/classes/class.ilObject.php");
         return ilObject::_getIcon($a_obj_id, $a_size, $a_type);
     }
 
@@ -97,7 +90,6 @@ class ilUtil
         $default_img = "." . $module_path . "/templates/default/images/" . $img;
 
         // use ilStyleDefinition instead of account to get the current skin and style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         $current_skin = ilStyleDefinition::getCurrentSkin();
         $current_style = ilStyleDefinition::getCurrentStyle();
 
@@ -181,7 +173,6 @@ class ilUtil
 
         // add version as parameter to force reload for new releases
         // use ilStyleDefinition instead of account to get the current style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         $stylesheet_name = (strlen($a_css_name))
             ? $a_css_name
             : ilStyleDefinition::getCurrentStyle() . ".css";
@@ -191,7 +182,6 @@ class ilUtil
 
         $filename = "";
         // use ilStyleDefinition instead of account to get the current skin
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . $a_css_location . $stylesheet_name;
         }
@@ -233,7 +223,6 @@ class ilUtil
 
         $filename = "";
         // use ilStyleDefinition instead of account to get the current skin
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() != "default") {
             $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . $a_js_location . $js_name;
         }
@@ -293,7 +282,6 @@ class ilUtil
         }
 
         // use ilStyleDefinition instead of account to get the current skin and style
-        require_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
         if (ilStyleDefinition::getCurrentSkin() == "default") {
             $in_style = "./templates/" . ilStyleDefinition::getCurrentSkin() . "/"
                                     . ilStyleDefinition::getCurrentStyle() . "_cont.css";
@@ -772,7 +760,6 @@ class ilUtil
         // mask existing image tags
         $ret = str_replace('src="http://', '"***masked_im_start***', $ret);
 
-        include_once("./Services/Utilities/classes/class.ilMWParserAdapter.php");
         $parser = new ilMWParserAdapter();
         $ret = $parser->replaceFreeExternalLinks($ret);
 
@@ -1106,7 +1093,6 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         // check if password is empty
@@ -1151,7 +1137,6 @@ class ilUtil
             }
         }
 
-        require_once 'Services/Utilities/classes/class.ilStr.php';
         if ($security->getPasswordNumberOfUppercaseChars() > 0) {
             if (ilStr::strLen($a_passwd) - ilStr::strLen(preg_replace('/[A-Z]/', '', $a_passwd)) < $security->getPasswordNumberOfUppercaseChars()) {
                 $errors[] = sprintf($lng->txt('password_must_contain_ucase_chars'), $security->getPasswordNumberOfUppercaseChars());
@@ -1200,7 +1185,6 @@ class ilUtil
      */
     public static function isPasswordValidForUserContext($clear_text_password, $user, &$error_language_variable = null)
     {
-        include_once 'Services/PrivacySecurity/classes/class.ilSecuritySettings.php';
         $security = ilSecuritySettings::_getInstance();
 
         $login = null;
@@ -1261,7 +1245,6 @@ class ilUtil
 
         $lng = $DIC->language();
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         $infos = array(sprintf($lng->txt('password_allow_chars'), self::getPasswordValidChars(false)));
@@ -1343,7 +1326,6 @@ class ilUtil
         $a_next_blank = false,
         $a_keep_extension = false
     ) {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         if (ilStr::strLen($a_str) > $a_len) {
             if ($a_next_blank) {
                 $len = ilStr::strPos($a_str, " ", $a_len);
@@ -1390,7 +1372,6 @@ class ilUtil
      */
     public static function shortenWords($a_str, $a_len = 30, $a_dots = true)
     {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
         $str_arr = explode(" ", $a_str);
 
         for ($i = 0; $i < count($str_arr); $i++) {
@@ -1537,7 +1518,6 @@ class ilUtil
     */
     public static function getUsersOnline($a_user_id = 0)
     {
-        include_once("./Services/User/classes/class.ilObjUser.php");
         return ilObjUser::_getUsersOnline($a_user_id);
     }
 
@@ -1685,7 +1665,6 @@ class ilUtil
 
         // if flat, get all files and move them to original directory
         if ($a_flat) {
-            include_once("./Services/Utilities/classes/class.ilFileUtils.php");
             $filearray = array();
             ilFileUtils::recursive_dirscan($tmpdir, $filearray);
             if (is_array($filearray["file"])) {
@@ -1935,8 +1914,6 @@ class ilUtil
     {
         $disposition = "attachment"; // "inline" to view file in browser or "attachment" to download to hard disk
         //		$mime = "application/octet-stream"; // or whatever the mime type is
-
-        include_once './Services/Http/classes/class.ilHTTPS.php';
 
         //if($_SERVER['HTTPS'])
         if (ilHTTPS::getInstance()->isDetected()) {
@@ -3059,8 +3036,6 @@ class ilUtil
         $a_numeric = false,
         $a_keep_keys = false
     ) {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
-
         if (!$a_keep_keys) {
             return self::stableSortArray($array, $a_array_sortby, $a_array_sortorder, $a_numeric, $a_keep_keys);
         }
@@ -3644,7 +3619,6 @@ class ilUtil
         $ret = array();
         srand((double) microtime() * 1000000);
 
-        include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
         $security = ilSecuritySettings::_getInstance();
 
         for ($i = 1; $i <= $a_number; $i++) {
@@ -3764,7 +3738,6 @@ class ilUtil
         $lng = $DIC->language();
 
         if ((defined('IL_VIRUS_SCANNER') && IL_VIRUS_SCANNER != "None") || (defined('IL_ICAP_HOST') && strlen(IL_ICAP_HOST) !== 0)) {
-            require_once("./Services/VirusScanner/classes/class.ilVirusScannerFactory.php");
             $vs = ilVirusScannerFactory::_getInstance();
             if (($vs_txt = $vs->scanFile($a_file, $a_orig_name)) != "") {
                 if ($a_clean && (IL_VIRUS_CLEAN_COMMAND != "")) {
@@ -3816,7 +3789,6 @@ class ilUtil
         global $DIC;
         $target_filename = basename($a_target);
 
-        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
         $target_filename = ilFileUtils::getValidFilename($target_filename);
 
         // Make sure the target is in a valid subfolder. (e.g. no uploads to ilias/setup/....)
@@ -4112,7 +4084,6 @@ class ilUtil
      */
     public function includeMathjax($a_tpl = null)
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         ilMathJax::getInstance()->includeMathJax($a_tpl);
     }
 
@@ -4122,7 +4093,6 @@ class ilUtil
     */
     public static function insertLatexImages($a_text, $a_start = '[tex]', $a_end = '[/tex]')
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         return ilMathJax::getInstance()->insertLatexImages($a_text, $a_start, $a_end);
     }
 
@@ -4132,7 +4102,6 @@ class ilUtil
     */
     public static function buildLatexImages($a_text, $a_dir)
     {
-        include_once './Services/MathJax/classes/class.ilMathJax.php';
         return ilMathJax::getInstance()->insertLatexImages($a_text, '[tex]', '[/tex]', $a_dir . '/teximg', './teximg');
     }
 
@@ -4172,7 +4141,6 @@ class ilUtil
         // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
         // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            include_once './Services/MathJax/classes/class.ilMathJax.php';
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
         }

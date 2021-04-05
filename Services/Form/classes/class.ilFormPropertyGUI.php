@@ -393,7 +393,6 @@ class ilFormPropertyGUI
     public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
     {
         if (!$this instanceof ilMultiValuesItem) {
-            require_once 'Services/Form/exceptions/class.ilFormException.php';
             throw new ilFormException(sprintf(
                 "%s not supported for form property type %s",
                 __FUNCTION__,

@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/Link/classes/class.ilInternalLink.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
@@ -24,15 +23,12 @@ define("IL_TF_NEW", "New");
 
 
 /**
-* Class ilMapArea
-*
-* Map Area of an Image Map, subobject of Media Item
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesMediaObjects
-*/
+ * Class ilMapArea
+ *
+ * Map Area of an Image Map, subobject of Media Item
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilMapArea
 {
     /**

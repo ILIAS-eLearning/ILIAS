@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPlaceHolder
-*
-* List content object (see ILIAS DTD)
-*
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
-
+ * Class ilPlaceHolder
+ *
+ * List content object (see ILIAS DTD)
+ */
 class ilPCPlaceHolder extends ilPageContent
 {
     /**

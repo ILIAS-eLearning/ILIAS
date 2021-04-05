@@ -246,14 +246,8 @@ class ilPCTableGUI extends ilPageContentGUI
         $spacing = new ilHiddenInputGUI("spacing");
         $spacing->setValue("0px");
         $this->form->addItem($spacing);
-        /*$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
-        $spacing->setValue("0px");
-        $spacing->setSize(6);
-        $spacing->setMaxLength(6);
-        $this->form->addItem($spacing);*/
 
         // table templates and table classes
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
@@ -313,7 +307,6 @@ class ilPCTableGUI extends ilPageContentGUI
 
         if ($a_mode == "create") {
             // first row style
-            require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
             $fr_style = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_first_row_style"),
                 "first_row_style"
@@ -381,7 +374,6 @@ class ilPCTableGUI extends ilPageContentGUI
         } else {
             $s_lang = $ilUser->getLanguage();
         }
-        require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
         $lang = ilMDLanguageItem::_getLanguages();
         $language = new ilSelectInputGUI($this->lng->txt("language"), "language");
         $language->setOptions($lang);
@@ -651,7 +643,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
 
         // first row style
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "style"

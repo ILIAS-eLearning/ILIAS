@@ -440,8 +440,6 @@ class ilExcel
      */
     public function sendToClient($a_file_name)
     {
-        require_once('./Services/FileDelivery/classes/class.ilPHPOutputDelivery.php');
-
         $a_file_name = $this->prepareStorage($a_file_name);
         switch ($this->format) {
             case self::FORMAT_BIFF:

@@ -1,15 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * parses the objects.xml
 * it handles the xml-description of all ilias objects
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
 * @externalTableAccess ilObjDefReader on il_object_def, il_object_subobj, il_object_group
 */
 class ilObjectDefinition // extends ilSaxParser
@@ -681,7 +678,6 @@ class ilObjectDefinition // extends ilSaxParser
         
         if ($a_obj_type == "prg") {
             // ask study program which objects are allowed to create on the concrete node.
-            require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
             return ilObjStudyProgramme::getCreatableSubObjects($subobjects, $a_parent_ref_id);
         }
 

@@ -123,7 +123,6 @@ class ilPCTabsGUI extends ilPageContentGUI
         $op1 = new ilRadioOption($lng->txt("cont_tabs_acc_ver"), ilPCTabs::ACCORDION_VER);
 
         $templ = $this->getTemplateOptions("vaccordion");
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         if (count($templ) > 0) {
             $vchar_prop = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_characteristic"),
@@ -174,7 +173,6 @@ class ilPCTabsGUI extends ilPageContentGUI
         // type: carousel
         $op3 = new ilRadioOption($lng->txt("cont_tabs_carousel"), ilPCTabs::CAROUSEL);
         $templ = $this->getTemplateOptions("carousel");
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         if (count($templ) > 0) {
             $cchar_prop = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_characteristic"),

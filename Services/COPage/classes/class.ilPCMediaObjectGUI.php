@@ -196,7 +196,6 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
             // instance image map editing
             case "ilpcimagemapeditorgui":
-                require_once("./Services/COPage/classes/class.ilPCImageMapEditorGUI.php");
                 $ilTabs->setTabActive("cont_inst_map_areas");
                 $image_map_edit = new ilPCImageMapEditorGUI(
                     $this->content_obj,

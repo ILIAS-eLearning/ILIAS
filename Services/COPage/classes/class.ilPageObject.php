@@ -798,12 +798,10 @@ abstract class ilPageObject
         // table extra handling (@todo: get rid of it)
         if ($node_name == "Table") {
             if ($child_node->get_attribute("DataTable") == "y") {
-                require_once("./Services/COPage/classes/class.ilPCDataTable.php");
                 $tab = new ilPCDataTable($this);
                 $tab->setNode($cont_node);
                 $tab->setHierId($a_hier_id);
             } else {
-                require_once("./Services/COPage/classes/class.ilPCTable.php");
                 $tab = new ilPCTable($this);
                 $tab->setNode($cont_node);
                 $tab->setHierId($a_hier_id);
@@ -818,9 +816,6 @@ abstract class ilPageObject
                 echo "ilPageObject::error media";
                 exit;
             }
-
-            //require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-            require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 
             $mal_node = $child_node->first_child();
             //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
@@ -1105,7 +1100,6 @@ abstract class ilPageObject
             $nodes = array($a_node);
         }
 
-        require_once('Services/COPage/classes/class.ilPCPlugged.php');
         foreach ($nodes as $node) {
             if ($node instanceof php4DOMNode) {
                 $node = $node->myDOMNode;
@@ -1383,7 +1377,6 @@ abstract class ilPageObject
     public function getFirstParagraphText()
     {
         if ($this->dom) {
-            require_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $xpc = xpath_new_context($this->dom);
             $path = "//Paragraph[1]";
             $res = xpath_eval($xpc, $path);
@@ -1402,7 +1395,6 @@ abstract class ilPageObject
     public function getParagraphForPCID($pcid)
     {
         if ($this->dom) {
-            require_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $xpc = xpath_new_context($this->dom);
             $path = "//PageContent[@PCID='" . $pcid . "']/Paragraph[1]";
             $res = xpath_eval($xpc, $path);
@@ -1607,7 +1599,6 @@ abstract class ilPageObject
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
 
-        require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $oid = $res->nodeset[$i]->get_attribute("OriginId");
             if (substr($oid, 0, 4) == "il__") {
@@ -1636,7 +1627,6 @@ abstract class ilPageObject
 
         // get xml of corresponding media objects
         $mobs_xml = "";
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         foreach ($mob_ids as $mob_id => $dummy) {
             if (ilObject::_lookupType($mob_id) == "mob") {
                 $mob_obj = new ilObjMediaObject($mob_id);
@@ -1726,7 +1716,6 @@ abstract class ilPageObject
             }
 
             if ($sib_hier_id != "") {        // set id to sibling id "+ 1"
-                require_once("./Services/COPage/classes/class.ilPageContent.php");
                 $node_hier_id = ilPageContent::incEdId($sib_hier_id);
                 $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
                 $this->hier_ids[] = $node_hier_id;
@@ -1936,7 +1925,6 @@ abstract class ilPageObject
                         $entry = $childs[$j]->get_attribute("Entry");
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
-                        require_once("./Modules/File/classes/class.ilObjFile.php");
                         $size = ilObjFileAccess::_lookupFileSize($a_id);
                     }
                 }
@@ -2184,9 +2172,6 @@ abstract class ilPageObject
         $xpc = xpath_new_context($this->dom);
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
-
-        require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
-        require_once("Services/COPage/classes/class.ilMediaAliasItem.php");
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $media_object_node = $res->nodeset[$i]->parent_node();
@@ -3887,7 +3872,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $hashes = array();
-        require_once("./Services/COPage/classes/class.ilPCParagraph.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $hier_id = $res->nodeset[$i]->get_attribute("HierId");
             $pc_id = $res->nodeset[$i]->get_attribute("PCID");

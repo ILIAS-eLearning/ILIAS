@@ -1059,7 +1059,6 @@ class ilPageObjectGUI
                 break;
                 
             case 'ilpublicuserprofilegui':
-                require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
                 $profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
@@ -1102,7 +1101,6 @@ class ilPageObjectGUI
                 
             case "ilinternallinkgui":
                 $this->lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
 
                 $link_gui->filterLinkType("PageObject_FAQ");
@@ -1134,15 +1132,12 @@ class ilPageObjectGUI
                 $this->lng->loadLanguageModule("assessment");
 
                 // set context tabs
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
                 $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType((int) $_GET['q_id']), (int) $_GET['q_id']);
                 $questionGUI->object->setObjId(0);
                 $questionGUI->object->setSelfAssessmentEditingMode(true);
                 $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $this->ctrl, $this->access, $this->tpl, $this->tabs_gui, $this->lng);
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -1198,7 +1193,6 @@ class ilPageObjectGUI
             $this->ctrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion")
         );
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
         $this->ctrl->setParameterByClass("ilAssQuestionFeedbackEditingGUI", "q_id", $_GET["q_id"]);
         $this->tabs_gui->addTab(
             "feedback",
@@ -2255,7 +2249,6 @@ class ilPageObjectGUI
     {
         $download_ok = false;
 
-        require_once("./Modules/File/classes/class.ilObjFile.php");
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
         $int_links = $pg_obj->getInternalLinks();
@@ -2313,9 +2306,7 @@ class ilPageObjectGUI
         // @todo
         $link_xml = $this->page_linker->getLinkXML($med_links);
         
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
-        require_once("./Services/COPage/classes/class.ilPageObject.php");
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
 
@@ -2355,7 +2346,6 @@ class ilPageObjectGUI
         xslt_free($xh);
 
         // unmask user html
-        require_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
@@ -2611,7 +2601,6 @@ class ilPageObjectGUI
         }
         $this->help->setScreenId("edit_" . $ptype);
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
         if (
             $this->user->isAnonymous() &&
             !$this->user->isCaptchaVerified() &&
@@ -2727,10 +2716,8 @@ class ilPageObjectGUI
      */
     public function initCaptchaForm()
     {
-        require_once  'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         
-        require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
         $ci = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
         $ci->setRequired(true);
         $form->addItem($ci);
@@ -2773,7 +2760,6 @@ class ilPageObjectGUI
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setCurrentBlock("ilMedia");
 
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
         if (!empty($_GET["pg_id"])) {
             $pg_obj = ilPageObjectFactory::getInstance($this->obj->getParentType(), $_GET["pg_id"]);

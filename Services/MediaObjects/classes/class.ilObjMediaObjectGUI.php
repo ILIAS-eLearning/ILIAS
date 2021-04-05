@@ -238,7 +238,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
                 
             case "ilimagemapeditorgui":
-                require_once("./Services/MediaObjects/classes/class.ilImageMapEditorGUI.php");
                 $image_map_edit = new ilImageMapEditorGUI($this->object);
                 $ret = $this->ctrl->forwardCommand($image_map_edit);
                 $tpl->setContent($ret);
@@ -1236,7 +1235,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
 
         // create table
-        require_once("./Services/Table/classes/class.ilTableGUI.php");
         $tbl = new ilTableGUI();
 
         // determine directory

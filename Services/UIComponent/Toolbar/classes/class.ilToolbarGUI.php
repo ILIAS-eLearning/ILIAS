@@ -1,8 +1,6 @@
 <?php
-require_once('./Services/UIComponent/Button/classes/class.ilSubmitButton.php');
-require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Toolbar. The toolbar currently only supports a list of buttons as links.
@@ -11,8 +9,6 @@ require_once('./Services/UIComponent/Button/classes/class.ilLinkButton.php');
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
- * @version $Id$
- * @ingroup ServicesUIComponent
  */
 class ilToolbarGUI
 {
@@ -492,7 +488,6 @@ class ilToolbarGUI
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
                             }
                             if ($item["acc_key"] != "") {
-                                include_once("./Services/Accessibility/classes/class.ilAccessKeyGUI.php");
                                 $tpl_items->setVariable(
                                     "BTN_ACC_KEY",
                                     ilAccessKeyGUI::getAttribute($item["acc_key"])

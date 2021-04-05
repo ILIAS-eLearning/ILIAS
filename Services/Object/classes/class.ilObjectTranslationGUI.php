@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * GUI class for object translation handling.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesObject
  */
 class ilObjectTranslationGUI
 {
@@ -63,7 +61,6 @@ class ilObjectTranslationGUI
         $this->obj_gui = $a_obj_gui;
         $this->obj = $a_obj_gui->object;
 
-        include_once("./Services/Object/classes/class.ilObjectTranslation.php");
         $this->obj_trans = ilObjectTranslation::getInstance($this->obj->getId());
     }
 
@@ -171,7 +168,6 @@ class ilObjectTranslationGUI
             }
         }
 
-        include_once("./Services/Object/classes/class.ilObjectTranslation2TableGUI.php");
         $table = new ilObjectTranslation2TableGUI(
             $this,
             "listTranslations",
@@ -310,17 +306,14 @@ class ilObjectTranslationGUI
      */
     public function getMultiLangForm($a_add = false)
     {
-        $tpl = $this->tpl;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // master language
         if (!$a_add) {
-            include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
             $options = ilMDLanguageItem::_getLanguages();
             $si = new ilSelectInputGUI($lng->txt("obj_master_lang"), "master_lang");
             $si->setOptions($options);
@@ -330,7 +323,6 @@ class ilObjectTranslationGUI
 
         // additional languages
         if ($a_add) {
-            include_once("./Services/MetaData/classes/class.ilMDLanguageItem.php");
             $options = ilMDLanguageItem::_getLanguages();
             $options = array("" => $lng->txt("please_select")) + $options;
             $si = new ilSelectInputGUI($lng->txt("obj_additional_langs"), "additional_langs");
@@ -363,8 +355,6 @@ class ilObjectTranslationGUI
     public function saveContentTranslationActivation()
     {
         $ilCtrl = $this->ctrl;
-
-        //		include_once("./Services/COPage/classes/class.ilPageMultiLang.php");
 
         $form = $this->getMultiLangForm();
         if ($form->checkInput()) {

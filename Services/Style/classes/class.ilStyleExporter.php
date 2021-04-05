@@ -1,21 +1,16 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Style export definition
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesStyle
  */
 class ilStyleExporter extends ilXmlExporter
 {
     public function init()
     {
-        include_once("./Services/Style/classes/class.ilStyleDataSet.php");
         $this->ds = new ilStyleDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -30,7 +25,6 @@ class ilStyleExporter extends ilXmlExporter
         }
         if ($a_schema_version == "5.0.0") {
             if ($a_entity == "sty") {
-                include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
                 $style = new ilObjStyleSheet($a_id, false);
 
                 // images

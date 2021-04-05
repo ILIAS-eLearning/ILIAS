@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Button/classes/class.ilButtonBase.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Description: <button> (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button) by Mozilla Contributors is licensed under CC-BY-SA 2.5.

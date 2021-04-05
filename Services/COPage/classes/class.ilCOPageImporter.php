@@ -41,7 +41,6 @@ class ilCOPageImporter extends ilXmlImporter
         $this->log = ilLoggerFactory::getLogger('copg');
 
         // collect all page component plugins that have their own exporter
-        require_once('Services/COPage/classes/class.ilPageComponentPluginImporter.php');
         foreach (ilPluginAdmin::getActivePluginsForSlot(IL_COMP_SERVICE, "COPage", "pgcp") as $plugin_name) {
             if ($ilPluginAdmin->supportsExport(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'

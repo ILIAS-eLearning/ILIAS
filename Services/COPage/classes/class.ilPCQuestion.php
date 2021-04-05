@@ -102,59 +102,9 @@ class ilPCQuestion extends ilPageContent
         $duplicate_id = $question->copyObject(0, $question->getTitle());
         $duplicate = assQuestion::_instanciateQuestion($duplicate_id);
         $duplicate->setObjId(0);
-        
-        /* PATCH-BEGIN: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
-        /*
-        // we remove everything not supported by the non-tiny self
-        // assessment question editor
-        $q = $duplicate->getQuestion();
 
-        // we try to save all latex tags
-        $try = true;
-        $ls = '<span class="latex">';
-        $le = '</span>';
-        while ($try)
-        {
-            // search position of start tag
-            $pos1 = strpos($q, $ls);
-            if (is_int($pos1))
-            {
-                $pos2 = strpos($q, $le, $pos1);
-                if (is_int($pos2))
-                {
-                    // both found: replace end tag
-                    $q = substr($q, 0, $pos2)."[/tex]".substr($q, $pos2+7);
-                    $q = substr($q, 0, $pos1)."[tex]".substr($q, $pos1+20);
-                }
-                else
-                {
-                    $try = false;
-                }
-            }
-            else
-            {
-                $try = false;
-            }
-        }
-
-        $tags = assQuestionGUI::getSelfAssessmentTags();
-        $tstr = "";
-        foreach ($tags as $t)
-        {
-            $tstr.="<".$t.">";
-        }
-        $q = ilUtil::secureString($q, true, $tstr);
-        // self assessment uses nl2br, not p
-        $duplicate->setQuestion($q);
-
-        $duplicate->saveQuestionDataToDb();
-        */
-
-        require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
         ilAssSelfAssessmentQuestionFormatter::prepareQuestionForLearningModule($duplicate);
-        
-        /* PATCH-END: moved cleanup code to central place ilAssSelfAssessmentQuestionFormatter */
-        
+
         $this->q_node->set_attribute("QRef", "il__qst_" . $duplicate_id);
     }
     
@@ -306,7 +256,6 @@ class ilPCQuestion extends ilPageContent
                 // this exports the questions which is needed below
                 $qhtml = $this->getQuestionJsOfPage(($a_mode == "edit") ? true : false, $a_mode);
                                                             
-                require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
                 $a_output = "<script>" . ilQuestionExporter::questionsJS($q_ids) . "</script>" . $a_output;
                 if (!self::$initial_done) {
                     $a_output = "<script>var ScormApi=null; var questions = new Array();</script>" . $a_output;
@@ -468,7 +417,6 @@ class ilPCQuestion extends ilPageContent
      */
     public function getQuestionJsOfPage($a_no_interaction, $a_mode)
     {
-        require_once './Modules/Scorm2004/classes/class.ilQuestionExporter.php';
         $q_ids = $this->getPage()->getQuestionIds();
         $js = array();
         if (count($q_ids) > 0) {

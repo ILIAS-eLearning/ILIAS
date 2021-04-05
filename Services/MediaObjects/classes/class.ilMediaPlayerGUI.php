@@ -266,8 +266,6 @@ class ilMediaPlayerGUI
             self::$lightbox_initialized = true;
         }
 
-        require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-
         // youtube
         if (ilExternalMediaAnalyzer::isYouTube($this->getFile())) {
             $p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());

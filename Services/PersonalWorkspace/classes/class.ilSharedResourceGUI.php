@@ -1,17 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Workspace deep link handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjBlogGUI, ilObjFileGUI, ilObjTestVerificationGUI
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjExerciseVerificationGUI, ilObjLinkResourceGUI
  * @ilCtrl_Calls ilSharedResourceGUI: ilObjPortfolioGUI
- *
- * @ingroup ServicesPersonalWorkspace
  */
 class ilSharedResourceGUI
 {
@@ -106,8 +103,6 @@ class ilSharedResourceGUI
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             $next_class &&
             !in_array($next_class, array("ilobjbloggui", "ilobjportfoliogui"))) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
             $tree = new ilWorkspaceTree($ilUser->getId());
             $access_handler = new ilWorkspaceAccessHandler($tree);
             $owner_id = $tree->lookupOwner($this->node_id);
@@ -121,7 +116,6 @@ class ilSharedResourceGUI
                 $link = $ilCtrl->getLinkTargetByClass("ildashboardgui", "jumptoworkspace");
                 $ilLocator->addItem($lng->txt("wsp_tab_shared"), $link);
 
-                include_once "Services/User/classes/class.ilUserUtil.php";
                 $ilLocator->addItem(ilUserUtil::getNamePresentation($owner_id), $link);
             } else {
                 $link = $ilCtrl->getLinkTargetByClass("ildashboardgui", "jumptoworkspace");
@@ -155,13 +149,11 @@ class ilSharedResourceGUI
                 break;
             
             case "ilobjlinkresourcegui":
-                include_once "Modules/WebResource/classes/class.ilObjLinkResourceGUI.php";
                 $lgui = new ilObjLinkResourceGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $ilCtrl->forwardCommand($lgui);
                 break;
             
             case "ilobjportfoliogui":
-                include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
                 $pgui = new ilObjPortfolioGUI($this->portfolio_id, ilObject2GUI::PORTFOLIO_OBJECT_ID);
                 $ilCtrl->forwardCommand($pgui);
                 break;
@@ -206,12 +198,9 @@ class ilSharedResourceGUI
         // if we have current user - check with normal access handler
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             if (!$a_is_portfolio) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                 $tree = new ilWorkspaceTree($ilUser->getId());
                 $access_handler = new ilWorkspaceAccessHandler($tree);
             } else {
-                include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
                 $access_handler = new ilPortfolioAccessHandler();
             }
             if ($access_handler->checkAccess("read", "", $a_node_id)) {
@@ -219,11 +208,7 @@ class ilSharedResourceGUI
             }
         }
         
-        // not logged in yet or no read access
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-            
         if (!$a_is_portfolio) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $shared = ilWorkspaceAccessHandler::_getPermissions($a_node_id);
         } else {
             // #12059
@@ -232,13 +217,11 @@ class ilSharedResourceGUI
             }
             
             // #12039
-            include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
             $prtf = new ilObjPortfolio($a_node_id, false);
             if (!$prtf->isOnline()) {
                 return false;
             }
                         
-            include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
             $shared = ilPortfolioAccessHandler::_getPermissions($a_node_id);
         }
         
@@ -265,7 +248,6 @@ class ilSharedResourceGUI
         $objDefinition = $this->obj_definition;
                 
         if (!$a_is_portfolio) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($a_node_id);
             if (!$object_data["obj_id"]) {
                 exit("invalid object");
@@ -344,13 +326,11 @@ class ilSharedResourceGUI
         $ilTabs = $this->tabs;
         
         if ($this->node_id) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
             $object_data = ilWorkspaceAccessHandler::getObjectDataFromNode($this->node_id);
         } else {
             $object_data["title"] = ilObject::_lookupTitle($this->portfolio_id);
         }
         
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "checkPassword"));
         $form->setTitle($lng->txt("wsp_password_for") . ": " . $object_data["title"]);
@@ -377,13 +357,10 @@ class ilSharedResourceGUI
         
         if ($ilUser->getId() && $ilUser->getId() != ANONYMOUS_USER_ID) {
             if ($this->node_id) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                 $tree = new ilWorkspaceTree($ilUser->getId());
                 $owner = $tree->lookupOwner($this->node_id);
                 ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=" . $owner);
             } else {
-                include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
                 $prtf = new ilObjPortfolio($this->portfolio_id, false);
                 $owner = $prtf->getOwner();
                 ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio&dsh=" . $owner);
@@ -402,10 +379,8 @@ class ilSharedResourceGUI
         if ($form->checkInput()) {
             $input = md5($form->getInput("password"));
             if ($this->node_id) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $password = ilWorkspaceAccessHandler::getSharedNodePassword($this->node_id);
             } else {
-                include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
                 $password = ilPortfolioAccessHandler::getSharedNodePassword($this->portfolio_id);
             }
             if ($input == $password) {

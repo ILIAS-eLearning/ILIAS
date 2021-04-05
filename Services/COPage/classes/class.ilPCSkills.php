@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCSkills
-*
-* Skills content object (see ILIAS DTD)
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilPCListItem.php 22210 2009-10-26 09:46:06Z akill $
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCSkills
+ *
+ * Skills content object (see ILIAS DTD)
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCSkills extends ilPageContent
 {
     /**
@@ -104,7 +98,6 @@ class ilPCSkills extends ilPageContent
      */
     public static function beforePageDelete($a_page)
     {
-        require_once('Services/COPage/classes/class.ilPageContentUsage.php'); // Mantis #18636
         ilPageContentUsage::deleteAllUsages(
             "skmg",
             $a_page->getParentType() . ":pg",

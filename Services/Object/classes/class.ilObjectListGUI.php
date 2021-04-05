@@ -1,25 +1,21 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_LIST_AS_TRIGGER", "trigger");
 define("IL_LIST_FULL", "full");
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
-* Class ilObjectListGUI
-*
-* Important note:
-*
-* All access checking should be made within $ilAccess and
-* the checkAccess of the ilObj...Access classes. Do not additionally
-* enable or disable any commands within this GUI class or in derived
-* classes, except when the container (e.g. a search result list)
-* generally refuses them.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-*/
+ * Important note:
+ *
+ * All access checking should be made within $ilAccess and
+ * the checkAccess of the ilObj...Access classes. Do not additionally
+ * enable or disable any commands within this GUI class or in derived
+ * classes, except when the container (e.g. a search result list)
+ * generally refuses them.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjectListGUI
 {
     /**
@@ -212,7 +208,6 @@ class ilObjectListGUI
         //echo "list";
         $this->init();
         
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
         $this->fav_manager = new ilFavouritesManager();
 
@@ -266,7 +261,6 @@ class ilObjectListGUI
         $this->gui_class_name = "";			// "ilobjcategorygui", "ilobjcoursegui", ...
 
         // general commands array, e.g.
-        include_once('./Services/Object/classes/class.ilObjectAccess.php');
         $this->commands = ilObjectAccess::_getCommands();
     }
 
@@ -993,7 +987,6 @@ class ilObjectListGUI
         if ($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING) {
             $cache_prefix = "wsp";
             if (!$this->ws_access) {
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 $this->ws_access = new ilWorkspaceAccessHandler();
             }
         }
@@ -1028,7 +1021,6 @@ class ilObjectListGUI
     {
         $this->offline_mode = false;
         if ($this->type == "sahs") {
-            include_once('Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleAccess.php');
             $this->offline_mode = ilObjSAHSLearningModuleAccess::_lookupUserIsOfflineMode($a_obj_id);
         }
         $this->access_cache = array();
@@ -1043,7 +1035,6 @@ class ilObjectListGUI
         $this->prevent_access_caching = false;
 
         // prepare ajax calls
-        include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
         if ($this->context == self::CONTEXT_REPOSITORY) {
             $node_type = ilCommonActionDispatcherGUI::TYPE_REPOSITORY;
         } else {
@@ -1090,7 +1081,6 @@ class ilObjectListGUI
     {
         // begin-patch lok
         if ($this->static_link_enabled and !$this->default_command_params) {
-            include_once('./Services/Link/classes/class.ilLink.php');
             if ($link = ilLink::_getStaticLink($this->ref_id, $this->type, false)) {
                 $command['link'] = $link;
                 $command['frame'] = '_top';
@@ -1129,7 +1119,6 @@ class ilObjectListGUI
     {
         if ($this->context == self::CONTEXT_REPOSITORY) {
             // BEGIN WebDAV Get mount webfolder link.
-            require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
             if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
                 global $DIC;
                 $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
@@ -1224,10 +1213,8 @@ class ilObjectListGUI
             }
 
             // BEGIN WebDAV Display locking information
-            require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
             if (ilDAVActivationChecker::_isActive()) {
                 // Show lock info
-                require_once('Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php');
                 $webdav_lock_backend = new ilWebDAVLockBackend();
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                     if ($lock = $webdav_lock_backend->getLocksOnObjectId($this->obj_id)) {
@@ -1483,17 +1470,14 @@ class ilObjectListGUI
             $this->tpl->setVariable("HREF_TITLE_LINKED", $this->default_command["link"]);
             
             // has preview?
-            include_once("./Services/Preview/classes/class.ilPreview.php");
             if (ilPreview::hasPreview($this->obj_id, $this->type)) {
-                include_once("./Services/Preview/classes/class.ilPreviewGUI.php");
-                
+
                 // get context for access checks later on
                 $access_handler = null;
                 switch ($this->context) {
                     case self::CONTEXT_WORKSPACE:
                     case self::CONTEXT_WORKSPACE_SHARING:
                         $context = ilPreviewGUI::CONTEXT_WORKSPACE;
-                        include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php");
                         $access_handler = new ilWorkspaceAccessHandler();
                         break;
                     
@@ -1534,7 +1518,6 @@ class ilObjectListGUI
     {
         switch ($this->context) {
             case self::CONTEXT_WORKSPACE_SHARING:
-                include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                 return ilWorkspaceAccessHandler::getGotoLink($this->ref_id, $this->obj_id);
             
             default:
@@ -1624,7 +1607,6 @@ class ilObjectListGUI
             return false;
         }
         
-        include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
         $pbar = ilProgressBar::getInstance();
         $pbar->setCurrent($this->getRelevance());
         
@@ -1692,7 +1674,6 @@ class ilObjectListGUI
 
         if ($this->context != self::CONTEXT_WORKSPACE && $this->context != self::CONTEXT_WORKSPACE_SHARING) {
             // add learning progress custom property
-            include_once "Services/Tracking/classes/class.ilLPStatus.php";
             $lp = ilLPStatus::getListGUIStatus($this->obj_id);
             if ($lp) {
                 $props[] = array("alert" => false,
@@ -1722,15 +1703,11 @@ class ilObjectListGUI
         $redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
         // add common properties (comments, notes, tags)
-        require_once 'Services/Notes/classes/class.ilNote.php';
         if (((isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0) ||
             (isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) ||
             (isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0) ||
             (isset(self::$tags[$note_obj_id]) && is_array(self::$tags[$note_obj_id]))) &&
             ($ilUser->getId() != ANONYMOUS_USER_ID)) {
-            include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-            include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
-
             $nl = true;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
                 && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) {
@@ -1878,7 +1855,6 @@ class ilObjectListGUI
                 continue;
             }
 
-            include_once 'Services/Container/classes/class.ilMemberViewSettings.php';
             $ok = ilConditionHandler::_checkCondition($condition) and
                 !ilMemberViewSettings::getInstance()->isActive();
 
@@ -1900,7 +1876,6 @@ class ilObjectListGUI
                 continue;
             }
 
-            include_once './Services/Conditions/classes/class.ilConditionHandlerGUI.php';
             $cond_txt = ilConditionHandlerGUI::translateOperator($condition['trigger_obj_id'], $condition['operator']) . ' ' . $condition['value'];
             
             // display trigger item
@@ -1959,8 +1934,6 @@ class ilObjectListGUI
     */
     public function insertPreconditions()
     {
-        include_once("./Services/Conditions/classes/class.ilConditionHandler.php");
-
         // do not show multi level conditions (messes up layout)
         if ($this->condition_depth > 0) {
             return;
@@ -2358,8 +2331,7 @@ class ilObjectListGUI
         $lng->loadLanguageModule("notes");
         $lng->loadLanguageModule("tagging");
         $cmd_frame = $this->getCommandFrame("infoScreen");
-        include_once("./Services/Notes/classes/class.ilNoteGUI.php");
-        
+
         // reference objects have translated ids, revert to originals
         $note_ref_id = $this->ref_id;
         if ($this->reference_ref_id) {
@@ -2394,7 +2366,6 @@ class ilObjectListGUI
         }
         
         if ($this->tags_enabled) {
-            include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
             //$this->insertCommand($cmd_tag_link, $this->lng->txt("tagging_set_tag"), $cmd_frame);
             $this->insertCommand(
                 "#",
@@ -2473,7 +2444,6 @@ class ilObjectListGUI
             return;
         }
 
-        include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
         $this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
         $this->current_selection_list->setAsynchUrl($a_asynch_url);
@@ -2621,8 +2591,6 @@ class ilObjectListGUI
         // todo: make this faster and remove type specific implementation if possible
         if ($a_use_asynch && !$a_get_asynch_commands && !$a_header_actions) {
             if ($ilUser->getId() == ANONYMOUS_USER_ID && $this->checkInfoPageOnAsynchronousRendering()) {
-                include_once("./Services/Container/classes/class.ilContainer.php");
-                include_once("./Services/Object/classes/class.ilObjectServiceSettingsGUI.php");
                 if (!ilContainer::_lookupContainerSetting(
                     $this->obj_id,
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
@@ -2794,12 +2762,10 @@ class ilObjectListGUI
         }
         
         if ($a_notes_url) {
-            include_once("./Services/Notes/classes/class.ilNoteGUI.php");
             ilNoteGUI::initJavascript($a_notes_url, IL_NOTE_PRIVATE, $a_tpl);
         }
         
         if ($a_tags_url) {
-            include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
             ilTaggingGUI::initJavascript($a_tags_url, $a_tpl);
         }
         
@@ -2888,7 +2854,6 @@ class ilObjectListGUI
         
         // tags
         if ($this->tags_enabled) {
-            include_once("./Services/Tagging/classes/class.ilTagging.php");
             $tags = ilTagging::getTagsForUserAndObject(
                 $this->obj_id,
                 ilObject::_lookupType($this->obj_id),
@@ -2897,13 +2862,7 @@ class ilObjectListGUI
                 $ilUser->getId()
             );
             if (count($tags) > 0) {
-                include_once("./Services/Tagging/classes/class.ilTaggingGUI.php");
                 $lng->loadLanguageModule("tagging");
-                /*$this->addHeaderIcon("tags",
-                    ilUtil::getImagePath("icon_tag.svg"),
-                    $lng->txt("tagging_tags").": ".count($tags),
-                    ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js),
-                    count($tags));*/
 
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
@@ -2918,21 +2877,12 @@ class ilObjectListGUI
         // notes and comments
         $comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true, false);
         if ($this->notes_enabled || $comments_enabled) {
-            include_once("./Services/Notes/classes/class.ilNote.php");
-            include_once("./Services/Notes/classes/class.ilNoteGUI.php");
             $type = ($this->sub_obj_type == "")
                 ? $this->type
                 : $this->sub_obj_type;
             $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
             if ($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
-                /*$this->addHeaderIcon("notes",
-                    ilUtil::getImagePath("note_unlabeled.svg"),
-                    $lng->txt("private_notes").": ".$cnt[$this->obj_id][IL_NOTE_PRIVATE],
-                    ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js),
-                    $cnt[$this->obj_id][IL_NOTE_PRIVATE]
-                    );*/
-
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "notes",
@@ -2963,7 +2913,6 @@ class ilObjectListGUI
         
         // rating
         if ($this->rating_enabled) {
-            include_once("./Services/Rating/classes/class.ilRatingGUI.php");
             $rating_gui = new ilRatingGUI();
             $rating_gui->enableCategories($this->rating_categories_enabled);
             // never rate sub objects from header action!
@@ -2993,8 +2942,6 @@ class ilObjectListGUI
         }
         
         if ($this->header_icons) {
-            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-            
             $chunks = array();
             foreach ($this->header_icons as $id => $attr) {
                 $id = "headp_" . $id;
@@ -3110,7 +3057,6 @@ class ilObjectListGUI
         global $DIC;
 
         if (strstr($a_link, 'ilSAHSPresentationGUI') && !$this->offline_mode) {
-            include_once 'Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
             $sahs_obj = new ilObjSAHSLearningModule($this->ref_id);
             $om = $sahs_obj->getOpenMode();
             $width = $sahs_obj->getWidth();
@@ -3244,7 +3190,6 @@ class ilObjectListGUI
             if (!$objDefinition->isPlugin($this->getIconImageType())) {
                 $this->tpl->setVariable("ALT_ICON", $lng->txt("obj_" . $this->getIconImageType()));
             } else {
-                include_once("Services/Component/classes/class.ilPlugin.php");
                 $this->tpl->setVariable(
                     "ALT_ICON",
                     ilObjectPlugin::lookupTxtById($this->getIconImageType(), "obj_" . $this->getIconImageType())
@@ -3387,7 +3332,6 @@ class ilObjectListGUI
         }
         
         // read from cache
-        include_once("Services/Object/classes/class.ilListItemAccessCache.php");
         $this->acache = new ilListItemAccessCache();
         $cres = $this->acache->getEntry($ilUser->getId() . ":" . $a_ref_id);
         if ($this->acache->getLastAccessStatus() == "hit") {
@@ -3604,10 +3548,6 @@ class ilObjectListGUI
             $active_notes = !$ilSetting->get("disable_notes");
             $active_comments = !$ilSetting->get("disable_comments");
         
-            if ($active_notes || $active_comments) {
-                include_once("./Services/Notes/classes/class.ilNote.php");
-            }
-            
             if ($active_comments) {
                 // needed for action
                 self::$comments_activation = ilNote::getRepObjActivation($a_obj_ids);
@@ -3625,7 +3565,6 @@ class ilObjectListGUI
                 if ($tags_set->get("enable")) {
                     $all_users = $tags_set->get("enable_all_users");
                 
-                    include_once("./Services/Tagging/classes/class.ilTagging.php");
                     if (!$ilSetting->get('comments_tagging_in_lists_tags')) {
                         self::$cnt_tags = ilTagging::_countTags($a_obj_ids, $all_users);
                     } else {
@@ -3672,7 +3611,6 @@ class ilObjectListGUI
                     return true;
                 }
             } else {
-                include_once("./Services/Notes/classes/class.ilNote.php");
                 if (ilNote::commentsActivated($a_obj_id, 0, $a_type)) {
                     return true;
                 }
@@ -3701,7 +3639,6 @@ class ilObjectListGUI
     public function isFileUploadAllowed()
     {
         // check if file upload allowed
-        include_once("./Services/FileUpload/classes/class.ilFileUploadUtil.php");
         return ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->type);
     }
     
@@ -3710,7 +3647,6 @@ class ilObjectListGUI
      */
     public function insertFileUpload()
     {
-        include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
         ilFileUploadGUI::initFileUpload();
 
         $upload = new ilFileUploadGUI($this->getUniqueItemId(true), $this->ref_id);

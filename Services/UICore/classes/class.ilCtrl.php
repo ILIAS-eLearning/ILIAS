@@ -1,6 +1,6 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('class.ilCachedCtrl.php');
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * This class provides processing control methods.
@@ -10,7 +10,6 @@ require_once('class.ilCachedCtrl.php');
  * used and needed, if link information is passed to the xslt processing e.g. in content pages.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  */
 class ilCtrl
 {
@@ -217,7 +216,6 @@ class ilCtrl
             return $html;
         }
         
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't forward to class $class.");
     }
 
@@ -279,7 +277,6 @@ class ilCtrl
             return $html;
         }
 
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't getHTML from class $class.");
     }
     
@@ -440,7 +437,6 @@ class ilCtrl
         error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ")");
             
-        include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getCidOfNode($a_par_node)] . ").");
     }
@@ -528,7 +524,6 @@ class ilCtrl
      * called before the the current command is forwarded to the top level
      * gui class. Example:
      *
-     *	include_once "classes/class.ilRepositoryGUI.php";
      *	$ilCtrl->getCallStructure("ilrepositorygui");
      *	$repository_gui = new ilRepositoryGUI();
      *	$ilCtrl->forwardCommand($repository_gui);
@@ -708,7 +703,6 @@ class ilCtrl
             
             if ($gui_class == "ilSAHSEditGUI") {
                 // #1625 - because of scorm "sub-types" this is all very special
-                include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
                 $obj_id = ilObject::_lookupObjectId($ref_id);
                 switch (ilObjSAHSLearningModule::_lookupSubType($obj_id)) {
                     case "scorm2004":
@@ -737,7 +731,6 @@ class ilCtrl
                 $this->redirectByClass(array("ilLMEditorGUI", "ilObjLearningModuleGUI"), "");
             }
                         
-            include_once "Services/Object/classes/class.ilObjectLP.php";
             $type = ilObject::_lookupType($ref_id, true);
             $class = "ilObj" . $objDefinition->getClassName($type) . "GUI";
             
@@ -846,7 +839,6 @@ class ilCtrl
             $failure = "ERROR: Path not found. Source:" . $a_source_node .
                 ", Target:" . $a_target_node;
             if (DEVMODE == 1) {
-                include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
                 throw new ilCtrlException($failure);
             }
             $GLOBALS['ilLog']->write(__METHOD__ . ' ' . $failure);
@@ -1673,7 +1665,6 @@ class ilCtrl
 					may solve the issue by putting an empty * @ilCtrl_Calls [YourClassName]: into your class header." .
                     " In both cases you need to reload the control structure in the setup.";
             }
-            include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
             throw new ilCtrlException("Cannot find cid for class " . $a_class . "." . $add);
         }
         return $this->class_cid[$a_class];
@@ -1694,7 +1685,6 @@ class ilCtrl
             $this->readCidInfo($a_cid);
         }
         if ($this->cidClassUnknown($a_cid)) {
-            include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
             throw new ilCtrlException("Cannot find class for cid " . $a_cid . ".");
         }
         return $this->cid_class[$a_cid];

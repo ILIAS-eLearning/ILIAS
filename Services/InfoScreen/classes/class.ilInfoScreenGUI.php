@@ -577,7 +577,6 @@ class ilInfoScreenGUI
         }
 
         // change event
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         if (ilChangeEvent::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 $readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
@@ -611,10 +610,8 @@ class ilInfoScreenGUI
         // END ChangeEvent: Display change event info
 
         // WebDAV: Display locking information
-        require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php';
                 $webdav_lock_backend = new ilWebDAVLockBackend();
 
                 // Show lock info
@@ -744,7 +741,6 @@ class ilInfoScreenGUI
             $this->setFormAction($ilCtrl->getFormAction($this));
         }
         
-        require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
 
         if ($this->hidden) {
@@ -1061,7 +1057,6 @@ class ilInfoScreenGUI
         $lp_marks->setCompleted((bool) $_POST['lp_edit']);
         $lp_marks->update();
 
-        require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
 
         $this->lng->loadLanguageModule('trac');

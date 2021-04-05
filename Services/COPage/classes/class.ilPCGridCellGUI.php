@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCTableData.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Grid cell UI class
  *
  * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ServicesCOPage
  */
 class ilPCGridCellGUI extends ilPageContentGUI
 {

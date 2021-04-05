@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Grouped list GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesUIComponent
  */
 class ilGroupedListGUI
 {
@@ -163,7 +161,6 @@ class ilGroupedListGUI
                         $tpl->parseCurrentBlock();
                         $tpl->touchBlock("item");
                         if ($i["ttip"] != "" && $i["id"] != "") {
-                            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                             if ($ilCtrl->isAsynch()) {
                                 $tt_calls .= " " . ilTooltipGUI::getTooltip(
                                     $i["id"],

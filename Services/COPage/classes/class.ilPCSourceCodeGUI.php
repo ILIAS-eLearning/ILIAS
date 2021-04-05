@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCSourceCode.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCSourcecodeGUI
-*
-* User Interface for Paragraph Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCSourcecodeGUI
+ *
+ * User Interface for Paragraph Editing
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCSourceCodeGUI extends ilPageContentGUI
 {
     /**

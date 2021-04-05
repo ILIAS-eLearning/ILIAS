@@ -371,7 +371,6 @@ class ilObjectGUI
 
 
             // fileupload support
-            require_once './Services/FileUpload/classes/class.ilFileUploadUtil.php';
             if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
                 $this->enableDragDropFileUpload();
             }
@@ -1074,7 +1073,6 @@ class ilObjectGUI
         $this->ref_id = $a_obj->getRefId();
 
         // BEGIN ChangeEvent: Record save object.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
         // END ChangeEvent: Record save object.
 

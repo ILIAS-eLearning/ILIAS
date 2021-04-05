@@ -175,7 +175,6 @@ class ilAwarenessUserCollector
         }
 
         // remove all users that have not accepted the terms of service yet
-        require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceHelper.php';
         if (ilTermsOfServiceHelper::isEnabled()) {
             foreach (ilObjUser::getUsersAgreed(false, $all_users) as $u) {
                 if ($u != SYSTEM_USER_ID && !$rbacreview->isAssigned($u, SYSTEM_ROLE_ID)) {

@@ -1,11 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Settings for LO courses
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  */
 class ilObjectTableGUI extends ilTable2GUI
 {
@@ -120,8 +120,6 @@ class ilObjectTableGUI extends ilTable2GUI
      */
     public function fillRow($set)
     {
-        include_once './Services/Link/classes/class.ilLink.php';
-        
         if ($this->enabledRowSelectionInput()) {
             $this->fillRowSelectionInput($set);
         }
@@ -133,7 +131,6 @@ class ilObjectTableGUI extends ilTable2GUI
         
         
         if ($this->enabledObjectPath()) {
-            include_once './Services/Tree/classes/class.ilPathGUI.php';
             $path_gui = new ilPathGUI();
             $path_gui = $this->customizePath($path_gui);
             

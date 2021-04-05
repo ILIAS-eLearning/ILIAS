@@ -1,15 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObject
-* Basic functions for all objects
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
-* @version $Id$
-*/
+ * Class ilObject
+ * Basic functions for all objects
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
+ */
 class ilObject
 {
     /**
@@ -1759,7 +1759,6 @@ class ilObject
         if (!$objDefinition->isPlugin($new_type)) {
             $options[0] = $lng->txt('obj_' . $new_type . '_select');
         } else {
-            require_once("Services/Repository/classes/class.ilObjectPlugin.php");
             $options[0] = ilObjectPlugin::lookupTxtById($new_type, "obj_" . $new_type . "_select");
         }
 
@@ -1889,7 +1888,6 @@ class ilObject
         $nodes = $tree->getChilds($a_target_id);
         
         $title_unique = false;
-        require_once 'Modules/File/classes/class.ilObjFileAccess.php';
         $numberOfCopy = 1;
         $handleExtension = ($this->getType() == "file"); // #14883
         $title = ilObjFileAccess::_appendNumberOfCopyToFilename($this->getTitle(), $numberOfCopy, $handleExtension);

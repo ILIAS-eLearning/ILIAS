@@ -129,8 +129,6 @@ class ilAwarenessAct
         $bodyParams = array(
             'online_user_names' => implode("<br />", $new_online_users)
         );
-        //var_dump($bodyParams); exit;
-        require_once 'Services/Notifications/classes/class.ilNotificationConfig.php';
         $notification = new ilNotificationConfig('osd_main');
         $notification->setTitleVar('awareness_now_online', $bodyParams, 'awrn');
         $notification->setShortDescriptionVar('awareness_now_online_users', $bodyParams, 'awrn');

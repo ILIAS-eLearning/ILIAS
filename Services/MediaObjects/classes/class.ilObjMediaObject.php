@@ -719,7 +719,6 @@ class ilObjMediaObject extends ilObject
                     $xml .= "<MediaItem Purpose=\"" . $item->getPurpose() . "\">";
 
                     if ($a_sign_locals && $item->getLocationType() == "LocalFile") {
-                        require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
                         $location = ilWACSignedPath::signFile($this->getDataDirectory() . "/" . $item->getLocation());
                         $location = substr($location, strrpos($location, "/") + 1);
                     } else {
@@ -916,10 +915,6 @@ class ilObjMediaObject extends ilObject
         // @todo
         //$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
 
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        //$media_obj = new ilObjMediaObject($_GET["mob_id"]);
-        require_once("./Services/COPage/classes/class.ilPageObject.php");
-
         $xml = "<dummy>";
         // todo: we get always the first alias now (problem if mob is used multiple
         // times in page)
@@ -927,15 +922,11 @@ class ilObjMediaObject extends ilObject
         $xml .= $this->getXML(IL_MODE_OUTPUT);
         //$xml.= $link_xml;
         $xml .= "</dummy>";
-        
-        //die(htmlspecialchars($xml));
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        //echo "<b>XML:</b>".htmlentities($xml);
-        // determine target frames for internal links
         $wb_path = "";
         $enlarge_path = "";
         $params = array('mode' => "fullscreen", 'enlarge_path' => $enlarge_path,

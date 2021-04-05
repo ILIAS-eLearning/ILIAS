@@ -231,7 +231,6 @@ class ilDashboardGUI
                 break;
 
             case 'ilcontactgui':
-                require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
                 }
@@ -240,7 +239,6 @@ class ilDashboardGUI
                 $this->setTabs();
                 $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
-                require_once 'Services/Contact/classes/class.ilContactGUI.php';
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 

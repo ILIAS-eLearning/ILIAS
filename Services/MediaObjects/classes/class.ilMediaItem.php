@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/MediaObjects/classes/class.ilMapArea.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilMediaItem
  * Media Item, component of a media object (file or reference)
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesMediaObjects
  */
 class ilMediaItem
 {

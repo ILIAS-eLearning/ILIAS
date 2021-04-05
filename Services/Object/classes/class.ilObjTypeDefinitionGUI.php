@@ -1,20 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjTypeDefinitionGUI
-*
-* handles operation assignment to objects (ONLY FOR TESTING PURPOSES!)
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* $Id$Id: class.ilObjTypeDefinitionGUI.php,v 1.14 2005/11/21 17:12:08 shofmann Exp $
-*
-* @extends ilObjectGUI
-*/
-
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
+ * Class ilObjTypeDefinitionGUI
+ *
+ * handles operation assignment to objects (ONLY FOR TESTING PURPOSES!)
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjTypeDefinitionGUI extends ilObjectGUI
 {
     /**
@@ -110,8 +104,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     */
     public function displayList()
     {
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
-
         // load template for table
         $this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
         // load template for table content data
@@ -304,7 +296,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         }
 
         // build table
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
 
         // load template for table
         $this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");

@@ -1,17 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Select explorer tree nodes input GUI
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup	ServicesForm
  */
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
@@ -206,8 +200,6 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         
         $top_tb = new ilToolbarGUI();
         
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-        
         $button = ilLinkButton::getInstance();
         $button->setCaption("select");
         $button->addCSSClass("ilExplSelectInputButS");
@@ -224,29 +216,6 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         $tpl->setVariable("TOP_TB", $top_tb->getHTML());
         $tpl->setVariable("BOT_TB", $top_tb->getHTML());
 
-        //$tpl->setVariable("HREF_SELECT",
-        //	$ilCtrl->getLinkTargetByClass(array($parent_gui, "ilformpropertydispatchgui", "ilrepositoryselectorinputgui"),
-        //	"showRepositorySelection"));
-
-        /*if ($this->getValue() > 0 && $this->getValue() != ROOT_FOLDER_ID)
-        {
-            $tpl->setVariable("TXT_ITEM",
-                $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($this->getValue())));
-        }
-        else
-        {
-            $nd = $tree->getNodeData(ROOT_FOLDER_ID);
-            $title = $nd["title"];
-            if ($title == "ILIAS")
-            {
-                $title = $lng->txt("repository");
-            }
-            if (in_array($nd["type"], $this->getClickableTypes()))
-            {
-                $tpl->setVariable("TXT_ITEM", $title);
-            }
-        }*/
-        
         return $tpl->get();
     }
     

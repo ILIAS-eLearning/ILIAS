@@ -380,8 +380,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
         
         $lng->loadLanguageModule("block");
         
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        
         $this->form_gui = new ilPropertyFormGUI();
         
         // Property Title

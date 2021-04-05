@@ -222,7 +222,6 @@ class ilObjAdvancedEditing extends ilObject
             $setting->set("advanced_editing_used_html_tags_" . $a_module, serialize(array_merge((array) $a_html_tags, $auto_added_tags)));
             
             if (count($auto_added_tags)) {
-                require_once 'Services/AdvancedEditing/exceptions/class.ilAdvancedEditingRequiredTagsException.php';
                 throw new ilAdvancedEditingRequiredTagsException(
                     sprintf(
                         $lng->txt('advanced_editing_required_tags'),

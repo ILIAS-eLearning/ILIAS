@@ -1,8 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-// Config must be included generally for availability of constants
-require_once('Services/UIComponent/CharSelector/classes/ilCharSelectorConfig.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * This shows a character selector
@@ -138,7 +136,6 @@ class ilCharSelectorGUI
         $lng = $this->lng;
         $lng->loadLanguageModule('adve');
 
-        require_once('Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php');
         $availability = new ilCharSelectorRadioGroupInputGUI($lng->txt('char_selector_' . $this->config->getContext()), 'char_selector_availability');
         $inactive = new ilRadioOption($lng->txt('char_selector_inactive_' . $this->config->getContext()), ilCharSelectorConfig::INACTIVE);
         $inactive->setInfo($lng->txt('char_selector_inactive_info_' . $this->config->getContext()));

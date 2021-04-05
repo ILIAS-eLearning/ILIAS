@@ -319,16 +319,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $ilCtrl->setParameterByClass("ilQuestionEditGUI", "q_id", $q_id);
             $ilCtrl->redirectByClass(array(get_class($this->pg_obj) . "GUI", "ilQuestionEditGUI"), "editQuestion");
             
-            /*			$edit_gui->setPoolObjId(0);
-                        $edit_gui->setQuestionId($q_id);
-                        $edit_gui->setQuestionType($q_type);
-                        $edit_gui->setSelfAssessmentEditingMode(true);
-                        $edit_gui->setPageConfig($this->getPageConfig());
-                        $ret = $ilCtrl->forwardCommand($edit_gui);
-                        $this->tpl->setContent($ret);*/
             return $ret;
         } else {	// behaviour in question pool
-            require_once("./Modules/TestQuestionPool/classes/class.assQuestionGUI.php");
             $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
             $this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
         }
@@ -425,8 +417,6 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         if ($q_id > 0) {
             if (assQuestion::_getQuestionType($q_id) != "assTextQuestion") {
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $tabCommands = assQuestionGUI::getCommandsFromClassConstants('ilAssQuestionFeedbackEditingGUI');
                 $tabLink = ilUtil::appendUrlParameterString(
                     $ilCtrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW),

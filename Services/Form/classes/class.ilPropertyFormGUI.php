@@ -660,7 +660,6 @@ class ilPropertyFormGUI extends ilFormGUI
 
             if (is_object($ilSetting)) {
                 if ($ilSetting->get('char_selector_availability') > 0) {
-                    require_once 'Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php';
                     if (ilCharSelectorGUI::_isAllowed()) {
                         $char_selector = ilCharSelectorGUI::_getCurrentGUI();
                         if ($char_selector->getConfig()->getAvailability() == ilCharSelectorConfig::ENABLED) {

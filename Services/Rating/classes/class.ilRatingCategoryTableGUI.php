@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * List rating categories
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRating
  */
 class ilRatingCategoryTableGUI extends ilTable2GUI
 {
@@ -58,7 +54,6 @@ class ilRatingCategoryTableGUI extends ilTable2GUI
      */
     public function getItems($a_parent_obj_id)
     {
-        include_once "Services/Rating/classes/class.ilRatingCategory.php";
         $data = ilRatingCategory::getAllForObject($a_parent_obj_id);
         
         $this->setMaxCount(sizeof($data));

@@ -135,7 +135,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
      */
     protected function getSettingsForm()
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $this->form = new ilPropertyFormGUI();
         $this->form->setTitle($this->lng->txt('settings'));
 
@@ -155,7 +154,6 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
         $se ->setTitle($this->lng->txt('obj_accs_captcha'));
         $this->form->addItem($se);
 
-        require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
             $this->form,

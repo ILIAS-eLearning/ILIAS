@@ -53,24 +53,11 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
         if (is_object($this->content_obj)) {
             $tpl->setTitleIcon(ilUtil::getImagePath("icon_mob.svg"));
             $this->getTabs($this->tabs_gui);
-
-        /*			$mob = $this->content_obj->getMediaObject();
-                    if (is_object($mob))
-                    {
-                        $tpl->setVariable("HEADER", $lng->txt("mob").": ".
-                            $this->content_obj->getMediaObject()->getTitle());
-                        $mob_gui = new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(),false, false);
-                        $mob_gui->setBackTitle($this->page_back_title);
-                        $mob_gui->setEnabledMapAreas($this->getEnabledMapAreas());
-                        $mob_gui->getTabs($this->tabs_gui);
-                    }*/
-        } else {
         }
 
         switch ($next_class) {
             // trigger editor
             case "ilpciimtriggereditorgui":
-                require_once("./Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php");
                 $ilTabs->setTabActive("triggers");
                 $image_map_edit = new ilPCIIMTriggerEditorGUI(
                     $this->content_obj,
