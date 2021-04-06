@@ -198,12 +198,15 @@ class TextInputTest extends ILIAS_UI_TestBase
         $text = $f->text($label)->withNameFrom($this->name_source)->withMaxLength(8);
 
         $r = $this->getDefaultRenderer();
-        $html = $this->normalizeHTML($r->render($text));
+        $html = $this->brutallyTrimHTML($r->render($text));
 
-        $expected = "<div class=\"form-group row\">" . "	<label for=\"$id\" class=\"control-label col-sm-3\">$label</label>"
-        . "	<div class=\"col-sm-9\">" . "		<input id=\"$id\" type=\"text\" name=\"$name\" maxlength=\"8\"  class=\"form-control form-control-sm\" />" . "		"
-            . "		" . "	</div>" . "</div>";
-            $this->assertEquals($expected, $html);
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+   <label for="id_1" class="control-label col-sm-3">label</label>	
+   <div class="col-sm-9">				<input id="id_1" type="text" name="name_0" maxlength="8"  class="form-control form-control-sm" />					</div>
+</div>
+');
+        $this->assertEquals($expected, $html);
     }
 
     public function test_value_required()

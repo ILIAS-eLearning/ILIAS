@@ -16,7 +16,7 @@ function with_usage_in_legacy_form()
     $item = new \ilTextInputGUI('Title', 'title');
     $item->setRequired(true);
     $form->addItem($item);
-    $item = new \ilTextareaInputGUI('Description', 'description');
+    $item = new \ilTextAreaInputGUI('Description', 'description');
     $item->setRequired(true);
     $form->addItem($item);
     $item = new \ilFileStandardDropzoneInputGUI('cancel', 'Files', 'files');
