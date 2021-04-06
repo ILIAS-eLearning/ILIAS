@@ -2701,7 +2701,7 @@ chatroom#:#chatviewer_no_rooms#:#Noch kein Chatraum auswählbar.
 chatroom#:#chtr_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Chatraumtitel angezeigt, die Inhalte aber nicht.
 chatroom#:#chtr_activation_online_info#:#Wählen Sie diese Einstellung, um den Chatraum für Benutzer verfügbar zumachen.
 chatroom#:#chtr_add#:#Chatraum anlegen
-chatroom#:#chtr_ban_actor_tbl_head#:#Actor
+chatroom#:#chtr_ban_actor_tbl_head#:#gesperrt durch
 chatroom#:#chtr_ban_ts_tbl_head#:#Zeitpunkt
 chatroom#:#chtr_new#:#Neuen Chatraum anlegen
 chatroom#:#chtr_server_status#:#Server-Status
@@ -8498,18 +8498,18 @@ exc#:#exc_without_wiki_template_info#:#Teilnehmer starten mit leerem Wiki.
 exc#:#exc_work_instructions#:#Arbeitsanweisung
 exc#:#exc_your_text#:#Ihr Text
 exc#:#feedback#:#Feedback
-exc#:#feedback_from#:#Feedback from
-exc#:#feedback_given#:#Feedback given
-exc#:#feedback_received#:#Feedback received
+exc#:#feedback_from#:#Feedback von
+exc#:#feedback_given#:#Gegebenes Feedback
+exc#:#feedback_received#:#Gegebenes Feedback
 exc#:#filter#:#Filter
-exc#:#fiter_no_results#:#The current filter did not match any submission.
+exc#:#fiter_no_results#:#Zu den aktuellen Einstellungen des Filters passen kein Abgaben.
 exc#:#grade_evaluate#:#Grade and Evaluate
 exc#:#msg_input_char_limit_max#:#Sie müssen die festgelegte Höchstzahl von Zeichen beachten. Ihr Beitrag ist zu lang.
 exc#:#msg_input_char_limit_min#:#Sie müssen die festgelegte Mindestanzahl an Zeichen eingeben. Ihr Beitrag ist zu kurz.
-exc#:#not_yet#:#not yet
+exc#:#not_yet#:#noch nicht
 exc#:#submissions_feedback#:#Abgaben und Peer-Feedback
 exc#:#submissions_only#:#Nur Abgaben
-exc#:#text_assignment#:#Text Assignment
+exc#:#text_assignment#:#Text Übungseinheit
 excv#:#excv_create#:#Übungszertifikat erstellen
 excv#:#excv_create_info#:#Wählen Sie eine Übung, für die Sie ein Zertifikat benötigen
 exercise#:#exc_admin_settings#:#Übungs-Administration
@@ -9496,7 +9496,7 @@ lti#:#auth_lti#:#LTI Auth
 lti#:#consumers#:#LTI-Konsumenten
 lti#:#gbl_roles_to_users#:#Globale Rolle, welche LTI-Benutzern zugewiesen wird
 lti#:#lm_only_one_download_per_type#:#Pro Typ (XML, HTML, SCORM) können Sie nur eine Datei zum Download verfügbar machen.
-lti#:#lti_admin#:#LTI-Administrator
+lti#:#lti_admin#:#LTI-Rolle Administrator
 lti#:#lti_auth_failed_invalid_key#:#Authentifizierung nicht möglich. Es wurde kein gültiger Consumer-Key übermittelt.
 lti#:#lti_consumer#:#Freigegeben für
 lti#:#lti_consumer_created#:#Konsument hinzugefügt
@@ -9510,22 +9510,22 @@ lti#:#lti_create_consumer#:#Konsument hinzufügen
 lti#:#lti_cron_title#:#LTI Outcome Service
 lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an die aufrufende Plattform. Dieser Cron-Job wird nur in den Fällen benötigt, wenn der Lernfortschritt aufgrund von Einstellungsänderungen neu berechnet werden muss.
 lti#:#lti_edit_consumer#:#LTI-Konsument bearbeiten
-lti#:#lti_exit#:#LTI Sitzung beenden
-lti#:#lti_exited#:#LTI Sitzung beendet
-lti#:#lti_exited_info#:#Die LTI Sitzung wurde erfolgreich beendet
+lti#:#lti_exit#:#LTI-Sitzung beenden
+lti#:#lti_exited#:#LTI-Sitzung beendet
+lti#:#lti_exited_info#:#Die LTI-Sitzung wurde erfolgreich beendet.
 lti#:#lti_launch_url#:#URL
-lti#:#lti_member#:#LTI-Member
+lti#:#lti_member#:#LTI-Rolle Mitglied
 lti#:#lti_navigation#:#Navigation
-lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI Bereich umgeleitet.
+lti#:#lti_not_allowed#:#Zugriff nicht erlaubt. Sie wurden in den ursprünglichen LTI-Bereich umgeleitet.
 lti#:#lti_obj_active#:#LTI-Tool-Provider
 lti#:#lti_obj_active_info#:#Wenn aktiviert, kann dieses Objekt über die LTI-Schnittstelle von anderen Plattformen eingebunden werden.
 lti#:#lti_object_consumer#:#LTI-Konsumenten
 lti#:#lti_object_release_settings_form#:#LTI-Freigaben bearbeiten
 lti#:#lti_provider#:#LTI-Freigaben
 lti#:#lti_released_objects#:#Objekt-Freigaben
-lti#:#lti_session#:#LTI Sitzung
+lti#:#lti_session#:#LTI-Sitzung
 lti#:#lti_settings#:#LTI-Einstellungen
-lti#:#lti_tutor#:#LTI-Tutor
+lti#:#lti_tutor#:#LTI-Rolle Tutor
 lti#:#prefix#:#Prefix
 lti#:#user_lng#:#Benutzersprache
 mail#:#activate_serial_letter_placeholders#:#Platzhalter für Serienbrief aktivieren
@@ -9754,9 +9754,9 @@ mail#:#send_mail_tutors#:#Alle Tutoren
 mail#:#show_mail_settings#:#Einstellungen anzeigen
 mail#:#show_mail_settings_info#:#Falls aktiviert, können Benutzer Ihre Mail-Einstellungen im Bereich 'Einstellungen oder 'Mail' selber vornehmen.
 mail#:#system_notification_installation_changed_by#:#Geändert durch
-maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
-maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: nominatim.example.com/search/[QUERY]?format=json.
-maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
+maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Sie bitte die Konfiguration für die Geolocation im Administrationsmenü „Software von Drittanbietern“ ab.
+maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: nominatim.example.com/search/[QUERY]?format=json.
+maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
 maps#:#maps_enable_maps#:#Karten aktivieren
 maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
 maps#:#maps_extt_maps#:#Karten
@@ -10293,7 +10293,7 @@ meta#:#meta_education#:#Ausbildung
 meta#:#meta_educational#:#Pädagogik
 meta#:#meta_educational_level#:#Ausbildungsstufe
 meta#:#meta_educational_objective#:#Ausbildungsziel
-meta#:#meta_educationalvalidator#:#Educational Validator
+meta#:#meta_educationalvalidator#:#Pädagogische Abnahme
 meta#:#meta_entity#:#Instanz
 meta#:#meta_entry#:#Eintrag
 meta#:#meta_exam#:#Prüfung
