@@ -118,7 +118,7 @@ class ilExerciseMailNotification extends ilMailNotification
                     $this->appendBody("\n");
                     $this->appendBody(
                         $this->getLanguageText('user') . ": " .
-                        $ilUser->getFullName()
+                        $ilUser->getFullname()
                     );
                     $this->appendBody("\n\n");
                     $this->appendBody(sprintf(
@@ -201,8 +201,7 @@ class ilExerciseMailNotification extends ilMailNotification
     
     /**
      * Add language module exc
-     * @param object $a_usr_id
-     * @return
+     * @param int $a_usr_id
      */
     protected function initLanguage($a_usr_id)
     {

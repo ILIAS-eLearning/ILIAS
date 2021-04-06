@@ -134,7 +134,7 @@ class ilExAssignmentTypes
      * @param int $a_id type id
      * @return ilExAssignmentTypeInterface
      */
-    public function getById($a_id)
+    public function getById(int $a_id) : ilExAssignmentTypeInterface
     {
         switch ($a_id) {
             case ilExAssignment::TYPE_UPLOAD:
@@ -162,7 +162,7 @@ class ilExAssignmentTypes
                 break;
         }
 
-        // we should throw some exception here
+        throw new ilExcUnknownAssignmentTypeException("Unknown Assignment Type ($a_id).");
     }
 
     /**

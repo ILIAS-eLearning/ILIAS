@@ -61,8 +61,8 @@ class ilCOPageDefReader
                     $ilDB->quote($a_attribs["int_links"], "integer") . "," .
                     $ilDB->quote($a_attribs["style_classes"], "integer") . "," .
                     $ilDB->quote($a_attribs["xsl"], "integer") . "," .
-                    $ilDB->quote($a_attribs["def_enabled"], "integer") ."," .
-                    $ilDB->quote($a_attribs["top_item"], "integer") ."," .
+                    $ilDB->quote($a_attribs["def_enabled"], "integer") . "," .
+                    $ilDB->quote($a_attribs["top_item"], "integer") . "," .
                     $ilDB->quote($a_attribs["order_nr"], "integer") .
                     ")");
                 break;

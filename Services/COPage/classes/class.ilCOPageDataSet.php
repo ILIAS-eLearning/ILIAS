@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * COPage Data set class
@@ -13,8 +12,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * The page export uses pre-existing methods to create the xml.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
  */
 class ilCOPageDataSet extends ilDataSet
 {
@@ -135,7 +132,6 @@ class ilCOPageDataSet extends ilDataSet
     {
         switch ($a_entity) {
             case "pgtp":
-                include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
                 $pt = new ilPageLayout();
                 $pt->setTitle($a_rec["Title"]);
                 $pt->setDescription($a_rec["Description"]);

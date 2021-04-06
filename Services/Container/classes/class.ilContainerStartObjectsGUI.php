@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilContainerStartObjectsGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * $Id: class.ilObjCourseGUI.php 47058 2014-01-08 08:07:12Z mjansen $
- *
  * @ilCtrl_Calls ilContainerStartObjectsGUI: ilContainerStartObjectsPageGUI
- * @ingroup ServicesContainer
  */
 class ilContainerStartObjectsGUI
 {
@@ -68,7 +66,6 @@ class ilContainerStartObjectsGUI
         $this->tpl = $tpl;
         $this->object = $a_parent_obj;
                 
-        include_once "Services/Container/classes/class.ilContainerStartObjects.php";
         $this->start_object = new ilContainerStartObjects(
             $this->object->getRefId(),
             $this->object->getId()
@@ -90,7 +87,6 @@ class ilContainerStartObjectsGUI
                     $this->ctrl->getLinkTarget($this, "listStructure")
                 );
                 
-                include_once "Services/Container/classes/class.ilContainerStartObjectsPage.php";
                 if (!ilContainerStartObjectsPage::_exists("cstr", $this->object->getId())) {
                     // doesn't exist -> create new one
                     $new_page_object = new ilContainerStartObjectsPage();
@@ -109,9 +105,7 @@ class ilContainerStartObjectsGUI
                 );
 
                 $this->ctrl->setReturnByClass("ilcontainerstartobjectspagegui", "edit");
-                include_once "Services/Container/classes/class.ilContainerStartObjectsPageGUI.php";
                 $pgui = new ilContainerStartObjectsPageGUI($this->object->getId());
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $pgui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
                     $this->object->getStyleSheetId(),
                     $this->object->getType()
@@ -176,7 +170,6 @@ class ilContainerStartObjectsGUI
             $this->ctrl->getLinkTarget($this, 'selectStarter')
         );
         
-        include_once './Services/Container/classes/class.ilContainerStartObjectsTableGUI.php';
         $table = new ilContainerStartObjectsTableGUI($this, 'listStructure', $this->start_object);
         $this->tpl->setContent($table->getHTML());
     }
@@ -250,7 +243,6 @@ class ilContainerStartObjectsGUI
         $this->checkPermission('write');
         $this->setTabs();
         
-        include_once './Services/Container/classes/class.ilContainerStartObjectsTableGUI.php';
         $table = new ilContainerStartObjectsTableGUI($this, 'selectStarter', $this->start_object);
         $this->tpl->setContent($table->getHTML());
     }

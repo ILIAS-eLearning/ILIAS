@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Export2 class for media pools
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesMediaPool
  */
 class ilMediaObjectsExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilMediaObjectsExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Services/MediaObjects/classes/class.ilMediaObjectDataSet.php");
         $this->ds = new ilMediaObjectDataSet();
         $this->ds->setDSPrefix("ds");
     }

@@ -12,7 +12,7 @@
 class ilBookingReservation
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -307,13 +307,14 @@ class ilBookingReservation
 
     /**
      * Check if any of given objects are bookable
-     * @param	array	$a_ids
-     * @param	int		$a_from
-     * @param	int		$a_to
-     * @param	int		$a_return_single
-     * @return	int
+     * @param array $a_ids
+     * @param int $a_from
+     * @param int $a_to
+     * @param bool  $a_return_single
+     * @param false $a_return_counter
+     * @return array
      */
-    public static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true, $a_return_counter = false)
+    public static function getAvailableObject(array $a_ids, $a_from, $a_to, $a_return_single = true, $a_return_counter = false) : array
     {
         $nr_map = ilBookingObject::getNrOfItemsForObjects($a_ids);
 
@@ -365,14 +366,11 @@ class ilBookingReservation
                 return $available;
             }
         }
+        return [];
     }
     
     public static function isObjectAvailableInPeriod($a_obj_id, ilBookingSchedule $a_schedule, $a_from, $a_to)
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-            
         if (!$a_from) {
             $a_from = time();
         }
@@ -381,7 +379,7 @@ class ilBookingReservation
         }
         
         if ($a_from > $a_to) {
-            return;
+            return false;
         }
 
         // all nr of reservations in period that are not over yet (to >= now)
@@ -522,7 +520,7 @@ class ilBookingReservation
      * @param	int	$a_object_id
      * @return	array
      */
-    public static function getCurrentOrUpcomingReservation($a_object_id)
+    public static function getCurrentOrUpcomingReservation($a_object_id) : array
     {
         global $DIC;
 
@@ -538,8 +536,7 @@ class ilBookingReservation
             ' AND (status <> ' . $ilDB->quote(self::STATUS_CANCELLED, 'integer') .
             ' OR STATUS IS NULL) AND object_id = ' . $ilDB->quote($a_object_id, 'integer') .
             ' ORDER BY date_from');
-        $row = $ilDB->fetchAssoc($set);
-        return $row;
+        return $ilDB->fetchAssoc($set);
     }
     
     public static function getObjectReservationForUser($a_object_id, $a_user_id, $a_multi = false)
@@ -658,7 +655,7 @@ class ilBookingReservation
      * Batch update reservation status
      * @param	array	$a_ids
      * @param	int		$a_status
-     * @return	bool
+     * @return	int|void
      */
     public static function changeStatus(array $a_ids, $a_status)
     {
@@ -671,6 +668,7 @@ class ilBookingReservation
                 ' SET status = ' . $ilDB->quote($a_status, 'integer') .
                 ' WHERE ' . $ilDB->in('booking_reservation_id', $a_ids, '', 'integer'));
         }
+        return 0;
     }
     
     public function getCalendarEntry()

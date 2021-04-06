@@ -51,9 +51,9 @@ class ilObjBookingPool extends ilObject
     /**
      * Parse properties for sql statements
      */
-    protected function getDBFields()
+    protected function getDBFields() : array
     {
-        $fields = array(
+        return array(
             "schedule_type" => array("integer", $this->getScheduleType()),
             "pool_offline" => array("integer", $this->isOffline()),
             "public_log" => array("integer", $this->hasPublicLog()),
@@ -64,15 +64,13 @@ class ilObjBookingPool extends ilObject
             "preference_nr" => array("integer", (int) $this->getPreferenceNumber()),
             "pref_deadline" => array("integer", (int) $this->getPreferenceDeadline())
         );
-        
-        return $fields;
     }
 
     /**
     * create object
-    * @return	integer
+    * @return int
     */
-    public function create()
+    public function create() : int
     {
         $ilDB = $this->db;
         
@@ -88,9 +86,9 @@ class ilObjBookingPool extends ilObject
 
     /**
     * update object data
-    * @return	boolean
+    * @return bool
     */
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -178,9 +176,9 @@ class ilObjBookingPool extends ilObject
 
     /**
     * delete object and all related data
-    * @return	boolean	true if all object data were removed; false if only a references were removed
+    * @return	bool	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         $ilDB = $this->db;
 
@@ -396,9 +394,9 @@ class ilObjBookingPool extends ilObject
      * Check object status
      *
      * @param int $a_obj_id
-     * @return boolean
+     * @return bool
      */
-    public static function _lookupOnline($a_obj_id)
+    public static function _lookupOnline(int $a_obj_id) : bool
     {
         global $DIC;
 

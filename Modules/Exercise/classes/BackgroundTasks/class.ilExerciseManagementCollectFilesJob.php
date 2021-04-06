@@ -236,7 +236,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                     $members[$file["user_id"]]["files"][$file["returned_id"]] = $file;
                 }
 
-                $tmp_obj = &ilObjectFactory::getInstanceByObjId($member_id);
+                $tmp_obj = ilObjectFactory::getInstanceByObjId($member_id);
                 $members[$member_id]["name"] = $tmp_obj->getFirstname() . " " . $tmp_obj->getLastname();
                 unset($tmp_obj);
             }

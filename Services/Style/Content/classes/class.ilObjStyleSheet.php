@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObjStyleSheet
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @extends ilObject
-*/
+ * Class ilObjStyleSheet
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjStyleSheet extends ilObject
 {
     public $style;
@@ -824,7 +819,6 @@ class ilObjStyleSheet extends ilObject
                     $clonable = true;
                 }
             } else {
-                include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
                 $obj_ids = ilObjContentObject::_lookupContObjIdByStyleId($style_rec["id"]);
                 if (count($obj_ids) == 0) {
                     $obj_ids = self::lookupObjectForStyle($style_rec["id"]);
@@ -1517,7 +1511,6 @@ class ilObjStyleSheet extends ilObject
         );
         
         // delete entries in learning modules
-        include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
         ilObjContentObject::_deleteStyleAssignments($this->getId());
         
         // delete style data record
@@ -1835,7 +1828,6 @@ class ilObjStyleSheet extends ilObject
                 $path .= "?dummy=$rand";
             }
             if ($add_token) {
-                require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
                 $path = ilWACSignedPath::signFile($path);
             }
 
@@ -2279,7 +2271,6 @@ class ilObjStyleSheet extends ilObject
         if (!$a_skip_parent_create) {
             parent::create();
         }
-        include_once("./Services/Style/Content/classes/class.ilStyleImportParser.php");
         $importParser = new ilStyleImportParser($a_file, $this);
         $importParser->startParsing();
         
@@ -2630,9 +2621,6 @@ class ilObjStyleSheet extends ilObject
         $ilDB = $this->db;
 
         $this->do_3_9_Migration($this->getId());
-        
-        //include_once("./Services/Migration/DBUpdate_1385/classes/class.ilStyleMigration.php");
-        //ilStyleMigration::addMissingStyleCharacteristics($this->getId());
         
         $this->do_3_10_CharMigration($this->getId());
         
@@ -3375,7 +3363,6 @@ class ilObjStyleSheet extends ilObject
                 ")");
         }
         
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
         $this->writeTemplatePreview(
             $tid,
             ilObjStyleSheetGUI::_getTemplatePreview($this, $a_type, $tid, true)

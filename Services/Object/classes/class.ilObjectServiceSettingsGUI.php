@@ -82,7 +82,7 @@ class ilObjectServiceSettingsGUI
     /**
      * Init service settings form
      * @param ilPropertyFormGUI $form
-     * @param type $services
+     * @param array $services
      */
     public static function initServiceSettingsForm($a_obj_id, ilPropertyFormGUI $form, $services)
     {
@@ -102,7 +102,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::INFO_TAB_VISIBILITY,
                 true
-                ));
+            ));
             //$info->setOptionTitle($lng->txt('obj_tool_setting_info_tab'));
             $info->setInfo($lng->txt('obj_tool_setting_info_tab_info'));
             $form->addItem($info);
@@ -168,7 +168,6 @@ class ilObjectServiceSettingsGUI
                 if (in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp'))) {
                     $ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
                     
-                    include_once 'Services/Membership/classes/class.ilMembershipNotifications.php';
                     ilMembershipNotifications::addToSettingsForm($ref_id, null, $news);
                 }
             }
@@ -183,7 +182,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::CUSTOM_METADATA,
                 false
-                ));
+            ));
             $form->addItem($md);
         }
                 
@@ -198,7 +197,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::TAG_CLOUD,
                     false
-                    ));
+                ));
                 $form->addItem($tag);
             }
         }
@@ -211,7 +210,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::TAXONOMIES,
                 false
-                ));
+            ));
             $form->addItem($tax);
         }
         
@@ -228,13 +227,12 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::AUTO_RATING_NEW_OBJECTS,
                 false
-                ));
+            ));
             $form->addItem($rate);
         }
         
         // badges
         if (in_array(self::BADGES, $services)) {
-            include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
             if (ilBadgeHandler::getInstance()->isActive()) {
                 $bdg = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_badges'), self::BADGES);
                 $bdg->setInfo($lng->txt('obj_tool_setting_badges_info'));
@@ -243,7 +241,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::BADGES,
                     false
-                    ));
+                ));
                 $form->addItem($bdg);
             }
         }
@@ -305,7 +303,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 "filter_show_empty",
                 false
-                ));
+            ));
             $filter->addSubItem($filter_show_empty);
         }
         // booking tool
@@ -346,14 +344,12 @@ class ilObjectServiceSettingsGUI
     {
         // info
         if (in_array(self::INFO_TAB_VISIBILITY, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::INFO_TAB_VISIBILITY, (int) $form->getInput(self::INFO_TAB_VISIBILITY));
         }
         
         // calendar
         if (in_array(self::CALENDAR_CONFIGURATION, $services)) {
             if (ilCalendarSettings::_getInstance()->isEnabled()) {
-
                 $active = (int) $form->getInput(self::CALENDAR_ACTIVATION);
                 $visible = (int) $form->getInput(self::CALENDAR_VISIBILITY);
                 ilContainer::_writeContainerSetting(
@@ -370,57 +366,47 @@ class ilObjectServiceSettingsGUI
         }
         // news
         if (in_array(self::USE_NEWS, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::USE_NEWS, (int) $form->getInput(self::USE_NEWS));
         }
         if (in_array(self::NEWS_VISIBILITY, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::NEWS_VISIBILITY, (int) $form->getInput(self::NEWS_VISIBILITY));
             
             if (in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp'))) {
                 $ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
                     
-                include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
                 ilMembershipNotifications::importFromForm($ref_id, $form);
             }
         }
         
         // rating
         if (in_array(self::AUTO_RATING_NEW_OBJECTS, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::AUTO_RATING_NEW_OBJECTS, (int) $form->getInput(self::AUTO_RATING_NEW_OBJECTS));
         }
 
         // taxonomies
         if (in_array(self::TAXONOMIES, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::TAXONOMIES, (int) $form->getInput(self::TAXONOMIES));
         }
 
         // tag cloud
         if (in_array(self::TAG_CLOUD, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::TAG_CLOUD, (int) $form->getInput(self::TAG_CLOUD));
         }
         
         // (local) custom metadata
         if (in_array(self::CUSTOM_METADATA, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::CUSTOM_METADATA, (int) $form->getInput(self::CUSTOM_METADATA));
         }
         
         // badges
         if (in_array(self::BADGES, $services)) {
-            include_once 'Services/Badge/classes/class.ilBadgeHandler.php';
             if (ilBadgeHandler::getInstance()->isActive()) {
-                include_once './Services/Container/classes/class.ilContainer.php';
                 ilContainer::_writeContainerSetting($a_obj_id, self::BADGES, (int) $form->getInput(self::BADGES));
             }
         }
         
         // booking
         if (in_array(self::BOOKING, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::BOOKING, (int) $form->getInput(self::BOOKING));
         }
 
@@ -443,14 +429,12 @@ class ilObjectServiceSettingsGUI
         if (in_array(self::SKILLS, $services)) {
             $skmg_set = new ilSetting("skmg");
             if ($skmg_set->get("enable_skmg")) {
-                include_once './Services/Container/classes/class.ilContainer.php';
                 ilContainer::_writeContainerSetting($a_obj_id, self::SKILLS, (int) $form->getInput(self::SKILLS));
             }
         }
 
         // filter
         if (in_array(self::FILTER, $services)) {
-            include_once './Services/Container/classes/class.ilContainer.php';
             ilContainer::_writeContainerSetting($a_obj_id, self::FILTER, (int) $form->getInput(self::FILTER));
             ilContainer::_writeContainerSetting($a_obj_id, "filter_show_empty", (int) $form->getInput("filter_show_empty"));
         }
@@ -516,7 +500,6 @@ class ilObjectServiceSettingsGUI
 
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            include_once './Services/Calendar/classes/class.ilCalendarSettings.php';
             if (ilCalendarSettings::_getInstance()->isEnabled()) {
                 if ($this->isModeActive(self::CALENDAR_VISIBILITY)) {
                     ilContainer::_writeContainerSetting($this->getObjId(), 'show_calendar', (int) $form->getInput('calendar'));

@@ -1,16 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * GUI class for the workflow of copying objects
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilObjectCopyGUI:
- *
- * @ingroup ServicesObject
  */
 class ilObjectCopyGUI
 {
@@ -384,14 +381,13 @@ class ilObjectCopyGUI
         ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
         $this->setTabs(self::TAB_GROUP_SC_SELECTION, self::TAB_SELECTION_MEMBERSHIP);
         
-        include_once './Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php';
         $cgs = new ilObjectCopyCourseGroupSelectionTableGUI($this, 'showSourceSelectionMembership', 'copy_selection_membership');
         $cgs->init();
         $cgs->setObjects(
             array_merge(
                 ilParticipants::_getMembershipByType($user->getId(), 'crs', false),
                 ilParticipants::_getMembershipByType($user->getId(), 'grp', false)
-                )
+            )
         );
         $cgs->parse();
 
@@ -421,7 +417,6 @@ class ilObjectCopyGUI
         }
 
         //
-        include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
         $exp = new ilRepositorySelectorExplorerGUI($this, "showTargetSelectionTree");
         $exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "fold", "lso", "prg"));
         $exp->setSelectMode("target", true);
@@ -461,7 +456,7 @@ class ilObjectCopyGUI
         $t->setLeadingImage(ilUtil::getImagePath("arrow_downright.svg"), " ");
         $t->setCloseFormTag(true);
         $t->setOpenFormTag(false);
-        $output.= "<br />" . $t->getHTML();
+        $output .= "<br />" . $t->getHTML();
 
         $this->tpl->setContent($output);
 
@@ -489,7 +484,6 @@ class ilObjectCopyGUI
         );
         
         ilUtil::sendInfo($this->lng->txt('msg_copy_clipboard_source'));
-        include_once './Services/Object/classes/class.ilPasteIntoMultipleItemsExplorer.php';
         $exp = new ilPasteIntoMultipleItemsExplorer(
             ilPasteIntoMultipleItemsExplorer::SEL_TYPE_RADIO,
             'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=goto',
@@ -576,7 +570,7 @@ class ilObjectCopyGUI
                             $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
                             $this->lng->txt('obj_' . $target_type),
                             $this->lng->txt('obj_' . $source_type)
-                            )
+                        )
                     );
                     $this->showTargetSelectionTree();
                     return false;
@@ -664,7 +658,7 @@ class ilObjectCopyGUI
     /**
      * Sets $type.
      *
-     * @param object $type
+     * @param string $type
      * @see ilObjectCopyGUI::$type
      */
     public function setType($type)
@@ -795,7 +789,6 @@ class ilObjectCopyGUI
             return false;
         }
         
-        include_once './Services/Search/classes/class.ilQueryParser.php';
         $query_parser = new ilQueryParser($this->form->getInput('tit'));
         $query_parser->setMinWordLength(1, true);
         $query_parser->setCombination(QP_COMBINATION_AND);
@@ -806,7 +799,6 @@ class ilObjectCopyGUI
         }
 
         // only like search since fulltext does not support search with less than 3 characters
-        include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
         $object_search = new ilLikeObjectSearch($query_parser);
         $object_search->setFilter(array($_REQUEST['new_type']));
         $res = $object_search->performSearch();
@@ -819,7 +811,6 @@ class ilObjectCopyGUI
         }
         
     
-        include_once './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php';
         $table = new ilObjectCopySearchResultTableGUI($this, 'searchSource', $this->getType());
         $table->setFormAction($ilCtrl->getFormAction($this));
         $table->setSelectedReference($this->getFirstSource());
@@ -871,7 +862,7 @@ class ilObjectCopyGUI
                                 $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
                                 $this->lng->txt('obj_' . $target_type),
                                 $this->lng->txt('obj_' . $source_type)
-                                )
+                            )
                         );
                         $this->searchSource();
                         return false;
@@ -931,8 +922,7 @@ class ilObjectCopyGUI
         ilLoggerFactory::getLogger('obj')->debug('Target(s): ' . print_r($this->getTargets(), true));
 
         ilUtil::sendInfo($this->lng->txt($this->getType() . '_copy_threads_info'));
-        include_once './Services/Object/classes/class.ilObjectCopySelectionTableGUI.php';
-        
+
         $tpl->addJavaScript('./Services/CopyWizard/js/ilContainer.js');
         $tpl->setVariable('BODY_ATTRIBUTES', 'onload="ilDisableChilds(\'cmd\');"');
 
@@ -962,16 +952,7 @@ class ilObjectCopyGUI
      */
     protected function copySingleObject()
     {
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-        
-        $ilAccess = $this->access;
-        $ilErr = $this->error;
-        $rbacsystem = $this->rbacsystem;
-        $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
-        $rbacreview = $this->rbacreview;
-
         // Source defined
         if (!count($this->getSources())) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
@@ -996,9 +977,6 @@ class ilObjectCopyGUI
         $ilCtrl = $this->ctrl;
         $rbacreview = $this->rbacreview;
 
-
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
 
         // check permissions
         foreach ($a_sources as $source_ref_id) {
@@ -1053,7 +1031,6 @@ class ilObjectCopyGUI
                 $wizard_options->deleteAll();
 
                 // rbac log
-                include_once "Services/AccessControl/classes/class.ilRbacLog.php";
                 if (ilRbacLog::isActive()) {
                     $rbac_log_roles = $rbacreview->getParentRoleIds($new_obj->getRefId(), false);
                     $rbac_log = ilRbacLog::gatherFaPa($new_obj->getRefId(), array_keys($rbac_log_roles), true);
@@ -1108,7 +1085,6 @@ class ilObjectCopyGUI
         unset($_SESSION["clipboard"]["ref_ids"]);
         unset($_SESSION["clipboard"]["cmd"]);
         
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
             ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
@@ -1134,7 +1110,6 @@ class ilObjectCopyGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
 
-        include_once './Services/Object/classes/class.ilObjectCopyProgressTableGUI.php';
         $progress = new ilObjectCopyProgressTableGUI(
             $this,
             'showCopyProgress',
@@ -1157,7 +1132,6 @@ class ilObjectCopyGUI
         $json->percentage = null;
         $json->performed_steps = null;
         
-        include_once './Services/CopyWizard/classes/class.ilCopyWizardOptions.php';
         $options = ilCopyWizardOptions::_getInstance((int) $_REQUEST['copy_id']);
         $json->required_steps = $options->getRequiredSteps();
         $json->id = (int) $_REQUEST['copy_id'];
@@ -1175,17 +1149,7 @@ class ilObjectCopyGUI
      */
     protected function copyContainer($a_target)
     {
-        $ilLog = $this->log;
-        $ilCtrl = $this->ctrl;
-        
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-        
-        $ilAccess = $this->access;
-        $ilErr = $this->error;
         $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
-        $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
         // Workaround for course in course copy
@@ -1278,7 +1242,6 @@ class ilObjectCopyGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
         $this->form = new ilPropertyFormGUI();
         $this->form->setTableWidth('600px');
 

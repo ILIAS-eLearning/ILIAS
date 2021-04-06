@@ -1,18 +1,13 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Help settings gui class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilObjHelpSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjHelpSettingsGUI: ilAdministrationGUI
- *
- * @ingroup ServicesHelp
  */
 class ilObjHelpSettingsGUI extends ilObject2GUI
 {
@@ -105,7 +100,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -141,7 +135,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         if ($this->checkPermissionBool("write")) {
             // help file
-            include_once("./Services/Form/classes/class.ilFileInputGUI.php");
             $fi = new ilFileInputGUI($lng->txt("help_help_file"), "help_file");
             $fi->setSuffixes(array("zip"));
             $ilToolbar->addInputItem($fi, true);
@@ -149,7 +142,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $ilToolbar->addSeparator();
             
             // help mode
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
             $options = array(
                 "" => $lng->txt("help_tooltips_and_help"),
                 "1" => $lng->txt("help_help_only"),
@@ -164,7 +156,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         }
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this), true);
         
-        include_once("./Services/Help/classes/class.ilHelpModuleTableGUI.php");
         $tab = new ilHelpModuleTableGUI($this, "editSettings", $this->checkPermissionBool("write"));
         
         $this->tpl->setContent($tab->getHTML());

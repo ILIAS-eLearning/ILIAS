@@ -65,7 +65,7 @@ class ilSettingsFactory
                 "common",
                 "system_user_id",
                 $settings->get("common", "system_user_id")
-                );
+            );
         } finally {
             $GLOBALS["DIC"] = $tmp_dic;
         }

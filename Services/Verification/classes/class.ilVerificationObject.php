@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Object/classes/class.ilObject2.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Verification object base class
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ServicesVerification
-*/
+ * Verification object base class
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 abstract class ilVerificationObject extends ilObject2
 {
     protected $map = array();
@@ -251,7 +246,6 @@ abstract class ilVerificationObject extends ilObject2
 
         if ($this->id) {
             // remove all files
-            include_once "Services/Verification/classes/class.ilVerificationStorageFile.php";
             $storage = new ilVerificationStorageFile($this->id);
             $storage->delete();
             
@@ -266,7 +260,6 @@ abstract class ilVerificationObject extends ilObject2
     
     public static function initStorage($a_id, $a_subdir = null)
     {
-        include_once "Services/Verification/classes/class.ilVerificationStorageFile.php";
         $storage = new ilVerificationStorageFile($a_id);
         $storage->create();
         
@@ -299,6 +292,5 @@ abstract class ilVerificationObject extends ilObject2
     
     protected function handleQuotaUpdate()
     {
-       
     }
 }

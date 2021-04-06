@@ -1,37 +1,11 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once './Services/Container/classes/class.ilContainer.php';
-include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesContainer
-*/
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerSorting
 {
     /**
@@ -133,7 +107,6 @@ class ilContainerSorting
 
         $target_obj_id = ilObject::_lookupObjId($a_target_id);
         
-        include_once('./Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
         $mappings = ilCopyWizardOptions::_getInstance($a_copy_id)->getMappings();
 
 
@@ -143,7 +116,7 @@ class ilContainerSorting
             " WHERE obj_id = %s ",
             array("integer"),
             array($this->obj_id)
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             if ($rec["block_ids"] != "") {
                 $ilLog->debug("Got block sorting for obj_id = " . $this->obj_id . ": " . $rec["block_ids"]);
@@ -154,7 +127,8 @@ class ilContainerSorting
                     return $block_id;
                 }, explode(";", $rec["block_ids"])));
 
-                $ilDB->replace("container_sorting_bl",
+                $ilDB->replace(
+                    "container_sorting_bl",
                     array("obj_id" => array("integer", $target_obj_id)),
                     array("block_ids" => array("text", $new_ids))
                 );

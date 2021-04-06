@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCBlog.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCBlogGUI
-*
-* Handles user commands on blog data
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $I$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCBlogGUI
+ *
+ * Handles user commands on blog data
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCBlogGUI extends ilPageContentGUI
 {
     /**
@@ -102,9 +96,7 @@ class ilPCBlogGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-        $lng = $this->lng;
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {
@@ -247,7 +239,6 @@ class ilPCBlogGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {

@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("Services/Table/classes/class.ilTableGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilTable2GUI
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @version	$Id: class.ilTableGUI.php 12818 2006-12-10 13:14:43Z akill $
-*
-* @ingroup ServicesTable
-*/
+ * Class ilTable2GUI
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ * @author	Sascha Hofmann <shofmann@databay.de>
+ */
 class ilTable2GUI extends ilTableGUI
 {
 
@@ -355,11 +351,9 @@ class ilTable2GUI extends ilTableGUI
         $ilCtrl = $this->ctrl;
 
         $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
-                include_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
                 $this->initFilter();
                 $item = $this->getFilterItemByPostVar($_GET["postvar"]);
@@ -677,25 +671,20 @@ class ilTable2GUI extends ilTableGUI
             $caption = $lng->txt($id);
         }
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
         switch ($type) {
             case self::FILTER_CHECKBOX:
                 $item = new ilCheckboxInputGUI($caption, $id);
                 break;
 
             case self::FILTER_SELECT:
-                include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
                 $item = new ilSelectInputGUI($caption, $id);
                 break;
 
             case self::FILTER_DATE:
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilDateTimeInputGUI($caption, $id);
                 break;
 
             case self::FILTER_TEXT:
-                include_once("./Services/Form/classes/class.ilTextInputGUI.php");
                 $item = new ilTextInputGUI($caption, $id);
                 $item->setMaxLength(64);
                 $item->setSize(20);
@@ -704,7 +693,6 @@ class ilTable2GUI extends ilTableGUI
 
             case self::FILTER_LANGUAGE:
                 $lng->loadLanguageModule("meta");
-                include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
                 $item = new ilSelectInputGUI($caption, $id);
                 $options = array("" => $lng->txt("trac_all"));
                 foreach ($lng->getInstalledLanguages() as $lang_key) {
@@ -714,8 +702,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_NUMBER_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilNumberInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilNumberInputGUI("", $id . "_from");
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
@@ -727,8 +713,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_DATE_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDateTimeInputGUI("", $id . "_from");
                 $item->addCombinationItem("from", $combi_item, $lng->txt("from"));
@@ -738,8 +722,6 @@ class ilTable2GUI extends ilTableGUI
                 break;
 
             case self::FILTER_DATETIME_RANGE:
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDateTimeInputGUI("", $id . "_from");
                 $combi_item->setShowTime(true);
@@ -752,8 +734,6 @@ class ilTable2GUI extends ilTableGUI
 
             case self::FILTER_DURATION_RANGE:
                 $lng->loadLanguageModule("form");
-                include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-                include_once("./Services/Form/classes/class.ilDurationInputGUI.php");
                 $item = new ilCombinationInputGUI($caption, $id);
                 $combi_item = new ilDurationInputGUI("", $id . "_from");
                 $combi_item->setShowMonths(false);
@@ -1411,7 +1391,7 @@ class ilTable2GUI extends ilTableGUI
             foreach ((array) $this->column as $column) {
                 $this->tpl->setCurrentBlock("tbl_colgroup_column");
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("COLGROUP_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
                 $this->tpl->parseCurrentBlock();
@@ -1422,7 +1402,6 @@ class ilTable2GUI extends ilTableGUI
             $ccnt++;
             //tooltip
             if ($column["tooltip"] != "") {
-                include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                 ilTooltipGUI::addTooltip(
                     "thc_" . $this->getId() . "_" . $ccnt,
                     $column["tooltip"],
@@ -1450,7 +1429,7 @@ class ilTable2GUI extends ilTableGUI
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
                     $width = (is_numeric($column["width"]))
-                        ? $column["width"]."px"
+                        ? $column["width"] . "px"
                         : $column["width"];
                     $this->tpl->setVariable("TBL_COLUMN_WIDTH_NO_LINK", " style=\"width:" . $width . "\"");
                 }
@@ -1494,7 +1473,7 @@ class ilTable2GUI extends ilTableGUI
             // only set width if a value is given for that column
             if ($column["width"] != "") {
                 $width = (is_numeric($column["width"]))
-                    ? $column["width"]."px"
+                    ? $column["width"] . "px"
                     : $column["width"];
                 $this->tpl->setVariable("TBL_COLUMN_WIDTH", " style=\"width:" . $width . "\"");
             }
@@ -1886,7 +1865,6 @@ class ilTable2GUI extends ilTableGUI
             return;
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
         $ccnt = 0;
@@ -1954,7 +1932,6 @@ class ilTable2GUI extends ilTableGUI
                     "selected" => $this->isFilterSelected($k));
             }
 
-            include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
             $cb_over = new ilCheckboxListOverlayGUI("tbl_filters_" . $this->getId());
             $cb_over->setLinkTitle($lng->txt("optional_filters"));
             $cb_over->setItems($items);
@@ -2216,7 +2193,6 @@ class ilTable2GUI extends ilTableGUI
                 $items[$k] = array("txt" => $c["txt"],
                     "selected" => $this->isColumnSelected($k));
             }
-            include_once("./Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php");
             $cb_over = new ilCheckboxListOverlayGUI("tbl_" . $this->getId());
             $cb_over->setLinkTitle($lng->txt("columns"));
             $cb_over->setItems($items);
@@ -2246,11 +2222,8 @@ class ilTable2GUI extends ilTableGUI
             $delete_id = "template_delete_overlay_" . $this->getId();
             $list_id = "template_stg_" . $this->getId();
 
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
             $templates = $storage->getNames($this->getContext(), $ilUser->getId());
-
-            include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 
             // form to delete template
             if (sizeof($templates)) {
@@ -2295,7 +2268,6 @@ class ilTable2GUI extends ilTableGUI
             $this->tpl->parseCurrentBlock();
 
             // load saved template
-            include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($list_id);
             $alist->addItem($lng->txt("tbl_template_create"), "create", "#");
@@ -2366,7 +2338,6 @@ class ilTable2GUI extends ilTableGUI
                     is_object($ilUser) &&
                     $this->getId() &&
                     !$this->rows_selector_off) { // JF, 2014-10-27
-                    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_rows_" . $this->getId());
@@ -2388,7 +2359,6 @@ class ilTable2GUI extends ilTableGUI
 
                 // export
                 if (sizeof($this->export_formats) && $this->dataExists()) {
-                    include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_xpt");
@@ -2814,7 +2784,6 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
             $tab_prop = new ilTablePropertiesStorage();
 
             $tab_prop->storeProperty($this->getId(), $ilUser->getId(), $type, $value);
@@ -2837,7 +2806,6 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            include_once("./Services/Table/classes/class.ilTablePropertiesStorage.php");
             $tab_prop = new ilTablePropertiesStorage();
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
@@ -2999,7 +2967,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::stripSlashes($a_name);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
 
             $data = $storage->load($this->getContext(), $ilUser->getId(), $a_name);
@@ -3036,7 +3003,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
 
             $state = $this->getCurrentState();
@@ -3065,7 +3031,6 @@ class ilTable2GUI extends ilTableGUI
         $a_name = ilUtil::prepareFormOutput($a_name, true);
 
         if (trim($a_name) && $this->getContext() != "" && is_object($ilUser) && $ilUser->getId() != ANONYMOUS_USER_ID) {
-            include_once("./Services/Table/classes/class.ilTableTemplatesStorage.php");
             $storage = new ilTableTemplatesStorage();
             $storage->delete($this->getContext(), $ilUser->getId(), $a_name);
             return true;
@@ -3167,7 +3132,6 @@ class ilTable2GUI extends ilTableGUI
 
             switch ($format) {
                 case self::EXPORT_EXCEL:
-                    include_once "./Services/Excel/classes/class.ilExcel.php";
                     $excel = new ilExcel();
                     $excel->addSheet($this->title
                         ? $this->title
@@ -3198,7 +3162,6 @@ class ilTable2GUI extends ilTableGUI
                     break;
 
                 case self::EXPORT_CSV:
-                    include_once "./Services/Utilities/classes/class.ilCSVWriter.php";
                     $csv = new ilCSVWriter();
                     $csv->setSeparator(";");
 

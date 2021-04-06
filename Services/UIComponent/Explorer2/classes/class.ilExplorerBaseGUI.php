@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Explorer base GUI class.
- *
  * The class is supposed to work on a hierarchie of nodes that are identified
  * by IDs. Whether nodes are represented by associative arrays or objects
  * is not defined by this abstract class.
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesUIComponent
  */
 abstract class ilExplorerBaseGUI
 {
@@ -79,7 +75,6 @@ abstract class ilExplorerBaseGUI
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
         // get open nodes
-        include_once("./Services/Authentication/classes/class.ilSessionIStorage.php");
         $this->store = new ilSessionIStorage("expl2");
         $open_nodes = $this->store->get("on_" . $this->id);
         $this->open_nodes = unserialize($open_nodes);
@@ -722,7 +717,6 @@ abstract class ilExplorerBaseGUI
             $tpl = $a_main_tpl;
         }
 
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery($tpl);
 
         $tpl->addJavascript(self::getLocalExplorerJsPath());

@@ -13,9 +13,9 @@ class ilObjBlogAdministration extends ilObject
     * Constructor
     * @access	public
     * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * @param	bool	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "blga";
         parent::__construct($a_id, $a_call_by_reference);
@@ -27,16 +27,15 @@ class ilObjBlogAdministration extends ilObject
     * update object data
     *
     * @access	public
-    * @return	boolean
+    * @return	bool
     */
-    public function update()
+    public function update() : bool
     {
         if (!parent::update()) {
             return false;
         }
 
         // put here object specific stuff
-        
         return true;
     }
 }

@@ -1,17 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilNotification
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjExerciseGUI.php 24003 2010-05-26 14:35:42Z akill $
-*
-* @ilCtrl_Calls ilNotification:
-*
-* @ingroup ServicesNotification
-*/
+ * Class ilNotification
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilNotification:
+ */
 class ilNotification
 {
     const TYPE_EXERCISE_SUBMISSION = 1;
@@ -44,21 +40,18 @@ class ilNotification
 
         $notification = false;
 
-        include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
         $setting = new ilObjNotificationSettings($id);
         if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
             // check membership, members should be notidifed...
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
                 if ($grp_ref_id > 0) {
-                    include_once("./Modules/Group/classes/class.ilGroupParticipants.php");
                     if (ilGroupParticipants::_isParticipant($grp_ref_id, $user_id)) {
                         $notification = true;
                     }
                 }
                 $crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
                 if ($crs_ref_id > 0) {
-                    include_once("./Modules/Course/classes/class.ilCourseParticipants.php");
                     if (ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)) {
                         $notification = true;
                     }
@@ -102,7 +95,6 @@ class ilNotification
      */
     public static function hasOptOut($obj_id)
     {
-        include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
         $setting = new ilObjNotificationSettings($obj_id);
         if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
             return false;
@@ -126,8 +118,6 @@ class ilNotification
         $ilDB = $DIC->database();
         $tree = $DIC->repositoryTree();
 
-        include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
-
         // currently done for blog
         $recipients = array();
         $setting = new ilObjNotificationSettings($id);
@@ -135,7 +125,6 @@ class ilNotification
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
                 if ($grp_ref_id > 0) {
-                    include_once("./Modules/Group/classes/class.ilGroupParticipants.php");
                     $p = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($grp_ref_id));
                     foreach ($p->getMembers() as $user_id) {
                         if (!in_array($user_id, $recipients)) {
@@ -145,7 +134,6 @@ class ilNotification
                 }
                 $crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
                 if ($crs_ref_id > 0) {
-                    include_once("./Modules/Course/classes/class.ilCourseParticipants.php");
                     $p = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($crs_ref_id));
                     foreach ($p->getMembers() as $user_id) {
                         if (!in_array($user_id, $recipients)) {
@@ -319,7 +307,7 @@ class ilNotification
             " AND activated = %s ",
             array("integer", "integer", "integer"),
             array($type, $user_id, 1)
-            );
+        );
         $ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             $ids[] = $rec["id"];

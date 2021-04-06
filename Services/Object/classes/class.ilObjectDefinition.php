@@ -1,15 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
 * parses the objects.xml
 * it handles the xml-description of all ilias objects
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
 * @externalTableAccess ilObjDefReader on il_object_def, il_object_subobj, il_object_group
 */
 class ilObjectDefinition // extends ilSaxParser
@@ -223,7 +220,6 @@ class ilObjectDefinition // extends ilSaxParser
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
         foreach ($pl_names as $pl_name) {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
             if (!isset($grouped_obj[$pl_id])) {
                 $grouped_obj[$pl_id] = array(
@@ -682,7 +678,6 @@ class ilObjectDefinition // extends ilSaxParser
         
         if ($a_obj_type == "prg") {
             // ask study program which objects are allowed to create on the concrete node.
-            require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
             return ilObjStudyProgramme::getCreatableSubObjects($subobjects, $a_parent_ref_id);
         }
 
@@ -1184,10 +1179,8 @@ class ilObjectDefinition // extends ilSaxParser
         $ilPluginAdmin = $this->plugin_admin;
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
         foreach ($pl_names as $pl_name) {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
-                include_once("./Services/Repository/classes/class.ilRepositoryObjectPlugin.php");
                 $loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
                 // The plugin_id is the same as the type_id in repository object plugins.
                 $pl = ilObjectPlugin::getPluginObjectByType($pl_id);

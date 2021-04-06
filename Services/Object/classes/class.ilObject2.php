@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObject.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilObject2
-* This is an intermediate progress of ilObject class. Please do not ust it yet.
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 abstract class ilObject2 extends ilObject
 {
     /**

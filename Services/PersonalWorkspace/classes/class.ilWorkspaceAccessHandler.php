@@ -1,10 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Access handler for personal workspace
@@ -55,7 +51,6 @@ class ilWorkspaceAccessHandler
         $lng->loadLanguageModule("wsp");
         
         if (!$a_tree) {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
             $a_tree = new ilWorkspaceTree($ilUser->getId());
         }
         $this->tree = $a_tree;
@@ -331,8 +326,6 @@ class ilWorkspaceAccessHandler
         $ilUser = $DIC->user();
         $ilSetting = $DIC->settings();
         
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-        include_once "Services/Membership/classes/class.ilParticipants.php";
         $grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
         $crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
         
@@ -404,8 +397,6 @@ class ilWorkspaceAccessHandler
         if (!$a_filter["acl_type"]) {
             $obj_ids = $this->getPossibleSharedTargets();
         } else {
-            include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-            
             switch ($a_filter["acl_type"]) {
                 case "all":
                     $obj_ids = array(ilWorkspaceAccessGUI::PERMISSION_ALL);
@@ -473,7 +464,6 @@ class ilWorkspaceAccessHandler
         }
         
         if ($a_filter["crsgrp"]) {
-            include_once "Services/Membership/classes/class.ilParticipants.php";
             $part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
             $part = $part->getParticipants();
             if (!sizeof($part)) {
@@ -504,8 +494,6 @@ class ilWorkspaceAccessHandler
 
         $ilDB = $DIC->database();
         
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-        
         $set = $ilDB->query("SELECT * FROM acl_ws" .
             " WHERE node_id = " . $ilDB->quote($a_node_id, "integer") .
             " AND object_id = " . $ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
@@ -527,7 +515,6 @@ class ilWorkspaceAccessHandler
     
     public static function getGotoLink($a_node_id, $a_obj_id, $a_additional = null)
     {
-        include_once('./Services/Link/classes/class.ilLink.php');
         return ilLink::_getStaticLink($a_node_id, ilObject::_lookupType($a_obj_id), true, $a_additional . "_wsp");
     }
     

@@ -1,20 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @defgroup ServicesInfoScreen Services/InfoScreen
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilInfoScreenGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
-* @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
-*
-* @ingroup ServicesInfoScreen
-*/
+ * Class ilInfoScreenGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilInfoScreenGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
+ * @ilCtrl_Calls ilInfoScreenGUI: ilCommonActionDispatcherGUI
+ */
 class ilInfoScreenGUI
 {
     /**
@@ -152,7 +146,6 @@ class ilInfoScreenGUI
                 break;
 
             case "ilpublicuserprofilegui":
-                include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
                 $user_profile = new ilPublicUserProfileGUI($_GET["user_id"]);
                 $user_profile->setBackUrl($this->ctrl->getLinkTarget($this, "showSummary"));
                 $html = $this->ctrl->forwardCommand($user_profile);
@@ -160,7 +153,6 @@ class ilInfoScreenGUI
                 break;
             
             case "ilcommonactiondispatchergui":
-                include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -380,7 +372,6 @@ class ilInfoScreenGUI
 
         $lng->loadLanguageModule("meta");
 
-        include_once("./Services/MetaData/classes/class.ilMD.php");
         $md = new ilMD($a_rep_obj_id, $a_obj_id, $a_type);
 
         if ($md_gen = $md->getGeneral()) {
@@ -430,7 +421,6 @@ class ilInfoScreenGUI
         // copyright
         $copyright = "";
         if (is_object($rights = $md->getRights())) {
-            include_once('Services/MetaData/classes/class.ilMDUtils.php');
             $copyright = ilMDUtils::_parseCopyright($rights->getDescription());
         }
 
@@ -516,7 +506,6 @@ class ilInfoScreenGUI
             $ref_id = $a_obj->getRefId();
             
             if ($ref_id) {
-                include_once 'Services/WebServices/ECS/classes/class.ilECSServerSettings.php';
                 if (ilECSServerSettings::getInstance()->activeServerExists()) {
                     $this->addProperty(
                         $lng->txt("object_id"),
@@ -524,7 +513,6 @@ class ilInfoScreenGUI
                     );
                 }
 
-                include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
                 $pm = new ilPermanentLinkGUI($type, $ref_id);
                 $pm->setIncludePermanentLinkText(false);
                 $pm->setAlignCenter(false);
@@ -572,9 +560,6 @@ class ilInfoScreenGUI
 
         // owner
         if ($ilUser->getId() != ANONYMOUS_USER_ID and $a_obj->getOwner()) {
-            include_once './Services/Object/classes/class.ilObjectFactory.php';
-            include_once './Services/User/classes/class.ilObjUser.php';
-            
             if (ilObjUser::userExists(array($a_obj->getOwner()))) {
                 $ownerObj = ilObjectFactory::getInstanceByObjId($a_obj->getOwner(), false);
             } else {
@@ -592,7 +577,6 @@ class ilInfoScreenGUI
         }
 
         // change event
-        require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
         if (ilChangeEvent::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 $readEvents = ilChangeEvent::_lookupReadEvents($a_obj->getId());
@@ -626,10 +610,8 @@ class ilInfoScreenGUI
         // END ChangeEvent: Display change event info
 
         // WebDAV: Display locking information
-        require_once('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
         if (ilDAVActivationChecker::_isActive()) {
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                require_once 'Services/WebDAV/classes/lock/class.ilWebDAVLockBackend.php';
                 $webdav_lock_backend = new ilWebDAVLockBackend();
 
                 // Show lock info
@@ -667,7 +649,6 @@ class ilInfoScreenGUI
     {
         $ilCtrl = $this->ctrl;
         
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI("info", IL_COL_CENTER);
         $this->setColumnSettings($column_gui);
 
@@ -698,11 +679,8 @@ class ilInfoScreenGUI
     */
     public function getRightColumnHTML()
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI("info", IL_COL_RIGHT);
         $this->setColumnSettings($column_gui);
 
@@ -763,7 +741,6 @@ class ilInfoScreenGUI
             $this->setFormAction($ilCtrl->getFormAction($this));
         }
         
-        require_once 'Services/jQuery/classes/class.iljQueryUtil.php';
         iljQueryUtil::initjQuery();
 
         if ($this->hidden) {
@@ -972,18 +949,14 @@ class ilInfoScreenGUI
             return false;
         }
 
-        include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if (!ilObjUserTracking::_enabledLearningProgress()) {
             return false;
         }
             
-        include_once './Services/Object/classes/class.ilObjectLP.php';
         $olp = ilObjectLP::getInstance($this->getContextObjId());
         if ($olp->getCurrentMode() != ilLPObjSettings::LP_MODE_MANUAL) {
             return false;
         }
-
-        include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 
         $this->lng->loadLanguageModule('trac');
 
@@ -1025,7 +998,6 @@ class ilInfoScreenGUI
             $this->getContentObjType() == 'htlm') {
             $a_tpl->setCurrentBlock("pv");
 
-            include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
             $progress = ilLearningProgress::_getProgress($ilUser->getId(), $this->getContextObjId());
             if ($progress['access_time']) {
                 $a_tpl->setVariable(
@@ -1081,13 +1053,10 @@ class ilInfoScreenGUI
     {
         $ilUser = $this->user;
 
-        include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-
         $lp_marks = new ilLPMarks($this->getContextObjId(), $ilUser->getId());
         $lp_marks->setCompleted((bool) $_POST['lp_edit']);
         $lp_marks->update();
 
-        require_once 'Services/Tracking/classes/class.ilLPStatusWrapper.php';
         ilLPStatusWrapper::_updateStatus($this->getContextObjId(), $ilUser->getId());
 
         $this->lng->loadLanguageModule('trac');
@@ -1108,7 +1077,6 @@ class ilInfoScreenGUI
         $ilSetting = $this->settings;
         
         $next_class = $this->ctrl->getNextClass($this);
-        include_once("Services/Notes/classes/class.ilNoteGUI.php");
         $notes_gui = new ilNoteGUI(
             $this->gui_object->object->getId(),
             0,
@@ -1161,7 +1129,6 @@ class ilInfoScreenGUI
         if (strlen($a_section)) {
             $this->addSection($a_section);
         }
-        include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
         $ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
         if ($infos = $ldap_mapping->getInfoStrings($this->gui_object->object->getId())) {
             $info_combined = '<div style="color:green;">';
@@ -1216,12 +1183,10 @@ class ilInfoScreenGUI
     public function addTagging()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("tagging");
         $tags_set = new ilSetting("tags");
 
-        include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
             $this->gui_object->object->getId(),
@@ -1245,7 +1210,6 @@ class ilInfoScreenGUI
     
     public function saveTags()
     {
-        include_once("Services/Tagging/classes/class.ilTaggingGUI.php");
         $tagging_gui = new ilTaggingGUI();
         $tagging_gui->setObject(
             $this->gui_object->object->getId(),

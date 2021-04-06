@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Administration for page layouts
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ilCtrl_Calls ilPageLayoutAdministrationGUI: ilPageLayoutGUI
- * @ingroup ServicesCOPage
  */
 class ilPageLayoutAdministrationGUI
 {
@@ -63,8 +61,6 @@ class ilPageLayoutAdministrationGUI
         $this->ref_id = (int) $_GET["ref_id"];
         $this->tabs = $DIC["ilTabs"];
 
-
-        include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
         $this->settings = new ilContentStyleSettings();
     }
 
@@ -85,9 +81,6 @@ class ilPageLayoutAdministrationGUI
         switch ($next_class) {
             case 'ilpagelayoutgui':
                 $this->tabs->clearTargets();
-                include_once("./Services/COPage/Layout/classes/class.ilPageLayoutGUI.php");
-//				$this->tpl->getStandardTemplate();
-
                 $this->tabs->setBackTarget(
                     $this->lng->txt("page_layouts"),
                     $this->ctrl->getLinkTarget($this, "listLayouts")
@@ -128,7 +121,6 @@ class ilPageLayoutAdministrationGUI
     {
         if (!$this->rbacsystem->checkAccess($a_perm, $this->ref_id)) {
             if ($a_throw_exc) {
-                include_once "Services/Object/exceptions/class.ilObjectException.php";
                 throw new ilObjectException($this->lng->txt("permission_denied"));
             }
             return false;
@@ -155,7 +147,6 @@ class ilPageLayoutAdministrationGUI
 
         $oa_tpl = new ilTemplate("tpl.stys_pglayout.html", true, true, "Services/COPage/Layout");
 
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php");
         $pglayout_table = new ilPageLayoutTableGUI($this, "listLayouts");
         $oa_tpl->setVariable("PGLAYOUT_TABLE", $pglayout_table->getHTML());
         $this->tpl->setContent($oa_tpl->get());
@@ -261,7 +252,6 @@ class ilPageLayoutAdministrationGUI
     {
         $this->lng->loadLanguageModule("content");
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($this->ctrl->getFormAction($this));
         $form_gui->setTitle($this->lng->txt("sty_create_pgl"));
@@ -350,8 +340,6 @@ class ilPageLayoutAdministrationGUI
         $pg_object->setModules($form_gui->getInput('module'));
         $pg_object->update();
 
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayoutPage.php");
-
         //create Page
         if (!is_object($pg_content)) {
             $this->pg_content = new ilPageLayoutPage();
@@ -397,11 +385,6 @@ class ilPageLayoutAdministrationGUI
      */
     public function savePageLayoutTypes()
     {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
-
         if (is_array($_POST["type"])) {
             foreach ($_POST["type"] as $id => $t) {
                 if ($id > 0) {
@@ -429,7 +412,6 @@ class ilPageLayoutAdministrationGUI
      */
     public function exportLayout()
     {
-        include_once("./Services/Export/classes/class.ilExport.php");
         $exp = new ilExport();
 
         $tmpdir = ilUtil::ilTempnam();
@@ -476,7 +458,6 @@ class ilPageLayoutAdministrationGUI
      */
     public function initPageLayoutImportForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         // template file
@@ -501,7 +482,6 @@ class ilPageLayoutAdministrationGUI
     {
         $form = $this->initPageLayoutImportForm();
         if ($form->checkInput()) {
-            include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
             $pg = ilPageLayout::import($_FILES["file"]["name"], $_FILES["file"]["tmp_name"]);
             if ($pg > 0) {
                 ilUtil::sendSuccess($this->lng->txt("sty_imported_layout"), true);

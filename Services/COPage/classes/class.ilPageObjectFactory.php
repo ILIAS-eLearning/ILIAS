@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Page object factory
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPageObjectFactory
 {
@@ -22,11 +20,9 @@ class ilPageObjectFactory
      */
     public static function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
-        include_once($path);
         $obj = new $class($a_id, $a_old_nr, $a_lang);
         
         return $obj;
@@ -40,11 +36,9 @@ class ilPageObjectFactory
      */
     public static function getConfigInstance($a_parent_type)
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"] . "Config";
         $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
-        include_once($path);
         $cfg = new $class();
         
         return $cfg;
@@ -61,11 +55,9 @@ class ilPageObjectFactory
      */
     /* static function getGUIInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
     {
-        include_once("./Services/COPage/classes/class.ilCOPageObjDef.php");
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"]."GUI";
         $path = "./".$def["component"]."/".$def["directory"]."/class.".$class.".php";
-        include_once($path);
         if (in_array($a_parent_type, array("cont", "cstr", "lm")))
         {
             $obj = new $class($a_id , $a_old_nr, $a_lang);

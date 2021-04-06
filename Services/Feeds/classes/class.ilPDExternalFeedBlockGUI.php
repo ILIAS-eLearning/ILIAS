@@ -1,41 +1,16 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("./Services/Block/classes/class.ilBlockGUI.php");
-include_once("./Services/Block/classes/class.ilExternalFeedBlockGUIGen.php");
-include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* BlockGUI class for external feed block on the personal desktop.
-* Within the repository ilExternalFeedBlockGUI is used.
-* is used.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_IsCalledBy ilPDExternalFeedBlockGUI: ilColumnGUI
-* @ingroup ServicesFeeds
-*/
+ * BlockGUI class for external feed block on the personal desktop.
+ * Within the repository ilExternalFeedBlockGUI is used.
+ * is used.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_IsCalledBy ilPDExternalFeedBlockGUI: ilColumnGUI
+ */
 class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 {
     const FORM_EDIT = 0;
@@ -127,7 +102,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
         $this->setBlockId($this->feed_block->getId());
         
         // get feed object
-        include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
         $this->feed = new ilExternalFeed();
         $this->feed->setUrl($this->feed_block->getFeedUrl());
         
@@ -344,9 +318,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
     public function showFeedItem()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
-        include_once("./Services/News/classes/class.ilNewsItem.php");
 
         $this->feed->fetch();
         foreach ($this->feed->getItems() as $item) {
@@ -408,8 +379,6 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
         $lng = $this->lng;
         
         $lng->loadLanguageModule("block");
-        
-        require_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         
         $this->form_gui = new ilPropertyFormGUI();
         

@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilObjStyleSettings
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  */
 class ilObjStyleSettings extends ilObject
 {

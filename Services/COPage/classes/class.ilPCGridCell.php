@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Cell of a grid
  *
  * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ServicesCOPage
  */
 class ilPCGridCell extends ilPageContent
 {

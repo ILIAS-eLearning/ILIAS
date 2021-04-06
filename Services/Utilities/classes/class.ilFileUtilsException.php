@@ -1,12 +1,6 @@
 <?php
-/**
-*
-* Class to report exception
-*
-*
-*/
 
-include_once 'Services/Exceptions/classes/class.ilException.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 class ilFileUtilsException extends ilException
 {

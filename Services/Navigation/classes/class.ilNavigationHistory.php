@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Navigation History of Repository Items
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * Navigation History of Repository Items
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilNavigationHistory
 {
     /**
@@ -126,7 +124,7 @@ class ilNavigationHistory
                     "last_visited" => array("clob", serialize($this->getItems()))),
             array(
                 "usr_id" => array("integer", $ilUser->getId()))
-            );
+        );
     }
     
     /**
@@ -161,14 +159,12 @@ class ilNavigationHistory
             $set = $ilDB->query(
                 "SELECT last_visited FROM usr_data " .
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
-                );
+            );
             $rec = $ilDB->fetchAssoc($set);
             $db_entries = unserialize($rec["last_visited"]);
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
-                    include_once("./Services/Link/classes/class.ilLink.php");
-                    
                     if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]])) {
                         if ($tree->isInTree($rec["ref_id"]) &&
                             (
@@ -219,7 +215,7 @@ class ilNavigationHistory
                     "last_visited" => array("clob", serialize(array()))),
             array(
                 "usr_id" => array("integer", $ilUser->getId()))
-            );
+        );
     }
 
     /**

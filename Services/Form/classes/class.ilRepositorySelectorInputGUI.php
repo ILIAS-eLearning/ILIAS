@@ -1,40 +1,16 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("./Services/Table/interfaces/interface.ilTableFilterItem.php");
-include_once("./Services/Form/classes/class.ilFormPropertyGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a repository selector in a property form.
-*
-* The implementation is kind of beta. It looses all other inputs, if the
-* selector link is used.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-* @ilCtrl_IsCalledBy ilRepositorySelectorInputGUI: ilFormPropertyDispatchGUI
-*/
+ * This class represents a repository selector in a property form.
+ *
+ * The implementation is kind of beta. It looses all other inputs, if the
+ * selector link is used.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_IsCalledBy ilRepositorySelectorInputGUI: ilFormPropertyDispatchGUI
+ */
 class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
     /**
@@ -202,12 +178,8 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
     public function showRepositorySelection()
     {
         $tpl = $this->tpl;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $tree = $this->tree;
-        $ilUser = $this->user;
-        
-        include_once 'Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php';
+
         $ilCtrl->setParameter($this, "postvar", $this->getPostVar());
 
         ilUtil::sendInfo($this->getHeaderMessage());

@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilExportFileInfo.php';
-include_once './Services/Export/classes/class.ilExport.php';
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Export Container
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version	$Id$
-* @ingroup	ServicesExport
-*/
+ * Export Container
+ *
+ * @author	Stefan Meyer <meyer@leifos.com>
+ */
 class ilExportContainer extends ilExport
 {
     private $cont_export_dir = '';
@@ -74,7 +69,6 @@ class ilExportContainer extends ilExport
      */
     protected function manifestWriterBegin($a_type, $a_id, $a_target_release)
     {
-        include_once "./Services/Xml/classes/class.ilXmlWriter.php";
         $this->cont_manifest_writer = new ilXmlWriter();
         $this->cont_manifest_writer->xmlHeader();
         $this->cont_manifest_writer->xmlStartTag(

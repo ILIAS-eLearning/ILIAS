@@ -1,13 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Handles general notification settings, see e.g.
  * https://www.ilias.de/docu/goto_docu_wiki_wpage_3457_1357.html
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ingroup ServiceNotification
  */
 class ilObjNotificationSettingsGUI
 {
@@ -43,7 +42,6 @@ class ilObjNotificationSettingsGUI
         $this->tpl = $DIC["tpl"];
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
-        include_once("./Services/Notification/classes/class.ilObjNotificationSettings.php");
         $this->settings = new ilObjNotificationSettings($this->obj_id);
     }
 
@@ -86,7 +84,6 @@ class ilObjNotificationSettingsGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
 
         $form->setFormAction($ctrl->getFormAction($this, 'save'));

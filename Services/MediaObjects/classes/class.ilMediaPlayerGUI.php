@@ -1,12 +1,10 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * User interface for media player. Wraps flash mp3 player and similar tools.
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesMediaObjects
  */
 class ilMediaPlayerGUI
 {
@@ -244,12 +242,10 @@ class ilMediaPlayerGUI
             $a_tpl = $tpl;
         }
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
         $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
 
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
 
@@ -264,28 +260,15 @@ class ilMediaPlayerGUI
         self::initJavascript($tpl);
 
         if (!self::$lightbox_initialized && $a_preview) {
-            include_once("./Services/UIComponent/Lightbox/classes/class.ilLightboxGUI.php");
             $lb = new ilLightboxGUI("media_lightbox");
             $lb->setWidth("660px");
             $lb->addLightbox();
             self::$lightbox_initialized = true;
         }
 
-        require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
-        include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
-
         // youtube
         if (ilExternalMediaAnalyzer::isYouTube($this->getFile())) {
             $p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
-            /*
-            $html = '<object width="320" height="240">'.
-                '<param name="movie" value="http://www.youtube.com/v/'.$p["v"].'?fs=1">'.
-                '</param><param name="allowFullScreen" value="true"></param>'.
-                '<param name="allowscriptaccess" value="always">'.
-                '</param><embed src="http://www.youtube.com/v/'.$p["v"].'?fs=1" '.
-                'type="application/x-shockwave-flash" allowscriptaccess="always" '.
-                'allowfullscreen="true" width="320" height="240"></embed></object>';
-            return $html;*/
             $mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
             if ($a_preview) {
                 if ($this->getDownloadLink() != "") {
@@ -318,7 +301,6 @@ class ilMediaPlayerGUI
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             if ($a_preview) {
                 $mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
             }
@@ -336,7 +318,6 @@ class ilMediaPlayerGUI
         }
 
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
 
         // video tag
         if (in_array($mimeType, array("video/mp4",
@@ -421,7 +402,6 @@ class ilMediaPlayerGUI
             $mp_tpl->setVariable("FFILE", $this->getFile());
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             if ($a_preview) {
                 $mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
             }
@@ -498,7 +478,6 @@ class ilMediaPlayerGUI
             $mp_tpl->setVariable("IPLAYER_NR", $this->id . "_" . $this->current_nr);
             $mp_tpl->setVariable("ITITLE", $this->getTitle());
             $mp_tpl->setVariable("IDESCRIPTION", $this->getDescription());
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $mp_tpl->setVariable("ICLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 
             if ($this->event_callback_url) {

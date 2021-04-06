@@ -43,12 +43,11 @@ class ilBookingInfoScreenAdapter
      *
      * @return int[]
      */
-    protected function getPoolIds()
+    protected function getPoolIds() : array
     {
-        $pool_ids = array_map(function ($ref_id) {
+        return array_map(function ($ref_id) {
             return ilObject::_lookupObjId($ref_id);
         }, $this->use_book_repo->getUsedBookingPools($this->context_obj_id));
-        return $pool_ids;
     }
 
     /**

@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Table/interfaces/interface.ilTableFilterItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* input GUI for a time span (start and end date)
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesForm
-*/
+ * input GUI for a time span (start and end date)
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem
 {
     /**
@@ -603,15 +599,16 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     /**
      * @inheritDoc
      */
-    public function getTableFilterLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getTableFilterLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
 
     /**
      * @inheritDoc
      */
-    public function getFormLabelFor() {
-        return $this->getFieldId()."[start]";
+    public function getFormLabelFor()
+    {
+        return $this->getFieldId() . "[start]";
     }
-
 }

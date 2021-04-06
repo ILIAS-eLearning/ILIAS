@@ -1,16 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* User interface class for map editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
-*
-* @ingroup ServicesMediaObjects
-*/
+ * User interface class for map editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
+ */
 class ilImageMapEditorGUI
 {
     /**
@@ -60,7 +58,6 @@ class ilImageMapEditorGUI
 
         switch ($next_class) {
             case "ilinternallinkgui":
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
                 $link_gui->setSetLinkTargetScript(
                     $ilCtrl->getLinkTarget(
@@ -73,7 +70,6 @@ class ilImageMapEditorGUI
                 break;
 
             default:
-                require_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
                 ilObjMediaObjectGUI::includePresentationJS();
                 if (isset($_POST["editImagemapForward"]) ||
                     isset($_POST["editImagemapForward_x"]) ||
@@ -136,7 +132,6 @@ class ilImageMapEditorGUI
         // toolbar
         $tb = new ilToolbarGUI();
         $tb->setFormAction($ilCtrl->getFormAction($this));
-        include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "WholePicture" => $lng->txt("cont_WholePicture"),
             "Rect" => $lng->txt("cont_Rect"),
@@ -189,7 +184,6 @@ class ilImageMapEditorGUI
     */
     public function getImageMapTableHTML()
     {
-        include_once("./Services/MediaObjects/classes/class.ilImageMapTableGUI.php");
         $image_map_table = new ilImageMapTableGUI($this, "editMapAreas", $this->media_object);
         return $image_map_table->getHTML();
     }
@@ -331,7 +325,6 @@ class ilImageMapEditorGUI
 
         $area_type = $_SESSION["il_map_edit_area_type"];
         $coords = $_SESSION["il_map_edit_coords"];
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         $cnt_coords = ilMapArea::countCoords($coords);
 
         // decide what to do next
@@ -397,11 +390,9 @@ class ilImageMapEditorGUI
     ) {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
-        
+
         $area_type = $_SESSION["il_map_edit_area_type"];
         $coords = $_SESSION["il_map_edit_coords"];
-        include_once("./Services/MediaObjects/classes/class.ilMapArea.php");
         $cnt_coords = ilMapArea::countCoords($coords);
 
         $this->tpl = new ilTemplate("tpl.map_edit.html", true, true, "Services/MediaObjects");
@@ -449,7 +440,6 @@ class ilImageMapEditorGUI
             if ($a_edit_property != "shape") {
                 // prepare link gui
                 $ilCtrl->setParameter($this, "linkmode", "map");
-                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $this->tpl->setCurrentBlock("int_link_prep");
                 $this->tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
                     $ilCtrl->getLinkTargetByClass(
@@ -493,9 +483,7 @@ class ilImageMapEditorGUI
     public function initAreaEditingForm($a_edit_property)
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-    
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
         $form = new ilPropertyFormGUI();
         $form->setOpenTag(false);
         $form->setCloseTag(false);
@@ -539,14 +527,14 @@ class ilImageMapEditorGUI
                     $_SESSION["il_map_il_target"],
                     $_SESSION["il_map_il_type"],
                     $_SESSION["il_map_il_targetframe"]
-                    );
+                );
             }
             $ne->setValue(
                 $link_str .
                     '&nbsp;<a id="iosEditInternalLinkTrigger" href="#">' .
                     "[" . $lng->txt("cont_get_link") . "]" .
                     '</a>'
-                    );
+            );
             $int->addSubItem($ne);
                 
             // no link
@@ -692,14 +680,12 @@ class ilImageMapEditorGUI
         }
         switch ($a_type) {
             case "StructureObject":
-                require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("chapter") .
                     ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
                 break;
 
             case "PageObject":
-                require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 $title = ilLMObject::_lookupTitle($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("page") .
                     ": " . $title . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;
@@ -712,7 +698,6 @@ class ilImageMapEditorGUI
                 break;
 
             case "MediaObject":
-                require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $mob = new ilObjMediaObject($t_arr[count($t_arr) - 1]);
                 $link_str = $lng->txt("mob") .
                     ": " . $mob->getTitle() . " [" . $t_arr[count($t_arr) - 1] . "]" . $frame_str;

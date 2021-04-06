@@ -1,16 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * ACL access handler GUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchCoursesGUI, ilMailSearchGroupsGUI
  * @ilCtrl_Calls ilWorkspaceAccessGUI: ilMailSearchGUI, ilPublicUserProfileGUI, ilSingleUserShareGUI
- *
- * @ingroup ServicesPersonalWorkspace
  */
 class ilWorkspaceAccessGUI
 {
@@ -109,7 +106,6 @@ class ilWorkspaceAccessGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
-                include_once('Services/Contact/classes/class.ilMailSearchCoursesGUI.php');
                 $csearch = new ilMailSearchCoursesGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($csearch);
@@ -122,7 +118,6 @@ class ilWorkspaceAccessGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
-                include_once('Services/Contact/classes/class.ilMailSearchGroupsGUI.php');
                 $gsearch = new ilMailSearchGroupsGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($gsearch);
@@ -135,7 +130,6 @@ class ilWorkspaceAccessGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
-                include_once('Services/Contact/classes/class.ilMailSearchGUI.php');
                 $usearch = new ilMailSearchGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($usearch);
@@ -148,7 +142,6 @@ class ilWorkspaceAccessGUI
                     $this->lng->txt("back"),
                     $this->ctrl->getLinkTarget($this, "share")
                 );
-                include_once('Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php');
                 $ushare = new ilSingleUserShareGUI($this->access_handler, $this->node_id);
                 $this->ctrl->setReturn($this, 'share');
                 $this->ctrl->forwardCommand($ushare);
@@ -163,7 +156,6 @@ class ilWorkspaceAccessGUI
                     $this->ctrl->getLinkTarget($this, "share")
                 );
                 
-                include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
                 $prof = new ilPublicUserProfileGUI($_REQUEST["user"]);
                 $prof->setBackUrl($this->ctrl->getLinkTarget($this, "share"));
                 $tpl->setContent($prof->getHTML());
@@ -219,13 +211,11 @@ class ilWorkspaceAccessGUI
         $options = array();
         $options["user"] = $this->lng->txt("wsp_set_permission_single_user");
         
-        include_once 'Modules/Group/classes/class.ilGroupParticipants.php';
         $grp_ids = ilGroupParticipants::_getMembershipByType($ilUser->getId(), 'grp');
         if (sizeof($grp_ids)) {
             $options["group"] = $this->lng->txt("wsp_set_permission_group");
         }
         
-        include_once 'Modules/Course/classes/class.ilCourseParticipants.php';
         $crs_ids = ilCourseParticipants::_getMembershipByType($ilUser->getId(), 'crs');
         if (sizeof($crs_ids)) {
             $options["course"] = $this->lng->txt("wsp_set_permission_course");
@@ -245,20 +235,17 @@ class ilWorkspaceAccessGUI
             }
         }
         
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $actions = new ilSelectInputGUI("", "action");
         $actions->setOptions($options);
         $ilToolbar->addStickyItem($actions);
         
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
         
-        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
         $button = ilSubmitButton::getInstance();
         $button->setCaption("add");
         $button->setCommand("addpermissionhandler");
         $ilToolbar->addStickyItem($button);
     
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php";
         $table = new ilWorkspaceAccessTableGUI($this, "share", $this->node_id, $this->getAccessHandler());
         $tpl->setContent($table->getHTML() . $this->footer);
     }
@@ -268,7 +255,6 @@ class ilWorkspaceAccessGUI
         switch ($_REQUEST["action"]) {
             case "user":
 
-                include_once './Services/User/classes/class.ilUserAccountSettings.php';
                 if (ilUserAccountSettings::getInstance()->isUserAccessRestricted()) {
                     $this->ctrl->redirectByClass("ilsingleusersharegui");
                 } else {
@@ -316,7 +302,6 @@ class ilWorkspaceAccessGUI
     
     protected function initPasswordForm()
     {
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("wsp_set_permission_all_password"));

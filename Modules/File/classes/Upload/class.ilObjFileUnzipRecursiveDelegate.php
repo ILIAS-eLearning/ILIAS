@@ -25,8 +25,10 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
             case 'cat':
             case 'root':
                 return new ilObjCategory();
+            case 'fold':
+            case 'crs':
             default:
-                return new ilObjWorkspaceFolder();
+                return new ilObjFolder();
         }
     }
 

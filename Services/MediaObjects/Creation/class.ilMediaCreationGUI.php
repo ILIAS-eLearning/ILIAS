@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -79,8 +79,8 @@ class ilMediaCreationGUI
         array $accept_types,
         closure $after_upload,
         closure $after_url_saving,
-        closure $after_pool_insert)
-    {
+        closure $after_pool_insert
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -110,18 +110,18 @@ class ilMediaCreationGUI
 
     /**
      * Set All suffixes
-     * @param array $a_val 
+     * @param array $a_val
      */
-    function setAllSuffixes($a_val)
+    public function setAllSuffixes($a_val)
     {
         $this->all_suffixes = $a_val;
     }
 
     /**
      * Get All suffixes
-     * @return array 
+     * @return array
      */
-    function getAllSuffixes()
+    public function getAllSuffixes()
     {
         return $this->all_suffixes;
     }
@@ -130,7 +130,7 @@ class ilMediaCreationGUI
      * Set All mime types
      * @param array $a_val
      */
-    function setAllMimeTypes($a_val)
+    public function setAllMimeTypes($a_val)
     {
         $this->all_mime_types = $a_val;
     }
@@ -139,7 +139,7 @@ class ilMediaCreationGUI
      * Get All mime types
      * @return array
      */
-    function getAllMimeTypes()
+    public function getAllMimeTypes()
     {
         return $this->all_mime_types;
     }
@@ -181,7 +181,7 @@ class ilMediaCreationGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
@@ -252,7 +252,6 @@ class ilMediaCreationGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new \ilPropertyFormGUI();
 
         $fi = new \ilFileInputGUI($lng->txt("file"), "file");
@@ -277,7 +276,6 @@ class ilMediaCreationGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new \ilPropertyFormGUI();
 
         //
@@ -303,7 +301,6 @@ class ilMediaCreationGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new \ilPropertyFormGUI();
 
         // mediacast
@@ -333,7 +330,7 @@ class ilMediaCreationGUI
         if (!$form->checkInput()) {
             $form->setValuesByPost();
             $this->main_tpl->setContent($form->getHTML());
-            //$this->creationSelection();
+        //$this->creationSelection();
         } else {
             $mob = new ilObjMediaObject();
             $mob->create();
@@ -380,7 +377,6 @@ class ilMediaCreationGUI
 
             ($this->after_upload)($mob->getId());
         }
-
     }
 
     /**
@@ -557,8 +553,14 @@ class ilMediaCreationGUI
     public function poolSelection()
     {
         $main_tpl = $this->main_tpl;
-        $exp = new ilPoolSelectorGUI($this, "poolSelection", null,
-            "selectPool", "", "mep_ref_id");
+        $exp = new ilPoolSelectorGUI(
+            $this,
+            "poolSelection",
+            null,
+            "selectPool",
+            "",
+            "mep_ref_id"
+        );
         $exp->setTypeWhiteList(array("root", "cat", "grp", "fold", "crs", "mep"));
         $exp->setClickableTypes(array('mep'));
         if (!$exp->handleCommand()) {
@@ -581,7 +583,7 @@ class ilMediaCreationGUI
             $id = ilMediaPoolItem::lookupForeignId($pool_entry_id);
             $mob = new ilObjMediaObject((int) $id);
             if (!in_array($mob->getMediaItem("Standard")->getFormat(), $this->getMimeTypes())) {
-                ilUtil::sendFailure($this->lng->txt("mob_mime_type_not_allowed").": ".
+                ilUtil::sendFailure($this->lng->txt("mob_mime_type_not_allowed") . ": " .
                     $mob->getMediaItem("Standard")->getFormat());
                 $this->listPoolItems();
                 return;
@@ -590,5 +592,4 @@ class ilMediaCreationGUI
         }
         ($this->after_pool_insert)($mob_ids);
     }
-
 }

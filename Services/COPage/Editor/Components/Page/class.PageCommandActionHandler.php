@@ -37,7 +37,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -247,7 +247,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $id = "pg:";
         if (!in_array($pcid, ["", "pg"])) {
             $hier_ids = $page->getHierIdsForPCIds([$pcid]);
-            $id = $hier_ids[$pcid].":".$pcid;
+            $id = $hier_ids[$pcid] . ":" . $pcid;
         }
         return $id;
     }
@@ -279,7 +279,7 @@ class PageCommandActionHandler implements Server\CommandActionHandler
         $page = $this->page_gui->getPageObject();
 
         $hier_ids = $page->getHierIdsForPCIds([$body["data"]["pcid"]]);
-        $pcid = $hier_ids[$body["data"]["pcid"]].":".$body["data"]["pcid"];
+        $pcid = $hier_ids[$body["data"]["pcid"]] . ":" . $body["data"]["pcid"];
 
         $content = "<div id='" .
             $pcid . "' class='ilc_text_block_" .
@@ -326,5 +326,4 @@ class PageCommandActionHandler implements Server\CommandActionHandler
 
         return $this->sendPage();
     }
-
 }

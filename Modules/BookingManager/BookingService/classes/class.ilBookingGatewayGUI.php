@@ -25,7 +25,7 @@ class ilBookingGatewayGUI
     protected $lng;
 
     /**
-     * @var ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $main_tpl;
 
@@ -79,6 +79,31 @@ class ilBookingGatewayGUI
      * @var bool
      */
     protected $pools_selected = false;
+
+    /**
+     * @var string
+     */
+    protected $seed;
+
+    /**
+     * @var string
+     */
+    protected $sseed;
+
+    /**
+     * @var ilObjUseBookDBRepository
+     */
+    protected $use_book_repo;
+
+    /**
+     * @var string
+     */
+    protected $return_to = "";
+
+    /**
+     * @var ilBookingHelpAdapter
+     */
+    protected $help;
 
     /**
      * Constructor
@@ -359,7 +384,7 @@ class ilBookingGatewayGUI
             if (!$this->checkBookingPoolsForSchedules($b_ids)) {
                 ilUtil::sendFailure($lng->txt("book_all_pools_need_schedules"));
                 $form->setValuesByPost();
-                $main_tpl->setContent($form->getHtml());
+                $main_tpl->setContent($form->getHTML());
                 return;
             }
 
@@ -376,7 +401,7 @@ class ilBookingGatewayGUI
             $ctrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
-            $main_tpl->setContent($form->getHtml());
+            $main_tpl->setContent($form->getHTML());
         }
     }
 

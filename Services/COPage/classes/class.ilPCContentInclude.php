@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCContentInclude
-*
-* Content include object (see ILIAS DTD). Inserts content snippets from other
-* source (e.g. media pool)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCContentInclude
+ *
+ * Content include object (see ILIAS DTD). Inserts content snippets from other
+ * source (e.g. media pool)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCContentInclude extends ilPageContent
 {
     /**
@@ -161,7 +157,6 @@ class ilPCContentInclude extends ilPageContent
      */
     public static function beforePageDelete($a_page)
     {
-        include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), false, $a_page->getLanguage());
     }
 
@@ -183,7 +178,6 @@ class ilPCContentInclude extends ilPageContent
      */
     public static function saveContentIncludeUsage($a_page, $a_domdoc, $a_old_nr = 0)
     {
-        include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
         $ci_ids = self::collectContentIncludes($a_page, $a_domdoc);
         ilPageContentUsage::deleteAllUsages("incl", $a_page->getParentType() . ":pg", $a_page->getId(), $a_old_nr, $a_page->getLanguage());
         foreach ($ci_ids as $ci_id) {
@@ -238,7 +232,6 @@ class ilPCContentInclude extends ilPageContent
             $param = explode(";", $param);
 
             if ($param[0] == "mep" && is_numeric($param[1])) {
-                include_once("./Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php");
                 $html = "";
                 $snippet_lang = $this->getPage()->getLanguage();
                 if (!ilPageObject::_exists("mep", $param[1], $snippet_lang)) {
@@ -248,7 +241,7 @@ class ilPCContentInclude extends ilPageContent
                     $page_gui = new ilMediaPoolPageGUI($param[1], 0, true, $snippet_lang);
                     if ($a_mode != "offline") {
                         $page_gui->setFileDownloadLink($this->getFileDownloadLink());
-                        $page_gui->setFullscreenLink($this->getFullscreenLink()."&pg_type=mep");
+                        $page_gui->setFullscreenLink($this->getFullscreenLink() . "&pg_type=mep");
                         $page_gui->setSourcecodeDownloadScript($this->getSourcecodeDownloadScript());
                     } else {
                         $page_gui->setOutputMode(ilPageObjectGUI::OFFLINE);
@@ -256,7 +249,6 @@ class ilPCContentInclude extends ilPageContent
 
                     $html = $page_gui->getRawContent();
                     if ($a_mode == "edit") {
-                        include_once("./Services/Link/classes/class.ilLink.php");
                         $par_id = $page_gui->getPageObject()->getParentId();
                         $info = "";
                         foreach (ilObject::_getAllReferences($par_id) as $ref_id) {

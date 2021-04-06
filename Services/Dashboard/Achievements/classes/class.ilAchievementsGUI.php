@@ -1,6 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Achivements GUI
@@ -8,7 +8,6 @@
  * @ilCtrl_Calls ilAchievementsGUI: ilLearningProgressGUI, ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI
  *
  * @author killing@leifos.de
- * @ingroup ServicesPersonalDesktop
  */
 class ilAchievementsGUI
 {
@@ -70,7 +69,6 @@ class ilAchievementsGUI
             case "illearningprogressgui":
                 $main_tpl->setTitle($lng->txt("learning_progress"));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_trac.svg"));
-                include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
                 $new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP, 0);
                 $ctrl->forwardCommand($new_gui);
                 break;
@@ -94,7 +92,6 @@ class ilAchievementsGUI
             case 'ilbadgeprofilegui':
                 $main_tpl->setTitle($lng->txt("obj_bdga"));
                 $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
-                include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
                 $bgui = new ilBadgeProfileGUI();
                 $ctrl->forwardCommand($bgui);
                 $this->main_tpl->printToStdout();

@@ -1,15 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Multi byte sensitive string functions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*/
+ * Multi byte sensitive string functions
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilStr
 {
     public static function subStr($a_str, $a_start, $a_length = null)
@@ -266,7 +264,6 @@ class ilStr
      */
     public static function normalizeUtf8String($a_str)
     {
-        include_once("./include/Unicode/UtfNormal.php");
         return UtfNormal::toNFC($a_str);
     }
 }

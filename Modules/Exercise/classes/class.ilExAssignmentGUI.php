@@ -309,7 +309,7 @@ class ilExAssignmentGUI
                     $img_tpl->setVariable("MODAL", $modal);
                     $img_tpl->setVariable("ITEM_ID", $item_id);
                     $img_tpl->setVariable("IMAGE", $image);
-                    $img_tpl->setvariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setVariable("IMAGE_LENS", $image_lens);
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());

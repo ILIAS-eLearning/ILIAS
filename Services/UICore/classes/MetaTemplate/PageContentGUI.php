@@ -1,5 +1,7 @@
 <?php namespace ILIAS\Services\UICore\MetaTemplate;
 
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+
 use ilTemplate;
 
 /**
@@ -16,7 +18,7 @@ class PageContentGUI
     private $template_file;
 
     /**
-     * @var bool 
+     * @var bool
      */
     private $hiddenTitle = false;
 
@@ -562,7 +564,6 @@ class PageContentGUI
      */
     private function initHelp()
     {
-        include_once("./Services/Help/classes/class.ilHelpGUI.php");
         //\ilHelpGUI::initHelp($this);
     }
 
@@ -641,7 +642,6 @@ class PageContentGUI
             $ref_id = $this->enable_fileupload;
             $upload_id = "dropzone_" . $ref_id;
 
-            include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
             $upload = new \ilFileUploadGUI($upload_id, $ref_id, true);
 
             $this->template_file->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");

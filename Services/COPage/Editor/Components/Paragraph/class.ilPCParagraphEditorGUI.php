@@ -12,7 +12,8 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
     /**
      * @inheritDoc
      */
-    function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id): array {
+    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
+    {
         $cfg = $page_gui->getPageConfig();
         $menu = ilPageObjectGUI::getTinyMenu(
             $page_type,
@@ -36,8 +37,8 @@ class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComp
     /**
      * @inheritDoc
      */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid): string {
+    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
+    {
         return "";
     }
-
 }

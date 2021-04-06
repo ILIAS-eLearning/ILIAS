@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-include_once("./Services/Export/exceptions/class.ilImportException.php");
- 
 /**
  * manifest.xml file not found-exception for import
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilManifestFileNotFoundImportException extends ilImportException
 {

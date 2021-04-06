@@ -1,17 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilCommonActionDispatcherGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilInfoScreenGUI.php 30682 2011-09-16 19:33:22Z akill $
-*
-* @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
-* @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
-*
-* @ingroup ServicesObject
-*/
+ * Class ilCommonActionDispatcherGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
+ * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
+ */
 class ilCommonActionDispatcherGUI
 {
     /**
@@ -136,9 +133,7 @@ class ilCommonActionDispatcherGUI
                     break;
                 
                 case self::TYPE_WORKSPACE:
-                    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                     $tree = new ilWorkspaceTree($ilUser->getId());
-                    include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
                     $access_handler = new ilWorkspaceAccessHandler($tree);
                     break;
                 
@@ -187,7 +182,6 @@ class ilCommonActionDispatcherGUI
                     $obj_type = $this->sub_type;
                 }
                 
-                include_once "Services/Notes/classes/class.ilNoteGUI.php";
                 $note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type, false, $this->news_id);
                 $note_gui->enablePrivateNotes(true);
                 
@@ -214,7 +208,6 @@ class ilCommonActionDispatcherGUI
                 break;
 
             case "iltagginggui":
-                include_once "Services/Tagging/classes/class.ilTaggingGUI.php";
                 $tags_gui = new ilTaggingGUI($this->node_id);
                 $tags_gui->setObject($this->obj_id, $this->obj_type);
                 $ilCtrl->forwardCommand($tags_gui);
@@ -222,13 +215,11 @@ class ilCommonActionDispatcherGUI
             
             case "ilobjectactivationgui":
                 $ilCtrl->setParameter($this, "parent_id", (int) $_REQUEST['parent_id']);
-                include_once 'Services/Object/classes/class.ilObjectActivationGUI.php';
                 $act_gui = new ilObjectActivationGUI((int) $_REQUEST['parent_id'], $this->node_id);
                 $ilCtrl->forwardCommand($act_gui);
                 break;
             
             case "ilratinggui":
-                include_once("./Services/Rating/classes/class.ilRatingGUI.php");
                 $rating_gui = new ilRatingGUI();
                 if (!$_GET["rnsb"]) {
                     $rating_gui->setObject($this->obj_id, $this->obj_type, $this->sub_id, $this->sub_type);
@@ -296,7 +287,6 @@ class ilCommonActionDispatcherGUI
             return;
         }
         
-        include_once 'Services/Object/classes/class.ilObjectListGUIFactory.php';
         $this->header_action = ilObjectListGUIFactory::_getListGUIByType(
             $this->obj_type,
             ($this->node_type == self::TYPE_REPOSITORY)

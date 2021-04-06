@@ -23,8 +23,6 @@ class ilBlogImporter extends ilXmlImporter
     /**
      * Import XML
      *
-     * @param
-     * @return
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {

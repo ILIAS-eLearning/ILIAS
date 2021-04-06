@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCParagraph.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPCSourceCode
@@ -10,9 +9,6 @@ require_once("./Services/COPage/classes/class.ilPCParagraph.php");
  *
  * @author Roland Küstermann
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCSourceCode extends ilPCParagraph
 {
@@ -156,7 +152,6 @@ class ilPCSourceCode extends ilPCParagraph
      */
     public function highlightText($a_text, $proglang, $autoindent = "")
     {
-        include_once("./Services/UIComponent/SyntaxHighlighter/classes/class.ilSyntaxHighlighter.php");
         $proglang = ilSyntaxHighlighter::getNewLanguageId($proglang);
         if (ilSyntaxHighlighter::isSupported($proglang)) {
             $highl = ilSyntaxHighlighter::getInstance($proglang);

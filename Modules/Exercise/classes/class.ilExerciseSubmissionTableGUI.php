@@ -53,13 +53,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
     /**
      * Constructor
      *
-     * @param string $a_parent_obj
-     * @param string $a_parent_cmd
+     * @param               $a_parent_obj
+     * @param string        $a_parent_cmd
      * @param ilObjExercise $a_exc
-     * @param int $a_item_id
-     * @return self
+     * @param               $a_item_id
+     * @throws ilExcUnknownAssignmentTypeException
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjExercise $a_exc, $a_item_id)
+    public function __construct($a_parent_obj, string $a_parent_cmd, ilObjExercise $a_exc, $a_item_id)
     {
         global $DIC;
 

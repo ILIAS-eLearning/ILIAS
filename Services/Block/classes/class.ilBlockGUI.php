@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a block method of a block.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * This class represents a block method of a block.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 abstract class ilBlockGUI
 {
     const PRES_MAIN_LEG = 0;		// main legacy panel
@@ -120,7 +118,6 @@ abstract class ilBlockGUI
         $this->obj_def = $DIC["objDefinition"];
         $this->ui = $DIC->ui();
 
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
         $this->main_tpl->addJavaScript("./Services/Block/js/ilblockcallback.js");
 
@@ -637,7 +634,6 @@ abstract class ilBlockGUI
     public function fillHeaderCommands()
     {
         // adv selection gui
-        include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
         $dropdown = new ilAdvancedSelectionListGUI();
         $dropdown->setUseImages(true);
         $dropdown->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);

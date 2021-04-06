@@ -33,6 +33,8 @@ This section documents the general concepts and structures of the Exercise Modul
 * [Submission](#submission)
 * [Peer Review](#peer-review)
 * [Criteria Catalog](#criteria-catalog)
+* [Calendar Appointments](#calendar-appointments)
+* [Tasks](#tasks)
 
 
 ## Exercise
@@ -86,6 +88,23 @@ Handles everything about the state (current phase) of a user in an assignment us
 ## Peer Review
 
 ## Criteria Catalog
+
+## Calendar Appointments
+
+Calendar appointments are created for the **Official Deadline** and the **Peer Review Deadline**.
+
+### Business Rules
+
+- Calendar appointments are stored in an exercise calendar which is part of the aggregation of an upper course calendar: Appointmens will be visible if a user is member in an upper course (or group) of the exercise.
+
+## Tasks
+
+Tasks are created for handing-in and for providing a peer feedback..
+
+### Business Rules
+
+- Task for handing-in will only be visible during **Submission Period**.
+- Task for peer-review will only be visible during **Peer Review Period**.
 
 # Other Specs
 

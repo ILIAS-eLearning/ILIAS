@@ -1,33 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a file wizard property in a property form.
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id: class.ilFileWizardInputGUI.php 18834 2009-02-03 10:10:29Z hschottm $
-* @ingroup	ServicesForm
-*/
+ * This class represents a file wizard property in a property form.
+ *
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ */
 class ilFileWizardInputGUI extends ilFileInputGUI
 {
     /**
@@ -147,12 +126,9 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $filename = $name;
                 $filename_arr = pathinfo($name);
                 $suffix = $filename_arr["extension"];
-                $mimetype = $pictures["type"][$index];
-                $size_bytes = $pictures["size"][$index];
                 $temp_name = $pictures["tmp_name"][$index];
                 $error = $pictures["error"][$index];
 
-                include_once("./Services/Utilities/classes/class.ilStr.php");
                 $_FILES[$this->getPostVar()]["name"][$index] = ilStr::normalizeUtf8String($_FILES[$this->getPostVar()]["name"][$index]);
 
 
@@ -253,7 +229,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 $tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
                 $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 $tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
                 $tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));
                 $tpl->parseCurrentBlock();
@@ -275,7 +250,6 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 );
             }
             
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());

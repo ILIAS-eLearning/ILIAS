@@ -3,15 +3,7 @@
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 
-include_once('Services/BackgroundTasks/classes/class.ilCopyDefinition.php');
-include_once('Services/BackgroundTasks/classes/Jobs/class.ilCollectFilesJob.php');
-include_once('Services/BackgroundTasks/classes/Jobs/class.ilCheckSumOfFileSizesJob.php');
-include_once('Services/BackgroundTasks/classes/UserInteractions/class.ilSumOfFileSizesTooLargeInteraction.php');
-include_once('Services/BackgroundTasks/classes/Jobs/class.ilCopyFilesToTempDirectoryJob.php');
-include_once('Services/BackgroundTasks/classes/Jobs/class.ilZipJob.php');
-include_once('Services/BackgroundTasks/classes/UserInteractions/class.ilDownloadZipInteraction.php');
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilDownloadContainerFilesBackgroundTask

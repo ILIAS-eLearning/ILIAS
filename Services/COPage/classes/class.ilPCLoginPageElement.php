@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/COPage/classes/class.ilPageContent.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCLoginPageElement
-*
-* Login page element object (see ILIAS DTD). Inserts login page elements
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCLoginPageElement
+ *
+ * Login page element object (see ILIAS DTD). Inserts login page elements
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilPCLoginPageElement extends ilPageContent
 {
     public $res_node;

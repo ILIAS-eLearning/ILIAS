@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * This class represents a selection list property in a property form.
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup	ServicesForm
  */
 class ilCountrySelectInputGUI extends ilSelectInputGUI
 {
@@ -46,8 +41,6 @@ class ilCountrySelectInputGUI extends ilSelectInputGUI
 
         $lng->loadLanguageModule("meta");
         $lng->loadLanguageModule("form");
-
-        include_once("./Services/Utilities/classes/class.ilCountry.php");
 
         foreach (ilCountry::getCountryCodes() as $c) {
             $options[$c] = $lng->txt("meta_c_" . $c);

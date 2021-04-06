@@ -1,14 +1,9 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package		Services/Form
  */
 abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements ilMultiValuesItem
 {
@@ -30,13 +25,8 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     {
         parent::__construct($a_title, $a_postvar);
         
-        require_once 'Services/Form/classes/class.ilFormSubmitRecursiveSlashesStripper.php';
         $this->addFormValuesManipulator(new ilFormSubmitRecursiveSlashesStripper());
-        
-        require_once 'Services/Form/classes/class.ilIdentifiedMultiValuesJsPositionIndexRemover.php';
         $this->addFormValuesManipulator(new ilIdentifiedMultiValuesJsPositionIndexRemover());
-        
-        //$this->setMulti(true); // this is another planet, do not enable (!)
     }
     
     public function getElementAddCmd()
@@ -84,37 +74,31 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     
     public function setValues($values)
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
     public function getValues()
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
     public function setValue($value)
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
     public function getValue()
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
     public function setMultiValues(array $values)
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
     public function getMultiValues()
     {
-        require_once 'Services/Form/exceptions/class.ilFormException.php';
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     

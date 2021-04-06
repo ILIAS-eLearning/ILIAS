@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
 define("IL_INSERT_CHILD", 2);
-
-/** @defgroup ServicesCOPage Services/COPage
- */
 
 /*
 
@@ -34,8 +32,6 @@ define("IL_INSERT_CHILD", 2);
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesCOPage
  */
 abstract class ilPageObject
 {
@@ -47,7 +43,7 @@ abstract class ilPageObject
     public static $exists = array();
 
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
@@ -187,7 +183,6 @@ abstract class ilPageObject
      */
     final public function initPageConfig()
     {
-        include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
         $cfg = ilPageObjectFactory::getConfigInstance($this->getParentType());
         $this->setPageConfig($cfg);
     }
@@ -363,7 +358,6 @@ abstract class ilPageObject
             $this->page_record = $this->db->fetchAssoc($pg_set);
         }
         if (!$this->page_record) {
-            include_once("./Services/COPage/exceptions/class.ilCOPageNotFoundException.php");
             throw new ilCOPageNotFoundException("Error: Page " . $this->id . " is not in database" .
                 " (parent type " . $this->getParentType() . ", lang: " . $this->getLanguage() . ").");
         }
@@ -419,7 +413,6 @@ abstract class ilPageObject
      */
     public static function _existsAndNotEmpty($a_parent_type, $a_id, $a_lang = "-")
     {
-        include_once("./Services/COPage/classes/class.ilPageUtil.php");
         return ilPageUtil::_existsAndNotEmpty($a_parent_type, $a_id, $a_lang);
     }
 
@@ -541,7 +534,6 @@ abstract class ilPageObject
     public function getActive($a_check_scheduled_activation = false)
     {
         if ($a_check_scheduled_activation && !$this->active) {
-            include_once("./Services/Calendar/classes/class.ilDateTime.php");
             $start = new ilDateTime($this->getActivationStart(), IL_CAL_DATETIME);
             $end = new ilDateTime($this->getActivationEnd(), IL_CAL_DATETIME);
             $now = new ilDateTime(time(), IL_CAL_UNIX);
@@ -794,7 +786,6 @@ abstract class ilPageObject
         if (!is_object($cont_node)) {
             return false;
         }
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $node_name = $cont_node->node_name();
         if (in_array($node_name, ["PageObject", "TableRow"])) {
             return null;
@@ -807,12 +798,10 @@ abstract class ilPageObject
         // table extra handling (@todo: get rid of it)
         if ($node_name == "Table") {
             if ($child_node->get_attribute("DataTable") == "y") {
-                require_once("./Services/COPage/classes/class.ilPCDataTable.php");
                 $tab = new ilPCDataTable($this);
                 $tab->setNode($cont_node);
                 $tab->setHierId($a_hier_id);
             } else {
-                require_once("./Services/COPage/classes/class.ilPCTable.php");
                 $tab = new ilPCTable($this);
                 $tab->setNode($cont_node);
                 $tab->setHierId($a_hier_id);
@@ -827,9 +816,6 @@ abstract class ilPageObject
                 echo "ilPageObject::error media";
                 exit;
             }
-
-            //require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-            require_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 
             $mal_node = $child_node->first_child();
             //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
@@ -860,7 +846,6 @@ abstract class ilPageObject
 
         // check if pc definition has been found
         if (!is_array($pc_def)) {
-            include_once("./Services/COPage/exceptions/class.ilCOPageUnknownPCTypeException.php");
             throw new ilCOPageUnknownPCTypeException('Unknown PC Name "' . $node_name . '".');
         }
         $pc_class = "ilPC" . $pc_def["name"];
@@ -895,7 +880,7 @@ abstract class ilPageObject
         $content_object = $this->getContentObjectForPcId($pcid);
         $node = $content_object->getNode();
         $node = $node->parent_node();
-        while($node) {
+        while ($node) {
             if ($node->node_name() == "PageContent") {
                 $pcid = $node->get_attribute("PCID");
                 if ($pcid != "") {
@@ -1065,7 +1050,6 @@ abstract class ilPageObject
      */
     public function handleCopiedContent($a_dom, $a_self_ass = true, $a_clone_mobs = false)
     {
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
 
         // handle question elements
@@ -1116,7 +1100,6 @@ abstract class ilPageObject
             $nodes = array($a_node);
         }
 
-        require_once('Services/COPage/classes/class.ilPCPlugged.php');
         foreach ($nodes as $node) {
             if ($node instanceof php4DOMNode) {
                 $node = $node->myDOMNode;
@@ -1141,7 +1124,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $q_ids = array();
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
 
@@ -1150,7 +1132,6 @@ abstract class ilPageObject
 
             if (!($inst_id > 0)) {
                 if ($mob_id > 0) {
-                    include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                     $media_object = new ilObjMediaObject($mob_id);
 
                     // now copy this question and change reference to
@@ -1174,7 +1155,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $q_ids = array();
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $or_id = $res->nodeset[$i]->get_attribute("OriginId");
 
@@ -1183,7 +1163,6 @@ abstract class ilPageObject
 
             if (!($inst_id > 0)) {
                 if ($mob_id > 0) {
-                    include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                     $media_object = new ilObjMediaObject($mob_id);
 
                     // now copy this question and change reference to
@@ -1208,7 +1187,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $q_ids = array();
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
 
@@ -1217,7 +1195,6 @@ abstract class ilPageObject
 
             if (!($inst_id > 0)) {
                 if ($q_id > 0) {
-                    include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                     $question = assQuestion::_instantiateQuestion($q_id);
                     // check due to #16557
                     if (is_object($question) && $question->isComplete()) {
@@ -1367,7 +1344,6 @@ abstract class ilPageObject
         );
 
         // collect lang vars from pc elements
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             $lang_vars[] = "pc_" . $def["pc_type"];
@@ -1401,7 +1377,6 @@ abstract class ilPageObject
     public function getFirstParagraphText()
     {
         if ($this->dom) {
-            require_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $xpc = xpath_new_context($this->dom);
             $path = "//Paragraph[1]";
             $res = xpath_eval($xpc, $path);
@@ -1420,9 +1395,8 @@ abstract class ilPageObject
     public function getParagraphForPCID($pcid)
     {
         if ($this->dom) {
-            require_once("./Services/COPage/classes/class.ilPCParagraph.php");
             $xpc = xpath_new_context($this->dom);
-            $path = "//PageContent[@PCID='".$pcid."']/Paragraph[1]";
+            $path = "//PageContent[@PCID='" . $pcid . "']/Paragraph[1]";
             $res = xpath_eval($xpc, $path);
             if (count($res->nodeset) > 0) {
                 $cont_node = $res->nodeset[0]->parent_node();
@@ -1625,7 +1599,6 @@ abstract class ilPageObject
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
 
-        require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $oid = $res->nodeset[$i]->get_attribute("OriginId");
             if (substr($oid, 0, 4) == "il__") {
@@ -1654,7 +1627,6 @@ abstract class ilPageObject
 
         // get xml of corresponding media objects
         $mobs_xml = "";
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         foreach ($mob_ids as $mob_id => $dummy) {
             if (ilObject::_lookupType($mob_id) == "mob") {
                 $mob_obj = new ilObjMediaObject($mob_id);
@@ -1744,7 +1716,6 @@ abstract class ilPageObject
             }
 
             if ($sib_hier_id != "") {        // set id to sibling id "+ 1"
-                require_once("./Services/COPage/classes/class.ilPageContent.php");
                 $node_hier_id = ilPageContent::incEdId($sib_hier_id);
                 $res->nodeset[$i]->set_attribute("HierId", $node_hier_id);
                 $this->hier_ids[] = $node_hier_id;
@@ -1954,7 +1925,6 @@ abstract class ilPageObject
                         $entry = $childs[$j]->get_attribute("Entry");
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
-                        require_once("./Modules/File/classes/class.ilObjFile.php");
                         $size = ilObjFileAccess::_lookupFileSize($a_id);
                     }
                 }
@@ -2063,7 +2033,6 @@ abstract class ilPageObject
             if ($import_id == "" && $a_reuse_existing_by_import) {
                 // if the old_id is also referred by the page content of the default language
                 // we assume that this media object is unchanged
-                include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
                 $med_of_def_lang = ilObjMediaObject::_getMobsOfObject(
                     $this->getParentType() . ":pg",
                     $this->getId(),
@@ -2204,9 +2173,6 @@ abstract class ilPageObject
         $path = "//MediaAlias";
         $res = xpath_eval($xpc, $path);
 
-        require_once("Services/MediaObjects/classes/class.ilMediaItem.php");
-        require_once("Services/COPage/classes/class.ilMediaAliasItem.php");
-
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $media_object_node = $res->nodeset[$i]->parent_node();
             $page_content_node = $media_object_node->parent_node();
@@ -2323,8 +2289,6 @@ abstract class ilPageObject
     // @todo: generalize, internal links usage info
     public static function _handleImportRepositoryLinks($a_rep_import_id, $a_rep_type, $a_rep_ref_id)
     {
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
-
         //echo "-".$a_rep_import_id."-".$a_rep_ref_id."-";
         $sources = ilInternalLink::_getSourcesOfTarget(
             "obj",
@@ -2333,14 +2297,10 @@ abstract class ilPageObject
         );
         //var_dump($sources);
         foreach ($sources as $source) {
-            //echo "A";
             if ($source["type"] == "lm:pg") {
-                //echo "B";
-                include_once("./Modules/LearningModule/classes/class.ilLMPage.php");
                 if (self::_exists("lm", $source["id"], $source["lang"])) {
                     $page_obj = new ilLMPage($source["id"], 0, $source["lang"]);
                     if (!$page_obj->page_not_found) {
-                        //echo "C";
                         $page_obj->handleImportRepositoryLink(
                             $a_rep_import_id,
                             $a_rep_type,
@@ -2614,7 +2574,6 @@ abstract class ilPageObject
             $this->saveStyleUsage($a_domdoc);
 
             // pc classes hook
-            include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
             $defs = ilCOPagePCDef::getPCDefinitions();
             foreach ($defs as $def) {
                 ilCOPagePCDef::requirePCClassByName($def["name"]);
@@ -2659,7 +2618,6 @@ abstract class ilPageObject
         }
         //var_dump($errors); exit;
         if (empty($errors) && !$this->getEditLock()) {
-            include_once("./Services/User/classes/class.ilUserUtil.php");
             $lock = $this->getEditLockInfo();
             $errors[0] = array(0 => 0,
                                1 => $this->lng->txt("cont_not_saved_edit_lock_expired") . "<br />" .
@@ -2805,13 +2763,10 @@ abstract class ilPageObject
         );
 
         $mobs = array();
-        $files = array();
-
         if (!$this->page_not_found) {
             $this->buildDom();
             $mobs = $this->collectMediaObjects(false);
         }
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $mobs2 = ilObjMediaObject::_getMobsOfObject($this->getParentType() . ":pg", $this->getId(), false);
         foreach ($mobs2 as $m) {
             if (!in_array($m, $mobs)) {
@@ -2836,7 +2791,6 @@ abstract class ilPageObject
         ilObjMediaObject::_deleteAllUsages($this->getParentType() . ":pg", $this->getId());
 
         // delete news
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         ilNewsItem::deleteNewsOfContext(
             $this->getParentId(),
             $this->getParentType(),
@@ -2876,7 +2830,6 @@ abstract class ilPageObject
     final protected function __beforeDelete()
     {
         // pc classes hook
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             ilCOPagePCDef::requirePCClassByName($def["name"]);
@@ -2895,7 +2848,6 @@ abstract class ilPageObject
         $this->saveStyleUsage($a_old_domdoc, $a_old_nr);
 
         // pc classes hook
-        include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
         $defs = ilCOPagePCDef::getPCDefinitions();
         foreach ($defs as $def) {
             ilCOPagePCDef::requirePCClassByName($def["name"]);
@@ -3044,8 +2996,6 @@ abstract class ilPageObject
     // @todo: move to content include class
     public function getLastUpdateOfIncludedElements()
     {
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-        include_once("./Modules/File/classes/class.ilObjFile.php");
         $mobs = ilObjMediaObject::_getMobsOfObject(
             $this->getParentType() . ":pg",
             $this->getId()
@@ -3065,7 +3015,6 @@ abstract class ilPageObject
      */
     public function deleteInternalLinks()
     {
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         ilInternalLink::_deleteAllLinksOfSource(
             $this->getParentType() . ":pg",
             $this->getId(),
@@ -3258,7 +3207,6 @@ abstract class ilPageObject
         foreach ($skip as $s) {
             unset($hier_ids[$s]);
         }
-        include_once("./Services/COPage/classes/class.ilPageContent.php");
         $hier_ids = ilPageContent::sortHierIds($hier_ids);
         $nr = 1;
         foreach ($hier_ids as $hid) {
@@ -3275,7 +3223,6 @@ abstract class ilPageObject
                 }
             }
         }
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         ilEditClipboard::setAction("copy");
     }
 
@@ -3925,7 +3872,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $hashes = array();
-        require_once("./Services/COPage/classes/class.ilPCParagraph.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $hier_id = $res->nodeset[$i]->get_attribute("HierId");
             $pc_id = $res->nodeset[$i]->get_attribute("PCID");
@@ -3972,7 +3918,6 @@ abstract class ilPageObject
         $res = &xpath_eval($xpc, $path);
 
         $q_ids = array();
-        include_once("./Services/Link/classes/class.ilInternalLink.php");
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
 
@@ -4256,7 +4201,6 @@ abstract class ilPageObject
     public function compareVersion($a_left, $a_right)
     {
         // get page objects
-        include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
         $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
         $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
 
@@ -4271,7 +4215,6 @@ abstract class ilPageObject
                     $l_hashes[$pc_id]["change"] = "Modified";
                     $r_hashes[$pc_id]["change"] = "Modified";
 
-                    include_once("./Services/COPage/mediawikidiff/class.WordLevelDiff.php");
                     // if modified element is a paragraph, highlight changes
                     if ($l_hashes[$pc_id]["content"] != "" &&
                         $r_hashes[$pc_id]["content"] != "") {
@@ -4574,7 +4517,6 @@ abstract class ilPageObject
 
         $c = array();
         foreach ($contributors as $k => $co) {
-            include_once "Services/User/classes/class.ilObjUser.php";
             $name = ilObjUser::_lookupName($k);
             $c[] = array("user_id" => $k,
                          "pages" => $co,
@@ -4769,7 +4711,6 @@ abstract class ilPageObject
                     $type = "term";
                     break;
             }
-            include_once("./Services/Link/classes/class.ilInternalLink.php");
             $id = ilInternalLink::_extractObjIdOfTarget($id);
             return array("id" => $id, "type" => $type, "target" => $target);
         }
@@ -4805,7 +4746,6 @@ abstract class ilPageObject
             }
         }
 
-        include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
         foreach (self::lookupTranslations($this->getParentType(), $this->getId()) as $l) {
             $existed = false;
             $orig_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), 0, $l);
@@ -4990,8 +4930,6 @@ abstract class ilPageObject
         $a_exact = false,
         $a_consider_html = true
     ) {
-        include_once "Services/Utilities/classes/class.ilStr.php";
-
         if ($a_consider_html) {
             // if the plain text is shorter than the maximum length, return the whole text
             if (strlen(preg_replace('/<.*?>/', '', $a_text)) <= $a_length) {
@@ -5183,7 +5121,6 @@ abstract class ilPageObject
      */
     public function resolveResources($ref_mapping)
     {
-        include_once("./Services/COPage/classes/class.ilPCResources.php");
         ilPCResources::resolveResources($this, $ref_mapping);
     }
 
@@ -5236,5 +5173,4 @@ abstract class ilPageObject
         }
         return true;
     }
-
 }

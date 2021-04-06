@@ -1,18 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("Services/Block/classes/class.ilBlockGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Metadata block
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_IsCalledBy ilObjectMetaDataBlockGUI: ilColumnGUI
- *
- * @ingroup ServicesObject
  */
 class ilObjectMetaDataBlockGUI extends ilBlockGUI
 {
@@ -119,15 +113,11 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
         $old_dt = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-        include_once('Services/ADT/classes/class.ilADTFactory.php');
-        
         // this correctly binds group and definitions
         $this->values->read();
 
         $defs = $this->values->getDefinitions();
         foreach ($this->values->getADTGroup()->getElements() as $element_id => $element) {
-
             $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($defs[$element_id]->getRecordId());
 
             $btpl->setCurrentBlock("item");

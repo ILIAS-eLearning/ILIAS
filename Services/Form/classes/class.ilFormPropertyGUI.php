@@ -1,13 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilFormPropertyGUI
 {
     /**
@@ -394,7 +393,6 @@ class ilFormPropertyGUI
     public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
     {
         if (!$this instanceof ilMultiValuesItem) {
-            require_once 'Services/Form/exceptions/class.ilFormException.php';
             throw new ilFormException(sprintf(
                 "%s not supported for form property type %s",
                 __FUNCTION__,
@@ -457,7 +455,6 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_ADD", $lng->txt("add"));
             $tpl->setVariable("TXT_REMOVE", $lng->txt("remove"));
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("SRC_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("SRC_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->parseCurrentBlock();
@@ -468,7 +465,6 @@ class ilFormPropertyGUI
             $tpl->setVariable("ID", $id);
             $tpl->setVariable("TXT_DOWN", $lng->txt("down"));
             $tpl->setVariable("TXT_UP", $lng->txt("up"));
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $tpl->setVariable("SRC_UP", ilGlyphGUI::get(ilGlyphGUI::UP));
             $tpl->setVariable("SRC_DOWN", ilGlyphGUI::get(ilGlyphGUI::DOWN));
             $tpl->parseCurrentBlock();
@@ -517,7 +513,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for filter
      * @return string
      */
-    public function getTableFilterLabelFor() {
+    public function getTableFilterLabelFor()
+    {
         return $this->getFieldId();
     }
 
@@ -525,8 +522,8 @@ class ilFormPropertyGUI
      * Get label "for" attribute value for form
      * @return string
      */
-    public function getFormLabelFor() {
+    public function getFormLabelFor()
+    {
         return $this->getFieldId();
     }
-
 }

@@ -1,21 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/News/classes/class.ilNewsItem.php");
-include_once("./Services/Feeds/classes/class.ilFeedItem.php");
-include_once("./Services/Feeds/classes/class.ilFeedWriter.php");
-
-/** @defgroup ServicesFeeds Services/Feeds
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Feed writer for personal user feeds.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesFeeds
-*/
+ * Feed writer for personal user feeds.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilUserFeedWriter extends ilFeedWriter
 {
     /**
@@ -51,10 +42,8 @@ class ilUserFeedWriter extends ilFeedWriter
             return;
         }
 
-        include_once "Services/User/classes/class.ilObjUser.php";
         $hash = ilObjUser::_lookupFeedHash($a_user_id);
         
-        include_once("./Services/News/classes/class.ilNewsItem.php");
         $rss_period = ilNewsItem::_lookupRSSPeriod();
 
         if ($a_hash == $hash) {
@@ -82,7 +71,6 @@ class ilUserFeedWriter extends ilFeedWriter
 
                 // not nice, to do: general solution
                 if ($obj_type == "mcst") {
-                    include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
                     if (!ilObjMediaCastAccess::_lookupOnline($obj_id)) {
                         continue;
                     }
@@ -124,14 +112,12 @@ class ilUserFeedWriter extends ilFeedWriter
                         "&amp;target=pg_" . $item["context_sub_obj_id"] . "_" . $item["ref_id"]);
                 } elseif ($item["context_obj_type"] == "wiki" && $item["context_sub_obj_type"] == "wpg"
                     && $item["context_sub_obj_id"] > 0) {
-                    include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
                     $wptitle = ilWikiPage::lookupTitle($item["context_sub_obj_id"]);
                     $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .
                         "&amp;target=" . $item["context_obj_type"] . "_" . $item["ref_id"] . "_" . urlencode($wptitle)); // #14629
                 } elseif (in_array($item["context_obj_type"], array("frm")) && $item["context_sub_obj_type"] == "pos"
                     && $item["context_sub_obj_id"] > 0) {
                     // frm hack, not nice
-                    include_once("./Modules/Forum/classes/class.ilObjForumAccess.php");
                     $thread_id = ilObjForumAccess::_getThreadForPosting($item["context_sub_obj_id"]);
                     if ($thread_id > 0) {
                         $feed_item->setLink(ILIAS_HTTP_PATH . "/goto.php?client_id=" . CLIENT_ID .

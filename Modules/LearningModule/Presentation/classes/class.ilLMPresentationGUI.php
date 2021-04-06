@@ -573,20 +573,6 @@ class ilLMPresentationGUI
             }
         }
 
-        // get template
-        $in_module = ($attributes["template_location"] == "module")
-                ? true
-                : false;
-        /*			if ($in_module)
-                    {
-                        $this->tpl = new ilGlobalTemplate($attributes["template"], true, true, $in_module);
-                        $this->tpl->setBodyClass("");
-                    }
-                    else
-                    {
-                        $this->tpl = $tpl;
-                    }*/
-
         // set style sheets
         if (!$this->offlineMode()) {
             $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());

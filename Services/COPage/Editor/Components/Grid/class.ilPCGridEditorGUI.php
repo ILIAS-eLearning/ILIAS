@@ -24,8 +24,8 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
     /**
      * @inheritDoc
      */
-    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id): array {
-
+    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
+    {
         $form = $this->getCreationForm($page_gui, $ui_wrapper);
 
         return [
@@ -37,7 +37,8 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
     /**
      * @inheritDoc
      */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid): string {
+    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
+    {
         return "";
     }
 
@@ -55,13 +56,14 @@ class ilPCGridEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponent
         /** @var ilPropertyFormGUI $form */
         $form = $grid_gui->initCreationForm();
 
-        $html = $ui_wrapper->getRenderedForm($form,
+        $html = $ui_wrapper->getRenderedForm(
+            $form,
             [
                 ["Page", "component.save", $lng->txt("save")],
                 ["Page", "component.cancel", $lng->txt("cancel")]
-            ]);
+            ]
+        );
 
         return $html;
     }
-
 }

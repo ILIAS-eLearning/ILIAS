@@ -37,7 +37,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      */
     protected $ui_wrapper;
 
-    function __construct(\ilPageObjectGUI $page_gui)
+    public function __construct(\ilPageObjectGUI $page_gui)
     {
         global $DIC;
 
@@ -154,7 +154,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      * @param string           $pcid
      * @return Server\Response
      */
-    public function sendUpdateResponse(\ilPageObjectGUI $page_gui, $updated, string $pcid): Server\Response
+    public function sendUpdateResponse(\ilPageObjectGUI $page_gui, $updated, string $pcid) : Server\Response
     {
         $error = null;
 
@@ -294,6 +294,4 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $data->pcModel = $page_gui->getPageObject()->getPCModel();
         return new Server\Response($data);
     }
-
-
 }

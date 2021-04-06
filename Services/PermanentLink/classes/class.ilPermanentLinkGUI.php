@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @defgroup ServicesPermanentLink Services/PermanentLink
- */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class for permanent links
-*
-* @version $Id$
-*
-* @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
-*
-* @ingroup ServicesPermanentLink
-*/
+ * Class for permanent links
+ *
+ * @ilCtrl_Calls ilPermanentLinkGUI: ilNoteGUI, ilColumnGUI, ilPublicUserProfileGUI
+ */
 class ilPermanentLinkGUI
 {
     /**
@@ -206,7 +199,6 @@ class ilPermanentLinkGUI
             "Services/PermanentLink"
         );
         
-        include_once('./Services/Link/classes/class.ilLink.php');
         $href = ilLink::_getStaticLink(
             $this->getId(),
             $this->getType(),

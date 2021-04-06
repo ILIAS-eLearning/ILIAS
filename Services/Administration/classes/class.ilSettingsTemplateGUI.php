@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Administration/classes/class.ilSettingsTemplate.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Settings template
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesAdministration
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSettingsTemplateGUI
 {
@@ -132,7 +129,6 @@ class ilSettingsTemplateGUI
             );
         }
 
-        include_once("./Services/Administration/classes/class.ilSettingsTemplateTableGUI.php");
         $table = new ilSettingsTemplateTableGUI(
             $this,
             "listSettingsTemplates",
@@ -175,7 +171,6 @@ class ilSettingsTemplateGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
         // title
@@ -391,7 +386,7 @@ class ilSettingsTemplateGUI
                     $s["id"],
                     $_POST["value_" . $s["id"]],
                     $_POST["hide_" . $s["id"]]
-                           );
+                );
             }
         }
     }

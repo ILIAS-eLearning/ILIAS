@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Rating Data set class
@@ -10,8 +9,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - rating_category: data from il_rating_cat
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ServicesRating
  */
 class ilRatingDataSet extends ilDataSet
 {
@@ -106,7 +103,6 @@ class ilRatingDataSet extends ilDataSet
         switch ($a_entity) {
             case "rating_category":
                 if ($parent_id = $a_mapping->getMapping('Services/Rating', 'rating_category_parent_id', $a_rec['ParentId'])) {
-                    include_once("./Services/Rating/classes/class.ilRatingCategory.php");
                     $newObj = new ilRatingCategory();
                     $newObj->setParentId($parent_id);
                     $newObj->save();

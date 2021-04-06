@@ -138,8 +138,7 @@ class ilContProfileTableGUI extends ilTable2GUI
 
         if (ilSkillProfile::lookupRefId($a_set["profile_id"]) > 0) {
             $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_local"));
-        }
-        else {
+        } else {
             $tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
         }
 
@@ -158,8 +157,7 @@ class ilContProfileTableGUI extends ilTable2GUI
                     $ctrl->getLinkTarget($this->parent_obj, "confirmDeleteSingleLocalProfile")
                 )
             );
-        }
-        else {
+        } else {
             $items = array(
                 $ui_factory->link()->standard(
                     $lng->txt("remove"),

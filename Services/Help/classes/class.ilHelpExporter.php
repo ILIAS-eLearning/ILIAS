@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for help system information
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesHelp
  */
 class ilHelpExporter extends ilXmlExporter
 {
@@ -19,7 +16,6 @@ class ilHelpExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Services/Help/classes/class.ilHelpDataSet.php");
         $this->ds = new ilHelpDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
@@ -37,7 +33,6 @@ class ilHelpExporter extends ilXmlExporter
     {
         if ($a_entity == "help") {
             $lm_node_ids = array();
-            include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
             foreach ($a_ids as $lm_id) {
                 $chaps = ilLMObject::getObjectList($lm_id, "st");
                 foreach ($chaps as $chap) {

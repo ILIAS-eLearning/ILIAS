@@ -1,13 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPageObjectGUI
  *
  * User Interface for Page Objects Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
@@ -22,7 +22,7 @@ class ilPageObjectGUI
     const PRINTING = "print";
 
     /**
-     * @var ilTemplate
+     * @var ilGlobalTemplateInterface
      */
     protected $tpl;
 
@@ -153,6 +153,7 @@ class ilPageObjectGUI
         $a_prevent_get_id = false,
         $a_lang = ""
     ) {
+        /** @var ILIAS\DI\Container $DIC $ */
         global $DIC;
 
         $this->log = ilLoggerFactory::getLogger('copg');
@@ -223,7 +224,6 @@ class ilPageObjectGUI
      */
     final protected function initPageObject()
     {
-        include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
         $page = ilPageObjectFactory::getInstance(
             $this->getParentType(),
             $this->getId(),
@@ -1032,7 +1032,6 @@ class ilPageObjectGUI
         switch ($next_class) {
             case 'ilobjectmetadatagui':
                 $this->tabs_gui->activateTab("meta_data");
-                include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
                 $md_gui = new ilObjectMetaDataGUI($this->meta_data_rep_obj, $this->meta_data_type, $this->meta_data_sub_obj_id);
                 if (is_object($this->meta_data_observer_obj)) {
                     $md_gui->addMDObserver(
@@ -1061,7 +1060,6 @@ class ilPageObjectGUI
                 break;
                 
             case 'ilpublicuserprofilegui':
-                require_once './Services/User/classes/class.ilPublicUserProfileGUI.php';
                 $profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
@@ -1083,7 +1081,6 @@ class ilPageObjectGUI
                 break;
 
             case 'ilnewsitemgui':
-                include_once("./Services/News/classes/class.ilNewsItemGUI.php");
                 $news_item_gui = new ilNewsItemGUI();
                 $news_item_gui->setEnableEdit(true);
                 $news_item_gui->setContextObjId($this->news_obj_id);
@@ -1099,14 +1096,12 @@ class ilPageObjectGUI
                 break;
 
             case "ilpropertyformgui":
-                include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
                 $form = $this->initOpenedContentForm();
                 $this->ctrl->forwardCommand($form);
                 break;
                 
             case "ilinternallinkgui":
                 $this->lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI("Media_Media", 0);
 
                 $link_gui->filterLinkType("PageObject_FAQ");
@@ -1120,10 +1115,8 @@ class ilPageObjectGUI
 
             case "ilquestioneditgui":
                 $this->setQEditTabs("question");
-                include_once("./Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php");
                 $edit_gui = new ilQuestionEditGUI();
                 $edit_gui->setPageConfig($this->getPageConfig());
-//			    $edit_gui->addNewIdListener($this, "setNewQuestionId");
                 $edit_gui->setSelfAssessmentEditingMode(true);
                 $ret = $this->ctrl->forwardCommand($edit_gui);
                 $this->tpl->setContent($ret);
@@ -1140,28 +1133,15 @@ class ilPageObjectGUI
                 $this->lng->loadLanguageModule("assessment");
 
                 // set context tabs
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
                 $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType((int) $_GET['q_id']), (int) $_GET['q_id']);
                 $questionGUI->object->setObjId(0);
                 $questionGUI->object->setSelfAssessmentEditingMode(true);
                 $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
 
                 // forward to ilAssQuestionFeedbackGUI
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
                 $gui = new ilAssQuestionFeedbackEditingGUI($questionGUI, $this->ctrl, $this->access, $this->tpl, $this->tabs_gui, $this->lng);
                 $this->ctrl->forwardCommand($gui);
                 break;
-
-/*			case "ilpagemultilanggui":
-                $this->ctrl->setReturn($this, "edit");
-                include_once("./Services/COPage/classes/class.ilPageMultiLangGUI.php");
-                $ml_gui = new ilPageMultiLangGUI($this->getPageObject()->getParentType(), $this->getPageObject()->getParentId(),
-                    $this->getPageConfig()->getSinglePageMode());
-                //$this->setTabs("settings");
-                //$this->setSubTabs("cont_multilinguality");
-                $ret = $this->ctrl->forwardCommand($ml_gui);
-                break;*/
 
 
             case 'ilLearninghistorygui':
@@ -1200,8 +1180,6 @@ class ilPageObjectGUI
      */
     public function setQEditTabs($a_active)
     {
-        include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
-        
         $this->tabs_gui->clearTargets();
 
         $this->tabs_gui->setBackTarget(
@@ -1216,7 +1194,6 @@ class ilPageObjectGUI
             $this->ctrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion")
         );
 
-        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
         $this->ctrl->setParameterByClass("ilAssQuestionFeedbackEditingGUI", "q_id", $_GET["q_id"]);
         $this->tabs_gui->addTab(
             "feedback",
@@ -1285,26 +1262,20 @@ class ilPageObjectGUI
         $disable_auto_margins = '';
 
         // jquery and jquery ui are always provided for components
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
         //		$this->initSelfAssessmentRendering();
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
         ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
         $main_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 
         // needed for overlays in iim
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
         ilOverlayGUI::initJavascript();
         
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($main_tpl);
         
         // init template
-        //if($this->outputToTemplate())
-        //{
         if ($this->getOutputMode() == "edit") {
             $this->initEditing();
 
@@ -1312,9 +1283,7 @@ class ilPageObjectGUI
 
             $this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
 
-            //echo ":".$this->getTemplateTargetVar().":";
             $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
-            //$this->tpl->addBlockFile($this->getTemplateTargetVar(), "adm_content", "tpl.page_edit_wysiwyg.html", "Services/COPage");
 
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
@@ -1350,7 +1319,6 @@ class ilPageObjectGUI
             if ($sel_js_mode == "enable") {
 
                 // add int link parts
-                include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $tpl->setCurrentBlock("int_link_prep");
                 $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
                     $this->ctrl->getLinkTargetByClass(
@@ -1373,8 +1341,6 @@ class ilPageObjectGUI
             if ($this->getEnabledPageFocus()) {
                 $tpl->touchBlock("page_focus");
             }
-                
-            include_once("./Services/User/classes/class.ilUserUtil.php");
                 
             // presentation
             if ($this->isPageContainerToBeRendered()) {
@@ -1500,7 +1466,6 @@ class ilPageObjectGUI
             }
                 
             // content snippets used
-            include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
             $this->getPageObject()->buildDom();
             $snippets = ilPCContentInclude::collectContentIncludes(
                 $this->getPageObject(),
@@ -1508,7 +1473,6 @@ class ilPageObjectGUI
             );
             if (count($snippets) > 0) {
                 foreach ($snippets as $s) {
-                    include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
                     $sn_arr[$s["id"]] = ilMediaPoolPage::lookupTitle($s["id"]);
                 }
                 $tpl->setCurrentBlock("med_link");
@@ -1628,14 +1592,11 @@ class ilPageObjectGUI
 
         $template_xml = '';
 
-        //$content = $this->obj->getXMLFromDom(false, true, true,
-        //	$this->getLinkXML().$this->getQuestionXML().$this->getComponentPluginsXML());
         $link_xml = $this->getLinkXML();
-        //echo "<br>-".htmlentities($link_xml)."-"; exit;
+
         // disable/enable auto margins
         if ($this->getStyleId() > 0) {
             if (ilObject::_lookupType($this->getStyleId()) == "sty") {
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $style = new ilObjStyleSheet($this->getStyleId());
                 $template_xml = $style->getTemplateXML();
                 $disable_auto_margins = "n";
@@ -1722,7 +1683,6 @@ class ilPageObjectGUI
 
         
         if ($this->getPageConfig()->getEnablePCType("Tabs")) {
-            include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
             ilAccordionGUI::addJavaScript();
             ilAccordionGUI::addCss();
         }
@@ -1740,12 +1700,9 @@ class ilPageObjectGUI
             ? $this->user->getPref("ilPageEditor_MediaMode")
             : "enable";
 
-        include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
         $paste = (ilEditClipboard::getAction() == "copy" &&
             $this->getOutputMode() == "edit");
         
-        include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-
         $flv_video_player = ($this->getOutputMode() != "offline")
             ? ilPlayerUtil::getFlashVideoPlayerFilename(true)
             : ilPlayerUtil::getFlashVideoPlayerFilename(true);
@@ -1753,10 +1710,7 @@ class ilPageObjectGUI
         $cfg = $this->getPageConfig();
 
         $current_ts = time();
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
         // added UTF-8 encoding otherwise umlaute are converted too
-        include_once("./Services/Maps/classes/class.ilMapUtil.php");
         $params = array('mode' => $this->getOutputMode(), 'pg_title' => htmlentities($pg_title, ENT_QUOTES, "UTF-8"),
                          'enable_placeholder' => $cfg->getEnablePCType("PlaceHolder") ? "y" : "n",
                          'pg_id' => $this->obj->getId(), 'pg_title_class' => $pg_title_class,
@@ -1817,7 +1771,6 @@ class ilPageObjectGUI
 
 
         // should be modularized
-        include_once("./Services/COPage/classes/class.ilPCSection.php");
         $md5_adds = ilPCSection::getCacheTriggerString($this->getPageObject());
         // run xslt
         $md5 = md5(serialize($params) . $link_xml . $template_xml . $md5_adds);
@@ -1868,7 +1821,6 @@ class ilPageObjectGUI
             }
             $output = str_replace("&amp;", "&", $output);
 
-            include_once './Services/MathJax/classes/class.ilMathJax.php';
             $output = ilMathJax::getInstance()->insertLatexImages($output);
 
             // insert page snippets
@@ -1902,7 +1854,6 @@ class ilPageObjectGUI
             }
 
             // for all page components...
-            include_once("./Services/COPage/classes/class.ilCOPagePCDef.php");
             $defs = ilCOPagePCDef::getPCDefinitions();
             foreach ($defs as $def) {
                 ilCOPagePCDef::requirePCClassByName($def["name"]);
@@ -2240,8 +2191,6 @@ class ilPageObjectGUI
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
 
 
-        include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-
         $btpl->setVariable(
             "SPLIT_BUTTON",
             $ui_wrapper->getRenderedButton($lng->txt("save_return"), "par-action", "save.return")
@@ -2254,8 +2203,6 @@ class ilPageObjectGUI
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
         
-        include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-
         $btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
@@ -2303,7 +2250,6 @@ class ilPageObjectGUI
     {
         $download_ok = false;
 
-        require_once("./Modules/File/classes/class.ilObjFile.php");
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
         $int_links = $pg_obj->getInternalLinks();
@@ -2361,9 +2307,7 @@ class ilPageObjectGUI
         // @todo
         $link_xml = $this->page_linker->getLinkXML($med_links);
         
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
-        require_once("./Services/COPage/classes/class.ilPageObject.php");
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
 
@@ -2403,7 +2347,6 @@ class ilPageObjectGUI
         xslt_free($xh);
 
         // unmask user html
-        require_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
@@ -2412,7 +2355,6 @@ class ilPageObjectGUI
         $tpl->setVariable("MEDIA_CONTENT", $output);
 
         // add js
-        include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
         ilObjMediaObjectGUI::includePresentationJS($tpl);
         $tpl->fillJavaScriptFiles();
         $tpl->fillCssFiles();
@@ -2438,8 +2380,6 @@ class ilPageObjectGUI
      */
     public function insertPageToc($a_output)
     {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
-
         // extract all headings
         $offsets = ilStr::strPosAll($a_output, "ilPageTocH");
         $page_heads = array();
@@ -2467,7 +2407,6 @@ class ilPageObjectGUI
         }
 
         if (count($page_heads) > 1) {
-            include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
             $list = new ilNestedList();
             $list->setAutoNumbering(true);
             $list->setListClass("ilc_page_toc_PageTOCList");
@@ -2530,7 +2469,6 @@ class ilPageObjectGUI
             $numbers = $list->getNumbers();
 
             if (count($numbers) > 0) {
-                include_once("./Services/Utilities/classes/class.ilStr.php");
                 foreach ($numbers as $n) {
                     $a_output =
                         ilStr::replaceFirsOccurence("<!--PageTocPH-->", $n . " ", $a_output);
@@ -2559,7 +2497,6 @@ class ilPageObjectGUI
         
         if ($this->getEnablePCType("Resources") &&
             ($this->getOutputMode() == "edit" || $this->getOutputMode() == "preview")) {
-            include_once("./Services/COPage/classes/class.ilPCResourcesGUI.php");
             $a_output = ilPCResourcesGUI::insertResourcesIntoPageContent($a_output, $this->getOutputMode());
         }
         return $a_output;
@@ -2665,7 +2602,6 @@ class ilPageObjectGUI
         }
         $this->help->setScreenId("edit_" . $ptype);
 
-        require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
         if (
             $this->user->isAnonymous() &&
             !$this->user->isCaptchaVerified() &&
@@ -2681,7 +2617,6 @@ class ilPageObjectGUI
 
         // edit lock
         if (!$this->getPageObject()->getEditLock()) {
-            include_once("./Services/User/classes/class.ilUserUtil.php");
             $info = $this->lng->txt("content_no_edit_lock");
             $lock = $this->getPageObject()->getEditLockInfo();
             $info .= "</br>" . $this->lng->txt("content_until") . ": " .
@@ -2782,10 +2717,8 @@ class ilPageObjectGUI
      */
     public function initCaptchaForm()
     {
-        require_once  'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
         
-        require_once 'Services/Captcha/classes/class.ilCaptchaInputGUI.php';
         $ci = new ilCaptchaInputGUI($this->lng->txt('cont_captcha_code'), 'captcha_code');
         $ci->setRequired(true);
         $form->addItem($ci);
@@ -2828,10 +2761,8 @@ class ilPageObjectGUI
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setCurrentBlock("ilMedia");
 
-        require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         $media_obj = new ilObjMediaObject($_GET["mob_id"]);
         if (!empty($_GET["pg_id"])) {
-            include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
             $pg_obj = ilPageObjectFactory::getInstance($this->obj->getParentType(), $_GET["pg_id"]);
             $pg_obj->buildDom();
 
@@ -2898,7 +2829,6 @@ class ilPageObjectGUI
         
         $this->tpl->addJavaScript("./Services/COPage/js/page_history.js");
         
-        include_once("./Services/COPage/classes/class.ilPageHistoryTableGUI.php");
         $table_gui = new ilPageHistoryTableGUI($this, "history");
         $table_gui->setId("hist_table");
         $entries = $this->getPageObject()->getHistoryEntries();
@@ -2994,11 +2924,7 @@ class ilPageObjectGUI
             $this->tabs_gui->addTarget("cont_preview", $this->ctrl->getLinkTarget($this, "preview"), array("", "preview"));
         }
             
-        //$tabs_gui->addTarget("properties", $this->ctrl->getLinkTarget($this, "properties")
-        //	, "properties", get_class($this));
-
         if ($this->use_meta_data) {
-            include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
             $mdgui = new ilObjectMetaDataGUI(
                 $this->meta_data_rep_obj,
                 $this->meta_data_type,
@@ -3142,7 +3068,6 @@ class ilPageObjectGUI
     */
     public function initActivationForm()
     {
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt("cont_page_activation"));
@@ -3252,8 +3177,6 @@ class ilPageObjectGUI
      */
     public function getNotesHTML($a_content_object = null, $a_enable_private_notes = true, $a_enable_public_notes = false, $a_enable_notes_deletion = false, $a_callback = null, $export = false)
     {
-        include_once("Services/Notes/classes/class.ilNoteGUI.php");
-
         // scorm 2004 page gui
         if (!$a_content_object) {
             $notes_gui = new ilNoteGUI(
@@ -3306,7 +3229,6 @@ class ilPageObjectGUI
      */
     public function processAnswer()
     {
-        include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
         ilPageQuestionProcessor::saveQuestionAnswer(
             ilUtil::stripSlashes($_POST["type"]),
             ilUtil::stripSlashes($_POST["id"]),
@@ -3343,11 +3265,9 @@ class ilPageObjectGUI
      */
     public function initOpenedContentForm()
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         
         // link input
-        include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
         $ac = new ilLinkInputGUI($this->lng->txt('cont_resource'), 'opened_content');
         $ac->setAllowedLinkTypes(ilLinkInputGUI::INT);
         $ac->setInternalLinkDefault("Media_Media", 0);
@@ -3439,7 +3359,6 @@ class ilPageObjectGUI
     {
         $l = ilUtil::stripSlashes($_GET["totransl"]);
 
-        include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
         $p = ilPageObjectFactory::getInstance(
             $this->getPageObject()->getParentType(),
             $this->getPageObject()->getId(),

@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPCTableData.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCTableDataGUI
-*
-* Handles user commands on table data elements (table cells)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCTableDataGUI
+ *
+ * Handles user commands on table data elements (table cells)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCTableDataGUI extends ilPageContentGUI
 {
 

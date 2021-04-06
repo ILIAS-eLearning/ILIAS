@@ -2,15 +2,11 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-include_once("Services/Block/classes/class.ilBlockGUI.php");
-
 /**
-* BlockGUI class for (centered) Content on Personal Desktop
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*/
+ * BlockGUI class for (centered) Content on Personal Desktop
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilDashboardContentBlockGUI extends ilBlockGUI
 {
     public static $block_type = "dashcontent";

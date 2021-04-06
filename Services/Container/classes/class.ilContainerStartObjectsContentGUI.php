@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilContainerStartObjectsContentGUI
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * $Id: class.ilObjCourseGUI.php 47058 2014-01-08 08:07:12Z mjansen $
- *
- * @ingroup ServicesContainer
  */
 class ilContainerStartObjectsContentGUI
 {
@@ -49,7 +47,6 @@ class ilContainerStartObjectsContentGUI
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
         $this->user = $DIC->user();
-        include_once "Services/Container/classes/class.ilContainerStartObjects.php";
         $this->parent_gui = $a_gui;
         $this->parent_obj = $a_parent_obj;
         $this->start_object = new ilContainerStartObjects(
@@ -85,7 +82,6 @@ class ilContainerStartObjectsContentGUI
         
         $lng->loadLanguageModule("crs");
         
-        include_once "Services/Container/classes/class.ilContainerStartObjectsContentTableGUI.php";
         $tbl = new ilContainerStartObjectsContentTableGUI(
             $this->parent_gui,
             "",
@@ -117,12 +113,10 @@ class ilContainerStartObjectsContentGUI
         $page_id = $this->start_object->getObjId();
         
         // if page does not exist, return nothing
-        include_once("./Services/COPage/classes/class.ilPageUtil.php");
         if (!ilPageUtil::_existsAndNotEmpty("cstr", $page_id)) {
             return;
         }
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
@@ -137,10 +131,8 @@ class ilContainerStartObjectsContentGUI
         );
         $tpl->parseCurrentBlock();
 
-        include_once("./Services/Container/classes/class.ilContainerStartObjectsPageGUI.php");
         $page_gui = new ilContainerStartObjectsPageGUI($page_id);
         
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
             $this->parent_obj->getStyleSheetId(),
             $this->parent_obj->getType()

@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Abstract parent class for all page component plugin importer classes.
  *
  * @author Fred Neumann <fred.neumann@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 abstract class ilPageComponentPluginImporter extends ilXmlImporter
 {

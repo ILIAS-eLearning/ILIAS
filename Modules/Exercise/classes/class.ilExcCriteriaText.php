@@ -32,17 +32,22 @@ class ilExcCriteriaText extends ilExcCriteria
         return "text";
     }
     
-    public function setMinChars($a_value)
+    public function setMinChars(int $a_value)
     {
         $this->setDefinition(array("chars" => (int) $a_value));
     }
-    
-    public function getMinChars()
+
+    /**
+     * @return int
+     */
+    public function getMinChars() : int
     {
         $def = $this->getDefinition();
         if (is_array($def)) {
-            return $def["chars"];
+            return (int) $def["chars"];
         }
+
+        return 0;
     }
     
     //

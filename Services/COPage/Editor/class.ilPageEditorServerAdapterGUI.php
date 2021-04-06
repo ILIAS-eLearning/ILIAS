@@ -39,8 +39,8 @@ class ilPageEditorServerAdapterGUI
         ilPageObjectGUI $page_gui,
         ilCtrl $ctrl,
         \ILIAS\DI\UIServices $ui,
-        Message\ServerRequestInterface $request)
-    {
+        Message\ServerRequestInterface $request
+    ) {
         $this->request = $request;
         $this->ctrl = $ctrl;
         $this->ui = $ui;
@@ -50,17 +50,15 @@ class ilPageEditorServerAdapterGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("invokeServer");
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
-                if (in_array($cmd, array("invokeServer")))
-                {
+                if (in_array($cmd, array("invokeServer"))) {
                     $this->$cmd();
                 }
         }
@@ -74,5 +72,4 @@ class ilPageEditorServerAdapterGUI
         $server = new Server\Server($this->page_gui, $this->ui, $this->request);
         $server->reply();
     }
-
 }

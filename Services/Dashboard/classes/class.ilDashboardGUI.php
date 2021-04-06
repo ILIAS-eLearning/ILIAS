@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once './Services/User/classes/class.ilObjUser.php';
-include_once "Services/Mail/classes/class.ilMail.php";
-include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Dashboard UI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
@@ -171,7 +166,6 @@ class ilDashboardGUI
             
                 // profile
             case "ilobjusergui":
-                include_once('./Services/User/classes/class.ilObjUserGUI.php');
                 $user_gui = new ilObjUserGUI("", $_GET["user"], false, false);
                 $ret = $this->ctrl->forwardCommand($user_gui);
                 break;
@@ -181,7 +175,6 @@ class ilDashboardGUI
                 $this->displayHeader();
                 $this->tpl->setTitle($this->lng->txt("calendar"));
                 $this->setTabs();
-                include_once('./Services/Calendar/classes/class.ilCalendarPresentationGUI.php');
                 $cal = new ilCalendarPresentationGUI();
                 $ret = $this->ctrl->forwardCommand($cal);
                 $this->tpl->printToStdout();
@@ -197,7 +190,6 @@ class ilDashboardGUI
                 
                 $this->getStandardTemplates();
                 $this->setTabs();
-                include_once("./Services/Notes/classes/class.ilPDNotesGUI.php");
                 $pd_notes_gui = new ilPDNotesGUI();
                 $ret = $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
@@ -206,7 +198,6 @@ class ilDashboardGUI
             case "ilpdnewsgui":
                 $this->getStandardTemplates();
                 $this->setTabs();
-                include_once("./Services/News/classes/class.ilPDNewsGUI.php");
                 $pd_news_gui = new ilPDNewsGUI();
                 $ret = $this->ctrl->forwardCommand($pd_news_gui);
                 break;
@@ -214,7 +205,6 @@ class ilDashboardGUI
             case "ilcolumngui":
                 $this->getStandardTemplates();
                 $this->setTabs();
-                include_once("./Services/Block/classes/class.ilColumnGUI.php");
                 $column_gui = new ilColumnGUI("pd");
                 $this->initColumn($column_gui);
                 $this->show();
@@ -241,7 +231,6 @@ class ilDashboardGUI
                 break;
 
             case 'ilcontactgui':
-                require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
                 if (!ilBuddySystem::getInstance()->isEnabled()) {
                     $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
                 }
@@ -250,14 +239,12 @@ class ilDashboardGUI
                 $this->setTabs();
                 $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
 
-                require_once 'Services/Contact/classes/class.ilContactGUI.php';
                 $this->ctrl->forwardCommand(new ilContactGUI());
                 break;
 
             case 'ilpersonalworkspacegui':
                 // $this->getStandardTemplates();
                 // $this->setTabs();
-                include_once 'Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php';
                 $wsgui = new ilPersonalWorkspaceGUI();
                 $ret = $this->ctrl->forwardCommand($wsgui);
                 $this->tpl->printToStdout();
@@ -266,7 +253,6 @@ class ilDashboardGUI
             case 'ilportfoliorepositorygui':
                 $this->getStandardTemplates();
                 $this->setTabs();
-                include_once 'Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php';
                 $pfgui = new ilPortfolioRepositoryGUI();
                 $ret = $this->ctrl->forwardCommand($pfgui);
                 $this->tpl->printToStdout();
@@ -287,7 +273,6 @@ class ilDashboardGUI
             case 'ilgroupuseractionsgui':
                 $this->getStandardTemplates();
                 $this->setTabs();
-                include_once './Modules/Group/UserActions/classes/class.ilGroupUserActionsGUI.php';
                 $ggui = new ilGroupUserActionsGUI();
                 $ret = $this->ctrl->forwardCommand($ggui);
                 $this->tpl->printToStdout();
@@ -330,7 +315,6 @@ class ilDashboardGUI
     public function show()
     {
         // preload block settings
-        include_once("Services/Block/classes/class.ilBlockSetting.php");
         ilBlockSetting::preloadPDBlockSettings();
 
         // display infopanel if something happened
@@ -376,9 +360,7 @@ class ilDashboardGUI
     public function getCenterColumnHTML()
     {
         $ilCtrl = $this->ctrl;
-        $ilPluginAdmin = $this->plugin_admin;
-        
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
+
         $column_gui = new ilColumnGUI("pd", IL_COL_CENTER);
         $this->initColumn($column_gui);
 
@@ -404,7 +386,6 @@ class ilDashboardGUI
                     $html = "";
 
                     // user interface plugin slot + default rendering
-                    include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
                     $uip = new ilUIHookProcessor(
                         "Services/Dashboard",
                         "center_column",
@@ -426,12 +407,8 @@ class ilDashboardGUI
     */
     public function getRightColumnHTML()
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilPluginAdmin = $this->plugin_admin;
-        
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
+
         $column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
         $this->initColumn($column_gui);
 
@@ -448,7 +425,6 @@ class ilDashboardGUI
                 $html = "";
                 
                 // user interface plugin slot + default rendering
-                include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
                 $uip = new ilUIHookProcessor(
                     "Services/Dashboard",
                     "right_column",
@@ -469,12 +445,8 @@ class ilDashboardGUI
     */
     public function getLeftColumnHTML()
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $ilPluginAdmin = $this->plugin_admin;
 
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
         $this->initColumn($column_gui);
 
@@ -491,7 +463,6 @@ class ilDashboardGUI
                 $html = "";
                 
                 // user interface plugin slot + default rendering
-                include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
                 $uip = new ilUIHookProcessor(
                     "Services/Dashboard",
                     "left_column",

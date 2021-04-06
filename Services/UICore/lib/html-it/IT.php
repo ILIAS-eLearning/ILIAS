@@ -468,7 +468,7 @@ class HTML_Template_IT
                         '%preserved%' . $this->closingDelimiter,
                     $this->openingDelimiter,
                     $ret
-                    );
+                );
             }
             return $ret;
         }
@@ -537,7 +537,7 @@ class HTML_Template_IT
                     $placeholder,
                     $this->blockdata[$innerblock],
                     $outer
-                        );
+                );
                 $this->blockdata[$innerblock] = "";
             }
         }
@@ -548,7 +548,7 @@ class HTML_Template_IT
                     array(
                                     &$this, '_addPregDelimiters'),
                     $regs
-                                );
+                );
                 $funcReplace = 'preg_replace';
             } else {
                 $funcReplace = 'str_replace';
@@ -558,7 +558,7 @@ class HTML_Template_IT
                 $values = array_map(
                     array(&$this, '_preserveOpeningDelimiter'),
                     $values
-                        );
+                );
             }
 
             $outer = $funcReplace($regs, $values, $outer);
@@ -618,7 +618,7 @@ class HTML_Template_IT
             $this->variableCache = array_merge(
                 $this->variableCache,
                 $variable
-                                    );
+            );
         } else {
             $this->variableCache[$variable] = $value;
         }
@@ -679,7 +679,6 @@ class HTML_Template_IT
     protected function init()
     {
         $this->free();
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $blocks = ilGlobalCache::getInstance(ilGlobalCache::COMP_TPL_BLOCKS);
 
         if ($blockdata = $blocks->get($this->real_filename)) {
@@ -795,7 +794,7 @@ class HTML_Template_IT
                     $template,
                     $removeUnknownVariables,
                     $removeEmptyBlocks
-                    ) : false;
+                ) : false;
     } // end func LoadTemplatefile
 
     /**
@@ -896,7 +895,7 @@ class HTML_Template_IT
                                         '__' . $name . '__' .
                                         $this->closingDelimiter,
                         $this->blocklist[$blockname]
-                               );
+                    );
                     $this->blockinner[$blockname][] = $name;
                     $this->blockparents[$name] = $blockname;
                 }
@@ -919,7 +918,6 @@ class HTML_Template_IT
 
         $filename = $this->fileRoot . $filename;
 
-        require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
         $this->real_filename = $filename;
         $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_TEMPLATE);
         if (!$content = $ilGlobalCache->get($filename)) {

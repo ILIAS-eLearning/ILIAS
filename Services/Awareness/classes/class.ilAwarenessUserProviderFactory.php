@@ -62,7 +62,6 @@ class ilAwarenessUserProviderFactory
             $dir = (isset($p["dir"]))
                 ? $p["dir"]
                 : "classes";
-            include_once("./" . $p["component"] . "/" . $dir . "/class." . $p["class"] . ".php");
             $providers[] = new $p["class"]();
         }
 

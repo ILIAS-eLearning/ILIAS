@@ -1,14 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Settings UI class for system styles
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ilCtrl_Calls ilContentStyleSettingsGUI: ilObjStyleSheetGUI
- * @ingroup ServicesStyle
  */
 class ilContentStyleSettingsGUI
 {
@@ -77,8 +75,6 @@ class ilContentStyleSettingsGUI
         $this->ref_id = (int) $_GET["ref_id"];
         $this->obj_id = (int) $_GET["obj_id"];		// note that reference ID is the id of the style settings node and object ID may be a style sheet object ID
 
-        
-        include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
         $this->cs_settings = new ilContentStyleSettings();
     }
 
@@ -93,7 +89,6 @@ class ilContentStyleSettingsGUI
         switch ($next_class) {
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "edit");
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
                 $style_gui = new ilObjStyleSheetGUI("", $this->obj_id, false, false);
                 $this->ctrl->forwardCommand($style_gui);
                 break;
@@ -120,7 +115,6 @@ class ilContentStyleSettingsGUI
     {
         if (!$this->rbacsystem->checkAccess($a_perm, $this->ref_id)) {
             if ($a_throw_exc) {
-                include_once "Services/Object/exceptions/class.ilObjectException.php";
                 throw new ilObjectException($this->lng->txt("permission_denied"));
             }
             return false;
@@ -147,9 +141,6 @@ class ilContentStyleSettingsGUI
         $this->checkPermission("visible,read");
 
         // this may not be cool, if styles are organised as (independent) Service
-        include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-
         $from_styles = $to_styles = $data = array();
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
@@ -188,7 +179,6 @@ class ilContentStyleSettingsGUI
                 $this->ctrl->getLinkTarget($this, "createStyle")
             );
             $this->toolbar->addSeparator();
-            include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 
             // from styles selector
             $si = new ilSelectInputGUI($this->lng->txt("sty_move_lm_styles") . ": " . $this->lng->txt("sty_from"), "from_style");
@@ -204,7 +194,6 @@ class ilContentStyleSettingsGUI
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
         }
 
-        include_once("./Services/Style/Content/classes/class.ilContentStylesTableGUI.php");
         $table = new ilContentStylesTableGUI($this, "edit", $data, $this->cs_settings);
         $this->tpl->setContent($table->getHTML());
     }
@@ -221,7 +210,6 @@ class ilContentStyleSettingsGUI
             return;
         }
 
-        include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
         ilObjContentObject::_moveLMStyles($_POST["from_style"], $_POST["to_style"]);
         $this->ctrl->redirect($this, "edit");
     }
@@ -234,7 +222,6 @@ class ilContentStyleSettingsGUI
     {
         $this->checkPermission("sty_write_content");
 
-        include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
         ilObjContentObject::_moveLMStyles(-1, $_GET["to_style"]);
         $this->ctrl->redirect($this, "edit");
     }
@@ -301,7 +288,6 @@ class ilContentStyleSettingsGUI
         $this->checkPermission("sty_write_content");
 
         foreach ($_POST["id"] as $id) {
-            include_once("./Services/Style/Content/classes/class.ilContentStyleSettings.php");
             $set = new ilContentStyleSettings();
             $set->removeStyle($id);
             $set->update();
@@ -367,7 +353,6 @@ class ilContentStyleSettingsGUI
      */
     public function saveActiveStyles()
     {
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $styles = $this->cs_settings->getStyles();
         foreach ($styles as $style) {
             if ($_POST["std_" . $style["id"]] == 1) {
@@ -449,7 +434,6 @@ class ilContentStyleSettingsGUI
         $this->checkPermission("sty_write_content");
 
         $ilCtrl->saveParameter($this, "id");
-        include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
         $exp = new ilRepositorySelectorExplorerGUI(
             $this,
             "setScope",
@@ -472,7 +456,6 @@ class ilContentStyleSettingsGUI
 
         $this->checkPermission("sty_write_content");
 
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         if ($_GET["cat"] == $tree->readRootId()) {
             $_GET["cat"] = "";
         }

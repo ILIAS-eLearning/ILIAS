@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Learning history provider: Badges
  *
  * @author killing@leifos.de
- * @ingroup ServicesTracking
  */
 class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider implements ilLearningHistoryProviderInterface
 {
@@ -55,7 +54,6 @@ class ilBadgeLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
      */
     public function isActive()
     {
-        require_once 'Services/Badge/classes/class.ilBadgeHandler.php';
         if (ilBadgeHandler::getInstance()->isActive()) {
             return true;
         }

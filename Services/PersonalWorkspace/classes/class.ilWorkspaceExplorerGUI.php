@@ -70,9 +70,6 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
 
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-
         $this->tree = new ilWorkspaceTree($a_user_id);
         $this->root_id = $this->tree->readRootId();
         $this->access_handler = new ilWorkspaceAccessHandler($this->tree);

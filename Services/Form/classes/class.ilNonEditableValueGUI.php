@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Form/interfaces/interface.ilMultiValuesItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a non editable value in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a non editable value in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilMultiValuesItem
 {
     protected $type;
@@ -148,7 +145,7 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
         }
         $tpl->setVariable("VALUE", $value);
         if ($this->getFieldId() != "") {
-            $tpl->setVariable("ID", ' id="'.$this->getFieldId().'" ');
+            $tpl->setVariable("ID", ' id="' . $this->getFieldId() . '" ');
         }
         $tpl->parseCurrentBlock();
         

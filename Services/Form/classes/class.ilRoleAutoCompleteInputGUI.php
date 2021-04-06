@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilTextInputGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a role + autocomplete feature form input
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a role + autocomplete feature form input
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
 {
     /**
@@ -43,7 +40,6 @@ class ilRoleAutoCompleteInputGUI extends ilTextInputGUI
     public static function echoAutoCompleteList()
     {
         $q = $_REQUEST["term"];
-        include_once("./Services/AccessControl/classes/class.ilRoleAutoComplete.php");
         $list = ilRoleAutoComplete::getList($q);
         echo $list;
         exit;

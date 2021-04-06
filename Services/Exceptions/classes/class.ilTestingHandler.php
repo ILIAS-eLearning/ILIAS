@@ -9,11 +9,7 @@
 * the page.
 *
 * @author Richard Klees <richard.klees@concepts-and-training.de>
-* @version $Id$
 */
-
-require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
-
 class ilTestingHandler extends ilPlainTextHandler
 {
     /**

@@ -259,7 +259,6 @@ class BlogHtmlExport
 
         // keywords
         foreach (array_keys($this->blog_gui->getKeywords(false)) as $keyword) {
-            $this->keyword = $keyword;
             $list_items = $this->blog_gui->filterItemsByKeyword($this->items, $keyword);
             $list = $this->blog_gui->renderList($list_items, "render", $a_link_template, false, $this->target_dir);
 
@@ -338,7 +337,6 @@ class BlogHtmlExport
             case "list":
                 $a_type = "m";
                 break;
-                break;
 
             case "keyword":
                 if (!isset(self::$keyword_export_map)) {
@@ -405,8 +403,8 @@ class BlogHtmlExport
     {
         $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
-        if (@is_file($file)) {
-            return;
+        if (is_file($file)) {
+            return null;
         }
 
         // export template: page content

@@ -119,7 +119,6 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
     protected function getWspId(int $objId, int $userId) : int
     {
         $wst = new ilWorkspaceTree($userId);
-        $nodeId = $wst->lookupNodeId($objId);
-        return $nodeId;
+        return $wst->lookupNodeId($objId);
     }
 }

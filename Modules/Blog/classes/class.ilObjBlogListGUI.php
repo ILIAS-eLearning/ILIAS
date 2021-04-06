@@ -84,7 +84,7 @@ class ilObjBlogListGUI extends ilObjectListGUI
                     $ctrl->getLinkTargetByClass("ilobjbloggui", "export"),
                     $ctrl->getLinkTargetByClass("ilobjbloggui", "exportWithComments")
                 );
-                $signal = $this->comment_modal->getShowSignal();
+                $signal = $this->comment_modal->getShowSignal()->getId();
                 $this->current_selection_list->addItem(
                     $a_text,
                     "",

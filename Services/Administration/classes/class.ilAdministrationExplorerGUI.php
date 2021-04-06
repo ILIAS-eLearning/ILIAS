@@ -1,17 +1,13 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Administration explorer GUI class
  *
  * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
  *
  * @todo: isClickable, top node id
- *
- * @ingroup ServicesAdministration
  */
 class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
 {
@@ -245,8 +241,6 @@ class ilAdministrationExplorerGUI extends ilTreeExplorerGUI
         foreach ($this->type_grps[$parent_type] as $t => $g) {
             if (is_array($group[$t])) {
                 // do we have to sort this group??
-                include_once("./Services/Container/classes/class.ilContainer.php");
-                include_once("./Services/Container/classes/class.ilContainerSorting.php");
                 $sort = ilContainerSorting::_getInstance($parent_obj_id);
                 $group = $sort->sortItems($group);
                 

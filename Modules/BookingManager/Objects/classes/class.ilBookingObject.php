@@ -12,14 +12,31 @@
 class ilBookingObject
 {
     /**
-     * @var ilDB
+     * @var \ilDBInterface
      */
     protected $db;
 
-    protected $id;			// int
-    protected $pool_id;		// int
-    protected $title;		// string
-    protected $description; // string
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     */
+    protected $pool_id;
+
+    /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+
     protected $nr_of_items; // int
     protected $schedule_id; // int
     protected $info_file; // string
@@ -162,12 +179,13 @@ class ilBookingObject
     /**
      * Get path to info file
      */
-    public function getFileFullPath()
+    public function getFileFullPath() : string
     {
         if ($this->id && $this->info_file) {
             $path = $this->initStorage($this->id, "file");
             return $path . $this->info_file;
         }
+        return "";
     }
     
     /**
@@ -203,7 +221,7 @@ class ilBookingObject
         if ($this->id) {
             $path = $this->getFileFullPath();
             if ($path) {
-                @unlink($path);
+                unlink($path);
                 $this->setFile(null);
             }
         }
@@ -248,12 +266,13 @@ class ilBookingObject
     /**
      * Get path to post file
      */
-    public function getPostFileFullPath()
+    public function getPostFileFullPath() : string
     {
         if ($this->id && $this->post_file) {
             $path = $this->initStorage($this->id, "post");
             return $path . $this->post_file;
         }
+        return "";
     }
     
     /**
@@ -290,7 +309,7 @@ class ilBookingObject
         if ($this->id) {
             $path = $this->getPostFileFullPath();
             if ($path) {
-                @unlink($path);
+                unlink($path);
                 $this->setPostFile(null);
             }
         }
@@ -313,11 +332,11 @@ class ilBookingObject
     /**
      * Init file system storage
      *
-     * @param type $a_id
-     * @param type $a_subdir
+     * @param int $a_id
+     * @param string $a_subdir
      * @return string
      */
-    public static function initStorage($a_id, $a_subdir = null)
+    public static function initStorage(int $a_id, string $a_subdir = "")
     {
         $storage = new ilFSStorageBooking($a_id);
         $storage->create();
@@ -362,9 +381,9 @@ class ilBookingObject
      * Parse properties for sql statements
      * @return array
      */
-    protected function getDBFields()
+    protected function getDBFields() : array
     {
-        $fields = array(
+        return array(
             'title' => array('text', $this->getTitle()),
             'description' => array('text', $this->getDescription()),
             'schedule_id' => array('text', $this->getScheduleId()),
@@ -373,8 +392,6 @@ class ilBookingObject
             'post_text' => array('text', $this->getPostText()),
             'post_file' => array('text', $this->getPostFile())
         );
-        
-        return $fields;
     }
 
     /**
@@ -495,7 +512,7 @@ class ilBookingObject
     
     /**
      * Delete single entry
-     * @return bool
+     * @return int|void
      */
     public function delete()
     {
@@ -507,6 +524,7 @@ class ilBookingObject
             return $ilDB->manipulate('DELETE FROM booking_object' .
                 ' WHERE booking_object_id = ' . $ilDB->quote($this->id, 'integer'));
         }
+        return 0;
     }
     
     /**

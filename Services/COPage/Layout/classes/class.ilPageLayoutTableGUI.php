@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* TableGUI class for page layouts
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id$
-*
-*/
+ * TableGUI class for page layouts
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ */
 class ilPageLayoutTableGUI extends ilTable2GUI
 {
     /**
@@ -159,6 +156,6 @@ class ilPageLayoutTableGUI extends ilTable2GUI
                 false,
                 true
             )
-            );
+        );
     }
 }

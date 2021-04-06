@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("Services/Table/classes/class.ilTableGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Confirmation screen class.
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-*
-* @ingroup ServicesUtilities
-*/
+ * Confirmation screen class.
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ */
 class ilConfirmationGUI
 {
     /**
@@ -144,12 +139,8 @@ class ilConfirmationGUI
     */
     final public function getHTML()
     {
-        $lng = $this->lng;
-        
         ilUtil::sendQuestion($this->getHeaderText());
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationTableGUI.php");
-
         // delete/handle items
         if (count($this->item) > 0) {
             $ctab = new ilConfirmationTableGUI($this->use_images);
@@ -176,14 +167,12 @@ class ilConfirmationGUI
             $tb->setPreventDoubleSubmission(true);
             $tb->setFormAction($this->getFormAction());
             if ($this->hidden_item) {
-                require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
                 foreach ($this->hidden_item as $hidden_item) {
                     $hiddenInput = new ilHiddenInputGUI($hidden_item['var']);
                     $hiddenInput->setValue($hidden_item['value']);
                     $tb->addInputItem($hiddenInput);
                 }
             }
-            require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
             $confirm = ilSubmitButton::getInstance();
             $confirm->setCommand($this->confirm_cmd);
             $confirm->setCaption($this->confirm_txt, false);

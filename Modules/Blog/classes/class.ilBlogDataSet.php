@@ -28,7 +28,7 @@ class ilBlogDataSet extends ilDataSet
     /**
      * Get xml namespace
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Modules/Blog/" . $a_entity;
     }
@@ -36,7 +36,7 @@ class ilBlogDataSet extends ilDataSet
     /**
      * Get field types for entity
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes($a_entity, $a_version) : array
     {
         if ($a_entity == "blog") {
             switch ($a_version) {
@@ -130,13 +130,13 @@ class ilBlogDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
     /**
      * Read data
      *
      * @param
-     * @return
      */
     public function readData($a_entity, $a_version, $a_ids, $a_field = "")
     {
@@ -250,7 +250,6 @@ class ilBlogDataSet extends ilDataSet
      * Import record
      *
      * @param
-     * @return
      */
     public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {

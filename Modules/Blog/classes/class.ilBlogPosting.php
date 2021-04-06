@@ -188,9 +188,9 @@ class ilBlogPosting extends ilPageObject
      * @param bool $a_no_history
      * @param bool $a_notify
      * @param string $a_notify_action
-     * @return boolean
+     * @return bool
      */
-    public function update($a_validate = true, $a_no_history = false, $a_notify = true, $a_notify_action = "update")
+    public function update($a_validate = true, $a_no_history = false, $a_notify = true, $a_notify_action = "update") : bool
     {
         $ilDB = $this->db;
 
@@ -416,12 +416,14 @@ class ilBlogPosting extends ilPageObject
      * @param int $a_blog_id
      * @return int
      */
-    public static function getLastPost($a_blog_id)
+    public static function getLastPost(int $a_blog_id) : int
     {
         $data = self::getAllPostings($a_blog_id, 1);
         if ($data) {
-            return array_pop(array_keys($data));
+            $keys = array_keys($data);
+            return end($keys);
         }
+        return 0;
     }
     
     /**
@@ -625,7 +627,6 @@ class ilBlogPosting extends ilPageObject
      */
     public static function lookupTitle($a_posting_id)
     {
-        $t = self::lookup("title", $a_posting_id);
-        return $t;
+        return self::lookup("title", $a_posting_id);
     }
 }

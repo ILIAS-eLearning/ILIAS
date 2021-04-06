@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* container xml importer
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @version $Id$
-*
-* @ingroup ModulesFolder
-*/
+ * container xml importer
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilContainerImporter extends ilXmlImporter
 {
     /**
@@ -36,8 +31,6 @@ class ilContainerImporter extends ilXmlImporter
      */
     public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
     {
-        include_once './Services/Container/classes/class.ilContainerXmlParser.php';
-
         $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
         $this->cont_log->debug('Using id: ' . $a_id);
@@ -53,7 +46,6 @@ class ilContainerImporter extends ilXmlImporter
     {
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
-        include_once('./Services/COPage/classes/class.ilPageObject.php');
         $page_map = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
         foreach ($page_map as $old_pg_id => $new_pg_id) {
             $parts = explode(':', $old_pg_id);
@@ -71,7 +63,6 @@ class ilContainerImporter extends ilXmlImporter
         }
         
         // style
-        include_once('./Services/Style/Content/classes/class.ilObjStyleSheet.php');
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
             if (is_array(ilContainerXmlParser::$style_map[$old_sty_id])) {

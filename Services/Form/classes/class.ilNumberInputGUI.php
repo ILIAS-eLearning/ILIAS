@@ -1,16 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a number property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a number property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected $value;

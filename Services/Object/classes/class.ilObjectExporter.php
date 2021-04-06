@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Exporter class for object related data (please note that title and description
@@ -9,8 +8,6 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  * takes care of additional general object related data (e.g. translations)
  *
  * @author Alex Killing <killing@leifos.de>
- * @version $Id$
- * @ingroup ServicesObject
  */
 class ilObjectExporter extends ilXmlExporter
 {
@@ -21,7 +18,6 @@ class ilObjectExporter extends ilXmlExporter
      */
     public function init()
     {
-        include_once("./Services/Object/classes/class.ilObjectDataSet.php");
         $this->ds = new ilObjectDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");

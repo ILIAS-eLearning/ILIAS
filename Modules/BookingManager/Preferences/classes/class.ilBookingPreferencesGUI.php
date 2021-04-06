@@ -15,7 +15,7 @@ class ilBookingPreferencesGUI
     protected $ctrl;
 
     /**
-     * @var ilTemplate
+     * @var \ilGlobalTemplateInterface
      */
     protected $main_tpl;
 
@@ -147,10 +147,8 @@ class ilBookingPreferencesGUI
 
         $fields = [];
         foreach (ilBookingObject::getList($this->pool->getId()) as $book_obj) {
-            $checked = (is_array($preferences[$this->user->getId()]) &&
-                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()]))
-                ? true
-                : false;
+            $checked = is_array($preferences[$this->user->getId()]) &&
+                in_array($book_obj["booking_object_id"], $preferences[$this->user->getId()]);
 
             $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
@@ -283,7 +281,7 @@ class ilBookingPreferencesGUI
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
-                        $ctrl->getLinkTargetByClass("ilBookingObjectGUI", "displayPostInfo")
+                        $ctrl->getLinkTargetByClass(["ilBookingObjectGUI", "ilBookingProcessGUI"], "displayPostInfo")
                     );
                     $post_info_button = "<br>" . $ui->renderer()->render($b);
                 }

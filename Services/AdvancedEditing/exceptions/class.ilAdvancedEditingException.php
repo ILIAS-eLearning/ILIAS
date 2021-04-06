@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Exceptions/classes/class.ilException.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class for advanced editing exception handling in ILIAS.
-*
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-*/
+ * Class for advanced editing exception handling in ILIAS.
+ *
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilAdvancedEditingException extends ilException
 {
     /**

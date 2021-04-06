@@ -1,16 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
-* Class ilObjectGUI
-* Basic methods of all Output classes
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * Class ilObjectGUI
+ * Basic methods of all Output classes
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilObjectGUI
 {
     protected const UPLOAD_TYPE_LOCAL = 1;
@@ -112,6 +111,11 @@ class ilObjectGUI
     public $actions;
     public $sub_objects;
     public $omit_locator = false;
+
+    /**
+     * @var string
+     */
+    protected $type = "";
 
     /**
      * @var ilTabsGUI
@@ -372,7 +376,6 @@ class ilObjectGUI
 
 
             // fileupload support
-            require_once './Services/FileUpload/classes/class.ilFileUploadUtil.php';
             if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
                 $this->enableDragDropFileUpload();
             }
@@ -407,7 +410,6 @@ class ilObjectGUI
             );
         }
 
-        include_once './Services/Object/classes/class.ilObjectListGUIFactory.php';
         $lgui = ilObjectListGUIFactory::_getListGUIByType($this->object->getType());
         $lgui->initItem($this->object->getRefId(), $this->object->getId(), $this->object->getType());
         $this->tpl->setAlertProperties($lgui->getAlertProperties());
@@ -425,7 +427,6 @@ class ilObjectGUI
         $ilAccess = $this->access;
         
         if (!$this->creation_mode && $this->object) {
-            include_once "Services/Object/classes/class.ilCommonActionDispatcherGUI.php";
             $dispatcher = new ilCommonActionDispatcherGUI(
                 ilCommonActionDispatcherGUI::TYPE_REPOSITORY,
                 $ilAccess,
@@ -436,12 +437,11 @@ class ilObjectGUI
             
             $dispatcher->setSubObject($a_sub_type, $a_sub_id);
             
-            include_once "Services/Object/classes/class.ilObjectListGUI.php";
             ilObjectListGUI::prepareJSLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
-                );
+            );
             
             $lg = $dispatcher->initHeaderAction();
             
@@ -456,7 +456,6 @@ class ilObjectGUI
                 
                 // comments settings are always on (for the repository)
                 // should only be shown if active or permission to toggle
-                include_once "Services/Notes/classes/class.ilNote.php";
                 if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
                     $ilAccess->checkAccess("edit_permissions", "", $this->ref_id) ||
                     ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType())) {
@@ -665,7 +664,7 @@ class ilObjectGUI
             $ilLocator->addItem(
                 $this->lng->txt("administration"),
                 $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), "")
-                );
+            );
             if ($this->object && ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object)) {
                 $ilLocator->addItem(
                     $this->object->getTitle(),
@@ -701,7 +700,6 @@ class ilObjectGUI
             $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));
         }
         
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
         $ru = new ilRepUtilGUI($this);
         $ru->deleteObjects($_GET["ref_id"], ilSession::get("saved_post"));
         ilSession::clear("saved_post");
@@ -814,8 +812,6 @@ class ilObjectGUI
             }
             return $a_forms->getHTML();
         } else {
-            include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
-
             $acc = new ilAccordionGUI();
             $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
             $cnt = 1;
@@ -855,7 +851,6 @@ class ilObjectGUI
      */
     protected function initCreateForm($a_new_type)
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -900,7 +895,6 @@ class ilObjectGUI
                 $this->lng->txt('objs_' . $this->type)
             ));
         
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
@@ -926,7 +920,6 @@ class ilObjectGUI
             );
             // workaround for containers in edit mode
             if (!$this->getCreationMode()) {
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
                 $value = 'dtpl_' . ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
 
                 $type->setValue($value);
@@ -1085,12 +1078,10 @@ class ilObjectGUI
         $this->ref_id = $a_obj->getRefId();
 
         // BEGIN ChangeEvent: Record save object.
-        require_once('Services/Tracking/classes/class.ilChangeEvent.php');
         ilChangeEvent::_recordWriteEvent($this->obj_id, $ilUser->getId(), 'create');
         // END ChangeEvent: Record save object.
 
         // rbac log
-        include_once "Services/AccessControl/classes/class.ilRbacLog.php";
         $rbac_log_roles = $rbacreview->getParentRoleIds($this->ref_id, false);
         $rbac_log = ilRbacLog::gatherFaPa($this->ref_id, array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
@@ -1163,11 +1154,9 @@ class ilObjectGUI
     protected function initEditForm()
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
 
         $lng->loadLanguageModule($this->object->getType());
 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "update"));
         $form->setTitle($this->lng->txt($this->object->getType() . "_edit"));
@@ -1383,15 +1372,12 @@ class ilObjectGUI
             // :todo: make some check on manifest file
 
             if ($objDefinition->isContainer($new_type)) {
-                include_once './Services/Export/classes/class.ilImportContainer.php';
                 $imp = new ilImportContainer((int) $parent_id);
             } else {
-                include_once("./Services/Export/classes/class.ilImport.php");
                 $imp = new ilImport((int) $parent_id);
             }
 
             try {
-
                 if ($upload_type == self::UPLOAD_TYPE_LOCAL) {
                     $new_id = $imp->importObject(
                         null,
@@ -1414,7 +1400,6 @@ class ilObjectGUI
                         true
                     );
                 }
-
             } catch (ilException $e) {
                 $this->tmp_import_dir = $imp->getTemporaryImportDir();
                 if (!$a_catch_errors) {
@@ -1638,7 +1623,6 @@ class ilObjectGUI
         // SAVE POST VALUES (get rid of this
         ilSession::set("saved_post", $_POST["id"]);
 
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
         $ru = new ilRepUtilGUI($this);
         if (!$ru->showDeleteConfirmation($_POST["id"], $a_error)) {
             $ilCtrl->returnToParent($this);
@@ -1734,8 +1718,6 @@ class ilObjectGUI
 
     protected function &__initTableGUI()
     {
-        include_once "./Services/Table/classes/class.ilTableGUI.php";
-
         return new ilTableGUI(0, false);
     }
     
@@ -1799,7 +1781,6 @@ class ilObjectGUI
      */
     protected function fillCloneTemplate($a_tpl_varname, $a_type)
     {
-        include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
         $cp = new ilObjectCopyGUI($this);
         $cp->setType($a_type);
         $cp->setTarget($_GET['ref_id']);
@@ -1818,9 +1799,6 @@ class ilObjectGUI
      */
     public function cloneAllObject()
     {
-        include_once('./Services/Link/classes/class.ilLink.php');
-        include_once('Services/CopyWizard/classes/class.ilCopyWizardOptions.php');
-        
         $ilErr = $this->ilErr;
         $ilUser = $this->user;
         
@@ -1867,8 +1845,6 @@ class ilObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
-
         $obj_id = ilObject::_lookupObjId($this->object->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
@@ -1904,14 +1880,11 @@ class ilObjectGUI
     */
     protected function getRightColumnHTML()
     {
-        $ilUser = $this->user;
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
         $obj_id = ilObject::_lookupObjId($this->object->getRefId());
         $obj_type = ilObject::_lookupType($obj_id);
 
-        include_once("Services/Block/classes/class.ilColumnGUI.php");
         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
         
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
@@ -1978,7 +1951,6 @@ class ilObjectGUI
 
                 ilSession::clear("il_rep_ref_id");
                 
-                include_once "Services/Object/exceptions/class.ilObjectException.php";
                 throw new ilObjectException($this->lng->txt("permission_denied"));
                 
             /*
@@ -2077,7 +2049,6 @@ class ilObjectGUI
      */
     protected function enableDragDropFileUpload()
     {
-        include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
         ilFileUploadGUI::initFileUpload();
         
         $this->tpl->enableDragDropFileUpload($this->ref_id);

@@ -164,9 +164,6 @@ class ilHelpGUI
      */
     public function hasSections()
     {
-        $ilSetting = $this->settings;
-        
-        include_once("./Services/Help/classes/class.ilHelpMapping.php");
         return ilHelpMapping::hasScreenIdSections($this->getScreenId());
     }
     
@@ -178,7 +175,6 @@ class ilHelpGUI
      */
     public function getHelpSections()
     {
-        include_once("./Services/Help/classes/class.ilHelpMapping.php");
         return ilHelpMapping::getHelpSectionsForId($this->getScreenId(), (int) $_GET["ref_id"]);
     }
     
@@ -199,7 +195,7 @@ class ilHelpGUI
             $sep = ",";
         }*/
         $refId = (string) ($_GET["ref_id"] ?? 0);
-        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "."  . $refId);
+        $ilCtrl->setParameterByClass("ilhelpgui", "help_screen_id", $this->getScreenId() . "." . $refId);
     }
     
 
@@ -239,28 +235,22 @@ class ilHelpGUI
         $this->resetCurrentPage();
 
         $id_arr = explode(".", $help_screen_id);
-        include_once("./Services/Help/classes/class.ilHelpMapping.php");
-        include_once("./Services/Help/classes/class.ilHelp.php");
-
         $help_arr = ilHelpMapping::getHelpSectionsForId($id_arr[0], $id_arr[1]);
         $oh_lm_id = ilHelp::getHelpLMId();
 
         if ($oh_lm_id > 0) {
-            include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
             $acc = new ilAccordionGUI();
             $acc->setId("oh_acc_" . $h_id);
             $acc->setUseSessionStorage(true);
             $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
             foreach ($help_arr as $h_id) {
-                include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
                 $st_id = $h_id;
                 if (!ilLMObject::_exists($st_id)) {
                     continue;
                 }
 
                 $pages = ilLMObject::getPagesOfChapter($oh_lm_id, $st_id);
-                include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
                 $grp_list = new ilGroupedListGUI();
                 foreach ($pages as $pg) {
                     $grp_list->addEntry(
@@ -278,7 +268,6 @@ class ilHelpGUI
             //$h_tpl->setVariable("HEAD", $lng->txt("help"));
 
             $h_tpl->setCurrentBlock("search");
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
             $h_tpl->parseCurrentBlock();
 
@@ -289,7 +278,6 @@ class ilHelpGUI
                 $h_tpl->setVariable("CONTENT", $ui->renderer()->render([$mess]));
             }
 
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
             echo $h_tpl->get();
         }
@@ -310,8 +298,6 @@ class ilHelpGUI
         $page_id = (int) $_GET["help_page"];
         
         $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
-        include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 
         if (($t = ilSession::get("help_search_term")) != "") {
             $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($t) {
@@ -332,16 +318,11 @@ class ilHelpGUI
             $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($page_id))
         );
         
-        include_once("./Services/COPage/classes/class.ilPageUtil.php");
         if (!ilPageUtil::_existsAndNotEmpty("lm", $page_id)) {
             exit;
         }
-        include_once("./Services/COPage/classes/class.ilPageObject.php");
-        include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 
         // get page object
-        include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-        include_once("./Modules/LearningModule/classes/class.ilLMPageGUI.php");
         $page_gui = new ilLMPageGUI($page_id);
         $cfg = $page_gui->getPageConfig();
         $page_gui->setPresentationTitle("");
@@ -362,7 +343,6 @@ class ilHelpGUI
         $ret = $this->replaceMenuItemTags((string) $page_gui->showPage());
 
         $h_tpl->setVariable("CONTENT", $ret);
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 
         ilSession::set("help_pg", $page_id);
@@ -396,12 +376,8 @@ class ilHelpGUI
      */
     public function getTabTooltipText($a_tab_id)
     {
-        $lng = $this->lng;
-        
-        include_once("./Services/Help/classes/class.ilHelp.php");
         if ($this->screen_id_component != "") {
             return ilHelp::getTooltipPresentationText($this->screen_id_component . "_" . $a_tab_id);
-            //return $lng->txt("help_tt_".$this->screen_id_component."_".$a_tab_id);
         }
         return "";
     }
@@ -561,8 +537,6 @@ class ilHelpGUI
         $this->resetCurrentPage();
 
         $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
-        include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
-
 
         $back_button = $ui->factory()->button()->bulky($ui->factory()->symbol()->glyph()->back(), $lng->txt("back"), "#")->withOnLoadCode(function ($id) {
             return
@@ -574,21 +548,17 @@ class ilHelpGUI
             $lng->txt("search_result"));
 
         $h_tpl->setCurrentBlock("search");
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
         $h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 
         $lm_id = ilHelp::getHelpLMId();
-        include_once("./Services/Search/classes/class.ilRepositoryObjectDetailSearch.php");
         $s = new ilRepositoryObjectDetailSearch($lm_id);
         $s->setQueryString($term);
         $result = $s->performSearch();
 
-        include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $grp_list = new ilGroupedListGUI();
         foreach ($result->getResults() as $r) {
             $grp_list->addEntry(
@@ -686,11 +656,10 @@ class ilHelpGUI
      * @return string
      * @throws Throwable
      */
-    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item): string
+    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item) : string
     {
         global $DIC;
         $mmc = $DIC->globalScreen()->collector()->mainmenu();
         return $mmc->getItemInformation()->customTranslationForUser($item)->getTitle();
     }
-
 }

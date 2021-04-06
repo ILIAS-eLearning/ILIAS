@@ -1,17 +1,15 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a external and/or internal link in a property form.
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-*
-* @ilCtrl_IsCalledBy ilLinkInputGUI: ilFormPropertyDispatchGUI
-* @ilCtrl_Calls ilLinkInputGUI: ilInternalLinkGUI
-*
-* @ingroup	ServicesForm
-*/
+ * This class represents a external and/or internal link in a property form.
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_IsCalledBy ilLinkInputGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls ilLinkInputGUI: ilInternalLinkGUI
+ */
 class ilLinkInputGUI extends ilFormPropertyGUI
 {
     const EXTERNAL_LINK_MAX_LENGTH = 200;
@@ -171,7 +169,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         switch ($next_class) {
             case "ilinternallinkgui":
                 $lng->loadLanguageModule("content");
-                require_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $link_gui = new ilInternalLinkGUI(
                     $this->int_link_default_type,
                     $this->int_link_default_obj
@@ -404,12 +401,12 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
         // list mode
         if ($has_list) {
-            $mode_type = new ilRadioGroupInputGUI("", $this->getPostVar()."_mode_type");
+            $mode_type = new ilRadioGroupInputGUI("", $this->getPostVar() . "_mode_type");
             $mode_single = new ilRadioOption($lng->txt("webr_link_type_single"), "single");
             $mode_type->addOption($mode_single);
             $mode_list = new ilRadioOption($lng->txt("webr_link_type_list"), "list");
             $mode_type->addOption($mode_list);
-            $mode = new ilRadioGroupInputGUI($lng->txt("webr_link_target"), $this->getPostVar()."_mode");
+            $mode = new ilRadioGroupInputGUI($lng->txt("webr_link_target"), $this->getPostVar() . "_mode");
             if (!$this->getRequired()) {
                 $no = new ilRadioOption($lng->txt("form_no_link"), "no");
                 $mode->addOption($no);
@@ -477,7 +474,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 
         // js for internal link
         if ($has_int) {
-            include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
             $html .= $hidden_type->getToolbarHTML() .
                 $hidden_id->getToolbarHTML() .
                 $hidden_target->getToolbarHTML();
@@ -528,13 +524,11 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 break;
 
             case "page":
-                include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
                 $type = $lng->txt("obj_pg");
                 $name = ilLMPageObject::_lookupTitle($value[1]);
                 break;
 
             case "chap":
-                include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
                 $type = $lng->txt("obj_st");
                 $name = ilStructureObject::_lookupTitle($value[1]);
                 break;

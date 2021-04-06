@@ -1,36 +1,12 @@
 <?php
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Handles Administration commands (cut, delete paste)
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesAdministration
-*/
+ * Handles Administration commands (cut, delete paste)
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilAdministrationCommandGUI
 {
     /**
@@ -151,7 +127,6 @@ class ilAdministrationCommandGUI
     {
         $this->ctrl->setReturnByClass(get_class($this->getContainer()), '');
 
-        include_once './Services/Object/classes/class.ilObjectGUI.php';
         $_SESSION['saved_post'] = $_POST['id'];
         $object = new ilObjectGUI(array(), 0, false, false);
         $object->confirmedDeleteObject();
@@ -169,7 +144,6 @@ class ilAdministrationCommandGUI
 
         $_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
-        include_once './Services/Container/classes/class.ilContainerGUI.php';
         $container = new ilContainerGUI(array(), 0, false, false);
         $container->cutObject();
         return true;
@@ -192,7 +166,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->showMoveIntoObjectTreeObject();
         return true;
@@ -215,7 +188,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->showLinkIntoMultipleObjectsTreeObject();
         return true;
@@ -232,7 +204,6 @@ class ilAdministrationCommandGUI
 
         $_GET['ref_id'] = $tree->getParentId((int) $_GET['item_ref_id']);
 
-        include_once './Services/Container/classes/class.ilContainerGUI.php';
         $container = new ilContainerGUI(array(), 0, false, false);
         $container->linkObject();
         return true;
@@ -255,7 +226,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['item_ref_id'], true, false);
         $container->pasteObject();
         return true;
@@ -274,7 +244,6 @@ class ilAdministrationCommandGUI
         $class_name = "ilObj" . $objDefinition->getClassName($type) . 'GUI';
 
         // create instance
-        include_once($location . "/class." . $class_name . ".php");
         $container = new $class_name(array(), (int) $_GET['ref_id'], true, false);
         $container->performPasteIntoMultipleObjectsObject();
         return true;

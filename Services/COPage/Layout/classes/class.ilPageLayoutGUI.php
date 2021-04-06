@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPageLayoutGUI GUI class
-*
-* @author Hendrik Holtmann <holtmann@me.com>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPageLayoutGUI: ilPageEditorGUI, ilEditClipboardGUI
-* @ilCtrl_Calls ilPageLayoutGUI: ilPublicUserProfileGUI, ilPageObjectGUI
-*
-*/
+ * Class ilPageLayoutGUI GUI class
+ *
+ * @author Hendrik Holtmann <holtmann@me.com>
+ * @ilCtrl_Calls ilPageLayoutGUI: ilPageEditorGUI, ilEditClipboardGUI
+ * @ilCtrl_Calls ilPageLayoutGUI: ilPublicUserProfileGUI, ilPageObjectGUI
+ */
 class ilPageLayoutGUI extends ilPageObjectGUI
 {
     /**
@@ -46,13 +41,10 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         parent::__construct($a_parent_type, $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
         //associated object
-        include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
-
         $this->layout_object = new ilPageLayout($a_id);
         $this->layout_object->readObject();
 
         // content style
-        include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
         $tpl->setCurrentBlock("ContentStyle");
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
@@ -128,7 +120,6 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
         $lng = $this->lng;
         $ilSetting = $this->settings;
         
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($ilCtrl->getFormAction($this));
         $form_gui->setTitle($lng->txt("cont_ed_pglprop"));
@@ -172,7 +163,6 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
                 $this->lng->txt("global_fixed") . ")");
             $form_gui->addItem($st);
         } else {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $st_styles = ilObjStyleSheet::_getStandardStyles(true, false);
             $st_styles[0] = $this->lng->txt("default");
             ksort($st_styles);

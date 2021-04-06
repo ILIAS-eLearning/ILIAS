@@ -1,21 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCSection.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCSectionGUI
-*
-* User Interface for Section Editing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
-*
-* @ingroup ServicesCOPage
-*/
+ * User Interface for Section Editing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
+ */
 class ilPCSectionGUI extends ilPageContentGUI
 {
 
@@ -95,7 +87,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         if ($a_style_id > 0 &&
             ilObject::_lookupType($a_style_id) == "sty") {
-            include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
             $style = new ilObjStyleSheet($a_style_id);
             $chars = $style->getCharacteristics("section");
             $new_chars = array();
@@ -127,7 +118,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         switch ($next_class) {
             case "ilpropertyformgui":
-                include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
                 $form = $this->initForm(true);
                 $this->ctrl->forwardCommand($form);
                 break;
@@ -173,7 +163,6 @@ class ilPCSectionGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
 
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_insert) {
@@ -183,7 +172,6 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
         
         // characteristic selection
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
@@ -212,7 +200,6 @@ class ilPCSectionGUI extends ilPageContentGUI
         $form->addItem($char_prop);
 
         // link input
-        include_once 'Services/Form/classes/class.ilLinkInputGUI.php';
         $ac = new ilLinkInputGUI($this->lng->txt('cont_link'), 'link');
         $ac->setAllowedLinkTypes(ilLinkInputGUI::BOTH);
         $ac->setRequired(false);
@@ -261,7 +248,6 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         // rep selector
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
             $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
             $rs->setParent($this);
             $form->addItem($rs);

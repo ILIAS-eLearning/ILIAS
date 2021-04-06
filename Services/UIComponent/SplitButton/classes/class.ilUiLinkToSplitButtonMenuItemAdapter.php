@@ -1,12 +1,10 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButtonMenuItem.php';
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilUiLinkToSplitButtonMenuItemAdapter
  * @author Michael Jansen <mjansen@databay.de>
- * @ingroup ServicesUIComponent
  */
 class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
 {
@@ -22,7 +20,7 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
 
     /**
      * @param ilButtonBase $button
-     *                            
+     *
      */
     public function __construct(\ILIAS\UI\Component\Button\Button $link, \ILIAS\UI\Renderer $renderer)
     {
@@ -34,7 +32,7 @@ class ilUiLinkToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
      * @return string
      */
     public function getContent() : string
-    {   
+    {
         return $this->renderer->render([$this->link]);
     }
 }

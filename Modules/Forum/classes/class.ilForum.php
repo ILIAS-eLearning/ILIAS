@@ -914,7 +914,7 @@ class ilForum
 					WHERE pos_pk = %s',
                     array('integer'),
                     array($del_id[$i])
-                 );
+                );
                 
                 // delete related news item
                 $news_id = ilNewsItem::getFirstNewsIdForContext(
@@ -994,7 +994,7 @@ class ilForum
 			WHERE top_frm_fk = %s',
             array('integer', 'integer'),
             array($dead_pos, $this->id)
-         );
+        );
         
         // get latest post of forum and update last_post
         $res2 = $this->db->queryf(

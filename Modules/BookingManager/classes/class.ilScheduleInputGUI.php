@@ -15,7 +15,15 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
      */
     protected $tpl;
 
-    protected $value;
+    /**
+     * @var array
+     */
+    protected $value = [];
+
+    /**
+     * @var string
+     */
+    protected $validationFailureMessage;
     
     /**
     * Constructor
@@ -35,9 +43,9 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     /**
     * Set Value.
     *
-    * @param	string	$a_value	Value
+    * @param	array	$a_value	Value
     */
-    public function setValue($a_value)
+    public function setValue(array $a_value)
     {
         $this->value = $a_value;
     }
@@ -45,24 +53,23 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     /**
     * Get Value.
     *
-    * @return	string	Value
+    * @return	array	Value
     */
-    public function getValue()
+    public function getValue() : array
     {
         return $this->value;
     }
 
     /**
      * Set message string for validation failure
-     * @return
      * @param string $a_msg
      */
-    public function setValidationFailureMessage($a_msg)
+    public function setValidationFailureMessage(string $a_msg)
     {
         $this->validationFailureMessage = $a_msg;
     }
     
-    public function getValidationFailureMessage()
+    public function getValidationFailureMessage() : string
     {
         return $this->validationFailureMessage;
     }
@@ -74,15 +81,15 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue(self::getPostData($this->getPostVar(), false));
+        $this->setValue((array) self::getPostData($this->getPostVar(), false));
     }
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
     *
-    * @return	boolean		Input ok, true/false
+    * @return bool		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
@@ -244,11 +251,9 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
     }
     
     /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert(&$a_tpl)
+     * Insert property html
+     */
+    public function insert($a_tpl)
     {
         $tpl = $this->tpl;
         

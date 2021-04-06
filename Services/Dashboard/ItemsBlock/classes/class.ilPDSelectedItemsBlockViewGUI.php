@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilPDSelectedItemsBlockViewGUI
@@ -178,7 +179,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
      */
     protected function preloadItemGroups(array $item_groups)
     {
-        require_once 'Services/Object/classes/class.ilObjectListGUIPreloader.php';
         $listPreloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
         $obj_ids = [];
@@ -212,7 +212,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
             if (!$objDefinition->isPlugin($container_object_type)) {
                 $title = $this->lng->txt('objs_' . $container_object_type);
             } else {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
                 $pl = ilObjectPlugin::getPluginObjectByType($container_object_type);
                 $title = $pl->txt("objs_" . $container_object_type);
             }

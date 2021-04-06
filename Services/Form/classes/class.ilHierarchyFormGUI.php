@@ -1,16 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Form/classes/class.ilFormGUI.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a hierarchical form. These forms are used for
-* quick editing, where each node is represented by it's title.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a hierarchical form. These forms are used for
+ * quick editing, where each node is represented by it's title.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilHierarchyFormGUI extends ilFormGUI
 {
     /**
@@ -52,7 +49,6 @@ class ilHierarchyFormGUI extends ilFormGUI
         $this->setCheckboxName("cbox");
         $this->help_items = array();
         
-        include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initDragDrop();
         $tpl->addJavascript("./Services/Form/js/ServiceFormHierarchyForm.js");
     }
@@ -679,8 +675,6 @@ class ilHierarchyFormGUI extends ilFormGUI
     public function getLegend()
     {
         $lng = $this->lng;
-
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 
         $ttpl = new ilTemplate("tpl.hierarchy_form_legend.html", true, true, "Services/Form");
         if ($this->getDragIcon() != "") {

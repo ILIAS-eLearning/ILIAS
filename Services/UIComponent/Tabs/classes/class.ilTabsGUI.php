@@ -1,17 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Tabs GUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
+ * Tabs GUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTabsGUI
 {
-
     /**
      * @var ilCtrl
      */
@@ -423,7 +420,8 @@ class ilTabsGUI
             "frame" => $a_frame, "dir_text" => true, "id" => $a_id, "cmdClass" => array());
     }
 
-    public function removeNonTabbedLinks() {
+    public function removeNonTabbedLinks()
+    {
         $this->non_tabbed_link = [];
     }
 
@@ -487,8 +485,6 @@ class ilTabsGUI
             }
             $pre = $pre2 = "";
 
-            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-
             // back 2 tab
             if ($this->back_2_title != "") {
                 $tpl->setCurrentBlock("back_2_tab");
@@ -496,7 +492,7 @@ class ilTabsGUI
                 $tpl->setVariable("BACK_2_TAB_LINK", $this->back_2_target);
                 $tpl->setVariable("BACK_2_TAB_TEXT", $this->back_2_title);
                 if ($this->back_2_frame != "") {
-                    $tpl->setVariable("BACK_2_TAB_TARGET", ' target="'.$this->back_2_frame.'" ');
+                    $tpl->setVariable("BACK_2_TAB_TARGET", ' target="' . $this->back_2_frame . '" ');
                 }
 
                 $tpl->parseCurrentBlock();
@@ -509,7 +505,7 @@ class ilTabsGUI
                 $tpl->setVariable("BACK_TAB_LINK", $this->back_target);
                 $tpl->setVariable("BACK_TAB_TEXT", $this->back_title);
                 if ($this->back_frame != "") {
-                    $tpl->setVariable("BACK_TAB_TARGET", ' target="'.$this->back_frame.'" ');
+                    $tpl->setVariable("BACK_TAB_TARGET", ' target="' . $this->back_frame . '" ');
                 }
                 $tpl->parseCurrentBlock();
             }
@@ -563,7 +559,6 @@ class ilTabsGUI
                 if (!$this->getSetupMode()) {
                     $ttext = $ilHelp->getTabTooltipText($target["id"]);
                     if ($ttext != "") {
-                        include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                         ilTooltipGUI::addTooltip(
                             $pre . "tab_" . $target["id"],
                             $ttext,
@@ -595,7 +590,7 @@ class ilTabsGUI
                     $tpl->setVariable($pre2 . "TAB_TEXT", $lng->txt($target["text"]));
                 }
                 if ($target["frame"] != "") {
-                    $tpl->setVariable($pre2 . "TAB_TARGET", ' target="'.$target["frame"].'" ');
+                    $tpl->setVariable($pre2 . "TAB_TARGET", ' target="' . $target["frame"] . '" ');
                 }
                 $tpl->parseCurrentBlock();
             }
@@ -606,7 +601,6 @@ class ilTabsGUI
                 $tpl->setVariable("TXT_TABS", $lng->txt("tabs"));
 
                 // non tabbed links
-                include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
                 foreach ($this->non_tabbed_link as $link) {
                     $tpl->setCurrentBlock("tab");
                     $tpl->setVariable("TAB_TYPE", "nontabbed");
@@ -621,7 +615,6 @@ class ilTabsGUI
                     if (!$this->getSetupMode()) {
                         $ttext = $ilHelp->getTabTooltipText($link["id"]);
                         if ($ttext != "") {
-                            include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
                             ilTooltipGUI::addTooltip(
                                 "nontab_" . $link["id"],
                                 $ttext,

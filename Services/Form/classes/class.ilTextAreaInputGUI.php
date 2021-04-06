@@ -1,36 +1,12 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2007 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
-include_once("./Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php");
-include_once "./Services/RTE/classes/class.ilRTE.php";
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* This class represents a text area property in a property form.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup	ServicesForm
-*/
+ * This class represents a text area property in a property form.
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
 {
     protected $value;
@@ -421,8 +397,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput()
     {
         $lng = $this->lng;
-        include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
-        
+
         if ($this->usePurifier() && $this->getPurifier()) {
             $_POST[$this->getPostVar()] = ilUtil::stripOnlySlashes($_POST[$this->getPostVar()]);
             $_POST[$this->getPostVar()] = $this->getPurifier()->purify($_POST[$this->getPostVar()]);
@@ -488,7 +463,6 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                include_once "./Services/RTE/classes/class.$rtestring.php";
                 $rte = new $rtestring($this->rteSupport['version']);
 
                 $rte->setInitialWidth($this->getInitialRteWidth());

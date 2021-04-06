@@ -37,7 +37,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    public function fillRow($draft)
+    protected function fillRow($draft)
     {
         $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
             (isset($_POST['draft_ids']) && in_array($draft['draft_id'], $_POST['draft_ids']) ? true : false),

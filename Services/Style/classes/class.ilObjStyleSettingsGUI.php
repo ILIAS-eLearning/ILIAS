@@ -1,19 +1,13 @@
 <?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Style settings GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
  * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPermissionGUI, ilSystemStyleMainGUI, ilContentStyleSettingsGUI
  * @ilCtrl_Calls ilObjStyleSettingsGUI: ilPageLayoutAdministrationGUI
- *
- * @ingroup	ServicesStyle
  */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
@@ -86,7 +80,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->prepareOutput();
                 $this->tabs->activateTab("perm_settings");
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -94,7 +87,6 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
             case 'ilsystemstylemaingui':
                 $this->prepareOutput();
                 $this->tabs->activateTab("system_styles");
-                include_once("./Services/Style/System/classes/class.ilSystemStyleMainGUI.php");
                 $gui = new ilSystemStyleMainGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
@@ -102,13 +94,11 @@ class ilObjStyleSettingsGUI extends ilObjectGUI
             case 'ilpagelayoutadministrationgui':
                 $this->prepareOutput();
                 $this->tabs->activateTab("page_layouts");
-                include_once("./Services/COPage/Layout/classes/class.ilPageLayoutAdministrationGUI.php");
                 $gui = new ilPageLayoutAdministrationGUI();
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilcontentstylesettingsgui':
-                include_once("./Services/Style/Content/classes/class.ilContentStyleSettingsGUI.php");
                 $gui = new ilContentStyleSettingsGUI($this);
                 $this->ctrl->forwardCommand($gui);
                 if ($this->ctrl->getCmdClass() == "ilcontentstylesettingsgui") {

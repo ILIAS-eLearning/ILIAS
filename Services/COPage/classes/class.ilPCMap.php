@@ -1,19 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
-* Class ilPCMap
-*
-* Map content object (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCMap
+ *
+ * Map content object (see ILIAS DTD)
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilPCMap extends ilPageContent
 {
     public $map_node;
@@ -279,7 +274,6 @@ class ilPCMap extends ilPageContent
             
             $param = explode(";", $param);
             if (is_numeric($param[0]) && is_numeric($param[1]) && is_numeric($param[2])) {
-                include_once("./Services/Maps/classes/class.ilMapUtil.php");
                 $map_gui = ilMapUtil::getMapGUI();
                 $map_gui->setMapId("map_" . $i)
                         ->setLatitude($param[0])

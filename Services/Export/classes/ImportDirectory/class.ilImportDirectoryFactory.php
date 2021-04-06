@@ -45,7 +45,7 @@ class ilImportDirectoryFactory
                 break;
 
             case self::TYPE_SAHS:
-                $instance =  new ilScormImportDirectory(
+                $instance = new ilScormImportDirectory(
                     $this->storage_directory,
                     $this->logger
                 );
@@ -66,5 +66,4 @@ class ilImportDirectoryFactory
         }
         return $instance;
     }
-
 }

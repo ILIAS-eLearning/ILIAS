@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Rating/classes/class.ilRatingCategory.php");
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Class ilRatingCategoryGUI. User interface class for rating categories.
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesRating
  */
 class ilRatingCategoryGUI
 {
@@ -97,7 +93,6 @@ class ilRatingCategoryGUI
             $ilCtrl->getLinkTarget($this, "export")
         );
         
-        include_once "Services/Rating/classes/class.ilRatingCategoryTableGUI.php";
         $table = new ilRatingCategoryTableGUI($this, "listCategories", $this->parent_id);
         $tpl->setContent($table->getHTML());
     }
@@ -108,7 +103,6 @@ class ilRatingCategoryGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($ilCtrl->getFormAction($this, "save"));
@@ -159,7 +153,6 @@ class ilRatingCategoryGUI
         
         $form = $this->initCategoryForm("create");
         if ($form->checkInput()) {
-            include_once "Services/Rating/classes/class.ilRatingCategory.php";
             $cat = new ilRatingCategory();
             $cat->setParentId($this->parent_id);
             $cat->setTitle($form->getInput("title"));
@@ -195,7 +188,6 @@ class ilRatingCategoryGUI
         
         $form = $this->initCategoryForm($this->cat_id);
         if ($form->checkInput()) {
-            include_once "Services/Rating/classes/class.ilRatingCategory.php";
             $cat = new ilRatingCategory($this->cat_id);
             $cat->setTitle($form->getInput("title"));
             $cat->setDescription($form->getInput("desc"));
@@ -282,7 +274,6 @@ class ilRatingCategoryGUI
     {
         $lng = $this->lng;
     
-        include_once "./Services/Excel/classes/class.ilExcel.php";
         $excel = new ilExcel();
         $excel->addSheet($lng->txt("rating_categories"));
         

@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/UIComponent/classes/class.ilUIHookProcessor.php');
 
 /**
  * Class ilUIPluginRouterGUI

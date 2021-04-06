@@ -1,19 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPCTable.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
-
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Class ilPCTableGUI
- *
  * User Interface for Table Editing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesCOPage
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
@@ -120,8 +112,6 @@ class ilPCTableGUI extends ilPageContentGUI
             "editCellStyle",
             get_class($this)
         );
-
-
     }
     
     /**
@@ -201,10 +191,8 @@ class ilPCTableGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
         $ilUser = $this->user;
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         if ($a_mode == "create") {
@@ -258,14 +246,8 @@ class ilPCTableGUI extends ilPageContentGUI
         $spacing = new ilHiddenInputGUI("spacing");
         $spacing->setValue("0px");
         $this->form->addItem($spacing);
-        /*$spacing = new ilTextInputGUI($this->lng->txt("cont_table_cellspacing"), "spacing");
-        $spacing->setValue("0px");
-        $spacing->setSize(6);
-        $spacing->setMaxLength(6);
-        $this->form->addItem($spacing);*/
 
         // table templates and table classes
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $char_prop = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_characteristic"),
             "characteristic"
@@ -325,7 +307,6 @@ class ilPCTableGUI extends ilPageContentGUI
 
         if ($a_mode == "create") {
             // first row style
-            require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
             $fr_style = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_first_row_style"),
                 "first_row_style"
@@ -393,7 +374,6 @@ class ilPCTableGUI extends ilPageContentGUI
         } else {
             $s_lang = $ilUser->getLanguage();
         }
-        require_once("Services/MetaData/classes/class.ilMDLanguageItem.php");
         $lang = ilMDLanguageItem::_getLanguages();
         $language = new ilSelectInputGUI($this->lng->txt("language"), "language");
         $language->setOptions($lang);
@@ -453,7 +433,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $mobs = $this->pg_obj->getMultimediaXML();
         if ($this->getStyleId() > 0) {
             if (ilObject::_lookupType($this->getStyleId()) == "sty") {
-                include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $style = new ilObjStyleSheet($this->getStyleId());
                 $template_xml = $style->getTemplateXML();
             }
@@ -659,13 +638,11 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilTabs->setSubTabActive("cont_style");
         
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
 
         // first row style
-        require_once("./Services/Form/classes/class.ilAdvSelectInputGUI.php");
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "style"
@@ -1015,7 +992,6 @@ class ilPCTableGUI extends ilPageContentGUI
         $ilTabs->setTabActive("cont_table_cell_properties");
 
         // edit form
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($this->lng->txt("cont_table_cell_properties"));
@@ -1083,10 +1059,9 @@ class ilPCTableGUI extends ilPageContentGUI
         $this->tpl->setContent($this->getEditDataTable(true));
     }
 
-    public function getEditDataTable($initial = false) {
+    public function getEditDataTable($initial = false)
+    {
         $ilCtrl = $this->ctrl;
-
-        include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 
         $dtpl = new ilTemplate("tpl.tabledata2.html", true, true, "Services/COPage");
         $dtpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this, "tableAction"));
@@ -1132,9 +1107,9 @@ class ilPCTableGUI extends ilPageContentGUI
                         $move_backward = true;
                     }
                     $dtpl->setCurrentBlock("col_icon");
-                    $dtpl->setVariable("NR_COLUMN", $j+1);
+                    $dtpl->setVariable("NR_COLUMN", $j + 1);
                     $dtpl->setVariable("PCID_COLUMN", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("COLUMN_CAPTION", $j+1);
+                    $dtpl->setVariable("COLUMN_CAPTION", $j + 1);
                     $dtpl->parseCurrentBlock();
                 }
                 $dtpl->setCurrentBlock("row");
@@ -1157,15 +1132,14 @@ class ilPCTableGUI extends ilPageContentGUI
                         $move_type = "both";
                     }
                     $dtpl->setCurrentBlock("row_icon");
-                    $dtpl->setVariable("NR_ROW", $i+1);
+                    $dtpl->setVariable("NR_ROW", $i + 1);
                     $dtpl->setVariable("PCID_ROW", $res2->nodeset[$j]->get_attribute("PCID"));
-                    $dtpl->setVariable("ROW_CAPTION", $i+1);
+                    $dtpl->setVariable("ROW_CAPTION", $i + 1);
                     $dtpl->parseCurrentBlock();
                 }
 
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
-
                     if ($this->content_obj->getType() == "dtab") {
                         $dtpl->touchBlock("cell_type");
                         //$dtpl->setCurrentBlock("cell_type");
@@ -1182,7 +1156,6 @@ class ilPCTableGUI extends ilPageContentGUI
                             true,
                             false
                         );
-                        include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
                         $s_text = ilPCParagraphGUI::xml2outputJS(
                             $s_text,
                             "TableContent",
@@ -1229,5 +1202,4 @@ class ilPCTableGUI extends ilPageContentGUI
 
         return $dtpl->get();
     }
-
 }
