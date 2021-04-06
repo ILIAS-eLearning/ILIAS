@@ -10341,15 +10341,15 @@ ecs#:#ecs_tst_export_disabled#:#Nicht freigeben
 ecs#:#ecs_tst_export_enabled#:#Freigeben
 rtst#:#rtst_call#:#ECS-Test aufrufen
 rbac#:#contribute#:#Beiträge erstellen
-dateplaner#:#cal_setting_global_vis_repos#:#Anzeige im Magazin
-dateplaner#:#cal_setting_global_crs_act#:#Aktivierung in Kursen
-dateplaner#:#cal_setting_global_grp_act#:#Aktivierung in Gruppen
-dateplaner#:#cal_setting_global_crs_act_info#:#Wenn ausgewählt, ist der Kurskalender standardmäßig in Kursen aktiviert. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_grp_act_info#:#Wenn ausgewählt, ist der Gruppenkalender standardmäßig in Gruppen aktiviert. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_crs_vis#:#Anzeige in Kursen
-dateplaner#:#cal_setting_global_grp_vis#:#Anzeige in Gruppen
-dateplaner#:#cal_setting_global_crs_vis_info#:#Wenn aktiviert, wird der Kurskalender standardmäßig in Kursen angezeigt. Unabhängig davon kann der Kalender in den Kurseinstellungen de/aktiviert werden.
-dateplaner#:#cal_setting_global_grp_vis_info#:#Wenn aktiviert, wird der Gruppenkalender standardmäßig in Gruppen angezeigt. Unabhängig davon kann der Kalender in den Gruppeneinstellungen de/aktiviert werden.
+dateplaner#:#cal_setting_global_vis_repos#:#Anzeige in Magazinobjekten
+dateplaner#:#cal_setting_global_crs_act#:#Kurskalender
+dateplaner#:#cal_setting_global_grp_act#:#Gruppenkalender
+dateplaner#:#cal_setting_global_crs_act_info#:#In neu erstellten Kursen ist der Kalender standardmäßig aktiviert.
+dateplaner#:#cal_setting_global_grp_act_info#:#In neu erstellten Gruppen ist der Kalender standardmäßig aktiviert.
+dateplaner#:#cal_setting_global_crs_vis#:#Kalenderblock
+dateplaner#:#cal_setting_global_grp_vis#:#Kalenderblock
+dateplaner#:#cal_setting_global_crs_vis_info#:#Der Kurskalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
+dateplaner#:#cal_setting_global_grp_vis_info#:#Der Gruppenkalender wird standardmäßig als Block im Reiter „Inhalt“ angezeigt.
 dcl#:#dcl_change_notification_subject#:#Die Datensatzsammlung "%s" wurde bearbeitet.
 dcl#:#dcl_change_notification_link#:#Zur Datensammlung gehen
 dcl#:#dcl_change_notification_dcl_new_record#:#Der folgende Eintrag wurde erzeugt
