@@ -3103,7 +3103,7 @@ common#:#firstname#:#Vorname
 common#:#flatview#:#Baumansicht aus
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt-
+common#:#fold_added#:#Ordner angelegt
 rbac#:#fold_copy#:#Ordner kopieren
 rbac#:#fold_delete#:#Ordner löschen oder verschieben
 common#:#fold_edit#:#Ordner bearbeiten
