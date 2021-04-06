@@ -11871,6 +11871,9 @@ img.il_ExplorerIcon {
 .jstree-default .jstree-anchor {
   line-height: inherit;
 }
+.ilExplorerContainer .jstree-node a:focus-visible {
+  outline: 2px solid #557196;
+}
 /* Modules/Forum */
 a.postread,
 a.postread:visited {
