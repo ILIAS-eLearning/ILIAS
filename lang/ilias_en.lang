@@ -10315,16 +10315,16 @@ trac#:#trac_filter_has_status#:#Show also objects with status ‘not attempted�
 cat#:#cat_import#:#Import Category
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
-objref#:#objref_edit_ref#:#Ziel des Links
-objref#:#objref_edit_title#:#Titel
-objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
-objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
-crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
-crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
-crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
-crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+objref#:#objref_custom_title#:#Use Own Title
+objref#:#objref_edit_ref#:#Link Target
+objref#:#objref_edit_title#:#Title
+objref#:#objref_reuse_title#:#Adopt Title of Linked Object
+objref#:#objref_title_settings#:#Title of Linked Object
+objref#:#objref_failure_target_type#:#Target of link must be of following type:
+crs#:#crs_ref_member_update#:#Add new members
+crs#:#crs_ref_member_update_info#:#All new members of the parent course are automatically entered in the course to which this course link refers.
+crs#:#crs_ref_missing_parent_crs#:#The option cannot be selected because this course link does not have a parent course.
+crs#:#crs_ref_missing_access#:#The option cannot be selected because you do not have "Manage Members" permission for either course.
 crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
 news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
@@ -10347,12 +10347,12 @@ dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
 dateplaner#:#cal_remote_url#:#URL
 dateplaner#:#cal_cal_synchronize#:#Synchronise Calendar
-dateplaner#:#cal_cal_sync_success#:#Successfully synchronised calendar
+dateplaner#:#cal_cal_sync_success#:#Synchronised calendar successfully
 style#:#sty_substyle#:#Substyle
 style#:#sty_cat_assignments#:#Style/Category Assignments
 style#:#sty_add_assignment#:#Add Assignment
 administration#:#adm_user_starting_point#:#Personal Starting Point
-administration#:#adm_user_starting_point_info#:#Select the page or object which is shown after login.
+administration#:#adm_user_starting_point_info#:#Select page or object which is shown after login.
 content#:#cont_AdvancedKnowledge#:#Advanced Knowledge
 content#:#cont_show_adv#:#Show Advanced Knowledge
 content#:#cont_hide_adv#:#Hide Advanced Knowledge
