@@ -39,4 +39,12 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
         $a_fields[$this->getElementId() . '_value'] = ["text",$this->getADT()->getUrl()];
         $a_fields[$this->getElementId() . '_title'] = ['text',$this->getADT()->getTitle()];
     }
+
+    /**
+     * @return bool
+     */
+    public function supportsDefaultValueColumn() : bool
+    {
+        return false;
+    }
 }
