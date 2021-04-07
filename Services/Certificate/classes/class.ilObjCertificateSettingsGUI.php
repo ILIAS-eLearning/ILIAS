@@ -38,7 +38,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
     /**
      * @var string
      */
-    private $type;
+    protected $type;
 
     /**
      * @var ilAccessHandler
