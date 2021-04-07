@@ -50,6 +50,10 @@ class ilFileObjectToStorageMigrationRunner
      * @var null|int
      */
     protected $migrate_to_new_object_id = null;
+    /**
+     * @var ilObjFileStakeholder
+     */
+    protected $stakeholder;
 
     /**
      * ilFileObjectToStorageMigration constructor.
@@ -74,6 +78,7 @@ class ilFileObjectToStorageMigrationRunner
         $this->resource_builder = $builder;
         $this->storage_manager = new Manager($builder);
         $this->consumer_factory = new ConsumerFactory(new StorageHandlerFactory([$storage_handler]));
+        $this->stakeholder = new ilObjFileStakeholder();
     }
 
     /**
@@ -119,6 +124,7 @@ class ilFileObjectToStorageMigrationRunner
                 $aditional_info
             );
         }
+        $resource->addStakeholder($this->stakeholder);
 
         $this->resource_builder->store($resource);
         $this->database->manipulateF(
