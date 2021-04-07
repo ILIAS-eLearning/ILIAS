@@ -1065,11 +1065,24 @@ class ilPCTableGUI extends ilPageContentGUI
     }
 
     /**
+     * Set editor tool context
+     */
+    protected function setEditorToolContext()
+    {
+        $collection = $this->tool_context->current()->getAdditionalData();
+        if ($collection->exists(ilCOPageEditGSToolProvider::SHOW_EDITOR)) {
+            $collection->replace(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        } else {
+            $collection->add(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        }
+    }
+
+    /**
      * Edit data of table
      */
     public function editData()
     {
-        $this->tool_context->current()->addAdditionalData(ilCOPageEditGSToolProvider::SHOW_EDITOR, true);
+        $this->setEditorToolContext();
 
         $this->setTabs();
 

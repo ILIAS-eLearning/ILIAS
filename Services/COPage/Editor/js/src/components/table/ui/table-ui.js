@@ -268,7 +268,6 @@ export default class TableUI {
     const tableUI = this;
     const tableModel = this.tableModel;
     const pageModel = this.page_model;
-
     wrapper.addCallback(TINY_CB.SWITCH_LEFT, () => {
       if (pageModel.getCurrentPCName() === "Table") {
         tableUI.switchEditingCell(-1,0);
@@ -319,7 +318,7 @@ export default class TableUI {
   cellExists (col, row) {
     const pageModel = this.page_model;
     const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
-    return (pcModel.content[row] && pcModel.content[row][col]);
+    return (row in pcModel.content && col in pcModel.content[row]);
   }
 
   switchEditingCell(colDiff, rowDiff) {
