@@ -1969,7 +1969,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $userSolution = array();
 
         foreach ($previewSession->getParticipantsSolution() as $key => $val) {
-            $userSolution[] = array('gap_id' => $key, 'value' => $val);
+            $userSolution[$key] = array('gap_id' => $key, 'value' => $val);
         }
 
         $reachedPoints = $this->calculateReachedPointsForSolution($userSolution);
