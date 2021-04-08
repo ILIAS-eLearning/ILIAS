@@ -63,7 +63,7 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             ->topLegacyItem($this->getId())
             ->withLegacyContent($content())
             ->withSymbol($this->dic->ui()->factory()->symbol()->glyph()->search())
-            ->withTitle($this->dic->language()->txt("Search"))
+            ->withTitle($this->dic->language()->txt("search"))
             ->withPosition(1)
             ->withAvailableCallable(
                 function () {
