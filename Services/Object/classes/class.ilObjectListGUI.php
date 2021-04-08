@@ -1738,6 +1738,7 @@ class ilObjectListGUI
         $redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
         // add common properties (comments, notes, tags)
+        $dummy = new ilNote();      // this is only needed to make constants available, constants should be refactored
         if (((isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PRIVATE] > 0) ||
             (isset(self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC]) && self::$cnt_notes[$note_obj_id][IL_NOTE_PUBLIC] > 0) ||
             (isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0) ||
