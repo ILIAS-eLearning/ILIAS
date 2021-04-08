@@ -88,6 +88,6 @@ function expandable_async_repo($ref = null)
     if (!$do_async) {
         return $renderer->render([$modal, $tree]);
     } else {
-        echo $renderer->renderAsync([$modal, $tree]);
+        echo $renderer->renderAsync([$modal, $tree->withIsSubTree(true)]);
     }
 }

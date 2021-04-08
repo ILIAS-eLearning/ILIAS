@@ -422,15 +422,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
                 $url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);
                 $this->ctrl->setParameterByClass($cmdClass, 'node_id', null);
 
-                $javascript = "$('#$id').on('click', function(event) {
-					let node = $(this);
-	
-					if (node.hasClass('expandable')) {
-						il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.hasClass('expanded'));
-						event.preventDefault();
-						event.stopPropagation();
-					}
-				});";
+                $javascript = "il.UI.tree.registerToggleNodeAsyncAction('$id', '$url', 'prior_state');";
 
                 return $javascript;
             });
