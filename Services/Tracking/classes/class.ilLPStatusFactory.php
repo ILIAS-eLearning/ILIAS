@@ -30,7 +30,7 @@ class ilLPStatusFactory
     /**
      * @return ilLPStatusFactory
      */
-    private  function getFactoryInstance() : ilLPStatusFactory
+    private static function getFactoryInstance() : ilLPStatusFactory
     {
         if (!self::$instance) {
             self::$instance = new self();
