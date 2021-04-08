@@ -46,7 +46,7 @@ class ilLPStatusFactory
     {
         global $DIC;
 
-        $this->logger = $DIC->logger->trac();
+        $this->logger = $DIC->logger()->trac();
     }
 
     /**
