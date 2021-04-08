@@ -108,18 +108,31 @@ export default class MediaUI {
 
     document.querySelectorAll("[data-copg-ed-type='media-action']").forEach((el) => {
       const actionType = el.dataset.copgEdAction;
+      let url;
 
       switch (actionType) {
+
         case ACTIONS.SELECT_POOL:
-          const url = el.dataset.copgEdParUrl;
+          url = el.dataset.copgEdParUrl;
           el.addEventListener("click", (event) => {
             dispatch.dispatch(action.media().editor().selectPool(url, this.page_model.getCurrentInsertPCId()));
           });
+
+        case ACTIONS.OPEN_CLIPBOARD:
+          url = el.dataset.copgEdParUrl;
+          el.addEventListener("click", (event) => {
+            dispatch.dispatch(action.media().editor().openClipboard(url, this.page_model.getCurrentInsertPCId()));
+          });
+
       }
     });
   }
 
   handlePoolSelection(url, pcid) {
+    this.pageModifier.redirect(url + "&pcid=" + pcid);
+  }
+
+  handleOpenClipboard(url, pcid) {
     this.pageModifier.redirect(url + "&pcid=" + pcid);
   }
 

@@ -856,6 +856,9 @@ class ilPageEditorGUI
         include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
         $ids = ilEditClipboardGUI::_getSelectedIDs();
         include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
+
+        $hier_id = $this->page->getHierIDForPCId($_GET["pc_id"]);
+
         if ($ids != "") {
             foreach ($ids as $id2) {
                 $id = explode(":", $id2);
@@ -864,13 +867,13 @@ class ilPageEditorGUI
                 if ($type == "mob") {
                     $this->content_obj = new ilPCMediaObject($this->page);
                     $this->content_obj->readMediaObject($id);
-                    $this->content_obj->createAlias($this->page, $_GET["hier_id"]);
+                    $this->content_obj->createAlias($this->page, $hier_id);
                     $this->updated = $this->page->update();
                 }
                 if ($type == "incl") {
                     include_once("./Services/COPage/classes/class.ilPCContentInclude.php");
                     $this->content_obj = new ilPCContentInclude($this->page);
-                    $this->content_obj->create($this->page, $_GET["hier_id"]);
+                    $this->content_obj->create($this->page, $hier_id);
                     $this->content_obj->setContentType("mep");
                     $this->content_obj->setContentId($id);
                     $this->updated = $this->page->update();
