@@ -86,6 +86,10 @@ export default class MediaUIActionHandler {
         case ACTIONS.SELECT_POOL:
           this.ui.handlePoolSelection(params.url, params.pcid);
           break;
+
+        case ACTIONS.OPEN_CLIPBOARD:
+          this.ui.handleOpenClipboard(params.url, params.pcid);
+          break;
       }
     }
   }

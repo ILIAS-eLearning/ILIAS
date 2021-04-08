@@ -83,7 +83,7 @@ class ilEditClipboardGUI
             rawurlencode($_GET["returnCommand"])
         );
 
-        $ilCtrl->saveParameter($this, array("clip_item_id"));
+        $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
     }
 
     /**
@@ -250,7 +250,11 @@ class ilEditClipboardGUI
         }
 
         $_SESSION["ilEditClipboard_mob_id"] = $_POST["id"];
-        ilUtil::redirect($_GET["returnCommand"]);
+        $return = $_GET["returnCommand"];
+        if ($_GET["pcid"]) {
+            $return .= "&pc_id=" . $_GET["pcid"];
+        }
+        ilUtil::redirect($return);
     }
     
     public static function _getSelectedIDs()
