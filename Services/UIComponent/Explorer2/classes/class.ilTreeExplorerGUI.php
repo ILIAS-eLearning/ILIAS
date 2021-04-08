@@ -423,8 +423,8 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 					let node = $(this);
 	
 					if (node.hasClass('expandable')) {
-					    setTimeout(function(){  
-                            il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.attr('aria-expanded')=='true');
+						setTimeout(function(){  
+						    il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.attr('aria-expanded')=='true');
 						}, 50);
 						event.preventDefault();
 						event.stopPropagation();
