@@ -109,6 +109,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
         $tpl = new ilTemplate("tpl.search_search_block.html", true, true, 'Services/Search');
 
         $lng->loadLanguageModule('search');
+        $tpl->setVariable("TXT_SEARCH_INPUT_LABEL", $lng->txt('search_field'));
         $tpl->setVariable("TXT_PERFORM", $lng->txt('btn_search'));
         $tpl->setVariable("FORMACTION", $ilCtrl->getFormActionByClass('ilrepositoryobjectsearchgui', 'performSearch'));
         $tpl->setVariable("SEARCH_TERM", ilUtil::prepareFormOutput(ilUtil::stripSlashes($_POST["search_term"])));
