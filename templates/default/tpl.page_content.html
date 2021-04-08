@@ -67,7 +67,6 @@
 				<span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 				<!-- BEGIN tabs_inner_start --><!-- END tabs_inner_start -->
 				<!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
-				<!-- BEGIN filter --><div class="container-fluid">{FILTER}</div><!-- END filter -->
 				<!-- BEGIN page_form_start -->
 				<form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post">
 					<!-- END page_form_start -->
@@ -78,6 +77,9 @@
 						<!-- END adm_view_components -->
 					</div>
 
+					<!-- BEGIN toolbar_buttons --><div class="container-fluid">{BUTTONS}</div><!-- END toolbar_buttons -->
+					<!-- BEGIN filter --><div class="container-fluid">{FILTER}</div><!-- END filter -->
+
 					<div class="container-fluid" id="ilContentContainer">
 						<div class="row">
 
@@ -87,7 +89,6 @@
 									{SELECT_OBJTYPE_REPOS}
 								</div>
 								<!-- END add_commands -->
-								<!-- BEGIN toolbar_buttons -->{BUTTONS}<!-- END toolbar_buttons -->
 								{RTE_SWITCH}
 								{ADM_CONTENT}
 								{CONTENT}

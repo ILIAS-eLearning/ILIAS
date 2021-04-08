@@ -18,14 +18,16 @@ class ilGroupedListGUI
     protected $items = array();
     protected $as_dropdown = false;
     protected $dd_pullright = false;
+    protected $id;
     
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($id = "")
     {
         global $DIC;
 
+        $this->id = $id;
         $this->ctrl = $DIC->ctrl();
     }
     
@@ -201,6 +203,12 @@ class ilGroupedListGUI
         if ($tt_calls != "") {
             $tpl->setCurrentBlock("script");
             $tpl->setVariable("TT_CALLS", $tt_calls);
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($this->id != "") {
+            $tpl->setCurrentBlock("id");
+            $tpl->setVariable("ID", $this->id);
             $tpl->parseCurrentBlock();
         }
 
