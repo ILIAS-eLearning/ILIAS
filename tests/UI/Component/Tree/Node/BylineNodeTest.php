@@ -106,6 +106,34 @@ EOT;
 					<span class="node-label">My Label</span>
 					<span class="node-byline">This is my byline</span>
 				</span>
+				<ul role="group"></ul>
+			</li>
+EOT;
+
+        $this->assertEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
+    }
+
+    public function testRenderingExpanded()
+    {
+        $node = $this->node_factory->bylined('My Label', 'This is my byline');
+        $node = $node->withAsyncURL('something.de')->withExpanded(true);
+
+        $r = $this->getDefaultRenderer();
+        $html = $r->render($node);
+
+        $expected = <<<EOT
+			<li id=""
+				 class="il-tree-node node-simple expandable"
+				 role="treeitem" aria-expanded="true"
+				 data-async_url="something.de" data-async_loaded="false">
+				<span class="node-line">
+					<span class="node-label">My Label</span>
+					<span class="node-byline">This is my byline</span>
+				</span>
+				<ul role="group"></ul>
 			</li>
 EOT;
 

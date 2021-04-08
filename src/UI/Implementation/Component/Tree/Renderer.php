@@ -42,6 +42,11 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $nodes_html = $default_renderer->render($nodes);
+
+        if ($component->isSubTree()) {
+            return $nodes_html;
+        }
+
         $tpl->setVariable('NODES', $nodes_html);
 
         $highlight_node_on_click = $component->getHighlightOnNodeClick();

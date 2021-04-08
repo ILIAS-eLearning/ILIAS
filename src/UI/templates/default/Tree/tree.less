@@ -31,11 +31,11 @@
 				position: absolute;
 				margin-left: -@il-tree-node-indentation;
 			}
-			&.expanded > .node-line:before {
+			&[aria-expanded="true"] > .node-line:before {
 				&:extend(.glyphicon-triangle-bottom:before);
 			}
 		}
-		&:not(.expanded) > ul{
+		&[aria-expanded="false"] > ul{
 			display: none;
 		}
 	}

@@ -35,7 +35,9 @@ class Renderer extends AbstractComponentRenderer
         $label = $component->getLabel();
         /** @var URI|null $link */
         $link = $component->getLink();
+
         if (null !== $link) {
+            $tpl->touchBlock("role_none");
             $linkAsString = $this->getRefinery()
                 ->uri()
                 ->toString()
@@ -81,17 +83,20 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock("expandable");
             $tpl->setCurrentBlock("aria_expanded");
             if ($component->isExpanded()) {
-                $tpl->touchBlock("expanded");
                 $tpl->setVariable("ARIA_EXPANDED", "true");
             } else {
                 $tpl->setVariable("ARIA_EXPANDED", "false");
             }
             $tpl->parseCurrentBlock();
-        }
 
-        if (count($subnodes) > 0) {
             $subnodes_html = $default_renderer->render($subnodes);
             $tpl->setVariable("SUBNODES", $subnodes_html);
+        }
+
+        if ($link === null || count($subnodes) != 0 || $async) {
+            $tpl->touchBlock("role_item");
+        } else {
+            $tpl->touchBlock("role_none");
         }
 
         return $tpl->get();

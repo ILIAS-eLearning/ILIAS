@@ -1054,7 +1054,7 @@ th {
   content: "\e251";
 }
 .glyphicon-triangle-bottom:before,
-.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
+.il-tree li.il-tree-node.expandable[aria-expanded="true"] > .node-line:before {
   content: "\e252";
 }
 .glyphicon-triangle-top:before {
@@ -8812,7 +8812,7 @@ div.alert ul > li:before {
   position: absolute;
   margin-left: -14px;
 }
-.il-tree li.il-tree-node:not(.expanded) > ul {
+.il-tree li.il-tree-node[aria-expanded="false"] > ul {
   display: none;
 }
 .shadow-right {
@@ -10395,7 +10395,7 @@ footer {
   content: "\e095";
 }
 .glyphicon-triangle-bottom:before,
-.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
+.il-tree li.il-tree-node.expandable[aria-expanded="true"] > .node-line:before {
   font-family: il-icons;
   content: "\e604";
 }
