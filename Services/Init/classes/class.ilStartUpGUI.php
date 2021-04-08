@@ -1324,13 +1324,13 @@ class ilStartUpGUI
             )
         );
 
-        // reset cookie
-        $client_id = $_COOKIE["ilClientId"];
-        ilUtil::setCookie("ilClientId", "");
-
         if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
+
+        // reset cookie
+        $client_id = $_COOKIE["ilClientId"];
+        ilUtil::setCookie("ilClientId", "");
 
         // redirect and show logout information
         $this->ctrl->setParameter($this, 'client_id', $client_id);
