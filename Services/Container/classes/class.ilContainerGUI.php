@@ -548,6 +548,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function showPossibleSubObjects()
     {
+        if ($this->isActiveAdministrationPanel() || $this->isActiveOrdering()) {
+            return;
+        }
         include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->render();
@@ -601,11 +604,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function renderObject()
     {
-        $ilDB = $this->db;
-        $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
+        $user = $this->user;
+        $toolbar = $this->toolbar;
+        $lng = $this->lng;
 
         $container_view = $this->getContentGUI();
         
@@ -625,6 +629,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($ilCtrl->getNextClass() != "ilcolumngui") {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
+
+            if ($user->getId() != ANONYMOUS_USER_ID &&
+                is_object($this->object) &&
+                $this->rbacsystem->checkAccess("write", $this->object->getRefId())
+            ) {
+                if ($ilSetting->get("enable_cat_page_edit")) {
+                    $toolbar->addButton($lng->txt("cntr_text_media_editor"),
+                        $ilCtrl->getLinkTarget($this, "editPageFrame")
+                    );
+                }
+            }
         }
 
         $this->showContainerFilter();
@@ -1344,19 +1359,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->object->getOrderType() == ilContainer::SORT_MANUAL */ // always on because of custom block order
             ) {
             $ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
-        }
-        if ($ilUser->getId() != ANONYMOUS_USER_ID &&
-            is_object($this->object) &&
-            $this->rbacsystem->checkAccess("write", $this->object->getRefId())
-            ) {
-            if ($ilSetting->get("enable_cat_page_edit")) {
-                $ilTabs->addSubTab(
-                    "page_editor",
-                    $lng->txt("cntr_text_media_editor"),
-                    $ilCtrl->getLinkTarget($this, "editPageFrame"),
-                    ilFrameTargetInfo::_getFrame("MainContent")
-                );
-            }
         }
     }
     

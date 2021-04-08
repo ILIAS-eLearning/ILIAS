@@ -18682,6 +18682,27 @@ table.mceToolbar td {
     margin: 0;
   }
 }
+@media only screen and (max-width: 992px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
+    min-width: 250px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
+    min-width: 500px;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row {
+    min-width: 750px;
+  }
+}
+@media only screen and (max-width: 768px) {
+  #ilAdvSelListAnchorText_asl + ul.dropdown-menu {
+    position: absolute;
+    background-color: white;
+  }
+}
 .code-container {
   display: grid;
 }

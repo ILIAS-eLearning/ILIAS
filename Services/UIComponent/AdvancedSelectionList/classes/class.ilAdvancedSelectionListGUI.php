@@ -8,7 +8,7 @@
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id:$
 */
-class ilAdvancedSelectionListGUI
+class ilAdvancedSelectionListGUI implements ilToolbarItem
 {
     private $items = array();
     private $id = "asl";
@@ -592,6 +592,15 @@ class ilAdvancedSelectionListGUI
     public function getPullRight()
     {
         return $this->dd_pullright;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getToolbarHTML()
+    {
+        return $this->getHTML();
     }
 
     /**

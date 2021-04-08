@@ -303,8 +303,8 @@ class ilObjectAddNewItemGUI
         }
         
         include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
-        $gl = new ilGroupedListGUI();
-        $gl->setAsDropDown(true, true);
+        $gl = new ilGroupedListGUI("il-add-new-item-gl");
+        $gl->setAsDropDown(true, false);
 
         foreach ($this->sub_objects as $item) {
             switch ($item["type"]) {
@@ -378,28 +378,13 @@ class ilObjectAddNewItemGUI
 
         include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $adv = new ilAdvancedSelectionListGUI();
+        $adv->setPullRight(false);
         $adv->setListTitle($lng->txt("cntr_add_new_item"));
         $this->getHTML();
         $adv->setGroupedList($this->gl);
         $adv->setStyle(ilAdvancedSelectionListGUI::STYLE_EMPH);
-        $tpl->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
-        //$ilToolbar->addDropDown($lng->txt("cntr_add_new_item"), $this->getHTML());
-        
-        return;
-
-        // toolbar
-        include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-        $button = ilLinkButton::getInstance();
-        $button->setId($ov_trigger_id);
-        $button->setCaption("cntr_add_new_item");
-        $button->setPrimary(true);
-        $ilToolbar->addButtonInstance($button);
-            
-        // css?
-        $tpl->setVariable(
-            "SELECT_OBJTYPE_REPOS",
-            '<div id="' . $ov_id . '" style="display:none;" class="ilOverlay">' .
-            $this->getHTML() . '</div>'
-        );
+        //$ilToolbar->addAdvancedSelectionList($adv);
+        $ilToolbar->addStickyItem($adv);
+        //$tpl->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
     }
 }

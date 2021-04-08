@@ -286,15 +286,22 @@ class ilToolbarGUI
         }
     }
 
-    // bs-patch start
     /**
-     * Add input item
+     * Add Dropdown
      */
     public function addDropDown($a_txt, $a_dd_html)
     {
         $this->items[] = array("type" => "dropdown", "txt" => $a_txt, "dd_html" => $a_dd_html);
     }
-    // bs-patch end
+
+    /**
+     * @param ilAdvancedSelectionListGUI $adv
+     */
+    public function addAdvancedSelectionList(ilAdvancedSelectionListGUI $adv)
+    {
+        $this->items[] = array("type" => "adv_sel_list", "list" => $adv);
+    }
+
 
     /**
      * Add separator
@@ -558,6 +565,13 @@ class ilToolbarGUI
                             $tpl_items->setVariable("COMPONENT", $this->ui->renderer()->render($item["component"]));
                             $tpl_items->touchBlock("item");
                             break;
+
+                        case "adv_sel_list":
+                            $tpl_items->setCurrentBlock("component");
+                            $tpl_items->setVariable("COMPONENT", $item["list"]->getHTML());
+                            $tpl_items->touchBlock("item");
+                            break;
+
 
                         case "spacer":
                             $tpl_items->touchBlock("spacer");

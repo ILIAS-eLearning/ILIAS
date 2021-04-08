@@ -43,4 +43,9 @@ class ilContainerPageGUI extends ilPageObjectGUI
         $link = substr($link, strpos($link, "/"));
         return $link;
     }
+
+    public function finishEditing()
+    {
+        $this->ctrl->returnToParent($this);
+    }
 }
