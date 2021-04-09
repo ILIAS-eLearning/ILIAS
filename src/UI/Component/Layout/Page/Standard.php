@@ -17,6 +17,9 @@ use ILIAS\UI\Component\MainControls\Footer;
  */
 interface Standard extends Page, JavaScriptBindable
 {
+    //Possible Text Directions
+    public const LTR = 'ltr';
+    public const RTL = 'rtl';
 
     /**
      * @param MetaBar $meta_bar
@@ -112,4 +115,16 @@ interface Standard extends Page, JavaScriptBindable
 
 
     public function hasSystemInfos() : bool;
+
+    /**
+     * Set the direction of the text. This is used in CSS.
+     * Note that in the default skin, rtl is only partly supported.
+     */
+    public function withTextDirection(string $text_direction) : Standard;
+
+    /**
+     * Get the direction of the text. This is used in CSS.
+     * Note that in the default skin, rtl is only partly supported.
+     */
+    public function getTextDirection() : string;
 }
