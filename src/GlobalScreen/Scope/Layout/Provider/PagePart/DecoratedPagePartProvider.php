@@ -152,4 +152,12 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_VIEWTITLE, $this->original->getViewTitle());
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTextDirection() : string
+    {
+        return $this->original->getTextDirection();
+    }
 }

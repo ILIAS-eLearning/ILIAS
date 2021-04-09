@@ -207,7 +207,24 @@ class ilLanguage
     {
         return $this->lang_default ? $this->lang_default : 'en';
     }
-    
+
+    public function getTextDirection()
+    {
+        $rtl = array('ar', 'fa', 'ur', 'he');
+        if (in_array($this->getContentLanguage(), $rtl)) {
+            return 'rtl';
+        }
+        return 'ltr';
+    }
+
+    public function getContentLanguage()
+    {
+        if ($this->getUserLanguage()) {
+            return $this->getUserLanguage();
+        }
+        return $this->getLangKey();
+    }
+
     /**
      * gets the text for a given topic in a given language
      * if the topic is not in the list, the topic itself with "-" will be returned

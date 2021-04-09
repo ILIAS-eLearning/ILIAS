@@ -31,13 +31,13 @@ class StandardPageBuilder implements PageBuilder
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
-        $main_bar     = $parts->getMainBar();
-        $meta_bar     = $parts->getMetaBar();
+        $main_bar = $parts->getMainBar();
+        $meta_bar = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
-        $footer       = $parts->getFooter();
-        $title        = $parts->getTitle();
-        $short_title  = $parts->getShortTitle();
-        $view_title   = $parts->getViewTitle();
+        $footer = $parts->getFooter();
+        $title = $parts->getTitle();
+        $short_title = $parts->getShortTitle();
+        $view_title = $parts->getViewTitle();
 
         $standard = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
@@ -51,6 +51,6 @@ class StandardPageBuilder implements PageBuilder
             $view_title
         );
 
-        return $standard->withSystemInfos($parts->getSystemInfos());
+        return $standard->withSystemInfos($parts->getSystemInfos())->withTextDirection($parts->getTextDirection());
     }
 }
