@@ -235,7 +235,7 @@ class ilObjCourseGUI extends ilContainerGUI
         include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
         include_once 'Modules/Course/classes/class.ilCourseFile.php';
 
-        $files = &ilCourseFile::_readFilesByCourse($this->object->getId());
+        $files = ilCourseFile::_readFilesByCourse($this->object->getId());
 
         $info = new ilInfoScreenGUI($this);
         $info->enablePrivateNotes();
@@ -472,7 +472,10 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
                 
-        if ($this->object->getCourseStart()) {
+        if (
+            $this->object->getCourseStart() instanceof ilDateTime &&
+            !$this->object->getCourseStart()->isNull()
+        ) {
             $info->addProperty(
                 $this->lng->txt('crs_period'),
                 ilDatePresentation::formatPeriod(
