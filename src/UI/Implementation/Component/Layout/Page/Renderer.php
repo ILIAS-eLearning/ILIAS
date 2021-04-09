@@ -58,7 +58,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
+        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
         if ($slates_cookie && json_decode($slates_cookie, true)['engaged']) {
             $tpl->touchBlock('slates_engaged');
         }
@@ -112,7 +112,7 @@ class Renderer extends AbstractComponentRenderer
     protected function setHeaderVars($tpl, bool $for_ui_demo = false)
     {
         global $DIC;
-        $il_tpl = $DIC["tpl"];
+        $il_tpl = $DIC["tpl"] ?? null;
 
         $js_files = [];
         $js_inline = [];
