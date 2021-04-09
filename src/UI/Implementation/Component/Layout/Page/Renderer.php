@@ -67,6 +67,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("SHORT_TITLE", $component->getShortTitle());
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
         $tpl->setVariable("LANGUAGE", $this->getLangKey());
+        $tpl->setVariable("TEXT_DIRECTION", $component->getTextDirection());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
         if ($component->hasFooter()) {

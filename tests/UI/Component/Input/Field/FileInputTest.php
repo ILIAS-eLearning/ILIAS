@@ -372,7 +372,7 @@ class FileInputTest extends ILIAS_UI_TestBase
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
+    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
     {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
