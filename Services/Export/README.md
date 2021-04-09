@@ -37,7 +37,7 @@ Example for category export files only for "Root" User (ID 6):
 The configuration of an upload directory has been removed in Release 7.
 The fixed location is: 
 
-`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export/learningModules`
+`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/learningModule`
 
 All files stored in this directory will be available in the SCORM-upload 
 and the HTLM-File-Browser. Only users with "write" permission to the administration
@@ -47,7 +47,7 @@ can access the files.
 The configuration of an upload directory has been removed in Release 7.
 The fixed location is: 
 
-`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/export/mob`
+`{PATH_TO_EXTERN_DATA_OF_CLIENT}/upload/mob`
 
 All files stored in this directory will be accessible in the media pool management. 
 Only users with "write" permission to the administration can access the files.
