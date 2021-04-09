@@ -49,21 +49,46 @@ class ilLMNavigationStatus
     protected $lm_set;
 
     /**
+     * @var string
+     */
+    protected $cmd;
+
+    /**
+     * @var int
+     */
+    protected $focus_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_obj_id;
+
+    /**
      * Constructor
+     * @param ilObjUser           $user
+     * @param                     $request_obj_id
+     * @param ilLMTree            $lm_tree
+     * @param ilObjLearningModule $lm
+     * @param ilSetting           $lm_set
+     * @param string              $cmd
+     * @param int                 $focus_id
      */
     public function __construct(
         ilObjUser $user,
-        $request_obj_id,
+        int $request_obj_id,
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
-        ilSetting $lm_set
+        ilSetting $lm_set,
+        string $cmd,
+        int $focus_id
     ) {
         $this->user = $user;
         $this->requested_obj_id = (int) $request_obj_id;
         $this->lm_tree = $lm_tree;
         $this->lm = $lm;
         $this->lm_set = $lm_set;
-        $this->current_page_id;
+        $this->cmd = $cmd;
+        $this->focus_id = $focus_id;
 
         $this->determineStatus();
     }
@@ -111,7 +136,20 @@ class ilLMNavigationStatus
 
         // determine object id
         if ($this->requested_obj_id == 0) {
+
             $obj_id = $this->lm_tree->getRootId();
+
+            if ($this->cmd == "resume") {
+                if ($user->getId() != ANONYMOUS_USER_ID && ((int) $this->focus_id == 0)) {
+                    $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->lm->getRefId(), $user->getId());
+                    // if last accessed page was final page do nothing, start over
+                    if ($last_accessed_page &&
+                        $last_accessed_page != $this->lm_tree->getLastActivePage()) {
+                        $obj_id = $last_accessed_page;
+                    }
+                }
+            }
+
         } else {
             $obj_id = $this->requested_obj_id;
             $active = ilLMPage::_lookupActive(
