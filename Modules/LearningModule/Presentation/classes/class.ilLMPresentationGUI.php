@@ -482,18 +482,6 @@ class ilLMPresentationGUI
     
     public function resume()
     {
-        $ilUser = $this->user;
-        
-        if ($ilUser->getId() != ANONYMOUS_USER_ID && ((int) $this->focus_id == 0)) {
-            $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->requested_ref_id, $ilUser->getId());
-
-            // if last accessed page was final page do nothing, start over
-            if ($last_accessed_page &&
-                $last_accessed_page != $this->lm_tree->getLastActivePage()) {
-                $this->requested_obj_id = $last_accessed_page;
-            }
-        }
-            
         $this->layout();
     }
         
@@ -508,7 +496,6 @@ class ilLMPresentationGUI
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-
         $layout = $this->determineLayout();
 
         // xmldocfile is deprecated! Use domxml_open_file instead.
@@ -1445,7 +1432,6 @@ class ilLMPresentationGUI
     {
         $this->fill_on_load_code = true;
         $this->setContentStyles();
-
 
         $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
 
