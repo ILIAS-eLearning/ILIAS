@@ -880,7 +880,7 @@ class ilLDAPServer
             'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,' .
             'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass,migration, ' .
             'authentication,authentication_type,username_filter, escape_dn) ' .
-            'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+            'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
         $res = $ilDB->queryF(
             $query,
             array(
@@ -921,7 +921,7 @@ class ilLDAPServer
                 $this->isAuthenticationEnabled(),
                 $this->getAuthenticationMapping(),
                 $this->getUsernameFilter(),
-                $this->enabledEscapeDN()
+                (int) $this->enabledEscapeDN()
             )
         );
         // end Patch Name Filter
