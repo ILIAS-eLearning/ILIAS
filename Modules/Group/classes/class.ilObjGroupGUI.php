@@ -1384,17 +1384,18 @@ class ilObjGroupGUI extends ilContainerGUI
                 );
             }
         }
-    
-        if ($this->object->getStart()) {
+
+        if ($this->object->getStart() instanceof ilDateTime &&
+            !$this->object->getStart()->isNull()
+        ) {
             $info->addProperty(
                 $this->lng->txt('grp_period'),
                 ilDatePresentation::formatPeriod(
                     $this->object->getStart(),
                     $this->object->getEnd()
-            )
+                )
             );
         }
-
         
         // Confirmation
         include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
