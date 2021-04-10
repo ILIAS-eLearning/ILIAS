@@ -898,9 +898,6 @@ class ilGlossaryPresentationGUI
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
 
-                $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
-
                 $this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
                 $this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));
                 $this->tpl->setVariable("CHECKBOX_ID", $exp_file["type"] . ":" . $exp_file["file"]);

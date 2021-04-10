@@ -657,7 +657,7 @@ class ilCourseContentGUI
                     $date['d'],
                     date('Y', time()),
                     false
-                                    )
+                )
             );
 
             $this->tpl->setVariable("NAME_DURATION_A", $item_prefix . "[duration_a]");
@@ -680,7 +680,7 @@ class ilCourseContentGUI
                     $date['d'],
                     date('Y', time()),
                     false
-                                    )
+                )
             );
 
             $this->tpl->setVariable("NAME_CHANGE", $item_change_prefix . "[change]");
@@ -700,13 +700,12 @@ class ilCourseContentGUI
             if (isset($this->failed["$item[ref_id]"])) {
                 $this->tpl->setVariable("ROWCLASS", 'tblrowmarked');
             } else {
-                $this->tpl->setVariable("ROWCLASS", ilUtil::switchColor($counter++, 'tblrow1', 'tblrow2'));
+                $this->tpl->setVariable("ROWCLASS", "");
             }
             $this->tpl->parseCurrentBlock();
         }
 
         // Select all
-        $this->tpl->setVariable("CHECKCLASS", ilUtil::switchColor($counter++, 'tblrow1', 'tblrow2'));
         $this->tpl->setVariable("SELECT_ALL", $this->lng->txt('select_all'));
 
         $this->tpl->setVariable("BTN_SAVE", $this->lng->txt('save'));
@@ -823,8 +822,6 @@ class ilCourseContentGUI
 
         $this->tpl->setCurrentBlock("container_standard_row");
 
-        $this->tpl->setVariable("ROWCLASS", ilUtil::switchColor($this->counter++, 'tblrow1', 'tblrow2'));
-        #$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.svg'));
         $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($item['type'], $item['obj_id'], 'tiny'));
         $this->tpl->setVariable("TYPE_ALT_IMG", $this->lng->txt('obj_' . $item['type']));
 
@@ -1022,10 +1019,8 @@ class ilCourseContentGUI
 
         if (isset($this->invalid["$item[ref_id]"])) {
             $this->tpl->setVariable("ROWCLASS", 'tblrowmarked');
-        } else {
-            $this->tpl->setVariable("ROWCLASS", ilUtil::switchColor($this->counter++, 'tblrow1', 'tblrow2'));
         }
-        #$this->tpl->setVariable("TYPE_IMG",ilUtil::getImagePath('icon_'.$item['type'].'.svg'));
+
         $this->tpl->setVariable('TYPE_IMG', ilUtil::getTypeIconPath($item['type'], $item['obj_id'], 'small'));
         $this->tpl->setVariable("TYPE_ALT_IMG", $this->lng->txt('obj_' . $item['type']));
 
@@ -1059,7 +1054,7 @@ class ilCourseContentGUI
                     $date['d'],
                     date('Y', time()),
                     false
-                                    )
+                )
             );
 
             if ($usr_planed->getPlanedEndingTime()) {

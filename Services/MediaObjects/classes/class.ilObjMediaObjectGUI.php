@@ -1357,9 +1357,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 }
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
-
                 $this->tpl->setVariable("TXT_SIZE", $entry["size"]);
                 $this->tpl->setVariable("CHECKBOX_ID", $entry["entry"]);
                 $compare = (!empty($cur_subdir))

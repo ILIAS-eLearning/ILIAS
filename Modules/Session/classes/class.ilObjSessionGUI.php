@@ -1542,7 +1542,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             
             $this->tpl->setCurrentBlock("tbl_content");
             $name = ilObjUser::_lookupName($user_id);
-            $this->tpl->setVariable("CSS_ROW", ilUtil::switchColor($counter++, 'tblrow1', 'tblrow2'));
             $this->tpl->setVariable("LASTNAME", $name['lastname']);
             $this->tpl->setVariable("FIRSTNAME", $name['firstname']);
             $this->tpl->setVariable("LOGIN", ilObjUser::_lookupLogin($user_id));
@@ -1557,7 +1556,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $i = 1;
         foreach ($events as $event_obj) {
             $this->tpl->setCurrentBlock("legend_loop");
-            $this->tpl->setVariable("LEGEND_CSS_ROW", ilUtil::switchColor($counter++, 'tblrow1', 'tblrow2'));
             $this->tpl->setVariable("LEGEND_DIGIT", $i++);
             $this->tpl->setVariable("LEGEND_EVENT_TITLE", $event_obj->getTitle());
             $this->tpl->setVariable("LEGEND_EVENT_DESCRIPTION", $event_obj->getDescription());
@@ -1753,7 +1751,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             array(
                     ilObjectServiceSettingsGUI::CUSTOM_METADATA
                 )
-            );
+        );
 
         $gallery = new ilCheckboxInputGUI($this->lng->txt('sess_show_members'), 'show_members');
         $gallery->setChecked($this->object->getShowMembers());

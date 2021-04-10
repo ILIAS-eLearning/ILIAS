@@ -147,10 +147,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             //table cell
             for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
-                $ctrl = $this->data["ctrl"][$i];
-
-                // color changing
-                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -182,7 +178,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 } //foreach
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
+                $this->tpl->setVariable("CSS_ROW", " ");
                 $this->tpl->parseCurrentBlock();
             } //for
         } //if is_array
@@ -344,10 +340,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             //table cell
             for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
-                $ctrl = $this->data["ctrl"][$i];
-
-                // color changing
-                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
