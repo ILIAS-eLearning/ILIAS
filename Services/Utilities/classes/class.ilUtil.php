@@ -1239,21 +1239,6 @@ class ilUtil
     }
 
     /**
-    * reads all active sessions from db and returns users that are online
-    * OR returns only one active user if a user_id is given
-    *
-    * @param	integer	user_id (optional)
-    * @return	array
-    * @static
-    *
-    */
-    public static function getUsersOnline($a_user_id = 0)
-    {
-        return ilObjUser::_getUsersOnline($a_user_id);
-    }
-
-
-    /**
      * Returns a unique and non existing Path for e temporary file or directory
      *
      * @param string $a_temp_path
@@ -1457,33 +1442,6 @@ class ilUtil
 
         $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
         ilUtil::execQuoted($zip, $zipcmd);
-        chdir($cdir);
-        return true;
-    }
-
-    public static function CreateIsoFromFolder($a_dir, $a_file)
-    {
-        $cdir = getcwd();
-
-        $pathinfo = pathinfo($a_dir);
-        chdir($pathinfo["dirname"]);
-
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
-        $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
-
-        $mkisofs = PATH_TO_MKISOFS;
-        if (!$mkisofs) {
-            chdir($cdir);
-            return false;
-        }
-
-        $name = basename($a_dir);
-        $source = ilUtil::escapeShellArg($name);
-
-        $zipcmd = "-r -J -o " . $a_file . " " . $source;
-        ilUtil::execQuoted($mkisofs, $zipcmd);
         chdir($cdir);
         return true;
     }
@@ -1727,30 +1685,6 @@ class ilUtil
 
 
     /**
-    * there are some known problems with the original readfile method, which
-    * sometimes truncates delivered files regardless of php.ini setting
-    * (see http://de.php.net/manual/en/function.readfile.php) use this
-    * method to avoid these problems.
-    *
-    * @static
-    *
-    */
-    public static function readFile($a_file)
-    {
-        $chunksize = 1 * (1024 * 1024); // how many bytes per chunk
-        $buffer = '';
-        $handle = fopen($a_file, 'rb');
-        if ($handle === false) {
-            return false;
-        }
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunksize);
-            print $buffer;
-        }
-        return fclose($handle);
-    }
-
-    /**
     * convert utf8 to ascii filename
     *
     * @param	string		$a_filename		utf8 filename
@@ -1793,47 +1727,6 @@ class ilUtil
         return $ascii_filename;
     }
 
-    /**
-    * Encodes HTML entities outside of HTML tags
-    *
-    * @static
-    *
-    */
-    public static function htmlentitiesOutsideHTMLTags($htmlText)
-    {
-        $matches = array();
-        $sep = '###HTMLTAG###';
-
-        preg_match_all("@<[^>]*>@", $htmlText, $matches);
-        $tmp = preg_replace("@(<[^>]*>)@", $sep, $htmlText);
-        $tmp = explode($sep, $tmp);
-
-        for ($i = 0; $i < count($tmp); $i++) {
-            $tmp[$i] = htmlentities($tmp[$i], ENT_COMPAT, "UTF-8");
-        }
-
-        $tmp = join($sep, $tmp);
-
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $tmp = preg_replace("@$sep@", $matches[0][$i], $tmp, 1);
-        }
-
-        return $tmp;
-    }
-
-    /**
-    * get full java path (dir + java command)
-    *
-    * @static
-    *
-    */
-    public static function getJavaPath()
-    {
-        return PATH_TO_JAVA;
-        //global $ilias;
-
-        //return $ilias->getSetting("java_path");
-    }
 
     /**
     * append URL parameter string ("par1=value1&par2=value2...")
