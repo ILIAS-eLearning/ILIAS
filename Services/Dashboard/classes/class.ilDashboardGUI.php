@@ -114,7 +114,9 @@ class ilDashboardGUI
         if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
             $ilErr->raiseError($this->lng->txt("msg_not_available_for_anon"), $ilErr->MESSAGE);
         }
-        $this->cmdClass = $_GET['cmdClass'];
+        $this->cmdClass = (isset($_GET['cmdClass']))
+            ? $_GET['cmdClass']
+            : "";
 
         $this->ctrl->saveParameter($this, array("view"));
 

@@ -930,6 +930,7 @@ class ilInitialisation
      */
     protected static function goToLogin()
     {
+        $a_auth_stat = "";
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
         if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
@@ -939,7 +940,11 @@ class ilInitialisation
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
 
-        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . $_COOKIE["ilClientId"] .
+        $target = "";
+        if (isset($_GET["target"]) && is_string($_GET["target"]) && strlen($_GET["target"])) {
+            $target = "target=" . $_GET["target"] . "&";
+        }
+        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
@@ -1431,7 +1436,6 @@ class ilInitialisation
      */
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
-
         include_once "Services/Init/classes/Dependencies/InitUIFramework.php";
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
@@ -1774,7 +1778,7 @@ class ilInitialisation
 
         // for password change and incomplete profile
         // see ilDashboardGUI
-        if (!$_GET["target"]) {
+        if (!isset($_GET["target"])) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
             // Redirect here to switch back to http if desired
             include_once './Services/User/classes/class.ilUserUtil.php';
