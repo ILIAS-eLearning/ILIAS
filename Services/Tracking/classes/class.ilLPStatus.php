@@ -34,7 +34,7 @@ class ilLPStatus
     const LP_STATUS_NOT_REGISTERED = 'trac_not_registered';
     const LP_STATUS_PARTICIPATED = 'trac_participated';
     const LP_STATUS_NOT_PARTICIPATED = 'trac_not_participated';
-    
+
     public function __construct($a_obj_id)
     {
         global $DIC;
@@ -385,7 +385,7 @@ class ilLPStatus
             "SELECT usr_id,status,status_dirty FROM ut_lp_marks WHERE " .
             " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         
         // update
@@ -401,7 +401,7 @@ class ilLPStatus
                     " status_dirty = " . $ilDB->quote(0, "integer") .
                     " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
                     " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                    );
+                );
                 if ($ret != 0) {
                     $update_dependencies = true;
                 }
@@ -413,7 +413,7 @@ class ilLPStatus
                     " status_dirty = " . $ilDB->quote(0, "integer") .
                     " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
                     " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                    );
+                );
             }
         }
         // insert
@@ -444,7 +444,7 @@ class ilLPStatus
                 " percentage = " . $ilDB->quote($a_percentage, "integer") .
                 " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
                 " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                );
+            );
         }
 
         $log->debug('Update dependecies is ' . ($update_dependencies ? 'true' : 'false'));
@@ -511,7 +511,7 @@ class ilLPStatus
             "SELECT usr_id, status FROM ut_lp_marks WHERE " .
             " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             // current status is not attempted, so we need to update
             if ($rec["status"] == self::LP_STATUS_NOT_ATTEMPTED_NUM) {
@@ -543,7 +543,7 @@ class ilLPStatus
         $ilDB->manipulate(
             "UPDATE ut_lp_marks SET " .
             " status_dirty = " . $ilDB->quote(1, "integer")
-            );
+        );
     }
 
     /**
@@ -562,7 +562,7 @@ class ilLPStatus
             "UPDATE ut_lp_marks SET " .
             " status_dirty = " . $ilDB->quote(1, "integer") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
     }
     
     /**
@@ -583,7 +583,7 @@ class ilLPStatus
             " status_dirty = " . $ilDB->quote(0, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $rec["status"];
         } elseif ((bool) $a_create) {
@@ -594,7 +594,7 @@ class ilLPStatus
                 " status_dirty = " . $ilDB->quote(0, "integer") .
                 " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
                 " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                );
+            );
             if ($rec = $ilDB->fetchAssoc($set)) {
                 return $rec["status"];
             }
@@ -618,7 +618,7 @@ class ilLPStatus
             " status_dirty = " . $ilDB->quote(0, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $rec["percentage"];
         }
@@ -653,7 +653,7 @@ class ilLPStatus
             " status_dirty = " . $ilDB->quote(0, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $rec["status_changed"];
         } else {
@@ -664,7 +664,7 @@ class ilLPStatus
                 " status_dirty = " . $ilDB->quote(0, "integer") .
                 " AND usr_id = " . $ilDB->quote($a_user_id, "integer") .
                 " AND obj_id = " . $ilDB->quote($a_obj_id, "integer")
-                );
+            );
             if ($rec = $ilDB->fetchAssoc($set)) {
                 return $rec["status_changed"];
             }
@@ -867,6 +867,8 @@ class ilLPStatus
     {
         global $DIC;
 
+        $requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
+
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
         
@@ -882,7 +884,7 @@ class ilLPStatus
             // -- validate
             
             // :TODO: we need the parent ref id, but this is awful
-            $a_obj_ids = self::validateLPForObjects($user_id, $a_obj_ids, (int) $_GET["ref_id"]);
+            $a_obj_ids = self::validateLPForObjects($user_id, $a_obj_ids, $requested_ref_id);
             
             // we are not handling the collections differently yet
             $coll_obj_ids = array();
@@ -922,6 +924,6 @@ class ilLPStatus
 
             return $image;
         }
-        return self::$list_gui_cache[$a_obj_id];
+        return self::$list_gui_cache[$a_obj_id] ?? "";
     }
 }

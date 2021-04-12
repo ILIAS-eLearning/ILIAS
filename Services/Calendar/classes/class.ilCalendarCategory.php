@@ -35,7 +35,7 @@ class ilCalendarCategory
     const LTYPE_LOCAL = 1;
     const LTYPE_REMOTE = 2;
     
-    private static $instances = null;
+    private static $instances = [];
 
     const DEFAULT_COLOR = '#04427e';
     
@@ -117,7 +117,7 @@ class ilCalendarCategory
      */
     public static function getInstanceByCategoryId($a_cat_id)
     {
-        if (!self::$instances[$a_cat_id]) {
+        if (!isset(self::$instances[$a_cat_id])) {
             return self::$instances[$a_cat_id] = new ilCalendarCategory($a_cat_id);
         }
         return self::$instances[$a_cat_id];

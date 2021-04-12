@@ -114,8 +114,10 @@ class ilExAssignmentTeam
             " WHERE ass_id = " . $ilDB->quote($a_assignment_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer");
         $set = $ilDB->query($sql);
-        $row = $ilDB->fetchAssoc($set);
-        $id = $row["id"];
+        $id = null;
+        if ($row = $ilDB->fetchAssoc($set)) {
+            $id = $row["id"];
+        }
         
         if (!$id && $a_create_on_demand) {
             $id = $ilDB->nextId("il_exc_team");

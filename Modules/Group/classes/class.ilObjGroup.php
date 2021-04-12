@@ -75,6 +75,16 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     private $session_prev = -1;
     private $session_next = -1;
 
+    /**
+     * @var ?\ilDateTime
+     */
+    protected $grp_start;
+
+    /**
+     * @var ?\ilDateTime
+     */
+    protected $grp_end;
+
 
     /**
      * @var bool
@@ -2236,13 +2246,13 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         global $DIC;
         $ilDB = $DIC["ilDB"];
         $query = 'SELECT show_members FROM grp_settings'
-            .' WHERE obj_id = '.$ilDB->quote($a_obj_id,'integer');
+            . ' WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
-        if($ilDB->numRows($res) == 0) {
+        if ($ilDB->numRows($res) == 0) {
             return false;
         }
         $row = $ilDB->fetchAssoc($res);
-        return (bool)$row['show_members'];
+        return (bool) $row['show_members'];
     }
 
 
@@ -2273,5 +2283,4 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         );
         return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }
-
 } //END class.ilObjGroup

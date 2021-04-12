@@ -20,6 +20,11 @@ include_once("Services/Calendar/classes/class.ilCalendarBlockGUI.php");
 class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 {
     public static $block_type = "pdcal";
+
+    /**
+     * @var bool
+     */
+    protected $initialized = false;
     
     /**
     * Constructor
@@ -56,12 +61,11 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
                 $this->mode = ilCalendarCategories::MODE_PERSONAL_DESKTOP_ITEMS;
             }
 
-        $cats = \ilCalendarCategories::_getInstance();
-        if ($this->getForceMonthView()) {
-            // nothing to do here
-        }
-        elseif (!$cats->getMode()) {
-            $cats->initialize($this->mode, (int) $_GET['ref_id'], true);
+            $cats = \ilCalendarCategories::_getInstance();
+            if ($this->getForceMonthView()) {
+                // nothing to do here
+            } elseif (!$cats->getMode()) {
+                $cats->initialize($this->mode, (int) $this->requested_ref_id, true);
             }
         }
         $this->initialized = true;

@@ -67,7 +67,7 @@ class ilDashboardRecommendedContentGUI
 
         $this->lng->loadLanguageModule("rep");
 
-        $this->requested_item_ref_id = (int) $_GET["item_ref_id"];
+        $this->requested_item_ref_id = (int) ($_GET["item_ref_id"] ?? null);
 
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }

@@ -684,10 +684,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $groupedCommands = $this->getGroupedCommandsForView();
         foreach ($groupedCommands as $group) {
             foreach ($group as $command) {
+                $asynch_url = $command['asyncUrl'] ?? "";
                 $this->addBlockCommand(
                     (string) $command['url'],
                     (string) $command['txt'],
-                    (string) $command['asyncUrl']
+                    (string) $asynch_url
                 );
             }
         }
@@ -792,10 +793,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $groupedCommands = $this->getGroupedCommandsForView();
         foreach ($groupedCommands as $group) {
             foreach ($group as $command) {
+                $asynch_url = $command['asyncUrl'] ?? "";
                 $this->addBlockCommand(
                     (string) $command['url'],
                     (string) $command['txt'],
-                    (string) $command['asyncUrl']
+                    (string) $asynch_url
                 );
             }
         }

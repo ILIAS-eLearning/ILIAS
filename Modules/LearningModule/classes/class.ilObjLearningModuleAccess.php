@@ -66,7 +66,7 @@ class ilObjLearningModuleAccess extends ilObjContentObjectAccess implements ilCo
             self::$lm_set = $lm_set->getAll();
         }
 
-        return self::$lm_set[$a_set];
+        return self::$lm_set[$a_set] ?? null;
     }
 
     /**
