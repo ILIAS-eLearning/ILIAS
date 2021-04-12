@@ -492,6 +492,9 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $result = [];
 
         if ($data) {
+            if (is_array($data) && count($data) < $limit) {
+                $limit = count($data);
+            }
             if (is_array($data) && (count($data) == $limit + 1)) {
                 ++$limit;
             }
@@ -514,8 +517,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
                         $counter == $limit &&
                         $all_sum < $overall
                     ) {
-                        $count += ($overall - $all_sum);
-                        $caption = $lng->txt('trac_others');
+                        ++$others_counter;
+                        continue;
                     }
                     $perc = round($count / $overall * 100);
                     $result[] = array(
