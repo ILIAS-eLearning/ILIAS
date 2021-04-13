@@ -1,4 +1,5 @@
-[![Build Status](https://api.travis-ci.com/ILIAS-eLearning/ILIAS.svg?branch=trunk)](https://travis-ci.com/ILIAS-eLearning/ILIAS)
+<<<<<<< HEAD
+[![checks](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml/badge.svg)](https://github.com/ILIAS-eLearning/ILIAS/actions/workflows/checks.yml)
 [![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg)](https://php.net/)
 
 # ILIAS
