@@ -52,7 +52,17 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected $form;
 
     protected $skill_tree;
+
+    /**
+     * @var int
+     */
+    protected $requested_obj_id;
     
+    /**
+     * @var int
+     */
+    protected $requested_tref_id;
+
     /**
      * Contructor
      *
@@ -60,6 +70,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -87,6 +98,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->skill_tree = new ilSkillTree();
 
         $ilCtrl->saveParameter($this, "obj_id");
+
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
     }
 
     /**
@@ -113,14 +128,14 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilskillrootgui':
-                $skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"]);
+                $skrt_gui = new ilSkillRootGUI($this->requested_obj_id);
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
                 break;
 
             case 'ilskillcategorygui':
                 $this->tabs_gui->activateTab("skills");
-                $scat_gui = new ilSkillCategoryGUI((int) $_GET["obj_id"]);
+                $scat_gui = new ilSkillCategoryGUI($this->requested_obj_id);
                 $scat_gui->setParentGUI($this);
                 $this->showTree(false, $scat_gui, "listItems");
                 $ret = $this->ctrl->forwardCommand($scat_gui);
@@ -128,7 +143,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilbasicskillgui':
                 $this->tabs_gui->activateTab("skills");
-                $skill_gui = new ilBasicSkillGUI((int) $_GET["obj_id"]);
+                $skill_gui = new ilBasicSkillGUI($this->requested_obj_id);
                 $skill_gui->setParentGUI($this);
                 $this->showTree(false, $skill_gui, "edit");
                 $ret = $this->ctrl->forwardCommand($skill_gui);
@@ -136,23 +151,23 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilskilltemplatecategorygui':
                 $this->tabs_gui->activateTab("skill_templates");
-                $sctp_gui = new ilSkillTemplateCategoryGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
+                $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_obj_id, (int) $this->requested_tref_id);
                 $sctp_gui->setParentGUI($this);
-                $this->showTree(((int) $_GET["tref_id"] == 0), $sctp_gui, "listItems");
+                $this->showTree(((int) $this->requested_tref_id == 0), $sctp_gui, "listItems");
                 $ret = $this->ctrl->forwardCommand($sctp_gui);
                 break;
 
             case 'ilbasicskilltemplategui':
                 $this->tabs_gui->activateTab("skill_templates");
-                $sktp_gui = new ilBasicSkillTemplateGUI((int) $_GET["obj_id"], (int) $_GET["tref_id"]);
+                $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_obj_id, (int) $this->requested_tref_id);
                 $sktp_gui->setParentGUI($this);
-                $this->showTree(((int) $_GET["tref_id"] == 0), $sktp_gui, "edit");
+                $this->showTree(((int) $this->requested_tref_id == 0), $sktp_gui, "edit");
                 $ret = $this->ctrl->forwardCommand($sktp_gui);
                 break;
 
             case 'ilskilltemplatereferencegui':
                 $this->tabs_gui->activateTab("skills");
-                $sktr_gui = new ilSkillTemplateReferenceGUI((int) $_GET["tref_id"]);
+                $sktr_gui = new ilSkillTemplateReferenceGUI((int) $this->requested_tref_id);
                 $sktr_gui->setParentGUI($this);
                 $this->showTree(false, $sktr_gui, "listItems");
                 $ret = $this->ctrl->forwardCommand($sktr_gui);
@@ -312,7 +327,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         if ($this->request->getMethod() == "POST"
             && $this->request->getQueryParams()["skill_settings"] == "skill_settings_config") {
-
             if (!$this->checkPermissionBool("write")) {
                 return;
             }
@@ -402,8 +416,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     public function expandAll($a_redirect = true)
     {
         $_GET["skexpand"] = "";
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
+        $n_id = ($this->requested_obj_id > 0)
+            ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
         $stree = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($n_id));
         $n_arr = array();
@@ -420,8 +434,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     public function collapseAll($a_redirect = true)
     {
         $_GET["skexpand"] = "";
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
+        $n_id = ($this->requested_obj_id > 0)
+            ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
         $stree = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($n_id));
         $old = $_SESSION["skexpand"];
@@ -839,12 +853,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $lng = $this->lng;
 
         if ($a_templates) {
-            if ($_GET["obj_id"] == "" || $_GET["obj_id"] == 1) {
+            if ($this->requested_obj_id == 0 || $this->requested_obj_id == 1) {
                 return;
             }
 
-            if ($_GET["obj_id"] > 1) {
-                $path = $this->skill_tree->getPathId($_GET["obj_id"]);
+            if ($this->requested_obj_id > 1) {
+                $path = $this->skill_tree->getPathId($this->requested_obj_id);
                 if (ilSkillTreeNode::_lookupType($path[1]) == "sktp") {
                     return;
                 }
