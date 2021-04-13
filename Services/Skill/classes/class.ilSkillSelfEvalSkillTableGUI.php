@@ -19,6 +19,26 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
      */
     protected $access;
 
+    /**
+     * @var int
+     */
+    protected $sn_id;
+
+    /**
+     * @var ilSkillSelfEvaluation
+     */
+    protected $se;
+
+    /**
+     * @var array
+     */
+    protected $levels;
+
+    /**
+     * @var ilBasicSkill
+     */
+    protected $skill;
+
     
     /**
      * Constructor
@@ -109,10 +129,8 @@ class ilSkillSelfEvalSkillTableGUI extends ilTable2GUI
             if ($this->levels[$this->sn_id] == $a_set["id"]) {
                 $this->tpl->setVariable("CHECKED", " checked='checked' ");
             }
-        } else {
-            if ($a_set["id"] == 0) {
-                $this->tpl->setVariable("CHECKED", " checked='checked' ");
-            }
+        } elseif ($a_set["id"] == 0) {
+            $this->tpl->setVariable("CHECKED", " checked='checked' ");
         }
     }
 }

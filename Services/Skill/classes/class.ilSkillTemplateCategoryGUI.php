@@ -35,11 +35,16 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
      */
     protected $help;
 
+    /**
+     * @var int
+     */
+    protected $tref_id;
+
 
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0, $a_tref_id)
+    public function __construct($a_node_id = 0, $a_tref_id = 0)
     {
         global $DIC;
 
@@ -153,21 +158,17 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
      */
     public function initForm($a_mode = "edit")
     {
-        $r = parent::initForm($a_mode);
+        parent::initForm($a_mode);
         if ($a_mode == "create") {
             $ni = $this->form->getItemByPostVar("order_nr");
             $tree = new ilSkillTree();
             $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
             $ni->setValue($max + 10);
         }
-        return $r;
     }
 
     /**
      * List items
-     *
-     * @param
-     * @return
      */
     public function listItems()
     {
@@ -199,9 +200,6 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
     
     /**
      * Add creation buttons
-     *
-     * @param
-     * @return
      */
     public static function addCreationButtons()
     {
@@ -317,7 +315,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
         // (a) referenced skill template category in main tree
         if ($this->tref_id > 0) {
-            return parent::showUsage();
+            parent::showUsage();
+            return;
         }
 
         // (b) skill template category in templates view

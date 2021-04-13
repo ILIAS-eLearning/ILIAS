@@ -95,17 +95,15 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         // root?
         if ($a_node["type"] == "skrt") {
             $icon = ilUtil::getImagePath("icon_scat.svg");
+        } elseif (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr", "sctp", "sktp"))) {
+            $icon = ilSkillTreeNode::getIconPath(
+                $a_parent_skl_tree_id,
+                $a_node["type"],
+                "",
+                ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
+            );
         } else {
-            if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr", "sctp", "sktp"))) {
-                $icon = ilSkillTreeNode::getIconPath(
-                    $a_parent_skl_tree_id,
-                    $a_node["type"],
-                    "",
-                    ($this->vtree->isDraft($a_node["id"]) || $this->vtree->isOutdated($a_node["id"]))
-                );
-            } else {
-                $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
-            }
+            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
         
         return $icon;
@@ -115,7 +113,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
      * Is node highlighted?
      *
      * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
+     * @return bool node visible true/false
      */
     public function isNodeHighlighted($a_node)
     {

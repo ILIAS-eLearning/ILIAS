@@ -238,7 +238,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
-        $it->setDescription($this->form->getDescription("description"));
+        $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->setStatus($_POST["status"]);
@@ -299,9 +299,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
     /**
      * List items
-     *
-     * @param
-     * @return
      */
     public function listItems()
     {
@@ -329,9 +326,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     
     /**
      * Add creation buttons
-     *
-     * @param
-     * @return
      */
     public static function addCreationButtons()
     {
@@ -419,9 +413,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
     /**
      * Cancel
-     *
-     * @param
-     * @return
      */
     public function cancel()
     {
@@ -434,7 +425,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
      * Redirect to parent (identified by current obj_id)
      *
      * @param
-     * @return
      */
     public function redirectToParent($a_tmp_mode = false)
     {

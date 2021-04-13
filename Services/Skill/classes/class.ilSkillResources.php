@@ -17,7 +17,7 @@
 class ilSkillResources implements ilSkillUsageInfo
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
@@ -102,9 +102,6 @@ class ilSkillResources implements ilSkillUsageInfo
     
     /**
      * Read resources
-     *
-     * @param
-     * @return
      */
     public function readResources()
     {
@@ -137,16 +134,16 @@ class ilSkillResources implements ilSkillUsageInfo
         
         $ilDB->manipulate(
             "DELETE FROM skl_skill_resource WHERE " .
-            " base_skill_id = " . $ilDB->quote((int) $this->getBaseSkillId(), "integer") .
-            " AND tref_id = " . $ilDB->quote((int) $this->getTemplateRefId(), "integer")
+            " base_skill_id = " . $ilDB->quote($this->getBaseSkillId(), "integer") .
+            " AND tref_id = " . $ilDB->quote($this->getTemplateRefId(), "integer")
             );
         foreach ($this->getResources() as $level_id => $l) {
             foreach ($l as $ref_id => $r) {
                 if ($r["imparting"] || $r["trigger"]) {
                     $ilDB->manipulate("INSERT INTO skl_skill_resource " .
                         "(base_skill_id, tref_id, level_id, rep_ref_id, imparting, ltrigger) VALUES (" .
-                        $ilDB->quote((int) $this->getBaseSkillId(), "integer") . "," .
-                        $ilDB->quote((int) $this->getTemplateRefId(), "integer") . "," .
+                        $ilDB->quote($this->getBaseSkillId(), "integer") . "," .
+                        $ilDB->quote($this->getTemplateRefId(), "integer") . "," .
                         $ilDB->quote((int) $level_id, "integer") . "," .
                         $ilDB->quote((int) $ref_id, "integer") . "," .
                         $ilDB->quote((int) $r["imparting"], "integer") . "," .
@@ -223,8 +220,8 @@ class ilSkillResources implements ilSkillUsageInfo
     /**
      * Get usage info
      *
-     * @param
-     * @return
+     * @param array $a_cskill_ids
+     * @param array $a_usages
      */
     public static function getUsageInfo($a_cskill_ids, &$a_usages)
     {

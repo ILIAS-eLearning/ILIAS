@@ -18,7 +18,7 @@ class SkillUIService
     }
 
     /**
-     * @return
+     *
      */
     public function getGapUI() //int $user_id, int $profile_id,...
     {

@@ -15,6 +15,21 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
     protected $ctrl;
 
     /**
+     * @var int
+     */
+    protected $skill_id;
+
+    /**
+     * @var int
+     */
+    protected $tref_id;
+
+    /**
+     * @var ilBasicSkill
+     */
+    protected $skill;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id)

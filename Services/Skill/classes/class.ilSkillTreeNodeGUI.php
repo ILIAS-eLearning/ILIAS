@@ -34,6 +34,21 @@ class ilSkillTreeNodeGUI
      */
     protected $user;
 
+    /**
+     * @var ilTree
+     */
+    protected $tree;
+
+    /**
+     * @var ilPropertyFormGUI
+     */
+    protected $form;
+
+    /**
+     * @var object
+     */
+    protected $parentgui;
+
     public $node_object;
     public $in_use = false;
     public $use_checked = false;
@@ -337,14 +352,15 @@ class ilSkillTreeNodeGUI
     public function setSkillNodeDescription()
     {
         $tpl = $this->tpl;
-        
+
+        $desc = "";
         if (is_object($this->node_object)) {
             $tree = new ilSkillTree();
             $path = $this->node_object->skill_tree->getSkillTreePath(
                 $this->node_object->getId(),
                 $this->tref_id
             );
-            $desc = "";
+            $sep = "";
             foreach ($path as $p) {
                 if (in_array($p["type"], array("scat", "skll", "sktr"))) {
                     $desc .= $sep . $p["title"];
@@ -443,7 +459,7 @@ class ilSkillTreeNodeGUI
             $this->afterSave();
         } else {
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
+            $tpl->setContent($this->form->getHTML());
         }
     }
     
@@ -477,7 +493,7 @@ class ilSkillTreeNodeGUI
             $this->afterUpdate();
         } else {
             $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
+            $tpl->setContent($this->form->getHTML());
         }
     }
     
@@ -546,9 +562,6 @@ class ilSkillTreeNodeGUI
 
     /**
      * Cancel saving
-     *
-     * @param
-     * @return
      */
     public function cancelSave()
     {
@@ -559,7 +572,6 @@ class ilSkillTreeNodeGUI
      * Redirect to parent (identified by current obj_id)
      *
      * @param
-     * @return
      */
     public function redirectToParent($a_tmp_mode = false)
     {
@@ -687,7 +699,6 @@ class ilSkillTreeNodeGUI
      * Add usage tab
      *
      * @param
-     * @return
      */
     public function addUsageTab($a_tabs)
     {

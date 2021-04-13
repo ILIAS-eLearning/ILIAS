@@ -13,6 +13,11 @@ class ilSkillExporter extends ilXmlExporter
     private $ds;
 
     /**
+     * @var object
+     */
+    protected $config;
+
+    /**
      * Initialisation
      */
     public function init()
@@ -71,7 +76,8 @@ class ilSkillExporter extends ilXmlExporter
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
      *
-     * @return
+     * @param string $a_entity
+     * @return array
      */
     public function getValidSchemaVersions($a_entity)
     {

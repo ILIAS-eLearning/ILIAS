@@ -21,13 +21,13 @@
  */
 class ilSkillUsage implements ilSkillUsageInfo
 {
-    const TYPE_GENERAL = "gen";
-    const USER_ASSIGNED = "user";
-    const PERSONAL_SKILL = "pers";
-    const USER_MATERIAL = "mat";
-    const SELF_EVAL = "seval";
-    const PROFILE = "prof";
-    const RESOURCE = "res";
+    public const TYPE_GENERAL = "gen";
+    public const USER_ASSIGNED = "user";
+    public const PERSONAL_SKILL = "pers";
+    public const USER_MATERIAL = "mat";
+    public const SELF_EVAL = "seval";
+    public const PROFILE = "prof";
+    public const RESOURCE = "res";
     
     // these classes implement the ilSkillUsageInfo interface
     // currently this array is ok, we do not need any subscription model here
@@ -268,21 +268,19 @@ class ilSkillUsage implements ilSkillUsageInfo
             case self::TYPE_GENERAL:
             case self::RESOURCE:
                 return $lng->txt("skmg_usage_obj_objects");
-                break;
             
             case self::USER_ASSIGNED:
             case self::PERSONAL_SKILL:
             case self::USER_MATERIAL:
             case self::SELF_EVAL:
                 return $lng->txt("skmg_usage_obj_users");
-                break;
 
             case self::PROFILE:
                 return $lng->txt("skmg_usage_obj_profiles");
-                break;
+
+            default:
+                return $lng->txt("skmg_usage_type_info_" . $a_type);
         }
-        
-        return $lng->txt("skmg_usage_type_info_" . $a_type);
     }
 
     /**
@@ -306,6 +304,7 @@ class ilSkillUsage implements ilSkillUsageInfo
     {
         $usages = $this->getAllUsagesOfTemplate($a_template_id);
         $obj_usages = array_column($usages, "gen");
+        $objects = [];
         foreach ($obj_usages as $obj) {
             $objects["objects"] = array_column($obj, "key");
         }

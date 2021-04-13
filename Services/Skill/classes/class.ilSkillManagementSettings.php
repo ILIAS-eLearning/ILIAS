@@ -23,7 +23,6 @@ class ilSkillManagementSettings extends ilSetting
      * Activate skill management
      *
      * @param
-     * @return
      */
     public function activate($a_active)
     {

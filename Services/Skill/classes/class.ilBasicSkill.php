@@ -29,12 +29,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     protected $bsc_skl_tre_rep;
 
     //TODO: What to do with these constants?
-    const ACHIEVED = 1;
-    const NOT_ACHIEVED = 0;
+    public const ACHIEVED = 1;
+    public const NOT_ACHIEVED = 0;
 
-    const EVAL_BY_OTHERS_ = 0;
-    const EVAL_BY_SELF = 1;
-    const EVAL_BY_ALL = 2;
+    public const EVAL_BY_OTHERS_ = 0;
+    public const EVAL_BY_SELF = 1;
+    public const EVAL_BY_ALL = 2;
 
     public $id;
 
@@ -321,6 +321,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $trigger_title = $obj_adapter->getTitleForObjId($trigger_obj_id);
         $trigger_type = $obj_adapter->getTypeForObjId($trigger_obj_id);
 
+        $status_date = "";
         $update = false;
 
         // self evaluations will update, if the last self evaluation is on the same day
@@ -524,7 +525,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     public static function _lookupCertificate(int $a_skill_id, int $a_skill_level_id)
     {
         $certificatefile = CLIENT_WEB_DIR . "/certificates/skill/" .
-            ((int) $a_skill_id) . "/" . ((int) $a_skill_level_id) . "/certificate.xml";
+            ($a_skill_id) . "/" . ($a_skill_level_id) . "/certificate.xml";
         if (@file_exists($certificatefile)) {
             return true;
         } else {

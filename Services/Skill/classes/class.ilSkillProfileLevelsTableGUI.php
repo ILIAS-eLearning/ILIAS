@@ -20,6 +20,16 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
     protected $access;
 
     /**
+     * @var ilSkillTree
+     */
+    protected $tree;
+
+    /**
+     * @var ilSkillProfile
+     */
+    protected $profile;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_profile, $a_write_permission = false)

@@ -42,11 +42,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected $lng;
 
     /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
      * @var \ILIAS\UI\Factory
      */
     protected $ui_fac;
@@ -77,7 +72,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
-        $this->tree = $DIC->repositoryTree();
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
@@ -104,6 +98,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
+        $lng = $this->lng;
 
         //$tpl->getStandardTemplate();
         
@@ -117,8 +112,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $skillLevelId = (int) $_GET["level_id"];
 
                 $output_gui = new ilCertificateGUI(
-                    new ilSkillCertificateAdapter($this->node_object, $skillLevelId),
-                    new ilDefaultPlaceholderDescription(),
+                    new ilDefaultPlaceholderDescription($lng),
                     new ilDefaultPlaceholderValues(),
                     $this->node_object->getId(),
                     ilCertificatePathConstants::SKILL_PATH . $this->node_object->getId() . '/' . $skillLevelId
@@ -213,13 +207,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         if ($this->isInUse()) {
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
-        } else {
-            if ($this->checkPermissionBool("write")) {
-                $ilToolbar->addButton(
-                    $lng->txt("skmg_add_level"),
-                    $ilCtrl->getLinkTarget($this, "addLevel")
-                );
-            }
+        } elseif ($this->checkPermissionBool("write")) {
+            $ilToolbar->addButton(
+                $lng->txt("skmg_add_level"),
+                $ilCtrl->getLinkTarget($this, "addLevel")
+            );
         }
 
         $table = new ilSkillLevelTableGUI($this->base_skill_id, $this, "edit", 0, $this->isInUse());
@@ -572,6 +564,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tree = new ilSkillTree();
         $path = $tree->getPathFull($this->node_object->getId());
         $desc = "";
+        $sep = "";
         foreach ($path as $p) {
             if (in_array($p["type"], array("scat", "skll"))) {
                 $desc .= $sep . $p["title"];
@@ -711,7 +704,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $exp = new ilSearchRootSelector(
             $ilCtrl->getLinkTarget($this, 'showRepositorySelection')
         );
-        $exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $tree->readRootId());
+        $exp->setExpand($_GET["search_root_expand"] ?: $tree->readRootId());
         $exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'selectLevelTrigger'));
         $exp->setTargetClass(get_class($this));
         $exp->setCmd('saveLevelTrigger');
@@ -917,9 +910,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
     /**
      * Save resource settings
-     *
-     * @param
-     * @return
      */
     public function saveResourceSettings()
     {

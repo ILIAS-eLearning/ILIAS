@@ -41,6 +41,16 @@ class ilObjSkillManagementGUI extends ilObjectGUI
      */
     protected $request;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
+
+    /**
+     * @var ilPropertyFormGUI
+     */
+    protected $form;
+
     protected $skill_tree;
     
     /**
@@ -267,17 +277,17 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $check_hide_prof = $this->ui_fac->input()->field()->checkbox(
             $lng->txt("skmg_hide_profile_self_eval"),
             $lng->txt("skmg_hide_profile_self_eval_info")
-        )->withValue((bool) $skmg_set->getHideProfileBeforeSelfEval());
+        )->withValue($skmg_set->getHideProfileBeforeSelfEval());
 
         // Allow local assignment of global profiles
         $check_loc_ass_prof = $this->ui_fac->input()->field()->checkbox($lng->txt("skmg_local_assignment_profiles"))
-                               ->withValue((bool) $skmg_set->getLocalAssignmentOfProfiles());
+                               ->withValue($skmg_set->getLocalAssignmentOfProfiles());
 
         // Allow creation of local profiles
         $check_create_loc_prof = $this->ui_fac->input()->field()->checkbox(
             $lng->txt("skmg_allow_local_profiles"),
             $lng->txt("skmg_allow_local_profiles_info")
-        )->withValue((bool) $skmg_set->getAllowLocalProfiles());
+        )->withValue($skmg_set->getAllowLocalProfiles());
 
         //section
         $section_settings = $this->ui_fac->input()->field()->section(
@@ -565,9 +575,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
     /**
      * Test getCompletionDateForTriggerRefId
-     *
-     * @param
-     * @return
      */
     public function test()
     {
@@ -625,9 +632,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
     /**
      * Test checkUserCertificateForTriggerRefId
-     *
-     * @param
-     * @return
      */
     public function testCert()
     {
@@ -684,9 +688,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
     /**
      * Test getTriggerOfAllCertificates
-     *
-     * @param
-     * @return
      */
     public function testAllCert()
     {
@@ -731,9 +732,6 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
     /**
      * Test getSkillLevelsForTrigger
-     *
-     * @param
-     * @return
      */
     public function testLevels()
     {
@@ -774,38 +772,37 @@ class ilObjSkillManagementGUI extends ilObjectGUI
      * Set test subtabs
      *
      * @param
-     * @return
      */
-    public function setTestSubtabs($a_act)
+    public function setTestSubTabs($a_act)
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "test",
             "getCompletionDateForTriggerRefId",
             $ilCtrl->getLinkTarget($this, "test")
         );
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "cert",
             "checkUserCertificateForTriggerRefId",
             $ilCtrl->getLinkTarget($this, "testCert")
         );
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "all_cert",
             "getTriggerOfAllCertificates",
             $ilCtrl->getLinkTarget($this, "testAllCert")
         );
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "levels",
             "getSkillLevelsForTrigger",
             $ilCtrl->getLinkTarget($this, "testLevels")
         );
 
-        $ilTabs->activateSubtab($a_act);
+        $ilTabs->activateSubTab($a_act);
     }
 
     //

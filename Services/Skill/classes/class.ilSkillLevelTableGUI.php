@@ -21,6 +21,21 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     protected $access;
 
     /**
+     * @var int
+     */
+    protected $skill_id;
+
+    /**
+     * @var ilBasicSkill
+     */
+    protected $skill;
+
+    /**
+     * @var int
+     */
+    protected $tref_id;
+
+    /**
      * @var bool
      */
     protected $in_use = false;
@@ -82,7 +97,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     /**
      * Should this field be sorted numeric?
      *
-     * @return	boolean		numeric ordering; default is false
+     * @return	bool		numeric ordering; default is false
      */
     public function numericOrdering($a_field)
     {

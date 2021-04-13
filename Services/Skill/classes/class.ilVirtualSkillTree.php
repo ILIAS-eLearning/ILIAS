@@ -17,6 +17,16 @@ class ilVirtualSkillTree
      */
     protected $lng;
 
+    /**
+     * @var ilSkillTree
+     */
+    protected $tree;
+
+    /**
+     * @var array
+     */
+    protected $parent;
+
     protected static $order_node_data = null;
     protected $include_drafts = false;
     protected $drafts = array();
@@ -280,10 +290,8 @@ class ilVirtualSkillTree
         // root?
         if ($a_node["type"] == "skrt") {
             $lng->txt("skmg_skills");
-        } else {
-            if ($a_node["type"] == "sktr") {
-                //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
-            }
+        } elseif ($a_node["type"] == "sktr") {
+            //				$title.= " (".ilSkillTreeNode::_lookupTitle($a_parent_skl_template_tree_id).")";
         }
         
         return $title;

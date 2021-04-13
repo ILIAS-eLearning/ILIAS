@@ -20,9 +20,19 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     protected $ctrl;
 
     /**
+     * @var array
+     */
+    protected $parent;
+
+    /**
+     * @var array
+     */
+    protected $draft;
+
+    /**
      * Constructor
      *
-     * @param object $a_parent_obj parent gui object
+     * @param object|string[] $a_parent_obj parent gui object(s)
      * @param string $a_parent_cmd parent command
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
@@ -56,12 +66,12 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     /**
      * Get childs of node
      *
-     * @param int $a_parent_id parent id
+     * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_id)
+    public function getChildsOfNode($a_parent_node_id)
     {
-        $childs = parent::getChildsOfNode($a_parent_id);
+        $childs = parent::getChildsOfNode($a_parent_node_id);
 
         foreach ($childs as $c) {
             $this->parent[$c["child"]] = $c["parent"];
@@ -114,17 +124,15 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         // root?
         if ($a_node["type"] == "skrt") {
             $icon = ilUtil::getImagePath("icon_sctp.svg");
+        } elseif (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr"))) {
+            $icon = ilSkillTreeNode::getIconPath(
+                $a_node["child"],
+                $a_node["type"],
+                "",
+                $this->draft[$a_node["child"]]
+            );
         } else {
-            if (in_array($a_node["type"], array("skll", "scat", "sctr", "sktr"))) {
-                $icon = ilSkillTreeNode::getIconPath(
-                    $a_node["child"],
-                    $a_node["type"],
-                    "",
-                    $this->draft[$a_node["child"]]
-                );
-            } else {
-                $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
-            }
+            $icon = ilUtil::getImagePath("icon_" . $a_node["type"] . ".svg");
         }
         
         return $icon;
@@ -134,7 +142,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      * Is node highlighted?
      *
      * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
+     * @return bool node visible true/false
      */
     public function isNodeHighlighted($a_node)
     {
@@ -162,7 +170,6 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilskillrootgui"], "listTemplates");
                 $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $_GET["obj_id"]);
                 return $ret;
-                break;
 
             // template
             case "sktp":
@@ -170,7 +177,6 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilbasicskilltemplategui"], "edit");
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $_GET["obj_id"]);
                 return $ret;
-                break;
 
             // template category
             case "sctp":
@@ -178,8 +184,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI","ilskilltemplatecategorygui"], "listItems");
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $_GET["obj_id"]);
                 return $ret;
-                break;
-    
+
+            default:
+                return "";
         }
     }
     

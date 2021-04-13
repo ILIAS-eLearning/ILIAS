@@ -19,9 +19,24 @@ class ilSkillCatTableGUI extends ilTable2GUI
      */
     protected $access;
 
-    const MODE_SCAT = 0;
-    const MODE_SCTP = 1;
+    public const MODE_SCAT = 0;
+    public const MODE_SCTP = 1;
     protected $tref_id = 0;
+
+    /**
+     * @var int
+     */
+    protected $mode;
+
+    /**
+     * @var ilSkillTree
+     */
+    protected $skill_tree;
+
+    /**
+     * @var int
+     */
+    protected $obj_id;
 
     /**
      * Constructor
@@ -103,6 +118,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        $ret = "";
         switch ($a_set["type"]) {
             // category
             case "scat":

@@ -41,6 +41,11 @@ class ilSkillProfileGUI
      */
     protected $toolbar;
 
+    /**
+     * @var int
+     */
+    protected $id = 0;
+
     protected $profile = null;
     /**
      * @var ilAccessHandler
@@ -81,7 +86,7 @@ class ilSkillProfileGUI
         
         if ($this->id > 0) {
             $this->profile = new ilSkillProfile($this->id);
-            if ($this->profile->getRefId() > 0 && (bool) $_GET["local_context"]) {
+            if ($this->profile->getRefId() > 0 && $_GET["local_context"]) {
                 $this->local_context = true;
             }
         }
@@ -140,7 +145,6 @@ class ilSkillProfileGUI
      * Set tabs
      *
      * @param
-     * @return
      */
     public function setTabs($a_active)
     {
@@ -343,7 +347,7 @@ class ilSkillProfileGUI
             $ilCtrl->redirect($this, "listProfiles");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 
@@ -369,7 +373,7 @@ class ilSkillProfileGUI
             $ilCtrl->redirectByClass("ilcontskilladmingui", "listProfiles");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     
@@ -396,7 +400,7 @@ class ilSkillProfileGUI
             $ilCtrl->redirect($this, "listProfiles");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
     
@@ -457,9 +461,6 @@ class ilSkillProfileGUI
     
     /**
      * Show skill levels
-     *
-     * @param
-     * @return
      */
     public function showLevels()
     {
@@ -613,7 +614,7 @@ class ilSkillProfileGUI
             (int) $parts[0],
             (int) $parts[1],
             (int) $_GET["level_id"],
-            (int) $this->profile->getMaxLevelOrderNr() + 10
+            $this->profile->getMaxLevelOrderNr() + 10
         );
         $this->profile->update();
         
@@ -674,9 +675,6 @@ class ilSkillProfileGUI
 
     /**
      * Remove level assignment
-     *
-     * @param
-     * @return
      */
     public function removeLevelAssignments()
     {
@@ -766,9 +764,6 @@ class ilSkillProfileGUI
 
     /**
      * Assign user
-     *
-     * @param
-     * @return
      */
     public function assignUser()
     {
@@ -937,9 +932,6 @@ class ilSkillProfileGUI
 
     /**
      * Export profiles
-     *
-     * @param
-     * @return
      */
     public function exportProfiles()
     {
@@ -1016,7 +1008,7 @@ class ilSkillProfileGUI
             $ilCtrl->redirect($this, "");
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 }

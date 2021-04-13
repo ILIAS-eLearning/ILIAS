@@ -39,14 +39,11 @@ class SkillUserLevelManager
         global $DIC;
 
         $this->level_repo = ($a_level_repo)
-            ? $a_level_repo
-            : $DIC->skills()->internal()->repo()->getLevelRepo();
+            ?: $DIC->skills()->internal()->repo()->getLevelRepo();
         $this->user_level_repo = ($a_user_level_repo)
-            ? $a_user_level_repo
-            : $DIC->skills()->internal()->repo()->getUserLevelRepo();
+            ?: $DIC->skills()->internal()->repo()->getUserLevelRepo();
         $this->obj_adapter = ($a_obj_adapter)
-            ? $a_obj_adapter
-            : new \ilSkillObjectAdapter();
+            ?: new \ilSkillObjectAdapter();
     }
 
     /**
@@ -81,6 +78,7 @@ class SkillUserLevelManager
             );
         }
 
+        $status_date = "";
         $update = false;
 
         // self evaluations will update, if the last self evaluation is on the same day

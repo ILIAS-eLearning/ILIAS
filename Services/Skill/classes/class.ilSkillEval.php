@@ -9,7 +9,7 @@
  */
 class ilSkillEval
 {
-    const TYPE_APPRAISAL = 1;
-    const TYPE_MEASUREMENT = 2;
-    const TYPE_SELF_EVAL = 3;
+    public const TYPE_APPRAISAL = 1;
+    public const TYPE_MEASUREMENT = 2;
+    public const TYPE_SELF_EVAL = 3;
 }

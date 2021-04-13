@@ -221,7 +221,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         } else {
             $ilTabs->activateTab("skills");
             $form->setValuesByPost();
-            $tpl->setContent($form->getHtml());
+            $tpl->setContent($form->getHTML());
         }
     }
 }

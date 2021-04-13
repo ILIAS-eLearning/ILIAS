@@ -139,9 +139,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 
     /**
      * Insert
-     *
-     * @param
-     * @return
      */
     public function insert()
     {
@@ -327,14 +324,11 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
 
         $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->form->getHTML());
     }
 
     /**
      * Cancel
-     *
-     * @param
-     * @return
      */
     public function cancel()
     {

@@ -19,6 +19,41 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
      */
     protected $lng;
 
+    /**
+     * @var object|string
+     */
+    protected $select_gui;
+
+    /**
+     * @var string
+     */
+    protected $select_cmd;
+
+    /**
+     * @var string
+     */
+    protected $select_par;
+
+    /**
+     * @var array
+     */
+    protected $all_nodes;
+
+    /**
+     * @var array
+     */
+    protected $node;
+
+    /**
+     * @var array
+     */
+    protected $child_nodes;
+
+    /**
+     * @var array
+     */
+    protected $parent;
+
     protected $selectable = array();
     protected $selectable_child_nodes = array();
     protected $has_selectable_nodes = false;
@@ -116,13 +151,13 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     /**
      * Get childs of node (selectable tree)
      *
-     * @param int $a_parent_id parent id
+     * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_id)
+    public function getChildsOfNode($a_parent_node_id)
     {
-        if (is_array($this->selectable_child_nodes[$a_parent_id])) {
-            $childs = $this->selectable_child_nodes[$a_parent_id];
+        if (is_array($this->selectable_child_nodes[$a_parent_node_id])) {
+            $childs = $this->selectable_child_nodes[$a_parent_node_id];
             $childs = ilUtil::sortArray($childs, "order_nr", "asc", true);
             return $childs;
         }
