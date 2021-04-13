@@ -314,8 +314,7 @@ class ilSkillTreeNodeGUI
                             ),
                             "",
                             0,
-                            $path[$i]["type"],
-                            ilUtil::getImagePath("icon_skmg.svg")
+                            $path[$i]["type"]
                         );
                         break;
 
@@ -333,8 +332,7 @@ class ilSkillTreeNodeGUI
                             ),
                             "",
                             0,
-                            $path[$i]["type"],
-                            ilUtil::getImagePath("icon_skmg.svg")
+                            $path[$i]["type"]
                         );
                         break;
                         
