@@ -115,15 +115,6 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $this->addObjectsTab($ilTabs);
             }
 
-            // back link
-            /*
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $this->node_object->skill_tree->getRootId());
-                        $ilTabs->setBackTarget($lng->txt("obj_skmg"),
-                            $ilCtrl->getLinkTargetByClass("ilskillrootgui", "listSkills"));
-                        $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id",
-                            $_GET["obj_id"]);*/
-            
             $tid = ilSkillTemplateReference::_lookupTemplateId($this->node_object->getId());
             $add = " (" . ilSkillTreeNode::_lookupTitle($tid) . ")";
     

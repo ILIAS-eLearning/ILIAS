@@ -168,26 +168,6 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
-        /*		$this->tpl->setVariable("TXT_CERTIFICATE",
-                    ilBasicSkill::_lookupCertificate($this->skill->getId(),
-                    $a_set["id"])
-                    ? $lng->txt("yes")
-                    : $lng->txt("no"));*/
-
-        /*		$trigger = ilBasicSkill::lookupLevelTrigger((int) $a_set["id"]);
-                if (ilObject::_lookupType($trigger["obj_id"]) != "crs" ||
-                    ilObject::_isInTrash($trigger["ref_id"]))
-                {
-                    $trigger = array();
-                }
-
-                // trigger
-                if ($trigger["obj_id"] > 0)
-                {
-                    $this->tpl->setVariable("TXT_TRIGGER",
-                        ilObject::_lookupTitle($trigger["obj_id"]));
-                }*/
-        
         if (is_array($a_set["ressources"])) {
             $this->tpl->setCurrentBlock("ressource_bl");
             foreach ($a_set["ressources"] as $rref_id) {

@@ -120,7 +120,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameterByClass(
             "ilskillrootgui",
             "obj_id",
-            $this->node_object->skill_tree->getRootId()
+            $this->node_object->getSkillTree()->getRootId()
         );
         $ilTabs->setBackTarget(
             $lng->txt("obj_skmg"),

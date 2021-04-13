@@ -356,7 +356,7 @@ class ilSkillTreeNodeGUI
         $desc = "";
         if (is_object($this->node_object)) {
             $tree = new ilSkillTree();
-            $path = $this->node_object->skill_tree->getSkillTreePath(
+            $path = $this->node_object->getSkillTree()->getSkillTreePath(
                 $this->node_object->getId(),
                 $this->tref_id
             );

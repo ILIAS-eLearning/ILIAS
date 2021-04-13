@@ -58,22 +58,19 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
         if (is_null($bsc_skl_lvl_db_rep)) {
             $this->bsc_skl_lvl_db_rep = $DIC->skills()->internal()->repo()->getLevelRepo();
-        }
-        else {
+        } else {
             $this->bsc_skl_lvl_db_rep = $bsc_skl_lvl_db_rep;
         }
 
         if (is_null($bsc_skl_usr_lvl_db_rep)) {
             $this->bsc_skl_usr_lvl_db_rep = $DIC->skills()->internal()->repo()->getUserLevelRepo();
-        }
-        else {
+        } else {
             $this->bsc_skl_usr_lvl_db_rep = $bsc_skl_usr_lvl_db_rep;
         }
 
         if (is_null($bsc_skl_tre_rep)) {
             $this->bsc_skl_tre_rep = $DIC->skills()->internal()->repo()->getTreeRepo();
-        }
-        else {
+        } else {
             $this->bsc_skl_tre_rep = $bsc_skl_tre_rep;
         }
 
@@ -260,8 +257,16 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             $update = true;
         }
 
-        $repository->resetUserSkillLevelStatus($update, $trigger_obj_id, $status_date, $a_user_id, $a_skill_id,
-            $a_tref_id, $a_trigger_ref_id, $a_self_eval);
+        $repository->resetUserSkillLevelStatus(
+            $update,
+            $trigger_obj_id,
+            $status_date,
+            $a_user_id,
+            $a_skill_id,
+            $a_tref_id,
+            $a_trigger_ref_id,
+            $a_self_eval
+        );
     }
 
     protected static function hasRecentSelfEvaluation(
@@ -280,8 +285,13 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             : 0;
         $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
 
-        return $repository->hasRecentSelfEvaluation($trigger_obj_id, $a_user_id, $a_skill_id, $a_tref_id,
-            $a_trigger_ref_id);
+        return $repository->hasRecentSelfEvaluation(
+            $trigger_obj_id,
+            $a_user_id,
+            $a_skill_id,
+            $a_tref_id,
+            $a_trigger_ref_id
+        );
     }
 
     public static function getNewAchievementsPerUser(
@@ -341,9 +351,21 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
 
         $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
-        $repository->writeUserSkillLevelStatus($skill_id, $trigger_ref_id, $trigger_obj_id, $trigger_title,
-            $trigger_type, $update, $status_date, $a_level_id, $a_user_id, $a_tref_id, $a_self_eval,
-            $a_unique_identifier, $a_next_level_fulfilment);
+        $repository->writeUserSkillLevelStatus(
+            $skill_id,
+            $trigger_ref_id,
+            $trigger_obj_id,
+            $trigger_title,
+            $trigger_type,
+            $update,
+            $status_date,
+            $a_level_id,
+            $a_user_id,
+            $a_tref_id,
+            $a_self_eval,
+            $a_unique_identifier,
+            $a_next_level_fulfilment
+        );
     }
 
     public static function removeAllUserSkillLevelStatusOfObject(
@@ -361,8 +383,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
         $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
 
-        return $repository->removeAllUserSkillLevelStatusOfObject($a_user_id, $a_trigger_obj_id, $a_self_eval,
-            $a_unique_identifier);
+        return $repository->removeAllUserSkillLevelStatusOfObject(
+            $a_user_id,
+            $a_trigger_obj_id,
+            $a_self_eval,
+            $a_unique_identifier
+        );
     }
 
     public static function removeAllUserData(int $a_user_id)
@@ -387,8 +413,14 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $skill_id = $this->getId();
         $levels = $this->getLevelData();
 
-        return $this->bsc_skl_usr_lvl_db_rep->getMaxLevelPerType($skill_id, $levels, $a_tref_id, $a_type, $a_user_id,
-            $a_self_eval);
+        return $this->bsc_skl_usr_lvl_db_rep->getMaxLevelPerType(
+            $skill_id,
+            $levels,
+            $a_tref_id,
+            $a_type,
+            $a_user_id,
+            $a_self_eval
+        );
     }
 
     public function getAllLevelEntriesOfUser(
@@ -414,8 +446,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
         $skill_id = $this->getId();
 
-        return $this->bsc_skl_usr_lvl_db_rep->getAllHistoricLevelEntriesOfUser($skill_id, $a_tref_id, $a_user_id,
-            $a_eval_by);
+        return $this->bsc_skl_usr_lvl_db_rep->getAllHistoricLevelEntriesOfUser(
+            $skill_id,
+            $a_tref_id,
+            $a_user_id,
+            $a_eval_by
+        );
     }
 
     public function getMaxLevelPerObject(
@@ -430,8 +466,14 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $skill_id = $this->getId();
         $levels = $this->getLevelData();
 
-        return $this->bsc_skl_usr_lvl_db_rep->getMaxLevelPerObject($skill_id, $levels, $a_tref_id, $a_object_id,
-            $a_user_id, $a_self_eval);
+        return $this->bsc_skl_usr_lvl_db_rep->getMaxLevelPerObject(
+            $skill_id,
+            $levels,
+            $a_tref_id,
+            $a_object_id,
+            $a_user_id,
+            $a_self_eval
+        );
     }
 
     public function getMaxLevel(
@@ -473,8 +515,13 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
         $skill_id = $this->getId();
 
-        return $this->bsc_skl_usr_lvl_db_rep->getLastLevelPerObject($skill_id, $a_tref_id, $a_object_id, $a_user_id,
-            $a_self_eval);
+        return $this->bsc_skl_usr_lvl_db_rep->getLastLevelPerObject(
+            $skill_id,
+            $a_tref_id,
+            $a_object_id,
+            $a_user_id,
+            $a_self_eval
+        );
     }
 
     public function getLastUpdatePerObject(
@@ -488,8 +535,13 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
         $skill_id = $this->getId();
 
-        return $this->bsc_skl_usr_lvl_db_rep->getLastUpdatePerObject($skill_id, $a_tref_id, $a_object_id, $a_user_id,
-            $a_self_eval);
+        return $this->bsc_skl_usr_lvl_db_rep->getLastUpdatePerObject(
+            $skill_id,
+            $a_tref_id,
+            $a_object_id,
+            $a_user_id,
+            $a_self_eval
+        );
     }
 
     //
@@ -514,23 +566,6 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     public function getShortTitleForCertificate()
     {
         return "Skill";
-    }
-
-    /**
-     * Checks whether a skill level has a certificate or not
-     * @param int $a_skill_id       skill id
-     * @param int $a_skill_level_id skill level id
-     * @return bool
-     */
-    public static function _lookupCertificate(int $a_skill_id, int $a_skill_level_id)
-    {
-        $certificatefile = CLIENT_WEB_DIR . "/certificates/skill/" .
-            ($a_skill_id) . "/" . ($a_skill_level_id) . "/certificate.xml";
-        if (@file_exists($certificatefile)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -565,8 +600,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         }
 
         $repository = new ilBasicSkillTreeDBRepository($ilDB);
-        return $repository->getCommonSkillIdForImportId($tree, $a_source_inst_id, $a_skill_import_id,
-            $a_tref_import_id);
+        return $repository->getCommonSkillIdForImportId(
+            $tree,
+            $a_source_inst_id,
+            $a_skill_import_id,
+            $a_tref_import_id
+        );
     }
 
     public static function getLevelIdForImportId(int $a_source_inst_id, int $a_level_import_id) : array
