@@ -233,6 +233,10 @@ keep the functionalities, which are coupled to the "class"-attribute of the elem
 The UI Inputs do not all have a rendering test.
 Add, where missing, and refine existing.
 
+### Make date/time input accessible (advanced)
+
+Date/Time pickers are currently implemented using a third party library. The solution suffers from accessibility issues. Even native pickers seem not always to be easy accessible. See https://mantis.ilias.de/view.php?id=29816#bugnotes. We should evaluate different solutions to tackle this.
+
 ## Long Term
 
 ### All UI-Elements Step 2

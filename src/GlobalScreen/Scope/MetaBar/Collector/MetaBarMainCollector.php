@@ -22,7 +22,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     /**
      * @var isItem[]
      */
-    private $items = [];
+    protected $items = [];
 
 
     /**
