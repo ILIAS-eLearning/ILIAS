@@ -113,7 +113,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilskillrootgui':
-                $skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"], $this);
+                $skrt_gui = new ilSkillRootGUI((int) $_GET["obj_id"]);
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
                 break;

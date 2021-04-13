@@ -629,28 +629,28 @@ class ilSkillTreeNode
 
     /**
      * Cut and copy a set of skills/skill categories into the clipboard
+     *
+     * @param int   $a_tree_id
+     * @param array $a_ids
+     * @throws ilInvalidTreeStructureException
      */
-    public static function clipboardCut($a_tree_id, $a_ids)
+    public static function clipboardCut(int $a_tree_id, array $a_ids) : void
     {
         self::clearClipboard();
         $tree = new ilSkillTree();
 
-        if (!is_array($a_ids)) {
-            return false;
-        } else {
-            // get all "top" ids, i.e. remove ids, that have a selected parent
-            $cut_ids = [];
-            foreach ($a_ids as $id) {
-                $path = $tree->getPathId($id);
-                $take = true;
-                foreach ($path as $path_id) {
-                    if ($path_id != $id && in_array($path_id, $a_ids)) {
-                        $take = false;
-                    }
+        // get all "top" ids, i.e. remove ids, that have a selected parent
+        $cut_ids = [];
+        foreach ($a_ids as $id) {
+            $path = $tree->getPathId($id);
+            $take = true;
+            foreach ($path as $path_id) {
+                if ($path_id != $id && in_array($path_id, $a_ids)) {
+                    $take = false;
                 }
-                if ($take) {
-                    $cut_ids[] = $id;
-                }
+            }
+            if ($take) {
+                $cut_ids[] = $id;
             }
         }
 

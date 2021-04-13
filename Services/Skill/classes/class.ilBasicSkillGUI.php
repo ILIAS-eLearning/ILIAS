@@ -312,7 +312,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     /**
      * Save level form
      */
-    public function saveLevel()
+    public function saveLevel() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -329,7 +329,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $result = $form->getData();
 
             if (is_null($result)) {
-                return $tpl->setContent($this->ui_ren->render($form));
+                $tpl->setContent($this->ui_ren->render($form));
+                return;
             }
 
             $this->node_object->addLevel(
@@ -347,7 +348,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     /**
      * Update level form
      */
-    public function updateLevel()
+    public function updateLevel() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -364,7 +365,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $result = $form->getData();
 
             if (is_null($result)) {
-                return $tpl->setContent($this->ui_ren->render($form));
+                $tpl->setContent($this->ui_ren->render($form));
+                return;
             }
 
             $this->node_object->writeLevelTitle(
