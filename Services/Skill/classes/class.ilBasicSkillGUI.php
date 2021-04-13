@@ -523,10 +523,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $ilCtrl->getLinkTarget($this, "editLevel")
             );
 
-            /*			$ilTabs->addTab("level_trigger",
-                            $lng->txt("skmg_trigger"),
-                            $ilCtrl->getLinkTarget($this, "editLevelTrigger"));*/
-                
             $ilTabs->addTab(
                 "level_resources",
                 $lng->txt("skmg_resources"),
@@ -624,47 +620,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     }
 
     /**
-     * Edit level trigger
-     */
-    public function editLevelTrigger()
-    {
-        $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
-
-        $this->setLevelHead();
-        $ilTabs->activateTab("level_trigger");
-
-        $trigger = ilBasicSkill::lookupLevelTrigger((int) $_GET["level_id"]);
-        if (ilObject::_lookupType($trigger["obj_id"]) != "crs" ||
-            ilObject::_isInTrash($trigger["ref_id"])) {
-            $trigger = array();
-        }
-
-        $this->form = new ilPropertyFormGUI();
-        
-        // trigger
-        $ne = new ilNonEditableValueGUI($lng->txt("skmg_trigger"), "trigger");
-        if ($trigger["obj_id"] > 0) {
-            $ne->setValue(ilObject::_lookupTitle($trigger["obj_id"]));
-        } else {
-            $ne->setValue($lng->txt("skmg_no_trigger"));
-        }
-        $this->form->addItem($ne);
-
-        if ($trigger["obj_id"] > 0) {
-            $this->form->addCommandButton("removeLevelTrigger", $lng->txt("skmg_remove_trigger"));
-        }
-        $this->form->addCommandButton("selectLevelTrigger", $lng->txt("skmg_select_trigger"));
-
-        $this->form->setTitle($lng->txt("skmg_skill_level_trigger"));
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-
-        $tpl->setContent($this->form->getHTML());
-    }
-
-    /**
      * Select skill level trigger
      */
     public function selectLevelTrigger()
@@ -696,32 +651,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($exp->getOutput());
     }
 
-    /**
-     * Save level trigger
-     */
-    public function saveLevelTrigger()
-    {
-        $ilCtrl = $this->ctrl;
 
-        if (!$this->checkPermissionBool("write")) {
-            return;
-        }
-
-        ilBasicSkill::writeLevelTrigger((int) $_GET["level_id"], (int) $_GET["root_id"]);
-        $ilCtrl->redirect($this, "editLevelTrigger");
-    }
-
-    /**
-     * Remove trigger
-     */
-    public function removeLevelTrigger()
-    {
-        $ilCtrl = $this->ctrl;
-
-        ilBasicSkill::writeLevelTrigger((int) $_GET["level_id"], 0);
-        $ilCtrl->redirect($this, "editLevelTrigger");
-    }
-    
     /**
      * Redirect to parent (identified by current obj_id)
      */
