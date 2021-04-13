@@ -58,7 +58,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         }
         //$this->addCommandButton("", $lng->txt(""));
     }
-    
+
     /**
      * Get profiles
      *
@@ -68,8 +68,8 @@ class ilSkillProfileTableGUI extends ilTable2GUI
     {
         return ilSkillProfile::getProfiles();
     }
-    
-    
+
+
     /**
      * Fill table row
      */
@@ -82,7 +82,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
             $this->tpl->setVariable("CMD", $lng->txt("edit"));
             $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);
-            $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showUsers"));
+            $this->tpl->setVariable("CMD_HREF", $ilCtrl->getLinkTarget($this->parent_obj, "showLevels"));
             $ilCtrl->setParameter($this->parent_obj, "sprof_id", $_GET["sprof_id"]);
             $this->tpl->parseCurrentBlock();
         }
@@ -95,9 +95,9 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         if ($profile_ref_id > 0) {
             $this->tpl->setVariable(
                 "CONTEXT",
-                $lng->txt("skmg_context_local") . " (" . $profile_obj_title . ")");
-        }
-        else {
+                $lng->txt("skmg_context_local") . " (" . $profile_obj_title . ")"
+            );
+        } else {
             $this->tpl->setVariable("CONTEXT", $lng->txt("skmg_context_global"));
         }
 
