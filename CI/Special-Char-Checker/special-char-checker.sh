@@ -10,10 +10,10 @@
 # which are usually used by old printers. Sometimes these hidden characters
 # like hidden spaces, tabs or newlines are added to the code accidentally.
 
+source CI/Import/Functions.sh
 
 # get the files from this PR to the last head
-URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
-CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
+CHANGED_FILES=$(get_changed_files)
 
 echo "Scanning changed files for special chars ..."
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-URL="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${PR_NUMBER}/files"
-CHANGED_FILES=$(curl -s -X GET -G $URL | jq -r '.[] | .filename' | grep '.php')
+source CI/Import/Functions.sh
 
+CHANGED_FILES=$(get_changed_files)
 for FILE in ${CHANGED_FILES}
 do
 	echo "Check file: ${FILE}"
