@@ -7,7 +7,6 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI
- * @ilCtrl_Calls ilBasicSkillGUI: ilCertificateGUI
  */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 {
@@ -105,22 +104,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
         switch ($next_class) {
-            case "ilcertificategui":
-                $this->setLevelHead();
-                $ilTabs->activateTab("level_certificate");
-
-                $skillLevelId = (int) $_GET["level_id"];
-
-                $output_gui = new ilCertificateGUI(
-                    new ilDefaultPlaceholderDescription($lng),
-                    new ilDefaultPlaceholderValues(),
-                    $this->node_object->getId(),
-                    ilCertificatePathConstants::SKILL_PATH . $this->node_object->getId() . '/' . $skillLevelId
-                );
-
-                $ret = $ilCtrl->forwardCommand($output_gui);
-                break;
-
             default:
                 $ret = $this->$cmd();
                 break;
@@ -549,10 +532,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $lng->txt("skmg_resources"),
                 $ilCtrl->getLinkTarget($this, "showLevelResources")
             );
-            /*
-                        $ilTabs->addTab("level_certificate",
-                            $lng->txt("certificate"),
-                            $ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));*/
         }
 
         // title
