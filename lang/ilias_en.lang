@@ -9140,6 +9140,7 @@ skmg#:#skmg_update_order#:#Update Order
 skmg#:#skmg_really_delete_levels#:#Do you really want to delete the following competence levels?
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_levels#:#Competence Levels
+skmg#:#skmg_target_levels#:#Target Levels
 skmg#:#skmg_skill_level_trigger#:#Competence Level Trigger
 skmg#:#skmg_no_trigger#:#No Trigger
 skmg#:#skmg_remove_trigger#:#Remove Trigger
@@ -11134,7 +11135,7 @@ skmg#:#skmg_add_local_profile#:#Add Local Profile
 skmg#:#skmg_add_profile#:#Add Profile
 skmg#:#skmg_edit_profile#:#Edit Profile
 skmg#:#skmg_delete_profiles#:#Do you really want to delete the following profiles?
-skmg#:#skmg_assigned_skill_levels#:#Assigned Competence Levels
+skmg#:#skmg_assigned_skill_levels#:#Assigned Target Levels
 skmg#:#skmg_assign_level#:#Assign Level
 skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
