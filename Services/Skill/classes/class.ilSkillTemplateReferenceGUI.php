@@ -179,6 +179,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
+        //TODO: Refactoring to UI Form when non-editable input is available
+
         $this->form = new ilPropertyFormGUI();
 
         // select skill template

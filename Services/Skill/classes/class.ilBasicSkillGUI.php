@@ -46,6 +46,21 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
      */
     protected $tree;
 
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    protected $ui_fac;
+
+    /**
+     * @var \ILIAS\UI\Renderer
+     */
+    protected $ui_ren;
+
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
     protected $tref_id = 0;
     protected $base_skill_id;
     
@@ -63,9 +78,12 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
+        $this->ui_fac = $DIC->ui()->factory();
+        $this->ui_ren = $DIC->ui()->renderer();
+        $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
 
-        $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
+        $ilCtrl->saveParameter($this, "obj_id");
         $this->base_skill_id = $a_node_id;
         
         parent::__construct($a_node_id);
@@ -279,8 +297,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $tpl = $this->tpl;
 
-        $this->initLevelForm("create");
-        $tpl->setContent($this->form->getHTML());
+        $form = $this->initLevelForm("create");
+        $tpl->setContent($this->ui_ren->render([$form]));
     }
 
     /**
@@ -295,9 +313,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             ilUtil::sendInfo($lng->txt("skmg_skill_in_use"));
         }
 
-        $this->initLevelForm();
-        $this->getLevelValues();
-        $tpl->setContent($this->form->getHTML());
+        $form = $this->initLevelForm();
+        $tpl->setContent($this->ui_ren->render([$form]));
     }
 
     /**
@@ -313,20 +330,26 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $this->initLevelForm("create");
-        if ($this->form->checkInput()) {
-            // perform save
+        $form = $this->initLevelForm("create");
+        if ($this->request->getMethod() == "POST"
+            && $this->request->getQueryParams()["level_settings"] == "level_settings_config") {
+            $form = $form->withRequest($this->request);
+            $result = $form->getData();
+
+            if (is_null($result)) {
+                return $tpl->setContent($this->ui_ren->render($form));
+            }
+
             $this->node_object->addLevel(
-                $this->form->getInput("title"),
-                $this->form->getInput("description")
+                $result["section_level"]["input_ti"],
+                $result["section_level"]["input_desc"]
             );
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "edit");
         }
 
-        $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->ui_ren->render([$form]));
     }
 
     /**
@@ -342,23 +365,31 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $this->initLevelForm("edit");
-        if ($this->form->checkInput()) {
+        $form = $this->initLevelForm("edit");
+        if ($this->request->getMethod() == "POST"
+            && $this->request->getQueryParams()["level_settings"] == "level_settings_config") {
+            $form = $form->withRequest($this->request);
+            $result = $form->getData();
+
+            if (is_null($result)) {
+                return $tpl->setContent($this->ui_ren->render($form));
+            }
+
             $this->node_object->writeLevelTitle(
                 (int) $_GET["level_id"],
-                $this->form->getInput("title")
+                $result["section_level"]["input_ti"]
             );
+
             $this->node_object->writeLevelDescription(
                 (int) $_GET["level_id"],
-                $this->form->getInput("description")
+                $result["section_level"]["input_desc"]
             );
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "edit");
         }
 
-        $this->form->setValuesByPost();
-        $tpl->setContent($this->form->getHtml());
+        $tpl->setContent($this->ui_ren->render([$form]));
     }
 
     /**
@@ -376,47 +407,43 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setLevelHead();
         $ilTabs->activateTab("level_settings");
 
-        $this->form = new ilPropertyFormGUI();
+        $input_ti = $this->ui_fac->input()->field()->text($lng->txt("title"))
+            ->withRequired(true);
 
-        // title
-        $ti = new ilTextInputGUI($lng->txt("title"), "title");
-        $ti->setMaxLength(200);
-        $ti->setRequired(true);
-        $this->form->addItem($ti);
+        $input_desc = $this->ui_fac->input()->field()->textarea($lng->txt("description"));
 
-        // description
-        $ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
-        $ta->setCols(50);
-        $ta->setRows(5);
-        $this->form->addItem($ta);
+        $ilCtrl->setParameter(
+            $this,
+            'level_settings',
+            'level_settings_config'
+        );
 
-        // save and cancel commands
-        if ($this->checkPermissionBool("write")) {
-            if ($a_mode == "create") {
-                $this->form->addCommandButton("saveLevel", $lng->txt("save"));
-                $this->form->addCommandButton("edit", $lng->txt("cancel"));
-                $this->form->setTitle($lng->txt("skmg_new_level"));
-            } else {
-                $this->form->addCommandButton("updateLevel", $lng->txt("save"));
-                $this->form->addCommandButton("edit", $lng->txt("cancel"));
-                $this->form->setTitle($lng->txt("skmg_edit_level"));
-            }
+        if ($a_mode == "create") {
+            $section_level = $this->ui_fac->input()->field()->section(
+                ["input_ti" => $input_ti,
+                 "input_desc" => $input_desc],
+                $lng->txt("skmg_new_level")
+            );
+            $form_action = $ilCtrl->getFormAction($this, "saveLevel");
+        } else {
+            $data = $this->node_object->getLevelData((int) $_GET["level_id"]);
+            $input_ti = $input_ti->withValue($data["title"]);
+            $input_desc = $input_desc->withValue($data["description"]);
+
+            $section_level = $this->ui_fac->input()->field()->section(
+                ["input_ti" => $input_ti,
+                 "input_desc" => $input_desc],
+                $lng->txt("skmg_edit_level")
+            );
+            $form_action = $ilCtrl->getFormAction($this, "updateLevel");
         }
 
-        $this->form->setFormAction($ilCtrl->getFormAction($this));
-    }
+        $form = $this->ui_fac->input()->container()->form()->standard(
+            $form_action,
+            ["section_level" => $section_level]
+        );
 
-    /**
-     * Get current values for level from
-     */
-    public function getLevelValues()
-    {
-        $values = array();
-
-        $data = $this->node_object->getLevelData((int) $_GET["level_id"]);
-        $values["title"] = $data["title"];
-        $values["description"] = $data["description"];
-        $this->form->setValuesByArray($values);
+        return $form;
     }
 
     /**
@@ -762,7 +789,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
                 $ilCtrl->getLinkTarget($this, "addLevelResource")
             );
         }
-        
+
+        $ilCtrl->saveParameter($this, "level_id");
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
 
