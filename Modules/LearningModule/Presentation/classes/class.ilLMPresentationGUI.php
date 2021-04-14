@@ -80,7 +80,11 @@ class ilLMPresentationGUI
      */
     protected $lm;
 
+    /**
+     * @var ilTemplate
+     */
     public $tpl;
+
     public $lng;
     public $layout_doc;
     public $offline;
@@ -168,6 +172,16 @@ class ilLMPresentationGUI
      */
     protected $ui;
 
+    /**
+     * @var ilToolbarGUI
+     */
+    protected $toolbar;
+
+    /**
+     * @var string[]
+     */
+    protected $additional_content = [];
+
     public function __construct(
         $a_export_format = "",
         $a_all_languages = false,
@@ -176,6 +190,7 @@ class ilLMPresentationGUI
         $query_params = null,
         $embed_mode = false
     ) {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->offline = ($a_export_format != "");
@@ -184,6 +199,7 @@ class ilLMPresentationGUI
         $this->offline_directory = $a_export_dir;
 
         $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC["ilErr"];
@@ -493,8 +509,6 @@ class ilLMPresentationGUI
         global $DIC;
 
         $tpl = $this->tpl;
-        $ilSetting = $this->settings;
-        $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         $layout = $this->determineLayout();
 
@@ -610,7 +624,8 @@ class ilLMPresentationGUI
                         $this->addHeaderAction();
                         $content = $this->getContent();
                         $content .= $this->ilLMNotes();
-                        $this->tpl->setContent($content);
+                        $additional = $this->ui->renderer() ->render($this->additional_content);
+                        $this->tpl->setContent($content.$additional);
                         break;
 
                     case "ilGlossary":
@@ -3029,8 +3044,8 @@ class ilLMPresentationGUI
     /**
      * Render tabs
      *
-     * @param
-     * @return
+     * @param $active_tab
+     * @param $current_page_id
      */
     protected function renderTabs($active_tab, $current_page_id)
     {
@@ -3038,7 +3053,9 @@ class ilLMPresentationGUI
         $menu_editor->setObjId($this->lm->getId());
 
         $navigation_renderer = new ilLMMenuRendererGUI(
+            $this->getService(),
             $this->tabs,
+            $this->toolbar,
             $current_page_id,
             $active_tab,
             (string) $this->getExportFormat(),
@@ -3050,7 +3067,11 @@ class ilLMPresentationGUI
             $this->ctrl,
             $this->access,
             $this->user,
-            $this->lng
+            $this->lng,
+            $this->tpl,
+            function ($additional_content) {
+                $this->additional_content[] = $additional_content;
+            }
         );
         $navigation_renderer->render();
     }
