@@ -1855,9 +1855,11 @@ assessment#:#feedback_all#:#Zeige Rückmeldungen zu allen Antwortmöglichkeiten.
 assessment#:#feedback_checked#:#Zeige Rückmeldungen zu ausgewählten Antworten des Teilnehmers.
 assessment#:#feedback_correct_sc_mc#:#Zeige Rückmeldung für richtige Antworten (richtige Antworten sind solche, für die es bei Auswahl positive Punkte gibt).
 assessment#:#feedback_correct_kprim#:#Zeige Rückmeldung für korrekte Antworten (korrekte Antworten sind solche, bei denen die positive Option zu wählen ist).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editor für Rückmeldungen und Lösungshinweise
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#ILIAS-Seiteneditor für das Editieren von Rückmeldungen und Lösungshinweisen nutzen
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Rich-Text-Editor (TinyMCE) für das Editieren der Fragen, Antworten, Rückmeldungen und Lösungshinweisen
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Erlaubt formatierten Text für Fragen, Antworten, Rückmeldungen und Lösungshinweise. Rückmeldungen und Lösungshinweise werden aber beim Einbinden von Fragen in ILIAS-Lernmodule nicht übernommen.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Unformatierter Text für Fragen und Antworten und ILIAS-Seiteneditor für Rückmeldungen und Lösungshinweise
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#Bietet keine Formatierung von Text in Fragen und Antworten, erlaubt aber Gestaltung der Rückmeldungen und Lösungshinweise mit ILIAS-Seiteneditor und Wiederverwendung bei Fragen in ILIAS-Lernmodulen.
 assessment#:#tst_question_feedback_edit_page#:#Inhalt bearbeiten
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Zurück zur aufrufenden Frage
 assessment#:#enable_examview#:#Übersicht gegebener Antworten
