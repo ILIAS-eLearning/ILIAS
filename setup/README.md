@@ -11,12 +11,14 @@ main commands to manage ILIAS installations:
 
 `install` and `update` also supply switches and options for a granular control of the inclusion of plugins:
 
-* `--skip ` will exclude the named plugin from the command
+* `--skip <plugin name>` will exclude the named plugin from the command
 * `--no-plugins` will exclude all plugins from the command
-* `install ` (or `update ` respectively) will update or install the specified plugin
+* `install <plugin name>` (or `update <plugin name>` respectively) will update or install the specified plugin
 
-`install` and `update` both require a [configuration file](#about-the-config-file)
-to do their job. The app also supports a `help` command that lists arguments and
+`install` requires a [configuration file](#about-the-config-file) to do the job.
+`update` can be used without this file for updating the installation only, but is
+required to transfer any modified setting from this file to the installation.
+The app also supports a `help` command that lists arguments and
 options of the available commands.
 
 
