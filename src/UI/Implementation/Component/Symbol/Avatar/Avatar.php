@@ -16,6 +16,8 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
      */
     private $username;
 
+    protected $alternative_text = "";
+
     public function __construct(string $username)
     {
         $this->username = $username;
@@ -27,5 +29,17 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
     public function getUsername() : string
     {
         return $this->username;
+    }
+
+    public function withAlternativeText(string $text) : C\Symbol\Avatar\Avatar
+    {
+        $clone = clone $this;
+        $clone->alternative_text = $text;
+        return $clone;
+    }
+
+    public function getAlternativeText() : string
+    {
+        return $this->alternative_text;
     }
 }

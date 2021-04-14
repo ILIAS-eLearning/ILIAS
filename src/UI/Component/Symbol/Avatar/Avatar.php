@@ -8,4 +8,8 @@ namespace ILIAS\UI\Component\Symbol\Avatar;
 interface Avatar extends \ILIAS\UI\Component\Symbol\Symbol
 {
     public function getUsername() : string;
+
+    public function withAlternativeText(string $text) : Avatar;
+
+    public function getAlternativeText() : string;
 }

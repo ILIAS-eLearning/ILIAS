@@ -61,8 +61,11 @@ class ilUserAvatarResolver
     public function __construct(int $user_id)
     {
         global $DIC;
+
         $this->db = $DIC->database();
         $this->ui = $DIC->ui()->factory();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
         $this->user_id = $user_id;
         $this->init();
     }
@@ -116,13 +119,29 @@ class ilUserAvatarResolver
         return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
     }
 
-    public function getAvatar() : Avatar
+    /**
+     * @param bool $name_as_text_visible_closely if the name is set as text close to the Avatar, the alternative
+     *                                           text for screenreaders will be set differently, to reduce redundancy
+     *                                           for screenreaders. See rules on the Avatar Symbol in the UI Components
+     * @return Avatar
+     */
+    public function getAvatar(bool $name_as_set_as_text_closely = false) : Avatar
     {
-        if ($this->useUploadedFile()) {
-            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login);
+        if($name_as_set_as_text_closely){
+            $alternative_text = $this->lng->txt("user_avatar");
+        } elseif ($this->user_id == $this->user->getId() && !$this->user::_isAnonymous($this->user_id)) {
+            $alternative_text = $this->lng->txt("current_user_avatar");
+        } else {
+            $alternative_text = $this->lng->txt("user_avatar_of")." ".$this->login;
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login);
+
+        if ($this->useUploadedFile()) {
+            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
+                ->withAlternativeText($alternative_text);
+        }
+
+        return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
     }
 
     public function getLegacyPictureURL() : string
