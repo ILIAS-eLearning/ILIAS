@@ -1741,9 +1741,11 @@ assessment#:#feedback_all#:#Show answer specific feedback for all answers.
 assessment#:#feedback_checked#:#Show answer specific feedback for all chosen/selected answers.
 assessment#:#feedback_correct_sc_mc#:#Show answer specific feedback for all correct answers (Correct answers are those, that lead to a positive score when chosen/selected).
 assessment#:#feedback_correct_kprim#:#Show answer specific feedback for all correct answers (Correct answers are those, for that the positive option is to be chosen/selected).
-assessment#:#tst_add_quest_cont_edit_mode#:#Editor for Feedback and Hints
-assessment#:#tst_add_quest_cont_edit_mode_default#:#Use rich-text editor for editing feedback and hints
-assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use ILIAS page editor for editing feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode#:#Editor
+assessment#:#tst_add_quest_cont_edit_mode_default#:#Use Rich-Text-Editor (TinyMCE) for editing questions and answers, feedbacks and hints
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
+assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Use plain text for questions and answers and ILIAS page editor for feedback and hints
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_question_feedback_edit_page#:#Edit Content
 assessment#:#tst_question_feedback_back_to_feedback_form#:#Back To Calling Question
 assessment#:#enable_examview#:#Overview of Answers Given
