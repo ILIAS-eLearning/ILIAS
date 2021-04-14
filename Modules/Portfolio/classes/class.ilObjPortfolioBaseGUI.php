@@ -792,9 +792,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     protected function showEditButton($page_id)
     {
-        if ($page_id == 0) {
-            return;
-        }
         $page_class = ($this->getType() == "prtt")
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
@@ -807,12 +804,14 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             );
         } else {
             if ($this->getType() != "prtt") {
-                $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
-                $this->ctrl->setParameterByClass("ilobjbloggui", "prt_id", (int) $_GET["prt_id"]);
-                $button = $this->ui->factory()->button()->standard(
-                    $this->lng->txt("edit"),
-                    $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
-                );
+                if ($page_id > 0) {
+                    $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
+                    $this->ctrl->setParameterByClass("ilobjbloggui", "prt_id", (int) $_GET["prt_id"]);
+                    $button = $this->ui->factory()->button()->standard(
+                        $this->lng->txt("edit"),
+                        $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
+                    );
+                }
             } else {    // portfolio template, blog page cannot be edited -> link to overview
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("edit"),
