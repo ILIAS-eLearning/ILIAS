@@ -180,8 +180,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     ```
     "globalcache" : {
         "service" : "apc",
-        "components" :
-		{
+        "components" : {
             "clng" : true,
             "comp" : true,
             "events" : true,
