@@ -16537,3 +16537,6 @@ content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
 obj#:#obj_fallback_lang#:#Standardsprache
 obj#:#obj_set_fallback_lang#:#Standardsprache setzen
 obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
+common#:#user_avatar#:#Profilbild
+common#:#current_user_avatar#:#Ihr Profilbild
+common#:#user_avatar_of#:#Profilbild von
