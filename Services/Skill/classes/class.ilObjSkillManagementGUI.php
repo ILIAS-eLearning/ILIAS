@@ -151,23 +151,23 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
             case 'ilskilltemplatecategorygui':
                 $this->tabs_gui->activateTab("skill_templates");
-                $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_obj_id, (int) $this->requested_tref_id);
+                $sctp_gui = new ilSkillTemplateCategoryGUI($this->requested_obj_id, $this->requested_tref_id);
                 $sctp_gui->setParentGUI($this);
-                $this->showTree(((int) $this->requested_tref_id == 0), $sctp_gui, "listItems");
+                $this->showTree(($this->requested_tref_id == 0), $sctp_gui, "listItems");
                 $ret = $this->ctrl->forwardCommand($sctp_gui);
                 break;
 
             case 'ilbasicskilltemplategui':
                 $this->tabs_gui->activateTab("skill_templates");
-                $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_obj_id, (int) $this->requested_tref_id);
+                $sktp_gui = new ilBasicSkillTemplateGUI($this->requested_obj_id, $this->requested_tref_id);
                 $sktp_gui->setParentGUI($this);
-                $this->showTree(((int) $this->requested_tref_id == 0), $sktp_gui, "edit");
+                $this->showTree(($this->requested_tref_id == 0), $sktp_gui, "edit");
                 $ret = $this->ctrl->forwardCommand($sktp_gui);
                 break;
 
             case 'ilskilltemplatereferencegui':
                 $this->tabs_gui->activateTab("skills");
-                $sktr_gui = new ilSkillTemplateReferenceGUI((int) $this->requested_tref_id);
+                $sktr_gui = new ilSkillTemplateReferenceGUI($this->requested_tref_id);
                 $sktr_gui->setParentGUI($this);
                 $this->showTree(false, $sktr_gui, "listItems");
                 $ret = $this->ctrl->forwardCommand($sktr_gui);

@@ -504,7 +504,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             $html .= $this->getSkillHTML($s["skill_node_id"], 0, true);
@@ -614,7 +614,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             reset($path);
@@ -1516,7 +1516,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             $html .= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
