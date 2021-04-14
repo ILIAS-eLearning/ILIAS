@@ -218,7 +218,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
     support caching,  (must be set too, if *service* is set)
-  * *memcached_nodes* (type: array of objects) if service equals `memcached` place your nodes here
+  * *memcached_nodes* (type: array of objects) if *service* equals `memcached` place your nodes here
 * **http** (type: object) configuration, e.g.:
     ```
     "http" : {
