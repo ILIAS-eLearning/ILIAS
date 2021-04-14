@@ -14,9 +14,6 @@ interface Combined extends Slate
 {
     /**
      * @param Slate|Bulky|Horizontal $entry
-     * @param string|null            $id
-     *
-     * @return Combined
      */
     public function withAdditionalEntry($entry, ?string $id = null) : Combined;
 }

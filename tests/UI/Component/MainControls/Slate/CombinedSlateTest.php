@@ -161,4 +161,34 @@ EOT;
             $this->brutallyTrimHTML($html)
         );
     }
+
+    public function testIdWithSubslate()
+    {
+        $identifier = 'test_identifier';
+        $name = 'name';
+        $icon = $this->icon_factory->custom('', '');
+        $subslate = new Combined($this->sig_gen, $name, $icon);
+        $slate = new Combined($this->sig_gen, $name, $icon);
+        $slate = $slate->withAdditionalEntry($subslate, $identifier);
+
+        $this->assertArrayHasKey($identifier, $slate->getContents());
+    }
+
+    public function testIdsWithSubslate()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Identifier test_identifier already exists in component name');
+
+        $identifier = 'test_identifier';
+        $name = 'name';
+        $name1 = 'name1';
+        $name2 = 'name2';
+        $icon = $this->icon_factory->custom('', '');
+        $subslate1 = new Combined($this->sig_gen, $name1, $icon);
+        $subslate2 = new Combined($this->sig_gen, $name2, $icon);
+        $slate = new Combined($this->sig_gen, $name, $icon);
+        $slate
+            ->withAdditionalEntry($subslate1, $identifier)
+            ->withAdditionalEntry($subslate2, $identifier);
+    }
 }
