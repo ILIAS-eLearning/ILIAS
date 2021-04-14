@@ -14132,6 +14132,14 @@ p#copg-auto-save {
   position: absolute;
   z-index: 10;
 }
+/*
+ this fixes the add drop down click behaviour for touch devices
+ see: https://github.com/twbs/bootstrap/issues/4550#issuecomment-31916049
+ and: https://mantis.ilias.de/view.php?id=29785
+ */
+#il_EditPage .dropdown-backdrop {
+  position: static;
+}
 #ed_datatable {
   background-color: white;
 }
