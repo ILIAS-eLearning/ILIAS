@@ -620,39 +620,6 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     }
 
     /**
-     * Select skill level trigger
-     */
-    public function selectLevelTrigger()
-    {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        $lng = $this->lng;
-        $tree = $this->tree;
-        $tpl = $this->tpl;
-
-        if (!$this->checkPermissionBool("write")) {
-            return;
-        }
-
-        $this->setLevelHead();
-        $ilTabs->activateTab("level_trigger");
-
-        $exp = new ilSearchRootSelector(
-            $ilCtrl->getLinkTarget($this, 'showRepositorySelection')
-        );
-        $exp->setExpand($_GET["search_root_expand"] ?: $tree->readRootId());
-        $exp->setExpandTarget($ilCtrl->getLinkTarget($this, 'selectLevelTrigger'));
-        $exp->setTargetClass(get_class($this));
-        $exp->setCmd('saveLevelTrigger');
-        $exp->setClickableTypes(array("crs"));
-
-        // build html-output
-        $exp->setOutput(0);
-        $tpl->setContent($exp->getOutput());
-    }
-
-
-    /**
      * Redirect to parent (identified by current obj_id)
      */
     public function redirectToParent($a_tmp_mode = false)

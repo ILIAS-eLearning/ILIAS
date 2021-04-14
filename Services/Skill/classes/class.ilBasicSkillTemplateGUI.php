@@ -157,14 +157,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
                     $ilCtrl->getLinkTarget($this, "showLevelResources")
                 );
             }
-
-            /*			$ilTabs->addTab("level_trigger",
-                            $lng->txt("skmg_trigger"),
-                            $ilCtrl->getLinkTarget($this, "editLevelTrigger"));
-
-                        $ilTabs->addTab("level_certificate",
-                            $lng->txt("certificate"),
-                            $ilCtrl->getLinkTargetByClass("ilcertificategui", "certificateEditor"));*/
         }
 
         // title
