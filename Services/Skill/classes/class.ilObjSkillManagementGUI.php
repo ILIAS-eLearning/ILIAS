@@ -278,7 +278,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         // Enable skill management
         $check_enable = $this->ui_fac->input()->field()->checkbox($lng->txt("skmg_enable_skmg"))
-            ->withValue((bool) $skmg_set->isActivated());
+            ->withValue($skmg_set->isActivated());
 
         // Hide Competence Profile Data before Self-Assessment
         $check_hide_prof = $this->ui_fac->input()->field()->checkbox(
@@ -326,10 +326,10 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             $form = $form->withRequest($this->request);
             $result = $form->getData();
 
-            $skmg_set->activate((int) $result["section_settings"]["check_enable"]);
-            $skmg_set->setHideProfileBeforeSelfEval((int) $result["section_settings"]["check_hide_prof"]);
-            $skmg_set->setLocalAssignmentOfProfiles((int) $result["section_settings"]["check_loc_ass_prof"]);
-            $skmg_set->setAllowLocalProfiles((int) $result["section_settings"]["check_create_loc_prof"]);
+            $skmg_set->activate($result["section_settings"]["check_enable"]);
+            $skmg_set->setHideProfileBeforeSelfEval($result["section_settings"]["check_hide_prof"]);
+            $skmg_set->setLocalAssignmentOfProfiles($result["section_settings"]["check_loc_ass_prof"]);
+            $skmg_set->setAllowLocalProfiles($result["section_settings"]["check_create_loc_prof"]);
 
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "editSettings");
