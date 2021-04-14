@@ -250,3 +250,8 @@ h2.current_room_title {
 #chat_users button .label {
 	vertical-align: middle !important;
 }
+
+.ilChatroomUser .dropdown-backdrop {
+	position: static;
+}
+
