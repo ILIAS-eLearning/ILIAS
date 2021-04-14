@@ -46,7 +46,7 @@ same installation a during the initial setup process.
 
 Do not discard the `config.json` you use for the installation, you will need it later
 on to update that installation. If you want to overwrite specific fields in the
-configuration file you can use the `--config="<path>="` option, even several
+configuration file you can use the `--config="<path>=<value>"` option, even several
 times. If you e.g. use `--config="database.password=XYZ"` the field `database.password`
 from the original config will be overwritten with `XYZ`. This allows to use one
 configuration for multiple setups and overwrite it from the CLI or even share
@@ -54,10 +54,10 @@ configs without secrets.
 
 The setup will also install plugins of the installation, unless the plugin explicitely
 defines that it cannot be installed via CLI setup. If you still want to skip a plugin
-for installation, use the skip-option: `php setup/setup.php install --skip  config.json`.
+for installation, use the skip-option: `php setup/setup.php install --skip <plugin name> config.json`.
 The option can be repeated to cover multiple plugins. If you want to skip plugins
 alltogether, use the `--no-plugins` option. If you only want to install a specific
-plugin, use `php setup/setup.php install config.json `.
+plugin, use `php setup/setup.php install config.json <plugin name>`.
 
 
 ## Update ILIAS
