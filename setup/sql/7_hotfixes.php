@@ -726,3 +726,7 @@ if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
     );
 }
 ?>
+<#37>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
