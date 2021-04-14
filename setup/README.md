@@ -217,7 +217,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *service* (type: string) to be used for caching. Either `none`, `static`, `xcache`, `memcached`
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
-    support caching,  (if set **service** must be set too)
+    support caching,  (must be set too, if `service`is set)
   * *memcached_nodes* (type: array of objects) if service equals `memcached` place your nodes here
 * **http** (type: object) configuration, e.g.:
     ```
@@ -401,8 +401,8 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *soap_user_administration* (type: boolean) enable administration per soap, defaults to `false`
   * *soap_wsdl_path* (type: string) path to the ilias wsdl file, default is `http:///webservice/soap/server.php?wsdl`
   * *soap_connect_timeout* (type: number) maximum time in seconds until a connection attempt to the SOAP-Webservice is interrupted, defaults to `10`
-  * *rpc_server_host* (type: string) Java-Server host (if set `rpc_server_port` must be set too)
-  * *rpc_server_port* (type: string or number) Java-Server port (if set `rpc_server_host` must be set too)
+  * *rpc_server_host* (type: string) Java-Server host (must be set too, if `rpc_server_port` is set)
+  * *rpc_server_port* (type: string or number) Java-Server port (must be set too, if `rpc_server_host` is set)
 * *chatroom* (type: object) see also [Chat Server Setup](/Modules/Chatroom/README.md), eg.:
     ```
 	"chatroom" : {
