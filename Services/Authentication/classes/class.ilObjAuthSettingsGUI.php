@@ -720,7 +720,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTableWidth('100%');
         $this->form->setTitle($this->lng->txt('auth_auth_settings'));
-        $this->form->addCommandButton('updateAuthModeDetermination', $this->lng->txt('save'));
+
+        if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->form->addCommandButton('updateAuthModeDetermination', $this->lng->txt('save'));
+        }
 
         require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
         $cap = new ilCheckboxInputGUI($this->lng->txt('adm_captcha_anonymous_short'), 'activate_captcha_anonym');
@@ -1261,7 +1264,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         $form->addItem($txt);
 
-        if ($this->dic->rbac()->system()->checkAccess('visible, read', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '',$this->ref_id)) {
             $form->addCommandButton('saveApacheSettings', $this->lng->txt('save'));
         }
         $form->addCommandButton('cancel', $this->lng->txt('cancel'));
