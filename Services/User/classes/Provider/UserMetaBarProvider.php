@@ -48,7 +48,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
         // "User"-Menu
         $item[] = $mb->topParentItem($id('user'))
             ->withSymbol($this->dic->user()->getAvatar())
-            ->withTitle($this->dic->language()->txt("personal_picture"))
+            ->withTitle($this->dic->language()->txt("info_view_of_user"))
             ->withPosition(4)
             ->withVisibilityCallable(
                 function () {
