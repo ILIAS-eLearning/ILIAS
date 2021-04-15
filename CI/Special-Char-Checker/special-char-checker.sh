@@ -10,15 +10,16 @@
 # which are usually used by old printers. Sometimes these hidden characters
 # like hidden spaces, tabs or newlines are added to the code accidentally.
 
+source CI/Import/Functions.sh
 
 # get the files from this PR to the last head
-GITFILES=$(git --no-pager diff --name-only FETCH_HEAD $(git merge-base FETCH_HEAD ${TRAVIS_BRANCH}))
+CHANGED_FILES=$(get_changed_files)
 
 echo "Scanning changed files for special chars ..."
 
 FILES=()
 COUNTER=0
-for PHPFILE in $GITFILES;
+for PHPFILE in $CHANGED_FILES;
 do
   FELONE="$(pwd)/$PHPFILE"
 

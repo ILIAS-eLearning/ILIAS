@@ -140,6 +140,15 @@ class ilBookingPreferencesManager
             }
         }
 
+        // remove all objects from the preferences
+        // that are already not available anymore
+        // see bug 30204 (a tutor booked an object already before and made it unavailable)
+        foreach ($availability as $book_obj_id => $cnt) {
+            if ($cnt == 0) {
+                $preferences = $this->removeObjectFromPreferences($book_obj_id, $preferences);
+            }
+        }
+
         $bookings = [];
 
         $end_phase_one = false;
@@ -176,7 +185,6 @@ class ilBookingPreferencesManager
                 $end_phase_two = true;
             }
         }
-
         return $bookings;
     }
 

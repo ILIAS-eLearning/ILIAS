@@ -12413,6 +12413,7 @@ body.mceContentBody {
 }
 body#tinymce {
   background-color: white;
+  overflow: initial;
 }
 .ilHidden {
   visibility: hidden;

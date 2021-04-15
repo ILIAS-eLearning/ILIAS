@@ -1,8 +1,10 @@
 name: checks
-on: [pull_request]
+on: [pull_request, push]
 jobs:
   tests:
     runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
     strategy:
       fail-fast: false
       matrix:
@@ -30,6 +32,10 @@ jobs:
 
       - name: PHP CS Fixer
         run: CI/PHP-CS-Fixer/run_check.sh
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
       - name: Special Char Checker
         run: CI/Special-Char-Checker/special-char-checker.sh
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}

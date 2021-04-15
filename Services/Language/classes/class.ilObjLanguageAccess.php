@@ -41,23 +41,15 @@ class ilObjLanguageAccess
         $ilUser = $DIC->user();
         $rbacsystem = $DIC->rbac()->system();
 
-        if (isset(self::$cached_check_translate)) {
-            return self::$cached_check_translate;
-        }
-
-        if (!$ilSetting->get("lang_translate_" . $lng->getLangKey())) {
-            self::$cached_check_translate = false;
+      	if (!$ilSetting->get("lang_translate_" . $lng->getLangKey())) {
+            return false;
         }
 
         if ($ilUser->getId()) {
             $ref_id = self::_lookupLangFolderRefId();
-            self::$cached_check_translate =  $rbacsystem->checkAccess("read,write", (int) $ref_id);
+            return $rbacsystem->checkAccess("read,write", (int) $ref_id);
         }
-        else {
-            self::$cached_check_translate = false;
-        }
-
-        return self::$cached_check_translate;
+        return false;
     }
 
 
