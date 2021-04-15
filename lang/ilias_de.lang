@@ -12141,7 +12141,7 @@ init#:#init_error_redirect_info#:#Weiterleitungen werden durch Kontext nicht unt
 init#:#init_error_maintenance#:#Der Server ist aufgrund von Wartungsarbeiten aktuell nicht verf&uuml;gbar. Wir bitten um Verst&auml;ndnis. Versuchen Sie es sp&auml;ter noch einmal.
 init#:#init_error_authentication_fail#:#Authentifizierung fehlgeschlagen.
 obj#:#obj_select_master_lang#:#Bitte wählen Sie die Standardsprache aus. Bestehende Inhalte werden dieser Sprache zugeordnet. Die Standardsprache kann anschließend nicht geändert werden.
-obj#:#obj_master_lang#:#Standardsprache
+obj#:#obj_master_lang#:#Basissprache
 obj#:#obj_additional_langs#:#Zusätzliche Sprachen
 obj#:#obj_deactivate_content_lang#:#Mehrsprachigkeit für Seiteneditor deaktivieren.
 obj#:#obj_multilinguality#:#Mehrsprachigkeit
@@ -13321,13 +13321,13 @@ content#:#cont_upload_multi_srt_howto#:#Erlaubt das Hochladen mehrerer Untertite
 content#:#cont_moved_srt_files#:#Die Untertitel-Dateien wurden den Medienobjekten zugeordnet.
 content#:#cont_subtitle_file#:#SRT-ZIP-Datei
 content#:#cont_multi_srt_files#:#SRT-Dateien
-content#:#cont_master_language_only#:#Hauptsprache für Übersetzung - Master
+content#:#cont_master_language_only#:#Basissprache für Übersetzung - Master
 content#:#cont_import#:#Import
-content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+content#:#cont_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 content#:#cont_import_trans#:#Übersetzung importieren
 content#:#cont_import_lang#:#Zielsprache
-mep#:#mep_master_language_only#:#Hauptsprache für Übersetzung - Master
-mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Hauptsprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
+mep#:#mep_master_language_only#:#Basissprache für Übersetzung - Master
+mep#:#mep_trans_import_info#:#Wenn Sie dieses Modul als "XML (Basissprache für Übersetzung - Master)" in eine andere Installation exportiert haben, können Sie hier die übersetzten Export-Dateien dieser Installation wieder importieren.
 mep#:#mep_import_trans#:#Übersetzung importieren
 mep#:#mep_import_lang#:#Zielsprache
 content#:#cont_snippet_from_another_installation#:#Inhaltsbaustein stammt von einer anderen ILIAS-Installation.
@@ -14658,8 +14658,8 @@ prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
-mep#:#mep_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
-content#:#cont_master_language_only_no_media#:#Hauptsprache für Übersetzung - ohne Medienobjekte
+mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
+content#:#cont_master_language_only_no_media#:#Basissprache für Übersetzung - ohne Medienobjekte
 mep#:#mep_content#:#Medienobjekte
 mep#:#mep_media_subtitles#:#Untertitel
 content#:#cont_last_visited_page#:#Zuletzt besuchte Seite
@@ -16537,3 +16537,6 @@ content#:#cont_Numbers#:#Zahlen
 content#:#cont_Verse#:#Lyrik/Strophe
 content#:#cont_choose_from_clipboard#:#Aus Medien-Clipboard
 content#:#cont_open_clipboard#:#Medien-Clipboard öffnen
+obj#:#obj_fallback_lang#:#Standardsprache
+obj#:#obj_set_fallback_lang#:#Standardsprache setzen
+obj#:#obj_select_one_language#:#Bitte genau eine Sprache auswählen
