@@ -14575,6 +14575,9 @@ td.chatroom {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+.ilChatroomUser .dropdown-backdrop {
+  position: static;
+}
 .ilChatroomUser .media {
   padding: 0;
 }
