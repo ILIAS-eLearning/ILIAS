@@ -220,9 +220,4 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return 'view';
     }
-
-    public function getTextDirection() : string
-    {
-        return $this->lang->getTextDirection();
-    }
 }

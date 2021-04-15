@@ -57,6 +57,4 @@ interface PagePartProvider
     public function getShortTitle() : string;
 
     public function getViewTitle() : string;
-
-    public function getTextDirection() : string;
 }
