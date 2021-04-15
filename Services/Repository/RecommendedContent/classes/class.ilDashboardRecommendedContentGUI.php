@@ -138,7 +138,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData($ref_id) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData($ref_id) : ?\ILIAS\UI\Component\Item\Item
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

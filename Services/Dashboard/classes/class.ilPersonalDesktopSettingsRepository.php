@@ -1,12 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
  * Personal desktop settings repo
  *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPersonalDesktopSettingsRepository
 {
@@ -29,7 +28,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifNotesEnabled()
+    protected function ifNotesEnabled() : bool
     {
         return (bool) !$this->settings->get("disable_notes");
     }
@@ -39,7 +38,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableNotes(bool $active = true)
+    protected function enableNotes(bool $active = true) : void
     {
         $this->settings->set("disable_notes", (int) !$active);
     }
@@ -49,7 +48,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifCommentsEnabled()
+    protected function ifCommentsEnabled() : bool
     {
         return (bool) !$this->settings->get("disable_comments");
     }
@@ -59,7 +58,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableComments(bool $active = true)
+    protected function enableComments(bool $active = true) : void
     {
         $this->settings->set("disable_comments", (int) !$active);
     }
@@ -69,7 +68,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifAuthorsCanDelete()
+    protected function ifAuthorsCanDelete() : bool
     {
         return (bool) $this->settings->get("comments_del_user", 0);
     }
@@ -79,7 +78,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableAuthorsCanDelete(bool $active = true)
+    protected function enableAuthorsCanDelete(bool $active = true) : void
     {
         $this->settings->set("comments_del_user", (int) $active);
     }
@@ -89,7 +88,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifTutorsCanDelete()
+    protected function ifTutorsCanDelete() : bool
     {
         return (bool) $this->settings->get("comments_del_tutor", 1);
     }
@@ -99,7 +98,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableTutorsCanDelete(bool $active = true)
+    protected function enableTutorsCanDelete(bool $active = true) : void
     {
         $this->settings->set("comments_del_tutor", (int) $active);
     }
@@ -109,7 +108,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function getCommentsNotificationRecipients()
+    protected function getCommentsNotificationRecipients() : string
     {
         return (string) $this->settings->get("comments_noti_recip");
     }
@@ -129,7 +128,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifLearningHistoryEnabled()
+    protected function ifLearningHistoryEnabled() : bool
     {
         return (bool) $this->settings->get("enable_learning_history");
     }
@@ -139,7 +138,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableLearningHistory(bool $active = true)
+    protected function enableLearningHistory(bool $active = true) : void
     {
         $this->settings->set("enable_learning_history", (int) $active);
     }
@@ -149,7 +148,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifChatViewerEnabled()
+    protected function ifChatViewerEnabled() : bool
     {
         return (bool) $this->settings->get("block_activated_chatviewer");
     }
@@ -159,7 +158,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableChatViewer(bool $active = true)
+    protected function enableChatViewer(bool $active = true) : void
     {
         $this->settings->set("block_activated_chatviewer", (int) $active);
     }
@@ -169,7 +168,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return int
      */
-    protected function getSystemMessagePresentation()
+    protected function getSystemMessagePresentation() : int
     {
         return (int) $this->settings->get("pd_sys_msg_mode");
     }
@@ -179,7 +178,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param int $mode
      */
-    protected function updateSystemMessagePresentation(int $mode)
+    protected function updateSystemMessagePresentation(int $mode) : void
     {
         $this->settings->set("pd_sys_msg_mode", $mode);
     }
@@ -189,7 +188,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifForumDrafts()
+    protected function ifForumDrafts() : bool
     {
         return (bool) $this->settings->get('block_activated_pdfrmpostdraft', 0);
     }
@@ -199,7 +198,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableForumDrafts(bool $active = true)
+    protected function enableForumDrafts(bool $active = true) : void
     {
         $this->settings->set("block_activated_pdfrmpostdraft", (int) $active);
     }
@@ -209,7 +208,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @return bool
      */
-    protected function ifMoveBlocks()
+    protected function ifMoveBlocks() : bool
     {
         return (bool) $this->settings->get('enable_block_moving', 0);
     }
@@ -219,7 +218,7 @@ class ilPersonalDesktopSettingsRepository
      *
      * @param bool $active
      */
-    protected function enableMoveBlocks(bool $active = true)
+    protected function enableMoveBlocks(bool $active = true) : void
     {
         $this->settings->set("enable_block_moving", (int) $active);
     }

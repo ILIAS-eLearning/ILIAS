@@ -982,7 +982,7 @@ abstract class ilBlockGUI
      * @param array $data
      * @return null|\ILIAS\UI\Component\Item\Item
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         return null;
     }
@@ -1281,9 +1281,6 @@ abstract class ilBlockGUI
                 $html . '</div>';
         }
 
-        //$this->new_rendering = false;
-        //$html.= $this->getHTML();
-
         return $html;
     }
 
@@ -1292,7 +1289,7 @@ abstract class ilBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("no_items");
     }

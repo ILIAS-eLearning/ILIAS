@@ -957,7 +957,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
         if (isset($data["shy_button"])) {
@@ -971,7 +971,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
      * No item entry
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("cal_no_events_block");
     }

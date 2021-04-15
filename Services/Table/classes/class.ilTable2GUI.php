@@ -122,6 +122,10 @@ class ilTable2GUI extends ilTableGUI
 
     const ACTION_ALL_LIMIT = 1000;
 
+    /**
+     * @var string
+     */
+    protected $id;
 
     /**
      * ilTable2GUI constructor.

@@ -3831,7 +3831,7 @@ class ilObjectListGUI
      * @param string $type
      * @param string $title
      * @param string $description
-     * @return \ILIAS\UI\Component\Card\Card|null
+     * @return \ILIAS\UI\Component\Card\RepositoryObject|null
      */
     public function getAsCard(
         int $ref_id,
@@ -3839,7 +3839,7 @@ class ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?\ILIAS\UI\Component\Card\Card {
+    ) : ?\ILIAS\UI\Component\Card\RepositoryObject {
         $ui = $this->ui;
 
         $this->initItem(
