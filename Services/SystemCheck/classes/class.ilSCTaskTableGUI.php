@@ -13,6 +13,11 @@ class ilSCTaskTableGUI extends ilTable2GUI
 {
     private $group_id = 0;
     private $component_task_handler = null;
+
+    /**
+     * @var ilAccess
+     */
+    private $access;
     
     /**
      * Constructor
@@ -21,8 +26,10 @@ class ilSCTaskTableGUI extends ilTable2GUI
      */
     public function __construct($a_group_id, $a_parent_obj, $a_parent_cmd = "")
     {
+        global $DIC;
         $this->group_id = $a_group_id;
         $this->setId('sc_groups');
+        $this->access = $DIC->access();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
@@ -89,29 +96,31 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_LAST_UPDATE', $row['last_update']);
         
         // Actions
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-        $list = new ilAdvancedSelectionListGUI();
-        $list->setSelectionHeaderClass('small');
-        $list->setItemLinkClass('small');
-        $list->setId('sysc_' . $row['id']);
-        $list->setListTitle($this->lng->txt('actions'));
-        
-        include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
-        $task_handler = ilSCComponentTaskFactory::getComponentTask($row['id']);
-        
-        $GLOBALS['DIC']['ilCtrl']->setParameterByClass(get_class($task_handler), 'task_id', $row['id']);
-        foreach ((array) $task_handler->getActions() as $actions) {
-            $list->addItem(
-                $actions['txt'],
-                '',
-                $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass(
-                    get_class($task_handler),
-                    $actions['command']
-                    )
-            );
+        if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
+            include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+            $list = new ilAdvancedSelectionListGUI();
+            $list->setSelectionHeaderClass('small');
+            $list->setItemLinkClass('small');
+            $list->setId('sysc_' . $row['id']);
+            $list->setListTitle($this->lng->txt('actions'));
+
+            include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+            $task_handler = ilSCComponentTaskFactory::getComponentTask($row['id']);
+
+            $GLOBALS['DIC']['ilCtrl']->setParameterByClass(get_class($task_handler), 'task_id', $row['id']);
+            foreach ((array) $task_handler->getActions() as $actions) {
+                $list->addItem(
+                    $actions['txt'],
+                    '',
+                    $GLOBALS['DIC']['ilCtrl']->getLinkTargetByClass(
+                        get_class($task_handler),
+                        $actions['command']
+                        )
+                );
+            }
+
+            $this->tpl->setVariable('ACTIONS', $list->getHTML());
         }
-        
-        $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
 
 
