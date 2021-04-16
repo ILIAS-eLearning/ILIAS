@@ -163,7 +163,9 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
 
-        $this->determineOffsetAndOrder();
+        $this->determineOffsetAndOrder(true);
+		$this->determineLimit();
+		
         $ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
@@ -191,12 +193,12 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 $tr_data = $ilSCORM2004TrackingItems->exportSelectedSuccess($this->userSelected, $this->allowExportPrivacy, $this->getObjId(), $this->lmTitle);
             break;
         }
-        $this->setMaxCount($tr_data["cnt"]);
+        // $this->setMaxCount($tr_data["cnt"]);
         if (ilUtil::stripSlashes($this->getOrderField()) != "") {
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
         }
-
+		
         $this->setData($tr_data);
     }
     protected function parseValue($id, $value, $type)
