@@ -13,5 +13,6 @@ function headline()
     $progressmeter = $f->chart()->progressMeter()->mini(100, 75);
 
     // render
-    return '<h3>Your Progress: <div style="display: inline-block;">' . $renderer->render($progressmeter) . '</div></h3>';
+    return '<h3 style="display: inline-block;">Your Progress: </h3><div style="display: inline-block; padding-left: 20px">' .
+        $renderer->render($progressmeter) . '</div>';
 }
