@@ -269,7 +269,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h3>Title</h3>
+		<h4>Title</h4>
 	</div>
 	<div class="panel-body">
 		<div class="row">
