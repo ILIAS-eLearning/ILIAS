@@ -246,7 +246,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         if (is_array($results["file"])) {
             foreach ($results["file"] as $key => $value) {
                 $e = $fo_ext->addChild("fox:embedded-file", "", "http://xml.apache.org/fop/extensions");
-                $e->addAttribute("src", $results[path][$key] . $value);
+                $e->addAttribute("src", $results['path'][$key] . $value);
                 $e->addAttribute("name", $value);
                 $e->addAttribute("desc", "");
             }

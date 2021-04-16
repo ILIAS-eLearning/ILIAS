@@ -513,7 +513,7 @@ class ilMathJax
                     break;
 
                 case self::RENDER_PNG_AS_FO_FILE:
-                    $html = '<fo:external-graphic src="url(' . realpath($file) . ')"'
+                    $html = '<fo:external-graphic src="' . realpath($file) . '"'
                         . ' content-height="' . $height . 'px" content-width="' . $width . 'px"></fo:external-graphic>';
                     break;
 
