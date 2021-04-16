@@ -30,6 +30,16 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
     protected $skill;
 
     /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $requested_level_id;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id)
@@ -38,12 +48,16 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
+        $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
         $parts = explode(":", $a_cskill_id);
         $this->skill_id = (int) $parts[0];
         $this->tref_id = (int) $parts[1];
+
+        $params = $this->request->getQueryParams();
+        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
 
         $this->skill = new ilBasicSkill($this->skill_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -73,7 +87,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
             $this->parent_obj,
             "assignLevelToProfile"
         ));
-        $ilCtrl->setParameter($this->parent_obj, "level_id", $_GET["level_id"]);
+        $ilCtrl->setParameter($this->parent_obj, "level_id", $this->requested_level_id);
         $this->tpl->parseCurrentBlock();
         
         $this->tpl->setVariable("TITLE", $a_set["title"]);

@@ -20,6 +20,21 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     protected $ctrl;
 
     /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $requested_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_tref_id;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
@@ -28,7 +43,12 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->request = $DIC->http()->request();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
+
+        $params = $this->request->getQueryParams();
+        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
 
         // node should be hidden #26849 (not not hidden, see discussion in #26813 and JF 6 Jan 2020)
         $this->setSkipRootNode(false);
@@ -128,12 +148,12 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
             $skill_id = $id_parts[1];
         }
 
-        if ($_GET["obj_id"] == "" && $a_node["type"] == "skrt") {
+        if ($this->requested_obj_id == "" && $a_node["type"] == "skrt") {
             return true;
         }
         
-        if ($skill_id == $_GET["obj_id"] &&
-            ($_GET["tref_id"] == $tref_id)) {
+        if ($skill_id == $this->requested_obj_id &&
+            ($this->requested_tref_id == $tref_id)) {
             return true;
         }
         return false;
@@ -184,8 +204,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
         $ilCtrl->setParameterByClass($gui_class, "obj_id", $skill_id);
         $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI", $gui_class], $cmd);
-        $ilCtrl->setParameterByClass($gui_class, "obj_id", $_GET["obj_id"]);
-        $ilCtrl->setParameterByClass($gui_class, "tref_id", $_GET["tref_id"]);
+        $ilCtrl->setParameterByClass($gui_class, "obj_id", $this->requested_obj_id);
+        $ilCtrl->setParameterByClass($gui_class, "tref_id", $this->requested_tref_id);
 
         return $ret;
     }

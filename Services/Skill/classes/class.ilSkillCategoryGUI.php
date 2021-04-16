@@ -129,7 +129,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameterByClass(
             "ilskillrootgui",
             "obj_id",
-            $_GET["obj_id"]
+            $this->requested_obj_id
         );
 
              
@@ -221,7 +221,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -239,11 +239,11 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
+        $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->setStatus($_POST["status"]);
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
     }
 
     /**
@@ -317,7 +317,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listItems",
-            (int) $_GET["obj_id"],
+            $this->requested_obj_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         
@@ -335,12 +335,15 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $lng = $DIC->language();
         $ilToolbar = $DIC->toolbar();
         $ilUser = $DIC->user();
+        $params = $DIC->http()->request()->getQueryParams();
+
+        $requested_obj_id = (int) ($params["obj_id"] ?? 0);
 
         // skill
         $ilCtrl->setParameterByClass(
             "ilbasicskillgui",
             "obj_id",
-            (int) $_GET["obj_id"]
+            $requested_obj_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skll"),
@@ -351,7 +354,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameterByClass(
             "ilskillcategorygui",
             "obj_id",
-            (int) $_GET["obj_id"]
+            $requested_obj_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_category"),
@@ -362,7 +365,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilCtrl->setParameterByClass(
             "ilskilltemplatereferencegui",
             "obj_id",
-            (int) $_GET["obj_id"]
+            $requested_obj_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_template_reference"),
@@ -430,11 +433,11 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
+        $t = ilSkillTreeNode::_lookupType($this->requested_obj_id);
 
         switch ($t) {
             case "skrt":
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $this->requested_obj_id);
                 $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
                 break;
         }

@@ -64,13 +64,27 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected $requested_tref_id;
 
     /**
+     * @var bool
+     */
+    protected $requested_templates_tree;
+
+    /**
+     * @var string
+     */
+    protected $requested_skexpand;
+
+    /**
+     * @var int
+     */
+    protected $requested_tmpmode;
+
+    /**
      * Contructor
      *
      * @access public
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -99,9 +113,12 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $ilCtrl->saveParameter($this, "obj_id");
 
-        $params = $DIC->http()->request()->getQueryParams();
+        $params = $this->request->getQueryParams();
         $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
         $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
+        $this->requested_templates_tree = (bool) ($params["templates_tree"] ?? false);
+        $this->requested_skexpand = (string) ($params["skexpand"] ?? "");
+        $this->requested_tmpmode = (int) ($params["tmpmode"] ?? 0);
     }
 
     /**
@@ -199,7 +216,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
                 }
                 
                 if ($cmd == "showTree") {
-                    $this->showTree($_GET["templates_tree"]);
+                    $this->showTree($this->requested_templates_tree);
                 } else {
                     $this->$cmd();
                 }
@@ -407,7 +424,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
      */
     public function expandAll($a_redirect = true)
     {
-        $_GET["skexpand"] = "";
+        $this->requested_skexpand = "";
         $n_id = ($this->requested_obj_id > 0)
             ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
@@ -425,7 +442,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     */
     public function collapseAll($a_redirect = true)
     {
-        $_GET["skexpand"] = "";
+        $this->requested_skexpand = "";
         $n_id = ($this->requested_obj_id > 0)
             ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
@@ -516,7 +533,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $confirmation_gui = new ilConfirmationGUI();
 
-        $ilCtrl->setParameter($a_gui, "tmpmode", $_GET["tmpmode"]);
+        $ilCtrl->setParameter($a_gui, "tmpmode", $this->requested_tmpmode);
         $a_form_action = $this->ctrl->getFormAction($a_gui);
         $confirmation_gui->setFormAction($a_form_action);
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));

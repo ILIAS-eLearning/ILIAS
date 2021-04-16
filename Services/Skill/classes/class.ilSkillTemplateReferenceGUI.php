@@ -260,10 +260,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $sktr->setDescription($_POST["description"]);
         $sktr->setSkillTemplateId($_POST["skill_template_id"]);
         $sktr->setSelfEvaluation($_POST["selectable"]);
-        $sktr->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
+        $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $sktr->setStatus($_POST["status"]);
         $sktr->create();
-        ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $sktr;
     }
 

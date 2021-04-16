@@ -103,7 +103,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ni->setRequired(true);
         if ($a_mode == "create") {
             $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
+            $max = $tree->getMaxOrderNr($this->requested_obj_id, true);
             $ni->setValue($max + 10);
         }
         $this->form->addItem($ni);
@@ -120,7 +120,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -143,7 +143,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             $ilCtrl->getLinkTarget($this, "edit")
         );
 
-        if ($_GET["level_id"] > 0) {
+        if ($this->requested_level_id > 0) {
             if ($this->tref_id == 0) {
                 $ilTabs->addTab(
                     "level_settings",
@@ -160,9 +160,9 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         }
 
         // title
-        if ($_GET["level_id"] > 0) {
+        if ($this->requested_level_id > 0) {
             $tpl->setTitle($lng->txt("skmg_skill_level") . ": " .
-                ilBasicSkill::lookupLevelTitle((int) $_GET["level_id"]));
+                ilBasicSkill::lookupLevelTitle($this->requested_level_id));
         } else {
             $tpl->setTitle($lng->txt("skmg_skill_level"));
         }
@@ -272,7 +272,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
     }
     
@@ -314,7 +314,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
 
-        $table = new ilSkillLevelTableGUI((int) $_GET["obj_id"], $this, "edit", $this->tref_id, $this->isInUse());
+        $table = new ilSkillLevelTableGUI($this->requested_obj_id, $this, "edit", $this->tref_id, $this->isInUse());
         $tpl->setContent($table->getHTML());
     }
 

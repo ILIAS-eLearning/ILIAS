@@ -109,7 +109,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listTemplates",
-            (int) $_GET["obj_id"],
+            $this->requested_obj_id,
             ilSkillCatTableGUI::MODE_SCTP
         );
         
@@ -143,7 +143,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
-            (int) $_GET["obj_id"],
+            $this->requested_obj_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         
@@ -157,7 +157,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["tmpmode"]) {
+        if ($this->requested_tmpmode) {
             $ilCtrl->redirect($this, "listTemplates");
         } else {
             $ilCtrl->redirect($this, "listSkills");
