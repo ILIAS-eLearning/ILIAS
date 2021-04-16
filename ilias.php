@@ -15,7 +15,10 @@
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-global $ilCtrl, $ilBench;
+/**
+ * @var $DIC \ILIAS\DI\Container
+ */
+global $DIC, $ilBench;
 
-$ilCtrl->callBaseClass();
+$DIC->ctrl()->callBaseClass();
 $ilBench->save();
