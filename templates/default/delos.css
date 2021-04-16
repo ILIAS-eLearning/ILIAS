@@ -6984,10 +6984,10 @@ button.close {
   order: 1;
 }
 .panel-flex .il-viewcontrol-sortation {
-  flex-grow: 1;
   flex-shrink: 1;
   order: 2;
   margin-right: 8px;
+  margin-left: auto;
 }
 .panel-flex .panel-heading .dropdown {
   flex-shrink: 1;
