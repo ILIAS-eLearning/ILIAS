@@ -7447,6 +7447,7 @@ fieldset[disabled] .btn.btn-tag.active {
   background-color: white;
   color: #434343;
   cursor: default;
+  pointer-events: none;
 }
 button > .glyphicon {
   pointer-events: none;
@@ -7804,12 +7805,6 @@ ul.dropdown-menu > li > .btn:focus {
     margin: 0;
     border-bottom: 0;
   }
-}
-.il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color: #557196;
-  color: white;
-  border-color: transparent;
 }
 .il-viewcontrol-sortation .dropdown-toggle .caret {
   border: none;
