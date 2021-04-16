@@ -1606,7 +1606,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             case "exportScorm2004_3rd":
             case "exportScorm2004_4th":
             case "exportPDF":
-            case "exportISO":
             case "exportHTML":
             case "exportHTMLOne":
                 $this->ctrl->redirect($this, $_POST['select_export']);
@@ -2736,19 +2735,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->ctrl->redirect($this, "showExportList");
     }
 
-    public function exportISO()
-    {
-        $ilErr = $this->error;
-
-        $export = new ilScorm2004Export($this->object, 'ISO');
-        if (!$export->buildExportFile()) {
-            if (!PATH_TO_MKISOFS) {
-                $ilErr->raiseError($this->lng->txt("no_mkisofs_configured"), $ilErr->MESSAGE);
-            }
-        }
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
     public function exportPDF()
     {
         $export = new ilScorm2004Export($this->object, 'PDF');
@@ -2758,7 +2744,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     
     public function downloadExportFile()
     {
-        $export = new ilSCORM2004Export($this->object);
+        $export = new ilScorm2004Export($this->object);
 
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
         ilUtil::deliverFile($export_dir . "/" . $_GET['file'], $_GET['file']);
@@ -2809,7 +2795,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     */
     public function deleteExportFile()
     {
-        $export = new ilSCORM2004Export($this->object);
+        $export = new ilScorm2004Export($this->object);
         foreach ($_POST['file'] as $idx => $file) {
             $export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
             $exp_file = $export_dir . "/" . $file;
@@ -2835,7 +2821,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
         }
 
-        $export = new ilSCORM2004Export($this->object);
+        $export = new ilScorm2004Export($this->object);
         $file = $_POST['file'][0];
         $type = $_POST['type'][$_POST['file'][0]];
 

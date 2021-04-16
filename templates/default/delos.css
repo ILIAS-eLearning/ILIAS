@@ -5992,6 +5992,24 @@ button.close {
   -webkit-appearance: none;
   appearance: none;
 }
+.breadcrumb {
+  padding: 0 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: transparent;
+  border-radius: 0px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > li + li:before {
+  padding: 0 5px;
+  color: #4c6586;
+  content: " \e606\00a0";
+}
+.breadcrumb > .active {
+  color: #3a4c65;
+}
 .modal-open {
   overflow: hidden;
 }
@@ -7839,24 +7857,6 @@ ul.dropdown-menu > li > .btn:focus {
   color: #757575;
   padding: 8px 10px;
   font-family: "il-icons";
-}
-.breadcrumb {
-  padding: 0 15px;
-  margin-bottom: 20px;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0px;
-}
-.breadcrumb > li {
-  display: inline-block;
-}
-.breadcrumb > li + li:before {
-  padding: 0 5px;
-  color: #4c6586;
-  content: " \e606\00a0";
-}
-.breadcrumb > .active {
-  color: #3a4c65;
 }
 /* Breadcrumb */
 .breadcrumb {
@@ -14124,6 +14124,14 @@ p#copg-auto-save {
   position: absolute;
   z-index: 10;
 }
+/*
+ this fixes the add drop down click behaviour for touch devices
+ see: https://github.com/twbs/bootstrap/issues/4550#issuecomment-31916049
+ and: https://mantis.ilias.de/view.php?id=29785
+ */
+#il_EditPage .dropdown-backdrop {
+  position: static;
+}
 #ed_datatable {
   background-color: white;
 }
@@ -16218,6 +16226,9 @@ td.chatroom {
   float: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.ilChatroomUser .dropdown-backdrop {
+  position: static;
 }
 .ilChatroomUser .media {
   padding: 0;

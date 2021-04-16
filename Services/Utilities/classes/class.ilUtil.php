@@ -200,69 +200,6 @@ class ilUtil
     }
 
     /**
-    * get full javascript file name (path inclusive) of current user
-    *
-    * @param $a_js_name string The name of the js file
-    * @param $a_js_location string The location of the js file e.g. a module path
-    * @param $add_version boolean Add version information to the filename
-    * @access	public
-    * @static
-    *
-    */
-    public static function getJSLocation($a_js_name, $a_js_location = "", $add_version = false)
-    {
-        global $DIC;
-
-        $ilSetting = $DIC->settings();
-
-        // add version as parameter to force reload for new releases
-        $js_name = $a_js_name;
-        if (strlen($a_js_location) && (strcmp(substr($a_js_location, -1), "/") != 0)) {
-            $a_js_location = $a_js_location . "/";
-        }
-
-        $filename = "";
-        // use ilStyleDefinition instead of account to get the current skin
-        if (ilStyleDefinition::getCurrentSkin() != "default") {
-            $filename = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . $a_js_location . $js_name;
-        }
-        if (strlen($filename) == 0 || !file_exists($filename)) {
-            $filename = "./" . $a_js_location . "templates/default/" . $js_name;
-        }
-        $vers = "";
-        if ($add_version) {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
-            $vers = "?vers=" . str_replace(".", "-", $vers);
-        }
-        return $filename . $vers;
-    }
-
-    /**
-    * Get p3p file path. (Not in use yet, see class.ilTemplate.php->show())
-    *
-    * @access	public
-    * @static
-    *
-    */
-    public static function getP3PLocation()
-    {
-        if (defined("ILIAS_MODULE")) {
-            $base = '';
-            for ($i = 0;$i < count(explode('/', ILIAS_MODULE));$i++) {
-                $base .= "../Services/Privacy/";
-            }
-        } else {
-            $base = "./Services/Privacy/";
-        }
-
-        if (is_file($base . "w3c/p3p.xml")) {
-            return ILIAS_HTTP_PATH . "w3c/p3p.xml";
-        } else {
-            return ILIAS_HTTP_PATH . "/w3c/p3p_template.xml";
-        }
-    }
-
-    /**
     * get full style sheet file name (path inclusive) of current user
     *
     * @access	public
@@ -396,20 +333,6 @@ class ilUtil
 
     /**
     * ???
-    *
-    * @access	public
-    * @param string
-    * @param string
-    * @static
-    *
-    */
-    public static function getSelectName($selected, $values)
-    {
-        return($values[$selected]);
-    }
-
-    /**
-    * ???
     * @access	public
     * @param	string
     * @param	string
@@ -452,35 +375,6 @@ class ilUtil
 
         return $str;
     }
-
-    /**
-     * ???
-     * @accesspublic
-     * @paramstring
-     * @paramstring
-     * @paramstring
-     * @param        string
-     * @returnstring
-     * @static
-     *
-     */
-    public static function formDisabledRadioButton($checked, $varname, $value, $disabled)
-    {
-        if ($disabled) {
-            $str = "<input disabled type=\"radio\" name=\"" . $varname . "\"";
-        } else {
-            $str = "<input type=\"radio\" name=\"" . $varname . "\"";
-        }
-        if ($checked == 1) {
-            $str .= " checked=\"checked\"";
-        }
-
-        $str .= " value=\"" . $value . "\"";
-        $str .= " id=\"" . $value . "\" />\n";
-
-        return $str;
-    }
-
 
     /**
     * ???
@@ -542,45 +436,14 @@ class ilUtil
 
 
     /**
-    * ???
-    * @param string
-    * @static
-    *
-    */
-    public static function checkInput($vars)
-    {
-        // TO DO:
-        // Diese Funktion soll Formfeldeingaben berprfen (empty und required)
-    }
-
-    /**
-    * ???
-    * @access	public
-    * @param	string
-    * @static
-    */
-    public static function setPathStr($a_path)
-    {
-        if ("" != $a_path && "/" != substr($a_path, -1)) {
-            $a_path .= "/";
-            //$a_path = substr($a_path,1);
-        }
-
-        //return getcwd().$a_path;
-        return $a_path;
-    }
-
-    /**
     * switches style sheets for each even $a_num
     * (used for changing colors of different result rows)
     *
-    * @access	public
     * @param	integer	$a_num	the counter
     * @param	string	$a_css1	name of stylesheet 1
     * @param	string	$a_css2	name of stylesheet 2
     * @return	string	$a_css1 or $a_css2
-    * @static
-    *
+    * @deprecated
     */
     public static function switchColor($a_num, $a_css1, $a_css2)
     {
@@ -591,137 +454,6 @@ class ilUtil
         }
     }
 
-    /**
-    * ???
-    * @access	public
-    * @param	array
-    * @return	string
-    * @static
-    *
-    */
-    public static function checkFormEmpty($emptyFields)
-    {
-        $feedback = "";
-
-        foreach ($emptyFields as $key => $val) {
-            if ($val == "") {
-                if ($feedback != "") {
-                    $feedback .= ", ";
-                }
-                $feedback .= $key;
-            }
-        }
-
-        return $feedback;
-    }
-
-    /**
-    * Linkbar
-    * Diese Funktion erzeugt einen typischen Navigationsbalken mit
-    * "Previous"- und "Next"-Links und den entsprechenden Seitenzahlen
-    *
-    * die komplette LinkBar wird zur?ckgegeben
-    * der Variablenname f?r den offset ist "offset"
-    *
-    * @author Sascha Hofmann <shofmann@databay.de>
-    *
-    * @access	public
-    * @param	integer	Name der Skriptdatei (z.B. test.php)
-    * @param	integer	Anzahl der Elemente insgesamt
-    * @param	integer	Anzahl der Elemente pro Seite
-    * @param	integer	Das aktuelle erste Element in der Liste
-    * @param	array	Die zu ?bergebenen Parameter in der Form $AParams["Varname"] = "Varwert" (optional)
-    * @param	array	layout options (all optional)
-    * 					link	=> css name for <a>-tag
-    * 					prev	=> value for 'previous page' (default: '<<')
-    * 					next	=> value for 'next page' (default: '>>')
-    * @return	array	linkbar or false on error
-    * @static
-    *
-    */
-    public static function Linkbar($AScript, $AHits, $ALimit, $AOffset, $AParams = array(), $ALayout = array(), $prefix = '')
-    {
-        $LinkBar = "";
-
-        $layout_link = "";
-        $layout_prev = "&lt;&lt;";
-        $layout_next = "&gt;&gt;";
-
-        // layout options
-        if ((is_array($ALayout) && (count($ALayout) > 0))) {
-            if ($ALayout["link"]) {
-                $layout_link = " class=\"" . $ALayout["link"] . "\"";
-            }
-
-            if ($ALayout["prev"]) {
-                $layout_prev = $ALayout["prev"];
-            }
-
-            if ($ALayout["next"]) {
-                $layout_next = $ALayout["next"];
-            }
-        }
-
-        // show links, if hits greater limit
-        // or offset > 0 (can be > 0 due to former setting)
-        if ($AHits > $ALimit || $AOffset > 0) {
-            if (!empty($AParams)) {
-                foreach ($AParams as $key => $value) {
-                    $params .= $key . "=" . $value . "&";
-                }
-            }
-            // if ($params) $params = substr($params,0,-1);
-            if (strpos($AScript, '&')) {
-                $link = $AScript . "&" . $params . $prefix . "offset=";
-            } else {
-                $link = $AScript . "?" . $params . $prefix . "offset=";
-            }
-
-            // ?bergehe "zurck"-link, wenn offset 0 ist.
-            if ($AOffset >= 1) {
-                $prevoffset = $AOffset - $ALimit;
-                if ($prevoffset < 0) {
-                    $prevoffset = 0;
-                }
-                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $prevoffset . "\">" . $layout_prev . "&nbsp;</a>";
-            }
-
-            // Ben?tigte Seitenzahl kalkulieren
-            $pages = intval($AHits / $ALimit);
-
-            // Wenn ein Rest bleibt, addiere eine Seite
-            if (($AHits % $ALimit)) {
-                $pages++;
-            }
-
-            // Bei Offset = 0 keine Seitenzahlen anzeigen : DEAKTIVIERT
-            //			if ($AOffset != 0) {
-
-            // ansonsten zeige Links zu den anderen Seiten an
-            for ($i = 1 ;$i <= $pages ; $i++) {
-                $newoffset = $ALimit * ($i - 1);
-
-                if ($newoffset == $AOffset) {
-                    $LinkBar .= "[" . $i . "] ";
-                } else {
-                    $LinkBar .= '<a ' . $layout_link . ' href="' .
-                        $link . $newoffset . '">[' . $i . ']</a> ';
-                }
-            }
-            //			}
-
-            // Checken, ob letze Seite erreicht ist
-            // Wenn nicht, gebe einen "Weiter"-Link aus
-            if (!(($AOffset / $ALimit) == ($pages - 1)) && ($pages != 1)) {
-                $newoffset = $AOffset + $ALimit;
-                $LinkBar .= "<a" . $layout_link . " href=\"" . $link . $newoffset . "\">&nbsp;" . $layout_next . "</a>";
-            }
-
-            return $LinkBar;
-        } else {
-            return false;
-        }
-    }
 
     /**
     * makeClickable
@@ -801,10 +533,9 @@ class ilUtil
      * 	$matches[1] contains href attribute
      * 	$matches[2] contains id of goto link
      * @return link containg a _self target, same href and new text content
-     * @static
-     *
+     * @deprecated
      */
-    public static function replaceLinkProperties($matches)
+    protected static function replaceLinkProperties($matches)
     {
         $link = $matches[0];
         $ref_id = $matches[2];
@@ -1219,7 +950,7 @@ class ilUtil
      * @param bool $a_only_special_chars
      * @return string
      */
-    public static function getPasswordValidChars($a_as_regex = true, $a_only_special_chars = false)
+    protected static function getPasswordValidChars($a_as_regex = true, $a_only_special_chars = false)
     {
         if ($a_as_regex) {
             if ($a_only_special_chars) {
@@ -1508,21 +1239,6 @@ class ilUtil
     }
 
     /**
-    * reads all active sessions from db and returns users that are online
-    * OR returns only one active user if a user_id is given
-    *
-    * @param	integer	user_id (optional)
-    * @return	array
-    * @static
-    *
-    */
-    public static function getUsersOnline($a_user_id = 0)
-    {
-        return ilObjUser::_getUsersOnline($a_user_id);
-    }
-
-
-    /**
      * Returns a unique and non existing Path for e temporary file or directory
      *
      * @param string $a_temp_path
@@ -1726,33 +1442,6 @@ class ilUtil
 
         $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
         ilUtil::execQuoted($zip, $zipcmd);
-        chdir($cdir);
-        return true;
-    }
-
-    public static function CreateIsoFromFolder($a_dir, $a_file)
-    {
-        $cdir = getcwd();
-
-        $pathinfo = pathinfo($a_dir);
-        chdir($pathinfo["dirname"]);
-
-        $pathinfo = pathinfo($a_file);
-        $dir = $pathinfo["dirname"];
-        $file = $pathinfo["basename"];
-        $zipcmd = "-r " . ilUtil::escapeShellArg($a_file) . " " . $source;
-
-        $mkisofs = PATH_TO_MKISOFS;
-        if (!$mkisofs) {
-            chdir($cdir);
-            return false;
-        }
-
-        $name = basename($a_dir);
-        $source = ilUtil::escapeShellArg($name);
-
-        $zipcmd = "-r -J -o " . $a_file . " " . $source;
-        ilUtil::execQuoted($mkisofs, $zipcmd);
         chdir($cdir);
         return true;
     }
@@ -1996,30 +1685,6 @@ class ilUtil
 
 
     /**
-    * there are some known problems with the original readfile method, which
-    * sometimes truncates delivered files regardless of php.ini setting
-    * (see http://de.php.net/manual/en/function.readfile.php) use this
-    * method to avoid these problems.
-    *
-    * @static
-    *
-    */
-    public static function readFile($a_file)
-    {
-        $chunksize = 1 * (1024 * 1024); // how many bytes per chunk
-        $buffer = '';
-        $handle = fopen($a_file, 'rb');
-        if ($handle === false) {
-            return false;
-        }
-        while (!feof($handle)) {
-            $buffer = fread($handle, $chunksize);
-            print $buffer;
-        }
-        return fclose($handle);
-    }
-
-    /**
     * convert utf8 to ascii filename
     *
     * @param	string		$a_filename		utf8 filename
@@ -2062,47 +1727,6 @@ class ilUtil
         return $ascii_filename;
     }
 
-    /**
-    * Encodes HTML entities outside of HTML tags
-    *
-    * @static
-    *
-    */
-    public static function htmlentitiesOutsideHTMLTags($htmlText)
-    {
-        $matches = array();
-        $sep = '###HTMLTAG###';
-
-        preg_match_all("@<[^>]*>@", $htmlText, $matches);
-        $tmp = preg_replace("@(<[^>]*>)@", $sep, $htmlText);
-        $tmp = explode($sep, $tmp);
-
-        for ($i = 0; $i < count($tmp); $i++) {
-            $tmp[$i] = htmlentities($tmp[$i], ENT_COMPAT, "UTF-8");
-        }
-
-        $tmp = join($sep, $tmp);
-
-        for ($i = 0; $i < count($matches[0]); $i++) {
-            $tmp = preg_replace("@$sep@", $matches[0][$i], $tmp, 1);
-        }
-
-        return $tmp;
-    }
-
-    /**
-    * get full java path (dir + java command)
-    *
-    * @static
-    *
-    */
-    public static function getJavaPath()
-    {
-        return PATH_TO_JAVA;
-        //global $ilias;
-
-        //return $ilias->getSetting("java_path");
-    }
 
     /**
     * append URL parameter string ("par1=value1&par2=value2...")

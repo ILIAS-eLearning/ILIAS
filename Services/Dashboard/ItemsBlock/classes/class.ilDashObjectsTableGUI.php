@@ -22,7 +22,7 @@ class ilDashObjectsTableGUI extends ilTable2GUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, $sub_id)
+    public function __construct($a_parent_obj, $a_parent_cmd, int $sub_id)
     {
         global $DIC;
 

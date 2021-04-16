@@ -20,19 +20,13 @@
  */
 class ilDashboardGUI
 {
-    const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
-
-    const DISENGAGE_MAINBAR = "dash_mb_disengage";
+    public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
+    public const DISENGAGE_MAINBAR = "dash_mb_disengage";
 
     /**
      * @var ilCtrl
      */
     protected $ctrl;
-
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
 
     /**
      * @var ilObjUser
@@ -64,9 +58,19 @@ class ilDashboardGUI
      */
     protected $help;
 
+    /**
+     * @var \ilGlobalTemplateInterface
+     */
     public $tpl;
+
+    /**
+     * @var \ilLanguage
+     */
     public $lng;
 
+    /**
+     * @var string
+     */
     public $cmdClass = '';
 
     /**
@@ -75,13 +79,44 @@ class ilDashboardGUI
     protected $action_menu;
 
     /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
+
+    /**
+     * @var int
+     */
+    protected $requested_view;
+
+    /**
+     * @var int
+     */
+    protected $requested_prt_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_gtp;
+
+    /**
+     * @var string
+     */
+    protected $requested_dsh;
+
+    /**
+     * @var int
+     */
+    protected $requested_wsp_id;
+
+    /**
     * constructor
     */
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->main_menu = $DIC["ilMainMenu"];
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->user = $DIC->user();
         $this->error = $DIC["ilErr"];
         $this->settings = $DIC->settings();
@@ -91,7 +126,6 @@ class ilDashboardGUI
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        $ilMainMenu = $DIC["ilMainMenu"];
         $ilUser = $DIC->user();
         $ilErr = $DIC["ilErr"];
         
@@ -104,47 +138,41 @@ class ilDashboardGUI
             "user"
         );
 
-        $ilMainMenu->setActive("desktop");
         $this->lng->loadLanguageModule("pdesk");
         $this->lng->loadLanguageModule("pd"); // #16813
         $this->lng->loadLanguageModule("dash");
         $this->lng->loadLanguageModule("mmbr");
 
         // catch hack attempts
-        if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
+        if ($this->user->getId() == ANONYMOUS_USER_ID) {
             $ilErr->raiseError($this->lng->txt("msg_not_available_for_anon"), $ilErr->MESSAGE);
         }
-        $this->cmdClass = $_GET['cmdClass'];
+
+
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->cmdClass = ($params['cmdClass'] ?? "");
+        $this->requested_view = (int) ($params['view'] ?? 0);
+        $this->requested_prt_id = (int) ($params["prt_id"] ?? 0);
+        $this->requested_gtp = (int) ($params["gtp"] ?? 0);
+        $this->requested_dsh = (string) ($params["dsh"] ?? null);
+        $this->requested_wsp_id = (int) ($params["wsp_id"] ?? 0);
 
         $this->ctrl->saveParameter($this, array("view"));
-
-        //$tree->useCache(false);
-
         $this->action_menu = new ilAdvancedSelectionListGUI();
     }
     
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC;
-
-        $context = $DIC->globalScreen()->tool()->context();
+        $context = $this->tool_context;
         $context->stack()->desktop();
-
         $ilSetting = $this->settings;
-        $rbacsystem = $this->rbacsystem;
         $ilErr = $this->error;
 
         $next_class = $this->ctrl->getNextClass();
         $this->ctrl->setReturn($this, "show");
-
-        // read last active subsection
-        if (isset($_GET['PDHistory']) && $_GET['PDHistory']) {
-            $next_class = $this->__loadNextClass();
-        }
-        $this->__storeLastClass($next_class);
 
         switch ($next_class) {
 
@@ -153,7 +181,7 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $profile_gui = new ilPersonalProfileGUI();
-                $ret = $this->ctrl->forwardCommand($profile_gui);
+                $this->ctrl->forwardCommand($profile_gui);
                 break;
                 
             // settings
@@ -161,14 +189,15 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $settings_gui = new ilPersonalSettingsGUI();
-                $ret = $this->ctrl->forwardCommand($settings_gui);
+                $this->ctrl->forwardCommand($settings_gui);
                 break;
-            
-                // profile
+
+            // profile
+            /* probably not used anymore
             case "ilobjusergui":
                 $user_gui = new ilObjUserGUI("", $_GET["user"], false, false);
-                $ret = $this->ctrl->forwardCommand($user_gui);
-                break;
+                $this->ctrl->forwardCommand($user_gui);
+                break;*/
             
             case 'ilcalendarpresentationgui':
                 $this->getStandardTemplates();
@@ -176,7 +205,7 @@ class ilDashboardGUI
                 $this->tpl->setTitle($this->lng->txt("calendar"));
                 $this->setTabs();
                 $cal = new ilCalendarPresentationGUI();
-                $ret = $this->ctrl->forwardCommand($cal);
+                $this->ctrl->forwardCommand($cal);
                 $this->tpl->printToStdout();
                 break;
             
@@ -191,7 +220,7 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $pd_notes_gui = new ilPDNotesGUI();
-                $ret = $this->ctrl->forwardCommand($pd_notes_gui);
+                $this->ctrl->forwardCommand($pd_notes_gui);
                 break;
             
             // pd news
@@ -199,7 +228,7 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $pd_news_gui = new ilPDNewsGUI();
-                $ret = $this->ctrl->forwardCommand($pd_news_gui);
+                $this->ctrl->forwardCommand($pd_news_gui);
                 break;
 
             case "ilcolumngui":
@@ -243,10 +272,8 @@ class ilDashboardGUI
                 break;
 
             case 'ilpersonalworkspacegui':
-                // $this->getStandardTemplates();
-                // $this->setTabs();
                 $wsgui = new ilPersonalWorkspaceGUI();
-                $ret = $this->ctrl->forwardCommand($wsgui);
+                $this->ctrl->forwardCommand($wsgui);
                 $this->tpl->printToStdout();
                 break;
             
@@ -254,7 +281,7 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $pfgui = new ilPortfolioRepositoryGUI();
-                $ret = $this->ctrl->forwardCommand($pfgui);
+                $this->ctrl->forwardCommand($pfgui);
                 $this->tpl->printToStdout();
                 break;
 
@@ -262,23 +289,20 @@ class ilDashboardGUI
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $achievegui = new ilAchievementsGUI();
-                $ret = $this->ctrl->forwardCommand($achievegui);
+                $this->ctrl->forwardCommand($achievegui);
                 break;
 
             case strtolower(ilMyStaffGUI::class):
                 $this->getStandardTemplates();
                 $mstgui = new ilMyStaffGUI();
-                $ret = $this->ctrl->forwardCommand($mstgui);
+                $this->ctrl->forwardCommand($mstgui);
                 break;
             case 'ilgroupuseractionsgui':
                 $this->getStandardTemplates();
                 $this->setTabs();
                 $ggui = new ilGroupUserActionsGUI();
-                $ret = $this->ctrl->forwardCommand($ggui);
+                $this->ctrl->forwardCommand($ggui);
                 $this->tpl->printToStdout();
-                break;
-            case 'redirect':
-                $this->redirect();
                 break;
 
             case "ildashboardrecommendedcontentgui":
@@ -297,8 +321,6 @@ class ilDashboardGUI
                 $this->$cmd();
                 break;
         }
-        $ret = null;
-        return $ret;
     }
 
     /**
@@ -327,10 +349,6 @@ class ilDashboardGUI
         $this->tpl->setRightContent($this->getRightColumnHTML());
 
         if (count($this->action_menu->getItems())) {
-            /**
-             * @var $tpl ilTemplate
-             * @var $lng ilLanguage
-             */
             $tpl = $this->tpl;
             $lng = $this->lng;
 
@@ -355,12 +373,13 @@ class ilDashboardGUI
     
     
     /**
-    * Display center column
-    */
-    public function getCenterColumnHTML()
+     * Display center column
+     */
+    public function getCenterColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
 
+        $html = "";
         $column_gui = new ilColumnGUI("pd", IL_COL_CENTER);
         $this->initColumn($column_gui);
 
@@ -405,9 +424,11 @@ class ilDashboardGUI
     /**
     * Display right column
     */
-    public function getRightColumnHTML()
+    public function getRightColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
+
+        $html = "";
 
         $column_gui = new ilColumnGUI("pd", IL_COL_RIGHT);
         $this->initColumn($column_gui);
@@ -443,13 +464,14 @@ class ilDashboardGUI
     /**
     * Display left column
     */
-    public function getLeftColumnHTML()
+    public function getLeftColumnHTML() : string
     {
         $ilCtrl = $this->ctrl;
 
         $column_gui = new ilColumnGUI("pd", IL_COL_LEFT);
         $this->initColumn($column_gui);
 
+        $html = "";
         if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
             return "";
         }
@@ -478,7 +500,7 @@ class ilDashboardGUI
         return $html;
     }
 
-    public function prepareContentView()
+    public function prepareContentView() : void
     {
         $this->tpl->loadStandardTemplate();
                 
@@ -491,51 +513,9 @@ class ilDashboardGUI
     }
 
     /**
-    * Returns the multidimenstional sorted array
-    *
-    * Returns the multidimenstional sorted array
-    *
-    * @author       Muzaffar Altaf <maltaf@tzi.de>
-    * @param array $arrays The array to be sorted
-    * @param string $key_sort The keys on which array must be sorted
-    * @access public
-    */
-    public function multiarray_sort($array, $key_sort)
-    {
-        if ($array) {
-            $key_sorta = explode(";", $key_sort);
-            
-            $multikeys = array_keys($array);
-            $keys = array_keys($array[$multikeys[0]]);
-            
-            for ($m = 0; $m < count($key_sorta); $m++) {
-                $nkeys[$m] = trim($key_sorta[$m]);
-            }
-            $n += count($key_sorta);
-            
-            for ($i = 0; $i < count($keys); $i++) {
-                if (!in_array($keys[$i], $key_sorta)) {
-                    $nkeys[$n] = $keys[$i];
-                    $n += "1";
-                }
-            }
-            
-            for ($u = 0;$u < count($array); $u++) {
-                $arr = $array[$multikeys[$u]];
-                for ($s = 0; $s < count($nkeys); $s++) {
-                    $k = $nkeys[$s];
-                    $output[$multikeys[$u]][$k] = $array[$multikeys[$u]][$k];
-                }
-            }
-            sort($output);
-            return $output;
-        }
-    }
-    
-    /**
     * set personal desktop tabs
     */
-    public function setTabs()
+    public function setTabs() : void
     {
         $ilHelp = $this->help;
         
@@ -545,25 +525,22 @@ class ilDashboardGUI
     /**
      * Jump to memberships
      */
-    public function jumpToMemberships()
+    public function jumpToMemberships() : void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
         if ($viewSettings->enabledMemberships()) {
-            $_GET['view'] = $viewSettings->getMembershipsView();
             $this->ctrl->setParameter($this, "view", $viewSettings->getMembershipsView());
         }
-        //$this->show();
         $this->ctrl->redirect($this, "show");
     }
 
     /**
      * Jump to selected items
      */
-    public function jumpToSelectedItems()
+    public function jumpToSelectedItems() : void
     {
-        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
+        $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), $this->requested_view);
         if ($viewSettings->enabledSelectedItems()) {
-            $_GET['view'] = $viewSettings->getSelectedItemsView();
             $this->ctrl->setParameter($this, "view", $viewSettings->getSelectedItemsView());
         }
         $this->show();
@@ -572,24 +549,24 @@ class ilDashboardGUI
     /**
      * workaround for menu in calendar only
      */
-    public function jumpToProfile()
+    public function jumpToProfile() : void
     {
         $this->ctrl->redirectByClass("ilpersonalprofilegui");
     }
 
-    public function jumpToPortfolio()
+    public function jumpToPortfolio() : void
     {
         // incoming back link from shared resource
         $cmd = "";
-        if ($_REQUEST["dsh"]) {
-            $this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $_REQUEST["dsh"]);
+        if ($this->requested_dsh != "") {
+            $this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->requested_dsh);
             $cmd = "showOther";
         }
         
         // used for goto links
-        if ($_GET["prt_id"]) {
-            $this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", (int) $_GET["prt_id"]);
-            $this->ctrl->setParameterByClass("ilobjportfoliogui", "gtp", (int) $_GET["gtp"]);
+        if ($this->requested_prt_id > 0) {
+            $this->ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $this->requested_prt_id);
+            $this->ctrl->setParameterByClass("ilobjportfoliogui", "gtp", $this->requested_gtp);
             $this->ctrl->redirectByClass(array("ilportfoliorepositorygui", "ilobjportfoliogui"), "preview");
         } else {
             $this->ctrl->redirectByClass("ilportfoliorepositorygui", $cmd);
@@ -599,7 +576,7 @@ class ilDashboardGUI
     /**
      * workaround for menu in calendar only
      */
-    public function jumpToSettings()
+    public function jumpToSettings() : void
     {
         $this->ctrl->redirectByClass("ilpersonalsettingsgui");
     }
@@ -608,55 +585,15 @@ class ilDashboardGUI
     /**
     * workaround for menu in calendar only
     */
-    public function jumpToNotes()
-    {
-        $ilSetting = $this->settings;
-
-        if ($ilSetting->get('disable_notes')) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-            ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-            return;
-        }
-        
-        $this->ctrl->redirectByClass("ilpdnotesgui");
-    }
-
-    /**
-     * workaround for menu in calendar only
-     */
-    public function jumpToComments()
-    {
-        $ilSetting = $this->settings;
-
-        if ($ilSetting->get('disable_comments')) {
-            ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-            ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-            return;
-        }
-
-        $this->ctrl->redirectByClass("ilpdnotesgui", "showPublicComments");
-    }
-
-    /**
-    * workaround for menu in calendar only
-    */
-    public function jumpToNews()
+    public function jumpToNews() : void
     {
         $this->ctrl->redirectByClass("ilpdnewsgui");
     }
     
     /**
-    * workaround for menu in calendar only
-    */
-    public function jumpToLP()
-    {
-        $this->ctrl->redirectByClass("illearningprogressgui");
-    }
-
-    /**
      * Jump to calendar
      */
-    public function jumpToCalendar()
+    public function jumpToCalendar() : void
     {
         global $DIC;
         $request = $DIC->http()->request();
@@ -677,7 +614,7 @@ class ilDashboardGUI
     /**
      * Jump to contacts
      */
-    public function jumpToContacts()
+    public function jumpToContacts() : void
     {
         $this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
     }
@@ -685,21 +622,21 @@ class ilDashboardGUI
     /**
      * Jump to personal workspace
      */
-    public function jumpToWorkspace()
+    public function jumpToWorkspace() : void
     {
         // incoming back link from shared resource
         $cmd = "";
-        if ($_REQUEST["dsh"]) {
-            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "shr_id", $_REQUEST["dsh"]);
+        if ($this->requested_dsh != "") {
+            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "shr_id", $this->requested_dsh);
             $cmd = "share";
         }
         
-        if ($_REQUEST["wsp_id"]) {
-            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", (int) $_REQUEST["wsp_id"]);
+        if ($this->requested_wsp_id > 0) {
+            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "wsp_id", $this->requested_wsp_id);
         }
         
-        if ($_REQUEST["gtp"]) {
-            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "gtp", (int) $_REQUEST["gtp"]);
+        if ($this->requested_gtp) {
+            $this->ctrl->setParameterByClass("ilpersonalworkspacegui", "gtp", $this->requested_gtp);
         }
         
         $this->ctrl->redirectByClass("ilpersonalworkspacegui", $cmd);
@@ -708,7 +645,7 @@ class ilDashboardGUI
     /**
      *
      */
-    protected function jumpToMyStaff()
+    protected function jumpToMyStaff() : void
     {
         $this->ctrl->redirectByClass(ilMyStaffGUI::class);
     }
@@ -716,7 +653,7 @@ class ilDashboardGUI
     /**
      * Jump to badges
      */
-    public function jumpToBadges()
+    public function jumpToBadges() : void
     {
         $this->ctrl->redirectByClass(["ilAchievementsGUI", "ilbadgeprofilegui"]);
     }
@@ -724,36 +661,17 @@ class ilDashboardGUI
     /**
      * Jump to personal skills
      */
-    public function jumpToSkills()
+    public function jumpToSkills() : void
     {
         $this->ctrl->redirectByClass("ilpersonalskillsgui");
     }
     
-    public function __loadNextClass()
-    {
-        $stored_classes = array('ildashboardgui',
-                                'ilpersonalprofilegui',
-                                'ilpdnotesgui',
-                                'ilcalendarpresentationgui',
-                                'illearningprogressgui');
-
-        if (isset($_SESSION['il_pd_history']) and in_array($_SESSION['il_pd_history'], $stored_classes)) {
-            return $_SESSION['il_pd_history'];
-        } else {
-            $this->ctrl->getNextClass($this);
-        }
-    }
-    public function __storeLastClass($a_class)
-    {
-        $_SESSION['il_pd_history'] = $a_class;
-        $this->cmdClass = $a_class;
-    }
 
     /**
      * Init ilColumnGUI
      * @var ilColumnGUI $a_column_gui
      */
-    public function initColumn($a_column_gui)
+    public function initColumn(ilColumnGUI $a_column_gui) : void
     {
         $pd_set = new ilSetting("pd");
         if ($pd_set->get("enable_block_moving")) {
@@ -765,7 +683,7 @@ class ilDashboardGUI
     /**
     * display header and locator
     */
-    public function displayHeader()
+    public function displayHeader() : void
     {
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
     }
@@ -773,7 +691,7 @@ class ilDashboardGUI
     /**
      * Temporary workaround for toggling the help
      */
-    protected function toggleHelp()
+    protected function toggleHelp() : void
     {
         if (ilSession::get("show_help_tool") == "1") {
             ilSession::set("show_help_tool", "0");
@@ -788,8 +706,9 @@ class ilDashboardGUI
      * Get main content
      * @return string
      */
-    protected function getMainContent()
+    protected function getMainContent() : string
     {
+        $html = "";
         $tpl = new ilTemplate("tpl.dashboard.html", true, true, "Services/Dashboard");
         $settings = new ilPDSelectedItemsBlockViewSettings($this->user);
 
@@ -813,7 +732,7 @@ class ilDashboardGUI
      *
      * @return string
      */
-    protected function renderFavourites()
+    protected function renderFavourites() : string
     {
         $block = new ilPDSelectedItemsBlockGUI();
         return $block->getHTML();
@@ -824,7 +743,7 @@ class ilDashboardGUI
      *
      * @return string
      */
-    protected function renderRecommendedContent()
+    protected function renderRecommendedContent() : string
     {
         $db_rec_content = new ilDashboardRecommendedContentGUI();
         return $db_rec_content->render();
@@ -835,7 +754,7 @@ class ilDashboardGUI
      *
      * @return string
      */
-    protected function renderStudyProgrammes()
+    protected function renderStudyProgrammes() : string
     {
         $st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
         return $st_block->getHTML();
@@ -846,7 +765,7 @@ class ilDashboardGUI
      *
      * @return string
      */
-    protected function renderMemberships()
+    protected function renderMemberships() : string
     {
         $block = new ilPDMembershipBlockGUI();
         return $block->getHTML();
@@ -857,7 +776,7 @@ class ilDashboardGUI
      *
      * @return string
      */
-    protected function renderLearningSequences()
+    protected function renderLearningSequences() : string
     {
         $st_block = new ilDashboardLearningSequenceGUI();
         return $st_block->getHTML();

@@ -3,7 +3,6 @@
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
-use ilPDSelectedItemsBlockViewSettings;
 
 /**
  * Class PDMainBarProvider
@@ -28,12 +27,12 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
+        $lng = $dic->language();
         $access_helper = BasicAccessCheckClosures::getInstance();
+        $f = $dic->ui()->factory();
 
-        $f = $this->dic->ui()->factory();
-
-        $title = $this->dic->language()->txt("mm_favorites");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
+        $title = $lng->txt("mm_favorites");
+        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
@@ -50,16 +49,15 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAvailableCallable(
                     function () use ($dic) {
                         return true;
-                        return $dic->settings()->get('disable_my_offers', 0) == 0;
+                        //return $dic->settings()->get('disable_my_offers', 0) == 0;
                     }
                 )
                 ->withVisibilityCallable(
                     $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
                         static function () use ($dic) : bool {
                             return true;
-                            $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
-
-                            return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                            /*$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+                            return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();*/
                         }
                     ))
                 ),

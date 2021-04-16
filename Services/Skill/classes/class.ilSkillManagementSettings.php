@@ -22,10 +22,9 @@ class ilSkillManagementSettings extends ilSetting
     /**
      * Activate skill management
      *
-     * @param
-     * @return
+     * @param bool $a_active
      */
-    public function activate($a_active)
+    public function activate(bool $a_active)
     {
         $this->set("enable_skmg", (int) $a_active);
     }
@@ -33,8 +32,10 @@ class ilSkillManagementSettings extends ilSetting
     
     /**
      * Is activated
+     *
+     * @return bool
      */
-    public function isActivated()
+    public function isActivated() : bool
     {
         return $this->get("enable_skmg");
     }
@@ -44,7 +45,7 @@ class ilSkillManagementSettings extends ilSetting
      *
      * @param bool $a_val hide profile
      */
-    public function setHideProfileBeforeSelfEval($a_val)
+    public function setHideProfileBeforeSelfEval(bool $a_val)
     {
         $this->set("hide_profile_self_eval", (int) $a_val);
     }
@@ -54,7 +55,7 @@ class ilSkillManagementSettings extends ilSetting
      *
      * @return bool hide profile
      */
-    public function getHideProfileBeforeSelfEval()
+    public function getHideProfileBeforeSelfEval() : bool
     {
         return $this->get("hide_profile_self_eval");
     }

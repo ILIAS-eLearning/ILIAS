@@ -10,11 +10,14 @@
 class ilSkillTemplateReference extends ilSkillTreeNode
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
-    public $id;
+    /**
+     * @var int
+     */
+    protected $skill_template_id;
 
     /**
      * Constructor

@@ -59,6 +59,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -85,11 +86,8 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
     /**
      * Execute command
-     *
-     * @access public
-     *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -104,7 +102,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -115,19 +113,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
     /**
      * Get tabs
-     *
-     * @access public
-     *
      */
     public function getAdminTabs()
     {
         $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
@@ -150,7 +143,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
     * Edit personal desktop settings.
     */
-    public function editSettings()
+    public function editSettings() : void
     {
         $this->setSettingsSubTabs("general");
         $ui = $this->ui;
@@ -162,7 +155,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
      * Init  form.
      * @return \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    public function initForm()
+    public function initForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -208,7 +201,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
     * Save personal desktop settings
     */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -242,24 +235,23 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
      * @access public
      *
      */
-    public function setSettingsSubTabs($a_active)
+    public function setSettingsSubTabs(string $a_active) : void
     {
         $rbacsystem = $this->rbacsystem;
-        $ilAccess = $this->access;
 
         $tabs = $this->tabs_gui;
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $tabs->addSubtab(
+            $tabs->addSubTab(
                 "general",
                 $lng->txt("general_settings"),
                 $ctrl->getLinkTarget($this, "editSettings")
             );
 
             if ($this->viewSettings->enabledSelectedItems()) {
-                $tabs->addSubtab(
+                $tabs->addSubTab(
                     "view_favourites",
                     $lng->txt("dash_view_favourites"),
                     $ctrl->getLinkTarget($this, "editViewFavourites")
@@ -267,7 +259,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             }
 
             if ($this->viewSettings->enabledMemberships()) {
-                $tabs->addSubtab(
+                $tabs->addSubTab(
                     "view_courses_groups",
                     $lng->txt("dash_view_courses_groups"),
                     $ctrl->getLinkTarget($this, "editViewCoursesGroups")
@@ -275,13 +267,13 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
             }
         }
 
-        $tabs->activateSubtab($a_active);
+        $tabs->activateSubTab($a_active);
     }
 
     /**
      * Edit settings of courses and groups overview
      */
-    protected function editViewCoursesGroups()
+    protected function editViewCoursesGroups() : void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
@@ -300,7 +292,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
      *
      * @return \ILIAS\UI\Component\Input\Container\Form\Standard
      */
-    protected function getViewSettingsForm(int $view)
+    protected function getViewSettingsForm(int $view) : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -317,7 +309,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $pres_options = array_column(array_map(function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
-        $avail_pres = $ui_factory->input()->field()->multiselect($lng->txt("dash_avail_presentation"), $pres_options)
+        $avail_pres = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_presentation"), $pres_options)
             ->withValue($this->viewSettings->getActivePresentationsByView($view));
         $default_pres = $ui_factory->input()->field()->radio($lng->txt("dash_default_presentation"))
             ->withOption('list', $lng->txt("dash_list"))
@@ -333,7 +325,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
         $sortation_options = array_column(array_map(function ($k, $v) use ($lng) {
             return [$v, $lng->txt("dash_sort_by_" . $v)];
         }, array_keys($ops), $ops), 1, 0);
-        $avail_sort = $ui_factory->input()->field()->multiselect($lng->txt("dash_avail_sortation"), $sortation_options)
+        $avail_sort = $ui_factory->input()->field()->multiSelect($lng->txt("dash_avail_sortation"), $sortation_options)
             ->withValue($this->viewSettings->getActiveSortingsByView($view));
         $default_sort = $ui_factory->input()->field()->radio($lng->txt("dash_default_sortation"));
         foreach ($sortation_options as $k => $text) {
@@ -357,7 +349,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
      * Save settings of courses and groups overview
      */
-    protected function saveViewCoursesGroups()
+    protected function saveViewCoursesGroups() : void
     {
         $this->saveViewSettings(
             $this->viewSettings->getMembershipsView(),
@@ -368,7 +360,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
      * Edit favourites view
      */
-    protected function editViewFavourites()
+    protected function editViewFavourites() : void
     {
         $main_tpl = $this->tpl;
         $tabs = $this->tabs_gui;
@@ -387,7 +379,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
      * Save settings of favourites overview
      */
-    protected function saveViewFavourites()
+    protected function saveViewFavourites() : void
     {
         $this->saveViewSettings(
             $this->viewSettings->getSelectedItemsView(),
@@ -398,7 +390,7 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
     /**
      * Save settings of favourites overview
      */
-    protected function saveViewSettings(int $view, string $redirect_cmd)
+    protected function saveViewSettings(int $view, string $redirect_cmd) : void
     {
         $request = $this->request;
         $lng = $this->lng;

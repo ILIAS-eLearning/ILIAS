@@ -48,8 +48,6 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 
     /**
      * Return to context
-     * @param
-     * @return
      */
     protected function returnToContext()
     {

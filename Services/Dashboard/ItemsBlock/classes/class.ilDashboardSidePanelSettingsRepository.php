@@ -9,10 +9,15 @@
  */
 class ilDashboardSidePanelSettingsRepository
 {
-    const CALENDAR = "cal";
-    const NEWS = "news";
-    const MAIL = "mail";
-    const TASKS = "task";
+    public const CALENDAR = "cal";
+    public const NEWS = "news";
+    public const MAIL = "mail";
+    public const TASKS = "task";
+
+    /**
+     * @var ilSetting
+     */
+    protected $setting;
 
     /**
      * Constructor
@@ -56,7 +61,7 @@ class ilDashboardSidePanelSettingsRepository
      * @param string $mod
      * @param bool $active
      */
-    public function enable(string $mod, bool $active)
+    public function enable(string $mod, bool $active) : void
     {
         if ($this->isValidModule($mod)) {
             $this->setting->set("enable_" . $mod, (int) $active);

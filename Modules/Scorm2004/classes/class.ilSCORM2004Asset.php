@@ -285,7 +285,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_one_file = "",
         $a_sco_tpl = null
     ) {
-
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
@@ -834,7 +833,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
     {
         $file = array();
 
-        $export = new ilSCORM2004Export($this);
+        $export = new ilScorm2004Export($this);
         foreach ($export->getSupportedExportTypes() as $type) {
             $dir = $export->getExportDirectoryForType($type);
             // quit if import dir not available

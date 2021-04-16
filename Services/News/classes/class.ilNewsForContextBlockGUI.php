@@ -1470,7 +1470,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $info = $this->getInfoForData($data);
 
@@ -1497,7 +1497,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("news_no_news_items");
     }

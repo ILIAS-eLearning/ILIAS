@@ -106,7 +106,7 @@ class ilCalendarSharedStatus
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $cal_ids[] = $row->cal_id;
         }
-        return $cal_ids ? $cal_ids : array();
+        return $cal_ids ?? [];
     }
     
     /**

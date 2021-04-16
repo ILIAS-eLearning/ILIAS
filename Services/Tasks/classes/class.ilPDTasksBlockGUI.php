@@ -236,7 +236,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $factory = $this->ui->factory();
         $lng = $this->lng;
@@ -296,7 +296,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent() : string
+    public function getNoItemFoundContent() : string
     {
         return $this->lng->txt("task_no_task_items");
     }

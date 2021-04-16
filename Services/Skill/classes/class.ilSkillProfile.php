@@ -10,7 +10,7 @@
 class ilSkillProfile implements ilSkillUsageInfo
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
 
@@ -127,8 +127,10 @@ class ilSkillProfile implements ilSkillUsageInfo
     /**
      * Add skill level
      *
-     * @param
-     * @return
+     * @param int $a_base_skill_id
+     * @param int $a_tref_id
+     * @param int $a_level_id
+     * @param int $a_order_nr
      */
     public function addSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
     {
@@ -144,8 +146,10 @@ class ilSkillProfile implements ilSkillUsageInfo
     /**
      * Remove skill level
      *
-     * @param
-     * @return
+     * @param int $a_base_skill_id
+     * @param int $a_tref_id
+     * @param int $a_level_id
+     * @param int $a_order_nr
      */
     public function removeSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
     {
@@ -176,9 +180,6 @@ class ilSkillProfile implements ilSkillUsageInfo
     
     /**
      * Read skill profile from db
-     *
-     * @param
-     * @return
      */
     public function read()
     {
@@ -471,8 +472,9 @@ class ilSkillProfile implements ilSkillUsageInfo
     /**
      * Lookup
      *
-     * @param
-     * @return
+     * @param int $a_id
+     * @param string $a_field
+     * @return mixed
      */
     protected static function lookup($a_id, $a_field)
     {
@@ -616,11 +618,12 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
     }
 
-    
+
     /**
      * Get profiles of a user
      *
      * @param int $a_user_id user id
+     * @return array
      */
     public static function getProfilesOfUser($a_user_id)
     {
@@ -736,7 +739,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->replace(
             "skl_profile_role",
             array("profile_id" => array("integer", $this->getId()),
-                "role_id" => array("integer", (int) $a_role_id),
+                  "role_id" => array("integer", $a_role_id),
             ),
             array()
         );
@@ -875,8 +878,8 @@ class ilSkillProfile implements ilSkillUsageInfo
     /**
      * Get usage info
      *
-     * @param
-     * @return
+     * @param array $a_cskill_ids
+     * @param array $a_usages
      */
     public static function getUsageInfo($a_cskill_ids, &$a_usages)
     {

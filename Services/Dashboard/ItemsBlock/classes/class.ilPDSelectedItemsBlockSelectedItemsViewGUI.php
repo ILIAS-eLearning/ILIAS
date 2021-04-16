@@ -10,7 +10,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     /**
      * @inheritdoc
      */
-    public function getGroups()
+    public function getGroups() : array
     {
         if ($this->viewSettings->isSortedByLocation()) {
             return $this->groupItemsByLocation();
@@ -22,7 +22,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     /**
      * @inheritdoc
      */
-    public function getScreenId()
+    public function getScreenId() : string
     {
         return 'sel_items';
     }
@@ -30,7 +30,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     /**
      * @inheritdoc
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('dash_favourites');
     }
@@ -38,7 +38,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     /**
      * @inheritdoc
      */
-    public function supportsSelectAll()
+    public function supportsSelectAll() : bool
     {
         return true;
     }
@@ -46,7 +46,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
     /**
      * @inheritdoc
      */
-    public function getIntroductionHtml()
+    public function getIntroductionHtml() : string
     {
         $tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
         $tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));

@@ -211,12 +211,34 @@ class ilObjectListGUI
     protected $fav_manager;
 
     /**
+     * @var int
+     */
+    protected $requested_ref_id;
+
+    /**
+     * @var string
+     */
+    protected $requested_cmd;
+
+    /**
+     * @var string
+     */
+    protected $requested_base_class;
+
+    /**
+     * @var array
+     */
+    protected $default_command_params = [];
+
+    /**
     * constructor
     *
     */
     public function __construct($a_context = self::CONTEXT_REPOSITORY)
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
+
         $this->access = $DIC->access();
         $this->user = $DIC->user();
         $this->obj_definition = $DIC["objDefinition"];
@@ -248,6 +270,10 @@ class ilObjectListGUI
 
         $this->lng->loadLanguageModule("obj");
         $this->lng->loadLanguageModule("rep");
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? null);
+        $this->requested_cmd = (string) ($params["cmd"] ?? null);
+        $this->requested_base_class = (string) ($params["baseClass"] ?? null);
     }
 
 
@@ -1163,7 +1189,7 @@ class ilObjectListGUI
 
             $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->getCommandId());
             $cmd_link = $this->ctrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-            $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+            $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);
             return $cmd_link;
 
         /* separate method for this line
@@ -2296,7 +2322,7 @@ class ilObjectListGUI
             // #17467 - add ref_id to link (in repository only!)
             if (is_object($this->container_obj) &&
                 !($this->container_obj instanceof ilAdministrationCommandHandling) &&
-                is_object($this->container_obj->object)) {
+                isset($this->container_obj->object)) {
                 $this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
             }
 
@@ -2421,7 +2447,7 @@ class ilObjectListGUI
     */
     public function insertTimingsCommand()
     {
-        if ($this->std_cmd_only || !$this->container_obj->object) {
+        if ($this->std_cmd_only || !(isset($this->container_obj->object))) {
             return;
         }
         
@@ -2747,13 +2773,17 @@ class ilObjectListGUI
             // undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
             // as they don't have the possibility to use the multi-download-capability of the manage-tab
             $user_id = $this->user->getId();
-            $hasAdminAccess = $this->access->checkAccessOfUser($user_id, "crs_admin", $this->ctrl->getCmd(), $_GET['ref_id']);
+            $hasAdminAccess = $this->access->checkAccessOfUser($user_id, "crs_admin", $this->ctrl->getCmd(), $this->requested_ref_id);
             // to still prevent duplicate download functions for admins the following if-else statement keeps the redirection for admins
             // while letting other course members access the original multi-download functionality
             if ($hasAdminAccess) {
-                $cmd = $_GET["cmd"] == "enableAdministrationPanel" ? "render" : "enableAdministrationPanel";
+                $cmd = ($this->requested_cmd == "enableAdministrationPanel")
+                    ? "render"
+                    : "enableAdministrationPanel";
             } else {
-                $cmd = $_GET["cmd"] == "enableMultiDownload" ? "render" : "enableMultiDownload";
+                $cmd = ($this->requested_cmd == "enableMultiDownload")
+                    ? "render"
+                    : "enableMultiDownload";
             }
             $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), $cmd);
             $this->insertCommand($cmd_link, $this->lng->txt("download_multiple_objects"));
@@ -3801,7 +3831,7 @@ class ilObjectListGUI
      * @param string $type
      * @param string $title
      * @param string $description
-     * @return \ILIAS\UI\Component\Card\Card|null
+     * @return \ILIAS\UI\Component\Card\RepositoryObject|null
      */
     public function getAsCard(
         int $ref_id,
@@ -3809,7 +3839,7 @@ class ilObjectListGUI
         string $type,
         string $title,
         string $description
-    ) : ?\ILIAS\UI\Component\Card\Card {
+    ) : ?\ILIAS\UI\Component\Card\RepositoryObject {
         $ui = $this->ui;
 
         $this->initItem(

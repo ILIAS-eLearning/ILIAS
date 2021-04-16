@@ -11,8 +11,8 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_SKILL_TREE = 'show_skill_tree';
-    const SHOW_TEMPLATE_TREE = 'show_template_tree';
+    public const SHOW_SKILL_TREE = 'show_skill_tree';
+    public const SHOW_TEMPLATE_TREE = 'show_template_tree';
 
 
     /**

@@ -160,7 +160,7 @@ class ilStartUpGUI
         $ilAppEventHandler = $GLOBALS['DIC']['ilAppEventHandler'];
 
         $force_login = false;
-        if (
+        if (isset($_REQUEST['cmd']) &&
             !is_array($_REQUEST['cmd']) &&
             strcmp($_REQUEST['cmd'], 'force_login') === 0
         ) {
@@ -1638,7 +1638,8 @@ class ilStartUpGUI
                 $tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
                 $tpl->setVariable('TXT_ACCEPT', $this->lng->txt('accept_usr_agreement_btn'));
                 $tpl->setVariable('DENY_TERMS_OF_SERVICE', $this->lng->txt('deny_usr_agreement'));
-                $tpl->setVariable('DENIAL_BUTTON',
+                $tpl->setVariable(
+                    'DENIAL_BUTTON',
                     $this->dic->ui()->renderer()->render(
                         $this->dic->ui()->factory()->button()->standard(
                             $this->dic->language()->txt('deny_usr_agreement_btn'),

@@ -725,7 +725,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData(array $data) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $ctrl = $this->ctrl;
         $f = $this->ui->factory();

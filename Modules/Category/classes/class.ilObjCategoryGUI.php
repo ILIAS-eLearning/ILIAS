@@ -926,7 +926,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         foreach ($parent_role_ids as $key => $par) {
             if ($par["obj_id"] != SYSTEM_ROLE_ID) {
                 $check = ilUtil::formCheckbox(0, "adopt[]", $par["obj_id"], 1);
-                $output["adopt"][$key]["css_row_adopt"] = ilUtil::switchColor($key, "tblrow1", "tblrow2");
                 $output["adopt"][$key]["check_adopt"] = $check;
                 $output["adopt"][$key]["role_id"] = $par["obj_id"];
                 $output["adopt"][$key]["type"] = ($par["type"] == 'role' ? 'Role' : 'Template');
@@ -939,7 +938,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         // BEGIN ADOPT PERMISSIONS
         foreach ($output["adopt"] as $key => $value) {
             $a_tpl->setCurrentBlock("ADOPT_PERM_ROW");
-            $a_tpl->setVariable("CSS_ROW_ADOPT", $value["css_row_adopt"]);
             $a_tpl->setVariable("CHECK_ADOPT", $value["check_adopt"]);
             $a_tpl->setVariable("LABEL_ID", $value["role_id"]);
             $a_tpl->setVariable("TYPE", $value["type"]);

@@ -38,7 +38,7 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
     /**
      * @inheritdoc
      */
-    public function getItems($object_type_white_list = array())
+    public function getItems($object_type_white_list = array()) : array
     {
         $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),

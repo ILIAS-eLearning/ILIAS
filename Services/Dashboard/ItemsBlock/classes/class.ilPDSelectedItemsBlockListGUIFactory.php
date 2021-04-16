@@ -39,7 +39,7 @@ class ilPDSelectedItemsBlockListGUIFactory
      * @return ilObjectListGUI
      * @throws ilException
      */
-    public function byType($a_type)
+    public function byType(string $a_type) : \ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
         if (!array_key_exists($a_type, self::$list_by_type)) {

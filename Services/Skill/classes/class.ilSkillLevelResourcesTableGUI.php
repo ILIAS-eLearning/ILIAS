@@ -25,6 +25,16 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
     protected $tree;
 
     /**
+     * @var int
+     */
+    protected $level_id;
+
+    /**
+     * @var ilSkillResources
+     */
+    protected $resources;
+
+    /**
      * Constructor
      */
     public function __construct(

@@ -19,6 +19,16 @@ class ilSkillUsageTableGUI extends ilTable2GUI
      */
     protected $access;
 
+    /**
+     * @var int
+     */
+    protected $skill_id;
+
+    /**
+     * @var int
+     */
+    protected $tref_id;
+
 
     /**
      * Constructor

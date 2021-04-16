@@ -108,62 +108,68 @@ class ilUserDefinedFields
 
     public function getVisibleDefinitions()
     {
+        $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['visible']) {
                 $visible_definition[$id] = $definition;
             }
         }
-        return $visible_definition ? $visible_definition : array();
+        return $visible_definition;
     }
     
     public function getLocalUserAdministrationDefinitions()
     {
+        $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['visib_lua']) {
                 $visible_definition[$id] = $definition;
             }
         }
-        return $visible_definition ? $visible_definition : array();
+        return $visible_definition;
     }
     
     public function getChangeableLocalUserAdministrationDefinitions()
     {
+        $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['changeable_lua']) {
                 $visible_definition[$id] = $definition;
             }
         }
-        return $visible_definition ? $visible_definition : array();
+        return $visible_definition;
     }
 
     public function getRegistrationDefinitions()
     {
+        $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['visib_reg']) {
                 $visible_definition[$id] = $definition;
             }
         }
-        return $visible_definition ? $visible_definition : array();
+        return $visible_definition;
     }
 
     public function getSearchableDefinitions()
     {
+        $searchable_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['searchable']) {
                 $searchable_definition[$id] = $definition;
             }
         }
-        return $searchable_definition ? $searchable_definition : array();
+        return $searchable_definition;
     }
     
     public function getRequiredDefinitions()
     {
+        $required_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['required']) {
                 $required_definition[$id] = $definition;
             }
         }
-        return $required_definition ? $required_definition : array();
+        return $required_definition;
     }
 
     /**
@@ -175,12 +181,13 @@ class ilUserDefinedFields
      */
     public function getCourseExportableFields()
     {
+        $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['course_export']) {
                 $cexp_definition[$id] = $definition;
             }
         }
-        return $cexp_definition ? $cexp_definition : array();
+        return $cexp_definition;
     }
 
     /**
@@ -192,12 +199,13 @@ class ilUserDefinedFields
      */
     public function getGroupExportableFields()
     {
+        $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
             if ($definition['group_export']) {
                 $cexp_definition[$id] = $definition;
             }
         }
-        return $cexp_definition ? $cexp_definition : array();
+        return $cexp_definition;
     }
     
     /**

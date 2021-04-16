@@ -264,6 +264,7 @@ class ilStr
      */
     public static function normalizeUtf8String($a_str)
     {
+        include_once("./include/Unicode/UtfNormal.php");
         return UtfNormal::toNFC($a_str);
     }
 }
