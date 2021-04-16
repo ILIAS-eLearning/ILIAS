@@ -21,7 +21,7 @@ function with_view_controls()
         'date_desc' => 'Most Recent',
         'date_asc' => 'Oldest',
     );
-    $sortation = $factory->viewControl()->sortation($sort_options)->withTargetURL($url,"");
+    $sortation = $factory->viewControl()->sortation($sort_options)->withTargetURL($url, "");
 
     $parameter_name = 'page';
     $current_page = (int) (array_key_exists($parameter_name, $_GET) ? $_GET[$parameter_name] : 0);
