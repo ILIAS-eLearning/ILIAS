@@ -92,7 +92,7 @@ class ToggleButtonTest extends ILIAS_UI_TestBase
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <div class="il-toggle-switch"></div>
+    <span class="il-toggle-switch"></span>
 </button>
 EOT;
 
@@ -106,7 +106,7 @@ EOT;
 
         $expected = ''
             . '<button class="il-toggle-button on" id="id_1" aria-pressed="false">'    //aria-pressed is set to "true" by JS
-            . '    <div class="il-toggle-switch"></div>'
+            . '    <span class="il-toggle-switch"></span>'
             . '</button>';
 
         $this->assertHTMLEquals($expected, $r->render($button));
@@ -127,7 +127,7 @@ EOT;
         $expected = <<<EOT
 		<label>label</label>
 <button class="il-toggle-button off" id="id_1" aria-pressed="false">
-    <div class="il-toggle-switch"></div>
+    <span class="il-toggle-switch"></span>
 </button>
 EOT;
 
@@ -146,7 +146,7 @@ EOT;
 
         $expected = ''
             . '<button class="il-toggle-button unavailable" aria-pressed="false" disabled="disabled">'
-            . '    <div class="il-toggle-switch"></div>'
+            . '    <span class="il-toggle-switch"></span>'
             . '</button>';
 
         $this->assertHTMLEquals(
