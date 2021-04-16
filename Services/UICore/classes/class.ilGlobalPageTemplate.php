@@ -67,6 +67,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         if (defined("ILIAS_HTTP_PATH")) {
             $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
         }
+        $this->gs->layout()->meta()->setTextDirection($this->lng->getTextDirection());
     }
 
 
