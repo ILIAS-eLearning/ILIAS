@@ -580,6 +580,14 @@ class ilExerciseManagementGUI
             $files = $submission->getFiles();
             $file = reset($files);
 
+            if (!$file) {
+                $file = [
+                    "user_id" => $participant_id,
+                    "ts" => null,
+                    "atext" => null
+                ];
+            }
+
             $feedback_data = $this->collectFeedbackDataFromPeer($file);
 
             $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
