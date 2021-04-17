@@ -1204,3 +1204,13 @@ if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
     );
 }
 ?>
+<#46>
+<?php
+    //
+?>
+<#47>
+<?php
+if (!$ilDB->indexExistsByFields('exc_returned', array('filetitle'))) {
+    $ilDB->addIndex('exc_returned', array('filetitle'), 'i3');
+}
+?>
