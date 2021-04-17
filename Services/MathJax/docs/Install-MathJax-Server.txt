@@ -43,13 +43,14 @@ Having the correct nodejs and npm versions available, execute the following comm
     mkdir mathjax
     cd mathjax
 
-    # install the newest stable release from GitGub
-    npm install https://github.com/mathjax/MathJax-node/tarball/master
-    # _OR_ install the release with PNG support
-    npm install https://github.com/mathjax/MathJax-node/archive/0.5.2.tar.gz
+    # If you DON'T NEED PNG then install the newest stable release from GitGub
+    npm install mathjax-node
+    npm install https://github.com/tiarno/mathjax-server
 
-    # install the mathjax-server module to allow a call by ILIAS
-    npm install https://github.com/tiarno/mathjax-server/tarball/master
+    # IF you NEED PNG then please install the following versions in this order (to prevent updates to newer versions)
+    npm install mathjax@2.7
+    npm install mathjax-node@0.5.2
+    npm install https://github.com/tiarno/mathjax-server#9c55118d90ae798c26949adae3e435e1670436bb
 
     # the following link is needed due to an outdated reference in mathjax-server
     cd node_modules
