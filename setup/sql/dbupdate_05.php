@@ -6468,3 +6468,17 @@ if (!$ilDB->indexExistsByFields('exc_returned', array('filetitle'))) {
     $ilDB->addIndex('exc_returned', array('filetitle'), 'i3');
 }
 ?>
+<#5782>
+<?php
+if ($ilDB->uniqueConstraintExists('cmi_gobjective', array('user_id','objective_id','scope_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmi_gobjective', array('user_id','objective_id','scope_id'));
+    $ilDB->addPrimaryKey('cmi_gobjective', array('user_id','objective_id','scope_id'));
+}
+?>
+<#5783>
+<?php
+if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cp_suspend', array('user_id','obj_id'));
+    $ilDB->addPrimaryKey('cp_suspend', array('user_id','obj_id'));
+}
+?>
