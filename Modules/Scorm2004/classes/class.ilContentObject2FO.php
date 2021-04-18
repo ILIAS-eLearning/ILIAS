@@ -31,9 +31,7 @@
 * @package ilias
 */
 
-include_once('Services/Transformation/classes/class.ilXML2FO.php');
-
-define("XSLT_TEMPLATE", "./Services/Transformation/content_object2fo.xsl");
+define("XSLT_TEMPLATE", "./Modules/Scorm2004/content_object2fo.xsl");
 
 class ilContentObject2FO extends ilXML2FO
 {
