@@ -78,47 +78,19 @@ function sendRequest (url, data, callback, user, password, headers) {
 	
 	function useSendBeacon() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
-			if (
-                (
-                    typeof(window.sahs_content) != "undefined" 
-                    && typeof(window.sahs_content.event) != "undefined" 
-                    && (window.sahs_content.event.type=="unload" || window.sahs_content.event.type=="beforeunload")
-                )
-                || (
-                    typeof(window.event) != "undefined" 
-                    && (window.event.type=="unload" || window.event.type=="beforeunload" || window.event.type=="click")
-                )
-                || (//LM in frame 1
-                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1]) != "undefined"
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow) != "undefined"
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event) != "undefined" 
-                    && (
-                        document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type=="unload" 
-                        || document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type=="beforeunload"
-                       )
-                )
-                || (//LM in frame 0
-                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0]) != "undefined"
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow) != "undefined"
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event) != "undefined" 
-                    && (
-                        document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="unload" 
-                        || document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[0].contentWindow.event.type=="beforeunload"
-                       )
-                )
-                || ( //Articulate Rise
-                    typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1]) != "undefined" 
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow) != "undefined" 
-                    && typeof(document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event) != "undefined" 
-                    && (
-                        document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="unload" 
-                        || document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type=="beforeunload"
-                       )
-                   )
-
-               ) {
-				return true;
-			}
+            var winev = null;
+            if (typeof(window.sahs_content.event) != "undefined") winev = window.sahs_content.event.type;
+            else if (typeof(window.event) != "undefined") winev = window.event.type;
+            else if (typeof(window.parent.event) != "undefined") winev = window.parent.event.type;
+            else if (typeof(window.parent.parent.event) != "undefined") winev = window.parent.parent.event.type;
+            //contentstart
+            try{winev = document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type;} catch(e){}
+            //Articulate Rise
+            try{winev = document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("iframe")[1].contentWindow.event.type;} catch(e){}
+            
+            if (winev == "unload" || winev == "beforeunload" || winev == "click") {
+                return true;
+            }
 		}
 		return false;
 	}
