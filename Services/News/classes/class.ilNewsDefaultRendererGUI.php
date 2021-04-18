@@ -132,6 +132,12 @@ class ilNewsDefaultRendererGUI implements ilNewsRendererGUI
             return $a_str;
         }
 
+        // this fixes bug 30242.
+        // server side mathjax creates svg code which may include links
+        if (is_int(strpos($a_str, "</svg>")) && is_int(strpos($a_str, "<svg"))) {
+            return $a_str;
+        }
+
         return ilUtil::makeClickable($a_str);
     }
 

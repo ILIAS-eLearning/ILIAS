@@ -2549,7 +2549,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                             ), 1)
                         );
 
-                        if ($this->objCurrentPost->getMessage() != strip_tags($this->objCurrentPost->getMessage())) {
+                        if ($news_item->getContent() != strip_tags($news_item->getContent())) {
                             $news_item->setContentHtml(true);
                         } else {
                             $news_item->setContentHtml(false);
