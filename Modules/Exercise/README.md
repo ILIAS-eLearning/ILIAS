@@ -47,6 +47,9 @@ This section documents the general concepts and structures of the Exercise Modul
 
 ## Team
 
+### Business Rules
+
+- Learners manage team screen will respect the privacy settings of the users (published profile).
 
 ## Assignment Member State
 
