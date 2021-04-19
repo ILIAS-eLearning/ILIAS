@@ -7469,8 +7469,6 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.btn-tag.engaged.active {
   background-color: white;
   color: #434343;
-  cursor: default;
-  pointer-events: none;
 }
 button > .glyphicon {
   pointer-events: none;
@@ -7837,6 +7835,11 @@ ul.dropdown-menu > li > .btn:focus {
   border: 0;
   color: #4c6586;
   padding: 3px 3px;
+}
+.il-viewcontrol-pagination .engaged,
+.il-viewcontrol-mode .engaged {
+  pointer-events: none;
+  cursor: default;
 }
 .breadcrumb_wrapper {
   width: 100%;
