@@ -1621,7 +1621,6 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $tree = new ilTree($this->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        
         // copy all necessary files now
         if ($a_one_file != "") {
             $this->prepareHTMLExporter($a_target_dir);

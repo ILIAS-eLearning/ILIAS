@@ -284,7 +284,6 @@ class ilIndividualAssessmentMembersGUI
         if (!$this->iass_access->mayEditMembers()) {
             $this->handleAccessViolation();
         }
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->addItem('usr_id', $_GET['usr_id'], ilObjUser::_lookupFullname($_GET['usr_id']));
         $confirm->setHeaderText($this->txt('iass_remove_user_qst'));
@@ -421,7 +420,7 @@ class ilIndividualAssessmentMembersGUI
                         ilIndividualAssessmentMembers::LP_COMPLETED,
                         ilIndividualAssessmentMembers::LP_FAILED
                     ]
-                )
+            )
         ) {
             return $get[self::F_STATUS];
         }
@@ -459,7 +458,7 @@ class ilIndividualAssessmentMembersGUI
                         self::S_CHANGETIME_ASC,
                         self::S_CHANGETIME_DESC
                     ]
-                )
+            )
         ) {
             return $get[self::F_SORT];
         }

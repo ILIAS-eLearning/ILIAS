@@ -375,7 +375,6 @@ class ilDidacticTemplateSettingsGUI
         $form = $this->initEditTemplate($temp);
 
         if ($form->checkInput()) {
-
             $tmp_file = $_FILES['icon']['tmp_name'];
             $upload_element = $form->getItemByPostVar('icon');
             if (
@@ -496,7 +495,7 @@ class ilDidacticTemplateSettingsGUI
         $form->addItem($desc);
 
 
-        $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'),'icon');
+        $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'), 'icon');
         $icon->setImage($set->getIconHandler()->getAbsolutePath());
         $icon->setInfo($this->lng->txt('didactic_icon_info'));
         $icon->getAllowDeletion(true);
@@ -645,7 +644,6 @@ class ilDidacticTemplateSettingsGUI
             return $ilCtrl->redirect($this, 'overview');
         }
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($ilCtrl->getFormAction($this));

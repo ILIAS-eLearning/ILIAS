@@ -53,7 +53,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $check->setUrl($this->ctrl->getLinkTarget($this, "checkLanguage"));
             $check->setCaption("check_languages");
             $this->toolbar->addButtonInstance($check);
-
         }
 
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -520,7 +519,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         $this->lng->loadLanguageModule("meta");
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $conf_screen = new ilConfirmationGUI();
         $conf_screen->setFormAction($this->ctrl->getFormAction($this));
         $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_confirm"));
@@ -543,7 +541,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         $this->lng->loadLanguageModule("meta");
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $conf_screen = new ilConfirmationGUI();
         $conf_screen->setFormAction($this->ctrl->getFormAction($this));
         $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_changes_confirm"));

@@ -110,7 +110,6 @@ class ilMailingListsGUI
             return true;
         }
         
-        include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
         $c_gui = new ilConfirmationGUI();
         
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDelete'));
@@ -461,7 +460,6 @@ class ilMailingListsGUI
             return true;
         }
 
-        include_once('Services/Utilities/classes/class.ilConfirmationGUI.php');
         $c_gui = new ilConfirmationGUI();
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
         $c_gui->setFormAction($this->ctrl->getFormAction($this, 'performDeleteMembers'));

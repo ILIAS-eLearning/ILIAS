@@ -727,7 +727,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
         $confirmation->setHeaderText($this->lng->txt("tst_finish_confirmation_question"));
@@ -1517,7 +1516,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $template->setVariable("SECONDNOW", $datenow["seconds"]);
         $template->setVariable("PTIME_M", $processing_time_minutes);
         $template->setVariable("PTIME_S", $processing_time_seconds);
-        if($this->ctrl->getCmd() == 'outQuestionSummary') {
+        if ($this->ctrl->getCmd() == 'outQuestionSummary') {
             $template->setVariable("REDIRECT_URL", $this->ctrl->getFormAction($this, 'redirectAfterDashboardCmd'));
         } else {
             $template->setVariable("REDIRECT_URL", "");

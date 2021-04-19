@@ -386,7 +386,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
      */
     private function showResetTemplateConfirmationCmd()
     {
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmationGUI = new ilConfirmationGUI();
 
         $confirmationGUI->setFormAction($this->ctrl->getFormAction($this));
