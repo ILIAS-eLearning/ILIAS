@@ -320,7 +320,6 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
 
         $lng = $DIC['lng'];
         
-        include_once("./Services/Utilities/classes/class.ilCountry.php");
         $options = array();
         foreach (ilCountry::getCountryCodes() as $c) {
             $options[$c] = $lng->txt("meta_c_" . $c);
@@ -383,7 +382,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             $filter,
             $this->getSelectedColumns(),
             $preselected_obj_ids
-                );
+        );
         
         // build status to image map
         include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
