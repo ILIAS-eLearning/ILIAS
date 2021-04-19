@@ -52,9 +52,6 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;
-                    case "xcache":
-                        $settings->setService(\ilGlobalCache::TYPE_XCACHE);
-                        break;
                     case "memcached":
                         array_walk($data["memcached_nodes"], function (array $node) use ($settings) {
                             $settings->addMemcachedNode($this->getMemcachedServer($node));
