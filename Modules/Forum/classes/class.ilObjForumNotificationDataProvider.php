@@ -369,24 +369,33 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     /**
      * @return array
      */
-    public function getForumNotificationRecipients()
+    public function getForumNotificationRecipients($notification_type)
     {
+        $event_type = $this->getEventType($notification_type);
         $cacheKey = $this->notificationCache->createKeyByValues(array(
             'forum',
+            $notification_type,
             $this->getForumId(),
             $this->user->getId()
         ));
 
         if (false === $this->notificationCache->exists($cacheKey)) {
+            $condition = ' ';
+            if($event_type == 0) {
+                $condition = ' OR frm_notification.interested_events = '. $this->db->quote(0, 'integer');
+            }
+            
             $res = $this->db->queryf(
                 '
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
 			AND frm_notification.frm_id = frm_data.top_frm_fk 
 			AND frm_notification.user_id != %s
-			GROUP BY frm_notification.user_id',
-                array('integer', 'integer'),
-                array($this->getForumId(), $this->user->getId())
+			AND frm_notification.interested_events & %s
+			'. $condition .'
+			GROUP BY frm_notification.user_id ',
+                array('integer', 'integer', 'integer'),
+                array($this->getForumId(), $this->user->getId(), $event_type)
             );
 
             $rcps = $this->createRecipientArray($res);
@@ -397,32 +406,43 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
         return array_unique($rcps);
     }
-
+    
     /**
-     * @return int[]
+     * @param $notification_type
+     * @return array|mixed
      */
-    public function getThreadNotificationRecipients()
+    public function getThreadNotificationRecipients($notification_type)
     {
         if (!$this->getThreadId()) {
             return [];
         }
-
+    
+        $event_type = $this->getEventType($notification_type);
         $cacheKey = $this->notificationCache->createKeyByValues(array(
             'thread',
+            $notification_type,
             $this->getThreadId(),
             $this->user->getId()
         ));
 
         if (false === $this->notificationCache->exists($cacheKey)) {
+    
+            $condition = ' ';
+            if($event_type == 0)
+            {
+                $condition = ' OR interested_events = '. $this->db->quote(0, 'integer');
+            }
+            
             $res = $this->db->queryF(
                 '
 				SELECT frm_notification.user_id
 				FROM frm_notification
 				INNER JOIN frm_threads ON frm_threads.thr_pk = frm_notification.thread_id
 				WHERE frm_notification.thread_id = %s
-				AND frm_notification.user_id != %s',
-                array('integer', 'integer'),
-                array($this->getThreadId(), $this->user->getId())
+				AND frm_notification.user_id != %s
+				AND frm_notification.interested_events = %s '.$condition,
+                array('integer', 'integer', 'integer'),
+                array($this->getThreadId(), $this->user->getId(), $event_type)
             );
 
             $usrIds = $this->createRecipientArray($res);
@@ -546,5 +566,36 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         } else {
             return $DIC->user()->getLogin();
         }
+    }
+    
+    /**
+     * @param $notification_type
+     * @return int
+     */
+    private function getEventType($notification_type)
+    {
+        $event_type = 0;
+        switch ($notification_type)
+        {
+            case ilForumMailNotification::TYPE_POST_UPDATED:
+                $event_type = ilForumNotificationEvents::UPDATED;
+                break;
+            case ilForumMailNotification::TYPE_POST_CENSORED:
+                $event_type = ilForumNotificationEvents::CENSORED;
+                break;
+            case ilForumMailNotification::TYPE_POST_UNCENSORED:
+                $event_type = ilForumNotificationEvents::UNCENSORED;
+                break;
+            case ilForumMailNotification::TYPE_POST_DELETED:
+                $event_type = ilForumNotificationEvents::POST_DELETED;
+                break;
+            case ilForumMailNotification::TYPE_THREAD_DELETED:
+                $event_type = ilForumNotificationEvents::THREAD_DELETED;
+                break;
+            default:
+                $event_type = 0;
+                break;
+        }
+         return $event_type;
     }
 }

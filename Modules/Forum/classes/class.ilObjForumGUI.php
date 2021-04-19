@@ -288,7 +288,12 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-
+        
+        // needed for modals
+        if($cmd === 'saveEventsForUser') {
+            $next_class = 'ilforumsettingsgui';
+        }
+        
         $exclude_cmds = array(
             'viewThread',
             'markPostUnread',
@@ -3985,6 +3990,36 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 'forums_enable_forum_notification'
             );
         }
+    
+        if ($isForumNotificationEnabled && $userMayDisableNotifications) {
+            $frm_noti = new ilForumNotification((int)$_GET['ref_id']);
+            $frm_noti->setUserId($this->user->getId());
+            $interested_events = $frm_noti->readInterestedEvents();
+        
+            $form = $this->initUserNotificationForm();
+        
+            $event_values =
+                [
+                    'notify_modified' => $interested_events & \ilForumNotificationEvents::UPDATED,
+                    'notify_censored' => $interested_events & \ilForumNotificationEvents::CENSORED,
+                    'notify_uncensored' => $interested_events & \ilForumNotificationEvents::UNCENSORED,
+                    'notify_post_deleted' => $interested_events & \ilForumNotificationEvents::POST_DELETED,
+                    'notify_thread_deleted' => $interested_events & \ilForumNotificationEvents::THREAD_DELETED,
+                ];
+            $form->setValuesByArray($event_values);
+            $notificationsModal = $this->uiFactory->modal()->roundtrip(
+                $this->lng->txt('notification_settings'),
+                $this->uiFactory->legacy($form->getHTML())
+            );
+        
+            $showNotificationSettingsBtn = $this->uiFactory->button()
+                ->shy($this->lng->txt('notification_settings'), '#')
+                ->withOnClick(
+                    $notificationsModal->getShowSignal()
+                );
+        
+            $lg->addCustomCommandButton($showNotificationSettingsBtn, $notificationsModal);
+        }
 
         $isThreadNotificationEnabled = false;
         if ((int) $this->objCurrentTopic->getId() > 0) {
@@ -4019,7 +4054,60 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         return $lg;
     }
-
+    
+    /**
+     * @return ilPropertyFormGUI
+     */
+    private function initUserNotificationForm()
+    {
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, 'saveUserNotificationSettings'));
+        $form->addCommandButton('saveUserNotificationSettings', $this->lng->txt('save'));
+        
+        $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
+        $notify_modified->setValue(\ilForumNotificationEvents::UPDATED);
+        $form->addItem($notify_modified);
+        
+        $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
+        $notify_censored->setValue(\ilForumNotificationEvents::CENSORED);
+        $form->addItem($notify_censored);
+        
+        $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
+        $notify_uncensored->setValue(\ilForumNotificationEvents::UNCENSORED);
+        $form->addItem($notify_uncensored);
+        
+        $notify_post_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_post_deleted'), 'notify_post_deleted');
+        $notify_post_deleted->setValue(\ilForumNotificationEvents::POST_DELETED);
+        $form->addItem($notify_post_deleted);
+        
+        $notify_thread_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_thread_deleted'),
+            'notify_thread_deleted');
+        $notify_thread_deleted->setValue(\ilForumNotificationEvents::THREAD_DELETED);
+        $form->addItem($notify_thread_deleted);
+        
+        return $form;
+    }
+    
+    public function saveUserNotificationSettingsObject()
+    {
+        $form = $this->initUserNotificationForm();
+        
+        if ($form->checkInput()) {
+            $interested_events = 0;
+            
+            $interested_events += (int)$form->getInput('notify_modified');
+            $interested_events += (int)$form->getInput('notify_censored');
+            $interested_events += (int)$form->getInput('notify_uncensored');
+            $interested_events += (int)$form->getInput('notify_post_deleted');
+            $interested_events += (int)$form->getInput('notify_thread_deleted');
+            
+            $frm_noti = new ilForumNotification((int)$_GET['ref_id']);
+            $frm_noti->setUserId($this->user->getId());
+            $frm_noti->setInterestedEvents($interested_events);
+            $frm_noti->updateInterestedEvents();
+        }
+    }
+    
     public function isUserAllowedToDeactivateNotification()
     {
         if ($this->objProperties->getNotificationType() == 'default') {

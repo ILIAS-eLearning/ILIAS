@@ -68,6 +68,8 @@ class ilAdvancedSelectionListGUI
     /** @var string */
     protected $sel_head_span_class = '';
 
+    private \ILIAS\UI\Renderer $renderer;
+
     /*
 
     The modes implement the following html for non-js fallback:
@@ -96,6 +98,7 @@ class ilAdvancedSelectionListGUI
     {
         global $DIC;
 
+        $this->renderer = $DIC->ui()->renderer();
         $this->lng = $DIC->language();
         $this->mode = ilAdvancedSelectionListGUI::MODE_LINKS;
         $this->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
@@ -177,7 +180,14 @@ class ilAdvancedSelectionListGUI
             "onclick" => $a_onclick, "ttip" => $a_ttip, "tt_my" => $a_tt_my, "tt_at" => $a_tt_at,
             "tt_use_htmlspecialchars" => $a_tt_use_htmlspecialchars, "data" => $a_data);
     }
-    
+
+    public function addComponent(\ILIAS\UI\Component\Component $component) : void
+    {
+        $this->items[] = [
+            'component' => $component,
+        ];
+    }
+
     /**
      * Set Grouped List
      *
@@ -658,14 +668,19 @@ class ilAdvancedSelectionListGUI
                 $tpl->setVariable("GROUPED_LIST_HTML", $this->getGroupedList()->getHTML());
             } else {
                 foreach ($items as $item) {
-                    if (isset($item["ref_id"])) {
-                        $sel_arr[$item["ref_id"]] = (isset($item["title"]))
-                            ? $item["title"]
-                            : "";
-                    }
                     $this->css_row = ($this->css_row != "tblrow1_mo")
                         ? "tblrow1_mo"
                         : "tblrow2_mo";
+
+                    if (isset($item['component'])) {
+                        $tpl->setCurrentBlock('component');
+                        $tpl->setVariable('COMPONENT', $this->renderer->render([$item['component']]));
+                        $tpl->parseCurrentBlock();
+
+                        $tpl->setCurrentBlock('item_loop');
+                        $tpl->parseCurrentBlock();
+                        continue;
+                    }
 
                     if ($this->getUseImages()) {
                         if ($item["img"]) {
@@ -676,6 +691,12 @@ class ilAdvancedSelectionListGUI
                         } else {
                             $tpl->touchBlock("no_image");
                         }
+                    }
+
+                    if (isset($item["ref_id"])) {
+                        $sel_arr[$item["ref_id"]] = (isset($item["title"]))
+                            ? $item["title"]
+                            : "";
                     }
 
                     if ($this->getOnClickMode() ==
@@ -778,6 +799,9 @@ class ilAdvancedSelectionListGUI
                         );
                     }
 
+                    $tpl->parseCurrentBlock();
+
+                    $tpl->setCurrentBlock('item_loop');
                     $tpl->parseCurrentBlock();
 
                     // add item to js object
