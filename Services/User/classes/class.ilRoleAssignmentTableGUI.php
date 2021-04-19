@@ -240,8 +240,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         ilDatePresentation::setUseRelativeDates(false);
         $title = $list->getTitle();
         ilDatePresentation::resetToDefaults();
-        return $title;
-
+        return (string) $title;
     }
 
 }
