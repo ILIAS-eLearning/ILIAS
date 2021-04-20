@@ -322,8 +322,8 @@ var GUI = function GUI(_translation) {
 		}, interval);
 	}
 
-	this.initChatMessageArea = function() {
-		_$anchor.ilChatMessageArea();
+	this.initChatMessageArea = function(state) {
+		_$anchor.ilChatMessageArea(state);
 	};
 
 	this.addChatMessageArea = function(subRoomId, title, owner) {
@@ -1706,7 +1706,7 @@ il.Util.addOnLoad(function () {
 			// Resizes Chatwindow every 500 miliseconds
 			gui.resizeChatWindowInInterval(500);
 			// Initialize ChatMessageArea();
-			gui.initChatMessageArea();
+			gui.initChatMessageArea(initial.state);
 			gui.addChatMessageArea(0, translation.translate('main'), 0);
 			gui.showChatMessageArea(0);
 

@@ -2168,6 +2168,7 @@ certificate#:#cert_form_sec_add_features#:#Zusätzliche Funktionen
 chatroom#:#no_username_given#:#Bitte wählen Sie einen Benutzernamen
 chatroom#:#allow_anonymous#:#Anonyme Anmeldung erlauben
 chatroom#:#allow_custom_usernames#:#Frei wählbare Benutzernamen
+chatroom#:#chat_show_auto_messages#:#Automatische Meldungen anzeigen
 chatroom#:#anonymous_hint#:#Bitte beachten Sie, dass für den Zugriff von anonymen Benutzer die entsprechenden Berechtigungen im "Berechtigungen"-Reiter gesetzt sein müssen.
 chatroom#:#auto_scroll#:#Automatisch an das Ende scrollen
 chatroom#:#autogen_usernames#:#Automatisch generierte Benutzernamen

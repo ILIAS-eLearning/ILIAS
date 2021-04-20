@@ -9350,6 +9350,7 @@ chatroom_adm#:#chatroom_confirm_delete_smiley#:#Are you sure you want to delete 
 chatroom_adm#:#chat_smilies_dir_not_exists#:#Smilies directory does not exist.
 chatroom_adm#:#chat_smilies_initialized#:#Chat smileys initialized
 chatroom#:#auto_scroll#:#Scroll to Bottom
+chatroom#:#chat_show_auto_messages#:#Show Status Messages
 chatroom#:#public_chat_created#:#The public chat room has been added to the repository.
 chatroom#:#lost_connection#:#The connection to the chat server was interrupted.
 chatroom#:#banned#:#You have been banned from this chat room
