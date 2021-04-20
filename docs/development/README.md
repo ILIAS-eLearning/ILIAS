@@ -19,6 +19,7 @@ A general overview on our processes can be found in the [development guide](http
 - [Accessibility Guidelines](accessibility.md): Foster an accessible user interface
 - [Accessibility Process](accessibility-process.md): Describes, who is involved, which tools the community uses and
   how different activities are incorporated to achieve better accessibility in our release cycle.
+- About [Refactorings](refactorings.md)
 
 ### Server Side (PHP)
 
