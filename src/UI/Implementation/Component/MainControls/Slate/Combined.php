@@ -11,6 +11,7 @@ use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Button\Bulky as IBulkyButton;
 use ILIAS\UI\Component\Link\Bulky as IBulkyLink;
 use ILIAS\UI\Component\Signal;
+use InvalidArgumentException;
 
 /**
  * Combined Slate
@@ -27,7 +28,7 @@ class Combined extends Slate implements ISlate\Combined
     /**
      * @inheritdoc
      */
-    public function withAdditionalEntry($entry) : ISlate\Combined
+    public function withAdditionalEntry($entry, ?string $id = null) : ISlate\Combined
     {
         $classes = [
             IBulkyButton::class,
@@ -39,7 +40,16 @@ class Combined extends Slate implements ISlate\Combined
         $this->checkArgListElements("Slate, Bulky -Button or -Link", $check, $classes);
 
         $clone = clone $this;
-        $clone->contents[] = $entry;
+        if ($id) {
+            if (key_exists($id, $clone->contents)) {
+                throw new InvalidArgumentException(
+                    "Identifier $id already exists in component " . $clone->getName())
+                ;
+            }
+            $clone->contents[$id] = $entry;
+        } else {
+            $clone->contents[] = $entry;
+        }
         return $clone;
     }
 
