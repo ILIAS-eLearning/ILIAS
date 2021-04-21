@@ -293,6 +293,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'WaitingListAutoFill':
             case 'CancellationEnd':
             case 'MinMembers':
+            case 'mailMembersType':
                 break;
 
             case 'WelcomeMail':
@@ -639,6 +640,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
             case 'TimingMode':
                 $this->course_obj->setTimingMode((int) $this->cdata);
+                break;
+
+            case 'mailMembersType':
+                $this->course_obj->setMailToMembersType((int) $this->cdata);
                 break;
         }
         $this->cdata = '';

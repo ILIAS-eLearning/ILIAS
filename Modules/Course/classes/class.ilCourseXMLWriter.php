@@ -360,6 +360,7 @@ class ilCourseXMLWriter extends ilXmlWriter
         if (strlen($pwd = $this->course_obj->getSubscriptionPassword())) {
             $this->xmlElement('Password', null, $pwd);
         }
+        $this->xmlElement('mailMembersType', null, (string) $this->course_obj->getMailToMembersType());
         $this->xmlEndTag('Registration');
 
         
