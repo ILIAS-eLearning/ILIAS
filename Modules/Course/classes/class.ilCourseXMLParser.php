@@ -600,11 +600,15 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             
             case 'ContainerSetting':
                 if ($this->current_container_setting) {
+                    if ($this->current_container_setting === ilObjectServiceSettingsGUI::USE_NEWS) {
+                        $this->course_obj->setUseNews($this->cdata);
+                    } else {
                     ilContainer::_writeContainerSetting(
                         $this->course_obj->getId(),
                         $this->current_container_setting,
                         $this->cdata
                     );
+                    }
                 }
                 break;
                 
