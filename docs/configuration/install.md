@@ -76,7 +76,7 @@ For best results we recommend:
   * php-gd, php-xml, php-mysql, php-mbstring
   * OpenJDK 11
   * zip, unzip
-  * Node.js: 12 (LTS)
+  * Node.js: 14 (LTS)
   * git
   * composer v2
   * a contemporary browser supporting ES6, CSS3 and HTML 5
