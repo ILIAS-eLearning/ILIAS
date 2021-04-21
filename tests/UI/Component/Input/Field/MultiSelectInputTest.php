@@ -101,14 +101,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                . "<label class=\"control-label col-sm-3\">$label</label>"
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
         foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                         . "<li>"
-                            . "<input type=\"checkbox\" id=\"id_1_$name\" name=\"$name" . "[]\" value=\"$opt_value\" />"
+                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
                             . "<span>$opt_label</span>"
                         . "</li>";
         }
@@ -140,7 +140,7 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+                . "<label class=\"control-label col-sm-3\">$label</label>"
                 . "<div class=\"col-sm-9\">"
                     . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
@@ -148,13 +148,13 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
             if ($opt_value === $value) {
                 $expected .= ""
                         . "<li>"
-                            . "<input type=\"checkbox\" id=\"id_1_$name\" name=\"$name" . "[]\" value=\"$opt_value\" checked=\"checked\" />"
+                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" checked=\"checked\" />"
                             . "<span>$opt_label</span>"
                         . "</li>";
             } else {
                 $expected .= ""
                         . "<li>"
-                            . "<input type=\"checkbox\" id=\"id_1_$name\" name=\"$name" . "[]\" value=\"$opt_value\" />"
+                            . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" />"
                             . "<span>$opt_label</span>"
                         . "</li>";
             }
@@ -184,14 +184,14 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-            . "<label for=\"id_1\" class=\"control-label col-sm-3\">$label</label>"
+            . "<label class=\"control-label col-sm-3\">$label</label>"
             . "<div class=\"col-sm-9\">"
             . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
         foreach ($options as $opt_value => $opt_label) {
             $expected .= ""
                 . "<li>"
-                . "<input type=\"checkbox\" id=\"id_1_$name\" name=\"$name" . "[]\" value=\"$opt_value\" disabled=\"disabled\" />"
+                . "<input type=\"checkbox\" name=\"$name" . "[]\" value=\"$opt_value\" disabled=\"disabled\" />"
                 . "<span>$opt_label</span>"
                 . "</li>";
         }
