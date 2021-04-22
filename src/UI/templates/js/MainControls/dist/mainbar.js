@@ -83,7 +83,8 @@ var mainbar = function() {
                 var id = signalData.options.entry_id,
                     action = signalData.options.action,
                     mb = il.UI.maincontrols.mainbar,
-                    state;
+                    state,
+                    after_render;
 
                 switch(action) {
                     case 'trigger_mapped':
@@ -97,25 +98,13 @@ var mainbar = function() {
                             if(state.entries[id].engaged) {
                                 mb.model.actions.disengageEntry(id);
                             } else {
-                                if(state.entries[id].isTopLevel()) {
-                                    mb.model.actions.engageEntry(id);
-                                }
                                 mb.model.actions.engageEntry(id);
 
-                                var dom_id = il.UI.maincontrols.mainbar.renderer.dom_references[id];
-                                
-
-                                var first = $('#' + dom_id.slate)
-                                    .children().first()
-                                    .children().first();
-                                                                
-                                //first.css('border', '2px solid green');
-                                window.setTimeout(function() {
-                                    first[0].focus()
-                                }, 200);
-                                
-                                
-
+                                if(state.entries[id].isTopLevel()) {
+                                    after_render = function() {
+                                        mb.renderer.focusSubentry(id);
+                                    };
+                                }
                             }
                         }
                         break;
@@ -125,6 +114,12 @@ var mainbar = function() {
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
                         var state = mb.model.getState();
+                            last_top_id = state.last_active_top;
+
+                        after_render = function() {
+                            mb.renderer.focusTopentry(last_top_id);
+                        };
+
                         state.last_active_top = null;
                         mb.model.setState(state);
                         break;
@@ -134,6 +129,9 @@ var mainbar = function() {
                 }
 
                 mb.renderer.render(mb.model.getState());
+                if(after_render) {
+                    after_render();
+                }
                 mb.persistence.store(mb.model.getState());
             });
         }
@@ -722,12 +720,16 @@ var renderer = function($) {
             additional_engage: function(){
                 this.getElement().attr('aria-expanded', true);
                 this.getElement().attr('aria-hidden', false);
+                //a11y
                 this.getElement().attr('role', 'region');
+                //a11y
             },
             additional_disengage: function(){
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
-                this.getElement().removeAttr('role'); //? really remove ?
+                //a11y
+                this.getElement().removeAttr('role', 'region');
+                //a11y                
             }
         }),
         remover: Object.assign({}, dom_element, {
@@ -816,9 +818,11 @@ var renderer = function($) {
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-
+                
+                //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
+                //a11y
 
             if(entry.hidden) {
                 triggerer.mb_hide(is_tool);
@@ -891,13 +895,25 @@ var renderer = function($) {
             }
             //unfortunately, this does not work properly via a class
             $('.' + css.mainbar_entries).css('visibility', 'visible');
+        },
+        focusSubentry: function(triggered_entry_id) {
+            var dom_id = dom_references[triggered_entry_id],
+                first = $('#' + dom_id.slate)
+                    .children().first()
+                    .children().first();
+            first[0].focus();
+        },
+        focusTopentry: function(top_entry_id) {
+            var  triggerer = dom_references[top_entry_id];
+            document.getElementById(triggerer.triggerer).focus();
         }
     },
     public_interface = {
         addEntry: actions.addEntry,
         calcAmountOfButtons: more.calcAmountOfButtons,
         render: actions.render,
-        dom_references: dom_references
+        focusSubentry: actions.focusSubentry,
+        focusTopentry: actions.focusTopentry
     };
 
     return public_interface;

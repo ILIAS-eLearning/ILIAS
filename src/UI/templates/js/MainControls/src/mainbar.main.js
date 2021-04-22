@@ -83,7 +83,8 @@ var mainbar = function() {
                 var id = signalData.options.entry_id,
                     action = signalData.options.action,
                     mb = il.UI.maincontrols.mainbar,
-                    state;
+                    state,
+                    after_render;
 
                 switch(action) {
                     case 'trigger_mapped':
@@ -97,10 +98,13 @@ var mainbar = function() {
                             if(state.entries[id].engaged) {
                                 mb.model.actions.disengageEntry(id);
                             } else {
-                                if(state.entries[id].isTopLevel()) {
-                                    mb.model.actions.engageEntry(id);
-                                }
                                 mb.model.actions.engageEntry(id);
+
+                                if(state.entries[id].isTopLevel()) {
+                                    after_render = function() {
+                                        mb.renderer.focusSubentry(id);
+                                    }
+                                }
                             }
                         }
                         break;
@@ -109,7 +113,13 @@ var mainbar = function() {
                         break;
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
-                        var state = mb.model.getState();
+                        var state = mb.model.getState()
+                            last_top_id = state.last_active_top;
+
+                        after_render = function() {
+                            mb.renderer.focusTopentry(last_top_id);
+                        }
+
                         state.last_active_top = null;
                         mb.model.setState(state);
                         break;
@@ -119,6 +129,9 @@ var mainbar = function() {
                 }
 
                 mb.renderer.render(mb.model.getState());
+                if(after_render) {
+                    after_render();
+                }
                 mb.persistence.store(mb.model.getState());
             });
         }

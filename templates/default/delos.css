@@ -9664,7 +9664,6 @@ footer {
 .il-maincontrols-mainbar .il-link.link-bulky:active,
 .il-maincontrols-metabar .il-link.link-bulky:active {
   box-shadow: none;
-  border: 2px solid red;
 }
 .il-maincontrols-mainbar .btn-bulky:focus-visible,
 .il-maincontrols-metabar .btn-bulky:focus-visible,
@@ -9796,6 +9795,9 @@ footer {
 }
 .il-mainbar-entries {
   min-width: 100%;
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
 }
 .il-mainbar-slates {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
