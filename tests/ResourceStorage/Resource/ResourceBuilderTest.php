@@ -2,89 +2,18 @@
 
 namespace ILIAS\ResourceStorage\Resource;
 
-use ILIAS\ResourceStorage\AbstractBaseTest;
-use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
-use ILIAS\ResourceStorage\Lock\LockHandler;
-use ILIAS\ResourceStorage\Information\Information;
-use ILIAS\ResourceStorage\Revision\Revision;
-use Psr\Http\Message\UploadedFileInterface;
-use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Revision\UploadedFileRevision;
 use ILIAS\MainMenu\Tests\DummyIDGenerator;
 use ILIAS\ResourceStorage\Lock\LockHandlerResult;
 use ILIAS\ResourceStorage\Revision\FileStreamRevision;
+use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
 
 /**
  * Class ResourceBuilderTest
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ResourceBuilderTest extends AbstractBaseTest
+class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {
-    /**
-     * @var Revision|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $revision;
-    /**
-     * @var Information|\PHPUnit\Framework\MockObject\MockObject
-     */
-    private $information;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|UploadedFileInterface
-     */
-    private $upload_result;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|InformationRepository
-     */
-    private $information_repository;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|ResourceRepository
-     */
-    private $resource_repository;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|RevisionRepository
-     */
-    private $revision_repository;
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|StorageHandler
-     */
-    private $storage_handler;
-    /**
-     * @var ResourceBuilder
-     */
-    private $resource_builder;
-    /**
-     * @var StakeholderRepository|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $stakeholder_repository;
-    /**
-     * @var LockHandler|\PHPUnit\Framework\MockObject\MockObject
-     */
-    protected $locking;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-        $this->storage_handler = $this->createMock(StorageHandler::class);
-        $this->revision_repository = $this->createMock(RevisionRepository::class);
-        $this->resource_repository = $this->createMock(ResourceRepository::class);
-        $this->information_repository = $this->createMock(InformationRepository::class);
-        $this->stakeholder_repository = $this->createMock(StakeholderRepository::class);
-        $this->locking = $this->createMock(LockHandler::class);
-        $this->resource_builder = new ResourceBuilder(
-            $this->storage_handler,
-            $this->revision_repository,
-            $this->resource_repository,
-            $this->information_repository,
-            $this->stakeholder_repository,
-            $this->locking
-        );
-        $this->information = $this->createMock(Information::class);
-        $this->revision = $this->createMock(Revision::class);
-    }
 
     public function testNewUpload() : void
     {
@@ -95,41 +24,24 @@ class ResourceBuilderTest extends AbstractBaseTest
         $expected_mime_type = 'text/xml';
         $expected_size = 128;
 
-        // PRECONDITIONS
-        $identification = $this->id_generator->getUniqueResourceIdentification();
+        $resource_builder = new ResourceBuilder(
+            $this->storage_handler,
+            $this->revision_repository,
+            $this->resource_repository,
+            $this->information_repository,
+            $this->stakeholder_repository,
+            $this->locking
+        );
 
-        $upload_result = $this->getDummyUploadResult(
+        // MOCK
+        list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             $expected_mime_type,
-            $expected_size
+            $expected_size, $expected_version_number, $expected_owner_id
         );
-
-        $info_resolver = new UploadInfoResolver(
-            $upload_result,
-            $expected_version_number,
-            $expected_owner_id,
-            $upload_result->getName()
-        );
-
-        // MOCKS
-        $blank_resource = new StorableFileResource($identification);
-        $this->resource_repository->expects($this->once())
-                                  ->method('blank')
-                                  ->willReturn($blank_resource);
-
-        $blank_revision = new UploadedFileRevision($blank_resource->getIdentification(), $upload_result);
-        $blank_revision->setVersionNumber($info_resolver->getNextVersionNumber());
-        $this->revision_repository->expects($this->once())
-                                  ->method('blankFromUpload')
-                                  ->with(
-                                      $info_resolver,
-                                      $blank_resource,
-                                      $upload_result
-                                  )
-                                  ->willReturn($blank_revision);
 
         // RUN
-        $resource = $this->resource_builder->new(
+        $resource = $resource_builder->new(
             $upload_result,
             $info_resolver
         );
@@ -142,10 +54,6 @@ class ResourceBuilderTest extends AbstractBaseTest
         $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
         $this->assertEquals($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
         $this->assertEquals($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
-
-//        $resource->addStakeholder($stakeholder);
-//        $this->resource_builder->store($resource);
-        // END RUN
 
     }
 

@@ -57,10 +57,7 @@ abstract class AbstractBaseTest extends TestCase
 
     protected function getDummyFileRevision(ResourceIdentification $id) : Revision
     {
-        $file_revision = new FileRevision($id);
-
-        return $file_revision;
-
+        return new FileRevision($id);
     }
 
 }
