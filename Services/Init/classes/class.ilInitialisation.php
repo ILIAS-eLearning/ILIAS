@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -208,7 +209,8 @@ class ilInitialisation
                 new ResourceARRepository(),
                 new InformationARRepository(),
                 new StakeholderARRepository(),
-                new LockHandlerilDB($c->database())
+                new LockHandlerilDB($c->database()),
+                new WhiteAndBlacklistedFileNamePolicy([], [])
             );
         };
     }

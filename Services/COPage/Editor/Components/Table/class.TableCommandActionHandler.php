@@ -194,22 +194,40 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $table = $page->getContentObjectForPcId($pcid);
 
         $data = [];
+        $updated = true;
         if (is_array($content)) {
             foreach ($content as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
-                        $data[$i][$j] =
-                            \ilPCParagraph::_input2xml(
-                                $cell,
-                                $table->getLanguage()
+                        $text = "<div>" . $cell . "</div>";
+                        if ($updated) {
+                            // determine cell content
+                            $text = \ilPCParagraph::handleAjaxContent($text);
+                            $data[$i][$j] = $text;
+                            $updated = ($text !== false);
+                            $text = $text["text"];
+                        }
+
+                        if ($updated) {
+                            $text = \ilPCParagraph::_input2xml(
+                                $text,
+                                $table->getLanguage(),
+                                true,
+                                false
                             );
+                            $text = \ilPCParagraph::handleAjaxContentPost($text);
+
+                            $data[$i][$j] = $text;
+                        }
                     }
                 }
             }
         }
 
-        $table->setData($data);
-        $updated = $page->update();
+        if ($updated) {
+            $table->setData($data);
+            $updated = $page->update();
+        }
 
         return $updated;
     }

@@ -25,20 +25,24 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
         $gui->putObjectInTree($file, $parent_id);
 //        $gui->handleAutoRating($file);
 
+        // Response
+        $response = new ilObjFileUploadResponse();
+
         // Append Upload
         $title = $post_data['title'];
         $description = $post_data['description'];
-        $file->appendUpload($result, $title ?? $result->getName());
-        $file->setDescription($description);
-        $file->update();
-
-        $response = new ilObjFileUploadResponse();
-        $response->fileName = $file->getFileName();
-        $response->fileSize = $file->getFileSize();
-        $response->fileType = $file->getFileType();
-//                $response->fileUnzipped = $extract;
-        $response->error = null;
+        try {
+            $file->appendUpload($result, $title ?? $result->getName());
+            $file->setDescription($description);
+            $file->update();
+            $response->fileName = $file->getFileName();
+            $response->fileSize = $file->getFileSize();
+            $response->fileType = $file->getFileType();
+            $response->error = null;
+        } catch (Exception $e) {
+            $file->delete();
+            $response->error = $e->getMessage();
+        }
         return $response;
     }
-
 }

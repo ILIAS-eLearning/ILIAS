@@ -150,7 +150,7 @@ class ilObjFileGUI extends ilObject2GUI
                 break;
             default:
                 // in personal workspace use object2gui
-                if ($this->id_type == self::WORKSPACE_NODE_ID) {
+                if ((int)$this->id_type === self::WORKSPACE_NODE_ID) {
                     $this->addHeaderAction();
 
                     // coming from goto we need default command
@@ -162,7 +162,7 @@ class ilObjFileGUI extends ilObject2GUI
                     return parent::executeCommand();
                 }
 
-                if (empty($cmd)) {
+                if (empty($cmd) || $cmd === 'render') {
                     $cmd = "infoScreen";
                 }
 
@@ -171,6 +171,15 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $this->addHeaderAction();
+    }
+
+    /**
+     * This Method is needed if called from personal resources
+     * @see executeCommand() line 162
+     */
+    protected function render() : void
+    {
+        $this->infoScreen();
     }
 
     /**
