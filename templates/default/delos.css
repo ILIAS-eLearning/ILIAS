@@ -12645,7 +12645,8 @@ div.ilSideBarHead {
   margin-bottom: 5px;
   padding: 5px;
 }
-div.ilSideBarHead h3 {
+div.ilSideBarHead h3,
+div.ilSideBarHead h1 {
   font-size: 110%;
   color: #434343;
   display: inline;
