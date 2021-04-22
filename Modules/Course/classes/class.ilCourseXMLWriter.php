@@ -386,8 +386,6 @@ class ilCourseXMLWriter extends ilXmlWriter
         $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
 
         // cognos-blu-patch: begin
-        $this->xmlElement('ViewMode', null, $this->course_obj->getViewMode());
-
         if ($this->course_obj->getViewMode() == IL_CRS_VIEW_TIMING) {
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
