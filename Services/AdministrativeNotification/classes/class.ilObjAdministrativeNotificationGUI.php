@@ -39,6 +39,10 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
     public $tree;
     const TAB_PERMISSIONS = 'perm_settings';
     const TAB_MAIN = 'main';
+    /**
+     * @var ilErrorHandling
+     */
+    protected $error_handling;
 
     /**
      * ilObjAdministrativeNotificationGUI constructor.
@@ -58,12 +62,16 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         $this->tree         = $DIC['tree'];
         $this->rbacsystem   = $DIC['rbacsystem'];
         $this->tab_handling = new ilADNTabHandling($ref_id);
+        $this->error_handling = $DIC["ilErr"];
+        $this->access = new ilObjAdministrativeNotificationAccess();
 
         $this->assignObject();
     }
 
     public function executeCommand()
     {
+        $this->access->checkAccessAndThrowException("visible,read");
+
         $next_class = $this->ctrl->getNextClass();
 
         if ($next_class == '') {
