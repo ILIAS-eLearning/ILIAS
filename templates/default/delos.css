@@ -9541,6 +9541,10 @@ footer {
   margin-top: 5px;
   display: block;
 }
+.il-metabar-entries {
+  list-style-type: none;
+  /* Remove bullets */
+}
 .il-metabar-entries .badge {
   position: absolute;
 }
@@ -9555,7 +9559,7 @@ footer {
   margin-top: 0;
   top: 32px;
 }
-.il-metabar-entries > .btn-bulky > .bulky-label {
+.il-metabar-entries > li > .btn-bulky > .bulky-label {
   display: none;
 }
 .il-metabar-entries .btn-bulky {

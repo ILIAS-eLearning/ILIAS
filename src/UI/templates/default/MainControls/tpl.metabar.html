@@ -1,12 +1,14 @@
-<div class="il-maincontrols-metabar" id="{ID}" role="menubar" aria-label="{ARIA_LABEL}">
-	<div class="il-metabar-entries" style="visibility: hidden"><!--if done via class/css-files, visibility is being applied too late -->
+<nav class="il-maincontrols-metabar" id="{ID}" aria-label="{ARIA_LABEL}">
+	<ul class="il-metabar-entries" role="menubar" style="visibility: hidden"><!--if done via class/css-files, visibility is being applied too late -->
 		<!-- BEGIN meta_element -->
+		<li role="none">
 			{BUTTON}
+			<!-- BEGIN slate_item -->
+			<div class="il-metabar-slates">
+				{SLATE}
+			</div>
+			<!-- END slate_item -->
+		</li>
 		<!-- END meta_element -->
-	</div>
-	<div class="il-metabar-slates">
-		<!-- BEGIN slate_item -->
-		{SLATE}
-		<!-- END slate_item -->
-	</div>
-</div>
+	</ul>
+</nav>

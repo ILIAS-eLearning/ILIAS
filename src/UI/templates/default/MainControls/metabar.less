@@ -36,6 +36,8 @@
 }
 
 .il-metabar-entries {
+	list-style-type: none; /* Remove bullets */
+
 	.badge {
 		position: absolute;
 	}
@@ -51,7 +53,7 @@
 		top: 32px;
 	}
 	// no display labels in metabar level 1
-	> .btn-bulky > .bulky-label {
+	>li >.btn-bulky > .bulky-label {
 		display: none;
 	}
 	.btn-bulky {
