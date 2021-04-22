@@ -628,7 +628,7 @@ export default class ParagraphUI {
     this.log("paragraph-ui.insertParagraph");
     this.pageModifier.insertComponentAfter(after_pcid, pcid, "Paragraph", content, "Paragraph");
     let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
-    this.showToolbar();
+    this.showToolbar(true, true);
     this.tinyWrapper.initInsert(content_el, () => {
       this.tinyWrapper.setContent(content, characteristic);
       this.setParagraphClass(characteristic);
@@ -774,7 +774,7 @@ export default class ParagraphUI {
         if (pcModel) {
           wrapper.initContent(pcModel.text, pcModel.characteristic);
         }
-        parUI.showToolbar();
+        parUI.showToolbar(true, true);
         if (pcModel) {
           parUI.setParagraphClass(pcModel.characteristic);
           parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
@@ -864,7 +864,7 @@ export default class ParagraphUI {
   //
 
   // copied from TinyMCE editor_template_src.js
-  showToolbar() {
+  showToolbar(showParagraphClass, showSectionFormat) {
     let obj;
     const tiny = this.tinyWrapper;
     const dispatch = this.dispatcher;
@@ -952,6 +952,13 @@ export default class ParagraphUI {
           break;
       }
     });
+
+    if (!showParagraphClass) {
+      document.querySelector(".ilTinyParagraphClassSelector").remove();
+    }
+    if (!showSectionFormat) {
+      document.querySelector(".ilSectionClassSelector").remove();
+    }
   }
 
 

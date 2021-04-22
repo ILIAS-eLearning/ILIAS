@@ -1163,28 +1163,12 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     private function fillContentLanguage()
     {
         global $DIC;
-
         $lng = $DIC->language();
-        $ilUser = $DIC->user();
 
-        $contentLanguage = 'en';
-        $rtl = array('ar','fa','ur','he');//, 'de'); //make a list of rtl languages
-        /* rtl-review: add "de" for testing with ltr lang shown in rtl
-         * and set unicode-bidi to bidi-override for mirror effect */
-        $textdir = 'ltr';
-        if (is_object($ilUser)) {
-            if ($ilUser->getLanguage()) {
-                $contentLanguage = $ilUser->getLanguage();
-            } elseif (is_object($lng)) {
-                $contentLanguage = $lng->getDefaultLanguage();
-            }
+        if (is_object($lng)) {
+            $this->setVariable('META_CONTENT_LANGUAGE', $lng->getContentLanguage());
+            $this->setVariable('LANGUAGE_DIRECTION', $lng->getTextDirection());
         }
-        $this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
-        if (in_array($contentLanguage, $rtl)) {
-            $textdir = 'rtl';
-        }
-        $this->setVariable('LANGUAGE_DIRECTION', $textdir);
-        return true;
     }
 
     private function fillWindowTitle()

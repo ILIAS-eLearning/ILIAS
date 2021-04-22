@@ -98,6 +98,6 @@ class GridCommandActionHandler implements Server\CommandActionHandler
         );
         $updated = $page->update();
 
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 }

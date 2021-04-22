@@ -3184,7 +3184,7 @@ abstract class ilPageObject
     public function deleteContents($a_hids, $a_update = true, $a_self_ass = false)
     {
         if (!is_array($a_hids)) {
-            return;
+            return true;
         }
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
@@ -3206,6 +3206,7 @@ abstract class ilPageObject
         if ($a_update) {
             return $this->update();
         }
+        return true;
     }
 
     /**
@@ -3318,8 +3319,7 @@ abstract class ilPageObject
                 //var_dump($error);
             }
         }
-        $e = $this->update();
-        //var_dump($e);
+        return $this->update();
     }
 
     /**
@@ -3328,9 +3328,8 @@ abstract class ilPageObject
     public function switchEnableMultiple($a_hids, $a_update = true, $a_self_ass = false)
     {
         if (!is_array($a_hids)) {
-            return;
+            return true;
         }
-        $obj = &$this->content_obj;
 
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
@@ -3353,6 +3352,7 @@ abstract class ilPageObject
         if ($a_update) {
             return $this->update();
         }
+        return true;
     }
 
     /**

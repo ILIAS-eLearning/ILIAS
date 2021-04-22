@@ -2726,7 +2726,7 @@
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
 		</xsl:when>
@@ -2742,7 +2742,7 @@
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 			</audio>
 		</xsl:when>
@@ -2766,7 +2766,7 @@
 					(../MediaAliasItem[@Purpose = $curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true' or
 					( not(../MediaAliasItem[@Purpose = $curPurpose]/Parameter) and
 					//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name = 'autostart']/@Value = 'true'))">
-					<xsl:attribute name="autoplay">true</xsl:attribute>
+					<!-- <xsl:attribute name="autoplay">true</xsl:attribute> -->
 				</xsl:if>
 				<xsl:choose>
 					<xsl:when test = "$type = 'video/mp4'">
@@ -3732,6 +3732,7 @@
 				<br/>
 			</xsl:if>
 		</xsl:if>
+		<xsl:comment>Break</xsl:comment>
 	</div>
 </xsl:template>
 

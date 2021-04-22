@@ -6007,6 +6007,24 @@ button.close {
   border: 0;
   -webkit-appearance: none;
 }
+.breadcrumb {
+  padding: 0 15px;
+  margin-bottom: 20px;
+  list-style: none;
+  background-color: transparent;
+  border-radius: 0px;
+}
+.breadcrumb > li {
+  display: inline-block;
+}
+.breadcrumb > li + li:before {
+  content: " \e606\00a0";
+  padding: 0 5px;
+  color: #4c6586;
+}
+.breadcrumb > .active {
+  color: #3a4c65;
+}
 .modal-open {
   overflow: hidden;
 }
@@ -6950,7 +6968,7 @@ button.close {
 .panel .panel-heading.ilBlockHeader h4.ilBlockHeader {
   margin: 0;
   color: #434343;
-  font-size: 17px;
+  font-size: 16px;
 }
 .panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
 .panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
@@ -6981,10 +6999,10 @@ button.close {
   order: 1;
 }
 .panel-flex .il-viewcontrol-sortation {
-  flex-grow: 1;
   flex-shrink: 1;
   order: 2;
   margin-right: 8px;
+  margin-left: auto;
 }
 .panel-flex .panel-heading .dropdown {
   flex-shrink: 1;
@@ -7451,7 +7469,6 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.btn-tag.engaged.active {
   background-color: white;
   color: #434343;
-  cursor: default;
 }
 button > .glyphicon {
   pointer-events: none;
@@ -7801,12 +7818,6 @@ ul.dropdown-menu > li > .btn:focus {
     border-bottom: 0;
   }
 }
-.il-viewcontrol-mode .ilSubmitInactive,
-.il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color: #557196;
-  color: white;
-  border-color: transparent;
-}
 .il-viewcontrol-sortation .dropdown-toggle .caret {
   border: none;
   vertical-align: initial;
@@ -7824,6 +7835,11 @@ ul.dropdown-menu > li > .btn:focus {
   border: 0;
   color: #4c6586;
   padding: 3px 3px;
+}
+.il-viewcontrol-pagination .engaged,
+.il-viewcontrol-mode .engaged {
+  pointer-events: none;
+  cursor: default;
 }
 .breadcrumb_wrapper {
   width: 100%;
@@ -7853,24 +7869,6 @@ ul.dropdown-menu > li > .btn:focus {
   color: #757575;
   padding: 8px 10px;
   font-family: "il-icons";
-}
-.breadcrumb {
-  padding: 0 15px;
-  margin-bottom: 20px;
-  list-style: none;
-  background-color: transparent;
-  border-radius: 0px;
-}
-.breadcrumb > li {
-  display: inline-block;
-}
-.breadcrumb > li + li:before {
-  content: " \e606\00a0";
-  padding: 0 5px;
-  color: #4c6586;
-}
-.breadcrumb > .active {
-  color: #3a4c65;
 }
 /* Breadcrumb */
 .breadcrumb {
@@ -12658,7 +12656,8 @@ div.ilSideBarHead {
   margin-bottom: 5px;
   padding: 5px;
 }
-div.ilSideBarHead h3 {
+div.ilSideBarHead h3,
+div.ilSideBarHead h1 {
   font-size: 110%;
   color: #434343;
   display: inline;
@@ -14131,6 +14130,14 @@ p#copg-auto-save {
 #il_EditPage [data-copg-ed-type="add-area"] > .dropdown > ul {
   position: absolute;
   z-index: 10;
+}
+/*
+ this fixes the add drop down click behaviour for touch devices
+ see: https://github.com/twbs/bootstrap/issues/4550#issuecomment-31916049
+ and: https://mantis.ilias.de/view.php?id=29785
+ */
+#il_EditPage .dropdown-backdrop {
+  position: static;
 }
 #ed_datatable {
   background-color: white;
@@ -16226,6 +16233,9 @@ td.chatroom {
   float: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.ilChatroomUser .dropdown-backdrop {
+  position: static;
 }
 .ilChatroomUser .media {
   padding: 0;

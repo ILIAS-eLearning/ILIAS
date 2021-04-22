@@ -53,10 +53,13 @@ class ilADNNotificationGUI extends ilADNAbstractGUI
 
     protected function index() : string
     {
-        $button = ilLinkButton::getInstance();
-        $button->setCaption($this->lng->txt('common_add_msg'), false);
-        $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
-        $this->toolbar->addButtonInstance($button);
+        if($this->access->hasUserPermissionTo('write')) {
+            $button = ilLinkButton::getInstance();
+            $button->setCaption($this->lng->txt('common_add_msg'), false);
+            $button->setUrl($this->ctrl->getLinkTarget($this, self::CMD_ADD));
+            $this->toolbar->addButtonInstance($button);
+        }
+
         $notMessageTableGUI = new ilADNNotificationTableGUI($this, self::CMD_DEFAULT);
         return $notMessageTableGUI->getHTML();
     }

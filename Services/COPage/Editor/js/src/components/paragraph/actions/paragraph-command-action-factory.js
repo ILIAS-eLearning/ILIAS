@@ -155,4 +155,14 @@ export default class ParagraphCommandActionFactory {
     });
   }
 
+  /**
+   * @param pcid
+   * @return {CommandAction}
+   */
+  delete(pcid) {
+    return this.clientActionFactory.command(this.COMPONENT, ACTIONS.DELETE, {
+      pcid: pcid
+    });
+  }
+
 }

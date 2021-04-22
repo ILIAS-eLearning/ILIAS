@@ -417,9 +417,12 @@ class ilObjectTranslation
     public function getEffectiveContentLang($a_lang, $a_parent_type)
     {
         $langs = $this->getLanguages();
+        $page_lang_key = ($a_lang == $this->getMasterLanguage())
+            ? "-"
+            : $a_lang;
         if ($this->getContentActivated() &&
             isset($langs[$a_lang]) &&
-            ilPageObject::_exists($a_parent_type, $this->getObjId(), $a_lang)) {
+            ilPageObject::_exists($a_parent_type, $this->getObjId(), $page_lang_key)) {
             if ($a_lang == $this->getMasterLanguage()) {
                 return "-";
             }

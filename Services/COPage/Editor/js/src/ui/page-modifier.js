@@ -162,6 +162,11 @@ export default class PageModifier {
     console.log(document.querySelector("#copg-editor-slate-error ul li a"));
     document.querySelector("#copg-editor-slate-error ul li a").addEventListener("click", () => {
       pm.showModal(il.Language.txt("copg_error"), error);
+      let m = document.getElementById("il-copg-ed-modal");
+      m = m.querySelector(".modal-dialog");
+      if (m) {
+        m.style.width = "90%";
+      }
     });
   }
 

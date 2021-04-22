@@ -480,7 +480,7 @@ class ilMailSearchGroupsGUI
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
-                ilUtil::sendInfo($this->lng->txt("mail_select_course"));
+                ilUtil::sendInfo($this->lng->txt("mail_select_group"));
                 $this->showMyGroups();
             }
         } elseif ($_GET["view"] == "grp_members") {

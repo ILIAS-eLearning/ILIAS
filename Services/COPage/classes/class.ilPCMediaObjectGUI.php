@@ -738,6 +738,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $std_item->getLocation(),
                 $std_item->getFormat()
             )) {	// autostart
+                /*
                 $par = $std_item->getParameters();
                 $def_str = ($par["autostart"] == "true")
                     ? " (" . $lng->txt("yes") . ")"
@@ -752,7 +753,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $auto = new ilCheckboxInputGUI($lng->txt("enabled"), "st_autostart");
                 $op2->addSubItem($auto);
                 $rad_auto->addOption($op2);
-                $this->form_gui->addItem($rad_auto);
+                $this->form_gui->addItem($rad_auto);*/
             } else {							// parameters
                 $rad_parameters = new ilRadioGroupInputGUI($lng->txt("cont_parameter"), "st_derive_parameters");
                 $op1 = new ilRadioOption($lng->txt("cont_default"), "y");
@@ -857,6 +858,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                     $full_item->getLocation(),
                     $full_item->getFormat()
                 )) {	// autostart
+                    /*
                     $par = $full_item->getParameters();
                     $def_str = ($par["autostart"] == "true")
                         ? " (" . $lng->txt("yes") . ")"
@@ -871,7 +873,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                     $auto = new ilCheckboxInputGUI($lng->txt("enabled"), "full_autostart");
                     $op2->addSubItem($auto);
                     $rad_auto->addOption($op2);
-                    $this->form_gui->addItem($rad_auto);
+                    $this->form_gui->addItem($rad_auto);*/
                 } else {							// parameters
                     $rad_parameters = new ilRadioGroupInputGUI($lng->txt("cont_parameter"), "full_derive_parameters");
                     $op1 = new ilRadioOption($lng->txt("cont_default"), "y");
@@ -940,10 +942,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $std_item->getLocation(),
             $std_item->getFormat()
         )) {	// autostart
+            /*
             $par = $std_alias_item->getParameters();
             if ($par["autostart"] == "true") {
                 $values["st_autostart"] = true;
-            }
+            }*/
         } else {				// parameters
             $values["st_parameters"] = $std_alias_item->getParameterString();
         }
@@ -1018,10 +1021,11 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $full_item->getLocation(),
                 $full_item->getFormat()
             )) {	// autostart
+                /*
                 $par = $full_alias_item->getParameters();
                 if ($par["autostart"] == "true") {
                     $values["full_autostart"] = true;
-                }
+                }*/
             } else {				// parameters
                 $values["full_parameters"] = $full_alias_item->getParameterString();
             }
@@ -1079,11 +1083,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $std_item->getLocation(),
                 $std_item->getFormat()
             )) {	// autostart
+                /*
                 if ($_POST["st_autostart"]) {
                     $std_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
                 } else {
                     $std_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
-                }
+                }*/
             } else {				// parameters
                 $std_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["st_parameters"]))));
             }
@@ -1125,11 +1130,12 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                         $full_item->getLocation(),
                         $full_item->getFormat()
                     )) {	// autostart
+                        /*
                         if ($_POST["full_autostart"]) {
                             $full_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
                         } else {
                             $full_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
-                        }
+                        }*/
                     } else {
                         $full_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
                     }

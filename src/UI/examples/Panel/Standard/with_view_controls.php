@@ -14,15 +14,14 @@ function with_view_controls()
 
     $legacy = $factory->legacy("Legacy content");
 
+    $url = $DIC->http()->request()->getRequestTarget();
+
     $sort_options = array(
         'internal_rating' => 'Best',
         'date_desc' => 'Most Recent',
         'date_asc' => 'Oldest',
     );
-    $sortation = $factory->viewControl()->sortation($sort_options);
-
-
-    $url = $DIC->http()->request()->getRequestTarget();
+    $sortation = $factory->viewControl()->sortation($sort_options)->withTargetURL($url, "");
 
     $parameter_name = 'page';
     $current_page = (int) (array_key_exists($parameter_name, $_GET) ? $_GET[$parameter_name] : 0);

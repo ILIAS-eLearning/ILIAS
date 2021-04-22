@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
+use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
 
 /**
  * Interface PageBuilder
@@ -14,6 +15,10 @@ class StandardPageBuilder implements PageBuilder
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
+    /**
+     * @var \ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent
+     */
+    protected $meta;
 
     /**
      * StandardPageBuilder constructor.
@@ -22,6 +27,7 @@ class StandardPageBuilder implements PageBuilder
     {
         global $DIC;
         $this->ui = $DIC->ui();
+        $this->meta = $DIC->globalScreen()->layout()->meta();
     }
 
     /**
@@ -51,6 +57,7 @@ class StandardPageBuilder implements PageBuilder
             $view_title
         );
 
-        return $standard->withSystemInfos($parts->getSystemInfos());
+        return $standard->withSystemInfos($parts->getSystemInfos())
+                        ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
     }
 }
