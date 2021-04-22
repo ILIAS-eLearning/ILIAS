@@ -1,5 +1,7 @@
 # Accessibility Guidelines
 
+If you are a programmer and just want to check your code. Please look at the [Accessibility Checklist](#accessibility-checklist) at the bottom of this document.
+
 ## PREAMBLE
 According the [Strategy 2017](http://www.ilias.de/docu/goto_docu_file_5585_download.html)
 ILIAS aims to to be "Usable for Everyone" including users with special needs.
@@ -750,7 +752,7 @@ Target group: developer
 
 [Understanding Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing.html)
 
-[Meeting Parsing](https://www.w3.org/WAI/WCAG21/quickref/#parsing)
+[Meeting Parsing](https://www.w3.org/WAI/WCAG21/quickref/#parsing)https://github.com/ILIAS-eLearning/ILIAS/blob/fd01261d7a7fd6aa5f5bebc98b5b43a663be87ef/docs/development/accessibility.md
 
 In content implemented using markup languages, elements MUST have complete start and end tags, elements MUST be nested according to their specifications, elements MUST not contain duplicate attributes, and any IDs MUST be unique, except where the specifications allow these features. Start and end tags that are missing a critical character in their formation, such as a closing angle bracket or a mismatched attribute value quotation mark are not complete.
 
@@ -778,11 +780,12 @@ In content implemented using markup languages, status messages MUST be programma
 
 # Accessibility Checklist 
 This list is prepared to be worked thorugh by developers implementing specific projects. Results from external compliance testing may lead to adapting these phrases. Changes will be subjected to the jour fixe if compliance testing indicates they are erroneous or lacking information. We still hope the following list is helpful in everyday work, please let us know if this is not the case. 
-1. Tastaturnutzbarkeit
-2. Fokusverfolgung
-3. HTML Elemente Überschriftenstruktur
-4. Kontraste
-5. Alt-Texte
+1. [Tabbing and Focus](#tabbing-and-focus)
+2. [Structure](#structure)
+3. [Headings, Labels, and Language Attributes](#headings-and-labels-and-language-attributes)
+4. [Colour and Contrast](#colour-and-contrast)
+5. [Alt-Texts and aria labels](#alt-texts-and-aria-labels)
+
 ## Tabbing and Focus
 Please manually check your project for tabbing and focus quaility: 
 
@@ -799,10 +802,10 @@ Please manually check your project for tabbing and focus quaility:
 Check how your project complies with our semantic structures: 
 
 8.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1). Use [validator](https://validator.w3.org/) to verfiy, [this test case](https://testrail.ilias.de/index.php?/tests/view/44245) may be helpful.  
-9.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).  @Thomas: Ich brauche hier eine Sprungstelle auf das md zu den Roles.  @Michael: Ich brauche hier eine Sprungstelle zu den Headlines. 
+9.	We use aria landmarks and [headlines](headlines.md) to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by [aria landmarks](https://docu.ilias.de/goto_docu_pg_124778_459.html). Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).
 10.	Make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually presented on the top.
 11.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
-## Headings and Labels and Language (Überschrift ist unpassend) 
+## Headings, Labels, and Language Attributes
 12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or  the editorial team. 
 14.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
 	* Provide text instructions describing the necessary input in a by-line to the field.
