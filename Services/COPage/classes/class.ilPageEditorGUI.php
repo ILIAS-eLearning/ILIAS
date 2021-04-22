@@ -858,6 +858,9 @@ class ilPageEditorGUI
         include_once("./Services/COPage/classes/class.ilPCMediaObject.php");
 
         $hier_id = $this->page->getHierIDForPCId($_GET["pc_id"]);
+        if ($hier_id == "") {
+            $hier_id = "pg";
+        }
 
         if ($ids != "") {
             foreach ($ids as $id2) {
