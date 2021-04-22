@@ -13,6 +13,9 @@ require_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinitio
  */
 class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBased
 {
+    const XML_SEPARATOR_TRANSLATIONS = "~|~";
+    const XML_SEPARATOR_TRANSLATION = '~+~';
+
     protected $max_length; // [int]
     protected $multi; // [bool]
     
@@ -207,12 +210,36 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     
     public function getValueForXML(ilADT $element)
     {
-        return $element->getText();
+        /**
+         * @var $translations ilADTLocalizedText
+         */
+        $translations = $element->getTranslations();
+        $serialized_values = [];
+        foreach ($translations as $lang_key => $translation) {
+            $serialized_values[] = $lang_key . self::XML_SEPARATOR_TRANSLATION . $translation;
+        }
+        return implode(self::XML_SEPARATOR_TRANSLATIONS, $serialized_values);
     }
-    
+
+    /**
+     * @param string $a_cdata
+     */
     public function importValueFromXML($a_cdata)
     {
-        $this->getADT()->setText($a_cdata);
+        // an import from release < 7
+        if (strpos($a_cdata, self::XML_SEPARATOR_TRANSLATION) === false) {
+            $this->getADT()->setText($a_cdata);
+            return;
+        }
+
+        $translations = explode(self::XML_SEPARATOR_TRANSLATIONS, $a_cdata);
+        foreach ($translations as $translation) {
+            $parts = explode(self::XML_SEPARATOR_TRANSLATION, $translation);
+            if ($parts === false) {
+                continue;
+            }
+            $this->getADT()->setTranslation((string) $parts[0], (string) $parts[1]);
+        }
     }
     
     public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
