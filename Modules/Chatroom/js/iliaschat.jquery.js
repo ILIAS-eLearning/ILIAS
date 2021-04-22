@@ -1556,8 +1556,9 @@ var ServerConnector = function ServerConnector(url, scope, user, userManager, gu
 		});
 
 		// when the client hits ENTER on their keyboard
-		$('#submit_message_text').keypress(function(e) {
-			if(e.which == 13) {
+		$('#submit_message_text').keydown(function(e) {
+			var keycode = e.keyCode || e.which;
+			if(keycode === 13 && !e.shiftKey) {
 				e.preventDefault();
 				e.stopPropagation();
 
