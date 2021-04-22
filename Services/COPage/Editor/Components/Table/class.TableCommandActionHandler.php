@@ -141,7 +141,7 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     {
         $updated = $this->updateData($body["data"]["pcid"], $body["data"]["content"]);
         if ($body["data"]["redirect"]) {
-            return $this->ui_wrapper->sendPage($this->page_gui);
+            return $this->ui_wrapper->sendPage($this->page_gui, $updated);
         } else {
             return $this->sendUpdateResponse($this->page_gui, $updated, $body["data"]["pcid"]);
         }
@@ -158,15 +158,21 @@ class TableCommandActionHandler implements Server\CommandActionHandler
     {
         $error = null;
 
-        if ($updated === false) {
-            $error = "An error occured";
+        $last_change = null;
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } elseif (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
         } else {
             $last_change = $page_gui->getPageObject()->getLastChange();
         }
 
         $data = new \stdClass();
         $data->error = $error;
-        $data->last_update = null;
         if ($last_change) {
             $lu = new \ilDateTime($last_change, IL_CAL_DATETIME);
             \ilDatePresentation::setUseRelativeDates(false);

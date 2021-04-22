@@ -99,7 +99,8 @@ export default class PageModel {
       sectionFormat: "",
       paragraphFormat: "",
       addedSection: false,
-      pasting: false
+      pasting: false,
+      autoSavedPCID: null
     };
 
     this.splitIds = [];
@@ -297,6 +298,20 @@ export default class PageModel {
    */
   getCurrentInsertPCId() {
     return this.model.currentInsertPCID;
+  }
+
+  /**
+   * @param {string} pcid
+   */
+  setAutoSavedPCId(pcid) {
+    this.model.autoSavedPCID = pcid;
+  }
+
+  /**
+   * @return {string}
+   */
+  getAutoSavedPCId() {
+    return this.model.autoSavedPCID;
   }
 
   /**

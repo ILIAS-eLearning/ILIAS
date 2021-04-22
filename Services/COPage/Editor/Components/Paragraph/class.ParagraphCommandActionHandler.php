@@ -96,6 +96,10 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 return $this->cancelCommand($body);
                 break;
 
+            case "delete":
+                return $this->deleteCommand($body);
+                break;
+
             default:
                 throw new Exception("Unknown action " . $body["action"]);
                 break;
@@ -317,7 +321,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $updated = $page->update();
             }
         }
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     /**
@@ -342,7 +346,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             true,
             $this->page_gui->getPageConfig()->getEnableSelfAssessment()
         );
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
     }
 
     /**
@@ -363,24 +367,74 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $parent = $page->getParentContentObjectForPcId($remove_section_for_pcid);
         $parent_pc_id = $parent->getPCId();
 
+        $updated = true;
+
         // case 1: parent section exists and new characteristic is not empty
         if (!is_null($parent) && $parent->getType() == "sec") {
             $updated = $this->updateParagraph($remove_section_for_pcid, $par_text, $par_characteristic);
-            $page->addHierIDs();
-            $page->moveContentAfter($paragraph->getHierId(), $parent->getHierId());
-            $updated = $page->update();
-            $page->addHierIDs();
 
-            $hid = $page->getHierIdForPcId($parent_pc_id);
+            if ($updated) {
+                $page->addHierIDs();
+                $page->moveContentAfter($paragraph->getHierId(), $parent->getHierId());
+                $updated = $page->update();
+            }
 
-            $updated = $page->deleteContents(
-                [$hid],
-                true,
-                $this->page_gui->getPageConfig()->getEnableSelfAssessment()
-            );
+            if ($updated) {
+                $page->addHierIDs();
+                $hid = $page->getHierIdForPcId($parent_pc_id);
+                $updated = $page->deleteContents(
+                    [$hid],
+                    true,
+                    $this->page_gui->getPageConfig()->getEnableSelfAssessment()
+                );
+            }
 
-            $updated = $page->update();
+            if ($updated) {
+                $updated = $page->update();
+            }
         }
-        return $this->ui_wrapper->sendPage($this->page_gui);
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+    }
+
+    /**
+     * Delete paragraph
+     *
+     */
+    protected function deleteCommand($body)
+    {
+        $pcids = [$body["data"]["pcid"]];
+
+        $page = $this->page_gui->getPageObject();
+
+        $hids = array_map(
+            function ($pcid) {
+                return $this->getIdForPCId($pcid);
+            },
+            $pcids
+        );
+
+        $updated = $page->deleteContents(
+            $hids,
+            true,
+            $this->page_gui->getPageConfig()->getEnableSelfAssessment()
+        );
+
+        return $this->ui_wrapper->sendPage($this->page_gui, $updated);
+    }
+
+    /**
+     * Get id for pcid
+     * @param
+     * @return
+     */
+    protected function getIdForPCId($pcid)
+    {
+        $page = $this->page_gui->getPageObject();
+        $id = "pg:";
+        if (!in_array($pcid, ["", "pg"])) {
+            $hier_ids = $page->getHierIdsForPCIds([$pcid]);
+            $id = $hier_ids[$pcid] . ":" . $pcid;
+        }
+        return $id;
     }
 }
