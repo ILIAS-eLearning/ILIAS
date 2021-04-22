@@ -796,8 +796,8 @@ Please manually check your project for tabbing and focus quaility:
 5.	If an element gains focus it must not
 	* transfer users to a different context automatically and without warning i.e. open a new window. 
 	* Carry out an action automatically i.e. submit a form after a save-button received focus. 
-6.      Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
-7.      Give users a submit-button to initiate change of context. 
+6.  Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
+7.  Give users a submit-button to initiate change of context. 
 ## Structure 
 Check how your project complies with our semantic structures: 
 
@@ -822,5 +822,5 @@ Please check if your project labels the GUI for all target groups:
 18.	Non-text elements like icons, images, graphs and the like must have alt-texts (1.1.1). 
 19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
 20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
-21.     Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
+21. Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
 
