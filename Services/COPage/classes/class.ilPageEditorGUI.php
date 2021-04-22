@@ -838,6 +838,9 @@ class ilPageEditorGUI
         $ids = ilEditClipboardGUI::_getSelectedIDs();
 
         $hier_id = $this->page->getHierIDForPCId($_GET["pc_id"]);
+        if ($hier_id == "") {
+            $hier_id = "pg";
+        }
 
         if ($ids != "") {
             foreach ($ids as $id2) {
