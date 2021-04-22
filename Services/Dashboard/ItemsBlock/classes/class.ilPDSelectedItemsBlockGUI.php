@@ -176,7 +176,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     public function getBlockType() : string
     {
-        return self::$block_type;
+        return static::$block_type;
     }
 
     /**
