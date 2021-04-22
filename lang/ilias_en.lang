@@ -16572,3 +16572,5 @@ irss#:#resource_id#:#Resource ID
 irss#:#storage_id#:#Storage ID
 irss#:#max_revision#:#Max. Revision
 irss#:#stakeholders#:#Stakeholders
+common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
+common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 1 day. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
