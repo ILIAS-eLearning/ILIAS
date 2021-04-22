@@ -21,6 +21,8 @@ use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\ClonedRevisionInfoResolver;
+use ILIAS\ResourceStorage\Policy\FileNamePolicy;
+use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 
 /**
  * Class ResourceBuilder
@@ -58,6 +60,10 @@ class ResourceBuilder
      * @var StorableResource[]
      */
     protected $resource_cache = [];
+    /**
+     * @var FileNamePolicy
+     */
+    protected $file_name_policy;
 
     /**
      * ResourceBuilder constructor.
@@ -67,6 +73,7 @@ class ResourceBuilder
      * @param InformationRepository $information_repository
      * @param StakeholderRepository $stakeholder_repository
      * @param LockHandler           $lock_handler
+     * @param FileNamePolicy|null   $file_name_policy
      */
     public function __construct(
         StorageHandler $storage_handler,
@@ -74,7 +81,8 @@ class ResourceBuilder
         ResourceRepository $resource_repository,
         InformationRepository $information_repository,
         StakeholderRepository $stakeholder_repository,
-        LockHandler $lock_handler
+        LockHandler $lock_handler,
+        FileNamePolicy $file_name_policy = null
     ) {
         $this->storage_handler = $storage_handler;
         $this->revision_repository = $revision_repository;
@@ -82,6 +90,7 @@ class ResourceBuilder
         $this->information_repository = $information_repository;
         $this->stakeholder_repository = $stakeholder_repository;
         $this->lock_handler = $lock_handler;
+        $this->file_name_policy = $file_name_policy?? new NoneFileNamePolicy();
     }
 
     //
@@ -230,9 +239,14 @@ class ResourceBuilder
     /**
      * @param StorableResource $resource
      * @description after you have modified a resource, you can store it here
+     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
     public function store(StorableResource $resource) : void
     {
+        foreach ($resource->getAllRevisions() as $revision) {
+            $this->file_name_policy->check($revision->getInformation()->getSuffix());
+        }
+
         $r = $this->lock_handler->lockTables([
             $this->resource_repository->getNameForLocking(),
             $this->revision_repository->getNameForLocking(),
@@ -293,10 +307,13 @@ class ResourceBuilder
     /**
      * @description  Store one Revision
      * @param Revision $revision
+     * @throws \ILIAS\ResourceStorage\Policy\FileNamePolicyException
      */
     public function storeRevision(Revision $revision) : void
     {
         if ($revision instanceof UploadedFileRevision) {
+            // check policies
+            $this->file_name_policy->check($revision->getInformation()->getSuffix());
             $this->storage_handler->storeUpload($revision);
         }
         if ($revision instanceof FileStreamRevision) {

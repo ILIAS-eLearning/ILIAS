@@ -4,6 +4,7 @@ namespace ILIAS\ResourceStorage\Consumer;
 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandler;
+use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 
 /**
  * Class BaseConsumer
@@ -25,16 +26,26 @@ abstract class BaseConsumer implements DeliveryConsumer
      * @var int|null
      */
     protected $revision_number = null;
+    /**
+     * @var FileNamePolicy
+     */
+    protected $file_name_policy;
 
     /**
      * DownloadConsumer constructor.
      * @param StorableResource $resource
      * @param StorageHandler   $storage_handler
+     * @param FileNamePolicy   $file_name_policy
      */
-    public function __construct(StorableResource $resource, StorageHandler $storage_handler)
+    public function __construct(
+        StorableResource $resource,
+        StorageHandler $storage_handler,
+        FileNamePolicy $file_name_policy
+    )
     {
         $this->resource = $resource;
         $this->storage_handler = $storage_handler;
+        $this->file_name_policy = $file_name_policy;
     }
 
     abstract public function run() : void;

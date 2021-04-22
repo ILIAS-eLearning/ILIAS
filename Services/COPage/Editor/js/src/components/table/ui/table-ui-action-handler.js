@@ -123,6 +123,7 @@ export default class TableUIActionHandler {
       pcmodel.content,
       redirectToPage
     );
+    this.tableUI.updateModelFromCell();
     this.tableUI.paragraphUI.autoSaveStarted();
     this.client.sendCommand(update_action).then(result => {
       const pl = result.getPayload();

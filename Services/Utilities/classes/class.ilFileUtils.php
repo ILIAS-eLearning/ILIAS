@@ -859,11 +859,12 @@ class ilFileUtils
      *
      * @return bool
      */
-    public static function hasValidExtension($a_filename)
+    public static function hasValidExtension($a_filename) : bool
     {
         $pi = pathinfo($a_filename);
 
-        return (in_array(strtolower($pi["extension"]), self::getValidExtensions()));
+        return in_array(strtolower($pi["extension"]), self::getValidExtensions())
+            && !in_array(strtolower($pi["extension"]), self::getExplicitlyBlockedFiles());
     }
 
 
