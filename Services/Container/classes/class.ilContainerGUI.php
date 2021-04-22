@@ -635,9 +635,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->rbacsystem->checkAccess("write", $this->object->getRefId())
             ) {
                 if ($ilSetting->get("enable_cat_page_edit")) {
-                    $toolbar->addButton($lng->txt("cntr_text_media_editor"),
-                        $ilCtrl->getLinkTarget($this, "editPageFrame")
-                    );
+                    if (!$this->isActiveAdministrationPanel() &&
+                        !$this->isActiveOrdering()) {
+                        $toolbar->addButton($lng->txt("cntr_text_media_editor"),
+                            $ilCtrl->getLinkTarget($this, "editPageFrame")
+                        );
+                    }
                 }
             }
         }
