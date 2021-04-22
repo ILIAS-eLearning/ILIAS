@@ -271,11 +271,12 @@ class ilHelpGUI
             }
 
             $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
-            //$h_tpl->setVariable("HEAD", $lng->txt("help"));
+            $h_tpl->setVariable("HEAD", $lng->txt("help"));
 
             $h_tpl->setCurrentBlock("search");
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+            $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
             $h_tpl->parseCurrentBlock();
 
             if (count($help_arr) > 0) {
@@ -572,6 +573,7 @@ class ilHelpGUI
         $h_tpl->setCurrentBlock("search");
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+        $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
         $h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 

@@ -16224,3 +16224,4 @@ tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the av
 tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.
 form#:#form_invalid_uri#:#Invalid URI format.
 awrn#:#awrn_filter#:#User Filter
+help#:#help_search_label#:#Search Help

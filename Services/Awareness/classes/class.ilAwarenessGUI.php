@@ -252,7 +252,7 @@ class ilAwarenessGUI
             if ($u->public_profile) {
                 $tpl->setVariable("UNAME", $u->lastname . ", " . $u->firstname);
             } else {
-                $tpl->setVariable("UNAME", "&nbsp;");
+                $tpl->setVariable("UNAME", "-");
             }
             $tpl->setVariable("UACCOUNT", $u->login);
 
