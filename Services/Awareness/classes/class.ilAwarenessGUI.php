@@ -266,6 +266,7 @@ class ilAwarenessGUI
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->setVariable("FILTER_INPUT_LABEL", $this->lng->txt("awrn_filter"));
         $tpl->parseCurrentBlock();
 
 
