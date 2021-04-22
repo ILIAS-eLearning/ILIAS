@@ -439,7 +439,9 @@ export default class ParagraphUIActionHandler {
     const pcModel = page_model.getPCModel(page_model.getCurrentPCId());
     //console.log("send Cancel " + page_model.getCurrentPCId());
 
+
     if (page_model.getAddedSection()) {
+
       const cancel_action = af.paragraph().command().cancel(
         page_model.getCurrentPCId(),
         pcModel.text,
@@ -449,10 +451,39 @@ export default class ParagraphUIActionHandler {
       //this.ui.autoSaveStarted();
       this.client.sendCommand(cancel_action).then(result => {
         const pl = result.getPayload();
-
         this.ui.pageModifier.handlePageReloadResponse(result);
       });
+    } else if (page_model.getComponentState() === page_model.STATE_COMPONENT_INSERT) {
+
+      this.ui.pageModifier.removeInsertedComponent(page_model.getCurrentPCId());
+
+    } else {
+
+      if (page_model.getAutoSavedPCId() === page_model.getCurrentPCId()) {
+        // the element has been inserted, autosaved but now canceled
+        // we need to save the "undo" state back, if autosave made changes
+        this.sendDeleteCommand(page_model.getCurrentPCId());
+
+      } else {
+        // we need to save the "undo" state back, if autosave made changes
+        this.sendUpdateCommand(page_model.getCurrentPCId(),
+          page_model.getPCModel(page_model.getCurrentPCId()),
+          page_model
+        );
+      }
     }
   }
+
+  sendDeleteCommand(pcid) {
+    const af = this.actionFactory;
+    const delete_action = af.paragraph().command().delete(
+      pcid
+    );
+    this.client.sendCommand(delete_action).then(result => {
+      const pl = result.getPayload();
+      this.ui.pageModifier.handlePageReloadResponse(result);
+    });
+  }
+
 
 }
