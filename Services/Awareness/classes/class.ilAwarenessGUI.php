@@ -259,6 +259,7 @@ class ilAwarenessGUI
 
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->setVariable("FILTER_INPUT_LABEL", $this->lng->txt("awrn_filter"));
         $tpl->parseCurrentBlock();
 
 
