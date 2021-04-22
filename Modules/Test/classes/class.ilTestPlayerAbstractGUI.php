@@ -1991,9 +1991,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     protected function populateHelperGuiContent($helperGui)
     {
         if ($this->object->getKioskMode()) {
-            $this->tpl->setBodyClass("kiosk");
+            //$this->tpl->setBodyClass("kiosk");
             $this->tpl->hideFooter();
-            $this->tpl->addBlockfile('CONTENT', 'content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
+            $this->tpl->addBlockfile('CONTENT', 'adm_content', "tpl.il_as_tst_kiosk_mode_content.html", "Modules/Test");
             $this->tpl->setContent($this->ctrl->getHTML($helperGui));
         } else {
             $this->tpl->setVariable($this->getContentBlockName(), $this->ctrl->getHTML($helperGui));
