@@ -240,7 +240,6 @@ class ilAssLacCompositeValidator
     
     protected function getNonShuffler()
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
-        return new ilArrayElementOrderKeeper();
+        return new ilDeterministicArrayElementProvider();
     }
 }

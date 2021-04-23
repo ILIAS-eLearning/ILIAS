@@ -253,7 +253,7 @@ abstract class assQuestion
     protected $lastChange;
 
     /**
-     * @var ilArrayElementShuffler
+     * @var ilRandomArrayElementProvider
      */
     protected $shuffler;
 
@@ -332,8 +332,7 @@ abstract class assQuestion
         
         $this->lastChange = null;
 
-        require_once 'Services/Randomization/classes/class.ilArrayElementOrderKeeper.php';
-        $this->shuffler = new ilArrayElementOrderKeeper();
+        $this->shuffler = new ilDeterministicArrayElementProvider();
         
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
     }
@@ -499,7 +498,7 @@ abstract class assQuestion
     }
 
     /**
-     * @return ilArrayElementShuffler
+     * @return ilRandomArrayElementProvider
      */
     public function getShuffler()
     {
@@ -507,9 +506,9 @@ abstract class assQuestion
     }
 
     /**
-     * @param ilArrayElementShuffler $shuffler
+     * @param ilRandomArrayElementProvider $shuffler
      */
-    public function setShuffler(ilArrayElementShuffler $shuffler)
+    public function setShuffler(ilRandomArrayElementProvider $shuffler)
     {
         $this->shuffler = $shuffler;
     }
@@ -1327,7 +1326,6 @@ abstract class assQuestion
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
-
             if ($pass === null) {
                 require_once 'Modules/Test/classes/class.ilObjTest.php';
                 $pass = ilObjTest::_getPass($active_id);
@@ -5478,7 +5476,7 @@ abstract class assQuestion
         return new ilTestQuestionConfig();
     }
     // hey.
-// fau.
+    // fau.
 
     public function savePartial()
     {
