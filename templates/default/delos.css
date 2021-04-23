@@ -7590,6 +7590,10 @@ a fieldset[disabled] .active {
   background: #909090;
   border: 1px solid #bfbfbf;
 }
+.ilToolbar .il-toggle-button {
+  bottom: 3px;
+  left: 6px;
+}
 h4.il-divider {
   padding: 3px 6px;
   margin-bottom: 0px;
