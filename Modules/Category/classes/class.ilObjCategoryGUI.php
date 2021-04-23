@@ -5,19 +5,17 @@
 require_once "./Services/Container/classes/class.ilContainerGUI.php";
 
 /**
-* Class ilObjCategoryGUI
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
-* @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
-*
-* @ingroup ModulesCategory
-*/
+ * Class ilObjCategoryGUI
+ * @author       Stefan Meyer <meyer@leifos.com>
+ * @author       Sascha Hofmann <saschahofmann@gmx.de>
+ * @version      $Id$
+ * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilRepUtilGUI
+ * @ingroup      ModulesCategory
+ */
 class ilObjCategoryGUI extends ilContainerGUI
 {
     /**
@@ -91,6 +89,13 @@ class ilObjCategoryGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         
         switch ($next_class) {
+
+            case strtolower(ilRepUtilGUI::class):
+                $ru = new \ilRepUtilGUI($this);
+                $this->ctrl->setReturn($this, 'trash');
+                $this->ctrl->forwardCommand($ru);
+                break;
+
             case "ilobjusergui":
                 include_once('./Services/User/classes/class.ilObjUserGUI.php');
                 

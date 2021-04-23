@@ -374,19 +374,6 @@ class ilMediaPlayerGUI
                 $mp_tpl->parseCurrentBlock();
             }
 
-            // sources
-            $mp_tpl->setCurrentBlock("source");
-            $mp_tpl->setVariable("FILE", $this->getFile());
-            $mp_tpl->setVariable("MIME", $mimeType);
-            $mp_tpl->parseCurrentBlock();
-
-            if (in_array($this->getAlternativeVideoMimeType(), array("video/mp4", "video/webm"))) {
-                $mp_tpl->setCurrentBlock("source");
-                $mp_tpl->setVariable("FILE", $this->getAlternativeVideoFile());
-                $mp_tpl->setVariable("MIME", $this->getAlternativeVideoMimeType());
-                $mp_tpl->parseCurrentBlock();
-            }
-
             $mp_tpl->setCurrentBlock("mejs_video");
 
             if ($a_preview) {
@@ -396,6 +383,8 @@ class ilMediaPlayerGUI
                 //$mp_tpl->setVariable("CLASS", "mejs__player");
             }
 
+            // sources
+            $mp_tpl->setVariable("FILE", $this->getFile());
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
@@ -417,8 +406,6 @@ class ilMediaPlayerGUI
             //$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
             //$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
             $mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
-            $mp_tpl->setVariable("SWF_FILE", ilPlayerUtil::getFlashVideoPlayerFilename(true));
-            $mp_tpl->setVariable("FFILE", $this->getFile());
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
