@@ -517,10 +517,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 (function($, mainbar) {
 	mainbar.persistence = (function($) {
-		if (sessionStorage.getItem('entry_id_map') === null) {
-			sessionStorage.setItem('entry_id_map', JSON.stringify([]));
+		if (localStorage.getItem('entry_id_map') === null) {
+			localStorage.setItem('entry_id_map', JSON.stringify([]));
 		}
-		let id_map = JSON.parse(sessionStorage.getItem('entry_id_map'));
+		let id_map = JSON.parse(localStorage.getItem('entry_id_map'));
 		var cs,
 			storage = function() {
 				if(cs) { return cs; }
@@ -563,7 +563,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					}
 					if(id === null) {
 						id_map.push(k);
-						sessionStorage.setItem('entry_id_map', JSON.stringify(id_map));
+						localStorage.setItem('entry_id_map', JSON.stringify(id_map));
 						id = id_map.length - 1;
 					}
 					v = entries[k];
