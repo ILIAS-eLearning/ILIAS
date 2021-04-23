@@ -4,7 +4,6 @@
 
 /**
  * Class ilObjCategoryGUI
- *
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @author Alexander Killing <killing@leifos.de>
@@ -13,6 +12,8 @@
  * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilRepUtilGUI
+ * @ingroup      ModulesCategory
  */
 class ilObjCategoryGUI extends ilContainerGUI
 {
@@ -85,6 +86,13 @@ class ilObjCategoryGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         
         switch ($next_class) {
+
+            case strtolower(ilRepUtilGUI::class):
+                $ru = new \ilRepUtilGUI($this);
+                $this->ctrl->setReturn($this, 'trash');
+                $this->ctrl->forwardCommand($ru);
+                break;
+
             case "ilobjusergui":
                 $this->tabs_gui->setTabActive('administrate_users');
                 if (!$_GET['obj_id']) {
