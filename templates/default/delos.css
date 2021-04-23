@@ -8787,6 +8787,9 @@ div.alert ul > li:before {
   transition-timing-function: linear;
   transition-delay: 0s;
 }
+.modal.fade .modal-title {
+  font-size: 18px;
+}
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform 0.15s ease-out;
   -moz-transition: -moz-transform 0.15s ease-out;
