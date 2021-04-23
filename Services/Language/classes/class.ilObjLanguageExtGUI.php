@@ -397,6 +397,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         
         // save the translations
         ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
+        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
 
         // view the list
         $this->viewObject();
