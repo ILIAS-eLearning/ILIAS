@@ -517,6 +517,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 (function($, mainbar) {
 	mainbar.persistence = (function($) {
+		if (sessionStorage.getItem('entry_id_map') === null) {
+			sessionStorage.setItem('entry_id_map', JSON.stringify([]));
+		}
+		let id_map = JSON.parse(sessionStorage.getItem('entry_id_map'));
 		var cs,
 			storage = function() {
 				if(cs) { return cs; }
@@ -549,8 +553,21 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			compressEntries = function(entries) {
 				var k, v, ret = {};
 				for(k in entries) {
+					let id = null;
+					let map_id;
+					for(map_id in id_map) {
+						if (id_map[map_id] === k) {
+							id = map_id;
+							break;
+						}
+					}
+					if(id === null) {
+						id_map.push(k);
+						sessionStorage.setItem('entry_id_map', JSON.stringify(id_map));
+						id = id_map.length - 1;
+					}
 					v = entries[k];
-					ret[k] = [
+					ret[id] = [
 						v.removeable ? 1:0,
 						v.engaged ? 1:0,
 						v.hidden ? 1:0
@@ -562,8 +579,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				var k, v, ret = {};
 				for(k in entries) {
 					v = entries[k];
-					ret[k] = {
-						"id": k,
+					ret[id_map[k]] = {
+						"id": id_map[k],
 						"removeable": !!v[0],
 						"engaged": !!v[1],
 						"hidden": !!v[2]
