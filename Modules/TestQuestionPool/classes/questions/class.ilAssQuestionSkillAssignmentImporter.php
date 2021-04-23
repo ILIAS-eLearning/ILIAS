@@ -215,6 +215,9 @@ class ilAssQuestionSkillAssignmentImporter
             
             $importableAssignment->saveToDb();
             $importableAssignment->saveComparisonExpressions();
+
+            // add skill usage
+            ilSkillUsage::setUsage($this->getTargetParentObjId(), $foundSkillId['skill_id'], $foundSkillId['tref_id']);
             
             $this->getSuccessImportAssignmentList()->addAssignment($importableAssignment);
         }

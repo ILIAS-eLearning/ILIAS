@@ -2132,6 +2132,16 @@ abstract class assQuestion
         foreach ($assignmentList->getAssignmentsByQuestionId($question_id) as $assignment) {
             /* @var ilAssQuestionSkillAssignment $assignment */
             $assignment->deleteFromDb();
+
+            // remove skill usage
+            if (!$assignment->isSkillUsed()) {
+                ilSkillUsage::setUsage(
+                    $assignment->getParentObjId(),
+                    $assignment->getSkillBaseId(),
+                    $assignment->getSkillTrefId(),
+                    false
+                );
+            }
         }
 
         $this->deleteTaxonomyAssignments();
@@ -4473,6 +4483,13 @@ abstract class assQuestion
             $assignment->setParentObjId($trgParentId);
             $assignment->setQuestionId($trgQuestionId);
             $assignment->saveToDb();
+
+            // add skill usage
+            ilSkillUsage::setUsage(
+                $trgParentId,
+                $assignment->getSkillBaseId(),
+                $assignment->getSkillTrefId()
+            );
         }
     }
 
@@ -4491,6 +4508,16 @@ abstract class assQuestion
             /* @var ilAssQuestionSkillAssignment $assignment */
 
             $assignment->deleteFromDb();
+
+            // remove skill usage
+            if (!$assignment->isSkillUsed()) {
+                ilSkillUsage::setUsage(
+                    $assignment->getParentObjId(),
+                    $assignment->getSkillBaseId(),
+                    $assignment->getSkillTrefId(),
+                    false
+                );
+            }
         }
         
         $this->duplicateSkillAssignments($srcParentId, $srcQuestionId, $trgParentId, $trgQuestionId);
