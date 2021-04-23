@@ -63,7 +63,6 @@ class ExcPeerReviewTest extends TestCase
         foreach ($peer_raters as $peer => $raters) {
             $this->assertEquals(count($raters), $num_assignments);
         }
-
     }
 
     /**
@@ -82,5 +81,4 @@ class ExcPeerReviewTest extends TestCase
             }
         }
     }
-
 }

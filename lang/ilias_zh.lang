@@ -15139,3 +15139,9 @@ search#:#search_field#:#Search Input Field###29 01 2021 new variable
 search#:#search_dropdown#:#Open Search Form###29 01 2021 new variable
 administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
 administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###26 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###26 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###26 03 2021 new variable
+common#:#label_search_options#:#Search Area###26 03 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###26 03 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###26 03 2021 new variable

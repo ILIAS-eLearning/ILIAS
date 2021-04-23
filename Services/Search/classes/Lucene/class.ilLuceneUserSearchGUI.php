@@ -269,6 +269,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
 
         $this->tpl->setVariable('FORM_ACTION', $GLOBALS['DIC']['ilCtrl']->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
+        $this->tpl->setVariable("SEARCH_LABEL", $lng->txt("search"));
         include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");

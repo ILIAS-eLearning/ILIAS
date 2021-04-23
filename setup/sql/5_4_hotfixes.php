@@ -1423,3 +1423,32 @@ $DIC->database()->modifyTableColumn("usr_data", "login", [
     "fixed" => false
 ]);
 ?>
+<#103>
+<?php
+if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
+    $ilDB->addTableColumn(
+        'ldap_server_settings',
+        'escape_dn',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#104>
+<?php
+if ($ilDB->uniqueConstraintExists('cmi_gobjective', array('user_id','objective_id','scope_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmi_gobjective', array('user_id','objective_id','scope_id'));
+    $ilDB->addPrimaryKey('cmi_gobjective', array('user_id','objective_id','scope_id'));
+}
+?>
+<#105>
+<?php
+if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cp_suspend', array('user_id','obj_id'));
+    $ilDB->addPrimaryKey('cp_suspend', array('user_id','obj_id'));
+}
+?>

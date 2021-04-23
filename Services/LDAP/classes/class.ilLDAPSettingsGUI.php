@@ -671,9 +671,8 @@ class ilLDAPSettingsGUI
             'sync_per_cron' => $this->server->enabledSyncPerCron(),
             'global_role' => ilLDAPAttributeMapping::_lookupGlobalRole($this->server->getServerId()),
             'migration' => (int) $this->server->isAccountMigrationEnabled(),
-            // start Patch Name Filter
-            "name_filter" => $this->server->getUsernameFilter()
-            // end Patch Name Filter
+            "name_filter" => $this->server->getUsernameFilter(),
+            'escape_dn' => $this->server->enabledEscapeDN()
         ));
     }
     
@@ -726,7 +725,7 @@ class ilLDAPSettingsGUI
         $basedsn->setSize(64);
         $basedsn->setMaxLength(255);
         $this->form_gui->addItem($basedsn);
-        
+
         $referrals = new ilCheckboxInputGUI($this->lng->txt('ldap_referrals'), 'referrals');
         $referrals->setValue(1);
         $referrals->setInfo($this->lng->txt('ldap_referrals_info'));
@@ -817,7 +816,12 @@ class ilLDAPSettingsGUI
         #$group_member_isdn->setInfo($this->lng->txt('ldap_group_member_info'));
         $this->form_gui->addItem($group_member_isdn);
         #$group_member->addSubItem($group_member_isdn);
-        
+
+        $escapedn = new ilCheckboxInputGUI($this->lng->txt('ldap_escapedn'), 'escape_dn');
+        $escapedn->setValue(1);
+        $escapedn->setInfo($this->lng->txt('ldap_escapedn_info'));
+        $this->form_gui->addItem($escapedn);
+
         $group = new ilTextInputGUI($this->lng->txt('ldap_group_name'), 'group');
         $group->setInfo($this->lng->txt('ldap_group_name_info'));
         $group->setSize(32);
@@ -921,9 +925,8 @@ class ilLDAPSettingsGUI
             $this->server->enableSyncPerCron((int) $this->form_gui->getInput('sync_per_cron'));
             $this->server->setGlobalRole((int) $this->form_gui->getInput('global_role'));
             $this->server->enableAccountMigration((int) $this->form_gui->getInput('migration'));
-            // start Patch Name Filter
             $this->server->setUsernameFilter($this->form_gui->getInput("name_filter"));
-            // end Patch Name Filter
+            $this->server->enableEscapeDN((bool) $this->form_gui->getInput('escape_dn'));
             if (!$this->server->validate()) {
                 ilUtil::sendFailure($ilErr->getMessage());
                 $this->form_gui->setValuesByPost();
@@ -945,8 +948,6 @@ class ilLDAPSettingsGUI
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'serverList');
             return true;
-            #$this->form_gui->setValuesByPost();
-            #return $this->tpl->setContent($this->form_gui->getHtml());
         }
         
         $this->form_gui->setValuesByPost();
