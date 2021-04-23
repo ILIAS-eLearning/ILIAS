@@ -24,6 +24,10 @@ class ilADNNotificationTableGUI extends ilTable2GUI
      * @var \ILIAS\DI\UIServices
      */
     protected $ui;
+    /**
+     * @var ilObjAdministrativeNotificationAccess
+     */
+    protected $access;
 
     /**
      * ilADNNotificationTableGUI constructor.
@@ -40,6 +44,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->data_factory = new Factory();
         $this->ui = $DIC->ui();
+        $this->access = new ilObjAdministrativeNotificationAccess();
 
         $this->setId('msg_msg_table');
         $this->setRowTemplate('Services/AdministrativeNotification/templates/default/tpl.row.html');
@@ -87,23 +92,27 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DISPLAY_END', $this->formatDate($notification->getDisplayEnd()));
         }
         // Actions
-        $items = [];
-        $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
+        if ($this->access->hasUserPermissionTo('write')) {
+            $items = [];
+            $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
 
-        $items[] = $this->ui->factory()->button()->shy(
-            $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_EDIT),
-            $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, ilADNNotificationGUI::CMD_EDIT)
-        );
+            $items[] = $this->ui->factory()->button()->shy(
+                $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_EDIT),
+                $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, ilADNNotificationGUI::CMD_EDIT)
+            );
 
-        // Modals and actions
+            // Modals and actions
 
-        $ditem = $this->ui->factory()->modal()->interruptiveItem($notification->getId(), $notification->getTitle());
-        $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE, $items);
-        $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET, $items);
+            $ditem = $this->ui->factory()->modal()->interruptiveItem($notification->getId(), $notification->getTitle());
+            $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE, $items);
+            $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET, $items);
 
-        $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
+            $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
 
-        $this->tpl->setVariable('ACTIONS', $actions . $delete_modal . $reset_modal);
+            $this->tpl->setVariable('ACTIONS', $actions . $delete_modal . $reset_modal);
+        } else {
+            $this->tpl->setVariable('ACTIONS', "");
+        }
     }
 
     protected function modal(InterruptiveItem $i, string $cmd, &$items) : string

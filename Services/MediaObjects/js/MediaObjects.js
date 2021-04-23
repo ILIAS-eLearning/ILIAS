@@ -50,7 +50,7 @@ il.MediaObjects = {
 			//video_el.removeClass('ilNoDisplay');
 			video_el_wrap.removeClass('ilNoDisplay');
 			video_el_wrap.find(".ilNoDisplay").removeClass('ilNoDisplay');
-			video_el.attr('autoplay', 'true');
+			//video_el.attr('autoplay', 'true');
 			player = new MediaElementPlayer(video_el.attr('id'), {
 				success: function (mediaElement, domObject) {
 					// add event listener
