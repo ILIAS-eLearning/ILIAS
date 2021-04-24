@@ -1228,3 +1228,47 @@ if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
     $ilDB->addPrimaryKey('cp_suspend', array('user_id','obj_id'));
 }
 ?>
+<#50>
+<?php
+//get all cmix objekts with read_learning_progress
+$read_learning_progress = 0;
+$read_outcomes = 0;
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_learning_progress')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_learning_progress = $row->ops_id;
+}
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_outcomes')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_outcomes = $row->ops_id;
+}
+if ($read_outcomes > 0 && $read_learning_progress > 0) {
+    $res = $ilDB->queryF(
+        "SELECT rol_id, parent, type FROM rbac_templates WHERE (type=%s OR type=%s) AND ops_id=%s",
+        array('text', 'text', 'integer'),
+        array('cmix', 'lti', $read_learning_progress)
+        );
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $resnum = $ilDB->queryF(
+            "SELECT rol_id FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
+            array('integer', 'text', 'integer', 'integer'),
+            array($row->rol_id, $row->type, $read_outcomes, $row->parent)
+        );
+        if (!$ilDB->numRows($resnum)) {
+            $ilDB->insert('rbac_templates', array(
+                    'rol_id' => array('integer', $row->rol_id),
+                    'type' => array('text', $row->type),
+                    'ops_id' => array('integer', $read_outcomes),
+                    'parent' => array('integer', $row->parent)
+                ));
+        }
+    }
+}
+?>
