@@ -9361,7 +9361,7 @@ scormdebug#:#scormdebug_global_activate#:#Enable SCORM test tool
 scormdebug#:#scormdebug_global_activate_info#:#If enabled, the SCORM test tool can be activated for desired learning modules. If disabled, the test tool is deactivated for all learning modules.
 content#:#cont_debug_deactivate#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated. To use the Test Tool, the navigation tree has to be switched on.
 content#:#cont_debug_deactivate12#:#A Test Tool will be displayed in the presentation mode of the learning module. Based on the data provided by it the interaction of the learning module and ILIAS can be evaluated.
-content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Learning Resources).
+content#:#cont_debug_deactivated#:#The test tool is currently globally deactivated in the ILIAS administration (Administration » Repository and Objects » Learning Modules).
 scormdebug#:#error0#:#No error
 scormdebug#:#error101#:#General Exception
 scormdebug#:#error102#:#General Initialization Failure
@@ -15574,7 +15574,7 @@ trac#:#cmix_lp_mode_with_failed#:#Also consider failed
 trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of 'in progress'.
 trac#:#cmix_lp_mode_when_passed#:#Completed when 'passed'
 trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'.
-trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when passed or completed
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when 'passed' or 'completed'
 trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'.
 trac#:#trac_mode_lti_outcome#:#Mastery Score Must be reached
 trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.
@@ -16225,3 +16225,14 @@ tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' fro
 form#:#form_invalid_uri#:#Invalid URI format.
 awrn#:#awrn_filter#:#User Filter
 help#:#help_search_label#:#Search Help
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+cmix#:#toplist_top_n_results#:#Top Ranking
+cmix#:#toplist_your_result#:#Own Rank
+lti#:#toplist_top_n_results#:#Top Ranking
+lti#:#toplist_your_result#:#Own Rank

@@ -4828,7 +4828,7 @@ content#:#cont_deactivated#:#Deaktiviert
 content#:#cont_debug#:#Testwerkzeug bereitstellen
 content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
 content#:#cont_debug_deactivate12#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
-content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
+content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert (Administration » Magazin und Objekte » Lernmodule).
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Bearbeitungsdaten aufzeichnen
@@ -16225,3 +16225,14 @@ tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objekte
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
 awrn#:#awrn_filter#:#Benutzerfilter
 help#:#help_search_label#:#Suche in Hilfe
+rbac#:#delete_xapi_data#:#xAPI/cmi5-Daten löschen
+trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+cmix#:#toplist_top_n_results#:#Bestenliste
+cmix#:#toplist_your_result#:#Eigener Rang
+lti#:#toplist_top_n_results#:#Bestenliste
+lti#:#toplist_your_result#:#Eigener Rang
