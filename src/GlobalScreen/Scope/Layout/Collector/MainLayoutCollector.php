@@ -199,7 +199,7 @@ class MainLayoutCollector extends AbstractBaseCollector
     {
         if (is_a($candicate, $type) && $candicate->hasValidModification()) {
             if ($candicate->getPriority() === $current_modification->getPriority()) {
-                throw new LogicException("There are competing Modifications for $type with the same priority");
+                throw new LogicException("There are competing Modifications for $type with the same priority ({$candicate->getPriority()})");
             } elseif ($candicate->getPriority() > $current_modification->getPriority()) {
                 $current_modification = $candicate;
             }
