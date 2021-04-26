@@ -196,8 +196,8 @@ class GlyphTest extends ILIAS_UI_TestBase
     {
         $gf = $this->getGlyphFactory();
         $g = $gf->more();
-        $this->assertEquals("show_more",$g->getAriaLabel());
-        $this->assertEquals("Some Custom Label",$g->withAriaLabel("Some Custom Label")->getAriaLabel());
+        $this->assertEquals("show_more", $g->getAriaLabel());
+        $this->assertEquals("Some Custom Label", $g->withAriaLabel("Some Custom Label")->getAriaLabel());
     }
 
     /**
