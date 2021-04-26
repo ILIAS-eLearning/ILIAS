@@ -131,4 +131,13 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
     * @return mixed
     */
     public function withAction($action);
+
+    /**
+     * Get a Glyph like this, but with a custom aria label. Such label are necessary if the default label
+     * does not describe the function of the label in a given context.
+     *
+     * @param string $label
+     * @return mixed
+     */
+    public function withAriaLabel(string $label);
 }

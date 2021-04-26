@@ -16303,6 +16303,7 @@ common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents
 common#:#show_more#:#Show More
 common#:#disclose#:#Disclose
+common#:#disclose_cross_sectional_services#:#Disclose profile and cross-sectional services
 common#:#switch_language#:#Switch Language
 lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.
 lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users

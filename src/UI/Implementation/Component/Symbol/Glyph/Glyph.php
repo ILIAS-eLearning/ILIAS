@@ -121,6 +121,17 @@ class Glyph implements C\Symbol\Glyph\Glyph
     {
         return $this->type;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAriaLabel(string $label)
+    {
+        $clone = clone $this;
+        $clone->aria_label = $label;
+        return $clone;
+    }
+
     /**
      * @inheritdoc
      */

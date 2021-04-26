@@ -16301,6 +16301,7 @@ common#:#eyeclosed#:#Geschlossenes Auge - Klicken um den Inhalt des Eingabefelds
 common#:#eyeopen#:#Geöffnetes Auge - Klicken um den Inhalt des Eingabefelds aufzuzeigen
 common#:#show_more#:#Mehr zeigen
 common#:#disclose#:#Aufdecken
+common#:#disclose_cross_sectional_services#:#Zeige Benutzerprofil und Querschnittsdienste
 common#:#switch_language#:#Sprache wechseln
 lti#:#lti_user_role_created#:#Die empfohlene globale Rolle für LTI-User wurde angelegt.
 lti#:#lti_create_lti_user_role#:#Empfohlene globale Rolle für LTI-User anlegen

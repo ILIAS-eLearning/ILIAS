@@ -146,7 +146,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" >
-			<span class="glyph" aria-label="disclose">
+			<span class="glyph" aria-label="disclose_cross_sectional_services">
 				<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 				<span class="il-counter">
 					<span class="badge badge-notify il-counter-status" style="display:none">0</span>

@@ -97,6 +97,9 @@ interface Factory
      *       1: >
      *          The functionality triggered by the Glyph MUST be indicated to
      *          screen readers with the attributes aria-label or aria-labelledby.
+     *       2: >
+     *          The default aria-label MAY be replaced by a custom label, if the default does
+     *          not sufficiently describe the purpose of the glyph in a given context.
      * ---
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
      */

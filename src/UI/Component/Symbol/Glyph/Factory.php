@@ -19,17 +19,16 @@ interface Factory
      *       The Settings Glyph uses the glyphicon-cog.
      *   effect: >
      *      Upon clicking, a settings Dropdown is opened.
-     *
      * context:
      *    - In ILIAS <5.4, blocks on the Personal Desktop feature the Settings Glyph.
-     *
      * rules:
      *   usage:
      *       1: >
      *          The Settings Glyph MUST only be used in Blocks.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be “Settings”.
+     *          The aria-label MUST be “Settings” or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -57,7 +56,8 @@ interface Factory
      *          The Collapse Glyph MUST indicate if the toggled Container Collection is visible or not.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Collapse Content'.
+     *          The aria-label MUST be ‘Collapse Content' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -85,7 +85,8 @@ interface Factory
      *          The Expand Glyph MUST indicate if the toggled Container Collection is visible or not.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Expand Content'.
+     *          The aria-label MUST be ‘Expand Content' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -121,7 +122,8 @@ interface Factory
      *       1: Newly added items MUST be placed below the line in which the Add Glyph has been clicked
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Add'.
+     *          The aria-label MUST be ‘Add' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -155,7 +157,8 @@ interface Factory
      *       3: The Remove Glyph MUST NOT be used to add lines to tables.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Remove'.
+     *          The aria-label MUST be ‘Remove' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -192,7 +195,8 @@ interface Factory
      *          column of a form.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Up'.
+     *          The aria-label MUST be ‘Up' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -229,7 +233,8 @@ interface Factory
      *          column of a form.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Down'.
+     *          The aria-label MUST be ‘Down' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -260,7 +265,8 @@ interface Factory
      *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Back'.
+     *          The aria-label MUST be ‘Back' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -290,7 +296,8 @@ interface Factory
      *          If clicking on the Back/Next GLYPH opens a previous view of an object, the Back Glyph MUST be used.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Next'.
+     *          The aria-label MUST be ‘Next' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -311,7 +318,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Sort Ascending'.
+     *          The aria-label MUST be ‘Sort Ascending' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -332,7 +340,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Sort Descending'.
+     *          The aria-label MUST be ‘Sort Descending' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -352,7 +361,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Background Tasks'.
+     *          The aria-label MUST be ‘Background Tasks' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -374,7 +384,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Show who is online'.
+     *          The aria-label MUST be ‘Show who is online' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -396,7 +407,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Mail'.
+     *          The aria-label MUST be ‘Mail' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -417,7 +429,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       2: >
-     *          The aria-label MUST be "Notifications".
+     *          The aria-label MUST be "Notifications" or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -440,7 +453,8 @@ interface Factory
      *          Novelty and Status Counter MUST show the amount of tags that have been added to a specific object.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Tags'.
+     *          The aria-label MUST be ‘Tags' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -463,7 +477,8 @@ interface Factory
      *          Novelty and Status Counter MUST show the amount of notes that have been added to a specific object.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Notes'.
+     *          The aria-label MUST be ‘Notes' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -486,7 +501,8 @@ interface Factory
      *          Novelty and Status Counter MUST show the amount of comments that have been added to a specific object.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Comments'.
+     *          The aria-label MUST be ‘Comments' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -512,7 +528,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of like expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Like'.
+     *          The aria-label MUST be 'Like' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -538,7 +555,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of love expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Love'.
+     *          The aria-label MUST be 'Love' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -564,7 +582,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of dislike expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Dislike'.
+     *          The aria-label MUST be 'Dislike' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -590,7 +609,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of laugh expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Laugh'.
+     *          The aria-label MUST be 'Laugh' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -616,7 +636,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of astounded expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Astounded'.
+     *          The aria-label MUST be 'Astounded' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -642,7 +663,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of sad expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Sad'.
+     *          The aria-label MUST be 'Sad' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -668,7 +690,8 @@ interface Factory
      *          A Status Counter MUST indicate the overall amount of angry expressions.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Angry'.
+     *          The aria-label MUST be 'Angry' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -696,7 +719,8 @@ interface Factory
      *          The Eye Closed Glyph MUST only be used with Password-Inputs.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be "Eye Closed - Click to hide the input's contents".
+     *          The aria-label MUST be "Eye Closed - Click to hide the input's contents" or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -723,7 +747,8 @@ interface Factory
      *          The Eye Open Glyph MUST only be used with Password-Inputs.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be "Eye Opened - Click to reveal the input's contents".
+     *          The aria-label MUST be "Eye Opened - Click to reveal the input's contents" or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -749,7 +774,8 @@ interface Factory
      *          A Status Counter MAY indicate the overall amount of attachments.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Attachment'.
+     *          The aria-label MUST be 'Attachment' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -783,7 +809,8 @@ interface Factory
      *          greying out the Reset Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Reset'.
+     *          The aria-label MUST be 'Reset' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -817,7 +844,8 @@ interface Factory
      *          the Apply Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Apply'.
+     *          The aria-label MUST be 'Apply' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -842,7 +870,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Search'.
+     *          The aria-label MUST be 'Search' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -868,7 +897,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Help'.
+     *          The aria-label MUST be 'Help' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -891,7 +921,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Calendar'.
+     *          The aria-label MUST be 'Calendar' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -914,7 +945,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Time'.
+     *          The aria-label MUST be 'Time' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -935,7 +967,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Close'.
+     *          The aria-label MUST be 'Close' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -993,7 +1026,8 @@ interface Factory
      *          from the Disclose Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Show More'.
+     *          The aria-label MUST be 'Show More' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1049,7 +1083,8 @@ interface Factory
      *          also have a visual similarity, which can be distinguished from the More Glyph.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be „Disclose“.
+     *          The aria-label MUST be „Disclose“ or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param string|null	$action
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1080,7 +1115,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Switch Language'.
+     *          The aria-label MUST be 'Switch Language' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1110,7 +1146,8 @@ interface Factory
      *       1: The Login Glyph MUST be placed on the very top right.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Login'.
+     *          The aria-label MUST be 'Login' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1138,7 +1175,8 @@ interface Factory
      *       1: The Logout Glyph MUST be displayed if the user is logged in.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Logout'.
+     *          The aria-label MUST be 'Logout' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1164,7 +1202,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Bullet Point List'.
+     *          The aria-label MUST be 'Bullet Point List' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1193,7 +1232,8 @@ interface Factory
      *       1: The Logout Glyph MUST be displayed if the user is logged in.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Numbered List'.
+     *          The aria-label MUST be 'Numbered List' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1220,7 +1260,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Increase Indent'.
+     *          The aria-label MUST be 'Increase Indent' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1246,7 +1287,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Decrease Indent'.
+     *          The aria-label MUST be 'Decrease Indent' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
@@ -1271,7 +1313,8 @@ interface Factory
      * rules:
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be 'Filter'.
+     *          The aria-label MUST be 'Filter' or some wording describing the purpose of the glyph
+     *          even better.
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph

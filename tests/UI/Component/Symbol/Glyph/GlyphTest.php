@@ -192,6 +192,14 @@ class GlyphTest extends ILIAS_UI_TestBase
         $this->assertTrue($g2->isHighlighted());
     }
 
+    public function test_with_custom_aria()
+    {
+        $gf = $this->getGlyphFactory();
+        $g = $gf->more();
+        $this->assertEquals("show_more",$g->getAriaLabel());
+        $this->assertEquals("Some Custom Label",$g->withAriaLabel("Some Custom Label")->getAriaLabel());
+    }
+
     /**
      * @dataProvider glyph_type_provider
      */
