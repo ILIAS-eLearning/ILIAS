@@ -86,7 +86,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 		var _disengageAllButtons = function() {
 			$('#' + id +' .' + _cls_entries)
-			.find('li > .btn.' + _cls_btn_engaged)
+			.children('li').children('.btn.' + _cls_btn_engaged)
 			.each(
 				function(i, btn) {
 					_disengageButton($(btn));
@@ -164,7 +164,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var _getMetabarEntries = function() {
 			return $('#' + id +' .' + _cls_entries)
-				.find('li > .btn')
+				.children('li').children('.btn')
 				.not('.' + _cls_more_btn);
 		}
 
