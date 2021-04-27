@@ -14062,7 +14062,7 @@ style#:#settings_of_style#:#Manage style
 style#:#of_parent#:#of parent:
 style#:#from_skin#:#of skin:
 style#:#dir_copied_from#:#The directory has been copied to from:
-style#:#to#:#to:
+style#:#sty_copy_to#:#to:
 style#:#dir_deleted#:#The following directory has been deleted:
 style#:#sty_create_new_system_style#:#Create new System Style
 style#:#sty_create_new_system_sub_style#:#Create new Sub Style
