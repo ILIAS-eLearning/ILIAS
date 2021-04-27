@@ -3409,9 +3409,8 @@ abstract class ilPageObject
     /**
      * insert a content node before/after a sibling or as first child of a parent
      */
-    public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
+    public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "", bool $remove_placeholder = true)
     {
-        //echo "-".$a_pos."-".$a_pcid."-";
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
@@ -3490,7 +3489,7 @@ abstract class ilPageObject
         }
 
         //check for PlaceHolder to remove in EditMode-keep in Layout Mode
-        if (!$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
+        if ($remove_placeholder && !$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
             $sub_nodes = $curr_node->child_nodes();
             foreach ($sub_nodes as $sub_node) {
                 if ($sub_node->node_name() == "PlaceHolder") {

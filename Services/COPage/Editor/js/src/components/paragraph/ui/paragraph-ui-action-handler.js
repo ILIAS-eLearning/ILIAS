@@ -263,14 +263,15 @@ export default class ParagraphUIActionHandler {
   sendInsertCommand(pcid, target_pcid, pcmodel, page_model) {
     const af = this.actionFactory;
     const insert_action = af.paragraph().command().insert(
-      target_pcid,
-      pcid,
-      pcmodel.text,
-      pcmodel.characteristic
+        target_pcid,
+        pcid,
+        pcmodel.text,
+        pcmodel.characteristic,
+        page_model.getInsertFromPlaceholder()
     );
     this.client.sendCommand(insert_action).then(result => {
       const pl = result.getPayload();
-      this.handleSaveResponse(pcid, pl);
+      this.handleSaveResponse(pcid, pl, page_model);
     });
   }
 
@@ -278,10 +279,11 @@ export default class ParagraphUIActionHandler {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
     const insert_action = af.paragraph().command().autoInsert(
-      target_pcid,
-      pcid,
-      pcmodel.text,
-      pcmodel.characteristic
+        target_pcid,
+        pcid,
+        pcmodel.text,
+        pcmodel.characteristic,
+        page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
     this.client.sendCommand(insert_action).then(result => {
@@ -340,12 +342,13 @@ export default class ParagraphUIActionHandler {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
     const insert_action = af.paragraph().command().split(
-      insertMode,
-      after_pcid,
-      pcid,
-      text,
-      characteristic,
-      newParagraphs
+        insertMode,
+        after_pcid,
+        pcid,
+        text,
+        characteristic,
+        newParagraphs,
+        page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
     this.client.sendCommand(insert_action).then(result => {

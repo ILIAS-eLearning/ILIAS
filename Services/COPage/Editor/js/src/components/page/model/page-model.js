@@ -301,6 +301,20 @@ export default class PageModel {
   }
 
   /**
+   * @param {bool} fromPlaceholder
+   */
+  setInsertFromPlaceholder(fromPlaceholder) {
+    this.model.insertFromPlaceholder = fromPlaceholder;
+  }
+
+  /**
+   * @return {bool}
+   */
+  getInsertFromPlaceholder() {
+    return this.model.insertFromPlaceholder;
+  }
+
+  /**
    * @param {string} pcid
    */
   setAutoSavedPCId(pcid) {

@@ -208,9 +208,10 @@ export default class PageUI {
             li.querySelector("a").addEventListener("click", (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().componentInsert(cname,
-                area.dataset.pcid,
-                hier_id,
-                pluginName));
+                  area.dataset.pcid,
+                  hier_id,
+                  pluginName,
+                  false));
             });
             ul.appendChild(li);
           }

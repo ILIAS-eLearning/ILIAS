@@ -52,12 +52,13 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  componentInsert(cname, pcid, hierid, pluginName) {
+  componentInsert(cname, pcid, hierid, pluginName, fromPlaceholder) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.COMPONENT_INSERT, {
       cname: cname,
       pcid: pcid,
       hierid: hierid,
-      pluginName: pluginName
+      pluginName: pluginName,
+      fromPlaceholder: fromPlaceholder
     });
   }
 

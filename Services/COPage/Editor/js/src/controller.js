@@ -17,8 +17,8 @@ export default class Controller {
   /**
    * Init editor
    */
-  init() {
-    this.ui.init();
+  init(after_init) {
+    this.ui.init(after_init);
   }
 
   /**

@@ -138,6 +138,11 @@ class ilPageObjectGUI
     protected $toolbar;
 
     /**
+     * @var string
+     */
+    protected $open_place_holder;
+
+    /**
      * Constructor
      *
      * @param string $a_parent_type type of parent object
@@ -739,6 +744,25 @@ class ilPageObjectGUI
     }
 
     /**
+     * Set open placeholder
+     * @param string $a_val open placeholder pc id
+     */
+    public function setOpenPlaceHolder($a_val)
+    {
+        $this->open_place_holder = $a_val;
+    }
+
+    /**
+     * Get open placeholder
+     * @return string open placeholder pc id
+     */
+    public function getOpenPlaceHolder()
+    {
+        return $this->open_place_holder;
+    }
+    
+
+    /**
     * Get Enable page focus.
     *
     * @return	boolean	Enable page focus
@@ -1332,7 +1356,7 @@ class ilPageObjectGUI
                 $tpl->parseCurrentBlock();
 
                 $editor_init = new \ILIAS\COPage\Editor\UI\Init();
-                $editor_init->initUI($main_tpl);
+                $editor_init->initUI($main_tpl, (string) $this->getOpenPlaceHolder());
             }
         } else {
             // presentation or preview here
@@ -2703,12 +2727,9 @@ class ilPageObjectGUI
         
         //		  'pl_hier_id' => string '2_1_1_1' (length=7)
         //  'pl_pc_id' => string '1f77eb1d8a478497d69b99d938fda8f' (length=31)
+        $this->setOpenPlaceHolder($_GET["pl_pc_id"]);
+
         $html = $this->edit();
-
-        $tpl->addOnLoadCode("ilCOPage.insertJSAtPlaceholder('" .
-            $_GET["pl_hier_id"] . ":" . $_GET["pl_pc_id"] .
-            "');", 3);
-
         return $html;
     }
     
