@@ -113,7 +113,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      */
     protected function insertCommand($body, $auto = false) : Server\Response
     {
-        $updated = $this->insertParagraph($body["data"]["pcid"], $body["data"]["after_pcid"], $body["data"]["content"], $body["data"]["characteristic"]);
+        $updated = $this->insertParagraph($body["data"]["pcid"], $body["data"]["after_pcid"], $body["data"]["content"], $body["data"]["characteristic"], $body["data"]["fromPlaceholder"]);
 
         return $this->response_factory->getResponseObject($this->page_gui, $updated, $body["data"]["pcid"]);
     }
@@ -123,7 +123,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
      * @param
      * @return
      */
-    protected function insertParagraph($pcid, $after_pcid, $content, $characteristic)
+    protected function insertParagraph($pcid, $after_pcid, $content, $characteristic, bool $from_placeholder = false)
     {
         $page = $this->page_gui->getPageObject();
 
@@ -137,7 +137,8 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             $content,
             \ilUtil::stripSlashes($characteristic),
             \ilUtil::stripSlashes($pcid),
-            $insert_id
+            $insert_id,
+            $from_placeholder
         );
     }
 
@@ -215,7 +216,8 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             $content,
             \ilUtil::stripSlashes($body["data"]["characteristic"]),
             \ilUtil::stripSlashes($pcid),
-            $insert_id
+            $insert_id,
+            $body["data"]["fromPlaceholder"]
         );
         $current_after_id = $body["data"]["pcid"];
         $all_pc_ids[] = $current_after_id;

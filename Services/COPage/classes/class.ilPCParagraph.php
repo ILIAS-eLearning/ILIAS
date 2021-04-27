@@ -149,14 +149,15 @@ class ilPCParagraph extends ilPageContent
     * @param	object	$a_pg_obj		Page Object
     * @param	string	$a_hier_id		Hierarchical ID
     */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
+    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "", $from_placeholder = false)
     {
         //echo "-$a_pc_id-";
         //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
         $this->node = $this->dom->create_element("PageContent");
 
         // this next line kicks out placeholders, if something is inserted
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
+        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id,
+            $from_placeholder);
 
         $this->par_node = $this->dom->create_element("Paragraph");
         $this->par_node = $this->node->append_child($this->par_node);
@@ -1327,7 +1328,8 @@ class ilPCParagraph extends ilPageContent
      * @param
      * @return
      */
-    public function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "")
+    public function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "",
+        $from_placeholder = false)
     {
         $ilUser = $this->user;
 
@@ -1351,7 +1353,7 @@ class ilPCParagraph extends ilPageContent
         // insert new paragraph
         if ($a_insert_at != "") {
             $par = new ilPCParagraph($this->getPage());
-            $par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
+            $par->create($a_pg_obj, $insert_at[0], $insert_at[1], $from_placeholder);
             $par->writePCId($pc_id[1]);
         } else {
             $par = $a_pg_obj->getContentObject($pc_id[0], $pc_id[1]);

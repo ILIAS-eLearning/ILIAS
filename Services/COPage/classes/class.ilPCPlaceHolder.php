@@ -13,7 +13,6 @@ require_once("./Services/COPage/classes/class.ilPageContent.php");
 *
 * @ingroup ServicesCOPage
 */
-
 class ilPCPlaceHolder extends ilPageContent
 {
     /**
@@ -57,10 +56,10 @@ class ilPCPlaceHolder extends ilPageContent
     /**
     * Create PlaceHolder Element
     */
-    public function create(&$a_pg_obj, $a_hier_id)
+    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
     {
         $this->createPageContentNode();
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER);
+        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->q_node = $this->dom->create_element("PlaceHolder");
         $this->q_node = $this->node->append_child($this->q_node);
     }
@@ -193,4 +192,15 @@ class ilPCPlaceHolder extends ilPageContent
         }
         return $a_html;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModel()
+    {
+        $model = new \stdClass();
+        $model->contentClass = $this->getContentClass();;
+        return $model;
+    }
+
 }
