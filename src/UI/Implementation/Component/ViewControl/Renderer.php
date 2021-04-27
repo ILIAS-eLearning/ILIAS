@@ -189,7 +189,7 @@ class Renderer extends AbstractComponentRenderer
         foreach ($range as $entry) {
             $shy = $this->getPaginationShyButton($entry, $component);
             if ((int) $entry === $component->getCurrentPage()) {
-                $shy = $shy->withUnavailableAction();
+                $shy = $shy->withEngagedState(true);
             }
             $chunk_options[] = $shy;
         }
