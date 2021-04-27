@@ -99,8 +99,8 @@ class PaginationTest extends ILIAS_UI_TestBase
 		</a>
 	</span>
 
-	<button class="btn btn-link" data-action="?pagination_offset=0" disabled="true">1</button>
-	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_1">2</button>
+	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
+	<button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button>
 
 	<span class="browse next">
 		<a class="glyph" href="?pagination_offset=1" aria-label="next">
@@ -132,7 +132,7 @@ EOT;
 	</span>
 
 	<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
-	<button class="btn btn-link" data-action="?pagination_offset=1" disabled="true">2</button>
+	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_2">2</button>
 
 	<span class="browse next">
 		<a class="glyph disabled" aria-label="next" aria-disabled="true">
@@ -164,10 +164,10 @@ EOT;
 		</a>
 	</span>
 
-	<button class="btn btn-link" data-action="?pagination_offset=0" disabled="true">1</button>
+	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button>
 
 	<span class="last">
-		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_1">3</button>
+		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button>
 	</span>
 
 	<span class="browse next">
@@ -201,13 +201,13 @@ EOT;
 	</span>
 
 	<span class="first">
-		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
+		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button>
 	</span>
 
-	<button class="btn btn-link" data-action="?pagination_offset=1" disabled="true">2</button>
+	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=1" id="id_1">2</button>
 
 	<span class="last">
-		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button>
+		<button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button>
 	</span>
 
 	<span class="browse next">
@@ -240,10 +240,10 @@ EOT;
 		</a>
 	</span>
 	<span class="first">
-		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_1">1</button>
+		<button class="btn btn-link" data-action="?pagination_offset=0" id="id_2">1</button>
 	</span>
 
-	<button class="btn btn-link" data-action="?pagination_offset=2" disabled="disabled">3</button>
+	<button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=2" id="id_1">3</button>
 
 	<span class="browse next">
 		<a class="glyph disabled" aria-label="next" aria-disabled="true">
@@ -276,9 +276,9 @@ EOT;
 	<div class="dropdown">
 		<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">pagination_label_x_of_y <span class="caret"></span></button>
 		<ul class="dropdown-menu">
-			<li><button class="btn btn-link" data-action="?pagination_offset=0" disabled="disabled">1</button></li>
-			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_1">2</button></li>
-			<li><button class="btn btn-link" data-action="?pagination_offset=2" id="id_2">3</button></li>
+			<li><button class="btn btn-link engaged" aria-pressed="true" data-action="?pagination_offset=0" id="id_1">1</button></li>
+			<li><button class="btn btn-link" data-action="?pagination_offset=1" id="id_2">2</button></li>
+			<li><button class="btn btn-link" data-action="?pagination_offset=2" id="id_3">3</button></li>
 		</ul>
 	</div>
 
