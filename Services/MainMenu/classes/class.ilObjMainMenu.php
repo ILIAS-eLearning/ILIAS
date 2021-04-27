@@ -24,7 +24,7 @@ class ilObjMainMenu extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->lng->txt("main_menu");
     }

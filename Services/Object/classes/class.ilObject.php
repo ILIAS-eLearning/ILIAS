@@ -183,7 +183,7 @@ class ilObject
     /**
     * determines wehter objects are referenced or not (got ref ids or not)
     */
-    public function withReferences()
+    final public function withReferences() : bool
     {
         // both vars could differ. this method should always return true if one of them is true without changing their status
         return ($this->call_by_reference) ? true : $this->referenced;
@@ -335,28 +335,26 @@ class ilObject
     * @access	public
     * @param	integer	$a_id		reference id
     */
-    public function setRefId($a_id)
+    final public function setRefId(int $a_id)
     {
         $this->ref_id = $a_id;
         $this->referenced = true;
     }
 
     /**
-    * get reference id
-    * @access	public
-    * @return	integer	reference id
-    */
-    public function getRefId()
+     * get reference id
+     * @return int
+     */
+    final public function getRefId() : int
     {
         return $this->ref_id;
     }
 
     /**
-    * get object type
-    * @access	public
-    * @return	string		object type
-    */
-    public function getType()
+     * get object type
+     * @return string
+     */
+    final public function getType() : string
     {
         return $this->type;
     }
@@ -366,7 +364,7 @@ class ilObject
     * @access	public
     * @param	integer	$a_type		object type
     */
-    public function setType($a_type)
+    final public function setType(string $a_type)
     {
         $this->type = $a_type;
     }
@@ -376,11 +374,9 @@ class ilObject
      * Normally same as title
      * Overwritten for sessions
      *
-     * @access public
-     * @param
-     * @return
+     * @return string
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->getTitle();
     }
@@ -643,9 +639,8 @@ class ilObject
     *
     * note: title, description and type should be set when this function is called
     *
-    * @access	public
-    * @return	integer		object id
-    */
+     * @return int
+     */
     public function create()
     {
         global $DIC;
@@ -2049,10 +2044,13 @@ class ilObject
     /**
      * Collect deletion dependencies. E.g.
      *
-     * @param
-     * @return
+     * @param array  $deps
+     * @param int    $a_ref_id
+     * @param int    $a_obj_id
+     * @param string $a_type
+     * @param int    $a_depth
      */
-    public static function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
+    public static function collectDeletionDependencies(array &$deps, int $a_ref_id, int $a_obj_id, string $a_type, int $a_depth = 0) : void
     {
         global $DIC;
 

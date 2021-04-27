@@ -187,10 +187,14 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->tabs_gui->activateTab("id_permissions");
                     $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
                     $this->ctrl->forwardCommand($wspacc);
-                    break;
+                } else {
+                    if (!$cmd) {
+                        $cmd = "render";
+                    }
+                    return $this->$cmd();
                 }
-            
-                // no break
+                break;
+
             default:
                 if (!$cmd) {
                     $cmd = "render";
@@ -840,7 +844,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 
                 $dispatcher->setSubObject($a_sub_type, $a_sub_id);
                 
-                ilObjectListGUI::prepareJSLinks(
+                ilObjectListGUI::prepareJsLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)

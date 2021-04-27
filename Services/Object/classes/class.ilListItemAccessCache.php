@@ -18,23 +18,15 @@ class ilListItemAccessCache extends ilCache
     
     /**
      * Constructor
-     *
-     * @param
-     * @return
      */
     public function __construct()
     {
         global $DIC;
 
         $this->settings = $DIC->settings();
-        $ilSetting = $DIC->settings();
         parent::__construct("ServicesObject", "CheckAccess", false);
-        //		$this->setExpiresAfter($ilSetting->get("rep_cache") * 60);
         $this->setExpiresAfter(0);
-        //		if ((int) $ilSetting->get("rep_cache") == 0)
-        if (true) {
-            self::$disabled = true;
-        }
+        self::$disabled = true;
     }
     
     /**
@@ -50,7 +42,7 @@ class ilListItemAccessCache extends ilCache
     /**
      * Read an entry
      */
-    public function readEntry($a_id)
+    protected function readEntry($a_id)
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($a_id);
@@ -65,13 +57,13 @@ class ilListItemAccessCache extends ilCache
     public function storeEntry(
         $a_id,
         $a_value,
-        $a_ref_id = 0,
+        $a_int_key1 = 0,
         $a_int_key2 = null,
         $a_text_key1 = null,
         $a_text_key2 = null
     ) {
         if (!$this->isDisabled()) {
-            parent::storeEntry($a_id, $a_value, $a_ref_id);
+            parent::storeEntry($a_id, $a_value, $a_int_key1);
         }
     }
 

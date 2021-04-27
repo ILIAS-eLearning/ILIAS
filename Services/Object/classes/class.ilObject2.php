@@ -21,11 +21,6 @@ abstract class ilObject2 extends ilObject
     }
 
     abstract protected function initType();
-    
-    final public function withReferences()
-    {
-        return parent::withReferences();
-    }
 
     /**
     * Read data from db
@@ -35,30 +30,11 @@ abstract class ilObject2 extends ilObject
         parent::read();
         $this->doRead();
     }
+
     protected function doRead()
     {
     }
     
-    final public function setRefId($a_id)
-    {
-        return parent::setRefId($a_id);
-    }
-    final public function getRefId()
-    {
-        return parent::getRefId();
-    }
-    final public function getType()
-    {
-        return parent::getType();
-    }
-    final public function setType($a_type)
-    {
-        return parent::setType($a_type);
-    }
-    final public function getPresentationTitle()
-    {
-        return parent::getPresentationTitle();
-    }
     final public function getTitle()
     {
         return parent::getTitle();
@@ -129,6 +105,7 @@ abstract class ilObject2 extends ilObject
                 return $id;
             }
         }
+        return 0;
     }
 
     protected function doCreate()
@@ -382,9 +359,9 @@ abstract class ilObject2 extends ilObject
         return parent::_getObjectsByType($a_obj_type, $a_owner);
     }
     
-    final public static function _prepareCloneSelection($a_ref_ids, $new_type, $a_show_path = true)
+    final public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
     {
-        return parent::_prepareCloneSelection($a_ref_ids, $new_type, $a_show_path);
+        return parent::_prepareCloneSelection($a_ref_ids, $new_type, $show_path);
     }
     final public function appendCopyInfo($a_target_id, $a_copy_id)
     {

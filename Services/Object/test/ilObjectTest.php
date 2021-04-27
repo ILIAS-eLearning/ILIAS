@@ -30,7 +30,8 @@ class ilObjectTest extends TestCase
         $obj2->setType("xxx");
         $obj2->create();
         $id2 = $obj2->getId();
-        
+
+        $value = "";
         if ($id2 == ($id + 1)) {
             $value .= "create1-";
         }
@@ -70,6 +71,7 @@ class ilObjectTest extends TestCase
         $ref_id = $obj->getRefId();
         $obj = new ilObject($id, false);
 
+        $value = "";
         if ($obj->getType() == "") {
             $value .= "sg1-";
         }
@@ -188,6 +190,8 @@ class ilObjectTest extends TestCase
         
         $obj->putInTree(ROOT_FOLDER_ID);
         $obj->setPermissions(ROOT_FOLDER_ID);
+
+        $value = "";
         if ($tree->isInTree($ref_id)) {
             $value .= "tree1-";
         }
@@ -245,6 +249,6 @@ class ilObjectTest extends TestCase
         $bool = ilObject::_resetDeletedDate(1);
         $date = ilObject::_lookupDeletedDate(1);
         
-        $this->assertEquals($date, null);
+        $this->assertEquals(null, $date);
     }
 }

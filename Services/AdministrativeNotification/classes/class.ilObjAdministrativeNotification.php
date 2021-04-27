@@ -21,7 +21,7 @@ class ilObjAdministrativeNotification extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->lng->txt("obj_adn");
     }

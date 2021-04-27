@@ -19,7 +19,7 @@ class ilObjectDefinitionTest extends TestCase
     /**
      * @group IL_Init
      */
-    public function testObjDefinitionReader()
+    /*public function testObjDefinitionReader()
     {
         include_once("./setup/classes/class.ilObjDefReader.php");
         $def_reader = new ilObjDefReader(
@@ -27,10 +27,10 @@ class ilObjectDefinitionTest extends TestCase
             "DefinitionTest",
             "Modules"
         );
-        
+
         $def_reader->deleteObjectDefinition("xx1");
         $def_reader->startParsing();
-        
+
         $this->assertEquals("", $result);
-    }
+    }*/
 }

@@ -2999,7 +2999,7 @@ class ilObjectListGUI
             $main_tpl->addOnLoadCode("il.Object.setRatingUrl('" . $ajax_url . "');");
             $this->addHeaderIconHTML(
                 "rating",
-                $rating_gui->getHtml(
+                $rating_gui->getHTML(
                     true,
                     $this->checkCommandAccess("read", "", $this->ref_id, $this->type),
                     "il.Object.saveRating(%rating%);"

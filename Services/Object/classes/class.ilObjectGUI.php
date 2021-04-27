@@ -437,7 +437,7 @@ class ilObjectGUI
             
             $dispatcher->setSubObject($a_sub_type, $a_sub_id);
             
-            ilObjectListGUI::prepareJSLinks(
+            ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
@@ -1018,20 +1018,12 @@ class ilObjectGUI
             
             // auto rating
             $this->handleAutoRating($newObj);
-            
-            // additional paramters are added to afterSave()
-            $args = func_get_args();
-            if ($args) {
-                $this->afterSave($newObj, $args);
-            } else {
-                $this->afterSave($newObj);
-            }
-            return;
+            $this->afterSave($newObj);
         }
 
         // display only this form to correct input
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
     
     /**
@@ -1241,7 +1233,7 @@ class ilObjectGUI
         // display form again to correct errors
         $ilTabs->activateTab("settings");
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
     
     /**
@@ -1408,7 +1400,7 @@ class ilObjectGUI
                 // display message and form again
                 ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
                 $form->setValuesByPost();
-                $tpl->setContent($form->getHtml());
+                $tpl->setContent($form->getHTML());
                 return;
             }
 
@@ -1437,7 +1429,7 @@ class ilObjectGUI
 
         // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
@@ -1550,7 +1542,7 @@ class ilObjectGUI
             if ($crs_id = $tree->checkForParentType($a_ref_id, 'crs')) {
                 if (!$this->checkPermissionBool("write", "", "", $crs_id)) {
                     // Show only activated courses
-                    $tmp_obj = &ilObjectFactory::getInstanceByRefId($crs_id, false);
+                    $tmp_obj = ilObjectFactory::getInstanceByRefId($crs_id, false);
     
                     if (!$tmp_obj->isActivated()) {
                         unset($tmp_obj);

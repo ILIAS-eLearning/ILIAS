@@ -49,17 +49,7 @@ class ilObjMediaObject extends ilObject
         $this->type = "mob";
         parent::__construct($a_id, false);
     }
-
-    public function setRefId($a_id)
-    {
-        $this->ilias->raiseError("Operation ilObjMedia::setRefId() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
-    public function getRefId()
-    {
-        return false;
-    }
-
+    
     public function putInTree($a_parent_ref)
     {
         $this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.", $this->ilias->error_obj->FATAL);
