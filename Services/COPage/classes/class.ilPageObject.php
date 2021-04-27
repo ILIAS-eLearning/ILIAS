@@ -2448,10 +2448,22 @@ abstract class ilPageObject
             }
 
             // get parameters
-            $par = array();
-            foreach (explode("&", $url["query"]) as $p) {
-                $p = explode("=", $p);
-                $par[$p[0]] = $p[1];
+            $par = [];
+            if (substr($href, strlen($href) - 5) === ".html") {
+                $parts = explode("_",
+                    basename(
+                        substr($url["path"], 0, strlen($url["path"]) - 5)
+                    ));
+                if (array_shift($parts) !== "goto") {
+                    continue;
+                }
+                $par["client_id"] = array_shift($parts);
+                $par["target"] = implode("_", $parts);
+            } else {
+                foreach (explode("&", $url["query"]) as $p) {
+                    $p = explode("=", $p);
+                    $par[$p[0]] = $p[1];
+                }
             }
 
             $target_client_id = $par["client_id"];
@@ -2461,26 +2473,24 @@ abstract class ilPageObject
 
             // get ref id
             $ref_id = 0;
-            if (is_int(strpos($href, "goto.php"))) {
+            if (is_int(strpos($href, "ilias.php"))) {
+                $ref_id = (int) $par["ref_id"];
+            } else if ($par["target"] !== "") {
                 $t = explode("_", $par["target"]);
                 if ($objDefinition->isRBACObject($t[0])) {
                     $ref_id = (int) $t[1];
                     $type = $t[0];
                 }
-            } elseif (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) $par["ref_id"];
             }
-
             if ($ref_id > 0) {
                 if (isset($a_mapping[$ref_id])) {
                     $new_ref_id = $a_mapping[$ref_id];
-                    $new_href = "";
                     // we have a mapping -> replace the ID
-                    if (is_int(strpos($href, "goto.php"))) {
-                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
-                        $new_href = str_replace("target=" . $par["target"], "target=" . $nt, $href);
-                    } elseif (is_int(strpos($href, "ilias.php"))) {
+                    if (is_int(strpos($href, "ilias.php"))) {
                         $new_href = str_replace("ref_id=" . $par["ref_id"], "ref_id=" . $new_ref_id, $href);
+                    } else {
+                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
+                        $new_href = str_replace($par["target"], $nt, $href);
                     }
                     if ($new_href != "") {
                         $this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
