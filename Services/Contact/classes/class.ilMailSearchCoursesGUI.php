@@ -515,6 +515,9 @@ class ilMailSearchCoursesGUI
     {
         if ($_GET["view"] == "mycourses") {
             $ids = $_REQUEST["search_crs"];
+            if (!is_array($ids) && $ids !== "") {
+                $ids = [$ids];
+            }
             if (is_array($ids) && sizeof($ids)) {
                 $this->addPermission($ids);
             } else {
