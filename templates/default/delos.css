@@ -9661,25 +9661,25 @@ footer {
 /*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
 .il-maincontrols-metabar .btn-bulky,
-.il-maincontrols-mainbar .link-bulky,
-.il-maincontrols-metabar .link-bulky {
+.il-maincontrols-mainbar .il-link.link-bulky,
+.il-maincontrols-metabar .il-link.link-bulky {
   font-size: 0.9rem;
   line-height: 1.197rem;
 }
 .il-maincontrols-mainbar .btn-bulky:focus,
 .il-maincontrols-metabar .btn-bulky:focus,
-.il-maincontrols-mainbar .link-bulky:focus,
-.il-maincontrols-metabar .link-bulky:focus,
+.il-maincontrols-mainbar .il-link.link-bulky:focus,
+.il-maincontrols-metabar .il-link.link-bulky:focus,
 .il-maincontrols-mainbar .btn-bulky:active,
 .il-maincontrols-metabar .btn-bulky:active,
-.il-maincontrols-mainbar .link-bulky:active,
-.il-maincontrols-metabar .link-bulky:active {
+.il-maincontrols-mainbar .il-link.link-bulky:active,
+.il-maincontrols-metabar .il-link.link-bulky:active {
   box-shadow: none;
 }
 .il-maincontrols-mainbar .btn-bulky:focus-visible,
 .il-maincontrols-metabar .btn-bulky:focus-visible,
-.il-maincontrols-mainbar .link-bulky:focus-visible,
-.il-maincontrols-metabar .link-bulky:focus-visible {
+.il-maincontrols-mainbar .il-link.link-bulky:focus-visible,
+.il-maincontrols-metabar .il-link.link-bulky:focus-visible {
   border: 2px solid #0078D7;
   outline: none;
 }
@@ -9690,7 +9690,9 @@ footer {
   display: block;
 }
 .il-maincontrols-mainbar .btn:active,
-.il-maincontrols-metabar .btn:active {
+.il-maincontrols-metabar .btn:active,
+.il-maincontrols-mainbar a:active,
+.il-maincontrols-metabar a:active {
   outline: 0;
   outline-offset: 0;
 }
@@ -9766,6 +9768,7 @@ footer {
   white-space: normal;
   word-break: break-word;
   padding: 0 2px;
+  text-align: center;
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
