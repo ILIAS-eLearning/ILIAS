@@ -14059,7 +14059,7 @@ style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
 style#:#from_skin#:#vom Skin:
 style#:#dir_copied_from#:#Der Ordner wurde kopiert von:
-style#:#to#:#nach:
+style#:#sty_copy_to#:#nach:
 style#:#dir_deleted#:#Der folgende Ordner wurde gelöscht:
 style#:#sty_create_new_system_style#:#Neuen System-Style anlegen
 style#:#sty_create_new_system_sub_style#:#Neuen Sub-Style anlegen
