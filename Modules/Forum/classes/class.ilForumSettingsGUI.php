@@ -32,6 +32,8 @@ class ilForumSettingsGUI
      */
     private $notificationSettingsForm;
 
+    public $ref_id;
+    
     /**
      * ilForumSettingsGUI constructor.
      * @param $parent_obj
@@ -49,6 +51,7 @@ class ilForumSettingsGUI
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $DIC->object();
+        $this->ref_id = $this->parent_obj->object->getRefId();
     }
 
     private function initForcedForumNotification()
@@ -232,12 +235,12 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array((int)  $this->parent_obj->objProperties->getDefaultView(), array(
+        if (in_array((int) $this->parent_obj->objProperties->getDefaultView(), array(
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ))) {
-            $default_view = (int)  $this->parent_obj->objProperties->getDefaultView();
+            $default_view = (int) $this->parent_obj->objProperties->getDefaultView();
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
@@ -382,11 +385,11 @@ class ilForumSettingsGUI
             'tutors' => $tutors,
             'members' => $members
         ]) as $type => $data) {
-             $tbl = new ilForumNotificationTableGUI($this->parent_obj, 'showMembers');
-             $tbl->setTitle($this->lng->txt(strtolower($type)));
-             $tbl->setId('tbl_id_mod');
-             $tbl->setData($data);
-     
+            $tbl = new ilForumNotificationTableGUI($this, 'showMembers');
+            $tbl->setTitle($this->lng->txt(strtolower($type)));
+            $tbl->setId('tbl_id_mod');
+            $tbl->setData($data);
+
             $this->tpl->setCurrentBlock(strtolower($type) . '_table');
             $this->tpl->setVariable(strtoupper($type), $tbl->getHTML());
         }
@@ -397,16 +400,15 @@ class ilForumSettingsGUI
         $hidden_value = json_decode($_POST['hidden_value']);
         $interested_events = 0;
     
-        $interested_events += (int)$_POST['notify_modified'];
-        $interested_events += (int)$_POST['notify_censored'];
-        $interested_events += (int)$_POST['notify_uncensored'];
-        $interested_events += (int)$_POST['notify_post_deleted'];
-        $interested_events += (int)$_POST['notify_thread_deleted'];
+        $interested_events += (int) $_POST['notify_modified'];
+        $interested_events += (int) $_POST['notify_censored'];
+        $interested_events += (int) $_POST['notify_uncensored'];
+        $interested_events += (int) $_POST['notify_post_deleted'];
+        $interested_events += (int) $_POST['notify_thread_deleted'];
     
         $frm_noti = new ilForumNotification($hidden_value->ref_id);
         $frm_noti->setUserId($hidden_value->usr_id_events);
         $frm_noti->setForumId($hidden_value->forum_id);
-//        $frm_noti->setNotificationId($hidden_value->notification_id);
         $frm_noti->setInterestedEvents($interested_events);
         $frm_noti->updateInterestedEvents();
         
@@ -683,11 +685,11 @@ class ilForumSettingsGUI
                 // set values and call update
                 $interested_events = 0;
     
-                $interested_events += (int)$this->notificationSettingsForm->getInput('notify_modified');
-                $interested_events += (int)$this->notificationSettingsForm->getInput('notify_censored');
-                $interested_events += (int)$this->notificationSettingsForm->getInput('notify_uncensored');
-                $interested_events += (int)$this->notificationSettingsForm->getInput('notify_post_deleted');
-                $interested_events += (int)$this->notificationSettingsForm->getInput('notify_thread_deleted');
+                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_modified');
+                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_censored');
+                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_uncensored');
+                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_post_deleted');
+                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_thread_deleted');
     
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
                 $this->parent_obj->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));

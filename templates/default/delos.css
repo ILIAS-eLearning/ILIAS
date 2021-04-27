@@ -9986,7 +9986,7 @@ footer {
   line-height: 20px;
   padding-top: 3px;
   padding-bottom: 3px;
-  height: calc(26px);
+  height: calc(3px + 3px + 20px);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -12081,6 +12081,10 @@ div.ilHeadAction .prop {
 }
 div.ilHeadAction a:hover {
   text-decoration: none;
+}
+div.ilHeadAction ul.dropdown-menu button {
+  text-decoration: none;
+  font-size: 80%;
 }
 div.ilHeaderDesc {
   font-size: 90%;
