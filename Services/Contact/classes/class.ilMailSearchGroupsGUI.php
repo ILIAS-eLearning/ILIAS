@@ -477,6 +477,9 @@ class ilMailSearchGroupsGUI
     {
         if ($_GET["view"] == "mygroups") {
             $ids = $_REQUEST["search_grp"];
+            if (!is_array($ids) && $ids !== "") {
+                $ids = [$ids];
+            }
             if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
