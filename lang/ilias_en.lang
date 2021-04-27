@@ -4802,7 +4802,7 @@ crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_add_grouping#:#Add Membership Limitation
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_objective#:#Add Objective
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to their favourites
+crs#:#crs_add_remove_from_desktop_info#:#Course objects can be added to favourites.
 crs#:#crs_add_remove_from_desktop#:#Add to Favourites
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
