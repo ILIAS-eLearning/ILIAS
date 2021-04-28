@@ -155,7 +155,8 @@ interface Standard extends Icon
     public const PESC = 'pesc';     //Page Editor Section
     public const PETMP = 'petmp';   //Page Editor Template
     public const PEUSR = 'peusr';   //Page Editor User
-    public const LSO = 'lso';   //Learning Sequence
+    public const LSO = 'lso';       //Learning Sequence
+    public const ADN = 'adn';       //Administrative Notification
 
     /**
      * Is this an outlined Icon?
