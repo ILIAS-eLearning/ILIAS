@@ -2,7 +2,7 @@
 	<!-- BEGIN filter -->
 	<form id="il_awrn_filter_form">
 		<div class="input-group">
-			<input type="text" value="{VAL_FILTER}" class="form-control" name="il_awareness_filter" id="il_awareness_filter" placeholder="Filter" />
+			<input aria-label="{FILTER_INPUT_LABEL}" type="text" value="{VAL_FILTER}" class="form-control" name="il_awareness_filter" id="il_awareness_filter" placeholder="Filter" />
 			<span class="input-group-btn">
 				<button id="il_awrn_filer_btn" class="btn btn-default" type="submit">{GL_FILTER}</button>
 			</span>
@@ -21,9 +21,7 @@
 		<div tabindex="0" role="button" class="media" id="dropdownMenu{CNT}" data-toggle="dropdown" aria-expanded="false">
 			<div class="ilAwarenessItemRow">
 				<div class="media-left">
-					<a tabindex="-1" href="#">
-						<img class="media-object" src="{USERIMAGE}" alt="">
-					</a>
+					<img class="media-object" src="{USERIMAGE}" alt="">
 				</div>
 				<div class="media-body <!-- BEGIN uonline -->ilAwarenessOnline<!-- END uonline -->">
 					<h4 class="media-heading">{UNAME}</h4>
