@@ -7821,6 +7821,9 @@ ul.dropdown-menu > li > .btn:focus {
     margin: 0;
     border-bottom: 0;
   }
+  .panel-secondary .il-item .media-body {
+    width: auto;
+  }
 }
 .il-viewcontrol-sortation .dropdown-toggle .caret {
   border: none;
