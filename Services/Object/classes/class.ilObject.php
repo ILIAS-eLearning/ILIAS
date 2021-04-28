@@ -452,7 +452,12 @@ class ilObject
      */
     public function getLongDescription() : string
     {
-        return strlen($this->long_desc) ? $this->long_desc : $this->desc;
+        if(strlen($this->long_desc)){
+            return $this->long_desc;
+        } elseif (strlen($this->desc)){
+            return $this->long_desc;
+        }
+        return "";
     }
 
     /**
@@ -1005,7 +1010,7 @@ class ilObject
      * @param int $a_id
      * @return string
      */
-    final public static function _lookupTitle(int $a_id) : string
+    public static function _lookupTitle(int $a_id) : string
     {
         global $DIC;
 
