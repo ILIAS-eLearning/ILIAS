@@ -157,6 +157,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::PETMP
         ,self::PEUSR
         ,self::LSO
+        ,self::ADN
     );
 
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
