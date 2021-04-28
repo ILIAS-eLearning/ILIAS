@@ -55,12 +55,12 @@ trait ilObjFileMetadata
         $this->no_meta_data_creation = (bool) $a_status;
     }
 
-    protected function beforeCreateMetaData()
+    protected function beforeCreateMetaData() : bool
     {
         return !(bool) $this->no_meta_data_creation;
     }
 
-    protected function beforeUpdateMetaData()
+    protected function beforeUpdateMetaData() : bool
     {
         return !(bool) $this->no_meta_data_creation;
     }
@@ -68,7 +68,7 @@ trait ilObjFileMetadata
     /**
      * create file object meta data
      */
-    protected function doCreateMetaData()
+    protected function doCreateMetaData() : void
     {
         // add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());
@@ -81,7 +81,7 @@ trait ilObjFileMetadata
         $technical->update();
     }
 
-    protected function beforeMDUpdateListener($a_element)
+    protected function beforeMDUpdateListener(string $a_element) : bool
     {
         // Check file extension
         // Removing the file extension is not allowed
@@ -97,7 +97,7 @@ trait ilObjFileMetadata
         return true;
     }
 
-    protected function doMDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
         // handling for technical section
         include_once 'Services/MetaData/classes/class.ilMD.php';
@@ -108,7 +108,7 @@ trait ilObjFileMetadata
                 // Update Format (size is not stored in db)
                 $md = new ilMD($this->getId(), 0, $this->getType());
                 if (!is_object($md_technical = $md->getTechnical())) {
-                    return false;
+                    return;
                 }
 
                 foreach ($md_technical->getFormatIds() as $id) {
@@ -119,14 +119,12 @@ trait ilObjFileMetadata
 
                 break;
         }
-
-        return true;
     }
 
     /**
      * update meta data
      */
-    protected function doUpdateMetaData()
+    protected function doUpdateMetaData() : void
     {
         // add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());

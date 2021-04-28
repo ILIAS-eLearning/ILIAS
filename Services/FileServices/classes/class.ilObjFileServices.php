@@ -28,7 +28,7 @@ class ilObjFileServices extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         return $this->lng->txt("file_services_description");
     }

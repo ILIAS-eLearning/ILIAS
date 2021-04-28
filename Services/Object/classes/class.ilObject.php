@@ -91,9 +91,22 @@ class ilObject
     public $desc;
     public $long_desc;
     public $owner;
+
+    /**
+     * @var string
+     */
     public $create_date;
+
+    /**
+     * @var string
+     */
     public $last_update;
-    public $import_id;
+
+    /**
+     * @var string
+     */
+    public $import_id = "";
+
     public $register = false;		// registering required for object? set to true to implement a subscription interface
 
     /**
@@ -387,97 +400,85 @@ class ilObject
     * @access	public
     * @return	string		object title
     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
-    // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+
     /**
-    * get untranslated object title
-    * @access	public
-    * @return	string		object title
-    */
-    public function getUntranslatedTitle()
+     * Get untranslated object title
+     * WebDAV needs to access the untranslated title of an object
+     * @return string
+     */
+    final public function getUntranslatedTitle() : string
     {
         return $this->untranslatedTitle;
     }
-    // END WebDAV: WebDAV needs to access the untranslated title of an object
 
     /**
-    * set object title
-    *
-    * @access	public
-    * @param	string		$a_title		object title
-    */
-    public function setTitle($a_title)
+     * set object title
+     * @param string $a_title
+     */
+    final public function setTitle(string $a_title)
     {
         $this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
-        // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+        // WebDAV needs to access the untranslated title of an object
         $this->untranslatedTitle = $this->title;
-        // END WebDAV: WebDAV needs to access the untranslated title of an object
     }
 
     /**
-    * get object description
-    *
-    * @access	public
-    * @return	string		object description
-    */
-    public function getDescription()
+     * get object description
+     * @return string
+     */
+    final public function getDescription() : string
     {
         return $this->desc;
     }
 
     /**
-    * set object description
-    *
-    * @access	public
-    * @param	string		$a_desc		object description
-    */
-    public function setDescription($a_desc)
+     * set object description
+     * @param string $a_desc
+     */
+    final public function setDescription(string $a_desc)
     {
         // Shortened form is storted in object_data. Long form is stored in object_description
         $this->desc = ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots);
-
         $this->long_desc = $a_desc;
-
-        return true;
     }
 
     /**
-    * get object long description (stored in object_description)
-    *
-    * @access	public
-    * @return	string		object description
-    */
-    public function getLongDescription()
+     * get object long description (stored in object_description)
+     * @return string
+     */
+    public function getLongDescription() : string
     {
         return strlen($this->long_desc) ? $this->long_desc : $this->desc;
     }
 
     /**
-    * get import id
-    *
-    * @access	public
-    * @return	string	import id
-    */
-    public function getImportId()
+     * get import id
+     * @return string
+     */
+    final public function getImportId() : string
     {
         return $this->import_id;
     }
 
     /**
-    * set import id
-    *
-    * @access	public
-    * @param	string		$a_import_id		import id
-    */
-    public function setImportId($a_import_id)
+     * set import id
+     * @param string $a_import_id
+     */
+    final public function setImportId(string $a_import_id)
     {
         $this->import_id = $a_import_id;
     }
 
-    public static function _lookupObjIdByImportId($a_import_id)
+    /**
+     * Get (latest) object id for an import id
+     * @param string $a_import_id
+     * @return int
+     */
+    final public static function _lookupObjIdByImportId(string $a_import_id) : int
     {
         global $DIC;
 
@@ -539,31 +540,29 @@ class ilObject
     }
 
     /**
-    * get object owner
-    *
-    * @access	public
-    * @return	integer	owner id
-    */
-    public function getOwner()
+     * get object owner
+     * @return int
+     */
+    final public function getOwner() : int
     {
-        return $this->owner;
+        return (int) $this->owner;
     }
 
-    /*
-    * get full name of object owner
-    *
-    * @access	public
-    * @return	string	owner name or unknown
-    */
-    public function getOwnerName()
+    /**
+     * get full name of object owner
+     * @return string
+     */
+    final public function getOwnerName() : string
     {
         return ilObject::_lookupOwnerName($this->getOwner());
     }
 
     /**
-    * lookup owner name for owner id
-    */
-    public static function _lookupOwnerName($a_owner_id)
+     * Lookup owner name for owner id
+     * @param int $a_owner_id
+     * @return string
+     */
+    final public static function _lookupOwnerName(int $a_owner_id) : string
     {
         global $DIC;
 
@@ -585,34 +584,28 @@ class ilObject
     }
 
     /**
-    * set object owner
-    *
-    * @access	public
-    * @param	integer	$a_owner	owner id
-    */
-    public function setOwner($a_owner)
+     * set object owner
+     * @param int $a_owner user ID
+     */
+    final public function setOwner(int $a_owner)
     {
         $this->owner = $a_owner;
     }
 
-
-
     /**
-    * get create date
-    * @access	public
-    * @return	string		creation date
-    */
-    public function getCreateDate()
+     * Get create date in YYYY-MM-DD HH-MM-SS format
+     * @return string
+     */
+    final public function getCreateDate() : string
     {
         return $this->create_date;
     }
 
     /**
-    * get last update date
-    * @access	public
-    * @return	string		date of last update
-    */
-    public function getLastUpdateDate()
+     * Get last update date in YYYY-MM-DD HH-MM-SS format
+     * @return string
+     */
+    final public function getLastUpdateDate() : string
     {
         return $this->last_update;
     }
@@ -789,118 +782,161 @@ class ilObject
     }
 
     /**
-    * Meta data update listener
-    *
-    * Important note: Do never call create() or update()
-    * method of ilObject here. It would result in an
-    * endless loop: update object -> update meta -> update
-    * object -> ...
-    * Use static _writeTitle() ... methods instead.
-    *
-    * @param	string		$a_element
-    */
-    public function MDUpdateListener($a_element)
+     * Meta data update listener
+     *
+     * Important note: Do never call create() or update()
+     * method of ilObject here. It would result in an
+     * endless loop: update object -> update meta -> update
+     * object -> ...
+     * Use static _writeTitle() ... methods instead.
+     *
+     * @param string $a_element
+     */
+    final public function MDUpdateListener(string $a_element) : void
     {
         global $DIC;
 
-        $app_event = $DIC->event();
+        if ($this->beforeMDUpdateListener($a_element)) {
+            $app_event = $DIC->event();
+            $app_event->raise(
+                'Services/Object',
+                'update',
+                array('obj_id' => $this->getId(),
+                      'obj_type' => $this->getType(),
+                      'ref_id' => $this->getRefId()
+                )
+            );
 
-        $app_event->raise(
-            'Services/Object',
-            'update',
-            array('obj_id' => $this->getId(),
-                'obj_type' => $this->getType(),
-                'ref_id' => $this->getRefId())
-        );
+            switch ($a_element) {
+                case 'General':
 
-        switch ($a_element) {
-            case 'General':
+                    // Update Title and description
+                    $md = new ilMD($this->getId(), 0, $this->getType());
+                    if (!is_object($md_gen = $md->getGeneral())) {
+                        return;
+                    }
+                    $this->setTitle($md_gen->getTitle());
 
-                // Update Title and description
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_gen = $md->getGeneral())) {
-                    return false;
-                }
-                $this->setTitle($md_gen->getTitle());
-
-                foreach ($md_gen->getDescriptionIds() as $id) {
-                    $md_des = $md_gen->getDescription($id);
-                    $this->setDescription($md_des->getDescription());
+                    foreach ($md_gen->getDescriptionIds() as $id) {
+                        $md_des = $md_gen->getDescription($id);
+                        $this->setDescription($md_des->getDescription());
+                        break;
+                    }
+                    $this->update();
                     break;
-                }
-                $this->update();
-                break;
-
-            default:
+            }
+            $this->doMDUpdateListener($a_element);
+            //return true;
         }
-        
+        //return false;     // unclear how this is used
+    }
+
+    protected function doMDUpdateListener(string $a_element) : void
+    {
+    }
+
+    protected function beforeMDUpdateListener(string $a_element) : bool
+    {
         return true;
     }
 
+
     /**
-    * create meta data entry
-    */
-    public function createMetaData()
+     * create meta data entry
+     */
+    final public function createMetaData() : void
     {
         global $DIC;
 
-        $ilUser = $DIC["ilUser"];
+        if ($this->beforeCreateMetaData()) {
+            $ilUser = $DIC["ilUser"];
 
-        $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
-        $md_creator->setTitle($this->getTitle());
-        $md_creator->setTitleLanguage($ilUser->getPref('language'));
-        $md_creator->setDescription($this->getLongDescription());
-        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-        $md_creator->setLanguage($ilUser->getPref('language'));
-        $md_creator->create();
+            $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
+            $md_creator->setTitle($this->getTitle());
+            $md_creator->setTitleLanguage($ilUser->getPref('language'));
+            $md_creator->setDescription($this->getLongDescription());
+            $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+            $md_creator->setKeywordLanguage($ilUser->getPref('language'));
+            $md_creator->setLanguage($ilUser->getPref('language'));
+            $md_creator->create();
+            $this->doCreateMetaData();
+        }
+    }
 
+    protected function doCreateMetaData() : void
+    {
+    }
+
+    protected function beforeCreateMetaData() : bool
+    {
         return true;
     }
 
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    final public function updateMetaData() : void
     {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_gen = $md->getGeneral();
-        // BEGIN WebDAV: meta data can be missing sometimes.
-        if (!$md_gen instanceof ilMDGeneral) {
-            $this->createMetaData();
+        if ($this->beforeUpdateMetaData()) {
             $md = new ilMD($this->getId(), 0, $this->getType());
             $md_gen = $md->getGeneral();
-        }
-        // END WebDAV: meta data can be missing sometimes.
-        $md_gen->setTitle($this->getTitle());
+            // BEGIN WebDAV: meta data can be missing sometimes.
+            if (!$md_gen instanceof ilMDGeneral) {
+                $this->createMetaData();
+                $md = new ilMD($this->getId(), 0, $this->getType());
+                $md_gen = $md->getGeneral();
+            }
+            // END WebDAV: meta data can be missing sometimes.
+            $md_gen->setTitle($this->getTitle());
 
-        // sets first description (maybe not appropriate)
-        $md_des_ids = $md_gen->getDescriptionIds();
-        if (count($md_des_ids) > 0) {
-            $md_des = $md_gen->getDescription($md_des_ids[0]);
-            $md_des->setDescription($this->getLongDescription());
-            $md_des->update();
+            // sets first description (maybe not appropriate)
+            $md_des_ids = $md_gen->getDescriptionIds();
+            if (count($md_des_ids) > 0) {
+                $md_des = $md_gen->getDescription($md_des_ids[0]);
+                $md_des->setDescription($this->getLongDescription());
+                $md_des->update();
+            }
+            $md_gen->update();
+            $this->doUpdateMetaData();
         }
-        $md_gen->update();
     }
+
+    protected function doUpdateMetaData() : void
+    {
+    }
+
+    protected function beforeUpdateMetaData() : bool
+    {
+        return true;
+    }
+
 
     /**
     * delete meta data entry
     */
-    public function deleteMetaData()
+    final public function deleteMetaData() : void
     {
-        // Delete meta data
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md->deleteAll();
+        if ($this->beforeDeleteMetaData()) {
+            // Delete meta data
+            $md = new ilMD($this->getId(), 0, $this->getType());
+            $md->deleteAll();
+            $this->doDeleteMetaData();
+        }
+    }
+
+    protected function doDeleteMetaData() : void
+    {
+    }
+
+    protected function beforeDeleteMetaData() : bool
+    {
+        return true;
     }
 
     /**
      * update owner of object in db
-     *
-     * @access   public
-     * @return   boolean true on success
      */
-    public function updateOwner()
+    final public function updateOwner() : void
     {
         $ilDB = $this->db;
         
@@ -916,18 +952,14 @@ class ilObject
         $obj_set = $ilDB->query($q);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
         $this->last_update = $obj_rec["last_update"];
-
-        return true;
     }
 
     /**
-    * get current object id for import id (static)
-    *
-    * @param	int		$a_import_id		import id
-    *
-    * @return	int		id
-    */
-    public static function _getIdForImportId($a_import_id)
+     * get current object id for import id
+     * @param string $a_import_id
+     * @return int
+     */
+    final public static function _getIdForImportId(string $a_import_id) : int
     {
         global $DIC;
 
@@ -946,11 +978,11 @@ class ilObject
     }
 
     /**
-    * get all reference ids of object
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _getAllReferences($a_id)
+     * get all reference ids for object ID
+     * @param int $a_id
+     * @return array
+     */
+    final public static function _getAllReferences(int $a_id) : array
     {
         global $DIC;
 
@@ -969,18 +1001,17 @@ class ilObject
     }
 
     /**
-    * lookup object title
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupTitle($a_id)
+     * lookup object title for object ID
+     * @param int $a_id
+     * @return string
+     */
+    final public static function _lookupTitle(int $a_id) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         $tit = $ilObjDataCache->lookupTitle($a_id);
-        //echo "<br>LOOKING-$a_id-:$tit";
+
         return $tit;
     }
     
@@ -1001,21 +1032,28 @@ class ilObject
 
     
     /**
-    * lookup object owner
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupOwner($a_id)
+     * Lookup owner user ID for object ID
+     *
+     * @param int $a_id
+     * @return int
+     */
+    final public static function _lookupOwner(int $a_id) : int
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         $owner = $ilObjDataCache->lookupOwner($a_id);
+
         return $owner;
     }
 
-    public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
+    /**
+     * @param string $title
+     * @param string $type
+     * @param bool   $partialmatch
+     * @return int[]
+     */
+    final public static function _getIdsForTitle(string $title, string $type = '', bool $partialmatch = false) : array
     {
         global $DIC;
 
@@ -1030,12 +1068,12 @@ class ilObject
         
         $result = $ilDB->query($query);
         
-        $object_ids = array();
+        $object_ids = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $object_ids[] = $row['obj_id'];
         }
         
-        return is_array($object_ids) ? $object_ids : array();
+        return $object_ids;
     }
 
     /**
@@ -1043,12 +1081,11 @@ class ilObject
     *
     * @param	int		$a_id		object id
     */
-    public static function _lookupDescription($a_id)
+    final public static function _lookupDescription(int $a_id) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         return $ilObjDataCache->lookupDescription($a_id);
     }
 

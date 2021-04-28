@@ -9,11 +9,10 @@
 abstract class ilObject2 extends ilObject
 {
     /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
+     * Constructor
+     * @param	int	reference_id or object_id
+     * @param	bool	treat the id as reference_id (true) or object_id (false)
+     */
     public function __construct($a_id = 0, $a_reference = true)
     {
         $this->initType();
@@ -35,66 +34,6 @@ abstract class ilObject2 extends ilObject
     {
     }
     
-    final public function getTitle()
-    {
-        return parent::getTitle();
-    }
-    final public function getUntranslatedTitle()
-    {
-        return parent::getUntranslatedTitle();
-    }
-    final public function setTitle($a_title)
-    {
-        return parent::setTitle($a_title);
-    }
-    final public function getDescription()
-    {
-        return parent::getDescription();
-    }
-    final public function setDescription($a_desc)
-    {
-        return parent::setDescription($a_desc);
-    }
-    final public function getLongDescription()
-    {
-        return parent::getLongDescription();
-    }
-    final public function getImportId()
-    {
-        return parent::getImportId();
-    }
-    final public function setImportId($a_import_id)
-    {
-        return parent::setImportId($a_import_id);
-    }
-    final public static function _lookupObjIdByImportId($a_import_id)
-    {
-        return parent::_lookupObjIdByImportId($a_import_id);
-    }
-    final public function getOwner()
-    {
-        return parent::getOwner();
-    }
-    final public function getOwnerName()
-    {
-        return parent::getOwnerName();
-    }
-    final public static function _lookupOwnerName($a_owner_id)
-    {
-        return parent::_lookupOwnerName($a_owner_id);
-    }
-    final public function setOwner($a_owner)
-    {
-        return parent::setOwner($a_owner);
-    }
-    final public function getCreateDate()
-    {
-        return parent::getCreateDate();
-    }
-    final public function getLastUpdateDate()
-    {
-        return parent::getLastUpdateDate();
-    }
 
     final public function create($a_clone_mode = false)
     {
@@ -145,98 +84,6 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    final public function MDUpdateListener($a_element)
-    {
-        if ($this->beforeMDUpdateListener($a_element)) {
-            if (parent::MDUpdateListener($a_element)) {
-                $this->doMDUpdateListener($a_element);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected function doMDUpdateListener($a_element)
-    {
-    }
-
-    protected function beforeMDUpdateListener($a_element)
-    {
-        return true;
-    }
-
-    final public function createMetaData()
-    {
-        if ($this->beforeCreateMetaData()) {
-            if (parent::createMetaData()) {
-                $this->doCreateMetaData();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected function doCreateMetaData()
-    {
-    }
-
-    protected function beforeCreateMetaData()
-    {
-        return true;
-    }
-
-    final public function updateMetaData()
-    {
-        if ($this->beforeUpdateMetaData()) {
-            if (parent::updateMetaData()) {
-                $this->doUpdateMetaData();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected function doUpdateMetaData()
-    {
-    }
-
-    protected function beforeUpdateMetaData()
-    {
-        return true;
-    }
-    
-    final public function deleteMetaData()
-    {
-        return parent::deleteMetaData();
-    }
-    final public function updateOwner()
-    {
-        return parent::updateOwner();
-    }
-    final public static function _getIdForImportId($a_import_id)
-    {
-        return parent::_getIdForImportId($a_import_id);
-    }
-    final public static function _getAllReferences($a_id)
-    {
-        return parent::_getAllReferences($a_id);
-    }
-    final public static function _lookupTitle($a_id)
-    {
-        return parent::_lookupTitle($a_id);
-    }
-    final public static function _lookupOwner($a_id)
-    {
-        return parent::_lookupOwner($a_id);
-    }
-    final public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
-    {
-        return parent::_getIdsForTitle($title, $type, $partialmatch);
-    }
-    final public static function _lookupDescription($a_id)
-    {
-        return parent::_lookupDescription($a_id);
-    }
     final public static function _lookupLastUpdate($a_id, $a_as_string = false)
     {
         return parent::_lookupLastUpdate($a_id, $a_as_string);

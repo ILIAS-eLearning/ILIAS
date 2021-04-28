@@ -49,7 +49,7 @@ class ilObjMediaObject extends ilObject
         $this->type = "mob";
         parent::__construct($a_id, false);
     }
-    
+
     public function putInTree($a_parent_ref)
     {
         $this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.", $this->ilias->error_obj->FATAL);
@@ -58,16 +58,6 @@ class ilObjMediaObject extends ilObject
     public function createReference()
     {
         $this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
-    public function setTitle($a_title)
-    {
-        parent::setTitle($a_title);
-    }
-
-    public function getTitle()
-    {
-        return parent::getTitle();
     }
 
     /**
@@ -140,24 +130,6 @@ class ilObjMediaObject extends ilObject
     }
 
     /**
-    * get description of media object
-    *
-    * @return	string		description
-    */
-    public function getDescription()
-    {
-        return parent::getDescription();
-    }
-
-    /**
-    * set description of media object
-    */
-    public function setDescription($a_description)
-    {
-        parent::setDescription($a_description);
-    }
-
-    /**
     * Meta data update listener
     *
     * Important note: Do never call create() or update()
@@ -168,7 +140,7 @@ class ilObjMediaObject extends ilObject
     *
     * @param	string		$a_element
     */
-    public function MDUpdateListener($a_element)
+    public function beforeMDUpdateListener(string $a_element) : bool
     {
         switch ($a_element) {
             case 'General':
@@ -190,16 +162,14 @@ class ilObjMediaObject extends ilObject
                 }
 
                 break;
-
-            default:
         }
-        return true;
+        return false;       // prevent parent from creating ilMD
     }
 
     /**
     * create meta data entry
     */
-    public function createMetaData()
+    protected function beforeCreateMetaData() : bool
     {
         $ilUser = $this->user;
 
@@ -212,13 +182,13 @@ class ilObjMediaObject extends ilObject
         $md_creator->setLanguage($ilUser->getPref('language'));
         $md_creator->create();
 
-        return true;
+        return false;   // avoid parent to create md
     }
 
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    protected function beforeUpdateMetaData() : bool
     {
         $md = new ilMD(0, $this->getId(), $this->getType());
         $md_gen = $md->getGeneral();
@@ -232,16 +202,19 @@ class ilObjMediaObject extends ilObject
             $md_des->update();
         }
         $md_gen->update();
+        return false;
     }
 
     /**
-    * delete meta data entry
-    */
-    public function deleteMetaData()
+     * @inheritDoc
+     */
+    protected function beforeDeleteMetaData() : bool
     {
         // Delete meta data
         $md = new ilMD(0, $this->getId(), $this->getType());
         $md->deleteAll();
+
+        return false;
     }
 
 
@@ -380,26 +353,6 @@ class ilObjMediaObject extends ilObject
     public function getOriginID()
     {
         return $this->origin_id;
-    }
-
-    /*
-    function getimportId()
-    {
-        return $this->meta_data->getImportIdentifierEntryID();
-    }*/
-
-
-    /**
-    * get import id
-    */
-    public function getImportId()
-    {
-        return $this->import_id;
-    }
-
-    public function setImportId($a_id)
-    {
-        $this->import_id = $a_id;
     }
 
     /**

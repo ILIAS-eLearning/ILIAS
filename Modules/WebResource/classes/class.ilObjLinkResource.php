@@ -79,15 +79,11 @@ class ilObjLinkResource extends ilObject
      * @access public
      *
      */
-    public function MDUpdateListener($a_element)
+    public function doMDUpdateListener(string $a_element) : void
     {
-        global $DIC;
-
-        parent::MDUpdateListener($a_element);
-        
         $md = new ilMD($this->getId(), 0, $this->getType());
         if (!is_object($md_gen = $md->getGeneral())) {
-            return false;
+            return;
         }
         $title = $md_gen->getTitle();
         foreach ($md_gen->getDescriptionIds() as $id) {
@@ -107,10 +103,7 @@ class ilObjLinkResource extends ilObject
                         $link->update();
                     }
                     break;
-            default:
-                return true;
         }
-        return true;
     }
     
 

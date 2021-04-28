@@ -416,7 +416,7 @@ class ilObjOrgUnit extends ilContainer
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         if (parent::getTitle() != "__OrgUnitAdministration") {
             return parent::getTitle();
@@ -432,7 +432,7 @@ class ilObjOrgUnit extends ilContainer
      * @access    public
      * @return    string        object description
      */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         if (parent::getTitle() == "__OrgUnitAdministration") {
             return $this->lng->txt("obj_orgu_description");
@@ -463,7 +463,6 @@ class ilObjOrgUnit extends ilContainer
                 "lang" => $row->lang_code,
                 'default' => $row->lang_default,
             );
-
         }
 
         $translations = $data;

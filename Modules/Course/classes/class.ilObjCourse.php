@@ -1896,14 +1896,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * @access public
      *
      */
-    public function MDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        parent::MDUpdateListener($a_element);
-
         switch ($a_element) {
             case 'General':
                 // Update ecs content
@@ -1911,9 +1905,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 $ecs = new ilECSCourseSettings($this);
                 $ecs->handleContentUpdate();
                 break;
-                
-            default:
-                return true;
         }
     }
     
