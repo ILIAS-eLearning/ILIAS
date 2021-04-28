@@ -360,14 +360,14 @@ class ilObject
      */
     final public function getRefId() : int
     {
-        return $this->ref_id;
+        return $this->ref_id ?? 0;
     }
 
     /**
      * get object type
      * @return string
      */
-    final public function getType() : string
+    public function getType() : string
     {
         return $this->type;
     }
