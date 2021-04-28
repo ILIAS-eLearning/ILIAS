@@ -98,6 +98,7 @@ interface Standard extends Icon
     public const REPS = 'reps';	//Repository Settings
     public const CRSS = 'crss';	//Course Settings
     public const GRPS = 'grps';	//Group Settings
+    public const WBDV = 'wbdv';	//WebDAV Settings
     public const WBRS = 'wbrs';	//WebResource Settings
     public const PRTT = 'prtt';	//Portfolio Template Object
     public const ORGU = 'orgu';	//Organisational Unit
