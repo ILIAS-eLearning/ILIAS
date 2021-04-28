@@ -120,6 +120,7 @@ administration#:#adm_sql#:#SQL
 administration#:#adm_sure_delete_settings_template#:#Wollen Sie wirklich die folgenden Vorlagen löschen?
 administration#:#adm_table#:#Tabelle
 administration#:#adm_time#:#Zeit
+mail#:#mail_sel_label#:#Auswahl der Empfänger
 administration#:#adm_user_administration#:#Benutzerverwaltung
 administration#:#adm_user_services#:#Benutzer-Services
 administration#:#adm_user_starting_point#:#Persönliche Startseite
