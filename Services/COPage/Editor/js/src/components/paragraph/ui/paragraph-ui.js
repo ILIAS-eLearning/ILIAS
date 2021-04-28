@@ -671,8 +671,8 @@ export default class ParagraphUI {
     console.log("paragraph-ui switchToPrevious");
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-
-    const cpcid = this.page_model.getCurrentPCId();
+    const page_model = this.page_model;
+    const cpcid = page_model.getCurrentPCId();
     let found = false;
     let previousPcid = null;
     let previousHierId = null;
@@ -681,12 +681,15 @@ export default class ParagraphUI {
       const hierid = el.dataset.hierid;
       const cname = el.dataset.cname;
       if (cname === "Paragraph") {
-        if (!found && cpcid === pcid) {
-          found = true;
-        }
-        if (!found) {
-          previousPcid = pcid;
-          previousHierId = hierid;
+        const pcModel = page_model.getPCModel(pcid);
+        if (pcModel.characteristic !== "Code") {
+          if (!found && cpcid === pcid) {
+            found = true;
+          }
+          if (!found) {
+            previousPcid = pcid;
+            previousHierId = hierid;
+          }
         }
       }
     });
@@ -706,8 +709,8 @@ export default class ParagraphUI {
     this.log("paragraph-ui switchToNext");
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-
-    const cpcid = this.page_model.getCurrentPCId();
+    const page_model = this.page_model;
+    const cpcid = page_model.getCurrentPCId();
     let found = false;
     let nextPcid = null;
     let nextHierId = null;
@@ -716,12 +719,15 @@ export default class ParagraphUI {
       const hierid = el.dataset.hierid;
       const cname = el.dataset.cname;
       if (cname === "Paragraph") {
-        if (found && !nextPcid) {
-          nextPcid = pcid;
-          nextHierId = hierid;
-        }
-        if (!found && cpcid === pcid) {
-          found = true;
+        const pcModel = page_model.getPCModel(pcid);
+        if (pcModel.characteristic !== "Code") {
+          if (found && !nextPcid) {
+            nextPcid = pcid;
+            nextHierId = hierid;
+          }
+          if (!found && cpcid === pcid) {
+            found = true;
+          }
         }
       }
     });
