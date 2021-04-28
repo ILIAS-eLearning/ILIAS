@@ -136,8 +136,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $html = $r->render($mb);
 
         $expected = '
-<nav class="il-maincontrols-metabar" id="id_5" aria-label="metabar_aria_label">
-   <ul class="il-metabar-entries" role="menubar" style="visibility: hidden">
+   <ul class="il-maincontrols-metabar il-metabar-entries" role="menubar" style="visibility: hidden" aria-label="metabar_aria_label" id="id_5" >
       <li role="none">
         <button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" >
             <img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span>
@@ -164,7 +163,6 @@ class MetaBarTest extends ILIAS_UI_TestBase
          </div>
       </li>
    </ul>
-</nav>
 ';
 
         $this->assertEquals(
