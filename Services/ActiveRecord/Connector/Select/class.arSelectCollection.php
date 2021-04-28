@@ -4,7 +4,6 @@ require_once('class.arSelect.php');
 
 /**
  * Class arSelectCollection
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -14,7 +13,7 @@ class arSelectCollection extends arStatementCollection
     /**
      * @return string
      */
-    public function asSQLStatement()
+    public function asSQLStatement() : string
     {
         $return = 'SELECT ';
         if ($this->hasStatements()) {
@@ -25,16 +24,13 @@ class arSelectCollection extends arStatementCollection
             $return .= join(', ', $selectSQLs);
         }
 
-        //		$return .= ' FROM ' . $this->getAr()->getConnectorContainerName();
-
         return $return;
     }
-
 
     /**
      * @return arSelect[]
      */
-    public function getSelects()
+    public function getSelects() : array
     {
         return $this->statements;
     }
