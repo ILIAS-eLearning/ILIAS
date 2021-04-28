@@ -75,7 +75,14 @@ export default class ParagraphUIActionHandler {
           break;
 
         case PAGE_ACTIONS.COMPONENT_EDIT:
-          this.ui.editParagraph(page_model.getCurrentPCId());
+          const pcModel = page_model.getPCModel(page_model.getCurrentPCId());
+          if (pcModel.characteristic !== "Code") {
+            this.ui.editParagraph(page_model.getCurrentPCId());
+          } else {
+            client.sendForm(actionFactory.page().command().editLegacy("SourceCode", params.pcid,
+                params.hierid));
+            form_sent = true;
+          }
           break;
 
         case PAGE_ACTIONS.COMPONENT_CANCEL:
