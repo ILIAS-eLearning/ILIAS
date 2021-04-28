@@ -452,9 +452,9 @@ class ilObject
      */
     public function getLongDescription() : string
     {
-        if(strlen($this->long_desc)){
+        if (strlen($this->long_desc)) {
             return $this->long_desc;
-        } elseif (strlen($this->desc)){
+        } elseif (strlen($this->desc)) {
             return $this->long_desc;
         }
         return "";
