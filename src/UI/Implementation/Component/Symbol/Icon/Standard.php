@@ -99,6 +99,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         ,self::REPS
         ,self::CRSS
         ,self::GRPS
+        ,self::WBDV
         ,self::WBRS
         ,self::PRTT
         ,self::ORGU
