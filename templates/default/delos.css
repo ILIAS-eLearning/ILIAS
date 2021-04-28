@@ -8047,21 +8047,21 @@ ul.dropdown-menu > li > .btn:focus {
   background-color: #f0f0f0;
   color: #434343;
 }
-.il-standard-form .il-standard-form-header h3,
-.il-standard-form .il-section-input-header h3 {
+.il-standard-form .il-standard-form-header h2,
+.il-standard-form .il-section-input-header h2 {
   font-size: 19px;
-  padding-top: 6px;
-  margin-bottom: 3px;
+  padding-top: 12px;
+  padding-bottom: 3px;
 }
 .il-standard-form .il-standar-form-header-byline,
 .il-standard-form .il-section-input-header-byline {
   font-size: 12px;
 }
 .il-standard-form .il-standard-form-header + .il-section-input {
-  margin-top: -25.14285715px;
+  margin-top: -21.14285715px;
   padding: 0;
 }
-.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h3 {
+.il-standard-form .il-standard-form-header + .il-section-input .il-section-input-header h2 {
   margin-top: 0;
   padding-top: 0;
 }
