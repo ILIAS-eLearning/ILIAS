@@ -58,4 +58,35 @@ EOT;
         $expected = $this->brutallyTrimHTML($expected);
         $this->assertEquals($expected, $actual);
     }
+
+    public function testSectionRenderingWithError()
+    {
+        $f = $this->getFieldFactory();
+        $r = $this->getDefaultRenderer();
+        $inputs = [
+            $f->text("input1", "in 1")
+        ];
+        $label = 'section label';
+        $byline = 'section byline';
+        $section = $f->section($inputs, $label, $byline);
+        $actual = $this->brutallyTrimHTML($r->render($section->withError("Some Error")));
+        $expected = <<<EOT
+            <div class="il-section-input">
+                <div class="il-section-input-header">
+                    <h2>section label</h2>
+                    <div class="il-section-input-header-byline">section byline</div>
+                </div>
+                <div class="help-block alert alert-danger" role="alert"> Some Error </div>
+                <div class="form-group row">
+                    <label for="id_1" class="control-label col-sm-3">input1</label>
+                    <div class="col-sm-9">
+                        <input id="id_1" type="text" name="" class="form-control form-control-sm" />
+                        <div class="help-block">in 1</div>
+                    </div>
+                </div>
+            </div>
+EOT;
+        $expected = $this->brutallyTrimHTML($expected);
+        $this->assertEquals($expected, $actual);
+    }
 }
