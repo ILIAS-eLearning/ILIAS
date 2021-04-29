@@ -3952,12 +3952,9 @@ abstract class ilPageObject
         $mydom = $this->dom;
 
         $xpc = xpath_new_context($mydom);
-
-        //$path = "//PageContent[position () = $par_id]/Paragraph";
-        //$path = "//Paragraph[$par_id]";
         $path = "/descendant::Paragraph[position() = $par_id]";
 
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         if (count($res->nodeset) != 1) {
             die("Should not happen");
