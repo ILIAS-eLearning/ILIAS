@@ -338,6 +338,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $data[] = $row;
         }
         
+        $messageBox = $DIC->ui()->factory()->messageBox()->success("hallo!");
+        $this->toolbar->addComponent($messageBox);
+
         // render and show the table
         $table_gui->setData($data);
         $tpl->setContent($table_gui->getHTML() .
