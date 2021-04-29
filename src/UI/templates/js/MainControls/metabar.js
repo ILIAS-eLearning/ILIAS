@@ -7,7 +7,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var id
 			,_cls_btn_engaged = 'engaged'
-			,_cls_entries = 'il-metabar-entries'
+			,_cls_entries = 'il-maincontrols-metabar'
 			,_cls_slates = 'il-metabar-slates'
 			,_cls_more_btn = 'il-metabar-more-button'
 			,_cls_more_slate = 'il-metabar-more-slate'

@@ -136,7 +136,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $html = $r->render($mb);
 
         $expected = '
-   <ul class="il-maincontrols-metabar il-metabar-entries" role="menubar" style="visibility: hidden" aria-label="metabar_aria_label" id="id_5" >
+   <ul class="il-maincontrols-metabar" role="menubar" style="visibility: hidden" aria-label="metabar_aria_label" id="id_5" >
       <li role="none">
         <button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" >
             <img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span>
