@@ -1,12 +1,29 @@
 <div>
 	<a name="{ANCHOR_ID}"></a>
-	<div class="ilFloatLeft">
-		<!-- <img src="{ICON_SRC}" alt="{ICON_TXT}" /> -->{TITLE}
+	<div style="display: inline-block">
+		{TITLE}
 		<!-- BEGIN desc_bl -->
 		<div class="il_Description_no_margin small">{DESCRIPTION}</div>
 		<!-- END desc_bl -->
+		<div class="ilCourseObjectiveAccResults il_info">
+			<!-- BEGIN res_initial -->
+			<div class="ilCourseObjectiveAccResult">
+				{IRESULT} <!-- BEGIN i_with_link -->{IBTN}<!-- END i_with_link -->
+			</div>
+			<!-- END res_initial -->
+			<!-- BEGIN res_qualifying -->
+			<div class="ilCourseObjectiveAccResult">
+				{QRESULT} <!-- BEGIN q_with_link -->{QBTN}<!-- END q_with_link -->
+			</div>
+			<!-- END res_qualifying -->
+		</div>
+		<!-- BEGIN objective_summary -->
+		<div class="ilCourseObjectiveAccSummary">
+			{SUMMARY_TXT}
+		</div>
+		<!-- END objective_summary -->
 	</div>
-	<div class="ilFloatRight">
+	<div style="display: inline-block; float:right">
 		{PROGRESS_BAR}
 	</div>
 	<br style="clear:both;" />

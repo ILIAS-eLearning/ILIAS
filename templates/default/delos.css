@@ -16122,13 +16122,27 @@ li.smallPad {
   margin-bottom: 10px;
 }
 /* LOK progress bars */
-.ilCourseObjectiveProgressBar {
-  padding-right: 5px;
-  float: right;
+.ilCourseObjectiveAccResults {
+  padding-top: 10px;
+}
+.ilCourseObjectiveAccResult {
+  font-size: 80%;
+}
+.ilCourseObjectiveAccSummary {
+  font-size: 120%;
+  padding-top: 15px;
+}
+.ilCourseObjectiveProgressBarContainer .text-comparision {
+  display: none;
 }
 .ilCourseObjectiveProgressBarContainer {
   float: right;
-  padding-left: 10px;
+  max-width: 200px;
+  padding: 20px;
+}
+.ilCourseObjectiveProgressBar {
+  padding-right: 5px;
+  float: right;
 }
 .ilCourseObjectiveProgressBarContainer > .progress {
   margin: 5px 0 0;
