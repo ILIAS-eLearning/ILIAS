@@ -517,7 +517,7 @@ class ilExcel
     {
         $opts = array(
             'fill' => array(
-                'type' => Fill::FILL_SOLID,
+                'fillType' => Fill::FILL_SOLID,
                 'color' => array('rgb' => $a_background)
             )
         );
