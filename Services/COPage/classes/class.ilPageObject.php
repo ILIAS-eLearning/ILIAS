@@ -3949,7 +3949,7 @@ abstract class ilPageObject
         //$path = "//Paragraph[$par_id]";
         $path = "/descendant::Paragraph[position() = $par_id]";
 
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         
         if (count($res->nodeset) != 1) {
             die("Should not happen");
