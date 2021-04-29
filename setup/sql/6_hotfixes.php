@@ -1280,3 +1280,12 @@ if ($read_outcomes > 0 && $read_learning_progress > 0) {
     }
 }
 ?>
+<#51>
+<?php
+$ilDB->update("rbac_operations", [
+    "op_order" => ["integer", 3900]
+], [    // where
+        "operation" => ["text", "redact"]
+    ]
+);
+?>
