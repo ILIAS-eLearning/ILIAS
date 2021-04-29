@@ -227,7 +227,7 @@ class ilUserUtil
         
         $all = array();
         
-        $all[self::START_PD_OVERVIEW] = 'overview';
+        $all[self::START_PD_OVERVIEW] = 'mm_dashboard';
         
         if ($a_force_all || ($ilSetting->get('disable_my_offers') == 0 &&
             $ilSetting->get('disable_my_memberships') == 0)) {
@@ -239,7 +239,7 @@ class ilUserUtil
         }
     
         if ($a_force_all || !$ilSetting->get("disable_personal_workspace")) {
-            $all[self::START_PD_WORKSPACE] = 'personal_workspace';
+            $all[self::START_PD_WORKSPACE] = 'mm_personal_and_shared_r';
         }
 
         include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
@@ -248,7 +248,7 @@ class ilUserUtil
             $all[self::START_PD_CALENDAR] = 'calendar';
         }
 
-        $all[self::START_REPOSITORY] = 'repository';
+        $all[self::START_REPOSITORY] = 'obj_root';
         
         foreach ($all as $idx => $lang) {
             $all[$idx] = $lng->txt($lang);
