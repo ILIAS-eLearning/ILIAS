@@ -222,7 +222,6 @@ class ilPDNotesGUI
         } else {
             $notes_gui->enablePrivateNotes(false);
             $notes_gui->enablePublicNotes(true);
-            
             // #13707
             if ($this->current_rel_obj > 0 &&
                 sizeof($current_ref_ids) &&
