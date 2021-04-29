@@ -1041,7 +1041,20 @@ class ilLMPresentationGUI
             }
             $this->ctrl->setParameter($this, "ntf", "");
         }
-        
+
+        if (!$this->offline) {
+            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
+                if ($this->getCurrentPageId() <= 0) {
+                    $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
+                } else {
+                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->getCurrentPageId() . "&to_page=1";
+                }
+                $lg->addCustomCommand($link, "edit_page");
+            }
+        }
+
+
         if (!$a_redraw) {
             $this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction($this->tpl));
         } else {
