@@ -181,7 +181,7 @@ By default, ILIAS uses the IP address or FQDN set in the server configuration. I
     ...
     "chatroom": {
         ...
-        "ilias_proxy" :
+        "ilias_proxy" : {
             "ilias_url" : "https://chat.myilias.de"
         }
     }
@@ -199,7 +199,7 @@ See [Connection ILIAS to Server](#connection-ilias-to-server) this is the connec
     ...
     "chatroom": {
         ...
-        "client_proxy" :
+        "client_proxy" : {
             "client_url" : "https://chat.myilias.de"
         }
     }
@@ -215,7 +215,7 @@ The deletion of old messages can be activated by selecting a ***Interval***. Aft
     ...
     "chatroom": {
         ...
-        "deletion_interval" :
+        "deletion_interval" : {
             "deletion_unit" : "months",
             "deletion_value" : "3",
             "deletion_time" :  "03:00"
