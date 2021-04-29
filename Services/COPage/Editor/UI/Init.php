@@ -57,5 +57,9 @@ class Init
 
         \ilYuiUtil::initConnection();
         $main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+
+        // ensure that form.js is loaded which is needed for file input (js that shows file names)
+        $dummy = new \ilPropertyFormGUI();
+        $dummy->getHTML();
     }
 }
