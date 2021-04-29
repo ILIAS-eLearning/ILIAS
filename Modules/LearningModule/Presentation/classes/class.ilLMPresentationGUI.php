@@ -1604,6 +1604,8 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
         }
         $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
+        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink("sourcecodeDownload",
+            $this->getCurrentPageId()));
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
         }
