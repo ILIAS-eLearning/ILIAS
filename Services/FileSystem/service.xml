@@ -3,9 +3,6 @@
 		id="filesys">
 	<baseclasses>
 	</baseclasses>
-	<pluginslots>
-		<pluginslot id="crnhk" name="CronHook" />
-	</pluginslots>
 	<crons>
 		<cron id="file_system_clean_temp_dir" class="ilFileSystemCleanTempDirCron" />
 	</crons>
