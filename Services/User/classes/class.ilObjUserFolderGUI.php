@@ -1024,7 +1024,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             return $utab->getUserIdsForFilter();
         } else {
             return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_user',
+                'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
                 (array) $_POST['id']
@@ -1634,6 +1634,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     } else {
                         $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
+
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
@@ -3842,7 +3843,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
         $access = $DIC->access();
 
-        if (!$this->checkPermissionBool("read_user")) {
+        if (!$this->checkPermissionBool("read_users")) {
             $a_user_ids = $access->filterUserIdsByPositionOfCurrentUser(
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
