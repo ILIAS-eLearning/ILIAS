@@ -141,11 +141,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Show the edit screen
     */
-    public function viewObject()
+    public function viewObject($changesSuccessBool = 0)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
-
+        
         // get the view table
         $table_gui = $this->getViewTable();
 
@@ -338,8 +338,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $data[] = $row;
         }
         
-        $messageBox = $DIC->ui()->factory()->messageBox()->success("hallo!");
-        $this->toolbar->addComponent($messageBox);
+        if ($changesSuccessBool) {
+            $messageBox = $DIC->ui()->factory()->messageBox()->success("Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.");
+            $this->toolbar->addComponent($messageBox);
+        } 
 
         // render and show the table
         $table_gui->setData($data);
@@ -374,6 +376,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function saveObject()
     {
+        // no changes have been made yet
+        $changesSuccessBool = 0;
         // prepare the values to be saved
         $save_array = array();
         $remarks_array = array();
@@ -400,10 +404,12 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         
         // save the translations
         ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
-        ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-
+        
+        // set successful changes bool to true;
+        $changesSuccessBool = 1;
+        
         // view the list
-        $this->viewObject();
+        $this->viewObject($changesSuccessBool);
     }
 
 
