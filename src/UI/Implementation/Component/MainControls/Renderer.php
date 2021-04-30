@@ -359,10 +359,6 @@ class Renderer extends AbstractComponentRenderer
 
             $button_html = $default_renderer->render($button);
 
-            $tpl->setCurrentBlock($use_block);
-            $tpl->setVariable("BUTTON", $button_html);
-            $tpl->parseCurrentBlock();
-
             if ($slate) {
                 $slate = $slate->withAriaRole(ISlate::MENU);
 
@@ -370,6 +366,10 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("SLATE", $default_renderer->render($slate));
                 $tpl->parseCurrentBlock();
             }
+
+            $tpl->setCurrentBlock($use_block);
+            $tpl->setVariable("BUTTON", $button_html);
+            $tpl->parseCurrentBlock();
         }
     }
 

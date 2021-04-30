@@ -7,7 +7,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var id
 			,_cls_btn_engaged = 'engaged'
-			,_cls_entries = 'il-metabar-entries'
+			,_cls_entries = 'il-maincontrols-metabar'
 			,_cls_slates = 'il-metabar-slates'
 			,_cls_more_btn = 'il-metabar-more-button'
 			,_cls_more_slate = 'il-metabar-more-slate'
@@ -85,8 +85,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			return btn.hasClass(_cls_btn_engaged);
 		};
 		var _disengageAllButtons = function() {
-			$('#' + id +' .' + _cls_entries)
-			.children('.btn.' + _cls_btn_engaged)
+			$('#' + id +'.' + _cls_entries)
+			.children('li').children('.btn.' + _cls_btn_engaged)
 			.each(
 				function(i, btn) {
 					_disengageButton($(btn));
@@ -140,7 +140,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var _tagMoreButton = function() {
 			if(_getMoreButton().length === 0) {
-				var entries = $('#' + id +' .' + _cls_entries).find('.btn'),
+				var entries = $('#' + id +'.' + _cls_entries).find('.btn'),
 					more = entries.last();
 				$(more).addClass(_cls_more_btn);
 			}
@@ -163,8 +163,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		}
 
 		var _getMetabarEntries = function() {
-			return $('#' + id +' .' + _cls_entries)
-				.children('.btn')
+			return $('#' + id +'.' + _cls_entries)
+				.children('li').children('.btn')
 				.not('.' + _cls_more_btn);
 		}
 
