@@ -8983,6 +8983,9 @@ div.il-system-infos {
   align-items: flex-end;
   padding-left: 35px;
 }
+.il-header-locator {
+  display: none;
+}
 nav.il-maincontrols {
   -ms-grid-column: 1;
   -ms-grid-row: 4;
@@ -9184,6 +9187,9 @@ footer {
   }
   .breadcrumbs {
     display: none;
+  }
+  .il-header-locator {
+    display: block;
   }
   .il-header-locator .dropdown {
     position: static;
@@ -9502,15 +9508,11 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  list-style-type: none;
+  /* Remove bullets */
 }
-.il-maincontrols-metabar .il-metabar-entries {
-  align-items: center;
-  display: flex;
-  height: 60px;
-}
-.il-maincontrols-metabar .il-metabar-entries .il-metabar-entry,
-.il-maincontrols-metabar .il-metabar-entries .il-logout {
-  padding-left: 10px;
+.il-maincontrols-metabar > li > .btn-bulky > .bulky-label {
+  display: none;
 }
 .il-maincontrols-metabar .glyphicon {
   filter: invert(50%);
@@ -9528,72 +9530,75 @@ footer {
 .il-maincontrols-metabar form#mm_search_form {
   padding: 20px;
 }
-.il-maincontrols-metabar .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
-.il-metabar-entries .badge {
+.il-maincontrols-metabar .badge {
   position: absolute;
 }
-.il-metabar-entries .btn {
+.il-maincontrols-metabar .btn {
   position: relative;
 }
-.il-metabar-entries .il-counter-novelty {
+.il-maincontrols-metabar .il-counter-novelty {
   margin-top: 0;
   top: 17px;
 }
-.il-metabar-entries .il-counter-status {
+.il-maincontrols-metabar .il-counter-status {
   margin-top: 0;
   top: 32px;
 }
-.il-metabar-entries > .btn-bulky > .bulky-label {
-  display: none;
-}
-.il-metabar-entries .btn-bulky {
+.il-maincontrols-metabar .btn-bulky {
   background-color: transparent;
   height: 60px;
   min-width: 60px;
 }
 @media only screen and (max-width: 768px) {
-  .il-metabar-entries .btn-bulky {
+  .il-maincontrols-metabar .btn-bulky {
     height: 45px;
     min-width: 45px;
   }
 }
-.il-metabar-entries .btn-bulky:focus,
-.il-metabar-entries .btn-bulky:active {
+.il-maincontrols-metabar .btn-bulky:focus,
+.il-maincontrols-metabar .btn-bulky:active {
   box-shadow: none;
 }
-.il-metabar-entries .btn-bulky.engaged {
+.il-maincontrols-metabar .btn-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
   color: initial;
   outline-color: transparent;
 }
-.il-metabar-entries .btn-bulky .glyphicon {
+.il-maincontrols-metabar .btn-bulky .glyphicon {
   color: #757575;
   font-size: 2.3rem;
 }
+.il-maincontrols-metabar .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
 @media only screen and (max-width: 768px) {
-  .il-metabar-entries .il-metabar-more-button {
+  .il-maincontrols-metabar .il-counter-novelty {
+    top: 7px;
+  }
+  .il-maincontrols-metabar .il-counter-status {
+    top: 22px;
+  }
+  .il-maincontrols-metabar .il-metabar-more-button {
     padding-right: 20px;
   }
-  .il-metabar-entries .il-metabar-more-button .icon.custom {
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom {
     position: relative;
   }
-  .il-metabar-entries .il-metabar-more-button .icon.custom img {
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom img {
     margin-right: 5px;
   }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge {
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge {
     position: absolute;
     margin-right: 3px;
   }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
     margin-top: -5px;
   }
-  .il-metabar-entries .il-metabar-more-button .icon.custom .badge.il-counter-status {
+  .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-status {
     margin-top: 10px;
   }
 }
@@ -9606,8 +9611,6 @@ footer {
   overflow-y: auto;
   right: 0;
   top: 60px;
-  /*TODO: remove hack*/
-  /*end of hack*/
 }
 .il-metabar-slates .il-maincontrols-slate {
   min-width: 500px;
@@ -9617,25 +9620,6 @@ footer {
     width: 100%;
     top: 45px;
     right: 0;
-  }
-}
-@media only screen and (max-width: 768px) {
-  .il-metabar-slates .il-maincontrols-slate {
-    min-width: 260px;
-  }
-}
-.il-header-locator {
-  display: none;
-}
-@media only screen and (max-width: 768px) {
-  .il-header-locator {
-    display: block;
-  }
-  .il-metabar-entries .il-counter-novelty {
-    top: 7px;
-  }
-  .il-metabar-entries .il-counter-status {
-    top: 22px;
   }
   .il-metabar-slates .glyphicon {
     color: #757575;
@@ -9652,7 +9636,7 @@ footer {
   .il-metabar-slates .il-counter-spacer {
     margin-left: -18px;
   }
-  .il-metabar-more-slate .btn-bulky:after {
+  .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
     font-size: 1.7rem;
@@ -9660,8 +9644,10 @@ footer {
     right: 10px;
     top: 20px;
   }
+  .il-metabar-slates .il-maincontrols-slate {
+    min-width: 260px;
+  }
 }
-/*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
 .il-maincontrols-metabar .btn-bulky,
 .il-maincontrols-mainbar .il-link.link-bulky,
