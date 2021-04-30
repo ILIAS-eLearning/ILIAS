@@ -875,7 +875,7 @@ class ilNewsItem
 
         // get starting date
         $starting_date = "";
-        if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
+        if ($obj_type == "grp" || $obj_type == "crs") {
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
