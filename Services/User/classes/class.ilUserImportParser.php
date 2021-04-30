@@ -186,7 +186,7 @@ class ilUserImportParser extends ilSaxParser
      *
      * @var assoc array (key = user id, value= login)
      */
-    public $user_mapping;
+    public $user_mapping = [];
 
     /**
      *
