@@ -4288,7 +4288,6 @@ content#:#cont_dir_created#:#Sikeresen létrehozott egy mappát.
 content#:#cont_dir_deleted#:#A mappát sikeresen törölte.
 content#:#cont_dir_file#:#Mappa / fájl
 content#:#cont_dir_renamed#:#A mappát sikeresen átnevezte.
-content#:#cont_double_click_to_delete#:#Tartalom szerkesztéséhez, törléséhez vagy (in)aktiváláshoz kattintson egyszer, kijelöléséhez pedig duplán annak helyőrzőjére.
 content#:#cont_download_title#:#Letöltési cím
 content#:#cont_downloads_desc#:#Összes nyilvános exportfájl felajánlása letöltésre (például offline felhasználáshoz vagy importáláshoz).
 content#:#cont_downloads_public_desc#:#Anonymous felhasználók is letölthetik (a nyilvános területen).
@@ -5941,7 +5940,6 @@ ldap#:#ldap_user_scope#:#Keresési hatókör
 ldap#:#ldap_user_sync_info#:#Annak meghatározása, hogy az új felhasználói fiókok automatikusan jöjjenek létre bejelentkezéskor vagy rendszeres időközönként ütemezett feladattal.
 ldap#:#ldap_user_sync#:#Felhasználói szinkronizációs beállítások
 mail#:#mail_serial_letter_placeholders#:#Körlevélhelyőrzők
-mail#:#activate_serial_letter_placeholders#:#Körlevélhelyőrzők aktiválása
 mail#:#bc#:#Titkos másolat (BCC)
 chatroom#:#chat_select_room#:#Csevegőszoba kiválasztása
 mail#:#back_to_folder#:#Vissza a mappához
@@ -14052,7 +14050,6 @@ style#:#settings_of_style#:#Stílus kezelése
 style#:#of_parent#:#szülője a következőnek:
 style#:#from_skin#:#skin-je a következőnek:
 style#:#dir_copied_from#:#A mappát innen másolta:
-style#:#to#:#ide:
 style#:#dir_deleted#:#Az alábbi mappát sikeresen törölte:
 style#:#sty_create_new_system_style#:#Új rendszerstílus létrehozása.
 style#:#sty_create_new_system_sub_style#:#Új rendszeralstílus létrehozása.
@@ -16517,3 +16514,49 @@ tagging#:#no_tag_text_2#:#Kattintson %s kiindulópontra és válasszon egy tanul
 tagging#:#no_tag_text_3#:#Tetszőleges címke objektumhoz rendeléséhez válassza a 'Címkék' lehetőséget a műveletek menüből.
 form#:#form_invalid_uri#:#Érvénytelen URI formátum.
 common#:#installation_status#:#Telepítési állapot
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_details#:#« Show Details###30 04 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]###30 04 2021 new variable
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.###30 04 2021 new variable
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.###30 04 2021 new variable
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.###30 04 2021 new variable
+ldap#:#ldap_escapedn#:#Escape DN###30 04 2021 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###30 04 2021 new variable
+skmg#:#skmg_target_levels#:#Target Levels###30 04 2021 new variable
+common#:#label_search_options#:#Search Area###30 04 2021 new variable
+lng#:#language_detection#:#Language Detection###30 04 2021 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###30 04 2021 new variable
+style#:#sty_copy_to#:#to:###30 04 2021 new variable
+copg#:#copg_an_error_occured#:#An error occured.###30 04 2021 new variable
+copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_error#:#Error###30 04 2021 new variable
+copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
+adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###30 04 2021 new variable
+content#:#cont_keyword#:#Keyword###30 04 2021 new variable
+content#:#cont_footnote#:#Footnote###30 04 2021 new variable
+content#:#cont_Book#:#Book###30 04 2021 new variable
+content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
+content#:#cont_Verse#:#Verse/Stanza###30 04 2021 new variable
+content#:#cont_choose_from_clipboard#:#Choose from Clipboard###30 04 2021 new variable
+content#:#cont_open_clipboard#:#Open Clipboard###30 04 2021 new variable
+common#:#user_avatar#:#User Avatar###30 04 2021 new variable
+common#:#current_user_avatar#:#Your User Avatar###30 04 2021 new variable
+common#:#user_avatar_of#:#User Avatar of###30 04 2021 new variable
+awrn#:#awrn_filter#:#User Filter###30 04 2021 new variable
+help#:#help_search_label#:#Search Help###30 04 2021 new variable
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+cmix#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+cmix#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+lti#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+lti#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 2021 new variable

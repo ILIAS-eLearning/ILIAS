@@ -2085,8 +2085,6 @@ content#:#cont_ed_edit#:#redaguoti
 content#:#cont_ed_edit_prop#:#redaguoti nustatymus
 content#:#cont_ed_enable#:#(De-)Aktyvuoti Elementus
 content#:#cont_ed_go#:#Eiti
-content#:#cont_ed_insert_code#:#įterpti Kodą
-content#:#cont_ed_insert_filelist#:#įterpti Failų Sąrašą
 content#:#cont_ed_insert_list#:#įterpti Sąrašą
 content#:#cont_ed_insert_media#:#įterpti Media
 content#:#cont_ed_insert_par#:#įterpti Paragr.
@@ -2255,7 +2253,6 @@ content#:#cont_text_code#:#Kodas:
 content#:#cont_text_com#:#Komentaras:
 content#:#cont_text_emp#:#Pasviręs Tekstas:
 content#:#cont_text_fn#:#Išnaša:
-content#:#cont_text_iln#:#Vidinė Nuoroda, pvz.:
 content#:#cont_text_quot#:#Citavimas:
 content#:#cont_text_str#:#Paryškintas Tekstas:
 content#:#cont_text_xln#:#Išorinė Nuoroda:
@@ -4635,7 +4632,6 @@ forum#:#close_topics#:#Uždaryti
 forum#:#reopen_topics#:#Atidaryti iš naujo
 forum#:#post_censored_comment_by_moderator#:#Pranešimas Redaguotas, Moderatoriaus Komentaras
 forum#:#activate_new_posts#:#Aktyvuoti Pranešimus
-mail#:#activate_serial_letter_placeholders#:#Activate Serial-Letter Placeholders###02 11 2007 new variable
 mail#:#placeholders_advise#:#Placeholders are only resolved for recipients in the To field.%sRecipients in the CC and BCC field will get unsolved placeholders.###02 11 2007 new variable
 mail#:#search_recipients#:#Ieškoti Gavėjų
 assessment#:#tst_show_solution_answers_only#:#Rezultatai spausdinimo formatu (tik atsakymai)
@@ -4751,7 +4747,6 @@ content#:#cont_alphabetic#:#Abėcėlinis A, B, ...
 content#:#cont_alphabetic_s#:#Abėcėlinis a, b, ...
 content#:#cont_roman#:#Romėniškas I, II, ...
 content#:#cont_roman_s#:#Romėniškas i, ii, ...
-content#:#cont_ed_insert_section#:#Įterpti Skyrių
 common#:#obj_qpl_duplicate#:#Copy Question Pool Test###11 03 2008 new variable
 common#:#obj_qpl_select#:#-- Please select one Question Pool Test --###11 03 2008 new variable
 common#:#obj_spl_select#:#-- Please select one Question Pool Survey --###11 03 2008 new variable
@@ -4889,8 +4884,6 @@ content#:#cont_ed_insert_repobj#:#Insert Resource List###02 06 2008 new variable
 content#:#cont_ed_insert_tabs#:#Insert Tabs###02 06 2008 new variable
 content#:#cont_number_of_tabs#:#Number of Tabs###02 06 2008 new variable
 content#:#cont_ed_insert_map#:#Insert Map###02 06 2008 new variable
-content#:#cont_ed_insert_dtable#:#Insert Data Table###02 06 2008 new variable
-content#:#cont_ed_insert_atable#:#Insert Advanced Table###02 06 2008 new variable
 content#:#cont_ed_edit_data#:#Edit Data###02 06 2008 new variable
 cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions first. After that the other course content is listed.###02 06 2008 new variable
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.###02 06 2008 new variable
@@ -5262,7 +5255,6 @@ content#:#cont_bullet_list#:#Bullet List###15 09 2008 new variable
 content#:#cont_numbered_list#:#Numbered List###15 09 2008 new variable
 content#:#cont_wiki_page_link#:#Wiki Page Link###15 09 2008 new variable
 content#:#cont_drag_and_drop_elements#:#Drag and drop content elements on placeholders to move elements.###15 09 2008 new variable
-content#:#cont_double_click_to_delete#:#Double-click on content elements to select them for (de-)activation or deletion.###15 09 2008 new variable
 form#:#form_hierarchy_add_elements#:#Click on placeholders to add new elements.###15 09 2008 new variable
 form#:#form_hierarchy_drag_drop_help#:#Drag and drop icons on placeholders to move elements.###15 09 2008 new variable
 wiki#:#wiki_wiki_page#:#Wiki Page###15 09 2008 new variable
@@ -6134,7 +6126,6 @@ common#:#lang_size_kb#:#KB###24 07 2009 new variable
 common#:#lang_size_bytes#:#bytes###24 07 2009 new variable
 common#:#webdav#:#WebDAV###24 07 2009 new variable
 common#:#downloading_settings#:#Downloading Settings###24 07 2009 new variable
-common#:#enable_disk_quota_reminder_mail#:#Send disk quota reminder mails###24 07 2009 new variable
 common#:#mail_attachment#:#Mail attachment###24 07 2009 new variable
 content#:#cont_change_object_reference#:#Change Object Reference###24 07 2009 new variable
 content#:#cont_select#:#Select###24 07 2009 new variable
@@ -6142,24 +6133,10 @@ survey#:#SurveyMultipleChoiceQuestion#:#Multiple Choice Question (Multiple Respo
 survey#:#SurveySingleChoiceQuestion#:#Multiple Choice Question (Single Response)###24 07 2009 new variable
 assessment#:#assErrorText#:#Error Text###24 07 2009 new variable
 assessment#:#textsize_errortext_info#:#Enter the text size of the error text in percent if you want another size than 100 percent.###24 07 2009 new variable
-common#:#disk_quota#:#Disk Quota###24 07 2009 new variable
-common#:#disk_usage#:#Disk Usage###24 07 2009 new variable
-common#:#disk_quota_report#:#Disk Quota Report###24 07 2009 new variable
-common#:#disk_usage_details#:#Disk Usage Details###24 07 2009 new variable
-common#:#disk_quota_report_not_run_yet#:#No disk quota report available. The daily cron job which determines the disk usage needs to be executed first.###24 07 2009 new variable
 common#:#enter_in_mb_desc#:#Enter a value in MB.###24 07 2009 new variable
-common#:#disk_quota_on_role_desc#:#The disk quota specified on a role affects all user accounts which are assigned to this role.###24 07 2009 new variable
-common#:#disk_quota_is_1_by_2#:#The effective disk quota is %1$s due to membership in role "%2$s".###24 07 2009 new variable
-common#:#disk_quota_is_unlimited_by_1#:#The effective disk quota is unlimited due to membership in role "%1$s".###24 07 2009 new variable
-common#:#disk_quota_is_1_instead_of_2_by_3#:#The effective disk quota is %1$s as defined in this user account. The disk quota by role membership would have been %2$s by role "%3$s".###24 07 2009 new variable
-common#:#disk_quota_reminder_mail#:#Reminder mail###24 07 2009 new variable
-common#:#disk_quota_reminder_mail_desc#:#The disk quota reminder mail is sent to active users who have exceeded their disk quota. This e-mail is sent once every day to the users when the daily ILIAS cron job is run. Users who already have received a reminder e-mail receive it again every 7 days as long as they exceed their disk quota.###24 07 2009 new variable
 common#:#last_reminder#:#Last reminder###24 07 2009 new variable
-common#:#disk_quota_last_reminder_sent#:#Last quota reminder sent###24 07 2009 new variable
-common#:#disk_quota_last_reminder_sent_desc#:#Last date on which the user has received a reminder mail because of exceeding the disk quota.###24 07 2009 new variable
 common#:#filter_users_without_disk_usage#:#Only users with no disk space used###24 07 2009 new variable
 common#:#filter_users_with_disk_usage#:#Only users with disk space used###24 07 2009 new variable
-common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded###24 07 2009 new variable
 common#:#filter_users_with_access#:#Only users with access###24 07 2009 new variable
 common#:#filter_users_without_access#:#Only users without access###24 07 2009 new variable
 common#:#statistics#:#Statistics###24 07 2009 new variable
@@ -6865,7 +6842,6 @@ dateplaner#:#cal_ch_form_header#:#Consultation Hours###16 07 2010 new variable
 dateplaner#:#cal_ch_form_info#:#This option enables the managment of personal consultation hours in the calendar. ###16 07 2010 new variable
 dateplaner#:#cal_ch_form#:#Enable Consultation Hours###16 07 2010 new variable
 dateplaner#:#app_consultation_hours#:#Consultation Hours###16 07 2010 new variable
-rbac#:#log#:#Log###16 07 2010 new variable
 rbac#:#rbac_log#:#Log###16 07 2010 new variable
 rbac#:#rbac_changes#:#Changes###16 07 2010 new variable
 rbac#:#rbac_log_operation_add#:#Added Operation for "%s"###16 07 2010 new variable
@@ -7149,11 +7125,6 @@ common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling#
 common#:#sess_mode#:#Session Mode###27 08 2010 new variable
 trac#:#trac_mode_deactivated_info_new#:#The learning progress status will not be displayed.###27 08 2010 new variable
 common#:#cronjob_last_start#:#Last Start of the Cron Job###27 08 2010 new variable
-common#:#enable_disk_quota_summary_mail#:#Send Disk Quota Summary###27 08 2010 new variable
-common#:#enable_disk_quota_summary_mail_desc#:#The disk quota summary is a daily notification containing all users, who exceeded their disk quota.###27 08 2010 new variable
-common#:#disk_quota_summary_rctp#:#Recipients###27 08 2010 new variable
-common#:#disk_quota_summary_rctp_desc#:#Enter a comma-separated list of user names for those users, who should receive a daily summary of the exceeded disk quota.###27 08 2010 new variable
-common#:#disk_quota_exceeded_headline#:#the following users have exceeded their disk quota:###27 08 2010 new variable
 common#:#usrf_profile_link#:#Link to user profile###27 08 2010 new variable
 common#:#currently_used_disk_space#:#Currently used disk space###27 08 2010 new variable
 common#:#cronjob_last_start_unknown#:#Indeterminate###27 08 2010 new variable
@@ -7162,7 +7133,6 @@ trac#:#trac_lp_determination_info_crs_tutor#:#This selection is not connected to
 trac#:#trac_average#:#Average###27 08 2010 new variable
 trac#:#trac_sum#:#Sum###27 08 2010 new variable
 trac#:#trac_others#:#Other###27 08 2010 new variable
-common#:#disk_quota_summary_subject#:#Summary of Exceeded Disk Quota###27 08 2010 new variable
 survey#:#question_mr_no_other_answer_checked#:#You need to select the checkbox if you enter a text for an answer###10 09 2010 new variable
 survey#:#question_sr_no_other_answer_checked#:#You need to select the radio button if you enter a text for an answer###10 09 2010 new variable
 assessment#:#dont_use_questionpool#:#Don't insert the questions in a questionpool (only available in this test)###10 09 2010 new variable
@@ -7251,7 +7221,6 @@ sahs#:#sahs_insert_ass#:#Insert Asset###22 03 2011 new variable
 common#:#obj_ass#:#Asset###22 03 2011 new variable
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature "Posting with pseudonym" is not available in forums anymore.###22 03 2011 new variable
 common#:#enable_anonymous_fora#:#Allow posting with pseudonym###22 03 2011 new variable
-content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element###22 03 2011 new variable
 sahs#:#sahs_hide_objectives_page#:#Hide Description/Objectives Page###22 03 2011 new variable
 sahs#:#sahs_hide_objectives_page_info#:#If checked, the SCO description and objectives page will not be included in the presentation.###22 03 2011 new variable
 sahs#:#sahs_list_info#:#Use leading * for bullet lists or leading # for numbered lists.###22 03 2011 new variable
@@ -7536,7 +7505,6 @@ prtf#:#prtf_add_page#:#Add Page###12 06 2011 new variable
 prtf#:#prtf_page_created#:#Page created###12 06 2011 new variable
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages?###12 06 2011 new variable
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio pages deleted###12 06 2011 new variable
-content#:#cont_ed_insert_profile#:#Insert Personal Data###12 06 2011 new variable
 content#:#cont_pc_prof#:#Personal Data###12 06 2011 new variable
 content#:#cont_insert_profile#:#Add Personal Data###12 06 2011 new variable
 content#:#cont_update_profile#:#Edit Personal Data###12 06 2011 new variable
@@ -7545,7 +7513,6 @@ content#:#cont_profile_mode_inherit#:#Automatic###12 06 2011 new variable
 content#:#cont_profile_mode_inherit_info#:#Use your public profile settings###12 06 2011 new variable
 content#:#cont_profile_mode_manual#:#Manual###12 06 2011 new variable
 content#:#cont_profile_mode_manual_info#:#Use the following data:###12 06 2011 new variable
-content#:#cont_ed_insert_verification#:#Insert Verification###12 06 2011 new variable
 content#:#cont_pc_vrfc#:#Verification###12 06 2011 new variable
 content#:#cont_insert_verification#:#Add Verification###12 06 2011 new variable
 content#:#cont_update_verification#:#Edit Verification###12 06 2011 new variable
@@ -8324,8 +8291,6 @@ rbac#:#rbac_copy_finished#:#Finished copying.###01 10 2011 new variable
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise###01 10 2011 new variable
 content#:#cont_ed_copy#:#Copy###01 10 2011 new variable
 content#:#cont_ed_cut#:#Cut###01 10 2011 new variable
-content#:#cont_sel_el_copied_use_paste#:#Selected elements have been copied. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
-content#:#cont_sel_el_cut_use_paste#:#Selected elements have been cut. Please click the desired target placeholder and select "Paste".###01 10 2011 new variable
 survey#:#survey_question_editor_settings_template#:#List View (in Tab "Questions")###01 10 2011 new variable
 survey#:#survey_sure_delete_questions#:#Are you sure that you want to delete the following questions or headings?###01 10 2011 new variable
 rbac#:#rbac_precondition_source#:#Condition Trigger###01 10 2011 new variable
@@ -9526,7 +9491,6 @@ tos#:#tos_period#:#Period###24 10 2013 new variable
 tos#:#tos_period_from#:#From###24 10 2013 new variable
 tos#:#tos_period_until#:#Until###24 10 2013 new variable
 forum#:#sorting_manual_sticky#:#Manual sorting of sticky threads ###24 10 2013 new variable
-forum#:#sticky_threads_always_on_top#:#"Sticky Threads" are always listed at the top of the list of threads. Within the "Sticky Threads" you are able to sort the threads manually, if you have chosen this option.###24 10 2013 new variable
 forum#:#merge#:#Merge###24 10 2013 new variable
 forum#:#please_choose_target#:#Please choose a thread as merge target.###24 10 2013 new variable
 forum#:#frm_sure_merge_threads#:#Are you sure you want to merge these threads? Warning: This action can not be undone! Eventually ILIAS swaps source and target thread if the first posting of the source thread is created earlier than the first posting of the target thread.###24 10 2013 new variable
@@ -9803,7 +9767,6 @@ dateplaner#:#cal_booking_failed_info#:#This appointment is booked out. Please ch
 registration#:#registration_codes_override_info#:#This setting overrides any values defined in "Registration Settings".###24 10 2013 new variable
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.###24 10 2013 new variable
 crs#:#event_list_registered_only#:#Only Registered Members###24 10 2013 new variable
-file#:#repository_disk_quota#:#Soft Disk Quota for Repository###24 10 2013 new variable
 pd#:#pd_remove_multiple#:#Remove Multiple Objects###24 10 2013 new variable
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple###24 10 2013 new variable
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe###24 10 2013 new variable
@@ -10209,7 +10172,6 @@ crs#:#crs_mail_all#:#For all Participants###24 10 2013 new variable
 grp#:#grp_mail_type#:#Mail to Members###24 10 2013 new variable
 grp#:#grp_mail_tutors_only#:#For Administrators only###24 10 2013 new variable
 grp#:#grp_mail_all#:#For all Participants###24 10 2013 new variable
-content#:#cont_ed_insert_consultation_hours#:#Insert Consultation Hours###24 10 2013 new variable
 content#:#cont_insert_consultation_hours#:#Insert Consultation Hours###24 10 2013 new variable
 content#:#cont_update_consultation_hours#:#Edit Consultation Hours###24 10 2013 new variable
 content#:#cont_cach_mode#:#Mode###24 10 2013 new variable
@@ -10502,7 +10464,6 @@ ldap#:#ldap_choose_role#:#Choose Role###30 12 2013 new variable
 skmg#:#skmg_no_nodes_selectable#:#Currently there are no competences selectable.###30 12 2013 new variable
 skmg#:#skmg_suggested_resources#:#Suggested Resources###30 12 2013 new variable
 cntr#:#exc_next_deadline_single#:#Deadline###30 12 2013 new variable
-file#:#repository_disk_quota_info#:#If activated, the disk-quota of the magazine will be checked for each user and emails will be sent to administrators and users optionally.###30 12 2013 new variable
 trac#:#trac_object_statistics_info#:#If activated, the basic data for the usage statistics will be gathered and processed.###30 12 2013 new variable
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.###30 12 2013 new variable
 survey#:#survey_reminder_cron_info#:#If activated, users will be reminded to participate in surveys.###30 12 2013 new variable
@@ -10862,7 +10823,6 @@ blog#:#blog_abstract_image_info#:#Images which are smaller will not be used.###2
 blog#:#blog_abstract_image_width#:#Width###26 09 2014 new variable
 blog#:#blog_abstract_image_height#:#Height###26 09 2014 new variable
 blog#:#blog_abstract_image_pixels#:#Px###26 09 2014 new variable
-content#:#cont_ed_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
 content#:#cont_insert_my_courses#:#Insert My Courses###26 09 2014 new variable
 content#:#cont_update_my_courses#:#Edit My Courses###26 09 2014 new variable
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.###26 09 2014 new variable
@@ -10924,7 +10884,6 @@ survey#:#svy_results_view_own#:#Participant can view own answers###26 09 2014 ne
 survey#:#svy_results_mail_own#:#Participant can mail own answers###26 09 2014 new variable
 wiki#:#wiki_wpg#:#Wiki Page###26 09 2014 new variable
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page###26 09 2014 new variable
-content#:#cont_ed_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
 content#:#cont_insert_amd_page_list#:#Insert Page List###26 09 2014 new variable
 content#:#cont_update_amd_page_list#:#Edit Page List###26 09 2014 new variable
 obj#:#obj_tool_setting_taxonomies#:#Taxonomies###26 09 2014 new variable
@@ -11689,7 +11648,6 @@ assessment#:#qpl_skill_point_eval_by_quest_result#:#Evaluation of Competence Poi
 assessment#:#qpl_skill_point_eval_by_solution_compare#:#Evaluation of Competence Points by Solution Compare###30 08 2015 new variable
 assessment#:#tst_solution_compare_cfg#:#Configuration for Solution Compare###30 08 2015 new variable
 assessment#:#tst_sol_comp_expressions#:#Comparison Expressions###30 08 2015 new variable
-assessment#:#ass_lac_hide_legend_btn#:#Hide Legend###30 08 2015 new variable
 assessment#:#ass_lac_show_legend_btn#:#Show Legend###30 08 2015 new variable
 assessment#:#ass_lac_validation_error#:#Errors occured while validating the conditional expression(s)!###30 08 2015 new variable
 assessment#:#ass_lac_expression#:#Expression###30 08 2015 new variable
@@ -12293,7 +12251,6 @@ prg#:#prg_remove_user_success#:#Removed User successfully.###30 08 2015 new vari
 prg#:#prg_type_add#:#Study Programme Type###30 08 2015 new variable
 prg#:#prg_subtypes#:#Subtypes###30 08 2015 new variable
 prg#:#prg_subtype_add#:#Add new subtype###30 08 2015 new variable
-prg#:#prg_adv_settings#:#Advanced Settings###30 08 2015 new variable
 prg#:#prg_type_custom_icon#:#Custom Icons###30 08 2015 new variable
 prg#:#prg_type_custom_icon_info#:#Custom icon info###30 08 2015 new variable
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon###30 08 2015 new variable
@@ -12716,7 +12673,6 @@ chatroom#:#ilias_proxy_info#:#If the Server is not accessible with the default I
 chatroom#:#client_chatserver_connection#:#Client to Server Connection###25 10 2016 new variable
 chatroom#:#client_proxy_info#:#If the Server is not accessible with the default IP-Address and Port, it is possible to configure a custom URL for Client to Server connection.###25 10 2016 new variable
 chatroom#:#connection_url_info#:#Please insert an URL for the Server connection.###25 10 2016 new variable
-chatroom#:#log#:#Chatserver Log###25 10 2016 new variable
 chatroom#:#error_log#:#Chatserver Error-Log###25 10 2016 new variable
 chatroom#:#delete_private_room_question#:#Confirm delete private room?###25 10 2016 new variable
 trac#:#trac_cron_info#:#Please activate the "Object Statistics" cron job to gather data.###25 10 2016 new variable
@@ -12996,7 +12952,6 @@ style#:#settings_of_style#:#Manage style###25 10 2016 new variable
 style#:#of_parent#:#of parent:###25 10 2016 new variable
 style#:#from_skin#:#of skin:###25 10 2016 new variable
 style#:#dir_copied_from#:#The directory has been copied to from:###25 10 2016 new variable
-style#:#to#:#to:###25 10 2016 new variable
 style#:#dir_deleted#:#The following directory has been deleted:###25 10 2016 new variable
 style#:#sty_create_new_system_style#:#Create a new system style.###25 10 2016 new variable
 style#:#sty_create_new_system_sub_style#:#Create a new system sub style.###25 10 2016 new variable
@@ -13336,8 +13291,6 @@ crs#:#crs_show_member_export#:#Participants List###31 08 2017 new variable
 crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.###31 08 2017 new variable
 mem#:#mmbr_gallery_user_actions#:#Benutzeraktionen in Mitgliedergalerie###31 08 2017 new variable
 forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.###31 08 2017 new variable
-common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota###31 08 2017 new variable
-common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.###31 08 2017 new variable
 itgr#:#itgr_show_title#:#Show Title###31 08 2017 new variable
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.###31 08 2017 new variable
 itgr#:#itgr_behaviour#:#Block Behaviour###31 08 2017 new variable
@@ -13499,7 +13452,6 @@ chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: 
 common#:#obj_pdfg#:#PDF Generation###31 08 2017 new variable
 common#:#obj_pdfg_desc#:#Options for generation PDF documents###31 08 2017 new variable
 common#:#building_export_file#:#Building Export File...###31 08 2017 new variable
-pdfgen#:#phantomjs#:#PhantomJS###31 08 2017 new variable
 pdfgen#:#page_settings#:#Page Settings###31 08 2017 new variable
 pdfgen#:#page_size#:#Pagesize###31 08 2017 new variable
 pdfgen#:#margin#:#Margin###31 08 2017 new variable
@@ -14527,7 +14479,6 @@ prtf#:#prtf_decl_authorship#:#Declaration of Authorship###10 11 2018 new variabl
 pd#:#pd_achievements#:#Achievements###10 11 2018 new variable
 content#:#cont_got_lock_release#:#This page has been locked for your editing until %1. Please release the page after you have done all your changes.###10 11 2018 new variable
 prtf#:#prtf_download_submission#:#Download Submission###10 11 2018 new variable
-content#:#cont_ed_insert_learning_history#:#Insert Learning History###10 11 2018 new variable
 lhist#:#lhist_all#:#All###10 11 2018 new variable
 lhist#:#lhist_selected#:#Selected###10 11 2018 new variable
 lhist#:#lhist_manual#:#Manual###10 11 2018 new variable
@@ -14820,7 +14771,6 @@ common#:#obj_prss_desc#:#Personal resources settings###07 02 2020 new variable
 common#:#obj_prss#:#Personal Resources###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files###07 02 2020 new variable
-pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates###07 02 2020 new variable
 pwsp#:#pwsp_enable_wsp_links#:#Enable Links###07 02 2020 new variable
 dash#:#dash_main_panel#:#Main Panel###07 02 2020 new variable
 dash#:#dash_side_panel#:#Side Panel###07 02 2020 new variable
@@ -15070,7 +15020,6 @@ form#:#form_msg_file_missing_file_ext#:#The uploaded file has no file type exens
 mail#:#mail_firstname_last_name_superior#:#Eine kommaseparierte Liste von Vor- und Nachname des/der jeweiligen Vorgesetzten.###07 02 2020 new variable
 news#:#lso_news_online_title#:#A new learning sequence object is online!###07 02 2020 new variable
 news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###07 02 2020 new variable
-ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###07 02 2020 new variable
 ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?###07 02 2020 new variable
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.###07 02 2020 new variable
 rbac#:#upload_blacklisted_files#:#Bypass blacklist###07 02 2020 new variable
@@ -15445,8 +15394,6 @@ svy#:#svy_status_finished#:#Finished###07 02 2020 new variable
 svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
-file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources###07 02 2020 new variable
-file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
@@ -15607,26 +15554,6 @@ lti#:#lti_con_prov_keywords#:#Keywords###07 02 2020 new variable
 lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.###07 02 2020 new variable
 lti#:#lti_con_prov_category#:#Category###07 02 2020 new variable
 lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.###07 02 2020 new variable
-lti#:#conf_user_ident#:#User identification###07 02 2020 new variable
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###07 02 2020 new variable
-lti#:#conf_user_ident_real_email#:#E-Mail Address###07 02 2020 new variable
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###07 02 2020 new variable
-lti#:#conf_user_name#:#User name###07 02 2020 new variable
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.###07 02 2020 new variable
-lti#:#conf_user_name_none#:#No one###07 02 2020 new variable
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###07 02 2020 new variable
-lti#:#conf_user_name_firstname#:#First name###07 02 2020 new variable
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###07 02 2020 new variable
-lti#:#conf_user_name_lastname#:#Title and last name###07 02 2020 new variable
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###07 02 2020 new variable
-lti#:#conf_user_name_fullname#:#Entire name###07 02 2020 new variable
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name###07 02 2020 new variable
 lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options###07 02 2020 new variable
 lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects###07 02 2020 new variable
@@ -15789,26 +15716,6 @@ cmix#:#conf_keep_lp#:#Keep Learning Progress###07 02 2020 new variable
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.###07 02 2020 new variable
 cmix#:#conf_external_lrs#:#External LRS###07 02 2020 new variable
 cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###07 02 2020 new variable
-cmix#:#conf_user_ident#:#User identification###07 02 2020 new variable
-cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###07 02 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###07 02 2020 new variable
-cmix#:#conf_user_ident_real_email#:#E-Mail Address###07 02 2020 new variable
-cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###07 02 2020 new variable
-cmix#:#conf_user_name#:#User name###07 02 2020 new variable
-cmix#:#conf_user_name_info#:#Sending an user name is usually not required.###07 02 2020 new variable
-cmix#:#conf_user_name_none#:#No one###07 02 2020 new variable
-cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name###07 02 2020 new variable
-cmix#:#conf_user_name_firstname#:#First name###07 02 2020 new variable
-cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###07 02 2020 new variable
-cmix#:#conf_user_name_lastname#:#Title and last name###07 02 2020 new variable
-cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###07 02 2020 new variable
-cmix#:#conf_user_name_fullname#:#Entire name###07 02 2020 new variable
-cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###07 02 2020 new variable
 cmix#:#conf_privacy_setting_conf#:#Configuration Options###07 02 2020 new variable
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###07 02 2020 new variable
 cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects###07 02 2020 new variable
@@ -15906,12 +15813,7 @@ prg#:#prg_deadline_period#:#Processing time is determined inividually###07 02 20
 prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.###07 02 2020 new variable
 prg#:#prg_deadline_date#:#Processing time expires at fixed date###07 02 2020 new variable
 prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.###07 02 2020 new variable
-prg#:#prg_no_validity_qalification#:#Long-Lasting qualification###07 02 2020 new variable
 prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications###07 02 2020 new variable
-prg#:#validity_qalification_period#:#Qualification expires individually###07 02 2020 new variable
-prg#:#validity_qalification_period_desc#:#days after completion###07 02 2020 new variable
-prg#:#validity_qalification_date#:#Qualification expires at fixed date###07 02 2020 new variable
-prg#:#validity_qalification_date_desc#:#expiry date###07 02 2020 new variable
 prg#:#prg_no_restart#:#No restart required###07 02 2020 new variable
 prg#:#restart_period#:#Restart obligatory###07 02 2020 new variable
 prg#:#restart_period_desc#:#days before expiry###07 02 2020 new variable
@@ -16054,3 +15956,607 @@ prg#:#prg_quali_still_valid#:#Qualification still valid###07 02 2020 new variabl
 prg#:#prg_quali_not_valid#:#Qualification not valid###07 02 2020 new variable
 rep#:#rep_configure#:#Configure###07 02 2020 new variable
 cont#:#cont_found_objects#:#Found Objects###07 02 2020 new variable
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###30 04 2021 new variable
+crs#:#crs_objective_result_details#:#« Show Details###30 04 2021 new variable
+meta#:#md_adv_field_list#:#Fields###30 04 2021 new variable
+meta#:#md_adv_record_lng_table#:#Language Managment###30 04 2021 new variable
+meta#:#md_adv_record_lng_table_lng#:#Language###30 04 2021 new variable
+meta#:#md_adv_record_lng_table_default#:#Default###30 04 2021 new variable
+meta#:#md_adv_record_lng_table_active#:#Active###30 04 2021 new variable
+meta#:#md_adv_record_lng_table_inst#:#Installed###30 04 2021 new variable
+meta#:#md_adv_record_activate_languages#:#Activate Languages###30 04 2021 new variable
+meta#:#md_aria_language_selection#:#Language Selection###30 04 2021 new variable
+meta#:#md_adv_int_current#:#Current Language:###30 04 2021 new variable
+meta#:#md_adv_int_default#:#Default Language:###30 04 2021 new variable
+meta#:#md_adv_int_translation_info#:#Translation:###30 04 2021 new variable
+meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".###30 04 2021 new variable
+sess#:#sess_title#:#Title of Session###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type#:#Typ der Rechteanpassung###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove#:#Rechte entfernen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_add_info#:#Fügt MARKIERTE Rechte der ausgewählten globalen Rollenvorlage zu den lokalen Rechtevorgabe hinzu.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_clone_info#:#Alle Rechte der ausgewählten globalen Rollenvorlage überschreiben alle lokalen Rechtevorgaben.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_type_remove_info#:#Entfernt die MARKIERTEN Rechte der ausgewählten globalen Rollenvorlage aus den lokalen Rechtevorgaben.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_adjust_button#:#Rechte anpassen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes#:#Vorhandene Objekte nur um ausgewählte Rechte ergänzen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no#:#Vorhandene Objekte NICHT anpassen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_add_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend ergänzt.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_add_no_info#:#Vorhandene lokale Rechtevorgaben entsprechend ergänzt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes#:#Vorhandene Objekte ändern###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no#:#Vorhandene Objekte NICHT anpassen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_yes_info#:#Vorhandene lokale Rechtevorgaben entsprechend überschreiben und IN GÄNZE mit allen gecheckten und ungecheckten Vorgaben auf vorhandene Objekte angewendet.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_clone_no_info#:#Vorhandene lokale Rechtevorgaben werden überschrieben, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes#:#Vorhandene Objekte nur um ausgewählte Rechte reduzieren###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no#:#Vorhandene Objekte NICHT anpassen###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_yes_info#:#Vorhandene lokale Rechtevorgaben und die Rechteeinstellungen vorhandener Objekte werden entsprechend reduziert.###30 04 2021 new variable
+rbac#:#rbac_form_copy_roles_ce_remove_no_info#:#Markierte Rechte werden aus vorhandenen lokalen Rechtevorgaben entfernt, die vorhandenen Objekte werden nicht in ihren Rechten angepasst.###30 04 2021 new variable
+common#:#tools#:#Tools###30 04 2021 new variable
+obj#:#obj_fallback_lang#:#Default Language###30 04 2021 new variable
+obj#:#obj_set_fallback_lang#:#Set default language###30 04 2021 new variable
+obj#:#obj_select_one_language#:#Please select one language###30 04 2021 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###30 04 2021 new variable
+auth#:#auth_oidc_settings_additional_scopes#:#Additional Scopes###30 04 2021 new variable
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s###30 04 2021 new variable
+forum#:#deletePosting#:#Delete Posting###30 04 2021 new variable
+forum#:#deletePostingDraft#:#Delete Draft###30 04 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###30 04 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###30 04 2021 new variable
+common#:#withdraw_consent_header#:#Revoke acceptance to terms of service###30 04 2021 new variable
+common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.###30 04 2021 new variable
+common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.###30 04 2021 new variable
+common#:#withdraw_consent#:#Withdraw Acceptance###30 04 2021 new variable
+common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.###30 04 2021 new variable
+common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.###30 04 2021 new variable
+common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here###30 04 2021 new variable
+common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service###30 04 2021 new variable
+common#:#withdraw_usr_agreement#:#Withdraw###30 04 2021 new variable
+common#:#accept_usr_agreement_btn#:#Accept###30 04 2021 new variable
+common#:#deny_usr_agreement#:#Do not accept terms of service?###30 04 2021 new variable
+common#:#deny_usr_agreement_btn#:#Not Accept###30 04 2021 new variable
+common#:#withdrawal_complete#:#Withdrawal of consent complete.###30 04 2021 new variable
+common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.###30 04 2021 new variable
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.###30 04 2021 new variable
+common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service###30 04 2021 new variable
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.###30 04 2021 new variable
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?###30 04 2021 new variable
+common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s###30 04 2021 new variable
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]###30 04 2021 new variable
+chatroom#:#chat_use_osc#:#Using On-Screen-Chat###30 04 2021 new variable
+chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat###30 04 2021 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###30 04 2021 new variable
+common#:#log_out#:#Logout###30 04 2021 new variable
+common#:#global_role_assignment#:#Globale Rollenzuweisung###30 04 2021 new variable
+common#:#local_role_assignment#:#Lokale Rollenzuweisung###30 04 2021 new variable
+common#:#usrimport_form_not_evaluabe#:#The form data couldn't be read.###30 04 2021 new variable
+common#:#usrimport_wrong_file_count#:#Too many files in import-folder. Please try again.###30 04 2021 new variable
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.###30 04 2021 new variable
+content#:#cont_click_multi_select#:#<b>Click</b> on elements to <b>select</b> or deselect them.###30 04 2021 new variable
+content#:#cont_click_edit#:#<b>Click</b> on elements to <b>edit</b> its properties.###30 04 2021 new variable
+content#:#cont_ed_insert_tab#:#Insert Advanced Table###30 04 2021 new variable
+content#:#cont_ed_insert_src#:#Insert Code###30 04 2021 new variable
+content#:#cont_ed_insert_dtab#:#Insert Data Table###30 04 2021 new variable
+content#:#cont_ed_insert_flst#:#Insert File List###30 04 2021 new variable
+content#:#cont_ed_insert_sec#:#Insert Section###30 04 2021 new variable
+content#:#cont_text_iln_link#:#Interal Link###30 04 2021 new variable
+dateplaner#:#cal_app_other_materials_num#:#View other materials###30 04 2021 new variable
+dateplaner#:#cal_materials#:#Materials###30 04 2021 new variable
+dateplaner#:#cal_def_view#:#Default Calendar View###30 04 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###30 04 2021 new variable
+forum#:#frm_posts#:#Forum Posts###30 04 2021 new variable
+ldap#:#ldap_escapedn#:#Escape DN###30 04 2021 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###30 04 2021 new variable
+mail#:#mail_email_usr_subject#:#Test E-Mail User Mail###30 04 2021 new variable
+mail#:#mail_email_usr_body#:#This is a test e-mail to test the delivery of user mails to the external mail account.###30 04 2021 new variable
+mail#:#mail_email_sys_subject#:#Test E-Mail System Mail###30 04 2021 new variable
+mail#:#mail_email_sys_body#:#This is a test e-mail to test the delivery of system mails to the external mail account.###30 04 2021 new variable
+crs#:#crs_timing_err_start_end#:#The end date must be greater than or equals the start date.###30 04 2021 new variable
+ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###30 04 2021 new variable
+search#:#search_field#:#Search Input Field###30 04 2021 new variable
+webr#:#webr_link_type_single#:#Single Weblink###30 04 2021 new variable
+webr#:#webr_link_type_list#:#Weblink List###30 04 2021 new variable
+webr#:#webr_list_added#:#A new weblink list has been created.###30 04 2021 new variable
+webr#:#webr_list_set#:#The weblink has been set to a weblink list.###30 04 2021 new variable
+webr#:#webr_new_list#:#Add New Weblink List###30 04 2021 new variable
+webr#:#webr_new_list_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.###30 04 2021 new variable
+webr#:#webr_set_to_list#:#Set to Weblink List###30 04 2021 new variable
+mail#:#mail_use_global_reply_to_addr#:#Use Global Reply-To###30 04 2021 new variable
+mail#:#mail_use_global_reply_to_addr_info#:#If enabled, the email address entered below is used as value for the 'Reply-To' header. The sender's email address will be not disclosed to recipients. A direct reply is not possible anymore.###30 04 2021 new variable
+mail#:#mail_global_reply_to_addr#:#Reply-To###30 04 2021 new variable
+mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.###30 04 2021 new variable
+content#:#lm_import#:#Import ILIAS Learning Module###30 04 2021 new variable
+book#:#reservation_deleted#:#Reservation deleted###30 04 2021 new variable
+book#:#X_reservations_of#:#%s reservations of###30 04 2021 new variable
+book#:#book_set_delete#:#Delete###30 04 2021 new variable
+content#:#cont_ed_insert_lpe#:#Insert Login Page Element###30 04 2021 new variable
+content#:#cont_ed_insert_prof#:#Insert Personal Data###30 04 2021 new variable
+content#:#cont_ed_insert_vrfc#:#Insert Certificate###30 04 2021 new variable
+skmg#:#skmg_target_levels#:#Target Levels###30 04 2021 new variable
+dateplaner#:#cal_default_settings#:#Default settings###30 04 2021 new variable
+content#:#cont_sel_el_use_paste#:#Selected elements are now in the clipboard. Please click the desired target placeholder and select ‘Paste’.###30 04 2021 new variable
+dcl#:#dcl_view_settings#:#View Settings###30 04 2021 new variable
+dcl#:#dcl_view_configuration#:#View Configuration###30 04 2021 new variable
+dcl#:#dcl_configuration_complete#:#Configuration Complete###30 04 2021 new variable
+dcl#:#dcl_edit_entry_rules#:#Entry Editing###30 04 2021 new variable
+dcl#:#dcl_create_entry_rules#:#Entry Creation###30 04 2021 new variable
+dcl#:#dcl_tableview_copy#:#View successfully copied###30 04 2021 new variable
+dcl#:#dcl_tableview_default_value_fail#:#Some numeric default values couldn't be saved because they contained letters. Please try again.###30 04 2021 new variable
+dcl#:#dcl_tableview_fieldtitle#:#Field Title###30 04 2021 new variable
+dcl#:#dcl_tableview_locked#:#Locked###30 04 2021 new variable
+dcl#:#dcl_tableview_required#:#Required###30 04 2021 new variable
+dcl#:#dcl_tableview_default_value#:#Default Value###30 04 2021 new variable
+dcl#:#dcl_tableview_visible#:#Visible###30 04 2021 new variable
+dcl#:#dcl_tableview_not_visible#:#Not Visible###30 04 2021 new variable
+dcl#:#dcl_tableview_required_visible#:#Required & Visible###30 04 2021 new variable
+dcl#:#dcl_tableview_locked_visible#:#Locked & Visible###30 04 2021 new variable
+dcl#:#dcl_tableview_field_access#:#Field Access###30 04 2021 new variable
+common#:#label_search_options#:#Search Area###30 04 2021 new variable
+dateplaner#:#cal_setting_global_crs_act#:#Activation in Courses###30 04 2021 new variable
+dateplaner#:#cal_setting_global_grp_act#:#Activation in Groups###30 04 2021 new variable
+dateplaner#:#cal_setting_global_crs_act_info#:#If selected, the calendar is active in courses by default. In any case the calendar activation can be enabled/disabled in the course settings.###30 04 2021 new variable
+dateplaner#:#cal_setting_global_grp_act_info#:#If selected, the calendar is active in groups by default. In any case the calendar activation can be enabled/disabled in the group settings.###30 04 2021 new variable
+common#:#obj_tool_setting_calendar_active#:#Calendar###30 04 2021 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###30 04 2021 new variable
+search#:#search_on#:#On###30 04 2021 new variable
+tos#:#tos_crit_type_usr_country#:#Profile Country###30 04 2021 new variable
+tos#:#tos_crit_type_usr_country_info#:#The criterion is fulfilled if the selected country is set for a user profile. Please note that this criterion type can be attached only once.###30 04 2021 new variable
+tos#:#tos_reevaluate_on_login#:#Reevaluate on Successful Login###30 04 2021 new variable
+tos#:#tos_reevaluate_on_login_desc#:#If enabled, ILIAS checks if the user has to accept a new document after successful login. This applies for the cased, where the criteria of a signed document do not match anymore, and a new document can be determined based on the current user criteria.###30 04 2021 new variable
+tos#:#tos_withdrawal_usr_deletion#:#Account Deletion on Terms Of Service Withdrawal###30 04 2021 new variable
+tos#:#tos_withdrawal_usr_deletion_info#:#If enabled, the withdrawal of the 'Terms of Service' provokes a deletion of the user account.###30 04 2021 new variable
+skmg#:#skmg_add_local_profile#:#Add Local Profile###30 04 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###30 04 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###30 04 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###30 04 2021 new variable
+orgu#:#user_assignments_recursive#:#User Assignments Subtree###30 04 2021 new variable
+content#:#cont_ed_insert_cach#:#Insert Consultation Hours###30 04 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###30 04 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###30 04 2021 new variable
+common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.###30 04 2021 new variable
+skmg#:#skmg_assigned_objects#:#Assigned Objects###30 04 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###30 04 2021 new variable
+content#:#cont_ed_insert_mcrs#:#Insert My Courses###30 04 2021 new variable
+content#:#cont_ed_insert_amdpl#:#Insert Page List###30 04 2021 new variable
+sess#:#sess_reg_tutor#:#No Registration Possible###30 04 2021 new variable
+sess#:#sess_reg_tutor_info#:#Users cannot register for this session on their own. Only administrators can register users.###30 04 2021 new variable
+sess#:#sess_reg_cannot_participate#:#Cannot Participate###30 04 2021 new variable
+sess#:#sess_reg_cannot_participate_info#:#Users can indicate that they cannot participate in the session.###30 04 2021 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###30 04 2021 new variable
+content#:#cont_link_user#:#User Profile###30 04 2021 new variable
+lng#:#language_detection#:#Language Detection###30 04 2021 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###30 04 2021 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###30 04 2021 new variable
+common#:#mainbar_aria_label#:#Mainbar###30 04 2021 new variable
+common#:#metabar_aria_label#:#Metabar###30 04 2021 new variable
+common#:#breadcrumbs_aria_label#:#Breadcrumbs###30 04 2021 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###30 04 2021 new variable
+chatroom#:#chatroom_log#:#Chatserver Log###30 04 2021 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###30 04 2021 new variable
+obj#:#obj_tool_ext_mail_subject_prefix#:#Mail Subject Prefix###30 04 2021 new variable
+obj#:#obj_tool_ext_mail_subject_prefix_info#:#Enter a short text that is added to the subject line of external mails send to members to make identifying these mails easier.###30 04 2021 new variable
+style#:#sty_copy_to#:#to:###30 04 2021 new variable
+didactic#:#didactic_global#:#Global###30 04 2021 new variable
+didactic#:#didactic_filter_with_icon#:#with Icon###30 04 2021 new variable
+didactic#:#didactic_filter_without_icon#:#without Icon###30 04 2021 new variable
+didactic#:#didactic_local#:#Local###30 04 2021 new variable
+didactic#:#didactic_icon#:#Icon###30 04 2021 new variable
+didactic#:#didactic_icon_info#:#The Icon is shown for all objects, which use this object template. "Custom Icons" of objects overwrite the didactic template icons. Icons can only be used for didactic templates assigned to container objects.###30 04 2021 new variable
+didactic#:#didactic_icon_error#:#Icons cannot be assigned to non-container objects.###30 04 2021 new variable
+chatroom#:#chat_log_level#:#Log Level###30 04 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###30 04 2021 new variable
+skmg#:#skmg_local_assignment_profiles#:#Allow Local Assignment of Global Profiles###30 04 2021 new variable
+skmg#:#skmg_allow_local_profiles#:#Allow Creation of Local Profiles###30 04 2021 new variable
+skmg#:#skmg_allow_local_profiles_info#:#Users with permission 'Edit Settings' in Courses and Groups can create local competence profiles using globally defined competences.###30 04 2021 new variable
+cont#:#cont_skill_profiles#:#Assigned Profiles of Members###30 04 2021 new variable
+cont#:#cont_skill_profile#:#Profile###30 04 2021 new variable
+cont#:#cont_add_global_profile#:#Add Global Profile###30 04 2021 new variable
+cont#:#cont_add_local_profile#:#Add Local Profile###30 04 2021 new variable
+cont#:#cont_skill_assigned_profiles#:#Profile Selection###30 04 2021 new variable
+cont#:#cont_skill_no_profile_selected#:#Please select a profile.###30 04 2021 new variable
+cont#:#cont_skill_really_remove_profiles_from_list#:#Do you really want to remove these profiles from the list?###30 04 2021 new variable
+cont#:#cont_skill_really_remove_profile_from_list#:#Do you really want to remove this profile from the list?###30 04 2021 new variable
+cont#:#cont_skill_really_delete_profiles_from_list#:#Do you really want to delete these profiles?###30 04 2021 new variable
+cont#:#cont_skill_really_delete_profile_from_list#:#Do you really want to delete this profile?###30 04 2021 new variable
+cont#:#cont_skill_removal_not_possible#:#Removing of local competence profiles is not possible. Please select only global competence profiles.###30 04 2021 new variable
+cont#:#cont_skill_deletion_not_possible#:#Deletion of global competence profiles is not possible. Please select only local competence profiles.###30 04 2021 new variable
+file#:#general_upload_error_occured#:#An unexpected error occured during upload.###30 04 2021 new variable
+file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.###30 04 2021 new variable
+copa#:#copa_prop_reading_time#:#Reading Time###30 04 2021 new variable
+copa#:#copa_value_reading_time_f_s#:#%s Minute###30 04 2021 new variable
+copa#:#copa_value_reading_time_f_p#:#%s Minutes###30 04 2021 new variable
+common#:#obj_cpad#:#Content Pages###30 04 2021 new variable
+common#:#obj_cpad_desc#:#Content Page Administration###30 04 2021 new variable
+common#:#obj_cpad#_desc#:#Content Page Administration###30 04 2021 new variable
+cpad#:#cpad_reading_time_status#:#Reading Time###30 04 2021 new variable
+cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.###30 04 2021 new variable
+mme#:#flush#:#Remove Lost Items###30 04 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###30 04 2021 new variable
+mme#:#sub_role_based_visibility#:#Visibility for roles###30 04 2021 new variable
+mme#:#sub_role_based_visibility_byline#:#Choose global roles which can see this item. If not activated, the item is always shown.###30 04 2021 new variable
+mme#:#sub_global_roles#:#Global Roles###30 04 2021 new variable
+mme#:#err_uri_not_valid#:#Please provide a valid URL###30 04 2021 new variable
+mme#:#move_to_item#:#Move to Items###30 04 2021 new variable
+mme#:#move_to_top_item#:#Move to Top Items###30 04 2021 new variable
+mme#:#select_parent#:#Select Parent###30 04 2021 new variable
+mme#:#msg_moved#:#Item successfully moved###30 04 2021 new variable
+mme#:#msg_not_moved#:#Item could not be moved, please select a valid parent.###30 04 2021 new variable
+mme#:#confirm_move#:#Would you like to move this item to Top Items?###30 04 2021 new variable
+content#:#cont_ed_insert_lhist#:#Insert Learning History###30 04 2021 new variable
+lti#:#conf_privacy_ident#:#User identification###30 04 2021 new variable
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###30 04 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###30 04 2021 new variable
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address###30 04 2021 new variable
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###30 04 2021 new variable
+lti#:#conf_privacy_name#:#User name###30 04 2021 new variable
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.###30 04 2021 new variable
+lti#:#conf_privacy_name_none#:#No one###30 04 2021 new variable
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###30 04 2021 new variable
+lti#:#conf_privacy_name_firstname#:#First name###30 04 2021 new variable
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###30 04 2021 new variable
+lti#:#conf_privacy_name_lastname#:#Title and last name###30 04 2021 new variable
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###30 04 2021 new variable
+lti#:#conf_privacy_name_fullname#:#Entire name###30 04 2021 new variable
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###30 04 2021 new variable
+cmix#:#conf_privacy_ident#:#User identification###30 04 2021 new variable
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###30 04 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###30 04 2021 new variable
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address###30 04 2021 new variable
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###30 04 2021 new variable
+cmix#:#conf_privacy_name#:#User name###30 04 2021 new variable
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.###30 04 2021 new variable
+cmix#:#conf_privacy_name_none#:#No one###30 04 2021 new variable
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###30 04 2021 new variable
+cmix#:#conf_privacy_name_firstname#:#First name###30 04 2021 new variable
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###30 04 2021 new variable
+cmix#:#conf_privacy_name_lastname#:#Title and last name###30 04 2021 new variable
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###30 04 2021 new variable
+cmix#:#conf_privacy_name_fullname#:#Entire name###30 04 2021 new variable
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###30 04 2021 new variable
+prg#:#prg_no_validity_qualification#:#Long-Lasting qualification###30 04 2021 new variable
+prg#:#validity_qualification_period#:#Qualification expires individually###30 04 2021 new variable
+prg#:#validity_qualification_period_desc#:#days after completion###30 04 2021 new variable
+prg#:#validity_qualification_date#:#Qualification expires at fixed date###30 04 2021 new variable
+prg#:#validity_qualification_date_desc#:#expiry date###30 04 2021 new variable
+common#:#msg_unknown_value#:#An unknown value has been passed.###30 04 2021 new variable
+exc#:#exc_deleted_user#:#Deleted User###30 04 2021 new variable
+prg#:#prg_type_byline#:#Set a type to use certain custom metadata sets or icons.###30 04 2021 new variable
+prg#:#prg_points_byline#:#Students get a certain amount of points when they succeed in this programme and need to get this many points in subsequent programmes.###30 04 2021 new variable
+prg#:#prg_status_byline#:#Use the status to control if this programme is assigned to students.###30 04 2021 new variable
+prg#:#prg_description#:#Description###30 04 2021 new variable
+prg#:#prg_link#:#Link###30 04 2021 new variable
+prg#:#prg_mail_context_title#:#Study Programme: Mail to Members###30 04 2021 new variable
+prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme###30 04 2021 new variable
+copg#:#copg_allow_html#:#Enable HTML/Javascript###30 04 2021 new variable
+copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.###30 04 2021 new variable
+dcl#:#dcl_page_type_dclf#:#Details View###30 04 2021 new variable
+crs#:#crs_page_type_lobj#:#Learning Objective Page###30 04 2021 new variable
+copa#:#copa_page_type_copa#:#Content Page###30 04 2021 new variable
+mep#:#mep_page_type_mep#:#Content Snippet###30 04 2021 new variable
+wiki#:#wiki_page_type_wpg#:#Wiki Page###30 04 2021 new variable
+blog#:#blog_page_type_blp#:#Blog Posting###30 04 2021 new variable
+prtf#:#prtf_page_type_prtf#:#Portfolio Page###30 04 2021 new variable
+prtf#:#prtf_page_type_prtt#:#Portfolio Template Page###30 04 2021 new variable
+glo#:#glo_page_type_gdf#:#Term Definition###30 04 2021 new variable
+lm#:#lm_page_type_lm#:#LM Page###30 04 2021 new variable
+qpl#:#qpl_page_type_qht#:#Hint###30 04 2021 new variable
+qpl#:#qpl_page_type_qpl#:#Question Page###30 04 2021 new variable
+qpl#:#qpl_page_type_qfbg#:#General Feedback###30 04 2021 new variable
+qpl#:#qpl_page_type_qfbs#:#Special Feedback###30 04 2021 new variable
+sc13#:#sc13_page_type_sahs#:#SCORM Editor Page###30 04 2021 new variable
+copg#:#copg_page_type_stys#:#Layout Page###30 04 2021 new variable
+cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)###30 04 2021 new variable
+cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)###30 04 2021 new variable
+auth#:#auth_page_type_auth#:#Login Page###30 04 2021 new variable
+impr#:#impr_page_type_impr#:#Imprint###30 04 2021 new variable
+prg#:#prg_additional_settings#:#Additional Features###30 04 2021 new variable
+prg#:#prg_access_by_orgu#:#Access Control by Organisation Unit Positions###30 04 2021 new variable
+prg#:#prg_access_by_orgu_byline#:#If enabled, additional access control rules can be defined by positions in organisational units.###30 04 2021 new variable
+ui#:#ui_numeric_only#:#Please insert a whole number.###30 04 2021 new variable
+mmbr#:#mmbr_memberships#:#Memberships###30 04 2021 new variable
+notes#:#note_without_object#:#Without reference###30 04 2021 new variable
+prg#:#msg_fill_required#:#Please fill all required fields.###30 04 2021 new variable
+iass#:#iass_file_dropzone#:#you can drop your files here###30 04 2021 new variable
+iass#:#iass_confirm_finalize#:#Finalize###30 04 2021 new variable
+iass#:#iass_cancel#:#Cancel###30 04 2021 new variable
+iass#:#iass_finalize_info#:#Individual Assessment will be finalized.###30 04 2021 new variable
+iass#:#download_assessment_paper#:#Download Record file###30 04 2021 new variable
+iass#:#iass_user_removed#:#User successfully removed.###30 04 2021 new variable
+prg#:#prg_profile_not_public#:#Profile of the user is not public.###30 04 2021 new variable
+prg#:#prg_delete_nothing_selected#:#Please select at least one entry to delete.###30 04 2021 new variable
+prg#:#prg_delete_confirmation#:#Do you really want to delete the selected entries?###30 04 2021 new variable
+prg#:#prg_confirm_delete#:#Delete###30 04 2021 new variable
+prg#:#prg_cancel#:#Cancel###30 04 2021 new variable
+prg#:#prg_delete_failure#:#Delete failed.###30 04 2021 new variable
+prg#:#prg_delete_success#:#Successfuly delete entries.###30 04 2021 new variable
+prg#:#prg_delete_single_confirmation#:#Do you really want to delete the selected entry?###30 04 2021 new variable
+prg#:#prg_delete_single_success#:#Successfuly delete entry.###30 04 2021 new variable
+common#:#obj_lsos#:#Learning Sequences###30 04 2021 new variable
+common#:#obj_lsos_desc#:#General settings for Learning Sequences###30 04 2021 new variable
+mail#:#mail_enable_lso_member_notification#:#Notify Learning Sequence Members###30 04 2021 new variable
+mail#:#mail_enable_lso_member_notification_info#:#ILIAS will automatically send an e-mail to every member if his or her membership status is changed. This setting applies to all Learning Sequences on the platform.###30 04 2021 new variable
+mail#:#mail_enable_lso_admin_notification#:#Notify Learning Sequence Administrators###30 04 2021 new variable
+mail#:#mail_enable_lso_admin_notification_info#:#In new Learning Sequences the setting 'Notification About New Members' will be activated by default. It is set in the 'Member'-tab of Learning Sequences. Administrators will receive an e-mail when a member joins the Learning Sequence or leaves it.###30 04 2021 new variable
+prg#:#risky_to_fail_mail_subject#:#Reminder, that the deadline for the study program will soon be reached###30 04 2021 new variable
+prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>the deadline for completing the study program '%s' will soon be reached.###30 04 2021 new variable
+prg#:#prg_update_progress_title#:#Set Progress to Failed after Deadline###30 04 2021 new variable
+prg#:#prg_update_progress_description#:#Set Progress from 'In Progress' to 'failed' after crossing Deadline.###30 04 2021 new variable
+common#:#collapse_content#:#Collapse Content###30 04 2021 new variable
+common#:#expand_content#:#Expand Content###30 04 2021 new variable
+common#:#briefcase#:#Background Tasks###30 04 2021 new variable
+common#:#sort_ascending#:#Sort Ascending###30 04 2021 new variable
+common#:#sort_descending#:#Sort Descending###30 04 2021 new variable
+common#:#show_who_is_online#:#Show who is online###30 04 2021 new variable
+common#:#tags#:#Tags###30 04 2021 new variable
+common#:#comments#:#Comments###30 04 2021 new variable
+common#:#eyeclosed#:#Eye Closed - Click to hide the input's contents###30 04 2021 new variable
+common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
+common#:#show_more#:#Show More###30 04 2021 new variable
+common#:#disclose#:#Disclose###30 04 2021 new variable
+common#:#switch_language#:#Switch Language###30 04 2021 new variable
+lti#:#lti_user_role_created#:#The recommended global role for LTI users has been created.###30 04 2021 new variable
+lti#:#lti_create_lti_user_role#:#Create recommended global role for LTI users###30 04 2021 new variable
+lti#:#lti_user_role_info#:#The recommended global role for LTI users has not yet been created in this installation. This special global role contains only the permission 'visible' for repository and categories.###30 04 2021 new variable
+awrn#:#user_awrn_default#:#Default###30 04 2021 new variable
+awrn#:#user_awrn_hide#:#Hide my status###30 04 2021 new variable
+awrn#:#user_awrn_show#:#Show my status###30 04 2021 new variable
+awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###30 04 2021 new variable
+ui#:#ui_error_in_group#:#There is some error in this part.###30 04 2021 new variable
+survey#:#survey_calculate_sum_score#:#Calculate Sum Score###30 04 2021 new variable
+survey#:#survey_calculate_sum_score_info#:#Calculates the sum of all scale values for single choice, multiple choice and matrix questions for each participant. Caution: If participants skip these kind of questions, the whole sum score will not be calculated anymore.###30 04 2021 new variable
+survey#:#svy_sum_score#:#Sum Score###30 04 2021 new variable
+survey#:#svy_max_sum_score#:#Maximum Sum Score###30 04 2021 new variable
+content#:#cont_select_none#:#Clear Selection###30 04 2021 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###30 04 2021 new variable
+common#:#lso_admin_form_title#:#Settings###30 04 2021 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###30 04 2021 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###30 04 2021 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! ###30 04 2021 new variable
+common#:#mainbar_more_label#:#More###30 04 2021 new variable
+common#:#obj_wbdv#:#WebDAV###30 04 2021 new variable
+common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.###30 04 2021 new variable
+common#:#obj_fils#:#File Services###30 04 2021 new variable
+common#:#obj_fils_desc#:#Configuration of File Service Settings.###30 04 2021 new variable
+fils#:#file_services#:#File Services###30 04 2021 new variable
+fils#:#file_services_description#:#Configuration of File Service Settings.###30 04 2021 new variable
+fils#:#file_suffix_default_positive#:#File Suffixes: Positive List (Default List)###30 04 2021 new variable
+fils#:#file_suffix_default_positive_info#:#Preset default list of accepted file suffixes.###30 04 2021 new variable
+fils#:#file_suffix_custom_negative#:#File Suffixes: Negative List (Adaptations)###30 04 2021 new variable
+fils#:#file_suffix_custom_negative_info#:#These file suffixes will be removed from the positive list.###30 04 2021 new variable
+fils#:#file_suffix_custom_positive#:#File Suffixes: Positive List (Adaptations)###30 04 2021 new variable
+fils#:#file_suffix_custom_positive_info#:#These file suffixes will be added to the positive list.###30 04 2021 new variable
+fils#:#file_suffix_overall_positive#:#Overall Positive List###30 04 2021 new variable
+fils#:#file_suffix_overall_positive_info#:#This is the final list of accepted file suffixes.###30 04 2021 new variable
+fils#:#file_suffix_custom_expl_negative#:#Prohibited File Suffixes###30 04 2021 new variable
+fils#:#file_suffix_custom_expl_negative_info#:#Files with these suffixes won't be accepted for upload.###30 04 2021 new variable
+common#:#file_objects#:#File Objects###30 04 2021 new variable
+common#:#preview_renderers#:#Preview Renderers###30 04 2021 new variable
+lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed###30 04 2021 new variable
+lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed###30 04 2021 new variable
+common#:#back_to_course#:#Back to Course###30 04 2021 new variable
+skmg#:#skmg_context_global#:#Global###30 04 2021 new variable
+skmg#:#skmg_context_local#:#Local###30 04 2021 new variable
+common#:#obj_peac#:#Accordion###30 04 2021 new variable
+common#:#obj_peadl#:#Advanced List###30 04 2021 new variable
+common#:#obj_peadt#:#Advanced Table###30 04 2021 new variable
+common#:#obj_pecd#:#Code###30 04 2021 new variable
+common#:#obj_pech#:#Consultation Hour###30 04 2021 new variable
+common#:#obj_pecl#:#Column Layout###30 04 2021 new variable
+common#:#obj_peclp#:#Clipboard###30 04 2021 new variable
+common#:#obj_pecom#:#Competences###30 04 2021 new variable
+common#:#obj_pecrs#:#Course###30 04 2021 new variable
+common#:#obj_pecrt#:#Certificate###30 04 2021 new variable
+common#:#obj_pecs#:#Content Snippet###30 04 2021 new variable
+common#:#obj_pedt#:#Data Table###30 04 2021 new variable
+common#:#obj_pefl#:#File List###30 04 2021 new variable
+common#:#obj_peim#:#interactive Media###30 04 2021 new variable
+common#:#obj_pelh#:#Learning History###30 04 2021 new variable
+common#:#obj_pemed#:#Image/Audio/Video###30 04 2021 new variable
+common#:#obj_pemp#:#Map###30 04 2021 new variable
+common#:#obj_pepd#:#Personal Data###30 04 2021 new variable
+common#:#obj_pepe#:#Plugin Element###30 04 2021 new variable
+common#:#obj_pepl#:#Page List###30 04 2021 new variable
+common#:#obj_peplh#:#Placeholder###30 04 2021 new variable
+common#:#obj_pequ#:#Questions###30 04 2021 new variable
+common#:#obj_perl#:#Ressource List###30 04 2021 new variable
+common#:#obj_pesc#:#Section###30 04 2021 new variable
+common#:#obj_petmp#:#Page Template###30 04 2021 new variable
+common#:#obj_peusr#:#User###30 04 2021 new variable
+survey#:#svy_compress_view#:#Compressed View###30 04 2021 new variable
+survey#:#svy_compress_view_info#:#If activated, all single choice questions with similar scales will be presented matrix-like.###30 04 2021 new variable
+cmix#:#only_moveon_label#:#Save learning success data only###30 04 2021 new variable
+cmix#:#only_moveon_info#:#With this option, which is only available for the ILIAS LRS proxy, only statements with defined verbs are stored in the Learning Record Store (WhiteList). The content is informed that the statements would have been saved. This usually ensures the expiration date but should be discussed with the content provider.###30 04 2021 new variable
+cmix#:#achieved_label#:#Statements with the verb 'achieved'###30 04 2021 new variable
+cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.###30 04 2021 new variable
+cmix#:#answered_label#:#Statements with the verb 'answered'###30 04 2021 new variable
+cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.###30 04 2021 new variable
+cmix#:#completed_label#:#Statements with the verb 'completed'###30 04 2021 new variable
+cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.###30 04 2021 new variable
+cmix#:#failed_label#:#Statements with the verb 'failed'###30 04 2021 new variable
+cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.###30 04 2021 new variable
+cmix#:#initialized_label#:#Statements with the verb 'initialized'###30 04 2021 new variable
+cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.###30 04 2021 new variable
+cmix#:#passed_label#:#Statements with the verb 'passed'###30 04 2021 new variable
+cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.###30 04 2021 new variable
+cmix#:#progressed_label#:#Statements with the verb 'progressed'###30 04 2021 new variable
+cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.###30 04 2021 new variable
+cmix#:#satisfied_label#:#Statements with the verb 'satisfied'###30 04 2021 new variable
+cmix#:#satisfied_info#:#Indicates that the authority or activity provider determined the actor has fulfilled the criteria of the object or activity.###30 04 2021 new variable
+cmix#:#terminated_label#:#Statements with the verb 'terminated'###30 04 2021 new variable
+cmix#:#terminated_info#:#Indicates that the actor successfully ended an activity.###30 04 2021 new variable
+cmix#:#hide_data_label#:#Blacken data###30 04 2021 new variable
+cmix#:#hide_data_info#:#With this option which is only available for the ILIAS LRS proxy certain data is stored in statements with unrecognizable values in the Learning Record Store.###30 04 2021 new variable
+cmix#:#timestamp_label#:#Timestamp###30 04 2021 new variable
+cmix#:#timestamp_info#:#The timestamp marks the time of an action indicated by the statement. The timestamp is set to the default value 01.01.1970 (1970-01-01T00:00:00.000Z) by this option. Please note that a Learning Record Store may automatically set a value for the stored date, which can be almost identical to the timestamp.###30 04 2021 new variable
+cmix#:#duration_label#:#Duration###30 04 2021 new variable
+cmix#:#duration_info#:#The duration can be entered e.g. for answering a task. The duration is set to the default value 0 seconds (PT00.000S) by this option.###30 04 2021 new variable
+cmix#:#no_substatements_label#:#Do not store substatements###30 04 2021 new variable
+cmix#:#no_substatements_info#:#With this option - which is only available for the ILIAS LRS proxy - the storage of subordinate statements can be suppressed. This can for example affect the answering of single tasks in a test. The content is informed that the statements would have been saved.###30 04 2021 new variable
+adn#:#administrative_notification#:#Administrative Notifications###30 04 2021 new variable
+adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS###30 04 2021 new variable
+common#:#obj_adn#:#Administrative Notifications###30 04 2021 new variable
+adn#:#main#:#Notifications###30 04 2021 new variable
+adn#:#msg_type_0#:#Notice###30 04 2021 new variable
+adn#:#msg_type_1#:#Notice###30 04 2021 new variable
+adn#:#msg_type_2#:#Important###30 04 2021 new variable
+adn#:#msg_type_3#:#Breaking News###30 04 2021 new variable
+adn#:#msg_type#:#Importance###30 04 2021 new variable
+adn#:#msg_type_info#:#the importance has an influence on the color representation of the notification###30 04 2021 new variable
+adn#:#msg_title#:#Headline###30 04 2021 new variable
+adn#:#msg_title_info#:#Short Headline of the Notification###30 04 2021 new variable
+adn#:#msg_body#:#Body###30 04 2021 new variable
+adn#:#msg_body_info#:#Body of the Notification###30 04 2021 new variable
+adn#:#msg_display_date_start#:#Displayed From###30 04 2021 new variable
+adn#:#msg_display_date_end#:#Displayed Until###30 04 2021 new variable
+adn#:#msg_event_date_start#:#Event Starts###30 04 2021 new variable
+adn#:#msg_event_date_end#:#Event Ends###30 04 2021 new variable
+adn#:#msg_type_during_event#:#During Event###30 04 2021 new variable
+adn#:#msg_permanent_yes#:#Show Permanently###30 04 2021 new variable
+adn#:#msg_permanent_no#:#Show Temporarily###30 04 2021 new variable
+adn#:#msg_permanent#:#Display###30 04 2021 new variable
+adn#:#msg_permanent_info#:#Display Notifications permanently or temporarily###30 04 2021 new variable
+adn#:#msg_dismissable#:#Dismissable###30 04 2021 new variable
+adn#:#msg_dismissable_info#:#Notifications can be closed by the user. The user won't see this notification again.###30 04 2021 new variable
+adn#:#msg_limited_to_role_ids#:#Roles###30 04 2021 new variable
+adn#:#msg_limit_to_roles#:#Role-sensitive Presentation###30 04 2021 new variable
+adn#:#msg_limit_to_roles_info#:#Only the selected roles will see the notification.###30 04 2021 new variable
+adn#:#msg_form_title#:#Notification###30 04 2021 new variable
+adn#:#msg_table_title#:#Notifications###30 04 2021 new variable
+adn#:#common_actions#:#Actions###30 04 2021 new variable
+adn#:#msg_error_false_date_configuration#:#Can't create a notification with this configuration of dates. The event must be within the display time.###30 04 2021 new variable
+adn#:#common_add_msg#:#Add Notification###30 04 2021 new variable
+adn#:#btn_reset#:#Reset###30 04 2021 new variable
+adn#:#btn_reset_confirm#:#Would you like to reset this Notification for all Users?###30 04 2021 new variable
+adn#:#btn_delete#:#Delete###30 04 2021 new variable
+adn#:#btn_delete_confirm#:#Would you like to delete this Notification?###30 04 2021 new variable
+adn#:#btn_cancel#:#Cancel###30 04 2021 new variable
+adn#:#btn_edit#:#Edit###30 04 2021 new variable
+adn#:#msg_success_deleted#:#Notification sucessfully deleted###30 04 2021 new variable
+adn#:#msg_success_created#:#Notification created###30 04 2021 new variable
+adn#:#msg_success_reset#:#Notification reset###30 04 2021 new variable
+adn#:#msg_success_updated#:#Notification updated###30 04 2021 new variable
+content#:#cont_delete_content#:#Delete Content###30 04 2021 new variable
+adve#:#adve_autosave#:#Automatic Saving Intervall###30 04 2021 new variable
+adve#:#adve_autosave_info#:#Auto-save for text content. With shorter intervals, the server load increases and the performance of the system decreases.###30 04 2021 new variable
+content#:#cont_edit_comp#:#Editing###30 04 2021 new variable
+content#:#cont_edit_multi#:#Selection###30 04 2021 new variable
+content#:#cont_block_format#:#Section Format###30 04 2021 new variable
+content#:#cont_upload_file#:#Upload File###30 04 2021 new variable
+content#:#cont_add_url#:#From URL###30 04 2021 new variable
+content#:#cont_url_info#:#URL of a media file or Youtube URL.###30 04 2021 new variable
+content#:#cont_choose_from_pool#:#Select from Media Pool###30 04 2021 new variable
+content#:#cont_choose_media_pool#:#Select Pool###30 04 2021 new variable
+content#:#cont_no_block#:#No Section###30 04 2021 new variable
+content#:#cont_show_fullscreen#:#Show Fullscreen###30 04 2021 new variable
+content#:#cont_advanced_settings#:#Advanced Settings###30 04 2021 new variable
+content#:#cont_table_edit_cells#:#Edit Cells###30 04 2021 new variable
+content#:#cont_last_update#:#Last Update###30 04 2021 new variable
+common#:#enable_comments_export#:#Enable Comments Export###30 04 2021 new variable
+note#:#note_enable_comments_export_info#:#This option enables comments export for content objects like portfolio, blog and wiki.###30 04 2021 new variable
+note#:#note_html_export_include_comments#:#Should comments be included in the export?###30 04 2021 new variable
+wiki#:#wiki_incl_comments#:#including comments###30 04 2021 new variable
+blog#:#blog_incl_comments#:#including comments###30 04 2021 new variable
+mob#:#mob_upload_file#:#Upload File###30 04 2021 new variable
+mob#:#mob_external_url#:#External URL###30 04 2021 new variable
+mob#:#mob_choose_from_pool#:#Choose from Media Pool###30 04 2021 new variable
+mob#:#mob_url#:#URL###30 04 2021 new variable
+mob#:#mob_url_info#:#External resource URL, e.g. Youtube or Vimeo URL.###30 04 2021 new variable
+common#:#objs_prgr#:#Links to Study Programmes###30 04 2021 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###30 04 2021 new variable
+rbac#:#prgr_delete#:#User can move or delete links to study programmes###30 04 2021 new variable
+rbac#:#prgr_edit_permission#:#User can change permission settings###30 04 2021 new variable
+rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###30 04 2021 new variable
+rbac#:#prgr_write#:#User can edit settings of links to study programmes###30 04 2021 new variable
+rbac#:#rbac_create_prgr#:#Create link to study programme###30 04 2021 new variable
+rbac#:#adn_visible#:#Administration of Administrative Notifications is visible.###30 04 2021 new variable
+rbac#:#adn_read#:#User has read access to administration of Administrative Notifications.###30 04 2021 new variable
+rbac#:#adn_write#:#User can add and edit Administrative Notifications.###30 04 2021 new variable
+rbac#:#adn_edit_permission#:#User can change permissions of Administrative Notifications' administration.###30 04 2021 new variable
+rbac#:#coms_visible#:#Administration of Comments is visible.###30 04 2021 new variable
+rbac#:#coms_read#:#User has read access to administration of Comments.###30 04 2021 new variable
+rbac#:#coms_write#:#User can edit settings of administration of Comments.###30 04 2021 new variable
+rbac#:#coms_edit_permissions#:#User can change permission settings of administration of Comments.###30 04 2021 new variable
+rbac#:#cpad_visible#:#Administration of Content Pages is visible.###30 04 2021 new variable
+rbac#:#cpad_read#:#User has read access to administration of Content Pages.###30 04 2021 new variable
+rbac#:#cpad_write#:#User can edit settings of administration of Content Pages.###30 04 2021 new variable
+rbac#:#cpad_edit_permissions#:#User can change permission settings of administration of Content Pages.###30 04 2021 new variable
+rbac#:#fils_visible#:#Administration of File Services is visible.###30 04 2021 new variable
+rbac#:#fils_read#:#User has read access to File Services administration.###30 04 2021 new variable
+rbac#:#fils_write#:#User can edit and configure File Services.###30 04 2021 new variable
+rbac#:#fils_edit_permissions#:#User can change permission settings of File Services administration.###30 04 2021 new variable
+rbac#:#lhts_visible#:#Administration of Learning History is visible.###30 04 2021 new variable
+rbac#:#lhts_read#:#User has read access to Learning History administration.###30 04 2021 new variable
+rbac#:#lhts_write#:#User can edit settings of Learning History administration.###30 04 2021 new variable
+rbac#:#lhts_edit_permissions#:#User can change permission settings of Learning History administration.###30 04 2021 new variable
+rbac#:#lsos_visible#:#Administration of Learning Sequences is visible.###30 04 2021 new variable
+rbac#:#lsos_read#:#User has read access to Learning Sequences administration.###30 04 2021 new variable
+rbac#:#lsos_write#:#User can edit settings of Learning Sequences administration.###30 04 2021 new variable
+rbac#:#lsos_edit_permissions#:#User can change permission settings of Learning Sequences administration.###30 04 2021 new variable
+rbac#:#nots_visible#:#Administration of Notes is visible.###30 04 2021 new variable
+rbac#:#nots_read#:#User has read access to Notes administration.###30 04 2021 new variable
+rbac#:#nots_write#:#User can edit settings of Notes administration.###30 04 2021 new variable
+rbac#:#nots_edit_permissions#:#User can change permission settings of Notes administration.###30 04 2021 new variable
+rbac#:#prss_visible#:#Administration of Personal Resources is visible.###30 04 2021 new variable
+rbac#:#prss_read#:#User has read access to Personal Resources administration.###30 04 2021 new variable
+rbac#:#prss_write#:#User can edit settings of Personal Resources administration.###30 04 2021 new variable
+rbac#:#prss_edit_permissions#:#User can change permission settings of Personal Resources administration.###30 04 2021 new variable
+rbac#:#push_desktop_items#:#Recommend Content###30 04 2021 new variable
+rbac#:#wbdv_visible#:#Administration of WebDAV is visible.###30 04 2021 new variable
+rbac#:#wbdv_read#:#User has read access to WebDAV administration.###30 04 2021 new variable
+rbac#:#wbdv_write#:#User can edit settings of WebDAV administration.###30 04 2021 new variable
+rbac#:#wbdv_edit_permissions#:#User can change permission settings of WebDAV administration.###30 04 2021 new variable
+rbac#:#cmis_visible#:#Administration of xAPI/cmi5 is visible.###30 04 2021 new variable
+rbac#:#cmis_read#:#User has read access to xAPI/cmi5 administration.###30 04 2021 new variable
+rbac#:#cmis_write#:#User can edit settings of xAPI/cmi5 administration.###30 04 2021 new variable
+rbac#:#cmis_edit_permissions#:#User can change permission settings of xAPI/cmi5 administration.###30 04 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###30 04 2021 new variable
+prg#:#auto_add_success#:#Add automatism successfully.###30 04 2021 new variable
+maps#:#maps_https_for_reverse_lookup#:#Https for Reverse Lookup###30 04 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###30 04 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###30 04 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###30 04 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###30 04 2021 new variable
+common#:#installation_status#:#Installation Status###30 04 2021 new variable
+copg#:#copg_an_error_occured#:#An error occured.###30 04 2021 new variable
+copg#:#copg_details#:#Details###30 04 2021 new variable
+copg#:#copg_error#:#Error###30 04 2021 new variable
+copg#:#copg_page_element_not_found#:#Page element not found.###30 04 2021 new variable
+adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.###30 04 2021 new variable
+content#:#cont_keyword#:#Keyword###30 04 2021 new variable
+content#:#cont_footnote#:#Footnote###30 04 2021 new variable
+content#:#cont_Book#:#Book###30 04 2021 new variable
+content#:#cont_Numbers#:#Numbers###30 04 2021 new variable
+content#:#cont_Verse#:#Verse/Stanza###30 04 2021 new variable
+content#:#cont_choose_from_clipboard#:#Choose from Clipboard###30 04 2021 new variable
+content#:#cont_open_clipboard#:#Open Clipboard###30 04 2021 new variable
+common#:#user_avatar#:#User Avatar###30 04 2021 new variable
+common#:#current_user_avatar#:#Your User Avatar###30 04 2021 new variable
+common#:#user_avatar_of#:#User Avatar of###30 04 2021 new variable
+awrn#:#awrn_filter#:#User Filter###30 04 2021 new variable
+help#:#help_search_label#:#Search Help###30 04 2021 new variable
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###30 04 2021 new variable
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###30 04 2021 new variable
+cmix#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+cmix#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+lti#:#toplist_top_n_results#:#Top Ranking###30 04 2021 new variable
+lti#:#toplist_your_result#:#Own Rank###30 04 2021 new variable
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 2021 new variable
