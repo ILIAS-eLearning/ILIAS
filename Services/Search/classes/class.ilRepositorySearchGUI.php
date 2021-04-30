@@ -1289,10 +1289,18 @@ class ilRepositorySearchGUI
                     break;
                 case 'orgu':
                     if ($ref_ids = ilObject::_getAllReferences($obj_id)) {
+                        $assigned = ilOrgUnitUserAssignmentQueries::getInstance()
+                            ->getUserIdsOfOrgUnit(array_shift($ref_ids));
+                        if (is_callable($this->user_filter)) {
+                            $assigned = call_user_func_array(
+                                $this->user_filter,
+                                [$assigned]
+                            );
+                        }
+
                         $members = array_merge(
                             $members,
-                            ilOrgUnitUserAssignmentQueries::getInstance()
-                               ->getUserIdsOfOrgUnit(array_shift($ref_ids))
+                            $assigned
                         );
                     }
                     break;
