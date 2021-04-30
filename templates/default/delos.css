@@ -16113,7 +16113,6 @@ li.smallPad {
 .ilCrsObjAcc {
   margin-bottom: 10px;
 }
-/* LOK progress bars */
 .ilCourseObjectiveAccResults {
   padding-top: 10px;
 }
@@ -16132,6 +16131,7 @@ li.smallPad {
   max-width: 200px;
   padding: 20px;
 }
+/* LOK progress bars */
 .ilCourseObjectiveProgressBar {
   padding-right: 5px;
   float: right;
@@ -16947,6 +16947,9 @@ div#il_startup_logo img {
 .ilToolbar li {
   border: 0 none;
   margin-right: 15px;
+}
+.ilToolbar li .dropdown-header {
+  border-bottom: 1px solid #dddddd;
 }
 .ilToolbar li .navbar-form,
 .ilToolbar li .navbar-text {
