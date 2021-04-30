@@ -625,13 +625,15 @@ class ilImageMapEditorGUI
         $wb_path = ilUtil::getWebspaceDir("output") . "/";
         $mode = "media";
         //echo htmlentities($ilCtrl->getLinkTarget($this, "showImageMap"));
+
+        $random = new \ilRandom();
         $params = array('map_edit_mode' => $a_map_edit_mode,
             'map_item' => $st_item->getId(),
             'map_mob_id' => $this->media_object->getId(),
             'mode' => $mode,
             'media_mode' => 'enable',
             'image_map_link' => $ilCtrl->getLinkTarget($this, "showImageMap", "", false, false),
-            'link_params' => "ref_id=" . $_GET["ref_id"] . "&rand=" . rand(1, 999999),
+            'link_params' => "ref_id=" . $_GET["ref_id"] . "&rand=" . $random->int(1, 999999),
             'ref_id' => $_GET["ref_id"],
             'pg_frame' => "",
             'enlarge_path' => ilUtil::getImagePath("enlarge.svg"),

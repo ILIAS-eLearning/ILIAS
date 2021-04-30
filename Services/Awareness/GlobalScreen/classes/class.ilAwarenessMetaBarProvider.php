@@ -103,7 +103,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
                 ->withCounter($f->counter()->status((int) $cnt))
                 ->withCounter($f->counter()->novelty((int) $hcnt))
             )
-            ->withTitle("Who is online")
+            ->withTitle($this->dic->language()->txt("awra"))
             ->withPosition(2)
             ->withAvailableCallable(
                 function () use ($DIC, $online) {

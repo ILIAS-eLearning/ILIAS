@@ -235,8 +235,7 @@ class ilObjectPermissionStatusGUI
         $class = $objDefinition->getClassName($a_type);
         $location = $objDefinition->getLocation($a_type);
         $full_class = "ilObj" . $class . "Access";
-        include_once($location . "/class." . $full_class . ".php");
-        
+
         $cmds = call_user_func(array($full_class, "_getCommands"));
         
         array_push($cmds, array('permission' => 'visible','cmd' => 'info'));

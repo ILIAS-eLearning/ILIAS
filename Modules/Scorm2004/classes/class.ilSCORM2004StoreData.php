@@ -103,6 +103,14 @@ class ilSCORM2004StoreData
         $new_global_status = $data->now_global_status;
         $return["new_global_status"] = $new_global_status;
         
+        // mantis #30293
+        $score_scaled = $data->node[0][35];
+        if ($score_scaled != null) {
+            if (ilObjSCORM2004LearningModule::getQuantityOfSCOs($packageId) == 1) {
+                ilLTIAppEventListener::handleOutcomeWithoutLP($packageId, $userId, $score_scaled * 100);
+            }
+        }
+
         ilSCORM2004StoreData::syncGlobalStatus($userId, $packageId, $data, $new_global_status, $time_from_lms);
         
         $ilLog->write("SCORM: return of persistCMIData: " . json_encode($return));

@@ -4724,12 +4724,12 @@ pwassist#:#pwassist_enter_email#:#Παρακαλώ εισάγετε μια νέ�
 pwassist#:#pwassist_enter_username_and_email#:#Εισάγετε ένα όνομα χρήστη και το αντίστοιχο email στα παρακάτω πεδία. Το ILIAS θα σας στείλει ένα μήνυμα σ' αυτή τη διεύθυνση email. Το μήνυμα περιέχει μια διεύθυνση για μια ιστοσελίδα όπου μπορείτε να εισάγετε ένα νέο κωδικό πρόσβασης για το λογαριασμό χρήστη. Σε περίπτωση που δεν μπορείτε να εκχωρήσετε έναν κωδικό πρόσβασης στο λογαριασμό χρήστη κάνοντας χρήση αυτής τη φόρμας, επικοινωνήστε με το διαχειριστή του μαθήματος ή αποστείλετε ένα email στο %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Εισάγετε το όνομα χρήστη και το νέο κωδικό πρόσβασης στα παρακάτω πεδία.
 pwassist#:#pwassist_login_not_match#:#Παρακαλώ εισάγετε ένα νέο όνομα χρήστη. Το όνομα χρήστη που εισαγάγατε δεν ταιριάζει με το όνομα χρήστη για το οποίο ζητήσατε τη βοήθεια κωδικού πρόσβασης.
-pwassist#:#pwassist_mail_body#:#Εγγράψτε ένα νέο κωδικό πρόσβασης για το λογαριασμό χρήστη: \t%1$s  Αυτό το μήνυμα δημιουργήθηκε αυτόματα από τον διακομιστή ILIAS \t%2$s  Εσείς (ή κάποιος στο %3$s) ζήτησε υποστήριξη για κωδικό πρόσβασης για το λογαριασμό χρήστη "%4$s".  Παρακαλώ ελέγξτε με προσοχή τις συνθήκες που φαίνονται παρακάτω και προχωρήστε κατάλληλα:  - Αν χρησιμοποιήσατε βοήθεια για κωδικό πρόσβασης κατά λάθος από το διακομιστή ILIAS: Διαγράψτε αυτό το mail.  - Αν είστε σίγουροι ότι ποτέ δεν ζητήσατε βοήθεια για κωδικό πρόσβασης από αυτόν το διακομιστή ILIAS: Παρακαλώ επικοινωνήστε με %5$s.  - Αν ζητήσατε βοήθεια κωδικού πρόσβασης, παρακαλώ προχωρήστε ως ακολούθως:  1. Ανοίξτε τον πλοηγό σας.  2. Εισάγετε την ακόλουθη διεύθυνση στον πλοηγό σας: \t%1$s  Σημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.  3. Στην ιστοσελίδα που εμφανίζεται στον πλοηγό σας, εισάγετε ένα νέο κωδικό πρόσβασης για το λογαριασμό σας χρήστη.  Παρακαλώ σημειώστε ότι για λόγους ασφαλείας, μπορείτε να εκτελέσετε τα παραπάνω τρία βήματα μια φορά μόνο και για περιορισμένο χρονικό διάστημα. Ύστερα, η διεύθυνση ακυρώνεται και πρέπει να χρησιμοποιήσετε τη σελίδα βοηθού κωδικού πρόσβασης του διακομιστή ILIAS πάλι.
+pwassist#:#pwassist_mail_body#:#Εγγράψτε ένα νέο κωδικό πρόσβασης για το λογαριασμό χρήστη: %1$s  Αυτό το μήνυμα δημιουργήθηκε αυτόματα από τον διακομιστή ILIAS %2$s  Εσείς (ή κάποιος στο %3$s) ζήτησε υποστήριξη για κωδικό πρόσβασης για το λογαριασμό χρήστη "%4$s".  Παρακαλώ ελέγξτε με προσοχή τις συνθήκες που φαίνονται παρακάτω και προχωρήστε κατάλληλα:  - Αν χρησιμοποιήσατε βοήθεια για κωδικό πρόσβασης κατά λάθος από το διακομιστή ILIAS: Διαγράψτε αυτό το mail.  - Αν είστε σίγουροι ότι ποτέ δεν ζητήσατε βοήθεια για κωδικό πρόσβασης από αυτόν το διακομιστή ILIAS: Παρακαλώ επικοινωνήστε με %5$s.  - Αν ζητήσατε βοήθεια κωδικού πρόσβασης, παρακαλώ προχωρήστε ως ακολούθως:  1. Ανοίξτε τον πλοηγό σας.  2. Εισάγετε την ακόλουθη διεύθυνση στον πλοηγό σας: %1$s  Σημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.  3. Στην ιστοσελίδα που εμφανίζεται στον πλοηγό σας, εισάγετε ένα νέο κωδικό πρόσβασης για το λογαριασμό σας χρήστη.  Παρακαλώ σημειώστε ότι για λόγους ασφαλείας, μπορείτε να εκτελέσετε τα παραπάνω τρία βήματα μια φορά μόνο και για περιορισμένο χρονικό διάστημα. Ύστερα, η διεύθυνση ακυρώνεται και πρέπει να χρησιμοποιήσετε τη σελίδα βοηθού κωδικού πρόσβασης του διακομιστή ILIAS πάλι.
 pwassist#:#pwassist_mail_sent#:#Ένα μήνυμα έχει σταλεί στο %1$s. Παρακαλώ ελέγξτε το ηλεκτρονικό ταχυδρομείο σας.
 pwassist#:#pwassist_mail_subject#:#Βοηθός κωδικού πρόσβασης ILIAS
 pwassist#:#pwassist_password_assigned#:#Ο κωδικός πρόσβασης εκχωρήθηκε με επιτυχία στο χρήση "%1$s".
 pwassist#:#pwassist_session_expired#:#Παρακαλώ συμπληρώστε πάλι τη φόρμα. Η σύνοδος βοήθειας κωδικού πρόσβασής σας έχει λήξει. Αυτό μπορεί να 'χει συμβεί επειδή προσπαθήσατε να χρησιμοποιήσετε περισσότερες από μια φορές τον υπερσύνδεσμο που σας ταχυδρομήθηκε ηλεκτρονικά, ή επειδή έχει περάσει πολύς χρόνος από που σας ταχυδρομήθηκε ο υπερσύνδεσμος.
-pwassist#:#pwassist_username_mail_body#:#Αυτό είναι το ενεργό όνομα χρήστη που βρέθηκε για το δωθέν email: %s  Αυτό το μήνυμα δημιουργήθηκε αυτόματα από τον ακόλουθο διακομιστή ILIAS: \t%s  Εσείς (ή κάποιος με IP %s) ζήτησε υποστήριξη για ξεχασμένο όνομα χρήστη για τη διεύθυνση email '%s'.  Παρακαλώ ελέγξτε τα παρακάτω και δράστε ανάλογα::  -Ζητήσατε αυτό το mail κατά λάθος: Διαγράψτε αυτό το email.  -Είστε σίγουροι ότι ποτέ δεν ζητήσατε αυτό το email: Παρακαλώ επικοινωνήστε με %s.  - Αν ζητήσατε αυτό το email, παρακαλώ προχωρήστε ως ακολούθως::  1. Εκκινήστε τον πλοηγό σας internet.  2. Εισάγετε το ακόλουθο url: \t%s  Σημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.  3. Ο Πλοηγός σας τώρα δείχνει την υπηρεσία κωδικών πρόσβασης. Χρησιμοποιήστε αυτή τη σελίδα μαζί με κάποιο από τα ονόματα χρήστη και την αντίστοιχη διεύθυνση email για να ανακτήσετε τον κωδικό πρόσβασης.
+pwassist#:#pwassist_username_mail_body#:#Αυτό είναι το ενεργό όνομα χρήστη που βρέθηκε για το δωθέν email: %s  Αυτό το μήνυμα δημιουργήθηκε αυτόματα από τον ακόλουθο διακομιστή ILIAS: %s  Εσείς (ή κάποιος με IP %s) ζήτησε υποστήριξη για ξεχασμένο όνομα χρήστη για τη διεύθυνση email '%s'.  Παρακαλώ ελέγξτε τα παρακάτω και δράστε ανάλογα::  -Ζητήσατε αυτό το mail κατά λάθος: Διαγράψτε αυτό το email.  -Είστε σίγουροι ότι ποτέ δεν ζητήσατε αυτό το email: Παρακαλώ επικοινωνήστε με %s.  - Αν ζητήσατε αυτό το email, παρακαλώ προχωρήστε ως ακολούθως::  1. Εκκινήστε τον πλοηγό σας internet.  2. Εισάγετε το ακόλουθο url: %s  Σημαντικό: Η διεύθυνση είναι σε μια γραμμή. Αν τη βλέπετε διαμοιρασμένη σε πολλές γραμμές, τότε το πρόγραμμα email σας εισήγαγε αυτές τις αλλαγές γραμμής.  3. Ο Πλοηγός σας τώρα δείχνει την υπηρεσία κωδικών πρόσβασης. Χρησιμοποιήστε αυτή τη σελίδα μαζί με κάποιο από τα ονόματα χρήστη και την αντίστοιχη διεύθυνση email για να ανακτήσετε τον κωδικό πρόσβασης.
 rating#:#rating_your_rating#:#Your Rating
 rbac#:#cals_edit_event#:#Administrate Public Calendars
 rbac#:#cals_edit_permission#:#Change permission settings
@@ -12397,7 +12397,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -12935,7 +12935,6 @@ style#:#skin_id#:#Skin ID###25 10 2016 new variable
 style#:#skin_name#:#Skin Name###25 10 2016 new variable
 style#:#skin#:#Skin###25 10 2016 new variable
 style#:#style_id#:#Style ID###25 10 2016 new variable
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#style_name#:#Style Name###25 10 2016 new variable
 style#:#image_dir#:#Image Directory###25 10 2016 new variable
 style#:#font_dir#:#Font Directory###25 10 2016 new variable
@@ -14916,7 +14915,6 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###25 0
 content#:#cont_Attention#:#Attention###25 04 2019 new variable
 content#:#cont_Confirmation#:#Confirmation###25 04 2019 new variable
 content#:#cont_Information#:#Information###25 04 2019 new variable
-content#:#cont_Link#:#Link###25 04 2019 new variable
 content#:#cont_Literature#:#Literature###25 04 2019 new variable
 content#:#cont_Separator#:#Separator###25 04 2019 new variable
 content#:#cont_StandardCenter#:#Standard Center###25 04 2019 new variable
@@ -16168,7 +16166,6 @@ awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
 common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
 rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
 rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
@@ -16179,3 +16176,47 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable

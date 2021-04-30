@@ -85,7 +85,8 @@ class ilCmiXapiStatementsGUI
             $this->initPeriodFilter($statementsFilter, $table);
             
             $this->initTableData($table, $statementsFilter);
-        } catch (ilCmiXapiInvalidStatementsFilterException $e) {
+        } catch (Exception $e) {
+            ilUtil::sendFailure($e->getMessage());
             $table->setData(array());
             $table->setMaxCount(0);
             $table->resetOffset();

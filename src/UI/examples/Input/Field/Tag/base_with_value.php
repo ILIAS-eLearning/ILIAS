@@ -15,7 +15,7 @@ function base_with_value()
         "Basic TagInput",
         ['Interesting', 'Boring', 'Animating', 'Repetitious'],
         "Just some tags"
-        )->withValue(["Interesting"]);
+    )->withValue(["Interesting"]);
 
     //Step 2, define form and form actions
     $form = $ui->input()->container()->form()->standard("#", [$multi_select_input]);

@@ -159,7 +159,10 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
-                $this->ctrl->redirect($this, "");
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed' , $this->seed);
+                $this->ctrl->redirectToURL(
+                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class,'')
+                );
             }
         }
     }
@@ -187,6 +190,8 @@ class ilCalendarPresentationGUI
 
         $this->initSeed();
         $this->prepareOutput();
+
+        $this->help->setScreenIdComponent("cal");
         
         switch ($cmd) {
             case 'selectCHCalendarOfUser':
@@ -704,9 +709,6 @@ class ilCalendarPresentationGUI
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        $ilHelp = $this->help;
-
-        $ilHelp->setScreenIdComponent("cal");
 
         if ($this->category_id) {
             $this->addCategoryTabs();

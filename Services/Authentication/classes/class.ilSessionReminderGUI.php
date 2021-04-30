@@ -47,7 +47,6 @@ class ilSessionReminderGUI
         $url = './sessioncheck.php?client_id=' . CLIENT_ID . '&lang=' . $this->lng->getLangKey();
         $devMode = defined('DEVMODE') && DEVMODE ? 1 : 0;
         $clientId = defined('CLIENT_ID') ? CLIENT_ID : '';
-        $sessionName = session_name();
         $sessionId = session_id();
         $sessionHash = md5($sessionId);
 
@@ -56,9 +55,7 @@ class ilSessionReminderGUI
     $("body").ilSessionReminder({
         url: "$url",
         client_id: "$clientId",
-        session_name: "$sessionName",
-        session_id: "$sessionId",
-        session_id_hash: "$sessionHash",
+        hash: "$sessionHash",
         frequency: 60,
         debug: $devMode
     });

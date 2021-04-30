@@ -336,7 +336,7 @@ class ilRbacSystem
         // Is owner
         $new_ops = false;
         foreach (explode(",", $a_operations) as $operation) {
-            if ($operation != 'cat_administrate_users' and $operation != 'edit_permission' and $operation != 'edit_learning_progress' and $operation != 'read_learning_progress' and !preg_match('/^create/', $operation)) {
+            if ($operation != 'cat_administrate_users' and $operation != 'edit_permission' and $operation != 'edit_learning_progress' and $operation != 'read_learning_progress' and !preg_match('/^create/', $operation) and $operation != 'read_outcomes') {
                 continue;
             }
             if (!strlen($new_ops)) {

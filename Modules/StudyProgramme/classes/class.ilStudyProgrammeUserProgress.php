@@ -53,9 +53,9 @@ class ilStudyProgrammeUserProgress
     }
 
     /**
-     * Get the program node where this progress belongs to was made.
+     * Get the program node this progress belongs to.
      *
-     * Throws when program this assignment is about has no ref id.
+     * Throws when the according program has no ref id.
      *
      * TODO: I'm quite sure, this will profit from caching.
      *
@@ -211,6 +211,11 @@ class ilStudyProgrammeUserProgress
     public function setValidityOfQualification(DateTime $date = null) : void
     {
         $this->progress->setValidityOfQualification($date);
+    }
+
+    public function storeProgress() : void
+    {
+        $this->progress_repository->update($this->progress);
     }
 
     /**
@@ -1000,5 +1005,16 @@ class ilStudyProgrammeUserProgress
         if ($send) {
             $usr_progress_db->reminderSendFor($usr_progress->getId());
         }
+    }
+
+    public function hasSuccessStatus() : bool
+    {
+        return in_array(
+            $this->getStatus(),
+            [
+                ilStudyProgrammeProgress::STATUS_COMPLETED,
+                ilStudyProgrammeProgress::STATUS_ACCREDITED
+            ]
+        );
     }
 }

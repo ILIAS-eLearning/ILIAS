@@ -4,7 +4,7 @@ ilMapOptions = [];
 ilCM = Array();
 ilMapUserMarker = Array();
 
-if (google.maps)
+if (typeof google != "undefined" && google.maps)
 {
 	var ilMarkerImage = new google.maps.MarkerImage(
 		"./Services/Maps/images/mm_20_blue.png",      
@@ -17,12 +17,10 @@ if (google.maps)
 		new google.maps.Size(22, 20),
 		new google.maps.Point(0,0),
 		new google.maps.Point(0, 32));
+
+    il.Util.addOnLoad(ilInitMaps);
 }
 
-if (google.maps)
-{
-	il.Util.addOnLoad(ilInitMaps);
-}
 /** 
 * Init all maps
 */

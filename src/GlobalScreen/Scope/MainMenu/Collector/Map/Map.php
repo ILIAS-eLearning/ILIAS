@@ -154,8 +154,9 @@ class Map implements Filterable, Walkable
     public function walk(Closure $c) : void
     {
         $this->applyFilters();
-
-        array_walk($this->filtered, $c);
+        $to_walk = (array)$this->filtered;
+        array_walk($to_walk, $c);
+        $this->filtered = new ArrayObject($to_walk);
     }
 
     /**

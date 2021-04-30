@@ -435,9 +435,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
     {
         $this->denyAccessIfNot("read");
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
-
         parent::renderObject();
     }
+    public function isActiveAdministrationPanel()
+    {
+        return false;
+    }
+
 
     /**
      * Initialize the form for editing advanced meta data

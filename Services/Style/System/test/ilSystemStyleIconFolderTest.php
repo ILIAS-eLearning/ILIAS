@@ -176,12 +176,12 @@ class ilSystemStyleIconFolderTest extends TestCase
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
         $expected_color_set = new ilSystemStyleIconColorSet();
-        $color1 = new ilSystemStyleIconColor("505050", "505050", "505050", "505050");
-        $color2 = new ilSystemStyleIconColor("6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
-        $color3 = new ilSystemStyleIconColor("838383", "838383", "838383", "838383");
-        $color4 = new ilSystemStyleIconColor("8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
-        $color5 = new ilSystemStyleIconColor("303030", "303030", "303030", "303030");
-        $color6 = new ilSystemStyleIconColor("404040", "404040", "404040", "404040");
+        $color1 = new ilSystemStyleIconColor("id_505050", "505050", "505050", "505050");
+        $color2 = new ilSystemStyleIconColor("id_6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
+        $color3 = new ilSystemStyleIconColor("id_838383", "838383", "838383", "838383");
+        $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
+        $color5 = new ilSystemStyleIconColor("id_303030", "303030", "303030", "303030");
+        $color6 = new ilSystemStyleIconColor("id_404040", "404040", "404040", "404040");
 
         $expected_color_set->addColor($color1);
         $expected_color_set->addColor($color2);
@@ -201,12 +201,12 @@ class ilSystemStyleIconFolderTest extends TestCase
         $folder2 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
         $expected_color_set = new ilSystemStyleIconColorSet();
-        $color1 = new ilSystemStyleIconColor("555555", "555555", "555555", "555555");
-        $color2 = new ilSystemStyleIconColor("6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
-        $color3 = new ilSystemStyleIconColor("838383", "838383", "838383", "838383");
-        $color4 = new ilSystemStyleIconColor("8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
-        $color5 = new ilSystemStyleIconColor("303030", "303030", "303030", "303030");
-        $color6 = new ilSystemStyleIconColor("404040", "404040", "404040", "404040");
+        $color1 = new ilSystemStyleIconColor("id_555555", "555555", "555555", "555555");
+        $color2 = new ilSystemStyleIconColor("id_6B6B6B", "6B6B6B", "6B6B6B", "6B6B6B");
+        $color3 = new ilSystemStyleIconColor("id_838383", "838383", "838383", "838383");
+        $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
+        $color5 = new ilSystemStyleIconColor("id_303030", "303030", "303030", "303030");
+        $color6 = new ilSystemStyleIconColor("id_404040", "404040", "404040", "404040");
 
         $expected_color_set->addColor($color2);
         $expected_color_set->addColor($color3);
@@ -238,7 +238,7 @@ class ilSystemStyleIconFolderTest extends TestCase
 
         $expected_icons_usages = [$icon2,$icon3,$icon1];
 
-        $this->assertEquals($expected_icons_usages, $folder1->getUsagesOfColor("6B6B6B"));
+        $this->assertEquals($expected_icons_usages, $folder1->getUsagesOfColor("id_6B6B6B"));
     }
 
     public function testGetUsagesAfterChangeColor()
@@ -264,8 +264,8 @@ class ilSystemStyleIconFolderTest extends TestCase
 
         $expected_icons_usages = [$icon2,$icon3,$icon1];
 
-        $this->assertEquals($expected_icons_usages, $folder2->getUsagesOfColor("7B6B6B"));
-        $this->assertEquals([], $folder2->getUsagesOfColor("6B6B6B"));
+        $this->assertEquals($expected_icons_usages, $folder2->getUsagesOfColor("id_7B6B6B"));
+        $this->assertEquals([], $folder2->getUsagesOfColor("id_6B6B6B"));
     }
 
     public function testGetUsagesAsString()
@@ -274,7 +274,7 @@ class ilSystemStyleIconFolderTest extends TestCase
 
         $this->assertEquals(
             'sub_test_image_1; sub_test_image_2; test_image_1; ',
-            $folder1->getUsagesOfColorAsString("6B6B6B")
+            $folder1->getUsagesOfColorAsString("id_6B6B6B")
         );
     }
 }

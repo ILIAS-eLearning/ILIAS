@@ -14,7 +14,6 @@ use ILIAS\UI\Component\Signal;
  */
 class Numeric extends Input implements C\Input\Field\Numeric
 {
-
     /**
      * Numeric constructor.
      *
@@ -31,17 +30,27 @@ class Numeric extends Input implements C\Input\Field\Numeric
         $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation(
-            $this->refinery->logical()->logicalOr([
-                $this->refinery->numeric()->isNumeric(),
-                $this->refinery->null()
-            ])
-            ->withProblemBuilder(function ($txt, $value) {
-                return $txt("ui_numeric_only");
-            })
-        );
-    }
 
+        $trafo_empty2null = $this->refinery->custom()->transformation(
+            function ($v) {
+                if (trim($v) === '') {
+                    return null;
+                }
+                return $v;
+            },
+            ""
+        );
+        $trafo_numericOrNull = $this->refinery->logical()->logicalOr([
+            $this->refinery->numeric()->isNumeric(),
+            $this->refinery->null()
+        ])
+        ->withProblemBuilder(function ($txt, $value) {
+            return $txt("ui_numeric_only");
+        });
+
+        $this->setAdditionalTransformation($trafo_empty2null);
+        $this->setAdditionalTransformation($trafo_numericOrNull);
+    }
 
     /**
      * @inheritdoc
@@ -50,7 +59,6 @@ class Numeric extends Input implements C\Input\Field\Numeric
     {
         return is_numeric($value) || $value === "" || $value === null;
     }
-
 
     /**
      * @inheritdoc

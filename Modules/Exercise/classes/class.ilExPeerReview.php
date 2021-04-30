@@ -73,80 +73,12 @@ class ilExPeerReview
 
         if (!$this->hasPeerReviewGroups()) {
             $user_ids = $this->getValidPeerReviewUsers();
-            
-            // forever alone
-            if (sizeof($user_ids) < 2) {
-                return false;
-            }
-            
-            $rater_ids = $user_ids;
-            $matrix = array();
 
-            // max number of assignments per rater?
-            $max = min(sizeof($user_ids) - 1, $this->assignment->getPeerReviewMin());
-            for ($loop = 0; $loop < $max; $loop++) {
+            include_once("./Modules/Exercise/PeerReview/class.ExcPeerReviewDistribution.php");
+            $distribution = new \ILIAS\Exercise\PeerReview\ExcPeerReviewDistribution($user_ids, $this->assignment->getPeerReviewMin());
 
-                // put values in keys
-                $run_ids = array_combine($user_ids, $user_ids);
-
-                // for all users as rater
-                foreach ($rater_ids as $rater_id) {
-                    $possible_peer_ids = $run_ids;
-
-
-                    // if the rater has already peers, remove them from possible peers
-                    if (array_key_exists($rater_id, $matrix)) {
-                        $possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
-                    }
-
-                    // possible peers are all users without the rater
-                    unset($possible_peer_ids[$rater_id]);
-
-                    // #15665 / #15883
-                    if (!sizeof($possible_peer_ids)) {
-                        // no more possible peers left?  start over with all valid users
-                        $run_ids = array_combine($user_ids, $user_ids);
-                        
-                        // see above
-                        $possible_peer_ids = $run_ids;
-                        
-                        // may not rate himself
-                        unset($possible_peer_ids[$rater_id]);
-
-                        // already has linked peers
-                        if (array_key_exists($rater_id, $matrix)) {
-                            $possible_peer_ids = array_diff($possible_peer_ids, $matrix[$rater_id]);
-                        }
-                    }
-                        
-                    // #14947
-                    if (sizeof($possible_peer_ids)) {
-
-                        // avoid "last rater has to rate himself" in first loop
-                        // (this ensures, that all peers have at least one rater)
-                        // see #26908
-                        if ($loop == 0 && count($possible_peer_ids) == 2) {
-                            $last_rater = end($temp = array_values($rater_ids));
-                            $peer_id = (current($possible_peer_ids) == $last_rater)
-                                ? current($possible_peer_ids)
-                                : next($possible_peer_ids);
-                            $this->log->debug("Ensure all peers have a rater.");
-                        } else {
-                            $peer_id = array_rand($possible_peer_ids);
-                            if (!array_key_exists($rater_id, $matrix)) {
-                                $matrix[$rater_id] = array();
-                            }
-                        }
-                        $matrix[$rater_id][] = $peer_id;
-                    }
-                    
-                    // remove peer_id from possible ids in this run
-                    unset($run_ids[$peer_id]);
-                }
-            }
-            
-            foreach ($matrix as $rater_id => $peer_ids) {
-                foreach ($peer_ids as $peer_id) {
+            foreach ($user_ids as $rater_id) {
+                foreach ($distribution->getPeersOfRater($rater_id) as $peer_id) {
                     $ilDB->manipulate("INSERT INTO exc_assignment_peer" .
                         " (ass_id, giver_id, peer_id)" .
                         " VALUES (" . $ilDB->quote($this->assignment_id, "integer") .

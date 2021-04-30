@@ -6,7 +6,7 @@ module.exports = function(id, name)
 {
 	var namespace = Container.getNamespace(this.nsp.name);
 
-	Container.getLogger().info('Participant %s connected for namespace %s', name, namespace.getName());
+	Container.getLogger().debug('Participant %s connected for namespace %s', name, namespace.getName());
 
 	var participant = namespace.getSubscriber(id);
 

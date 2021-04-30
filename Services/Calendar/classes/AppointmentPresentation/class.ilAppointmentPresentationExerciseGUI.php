@@ -17,6 +17,8 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
     {
         global $DIC;
 
+        $user_id = $DIC->user()->getId();
+
         $this->lng->loadLanguageModule("exc");
 
         include_once "./Modules/Exercise/classes/class.ilObjExercise.php";
@@ -44,33 +46,40 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
         $ass_id = $a_app["event"]->getContextId() / 10;			// see ilExAssignment->handleCalendarEntries $dl parameter
 
         $assignment = new ilExAssignment($ass_id);
-        $assignment_instructions = trim($assignment->getInstruction());
-        if ($assignment_instructions != "") {
-            #21517
-            $is_html = (strlen($assignment_instructions) != strlen(strip_tags($assignment_instructions)));
-            if (!$is_html) {
-                $assignment_instructions = nl2br($assignment_instructions);
+        $state = ilExcAssMemberState::getInstanceByIds($assignment->getId(), $user_id);
+        if ($state->areInstructionsVisible()) {
+            $assignment_instructions = trim($assignment->getInstruction());
+            if ($assignment_instructions != "") {
+                #21517
+                $is_html = (strlen($assignment_instructions) != strlen(strip_tags($assignment_instructions)));
+                if (!$is_html) {
+                    $assignment_instructions = nl2br($assignment_instructions);
+                }
+                $this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment_instructions);
             }
-            $this->addInfoProperty($this->lng->txt("exc_instruction"), $assignment_instructions);
-        }
-        $files = $assignment->getFiles();
-        if (count($files) > 0) {
-            $this->has_files = true;
-            $str_files = array();
-            foreach ($files as $file) {
-                $ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
-                $ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
-                $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
-                $url = $ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI","ilobjexercisegui", "ilexsubmissiongui"), "downloadFile");
-                $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
-                $ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
-                $ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
-                $str_files[$file["name"]] = $r->render($f->button()->shy($file["name"], $url));
+            $files = $assignment->getFiles();
+            if (count($files) > 0) {
+                $this->has_files = true;
+                $str_files = array();
+                foreach ($files as $file) {
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "ref_id", $exc_ref);
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "file", urlencode($file["name"]));
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", $ass_id);
+                    $url = $ctrl->getLinkTargetByClass(array("ilExerciseHandlerGUI",
+                                                             "ilobjexercisegui",
+                                                             "ilexsubmissiongui"
+                    ), "downloadFile");
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "ass_id", "");
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "file", "");
+                    $ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
+                    $str_files[$file["name"]] = $r->render($f->button()->shy($file["name"], $url));
+                }
+                ksort($str_files, SORT_NATURAL|SORT_FLAG_CASE);
+                $str_files = implode("<br>", $str_files);
+                $this->addInfoProperty($this->lng->txt("exc_instruction_files"), $str_files);
+                $this->addListItemProperty($this->lng->txt("exc_instruction_files"),
+                    str_replace("<br>", ", ", $str_files));
             }
-            ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
-            $str_files = implode("<br>", $str_files);
-            $this->addInfoProperty($this->lng->txt("exc_instruction_files"), $str_files);
-            $this->addListItemProperty($this->lng->txt("exc_instruction_files"), str_replace("<br>", ", ", $str_files));
         }
 
         //pass mode

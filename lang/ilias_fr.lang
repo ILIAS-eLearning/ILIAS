@@ -774,7 +774,7 @@ assessment#:#log_user_answered_question#:#L'utilisateur a répondu à une questi
 assessment#:#log_user_entered_values#:#Valeurs saisies par l'utilisateur
 assessment#:#log_user_not_entered_values#:#L'utilisateur n'a saisi aucune valeur
 assessment#:#log_user_solution_willingly_deleted#:#L’utilisateur a supprimé la réponse.
-assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné. Contribution: '%s'
+assessment#:#log_wrong_test_password_entered#:#Le Participant a entré un mot de passe de test erroné.
 assessment#:#longmenu#:#Longmenu
 assessment#:#longmenu_text#:#Texte de menu long
 assessment#:#mailnottype#:#Envoyer notification lorsqu'un utilisateur achève un passage de test.
@@ -11338,13 +11338,13 @@ pwassist#:#pwassist_enter_email#:#Saisir une adresse mail et envoyez le formulai
 pwassist#:#pwassist_enter_username_and_email#:#Saisir un nom d'utilisateur et l'adresse mail associée dans les champs ci-dessous. ILIAS enverra un message à  cette adresse. Le mail contiendra l'adresse d'une page web sur laquelle vous pourrez saisir un nouveau mot de passe pour votre compte utilisateur. Si vous ne parvenez à  obtenir un mot de passe pour votre compte par ce moyen, contacter l'administrateur de votre établissement ou envoyez un mail à  %1$s
 pwassist#:#pwassist_enter_username_and_new_password#:#Saisir le nom d'utilisateur et le nouveau mot de passe dans les champs ci-dessous.
 pwassist#:#pwassist_login_not_match#:#Veuillez saisir un autre nom d'utilisateur. Le nom d'utilisateur que vous avez saisi ne correspond pas au nom d'utilisateur pour lequel vous avez demandé une assistance.
-pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur: \t%1$s  Ce message a été généré automatiquement par le serveur ILIAS \t%2$s  Vous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".  Veuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :  - Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :  détruisez ce message  - Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.  - Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :  1. Ouvrez votre navigateur web.  2. Saisissez l'adresse suivante dans le navigateur : \t%1$s  Important : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de mail qui a ajouté ces retours à  la ligne.  3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.  Attention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à  nouveau.
+pwassist#:#pwassist_mail_body#:#Enregistrer un nouveau mot de passe pour votre compte utilisateur: %1$s  Ce message a été généré automatiquement par le serveur ILIAS %2$s  Vous (ou quelqu'un sur %3$s) avez demandé une assistance de mot de passe pour le compte utilisateur "%4$s".  Veuillez vérifier soigneusement les conditions listées ci-dessous et agir comme indiqué :  - Si vous avez utilisé le formulaire d'assistance de mot de passe du serveur ILIAS par accident :  détruisez ce message  - Si vous êtes certain(e) que vous n'avez jamais demandé d'assistance de mot de passe sur ce serveur ILIAS :veuillez contacter %5$s.  - Si vous avez demandé une assistance de mot de passe, veuillez suivre la procédure suivante :  1. Ouvrez votre navigateur web.  2. Saisissez l'adresse suivante dans le navigateur : %1$s  Important : L'adresse est sur une seule ligne. Si vous la voyez sur plusieurs lignes, c'est votre programme de mail qui a ajouté ces retours à  la ligne.  3.Sur la page web qui s'affichera dans le navigateur, saisissez un nouveau mot de passe pour votre compte utilisateur.  Attention : pour des raisons de sécurité, vous ne pouvez réaliser ces trois étapes qu'une seule fois et pendant un temps limité. Par la suite, l'adresse deviendra invalide et vous devrez utiliser le formulaire d'assistance de mot de passe du serveur ILIAS à  nouveau.
 pwassist#:#pwassist_mail_sent#:#Un email a été envoyé à  l'adresse %1$s. Veuillez regarder votre boîte aux lettres.
 pwassist#:#pwassist_mail_sent_generic#:#A message has been sent to the email address defined in ILIAS. Please check your mail box.
 pwassist#:#pwassist_mail_subject#:#Assistance de Mot de Passe ILIAS
 pwassist#:#pwassist_password_assigned#:#Le mot de passe a été assigné avec succès à l'utilisateur %1$s.
 pwassist#:#pwassist_session_expired#:#Veuillez remplir à nouveau le formulaire. Votre session d'assistance de mot de passe a expiré. Cela peut être dû au fait que vous avez essayé d'utiliser plusieurs fois le lien que vous avez reçu, ou bien parce que trop de temps s'est écoulé depuis que le message vous a été envoyé.
-pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à  l'adresse mail donnée : %s  . Ce message a été créé automatiquement par le serveur ILIAS suivant :  \t%s   Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse mail '%s'.  Vérifier les informations contenues dans ce message et suivre les indications ::  -Vous avez fait cette demande par erreur : Supprimer ce message.  Vous êtes certain de n'avoir jamais fait une telle demande : Contactez %s.  -Si vous avez fait cette demande, procédez comme suit ::  1. Ouvrer votre navigateur internet.  2. Saisir l'adresse internet (URL) suivante : \t%s  Important : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de mail a ajouté des retours chariot.  3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utiliser cette page avec l'un des nom d'utilisateur et l'adresse mail correspondante pour obtenir un nouveau mot de passe.
+pwassist#:#pwassist_username_mail_body#:#Ce sont les noms d'utilisateur correspondant à  l'adresse mail donnée : %s  . Ce message a été créé automatiquement par le serveur ILIAS suivant :  %s   Vous (ou quelqu'un avec le numéro IP %s) a demandé le support d'aide 'nom d'utilisateur oublié' pour l'adresse mail '%s'.  Vérifier les informations contenues dans ce message et suivre les indications ::  -Vous avez fait cette demande par erreur : Supprimer ce message.  Vous êtes certain de n'avoir jamais fait une telle demande : Contactez %s.  -Si vous avez fait cette demande, procédez comme suit ::  1. Ouvrer votre navigateur internet.  2. Saisir l'adresse internet (URL) suivante : %s  Important : l'adresse est d'une seule ligne. Si vous voyez cette adresse tronquée en plusieurs lignes, c'est que votre programme logiciel de mail a ajouté des retours chariot.  3. Votre navigateur internet affiche maintenant le service 'mot de passe'. Utiliser cette page avec l'un des nom d'utilisateur et l'adresse mail correspondante pour obtenir un nouveau mot de passe.
 pwassist#:#unassist_disabled_no_access#:#L’assistance pour les noms d’utilisateur n’est pas activée. Veuillez contacter l’administration du système pour obtenir de l’aide supplémentaire: %s
 rating#:#rat_not_rated_yet#:#Pas Encore Noté
 rating#:#rat_nr_ratings#:#%s Notations
@@ -14944,8 +14944,6 @@ wsp#:#wsp_type_scov#:#Certificat : SCORM
 wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
-style#:#Style#:#Style###07 02 2020 new variable
-content#:#cont_Link#:#Link###07 02 2020 new variable
 common#:#msg_unknown_value#:#An unknown value has been passed.###04 03 2020 new variable
 exc#:#exc_deleted_user#:#Deleted User###04 03 2020 new variable
 copg#:#copg_allow_html#:#Enable HTML/Javascript###04 03 2020 new variable
@@ -16167,7 +16165,6 @@ awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
 common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
 rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
 rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
@@ -16178,3 +16175,47 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable

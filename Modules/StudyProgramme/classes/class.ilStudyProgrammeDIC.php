@@ -197,9 +197,7 @@ class ilStudyProgrammeDIC
             return new ilStudyProgrammeUserAssignmentDB(
                 $dic['ilStudyProgrammeUserProgressDB'],
                 $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
-                $dic['model.Progress.ilStudyProgrammeProgressRepository'],
                 $tree,
-                $logger,
                 $dic['ilStudyProgrammeEvents']
             );
         };

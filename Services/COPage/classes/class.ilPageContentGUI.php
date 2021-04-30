@@ -522,7 +522,7 @@ class ilPageContentGUI
         if (is_array($this->updated)) {
             $error_str = "<b>Error(s):</b><br>";
             foreach ($this->updated as $error) {
-                $err_mess = implode($error, " - ");
+                $err_mess = implode(" - ", $error);
                 if (!is_int(strpos($err_mess, ":0:"))) {
                     $error_str .= htmlentities($err_mess) . "<br />";
                 }

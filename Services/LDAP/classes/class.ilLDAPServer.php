@@ -38,6 +38,7 @@ class ilLDAPServer
 
     private $enabled_authentication = true;
     private $authentication_mapping = 0;
+    private $escape_dn = false;
 
     public function __construct($a_server_id = 0)
     {
@@ -798,8 +799,18 @@ class ilLDAPServer
     public function setUsernameFilter($a_value)
     {
         $this->username_filter = $a_value;
-    }// end Patch Name Filter
-    
+    }
+
+    public function enableEscapeDN(bool $a_value)
+    {
+        $this->escape_dn = $a_value;
+    }
+
+    public function enabledEscapeDN() : bool
+    {
+        return $this->escape_dn;
+    }
+
     /**
      * Enable account migration
      *
@@ -863,20 +874,19 @@ class ilLDAPServer
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        // start Patch Name Filter remove ",username_filter", ",%s", ",$this->getUsernameFilter()"
         $next_id = $ilDB->nextId('ldap_server_settings');
         
         $query = 'INSERT INTO ldap_server_settings (server_id,active,name,url,version,base_dn,referrals,tls,bind_type,bind_user,bind_pass,' .
             'search_base,user_scope,user_attribute,filter,group_dn,group_scope,group_filter,group_member,group_memberisdn,group_name,' .
             'group_attribute,group_optional,group_user_filter,sync_on_login,sync_per_cron,role_sync_active,role_bind_dn,role_bind_pass,migration, ' .
-            'authentication,authentication_type,username_filter) ' .
-            'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
+            'authentication,authentication_type,username_filter, escape_dn) ' .
+            'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)';
         $res = $ilDB->queryF(
             $query,
             array(
                 'integer','integer','text','text','integer','text','integer','integer','integer','text','text','text','integer',
                 'text','text','text','integer','text','text','integer','text','text','integer','text','integer','integer','integer',
-                'text','text', 'integer','integer','integer',"text"),
+                'text','text', 'integer','integer','integer',"text", 'integer'),
             array(
                 $next_id,
                 $this->isActive(),
@@ -910,7 +920,8 @@ class ilLDAPServer
                 $this->isAccountMigrationEnabled(),
                 $this->isAuthenticationEnabled(),
                 $this->getAuthenticationMapping(),
-                $this->getUsernameFilter()
+                $this->getUsernameFilter(),
+                (int) $this->enabledEscapeDN()
             )
         );
         // end Patch Name Filter
@@ -956,9 +967,8 @@ class ilLDAPServer
             "migration = " . $this->db->quote((int) $this->isAccountMigrationEnabled(), 'integer') . ", " .
             'authentication = ' . $this->db->quote((int) $this->isAuthenticationEnabled(), 'integer') . ', ' .
             'authentication_type = ' . $this->db->quote((int) $this->getAuthenticationMapping(), 'integer') . ' ' .
-            // start Patch Name Filter
             ", username_filter = " . $this->db->quote($this->getUsernameFilter(), "text") . " " .
-            // end Patch Name Filter
+            ", escape_dn = " . $this->db->quote($this->enabledEscapeDN() ? 1 : 0, 'integer') . " " .
             "WHERE server_id = " . $this->db->quote($this->getServerId(), 'integer');
             
         $res = $ilDB->manipulate($query);
@@ -1041,6 +1051,7 @@ class ilLDAPServer
                 $options['groupscope'] = 'sub';
                 break;
         }
+        $options['escape_dn'] = $this->enabledEscapeDN();
         $options['groupdn'] = $this->getGroupDN();
         $options['groupattr'] = $this->getGroupAttribute();
         $options['groupfilter'] = $this->getGroupFilter();
@@ -1146,9 +1157,8 @@ class ilLDAPServer
             $this->enableAccountMigration($row->migration);
             $this->enableAuthentication($row->authentication);
             $this->setAuthenticationMapping($row->authentication_type);
-            // start Patch Name Filter
             $this->setUsernameFilter($row->username_filter);
-            // end Patch Name Filter
+            $this->enableEscapeDN($row->escape_dn);
         }
     }
 }

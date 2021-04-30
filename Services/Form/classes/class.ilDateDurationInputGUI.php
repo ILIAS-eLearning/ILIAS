@@ -487,6 +487,12 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
         $pl_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat());
         $tpl->setVariable('START_PLACEHOLDER', $pl_format);
         $tpl->setVariable('END_PLACEHOLDER', $pl_format);
+
+        // accessibility description
+        $tpl->setVariable(
+            'DESCRIPTION',
+            ilUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
+        );
         
         
         // values
@@ -590,4 +596,19 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
     {
         $this->allowOpenIntervals = $allowOpenInterval;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTableFilterLabelFor() {
+        return $this->getFieldId()."[start]";
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFormLabelFor() {
+        return $this->getFieldId()."[start]";
+    }
+
 }

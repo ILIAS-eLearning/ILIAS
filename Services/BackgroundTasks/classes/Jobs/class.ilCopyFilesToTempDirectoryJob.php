@@ -131,6 +131,13 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     protected function copyFiles($tmpdir, ilCopyDefinition $definition)
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
+
+            $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR]));
+            ilUtil::makeDirParents(
+                $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR])
+            );
+
+
             if (!file_exists($copy_task[ilCopyDefinition::COPY_SOURCE_DIR])) {
                 // if the "file" to be copied is an empty folder the directory has to be created so it will be contained in the download zip
                 $is_empty_folder = preg_match_all("/\/$/", $copy_task[ilCopyDefinition::COPY_TARGET_DIR]);
@@ -142,10 +149,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
                 }
                 continue;
             }
-            $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR]));
-            ilUtil::makeDirParents(
-                $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR])
-            );
+
 
             $this->logger->debug(
                 'Copying from: ' .

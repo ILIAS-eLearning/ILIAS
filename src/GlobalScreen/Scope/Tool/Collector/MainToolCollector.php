@@ -13,6 +13,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /**
  * Class MainToolCollector
@@ -31,7 +32,7 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
      */
     private $type_information_collection;
     /**
-     * @var array
+     * @var isToolItem[]
      */
     private $tools;
     /**
@@ -87,13 +88,31 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
 
+    public function getSingleItem(IdentificationInterface $identification) : isToolItem
+    {
+        foreach ($this->tools as $tool) {
+            if ($tool->getProviderIdentification()->serialize() === $identification->serialize()) {
+                return $tool;
+            }
+        }
+        return new Tool($identification);
+    }
+
 
     public function prepareItemsForUIRepresentation() : void
     {
         array_walk($this->tools, function (isToolItem $tool) {
             $this->applyTypeInformation($tool);
         });
+    }
 
+    public function cleanupItemsForUIRepresentation() : void
+    {
+        // TODO: Implement cleanupItemsForUIRepresentation() method.
+    }
+
+    public function sortItemsForUIRepresentation() : void
+    {
         usort($this->tools, $this->getItemSorter());
     }
 

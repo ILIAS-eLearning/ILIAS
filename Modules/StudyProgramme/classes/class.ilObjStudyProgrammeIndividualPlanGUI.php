@@ -174,6 +174,9 @@ class ilObjStudyProgrammeIndividualPlanGUI
             );
         }
         $ass->updateFromProgram();
+        $ass->updateValidityFromProgram();
+        $ass->updateDeadlineFromProgram();
+
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
         $this->showSuccessMessage("update_from_plan_successful");
         $this->ctrl->redirect($this, "manage");
@@ -352,7 +355,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $user_id = $ass->getUserId();
         $tpl->setVariable("USERNAME", ilObjUser::_lookupFullname($user_id));
         $tabs = [];
-        if($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
+        if ($this->ilAccess->checkAccess("manage_members", "", $ref_id)) {
             $tabs[] = 'view';
             $tabs[] = 'manage';
         }

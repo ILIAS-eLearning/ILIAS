@@ -560,7 +560,7 @@ class ilObjectGUI
     *
     * @param	array		$a_actions		array with $command => $lang_var pairs
     */
-    final private function setActions($a_actions = "")
+    private function setActions($a_actions = "")
     {
         if (is_array($a_actions)) {
             foreach ($a_actions as $name => $lng) {
@@ -577,7 +577,7 @@ class ilObjectGUI
     *
     * @param	array		$a_actions		array with $command => $lang_var pairs
     */
-    final private function setSubObjects($a_sub_objects = "")
+    private function setSubObjects($a_sub_objects = "")
     {
         if (is_array($a_sub_objects)) {
             foreach ($a_sub_objects as $name => $options) {

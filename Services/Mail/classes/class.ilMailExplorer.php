@@ -54,6 +54,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
     }
 
     /**
+     * @return string
+     */
+    public function getTreeLabel()
+    {
+        return $this->lng->txt("mail_folders");
+    }
+
+    /**
      * @inheritDoc
      */
     public function getTreeComponent() : Tree
@@ -61,7 +69,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $f = $this->ui->factory();
 
         $tree = $f->tree()
-            ->expandable($this)
+            ->expandable($this->getTreeLabel(), $this)
             ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
 

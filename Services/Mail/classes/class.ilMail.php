@@ -834,7 +834,6 @@ class ilMail
             $individualMessage = $message;
             if ($usePlaceholders) {
                 $individualMessage = $this->replacePlaceholders($message, $user->getId());
-                ;
                 $usrIdToMessageMap[$user->getId()] = $individualMessage;
             }
 
@@ -857,12 +856,24 @@ class ilMail
                         continue;
                     } else {
                         $this->logger->debug(sprintf(
-                            "Recipient with id %s will additionally receive external emails sent to: %s",
+                            "Recipient with id %s will additionally receive external emails " .
+                            "(because the user wants to receive it externally, or the user cannot access " .
+                            "the internal mail system) sent to: %s",
                             $user->getId(),
                             implode(', ', $emailAddresses)
                         ));
                     }
+                } else {
+                    $this->logger->debug(sprintf(
+                        "Recipient with id %s is does not want to receive external emails",
+                        $user->getId()
+                    ));
                 }
+            } else {
+                $this->logger->debug(sprintf(
+                    "Recipient with id %s is inactive and will not receive external emails",
+                    $user->getId()
+                ));
             }
 
             $mbox = clone $this->mailbox;

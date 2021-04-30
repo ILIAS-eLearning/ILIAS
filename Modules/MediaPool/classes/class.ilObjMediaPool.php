@@ -112,7 +112,7 @@ class ilObjMediaPool extends ilObject
         $set = $ilDB->query(
             "SELECT * FROM mep_data " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->setDefaultWidth($rec["default_width"]);
             $this->setDefaultHeight($rec["default_height"]);
@@ -214,7 +214,7 @@ class ilObjMediaPool extends ilObject
             " default_height = " . $ilDB->quote($this->getDefaultHeight(), "integer") . "," .
             " for_translation = " . $ilDB->quote($this->getForTranslation(), "integer") . " " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         return true;
     }
@@ -508,7 +508,7 @@ class ilObjMediaPool extends ilObject
             "SELECT * FROM mep_tree JOIN mep_item ON (child = obj_id) WHERE " .
             " foreign_id = " . $ilDB->quote($a_foreign_id, "integer") .
             " AND mep_id = " . $ilDB->quote($a_pool_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }

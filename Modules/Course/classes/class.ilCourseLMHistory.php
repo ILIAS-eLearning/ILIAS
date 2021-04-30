@@ -75,19 +75,16 @@ class ilCourseLMHistory
             return true;
         }
 
-        // Delete old entries
-        $query = "DELETE FROM crs_lm_history " .
-            "WHERE lm_ref_id = " . $ilDB->quote($a_lm_ref_id, 'integer') . " " .
-            "AND usr_id = " . $ilDB->quote($a_user_id, 'integer') . "";
-        $res = $ilDB->manipulate($query);
+        $ilDB->replace("crs_lm_history", [
+            "crs_ref_id" => ["integer", $crs_ref_id],
+            "lm_ref_id" => ["integer", $a_lm_ref_id],
+            "usr_id" => ["integer", $a_user_id]
+        ], [
+                "lm_page_id" => ["integer", $a_page_id],
+                "last_access" => ["integer", time()]
+            ]
+        );
 
-        // Add new entry
-        $fields = array("usr_id" => array("integer", $a_user_id),
-            "crs_ref_id" => array("integer", $crs_ref_id),
-            "lm_ref_id" => array("integer", $a_lm_ref_id),
-            "lm_page_id" => array("integer", $a_page_id),
-            "last_access" => array("integer", time()));
-        $ilDB->insert("crs_lm_history", $fields);
         return true;
     }
 

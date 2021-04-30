@@ -191,10 +191,16 @@ class ilRegistrationSettings
     {
         return $this->reg_allow_codes;
     }
-    
+
     public function setAllowedDomains($a_value)
     {
-        $a_value = explode(";", trim($a_value));
+        $a_value = array_map(
+            function ($value) {
+                return trim($value);
+            },
+            explode(";", trim($a_value))
+        );
+
         $this->allowed_domains = $a_value;
     }
     

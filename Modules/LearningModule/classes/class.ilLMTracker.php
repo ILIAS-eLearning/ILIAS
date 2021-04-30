@@ -137,10 +137,15 @@ class ilLMTracker
      *
      * @param int $a_page_id page id
      */
-    public function trackAccess($a_page_id)
+    public function trackAccess($a_page_id, $user_id)
     {
+        if ($user_id == ANONYMOUS_USER_ID) {
+            ilChangeEvent::_recordReadEvent("lm", $this->lm_ref_id, $this->lm_obj_id, $user_id);
+            return;
+        }
+
         if ($this->lm_ref_id == 0) {
-            die("ilLMTracker: No Ref Id given.");
+            throw new ilLMPresentationException("ilLMTracker: No Ref Id given.");
         }
 
         // track page and chapter access
@@ -174,25 +179,20 @@ class ilLMTracker
      */
     public function trackLastPageAccess($usr_id, $lm_id, $obj_id)
     {
-        $ilDB = $this->db;
-
-        // first check if an entry for this user and this lm already exist, when so, delete
-        $q = "DELETE FROM lo_access " .
-            "WHERE usr_id = " . $ilDB->quote((int) $usr_id, "integer") . " " .
-            "AND lm_id = " . $ilDB->quote((int) $lm_id, "integer");
-        $ilDB->manipulate($q);
-
         $title = "";
-
-        $q = "INSERT INTO lo_access " .
-            "(timestamp,usr_id,lm_id,obj_id,lm_title) " .
-            "VALUES " .
-            "(" . $ilDB->now() . "," .
-            $ilDB->quote((int) $usr_id, "integer") . "," .
-            $ilDB->quote((int) $lm_id, "integer") . "," .
-            $ilDB->quote((int) $obj_id, "integer") . "," .
-            $ilDB->quote($title, "text") . ")";
-        $ilDB->manipulate($q);
+        $db = $this->db;
+        $db->replace(
+            "lo_access",
+            [
+            "usr_id" => ["integer", $usr_id],
+            "lm_id" => ["integer", $lm_id]
+        ],
+            [
+                "timestamp" => ["timestamp", ilUtil::now()],
+                "obj_id" => ["integer", $obj_id],
+                "lm_title" => ["text", $title]
+            ]
+        );
     }
 
 

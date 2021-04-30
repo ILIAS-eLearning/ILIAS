@@ -57,6 +57,13 @@ class ilForumExporter extends ilXmlExporter
                 'entity' => 'common',
                 'ids' => $a_ids
             ];
+
+            // news settings
+            $deps[] = [
+                "component" => "Services/News",
+                "entity" => "news_settings",
+                "ids" => $a_ids
+            ];
         }
 
         return $deps;

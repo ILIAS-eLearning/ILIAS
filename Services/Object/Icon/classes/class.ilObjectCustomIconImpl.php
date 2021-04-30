@@ -79,7 +79,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
      */
     public function delete()
     {
-        if ($this->exists()) {
+        if ($this->webDirectory->hasDir($this->getIconDirectory())) {
             try {
                 $this->webDirectory->deleteDir($this->getIconDirectory());
             } catch (\Exception $e) {

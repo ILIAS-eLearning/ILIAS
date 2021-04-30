@@ -828,6 +828,27 @@ class ilObjectDefinition // extends ilSaxParser
     }
 
     /**
+     * @param bool $filter_repository_types
+     * @return string[]
+     */
+    public function getSideBlockTypes(bool $filter_repository_types = true) : array
+    {
+        $side_block_types = [];
+        foreach (array_keys($this->obj_data) as $type) {
+            if (
+                $filter_repository_types &&
+                !$this->isAllowedInRepository($type)
+            ) {
+                continue;
+            }
+            if ($this->isSideBlock($type)) {
+                $side_block_types[] = $type;
+            }
+        }
+        return $side_block_types;
+    }
+
+    /**
     * Get all repository object types of component
     */
     public static function getRepositoryObjectTypesForComponent(

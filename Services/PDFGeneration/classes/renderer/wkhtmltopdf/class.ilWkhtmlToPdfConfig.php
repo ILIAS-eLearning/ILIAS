@@ -207,6 +207,7 @@ class ilWkhtmlToPdfConfig
         $this->setKeyIfExists('setFooterType', 'footer_select', $config);
         $this->setKeyIfExists('setHeaderHtmlSpacing', 'head_html_spacing', $config);
         $this->setKeyIfExists('setHeaderHtmlLine', 'head_html_line', $config);
+        $this->setKeyIfExists('setHeaderHtml', 'head_html', $config);
         $this->setKeyIfExists('setHeaderTextLine', 'head_text_line', $config);
         $this->setKeyIfExists('setHeaderTextSpacing', 'head_text_spacing', $config);
         $this->setKeyIfExists('setHeaderTextRight', 'head_text_right', $config);
@@ -251,8 +252,6 @@ class ilWkhtmlToPdfConfig
         $this->setPageSize($config->getPageSize());
         $this->setMarginLeft($config->getMarginLeft());
         $this->setMarginRight($config->getMarginRight());
-        $this->setFooterHtmlSpacing($config->getFooterHtmlSpacing());
-        $this->setFooterHtml($config->getFooterHtml());
         $this->setFooterTextLine($config->isFooterTextLine());
         $this->setFooterTextCenter($config->getFooterTextCenter());
         $this->setFooterTextSpacing($config->getFooterTextSpacing());
@@ -261,7 +260,11 @@ class ilWkhtmlToPdfConfig
         $this->setFooterType($config->getFooterType());
 
         $this->setFooterHtmlSpacing($config->getFooterHtmlSpacing());
+        $this->setFooterHtml($config->getFooterHtml());
         $this->setFooterHtmlLine($config->isFooterHtmlLine());
+        $this->setHeaderHtmlSpacing($config->getHeaderHtmlSpacing());
+        $this->setHeaderHtml($config->getHeaderHtml());
+        $this->setHeaderHtmlLine($config->isHeaderHtmlLine());
         $this->setHeaderTextLine($config->isHeaderTextLine());
         $this->setHeaderTextSpacing($config->getHeaderTextSpacing());
         $this->setHeaderTextRight($config->getHeaderTextRight());

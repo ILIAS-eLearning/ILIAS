@@ -108,7 +108,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 		<div class="il-maincontrols-slate disengaged" id="id_1">
 		<div class="il-maincontrols-slate-content" data-replace-marker="content">
 		<hr class="il-divider-with-label" />
-		<h6 class="il-divider">Title</h6>
+		<h4 class="il-divider">Title</h4>
 		<hr /></div></div>
 EOT;
         $this->assertEquals(

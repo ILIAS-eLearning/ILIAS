@@ -248,7 +248,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             array_push($ids, $term->identifier);
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
-        $tpl->setVariable("TERM_IDS", join($ids, ","));
+        $tpl->setVariable("TERM_IDS", join(",", $ids));
         $tpl->parseCurrentBlock();
         
         $tpl->setCurrentBlock('definition_ids');
@@ -257,7 +257,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
             array_push($ids, $definition->identifier);
         }
         $tpl->setVariable("POST_VAR", $this->getPostVar());
-        $tpl->setVariable("DEFINITION_IDS", join($ids, ","));
+        $tpl->setVariable("DEFINITION_IDS", join(",", $ids));
         $tpl->parseCurrentBlock();
         
         $tpl->setVariable("ELEMENT_ID", $this->getPostVar());

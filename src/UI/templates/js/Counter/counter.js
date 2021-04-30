@@ -33,19 +33,23 @@ il.UI = il.UI || {};
 		/**
 		 * See Interface description
 		 */
-		var getCounterObject = function($object_containing_counter){
-			console.assert($object_containing_counter instanceof jQuery,
-				"$object_containing_counter is not a jQuery Object, param: "+$object_containing_counter);
-
-			var $counter = $object_containing_counter;
-			if(!$object_containing_counter.hasClass(_cls_counter)){
-				$counter = $object_containing_counter.find("."+_cls_counter);
-			}
+		this.getCounterObject = function($object_containing_counter){
+			let $counter;
+			$counter = getCounterJquery($object_containing_counter);
 			console.assert($counter.length > 0, "Passed jQuery Object does not contain a counter");
+			return bindCounterJquery($counter);
+		};
 
-			//Make sure *this* in generateCounterObject is properly bound.
-			var CounterObjectConstructor = generateCounterObject.bind({});
-			return CounterObjectConstructor($counter);
+		/**
+		 * See Interface description
+		 */
+		this.getCounterObjectOrNull = function($object_containing_counter){
+			let $counter;
+			$counter = getCounterJquery($object_containing_counter);
+			if($counter.length === 0){
+				return null;
+			}
+			return bindCounterJquery($counter);
 		};
 
 		/**
@@ -61,8 +65,38 @@ il.UI = il.UI || {};
 			 * counter representation in the DOM. Mutators and queries
 			 * will be applied to all the contained representations.
 			 */
-			getCounterObject: getCounterObject
+			getCounterObject: this.getCounterObject,
+
+			/**
+			 * Same as getCounterObject but allows returning null if
+			 * no counter object is present.
+			 */
+			getCounterObjectOrNull: this.getCounterObjectOrNull
 		};
+
+		/**
+		 * get the Jquery Object of the counte
+		 * @param $object_containing_counter
+		 */
+		var getCounterJquery = function($object_containing_counter){
+			console.assert($object_containing_counter instanceof jQuery,
+				"$object_containing_counter is not a jQuery Object, param: "+$object_containing_counter);
+
+			var $counter = $object_containing_counter;
+			if(!$object_containing_counter.hasClass(_cls_counter)){
+				$counter = $object_containing_counter.find("."+_cls_counter);
+			}
+			return $counter;
+		}
+
+		/**
+		 * Make sure *this* in generateCounterObject is properly bound.
+		 * @param $counter
+		 */
+		var bindCounterJquery = function($counter){
+			var CounterObjectConstructor = generateCounterObject.bind({});
+			return CounterObjectConstructor($counter);
+		}
 
 		/**
 		 * Declaration and implementation of the counter object

@@ -553,7 +553,7 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl->setVariable("VALUE", $value);
             $input_tpl->setVariable("LABEL", $label);
 
-            if ($input->getValue() !== null && $input->getValue() === $value) {
+            if ($input->getValue() !== null && $input->getValue() == $value) {
                 $input_tpl->setVariable("CHECKED", 'checked="checked"');
             }
             if ($input->isDisabled()) {
@@ -617,7 +617,7 @@ class Renderer extends AbstractComponentRenderer
 
             if ($input->getValue() !== null) {
                 list($index, $subvalues) = $input->getValue();
-                if ($index === $key) {
+                if ($index == $key) {
                     $input_tpl->setVariable("CHECKED", 'checked="checked"');
                 }
             }
@@ -884,6 +884,7 @@ JS;
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $input->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue() ?? []);
+        $settings->dictInvalidFileType = $this->txt('form_msg_file_wrong_file_type');
 
         $input = $component->withAdditionalOnLoadCode(
             function ($id) use ($settings) {

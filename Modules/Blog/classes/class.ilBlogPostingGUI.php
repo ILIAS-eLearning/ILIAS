@@ -615,12 +615,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     }
 
     
-    public function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action, $a_note_id)
+    public function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_news_id, $a_action, $a_note_id)
     {
         // #10040 - get note text
         $note = new ilNote($a_note_id);
         $note = $note->getText();
-        
         ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
     }
     

@@ -55,7 +55,7 @@ class DividerTest extends ILIAS_UI_TestBase
         $c = $f->horizontal()->withLabel("label");
 
         $html = trim($r->render($c));
-        $expected_html = '<hr class="il-divider-with-label" /><h6 class="il-divider">label</h6>';
+        $expected_html = '<hr class="il-divider-with-label" /><h4 class="il-divider">label</h4>';
 
         $this->assertHTMLEquals("<div>" . $expected_html . "</div>", "<div>" . $html . "</div>");
     }

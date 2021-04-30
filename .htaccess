@@ -12,7 +12,8 @@
 	RewriteCond %{HTTP_USER_AGENT} ^(DavClnt)$
 	RewriteCond %{REQUEST_METHOD} ^(OPTIONS)$
 	RewriteRule .* "-" [R=401,L]
-
+</IfModule>
+<IfModule mod_alias.c>
 	RedirectMatch 404 /\.git
 </IfModule>
 <IfModule mod_xsendfile.c>

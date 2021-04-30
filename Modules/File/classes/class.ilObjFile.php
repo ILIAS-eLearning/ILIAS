@@ -1242,6 +1242,8 @@ class ilObjFile extends ilObject2
 
         $file = $this->getDirectory($this->getVersion()) . "/" . $a_filename;
 
+        $file = ilFileUtils::getValidFilename($file);
+
         ilFileUtils::rename($a_upload_file, $file);
 
         // create preview

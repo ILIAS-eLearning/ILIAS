@@ -16,7 +16,12 @@
 			<a href="{OBJ_HREF}"><img src="{OBJ_IMG}" /> {OBJ_TITLE}</a>
 		</p>
 		<!-- END object -->
-		{CONTENT}
+		<div class="js-dynamic-height dynamic-max-height" data-maxheight="370" style="position: relative; z-index:500;">
+			<div class="dynamic-height-wrap">
+				{CONTENT}
+			</div>
+			<button class="js-dynamic-show-hide dynamic-show-more button btn btn-default" title="Show more" data-replace-text="Show less">Show more</button>
+		</div>
 		<!-- BEGIN player -->
 		<div class="ilNewsTimelinePlayer">{PLAYER}</div>
 		<!-- END player -->

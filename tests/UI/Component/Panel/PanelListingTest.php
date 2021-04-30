@@ -97,27 +97,30 @@ class PanelListingTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="panel il-panel-listing-std-container clearfix">
-	<h3>title</h3>
+	<h2>title</h2>
 	<div class="il-item-group">
-		<h4>Subtitle 1</h4>
+		<h3>Subtitle 1</h3>
 		<div class="il-item-group-items">
 			<div class="il-std-item-container"><div class="il-item il-std-item ">	
-				<h5>title1</h5>
+                <div class="il-item-title">title1</div>
 			</div></div><div class="il-std-item-container"><div class="il-item il-std-item ">
-				<h5>title2</h5>
+                <div class="il-item-title">title2</div>
 			</div></div>
 		</div>
 	</div><div class="il-item-group">
-		<h4>Subtitle 2</h4>
+		<h3>Subtitle 2</h3>
 	<div class="il-item-group-items">
 	<div class="il-std-item-container"><div class="il-item il-std-item ">
-			<h5>title3</h5>
+            <div class="il-item-title">title3</div>
 		</div></div>
 	</div>
 </div>
 </div>
 EOT;
-        $this->assertHTMLEquals($expected, $html);
+        $this->assertHTMLEquals(
+            $this->brutallyTrimHTML($expected),
+            $this->brutallyTrimHTML($html)
+        );
     }
 
     public function test_render_with_actions()
@@ -139,7 +142,7 @@ EOT;
 
         $expected = <<<EOT
 <div class="panel il-panel-listing-std-container clearfix">
-<h3>title</h3><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
+<h2>title</h2><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 <ul class="dropdown-menu">
 	<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
 	<li><button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button></li>

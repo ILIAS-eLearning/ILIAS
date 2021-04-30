@@ -42,7 +42,7 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
         $this->ctrl = $DIC->ctrl();
         $tree = $DIC->repositoryTree();
                 
-        parent::__construct("rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
+        parent::__construct("mat_rep_exp", $a_parent_obj, $a_parent_cmd, $tree);
         
         $this->current_type = $a_selectable_type;
         

@@ -28,17 +28,18 @@ class ilObjStudyProgrammeReference extends ilContainerReference
         if (ilObject::_lookupType($a_parent_ref, true) == "prg") {
             $par = ilObjStudyProgramme::getInstanceByRefId($a_parent_ref);
             $par->nodeInserted($this->getReferencedObject());
-        } else {
-            throw new Exception('invalid parent type');
         }
 
         return $res;
     }
 
-    public function getParent()
+    public function getParent() : ?\ilObjStudyProgramme
     {
         $parent_data = $this->tree->getParentNodeData($this->getRefId());
-        return ilObjStudyProgramme::getInstanceByRefId($parent_data["ref_id"]);
+        if ($parent_data["type"] === "prg" && !$parent_data["deleted"]) {
+            return ilObjStudyProgramme::getInstanceByRefId($parent_data["ref_id"]);
+        }
+        return null;
     }
 
     public function getReferencedObject()

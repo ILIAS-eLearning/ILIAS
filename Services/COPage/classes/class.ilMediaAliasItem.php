@@ -473,7 +473,7 @@ class ilMediaAliasItem
             $par_node = $par_nodes[$i];
             $par_arr[] = $par_node->get_attribute("Name") . "=\"" . $par_node->get_attribute("Value") . "\"";
         }
-        return implode($par_arr, ", ");
+        return implode(", ", $par_arr);
     }
 
     /**

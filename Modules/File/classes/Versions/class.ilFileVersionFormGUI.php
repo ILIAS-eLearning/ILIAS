@@ -93,7 +93,11 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
         // File
         if ($this->dnd) {
             // File (D&D)
-            $file = new ilFileStandardDropzoneInputGUI($this->lng->txt(self::F_FILE), self::F_FILE);
+            $file = new ilFileStandardDropzoneInputGUI(
+                ilFileVersionsGUI::CMD_DEFAULT,
+                $this->lng->txt(self::F_FILE),
+                self::F_FILE
+            );
             $file->setRequired(true);
             // $file->setUploadUrl($this->ctrl->getLinkTarget($this->calling_gui, ilFileVersionsGUI::C, "", true, true));
             $file->setMaxFiles(1);

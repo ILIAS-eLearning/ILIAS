@@ -45,7 +45,7 @@ function expandable2()
         }
     };
 
-    $tree = $f->tree()->expandable($recursion)
+    $tree = $f->tree()->expandable("Label", $recursion)
         ->withData($data);
 
     return $renderer->render($tree);

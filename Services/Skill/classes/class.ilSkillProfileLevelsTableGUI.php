@@ -79,7 +79,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             "SKILL_TITLE",
-            implode($path_items, " > ")
+            implode(" > ", $path_items)
         );
         
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));

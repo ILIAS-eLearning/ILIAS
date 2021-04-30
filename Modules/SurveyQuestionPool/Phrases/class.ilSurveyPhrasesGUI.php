@@ -150,7 +150,7 @@ class ilSurveyPhrasesGUI
             $data = array();
             foreach ($phrases as $phrase_id => $phrase_array) {
                 $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-                array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
+                array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
             }
             $table_gui->setData($data);
             $this->tpl->setContent($table_gui->getHTML());
@@ -225,7 +225,7 @@ class ilSurveyPhrasesGUI
         foreach ($checked_phrases as $phrase_id) {
             $phrase_array = $phrases[$phrase_id];
             $categories = &ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-            array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join($categories, ", ")));
+            array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());

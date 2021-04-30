@@ -272,10 +272,10 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 
         if (count($params)) {
             $template->setCurrentBlock("flash_vars");
-            $template->setVariable("FLASH_VARS", join($params, "&"));
+            $template->setVariable("FLASH_VARS", join("&", $params));
             $template->parseCurrentBlock();
             $template->setCurrentBlock("applet_parameters");
-            $template->setVariable("PARAM_VALUE", join($params, "&"));
+            $template->setVariable("PARAM_VALUE", join("&", $params));
             $template->parseCurrentBlock();
         }
         if ($show_question_text == true) {
@@ -309,10 +309,10 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
         }
         if (count($params)) {
             $template->setCurrentBlock("flash_vars");
-            $template->setVariable("FLASH_VARS", join($params, "&"));
+            $template->setVariable("FLASH_VARS", join("&", $params));
             $template->parseCurrentBlock();
             $template->setCurrentBlock("applet_parameters");
-            $template->setVariable("PARAM_VALUE", join($params, "&"));
+            $template->setVariable("PARAM_VALUE", join("&", $params));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));
@@ -359,10 +359,10 @@ class assFlashQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoring
 
         if (count($params)) {
             $template->setCurrentBlock("flash_vars");
-            $template->setVariable("FLASH_VARS", join($params, "&"));
+            $template->setVariable("FLASH_VARS", join("&", $params));
             $template->parseCurrentBlock();
             $template->setCurrentBlock("applet_parameters");
-            $template->setVariable("PARAM_VALUE", join($params, "&"));
+            $template->setVariable("PARAM_VALUE", join("&", $params));
             $template->parseCurrentBlock();
         }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($this->object->getQuestion(), true));

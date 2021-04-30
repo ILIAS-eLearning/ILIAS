@@ -43,7 +43,7 @@ AccessHandler.prototype.canAccessRoom = function(socket, subscriberId, roomId) {
  * @param {Socket} socket
  */
 AccessHandler.prototype.disconnect = function(socket) {
-	Container.getLogger().info('Disconnected socket %s', socket.id);
+	Container.getLogger().debug('Disconnected socket %s', socket.id);
 	socket.disconnect();
 };
 

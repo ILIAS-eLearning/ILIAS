@@ -5249,6 +5249,9 @@ class wsdl extends nusoap_base {
 		} else {
 			$this->setError("Neither _SERVER nor HTTP_SERVER_VARS is available");
 		}
+		// begin-patch: https://mantis.ilias.de/view.php?id=28866
+		$PHP_SELF = filter_var($PHP_SELF, FILTER_SANITIZE_STRING);
+		// end-patch
 
 		$b = '
 		<html><head><title>NuSOAP: '.$this->serviceName.'</title>
@@ -5333,6 +5336,11 @@ class wsdl extends nusoap_base {
 				Click on an operation name to view it&apos;s details.</p>
 				<ul>';
 				foreach($this->getOperations() as $op => $data){
+					// begin-patch: https://mantis.ilias.de/view.php?id=28866
+					if (isset($data['endpoint'])) {
+						$data['endpoint'] = filter_var($data['endpoint'], FILTER_SANITIZE_STRING);
+					}
+					// end-patch
 				    $b .= "<li><a href='#' onclick=\"popout();popup('$op')\">$op</a></li>";
 				    // create hidden div
 				    $b .= "<div id='$op' class='hidden'>

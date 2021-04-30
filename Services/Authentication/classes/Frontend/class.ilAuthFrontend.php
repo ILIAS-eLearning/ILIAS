@@ -238,7 +238,7 @@ class ilAuthFrontend
             $this->getLogger()->info('Authentication failed for inactive user with id and too may login attempts: ' . $this->getStatus()->getAuthenticatedUserId());
             $this->getStatus()->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
             $this->getStatus()->setAuthenticatedUserId(ANONYMOUS_USER_ID);
-            $this->getStatus()->setReason('err_inactive_login_attempts');
+            $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
             return false;
         }
 

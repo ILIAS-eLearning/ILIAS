@@ -340,7 +340,7 @@ class ilUserQuery
         }
 
         // basic query
-        $query = "SELECT " . implode($sql_fields, ",") .
+        $query = "SELECT " . implode(",", $sql_fields) .
             " FROM usr_data" .
             $join;
 

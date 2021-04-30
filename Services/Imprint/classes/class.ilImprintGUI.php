@@ -113,31 +113,22 @@ class ilImprintGUI extends ilPageObjectGUI
         
         return $a_output;
     }
-    
+
     protected function renderFullscreen()
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-        $ilMainMenu = $this->main_menu;
-        
+
         if (!ilImprint::isActive()) {
             ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
         }
-        
+        $tpl->setTitle($lng->txt("imprint"));
         $tpl->loadStandardTemplate();
-        
+
         $this->setRawPageContent(true);
         $html = $this->showPage();
-        
-        $itpl = new ilTemplate("tpl.imprint.html", true, true, "Services/Imprint");
-        $itpl->setVariable("PAGE_TITLE", $lng->txt("imprint"));
-        $itpl->setVariable("IMPRINT", $html);
-        unset($html);
-        
-        $tpl->setContent($itpl->get());
-        
-        $ilMainMenu->showLogoOnly(true);
-        
+        $tpl->setContent($html);
+
         $tpl->printToStdout("DEFAULT", true, false);
         exit();
     }

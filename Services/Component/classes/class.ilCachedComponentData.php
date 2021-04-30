@@ -138,7 +138,7 @@ class ilCachedComponentData
             $parent = $rec['parent'];
             $this->subobj_for_parent[$parent][] = $rec;
         }
-        $set = $ilDB->query('SELECT DISTINCT(id) AS sid, parent, il_object_def.* FROM il_object_def, il_object_subobj WHERE NOT (system = 1) AND NOT (sideblock = 1) AND subobj = id');
+        $set = $ilDB->query('SELECT DISTINCT(id) AS sid, parent, il_object_def.* FROM il_object_def, il_object_subobj WHERE NOT (' . $ilDB->quoteIdentifier('system') . ' = 1) AND NOT (sideblock = 1) AND subobj = id');
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->grouped_rep_obj_types[$rec['parent']][] = $rec;
         }

@@ -134,6 +134,14 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
+     * @return string
+     */
+    public function getTreeLabel()
+    {
+        return $this->lng->txt("frm_posts");
+    }
+
+    /**
      * @inheritDoc
      */
     public function getTreeComponent() : Tree
@@ -152,7 +160,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
 
         $tree = $this->ui->factory()->tree()
-            ->expandable($this)
+            ->expandable($this->getTreeLabel(), $this)
             ->withData($rootNode)
             ->withHighlightOnNodeClick(false);
 

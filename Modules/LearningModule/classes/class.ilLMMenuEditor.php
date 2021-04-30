@@ -280,7 +280,7 @@ class ilLMMenuEditor
             " WHERE lm_id = %s ",
             array("integer"),
             array($new_lm_id)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             // ... only check internal links
             if ($rec["link_type"] == "intern") {

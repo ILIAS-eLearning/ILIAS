@@ -134,7 +134,6 @@ class ilMailSearchGUI
             $mail_data["rcp_to"],
             $mail_data["rcp_cc"],
             $mail_data["rcp_bcc"],
-            $mail_data["m_type"],
             $mail_data["m_email"],
             $mail_data["m_subject"],
             $mail_data["m_message"],
@@ -365,7 +364,7 @@ class ilMailSearchGUI
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 
-        $user_search = &ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+        $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
         $user_search->enableActiveCheck(true);
         $user_search->setFields(array('login'));
         $result_obj = $user_search->performSearch();

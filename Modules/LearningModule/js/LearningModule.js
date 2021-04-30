@@ -202,8 +202,8 @@ console.log(href);
 
 	refreshToc: function() {
 		if (ilias.questions.determineSuccessStatus() == "passed") {
-			if (il.LearningModule.toc_refresh_url != "" && $("#left_nav")) {
-				il.Util.ajaxReplaceInner(il.LearningModule.toc_refresh_url, "left_nav");
+			if (il.LearningModule.toc_refresh_url != "" && $("#il_expl2_jstree_cont_out_ilLMProgressTree")) {
+				il.Util.ajaxReplace(il.LearningModule.toc_refresh_url, "il_expl2_jstree_cont_out_ilLMProgressTree");
 			}
 		}
 	}

@@ -123,12 +123,10 @@ class ilTestPasswordChecker
     
     protected function getWrongEnteredPasswordLogMsg()
     {
-        $msg = $this->lng->txtlng(
+        return $this->lng->txtlng(
             'assessment',
             'log_wrong_test_password_entered',
             ilObjAssessmentFolder::_getLogLanguage()
         );
-        
-        return sprintf($msg, $this->getUserEnteredPassword());
     }
 }

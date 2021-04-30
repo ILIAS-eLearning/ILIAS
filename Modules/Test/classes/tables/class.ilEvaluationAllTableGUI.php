@@ -51,6 +51,9 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 if (strcmp($c, 'email') == 0) {
                     $this->addColumn($this->lng->txt("email"), 'email', '');
                 }
+                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+                    $this->addColumn($this->lng->txt("exam_id_label"), 'exam_id', '');
+                }
                 if (strcmp($c, 'institution') == 0) {
                     $this->addColumn($this->lng->txt("institution"), 'institution', '');
                 }
@@ -133,6 +136,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 break;
             case 'reached':
             case 'hint_count':
+            case 'exam_id':
             case 'answered':
                 return true;
                 break;
@@ -191,6 +195,12 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 "txt" => $lng->txt("matriculation"),
                 "default" => false
             );
+            if ($this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+                $cols["exam_id"] = array(
+                    "txt" => $lng->txt("exam_id_label"),
+                    "default" => false
+                );
+            }
         }
         if ($this->parent_obj->object->getECTSOutput()) {
             $cols["ects_grade"] = array(
@@ -306,6 +316,12 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
                 if (strcmp($c, 'matriculation') == 0) {
                     $this->tpl->setCurrentBlock('matriculation');
                     $this->tpl->setVariable("MATRICULATION", strlen($data['matriculation']) ? $data['matriculation'] : '&nbsp;');
+                    $this->tpl->parseCurrentBlock();
+                }
+                if (strcmp($c, 'exam_id') == 0 && $this->parent_obj->object->isShowExamIdInTestResultsEnabled()) {
+                    $this->tpl->setCurrentBlock('exam_id');
+                    $examId = is_string($data['exam_id']) && strlen($data['exam_id']) ? $data['exam_id'] : '&nbsp;';
+                    $this->tpl->setVariable('EXAM_ID', $examId);
                     $this->tpl->parseCurrentBlock();
                 }
             }

@@ -137,7 +137,7 @@ class assMatchingQuestionExport extends assQuestionExport
             $attrs = array(
                 "ident" => $definition->identifier,
                 "match_max" => "1",
-                "match_group" => join($termids, ",")
+                "match_group" => join(",", $termids)
             );
             $a_xml_writer->xmlStartTag("response_label", $attrs);
             $a_xml_writer->xmlStartTag("material");

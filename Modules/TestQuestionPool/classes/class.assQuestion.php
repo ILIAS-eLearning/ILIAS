@@ -1065,7 +1065,7 @@ abstract class assQuestion
                     break;
             }
         }
-        return join($output, "<br />");
+        return join("<br />", $output);
     }
 
     /**
@@ -1320,18 +1320,19 @@ abstract class assQuestion
      */
     final public function persistWorkingState($active_id, $pass = null, $obligationsEnabled = false, $authorized = true)
     {
-        if ($pass === null) {
-            require_once 'Modules/Test/classes/class.ilObjTest.php';
-            $pass = ilObjTest::_getPass($active_id);
-        }
-        
-        if (!$this->validateSolutionSubmit()) {
+        if (!$this->validateSolutionSubmit() && !$this->savePartial()) {
             return false;
         }
 
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
+
+            if ($pass === null) {
+                require_once 'Modules/Test/classes/class.ilObjTest.php';
+                $pass = ilObjTest::_getPass($active_id);
+            }
+
             $saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 
             if ($authorized) {
@@ -5478,4 +5479,9 @@ abstract class assQuestion
     }
     // hey.
 // fau.
+
+    public function savePartial()
+    {
+        return false;
+    }
 }

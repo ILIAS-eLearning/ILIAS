@@ -79,6 +79,12 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     }
                     break;
 
+                case "clip":
+                    if ($usage["id"] == $this->user->getId()) {
+                        return true;
+                    }
+                    break;
+
                 default:
                     if ($this->checkAccessMobUsage($usage, $oid)) {
                         return true;

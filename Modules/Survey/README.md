@@ -7,6 +7,11 @@
 
 This component does currently not offer any public services.
 
+# PDF Generation
+
+- If wkhtmltopdf is being used you must set the "Use print media type instead of screen" flag.
+- Both PhantomJS and wkhtmltopdf struggle with canvas rendering, see e.g. https://github.com/wkhtmltopdf/wkhtmltopdf/issues/1964
+
 # Internal Documentation
 
 This section documents the general concepts and structures of the Survey Module. These are internal implementations which SHOULD not be used outside of this module unless mentioned in the API section of this README.

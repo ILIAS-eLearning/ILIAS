@@ -778,17 +778,19 @@ il.COPagePres =
 		il.COPagePres.initAudioVideo(acc_el);
 	},
 
-	setFullscreenModalShowSignal: function (signal) {
+	setFullscreenModalShowSignal: function (signal, suffix) {
 		il.COPagePres.fullscreen_signal = signal;
-		$('#il-copg-mob-fullscreen').closest(".modal").on('shown.bs.modal', function () {
-			il.COPagePres.resizeFullScreenModal();
+		il.COPagePres.fullscreen_suffix = suffix
+		$('#il-copg-mob-fullscreen' + suffix).closest(".modal").on('shown.bs.modal', function () {
+			il.COPagePres.resizeFullScreenModal(suffix);
 		}).on('hidden.bs.modal', function () {
-			$("#il-copg-mob-fullscreen").attr("src", "");
+			$("#il-copg-mob-fullscreen" + suffix).attr("src", "");
 		});
 	},
 
 	openFullScreenModal: function (target) {
-		$("#il-copg-mob-fullscreen").attr("src", target);
+		console.log("openFullScreenModal: " + target);
+		$("#il-copg-mob-fullscreen" + il.COPagePres.fullscreen_suffix).attr("src", target);
 		$(document).trigger(il.COPagePres.fullscreen_signal, {
 			id: il.COPagePres.fullscreen_signal,
 			event: 'click',
@@ -797,10 +799,10 @@ il.COPagePres =
 		});
 	},
 
-	resizeFullScreenModal: function () {
+	resizeFullScreenModal: function (suffix) {
 		var vp = il.Util.getViewportRegion();
-		var ifr = il.Util.getRegion('#il-copg-mob-fullscreen');
-		$('#il-copg-mob-fullscreen').css("height", (vp.height - ifr.top + vp.top - 120) + "px");
+		var ifr = il.Util.getRegion('#il-copg-mob-fullscreen' + suffix);
+		$('.il-copg-mob-fullscreen').css("height", (vp.height - ifr.top + vp.top - 120) + "px");
 	}
 
 

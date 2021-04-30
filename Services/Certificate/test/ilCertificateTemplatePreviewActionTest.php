@@ -8,11 +8,11 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
     public function testA()
     {
-        $templateRepository = $this->getMockBuilder('ilCertificateTemplateRepository')
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderValuesObject = $this->getMockBuilder('ilCertificatePlaceholderValues')
+        $placeholderValuesObject = $this->getMockBuilder(ilCertificatePlaceholderValues::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -23,34 +23,42 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
                 'USER_FIRSTNAME' => 'SomeFirstName'
             ));
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $user = $this->getMockBuilder('ilObjUser')
+        $user = $this->getMockBuilder(ilObjUser::class)
             ->disableOriginalConstructor()
             ->getMock();
+
+        $pdfFileNameFactory = $this->getMockBuilder(ilCertificatePdfFileNameFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $pdfFileNameFactory
+            ->expects($this->once())
+            ->method('create')
+            ->willReturn('test');
 
         $user->method('getId')
             ->willReturn(100);
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper
             ->expects($this->once())
             ->method('deliverData');
 
-        $mathJaxHelper = $this->getMockBuilder('ilCertificateMathJaxHelper')
+        $mathJaxHelper = $this->getMockBuilder(ilCertificateMathJaxHelper::class)
             ->getMock();
 
         $mathJaxHelper->method('fillXlsFoContent')
             ->willReturn('<xml> Some filled XML content </xml>');
 
-        $userDefinedFieldsHelper = $this->getMockBuilder('ilCertificateUserDefinedFieldsHelper')
+        $userDefinedFieldsHelper = $this->getMockBuilder(ilCertificateUserDefinedFieldsHelper::class)
             ->getMock();
 
-        $definitionsMock = $this->getMockBuilder('ilUserDefinedFields')
+        $definitionsMock = $this->getMockBuilder(ilUserDefinedFields::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -68,10 +76,10 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
         $userDefinedFieldsHelper->method('createInstance')
             ->willReturn($definitionsMock);
 
-        $rpcClientFactoryHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
+        $rpcClientFactoryHelper = $this->getMockBuilder(ilCertificateRpcClientFactoryHelper::class)
             ->getMock();
 
-        $mock = $this->getMockBuilder('StdClass')
+        $mock = $this->getMockBuilder(stdClass::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -91,7 +99,8 @@ class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
             $mathJaxHelper,
             $userDefinedFieldsHelper,
             $rpcClientFactoryHelper,
-            'some/where/'
+            'some/where/',
+            $pdfFileNameFactory
         );
 
         $previewAction->createPreviewPdf(100);

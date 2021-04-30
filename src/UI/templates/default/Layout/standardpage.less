@@ -70,6 +70,10 @@ grid-based layout
     height: 100%;
 	overflow: hidden;
 	width: 100%;
+	hyphens: auto;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	-moz-hyphens: auto;
 	.il-maincontrols-mainbar {
 		.il-mainbar-close-slates {
 			display: none;
@@ -243,11 +247,10 @@ main {
 
 /* Footer */
 footer {
-	background-color: @brand-primary;
+	background-color: @il-footer-bg-color;
 	min-height: auto;
 	padding: @il-footer-padding;
 	text-align: center;
-	z-index: 2;
 }
 
 
@@ -555,16 +558,24 @@ footer {
 @media print {
 	html body {
 		overflow: visible;
+		background: none;
 
-		section.il-layout-page {
+		.il-layout-page {
 			display: block;
 			overflow: visible;
+			background: none;
 
 			header,
-			nav,
-			footer {
-				display: none;
+			.il-maincontrols,
+			.breadcrumbs,
+			footer,
+			.ilFileDropTargetOverlay {
+				display: none !important;
 			}
+		}
+		.il-layout-page-content,
+		.il-layout-page-content div	{
+			display: block;
 		}
 	}
 }

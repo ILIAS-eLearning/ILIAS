@@ -1,11 +1,11 @@
 <!-- BEGIN prop_textarea -->
-<textarea class="form-control <!-- BEGIN no_rteditor --> noRTEditor<!-- END no_rteditor -->" name="{POST_VAR}" id="{ID}"  wrap="virtual" <!-- BEGIN prop_ta_c --><!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w --><!-- END prop_ta_w --> {DISABLED} {REQUIRED} onKeyUp="return il.Form.showCharCounterTextarea('{POST_VAR}','textarea_feedback_{ID}','{MINCHARS}','{MAXCHARS}')" >{PROPERTY_VALUE}</textarea>
+<textarea class="form-control <!-- BEGIN no_rteditor --> noRTEditor<!-- END no_rteditor -->" name="{POST_VAR}" id="{ID}"   <!-- BEGIN prop_ta_c --><!-- END prop_ta_c --> rows="{ROWS}" <!-- BEGIN prop_ta_w --><!-- END prop_ta_w --> {DISABLED} {REQUIRED} onKeyUp="return il.Form.showCharCounterTextarea('{POST_VAR}','textarea_feedback_{ID}','{MINCHARS}','{MAXCHARS}')" >{PROPERTY_VALUE}</textarea>
 <!-- END prop_textarea -->
 <!-- BEGIN disabled_rte -->
 <div style="overflow: auto; width:400px; height:100px; color:#888888; border: 1px solid; border-color:#C0C0C0; padding: 5px;">
 	{DR_VAL}
 </div>
 <!-- END disabled_rte -->
-<p id="charcounter" style="display:none;">{CHARS_REMAINING}<input type="text" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" readonly="readonly" id="myCounter" name="myCounter" style="border: 0; background: transparent;" size="{TEXTBOXSIZE}" value="{FEEDBACK_MAX_LIMIT}" /></p>
+<p id="charcounter" style="display:none;">{CHARS_REMAINING}<input type="text" spellcheck="false" autocomplete="off"  autocapitalize="off" readonly="readonly" id="myCounter" name="myCounter" style="border: 0; background: transparent;" value="{FEEDBACK_MAX_LIMIT}" /></p>
 {HIDDEN_INPUT}
-<div id="textarea_feedback_{FEEDBACK_ID}" data-maxchars={FEEDBACK_MAX_LIMIT}></div>
+<div id="textarea_feedback_{FEEDBACK_ID}" data-maxchars="{FEEDBACK_MAX_LIMIT}"></div>

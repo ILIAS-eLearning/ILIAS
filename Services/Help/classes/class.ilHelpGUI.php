@@ -260,7 +260,7 @@ class ilHelpGUI
                 $grp_list = new ilGroupedListGUI();
                 foreach ($pages as $pg) {
                     $grp_list->addEntry(
-                        $this->replaceMenuItemTags(ilLMObject::_lookupTitle($pg["child"])),
+                        $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($pg["child"])),
                         "#",
                         "",
                         "return il.Help.showPage(" . $pg["child"] . ");"
@@ -271,11 +271,12 @@ class ilHelpGUI
             }
 
             $h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
-            //$h_tpl->setVariable("HEAD", $lng->txt("help"));
+            $h_tpl->setVariable("HEAD", $lng->txt("help"));
 
             $h_tpl->setCurrentBlock("search");
             include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
             $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+            $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
             $h_tpl->parseCurrentBlock();
 
             if (count($help_arr) > 0) {
@@ -325,7 +326,7 @@ class ilHelpGUI
         
         $h_tpl->setVariable(
             "HEAD",
-            $this->replaceMenuItemTags(ilLMObject::_lookupTitle($page_id))
+            $this->replaceMenuItemTags((string) ilLMObject::_lookupTitle($page_id))
         );
         
         include_once("./Services/COPage/classes/class.ilPageUtil.php");
@@ -355,7 +356,7 @@ class ilHelpGUI
         //echo htmlentities($link_xml);
         $page_gui->setLinkXML($link_xml);
         
-        $ret = $this->replaceMenuItemTags($page_gui->showPage());
+        $ret = $this->replaceMenuItemTags((string) $page_gui->showPage());
 
         $h_tpl->setVariable("CONTENT", $ret);
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
@@ -572,6 +573,7 @@ class ilHelpGUI
         $h_tpl->setCurrentBlock("search");
         include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
         $h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
+        $h_tpl->setVariable("HELP_SEARCH_LABEL", $this->lng->txt("help_search_label"));
         $h_tpl->setVariable("VAL_SEARCH", ilUtil::prepareFormOutput($term));
         $h_tpl->parseCurrentBlock();
 
@@ -642,17 +644,23 @@ class ilHelpGUI
      */
     protected function replaceItemTag($mmc, string $content, \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item)
     {
+        global $DIC;
+        $mmc = $DIC->globalScreen()->collector()->mainmenu();
+
         $id = $item->getProviderIdentification()->getInternalIdentifier();
         $ws = "[ \t\r\f\v\n]*";
 
         // menu item path
         while (preg_match("~\[(menu" . $ws . "path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $path = "";
-            if ($item->getParent() != null) {
-                $parent = $mmc->getSingleItem($item->getParent());
-                $path = $parent->getTitle() . " > ";
+            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+                $parent = $mmc->getItemInformation()->getParent($item);
+                if ($parent !== null) {
+                    $parent = $mmc->getSingleItemFromRaw($parent);
+                    $path = $this->getTitleForItem($parent) . " > ";
+                }
             }
-            $path .= $item->getTitle();
+            $path .= $this->getTitleForItem($item);
             $content = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
                 "<strong>" . $path . "</strong>",
@@ -663,10 +671,24 @@ class ilHelpGUI
         while (preg_match("~\[(menu" . $ws . "item$ws=$ws(\"$id\")$ws)/\]~i", $content, $found)) {
             $content = preg_replace(
                 '~\[' . $found[1] . '/\]~i',
-                "<strong>" . $item->getTitle() . "</strong>",
+                "<strong>" . $this->getTitleForItem($item) . "</strong>",
                 $content
             );
         }
         return $content;
     }
+
+    /**
+     * Get title for item
+     * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item
+     * @return string
+     * @throws Throwable
+     */
+    protected function getTitleForItem(\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item): string
+    {
+        global $DIC;
+        $mmc = $DIC->globalScreen()->collector()->mainmenu();
+        return $mmc->getItemInformation()->customTranslationForUser($item)->getTitle();
+    }
+
 }

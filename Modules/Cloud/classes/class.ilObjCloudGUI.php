@@ -221,7 +221,7 @@ class ilObjCloudGUI extends ilObject2GUI
             unset($content[1]);
             array_pop($content);
             // reconstruct and set path
-            $_POST["path"] = implode('_', $content);
+            $_POST["path"] = urldecode(implode('_', $content));
         }
 
 

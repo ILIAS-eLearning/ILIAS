@@ -144,13 +144,20 @@ il.UI.filter = (function ($) {
 	 * @param signalData
 	 */
 	var onInputUpdate = function (event, signalData) {
+		let outputSpan;
 		var $el = $(signalData.triggerer[0]);
 		var pop_id = $el.parents(".il-popover").attr("id");
 		if (pop_id) {	// we have an already opened popover
-			$("span[data-target='" + pop_id + "']").html(signalData.options.string_value);
+			outputSpan = document.querySelector("span[data-target='" + pop_id + "']");
 		} else {
 			// no popover yet, we are still in the same input group and search for the il-filter-field span
-			$el.parents(".input-group").find("span.il-filter-field").html(signalData.options.string_value);
+			outputSpan = signalData
+				.triggerer[0]
+				.closest(".input-group")
+				.querySelector("span.il-filter-field");
+		}
+		if (outputSpan) {
+			outputSpan.innerText = signalData.options.string_value;
 		}
 	};
 

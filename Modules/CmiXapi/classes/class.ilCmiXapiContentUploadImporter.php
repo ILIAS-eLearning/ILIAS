@@ -62,7 +62,7 @@ class ilCmiXapiContentUploadImporter
     /**
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    protected function ensureCreatedObjectDirectory()
+    public function ensureCreatedObjectDirectory()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -264,7 +264,7 @@ class ilCmiXapiContentUploadImporter
     /**
      * @return string
      */
-    protected function getWebDataDirRelativeObjectDirectory()
+    public function getWebDataDirRelativeObjectDirectory()
     {
         return self::RELATIVE_CONTENT_DIRECTORY_NAMEBASE . $this->object->getId();
     }

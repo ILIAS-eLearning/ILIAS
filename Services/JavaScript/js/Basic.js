@@ -1051,3 +1051,70 @@ function startSAHS(SAHSurl, SAHStarget, SAHSopenMode, SAHSwidth, SAHSheight)
 	}
 }
 
+/**
+ * Related to https://mantis.ilias.de/view.php?id=26494
+ * jQuery "inputFilter" Extension.
+ */
+(function($) {
+	/**
+	 * @param {mixed} inputFilter
+	 * @returns {jQuery}
+	 */
+	$.fn.inputFilter = function(inputFilter) {
+		return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function(e) {
+			if ("-" === $.trim(this.value)) {
+				// https://mantis.ilias.de/view.php?id=29417
+			} else if (inputFilter(this.value)) {
+				this.oldValue = this.value;
+				this.oldSelectionStart = this.selectionStart;
+				this.oldSelectionEnd = this.selectionEnd;
+			} else if (this.hasOwnProperty("oldValue")) {
+				this.value = this.oldValue;
+				this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+			} else {
+				this.value = "";
+			}
+		});
+	};
+}(jQuery));
+
+/**
+ * Related to https://mantis.ilias.de/view.php?id=26494
+ * UI-Feedback : check if a numeric field isset but value is not numeric.
+ */
+function numericInputCheck() {
+
+	const numericInput = $( '.ilcqinput_NumericInput' );
+
+	// Only if present.
+	if ( numericInput.length ) {
+
+		// Append ilcqinput_NumericInputInvalid class for visually distinguishable numeric input fields.
+		// -> Onload.
+		let value = $( numericInput ).val().toString().replace( ',', '.' );
+		if ( value && !$.isNumeric( value ) ) {
+			$( numericInput ).addClass( 'ilcqinput_NumericInputInvalid' );
+		} else {
+			$( numericInput ).removeClass( 'ilcqinput_NumericInputInvalid' );
+		}
+		// -> OnChange.
+		$( numericInput ).on( 'change', function() {
+			let value = $( this ).val().toString().replace( ',', '.' );
+			if ( value && !$.isNumeric( value ) ) {
+				$( this ).addClass( 'ilcqinput_NumericInputInvalid' );
+			} else {
+				$( this ).removeClass( 'ilcqinput_NumericInputInvalid' );
+			}
+		} );
+
+		// Only allow numeric values foreach ".ilcqinput_NumericInput" classified input field.
+		$( numericInput ).inputFilter( function( value ) {
+			value = value.toString().replace( ',', '.' );
+			return !$.trim( value ) || $.isNumeric( value );
+		} );
+	}
+}
+
+$(document).ready( function(  ) {
+		numericInputCheck();
+});

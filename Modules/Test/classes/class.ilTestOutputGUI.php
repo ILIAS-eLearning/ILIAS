@@ -655,7 +655,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             }
         }
 
-        if ($this->saveResult == false) {
+        if ($this->saveResult == false || (!$questionOBJ->validateSolutionSubmit() && $questionOBJ->savePartial()) ) {
             $this->ctrl->setParameter($this, "save_error", "1");
             $_SESSION["previouspost"] = $_POST;
         }

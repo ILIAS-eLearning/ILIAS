@@ -206,6 +206,23 @@ class ilStartUpGUI
 
         $this->getLogger()->debug('Showing login page');
 
+        $extUid = '';
+        if (isset($_GET['ext_uid']) && is_string($_GET['ext_uid'])) {
+            $extUid = $_GET['ext_uid'];
+        }
+        $soapPw = '';
+        if (isset($_GET['soap_pw']) && is_string($_GET['soap_pw'])) {
+            $soapPw = $_GET['soap_pw'];
+        }
+
+        require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsSoap.php';
+        $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl, $ilSetting);
+        $credentials->setUsername(ilUtil::stripSlashes($extUid));
+        $credentials->setPassword(ilUtil::stripSlashes($soapPw));
+        $credentials->tryAuthenticationOnLoginPage();
+        
+        // try apache auth
+        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
         $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
         $frontend->tryAuthenticationOnLoginPage();
 
@@ -1307,13 +1324,13 @@ class ilStartUpGUI
             )
         );
 
-        // reset cookie
-        $client_id = $_COOKIE["ilClientId"];
-        ilUtil::setCookie("ilClientId", "");
-
         if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
             $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
         }
+
+        // reset cookie
+        $client_id = $_COOKIE["ilClientId"];
+        ilUtil::setCookie("ilClientId", "");
 
         // redirect and show logout information
         $this->ctrl->setParameter($this, 'client_id', $client_id);
@@ -1901,7 +1918,7 @@ class ilStartUpGUI
         }
         PageContentProvider::setShortTitle($short_title);
 
-        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        $header_title = (string) ilObjSystemFolder::_getHeaderTitle();
         PageContentProvider::setTitle($header_title);
 
         return $tpl;
@@ -1950,9 +1967,14 @@ class ilStartUpGUI
     {
         global $DIC;
 
+        $lang = $DIC->language();
+
         $oidc_settings = ilOpenIdConnectSettings::getInstance();
         if ($oidc_settings->getActive()) {
             $tpl = new ilTemplate('tpl.login_element.html', true, true, 'Services/OpenIdConnect');
+
+            $lang->loadLanguageModule('auth');
+            $tpl->setVariable('TXT_OIDCONNECT_HEADER', $lang->txt('auth_oidc_login_element_info'));
 
             $target = empty($_GET['target']) ? '' : ('?target=' . (string) $_GET['target']);
             switch ($oidc_settings->getLoginElementType()) {

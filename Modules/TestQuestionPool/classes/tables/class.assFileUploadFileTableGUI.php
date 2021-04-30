@@ -135,7 +135,7 @@ class assFileUploadFileTableGUI extends ilTable2GUI
             return ilUtil::prepareFormOutput($a_set['value2']);
         }
         
-        $link = "<a href='{$a_set['webpath']}{$a_set['value1']}' target='_blank'>";
+        $link = "<a href='{$a_set['webpath']}{$a_set['value1']}' download target='_blank'>";
         $link .= ilUtil::prepareFormOutput($a_set['value2']) . '</a>';
         
         return $link;

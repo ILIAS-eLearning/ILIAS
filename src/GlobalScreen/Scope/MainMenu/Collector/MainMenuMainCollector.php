@@ -54,10 +54,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        $this->information                 = $information;
-        $this->providers                   = $providers;
+        $this->information = $information;
+        $this->providers = $providers;
         $this->type_information_collection = new TypeInformationCollection();
-        $this->map                         = new Map();
+        $this->map = new Map();
     }
 
     /**
@@ -155,7 +155,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
+    }
 
+    public function cleanupItemsForUIRepresentation() : void
+    {
         // Remove not visible children
         $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isParent) {
@@ -176,7 +179,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
             return true;
         });
+    }
 
+    public function sortItemsForUIRepresentation() : void
+    {
         $this->map->sort();
     }
 

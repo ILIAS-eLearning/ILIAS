@@ -579,6 +579,14 @@ class ilExerciseManagementGUI
             //submission data array
             $file = reset($submission->getFiles());
 
+            if (!$file) {
+                $file = [
+                    "user_id" => $participant_id,
+                    "ts" => null,
+                    "atext" => null
+                ];
+            }
+
             $feedback_data = $this->collectFeedbackDataFromPeer($file);
 
             $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
@@ -1048,7 +1056,7 @@ class ilExerciseManagementGUI
 
                 $logins[] = ilObjUser::_lookupLogin($user_id);
             }
-            $logins = implode($logins, ",");
+            $logins = implode(",", $logins);
             
             // #16530 - see ilObjCourseGUI::createMailSignature
             $sig = chr(13) . chr(10) . chr(13) . chr(10);
@@ -1365,7 +1373,7 @@ class ilExerciseManagementGUI
         }
         
         if (count($saved_for) > 0) {
-            $save_for_str = "(" . implode($saved_for, " - ") . ")";
+            $save_for_str = "(" . implode(" - ", $saved_for) . ")";
         }
 
         if ($a_redirect) {

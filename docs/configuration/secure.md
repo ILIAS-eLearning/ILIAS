@@ -43,14 +43,14 @@ For a better identification, they will describe here:
 | %HOSTNAME% | your specific fully qualified domain name of ILIAS |
 | %IPADDRESS% | ip address in CIDR notation |
 | %DOCROOT% | directory that forms the main document tree visible from the web |
-| %EXTERNALDATA% | ILIAS data directory outside of the web documenation root |
+| %EXTERNALDATA% | ILIAS data directory outside of the web document root |
 | %LOGDIR% | path to the directory containing log files |
 | %CLIENTID% | the client name of the ILIAS installation  |
 
 ## Firewall
 
 Block all traffic by default and explicitly allow only specific traffic to port 443/TCP for HTTPS secured traffic.
-For "quality of life", it is recommend to also permit 80/TCP for a [redirect to HTTPS](#redirect-all-unencrypted-traffic-to-https-1).
+For "quality of life", it is recommend to also permit 80/TCP for a [redirect to HTTPS](#redirect-all-unencrypted-traffic-to-https).
 
 ## File Access Rights
 
@@ -170,7 +170,7 @@ If you use, the following suggestion, please note that the oldest compatible cli
 
 * Firefox 27
 * Chrome 30
-* IE 11 on Windows 7,
+* IE 11 on Windows 7
 * Edge
 * Opera 17
 * Safari 9
@@ -238,10 +238,10 @@ This specifies a file with DH parameters for EDH (Ephemeral Diffie-Hellman) ciph
 By default, NGINX will use the default DHE paramaters provided by openssl. This uses a weak key that gets lower scores.
 Run `openssl dhparam -out /etc/ssl/private/dhparam.pem 4096` in terminal to generate it.
 
-We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended, to reach a "A" rating as minimum.
+We RECOMMEND to use the [Mozilla SSL Configuration Generator](https://ssl-config.mozilla.org/) to generate a suitable configuration and the [Qualys SSL Labs Tests](https://www.ssllabs.com/ssltest/) or the [High-Tech Bridge SSL Server Test](https://www.htbridge.com/ssl/) to check your settings. It is recommended to reach a "A" rating as minimum.
 
 It is necessary to often revise these configuration.
-In best case, you allways use the latest "Modern" configuration.
+In best case, you always use the latest "Modern" configuration.
 
 ### Serve security related Headers
 
@@ -400,7 +400,7 @@ Ensure you have `mod_headers.so` enabled in Apache2:
 #### NGINX
 
 ```
-    add_header Strict-Transport-Security max-age=15552000; includeSubDomains" preload;
+    add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" preload;
 ```
 
 **Warning:** Before activating the configuration above you MUST make sure that you have a good workflow for maintaining your SSL settings (including certificate renewals) as you will not be able to disable HTTPS access to your site for up to 6 months.

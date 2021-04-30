@@ -25,7 +25,7 @@ function drilldown()
             $f->menu()->sub(
                 toBulky('1.1'),
                 [$button, $link]
-                )
+            )
                 ->withInitiallyActive(),
             $f->menu()->sub(toBulky('1.2'), [
                 $f->menu()->sub('1.2.1', [$button]),

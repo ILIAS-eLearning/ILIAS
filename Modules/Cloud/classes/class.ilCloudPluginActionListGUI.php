@@ -79,8 +79,8 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
         $lng = $DIC['lng'];
         $this->addItemsBefore();
         if (($delete_item && !$this->node->getIsDir()) || ($delete_folder && $this->node->getIsDir())) {
-            $this->selection_list->addItem($lng->txt("delete"), "delete_item", "javascript:il.CloudFileList.deleteItem(\'" . $this->node->getId()
-                . "\');");
+            $this->selection_list->addItem($lng->txt("delete"), "delete_item", "javascript:il.CloudFileList.deleteItem('" . $this->node->getId()
+                . "');");
         }
 
         $this->addItemsAfter();

@@ -7,12 +7,12 @@ class ilNotificationOSDGUI
 {
     /** @var \ilObjUser */
     protected $user;
-
     /** @var \ilGlobalTemplateInterface */
     protected $page;
-
     /** @var \ilLanguage */
     protected $lng;
+    /** @var \ILIAS\DI\UIServices */
+    private $ui;
 
     /**
      * ilNotificationOSDGUI constructor.
@@ -26,6 +26,7 @@ class ilNotificationOSDGUI
         $this->user = $DIC->user();
         $this->page = $page;
         $this->lng = $language;
+        $this->ui = $DIC->ui();
     }
 
     /**
@@ -45,7 +46,7 @@ class ilNotificationOSDGUI
         $notifications = \ilNotificationOSDHandler::getNotificationsForUser($this->user->getId());
         $osdTemplate->setVariable(
             'NOTIFICATION_CLOSE_HTML',
-            json_encode(ilGlyphGUI::get(ilGlyphGUI::CLOSE, $this->lng->txt('close')))
+            json_encode($this->ui->renderer()->render($this->ui->factory()->symbol()->glyph()->close()))
         );
         $osdTemplate->setVariable('INITIAL_NOTIFICATIONS', json_encode($notifications));
         $osdTemplate->setVariable(

@@ -81,7 +81,7 @@ class ilAccordionPropertiesStorage
                         $_GET["accordion_id"],
                         (int) $_GET["user_id"],
                         "opened",
-                        implode($cur_arr, ";")
+                        implode(";", $cur_arr)
                     );
                     break;
 
@@ -99,7 +99,7 @@ class ilAccordionPropertiesStorage
                         $_GET["accordion_id"],
                         (int) $_GET["user_id"],
                         "opened",
-                        implode($cur_arr, ";")
+                        implode(";", $cur_arr)
                     );
                     break;
 

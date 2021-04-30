@@ -87,11 +87,14 @@ class ilTestEvaluationPassData
      * @var boolean
      */
     private $obligationsAnswered = null;
+
+    /** @var string */
+    private $examId = '';
     
     public function __sleep()
     {
         return array('answeredQuestions', 'pass', 'nrOfAnsweredQuestions', 'reachedpoints',
-            'maxpoints', 'questioncount', 'workingtime');
+            'maxpoints', 'questioncount', 'workingtime', 'examId');
     }
 
     /**
@@ -181,7 +184,7 @@ class ilTestEvaluationPassData
         );
     }
     
-    public function &getAnsweredQuestion($index)
+    public function getAnsweredQuestion($index)
     {
         if (array_key_exists($index, $this->answeredQuestions)) {
             return $this->answeredQuestions[$index];
@@ -190,7 +193,7 @@ class ilTestEvaluationPassData
         }
     }
     
-    public function &getAnsweredQuestionByQuestionId($question_id)
+    public function getAnsweredQuestionByQuestionId($question_id)
     {
         foreach ($this->answeredQuestions as $question) {
             if ($question["id"] == $question_id) {
@@ -254,7 +257,23 @@ class ilTestEvaluationPassData
     {
         $this->obligationsAnswered = (bool) $obligationsAnswered;
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getExamId() : string
+    {
+        return $this->examId;
+    }
+
+    /**
+     * @param string $examId
+     */
+    public function setExamId(string $examId) : void
+    {
+        $this->examId = $examId;
+    }
+
     /**
      * getter for property obligationsAnswered.
      * if property wasn't set yet the method is trying

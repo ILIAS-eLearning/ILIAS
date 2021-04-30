@@ -714,13 +714,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (is_object($this->form)) {
             return true;
         }
-        // Are there any authentication methods that support automatic determination ?
-    
-        include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
-        $det = ilAuthModeDetermination::_getInstance();
-        if ($det->getCountActiveAuthModes() <= 1) {
-            return false;
-        }
         
         include_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
@@ -739,6 +732,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $cap->setChecked(ilCaptchaUtil::isActiveForLogin());
         $this->form->addItem($cap);
         
+        // Are there any authentication methods that support automatic determination ?
+        include_once('Services/Authentication/classes/class.ilAuthModeDetermination.php');
+        $det = ilAuthModeDetermination::_getInstance();
+        if ($det->getCountActiveAuthModes() <= 1) {
+            return true;
+        }
+
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt('auth_auth_mode_determination'));
         $this->form->addItem($header);
@@ -1274,6 +1274,12 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         return join("\n", preg_split("/[\r\n]+/", $text));
     }
 
+    public function registrationSettingsObject()
+    {
+        $registration_gui = new ilRegistrationSettingsGUI();
+        $this->ctrl->redirect($registration_gui);
+    }
+
     /**
      * @param string $a_form_id
      * @return array
@@ -1283,11 +1289,16 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
                 require_once 'Services/Captcha/classes/class.ilCaptchaUtil.php';
-                $fields = array(
+                $fields_login = array(
                     'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForLogin(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
                 );
 
-                return array('authentication_settings' => array('authSettings', $fields));
+                $fields_registration = array(
+                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForRegistration(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                );
+
+
+                return array('adm_auth_login' => array('authSettings', $fields_login), 'adm_auth_reg' => array('registrationSettings', $fields_registration));
         }
     }
 } // END class.ilObjAuthSettingsGUI

@@ -216,7 +216,8 @@ class ilCalendarAuthenticationToken
      */
     protected function createToken()
     {
-        $this->token = md5($this->getUserId() . $this->getSelectionType() . rand());
+        $random = new \ilRandom();
+        $this->token = md5($this->getUserId() . $this->getSelectionType() . $random->int());
     }
     
     /**

@@ -57,11 +57,13 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     private function getTree() : Tree
     {
         global $DIC;
+        $lng = $DIC->language();
         $tree = $this->getTreeRecursion();
 
         $parent_node_id = $DIC->repositoryTree()->getParentId(ilObjOrgUnit::getRootOrgRefId());
 
-        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode($parent_node_id));
+        return $this->dic->ui()->factory()->tree()->expandable($lng->txt("org_units"), $tree)
+            ->withData($tree->getChildsOfNode($parent_node_id));
     }
 
     private function getTreeRecursion() : TreeRecursion

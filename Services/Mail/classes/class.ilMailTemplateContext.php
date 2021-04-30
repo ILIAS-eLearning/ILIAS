@@ -92,7 +92,7 @@ abstract class ilMailTemplateContext
     /**
      * @return array
      */
-    final private function getGenericPlaceholders() : array
+    private function getGenericPlaceholders() : array
     {
         return [
             'mail_salutation' => [
@@ -263,7 +263,7 @@ abstract class ilMailTemplateContext
      */
     protected function initLanguage(ilObjUser $user) : void
     {
-        $this->initLanguageByIso2Code($user->getLanguage());
+        $this->initLanguageByIso2Code((string) $user->getLanguage());
     }
 
     /**

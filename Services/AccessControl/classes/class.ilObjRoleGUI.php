@@ -398,6 +398,8 @@ class ilObjRoleGUI extends ilObjectGUI
         if (!$this->checkAccess('write', 'edit_permission')) {
             $ilErr->raiseError($this->lng->txt("msg_no_perm_write"), $ilErr->MESSAGE);
         }
+
+        $this->tabs_gui->activateTab('edit_properties');
         
         // Show copy role button
         if ($this->object->getId() != SYSTEM_ROLE_ID) {
@@ -1254,6 +1256,8 @@ class ilObjRoleGUI extends ilObjectGUI
                 $this->back_target["text"],
                 $this->back_target["link"]
             );
+        } else {
+            $this->tabs_gui->setBackTarget($this->lng->txt('btn_back'), $this->ctrl->getParentReturn($this));
         }
 
         if ($this->checkAccess('write', 'edit_permission') && $activate_role_edit) {
@@ -1264,18 +1268,6 @@ class ilObjRoleGUI extends ilObjectGUI
                 get_class($this)
             );
         }
-        /*
-                if($this->checkAccess('write','edit_permission') and $this->showDefaultPermissionSettings())
-                {
-                    $force_active = ($_GET["cmd"] == "perm" || $_GET["cmd"] == "")
-                        ? true
-                        : false;
-                    $this->tabs_gui->addTarget("default_perm_settings",
-                        $this->ctrl->getLinkTarget($this, "perm"), array("perm", "adoptPermSave", "permSave"),
-                        get_class($this),
-                        "", $force_active);
-                }
-        */
         if ($this->checkAccess('write', 'edit_permission') and $this->showDefaultPermissionSettings()) {
             $this->tabs_gui->addTarget(
                 "default_perm_settings",

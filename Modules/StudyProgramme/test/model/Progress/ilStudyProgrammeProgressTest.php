@@ -1,26 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
- * @group needsInstalledILIAS
- */
 class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
 {
-    protected $backupGlobals = false;
-
-    public function setUp() : void
-    {
-        PHPUnit_Framework_Error_Deprecated::$enabled = false;
-
-        global $DIC;
-        if (!$DIC) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            try {
-                ilUnitUtil::performInitialisation();
-            } catch (\Exception $e) {
-            }
-        }
-    }
-
     public function test_init_and_id()
     {
         $spp = new ilStudyProgrammeProgress(123);
@@ -66,10 +47,10 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @depends test_init_and_id
-     * @expectedException ilException
      */
     public function test_amount_of_points_invalid()
     {
+        $this->expectException(\ilException::class);
         $spp = (new ilStudyProgrammeProgress(123))->setAmountOfPoints(-321);
     }
 
@@ -85,11 +66,11 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     public function status()
     {
         return [
-            [1]
-            ,[2]
-            ,[3]
-            ,[4]
-            ,[5]
+            [ilStudyProgrammeProgress::STATUS_IN_PROGRESS],
+            [ilStudyProgrammeProgress::STATUS_COMPLETED],
+            [ilStudyProgrammeProgress::STATUS_ACCREDITED],
+            [ilStudyProgrammeProgress::STATUS_NOT_RELEVANT],
+            [ilStudyProgrammeProgress::STATUS_FAILED]
         ];
     }
 
@@ -104,10 +85,10 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @depends test_init_and_id
-     * @expectedException ilException
      */
     public function test_status_invalid()
     {
+        $this->expectException(\ilException::class);
         $spp = (new ilStudyProgrammeProgress(123))->setStatus(321);
     }
 
@@ -131,11 +112,20 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @depends test_init_and_id
-     * @expectedException ilException
      */
     public function test_last_change_by_invalid()
     {
+        $this->expectException(\ilException::class);
         $spp = (new ilStudyProgrammeProgress(123))->setLastChangeBy(-1);
+    }
+
+    /**
+     * @depends test_init_and_id
+     */
+    public function test_last_change_by_null()
+    {
+        $this->expectException(\ilException::class);
+        $spp = (new ilStudyProgrammeProgress(123))->setLastChangeBy();
     }
 
     /**
@@ -194,22 +184,22 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * @expectedException ilException
      * @depends test_vq_date
      */
     public function test_invalidate_non_expired_1()
     {
+        $this->expectException(\ilException::class);
         $tomorrow = new DateTime();
         $tomorrow->add(new DateInterval('P1D'));
         $spp = (new ilStudyProgrammeProgress(123))->setValidityOfQualification($tomorrow)->invalidate();
     }
 
     /**
-     * @expectedException ilException
      * @depends test_vq_date
      */
     public function test_invalidate_non_expired_2()
     {
+        $this->expectException(\ilException::class);
         $spp = (new ilStudyProgrammeProgress(123))->invalidate();
     }
 }

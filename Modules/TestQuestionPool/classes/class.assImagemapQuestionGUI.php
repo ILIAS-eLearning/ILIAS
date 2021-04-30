@@ -240,7 +240,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $coords = "";
         switch ($_POST["shape"]) {
             case "rect":
-                $coords = join($_POST['image']['mapcoords'], ",");
+                $coords = join(",", $_POST['image']['mapcoords']);
                 ilUtil::sendSuccess($this->lng->txt('msg_rect_added'), true);
                 break;
             case "circle":
@@ -250,7 +250,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 ilUtil::sendSuccess($this->lng->txt('msg_circle_added'), true);
                 break;
             case "poly":
-                $coords = join($_POST['image']['mapcoords'], ",");
+                $coords = join(",", $_POST['image']['mapcoords']);
                 ilUtil::sendSuccess($this->lng->txt('msg_poly_added'), true);
                 break;
         }
@@ -301,9 +301,9 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     ilUtil::sendInfo($this->lng->txt("rectangle_click_tl_corner"));
                 } elseif (count($coords) == 1) {
                     ilUtil::sendInfo($this->lng->txt("rectangle_click_br_corner"));
-                    $preview->addPoint($preview->getAreaCount(), join($coords, ","), true, "blue");
+                    $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
-                    $c = join($coords, ",");
+                    $c = join(",", $coords);
                     $hidearea = true;
                     $disabled_save = "";
                 }
@@ -313,7 +313,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     ilUtil::sendInfo($this->lng->txt("circle_click_center"));
                 } elseif (count($coords) == 1) {
                     ilUtil::sendInfo($this->lng->txt("circle_click_circle"));
-                    $preview->addPoint($preview->getAreaCount(), join($coords, ","), true, "blue");
+                    $preview->addPoint($preview->getAreaCount(), join(",", $coords), true, "blue");
                 } elseif (count($coords) == 2) {
                     if (preg_match("/(\d+)\s*,\s*(\d+)\s+(\d+)\s*,\s*(\d+)/", $coords[0] . " " . $coords[1], $matches)) {
                         $c = "$matches[1],$matches[2]," . (int) sqrt((($matches[3] - $matches[1]) * ($matches[3] - $matches[1])) + (($matches[4] - $matches[2]) * ($matches[4] - $matches[2])));
@@ -327,11 +327,11 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                     ilUtil::sendInfo($this->lng->txt("polygon_click_starting_point"));
                 } elseif (count($coords) == 1) {
                     ilUtil::sendInfo($this->lng->txt("polygon_click_next_point"));
-                    $preview->addPoint($preview->getAreaCount(), join($coords, ","), true, "blue");
+                    $preview->addPoint($preview->getAreaCount(), implode(",", $coords), true, "blue");
                 } elseif (count($coords) > 1) {
                     ilUtil::sendInfo($this->lng->txt("polygon_click_next_or_save"));
                     $disabled_save = "";
-                    $c = join($coords, ",");
+                    $c = implode(",", $coords);
                 }
                 break;
         }

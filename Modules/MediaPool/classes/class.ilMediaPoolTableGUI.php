@@ -105,7 +105,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         // standard columns
         $this->addColumn("", "", "1");	// checkbox
-        $this->addColumn($lng->txt("mep_thumbnail"), "", "1");
+        $this->addColumn($lng->txt("mep_thumbnail"), "", "100px");
         $this->addColumn($lng->txt("mep_title_and_description"));
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -491,7 +491,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                         $target = $med->getThumbnailTarget();
                     }
                     if ($target != "") {
-                        $this->tpl->setVariable("IMG", ilUtil::img($target));
+                        $this->tpl->setVariable("IMG", ilUtil::img(ilWACSignedPath::signFile($target)));
                     } else {
                         $this->tpl->setVariable(
                             "IMG",
@@ -530,7 +530,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT ||
                     ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT && $a_set["type"] == "mob") ||
                     ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT && $a_set["type"] == "pg")
-                    )) {
+            )) {
                 $this->tpl->setCurrentBlock("chbox");
                 $this->tpl->setVariable("CHECKBOX_ID", $a_set["child"]);
                 $this->tpl->parseCurrentBlock();
@@ -572,7 +572,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $loc->addItem(
                     $title,
                     $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
-                    );
+                );
             }
             $ilCtrl->setParameter(
                 $this->parent_obj,

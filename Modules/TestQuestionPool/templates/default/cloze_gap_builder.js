@@ -1132,6 +1132,34 @@ var ClozeGapBuilder = (function () {
 		}
 	};
 
+	pro.removeSelectOption = function() {
+		let getPosition, pos, value;
+		if ($(this).attr('class') !== 'clone_fields_remove combination btn btn-link') {
+			value = $(this).parent().parent().find('.text_field').val();
+			$('[data-answer="' + value + '"]').show();
+			getPosition = $(this).attr('name');
+			pos = getPosition.split('_');
+			pos = getPosition.split('_');
+			ClozeSettings.gaps_php[0][pos[2]].values.splice(pos[3], 1);
+			pro.editTextarea(pos[2]);
+			if (ClozeSettings.gaps_php[0][pos[2]].values.length === 0) {
+				ClozeSettings.gaps_php[0].splice(pos[2], 1);
+				pro.removeFromTextarea(pos[2]);
+			}
+		} else {
+			getPosition = $(this).parent().attr('name');
+			pos = getPosition.split('_');
+			ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10), 1);
+			ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
+				answers.splice(parseInt(pos[3], 10), 1);
+			});
+			if (ClozeSettings.gaps_combination[pos[2]][0].length < 2) {
+				ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10), 1);
+			}
+		}
+		pub.paintGaps();
+		return false;
+	},
 
    pro.appendEventListenerToBeRefactored = function(){
        $('.clone_fields_add').off('click');
@@ -1198,38 +1226,8 @@ var ClozeGapBuilder = (function () {
 			return false;
 		});
 
-       $('.clone_fields_remove').on('click', function ()
-       {
-           var getPosition, pos, value;
-           if($(this).attr('class') != 'clone_fields_remove combination btn btn-link')
-           {
-               value = $(this).parent().parent().find('.text_field').val();
-               $('[data-answer="'+value+'"]').show();
-               getPosition = $(this).attr('name');
-               pos = getPosition.split('_');
-               ClozeSettings.gaps_php[0][pos[2]].values.splice(pos[3], 1);
-               pro.editTextarea(pos[2]);
-               if (ClozeSettings.gaps_php[0][pos[2]].values.length === 0) {
-                   ClozeSettings.gaps_php[0].splice(pos[2], 1);
-                   pro.removeFromTextarea(pos[2]);
-               }
-           }
-           else
-           {
-               getPosition = $(this).parent().attr('name');
-               pos = getPosition.split('_');
-               ClozeSettings.gaps_combination[pos[2]][0].splice(parseInt(pos[3], 10), 1);
-               ClozeSettings.gaps_combination[pos[2]][1].forEach(function (answers) {
-                   answers.splice(parseInt(pos[3], 10), 1);
-               });
-               if(ClozeSettings.gaps_combination[pos[2]][0].length < 2)
-               {
-                   ClozeSettings.gaps_combination.splice(parseInt(pos[2], 10),1);
-               }
-           }
-           pub.paintGaps();
-           return false;
-       });
+       $('.clone_fields_remove').off('click', pro.removeSelectOption);
+       $('.clone_fields_remove').on('click', pro.removeSelectOption);
 
 		$('.remove_gap_button').off('click');
 		$('.remove_gap_button').on('click', function () {

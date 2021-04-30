@@ -67,7 +67,7 @@ var ServiceOpenLayers = {
 		replace_marker,
 		central_marker
 	) {
-		if(replace_marker || central_marker) {
+		if(document.getElementById(id) && (replace_marker || central_marker)) {
 			this.deleteAllMarkers(id);
 			this.setMarker(id, pos);
 			return;

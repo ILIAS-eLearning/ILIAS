@@ -149,6 +149,12 @@ class ilWikiExporter extends ilXmlExporter
     public function getValidSchemaVersions($a_entity)
     {
         return array(
+            "5.4.0" => array(
+                "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/5_4",
+                "xsd_file" => "ilias_wiki_5_4.xsd",
+                "uses_dataset" => true,
+                "min" => "5.4.0",
+                "max" => ""),
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Modules/Wiki/wiki/4_1",
                 "xsd_file" => "ilias_wiki_4_1.xsd",
@@ -172,7 +178,7 @@ class ilWikiExporter extends ilXmlExporter
                 "xsd_file" => "ilias_wiki_5_1.xsd",
                 "uses_dataset" => true,
                 "min" => "5.1.0",
-                "max" => "")
+                "max" => "5.3.99")
         );
     }
 }

@@ -151,7 +151,7 @@ class ilObjBookingPool extends ilObject
             " AND pool_offline = %s ",
             array("integer","integer","integer"),
             array(1,0,0)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             $pools[] = $rec;
         }

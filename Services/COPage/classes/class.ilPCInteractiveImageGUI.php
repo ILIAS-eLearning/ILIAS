@@ -85,7 +85,9 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
                     $this->pg_obj
                 );
                 $ret = $this->ctrl->forwardCommand($image_map_edit);
-                $tpl->setContent($ret);
+                if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
                 break;
             
             default:

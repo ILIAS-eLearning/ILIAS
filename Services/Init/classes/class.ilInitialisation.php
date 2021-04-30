@@ -772,6 +772,7 @@ class ilInitialisation
             }
             // init console log handler
             ilLoggerFactory::getInstance()->initUser($DIC->user()->getLogin());
+            \ilOnlineTracking::updateAccess($DIC->user());
         } else {
             if (is_object($GLOBALS['ilLog'])) {
                 $GLOBALS['ilLog']->logStack();
@@ -917,7 +918,7 @@ class ilInitialisation
         } else {
             self::initGlobal('lng', ilLanguage::getFallbackInstance());
         }
-        if (is_object($rbacsystem)) {
+        if (is_object($rbacsystem) && $DIC->offsetExists('tree')) {
             $rbacsystem->initMemberView();
         }
     }
@@ -1900,6 +1901,14 @@ class ilInitialisation
         if (defined("ILIAS_HTTP_PATH") &&
             !stristr($a_target, ILIAS_HTTP_PATH)) {
             $a_target = ILIAS_HTTP_PATH . "/" . $a_target;
+        }
+
+        foreach (['ext_uid', 'soap_pw'] as $param) {
+            if (false === strpos($a_target, $param . '=') && isset($GLOBALS['DIC']->http()->request()->getQueryParams()[$param])) {
+                $a_target = \ilUtil::appendUrlParameterString($a_target, $param . '=' . \ilUtil::stripSlashes(
+                    $GLOBALS['DIC']->http()->request()->getQueryParams()[$param]
+                ));
+            }
         }
 
         if (ilContext::supportsRedirects()) {

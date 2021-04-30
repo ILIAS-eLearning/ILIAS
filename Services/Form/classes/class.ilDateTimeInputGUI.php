@@ -263,6 +263,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     public function render()
     {
         $ilUser = $this->user;
+        $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.prop_datetime.html", true, true, "Services/Form");
 
@@ -287,6 +288,12 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         // :TODO: i18n?
         $pl_format = ilCalendarUtil::getUserDateFormat($this->getDatePickerTimeFormat());
         $tpl->setVariable('PLACEHOLDER', $pl_format);
+
+        // accessibility description
+        $tpl->setVariable(
+            'DESCRIPTION',
+            ilUtil::prepareFormOutput($lng->txt("form_date_aria_desc") . " " . $pl_format)
+        );
         
         // current value
         $date_value = htmlspecialchars($this->invalid_input);

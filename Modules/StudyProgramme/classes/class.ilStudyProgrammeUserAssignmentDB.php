@@ -15,19 +15,9 @@ class ilStudyProgrammeUserAssignmentDB
     protected $assignment_repository;
 
     /**
-     * @var ilStudyProgrammeProgressRepository
-     */
-    protected $progress_repository;
-
-    /**
      * @var ilTree
      */
     protected $tree;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
 
     /**
      * @var ilStudyProgrammeEvents
@@ -37,16 +27,12 @@ class ilStudyProgrammeUserAssignmentDB
     public function __construct(
         ilStudyProgrammeUserProgressDB $sp_user_progress_db,
         ilStudyProgrammeAssignmentRepository $assignment_repository,
-        ilStudyProgrammeProgressRepository $progress_repository,
         ilTree $tree,
-        ilLogger $log,
         ilStudyProgrammeEvents $sp_events
     ) {
         $this->sp_user_progress_db = $sp_user_progress_db;
         $this->assignment_repository = $assignment_repository;
-        $this->progress_repository = $progress_repository;
         $this->tree = $tree;
-        $this->log = $log;
         $this->sp_events = $sp_events;
     }
 
@@ -61,8 +47,6 @@ class ilStudyProgrammeUserAssignmentDB
             $assignment,
             $this->sp_user_progress_db,
             $this->assignment_repository,
-            $this->progress_repository,
-            $this->log,
             $this->sp_events
         );
     }
@@ -73,8 +57,6 @@ class ilStudyProgrammeUserAssignmentDB
             $assignment,
             $this->sp_user_progress_db,
             $this->assignment_repository,
-            $this->progress_repository,
-            $this->log,
             $this->sp_events
         );
     }
@@ -93,8 +75,6 @@ class ilStudyProgrammeUserAssignmentDB
                         $ass,
                         $this->sp_user_progress_db,
                         $this->assignment_repository,
-                        $this->progress_repository,
-                        $this->log,
                         $this->sp_events
                     );
                     continue 2;
@@ -112,8 +92,6 @@ class ilStudyProgrammeUserAssignmentDB
                 $ass,
                 $this->sp_user_progress_db,
                 $this->assignment_repository,
-                $this->progress_repository,
-                $this->log,
                 $this->sp_events
             );
         }, array_values($assignments)); // use array values since we want keys 0...
@@ -130,8 +108,6 @@ class ilStudyProgrammeUserAssignmentDB
                     $ass,
                     $this->sp_user_progress_db,
                     $this->assignment_repository,
-                    $this->progress_repository,
-                    $this->log,
                     $this->sp_events
                 );
             },
@@ -150,8 +126,6 @@ class ilStudyProgrammeUserAssignmentDB
                     $ass,
                     $this->sp_user_progress_db,
                     $this->assignment_repository,
-                    $this->progress_repository,
-                    $this->log,
                     $this->sp_events
                 );
             },
@@ -175,8 +149,6 @@ class ilStudyProgrammeUserAssignmentDB
                     $assignment,
                     $this->sp_user_progress_db,
                     $this->assignment_repository,
-                    $this->progress_repository,
-                    $this->log,
                     $this->sp_events
                 );
             }

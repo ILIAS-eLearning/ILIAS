@@ -198,6 +198,7 @@ class ilIndividualAssessmentSettingsGUI
         if (!is_null($settings)) {
             $this->object->setSettings($settings);
             $this->object->update();
+            ilUtil::sendSuccess($this->lng->txt("iass_settings_saved"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
             $this->tpl->setContent($this->ui_renderer->render($form));
@@ -221,6 +222,7 @@ class ilIndividualAssessmentSettingsGUI
         if (!is_null($info_settings)) {
             $this->object->setInfoSettings($info_settings);
             $this->object->updateInfo();
+            ilUtil::sendSuccess($this->lng->txt("iass_settings_saved"), true);
             $this->ctrl->redirect($this, "editInfo");
         } else {
             $this->tpl->setContent($this->ui_renderer->render($form));

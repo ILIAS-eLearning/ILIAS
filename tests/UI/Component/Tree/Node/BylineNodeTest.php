@@ -164,7 +164,7 @@ EOT;
         $component_renderer_loader
                                        = new \ILIAS\UI\Implementation\Render\LoaderCachingWrapper(
                                            $loaderResourceRegistryWrapper
-        );
+                                       );
         return new TestDefaultRenderer($component_renderer_loader);
     }
 }

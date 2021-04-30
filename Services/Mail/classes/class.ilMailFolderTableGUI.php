@@ -533,7 +533,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(
-                    $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']),
+                    $this->_parentObject->umail->formatNamesForOutput((string) $mail['rcp_to']),
                     false
                 );
             } else {
@@ -542,10 +542,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(ilMail::_getIliasMailerName());
                 } else {
                     $user = ilMailUserCache::getUserObjectById($mail['sender_id']);
+
                     if ($user) {
                         $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
                         $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
                     } else {
+                        $mail['img_sender'] = '';
                         $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')';
                     }
                 }

@@ -830,7 +830,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $ret = $page_gui->showPage(true);
 
         //$tpl->setBodyClass("ilMediaPoolPagePreviewBody");
-        $tpl->setVariable("MEDIA_CONTENT", $ret);
+        $tpl->setVariable("MEDIA_CONTENT", "<div>" . $ret . "</div>");
 
 
         $tpl->printToStdout();
@@ -1011,7 +1011,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
         if (count($not_inserted) > 0) {
             ilUtil::sendInfo($this->lng->txt("mep_not_insert_already_exist") . "<br>" .
-                implode($not_inserted, "<br>"), true);
+                implode("<br>", $not_inserted), true);
         }
         $this->ctrl->redirect($this, $_GET["mep_mode"] ? $_GET["mep_mode"] : "listMedia");
     }
@@ -1572,7 +1572,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjmediapoolgui", "ilinfoscreengui"),
                     "showSummary"
-                 ),
+                ),
                 array("showSummary", "infoScreen"),
                 "",
                 "",
@@ -1992,7 +1992,11 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $form->setFormAction($ctrl->getFormAction($this));
         $form->setPreventDoubleSubmission(false);
 
-        $item = new ilFileStandardDropzoneInputGUI($lng->txt("mep_media_files"), 'media_files');
+        $item = new ilFileStandardDropzoneInputGUI(
+            'cancel',
+            $lng->txt("mep_media_files"),
+            'media_files'
+        );
         $item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
         $item->setMaxFiles(20);
         $form->addItem($item);

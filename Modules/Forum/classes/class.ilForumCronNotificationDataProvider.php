@@ -107,11 +107,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     protected $cron_recipients = array();
 
     /**
-     * @var ilForumPost|null
-     */
-    public $objPost = null;
-
-    /**
      * @var int
      */
     public $post_update_user_id = 0;
@@ -455,14 +450,6 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
                 (string) $this->getPosUserAlias(),
                 (string) $this->getImportName()
             ));
-        }
-
-        return $this->update_user_name;
-
-        // Possible Fix for #25432
-        if ($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() == 0
-            && $this->objPost->getPosAuthorId() == $this->objPost->getUpdateUserId()) {
-            return (string) $this->objPost->getUserAlias();
         }
 
         return (string) $this->update_user_name;

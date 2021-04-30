@@ -181,7 +181,7 @@ class ilItemGroupItems
         $set = $this->db->query(
             "SELECT * FROM item_group_item " .
             " WHERE item_group_id = " . $this->db->quote($this->getItemGroupId(), "integer")
-            );
+        );
         while ($rec = $this->db->fetchAssoc($set)) {
             $this->items[] = $rec["item_ref_id"];
         }

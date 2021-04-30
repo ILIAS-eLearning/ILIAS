@@ -185,8 +185,21 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $html = $this->buildToolbar('review_nav_top')->getHTML();
         $html .= $this->buildUserReviewOutput() . '<br />';
         $html .= $this->buildToolbar('review_nav_bottom')->getHTML();
+
+        if ($this->object->isShowExamIdInTestPassEnabled() && !$this->object->getKioskMode()) {
+            $examIdTpl = new ilTemplate("tpl.exam_id_block.html", true, true, 'Modules/Test');
+            $examIdTpl->setVariable('EXAM_ID_VAL', ilObjTest::lookupExamId(
+                $this->testSession->getActiveId(),
+                $this->testSession->getPass(),
+                $this->object->getId()
+            ));
+            $examIdTpl->setVariable('EXAM_ID_TXT', $this->lng->txt('exam_id'));
+            $html .= $examIdTpl->get();
+        }
         
-        $this->tpl->setVariable($this->getContentBlockName(), $html);
+        $this->tpl->setVariable(
+            $this->getContentBlockName(), $html
+        );
     }
     
     protected function pdfDownload()

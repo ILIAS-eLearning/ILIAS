@@ -104,7 +104,29 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
     {
         return ilObjPortfolioTemplate::lookupOnline($a_id);
     }
-    
+
+    /**
+     * Check wether booking pool is online (legacy version)
+     *
+     * @deprecated
+     */
+    public static function _lookupOnlineStatus($a_ids)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "SELECT id, is_online FROM usr_portfolio WHERE " .
+            $ilDB->in("id", $a_ids, false, "integer");
+        $lm_set = $ilDB->query($q);
+        $status = [];
+        while ($r = $ilDB->fetchAssoc($lm_set)) {
+            $status[$r["id"]] = $r["is_online"];
+        }
+        return $status;
+    }
+
+
     /**
     * check whether goto script will succeed
     */

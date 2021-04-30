@@ -55,6 +55,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         global $DIC;
 
         $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("form");
         $this->tpl = $DIC["tpl"];
         parent::__construct($a_title, $a_postvar);
     }
@@ -259,7 +260,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
             }
 
             $this->outputSuffixes($tpl, "allowed_image_suffixes");
-            
+
             $tpl->setCurrentBlock("row");
             $tpl->setVariable("POST_VAR", $this->getPostVar() . "[$i]");
             $tpl->setVariable("ID", $this->getFieldId() . "[$i]");
@@ -278,6 +279,8 @@ class ilFileWizardInputGUI extends ilFileInputGUI
             $tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
             $tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
             $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
+            $tpl->setVariable("MAX_UPLOAD_VALUE", $this->getMaxFileUploads());
+            $tpl->setVariable("TXT_MAX_UPLOADS", $lng->txt("form_msg_max_upload") . " " . $this->getMaxFileUploads());
             $tpl->parseCurrentBlock();
             $i++;
         }

@@ -54,6 +54,11 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
         $('#xcld_block_' + id).hide();
     }
 
+    // is currently loading
+    this.isLoading = function () {
+        return $("#loading_div_background").is(':visible');
+    }
+
     //show Block with Id
     this.removeBlock = function (id) {
         $('#xcld_block_' + id).remove();
@@ -370,10 +375,10 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
     });
 
     $.address.change(function (event) {
-        if (event.pathNames[0] == "delete_item") {
+        if (event.pathNames[0] === "delete_item") {
             self.deleteItem(event.parameters.id);
         }
-        else if (uploading == false) {
+        else if (uploading === false && !self.isLoading()) {
             self.hideBlock(current_id);
             event.parameters.current_id ? current_id = event.parameters.current_id : current_id = current_id;
             event.parameters.current_path ? current_path = decodeURIComponent((event.parameters.current_path + '').replace(/\+/g, '%20')) : current_path = current_path;

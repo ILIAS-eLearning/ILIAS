@@ -322,6 +322,9 @@ class ilConsultationHoursGUI
         $ilToolbar = $DIC['ilToolbar'];
         $ilTabs = $DIC['ilTabs'];
         $tpl = $DIC['tpl'];
+        $ilHelp = $DIC['ilHelp'];
+
+        $ilHelp->setScreenId("consultation_hours");
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
         $ilToolbar->addButton($this->lng->txt('cal_ch_add_grp'), $this->ctrl->getLinkTarget($this, 'addGroup'));
@@ -541,6 +544,9 @@ class ilConsultationHoursGUI
         $ilToolbar = $DIC['ilToolbar'];
         $ilTabs = $DIC['ilTabs'];
         $tpl = $DIC['tpl'];
+        $ilHelp = $DIC['ilHelp'];
+
+        $ilHelp->setScreenId("consultation_hours");
         
         $this->setSubTabs();
         $ilTabs->activateSubTab('cal_ch_app_bookings');

@@ -1078,4 +1078,31 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
 
         return count(explode(' ', $text));
     }
+
+    public function getLatestAutosaveContent($active_id)
+    {
+        $question_fi = $this->getId();
+
+        // Do we have an unauthorized result?
+        $cntresult = $this->db->query('
+            SELECT count(solution_id) cnt
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+        );
+        $row = $this->db->fetchAssoc($cntresult);
+        if($row['cnt'] > 0 ) {
+            $tresult = $this->db->query('
+            SELECT value1
+            FROM tst_solutions 
+            WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
+            AND question_fi = ' . $this->db->quote($this->getId(), 'int') . '
+            AND authorized = ' . $this->db->quote(0, 'int')
+            );
+            $trow = $this->db->fetchAssoc($tresult);
+            return $trow['value1'];
+        }
+        return '';
+    }
 }

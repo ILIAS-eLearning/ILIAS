@@ -259,6 +259,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'Services/Search');
         $this->tpl->setVariable("FORM_ACTION", $ilCtrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
+        $this->tpl->setVariable("SEARCH_LABEL", $lng->txt("search"));
         include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");
@@ -283,6 +284,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             // begin-patch creation_date
             $this->tpl->setVariable('TXT_FILTER_BY_CDATE', $this->lng->txt('search_filter_cd'));
             $this->tpl->setVariable('TXT_CD_OFF', $this->lng->txt('search_off'));
+            $this->tpl->setVariable('TXT_CD_ON', $this->lng->txt('search_on'));
             $this->tpl->setVariable('FORM_CD', $this->getCreationDateForm()->getHTML());
             $this->tpl->setVariable("ARR_IMG_CD", ilGlyphGUI::get(ilGlyphGUI::CARET));
             // end-patch creation_date

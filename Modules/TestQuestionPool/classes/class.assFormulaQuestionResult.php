@@ -303,7 +303,7 @@ class assFormulaQuestionResult
                 } else {
                     $frac_value = $value;
                 }
-                
+
                 $frac_value = ilMath::_round($frac_value, $this->getPrecision());
 
                 if (substr_count($value, '/') >= 1) {

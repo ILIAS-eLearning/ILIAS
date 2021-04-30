@@ -1,6 +1,12 @@
 var CounterTests = {
 	html: "Counter/CounterTest.html",
 
+	testGetCounterOrNullOnEmpty(){
+		return il.UI.counter.getCounterObjectOrNull($("#testEmpty")) === null;
+	},
+	testGetCounterOrNullOnTest1(){
+		return il.UI.counter.getCounterObjectOrNull($("#test1")).getStatusCount()==1;
+	},
 	testInvalidThrowsExceptionA: function(){
 		try{
 			var counter = il.UI.counter.getCounterObject("invalid");
@@ -8,7 +14,7 @@ var CounterTests = {
 			return true;
 		}
 	},
-	testInvalidThrowsExceptionA: function(){
+	testInvalidThrowsExceptionB: function(){
 		try{
 			var counter = il.UI.counter.getCounterObject("#test1");
 		}catch(e){

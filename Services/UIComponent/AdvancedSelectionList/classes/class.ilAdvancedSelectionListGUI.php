@@ -679,10 +679,14 @@ class ilAdvancedSelectionListGUI
                                 $tpl->parseCurrentBlock();
                             }
                         }
+                        if ($item["value"] != "") {
+                            $tpl->setCurrentBlock("item_id");
+                            $tpl->setVariable("ID_ITEM", $this->getId() . "_" . $item["value"]);
+                            $tpl->parseCurrentBlock();
+                        }
 
                         $tpl->setCurrentBlock("href_s");
                         $tpl->setVariable("HREF_ITEM", 'href="' . $item["link"] . '"');
-                        $tpl->setVariable("ID_ITEM", $this->getId() . "_" . $item["value"]);
                         $tpl->parseCurrentBlock();
 
                         $tpl->touchBlock("href_e");
@@ -694,12 +698,12 @@ class ilAdvancedSelectionListGUI
                         if ($item["prevent_background_click"]) {
                             $tpl->setVariable("ONCLICK_ITEM", '');
                         } else {
-                            if ($item["onclick"] == "") {
+                            if ($item["onclick"] == "" && $item["frame"] != "") {       // see #28730
                                 $tpl->setVariable(
                                     "ONCLICK_ITEM",
                                     'onclick="' . "return il.AdvancedSelectionList.openTarget('" . $item["link"] . "','" . $item["frame"] . "');" . '"'
                                 );
-                            } else {
+                            } elseif ($item["onclick"] != "") {
                                 $tpl->setVariable(
                                     "ONCLICK_ITEM",
                                     'onclick="' . "return " . $item["onclick"] . ";" . '"'

@@ -571,7 +571,7 @@ class ilObjCourseGUI extends ilContainerGUI
         }
         
         include_once("./Modules/Course/classes/class.ilCourseInfoFileTableGUI.php");
-        $table_gui = new ilCourseInfoFileTableGUI($this, "edit");
+        $table_gui = new ilCourseInfoFileTableGUI($this, 'editInfo');
         $table_gui->setTitle($this->lng->txt("crs_info_download"));
         $table_gui->setData($rows);
         $table_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
@@ -1218,7 +1218,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $link = new ilCustomInputGUI($this->lng->txt('crs_reg_code_link'));
         include_once './Services/Link/classes/class.ilLink.php';
         $val = ilLink::_getLink($this->object->getRefId(), $this->object->getType(), array(), '_rcode' . $this->object->getRegistrationAccessCode());
-        $link->setHTML('<font class="small">' . $val . '</font>');
+        $link->setHTML('<span class="small">' . $val . '</span>');
         $reg_code->addSubItem($link);
         
         $form->addItem($reg_code);
@@ -2698,6 +2698,7 @@ class ilObjCourseGUI extends ilContainerGUI
                     && $cmd != 'infoScreen'
                     && $cmd != 'sendfile'
                     && $cmd != 'unsubscribe'
+                    && $cmd != 'deliverCertificate'
                     && $cmd != 'performUnsubscribe'
                     && !$ilAccess->checkAccess("read", '', $this->object->getRefId())
                     || $cmd == 'join'
@@ -3289,7 +3290,6 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
-        $request = $DIC->http()->request();
 
         $user_id = null;
         if ($ilAccess->checkAccess('manage_members', '', $this->ref_id)) {

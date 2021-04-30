@@ -262,29 +262,29 @@ abstract class ILIAS_UI_TestBase extends TestCase
                     $resource_registry,
                     new Render\FSLoader(
                         new DefaultRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
-                            ),
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
+                        ),
                         new GlyphRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
-                          ),
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
+                        ),
                         new FieldRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
-                          )
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
                         )
                     )
-                );
+                )
+            );
         return new TestDefaultRenderer($component_renderer_loader);
     }
 

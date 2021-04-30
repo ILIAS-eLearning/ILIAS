@@ -119,7 +119,7 @@ abstract class ilContainerContentGUI
 
         $this->log = ilLoggerFactory::getLogger('cont');
 
-        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel())
+        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel() && !$this->container_gui->isActiveOrdering())
             ? self::VIEW_MODE_TILE
             : self::VIEW_MODE_LIST;
     }
@@ -329,7 +329,7 @@ abstract class ilContainerContentGUI
     /**
     * Get columngui output
     */
-    final private function __forwardToColumnGUI()
+    private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -917,7 +917,17 @@ abstract class ilContainerContentGUI
         include_once('./Services/Container/classes/class.ilContainerSorting.php');
         include_once('./Services/Object/classes/class.ilObjectActivation.php');
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
-        
+
+        // get all valid ids (this is filtered)
+        $all_ids = array_map(function($i) {
+            return $i["child"];
+        }, $this->items["_all"]);
+
+        // remove filtered items
+        $items = array_filter($items, function ($i) use ($all_ids) {
+            return in_array($i["ref_id"], $all_ids);
+        });
+
         // if no permission is given, set the items to "rendered" but
         // do not display the whole block
         if (!$perm_ok) {

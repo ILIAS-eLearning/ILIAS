@@ -1582,7 +1582,7 @@ class ilObjGroupGUI extends ilContainerGUI
             $link = new ilCustomInputGUI($this->lng->txt('grp_reg_code_link'));
             include_once './Services/Link/classes/class.ilLink.php';
             $val = ilLink::_getLink($this->object->getRefId(), $this->object->getType(), array(), '_rcode' . $this->object->getRegistrationAccessCode());
-            $link->setHTML('<font class="small">' . $val . '</font>');
+            $link->setHTML('<span class="small">' . $val . '</span>');
             $reg_code->addSubItem($link);
             $form->addItem($reg_code);
 

@@ -53,6 +53,14 @@ class ilMStListCompetencesSkills
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
 
+        if (empty($users_per_position)) {
+            if ($options["count"]) {
+                return 0;
+            } else {
+                return [];
+            }
+        }
+
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);

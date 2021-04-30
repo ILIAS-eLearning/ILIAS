@@ -22,8 +22,9 @@ class LSControlBuilderTest extends TestCase
         $data_factory = new DataFactory();
         $uri = $data_factory->uri('http://ilias.de/somepath');
         $url_builder = new LSUrlBuilder($uri);
+        $settings = new LSGlobalSettings(12);
 
-        $this->control_builder = new LSControlBuilder($ui_factory, $url_builder, $lang);
+        $this->control_builder = new LSControlBuilder($ui_factory, $url_builder, $lang, $settings);
     }
 
     public function testConstruction()

@@ -46,7 +46,7 @@ class ilExcRandomAssignmentDBRepository
             " AND exc_id  = %s ",
             array("integer", "integer"),
             array($user_id, $exc_id)
-            );
+        );
         $ass_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             if (ilExAssignment::isInExercise($rec["ass_id"], $exc_id)) {

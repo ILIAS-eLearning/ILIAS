@@ -29,6 +29,26 @@
 		</DataSource>
 		<DataSource type="JDBC" action="create">
 			<Query>
+				SELECT DISTINCT po.content, ld.lm_id, ld.obj_id AS metaObjId, 'pg' AS metaType, parent_type
+				FROM lm_data ld
+				JOIN page_pc_usage us ON (us.usage_type='lm:pg' AND us.usage_id = ld.obj_id AND us.usage_hist_nr = 0)
+				JOIN page_object po ON (us.pc_id = po.page_id)
+				WHERE po.parent_type = 'mep'
+				AND po.active = 1
+				AND us.pc_type = 'incl'
+				AND ld.type = 'pg'
+				AND ld.lm_id IN (?)
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="content" type="clob" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+			<Field store="YES" index="NOT_ANALYZED" column="lm_id" type="integer" name="objId" global="NO" />
+			<Field store="YES" index="NOT_ANALYZED" column="metaObjId" type="integer" name="subItem" />
+			<Field store="YES" index="NOT_ANALYZED" column="parent_type" type="text" name="type" global="NO"/>
+		</DataSource>
+		<DataSource type="JDBC" action="create">
+			<Query>
 				SELECT title, lm_id, obj_id, 'lm' AS metaType
 				FROM lm_data
 				WHERE type = 'st'

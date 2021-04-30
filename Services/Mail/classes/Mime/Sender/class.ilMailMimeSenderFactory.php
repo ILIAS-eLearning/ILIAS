@@ -25,7 +25,7 @@ class ilMailMimeSenderFactory
     {
         $this->settings = $settings;
         if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
-            $anonymousUsrId = ANONYMOUS_USER_ID;
+            $anonymousUsrId = (int) ANONYMOUS_USER_ID;
         }
         $this->anonymousUsrId = $anonymousUsrId;
     }

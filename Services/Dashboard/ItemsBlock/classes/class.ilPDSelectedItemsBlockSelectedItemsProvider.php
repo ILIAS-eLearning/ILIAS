@@ -18,13 +18,21 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
     protected $fav_manager;
 
     /**
+     * @var ilAccessHandler
+     */
+    protected $access;
+
+    /**
      * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
      * @param ilObjUser $actor
      */
     public function __construct(ilObjUser $actor)
     {
+        global $DIC;
+
         $this->actor = $actor;
         $this->fav_manager = new ilFavouritesManager();
+        $this->access = $DIC->access();
     }
 
     /**
@@ -32,9 +40,18 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
      */
     public function getItems($object_type_white_list = array())
     {
-        return $this->fav_manager->getFavouritesOfUser(
+        $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),
             count($object_type_white_list) > 0 ? $object_type_white_list : null
         );
+        $access_granted_favourites = [];
+        foreach ($favourites as $idx => $favourite) {
+
+            if (!$this->access->checkAccess('read', '', $favourite['ref_id'])) {
+                continue;
+            }
+            $access_granted_favourites[$idx] = $favourite;
+        }
+        return $access_granted_favourites;
     }
 }

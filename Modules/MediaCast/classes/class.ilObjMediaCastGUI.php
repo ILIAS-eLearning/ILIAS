@@ -1675,14 +1675,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $med->update();
             
             $add = (is_array($ret) && count($ret) > 0)
-                ? "<br />" . implode($ret, "<br />")
+                ? "<br />" . implode("<br />", $ret)
                 : "";
             
             ilUtil::sendInfo($this->lng->txt("mcst_converted_file") . $add, true);
         } catch (ilException $e) {
             $ret = ilFFmpeg::getLastReturnValues();
             $add = (is_array($ret) && count($ret) > 0)
-                ? "<br />" . implode($ret, "<br />")
+                ? "<br />" . implode("<br />", $ret)
                 : "";
             ilUtil::sendFailure($e->getMessage() . $add, true);
         }
@@ -1734,7 +1734,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
             if (DEVMODE == 1) {
                 $ret = ilFFmpeg::getLastReturnValues();
                 $add = (is_array($ret) && count($ret) > 0)
-                    ? "<br />" . implode($ret, "<br />")
+                    ? "<br />" . implode("<br />", $ret)
                     : "";
             }
             ilUtil::sendFailure($e->getMessage() . $add, true);

@@ -58,7 +58,6 @@ class ilLearningSequenceImporter extends ilXmlImporter
             (int) $this->user->getId(),
             $roles->getDefaultAdminRole()
         );
-        return $new_obj;
     }
 
     protected function updateRefId(ilImportMapping $mapping)

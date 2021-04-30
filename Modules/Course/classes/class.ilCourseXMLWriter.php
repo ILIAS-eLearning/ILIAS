@@ -194,6 +194,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
             $attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
             $attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
+            $attr['contact'] = $this->course_obj->getMembersObject()->isContact($id) ? 'Yes' : 'No';
 
             $this->xmlStartTag('Admin', $attr);
             $this->xmlEndTag('Admin');
@@ -214,6 +215,7 @@ class ilCourseXMLWriter extends ilXmlWriter
             $attr['id'] = 'il_' . $this->ilias->getSetting('inst_id') . '_usr_' . $id;
             $attr['notification'] = ($this->course_obj->getMembersObject()->isNotificationEnabled($id)) ? 'Yes' : 'No';
             $attr['passed'] = $this->course_obj->getMembersObject()->hasPassed($id) ? 'Yes' : 'No';
+            $attr['contact'] = $this->course_obj->getMembersObject()->isContact($id) ? 'Yes' : 'No';
 
             $this->xmlStartTag('Tutor', $attr);
             $this->xmlEndTag('Tutor');
@@ -390,6 +392,14 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->xmlElement('TimingMode', null, $this->course_obj->getTimingMode());
         }
         // cognos-blu-patch: end
+
+        $this->xmlElement(
+            'WelcomeMail',
+            [
+                'status' => $this->course_obj->getAutoNotification() ? 1 : 0
+            ]
+        );
+
 
         $this->xmlEndTag('Settings');
 

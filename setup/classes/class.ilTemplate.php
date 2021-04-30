@@ -527,7 +527,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
     /**
      * @inheritDoc
      */
-    public function setTitle($a_title)
+    public function setTitle($a_title, $hidden = false)
     {
         // TODO: Implement setTitle() method.
     }

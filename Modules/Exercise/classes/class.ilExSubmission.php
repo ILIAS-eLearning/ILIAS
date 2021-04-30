@@ -951,7 +951,7 @@ class ilExSubmission
         }
         
         chdir($tmpdir);
-        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join($parsed_files, " ");
+        $zipcmd = $zip . " " . ilUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
 
         exec($zipcmd);
         ilUtil::delDir($tmpdir);
@@ -1042,7 +1042,7 @@ class ilExSubmission
             if ($a_ass->getAssignmentType()->isSubmissionAssignedToTeam()) {
                 $targetdir = $team_dir . ilUtil::getASCIIFilename(
                     $item["name"]
-                    );
+                );
                 if ($targetdir == "") {
                     continue;
                 }

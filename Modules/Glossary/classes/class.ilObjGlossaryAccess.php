@@ -136,6 +136,29 @@ class ilObjGlossaryAccess extends ilObjectAccess
     }
 
     /**
+     * Check wether learning module is online (legacy version)
+     *
+     * @deprecated
+     */
+    public static function _lookupOnlineStatus($a_ids)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "SELECT id, is_online FROM glossary WHERE " .
+            $ilDB->in("id", $a_ids, false, "integer");
+        $lm_set = $ilDB->query($q);
+        $status = [];
+        while ($r = $ilDB->fetchAssoc($lm_set)) {
+            $status[$r["id"]] = ilUtil::yn2tf($r["is_online"]);
+        }
+
+        return $status;
+    }
+
+
+    /**
     * check whether goto script will succeed
     */
     public static function _checkGoto($a_target)

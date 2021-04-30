@@ -49,7 +49,15 @@ if ($mathJaxSetting->get('enable_server') && $mathJaxSetting->get('server_for_br
     $tpl->touchBlock('js_on_change_server_math_jax');
     $tpl->parseCurrentBlock();
 } elseif ($mathJaxSetting->get('enable')) {
-    $tpl->addJavaScript($mathJaxSetting->get('path_to_mathjax'));
+    $pathToMathJax = $mathJaxSetting->get('path_to_mathjax');
+    if (
+        false === strpos($pathToMathJax, '//') &&
+        false === strpos($pathToMathJax, 'https://') &&
+        false === strpos($pathToMathJax, 'http://')
+    ) {
+        $pathToMathJax = str_repeat('../', $steps) . $pathToMathJax;
+    }
+    $tpl->addJavaScript($pathToMathJax);
 
     $tpl->setCurrentBlock('js_on_change_math_jax');
     $tpl->setVariable('DELIMITER', (int) $mathJaxSetting->get('limiter'));

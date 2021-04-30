@@ -118,7 +118,6 @@ class ilContainerNewsSettingsGUI
     public function initForm()
     {
         $form = new ilPropertyFormGUI();
-
         //from crs/grp/cat settings - additional feature - news
 
         if ($this->setting->get('block_activated_news')) {
@@ -246,7 +245,6 @@ class ilContainerNewsSettingsGUI
                 $this->object->setNewsTimelineAutoEntries($form->getInput("news_timeline_auto_entries"));
                 $this->object->setNewsTimelineLandingPage($form->getInput("news_timeline_landing_page"));
             }
-
             if ($this->setting->get('block_activated_news')) {
                 //save contextblock settings
                 $context_block_settings = array(

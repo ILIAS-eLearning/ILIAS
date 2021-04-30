@@ -158,7 +158,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable(
             "VAL_COORDS",
-            implode(explode(",", $area->getCoords()), ", ")
+            implode(", ", explode(",", $area->getCoords()))
         );
         switch ($area->getLinkType()) {
             case "ext":

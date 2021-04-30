@@ -43,7 +43,7 @@ class ilSurveyCronNotification extends ilCronJob
         $lng = $this->lng;
         
         $lng->loadLanguageModule("survey");
-        return $lng->txt("survey_reminder_setting");
+        return $lng->txt("survey_reminder_cron");
     }
     
     public function getDescription()

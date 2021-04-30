@@ -154,10 +154,10 @@ class ilContainerSorting
                     return $block_id;
                 }, explode(";", $rec["block_ids"])));
 
-                $ilDB->insert("container_sorting_bl", array(
-                    "obj_id" => array("integer", $target_obj_id),
-                    "block_ids" => array("text", $new_ids)
-                ));
+                $ilDB->replace("container_sorting_bl",
+                    array("obj_id" => array("integer", $target_obj_id)),
+                    array("block_ids" => array("text", $new_ids))
+                );
 
                 $ilLog->debug("Write block sorting for obj_id = " . $target_obj_id . ": " . $new_ids);
             }
@@ -409,7 +409,7 @@ class ilContainerSorting
             if ($key == "blocks") {
                 $this->saveBlockPositions($position);
             } elseif (!is_array($position)) {
-                $items[$key] = $position * 100;
+                $items[$key] = ((float) $position) * 100;
             } else {
                 foreach ($position as $parent_id => $sub_items) {
                     $this->saveSubItems($key, $parent_id, $sub_items ? $sub_items : array());
@@ -498,7 +498,6 @@ class ilContainerSorting
     protected function saveBlockPositions(array $a_values)
     {
         $ilDB = $this->db;
-        
         asort($a_values);
         $ilDB->replace(
             'container_sorting_bl',

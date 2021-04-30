@@ -574,7 +574,7 @@ class ilBookingObject
             " WHERE booking_object_id = %s ",
             array("integer"),
             array($object_id)
-            );
+        );
         $rec = $db->fetchAssoc($set);
         return (int) $rec["pool_id"];
     }

@@ -1,4 +1,4 @@
-<script type="text/javascript">
+<script>
 <!--
 var maxinput = -1;
 

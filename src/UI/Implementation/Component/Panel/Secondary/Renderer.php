@@ -34,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl = $this->parseHeader($component,$default_renderer,$tpl);
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
 
         foreach ($component->getItemGroups() as $group) {
             if ($group instanceof C\Item\Group) {
@@ -44,7 +44,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $tpl = $this->parseFooter($component,$default_renderer,$tpl);
+        $tpl = $this->parseFooter($component, $default_renderer, $tpl);
 
         return $tpl->get();
     }
@@ -58,13 +58,13 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-        $tpl = $this->parseHeader($component,$default_renderer,$tpl);
+        $tpl = $this->parseHeader($component, $default_renderer, $tpl);
 
         $tpl->setCurrentBlock("legacy");
         $tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
         $tpl->parseCurrentBlock();
 
-        $tpl = $this->parseFooter($component,$default_renderer,$tpl);
+        $tpl = $this->parseFooter($component, $default_renderer, $tpl);
 
         return $tpl->get();
     }
@@ -73,12 +73,12 @@ class Renderer extends AbstractComponentRenderer
         C\Panel\Secondary\Secondary $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ): Template{
+    ) : Template {
         $title = $component->getTitle();
         $actions = $component->getActions();
         $view_controls = $component->getViewControls();
 
-        if($title != "" || $actions || $view_controls){
+        if ($title != "" || $actions || $view_controls) {
             $tpl->setVariable("TITLE", $title);
             if ($actions) {
                 $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
@@ -100,7 +100,7 @@ class Renderer extends AbstractComponentRenderer
         C\Panel\Secondary\Secondary $component,
         RendererInterface $default_renderer,
         Template $tpl
-    ): Template{
+    ) : Template {
         $footer = $component->getFooter();
 
         if ($footer) {

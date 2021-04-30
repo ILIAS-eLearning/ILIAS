@@ -240,7 +240,7 @@ class ilExerciseMembers
                 array("integer", "integer", "text", "integer", "text", "integer", "integer"),
                 array($a_new_id, $row["usr_id"], $row["notice"], (int) $row["returned"],
                     $row["status"], (int) $row["feedback"], (int) $row["sent"])
-                    );
+            );
             
             ilLPStatusWrapper::_updateStatus($a_new_id, $row["usr_id"]);
         }
@@ -332,7 +332,7 @@ class ilExerciseMembers
             " status = " . $ilDB->quote($a_status, "text") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
     }
@@ -360,7 +360,7 @@ class ilExerciseMembers
             " returned = " . $ilDB->quote($a_status, "integer") .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         
         ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
     }
@@ -410,7 +410,7 @@ class ilExerciseMembers
             " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             " returned = " . $ilDB->quote(1, "integer") . " AND " .
             " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return true;
         }

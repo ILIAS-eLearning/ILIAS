@@ -74,7 +74,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         $this->mailmessage->setRequired(true);
         $this->mailmessage->setCols(80);
         $this->mailmessage->setRows(10);
-        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), join($existingcolumns, ', ')));
+        $this->mailmessage->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
         $this->addItem($this->mailmessage);
 
         // save message
@@ -97,14 +97,10 @@ class FormMailCodesGUI extends ilPropertyFormGUI
             }
         }
 
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && $rbacsystem->checkAccess('smtp_mail', ilMailGlobalServices::getMailObjectRefId())) {
-            if ((int) $ilSetting->get('mail_allow_external')) {
-                $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
-            } else {
-                ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
-            }
+        if ((int) $ilSetting->get('mail_allow_external')) {
+            $this->addCommandButton("sendCodesMail", $this->lng->txt("send"));
         } else {
-            ilUtil::sendInfo($lng->txt("cannot_send_emails"));
+            ilUtil::sendInfo($lng->txt("cant_send_email_smtp_disabled"));
         }
     }
     

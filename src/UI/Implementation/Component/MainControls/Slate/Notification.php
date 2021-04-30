@@ -24,7 +24,6 @@ class Notification extends Slate implements ISlate\Notification
         string $name,
         $notification_items,
         Symbol $symbol
-
     ) {
         $this->contents = $notification_items;
         parent::__construct($signal_generator, $name, $symbol);

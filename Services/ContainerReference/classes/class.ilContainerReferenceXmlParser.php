@@ -47,6 +47,16 @@ class ilContainerReferenceXmlParser extends ilSaxParser
     
     private $ref = null;
     private $parent_id = 0;
+
+    /**
+     * @var ilLogger
+     */
+    protected $logger;
+
+    /**
+     * @var ilImportMapping
+     */
+    protected $import_mapping;
     
     /**
      * Constructor
@@ -65,6 +75,16 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
         $this->mode = ilContainerReferenceXmlParser::MODE_CREATE;
         $this->setXMLContent($a_xml);
+
+        $this->logger = $DIC->logger()->exp();
+    }
+
+    /**
+     * @param ilImportMapping $mapping
+     */
+    public function setImportMapping(ilImportMapping $mapping)
+    {
+        $this->import_mapping = $mapping;
     }
     
     /**
@@ -126,9 +146,37 @@ class ilContainerReferenceXmlParser extends ilSaxParser
                 break;
             
             case 'Target':
-                $this->getReference()->setTargetId($a_attribs['id']);
+                $target_id = $this->parseTargetId(isset($a_attribs['id']) ? (string) $a_attribs['id'] : '');
+                if ($target_id) {
+                    $this->logger->debug('Using mapped target_id: ' . $target_id);
+                    $this->getReference()->setTargetId($target_id);
+                } else {
+                    $this->logger->info('No mapping found for: ' . $a_attribs['id']);
+                    $this->getReference()->setTargetId(0);
+                }
                 break;
         }
+    }
+
+    /**
+     * @param string $attribute_target
+     * @return int
+     */
+    protected function parseTargetId(string $attribute_target) : int
+    {
+        if (!strlen($attribute_target)) {
+            $this->logger->debug('No target id provided');
+            return 0;
+        }
+        if (!$this->import_mapping instanceof ilImportMapping) {
+            return 0;
+        }
+        $obj_mapping_id = $this->import_mapping->getMapping('Services/Container', 'objs', $attribute_target);
+        if (!$obj_mapping_id) {
+            $this->logger->debug('Cannot find object mapping for target_id: ' . $attribute_target);
+            return 0;
+        }
+        return $obj_mapping_id;
     }
 
 

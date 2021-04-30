@@ -42,7 +42,7 @@ class ilWorkflowEngineSettingsForm
         $activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
         $this->form->addItem($activation_checkbox);
 
-        if (!$this->dic->rbac()->system()->checkAccess("visible,read", $_GET['ref_id'])) {
+        if ($this->dic->rbac()->system()->checkAccess("visible,read", (int) $_GET['ref_id'])) {
             $this->form->addCommandButton('save', $this->lng->txt('save'));
             $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         }

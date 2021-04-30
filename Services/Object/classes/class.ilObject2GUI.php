@@ -506,11 +506,11 @@ abstract class ilObject2GUI extends ilObjectGUI
     }
 
     // -> ilAdministration
-    final private function displayList()
+    private function displayList()
     {
         return parent::displayList();
     }
-    //	final private function setAdminTabs() { return parent::setAdminTabs(); }
+    //	private function setAdminTabs() { return parent::setAdminTabs(); }
     //	final public function getAdminTabs() { return parent::getAdminTabs(); }
     final protected function addAdminLocatorItems($a_do_not_add_object = false)
     {
@@ -580,7 +580,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Deprecated functions
      */
-    //	final private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
+    //	private function setSubObjects($a_sub_objects = "") { die("ilObject2GUI::setSubObjects() is deprecated."); }
     //	final public function getFormAction($a_cmd, $a_formaction = "") { die("ilObject2GUI::getFormAction() is deprecated."); }
     //	final protected  function setFormAction($a_cmd, $a_formaction) { die("ilObject2GUI::setFormAction() is deprecated."); }
     final protected function getReturnLocation($a_cmd, $a_location = "")
@@ -631,15 +631,15 @@ abstract class ilObject2GUI extends ilObjectGUI
     /**
      * Deleted in ilObject
      */
-    //	final private function permObject() { parent::permObject(); }
-    //	final private function permSaveObject() { parent::permSaveObject(); }
-    //	final private function infoObject() { parent::infoObject(); }
-    //	final private function __buildRoleFilterSelect() { parent::__buildRoleFilterSelect(); }
-    //	final private function __filterRoles() { parent::__filterRoles(); }
-    //	final private function ownerObject() { parent::ownerObject(); }
-    //	final private function changeOwnerObject() { parent::changeOwnerObject(); }
-    //	final private function addRoleObject() { parent::addRoleObject(); }
-    //	final private function setActions($a_actions = "") { die("ilObject2GUI::setActions() is deprecated."); }
+    //	private function permObject() { parent::permObject(); }
+    //	private function permSaveObject() { parent::permSaveObject(); }
+    //	private function infoObject() { parent::infoObject(); }
+    //	private function __buildRoleFilterSelect() { parent::__buildRoleFilterSelect(); }
+    //	private function __filterRoles() { parent::__filterRoles(); }
+    //	private function ownerObject() { parent::ownerObject(); }
+    //	private function changeOwnerObject() { parent::changeOwnerObject(); }
+    //	private function addRoleObject() { parent::addRoleObject(); }
+    //	private function setActions($a_actions = "") { die("ilObject2GUI::setActions() is deprecated."); }
     //	final protected function getActions() { die("ilObject2GUI::getActions() is deprecated."); }
 
     /**

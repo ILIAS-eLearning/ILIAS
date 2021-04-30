@@ -59,12 +59,12 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 
         if (\ilContentPagePage::_exists($this->getType(), $this->getId())) {
             $originalPageObject = new \ilContentPagePage($this->getId());
-            $originalXML = $originalPageObject->getXMLContent();
+            $copiedXML = $originalPageObject->copyXmlContent();
 
             $duplicatePageObject = new \ilContentPagePage();
             $duplicatePageObject->setId($new_obj->getId());
             $duplicatePageObject->setParentId($new_obj->getId());
-            $duplicatePageObject->setXMLContent($originalXML);
+            $duplicatePageObject->setXMLContent($copiedXML);
             $duplicatePageObject->createFromXML();
         }
 

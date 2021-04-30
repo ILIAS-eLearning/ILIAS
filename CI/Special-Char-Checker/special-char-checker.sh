@@ -10,94 +10,124 @@
 # which are usually used by old printers. Sometimes these hidden characters
 # like hidden spaces, tabs or newlines are added to the code accidentally.
 
-# help
-if [ "$1" == "help" ]; then
-    echo "General usage:"
-    echo "type ./charchecker.sh path_to_src_folder extension"
-    echo "default extension is 'php' if no extension is given"
-    exit 1;
-fi
+source CI/Import/Functions.sh
 
-# config
-if [ "$1" ]; then
-    PATH_TO_SRC=$1
+# get the files from this PR to the last head
+
+if [[ -z ${GHRUN} ]]
+then
+  CHANGED_FILES=$(find . -path ./libs -prune -o -type f -name '*.php')
 else
-    echo "No path to folder specified. Exiting."
-    exit 1;
+  CHANGED_FILES=$(get_changed_files)
 fi
 
-if [ "$2" ]; then
-    EXTENSION=$2
-else
-    EXTENSION="php"
-fi
+echo "Scanning changed files for special chars ..."
 
-# Print out bla first
-echo "Scanning $PATH_TO_SRC for $EXTENSION Files ..."
-
-# find all the php files and check them for not wanted control characters
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILES=()
-cd $PATH_TO_SRC
-
-AMOUNT_OF_FILES=$(find . -path ./libs -prune -o -type f -name '*.\'"$EXTENSION" | wc -l)
-echo "Found $AMOUNT_OF_FILES files."
-
 COUNTER=0
-for PHPFILE in $(find . -path ./libs -prune -o -type f -name '*.'"$EXTENSION");
+for PHPFILE in $CHANGED_FILES;
 do
-    if [[ $PHPFILE == "./libs" ]]; then
-      continue
-    fi
+  FELONE="$(pwd)/$PHPFILE"
 
-    COUNTER=$((COUNTER + 1))
-    echo -ne "Scanning $COUNTER of $AMOUNT_OF_FILES"'\r';
+  if [ ! -f "$FELONE" ]; then
+    continue
+  fi
 
-    TWOB=$(grep -n -C 0 "$(printf %b '\u200b')" $PHPFILE) | cut -d: -f1;
-    if [ "$TWOB" ]; then
-        FILES+=("u200b found in $PHPFILE see line(s) $TWOB")
-    fi
+  if [[ $FELONE == "./libs" ]]; then
+    continue
+  fi
 
-    TWOC=$(grep -n -C 0 "$(printf %b '\u200c')" $PHPFILE) | cut -d: -f1;
-    if [ "$TWOC" ]; then
-        FILES+=("u200c found in $PHPFILE see line(s) $TWOC")
-    fi
+  # check for php extension
+  if [ ! ${FELONE: -4} == ".php" ]; then
+    continue
+  fi
 
-    TWOD=$(grep -n -C 0 "$(printf %b '\u200d')" $PHPFILE) | cut -d: -f1;
-    if [ "$TWOD" ]; then
-        FILES+=("u200d found in $PHPFILE see line(s) $TWOD")
-    fi
+  if [[ -z ${GHRUN} ]]
+  then
+    echo -ne "."
+  fi
 
-    TWOE=$(grep -n -C 0 "$(printf %b '\u200e')" $PHPFILE) | cut -d: -f1;
-    if [ "$TWOE" ]; then
-        FILES+=("u200e found in $PHPFILE see line(s) $TWOE")
+  TWOB=$(grep -n -C 0 "$(printf %b '\u200b')" $FELONE) | cut -d: -f1;
+  if [ "$TWOB" ]; then
+    FILES+=("u200b found in $PHPFILE see line(s) $TWOB")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
+  fi
 
-    TWOF=$(grep -n -C 0 "$(printf %b '\u200f')" $PHPFILE | cut -d: -f1);
-    if [ "$TWOF" ]; then
-        FILES+=("u200f found in $PHPFILE see line(s) $TWOF")
+  TWOC=$(grep -n -C 0 "$(printf %b '\u200c')" $FELONE) | cut -d: -f1;
+  if [ "$TWOC" ]; then
+    FILES+=("u200c found in $PHPFILE see line(s) $TWOC")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
+  fi
 
-    FEFF=$(grep -n -C 0 "$(printf %b '\ufeff')" $PHPFILE | cut -d: -f1);
-    if [ "$FEFF" ]; then
-        FILES+=("ufeff found in $PHPFILE see line(s) $FEFF")
+  TWOD=$(grep -n -C 0 "$(printf %b '\u200d')" $FELONE) | cut -d: -f1;
+  if [ "$TWOD" ]; then
+    FILES+=("u200d found in $PHPFILE see line(s) $TWOD")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
+  fi
 
-    OOOT=$(grep -n -C 0 "$(printf %b '\u0003')" $PHPFILE | cut -d: -f1);
-    if [ "$OOOT" ]; then
-        FILES+=("u0003 found in $PHPFILE see line(s) $OOOT")
+  TWOE=$(grep -n -C 0 "$(printf %b '\u200e')" $FELONE) | cut -d: -f1;
+  if [ "$TWOE" ]; then
+    FILES+=("u200e found in $PHPFILE see line(s) $TWOE")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
+  fi
 
-    OTWOE=$(grep -n -C 0 "$(printf %b '\u2028')" $PHPFILE | cut -d: -f1);
-    if [ "$OTWOE" ]; then
-        FILES+=("u2028 found in $PHPFILE see line(s) $OTWOE")
+  TWOF=$(grep -n -C 0 "$(printf %b '\u200f')" $FELONE | cut -d: -f1);
+  if [ "$TWOF" ]; then
+    FILES+=("u200f found in $PHPFILE see line(s) $TWOF")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
+  fi
 
-    OOAO=$(grep -n -C 0 "$(printf %b '\u00A0' | tr -d '\n')" $PHPFILE | cut -d: -f1);
-    if [ "$OOAO" ]; then
-        FILES+=("u00A0 found in $PHPFILE see line(s) $OOAO")
+  FEFF=$(grep -n -C 0 "$(printf %b '\ufeff')" $FELONE | cut -d: -f1);
+  if [ "$FEFF" ]; then
+    FILES+=("ufeff found in $PHPFILE see line(s) $FEFF")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
     fi
-done; echo
+  fi
+
+  OOOT=$(grep -n -C 0 "$(printf %b '\u0003')" $FELONE | cut -d: -f1);
+  if [ "$OOOT" ]; then
+    FILES+=("u0003 found in $PHPFILE see line(s) $OOOT")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
+    fi
+  fi
+
+  OTWOE=$(grep -n -C 0 "$(printf %b '\u2028')" $FELONE | cut -d: -f1);
+  if [ "$OTWOE" ]; then
+    FILES+=("u2028 found in $PHPFILE see line(s) $OTWOE")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
+    fi
+  fi
+
+  OOAO=$(grep -n -C 0 "$(printf %b '\u00A0' | tr -d '\n')" $FELONE | cut -d: -f1);
+  if [ "$OOAO" ]; then
+    FILES+=("u00A0 found in $PHPFILE see line(s) $OOAO")
+    if [[ -z ${GHRUN} ]]
+    then
+      echo -ne "F"
+    fi
+  fi
+done;
 
 cd $DIR
 AMOUNTFILES=${#FILES[@]}
@@ -105,11 +135,11 @@ SEARCH="--"
 REPLACE=", "
 echo "Scan complete. Found $AMOUNTFILES incidents."
 if [ "$AMOUNTFILES" -gt "0" ]; then
-    for (( i=0; i<${AMOUNTFILES}; i++ ));
-    do
-        LINE=${FILES[$i]}
-        echo ${LINE//$SEARCH/$REPLACE}
-    done
-    exit 1
+  for (( i=0; i<${AMOUNTFILES}; i++ ));
+  do
+    LINE=${FILES[$i]}
+    echo ${LINE//$SEARCH/$REPLACE}
+  done
+  exit 1
 fi
 exit 0

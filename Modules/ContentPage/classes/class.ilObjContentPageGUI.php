@@ -72,6 +72,9 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
      */
     protected $infoScreenEnabled = false;
 
+    /** @var ilHelp */
+    protected $help;
+
     /**
      * @inheritdoc
      */
@@ -91,6 +94,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         $this->obj_service = $this->dic->object();
         $this->navHistory = $this->dic['ilNavigationHistory'];
         $this->error = $this->dic['ilErr'];
+        $this->help = $DIC['ilHelp'];
 
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
@@ -158,6 +162,8 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
      */
     public function setTabs()
     {
+        $this->help->setScreenIdComponent($this->object->getType());
+
         if ($this->checkPermissionBool('read')) {
             $this->tabs->addTab(
                 self::UI_TAB_ID_CONTENT,
@@ -238,12 +244,18 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
                     false
                 );
                 $style_gui->omitLocator();
-                if ($cmd == 'create' || $_GET['new_type'] == 'sty') {
+                if ($cmd === 'create' || $_GET['new_type'] === 'sty') {
                     $style_gui->setCreationMode(true);
                 }
+
+                if ($cmd === 'confirmedDelete') {
+                    $this->object->setStyleSheetId(0);
+                    $this->object->update();
+                }
+
                 $ret = $this->ctrl->forwardCommand($style_gui);
 
-                if ($cmd == 'save' || $cmd == 'copyStyle' || $cmd == 'importStyle') {
+                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
                     $styleId = $ret;
                     $this->object->setStyleSheetId($styleId);
                     $this->object->update();

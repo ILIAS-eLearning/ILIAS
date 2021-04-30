@@ -5923,12 +5923,12 @@ pwassist#:#pwassist_enter_email#:#Vložte prosím e-mailovou adresu a formulář
 pwassist#:#pwassist_enter_username_and_email#:#Vložte prosím jméno uživatele a asociovanou e-mailovou adresu v polích zobrazených níže. ILIAS zašle zprávu na tuto e-mailovou adresu. Tato zpráva obsahuje adresu webové stránky, kde můžete vložit nové heslo pro Váš uživatelský účet. V případě, že nejste schopen(a) přiřadit heslo k Vašemu uživatelskému účtu s využitím tohoto formuláře, kontaktujte prosím Vašeho správce kurzu, nebo odešlete e-mail %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Vložte jméno uživatele a nové heslo do polí níže.
 pwassist#:#pwassist_login_not_match#:#Vložte prosím jiné uživatelské jméno. Uživatelské jméno, které jste vložili, neodpovídá uživatelskému jménu, na které jste byli dotazováni asistencí hesla.
-pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet: \t%1$s  Tato zpráva byla vygenerována automaticky serverem ILIAS \t%2$s  Vy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".  Zkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:  - Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě: Smažte tento e-mail.  - Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS: Kontaktujte prosím %5$s.  - Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:  1. Spusťte svůj internetový prohlížeč.  2. Vložte do Vašeho prohlížeče následující adresu:  t%1$s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.  3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.  Pamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
+pwassist#:#pwassist_mail_body#:#Zaregistrujte nové heslo pro Váš uživatelský účet: %1$s  Tato zpráva byla vygenerována automaticky serverem ILIAS %2$s  Vy (nebo někdo %3$s) požádal o pomoc asistenci hesla pro uživatelský účet "%4$s".  Zkontrolujte prosím pečlivě podmínky vypsané níže, a postupujte následovně:  - Pokud jste využil(a) formulář asistence hesla na serveru ILIAS při závadě: Smažte tento e-mail.  - Pokud jste si jist(a), že jste nikdy o asistenci hesla nežádal(a) na serveru ILIAS: Kontaktujte prosím %5$s.  - Pokud jste požádal(a) o asistenci hesla, postupujte prosím následovně:  1. Spusťte svůj internetový prohlížeč.  2. Vložte do Vašeho prohlížeče následující adresu:  t%1$s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte na více řádcích, pak zalomení řádků vložil váš e-mailový program.  3. Na webové stránce zobrazené ve Vašem prohlížeči, vložte nové heslo pro Váš uživatelský účet.  Pamatujte prosím, že z bezpečnostních důvodů můžete tyto tři kroky provést pouze jednou a to v omezeném čase. Jinak tato adresa zůstane nedostupná, a Vy budete muset použít stránku asistenta hesla serveru ILIAS znovu.
 pwassist#:#pwassist_mail_sent#:#Zpráva byla zaslána %1$s. Zkontrolujte prosím svou poštovní schránku.
 pwassist#:#pwassist_mail_subject#:#Asistence hesla ILIAS
 pwassist#:#pwassist_password_assigned#:#Heslo bylo úspěšně přiřazeno uživateli "%1$s".
 pwassist#:#pwassist_session_expired#:#Vyplňte prosím tento formulář znovu. Vaše sezení s asistencí hesla vypršelo. To se mohlo stát, protože jste se pokusil(a) použít spojení na které byl odeslán e-mail více, než jednou, nebo protože uplynulo příliš mnoho času od okamžiku zaslání tohoto spojení k Vám.
-pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu: %s  Tato zpráva byla vytvořena automaticky serverem ILIAS: \t%s  Vy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.  Zkontrolujte prosím následující a postupujte podle doporučení::  -Vy jste požádal(a) o tento e-mail při závadě: Smažte tento e-mail.  -Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a): Kontaktujte prosím %s.  - Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::  1. Spusťte svůj internetový prohlížeč.  2. Vložte následující URL: \t%s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.  3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
+pwassist#:#pwassist_username_mail_body#:#To je aktivní jméno uživatele nalezené pro danou e-mailovou adresu: %s  Tato zpráva byla vytvořena automaticky serverem ILIAS: %s  Vy (nebo někdo s  IP  %s) požádal o podporu pro zapomenuté jméno uživatele pro emailovou adresu '%s'.  Zkontrolujte prosím následující a postupujte podle doporučení::  -Vy jste požádal(a) o tento e-mail při závadě: Smažte tento e-mail.  -Pokud jste si jist(a), že jste nikdy o tento e-mail nežádal(a): Kontaktujte prosím %s.  - Pokud jste žádal(a) tento e-mail, postupujte prosím následovně::  1. Spusťte svůj internetový prohlížeč.  2. Vložte následující URL: %s  Důležité: Tato adresa je jednořádková. Pokud ji vidíte rozdělenou na více řádků, pak tyto zalomení řádků vkládá Váš e-mailový program.  3. Váš prohlížeč nyní zobrazil službu hesla. Využijte tuto stránku s jedním z uživatelských jmen a příslušnou e-mailovou adresou k získání nového hesla.
 rating#:#rating_your_rating#:#Vaše hodnocení
 rbac#:#add_thread#:#Přidat vlákno
 rbac#:#cals_add_consultation_hours#:#Přidat kalendář konzultačních hodin
@@ -12396,7 +12396,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -12934,7 +12934,6 @@ style#:#skin_id#:#Skin ID###25 10 2016 new variable
 style#:#skin_name#:#Skin Name###25 10 2016 new variable
 style#:#skin#:#Skin###25 10 2016 new variable
 style#:#style_id#:#Style ID###25 10 2016 new variable
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#style_name#:#Style Name###25 10 2016 new variable
 style#:#image_dir#:#Image Directory###25 10 2016 new variable
 style#:#font_dir#:#Font Directory###25 10 2016 new variable
@@ -14915,7 +14914,6 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###25 0
 content#:#cont_Attention#:#Attention###25 04 2019 new variable
 content#:#cont_Confirmation#:#Confirmation###25 04 2019 new variable
 content#:#cont_Information#:#Information###25 04 2019 new variable
-content#:#cont_Link#:#Link###25 04 2019 new variable
 content#:#cont_Literature#:#Literature###25 04 2019 new variable
 content#:#cont_Separator#:#Separator###25 04 2019 new variable
 content#:#cont_StandardCenter#:#Standard Center###25 04 2019 new variable
@@ -16167,7 +16165,6 @@ awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
 common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
 rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
 rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
@@ -16178,3 +16175,47 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable

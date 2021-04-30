@@ -292,6 +292,7 @@ class ilLMPresentationGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
+        $ilErr = $this->error;
 
         // check read permission and parent conditions
         // todo: replace all this by ilAccess call
@@ -438,18 +439,6 @@ class ilLMPresentationGUI
     
     public function resume()
     {
-        $ilUser = $this->user;
-        
-        if ($ilUser->getId() != ANONYMOUS_USER_ID && ((int) $this->focus_id == 0)) {
-            $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->requested_ref_id, $ilUser->getId());
-
-            // if last accessed page was final page do nothing, start over
-            if ($last_accessed_page &&
-                $last_accessed_page != $this->lm_tree->getLastActivePage()) {
-                $this->requested_obj_id = $last_accessed_page;
-            }
-        }
-            
         $this->layout();
     }
         
@@ -464,7 +453,6 @@ class ilLMPresentationGUI
         $ilSetting = $this->settings;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-
         $layout = $this->determineLayout();
 
         // xmldocfile is deprecated! Use domxml_open_file instead.
@@ -877,6 +865,7 @@ class ilLMPresentationGUI
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");
         $exp->handleCommand();
+        return $exp;
     }
 
     /**
@@ -952,7 +941,7 @@ class ilLMPresentationGUI
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "",  $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
@@ -1052,7 +1041,20 @@ class ilLMPresentationGUI
             }
             $this->ctrl->setParameter($this, "ntf", "");
         }
-        
+
+        if (!$this->offline) {
+            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
+                if ($this->getCurrentPageId() <= 0) {
+                    $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
+                } else {
+                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->getCurrentPageId() . "&to_page=1";
+                }
+                $lg->addCustomCommand($link, "edit_page");
+            }
+        }
+
+
         if (!$a_redraw) {
             $this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction($this->tpl));
         } else {
@@ -1411,7 +1413,6 @@ class ilLMPresentationGUI
         $this->fill_on_load_code = true;
         $this->setContentStyles();
 
-
         $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
 
         // call ilLMContentRendererGUI
@@ -1553,6 +1554,8 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
         }
         $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
+        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink("sourcecodeDownload",
+            $this->getCurrentPageId()));
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
         }
@@ -1602,7 +1605,7 @@ class ilLMPresentationGUI
 
         $media_obj = new ilObjMediaObject($this->requested_mob_id);
         if (!empty($_GET["pg_id"])) {
-            $pg_obj = $this->getLMPage($_GET["pg_id"]);
+            $pg_obj = $this->getLMPage($_GET["pg_id"], $_GET["pg_type"]);
             $pg_obj->buildDom();
 
             $xml = "<dummy>";
@@ -2926,12 +2929,23 @@ class ilLMPresentationGUI
      * @param
      * @return
      */
-    public function getLMPage($a_id)
+    public function getLMPage($a_id, $a_type = "")
     {
-        if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
-            return new ilLMPage($a_id, 0, $this->lang);
+        $type = ($a_type == "mep")
+            ? "mep"
+            : "lm";
+
+        $lang = $this->lang;
+        if (!ilPageObject::_exists($type, $a_id, $lang)) {
+            $lang = "-";
         }
-        return new ilLMPage($a_id);
+
+        switch ($type) {
+            case "mep":
+                return new ilMediaPoolPage($a_id, 0, $lang);
+            default:
+                return new ilLMPage($a_id, 0, $lang);
+        }
     }
 
     /**

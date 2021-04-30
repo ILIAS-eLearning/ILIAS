@@ -59,7 +59,7 @@ class ilObjUseBookDBRepository
             " WHERE obj_id = %s ",
             array("integer"),
             array($obj_id)
-            );
+        );
         $book_ids = [];
         while ($rec = $db->fetchAssoc($set)) {
             $book_ids[] = $rec["book_ref_id"];

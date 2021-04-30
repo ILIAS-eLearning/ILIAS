@@ -13,7 +13,7 @@ module.exports = function(conversationId, userId, timestamp) {
 
 		if (conversation !== null && conversation.isParticipant(this.participant)) {
 			namespace.getDatabase().trackActivity(conversationId, userId, timestamp);
-			Container.getLogger().info('Track Activity for user %s in %s: %s', userId, conversationId, timestamp);
+			Container.getLogger().debug('Track Activity for user %s in %s: %s', userId, conversationId, timestamp);
 		}
 	}
 };

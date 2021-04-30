@@ -5394,12 +5394,12 @@ pwassist#:#pwassist_enter_email#:#请输入一个电子邮件地址并提交表�
 pwassist#:#pwassist_enter_username_and_email#:#在下面的字段中输入一个用户名和相关的电子邮件地址。 ILIAS将发送一条消息到这个电子邮件地址。这条消息包含一个网页地址。在这里，您可以为用户账号输入一个新密码。
 pwassist#:#pwassist_enter_username_and_new_password#:#在下面的字段中输入用户名和新密码。
 pwassist#:#pwassist_login_not_match#:#请输入其他用户名。 您所输入的这个用户名和您要求密码辅助的用户名不匹配。
-pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码： \t%1$s  这条信息由ILIAS服务器自动生成 \t%2$s  您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。  请仔细检查下面列出的条件，并进行相应处理：  - 如果您意外的在ILIAS服务器上使用了密码辅助：  请删除这封邮件。  - 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助： 请联系 %5$s.  - 如果您要求了密码辅助，请按以下步骤操作：  1、打开您的浏览器。  2、在您的浏览器中输入以下地址： \t%1$s  重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。  3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。  请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
+pwassist#:#pwassist_mail_body#:#为您的用户账号注册一个新密码： %1$s  这条信息由ILIAS服务器自动生成 %2$s  您(或在%3$s的某些人)为用户账号 "%4$s" 所要求的密码辅助。  请仔细检查下面列出的条件，并进行相应处理：  - 如果您意外的在ILIAS服务器上使用了密码辅助：  请删除这封邮件。  - 如果您确信从来没有在这个ILIAS服务器上请求过密码辅助： 请联系 %5$s.  - 如果您要求了密码辅助，请按以下步骤操作：  1、打开您的浏览器。  2、在您的浏览器中输入以下地址： %1$s  重要：这个地址要在单独的一行中。如果您发现这个地址拆分成了多行，那么您的电子邮件程序将插入这些断行。  3、通过您的浏览器在网页中显示，为您的用户账号输入一个新密码。  请注意，出于安全原因，以上三个步骤您仅能执行一次，并且有一个时间限制。之后地址将失效，然后您再次在这个ILIAS服务器上使用密码辅助。
 pwassist#:#pwassist_mail_sent#:#一条消息已经发送到%1$s. 请检查您的邮箱。
 pwassist#:#pwassist_mail_subject#:#ILIAS密码助手
 pwassist#:#pwassist_password_assigned#:#密码已成功分配给用户"%1$s"。
 pwassist#:#pwassist_session_expired#:#请再次填写这个表单。 您的密码辅助会话已过期。这种情况有可能发生，因为您试图使用的链接已经通过电子邮件不止一次的发送给您，或因为这个链接已经发送给您太长时间了。
-pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户： %s  这条信息已经由以下ILIAS服务器自动创建： \t%s  您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。  请检查以下和做为建议：  - 您意外的请求了这封邮件： 请删除这封邮件。  - 您确信您从来没有请求过这封邮件： 请联系 %s。  - 如果您请求了这封邮件，请按照以下步骤处理：  1、启动您的浏览器。  2、输入以下url： \t\5s  重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。  3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
+pwassist#:#pwassist_username_mail_body#:#这些都是为给定的电子邮件地址找到的活跃用户： %s  这条信息已经由以下ILIAS服务器自动创建： %s  您(或IP为 %s 的某些人)已向这个电子邮件地址 '%s' 要求忘记了用户名的支持。  请检查以下和做为建议：  - 您意外的请求了这封邮件： 请删除这封邮件。  - 您确信您从来没有请求过这封邮件： 请联系 %s。  - 如果您请求了这封邮件，请按照以下步骤处理：  1、启动您的浏览器。  2、输入以下url： \5s  重要：这个地址要在单独的一行中。如果您看到这个地址被拆分到多行，那么您的电子邮件程序将插入这些断行。  3、您的浏览器现在显示密码服务。使用这个页面上的某个用户名并根据电子邮件地址去取回一个新密码。
 rating#:#rating_your_rating#:#您的评分
 rbac#:#cals_edit_event#:#管理公共日历
 rbac#:#cals_edit_permission#:#改变权限设置
@@ -12395,7 +12395,7 @@ crs#:#crs_loc_settings_passed_mode_mark#:#Testfragen zu bestandenen Lernzielen w
 assessment#:#correct_answers#:#Correct Answers: ###23 12 2015 new variable
 assessment#:#answer_options#:#Answer Options: ###23 12 2015 new variable
 assessment#:#add_answers#:#Add Antworten ###23 12 2015 new variable
-assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password. Input: '%s'###23 12 2015 new variable
+assessment#:#log_wrong_test_password_entered#:#Participant entered wrong test password.###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_header#:#Decision about Answers###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_text#:#What to do with the answers you possibly entered for this question?###23 12 2015 new variable
 assessment#:#tst_nav_while_edit_modal_save_btn#:#Save###23 12 2015 new variable
@@ -12933,7 +12933,6 @@ style#:#skin_id#:#Skin ID###25 10 2016 new variable
 style#:#skin_name#:#Skin Name###25 10 2016 new variable
 style#:#skin#:#Skin###25 10 2016 new variable
 style#:#style_id#:#Style ID###25 10 2016 new variable
-style#:#Style#:#Style###25 10 2016 new variable
 style#:#style_name#:#Style Name###25 10 2016 new variable
 style#:#image_dir#:#Image Directory###25 10 2016 new variable
 style#:#font_dir#:#Font Directory###25 10 2016 new variable
@@ -14914,7 +14913,6 @@ buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###25 0
 content#:#cont_Attention#:#Attention###25 04 2019 new variable
 content#:#cont_Confirmation#:#Confirmation###25 04 2019 new variable
 content#:#cont_Information#:#Information###25 04 2019 new variable
-content#:#cont_Link#:#Link###25 04 2019 new variable
 content#:#cont_Literature#:#Literature###25 04 2019 new variable
 content#:#cont_Separator#:#Separator###25 04 2019 new variable
 content#:#cont_StandardCenter#:#Standard Center###25 04 2019 new variable
@@ -16166,7 +16164,6 @@ awrn#:#user_awrn_hide#:#Hide my status###18 05 2020 new variable
 awrn#:#user_awrn_show#:#Show my status###18 05 2020 new variable
 awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"###18 05 2020 new variable
 common#:#objs_prgr#:#Link to Study Programme###18 05 2020 new variable
-rbac#:#prgr#:#User can copy link to study programme###18 05 2020 new variable
 rbac#:#prgr_delete#:#User can move or delete link to study programme###18 05 2020 new variable
 rbac#:#prgr_edit_permission#:#User can change permission settings###18 05 2020 new variable
 rbac#:#prgr_visible#:#Links to study programmes are visible and can be used###18 05 2020 new variable
@@ -16177,3 +16174,47 @@ common#:#mainbar_aria_label#:#Mainbar###19 06 2020 new variable
 common#:#metabar_aria_label#:#Metabar###19 06 2020 new variable
 common#:#breadcrumbs_aria_label#:#Breadcrumbs###19 06 2020 new variable
 ui#:#ui_error_in_group#:#There is some error in this part.###19 06 2020 new variable
+rbac#:#prgr_copy#:#User can copy links to study programmes###10 07 2020 new variable
+form#:#form_date_aria_desc#:#The following input format is required:###14 08 2020 new variable
+feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid external Feed URL.###14 08 2020 new variable
+auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect###04 09 2020 new variable
+sess#:#sess_setting_header_presentation#:#Presentation###04 09 2020 new variable
+sess#:#sess_title#:#Title of Session###23 10 2020 new variable
+forum#:#frm_posts#:#Forum Posts###23 10 2020 new variable
+trac#:#trac_lp_learner_access#:#View Own Learning Progress###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept###23 10 2020 new variable
+adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.###23 10 2020 new variable
+common#:#lso_admin_form_title#:#Settings###23 10 2020 new variable
+common#:#lso_admin_form_byline#:#General Settings for Learning Sequences###23 10 2020 new variable
+common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)###23 10 2020 new variable
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!###23 10 2020 new variable
+book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
+book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
+book#:#book_set_delete#:#Delete###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
+cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
+search#:#search_field#:#Search Input Field###29 01 2021 new variable
+search#:#search_on#:#On###29 01 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###29 01 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###29 01 2021 new variable
+mme#:#flush#:#Remove Lost Items###29 01 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###29 01 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###29 01 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###29 01 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###29 01 2021 new variable
+common#:#tools#:#Tools###05 02 2021 new variable
+common#:#more#:#More###05 02 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###05 02 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###05 02 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###05 02 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###19 03 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###19 03 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###19 03 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###19 03 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###19 03 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###19 03 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###19 03 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###19 03 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###19 03 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###19 03 2021 new variable

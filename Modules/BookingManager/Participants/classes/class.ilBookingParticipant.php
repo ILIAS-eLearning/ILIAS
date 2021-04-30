@@ -212,7 +212,7 @@ class ilBookingParticipant
                 $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', $val['user_id']);
                 $actions[] = array(
                     'text' => $lng->txt("book_assign_object"),
-                    'url' => $ctrl->getLinkTargetByClass("ilbookingparticipantgui", 'assignObjects')
+                    'url' => $ctrl->getLinkTargetByClass(["ilobjbookingpoolgui", "ilbookingparticipantgui"], 'assignObjects')
                 );
                 $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
             }
@@ -250,10 +250,10 @@ class ilBookingParticipant
 
     /**
      * Get all participants for a booking pool.
-     * @param $a_booking_pool_id
-     * @return array
+     * @param int $a_booking_pool_id
+     * @return int[]
      */
-    public static function getBookingPoolParticipants(integer $a_booking_pool_id) : array
+    public static function getBookingPoolParticipants(int $a_booking_pool_id) : array
     {
         global $DIC;
         $ilDB = $DIC->database();

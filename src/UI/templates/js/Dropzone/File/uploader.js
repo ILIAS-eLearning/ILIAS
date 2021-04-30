@@ -239,7 +239,7 @@ il.UI = il.UI || {};
                         }
                     },
                     onAllComplete: function (succeeded, failed) {
-                        if (instances[uploadId].lastRedirect !== 'undefined') {
+                        if (typeof instances[uploadId].lastRedirect !== 'undefined') {
                             window.location.replace(instances[uploadId].lastRedirect);
                         }
                         var succeededFiles = succeeded.map(function (fileId) {

@@ -105,12 +105,12 @@ class ilPDMailGUI
         }
 
         $tpl->setVariable('TXT_TO', $this->lng->txt('mail_to'));
-        $tpl->setVariable('TO', $umail->formatNamesForOutput($mail_data['rcp_to']));
+        $tpl->setVariable('TO', $umail->formatNamesForOutput((string) $mail_data['rcp_to']));
 
         if ($mail_data['rcp_cc']) {
             $tpl->setCurrentBlock('cc');
             $tpl->setVariable('TXT_CC', $this->lng->txt('cc'));
-            $tpl->setVariable('CC', $umail->formatNamesForOutput($mail_data['rcp_cc']));
+            $tpl->setVariable('CC', $umail->formatNamesForOutput((string) $mail_data['rcp_cc']));
             $tpl->parseCurrentBlock();
         }
 

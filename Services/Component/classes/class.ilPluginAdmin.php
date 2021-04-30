@@ -64,7 +64,7 @@ class ilPluginAdmin
      *
      * @throws ilPluginException
      */
-    final private function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
+    private function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
             $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);

@@ -1670,7 +1670,7 @@ class SurveyQuestion
     */
     public static function _getQuestionTypeName($type_tag)
     {
-        if (file_exists("./Modules/SurveyQuestionPool/classes/class." . $type_tag . ".php")) {
+        if (file_exists("./Modules/SurveyQuestionPool/Questions/class." . $type_tag . ".php")) {
             global $DIC;
 
             $lng = $DIC->language();
@@ -2103,7 +2103,7 @@ class SurveyQuestion
         $set = $ilDB->query(
             "SELECT obj_fi FROM svy_question " .
             " WHERE question_id = " . $ilDB->quote($a_qid, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["obj_fi"];
     }

@@ -491,7 +491,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         // check administrator
         $types = "";
         if (is_array($type_filter)) {
-            $types = implode($type_filter, ",");
+            $types = implode(",", $type_filter);
         }
         
         // output lp changes as xml

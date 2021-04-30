@@ -25,6 +25,7 @@ class ilLMPresentationRequest
         $this->requested_from_page = (string) $query_params["from_page"];
         $this->requested_obj_type = (string) $query_params["obj_type"];
         $this->requested_mob_id = (int) $query_params["mob_id"];
+        $this->requested_cmd = (string) $query_params["cmd"];
     }
 
     /**
@@ -114,4 +115,13 @@ class ilLMPresentationRequest
     {
         return $this->requested_mob_id;
     }
+
+    /**
+     * @return string
+     */
+    public function getRequestedCmd() : string
+    {
+        return $this->requested_cmd;
+    }
+
 }

@@ -37,8 +37,11 @@ class ilEditClipboard
 {
     public static function getContentObjectType()
     {
-        if (isset($_SESSION["ilEditClipboard"])) {
-            return $_SESSION["ilEditClipboard"]["type"];
+        global $DIC;
+        $user = $DIC->user();
+        $lm_type = $user->getPref("lm_clipboard_type");
+        if ($lm_type != "") {
+            return $lm_type;
         } else {
             return false;
         }
@@ -46,13 +49,18 @@ class ilEditClipboard
 
     public static function setAction($a_action)
     {
-        $_SESSION["ilEditClipboard"] = array("action" => $a_action);
+        global $DIC;
+        $user = $DIC->user();
+        $user->writePref("lm_clipboard_action", $a_action);
     }
 
     public static function getAction()
     {
-        if (isset($_SESSION["ilEditClipboard"])) {
-            return $_SESSION["ilEditClipboard"]["action"];
+        global $DIC;
+        $user = $DIC->user();
+        $lm_action = $user->getPref("lm_clipboard_action");
+        if ($lm_action != "") {
+            return $lm_action;
         } else {
             return false;
         }
@@ -60,19 +68,32 @@ class ilEditClipboard
 
     public static function getContentObjectId()
     {
-        if (isset($_SESSION["ilEditClipboard"])) {
-            return $_SESSION["ilEditClipboard"]["id"];
+        global $DIC;
+        $user = $DIC->user();
+        $lm_id = $user->getPref("lm_clipboard_id");
+        if ($lm_id != "") {
+            return $lm_id;
         }
+        return "";
     }
 
     public static function storeContentObject($a_type, $a_id, $a_action = "cut")
     {
-        $_SESSION["ilEditClipboard"] = array("type" => $a_type,
-            "id" => $a_id, "action" => $a_action);
+        global $DIC;
+        $user = $DIC->user();
+        $user->writePref("lm_clipboard_id", $a_id);
+        $user->writePref("lm_clipboard_type", $a_type);
+        self::setAction($a_action);
     }
 
     public static function clear()
     {
-        unset($_SESSION["ilEditClipboard"]);
+        global $DIC;
+        $user = $DIC->user();
+        $user->clipboardDeleteObjectsOfType("pg");
+        $user->clipboardDeleteObjectsOfType("st");
+        $user->writePref("lm_clipboard_id", "");
+        $user->writePref("lm_clipboard_type", "");
+        $user->writePref("lm_clipboard_action", "");
     }
 }

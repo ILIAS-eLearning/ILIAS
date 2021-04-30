@@ -54,6 +54,11 @@ class ilBookingObjectGUI
     protected $pool_overall_limit; // [int]
 
     /**
+     * @var bool 
+     */
+    protected $pool_uses_preferences = false;
+
+    /**
      * Is management of objects (create/edit/delete) activated?
      * @var bool
      */
@@ -96,6 +101,8 @@ class ilBookingObjectGUI
         $this->pool_gui = $a_parent_obj;
         $this->pool_has_schedule =
             ($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+        $this->pool_uses_preferences =
+            ($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
         $this->pool_overall_limit = $this->pool_has_schedule
             ? null
             : $a_parent_obj->object->getOverallLimit();
@@ -189,7 +196,11 @@ class ilBookingObjectGUI
                 break;
 
             case "ilbookingprocessgui":
-                $ilCtrl->setReturn($this, "render");
+                if (!$this->pool_uses_preferences) {
+                    $ilCtrl->setReturn($this, "render");
+                } else {
+                    $ilCtrl->setReturn($this, "returnToPreferences");
+                }
                 $process_gui = new ilBookingProcessGUI(
                     $this->pool_gui->object,
                     $this->object_id,
@@ -215,6 +226,14 @@ class ilBookingObjectGUI
     protected function showNoScheduleMessage()
     {
         $this->pool_gui->showNoScheduleMessage();
+    }
+
+    /**
+     * Return to preferences
+     */
+    protected function returnToPreferences()
+    {
+        $this->ctrl->redirectByClass("ilBookingPreferencesGUI");
     }
 
     /**

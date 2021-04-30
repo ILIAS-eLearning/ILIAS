@@ -352,7 +352,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setFileDownloadLink("");
-        $page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
@@ -527,8 +526,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     */
     public function setTitleAndDescription()
     {
-        if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
-            $this->tpl->setTitle($this->object->getTitle());
+        if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
+            $this->tpl->setTitle((string) $this->object->getTitle(), true);
+        } else {
+            $this->tpl->setTitle((string) $this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
     
             // set tile icon
@@ -1601,7 +1602,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $_POST["id"][0]);
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         } else {
-            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($_POST["id"], "_"));
+            $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $_POST["id"]));
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
 
@@ -2288,7 +2289,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             } else {
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode($ref_ids, "_"));
+                $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
                 $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
 
@@ -3264,17 +3265,18 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function initFormTitleDescription(ilPropertyFormGUI $form)
     {
-        /** @var ilObjectTranslation $trans */
-        $trans = $this->object->getObjectTranslation();
 
+        if ($this->getCreationMode() != true) {
+            /** @var ilObjectTranslation $trans */
+            $trans = $this->object->getObjectTranslation();
+        }
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $title->setRequired(true);
         $title->setSize(min(40, ilObject::TITLE_LENGTH));
         $title->setMaxLength(ilObject::TITLE_LENGTH);
-        $title->setValue($trans->getDefaultTitle());
         $form->addItem($title);
 
-        if (sizeof($trans->getLanguages()) > 1) {
+        if ($this->getCreationMode() != true && sizeof($trans->getLanguages()) > 1) {
             include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
             $languages = ilMDLanguageItem::_getLanguages();
             $title->setInfo($this->lng->txt("language") . ": " . $languages[$trans->getDefaultLanguage()] .
@@ -3283,12 +3285,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             unset($languages);
         }
-
         $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $desc->setRows(2);
         $desc->setCols(40);
-        $desc->setValue($trans->getDefaultDescription());
         $form->addItem($desc);
+
+        if ($this->getCreationMode() != true) {
+            $title->setValue($trans->getDefaultTitle());
+            $desc->setValue($trans->getDefaultDescription());
+        }
     }
 
 

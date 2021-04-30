@@ -108,6 +108,28 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
     }
 
     /**
+     * Check wether booking pool is online (legacy version)
+     *
+     * @deprecated
+     */
+    public static function _lookupOnlineStatus($a_ids)
+    {
+        global $DIC;
+
+        $ilDB = $DIC->database();
+
+        $q = "SELECT booking_pool_id, pool_offline FROM booking_settings WHERE " .
+            $ilDB->in("booking_pool_id", $a_ids, false, "integer");
+        $lm_set = $ilDB->query($q);
+        $status = [];
+        while ($r = $ilDB->fetchAssoc($lm_set)) {
+            $status[$r["booking_pool_id"]] = !$r["pool_offline"];
+        }
+        return $status;
+    }
+
+
+    /**
      * @param ilWACPath $ilWACPath
      *
      * @return bool

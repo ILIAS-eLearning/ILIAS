@@ -52,7 +52,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('topitem_title'));
         $this->addColumn($this->lng->txt('topitem_active'));
         $this->addColumn($this->lng->txt('topitem_subentries'));
-        $this->addColumn($this->lng->txt('topitem_css_id'));
         $this->addColumn($this->lng->txt('topitem_type'));
         $this->addColumn($this->lng->txt('topitem_provider'));
         $this->addColumn($this->lng->txt('topitem_actions'));
@@ -77,7 +76,6 @@ class ilMMTopItemTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TITLE', $item_facade->getDefaultTitle());
         $this->tpl->setVariable('SUBENTRIES', $item_facade->getAmountOfChildren());
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
-        $this->tpl->setVariable('CSS_ID', "mm_" . $item_facade->identification()->getInternalIdentifier());
         $this->tpl->setVariable('POSITION', $position * 10);
         if ($item_facade->isActivated()) {
             $this->tpl->touchBlock('is_active');
@@ -102,8 +100,8 @@ class ilMMTopItemTableGUI extends ilTable2GUI
                 $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']), $item_facade->getDefaultTitle());
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
                 $m = $factory->modal()
-                    ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
-                    ->withAffectedItems([$ditem]);
+                                  ->interruptive($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), $this->lng->txt(ilMMTopItemGUI::CMD_CONFIRM_DELETE), $action)
+                                  ->withAffectedItems([$ditem]);
 
                 $items[] = $shy = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_DELETE), "")->withOnClick($m->getShowSignal());
                 // $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE), $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_CONFIRM_DELETE));

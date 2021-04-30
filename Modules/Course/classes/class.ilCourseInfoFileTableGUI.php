@@ -65,7 +65,20 @@ class ilCourseInfoFileTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("filename");
         $this->setDefaultOrderDirection("desc");
     }
-    
+
+    /**
+     * @param string $a_field
+     * @return bool
+     */
+    public function numericOrdering($a_field)
+    {
+        switch ($a_field) {
+            case 'filesize':
+                return true;
+        }
+        return parent::numericOrdering($a_field);
+    }
+
     /**
      * Fill row
      *

@@ -33,10 +33,10 @@ class ilHelp
             return "";
         }
 
-        if ($ilUser->prefs["hide_help_tt"]) {
+        if ($ilUser->getPref("hide_help_tt")) {
             return "";
         }
-
+        
         if (OH_REF_ID > 0) {
             $module_id = 0;
         } else {

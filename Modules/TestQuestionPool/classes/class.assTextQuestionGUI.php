@@ -266,6 +266,116 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $solutionoutput;
     }
 
+    /**
+    * Get the question solution output
+    *
+    * @param integer $active_id The active user id
+    * @param integer $pass The test pass
+    * @param boolean $graphicalOutput Show visual feedback for right/wrong answers
+    * @param boolean $result_output Show the reached points for parts of the question
+    * @param boolean $show_question_only Show the question without the ILIAS content around
+    * @param boolean $show_feedback Show the question feedback
+    * @param boolean $show_correct_solution Show the correct solution instead of the user solution
+    * @param boolean $show_manual_scoring Show specific information for the manual scoring output
+    * @return The solution output of the question as HTML code
+    */
+    public function getAutoSavedSolutionOutput(
+        $active_id,
+        $pass = null,
+        $graphicalOutput = false,
+        $result_output = false,
+        $show_question_only = true,
+        $show_feedback = false,
+        $show_correct_solution = false,
+        $show_manual_scoring = false,
+        $show_question_text = true
+    ) {
+        // get the solution of the user for the active pass or from the last pass if allowed
+
+        $user_solution = $this->getUserAnswer($active_id, $pass);
+
+        if (($active_id > 0) && (!$show_correct_solution)) {
+            $solution = $user_solution;
+        } else {
+            $solution = $this->getBestAnswer($this->renderPurposeSupportsFormHtml());
+        }
+
+        // generate the question output
+        include_once "./Services/UICore/classes/class.ilTemplate.php";
+        $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
+        $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
+
+        $solution =  $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
+        if ($this->renderPurposeSupportsFormHtml()) {
+            $template->setCurrentBlock('essay_div');
+            $template->setVariable("DIV_ESSAY", $this->object->prepareTextareaOutput($solution, true));
+        } else {
+            $template->setCurrentBlock('essay_textarea');
+            $template->setVariable("TA_ESSAY", $this->object->prepareTextareaOutput($solution, true, true));
+        }
+        $template->parseCurrentBlock();
+
+        $questiontext = $this->object->getQuestion();
+
+        if (!$show_correct_solution) {
+            $max_no_of_chars = $this->object->getMaxNumOfChars();
+
+            if ($max_no_of_chars == 0) {
+                $max_no_of_chars = ucfirst($this->lng->txt('unlimited'));
+            }
+
+            $act_no_of_chars = $this->object->countLetters($solution);
+            $template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
+                $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
+
+            if ($this->object->isWordCounterEnabled()) {
+                $template->setCurrentBlock('word_count');
+                $template->setVariable(
+                    'WORD_COUNT',
+                    $this->lng->txt('qst_essay_written_words') .
+                    ' <b>' . $this->object->countWords($solution) . '</b>'
+                );
+                $template->parseCurrentBlock();
+            }
+        }
+        if ($show_question_text == true) {
+            $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
+        }
+        $questionoutput = $template->get();
+
+        $feedback = '';
+        if ($show_feedback) {
+            if (!$this->isTestPresentationContext()) {
+                $fb = $this->getGenericFeedbackOutput($active_id, $pass);
+                $feedback .= strlen($fb) ? $fb : '';
+            }
+
+            $fb = $this->getSpecificFeedbackOutput(
+                array($user_solution => '')
+            );
+
+            $feedback .= strlen($fb) ? $fb : '';
+        }
+        if (strlen($feedback)) {
+            $cssClass = (
+                $this->hasCorrectSolution($active_id, $pass) ?
+                ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
+            );
+
+            $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
+            $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
+        }
+
+        $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
+
+        $solutionoutput = $solutiontemplate->get();
+        if (!$show_question_only) {
+            // get page object output
+            $solutionoutput = $this->getILIASPage($solutionoutput);
+        }
+        return $solutionoutput;
+    }
+
     private function getBestAnswer($asHtml)
     {
         $answers = $this->object->getAnswers();

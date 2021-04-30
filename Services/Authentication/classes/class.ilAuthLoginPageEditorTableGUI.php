@@ -46,6 +46,8 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
             $tbl_data[$counter]['key'] = $langkey;
             $tbl_data[$counter]['id'] = ilLanguage::lookupId($langkey);
             $tbl_data[$counter]['status'] = ilAuthLoginPageEditorSettings::getInstance()->isIliasEditorEnabled($langkey);
+            $tbl_data[$counter]['language'] = $this->lng->txt('meta_l_' . $langkey);
+
 
             ++$counter;
         }
@@ -64,7 +66,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable('LANGID', $a_set['key']);
         $this->tpl->setVariable('LANGKEY_CHECKED', $a_set['status'] ? 'checked="checked' : '');
-        $this->tpl->setVariable('TXT_LANGUAGE', $this->lng->txt('meta_l_' . $a_set['key']));
+        $this->tpl->setVariable('TXT_LANGUAGE', $a_set['language']);
 
         if ($this->lng->getDefaultLanguage() == $a_set['key']) {
             $this->tpl->setVariable('TXT_SYSTEM', $this->lng->txt('system_language'));
@@ -100,8 +102,8 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
         $this->setFormName('login_pages');
         $this->addColumn('', 'c', '1px');
         $this->addColumn($this->lng->txt('language'), 'language', '85%');
-        $this->addColumn($this->lng->txt('active'), 'active', '5%');
-        $this->addColumn($this->lng->txt('actions'), 'actions', '10%');
+        $this->addColumn($this->lng->txt('active'), 'status', '5%');
+        $this->addColumn($this->lng->txt('actions'), '', '10%');
 
         $this->addMultiCommand('activate', $this->lng->txt('login_page_activate'));
         

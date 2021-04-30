@@ -736,6 +736,7 @@ class ilNoteGUI
                     
                     // checkboxes in multiselection mode
                     if ($this->multi_selection && !$this->delete_note) {
+                        $tpl->setVariable("CHECKBOX_CLASS", "ilNotesCheckboxes");
                         $tpl->setCurrentBlock("checkbox_col");
                         $tpl->setVariable("CHK_NOTE", "note[]");
                         $tpl->setVariable("CHK_NOTE_ID", $note->getId());

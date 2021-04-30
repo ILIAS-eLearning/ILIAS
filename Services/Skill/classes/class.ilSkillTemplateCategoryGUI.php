@@ -302,7 +302,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         }
 
         $this->node_object->setTitle($this->form->getInput("title"));
-        $this->node_object->setDescription($this->form->getDescription("description"));
+        $this->node_object->setDescription($this->form->getInput("description"));
         $this->node_object->setOrderNr($this->form->getInput("order_nr"));
         $this->node_object->setSelfEvaluation($_POST["self_eval"]);
         $this->node_object->update();

@@ -76,6 +76,7 @@ class ilMainMenuSearchGUI
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
         
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
+            $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $lng->txt("label_search_options"));
             if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() or (int) $_GET['ref_id']) {
                 $this->tpl->setCurrentBlock("position");
                 $this->tpl->setVariable('TXT_GLOBALLY', $lng->txt("search_globally"));
@@ -103,15 +104,14 @@ class ilMainMenuSearchGUI
         $this->tpl->setVariable('FORMACTION', 'ilias.php?baseClass=ilSearchController&cmd=post' .
             '&rtoken=' . $ilCtrl->getRequestToken() . '&fallbackCmd=remoteSearch');
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
-        
-        // $this->tpl->setVariable('ID_AUTOCOMPLETE', "mm_sr_auto");
+        $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
         $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
         
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),
             $lng->txt("search")
         ));
-        
+
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
             $this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));

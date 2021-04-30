@@ -109,8 +109,8 @@ class ilLearningSequenceXMLWriter extends ilXmlWriter
         $abstract_img = $this->settings->getAbstractImage();
         $extro_img = $this->settings->getExtroImage();
 
-        $this->xmlElement("abstract", null, $this->settings->getAbstract());
-        $this->xmlElement("extro", null, $this->settings->getExtro());
+        $this->xmlElement("abstract", null, base64_encode($this->settings->getAbstract()));
+        $this->xmlElement("extro", null, base64_encode($this->settings->getExtro()));
         $this->xmlElement("members_gallery", null, $this->settings->getMembersGallery());
         $this->xmlElement("abstract_img", null, $abstract_img);
         $this->xmlElement("extro_img", null, $extro_img);

@@ -109,7 +109,7 @@ class ilTestLP extends ilObjectLP
         $set = $ilDB->query("SELECT tt.obj_fi" .
             " FROM tst_active ta" .
             " JOIN tst_tests tt ON (ta.test_fi = tt.test_id)" .
-            " WHERE " . $ilDB->in("tt.obj_fi", (array) $a_obj_ids, "", "integer") .
+            " WHERE " . $ilDB->in("tt.obj_fi", (array) $a_obj_ids, false, "integer") .
             " AND ta.user_fi = " . $ilDB->quote($a_usr_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
             $a_res[$row["obj_fi"]] = true;

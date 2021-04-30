@@ -17,14 +17,18 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
     /** @var ilCtrl */
     private $controller;
+    /** @var bool */
+    private $mayWrite;
 
     /**
      * Constructor
      *
      * @param ilObject $a_parent_obj
      * @param string $a_parent_cmd
+     * @param \ILIAS\DI\Container|null $dic
+     * @param bool $mayWrite
      */
-    public function __construct($a_parent_obj, $a_parent_cmd, \ILIAS\DI\Container $dic = null)
+    public function __construct($a_parent_obj, $a_parent_cmd, \ILIAS\DI\Container $dic = null, bool $mayWrite = false)
     {
         if ($dic === null) {
             global $DIC;
@@ -33,12 +37,15 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
         $this->language = $dic->language();
         $this->controller = $dic->ctrl();
+        $this->mayWrite = $mayWrite;
 
         $this->setId("crnmng"); // #14526 / #16391
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
-        $this->addColumn("", "", 1);
+
+        if ($this->mayWrite) {
+            $this->addColumn("", "", 1);
+        }
         $this->addColumn($this->lng->txt("cron_job_id"), "title");
         $this->addColumn($this->lng->txt("cron_component"), "component");
         $this->addColumn($this->lng->txt("cron_schedule"), "schedule");
@@ -47,15 +54,19 @@ class ilCronManagerTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cron_result"), "result");
         $this->addColumn($this->lng->txt("cron_result_info"), "");
         $this->addColumn($this->lng->txt("cron_last_run"), "last_run");
-        $this->addColumn($this->lng->txt("actions"), "");
+        if ($this->mayWrite) {
+            $this->addColumn($this->lng->txt("actions"), "");
+        }
         
         $this->setTitle($this->lng->txt("cron_jobs"));
         $this->setDefaultOrderField("title");
-        
-        $this->setSelectAllCheckbox("mjid");
-        $this->addMultiCommand("activate", $this->language->txt("cron_action_activate"));
-        $this->addMultiCommand("deactivate", $this->language->txt("cron_action_deactivate"));
-        $this->addMultiCommand("reset", $this->language->txt("cron_action_reset"));
+
+        if ($this->mayWrite) {
+            $this->setSelectAllCheckbox("mjid");
+            $this->addMultiCommand("activate", $this->language->txt("cron_action_activate"));
+            $this->addMultiCommand("deactivate", $this->language->txt("cron_action_deactivate"));
+            $this->addMultiCommand("reset", $this->language->txt("cron_action_reset"));
+        }
                         
         $this->setRowTemplate("tpl.cron_job_row.html", "Services/Cron");
         $this->setFormAction($this->controller->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -259,9 +270,11 @@ class ilCronManagerTableGUI extends ilTable2GUI
 
     protected function fillRow($a_set)
     {
+        if ($this->mayWrite) {
+            $this->tpl->setVariable("VAL_JID", $a_set["job_id"]);
+        }
         $this->tpl->setVariable("VAL_ID", $a_set["title"]);
-        $this->tpl->setVariable("VAL_JID", $a_set["job_id"]);
-        
+
         if ($a_set["description"]) {
             $this->tpl->setVariable("VAL_DESC", $a_set["description"]);
         }
@@ -291,7 +304,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         
         $actions = array();
         
-        if (!$a_set["running_ts"]) {
+        if ($this->mayWrite && !$a_set["running_ts"]) {
             // reset
             if ($a_set["job_result_status"] == ilCronJobResult::STATUS_CRASHED) {
                 $actions[] = "reset";

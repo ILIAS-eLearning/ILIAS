@@ -39,4 +39,12 @@ class ilObjContentPageListGUI extends \ilObjectListGUI implements \ilContentPage
 
         return false;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function checkInfoPageOnAsynchronousRendering() : bool
+    {
+        return true;
+    }
 }

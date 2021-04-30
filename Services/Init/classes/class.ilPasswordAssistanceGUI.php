@@ -333,7 +333,7 @@ class ilPasswordAssistanceGUI
         $sender = $senderFactory->system();
 
         $mm = new ilMimeMail();
-        $mm->Subject($this->lng->txt('pwassist_mail_subject'));
+        $mm->Subject($this->lng->txt('pwassist_mail_subject'), true);
         $mm->From($sender);
         $mm->To($userObj->getEmail());
         $mm->Body(
@@ -660,7 +660,7 @@ class ilPasswordAssistanceGUI
         $sender = $senderFactory->system();
 
         $mm = new ilMimeMail();
-        $mm->Subject($this->lng->txt('pwassist_mail_subject'));
+        $mm->Subject($this->lng->txt('pwassist_mail_subject'), true);
         $mm->From($sender);
         $mm->To($email);
         $mm->Body(
@@ -669,7 +669,7 @@ class ilPasswordAssistanceGUI
                 array("\n", "\t"),
                 sprintf(
                     $this->lng->txt('pwassist_username_mail_body'),
-                    join($logins, ",\n"),
+                    join(",\n", $logins),
                     $this->getBaseUrl() . '/',
                     $_SERVER['REMOTE_ADDR'],
                     $email,

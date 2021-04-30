@@ -26,7 +26,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->exitIfNoRoomExists($room);
         $this->exitIfNoRoomSubscription($room, $chat_user);
 
-        $title = $room->getUniquePrivateRoomTitle($_REQUEST['title']);
+        $title = $room->getUniquePrivateRoomTitle(ilUtil::stripSlashes((string) $_REQUEST['title']));
         $subRoomId = $room->addPrivateRoom($title, $chat_user, array('public' => false));
 
         $connector = $this->gui->getConnector();

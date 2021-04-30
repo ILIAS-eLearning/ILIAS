@@ -184,7 +184,8 @@ class ilSession
         }
         
         // finally delete deprecated sessions
-        if (rand(0, 50) == 2) {
+        $random = new \ilRandom();
+        if ($random->int(0, 50) == 2) {
             // get time _before_ destroying expired sessions
             self::_destroyExpiredSessions();
             ilSessionStatistics::aggretateRaw($now);

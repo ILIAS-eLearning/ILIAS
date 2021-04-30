@@ -173,7 +173,7 @@ class ilDBPdoPostgreSQL extends ilDBPdo implements ilDBInterface
         }
         //		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
         //		{
-        $this->manipulate("DELETE FROM " . $a_table . " WHERE " . implode($delwhere, " AND "));
+        $this->manipulate("DELETE FROM " . $a_table . " WHERE " . implode(" AND ", $delwhere));
         $this->insert($a_table, $a_columns);
 
         return true;

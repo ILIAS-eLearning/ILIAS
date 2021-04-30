@@ -574,7 +574,8 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilGlobalCache::flushAll();
+        // avoid flushing the whole cache (see mantis #28818)
+        ilCachedLanguage::getInstance($a_key)->deleteInCache();
 
         $ilDB->manipulate(sprintf(
             "DELETE FROM lng_modules WHERE lang_key = %s AND module = %s",
@@ -627,7 +628,8 @@ class ilObjLanguage extends ilObject
         global $DIC;
         $ilDB = $DIC->database();
 
-        ilGlobalCache::flushAll();
+        // avoid a cache flush here (see mantis #28818)
+        // ilGlobalCache::flushAll();
 
         if (isset($a_remarks)) {
             $a_remarks = substr($a_remarks, 0, 250);

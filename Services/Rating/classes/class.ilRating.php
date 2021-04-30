@@ -40,6 +40,14 @@ class ilRating
 
         $ilDB = $DIC->database();
 
+        if ($a_rating < 0) {
+            $a_rating = 0;
+        }
+
+        if ($a_rating > 5) {
+            $a_rating = 5;
+        }
+
         if ($a_user_id == ANONYMOUS_USER_ID) {
             return;
         }

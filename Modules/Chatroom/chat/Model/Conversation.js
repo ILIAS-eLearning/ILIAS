@@ -179,7 +179,25 @@ var Conversation = function Conversation(id, participants)
 				id = val.getId();
 			}
 
-			if (id.toString() === participant.getId().toString()) {
+			if (typeof id === "undefined") {
+				return false;
+			}
+
+			if (typeof participant.getId !== 'function') {
+				Container.getLogger().warn(
+					"Invalid participant object: Type = %s / Variable = %s",
+					typeof participant,
+					JSON.stringify(participant)
+				);
+				return false;
+			}
+
+			let participantId = participant.getId();
+			if (typeof participantId === "undefined") {
+				return false;
+			}
+
+			if (id.toString() === participantId.toString()) {
 				return true;
 			}
 

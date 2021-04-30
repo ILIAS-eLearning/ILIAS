@@ -637,7 +637,7 @@ class ilPCParagraph extends ilPageContent
         // internal links
         //$any = "[^\]]*";	// this doesn't work :-(
         $ws = "[ \t\r\f\v\n]*";
-        $ltypes = "page|chap|term|media|obj|dfile|sess|wpage|ppage|" . implode($rtypes, "|");
+        $ltypes = "page|chap|term|media|obj|dfile|sess|wpage|ppage|" . implode("|", $rtypes);
         // empty internal links
         while (preg_match('~\[(iln' . $ws . '((inst' . $ws . '=' . $ws . '([\"0-9])*)?' . $ws .
             "((" . $ltypes . ")$ws=$ws([\"0-9])*)$ws" .
@@ -2017,7 +2017,7 @@ class ilPCParagraph extends ilPageContent
         $adve_settings = new ilSetting("adve");
 
         if ($a_mode != "edit" && $adve_settings->get("auto_url_linking")) {
-            return array("il.ExtLink.autolink('.ilc_Paragraph','ilc_link_ExtLink');");
+            return array("il.ExtLink.autolink('.ilc_Paragraph, .ilc_page_fn_Footnote','ilc_link_ExtLink');");
         }
 
         return array();

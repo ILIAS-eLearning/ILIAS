@@ -127,6 +127,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             case "ilobjstylesheetgui":
                 $this->ctrl->setReturn($this, "editStyleProperties");
                 $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
+                $style_gui->enableWrite(true);
                 $style_gui->omitLocator();
                 if ($cmd == "create" || $_GET["new_type"] == "sty") {
                     $style_gui->setCreationMode(true);
@@ -331,13 +332,13 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 // #18147
                 $this->lng->loadLanguageModule('pd');
                 $url = $this->ctrl->getLinkTargetByClass("ilDashboardGUI", "jumpToWorkspace");
-                $text = $this->lng->txt("pd_personal_workspace");
+                $text = $this->lng->txt("mm_personal_and_shared_r");
 
                 $text = sprintf($this->lng->txt("prtf_no_blogs_info"), $text);
 
                 $mbox = $ui->factory()->messageBox()->info($text)
                     ->withLinks([$ui->factory()->link()->standard(
-                        $this->lng->txt("pd_personal_workspace"),
+                        $this->lng->txt("mm_personal_and_shared_r"),
                         $url
                     )]);
 

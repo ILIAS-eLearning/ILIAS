@@ -30,6 +30,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected $export_material = array("js" => array(), "images" => array(), "files" => array());
     
     protected static $initialized = 0;
+
+    /**
+     * @var int
+     */
+    protected $requested_ppage;
     
     /**
      * Constructor
@@ -72,6 +77,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
             ilObjStyleSheet::getPlaceHolderStylePath()
         );
         $tpl->parseCurrentBlock();
+
+        $this->requested_ppage = (int) $_GET["ppage"];
     }
     
     public function getParentType()
@@ -1148,7 +1155,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
         $ctrl = $DIC->ctrl();
 
-        $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $_GET["ppage"]);
+        $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $this->requested_ppage);
         return $ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview");
     }
 

@@ -49,7 +49,7 @@ class URI
     const ALPHA = '[A-Za-z]';
     const DIGIT = '[0-9]';
     const ALPHA_DIGIT = '[A-Za-z0-9]';
-    const HEXDIG = '[0-9A-F]';
+    const HEXDIG = '[0-9A-Fa-f]';
     const PCTENCODED = '%' . self::HEXDIG . self::HEXDIG;
     /**
      * point|minus|plus to be used in schema.

@@ -90,6 +90,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
                 break;
 
             default:
+                $this->ctrl->setReturn($this, "view");
                 if (!$cmd) {
                     $cmd = "view";
                 }

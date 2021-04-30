@@ -15,6 +15,7 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Implementation\Component\Button\Bulky as IBulky;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate as ISlate;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
+use ILIAS\Data\URI;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -85,7 +86,7 @@ class Renderer extends AbstractComponentRenderer
                    function ($id) use ($mb_id) {
                        return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
                    }
-                )
+               )
                 ->withOnClick($trigger_signal);
 
             $tpl->setCurrentBlock("tool_removal");
@@ -124,11 +125,10 @@ class Renderer extends AbstractComponentRenderer
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withAriaRole(IBulky::MENUITEM)
                     ->withOnClick($trigger_signal);
-
             } else {
                 //add Links/Buttons as toplevel entries
                 $pos = array_search($k, array_keys($entries));
-                $mb_id = '0:' .$pos;
+                $mb_id = '0:' . $pos;
                 $is_tool = false;
             }
 
@@ -370,10 +370,20 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('TEXT', $component->getText());
 
         $perm_url = $component->getPermanentURL();
-        if ($perm_url) {
-            $url = $perm_url->getBaseURI() . '?' . $perm_url->getQuery();
+        if ($perm_url instanceof URI) {
+            // Since URI::__toString() is only available in ILIAS >= 7 we have to do that on our own...
+            $uri = $perm_url->getBaseURI();
+            $query = $perm_url->getQuery();
+            if ($query) {
+                $uri .= '?' . $query;
+            }
+            $fragment = $perm_url->getFragment();
+            if ($fragment) {
+                $uri .= '#' . $fragment;
+            }
+
             $tpl->setVariable('PERMA_LINK_LABEL', $this->txt('perma_link'));
-            $tpl->setVariable('PERMANENT_URL', $url);
+            $tpl->setVariable('PERMANENT_URL', $uri);
         }
         return $tpl->get();
     }

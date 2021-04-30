@@ -57,7 +57,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('trac');
         $this->lng->loadLanguageModule('sess');
-        
 
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -861,6 +860,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->getFirstAppointment()->create();
 
         $this->handleFileUpload();
+
+        $DIC->object()->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
         
         $this->createRecurringSessions($this->form->getInput("lp_preset"));
 
@@ -1087,6 +1088,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         $this->handleFileUpload();
 
+        $DIC->object()->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
+
         // if autofill has been activated trigger process
         if (!$old_autofill &&
             $this->object->hasWaitingListAutoFill()) {
@@ -1217,7 +1220,14 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         include_once "Services/Object/classes/class.ilObjectAddNewItemGUI.php";
         $gui = new ilObjectAddNewItemGUI($parent_ref_id);
-        $gui->setDisabledObjectTypes(array("itgr", "sess"));
+        $gui->setDisabledObjectTypes(
+            array_merge(
+                [
+                    'itgr', 'sess'
+                ],
+                $objDefinition->getSideBlockTypes()
+            )
+        );
         $gui->setAfterCreationCallback($this->ref_id);
         $gui->render();
 
@@ -1719,6 +1729,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $files = new ilFileWizardInputGUI($this->lng->txt('objs_file'), 'files');
         $files->setFilenames(array(0 => ''));
         $this->form->addItem($files);
+
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('sess_setting_header_presentation'));
+        $this->form->addItem($section);
+
+        $DIC->object()->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
                 
         $features = new ilFormSectionHeaderGUI();
         $features->setTitle($this->lng->txt('obj_features'));

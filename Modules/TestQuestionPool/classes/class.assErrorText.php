@@ -814,9 +814,9 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
                 $items[$idx] = $word;
                 $counter++;
             }
-            $textarray[$textidx] = join($items, " ");
+            $textarray[$textidx] = join(" ", $items);
         }
-        return join($textarray, "\n");
+        return join("\n", $textarray);
     }
 
     public function getBestSelection($withPositivePointsOnly = true)

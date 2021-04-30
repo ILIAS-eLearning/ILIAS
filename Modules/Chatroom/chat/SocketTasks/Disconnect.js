@@ -70,7 +70,7 @@ module.exports = function()
 		Container.removeTimeout(subscriberId);
 	}
 
-	Container.setTimeout(subscriberId, subscriberLeftNamespaceHandler, 5000);
+	Container.setTimeout(subscriberId, subscriberLeftNamespaceHandler, 15000);
 
 	this.subscriber.removeSocketId(this.id);
 };

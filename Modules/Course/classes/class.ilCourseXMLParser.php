@@ -294,6 +294,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             case 'CancellationEnd':
             case 'MinMembers':
                 break;
+
+            case 'WelcomeMail':
+                if (array_key_exists('status', $a_attribs)) {
+                    $this->course_obj->setAutoNotification((bool) $a_attribs['status']);
+                }
+                break;
         }
     }
 
@@ -359,6 +365,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    // default for new course admin/tutors is "no contact"
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 // update
@@ -367,6 +377,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
+                }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                } elseif (isset($a_attribs['contact']) && $a_attribs['contact'] == 'No') {
+                    $this->course_members->updateContact($id_data['usr_id'], false);
                 }
                 $this->course_members->updateBlocked($id_data['usr_id'], false);
             }
@@ -397,6 +412,10 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
                 }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    // default for new course admin/tutors is "no contact"
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                }
                 $this->course_members_array[$id_data['usr_id']] = "added";
             } else {
                 if ($a_attribs['notification'] == 'Yes') {
@@ -404,6 +423,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 }
                 if ($a_attribs['passed'] == 'Yes') {
                     $this->course_members->updatePassed($id_data['usr_id'], true);
+                }
+                if (isset($a_attribs['contact']) && $a_attribs['contact'] == 'Yes') {
+                    $this->course_members->updateContact($id_data['usr_id'], true);
+                } elseif (isset($a_attribs['contact']) && $a_attribs['contact'] == 'No') {
+                    $this->course_members->updateContact($id_data['usr_id'], false);
                 }
                 $this->course_members->updateBlocked($id_data['usr_id'], false);
             }
@@ -503,6 +527,8 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_start = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+                        } else {
+                            $this->period_start = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }
                 }
@@ -519,6 +545,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_end = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+                        }
+                        else {
+                            $this->period_end = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }
                 }

@@ -77,6 +77,12 @@ class ilNewsExporter extends ilXmlExporter
     public function getValidSchemaVersions($a_entity)
     {
         return array(
+            "5.4.0" => array(
+                "namespace" => "http://www.ilias.de/Services/News/news/5_4",
+                "xsd_file" => "ilias_news_5_4.xsd",
+                "uses_dataset" => true,
+                "min" => "5.4.0",
+                "max" => ""),
             "4.1.0" => array(
                 "namespace" => "http://www.ilias.de/Services/News/news/4_1",
                 "xsd_file" => "ilias_news_4_1.xsd",

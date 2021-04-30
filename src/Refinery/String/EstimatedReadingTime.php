@@ -65,7 +65,11 @@ class EstimatedReadingTime implements Transformation
         $textNodes = $xpath->query('//text()');
         if ($textNodes->length > 0) {
             foreach ($textNodes as $textNode) {
-                /** @var \DOMText $textNode */
+                /** @var \DOMText|\DOMCdataSection $textNode */
+                if ($textNode instanceof \DOMCdataSection) {
+                    continue;
+                }
+
                 $wordsInContent = array_filter(preg_split('/\s+/', $textNode->textContent));
 
                 $wordsInContent = array_filter($wordsInContent, function (string $word) {

@@ -136,7 +136,7 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
                         $path_nodes[] = ilBasicSkill::_lookupTitle($p["skill_id"], $p["tref_id"]);
                     }
                 }
-                $this->tpl->setVariable("PATH", implode($path_nodes, " > "));
+                $this->tpl->setVariable("PATH", implode(" > ", $path_nodes));
                 $this->tpl->setVariable("COMP_ID", "comp_" . $a_set["id"]);
             }
         } else {

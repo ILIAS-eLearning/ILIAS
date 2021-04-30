@@ -182,6 +182,8 @@ class ilObjSCORMTracking
         $ilDB = $DIC['ilDB'];
         
         $b_updateStatus = false;
+        $i_score_max = 0;
+        $i_score_raw = 0;
         
         $b_messageLog = false;
         if ($ilLog->current_log_level == 30) {
@@ -256,6 +258,19 @@ class ilObjSCORMTracking
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
                     }
                 }
+                if ($a_data["left"] == 'cmi.core.score.max') {
+                    $i_score_max = $a_data["right"];
+                }
+                if ($a_data["left"] == 'cmi.core.score.raw') {
+                    $i_score_raw = $a_data["right"];
+                }
+            }
+            // mantis #30293
+            if ($i_score_max > 0 && $i_score_raw > 0) {
+                if (count(ilSCORMObject::_lookupPresentableItems($obj_id)) == 1) {
+                    ilLTIAppEventListener::handleOutcomeWithoutLP($obj_id, $user_id,
+                        ($i_score_raw / $i_score_max) * 100);
+                }
             }
         }
         
@@ -277,8 +292,6 @@ class ilObjSCORMTracking
         $saved_global_status = $data->saved_global_status;
         $ilLog->write("saved_global_status=" . $saved_global_status);
 
-        //last_visited!
-        
         // get attempts
         if (!$data->packageAttempts) {
             $val_set = $ilDB->queryF(
@@ -299,9 +312,9 @@ class ilObjSCORMTracking
         $totalTime = (int) $data->totalTimeCentisec;
         $totalTime = round($totalTime / 100);
         $ilDB->queryF(
-            'UPDATE sahs_user SET sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
-            array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-            array($totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId)
+            'UPDATE sahs_user SET last_visited=%s, last_access = %s, sco_total_time_sec=%s, status=%s, percentage_completed=%s, package_attempts=%s WHERE obj_id = %s AND user_id = %s',
+            array('text', 'timestamp', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+            array($data->last_visited, date('Y-m-d H:i:s'), $totalTime, $new_global_status, $data->percentageCompleted, $attempts, $packageId, $userId)
         );
         
         //		self::ensureObjectDataCacheExistence();
@@ -741,16 +754,13 @@ class ilObjSCORMTracking
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilDB = $DIC['ilDB'];
-
-        //$user_id = $ilUser->getID();
         $user_id = (int) $_GET["p"];
         $ref_id = (int) $_GET["ref_id"];
-        // $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_id = (int) $_GET["package_id"];
         if ($obj_id <= 1) {
             $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ' no valid obj_id');
         } else {
-            $last_visited = $_POST['last_visited'];
+            $last_visited = (string) $_GET['last_visited'];
             $endDate = date('Y-m-d H:i:s', mktime(date('H'), date('i') + 5, date('s'), date('m'), date('d'), date('Y')));
             $ilDB->manipulateF(
                 'UPDATE sahs_user 

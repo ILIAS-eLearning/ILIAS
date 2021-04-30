@@ -343,7 +343,7 @@ class ilMailMemberSearchGUI
     {
         $mail_roles = $this->getMailRoles();
 
-        $radio_grp = new ilRadioGroupInputGUI('', 'mail_member_type');
+        $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('mail_sel_label'), 'mail_member_type');
 
         $radio_sel_users = new ilRadioOption($this->lng->txt('mail_sel_users'), 'mail_sel_users');
 

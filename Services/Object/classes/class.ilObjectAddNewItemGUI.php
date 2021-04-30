@@ -331,7 +331,7 @@ class ilObjectAddNewItemGUI
 
                     $path = ilObject::_getIcon('', 'tiny', $type);
                     $icon = ($path != "")
-                        ? ilUtil::img($path) . " "
+                        ? ilUtil::img($path, "") . " "
                         : "";
                     
                     $url = $base_url . "&new_type=" . $type;

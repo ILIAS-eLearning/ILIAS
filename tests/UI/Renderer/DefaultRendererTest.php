@@ -101,7 +101,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $renderer = $this->getDefaultRenderer(
             new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding(
                 $this->getTemplateFactory()->getTemplate(false, false, false)
-        )
+            )
         );
         $html = $renderer->renderAsync($c1);
         $this->assertEquals("foo", $html);

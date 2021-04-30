@@ -2460,6 +2460,7 @@ function editParagraph(div_id, mode, switched)
 
 					$('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
 					$('#tinytarget_ifr').contents().find("html").attr('dir', $('html').attr('dir'));
+					$('#tinytarget_ifr').contents().find("html").css("overflow", "auto");
 				});
 			}
 
@@ -2766,6 +2767,7 @@ function showToolbar(ed_id) {
 		//$(obj).appendTo("body");
 		$(obj).appendTo("#copg-editor-slate-content");
 		$("#copg-editor-help").css("display", "none");
+		$("#il_center_col > div.alert").css("display", "none");
 
 		obj = document.getElementById('ilEditorPanel');
 		// if statement added since this may miss if internal links not supported?
@@ -2793,6 +2795,7 @@ function hideToolbar () {
 	obj = document.getElementById('iltinymenu');
 	obj.style.display = "none";
 	$("#copg-editor-help").css("display", "");
+	$("#il_center_col > div.alert").css("display", "");
 	$(".il_droparea").css('visibility', '');
 }
 
@@ -2802,6 +2805,7 @@ function removeToolbar () {
 		var obj = document.getElementById('iltinymenu');
 		$(obj).remove();
 		$("#copg-editor-help").css("display", "");
+		$("#il_center_col > div.alert").css("display", "");
 		$(".il_droparea").css('visibility', '');
 
 		ilCOPage.menu_panel = null;

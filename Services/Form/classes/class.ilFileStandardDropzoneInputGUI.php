@@ -62,6 +62,22 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
      */
     protected $dropzone_message = '';
 
+    /**
+     * @var string Bugfix mantis 0025881: used to determine the cancel-button to prevent file upload validation when cancelling
+     */
+    protected $cancel_command;
+
+    /**
+     * ilFileStandardDropzoneInputGUI constructor.
+     * @param string $cancel_command required as a bugfix for mantis 0025881
+     * @param string $a_title
+     * @param string $a_postvar
+     */
+    public function __construct($cancel_command, $a_title = "", $a_postvar = "")
+    {
+        $this->cancel_command = $cancel_command;
+        parent::__construct($a_title, $a_postvar);
+    }
 
     /**
      * @return string the URL where the form will be sent to.
@@ -178,7 +194,7 @@ class ilFileStandardDropzoneInputGUI extends ilFileInputGUI implements ilToolbar
         // We need some javascript magic
 
         $this->ui()->mainTemplate()->addJavaScript('./Services/Form/js/ilFileStandardDropzoneInputGUI.js');
-        $this->ui()->mainTemplate()->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}');");
+        $this->ui()->mainTemplate()->addOnLoadCode("ilFileStandardDropzoneInputGUI.init('ilFileStandardDropzoneInputGUIWrapper{$n}', '{$this->cancel_command}');");
 
         return $out;
     }

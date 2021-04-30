@@ -720,7 +720,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         ilUtil::sendInfo($lng->txt("tax_please_select_target"));
         
         if (is_array($_POST["id"])) {
-            $ilCtrl->setParameter($this, "move_ids", implode($_POST["id"], ","));
+            $ilCtrl->setParameter($this, "move_ids", implode(",", $_POST["id"]));
             
             $ilUser = $this->user;
             $tpl = $this->tpl;

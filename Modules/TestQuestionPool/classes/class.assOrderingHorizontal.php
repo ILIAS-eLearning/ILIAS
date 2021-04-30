@@ -785,8 +785,8 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     protected function calculateReachedPointsForSolution($value)
     {
         $value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
-        $value = join($value, $this->answer_separator);
-        if (strcmp($value, join($this->getOrderingElements(), $this->answer_separator)) == 0) {
+        $value = join($this->answer_separator, $value);
+        if (strcmp($value, join($this->answer_separator, $this->getOrderingElements())) == 0) {
             $points = $this->getPoints();
             return $points;
         }

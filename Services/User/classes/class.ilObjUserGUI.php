@@ -2346,7 +2346,7 @@ class ilObjUserGUI extends ilObjectGUI
         $body .= ($usr_lang->txt("reg_mail_body_text3") . "\n");
         $body .= $this->object->getProfileAsString($usr_lang);
 
-        $mmail->Subject($subject);
+        $mmail->Subject($subject, true);
         $mmail->Body($body);
         $mmail->Send();
 

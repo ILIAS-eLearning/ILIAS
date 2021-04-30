@@ -457,12 +457,14 @@ class ilObjMailGUI extends ilObjectGUI
 
         $user = new ilTextInputGUI($this->lng->txt('mail_smtp_user'), 'mail_smtp_user');
         $user->setDisabled(!$this->isEditingAllowed());
+        $user->setDisableHtmlAutoComplete(true);
         $smtp->addSubItem($user);
 
         $password = new ilPasswordInputGUI($this->lng->txt('mail_smtp_password'), 'mail_smtp_password');
         $password->setRetype(false);
         $password->setSkipSyntaxCheck(true);
         $password->setDisabled(!$this->isEditingAllowed());
+        $password->setDisableHtmlAutoComplete(true);
         $smtp->addSubItem($password);
 
         $pre = new ilTextInputGUI($this->lng->txt('mail_subject_prefix'), 'mail_subject_prefix');

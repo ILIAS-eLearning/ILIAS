@@ -9,10 +9,10 @@
 class ilSessionReminderCheck
 {
     /**
-     * @param string $sessionId
+     * @param string $sessionIdHash
      * @return string
      */
-    public function getJsonResponse(string $sessionId) : string
+    public function getJsonResponse(string $sessionIdHash) : string
     {
         /**
          * @var $ilDB            ilDBInterface
@@ -25,7 +25,7 @@ class ilSessionReminderCheck
         $lng = $DIC['lng'];
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
-        $GLOBALS['DIC']->logger()->auth()->debug('Session reminder call for: ' . $sessionId);
+        $GLOBALS['DIC']->logger()->auth()->debug('Session reminder call for session id hash: ' . $sessionIdHash);
 
         // disable session writing and extension of expiration time
         ilSession::enableWebAccessWithoutSession(true);
@@ -34,11 +34,12 @@ class ilSessionReminderCheck
 
         $res = $ilDB->queryF(
             '
-			SELECT expires, user_id, data
-			FROM usr_session
-			WHERE session_id = %s',
-            array('text'),
-            array($sessionId)
+                SELECT expires, user_id, data
+                FROM usr_session
+                WHERE MD5(session_id) = %s
+            ',
+            ['text'],
+            [$sessionIdHash]
         );
 
         $num = (int) $ilDB->numRows($res);

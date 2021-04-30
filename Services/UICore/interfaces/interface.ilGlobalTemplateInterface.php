@@ -93,7 +93,7 @@ interface ilGlobalTemplateInterface
      *
      * Will override the header_page_title.
      */
-    public function setTitle($a_title);
+    public function setTitle($a_title, $hidden = false);
 
 
     /**

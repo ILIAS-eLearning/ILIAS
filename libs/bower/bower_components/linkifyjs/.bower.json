@@ -39,6 +39,6 @@
     "commit": "2c5c717a1f867aa3f03bd8580a7b7c5f58aa664c"
   },
   "_source": "https://github.com/nfrasser/linkify-shim.git",
-  "_target": "^2.1.0",
+  "_target": "^2.1.9",
   "_originalSource": "linkifyjs"
 }

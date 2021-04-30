@@ -304,7 +304,7 @@ abstract class ilPageContent
         $id = explode("_", $ed_id);
         $id[count($id) - 1]++;
         
-        return implode($id, "_");
+        return implode("_", $id);
     }
 
     /**
@@ -319,7 +319,7 @@ abstract class ilPageContent
         $id = explode("_", $ed_id);
         $id[count($id) - 1]--;
 
-        return implode($id, "_");
+        return implode("_", $id);
     }
 
     /**

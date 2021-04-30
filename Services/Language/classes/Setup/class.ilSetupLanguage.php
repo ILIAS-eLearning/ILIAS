@@ -555,7 +555,7 @@ class ilSetupLanguage extends ilLanguage
 
         $lang_file = "ilias_" . $lang_key . ".lang" . $scopeExtension;
 
-        if ($lang_file) {
+        if (is_file($lang_file)) {
             // initialize the array for updating lng_modules below
             $lang_array = array();
             $lang_array["common"] = array();
@@ -566,12 +566,20 @@ class ilSetupLanguage extends ilLanguage
                 if (empty($scope)) {
                     $local_changes = $this->getLocalChanges($lang_key);
                 } elseif ($scope == 'local') {
+                    // set the change date to import time for a local file
+                    // get the modification date of the local file
+                    // get the newer local changes for a local file
                     $change_date = date("Y-m-d H:i:s", time());
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($lang_key, $min_date);
                 }
 
                 foreach ($content as $key => $val) {
+                    // split the line of the language file
+                    // [0]:	module
+                    // [1]:	identifier
+                    // [2]:	value
+                    // [3]:	comment (optional)
                     $separated = explode($this->separator, trim($val));
 
                     //get position of the comment_separator
@@ -627,7 +635,7 @@ class ilSetupLanguage extends ilLanguage
             foreach ($lang_array as $module => $lang_arr) {
                 if ($scope == "local") {
                     $q = "SELECT * FROM lng_modules WHERE " .
-                        " lang_key = " . $ilDB->quote($this->key, "text") .
+                        " lang_key = " . $ilDB->quote($lang_key, "text") .
                         " AND module = " . $ilDB->quote($module, "text");
                     $set = $ilDB->query($q);
                     $row = $ilDB->fetchAssoc($set);

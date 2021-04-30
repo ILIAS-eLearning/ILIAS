@@ -175,7 +175,8 @@ class ilCalendarAppointmentColors
      */
     public static function _getRandomColorByType($a_type)
     {
-        return self::$colors[$a_type][rand(0, count(self::$colors[$a_type]) - 1)];
+        $random = new \ilRandom();
+        return self::$colors[$a_type][$random->int(0, count(self::$colors[$a_type]) - 1)];
     }
     
     /**

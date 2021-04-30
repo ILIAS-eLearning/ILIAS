@@ -267,7 +267,7 @@ class ilAccountMail
         include_once 'Services/Mail/classes/class.ilMimeMail.php';
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());
-        $mmail->Subject($mail_subject);
+        $mmail->Subject($mail_subject, true);
         $mmail->To($user->getEmail());
         $mmail->Body($mail_body);
         

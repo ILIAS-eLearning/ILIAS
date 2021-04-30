@@ -3430,7 +3430,7 @@ abstract class ilPageObject
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
-            $parent_pos = implode($pos, "_");
+            $parent_pos = implode("_", $pos);
         } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;
@@ -3522,7 +3522,7 @@ abstract class ilPageObject
             // of sibling at $a_pos
             $pos = explode("_", $a_pos);
             $target_pos = array_pop($pos);
-            $parent_pos = implode($pos, "_");
+            $parent_pos = implode("_", $pos);
         } else {		// if we should insert a child, $a_pos is alreade the hierarchical id
             // of the parent node
             $parent_pos = $a_pos;
@@ -3949,7 +3949,7 @@ abstract class ilPageObject
         //$path = "//Paragraph[$par_id]";
         $path = "/descendant::Paragraph[position() = $par_id]";
 
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         
         if (count($res->nodeset) != 1) {
             die("Should not happen");

@@ -6,7 +6,7 @@
 <body onload="window.print();">
 <table class="fullwidth">
 	<tr>
-		<td id="header-from" align="right" width="10%"><strong>{TXT_FROM}:</strong></td>
+		<td id="header-from" align="right"><strong>{TXT_FROM}:</strong></td>
 		<td headers="header-from">{FROM}</td>
 	</tr>
 	<tr>
@@ -36,11 +36,18 @@
 </table>
 <table class="fullwidth">
 	<tr colspan="2">
-		<td id="header-message" align="left" valign="top"><strong>{TXT_MESSAGE}:</strong></td>
+		<td id="header-message" align="left"><strong>{TXT_MESSAGE}:</strong></td>
 	</tr>
 	<tr>
 		<td headers="header-message" colspan="2">{MAIL_MESSAGE}</td>
 	</tr>
 </table>
+<!-- BEGIN on_load_code -->
+<script>
+	if(typeof il !== "undefined") {
+		<!-- BEGIN on_load_code_inner -->{OLCODE}<!-- END on_load_code_inner -->
+	}
+</script>
+<!-- END on_load_code -->
 </body>
 </html>
