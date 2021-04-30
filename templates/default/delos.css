@@ -16927,7 +16927,7 @@ div#il_startup_logo img {
 }
 .ilToolbar.navbar {
   border: 0 none;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 .ilToolbar .ilToolbarItems {
   padding: 0;
@@ -17001,6 +17001,9 @@ div#il_startup_logo img {
 .ilToolbar ul.dropdown-menu > li {
   border: 0 none;
   margin-right: 0;
+}
+.ilToolbarContainer + .ilFilterContainer {
+  margin-top: -20px;
 }
 @media only screen and (max-width: 768px) {
   .ilToolbar .container-fluid {
