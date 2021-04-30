@@ -466,7 +466,7 @@ class ilObject
      */
     final public function getImportId() : string
     {
-        return $this->import_id;
+        return (string) $this->import_id;
     }
 
     /**
