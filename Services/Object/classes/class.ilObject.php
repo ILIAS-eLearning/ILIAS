@@ -976,7 +976,7 @@ class ilObject
         $obj_set = $ilDB->query($q);
 
         if ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
-            return $obj_rec["obj_id"];
+            return (int) $obj_rec["obj_id"];
         } else {
             return 0;
         }
@@ -1017,7 +1017,7 @@ class ilObject
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $tit = $ilObjDataCache->lookupTitle($a_id);
 
-        return $tit;
+        return (string) $tit;
     }
     
     /**
@@ -1049,7 +1049,7 @@ class ilObject
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $owner = $ilObjDataCache->lookupOwner($a_id);
 
-        return $owner;
+        return (int) $owner;
     }
 
     /**
@@ -1091,7 +1091,7 @@ class ilObject
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-        return $ilObjDataCache->lookupDescription($a_id);
+        return (string) $ilObjDataCache->lookupDescription($a_id);
     }
 
     /**
