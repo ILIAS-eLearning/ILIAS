@@ -828,7 +828,7 @@ class ilTree
 
         // reset deletion date
         if ($a_reset_deletion_date) {
-            ilObject::_resetDeletedDate($a_node_id);
+            ilObject::_resetDeletedDate((int) $a_node_id);
         }
         
         if (isset($GLOBALS['DIC']["ilAppEventHandler"]) && $this->__isMainTree()) {
@@ -1869,7 +1869,7 @@ class ilTree
 
         $ilDB = $DIC->database();
         $user = $DIC->user();
-        if(!$a_deleted_by) {
+        if (!$a_deleted_by) {
             $a_deleted_by = $user->getId();
         }
 
@@ -1884,7 +1884,7 @@ class ilTree
 
         $subnodes = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $subnodes[] = $row['child'];
+            $subnodes[] = (int) $row['child'];
         }
 
         if (!count($subnodes)) {
@@ -1893,7 +1893,7 @@ class ilTree
         }
 
         if ($a_set_deleted) {
-            ilObject::setDeletedDates($subnodes, $a_deleted_by);
+            ilObject::setDeletedDates($subnodes, (int) $a_deleted_by);
         }
 
         // netsted set <=> mp
@@ -2349,7 +2349,7 @@ class ilTree
 
         $ilDB = $DIC['ilDB'];
 
-        $renumber_callable = function (ilDBInterface $ilDB) use ($node_id,$i,&$return) {
+        $renumber_callable = function (ilDBInterface $ilDB) use ($node_id, $i, &$return) {
             $return = $this->__renumber($node_id, $i);
         };
 
@@ -2811,7 +2811,7 @@ class ilTree
                           'node_id' => $a_node_id,
                           'tree_id' => $a_tree_id
                     )
-                );
+        );
     }
 
     /**

@@ -577,22 +577,6 @@ class ilObjStyleSheet extends ilObject
     }
 
     /**
-    * Put in tree (show error message, since styles do not use ref ids)
-    */
-    public function putInTree($a_parent_ref)
-    {
-        $this->ilias->raiseError("Operation ilObjStyleSheet::putInTree() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
-    /**
-    * Create a reference (show error message, since styles do not use ref ids)
-    */
-    public function createReference()
-    {
-        $this->ilias->raiseError("Operation ilObjStyleSheet::createReference() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
-    /**
     * Set style up to date (false + update will trigger css generation next time)
     */
     public function setUpToDate($a_up_to_date = true)

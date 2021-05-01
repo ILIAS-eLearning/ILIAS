@@ -84,79 +84,6 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    final public static function _lookupLastUpdate($a_id, $a_as_string = false)
-    {
-        return parent::_lookupLastUpdate($a_id, $a_as_string);
-    }
-    final public static function _getLastUpdateOfObjects($a_objs)
-    {
-        return parent::_getLastUpdateOfObjects($a_objs);
-    }
-    final public static function _lookupObjId($a_id)
-    {
-        return parent::_lookupObjId($a_id);
-    }
-    final public static function _setDeletedDate($a_ref_id, $a_deleted_by)
-    {
-        return parent::_setDeletedDate($a_ref_id, $a_deleted_by);
-    }
-    final public static function _resetDeletedDate($a_ref_id)
-    {
-        return parent::_resetDeletedDate($a_ref_id);
-    }
-    final public static function _lookupDeletedDate($a_ref_id)
-    {
-        return parent::_lookupDeletedDate($a_ref_id);
-    }
-    final public static function _writeTitle($a_obj_id, $a_title)
-    {
-        return parent::_writeTitle($a_obj_id, $a_title);
-    }
-    final public static function _writeDescription($a_obj_id, $a_desc)
-    {
-        return parent::_writeDescription($a_obj_id, $a_desc);
-    }
-    final public static function _writeImportId($a_obj_id, $a_import_id)
-    {
-        return parent::_writeImportId($a_obj_id, $a_import_id);
-    }
-    final public static function _lookupType($a_id, $a_reference = false)
-    {
-        return parent::_lookupType($a_id, $a_reference);
-    }
-    final public static function _isInTrash($a_ref_id)
-    {
-        return parent::_isInTrash($a_ref_id);
-    }
-    final public static function _hasUntrashedReference($a_obj_id)
-    {
-        return parent::_hasUntrashedReference($a_obj_id);
-    }
-    final public static function _lookupObjectId($a_ref_id)
-    {
-        return parent::_lookupObjectId($a_ref_id);
-    }
-    final public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
-    {
-        return parent::_getObjectsDataForType($a_type, $a_omit_trash);
-    }
-    final public function putInTree($a_parent_ref)
-    {
-        return parent::putInTree($a_parent_ref);
-    }
-    final public function setPermissions($a_parent_ref)
-    {
-        return parent::setPermissions($a_parent_ref);
-    }
-    final public function createReference()
-    {
-        return parent::createReference();
-    }
-    final public function countReferences()
-    {
-        return parent::countReferences();
-    }
-
     final public function delete()
     {
         if ($this->beforeDelete()) {
@@ -178,42 +105,6 @@ abstract class ilObject2 extends ilObject
         return true;
     }
 
-    public function initDefaultRoles()
-    {
-        return array();
-    }
-    
-    final public static function _exists($a_id, $a_reference = false, $a_type = null)
-    {
-        return parent::_exists($a_id, $a_reference, $a_type);
-    }
-    final public function setRegisterMode($a_bool)
-    {
-        return parent::setRegisterMode($a_bool);
-    }
-    final public function isUserRegistered($a_user_id = 0)
-    {
-        return parent::isUserRegistered($a_user_id);
-    }
-    final public function requireRegistration()
-    {
-        return parent::requireRegistration();
-    }
-    //final function getXMLZip() { return parent::getXMLZip(); }
-    //final function getHTMLDirectory() { return parent::getHTMLDirectory(); }
-    final public static function _getObjectsByType($a_obj_type = "", $a_owner = "")
-    {
-        return parent::_getObjectsByType($a_obj_type, $a_owner);
-    }
-    
-    final public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
-    {
-        return parent::_prepareCloneSelection($a_ref_ids, $new_type, $show_path);
-    }
-    final public function appendCopyInfo($a_target_id, $a_copy_id)
-    {
-        return parent::appendCopyInfo($a_target_id, $a_copy_id);
-    }
     final public function cloneMetaData($target_obj)
     {
         return parent::cloneMetaData($target_obj);
@@ -237,15 +128,5 @@ abstract class ilObject2 extends ilObject
     protected function beforeCloneObject()
     {
         return true;
-    }
-
-    public function cloneDependencies($a_target_id, $a_copy_id)
-    {
-        return parent::cloneDependencies($a_target_id, $a_copy_id);
-    }
-    
-    final public static function _getIcon($a_obj_id = "", $a_size = "big", $a_type = "", $a_offline = false)
-    {
-        return parent::_getIcon($a_obj_id, $a_size, $a_type, $a_offline);
     }
 }

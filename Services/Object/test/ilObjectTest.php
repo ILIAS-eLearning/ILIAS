@@ -154,14 +154,14 @@ class ilObjectTest extends TestCase
         }
         
         $d1 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_setDeletedDate($ref_id, $ilUser->getId());
+        ilObject::_setDeletedDate((int) $ref_id, (int) $ilUser->getId());
         $d2 = ilObject::_lookupDeletedDate($ref_id);
         ilObject::_resetDeletedDate($ref_id);
         $d3 = ilObject::_lookupDeletedDate($ref_id);
         if ($d1 != $d2 && $d1 == $d3 && $d3 == null) {
             $value .= "dd1-";
         }
-        
+
         $obj->delete();
         
         $this->assertEquals("sg1-sg2-sg3-sg4-sg5-sg6-sg7-up1-up2-" .
@@ -243,12 +243,12 @@ class ilObjectTest extends TestCase
     {
         global $DIC;
         $user = $DIC->user();
-        
+
         $ref_ids = ilObject::_getAllReferences(1);
         $bool = ilObject::_setDeletedDate(1, $user->getId());
         $bool = ilObject::_resetDeletedDate(1);
         $date = ilObject::_lookupDeletedDate(1);
-        
+
         $this->assertEquals(null, $date);
     }
 }

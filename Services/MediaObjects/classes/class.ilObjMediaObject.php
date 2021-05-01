@@ -50,16 +50,6 @@ class ilObjMediaObject extends ilObject
         parent::__construct($a_id, false);
     }
 
-    public function putInTree($a_parent_ref)
-    {
-        $this->ilias->raiseError("Operation ilObjMedia::putInTree() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
-    public function createReference()
-    {
-        $this->ilias->raiseError("Operation ilObjMedia::createReference() not allowed.", $this->ilias->error_obj->FATAL);
-    }
-
     /**
     * checks wether a lm content object with specified id exists or not
     *

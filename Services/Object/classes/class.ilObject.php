@@ -1095,29 +1095,31 @@ class ilObject
     }
 
     /**
-    * lookup last update
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupLastUpdate($a_id, $a_as_string = false)
+     * lookup last update
+     * @param int  $a_id
+     * @param bool $formatted
+     * @return string
+     * @throws ilDateTimeException
+     */
+    final public static function _lookupLastUpdate(int $a_id, bool $formatted = false) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
         
-        if ($a_as_string) {
+        if ($formatted) {
             return ilDatePresentation::formatDate(new ilDateTime($ilObjDataCache->lookupLastUpdate($a_id), IL_CAL_DATETIME));
         } else {
-            return $ilObjDataCache->lookupLastUpdate($a_id);
+            return (string) $ilObjDataCache->lookupLastUpdate($a_id);
         }
     }
 
     /**
-    * Get last update for a set of media objects.
-    *
-    * @param	array
-    */
-    public static function _getLastUpdateOfObjects($a_objs)
+     * Get last update for a set of media objects.
+     * @param array $a_objs
+     * @return string
+     */
+    final public static function _getLastUpdateOfObjects(array $a_objs) : string
     {
         global $DIC;
 
@@ -1126,28 +1128,30 @@ class ilObject
         if (!is_array($a_objs)) {
             $a_objs = array($a_objs);
         }
-        $types = array();
         $set = $ilDB->query("SELECT max(last_update) as last_update FROM object_data " .
             "WHERE " . $ilDB->in("obj_id", $a_objs, false, "integer") . " ");
         $rec = $ilDB->fetchAssoc($set);
         
-        return ($rec["last_update"]);
+        return (string) $rec["last_update"];
     }
 
-    public static function _lookupObjId($a_id)
+    /**
+     * Lookup object if for a ref id
+     * @param int $a_id
+     * @return int
+     */
+    final public static function _lookupObjId($a_id) : int
     {
         global $DIC;
-
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         return (int) $ilObjDataCache->lookupObjId($a_id);
     }
-    
+
     /**
-     * @param $a_ref_id
+     * @param int $a_ref_id
      * @param int $a_deleted_by
      */
-    public static function _setDeletedDate($a_ref_id, $a_deleted_by)
+    final public static function _setDeletedDate(int $a_ref_id, int $a_deleted_by) : void
     {
         global $DIC;
 
@@ -1156,16 +1160,16 @@ class ilObject
             'deleted = ' . $ilDB->now() . ', ' .
             'deleted_by = ' . $ilDB->quote($a_deleted_by, \ilDBConstants::T_INTEGER) . ' ' .
             "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
     }
-    
+
     /**
      * Set deleted date
      * @param int[] $a_ref_ids
      * @param int $a_user_id
      * @return void
      */
-    public static function setDeletedDates($a_ref_ids, $a_user_id)
+    public static function setDeletedDates(array $a_ref_ids, int $a_user_id) : void
     {
         global $DIC;
 
@@ -1176,13 +1180,12 @@ class ilObject
             'deleted_by = ' . $ilDB->quote($a_user_id, ilDBConstants::T_INTEGER) . ' ' .
             'WHERE ' . $ilDB->in('ref_id', (array) $a_ref_ids, false, ilDBConstants::T_INTEGER);
         $ilDB->manipulate($query);
-        return;
     }
 
     /**
     * only called in ilObjectGUI::insertSavedNodes
     */
-    public static function _resetDeletedDate($a_ref_id)
+    final public static function _resetDeletedDate(int $a_ref_id) : void
     {
         global $DIC;
 
@@ -1197,7 +1200,7 @@ class ilObject
     /**
     * only called in ilObjectGUI::insertSavedNodes
     */
-    public static function _lookupDeletedDate($a_ref_id)
+    final public static function _lookupDeletedDate($a_ref_id)
     {
         global $DIC;
 
@@ -1219,7 +1222,7 @@ class ilObject
     * @param	string	$a_title		title
     * @access	public
     */
-    public static function _writeTitle($a_obj_id, $a_title)
+    final public static function _writeTitle($a_obj_id, $a_title)
     {
         global $DIC;
 
@@ -1241,7 +1244,7 @@ class ilObject
     * @param	string	$a_desc			description
     * @access	public
     */
-    public static function _writeDescription($a_obj_id, $a_desc)
+    final public static function _writeDescription($a_obj_id, $a_desc)
     {
         global $DIC;
 
@@ -1285,7 +1288,7 @@ class ilObject
     * @param	string	$a_import_id		import id
     * @access	public
     */
-    public static function _writeImportId($a_obj_id, $a_import_id)
+    final public static function _writeImportId($a_obj_id, $a_import_id)
     {
         global $DIC;
 
@@ -1305,7 +1308,7 @@ class ilObject
     *
     * @param	int		$a_id		object id
     */
-    public static function _lookupType($a_id, $a_reference = false)
+    final public static function _lookupType($a_id, $a_reference = false)
     {
         global $DIC;
 
@@ -1320,7 +1323,7 @@ class ilObject
     /**
     * checks wether object is in trash
     */
-    public static function _isInTrash($a_ref_id)
+    final public static function _isInTrash($a_ref_id)
     {
         global $DIC;
 
@@ -1332,7 +1335,7 @@ class ilObject
     /**
     * checks wether an object has at least one reference that is not in trash
     */
-    public static function _hasUntrashedReference($a_obj_id)
+    final public static function _hasUntrashedReference($a_obj_id)
     {
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
@@ -1349,7 +1352,7 @@ class ilObject
     * @static
     * @param	int		$a_id		object id
     */
-    public static function _lookupObjectId($a_ref_id)
+    final public static function _lookupObjectId($a_ref_id)
     {
         global $DIC;
 
@@ -1368,7 +1371,7 @@ class ilObject
     * @return	array		array of object data arrays ("id", "title", "type",
     *						"description")
     */
-    public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
+    final public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
     {
         global $DIC;
 
@@ -1490,12 +1493,10 @@ class ilObject
 
 
     /**
-    * count references of object
-    *
-    * @access	public
-    * @return	integer		number of references for this object
-    */
-    public function countReferences()
+     * count references of object
+     * @return int
+     */
+    final public function countReferences() : int
     {
         $ilDB = $this->db;
         $ilErr = $this->error;
@@ -1510,7 +1511,7 @@ class ilObject
         $res = $ilDB->query($query);
         $row = $ilDB->fetchObject($res);
 
-        return $row->num;
+        return (int) $row->num;
     }
 
 
@@ -1701,25 +1702,6 @@ class ilObject
         return $ilDB->numRows($r) ? true : false;
     }
         
-    // toggle subscription interface
-    public function setRegisterMode($a_bool)
-    {
-        $this->register = (bool) $a_bool;
-    }
-    
-    // check register status of current user
-    // abstract method; overwrite in object type class
-    public function isUserRegistered($a_user_id = 0)
-    {
-        return false;
-    }
-
-    public function requireRegistration()
-    {
-        return $this->register;
-    }
-
-
     public function getXMLZip()
     {
         return false;
@@ -1730,9 +1712,12 @@ class ilObject
     }
 
     /**
-    * Get objects by type
-    */
-    public static function _getObjectsByType($a_obj_type = "", $a_owner = "")
+     * Get objects by type
+     * @param string   $a_obj_type
+     * @param int|null $a_owner
+     * @return array
+     */
+    final public static function _getObjectsByType(string $a_obj_type = "", int $a_owner = null) : array
     {
         global $DIC;
 
@@ -1745,7 +1730,7 @@ class ilObject
             $where_clause = "WHERE type = " .
                 $ilDB->quote($a_obj_type, "text");
                 
-            if ($a_owner != "") {
+            if (!is_null($a_owner)) {
                 $where_clause .= " AND owner = " . $ilDB->quote($a_owner, "integer");
             }
         }
@@ -1776,7 +1761,7 @@ class ilObject
      * @param bool $show_path
      * @return array
      */
-    public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
+    final public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
     {
         global $DIC;
 
@@ -1914,7 +1899,7 @@ class ilObject
      * @param int copy_id
      *
      */
-    public function appendCopyInfo($a_target_id, $a_copy_id)
+    final public function appendCopyInfo($a_target_id, $a_copy_id)
     {
         $tree = $this->tree;
         
@@ -2068,7 +2053,7 @@ class ilObject
      * @param    string        object type
      * @param    boolean        true: offline, false: online
      */
-    public static function _getIcon(
+    final public static function _getIcon(
         $a_obj_id = "",
         $a_size = "big",
         $a_type = "",
