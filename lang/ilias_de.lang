@@ -16547,4 +16547,21 @@ common#:#current_user_avatar#:#Ihr Profilbild
 common#:#user_avatar_of#:#Profilbild von
 awrn#:#awrn_filter#:#Benutzerfilter
 help#:#help_search_label#:#Suche in Hilfe
+<<<<<<< HEAD
 rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+=======
+rbac#:#delete_xapi_data#:#xAPI/cmi5-Daten löschen
+trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+cmix#:#toplist_top_n_results#:#Bestenliste
+cmix#:#toplist_your_result#:#Eigener Rang
+lti#:#toplist_top_n_results#:#Bestenliste
+lti#:#toplist_your_result#:#Eigener Rang
+rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
+common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
+content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
+>>>>>>> 9bb8faf797... partly fixed #30223: Editor hang up during saving

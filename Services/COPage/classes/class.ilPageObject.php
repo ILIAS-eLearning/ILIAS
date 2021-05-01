@@ -2640,6 +2640,11 @@ abstract class ilPageObject
             );
         }
 
+        // check for duplicate pc ids
+        if ($this->hasDuplicatePCIds()) {
+            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids");
+        }
+
         if (!empty($errors)) {
             $this->log->debug("ilPageObject, update(): errors: " . print_r($errors, true));
         }
@@ -3798,6 +3803,41 @@ abstract class ilPageObject
             $pcids[] = $node->get_attribute("PCID");
         }
         return $pcids;
+    }
+
+    /**
+     * Get all pc ids
+     * @param
+     * @return
+     */
+    public function hasDuplicatePCIds() : bool
+    {
+        $this->builddom();
+        $mydom = $this->dom;
+
+        $pcids = array();
+
+        $sep = $path = "";
+        foreach ($this->id_elements as $el) {
+            $path .= $sep . "//" . $el . "[@PCID]";
+            $sep = " | ";
+        }
+
+        // get existing ids
+        $xpc = xpath_new_context($mydom);
+        $res = xpath_eval($xpc, $path);
+
+        for ($i = 0; $i < count($res->nodeset); $i++) {
+            $node = $res->nodeset[$i];
+            $pc_id = $node->get_attribute("PCID");
+            if ($pc_id != "") {
+                if (isset($pcids[$pc_id])) {
+                    return true;
+                }
+                $pcids[$pc_id] = $pc_id;
+            }
+        }
+        return false;
     }
 
     /**
