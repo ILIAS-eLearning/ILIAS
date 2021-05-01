@@ -149,8 +149,10 @@ class ilPDNotesGUI
 
         if ($this->getMode() == self::PRIVATE_NOTES) {
             $t = $this->lng->txt("private_notes");
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nots.svg"));
         } else {
             $t = $this->lng->txt("notes_public_comments");
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_coms.svg"));
         }
 
         $this->tpl->setTitle($t);
