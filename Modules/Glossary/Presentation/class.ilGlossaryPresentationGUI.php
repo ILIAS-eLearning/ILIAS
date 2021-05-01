@@ -541,7 +541,8 @@ class ilGlossaryPresentationGUI
         }
 
         // tabs
-        if ($this->glossary->getPresentationMode() != "full_def") {
+        if ($this->glossary->getPresentationMode() != "full_def" &&
+            $a_page_mode != ilPageObjectGUI::PRINTING) {
             $this->showDefinitionTabs("term_content");
         }
 
