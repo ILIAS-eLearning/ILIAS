@@ -337,6 +337,7 @@ class ilDashboardGUI
         ilUtil::infoPanel();
         
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
         
         $this->tpl->setContent($this->getCenterColumnHTML());
