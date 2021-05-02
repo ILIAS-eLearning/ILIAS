@@ -1857,7 +1857,7 @@ auth#:#auth_info_migrate#:#Si vous avez déjà  un compte ILIAS, saisir nom d'ut
 auth#:#auth_ldap_server_ds#:#Serveur LDAP
 auth#:#auth_login_editor#:#Editeur de la page de connexion
 auth#:#auth_oidc#:#OpenId Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen  
+auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
 auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_roles#:#Rollenzuordnung
@@ -1879,7 +1879,7 @@ auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId
 auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
 auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
 auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet. 
+auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
 auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
 auth#:#auth_oidc_settings_provider#:#Provider-Url
@@ -11066,7 +11066,6 @@ prtf#:#prtf_template_import_blog_create#:#Créer Nouveau Blog
 prtf#:#prtf_template_import_blog_ignore#:#Supprimer Page de Blog
 prtf#:#prtf_template_import_blog_reuse#:#Utiliser Blog Existant
 prtf#:#prtf_template_import_new_skills#:#Lorsque activé, ces éléments sont ajoutés à vos compétences personnelles.
-prtf#:#prtf_template_import_quota_failure#:#Ce modèle de Portfolio ne peut pas être copié car il y a dépassement du quota d'espace disque.
 prtf#:#prtf_unset_as_default#:#Ne Plus Utiliser Comme Profil
 prtf#:#prtf_unset_default_share_info#:#Les derniers changements ont été enregistrés. Veuillez vérifier les paramètres de partage du Portfolio.
 prtf#:#prtf_use_page_layout#:#Utiliser Mise en Page
@@ -15395,8 +15394,6 @@ svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
 administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable

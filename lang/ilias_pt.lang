@@ -11149,7 +11149,6 @@ prtf#:#prtf_template_import_blog_create#:#Criar novo blog
 prtf#:#prtf_template_import_blog_ignore#:#Remover página de blog
 prtf#:#prtf_template_import_blog_reuse#:#Usar blog existente
 prtf#:#prtf_template_import_new_skills#:#Se estiver ativado, estes itens serão adicionados às suas competências pessoais.
-prtf#:#prtf_template_import_quota_failure#:#Este modelo de portefólio não pode ser copiado porque iria exceder a cota do disco.
 prtf#:#prtf_unset_as_default#:#Remover a definição como O meu perfil
 prtf#:#prtf_unset_default_share_info#:#De seguida, as alterações foram guardadas. Verifique as definições atuais para a partilha do portefólio.
 prtf#:#prtf_use_page_layout#:#Usar layout da página
@@ -15395,8 +15394,6 @@ svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
 administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable

@@ -11,7 +11,7 @@
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
 // from the first line to the HTML-comment. After editing paste the lines in place again.
 // NOTICE: Character coding of all ILIAS lang files is UTF-8! Please set your editor
-// to the corresponding mode! 
+// to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 acc#:#acc_access_key#:#アクセスキー
@@ -8576,7 +8576,6 @@ prtf#:#prtf_template_import_blog_create#:#新しいブログを作成
 prtf#:#prtf_template_import_blog_ignore#:#ブログページを削除
 prtf#:#prtf_template_import_blog_reuse#:#現在のブログを使用
 prtf#:#prtf_template_import_new_skills#:#有効にするとこれらのアイテムはパーソナル能力へ追加されます。
-prtf#:#prtf_template_import_quota_failure#:#ディスククォータを越えているのでこのポートフォリオテンプレートはコピーできません。
 prtf#:#prtf_unset_as_default#:#マイプロファイルに設定しない
 prtf#:#prtf_unset_default_share_info#:#変更は保存されました。ポ－トフォリオ共有用の現在の設定を確認してください。
 prtf#:#prtf_use_page_layout#:#ページレイアウトを使用
@@ -15395,8 +15394,6 @@ svy#:#svy_users_invited#:#Users have been invited.###07 02 2020 new variable
 svy#:#svy_finish_survey#:#Finish survey '%1'###07 02 2020 new variable
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources###07 02 2020 new variable
 common#:#personal_resources#:#Personal Resources###07 02 2020 new variable
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.###07 02 2020 new variable
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###07 02 2020 new variable
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.###07 02 2020 new variable
 administration#:#adm_personal_workspace#:#Personal Workspace###07 02 2020 new variable
 dash#:#dash_favourites#:#Favourites###07 02 2020 new variable
