@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\DTO\Metadata;
+
 include_once "Services/Cron/classes/class.ilCronJob.php";
 
 /**
@@ -10,79 +12,105 @@ include_once "Services/Cron/classes/class.ilCronJob.php";
  */
 class ilFileSystemCleanTempDirCron extends ilCronJob
 {
+    /**
+     * @var \ILIAS\Filesystem\Filesystem
+     */
+    protected $filesystem;
+    /**
+     * @var ilLanguage
+     */
+    protected $language;
+    /**
+     * @var ilLogger
+     */
+    protected $logger;
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct()
+    {
+        global $DIC;
+        $this->language = $DIC['lng'];
+        $this->filesystem = $DIC->filesystem()->temp();
+        $this->logger = $DIC->logger()->root();
+    }
 
     public function getId()
     {
         return "file_system_clean_temp_dir";
     }
 
-
     public function getTitle()
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt('file_system_clean_temp_dir_cron');
+        return $this->language->txt('file_system_clean_temp_dir_cron');
     }
 
     public function getDescription()
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt("file_system_clean_temp_dir_cron_info");
+        return $this->language->txt("file_system_clean_temp_dir_cron_info");
     }
-
 
     public function hasAutoActivation()
     {
         return true;
     }
 
-
     public function hasFlexibleSchedule()
     {
         return false;
     }
-
 
     public function getDefaultScheduleType()
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-
     public function getDefaultScheduleValue()
     {
         return;
     }
 
-
     public function run()
     {
-        global $DIC;
+        $date = "until 1 sec ago";
 
-        $matches = $DIC->filesystem()->temp()->finder()->in([""]);
-        // $matches = $DIC->filesystem()->temp()->finder()->in([""])->date("until 1 day ago");
-        // iterate through matches that are older than one day and delete the corresponding folders and files from the temp directory.
-        // also store the matches to be able to return the number of files and folders that were deleted.
-        $folder_matches = [];
+        // $files = $DIC->filesystem()->temp()->finder()->in([""])->date("until 1 day ago")->files();
+        // iterate through matches that are older than one day and delete the corresponding files from the temp directory.
+        // also store the matches to be able to return the number of files that were deleted.
+
+        $files = $this->filesystem->finder()->in([""])->date($date)->files();
         $file_matches = [];
-        foreach ($matches as $match) {
+        foreach ($files as $match) {
             try {
-                if($match->isFile()) {
+                if ($match->isFile()) {
                     $file_matches[] = $match;
-                    $DIC->filesystem()->temp()->delete($match->getPath());
-                } elseif ($match->isDir()) {
-                    $path = $match->getPath();
-                    $folder_matches[] = $match;
-                    if (!is_null($path) && $DIC->filesystem()->temp()->has($path)) {
-                        $DIC->filesystem()->temp()->deleteDir(dirname($path));
-                    }
+                    $this->filesystem->delete($match->getPath());
                 }
-            } catch (Exception $exception) {
-                $DIC->logger()->root()->error("Cron Job \"Clean temp directory\" could not delete " . $match->getPath()
-                    . "due to the following exception: " . $exception->getMessage());
+            } catch (Throwable $t) {
+                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $match->getPath()
+                    . "due to the following exception: " . $t->getMessage());
+            }
+        }
+        // $folders = $DIC->filesystem()->temp()->finder()->in([""])->date("until 1 day ago")->directories();
+        // iterate through matches that are older than one day and delete the corresponding folders from the temp directory.
+        // also store the matches to be able to return the number and folders that were deleted.
+        $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(function (
+            Metadata $a,
+            Metadata $b
+        ) {
+            return strlen($a->getPath()) - strlen($b->getPath());
+        })->reverseSorting();
+        $folder_matches = [];
+        foreach ($folders as $match) {
+            try {
+                if ($match->isDir()) {
+                    $folder_matches[] = $match;
+                    $this->filesystem->deleteDir($match->getPath());
+                }
+            } catch (Throwable $t) {
+                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $match->getPath()
+                    . "due to the following exception: " . $t->getMessage());
             }
         }
 
