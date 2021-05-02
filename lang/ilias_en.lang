@@ -11539,7 +11539,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
 prtf#:#prtf_template_import_blog_ignore#:#Remove Blog Page
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Select a portfolio to use its content and settings for the template.
-prtf#:#prtf_template_import_quota_failure#:#This portfolio template cannot be copied because it would exceed your disk quota.
 cntr#:#prtf_create_portfolio_from_template#:#Create Portfolio From Template
 content#:#content_plugin_not_activated#:#The page content element plugin is currently not activated.
 administration#:#vc_information#:#Show Version Control Information
@@ -15624,8 +15623,6 @@ svy#:#svy_users_invited#:#Users have been invited.
 svy#:#svy_finish_survey#:#Finish survey '%1'
 pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
 common#:#personal_resources#:#Personal Resources
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
 administration#:#adm_personal_workspace#:#Personal Workspace
 dash#:#dash_favourites#:#Favourites
@@ -16325,7 +16322,7 @@ feed#:#feed_no_local_url#:#The URL could not be verified. Please enter a valid e
 common#:#lso_admin_form_title#:#Settings
 common#:#lso_admin_form_byline#:#General Settings for Learning Sequences
 common#:#lso_admin_interval_label#:#Learning Progress Polling Interval (seconds)
-common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible! 
+common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be careful! A low value will increase server-requests and have an impact on overall system performance. Please choose highest value possible!
 common#:#mainbar_more_label#:#More
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Configuration of WebDAV Settings.

@@ -11524,7 +11524,6 @@ prtf#:#prtf_template_import_blog_reuse#:#Bestehendes Blog nutzen
 prtf#:#prtf_template_import_blog_ignore#:#Blog-Seite entfernen
 prtf#:#prtf_create_template_from_portfolio#:#Portfolio
 prtf#:#prtf_create_template_from_portfolio_info#:#Wählen Sie ein Portfolio, um dessen Inhalte und Einstellungen für die Vorlage zu übernehmen.
-prtf#:#prtf_template_import_quota_failure#:#Diese Portfoliovorlage kann nicht kopiert werden, da Ihre Disk-Quota überschritten würde.
 cntr#:#prtf_create_portfolio_from_template#:#Portfolio aus Vorlage erstellen
 administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#vc_information_not_determined#:#Es konnten keine Version Control-Informationen ermittelt werden.
@@ -15612,8 +15611,6 @@ svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
 pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 common#:#personal_resources#:#Persönliche Ressourcen
-file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
-file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 dash#:#dash_favourites#:#Favoriten
@@ -16323,7 +16320,7 @@ feed#:#feed_no_local_url#:#Bitte geben sie eine gültige externe Feed URL an.
 common#:#lso_admin_form_title#:#Einstellungen
 common#:#lso_admin_form_byline#:#Allgemeine Einstellungen für Lernsequenzen
 common#:#lso_admin_interval_label#:#Abfrageintervall Lernfortschritt (Sekunden)
-common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden. 
+common#:#lso_admin_interval_byline#:#Alle x Sekunden wird der Lernfortschritt für nicht vollständig integrierte Objekte abgefragt. Achtung! Je niedriger der Wert, desto häufiger wird eine Abfrage ausgeführt. Das kann sich sehr negativ auf die Systemlast auswirken; entsprechend sollte der Wert möglichst hoch gewählt werden.
 common#:#mainbar_more_label#:#Mehr
 common#:#obj_wbdv#:#WebDAV
 common#:#obj_wbdv_desc#:#Konfiguration der WebDAV Einstellungen.
