@@ -21122,6 +21122,10 @@ foreach ($tests as $testFi => $testQuestions) {
 ?>
 <#5251>
 <?php
+global $DIC;
+if (!$DIC->offsetExists("ilAppEventHandler")) {
+    $DIC->offsetSet("ilAppEventHandler", new ilAppEventHandler());
+}
 $set = $ilDB->query("
   SELECT obj_id, title, description, role_id, usr_id FROM object_data
   INNER JOIN role_data role ON role.role_id = object_data.obj_id
