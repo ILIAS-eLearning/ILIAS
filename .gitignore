@@ -1,3 +1,6 @@
+# Custom Files
+config.json
+
 # IDEs and Development
 /.env
 /.floo
