@@ -1460,3 +1460,15 @@ if (!$ilDB->numRows($res)) {
     $ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
 }
 ?>
+<#106>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_from'))) {
+    $ilDB->addIndex('booking_reservation', array('date_from'), 'i3');
+}
+?>
+<#107>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
+    $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
+}
+?>
