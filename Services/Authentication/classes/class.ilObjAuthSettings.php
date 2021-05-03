@@ -62,8 +62,8 @@ class ilObjAuthSettings extends ilObject
     public function checkAuthSHIB()
     {
         $settings = $this->ilias->getAllSettings();
-        
-        if (!$settings["hos_type"] or !$settings["shib_user_default_role"] or !$settings["shib_login"]
+
+        if (!$settings["shib_hos_type"] or !$settings["shib_user_default_role"] or !$settings["shib_login"]
              or !$settings["shib_firstname"] or !$settings["shib_lastname"]) {
             return false;
         }
