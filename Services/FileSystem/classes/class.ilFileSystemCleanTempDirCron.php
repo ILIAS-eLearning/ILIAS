@@ -73,49 +73,47 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
     public function run()
     {
-        $date = "until 1 sec ago";
+        // only delete files and folders older than one day to prevent issues with ongoing processes (e.g. zipping a folder)
+        $date = "until 1 day ago";
 
-        // $files = $DIC->filesystem()->temp()->finder()->in([""])->date("until 1 day ago")->files();
-        // iterate through matches that are older than one day and delete the corresponding files from the temp directory.
-        // also store the matches to be able to return the number of files that were deleted.
-
+        // files are deleted before folders to prevent issues that would arise when trying to delete a (no longer existing) file in a deleted folder.
         $files = $this->filesystem->finder()->in([""])->date($date)->files();
-        $file_matches = [];
-        foreach ($files as $match) {
+        $deleted_files = [];
+        foreach ($files as $file_match) {
             try {
-                if ($match->isFile()) {
-                    $file_matches[] = $match;
-                    $this->filesystem->delete($match->getPath());
+                if ($file_match->isFile()) {
+                    $this->filesystem->delete($file_match->getPath());
+                    $deleted_files[] = $file_match;
                 }
             } catch (Throwable $t) {
-                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $match->getPath()
+                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $file_match->getPath()
                     . "due to the following exception: " . $t->getMessage());
             }
         }
-        // $folders = $DIC->filesystem()->temp()->finder()->in([""])->date("until 1 day ago")->directories();
-        // iterate through matches that are older than one day and delete the corresponding folders from the temp directory.
-        // also store the matches to be able to return the number and folders that were deleted.
+
+        // the folders are sorted based on their path length to ensure that nested folders are deleted first
+        // thereby preventing any issues due to deletion attempts on no longer existing folders.
         $folders = $this->filesystem->finder()->in([""])->date($date)->directories()->sort(function (
             Metadata $a,
             Metadata $b
         ) {
             return strlen($a->getPath()) - strlen($b->getPath());
         })->reverseSorting();
-        $folder_matches = [];
-        foreach ($folders as $match) {
+        $deleted_folders = [];
+        foreach ($folders as $folder_match) {
             try {
-                if ($match->isDir()) {
-                    $folder_matches[] = $match;
-                    $this->filesystem->deleteDir($match->getPath());
+                if ($folder_match->isDir()) {
+                    $this->filesystem->deleteDir($folder_match->getPath());
+                    $deleted_folders[] = $folder_match;
                 }
             } catch (Throwable $t) {
-                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $match->getPath()
+                $this->logger->error("Cron Job \"Clean temp directory\" could not delete " . $folder_match->getPath()
                     . "due to the following exception: " . $t->getMessage());
             }
         }
 
-        $num_folders = count($folder_matches);
-        $num_files = count($file_matches);
+        $num_folders = count($deleted_folders);
+        $num_files = count($deleted_files);
 
         $result = new ilCronJobResult();
         $result->setMessage($num_folders . " folders and " . $num_files . " files have been deleted.");
