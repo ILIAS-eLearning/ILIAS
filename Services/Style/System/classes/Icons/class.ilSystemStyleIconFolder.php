@@ -61,14 +61,14 @@ class ilSystemStyleIconFolder
      */
     protected function sortIcons()
     {
-        usort($this->icons, function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) {
+        usort($this->icons, function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) : int {
             if ($a->getType() == $b->getType()) {
                 return strcmp($a->getName(), $b->getName());
             } else {
                 if ($a->getType() == "svg") {
-                    return false;
+                    return -1;
                 } elseif ($b->getType() == "svg") {
-                    return true;
+                    return 1;
                 } else {
                     return strcmp($a->getType(), $b->getType());
                 }
