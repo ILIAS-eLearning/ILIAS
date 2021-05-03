@@ -42,6 +42,10 @@ il.UI.Input = il.UI.Input || {};
 			var input_template = $(container + ' .input-template').clone();
 			$(container + ' .input-template').remove();
 
+			if (1 < settings.max_files) {
+				input_template.prop('multiple', true);
+			}
+
 			debug(preview_template.html());
 
 			var myDropzone = new Dropzone(dropzone, {

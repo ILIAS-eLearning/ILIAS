@@ -603,6 +603,7 @@ class Renderer extends AbstractComponentRenderer
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
         $settings->existing_file_ids = $component->getValue();
         $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($component->getValue() ?? []);
+        $settings->max_files = $component->getMaxFiles();
 
         /**
          * @var $component F\File
