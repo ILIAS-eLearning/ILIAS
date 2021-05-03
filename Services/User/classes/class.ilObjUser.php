@@ -3730,7 +3730,7 @@ class ilObjUser extends ilObject
 
     public static function _getAvatar($a_usr_id) : Avatar
     {
-        $define = new ilUserAvatarResolver((int) $a_usr_id);
+        $define = new ilUserAvatarResolver((int) ($a_usr_id ? $a_usr_id : ANONYMOUS_USER_ID));
 
         return $define->getAvatar();
     }
