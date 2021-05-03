@@ -7295,9 +7295,6 @@ button.close {
 .btn.engaged {
   outline: none;
 }
-.btn:focus-visible {
-  outline-offset: 2px;
-}
 input.btn {
   display: inline-block;
   min-width: 60px;
@@ -7361,6 +7358,9 @@ fieldset[disabled] .btn-default.focus {
   color: #4c6586;
   background-color: white;
 }
+.btn-default:focus-visible {
+  outline-offset: 2px;
+}
 .btn-primary {
   color: white;
   background-color: #557b2e;
@@ -7413,6 +7413,9 @@ fieldset[disabled] .btn-primary.focus {
 .btn-primary .badge {
   color: #557b2e;
   background-color: white;
+}
+.btn-primary:focus-visible {
+  outline-offset: 2px;
 }
 .btn[disabled],
 .btn.btn-tag[disabled],
