@@ -46,7 +46,7 @@ class TupleTransformation implements Transformation
 
         if ([] === $from) {
             throw new ConstraintViolationException(
-                sprintf('The array "%s" ist empty', $from),
+                sprintf('The array "%s" ist empty', var_export($from, true)),
                 'value_array_is_empty',
                 $from
             ) ;
