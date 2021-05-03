@@ -47,7 +47,7 @@ class BooleanTransformation implements Transformation
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into boolean.', $from),
+            sprintf('The value "%s" could not be transformed into boolean.', var_export($from, true)),
             'not_boolean',
             $from
         );
