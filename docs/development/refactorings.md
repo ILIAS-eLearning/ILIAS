@@ -6,8 +6,7 @@ of us at ILIAS development welcome refactorings and would like to encourage
 all developers and maintainers to tackle refactorings and would like to help 
 make refactorings easier with the following tips and rules.
 
-## What to Consider
-### Rules and Guidelines
+## Guidelines / What to Consider
 Smaller refactorings often have no impact on consumers of code, they often 
 take place within a closed system. Larger refactorings or adaptations to the 
 code that affect a kind of "public interface", however, often have an impact 
@@ -25,16 +24,18 @@ unknown.
   of a new release, so that all developers have enough time to make any 
   adjustments to their own code.
 - Refactorings can lead to the trunk no longer being executable. Developers 
-  SHOULD make sure that at least the following task remain operational also 
-  in trunk:
-  - Install a new Installation 
+  SHOULD make sure that at least the following automatic tasks remain 
+  operational also in trunk:
+  - Install a new Installation
+  - Run all Unit Tests without Failure
+  - Run composer without error 
+- To make the work easier for other developers, it would be nice if the 
+  following tasks in ILIAS trunk would also work:
   - Login as root
   - Create a new User
   - Login as new User
   - Access Dashboard along with a working Meta and Mainbar.
-  - Run all Unit Tests without Failure
-  - Run composer without error 
-    
+
 The ILIAS-Community acknowledges, that this is not always possible and that 
 thus the trunk may be broken temporarily.
 
