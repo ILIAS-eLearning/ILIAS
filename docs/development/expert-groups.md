@@ -51,6 +51,6 @@ email address (ux@lists.ilias.de).
 * The UI/UX/A11y Expert Group plays a central role in the [Accessibility Process](accessibility-process.md#participants).
 
 ### Security Expert Group
-The Security Expert Group can be reached through its own email address (security@lists.ilias).
+The Security Expert Group can be reached through its own email address (security@lists.ilias.de).
 More information on the Security Expert Group can be found in the
 [Documentation of the Security Group](security.md).
