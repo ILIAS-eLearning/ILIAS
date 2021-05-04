@@ -30,7 +30,7 @@ jobs:
           GHRUN: "yes"
 
       - name: Install PHP CS Fixer
-        run: composer require friendsofphp/php-cs-fixer --no-interaction --no-progress
+        run: composer require "friendsofphp/php-cs-fixer:^2.19" --no-interaction --no-progress
 
       - name: PHP CS Fixer
         run: CI/PHP-CS-Fixer/run_check.sh
