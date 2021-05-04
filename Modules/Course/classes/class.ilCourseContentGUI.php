@@ -1311,7 +1311,7 @@ class ilCourseContentGUI
             $this->course_obj = &$this->container_obj;
         } else {
             $course_ref_id = $tree->checkForParentType($this->container_obj->getRefId(), 'crs');
-            $this->course_obj = &ilObjectFactory::getInstanceByRefId($course_ref_id);
+            $this->course_obj = ilObjectFactory::getInstanceByRefId($course_ref_id);
         }
         return true;
     }

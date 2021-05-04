@@ -82,7 +82,8 @@ class ilCourseAppEventListener
         
         // #16694
         include_once("./Modules/Course/classes/class.ilObjCourse.php");
-        $ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+        $refs = ilObject::_getAllReferences($a_obj_id);
+        $ref_id = array_pop($refs);
         
         include_once './Services/Object/classes/class.ilObjectFactory.php';
         $factory = new ilObjectFactory();
