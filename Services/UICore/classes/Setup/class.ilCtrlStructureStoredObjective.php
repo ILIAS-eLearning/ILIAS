@@ -13,15 +13,9 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
      */
     protected $ctrl_reader;
 
-    /**
-     * @var	bool
-     */
-    protected $populate_before;
-
-    public function __construct(\ilCtrlStructureReader $ctrl_reader, bool $populate_before = true)
+    public function __construct(\ilCtrlStructureReader $ctrl_reader)
     {
         $this->ctrl_reader = $ctrl_reader;
-        $this->populate_before = $populate_before;
     }
 
     /**
