@@ -303,16 +303,33 @@ class ilForumSettingsGUI
         if (!$this->initNotificationSettingsForm()) {
             // if the form was just created set the values fetched from database
             $interested_events = $this->parent_obj->objProperties->getInterestedEvents();
+    
+            $form_events = [];
+            if ($interested_events & \ilForumNotificationEvents::UPDATED) {
+                $form_events[] = \ilForumNotificationEvents::UPDATED;
+            }
             
+            if ($interested_events & \ilForumNotificationEvents::CENSORED) {
+                $form_events[] = \ilForumNotificationEvents::CENSORED;
+            }
+            
+            if ($interested_events & \ilForumNotificationEvents::UNCENSORED) {
+                $form_events[] = \ilForumNotificationEvents::UNCENSORED;
+            }
+            
+            if ($interested_events & \ilForumNotificationEvents::POST_DELETED) {
+                $form_events[] = \ilForumNotificationEvents::POST_DELETED;
+            }
+    
+            if ($interested_events & \ilForumNotificationEvents::THREAD_DELETED) {
+                $form_events[] = \ilForumNotificationEvents::THREAD_DELETED;
+            }
+    
             $this->notificationSettingsForm->setValuesByArray(array(
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType(),
                 'adm_force' => (bool) $this->parent_obj->objProperties->isAdminForceNoti(),
                 'usr_toggle' => (bool) $this->parent_obj->objProperties->isUserToggleNoti(),
-                'notify_modified' => $interested_events & \ilForumNotificationEvents::UPDATED,
-                'notify_censored' => $interested_events & \ilForumNotificationEvents::CENSORED,
-                'notify_uncensored' => $interested_events & \ilForumNotificationEvents::UNCENSORED,
-                'notify_post_deleted' => $interested_events & \ilForumNotificationEvents::POST_DELETED,
-                'notify_thread_deleted' => $interested_events & \ilForumNotificationEvents::THREAD_DELETED
+                'notification_events' => $form_events
             ));
         }
 
@@ -632,7 +649,7 @@ class ilForumSettingsGUI
 
             $opt_0->addSubItem($chb_2);
             
-            $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_events'), 'notification_events');
+            $cb_grp = new ilCheckboxGroupInputGUI($this->lng->txt('notification_settings'), 'notification_events');
             
             $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
             $notify_modified->setValue(\ilForumNotificationEvents::UPDATED);
@@ -683,14 +700,13 @@ class ilForumSettingsGUI
         if ($this->notificationSettingsForm->checkInput()) {
             if (isset($_POST['notification_type']) && $_POST['notification_type'] == 'all_users') {
                 // set values and call update
+                $notification_events = $this->notificationSettingsForm->getInput('notification_events');
                 $interested_events = 0;
     
-                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_modified');
-                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_censored');
-                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_uncensored');
-                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_post_deleted');
-                $interested_events += (int) $this->notificationSettingsForm->getInput('notify_thread_deleted');
-    
+                foreach ($notification_events as $activated_event) {
+                    $interested_events += (int) $activated_event;
+                }
+                
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
                 $this->parent_obj->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));
                 $this->parent_obj->objProperties->setNotificationType('all_users');
