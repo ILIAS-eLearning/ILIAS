@@ -213,7 +213,7 @@ class AgentCollectionTest extends TestCase
             ->willReturn($g2);
 
         $col = new Setup\AgentCollection($refinery, ["c1" => $c1,"c2" => $c2]);
-        $conf = new Setup\ConfigCollection(["c1" => $conf1]);
+        $conf = new Setup\ConfigCollection(["c1" => $c1]);
 
         $g = $col->getStatusObjective($storage);
 
