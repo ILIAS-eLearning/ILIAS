@@ -1127,7 +1127,7 @@ a:focus {
   outline-offset: 0px;
 }
 a:focus:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 figure {
   margin: 0;
@@ -2724,7 +2724,7 @@ input[type="checkbox"]:focus {
 input[type="file"]:focus:focus-visible,
 input[type="radio"]:focus:focus-visible,
 input[type="checkbox"]:focus:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 output {
   display: block;
@@ -3213,7 +3213,7 @@ select[multiple].input-lg {
 .btn.focus:focus-visible,
 .btn:active.focus:focus-visible,
 .btn.active.focus:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 .btn:hover,
 .btn:focus,
@@ -7288,7 +7288,7 @@ button.close {
   font-size: 12px;
 }
 .btn:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
   outline-offset: 0px;
 }
 .btn:active,
@@ -9679,7 +9679,7 @@ footer {
 .il-maincontrols-metabar .btn-bulky:focus-visible,
 .il-maincontrols-mainbar .link-bulky:focus-visible,
 .il-maincontrols-metabar .link-bulky:focus-visible {
-  border: 4px solid #0078D7;
+  border: 3px solid #0078D7;
   outline: none;
 }
 .il-maincontrols-mainbar .bulky-label,
@@ -10613,7 +10613,7 @@ footer {
   }
 }
 .il-link:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
   outline-offset: 0px;
 }
 .il-link:active,
@@ -12867,7 +12867,7 @@ form.form-inline {
 .form-control:focus-visible {
   -webkit-box-shadow: none;
   box-shadow: none;
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 textarea.form-control {
   max-width: 100%;
@@ -17590,7 +17590,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   background-color: #f9f9f9;
 }
 .ilAwarenessItem > div[role='button']:focus-visible {
-  outline: 4px solid #0078D7;
+  outline: 3px solid #0078D7;
 }
 .ilAwarenessItem ul {
   margin: 0;
