@@ -71,16 +71,13 @@ var renderer = function($) {
             additional_engage: function(){
                 this.getElement().attr('aria-expanded', true);
                 this.getElement().attr('aria-hidden', false);
-                //a11y
+                //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
                 this.getElement().attr('role', 'region');
-                //a11y
             },
             additional_disengage: function(){
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
-                //a11y
                 this.getElement().removeAttr('role', 'region');
-                //a11y                
             }
         }),
         remover: Object.assign({}, dom_element, {

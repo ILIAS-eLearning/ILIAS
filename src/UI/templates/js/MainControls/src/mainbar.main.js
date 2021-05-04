@@ -89,6 +89,7 @@ var mainbar = function() {
                 switch(action) {
                     case 'trigger_mapped':
                         id = mappings[id]; //no break afterwards!
+
                     case 'trigger':
                         state = mb.model.getState();
                         if(id in state.tools) {
@@ -108,9 +109,11 @@ var mainbar = function() {
                             }
                         }
                         break;
+
                     case 'remove':
                         mb.model.actions.removeTool(id);
                         break;
+
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
                         var state = mb.model.getState()
@@ -123,8 +126,24 @@ var mainbar = function() {
                         state.last_active_top = null;
                         mb.model.setState(state);
                         break;
+
                     case 'toggle_tools':
                         mb.model.actions.toggleTools();
+
+                        var state = mb.model.getState()
+                            id = Object.keys(state.tools)[0];
+
+                        if(state.tools_engaged) {
+                            after_render = function() {
+                                for(idx in state.tools) {
+                                    var tool = state.tools[idx];
+                                    if(tool.engaged) {
+                                        id = tool.id;
+                                    }
+                                }
+                                mb.renderer.focusTopentry(id);
+                            }
+                        }
                         break;
                 }
 

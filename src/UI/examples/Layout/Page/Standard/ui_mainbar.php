@@ -65,6 +65,22 @@ EOT;
             ->withAdditionalEntry('slate0', $slate0)
             ->withAdditionalEntry('slate1', $slate1);
 
+
+
+        $tools_btn = $f->button()->bulky(
+            $f->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/grid.svg', ''),
+            'Tools',
+            '#'
+        );
+        $mainbar = $mainbar->withToolsButton($tools_btn);
+
+        $symbol = $f->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/question.svg', '')->withSize('small');
+        $slate = $f->maincontrols()->slate()->legacy('Help', $symbol, $f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>'));
+        $tools = ['tool1' => $slate];
+        foreach ($tools as $id => $entry) {
+            $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
+        }
+
         return $mainbar;
     }
 
