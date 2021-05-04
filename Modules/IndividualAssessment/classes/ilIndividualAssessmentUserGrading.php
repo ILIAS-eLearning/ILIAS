@@ -153,9 +153,9 @@ class ilIndividualAssessmentUserGrading
         \ilLanguage $lng,
         Refinery $refinery,
         array $grading_options,
-        bool $may_be_edited = true,
-        bool $place_required = false,
-        bool $amend = false,
+        bool $may_be_edited,
+        bool $place_required,
+        bool $amend,
         ilIndividualAssessmentMemberGUI $file_handler
     ) : Field\Input {
         $name = $input

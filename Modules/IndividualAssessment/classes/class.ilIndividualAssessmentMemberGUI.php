@@ -230,7 +230,6 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
 
         ilUtil::sendSuccess($this->lng->txt('iass_membership_saved'), true);
         $this->redirect(self::CMD_EDIT);
-
     }
 
     protected function amend()
@@ -570,7 +569,9 @@ class ilIndividualAssessmentMemberGUI extends AbstractCtrlAwareUploadHandler
             return null;
         }
 
-        return end(explode('/', $path));
+        $array = explode('/', $path);
+
+        return end($array);
     }
 
     protected function getFilePath() : ?string
