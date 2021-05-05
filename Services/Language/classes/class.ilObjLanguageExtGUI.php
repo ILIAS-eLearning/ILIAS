@@ -339,7 +339,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         }
         
         if ($changesSuccessBool) {
-            $messageBox = $DIC->ui()->factory()->messageBox()->success("Die Änderungen an den Sprachvariablen wurden erfolgreich gespeichert.");
+            $messageBox = $DIC->ui()->factory()->messageBox()->success($this->lng->txt("lng_variables_saved"));
             $this->toolbar->addComponent($messageBox);
         } 
 
