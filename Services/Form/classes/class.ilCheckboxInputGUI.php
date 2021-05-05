@@ -101,7 +101,8 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
     */
     public function setValueByArray($a_values)
     {
-        $this->setChecked($a_values[$this->getPostVar()]);
+        $checked = $a_values[$this->getPostVar()] ?? false;
+        $this->setChecked($checked);
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }

@@ -474,7 +474,7 @@ class ilPropertyFormGUI extends ilFormGUI
         
         
         // try to keep uploads for another try
-        if (!$ok && $_POST["ilfilehash"] && sizeof($_FILES)) {
+        if (!$ok && isset($_POST["ilfilehash"]) && $_POST["ilfilehash"] && count($_FILES)) {
             $hash = $_POST["ilfilehash"];
 
             foreach ($_FILES as $field => $data) {

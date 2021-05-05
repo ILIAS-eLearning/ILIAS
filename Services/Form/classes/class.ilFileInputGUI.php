@@ -55,10 +55,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     */
     public function setValueByArray($a_values)
     {
-        if (!is_array($a_values[$this->getPostVar()])) {
-            $this->setValue($a_values[$this->getPostVar()]);
+        $value = $a_values[$this->getPostVar()] ?? null;
+        if (!is_array($value)) {
+            $this->setValue($value);
         }
-        $this->setFilename($a_values[$this->getFileNamePostVar()]);
+        $filenam = $a_values[$this->getFileNamePostVar()] ?? '';
+        $this->setFilename($filenam);
     }
 
     /**
@@ -269,7 +271,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $filename = $_FILES[$this->getPostVar()]["name"];
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
-        $suffix = $filename_arr["extension"];
+        $suffix = $filename_arr["extension"] ?? '';
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
         $_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];

@@ -403,7 +403,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             $_POST[$this->getPostVar()] = $this->getPurifier()->purify($_POST[$this->getPostVar()]);
         } else {
             $allowed = $this->getRteTagString();
-            if ($this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
+            if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
                 $allowed .= "<span>";
             }
             $_POST[$this->getPostVar()] = ($this->getUseRte() || !$this->getUseTagsForRteOnly())

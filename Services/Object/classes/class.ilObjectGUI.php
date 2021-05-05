@@ -1063,7 +1063,7 @@ class ilObjectGUI
      */
     public function getDidacticTemplateVar($a_type)
     {
-        $tpl = $_POST["didactic_type"];
+        $tpl = $_POST["didactic_type"] ?? null;
         if ($tpl && substr($tpl, 0, strlen($a_type) + 1) == $a_type . "_") {
             return (int) substr($tpl, strlen($a_type) + 1);
         }

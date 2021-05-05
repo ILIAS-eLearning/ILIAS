@@ -83,7 +83,12 @@ abstract class ilBiblFileReaderBase implements ilBiblFileReaderInterface
         ) {
             return $string;
         }
-        ob_end_clean();
+        try {
+            ob_end_clean();
+        }catch (Throwable $t) {
+            //
+        }
+        
         $mb_detect_encoding = mb_detect_encoding($string);
         mb_detect_order(array(self::ENCODING_UTF_8, self::ENCODING_ISO_8859_1));
         switch ($mb_detect_encoding) {

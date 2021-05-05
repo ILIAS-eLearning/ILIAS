@@ -196,7 +196,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
     */
     public function getDeletionFlag()
     {
-        if ($_POST[$this->getPostVar() . "_delete"]) {
+        if ($_POST[$this->getPostVar() . "_delete"] ?? false) {
             return true;
         }
         return false;
