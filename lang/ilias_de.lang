@@ -8205,7 +8205,7 @@ exc#:#exc_grades#:#Notenübersicht
 exc#:#exc_grades_overview#:#Notenübersicht
 exc#:#exc_hand_in#:#Datei abgeben
 exc#:#exc_import#:#Übung importieren
-exc#:#exc_individual_deadline#:#Individueller Abgagetermin
+exc#:#exc_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
 exc#:#exc_instruction_files#:#Dateien zur Arbeitsanweisung
@@ -8422,7 +8422,7 @@ exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_filter_has_no_submission#:#Hat noch nicht abgegeben
 exc#:#exc_tbl_filter_has_submission#:#Hat abgegeben
 exc#:#exc_tbl_filter_submission#:#Abgabe
-exc#:#exc_tbl_individual_deadline#:#Individueller Abgagetermin
+exc#:#exc_tbl_individual_deadline#:#Individueller Abgabetermin
 exc#:#exc_tbl_mark#:#Note
 exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
