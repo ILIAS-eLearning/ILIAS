@@ -37,7 +37,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
     protected function setUpMockDependencies() : void
     {
         $this->dic = new Container();
-        $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("", false, false);
+        $this->dic["tpl"] = $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false);
         $this->dic["lng"] = $this->getLanguage();
         $this->dic["refinery"] = $this->getRefinery();
         (new \InitUIFramework())->init($this->dic);
