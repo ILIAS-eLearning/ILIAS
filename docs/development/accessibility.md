@@ -780,37 +780,26 @@ In content implemented using markup languages, status messages MUST be programma
 
 # Accessibility Checklist 
 This list is prepared to be worked thorugh by developers implementing specific projects. Results from external compliance testing may lead to adapting these phrases. Changes will be subjected to the jour fixe if compliance testing indicates they are erroneous or lacking information. We still hope the following list is helpful in everyday work, please let us know if this is not the case. 
-1. [Tabbing and Focus](#tabbing-and-focus)
-2. [Structure](#structure)
-3. [Headings, Labels, and Language Attributes](#headings-and-labels-and-language-attributes)
-4. [Colour and Contrast](#colour-and-contrast)
-5. [Alt-Texts and aria labels](#alt-texts-and-aria-labels)
-
 ## Tabbing and Focus
-Please manually check your project for tabbing and focus quaility: 
-
-1.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
-2.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
-3.	Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) 
-4.	Tabbing order must be sensible and predictable. The focus moves following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
-5.	If an element gains focus it must not
-	* transfer users to a different context automatically and without warning i.e. open a new window. 
-	* Carry out an action automatically i.e. submit a form after a save-button received focus. 
-6.  Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
-7.  Give users a submit-button to initiate change of context. 
+Please manually check your project for tabbing and focus quality: 
+1. All functionality must be operable by keyboard, mainly tab, arrow, space or return keys are used. (2.1.1) 
+2. Users can move to any control, operate it, and move away again. (2.1.2) 
+3. Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) Mouse focus must also be visible.
+4. Keyboard control order must be sensible and predictable. The focus moves following the meaning of the content. Moving focus should not jump around unpredictably. (2.4.3)
+5. If an element gains focus it must not
+	* transfer users to a different context automatically and without warning i.e. open a new window. (3.2.1)
+	* carry out an action automatically i.e. submit a form after a save-button received focus. (3.2.1)
 ## Structure 
 Check how your project complies with our semantic structures: 
-
-8.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1). Use [validator](https://validator.w3.org/) to verify, [this test case](https://testrail.ilias.de/index.php?/tests/view/44245) may be helpful.  
-9.	We use aria landmarks and [headlines](headlines.md) to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by [aria landmarks](https://docu.ilias.de/goto_docu_pg_124778_459.html). Content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).
-10.	Make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. Elements visually presented on the right hand-side should in the DOM be located after elements visually presented on the left-hand-side . Elements visually presented on the bottom should in the DOM be located after elements visually presented on the top.
-11.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
+6. Write “well formed” HTML, employ HTML according to the specification. The proper functioning of all user agents depends on well formed HTML. (4.1.1). Use [validator](https://validator.w3.org/) to verify.  Always prefer employing semantic HTML over aria i.e. use HTML lists instead of divs. 
+7. We use aria landmarks and [headlines](headlines.md) to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by [aria landmarks](https://docu.ilias.de/goto_docu_pg_124778_459.html). User generated content gets structured by headlines. These elements provide programmatically determinable semantic structures to convey information and relationships (1.3.1).
+8. Regardless of the visual presentation the DOM order must be presented in a meaningful and usable sequence. When in doubt make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same correct order. 
 ## Headings, Labels, and Language Attributes
-12.	Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or  the editorial team. 
-14.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
+9. Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or the editorial team. 
+$$ 10. Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
 	* Provide text instructions describing the necessary input in a by-line to the field.
 	* Use aria-describedby property to provide information about a user interface element. 
-15.	Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
+15. Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
 ## Colour and Contrast
 Please check your project for colour and contrast issues: 
 
