@@ -312,7 +312,7 @@ administration#:#loginname_history_info#:#If activated, login name changes will 
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
-administration#:#obj_mds_desc#:#Configure Metadata and Advanced Metadata Settings
+administration#:#obj_mds_desc#:#Configure Metadata and Custom Metadata Settings
 administration#:#obj_mds#:#Metadata
 administration#:#options#:#Options
 administration#:#output_options#:#Output options
@@ -522,7 +522,7 @@ assessment#:#cannot_edit_marks#:#There are already learners who ran the test. Yo
 assessment#:#cannot_edit_test#:#You do not possess sufficient permissions to edit the test!
 assessment#:#cannot_execute_test#:#You do not possess sufficient permissions to run the test!
 assessment#:#cannot_read_questionpool#:#You do not possess sufficient permissions to read the question pool data!
-assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the meta data!
+assessment#:#cannot_save_metaobject#:#You do not possess sufficient permissions to save the metadata!
 assessment#:#changeSuggestedSolution#:#Select type of content for recapitulation
 assessment#:#checkbox_checked#:#Checked
 assessment#:#checkbox_unchecked#:#Unchecked
@@ -5140,9 +5140,9 @@ ecs#:#ecs_imported_content#:#Imported E-Content
 ecs#:#ecs_imported_from#:#Imported From
 ecs#:#ecs_key_password#:#Key Password
 ecs#:#ecs_local_settings#:#Local Settings
-ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Advanced Meta Data
+ecs#:#ecs_mapping_tbl#:#Mapping of ECS-Data to ILIAS Custom Metadata
 ecs#:#ecs_mappings#:#ECS Data Mapping
-ecs#:#ecs_meta_data#:#Meta Data
+ecs#:#ecs_meta_data#:#Metadata
 ecs#:#ecs_new_approval_subject#:#A new course has been released
 ecs#:#ecs_new_category_mapping#:#New Assignment of Course Links to Categories
 ecs#:#ecs_new_econtent_subject#:#New E-Content created
@@ -6894,7 +6894,7 @@ sahs#:#sahs_unit#:#SCO
 search#:#add_members_header#:#Add Members
 search#:#search_field#:#Search Input Field
 search#:#search_dropdown#:#Open Search Form
-search#:#adv_md_search_title#:#Search in Extended Metadata
+search#:#adv_md_search_title#:#Search in Custom Metadata
 search#:#append_results#:#Append results
 search#:#last_search_result#:#Last Search Result
 search#:#lucene_activate_field#:#Activate Search
@@ -6945,7 +6945,7 @@ search#:#lucene_show_relevance#:#Show Relevance
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted text fragments.
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_tbl_create_ini#:#Create Java-Server Ini-File
-search#:#search_adv_md#:#Extended Metadata
+search#:#search_adv_md#:#Custom Metadata
 search#:#search_advanced#:#Advanced Search
 search#:#search_all_words#:#All words <small>(<i>AND</i>)</small>
 search#:#search_any_word#:#Any word <small>(<i>OR</i>)</small>
@@ -8953,7 +8953,7 @@ ecs#:#ecs_tab_import#:#Import
 ecs#:#ecs_tab_export#:#Export
 ecs#:#ecs_mapping_crs#:#Mapping for Courses
 ecs#:#ecs_mapping_rcrs#:#Mapping for ECS Courses
-ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Advanced Meta Data to ECS-Data
+ecs#:#ecs_mapping_exp_tbl#:#Mapping ILIAS Custom Metadata to ECS-Data
 content#:#cont_edit_personal_data#:#Edit Personal Data
 sahs#:#scorm_create_export_file_html_one#:#Create Export File (HTML, One Page, Review Mode)
 ecs#:#ecs_import_cms#:#Campus Management
@@ -11407,8 +11407,8 @@ orgu#:#orgu_orgu_type#:#Organisational Unit Type
 orgu#:#orgu_type_custom_icon#:#Custom Icon for this Organisational Unit Type
 orgu#:#orgu_adv_settings#:#Advanced Settings
 orgu#:#orgu_type_msg_error_custom_icon#:#Could not save the custom icon
-orgu#:#orgu_type_available_amd_sets#:#Available Advanced Metadata sets
-orgu#:#orgu_type_assign_amd_sets#:#Assign Advanced Metadata sets
+orgu#:#orgu_type_available_amd_sets#:#Available Custom Metadata Sets
+orgu#:#orgu_type_assign_amd_sets#:#Assign Custom Metadata Sets
 orgu#:#not_movable_to_subtree#:#An organisational unit cannot be moved into its own subtree. This would create a loop.
 cld#:#cld_object_added#:#A new Cloud object has been added
 exc#:#exc_peer_review_deadline#:#Feedback Deadline
@@ -12026,7 +12026,7 @@ assessment#:#additional_rating_info#:#Please note that the values given here are
 assessment#:#intprecision_info#:#‘Divisible by’ affects only the creation of variables, if the value for the precision is 0. In this case, you define for ‘Divisible by’ an integer value, which must be divisible by with the created variable. A value of 10 thus generates only integers that are divisible by 10. A value of 5 produces integers that are divisible by 5, etc. For a precision of 0, ‘Divisible by’ is a mandatory field and must contain a positive integer. The default value is 1 for any integers.
 assessment#:#tolerance_info#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
 assessment#:#result_unit_info#:#Please note that the selected result unit must also be activated in ‘Available units’.
-ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.
+ecs#:#ecs_no_adv_md#:#No Custom Metadata Available.
 poll#:#poll_comments#:#Comments
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_barchart#:#Bar Chart
@@ -12085,7 +12085,7 @@ survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
 exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
-wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
+wiki#:#wiki_advmd_block_title#:#Custom Metadata of Page
 content#:#cont_ed_insert_amd_page_list#:#Insert Page List
 content#:#cont_insert_amd_page_list#:#Insert Page List
 content#:#cont_update_amd_page_list#:#Edit Page List
@@ -12623,7 +12623,7 @@ scormtrac#:#counter#:#counter
 scormtrac#:#student_response#:#student_response: Response
 scormtrac#:#ostatus#:#Status of the objective
 prtf#:#prtf_blog_page_created#:#Blog has been added.
-wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable meta data fields are listed.
+wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below. Only searchable metadata fields are listed.
 content#:#cont_pc_amdpl#:#Page List
 meta#:#udf_type_selectmulti#:#Selection List (Multiple Choice)
 wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
@@ -13264,8 +13264,8 @@ prg#:#prg_adv_settings#:#Advanced Settings
 prg#:#prg_type_custom_icon#:#Custom Icons
 prg#:#prg_type_custom_icon_info#:#Custom icon info
 prg#:#prg_type_msg_error_custom_icon#:#Error while storing icon
-prg#:#prg_type_assign_amd_sets#:#Assign advanced metadata sets
-prg#:#prg_type_available_amd_sets#:#Available Advanced Metadata sets
+prg#:#prg_type_assign_amd_sets#:#Assign Custom Metadata Sets
+prg#:#prg_type_available_amd_sets#:#Available Custom Metadata Sets
 prg#:#prg_type_edit#:#Edit subtype
 prg#:#prg_type_msg_deleted#:#Deleted subtype
 prg#:#prg_type_msg_unable_delete#:#Unable to delete type because it is still assigned to the following Study Programmes: %s
@@ -13355,6 +13355,7 @@ rbac#:#feed_copy#:#User can copy webfeed
 log#:#log_level_off#:#Disabled
 log#:#log_component_root_desc#:#Leg-Level for message which are not assigned to any component.
 administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
+mail#:#mail_sel_label#:#Choose the Recipients
 mail#:#mail_crs_roles#:#Send Mail to Course Roles
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#send_mail_members#:#All Members
@@ -14459,7 +14460,7 @@ sahs#:#sahs_glo_info#:#Please note that internal links in glossary terms are not
 lm#:#lm_save_titles#:#Titles saved.
 assessment#:#question_browse_area_info#:#Please select an object from which you want to import questions.
 dateplaner#:#cal_no_events_info#:#No events found for the selected time period.
-wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
+wiki#:#wiki_pg_list_no_search_fields#:#No searchable metadata fields found in the metadata sets of the wiki.
 iass#:#iass_amend_saved#:#Amended record has been saved.
 dateplaner#:#crs_cal_start#:#Course starts
 dateplaner#:#crs_cal_end#:#Course ends
