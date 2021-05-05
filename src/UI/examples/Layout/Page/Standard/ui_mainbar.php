@@ -183,9 +183,7 @@ function ui_mainbar()
     ]);
 }
 
-if ($_GET['ui_mainbar'] == '1' ||
-    $_GET['ui_mainbar'] == '2'
-) {
+if (isset($_GET['ui_mainbar']) && ($_GET['ui_mainbar'] == '1' || $_GET['ui_mainbar'] == '2')) {
     //init ILIAS
     chdir(__DIR__ . '/../../../../../..');
     require_once("Services/Init/classes/class.ilInitialisation.php");
