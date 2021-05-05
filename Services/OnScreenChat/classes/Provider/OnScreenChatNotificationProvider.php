@@ -169,8 +169,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             );
 
         if (
-            0 === count($conversationIds) ||
             !$withAggregates ||
+            0 === count($conversationIds) ||
             (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous())
         ) {
             return [$notificationItem];

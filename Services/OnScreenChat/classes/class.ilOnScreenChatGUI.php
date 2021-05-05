@@ -192,7 +192,7 @@ class ilOnScreenChatGUI
         }
 
         $usrIds = (string) ($this->http->request()->getQueryParams()['usr_ids'] ?? '');
-        if (0 === strlen($usrIds)) {
+        if ($usrIds === '') {
             return $this->getResponseWithText(json_encode([]));
         }
 
