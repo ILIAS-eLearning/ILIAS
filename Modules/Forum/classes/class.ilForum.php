@@ -418,8 +418,20 @@ class ilForum
      * @param int    $send_activation_mail
      * @return int   new post_id
      */
-    public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
-    {
+    public function generatePost(
+        $forum_id,
+        $thread_id,
+        $author_id,
+        $display_user_id,
+        $message,
+        $parent_pos,
+        $notify,
+        $subject = '',
+        $alias = '',
+        $date = '',
+        $status = 1,
+        $send_activation_mail = 0
+    ) {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
         $objNewPost->setThreadId($thread_id);
@@ -567,22 +579,21 @@ class ilForum
             return $rootNodeId;
         }
 
-        if(strlen(trim($message)) > 0 ) {
-            return $this->generatePost(
-                $thread->getForumId(),
-                $thread->getId(),
-                $thread->getThrAuthorId(),
-                $thread->getDisplayUserId(),
-                $message,
-                $rootNodeId,
-                $notify,
-                $thread->getSubject(),
-                $thread->getUserAlias(),
-                $thread->getCreateDate(),
-                $status,
-                0
-            );
-        }
+        return $this->generatePost(
+            $thread->getForumId(),
+            $thread->getId(),
+            $thread->getThrAuthorId(),
+            $thread->getDisplayUserId(),
+            $message,
+            $rootNodeId,
+            $notify,
+            $thread->getSubject(),
+            $thread->getUserAlias(),
+            $thread->getCreateDate(),
+            $status,
+            0
+        );
+
         return $rootNodeId;
     }
 
