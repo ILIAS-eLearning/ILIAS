@@ -14049,8 +14049,8 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub-Styles können nicht g
 style#:#style_assignments_deleted#:#Style-Zuweisungen des folgenden Sub-Styles wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
-exc#:#exc_individual_deadline#:#Individuelle Frist
-exc#:#exc_individual_deadline_action#:#Individuelle Frist setzen
+exc#:#exc_individual_deadline#:#Individueller Abgagetermin
+exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
 exc#:#exc_tbl_submission_date#:#Abgegeben am
 exc#:#exc_tbl_status#:#Bewertung
@@ -14061,7 +14061,7 @@ exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
+exc#:#exc_tbl_individual_deadline#:#Individueller Abgagetermin
 exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
