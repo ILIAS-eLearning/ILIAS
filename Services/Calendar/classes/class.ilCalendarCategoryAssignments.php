@@ -109,10 +109,11 @@ class ilCalendarCategoryAssignments
         $query = "SELECT * FROM cal_cat_assignments " .
             "WHERE " . $ilDB->in('cal_id', $a_cal_ids, false, 'integer');
         $res = $ilDB->query($query);
+        $map = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $map[$row->cal_id] = $row->cat_id;
         }
-        return $map ? $map : array();
+        return $map;
     }
     
     /**

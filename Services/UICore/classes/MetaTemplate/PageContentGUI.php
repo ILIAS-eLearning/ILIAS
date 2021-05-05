@@ -485,7 +485,7 @@ class PageContentGUI
             $resp = $gui_class->getHTML(
                 "",
                 "template_show",
-                array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)
             );
 
             if ($resp["mode"] != \ilUIHookPluginGUI::KEEP) {
