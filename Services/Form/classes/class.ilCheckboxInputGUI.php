@@ -133,17 +133,16 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
     */
     public function checkInput()
     {
-        $lng = $this->lng;
+        if (isset($_POST[$this->getPostVar()])) {
+            $_POST[$this->getPostVar()] =
+                ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+        }
         
-        $_POST[$this->getPostVar()] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        
-        // getRequired() is NOT processed here!
-
         $ok = $this->checkSubItemsInput();
 
         // only not ok, if checkbox not checked
-        if (!$ok && $_POST[$this->getPostVar()] == "") {
+        $value = $_POST[$this->getPostVar()] ?? "";
+        if (!$ok && $value) {
             $ok = true;
         }
 

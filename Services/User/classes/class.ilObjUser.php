@@ -846,7 +846,7 @@ class ilObjUser extends ilObject
                 array($a_user_str)
             );
             $user_rec = $ilDB->fetchAssoc($res);
-            return $user_rec["usr_id"];
+            return $user_rec["usr_id"] ?? null;
         } else {
             $set = $ilDB->query(
                 "SELECT usr_id FROM usr_data " .
@@ -854,7 +854,7 @@ class ilObjUser extends ilObject
             );
             $ids = array();
             while ($rec = $ilDB->fetchAssoc($set)) {
-                $ids[] = $rec["usr_id"];
+                $ids[] = ($rec["usr_id"] ?? null);
             }
             return $ids;
         }
@@ -5523,7 +5523,7 @@ class ilObjUser extends ilObject
             "SELECT * FROM usr_pref " .
                 " WHERE keyword = " . $ilDB->quote("public_profile", "text") .
                 " AND " . $ilDB->in("usr_id", $a_user_ids, false, "integer")
-            );
+        );
         $r = array(
             "global" => array(),
             "local" => array(),

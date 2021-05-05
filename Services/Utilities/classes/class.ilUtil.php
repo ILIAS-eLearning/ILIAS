@@ -285,6 +285,7 @@ class ilUtil
         // this is workaround the whole function should be set deprecated
         // $attributes = " style='display:inline-block;' ";
 
+        $attributes = "";
         if (is_array($attribs)) {
             foreach ($attribs as $key => $val) {
                 $attributes .= " " . $key . "=\"" . $val . "\"";

@@ -127,6 +127,9 @@ class ilTable2GUI extends ilTableGUI
      */
     protected $id;
 
+    protected string $defaultorderfield = "";
+    protected string $defaultorderdirection = "";
+
     /**
      * ilTable2GUI constructor.
      *
@@ -1564,8 +1567,10 @@ class ilTable2GUI extends ilTableGUI
         $nav = explode(":", $this->nav_value);
 
         // $nav[0] is order by
-        $this->setOrderField(($nav[0] != "") ? $nav[0] : $this->getDefaultOrderField());
-        $this->setOrderDirection(($nav[1] != "") ? $nav[1] : $this->getDefaultOrderDirection());
+        $req_order_field = $nav[0] ?? "";
+        $req_order_dir = $nav[1] ?? "";
+        $this->setOrderField(($req_order_field != "") ? $req_order_field : $this->getDefaultOrderField());
+        $this->setOrderDirection(($req_order_dir != "") ? $req_order_dir : $this->getDefaultOrderDirection());
 
         if (!$a_omit_offset) {
             // #8904: offset must be discarded when no limit is given
