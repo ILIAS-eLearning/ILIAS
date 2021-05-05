@@ -178,12 +178,12 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         if ($superiors === []) {
             $expectedIdsConstraint = [];
         } else {
-            $expectedIdsConstraint = self::logicalAnd(...array_map(function (ilOrgUnitUser $user) {
+            $expectedIdsConstraint = self::logicalAnd(...array_map(static function (ilOrgUnitUser $user) {
                 return self::containsEqual($user->getUserId());
             }, $superiors));
         }
 
-        $firstAndLastnames = array_map(function (ilOrgUnitUser $user, int $key) {
+        $firstAndLastnames = array_map(static function (ilOrgUnitUser $user, int $key) : string {
             return "PhpSup{$key} UnitSup{$key}";
         }, $superiors, array_keys($superiors));
 

@@ -229,7 +229,7 @@ abstract class ilMailTemplateContext
                 foreach ($ouUsers as $ouUser) {
                     $superiors = $ouUser->getSuperiors();
 
-                    $superiorUsrIds = array_map(function (ilOrgUnitUser $ouUser) {
+                    $superiorUsrIds = array_map(static function (ilOrgUnitUser $ouUser) : int {
                         return $ouUser->getUserId();
                     }, $superiors);
 

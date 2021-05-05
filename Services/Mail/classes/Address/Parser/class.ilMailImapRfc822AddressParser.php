@@ -15,15 +15,15 @@ class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
         $parsedAddresses = imap_rfc822_parse_adrlist($addresses, $this->installationHost);
 
         // #18992
-        $validParsedAddresses = array_filter($parsedAddresses, function ($address) {
-            return '.SYNTAX-ERROR.' != $address->host;
+        $validParsedAddresses = array_filter($parsedAddresses, static function (stdClass $address) : bool {
+            return '.SYNTAX-ERROR.' !== $address->host;
         });
 
         if ($parsedAddresses != $validParsedAddresses) {
             throw new ilMailException($addresses);
         }
 
-        return array_map(function ($address) {
+        return array_map(static function (stdClass $address) : ilMailAddress {
             return new ilMailAddress($address->mailbox, $address->host);
         }, $validParsedAddresses);
     }
