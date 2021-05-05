@@ -58,7 +58,7 @@ class ilLTIConsumerAccess
             return true;
         }
         
-        return $this->hasWriteAccess();
+        return false;
     }
     
     public function hasEditPermissionsAccess()

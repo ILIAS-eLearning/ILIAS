@@ -559,47 +559,39 @@ class ilLMContentRendererGUI
      */
     public function renderPreconditionsOfPage()
     {
-        // @todo
+        $conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
+        $topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
 
-
-        $conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->getCurrentPageId());
-        $topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(), $this->lm->getId(), $this->getCurrentPageId());
-
-        $page_id = $this->getCurrentPageId();
-
-
-        $this->tpl->addBlockFile("PAGE_CONTENT", "pg_content", "tpl.page_preconditions.html", true);
+        $ptpl = new ilTemplate("tpl.page_preconditions.html", true, true, "Modules/LearningModule");
 
         // list all missing preconditions
         foreach ($conds as $cond) {
             $obj_link = ilLink::_getLink($cond["trigger_ref_id"]);
-            $this->tpl->setCurrentBlock("condition");
-            $this->tpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
-            $this->tpl->setVariable("LINK_ITEM", $obj_link);
+            $ptpl->setCurrentBlock("condition");
+            $ptpl->setVariable("VAL_ITEM", ilObject::_lookupTitle($cond["trigger_obj_id"]));
+            $ptpl->setVariable("LINK_ITEM", $obj_link);
             if ($cond["operator"] == "passed") {
                 $cond_str = $this->lng->txt("passed");
             } else {
                 $cond_str = $this->lng->txt("condition_" . $cond["operator"]);
             }
-            $this->tpl->setVariable("VAL_CONDITION", $cond_str . " " . $cond["value"]);
-            $this->tpl->parseCurrentBlock();
+            $ptpl->setVariable("VAL_CONDITION", $cond_str . " " . $cond["value"]);
+            $ptpl->parseCurrentBlock();
         }
-        $this->tpl->setCurrentBlock("pg_content");
 
-        $this->tpl->setVariable(
+        $ptpl->setVariable(
             "TXT_MISSING_PRECONDITIONS",
             sprintf(
                 $this->lng->txt("cont_missing_preconditions"),
                 ilLMObject::_lookupTitle($topchap)
             )
         );
-        $this->tpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
-        $this->tpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
+        $ptpl->setVariable("TXT_ITEM", $this->lng->txt("object"));
+        $ptpl->setVariable("TXT_CONDITION", $this->lng->txt("condition"));
 
         // output skip chapter link
         $parent = $this->lm_tree->getParentId($topchap);
         $childs = $this->lm_tree->getChildsByType($parent, "st");
-        $next = "";
         $j = -2;
         $i = 1;
         foreach ($childs as $child) {
@@ -611,18 +603,13 @@ class ilLMContentRendererGUI
             }
         }
         if ($succ_node != "") {
-            $framestr = (!empty($_GET["frame"]))
-                ? "frame=" . $_GET["frame"] . "&"
-                : "";
-
-            $showViewInFrameset = true;
             $link = "<br /><a href=\"" .
-                $this->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"], $_GET["frame"]) .
+                $this->linker->getLink("layout", $succ_node["obj_id"], $_GET["frame"]) .
                 "\">" . $this->lng->txt("cont_skip_chapter") . "</a>";
-            $this->tpl->setVariable("LINK_SKIP_CHAPTER", $link);
+            $ptpl->setVariable("LINK_SKIP_CHAPTER", $link);
         }
 
-        $this->tpl->parseCurrentBlock();
+        return $ptpl->get();
     }
 
 

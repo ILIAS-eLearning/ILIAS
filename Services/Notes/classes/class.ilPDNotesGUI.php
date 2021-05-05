@@ -149,8 +149,10 @@ class ilPDNotesGUI
 
         if ($this->getMode() == self::PRIVATE_NOTES) {
             $t = $this->lng->txt("private_notes");
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nots.svg"));
         } else {
             $t = $this->lng->txt("notes_public_comments");
+            $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_coms.svg"));
         }
 
         $this->tpl->setTitle($t);
@@ -192,6 +194,7 @@ class ilPDNotesGUI
         }
 
         $first = true;
+        $current_ref_ids = [];
         foreach ($rel_objs as $r) {
             if ($first) {	// take first one as default
                 $this->current_rel_obj = $r["rep_obj_id"];
@@ -220,10 +223,9 @@ class ilPDNotesGUI
         } else {
             $notes_gui->enablePrivateNotes(false);
             $notes_gui->enablePublicNotes(true);
-            
             // #13707
             if ($this->current_rel_obj > 0 &&
-                sizeof($current_ref_ids) &&
+                count($current_ref_ids) > 0 &&
                 $ilSetting->get("comments_del_tutor", 1)) {
                 foreach ($current_ref_ids as $ref_id) {
                     if ($ilAccess->checkAccess("write", "", $ref_id)) {

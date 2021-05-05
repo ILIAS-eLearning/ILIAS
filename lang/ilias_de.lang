@@ -14,6 +14,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt)
+crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
+crs#:#crs_objective_result_details#:#« Details anzeigen
 rbac#:#rbac_form_copy_roles_adjust_type#:#Art der Rechteanpassung
 rbac#:#rbac_form_copy_roles_adjust_type_add#:#Rechte hinzufügen
 rbac#:#rbac_form_copy_roles_adjust_type_clone#:#Rechte kopieren
@@ -4828,7 +4831,7 @@ content#:#cont_deactivated#:#Deaktiviert
 content#:#cont_debug#:#Testwerkzeug bereitstellen
 content#:#cont_debug_deactivate#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert. Um das Testwerkzeug aufzurufen, muss der linke Navigationsbaum angezeigt werden.
 content#:#cont_debug_deactivate12#:#Es wird ein Testwerkzeug angezeigt. Es liefert im Präsentationsmodus des SCORM-Lernmoduls Daten, anhand welcher überprüft werden kann, wie das Lernmodul mit ILIAS interagiert.
-content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert.
+content#:#cont_debug_deactivated#:#Hinweis: Das Werkzeug zum Überprüfen des Lernmoduls auf SCORM-Konformität ist global für alle Lernmodule deaktiviert (Administration » Magazin und Objekte » Lernmodule).
 content#:#cont_decimal#:#Dezimal
 content#:#cont_def_layout#:#Standard-Layout
 content#:#cont_def_lesson_mode#:#Bearbeitungsdaten aufzeichnen
@@ -5516,7 +5519,7 @@ crs#:#crs_add_grouping#:#Neue Mitgliedschaftsbeschränkung
 crs#:#crs_add_html_archive#:#HTML-Archiv hinzufügen
 crs#:#crs_add_objective#:#Neues Lernziel hinzufügen
 crs#:#crs_add_remove_from_desktop#:#Als Favoriten hinzufügen
-crs#:#crs_add_remove_from_desktop_info#:#Mitglieder können sich Kursobjekte als Favoriten hinzufügen.
+crs#:#crs_add_remove_from_desktop_info#:#Objekte innerhalb des Kurses können den Favoriten hinzugefügt werden.
 crs#:#crs_add_starter#:#Startobjekt hinzufügen
 crs#:#crs_add_to_group#:#Zu Gruppe hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
@@ -6636,7 +6639,7 @@ grp#:#grp_info_settings#:#Gruppeninfo
 grp#:#grp_information#:#Wichtige Informationen
 grp#:#grp_information_info#:#Die hier angegebenen Informationen werden auf der Info-Seite und bei der Gruppenanmeldung angezeigt.
 grp#:#grp_join_request#:#Abschicken
-grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" als Mitglied aufgenommen worden.
+grp#:#grp_mail_admission_new_bod#:#Sie sind in Gruppe "%s" aufgenommen worden.
 grp#:#grp_mail_admission_new_sub#:#Mitgliedschaft in Gruppe "%s"
 grp#:#grp_mail_dismiss_bod#:#Ihre Mitgliedschaft in Gruppe "%s" wurde beendet.
 grp#:#grp_mail_dismiss_sub#:#Mitgliedschaft in Gruppe "%s" beendet
@@ -13499,7 +13502,7 @@ prg#:#prg_type_custom_icon#:#Individuelles Icon
 prg#:#prg_type_custom_icon_info#:#Info für Individuelles Icon
 prg#:#prg_type_msg_error_custom_icon#:#Während des Speicherns des individuellen Icons ist ein Fehler aufgetreten.
 prg#:#prg_type_assign_amd_sets#:#Erweiterten Metadatensatz zuweisen
-prg#:#prg_type_available_amd_sets#:#Verfügbare Erweiterte Metadatensätze
+prg#:#prg_type_available_amd_sets#:#Verfügbare benutzerdefinierte Metadatensätze
 prg#:#prg_type_edit#:#Typ editieren
 prg#:#prg_type_msg_deleted#:#Typ gelöscht.
 prg#:#prg_type_msg_unable_delete#:#Konnte Typ nicht löschen, da er bei folgenden Studienprogrammen verwendet wird: %s
@@ -13587,6 +13590,7 @@ rbac#:#feed_copy#:#Webfeed kopieren
 log#:#log_level_off#:#Deaktiviert
 log#:#log_component_root_desc#:#Log-Level für Nachrichten, die keiner Komponente zugeordnet sind.
 administration#:#adm_user_starting_point_ref_id_info#:# Öffnen Sie das Objekt, welches Sie als Persönliche Startseite festlegen wollen. Kopieren Sie aus der Browserzeile die Zahl hinter "ref_id=" und tragen Sie diese in das Eingabefeld ein.
+mail#:#mail_sel_label#:#Auswahl der Empfänger
 mail#:#mail_crs_roles#:#Verschicke Mail an folgende Rollen des Kurses
 mail#:#mail_grp_roles#:#Verschicke Mail an folgende Rollen der Gruppe
 mail#:#send_mail_members#:#Alle Mitglieder
@@ -13835,7 +13839,7 @@ obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
 badge#:#badge_add_template#:#Template hinzufügen
 badge#:#badge_image_template_form#:#Bildvorlage
-badge#:#badge_image_from_upload#:#Bild hochlanden
+badge#:#badge_image_from_upload#:#Bild hochladen
 badge#:#badge_image_from_template#:#Vorlage nutzen
 badge#:#badge_award_badge#:#Badge verleihen
 badge#:#badge_remove_badge#:#Badge entziehen
@@ -14045,8 +14049,8 @@ style#:#cant_delete_style_with_substyles#:#Styles mit Sub-Styles können nicht g
 style#:#style_assignments_deleted#:#Style-Zuweisungen des folgenden Sub-Styles wurden gelöscht:
 style#:#skin_id_exists#:#Es existiert bereits ein Skin mit dieser ID.
 style#:#usages#:#Verwendungen:
-exc#:#exc_individual_deadline#:#Individuelle Frist
-exc#:#exc_individual_deadline_action#:#Individuelle Frist setzen
+exc#:#exc_individual_deadline#:#Individueller Abgagetermin
+exc#:#exc_individual_deadline_action#:#Individuellen Abgabetermin setzen
 exc#:#exc_individual_deadline_before_global#:#Das Datum muss hinter der (letzten) Deadline liegen: %s.
 exc#:#exc_tbl_submission_date#:#Abgegeben am
 exc#:#exc_tbl_status#:#Bewertung
@@ -14057,7 +14061,7 @@ exc#:#exc_tbl_notice#:#Notiz für Tutoren
 exc#:#exc_tbl_feedback_time#:#Rückmeldung am
 exc#:#exc_tbl_sent_time#:#Übungseinheit verschickt am
 exc#:#exc_tbl_team#:#Team
-exc#:#exc_tbl_individual_deadline#:#Individuelle Frist
+exc#:#exc_tbl_individual_deadline#:#Individueller Abgagetermin
 exc#:#exc_tbl_action_download_files#:#Abgaben herunterladen
 exc#:#exc_tbl_action_download_all_files#:#Alle Abgaben herunterladen
 exc#:#exc_tbl_action_download_new_files#:#Neue Abgaben herunterladen
@@ -16225,3 +16229,15 @@ tagging#:#no_tag_text_3#:#Öffnen Sie dann das <i>Aktionen</i>-Menü des Objekte
 form#:#form_invalid_uri#:#Ungültiges URI-Format.
 awrn#:#awrn_filter#:#Benutzerfilter
 help#:#help_search_label#:#Suche in Hilfe
+rbac#:#delete_xapi_data#:#xAPI/cmi5-Daten löschen
+trac#:#trac_mode_cmix_completed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_with_failed#:#'Bearbeitet', wenn 'completed' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_passed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_passed_with_failed#:#'Bearbeitet', wenn 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+trac#:#trac_mode_cmix_completed_or_passed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'in Bearbeitung'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#'Bearbeitet', wenn 'completed' oder 'passed' oder 'satisfied' gesendet wurde; 'failed' setzt den Lernfortschritt von ILIAS auf 'nicht bestanden'.
+cmix#:#toplist_top_n_results#:#Bestenliste
+cmix#:#toplist_your_result#:#Eigener Rang
+lti#:#toplist_top_n_results#:#Bestenliste
+lti#:#toplist_your_result#:#Eigener Rang
+rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.

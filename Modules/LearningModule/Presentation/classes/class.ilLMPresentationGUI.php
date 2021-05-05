@@ -1041,7 +1041,20 @@ class ilLMPresentationGUI
             }
             $this->ctrl->setParameter($this, "ntf", "");
         }
-        
+
+        if (!$this->offline) {
+            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
+                if ($this->getCurrentPageId() <= 0) {
+                    $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
+                } else {
+                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->getCurrentPageId() . "&to_page=1";
+                }
+                $lg->addCustomCommand($link, "edit_page");
+            }
+        }
+
+
         if (!$a_redraw) {
             $this->tpl->setVariable("HEAD_ACTION", $lg->getHeaderAction($this->tpl));
         } else {
@@ -1541,6 +1554,8 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
         }
         $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
+        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink("sourcecodeDownload",
+            $this->getCurrentPageId()));
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
         }

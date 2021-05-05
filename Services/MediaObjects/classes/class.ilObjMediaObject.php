@@ -789,7 +789,7 @@ class ilObjMediaObject extends ilObject
                     // Title
                     if ($this->getTitle() != "") {
                         $xml .= "<Title>" .
-                            str_replace("&", "&amp;", $this->getTitle()) . "</Title>";
+                            $this->escapeProperty($this->getTitle()) . "</Title>";
                     }
 
                     // Parameter
