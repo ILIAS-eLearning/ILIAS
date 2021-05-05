@@ -31,7 +31,7 @@ define("IL_INSERT_CHILD", 2);
 /**
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilPageObject
 {
@@ -1121,7 +1121,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//InteractiveImage/MediaAlias";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1152,7 +1152,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//MediaObject/MediaAlias";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1184,7 +1184,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1224,7 +1224,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $parent_node = $res->nodeset[$i]->parent_node();
             $parent_node->unlink_node($parent_node);
@@ -1244,7 +1244,7 @@ abstract class ilPageObject
         $this->buildDom();
         $path = "//PageContent";
         $xpc = xpath_new_context($this->dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         return count($res->nodeset);
     }
 
@@ -3768,7 +3768,7 @@ abstract class ilPageObject
         }
 
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         if (count($res->nodeset) > 0) {
             return false;
@@ -3796,7 +3796,7 @@ abstract class ilPageObject
 
         // get existing ids
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $node = $res->nodeset[$i];
@@ -3860,7 +3860,7 @@ abstract class ilPageObject
 
         // get existing ids
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         return (count($res->nodeset) > 0);
     }
 
@@ -3897,7 +3897,7 @@ abstract class ilPageObject
             $sep = " | ";
         }
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $node = $res->nodeset[$i];
@@ -3920,7 +3920,7 @@ abstract class ilPageObject
         // get existing ids
         $path = "//PageContent";
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $hashes = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -3966,7 +3966,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {

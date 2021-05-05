@@ -11,18 +11,16 @@ class ilPageObjectFactory
 {
     /**
      * Get page object instance
-     *
-     * @param string $a_parent_type parent type
-     * @param int $a_id page id
-     * @param int $a_old_nr history number of page
+     * @param string $a_parent_type
+     * @param int    $a_id page id
+     * @param int    $a_old_nr history number of page
      * @param string $a_lang language
-     * @return object
+     * @return ilPageObject
      */
-    public static function getInstance($a_parent_type, $a_id = 0, $a_old_nr = 0, $a_lang = "-")
+    public static function getInstance(string $a_parent_type, int $a_id = 0, int $a_old_nr = 0, string $a_lang = "-") : ilPageObject
     {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"];
-        $path = "./" . $def["component"] . "/" . $def["directory"] . "/class." . $class . ".php";
         $obj = new $class($a_id, $a_old_nr, $a_lang);
         
         return $obj;
@@ -34,7 +32,7 @@ class ilPageObjectFactory
      * @param string $a_parent_type parent type
      * @return object
      */
-    public static function getConfigInstance($a_parent_type)
+    public static function getConfigInstance(string $a_parent_type) : ilPageConfig
     {
         $def = ilCOPageObjDef::getDefinitionByParentType($a_parent_type);
         $class = $def["class_name"] . "Config";

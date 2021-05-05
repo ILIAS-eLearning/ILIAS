@@ -142,6 +142,24 @@ class ilPageObjectGUI
      */
     protected $open_place_holder;
 
+    // user id
+    protected int $requested_user_id = 0;
+
+    // question id
+    protected int $requested_q_id = 0;
+
+    protected int $requested_history_mode = 0;
+
+    protected bool $enabled_news = false;
+    protected int $news_obj_id = 0;
+    protected string $news_obj_type = "";
+    protected ?array $tab_hook = null;
+    protected string $view_page_link = "";
+    protected string $view_page_target = "";
+    protected string $offline_directory = "";
+    protected bool $notes_enabled = false;
+    protected string $prependinghtml = "";
+
     /**
      * Constructor
      *
@@ -212,6 +230,10 @@ class ilPageObjectGUI
         $this->setTemplateOutput(false);
 
         $this->ctrl->saveParameter($this, "transl");
+
+        $this->requested_user_id = (int) ($_GET["user"] ?? 0);
+        $this->requested_q_id = (int) ($_GET['q_id'] ?? 0);
+        $this->requested_history_mode = (int) ($_GET["history_mode"] ?? 0);
         
         $this->afterConstructor();
     }
@@ -593,7 +615,7 @@ class ilPageObjectGUI
         $this->notes_parent_id = $a_parent_id;
     }
 
-    public function isEnabledNotes()
+    public function isEnabledNotes() : bool
     {
         return $this->notes_enabled;
     }
@@ -611,9 +633,9 @@ class ilPageObjectGUI
 
     /**
      * get offline directory
-     * @return directory where to store offline files
+     * @return string
      */
-    public function getOfflineDirectory()
+    public function getOfflineDirectory() : string
     {
         return $this->offline_directory;
     }
@@ -625,7 +647,7 @@ class ilPageObjectGUI
     * @param	string		link target
     * @param	string		target frame
     */
-    public function setViewPageLink($a_link, $a_target = "")
+    public function setViewPageLink(string $a_link, string $a_target = "")
     {
         $this->view_page_link = $a_link;
         $this->view_page_target = $a_target;
@@ -634,7 +656,7 @@ class ilPageObjectGUI
     /**
     * get view page link
     */
-    public function getViewPageLink()
+    public function getViewPageLink() : string
     {
         return $this->view_page_link;
     }
@@ -642,7 +664,7 @@ class ilPageObjectGUI
     /**
     * get view page target frame
     */
-    public function getViewPageTarget()
+    public function getViewPageTarget() : string
     {
         return $this->view_page_target;
     }
@@ -668,7 +690,7 @@ class ilPageObjectGUI
      *
      * @param	boolean	enabled news
      */
-    public function setEnabledNews($a_enabled, $a_news_obj_id = 0, $a_news_obj_type = 0)
+    public function setEnabledNews(bool $a_enabled, int $a_news_obj_id = 0, string $a_news_obj_type = "") : void
     {
         $this->enabled_news = $a_enabled;
         $this->news_obj_id = $a_news_obj_id;
@@ -1075,16 +1097,13 @@ class ilPageObjectGUI
                 
             // notes
             case "ilnotegui":
-                switch ($_GET["notes_mode"]) {
-                    default:
-                        $html = $this->edit();
-                        $this->tabs_gui->setTabActive("edit");
-                        return $html;
-                }
+                $html = $this->edit();
+                $this->tabs_gui->setTabActive("edit");
+                return $html;
                 break;
                 
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+                $profile_gui = new ilPublicUserProfileGUI($this->requested_user_id);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
 
@@ -1115,7 +1134,7 @@ class ilPageObjectGUI
                 $ret = $this->ctrl->forwardCommand($news_item_gui);
                 break;
 
-                $profile_gui = new ilPublicUserProfileGUI($_GET["user"]);
+                $profile_gui = new ilPublicUserProfileGUI($this->requested_user_id);
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
 
@@ -1157,7 +1176,12 @@ class ilPageObjectGUI
                 $this->lng->loadLanguageModule("assessment");
 
                 // set context tabs
-                $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType((int) $_GET['q_id']), (int) $_GET['q_id']);
+                $questionGUI = assQuestionGUI::_getQuestionGUI(
+                    assQuestion::_getQuestionType(
+                        $this->requested_q_id
+                    ),
+                    $this->requested_q_id
+                );
                 $questionGUI->object->setObjId(0);
                 $questionGUI->object->setSelfAssessmentEditingMode(true);
                 $questionGUI->object->setPreventRteUsage($this->getPageConfig()->getPreventRteUsage());
@@ -1211,14 +1235,14 @@ class ilPageObjectGUI
             $this->ctrl->getLinkTarget($this, "edit")
         );
 
-        $this->ctrl->setParameterByClass("ilquestioneditgui", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilquestioneditgui", "q_id", $this->requested_q_id);
         $this->tabs_gui->addTab(
             "question",
             $this->lng->txt("question"),
             $this->ctrl->getLinkTargetByClass("ilquestioneditgui", "editQuestion")
         );
 
-        $this->ctrl->setParameterByClass("ilAssQuestionFeedbackEditingGUI", "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass("ilAssQuestionFeedbackEditingGUI", "q_id", $this->requested_q_id);
         $this->tabs_gui->addTab(
             "feedback",
             $this->lng->txt("feedback"),
@@ -1375,7 +1399,8 @@ class ilPageObjectGUI
 
             // history
             $c_old_nr = $this->getPageObject()->old_nr;
-            if ($c_old_nr > 0 || $this->getCompareMode() || (isset($_GET["history_mode"]) && $_GET["history_mode"] == 1)) {
+            $c_old_nr = $this->getPageObject()->old_nr;
+            if ($c_old_nr > 0 || $this->getCompareMode() || ($this->requested_history_mode == 1)) {
                 $hist_info =
                         $this->getPageObject()->getHistoryInfo($c_old_nr);
 
@@ -2966,7 +2991,7 @@ class ilPageObjectGUI
         
         if ($this->getEnableEditing() && $lm_set->get("page_history", 1)) {
             $this->tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
-            if ($_GET["history_mode"] == "1" || $this->ctrl->getCmd() == "compareVersion") {
+            if ($this->requested_history_mode == 1 || $this->ctrl->getCmd() == "compareVersion") {
                 $this->tabs_gui->activateTab("history");
             }
         }

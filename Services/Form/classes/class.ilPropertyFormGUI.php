@@ -623,7 +623,7 @@ class ilPropertyFormGUI extends ilFormGUI
         // check if form has not title and first item is a section header
         // -> use section header for title and remove section header
         // -> command buttons are presented on top
-        $fi = $this->items[0];
+        $fi = $this->items[0] ?? null;
         if ($this->getMode() == "std" &&
             $this->getTitle() == "" &&
             is_object($fi) && $fi->getType() == "section_header"
