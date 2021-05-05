@@ -102,11 +102,6 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $this->tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
         $this->tpl->parseCurrentBlock();
         
-        if ($quota_legend) {
-            $this->tpl->setVariable("TXT_MAX_SIZE", $quota_legend);
-            $this->tpl->parseCurrentBlock();
-        }
-        
         $this->outputSuffixes($this->tpl);
         
         // create file upload object

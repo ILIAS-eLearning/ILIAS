@@ -126,6 +126,8 @@ class ilTable2GUI extends ilTableGUI
      * @var string
      */
     protected $id;
+    protected $custom_prev_next;
+    protected $reset_cmd_txt;
 
     protected string $defaultorderfield = "";
     protected string $defaultorderdirection = "";

@@ -133,9 +133,11 @@ class ilHTTPS
             $headerName = "HTTP_" . str_replace("-", "_", strtoupper($this->headerName));
             /* echo $headerName;
              echo $_SERVER[$headerName];*/
-            if (strcasecmp($_SERVER[$headerName], $this->headerValue) == 0) {
-                $_SERVER["HTTPS"] = "on";
-                return true;
+            if (isset($_SERVER[$headerName])) {
+                if (strcasecmp($_SERVER[$headerName], $this->headerValue) == 0) {
+                    $_SERVER["HTTPS"] = "on";
+                    return true;
+                }
             }
             /*
             if(isset($_SERVER[$this->headerName]) && (strcasecmp($_SERVER[$this->headerName],$this->headerValue) == 0))

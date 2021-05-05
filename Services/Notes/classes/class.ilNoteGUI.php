@@ -106,6 +106,8 @@ class ilNoteGUI
      */
     protected $log;
 
+    protected ilTemplate $form_tpl;
+
     /**
      * constructor, specifies notes set
      *
@@ -1013,108 +1015,35 @@ class ilNoteGUI
         }
         return false;
     }
-    
-    
+
     /**
-    * Init note form.
-    *
-    * @param        int        $a_mode        Edit Mode
-    */
-    public function initNoteForm($a_mode = "edit", $a_type, $a_note = null)
+     * @param string      $a_mode
+     * @param int         $a_type
+     * @param ilNote|null $a_note
+     */
+    public function initNoteForm(string $a_mode, int $a_type, ilNote $a_note = null) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
+
         $this->form_tpl = new ilTemplate("tpl.notes_edit.html", true, true, "Services/Notes");
         if ($a_note) {
             $this->form_tpl->setVariable("VAL_NOTE", ilUtil::prepareFormOutput($a_note->getText()));
             $this->form_tpl->setVariable("NOTE_ID", $a_note->getId());
         }
 
-        if ($a_mode == "create") {
-            $this->form_tpl->setVariable("TXT_CMD", ($a_type == IL_NOTE_PUBLIC)
+        if ($a_mode === "create") {
+            $this->form_tpl->setVariable("TXT_CMD", ($a_type === IL_NOTE_PUBLIC)
                 ? $lng->txt("note_add_comment")
                 : $lng->txt("note_add_note"));
             $this->form_tpl->setVariable("CMD", "addNote");
         } else {
-            $this->form_tpl->setVariable("TXT_CMD", ($a_type == IL_NOTE_PUBLIC)
+            $this->form_tpl->setVariable("TXT_CMD", ($a_type === IL_NOTE_PUBLIC)
                 ? $lng->txt("note_update_comment")
                 : $lng->txt("note_update_note"));
             $this->form_tpl->setVariable("CMD", "updateNote");
         }
-
-        return;
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-        $this->form = new ilPropertyFormGUI();
-        $this->form->setOpenTag(false);
-        $this->form->setCloseTag(false);
-        $this->form->setDisableStandardMessage(true);
-    
-        // subject
-        /*		$ti = new ilTextInputGUI($this->lng->txt("subject"), "sub_note");
-                $ti->setRequired(true);
-                $ti->setMaxLength(200);
-                $ti->setSize(40);
-                if ($a_note)
-                {
-                    $ti->setValue($a_note->getSubject());
-                }
-                $this->form->addItem($ti);*/
-        
-        // text
-        //		$ta = new ilTextAreaInputGUI(($a_type == IL_NOTE_PUBLIC)
-        //			? $lng->txt("notes_comment")
-        //			: $lng->txt("note"), "note");
-        $ta = new ilTextAreaInputGUI("", "note");
-        $ta->setCols(40);
-        $ta->setRows(4);
-        if ($a_note) {
-            $ta->setValue($a_note->getText());
-        }
-        $this->form->addItem($ta);
-
-        // label
-        /*		$options = array(
-                    IL_NOTE_UNLABELED => $lng->txt("unlabeled"),
-                    IL_NOTE_QUESTION => $lng->txt("question"),
-                    IL_NOTE_IMPORTANT => $lng->txt("important"),
-                    IL_NOTE_PRO => $lng->txt("pro"),
-                    IL_NOTE_CONTRA => $lng->txt("contra"),
-                    );
-                $si = new ilSelectInputGUI($this->lng->txt("notes_label"), "note_label");
-                $si->setOptions($options);
-                if ($a_note)
-                {
-                    $si->setValue($a_note->getLabel());
-                }
-                $this->form->addItem($si); */
-        
-        // hidden note id
-        if ($a_note) {
-            $hi = new ilHiddenInputGUI("note_id");
-            $hi->setValue($_GET["note_id"]);
-            $this->form->addItem($hi);
-        }
-
-        // save and cancel commands
-        if ($a_mode == "create") {
-            $this->form->addCommandButton("addNote", $lng->txt("save"));
-        /*			$this->form->addCommandButton("cancelAddNote", $lng->txt("cancel"));
-                    $this->form->setTitle($a_type == IL_NOTE_PUBLIC
-                        ? $lng->txt("notes_add_comment")
-                        : $lng->txt("notes_add_note"));*/
-        } else {
-            $this->form->addCommandButton("updateNote", $lng->txt("save"));
-            /*			$this->form->addCommandButton("cancelUpdateNote", $lng->txt("cancel"));
-                        $this->form->setTitle($a_type == IL_NOTE_PUBLIC
-                            ? $lng->txt("notes_edit_comment")
-                            : $lng->txt("notes_edit_note"));*/
-        }
-        
-        $ilCtrl->setParameter($this, "note_type", $a_type);
-        $this->form->setFormAction($this->ctrl->getFormAction($this));
     }
-    
+
     /**
     * Note display for personal desktop
     */

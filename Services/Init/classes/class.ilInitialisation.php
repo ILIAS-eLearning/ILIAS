@@ -1566,7 +1566,9 @@ class ilInitialisation
     {
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
-            return array_shift(array_keys($cmd));
+            $keys = array_keys($cmd);
+
+            return array_shift($keys);
         } else {
             return $cmd;
         }

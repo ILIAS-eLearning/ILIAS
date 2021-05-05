@@ -710,7 +710,7 @@ class ilPropertyFormGUI extends ilFormGUI
         if ($this->getMode() != "subform") {
             // try to keep uploads even if checking input fails
             if ($this->getMultipart()) {
-                $hash = $_POST["ilfilehash"];
+                $hash = $_POST["ilfilehash"] ?? null;
                 if (!$hash) {
                     $hash = md5(uniqid(mt_rand(), true));
                 }
@@ -757,7 +757,7 @@ class ilPropertyFormGUI extends ilFormGUI
         $tpl = $DIC["tpl"];
         ;
         $lng = $this->lng;
-            
+        
         
         $cfg = array();
         
@@ -771,7 +771,7 @@ class ilPropertyFormGUI extends ilFormGUI
 
             $this->tpl->touchBlock("multi_out");
 
-                        
+            
             // add hidden item to enable preset multi items
             // not used yet, should replace hidden field stuff
             $multi_values = $item->getMultiValues();

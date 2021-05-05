@@ -258,8 +258,8 @@ class ilObjectAddNewItemGUI
                                 $current_grp = $obj_grp_id;
                             }
                         }
-                        
-                        if ($subitem["plugin"]) {
+
+                        if (isset($subitem["plugin"]) && $subitem["plugin"]) {
                             $title = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
                         } else {
                             // #13088

@@ -26,7 +26,9 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     /**
      * @var array
      */
-    protected $forbidden_suffixes = array();
+    protected $forbidden_suffixes = [];
+    protected $suffixes = [];
+    protected $value;
     
     /**
     * Constructor
@@ -279,7 +281,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_FORM_SIZE:
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
@@ -303,7 +305,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_CANT_WRITE:
                     $this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
                     return false;
@@ -416,7 +418,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 " disabled=\"disabled\""
             );
         }
-            
+        
         $f_tpl->setVariable("POST_VAR", $this->getPostVar());
         $f_tpl->setVariable("ID", $this->getFieldId());
         $f_tpl->setVariable("SIZE", $this->getSize());

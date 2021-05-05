@@ -254,7 +254,7 @@ class ilRepositoryGUI
 
         // handle frameset command
         $cmd = $this->ctrl->getCmd();
-        if (($cmd == "frameset" || $_GET["rep_frame"] == 1) && $_SESSION["il_rep_mode"] == "tree") {
+        if (($cmd == "frameset" || (isset($_GET["rep_frame"]) && $_GET["rep_frame"] == 1)) && (isset($_SESSION["il_rep_mode"]) && $_SESSION["il_rep_mode"] === "tree")) {
             $next_class = "";
             $cmd = "frameset";
         } elseif ($cmd == "frameset" && $_SESSION["il_rep_mode"] != "tree") {

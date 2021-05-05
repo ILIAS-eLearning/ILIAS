@@ -66,7 +66,7 @@ class ilDBUpdate3136
      * @param
      * @return
      */
-    public function addStyleClass($a_class, $a_type, $a_tag, $a_parameters = "", $a_hide = 0)
+    public static function addStyleClass($a_class, $a_type, $a_tag, $a_parameters = "", $a_hide = 0)
     {
         global $ilDB;
         
