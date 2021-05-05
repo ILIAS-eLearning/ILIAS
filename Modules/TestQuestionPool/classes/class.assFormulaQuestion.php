@@ -1262,7 +1262,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $unit_factor = assFormulaQuestionUnit::lookupUnitFactor($user_solution[$result_name]['unit']);
                 }
 
-                $user_solution[$result->getResult()]["value"] = ilMath::_div($resVal, $unit_factor, 55);
+                try {
+                    $user_solution[$result->getResult()]["value"] = ilMath::_div($resVal, $unit_factor, 55);
+                } catch (ilMathDivisionByZeroException $ex) {
+                    $user_solution[$result->getResult()]["value"] = 0;
+                    ilUtil::sendFailure( $ex->getMessage(), true );
+                }
             }
             if ($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
                 || $result->getResultType() == assFormulaQuestionResult::RESULT_FRAC) {
