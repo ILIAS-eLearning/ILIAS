@@ -1582,7 +1582,7 @@ class ilCtrl
             return array();
         }
 
-        $current_base_class = $_GET["baseClass"];
+        $current_base_class = $_GET["baseClass"] ?? "";
         if ($this->use_current_to_determine_next && $this->inner_base_class != "") {
             $current_base_class = $this->inner_base_class;
         }

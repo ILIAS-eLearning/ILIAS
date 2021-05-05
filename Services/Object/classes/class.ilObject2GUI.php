@@ -263,7 +263,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $ilLocator->addRepositoryItems($ref_id);
                 
                 // not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
-                if ($_GET["admin_mode"] == "" &&
+                if ($this->admin_mode == self::ADMIN_MODE_NONE &&
                     strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui") {
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",

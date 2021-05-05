@@ -12,6 +12,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilObjectGUI
 {
+    public const ADMIN_MODE_NONE = "";
+    public const ADMIN_MODE_SETTINGS = "settings";
+    public const ADMIN_MODE_REPOSITORY = "respository";
+
+
     protected const UPLOAD_TYPE_LOCAL = 1;
     protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
 
@@ -147,6 +152,11 @@ class ilObjectGUI
     protected $request;
 
     /**
+     * @var int
+     */
+    protected $admin_mode = self::ADMIN_MODE_NONE;
+
+    /**
     * Constructor
     * @access	public
     * @param	array	??
@@ -241,6 +251,24 @@ class ilObjectGUI
         if ($a_prepare_output) {
             $this->prepareOutput();
         }
+    }
+
+    /**
+     * Set by administration
+     *
+     * @param string $mode
+     * @throws ilObjectException
+     */
+    public function setAdminMode(string $mode) : void
+    {
+        if (!in_array($mode, [
+            self::ADMIN_MODE_NONE,
+            self::ADMIN_MODE_REPOSITORY,
+            self::ADMIN_MODE_SETTINGS
+        ])) {
+            throw new ilObjectException("Unknown Admin Mode $mode.");
+        }
+        $this->admin_mode = $mode;
     }
     
     /**
@@ -655,7 +683,7 @@ class ilObjectGUI
     {
         $ilLocator = $this->locator;
         
-        if ($_GET["admin_mode"] == "settings") {	// system settings
+        if ($this->admin_mode == self::ADMIN_MODE_SETTINGS) {	// system settings
             $this->ctrl->setParameterByClass(
                 "ilobjsystemfoldergui",
                 "ref_id",
