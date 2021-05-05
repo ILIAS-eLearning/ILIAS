@@ -224,6 +224,7 @@ interface Factory
      *     5: Bulky Buttons in the Main Bar MUST bear the "aria-haspopup" attribute.
      *     6: Bulky Buttons in the Main Bar MUST bear the ARIA role "menuitem".
      *     7: Slates in the Main Bar MUST bear the ARIA role "menu".
+     *     8: Top-Level entries of the Main Bar MUST be rendered as a listitems.
      * ----
      * @return  \ILIAS\UI\Component\MainControls\MainBar
      */

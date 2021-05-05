@@ -9,8 +9,11 @@ function ui()
     $renderer = $DIC->ui()->renderer();
 
     $url = 'src/UI/examples/Layout/Page/Standard/ui.php?new_ui=1';
-    $btn = $f->button()->standard('See UI in fullscreen-mode', $url);
-    return $renderer->render($btn);
+    $page_demo = $f->button()->primary('See UI in fullscreen-mode', $url);
+
+    return $renderer->render([
+        $page_demo
+    ]);
 }
 
 
@@ -49,11 +52,14 @@ if ($_GET['new_ui'] == '1') {
         'UI PAGE DEMO', //page title
         'ILIAS', //short title
         'Std. Page Demo' //view title
-    )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
+    )
+        /*
+        ->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
         ->withSystemInfos(
             [$f->mainControls()->headInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
                ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
         )
+        */
     ->withUIDemo(true);
 
     echo $renderer->render($page);

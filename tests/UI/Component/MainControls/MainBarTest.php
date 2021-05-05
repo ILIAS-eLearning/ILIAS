@@ -226,12 +226,12 @@ class MainBarTest extends ILIAS_UI_TestBase
 			<div class="il-maincontrols-mainbar" id="id_12">
 				<nav class="il-mainbar" aria-label="mainbar_aria_label">
 					<div class="il-mainbar-triggers">
-						<div class="il-mainbar-entries" role="menubar" style="visibility: hidden">
-							<button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
-							<button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
-							<button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button>
-							<button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button>
-						</div>
+						<ul class="il-mainbar-entries" role="menubar" style="visibility: hidden">
+							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
+							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
+							<li role="none"><button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button></li>
+							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
+						</ul>
 					</div>
 				</nav>
 
