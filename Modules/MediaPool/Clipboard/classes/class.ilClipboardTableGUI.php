@@ -78,7 +78,7 @@ class ilClipboardTableGUI extends ilTable2GUI
         $objs = $ilUser->getClipboardObjects("mob");
         $objs2 = $ilUser->getClipboardObjects("incl");
         $objs = array_merge($objs, $objs2);
-        $objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
+//        $objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 
         $this->setData($objs);
     }
@@ -135,8 +135,7 @@ class ilClipboardTableGUI extends ilTable2GUI
                 "EDIT_LINK",
                 $ilCtrl->getLinkTargetByClass(
                     "ilObjMediaObjectGUI",
-                    "edit",
-                    array("ilEditClipboardGUI")
+                    "edit"
                 )
             );
             $this->tpl->setVariable("TEXT_OBJECT", $a_set["title"] .

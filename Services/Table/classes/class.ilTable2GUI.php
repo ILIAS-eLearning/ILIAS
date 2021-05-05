@@ -1571,6 +1571,7 @@ class ilTable2GUI extends ilTableGUI
         // $nav[0] is order by
         $req_order_field = $nav[0] ?? "";
         $req_order_dir = $nav[1] ?? "";
+        $req_offset = (int) ($nav[2] ?? 0);
         $this->setOrderField(($req_order_field != "") ? $req_order_field : $this->getDefaultOrderField());
         $this->setOrderDirection(($req_order_dir != "") ? $req_order_dir : $this->getDefaultOrderDirection());
 
@@ -1578,10 +1579,10 @@ class ilTable2GUI extends ilTableGUI
             // #8904: offset must be discarded when no limit is given
             if (!$this->getExternalSegmentation() && $this->limit_determined && $this->limit == 9999) {
                 $this->resetOffset(true);
-            } elseif (!$this->getExternalSegmentation() && $nav[2] >= $this->max_count) {
+            } elseif (!$this->getExternalSegmentation() && $req_offset >= $this->max_count) {
                 $this->resetOffset(true);
             } else {
-                $this->setOffset($nav[2]);
+                $this->setOffset($req_offset);
             }
         }
 
