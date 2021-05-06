@@ -47,7 +47,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
         $lng->loadLanguageModule("meta");
-        $lng->loadLanguageModule("lng");
 
         //  view mode ('translate' or empty) determins available table filters
         $ilCtrl->saveParameter($this, "view_mode");
@@ -1044,8 +1043,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	$renderer = $DIC->ui()->renderer();
         $lng = $this->lng;
 
-	return $renderer->render($f->messageBox()->success($this->lng->txt("lng_variables_saved")));
-        
-    //ilUtil::sendSuccess("function getSuccess Message was called", true);
+	return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
     }
 } // END class.ilObjLanguageExtGUI

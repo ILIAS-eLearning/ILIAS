@@ -504,6 +504,7 @@ administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_settings#:#Language Settings
 administration#:#language_statistics#:#Statistics
 administration#:#language_translation_enabled#:#Page translation enabled
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
 administration#:#log_scan#:#Log scan results
 administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
@@ -13167,7 +13168,6 @@ note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
 note#:#note_comment_notification_salutation#:#Hello %s,
 note#:#note_comment_notification_link#:#Link
-lng#:#lng_variables_saved#:#The changes to the language variables were saved successfully.
 lng#:#lng_enable_language_detection#:#Enable Language Detection
 lng#:#lng_disable_language_detection#:#Disable Language Detection
 trac#:#trac_mode_content_visited#:#Visited
