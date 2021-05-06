@@ -2441,7 +2441,6 @@ class ilObjStudyProgramme extends ilContainer
             return;
         }
 
-
         $progress = $progress
             ->markNotRelevant($this->getNow(), $acting_usr_id);
 

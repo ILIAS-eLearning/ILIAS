@@ -610,6 +610,7 @@ class ilStudyProgrammeProgress
             ->withLastChangeBy($acting_usr_id)
             ->withLastChange($date)
             ->withValidityOfQualification(null)
+            ->withDeadline(null)
             ->withIndividualModifications(true);
     }
 
