@@ -784,7 +784,8 @@ class ilObjectGUI
             $forms = $this->initCreationForms($new_type);
             
             // copy form validation error: do not show other creation forms
-            if ($_GET["cpfl"] && isset($forms[self::CFORM_CLONE])) {
+            $cpfl = $_GET["cpfl"] ?? false;
+            if ($cpfl && isset($forms[self::CFORM_CLONE])) {
                 $forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
             }
             $tpl->setContent($this->getCreationFormsHTML($forms));
@@ -1062,7 +1063,7 @@ class ilObjectGUI
      */
     public function getDidacticTemplateVar($a_type)
     {
-        $tpl = $_POST["didactic_type"];
+        $tpl = $_POST["didactic_type"] ?? null;
         if ($tpl && substr($tpl, 0, strlen($a_type) + 1) == $a_type . "_") {
             return (int) substr($tpl, strlen($a_type) + 1);
         }
@@ -1539,7 +1540,7 @@ class ilObjectGUI
     */
     protected function getTargetFrame($a_cmd, $a_target_frame = "")
     {
-        if ($this->target_frame[$a_cmd] != "") {
+        if (isset($this->target_frame[$a_cmd]) && $this->target_frame[$a_cmd] != "") {
             return $this->target_frame[$a_cmd];
         } elseif (!empty($a_target_frame)) {
             return "target=\"" . $a_target_frame . "\"";

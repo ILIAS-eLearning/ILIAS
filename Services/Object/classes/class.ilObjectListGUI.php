@@ -229,6 +229,7 @@ class ilObjectListGUI
      * @var array
      */
     protected $default_command_params = [];
+    protected $header_icons;
 
     /**
     * constructor
@@ -2948,7 +2949,7 @@ class ilObjectListGUI
                 : $this->sub_obj_type;
             $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
-            if ($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
+            if ($this->notes_enabled && isset($cnt[$this->obj_id][IL_NOTE_PRIVATE]) && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "notes",

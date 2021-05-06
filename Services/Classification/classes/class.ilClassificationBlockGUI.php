@@ -37,7 +37,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
      * @var ilClassificationSessionRepository
      */
     protected $repo;
-    
+    protected $parent_obj_typ;
+
     public function __construct()
     {
         global $DIC;

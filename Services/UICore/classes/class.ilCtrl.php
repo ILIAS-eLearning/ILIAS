@@ -936,7 +936,7 @@ class ilCtrl
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
                 reset($_POST["cmd"]);
             }
-            $cmd = @key($_POST["cmd"]);
+            $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 
             // verify command
             if ($this->verified_cmd != "") {
@@ -950,7 +950,7 @@ class ilCtrl
             
             $this->verified_cmd = $cmd;
             if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
-                $cmd = @key($_POST["table_top_cmd"]);
+                $cmd = key($_POST["table_top_cmd"]);
                 $this->verified_cmd = $cmd;
                 $_POST[$_POST["cmd_sv"][$cmd]] = $_POST[$_POST["cmd_sv"][$cmd] . "_2"];
             }
@@ -1757,7 +1757,9 @@ class ilCtrl
             $this->updateClassCidMap($a_class, $class_info['cid']);
         }
         $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        
+        if(!isset($this->class_cid[$a_class])) {
+            return false;
+        }
         $this->info_read_class[$a_class] = true;
         $this->info_read_cid[$this->class_cid[$a_class]] = true;
     }

@@ -335,7 +335,7 @@ class ilUserTableGUI extends ilTable2GUI
         $query->setUserFolder($user_filter);
         $query->setUserFilter($this->filter['user_ids']);
         $query->setUdfFilter($udf_filter);
-        $query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
+        $query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter'] ?? ''));
         $query->setAuthenticationFilter($this->filter['authentication']);
         $usr_data = $query->query();
 
@@ -667,8 +667,8 @@ class ilUserTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        $ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"]);
-        
+        $ilCtrl->setParameterByClass("ilobjusergui", "letter", $_GET["letter"] ?? null);
+
         foreach ($this->getSelectedColumns() as $c) {
             if ($c == "access_until") {
                 $this->tpl->setCurrentBlock("access_until");

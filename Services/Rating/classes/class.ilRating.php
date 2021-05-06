@@ -136,7 +136,7 @@ class ilRating
         $ilDB = $DIC->database();
         
         if (is_array(self::$list_data)) {
-            return self::$list_data["user"][$a_obj_type . "/" . $a_obj_id];
+            return self::$list_data["user"][$a_obj_type . "/" . $a_obj_id] ?? null;
         }
         
         $q = "SELECT AVG(rating) av FROM il_rating WHERE " .

@@ -183,7 +183,7 @@ class ilCachedCtrl
      */
     public function lookupClassFile($class)
     {
-        return $this->ctrl_classfile_parent[$class];
+        return isset($this->ctrl_classfile_parent[$class])?$this->ctrl_classfile_parent[$class]:null;
     }
 
 

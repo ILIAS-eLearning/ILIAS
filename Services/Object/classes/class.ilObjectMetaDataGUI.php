@@ -84,7 +84,7 @@ class ilObjectMetaDataGUI
         
         $this->logger = $GLOBALS['DIC']->logger()->obj();
 
-        $this->in_workspace = (bool) $_REQUEST["wsp_id"];
+        $this->in_workspace = (bool) ($_REQUEST["wsp_id"] ?? false);
 
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;

@@ -872,7 +872,7 @@ class ilNote
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["activated"];
+        return $rec["activated"] ?? false;
     }
     
     /**

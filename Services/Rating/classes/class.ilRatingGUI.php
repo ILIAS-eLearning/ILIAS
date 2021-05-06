@@ -30,6 +30,9 @@ class ilRatingGUI
     protected $export_subobj_title;
     protected $ctrl_path;
 
+    protected bool $enable_categories = false;
+    protected string $your_rating_text = "";
+
     /**
      * @var \ILIAS\DI\UIServices
      */

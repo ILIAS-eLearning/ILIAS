@@ -26,7 +26,9 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     /**
      * @var array
      */
-    protected $forbidden_suffixes = array();
+    protected $forbidden_suffixes = [];
+    protected $suffixes = [];
+    protected $value;
     
     /**
     * Constructor
@@ -53,10 +55,12 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     */
     public function setValueByArray($a_values)
     {
-        if (!is_array($a_values[$this->getPostVar()])) {
-            $this->setValue($a_values[$this->getPostVar()]);
+        $value = $a_values[$this->getPostVar()] ?? null;
+        if (!is_array($value)) {
+            $this->setValue($value);
         }
-        $this->setFilename($a_values[$this->getFileNamePostVar()]);
+        $filenam = $a_values[$this->getFileNamePostVar()] ?? '';
+        $this->setFilename($filenam);
     }
 
     /**
@@ -267,7 +271,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 
         $filename = $_FILES[$this->getPostVar()]["name"];
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
-        $suffix = $filename_arr["extension"];
+        $suffix = $filename_arr["extension"] ?? '';
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
         $_POST[$this->getPostVar()] = $_FILES[$this->getPostVar()];
@@ -279,7 +283,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_FORM_SIZE:
                     $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
                     return false;
@@ -303,7 +307,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                     $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
                     return false;
                     break;
-                     
+                    
                 case UPLOAD_ERR_CANT_WRITE:
                     $this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
                     return false;
@@ -416,7 +420,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
                 " disabled=\"disabled\""
             );
         }
-            
+        
         $f_tpl->setVariable("POST_VAR", $this->getPostVar());
         $f_tpl->setVariable("ID", $this->getFieldId());
         $f_tpl->setVariable("SIZE", $this->getSize());

@@ -31,7 +31,7 @@ define("IL_INSERT_CHILD", 2);
 /**
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilPageObject
 {

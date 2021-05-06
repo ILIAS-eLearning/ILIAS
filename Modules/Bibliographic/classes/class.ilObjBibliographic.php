@@ -147,7 +147,8 @@ class ilObjBibliographic extends ilObject2
 
         $upload = $DIC->upload();
         $has_valid_upload = $upload->hasUploads() && !$upload->hasBeenProcessed();
-        if ($_POST['override_entries'] && $has_valid_upload) {
+        $override_entries = (bool) ($_POST['override_entries'] ?? false);
+        if ($override_entries && $has_valid_upload) {
             $upload->process();
             $this->deleteFile();
             $this->moveUploadedFile($upload);
@@ -220,7 +221,7 @@ class ilObjBibliographic extends ilObject2
          * @var $result \ILIAS\FileUpload\DTO\UploadResult
          */
         $result = array_values($upload->getResults())[0];
-        if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+        if ($result->isOK()) {
             $this->deleteFile();
             $upload->moveFilesTo($this->getFileDirectory(), \ILIAS\FileUpload\Location::STORAGE);
             $this->setFilename($result->getName());

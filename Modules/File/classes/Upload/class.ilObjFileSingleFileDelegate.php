@@ -21,6 +21,8 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
     ) : ilObjFileUploadResponse {
         // Create new FileObject
         $file = new ilObjFile();
+        $file->setTitle('pending...');
+        $file->setDescription('pending...');
         $this->object_id = $file->create();
         $gui->putObjectInTree($file, $parent_id);
 //        $gui->handleAutoRating($file);

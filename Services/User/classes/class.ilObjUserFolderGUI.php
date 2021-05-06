@@ -38,10 +38,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $ilCtrl = $DIC['ilCtrl'];
         // TODO: move this to class.ilias.php
-        define(
-            'USER_FOLDER_ID',
-            7
-        );
+        if (!defined('USER_FOLDER_ID')) {
+            define('USER_FOLDER_ID', 7);
+        }
+
         $this->type = "usrf";
         parent::__construct(
             $a_data,
@@ -388,7 +388,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this,
                 "chooseLetter"
             );
-            $ai->setHighlighted($_GET["letter"]);
+            $ai->setHighlighted($_GET["letter"] ?? null);
             $ilToolbar->addInputItem(
                 $ai,
                 true
@@ -1217,7 +1217,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if (!$rbacsystem->checkAccess('create_usr', $this->object->getRefId())) {
             $this->ilias->raiseError(
                 $this->lng->txt("permission_denied"),
-                $this->ilias->error_obj->MESSAGE);
+                $this->ilias->error_obj->MESSAGE
+            );
         }
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());

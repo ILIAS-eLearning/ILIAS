@@ -160,8 +160,8 @@ class ilUserDefinedFields
         }
         return $searchable_definition;
     }
-    
-    public function getRequiredDefinitions()
+
+    public function getRequiredDefinitions() : array
     {
         $required_definition = [];
         foreach ($this->definitions as $id => $definition) {

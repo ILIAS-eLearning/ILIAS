@@ -710,7 +710,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
         
         // add new object to custom parent container
-        if ((int) $_REQUEST["crtptrefid"]) {
+        if (isset($_REQUEST["crtptrefid"])) {
             $a_parent_node_id = (int) $_REQUEST["crtptrefid"];
         }
 
@@ -751,9 +751,9 @@ abstract class ilObject2GUI extends ilObjectGUI
         // BEGIN ChangeEvent: Record save object.
         ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
         // END ChangeEvent: Record save object.
-            
+        
         // use forced callback after object creation
-        self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"]);
+        self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"] ?? null);
     }
     
     /**
