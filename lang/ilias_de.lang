@@ -389,7 +389,7 @@ acc#:#acc_form_document#:#Dokument
 acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
 acc#:#acc_form_document_new#:#Inhalt ändern
 acc#:#acc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
-acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden im Zweifel eine neue Datei hoch.
 acc#:#acc_tbl_docs_title#:#Dokumente
 acc#:#acc_tbl_docs_head_sorting#:#Sortierung
 acc#:#acc_tbl_docs_head_title#:#Titel
@@ -824,7 +824,7 @@ assessment#:#cloze_textgap_case_sensitive#:#Groß- und Kleinschreibung beachten
 assessment#:#cloze_textgap_levenshtein_of#:#Levenshtein-Abstand von %s
 assessment#:#cloze_textgap_whitespace_before#:#Leerzeichen vor dem Begriff
 assessment#:#cloze_textgap_whitespace_after#:#Leerzeichen nach dem Begriff
-assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hinereinander
+assessment#:#cloze_textgap_multiple_whitespace#:#Mehrere Leerzeichen hintereinander
 assessment#:#out_of_range#:#Ausserhalb des Bereichs
 assessment#:#ass_cloze_fb_mode#:#Modus der Rückmeldung
 assessment#:#ass_cloze_fb_mode_gap_qst#:#Rückmeldungen je Lücke
@@ -1863,9 +1863,9 @@ assessment#:#tst_manage_competence_assigns#:#Kompetenz-Zuordnungen verwalten
 assessment#:#tst_edit_competence_assign#:#Bearbeite Zuordnungs-Eigenschaften
 assessment#:#tst_view_competence_assign#:#Zeige Zuordnungs-Eigenschaften
 assessment#:#qpl_qst_skl_assign_properties_modified#:#Die Eigenschaften der Zuweisung wurden gespeichert.
-assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzuweisungen wurden aktualisiert.
+assessment#:#qpl_qst_skl_assigns_updated#:#Die Kompetenzzuweisungen wurden aktualisiert.
 assessment#:#qpl_sync_quest_skl_assigns_confirmation#:#Die Frage wurde aus einem anderen Magazinobjekt eingefügt. Soll die aktuelle Konfiguration von Kompetenzzuweisungen auf das Original der Frage übertragen werden?
-assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzuweisungen wurden auf die Originalfrage übertragen.
+assessment#:#qpl_qst_skl_assign_synced_to_orig#:#Die Kompetenzzuweisungen wurden auf die Originalfrage übertragen.
 assessment#:#qpl_save_skill_assigns_update#:#Kompetenzzuweisung speichern
 assessment#:#qpl_cancel_skill_assigns_update#:#Abbrechen
 assessment#:#tst_comp_eval_mode#:#Evaluierung über
@@ -2649,7 +2649,7 @@ rbac#:#cert_write#:#Einstellungen der Zertifikatsverwaltung bearbeiten
 common#:#certificate#:#Zertifikat
 common#:#change#:#Ändern
 common#:#change_assignment#:#Zuweisung ändern
-rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonstern gilt die Rechteänderung nur für künftig erstellte Objekte.
+rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonsten gilt die Rechteänderung nur für künftig erstellte Objekte.
 rbac#:#change_existing_objects#:#Vorhandene Objekte ändern
 rbac#:#change_existing_objects_desc#:#Wenn aktiviert, werden die geänderten Rechteeinstellungen dieser Rolle auch auf alle bereits bestehenden Objekte übertragen. Um nur die Rechte einzelner Objekttypen anzupassen, klicken Sie bitte die jeweiligen Checkboxen auf der rechten Seite an.
 rbac#:#change_existing_prefix#:#Bereits vorhandene
@@ -2723,7 +2723,7 @@ common#:#condition_finished#:#Beendet
 common#:#condition_not_finished#:#Nicht beendet
 common#:#condition_passed#:#Bestanden
 common#:#condition_select_object#:#Bitte wählen Sie das Objekt aus, das für die Vorbedingung genutzt werden soll.
-common#:#condition_accredited_or_passed#:#Akkreditiert oder Bestanden
+common#:#condition_accredited_or_passed#:#Akkreditiert oder bestanden
 common#:#conditions_updated#:#Die Bedingungen wurden gespeichert.
 common#:#confirm#:#Bestätigen
 common#:#confirm_delete_parameter#:#Wollen Sie den Parameter wirklich löschen?
@@ -2731,7 +2731,7 @@ common#:#confirmation#:#Aktion bestätigen
 common#:#conflict_handling#:#Konfliktbehandlung
 common#:#cont_iim_content_popups_info#:#Content-Popups werden angezeigt, wenn Benutzer auf die interaktiven Teile des zugrundeliegenden Basis-Bilds klicken. Auf dieser Seite definieren Sie nur die Pop-ups. Ihr Inhalt wird auf der Hauptseite bearbeitet.
 common#:#cont_iim_create_info#:#Bitte laden Sie die zugrundeliegende Bilddatei für das interaktive Bild hoch.
-common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenen Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
+common#:#cont_iim_overlay_info#:#Ein Overlay-Bild wird angezeigt, wenn Benutzer mit der Maus über den definierten Bereich des zugrundeliegenden Bildes fahren. Das jeweilige Overlay-Bild weisen Sie nach dem Hochladen im Register "Auslöser" dem zugehörigen Auslösebereich zu.
 common#:#contact#:#Kontakt
 common#:#contact_data#:#Kontaktinformationen
 common#:#container#:#Container
@@ -2809,7 +2809,7 @@ common#:#crs_wizard_page#:#Kurs kopieren (Schritt 2/2)
 rbac#:#crs_write#:#Kurs bearbeiten
 common#:#crsr#:#Kurslink
 common#:#crsr_edit_info#:#Bitte wählen Sie den Kurs aus, für den Sie einen Link erstellen möchten.
-common#:#crsr_new#:#Neue Kurslink anlegen
+common#:#crsr_new#:#Neuen Kurslink anlegen
 common#:#csv_export#:#CSV-Export
 common#:#current_ip#:#Aktuelle IP:
 common#:#current_ip_alert#:#Warnung: Wird hier eine falsche IP eingetragen, wird der Zugriff auf das System für diesen Benutzer verwehrt.
@@ -4802,7 +4802,7 @@ content#:#cont_coords#:#Koordinaten
 content#:#cont_copy_question_from_pool#:#Frage aus Testfragenpool kopieren
 content#:#cont_copy_question_into_page#:#In Seite kopieren
 content#:#cont_copy_to_clipboard#:#In die Zwischenablage kopieren
-content#:#cont_correct_after_first#:#Erste Antwort korrekt
+content#:#cont_correct_after_first#:#1.&nbsp;Antwort korrekt
 content#:#cont_correct_answer_also#:#Richtig ist auch:
 content#:#cont_correct_answers_also#:#Richtig sind auch:
 content#:#cont_correct_answers_shown#:#Richtige Lösung siehe oben.
@@ -5308,7 +5308,7 @@ content#:#cont_score#:#Punkte
 content#:#cont_scorm_ed_properties#:#Eigenschaften Lernmodul
 content#:#cont_scorm_type#:#adlcp:scormtype
 content#:#cont_screen_ids#:#Screen-IDs
-content#:#cont_second#:#Zweite
+content#:#cont_second#:#2.&nbsp;Antwort
 content#:#cont_sel_el_copied_use_paste#:#Die ausgewählten Elemente wurden kopiert. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
 content#:#cont_sel_el_cut_use_paste#:#Die ausgewählten Elemente wurden ausgeschnitten. Klicken Sie nun den gewünschte Zielplatzhalter und klicken Sie "Einfügen".
 content#:#cont_select#:#Auswählen
@@ -5392,7 +5392,7 @@ content#:#cont_text_quot#:#Zitat:
 content#:#cont_text_str#:#Stark betonter Text:
 content#:#cont_text_tex#:#LaTeX-Code:
 content#:#cont_text_xln#:#Externer Link:
-content#:#cont_third_and_more#:#Dritte oder später
+content#:#cont_third_and_more#:#3. oder weitere
 content#:#cont_time#:#Zeit
 content#:#cont_time_from_lms#:#ILIAS bestimmt Bearbeitungszeiten
 content#:#cont_time_limit_action#:#adlcp:timelimitaction
@@ -6728,7 +6728,7 @@ grp#:#reg_grp_max_members_short#:#Begrenzte Mitgliederanzahl
 grp#:#reg_grp_max_members#:#Maximale Anzahl
 jscalendar#:#about_calendar#:#Über den Kalender
 jscalendar#:#about_calendar_long#:#DHTML Date/Time Selector (c) dynarch.com 2002-2003 For latest version visit: http://dynarch.com/mishoo/calendar.epl Distributed under GNU LGPL. See http://gnu.org/licenses/lgpl.html for details.  Auswahl des Datums: - Verwenden Sie die «, » Schaltflächen, um das Jahr auszuwählen - Verwenden Sie die <, > Schaltflächen, um den Monat auszuwählen - Lassen Sie die Maustaste über jeder der oberen Schaltflächen gedrückt, um eine Schnellauswahl zu erhalten.
-jscalendar#:#about_time#:#  Auswahl der Zeit: - Klicken Sie auf die Zeitfelder, um den Wert zu erhöhen - or Umschalten+Klicken, um den Wert zu erniedrigen - oder klicken und ziehen für eine Schnellauswahl.
+jscalendar#:#about_time#:#Auswahl der Zeit: Auf die Zeitfelder klicken, um den Wert zu erhöhen oder Umschalten und Klicken, um den Wert zu verringern oder Klicken und Ziehen für eine Schnellauswahl.
 jscalendar#:#close#:#Schließen
 jscalendar#:#day_first#:#%s zuerst anzeigen
 jscalendar#:#def_date_format#:#%Y-%m-%d
@@ -7048,9 +7048,9 @@ mail#:#search_recipients#:#Empfänger suchen
 mail#:#send_mail_to#:#Mail an
 mail#:#mail_tbl_head_attachments#:#Anhang
 mail#:#mail_firstname_last_name_superior#:#Kommaseparierte Liste mit den Vor- und Nachnamen der Vorgesetzten eines Benutzers
-mail#:#mail_email_usr_subject#:#Test E-Mail Benutzer Mail
+mail#:#mail_email_usr_subject#:#Test-E-Mail „Benutzer-Mail”
 mail#:#mail_email_usr_body#:#Dies ist eine Test-E-Mail um den Versand einer von einem Benutzer initiierten E-Mail an externe E-Mail-Adressen zu testen.
-mail#:#mail_email_sys_subject#:#Test E-Mail System Mail
+mail#:#mail_email_sys_subject#:#Test-E-Mail „System-Mail”
 mail#:#mail_email_sys_body#:#Dies ist eine Test-E-Mail um den Versand einer automatisch vom System initiierten E-Mail an externe E-Mail-Adressen zu testen.
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
@@ -9016,7 +9016,7 @@ survey#:#constraint_add#:#Verzweigungsregel hinzufügen
 survey#:#constraint_fulfilled#:#Seite anzeigen
 survey#:#constraints#:#Verzweigungsregel
 survey#:#constraints_first_question_description#:#Der erste Eintrag kann keine Verzweigungsregel haben, da es keine vorherigen Einträge gibt.
-survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblöck kann keine Verzweigungsregel gesetzt werden.
+survey#:#constraints_introduction#:#Verzweigungsregeln können sowohl für eine einzelne Frage als auch für einen Fragenblock mit mehreren Fragen hinzugefügt werden. Abhängig von der ausgewählten Antwort in einer vorangegangenen Frage wird als nächstes eine ganz bestimmte Frage präsentiert. Durch Verzweigungsregeln stellt die Umfrage spezifisch zum Antwortverhalten passende Fragen und vermeidet unzutreffende Fragen. Für die erste Frage bzw. den ersten Fragenblock kann keine Verzweigungsregel gesetzt werden.
 survey#:#constraints_list_of_entities#:#Mögliche Aufhänger für Verzweigungsregeln
 survey#:#constraints_no_nonessay_available#:#Es gibt keine vorangegangenen Fragen, die zur Erstellung von Verzweigungsregeln verwendet werden können. Folgende Typen werden unterstützt: Metrische, Single Choice und Multiple Choice Frage.
 survey#:#constraints_no_questions_or_questionblocks_selected#:#Bitte wählen Sie mindestens eine Frage oder einen Fragenblock aus!
@@ -10113,7 +10113,7 @@ book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
 book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
-book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, daß Sie das folgende Objekt buchen wollen?
+book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
 forum#:#forums_forum_notification_disabled#:#Sie werden nicht mehr über neue Beiträge in diesem Forum benachrichtigt.
 forum#:#number_of_threads#:#Anzahl dargestellter Themen pro Seite
@@ -10521,7 +10521,7 @@ dcl#:#dcl_mob#:#Medienobjekt
 dcl#:#dcl_width#:#Breite
 dcl#:#dcl_height#:#Höhe
 dcl#:#dcl_table_info#:#Nachfolgend legen Sie fest, was Benutzer in dieser Tabelle tun dürfen, die für die Datensammlung das Recht "Eintragen" besitzen.
-dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tablle wirklich löschen inkl. Inhalt und Struktur?
+dcl#:#dcl_confirm_delete_table#:#Wollen Sie diese Tabelle wirklich löschen inkl. Inhalt und Struktur?
 dcl#:#dcl_cant_delete_last_table#:#Sie können diese Tabelle nicht komplett löschen, da Sie die einzige Tabelle dieser Datensammlung ist. Hingegen wurden der Inhalt und die Struktur erfolgreich gelöscht.
 content#:#cont_resources_of_type#:#Inhalte vom Typ
 content#:#cont_element_refers_removed_itgr#:#Dieses Inhaltselement verweist auf einen Objekteblock, der in der Zwischenzeit gelöscht wurde.
@@ -12893,12 +12893,12 @@ assessment#:#user_has_finished_a_test#:#Ein Teilnehmer hat einen Test beendet.
 assessment#:#tst_attached_xls_file#:#Sie finden die Testergebnisse für diesen Teilnehmer in der angehängten Excel-Datei.
 assessment#:#tst_notification_explanation_admin#:#Sie erhalten diese Mail, da Sie die Benachrichtigungsfunktion aktiviert haben.
 dateplaner#:#cal_type_exc#:#Übungskalender
-grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Gruppe ist ausserhalb des Beitrittszeitraumes.
-crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Der Kurs ist ausserhalb des Beitrittszeitraumes.
+grp#:#grp_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zur Gruppe liegt ausserhalb des Beitrittszeitraumes.
+crs#:#crs_admission_link_failure_registration_period#:#Kein Beitritt möglich. Die Anmeldung zum Kurs liegt ausserhalb des Beitrittszeitraumes.
 grp#:#grp_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
 crs#:#crs_admission_link_failure_membership_limited#:#Kein Beitritt möglich. Die Mitgliederzahl der Gruppe ist begrenzt.
-grp#:#grp_admission_link_success_registration#:#Erfolgreich zur Gruppe "%s" beigetreten.
-crs#:#crs_admission_link_success_registration#:#Erfolgreich zum Kurs "%s" beigetreten.
+grp#:#grp_admission_link_success_registration#:#Erfolgreich der Gruppe "%s" beigetreten.
+crs#:#crs_admission_link_success_registration#:#Erfolgreich dem Kurs "%s" beigetreten.
 crs#:#crs_admission_link_failure_offline#:#Kein Beitritt möglich. Der Kurs ist offline.
 crs#:#crs_admission_link_failure_availability#:#Kein Beitritt möglich. Der Kurs ist online.
 rbac#:#ilias_id#:#ILIAS-ID
@@ -13383,7 +13383,7 @@ adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
 adm#:#adm_acc_ctrl_cpt_enable#:#Info Barrierefreiheit aktivieren
-adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur Info Barrierefreit im Footer.
+adm#:#adm_acc_ctrl_cpt_desc#:#Wenn aktiviert, erscheint der Link zur "Info Barrierefreiheit" im Footer.
 adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
 adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
@@ -13982,10 +13982,10 @@ style#:#assignment#:#Zuweisung
 style#:#remove_assignment#:#Zuweisung löschen
 style#:#reset_variables#:#Variablen zurücksetzen
 style#:#update_variables#:#Variablen aktualisieren
-style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
-style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderunge korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_updated#:#Die less-Variablen wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#less_file_reset#:#Die less-Variablen wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_reset#:#Die Farben der Icons wurden zurückgesetzt. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
+style#:#color_update#:#Die Farben der Icons wurden aktualisiert. Wichtig: Das Caching des Browsers kann verhindern, dass die Änderungen korrekt angezeigt werden. Es ist deshalb möglich, dass Sie den Cache des Browsers leeren müssen, um die Anpassungen zu überprüfen.
 style#:#settings_of_substyle#:#Sub-Style verwalten
 style#:#settings_of_style#:#Styles verwalten
 style#:#of_parent#:#vom Parent:
@@ -14419,7 +14419,7 @@ common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie b
 common#:#login_to_ilias_via_saml#:#Bei ILIAS via SAML-Authentifizierung anmelden
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
 auth#:#auth_saml_add_idp_btn#:#Identity Provider hinzufügen
-auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiederruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
+auth#:#auth_saml_sure_delete_idp#:#Sind Sie sicher, dass Sie den gewählten Identity Provider unwiderruflich löschen möchten? Für die betroffenen Benutzerkonten wird anschließend die Standard-Authentifizierung gewählt.
 auth#:#auth_saml_deleted_idp#:#Der Identity Provider wurde gelöscht.
 auth#:#auth_saml_unknow_idp#:#Der Identity Provider existiert nicht.
 auth#:#auth_saml_add_idp_md_label#:#Identity Provider SAML Metadaten
@@ -14627,7 +14627,7 @@ cont#:#cont_published#:#Veröffentlichung
 cont#:#cont_assign_competence#:#Mitgliedern Kompetenzen zuweisen
 cont#:#cont_deassign_competence#:#Kompetenzen zurücksetzen
 cont#:#cont_publish_assignment#:#Zuweisungen veröffentlichen
-cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzuweisungen des Benutzers zurücksetzen?
+cont#:#cont_really_deassign_skills#:#Wollen Sie wirklich alle Kompetenzzuweisungen des Benutzers zurücksetzen?
 skll#:#skll_new_skill_achievements#:#Sie haben die folgenden Kompetenzausprägungen im Zeitraum %1$s bis %2$s erreicht:
 skll#:#skll_intro_skill_notification_for#:#nachfolgend eine Übersicht Ihrer letzten Kompetenzänderungen:
 skll#:#skll_skill_notification#:#Benachrichtigung Kompetenzauswertung
@@ -14715,7 +14715,7 @@ common#:#org_op_manage_members#:#Untergeordnete Mitglieder verwalten
 common#:#org_op_access_enrolments#:#Einschreibe-Status einsehen
 sahs#:#sahs_add#:#SCORM-Lernmodul anlegen
 sahs#:#sahs_copy#:#SCORM-Lernmodul kopieren
-sahs#:#sahs_glo_info#:#Bitte beachten Sie, daß interne Links in Glossarbegriffen nicht unterstützt werden.
+sahs#:#sahs_glo_info#:#Bitte beachten Sie, dass interne Links in Glossarbegriffen nicht unterstützt werden.
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 dateplaner#:#cal_down_no_files#:#Nichts zum Herunterladen, die aufgeführten Veranstaltungen enthalten keine Dateien.
 assessment#:#question_browse_area_info#:#Wählen Sie bitte ein Objekt, aus dem sie Fragen importieren wollen.
@@ -14921,7 +14921,7 @@ mme#:#field_external_info#:#Link wird in einem neuen Fenster geöffnet.
 mme#:#field_url#:#URL
 mme#:#field_url_info#:#Link zu der gewünschten Website, beginnend mit http(s)://
 mme#:#field_ref_id#:#ILIAS Referenz-ID
-mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin, Sie finden die Referenz-ID in der URL eines Onjektes (...?ref_id=123)
+mme#:#field_ref_id_info#:#Die Referenz-ID des gewünschten ILIAS-Objektes aus dem Magazin. Sie finden die Referenz-ID in der URL eines Objektes (...?ref_id=123)
 common#:#obj_mme#:#Hauptmenü
 mme#:#type_top_parent_item#:#Container
 mme#:#type_top_link_item#:#Link
@@ -16050,10 +16050,10 @@ prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
 prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet, ist nicht zu bestehen.
 prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
 prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Studienprogramm.
-prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
-prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
-prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
-prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
+prg#:#prg_user_risky_to_fail_title#:#Warnung per E-Mail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_not_restarted_title#:#Warnung per E-Mail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnung per E-Mail, wenn eine Qualifikation an einem Studienprogramm ausläuft und diese das Programm noch nicht neu gestartet haben.
 prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
 prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail, um den Benutzer daran zu erinnern, das Studienprogramm neu zu starten.
 prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
