@@ -16076,20 +16076,8 @@ content#:#cont_page_template#:#Page Template
 content#:#cont_page_created#:#Page created
 prg#:#assignment_date#:#Assignment Date
 prg#:#completion_date#:#Completion Date
-prg#:#prg_no_deadline#:#No fixed prozessing time
-prg#:#prg_deadline_period#:#Processing time is determined inividually
-prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
-prg#:#prg_deadline_date#:#Processing time expires at fixed date
-prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
-prg#:#prg_no_validity_qualification#:#Long-Lasting qualification
 prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
-prg#:#validity_qualification_period#:#Qualification expires individually
-prg#:#validity_qualification_period_desc#:#days after completion
-prg#:#validity_qualification_date#:#Qualification expires at fixed date
-prg#:#validity_qualification_date_desc#:#expiry date
 prg#:#prg_no_restart#:#No restart required
-prg#:#restart_period#:#Restart obligatory
-prg#:#restart_period_desc#:#days before expiry
 prg#:#sp_certificate_title#:#Title of the Study Programme
 prg#:#sp_certificate_description#:#Description of the Study Programme
 prg#:#sp_certificate_type#:#Type of the Study Programme
@@ -16101,10 +16089,6 @@ prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_validity#:#Validity
 prg#:#prg_still_valid#:#still valid
 prg#:#prg_not_valid#:#not valid
-prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
-prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
-prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
-prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
 prg#:#prg_orgus#:#Organisational Units
 prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
 prg#:#content_automation#:#Content Automation
@@ -16144,10 +16128,8 @@ orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 prg#:#prg_formatted_period#:#%d days
 prg#:#deadline_information#:#Information regarding processing period
 prg#:#dealine_period_info#:#Days to process after assignment
-prg#:#dealine_date_info#:#Deadline date
 prg#:#vq_information#:#Information regarding validity of achived qualification
 prg#:#vq_period_info#:#Days until qualification will expire after achivement
-prg#:#vq_date_info#:#Qualification expires at fixed date
 prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
 prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
 prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
@@ -16159,21 +16141,8 @@ prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>you were reassigned to study program '%s' as participants.
 prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
-prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
-prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
-prg#:#prg_processing_ends_no_success#:#Reminder mail failing
-prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
 prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
-prg#:#send_re_assigned_mail#:#E-mail renewed participation
-prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
-prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
-prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
-prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
-prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
-prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
-prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
 prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
-prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
 search#:#search_for_orgu_members#:#Search for Organisational Units
 search#:#select_orgu#:#Select Organisational Units
 prg#:#prg_dash_label_valid#:#Valid:
@@ -16549,3 +16518,34 @@ awrn#:#awrn_filter#:#User Filter
 help#:#help_search_label#:#Search Help
 rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Page could not be saved (duplicate PC IDs).
+prg#:#prg_invalidate_expired_progresses_title#:#Limited progressing period of study programmes
+prg#:#prg_invalidate_expired_progresses_desc#:#Changes status from "in progress" to "Not passed" when progressing period ends
+prg#:#prg_restart_assignments_temporal_progress_title#:#Automatic reassignment to study programmes
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Adds members to study programme once again as soon as restart is possible
+prg#:#prg_user_not_restarted_title#:#Send warning mail about expiry of qualification
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to an expiring progressing time
+prg#:#prg_no_deadline#:#No fix processing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan of says.
+prg#:#prg_deadline_date#:#Processing time expires at fix date
+prg#:#dealine_date_info#:#Deadline of processing period (date)
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
+prg#:#prg_no_validity_qualification#:#Long-Lasting qualification (no expiry)
+prg#:#validity_qualification_period#:#Qualification expires individually
+prg#:#validity_qualification_period_desc#:#days after completion
+prg#:#validity_qualification_date#:#Qualification expires at fix date
+prg#:#validity_qualification_date_desc#:#expiry date of qualification
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry of qualification
+prg#:#send_re_assigned_mail#:#E-Mail at re-assignment
+prg#:#send_re_assigned_mail_info#:#Send an e-mail if member has been re-assigned automatically
+prg#:#send_info_to_re_assign_mail#:#E-mail before qualification expires
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail when qualification gets invalid.
+prg#:#prg_user_not_restarted_time_input#:#Days before qualification gets invalid
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
+prg#:#send_risky_to_fail_mail_info#:#E-Mail about risk of failure because deadline is near and member has not passed study programme yet
+prg#:#prg_processing_ends_no_success#:#Days before end of processing time
+prg#:#prg_processing_ends_no_success_info#:#Days before deadline
