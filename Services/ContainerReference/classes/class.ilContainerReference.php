@@ -113,7 +113,7 @@ class ilContainerReference extends ilObject
      * @param int $a_obj_id
      * @return
      */
-    public static function _lookupTitle($a_obj_id)
+    public static function _lookupTitle($a_obj_id) : string
     {
         global $DIC;
 
@@ -298,7 +298,7 @@ class ilContainerReference extends ilObject
      * Get presentation title
      * @return string presentation title
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         if ($this->getTitleType() == self::TITLE_TYPE_CUSTOM) {
             return $this->getTitle();

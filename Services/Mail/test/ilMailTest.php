@@ -67,7 +67,7 @@ class ilMailTest extends ilMailBaseTest
             ->getMock();
         $addressTypeFactory->expects($this->any())
             ->method('getByPrefix')
-            ->will($this->returnCallback(function ($arg) use ($loginToIdMap) {
+            ->willReturnCallback(function ($arg) use ($loginToIdMap) {
                 return new class($arg, $loginToIdMap) implements ilMailAddressType {
                     protected $loginToIdMap = [];
                     protected $address;
@@ -75,7 +75,7 @@ class ilMailTest extends ilMailBaseTest
                     public function __construct(ilMailAddress $address, $loginToIdMap)
                     {
                         $this->address = $address;
-                        $this->loginToIdMap = array_map(function ($usrId) {
+                        $this->loginToIdMap = array_map(static function (int $usrId) : array {
                             return [$usrId];
                         }, $loginToIdMap);
                     }
@@ -100,15 +100,15 @@ class ilMailTest extends ilMailBaseTest
                         return $this->address;
                     }
                 };
-            }));
+            });
 
         $db = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $nextId = 0;
-        $db->expects($this->any())->method('nextId')->will($this->returnCallback(function () use (&$nextId) {
+        $db->expects($this->any())->method('nextId')->willReturnCallback(function () use (&$nextId) {
             ++$nextId;
 
             return $nextId;
-        }));
+        });
 
         $eventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock();
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();

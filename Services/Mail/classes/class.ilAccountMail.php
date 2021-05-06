@@ -189,7 +189,7 @@ class ilAccountMail
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(function ($pathPart) {
+            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart) : string {
                 return trim($pathPart, '/');
             }, [
                 $fs->getAbsolutePath(),

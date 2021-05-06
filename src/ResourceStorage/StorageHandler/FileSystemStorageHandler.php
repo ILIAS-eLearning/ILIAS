@@ -42,6 +42,7 @@ class FileSystemStorageHandler implements StorageHandler
      * FileSystemStorageHandler constructor.
      * @param Filesystem $filesystem
      * @param int        $location
+     * @internal
      */
     public function __construct(Filesystem $filesystem, int $location = Location::STORAGE)
     {

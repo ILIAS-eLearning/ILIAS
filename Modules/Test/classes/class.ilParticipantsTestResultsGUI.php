@@ -226,7 +226,6 @@ class ilParticipantsTestResultsGUI
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
         // display confirmation message
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setFormAction($DIC->ctrl()->getFormAction($this));
         $cgui->setHeaderText($DIC->language()->txt("delete_all_user_data_confirmation"));
@@ -272,7 +271,6 @@ class ilParticipantsTestResultsGUI
             $DIC->ctrl()->redirect($this);
         }
         
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($DIC->language()->txt("confirm_delete_single_user_data"));
         

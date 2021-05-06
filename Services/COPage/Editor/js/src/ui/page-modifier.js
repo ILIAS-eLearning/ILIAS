@@ -67,6 +67,22 @@ export default class PageModifier {
     next.parentNode.removeChild(next);
   }
 
+  hideComponent(pcid) {
+    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const el = document.querySelector(pcSelector).parentNode;
+    const next = el.nextSibling;
+    el.style.display = 'none';
+    next.style.display = 'none';
+  }
+
+  showComponent(pcid) {
+    const pcSelector = "[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']";
+    const el = document.querySelector(pcSelector).parentNode;
+    const next = el.nextSibling;
+    el.style.display = '';
+    next.style.display = '';
+  }
+
   cut(items) {
     for (let id of items) {
       console.log("cut");
@@ -162,6 +178,11 @@ export default class PageModifier {
     console.log(document.querySelector("#copg-editor-slate-error ul li a"));
     document.querySelector("#copg-editor-slate-error ul li a").addEventListener("click", () => {
       pm.showModal(il.Language.txt("copg_error"), error);
+      let m = document.getElementById("il-copg-ed-modal");
+      m = m.querySelector(".modal-dialog");
+      if (m) {
+        m.style.width = "90%";
+      }
     });
   }
 

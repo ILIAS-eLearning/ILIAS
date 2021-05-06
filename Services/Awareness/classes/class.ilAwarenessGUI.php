@@ -246,7 +246,7 @@ class ilAwarenessGUI
             if ($u->public_profile) {
                 $tpl->setVariable("UNAME", $u->lastname . ", " . $u->firstname);
             } else {
-                $tpl->setVariable("UNAME", "&nbsp;");
+                $tpl->setVariable("UNAME", "-");
             }
             $tpl->setVariable("UACCOUNT", $u->login);
 
@@ -259,6 +259,7 @@ class ilAwarenessGUI
 
         $tpl->setCurrentBlock("filter");
         $tpl->setVariable("GL_FILTER", ilGlyphGUI::get(ilGlyphGUI::FILTER));
+        $tpl->setVariable("FILTER_INPUT_LABEL", $this->lng->txt("awrn_filter"));
         $tpl->parseCurrentBlock();
 
 

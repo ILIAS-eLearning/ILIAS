@@ -20,7 +20,7 @@ class Combined extends Slate implements ISlate\Combined
     public const ENTRY_ACTION_TRIGGER = 'trigger';
 
     /**
-     * @var array<Slate|IBulkyButton|IBulkyLink>
+     * @var array<Slate|BulkyButton|BulkyLink>
      */
     protected $contents = [];
 

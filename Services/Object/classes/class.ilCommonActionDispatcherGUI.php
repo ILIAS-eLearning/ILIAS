@@ -47,7 +47,6 @@ class ilCommonActionDispatcherGUI
      * @param string $a_obj_type
      * @param int $a_node_id
      * @param int $a_obj_id
-     * @return object
      */
     public function __construct($a_node_type, $a_access_handler, $a_obj_type, $a_node_id, $a_obj_id, $a_news_id = 0)
     {
@@ -108,9 +107,9 @@ class ilCommonActionDispatcherGUI
     /**
      * (Re-)Build instance from ajax call
      *
-     * @return object
+     * @return ilCommonActionDispatcherGUI|null
      */
-    public static function getInstanceFromAjaxCall()
+    public static function getInstanceFromAjaxCall() : ?ilCommonActionDispatcherGUI
     {
         global $DIC;
 
@@ -155,6 +154,7 @@ class ilCommonActionDispatcherGUI
             
             return $dispatcher;
         }
+        return null;
     }
         
     public function executeCommand()
@@ -208,7 +208,7 @@ class ilCommonActionDispatcherGUI
                 break;
 
             case "iltagginggui":
-                $tags_gui = new ilTaggingGUI($this->node_id);
+                $tags_gui = new ilTaggingGUI();
                 $tags_gui->setObject($this->obj_id, $this->obj_type);
                 $ilCtrl->forwardCommand($tags_gui);
                 break;
@@ -277,14 +277,15 @@ class ilCommonActionDispatcherGUI
     
     /**
      * Set header action menu
+     * @return ilObjectListGUI|null
      */
-    public function initHeaderAction()
+    public function initHeaderAction() : ?ilObjectListGUI
     {
         // check access for object
         if ($this->node_id &&
             !$this->access_handler->checkAccess("visible", "", $this->node_id) &&
             !$this->access_handler->checkAccess("read", "", $this->node_id)) {
-            return;
+            return null;
         }
         
         $this->header_action = ilObjectListGUIFactory::_getListGUIByType(
@@ -299,7 +300,7 @@ class ilCommonActionDispatcherGUI
         $this->header_action->enableCut(false);
         $this->header_action->enableDelete(false);
         $this->header_action->enableLink(false);
-        $this->header_action->enableInfoscreen(false);
+        $this->header_action->enableInfoScreen(false);
         $this->header_action->enableTimings(false);
         $this->header_action->enableSubscribe($this->node_type == self::TYPE_REPOSITORY);
         

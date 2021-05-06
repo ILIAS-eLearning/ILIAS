@@ -10,19 +10,42 @@
  */
 class ilPersonalSkillsGUI
 {
-    const LIST_SELECTED = "";
-    const LIST_PROFILES = "profiles";
+    public const LIST_SELECTED = "";
+    public const LIST_PROFILES = "profiles";
 
     protected $offline_mode;
-    protected $skill_tree;
     public static $skill_tt_cnt = 1;
     protected $actual_levels = array();
     protected $gap_self_eval_levels = array();
-    protected $mode = "";
     protected $history_view = false;
     protected $trigger_objects_filter = array();
     protected $intro_text = "";
     protected $hidden_skills = array();
+
+    /**
+     * @var string
+     */
+    protected $mode = "";
+
+    /**
+     * @var string
+     */
+    protected $gap_mode;
+
+    /**
+     * @var int
+     */
+    protected $gap_mode_obj_id;
+
+    /**
+     * @var string
+     */
+    protected $gap_mode_type;
+
+    /**
+     * @var string
+     */
+    protected $gap_cat_title;
 
     /**
      * @var \ILIAS\DI\UIServices
@@ -60,7 +83,7 @@ class ilPersonalSkillsGUI
     protected $tpl;
 
     /**
-     * @var ilLanguage
+     * @var ilTabsGUI
      */
     protected $tabs;
 
@@ -87,14 +110,89 @@ class ilPersonalSkillsGUI
     protected $obj_skills = array();
 
     /**
+     * @var int
+     */
+    protected $profile_id;
+
+    /**
+     * @var array
+     */
+    protected $profile_levels;
+
+    /**
+     * @var array
+     */
+    protected $user_profiles;
+
+    /**
+     * @var array
+     */
+    protected $cont_profiles;
+
+    /**
+     * @var ilSkillTree
+     */
+    protected $skill_tree;
+
+    /**
+     * @var bool
+     */
+    protected $use_materials;
+
+    /**
+     * @var ilSkillManagementSettings
+     */
+    protected $skmg_settings;
+
+    /**
      * @var ilPersonalSkillsFilterGUI
      */
     protected $filter;
 
     /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
      * @var string
      */
-    protected $list_mode = self::LIST_SELECTED;
+    protected $requested_list_mode;
+
+    /**
+     * @var int
+     */
+    protected $requested_obj_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_profile_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_skill_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_basic_skill_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_tref_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_level_id;
+
+    /**
+     * @var int
+     */
+    protected $requested_wsp_id;
 
     /**
      * Contructor
@@ -117,6 +215,7 @@ class ilPersonalSkillsGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
+        $this->request = $DIC->http()->request();
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -132,7 +231,15 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "profile_id");
         $ilCtrl->saveParameter($this, "list_mode");
 
-        $this->list_mode = $_GET["list_mode"];
+        $params = $this->request->getQueryParams();
+        $this->requested_list_mode = (string) ($params["list_mode"] ?? self::LIST_SELECTED);
+        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $this->requested_profile_id = (int) ($params["profile_id"] ?? 0);
+        $this->requested_skill_id = (int) ($params["skill_id"] ?? 0);
+        $this->requested_basic_skill_id = (int) ($params["basic_skill_id"] ?? 0);
+        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
+        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
+        $this->requested_wsp_id = (int) ($params["wsp_id"] ?? 0);
 
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
         $this->cont_profiles = array();
@@ -256,8 +363,8 @@ class ilPersonalSkillsGUI
     /**
      * Hide skill
      *
-     * @param
-     * @return
+     * @param int $a_skill_id
+     * @param int $a_tref_id
      */
     public function hideSkill($a_skill_id, $a_tref_id = 0)
     {
@@ -266,9 +373,6 @@ class ilPersonalSkillsGUI
 
     /**
      * Determine current profile id
-     *
-     * @param
-     * @return
      */
     public function determineCurrentProfile()
     {
@@ -278,18 +382,18 @@ class ilPersonalSkillsGUI
             return;
         }
         $current_prof_id = 0;
-        if ((int) $_GET["profile_id"] > 0) {
+        if ($this->requested_profile_id > 0) {
             foreach ($this->user_profiles as $p) {
-                if ($p["id"] == (int) $_GET["profile_id"]) {
-                    $current_prof_id = (int) $_GET["profile_id"];
+                if ($p["id"] == $this->requested_profile_id) {
+                    $current_prof_id = $this->requested_profile_id;
                 }
             }
         }
 
-        if ((int) $_GET["profile_id"] > 0 && $current_prof_id == 0) {
+        if ($this->requested_profile_id > 0 && $current_prof_id == 0) {
             foreach ($this->cont_profiles as $p) {
-                if ($p["profile_id"] == (int) $_GET["profile_id"]) {
-                    $current_prof_id = (int) $_GET["profile_id"];
+                if ($p["profile_id"] == $this->requested_profile_id) {
+                    $current_prof_id = $this->requested_profile_id;
                 }
             }
         }
@@ -401,7 +505,7 @@ class ilPersonalSkillsGUI
      */
     protected function render()
     {
-        switch ($this->list_mode) {
+        switch ($this->requested_list_mode) {
             case self::LIST_PROFILES:
                 $this->listAssignedProfile();
                 break;
@@ -449,7 +553,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             $html .= $this->getSkillHTML($s["skill_node_id"], 0, true);
@@ -502,6 +606,7 @@ class ilPersonalSkillsGUI
             array("personal_skills_gui" => $this, "top_skill_id" => $a_top_skill_id, "user_id" => $a_user_id,
                 "edit" => $a_edit, "tref_id" => $a_tref_id)
         );
+        $skill_html = "";
         if (!$uip->replaced()) {
             $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
         }
@@ -513,8 +618,11 @@ class ilPersonalSkillsGUI
     /**
      * Render skill html
      *
-     * @param
-     * @return
+     * @param int $a_top_skill_id
+     * @param int  $a_user_id
+     * @param bool $a_edit
+     * @param int  $a_tref_id
+     * @return string
      */
     public function renderSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false, $a_tref_id = 0)
     {
@@ -555,7 +663,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             reset($path);
@@ -601,9 +709,7 @@ class ilPersonalSkillsGUI
             } else {
                 // get date of self evaluation
                 $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
-                $se_rendered = ($se_date == "")
-                    ? true
-                    : false;
+                $se_rendered = $se_date == "";
                     
                 // get all object triggered entries and render them
                 foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry) {
@@ -623,6 +729,7 @@ class ilPersonalSkillsGUI
 
             // materials (new)
             if ($this->mode != "gap") {
+                $mat = "";
                 if ($this->getFilter()->showMaterialsRessources() && $this->use_materials) {
                     $mat = $this->getMaterials($level_data, $bs["tref"], $user->getId());
                 }
@@ -632,6 +739,7 @@ class ilPersonalSkillsGUI
             }
 
             // suggested resources
+            $sugg = "";
             if ($this->getFilter()->showMaterialsRessources()) {
                 $sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
             }
@@ -639,7 +747,7 @@ class ilPersonalSkillsGUI
                 $panel_comps[] = $this->ui_fac->legacy($sugg);
             }
 
-            $sub = $this->ui_fac->panel()->sub((string) $title, $panel_comps);
+            $sub = $this->ui_fac->panel()->sub($title, $panel_comps);
             if ($a_edit) {
                 $actions = array();
                 $ilCtrl->setParameterByClass("ilpersonalskillsgui", "skill_id", $a_top_skill_id);
@@ -669,7 +777,7 @@ class ilPersonalSkillsGUI
         $sub_panels = $this->ui_fac->legacy($des . $this->ui_ren->render($sub_panels));
         
         $panel = $this->ui_fac->panel()->standard(
-            (string) ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
+            ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
             $sub_panels
         );
 
@@ -697,16 +805,14 @@ class ilPersonalSkillsGUI
      */
     public function getMaterialInfo($a_wsp_id, $a_user_id)
     {
-        if (!$this->ws_tree) {
-            $this->ws_tree = new ilWorkspaceTree($a_user_id);
-            $this->ws_access = new ilWorkspaceAccessHandler($caption);
-        }
+        $ws_tree = new ilWorkspaceTree($a_user_id);
+        $ws_access = new ilWorkspaceAccessHandler();
         
-        $obj_id = $this->ws_tree->lookupObjectId($a_wsp_id);
+        $obj_id = $ws_tree->lookupObjectId($a_wsp_id);
         $caption = ilObject::_lookupTitle($obj_id);
         
         if (!$this->offline_mode) {
-            $url = $this->ws_access->getGotoLink($a_wsp_id, $obj_id);
+            $url = $ws_access->getGotoLink($a_wsp_id, $obj_id);
         } else {
             $url = $this->offline_mode . "file_" . $obj_id . "/";
                         
@@ -744,7 +850,7 @@ class ilPersonalSkillsGUI
                 
                 case "file":
                     $file = new ilObjFile($obj_id, false);
-                    $url .= $file->getFilename();
+                    $url .= $file->getFileName();
                     break;
             }
         }
@@ -761,7 +867,7 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        ilPersonalSkill::addPersonalSkill($ilUser->getId(), (int) $_GET["obj_id"]);
+        ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_obj_id);
         
         ilUtil::sendSuccess($lng->txt("msg_object_modified"));
         $ilCtrl->redirect($this, "listSkills");
@@ -778,8 +884,8 @@ class ilPersonalSkillsGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["skill_id"] > 0) {
-            $_POST["id"][] = $_GET["skill_id"];
+        if ($this->requested_skill_id > 0) {
+            $_POST["id"][] = $this->requested_skill_id;
         }
         if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
@@ -825,9 +931,6 @@ class ilPersonalSkillsGUI
     
     /**
      * Assign materials to skill levels
-     *
-     * @param
-     * @return
      */
     public function assignMaterials()
     {
@@ -847,18 +950,18 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "basic_skill_id");
         $ilCtrl->saveParameter($this, "tref_id");
 
-        $tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
+        $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
-            ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) .
+            ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
          
         // basic skill selection
         $vtree = new ilVirtualSkillTree();
         $tref_id = 0;
-        $skill_id = (int) $_GET["skill_id"];
-        if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
-            $tref_id = $_GET["skill_id"];
-            $skill_id = ilSkillTemplateReference::_lookupTemplateId($_GET["skill_id"]);
+        $skill_id = $this->requested_skill_id;
+        if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
+            $tref_id = $this->requested_skill_id;
+            $skill_id = ilSkillTemplateReference::_lookupTemplateId($this->requested_skill_id);
         }
         $bs = $vtree->getSubTreeForCSkillId($skill_id . ":" . $tref_id, true);
         
@@ -870,8 +973,8 @@ class ilPersonalSkillsGUI
         
         $cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
             ? (int) $_POST["basic_skill_id"]
-            : (((int) $_GET["basic_skill_id"] > 0)
-                ? (int) $_GET["basic_skill_id"]
+            : (($this->requested_basic_skill_id > 0)
+                ? $this->requested_basic_skill_id
                 : key($options));
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
@@ -891,8 +994,8 @@ class ilPersonalSkillsGUI
         $tab = new ilSkillAssignMaterialsTableGUI(
             $this,
             "assignMaterials",
-            (int) $_GET["skill_id"],
-            (int) $_GET["tref_id"],
+            $this->requested_skill_id,
+            $this->requested_tref_id,
             $cur_basic_skill_id
         );
         
@@ -902,9 +1005,6 @@ class ilPersonalSkillsGUI
     
     /**
      * Assign materials to skill level
-     *
-     * @param
-     * @return
      */
     public function assignMaterial()
     {
@@ -916,6 +1016,7 @@ class ilPersonalSkillsGUI
         $ilSetting = $this->setting;
         $ui = $this->ui;
 
+        $message = "";
         if (!$ilSetting->get("disable_personal_workspace")) {
             $url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
             $mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
@@ -980,10 +1081,10 @@ class ilPersonalSkillsGUI
             foreach ($_POST["wsp_id"] as $w) {
                 ilPersonalSkill::assignMaterial(
                     $ilUser->getId(),
-                    (int) $_GET["skill_id"],
-                    (int) $_GET["tref_id"],
-                    (int) $_GET["basic_skill_id"],
-                    (int) $_GET["level_id"],
+                    $this->requested_skill_id,
+                    $this->requested_tref_id,
+                    $this->requested_basic_skill_id,
+                    $this->requested_level_id,
                     (int) $w
                 );
             }
@@ -1011,9 +1112,9 @@ class ilPersonalSkillsGUI
 
         ilPersonalSkill::removeMaterial(
             $ilUser->getId(),
-            (int) $_GET["tref_id"],
-            (int) $_GET["level_id"],
-            (int) $_GET["wsp_id"]
+            $this->requested_tref_id,
+            $this->requested_level_id,
+            $this->requested_wsp_id
         );
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "assignMaterials");
@@ -1026,9 +1127,6 @@ class ilPersonalSkillsGUI
     
     /**
      * Assign materials to skill levels
-     *
-     * @param
-     * @return
      */
     public function selfEvaluation()
     {
@@ -1048,18 +1146,18 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "basic_skill_id");
         $ilCtrl->saveParameter($this, "tref_id");
 
-        $tpl->setTitle(ilSkillTreeNode::_lookupTitle((int) $_GET["skill_id"]));
+        $tpl->setTitle(ilSkillTreeNode::_lookupTitle($this->requested_skill_id));
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_" .
-            ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) .
+            ilSkillTreeNode::_lookupType($this->requested_skill_id) .
             ".svg"));
          
         // basic skill selection
         $vtree = new ilVirtualSkillTree();
         $tref_id = 0;
-        $skill_id = (int) $_GET["skill_id"];
-        if (ilSkillTreeNode::_lookupType((int) $_GET["skill_id"]) == "sktr") {
-            $tref_id = $_GET["skill_id"];
-            $skill_id = ilSkillTemplateReference::_lookupTemplateId($_GET["skill_id"]);
+        $skill_id = $this->requested_skill_id;
+        if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
+            $tref_id = $this->requested_skill_id;
+            $skill_id = ilSkillTemplateReference::_lookupTemplateId($this->requested_skill_id);
         }
         $bs = $vtree->getSubTreeForCSkillId($skill_id . ":" . $tref_id, true);
         
@@ -1071,8 +1169,8 @@ class ilPersonalSkillsGUI
 
         $cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
             ? (int) $_POST["basic_skill_id"]
-            : (((int) $_GET["basic_skill_id"] > 0)
-                ? (int) $_GET["basic_skill_id"]
+            : (($this->requested_basic_skill_id > 0)
+                ? $this->requested_basic_skill_id
                 : key($options));
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
@@ -1092,8 +1190,8 @@ class ilPersonalSkillsGUI
         $tab = new ilSelfEvaluationSimpleTableGUI(
             $this,
             "selfEvaluation",
-            (int) $_GET["skill_id"],
-            (int) $_GET["tref_id"],
+            $this->requested_skill_id,
+            $this->requested_tref_id,
             $cur_basic_skill_id
         );
         
@@ -1111,9 +1209,9 @@ class ilPersonalSkillsGUI
 
         ilPersonalSkill::saveSelfEvaluation(
             $ilUser->getId(),
-            (int) $_GET["skill_id"],
-            (int) $_GET["tref_id"],
-            (int) $_GET["basic_skill_id"],
+            $this->requested_skill_id,
+            $this->requested_tref_id,
+            $this->requested_basic_skill_id,
             (int) $_POST["se"]
         );
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -1128,9 +1226,6 @@ class ilPersonalSkillsGUI
     
     /**
      * LIst skills for adding
-     *
-     * @param
-     * @return
      */
     public function listSkillsForAdd()
     {
@@ -1233,7 +1328,7 @@ class ilPersonalSkillsGUI
     /**
      * Set gap analysis actual status mode "per object"
      *
-     * @param integer $a_obj_id object id
+     * @param int $a_obj_id object id
      */
     public function setGapAnalysisActualStatusModePerObject($a_obj_id, $a_cat_title = "")
     {
@@ -1287,6 +1382,7 @@ class ilPersonalSkillsGUI
         }
 
 
+        $intro_html = "";
         if ($this->getIntroText() != "") {
             $pan = ilPanelGUI::getInstance();
             $pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
@@ -1322,6 +1418,7 @@ class ilPersonalSkillsGUI
         $this->getActualLevels($skills, $user_id);
 
         $incl_self_eval = false;
+        $self_vals = [];
         if (count($this->getGapAnalysisSelfEvalLevels()) > 0) {
             $incl_self_eval = true;
             $self_vals = $this->getGapAnalysisSelfEvalLevels();
@@ -1390,7 +1487,7 @@ class ilPersonalSkillsGUI
                 }
 
                 $chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart" . $pkg_cnt);
-                $chart->setsize(800, 300);
+                $chart->setSize(800, 300);
                 $chart->setYAxisMax($max_cnt);
                 $chart->setLegLabels($leg_labels);
 
@@ -1468,7 +1565,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2);
+                    continue(2); // todo: test if continue or continue 2
                 }
             }
             $html .= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
@@ -1499,7 +1596,9 @@ class ilPersonalSkillsGUI
     /**
      * Get materials
      *
-     * @param
+     * @param array $a_levels
+     * @param int $a_tref_id
+     * @param int $a_user_id
      * @return string
      */
     public function getMaterials($a_levels, $a_tref_id = 0, $a_user_id = 0)
@@ -1556,8 +1655,10 @@ class ilPersonalSkillsGUI
     /**
      * Get profile target item
      *
-     * @param
-     * @return
+     * @param int $a_profile_id
+     * @param array $a_levels
+     * @param int $a_tref_id
+     * @return string
      */
     public function getProfileTargetItem($a_profile_id, $a_levels, $a_tref_id = 0)
     {
@@ -1588,10 +1689,9 @@ class ilPersonalSkillsGUI
     }
 
     /**
-     *
-     *
-     * @param
-     * @return
+     * @param array $a_levels
+     * @param int $a_tref_id
+     * @return string
      */
     public function getActualGapItem($a_levels, $a_tref_id = 0)
     {
@@ -1604,6 +1704,7 @@ class ilPersonalSkillsGUI
             }
         }
 
+        $title = "";
         if ($this->gap_cat_title != "") {
             $title = $this->gap_cat_title;
         } elseif ($this->gap_mode == "max_per_type") {
@@ -1630,10 +1731,9 @@ class ilPersonalSkillsGUI
     }
 
     /**
-     *
-     *
-     * @param
-     * @return
+     * @param array $a_levels
+     * @param int $a_tref_id
+     * @return string
      */
     public function getSelfEvalGapItem($a_levels, $a_tref_id = 0)
     {
@@ -1641,7 +1741,7 @@ class ilPersonalSkillsGUI
 
         $self_vals = $this->getGapAnalysisSelfEvalLevels();
         if (count($self_vals) == 0) {
-            return;
+            return "";
         }
 
         $a_activated_levels = array();
@@ -1664,12 +1764,12 @@ class ilPersonalSkillsGUI
         return $tpl->get();
     }
 
-
     /**
      * Get scale bar
      *
-     * @param
-     * @return
+     * @param array $a_levels
+     * @param array $a_activated_levels
+     * @return string
      */
     public function getScaleBar($a_levels, $a_activated_levels)
     {
@@ -1690,8 +1790,9 @@ class ilPersonalSkillsGUI
     /**
      * Get eval item
      *
-     * @param
-     * @return
+     * @param array $a_levels
+     * @param array $a_level_entry
+     * @return string
      */
     public function getEvalItem($a_levels, $a_level_entry)
     {
@@ -1814,8 +1915,11 @@ class ilPersonalSkillsGUI
     /**
      * Render suggested resources
      *
-     * @param
-     * @return
+     * @param int $a_profile_id
+     * @param array $a_levels
+     * @param int $a_base_skill
+     * @param int $a_tref_id
+     * @return string
      */
     public function getSuggestedResources($a_profile_id, $a_levels, $a_base_skill, $a_tref_id)
     {
@@ -1867,15 +1971,13 @@ class ilPersonalSkillsGUI
                 if (count($imp_resources) > 0) {
                     $tpl->touchBlock("resources_list");
                     $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
-                    return $tpl->get();
                 } else {
                     $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
-                    return $tpl->get();
                 }
             } else {
                 $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
-                return $tpl->get();
             }
+            return $tpl->get();
         } else {
             // no profile, just list all resources
             $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
@@ -1917,9 +2019,6 @@ class ilPersonalSkillsGUI
 
     /**
      * List profile
-     *
-     * @param
-     * @return
      */
     public function listAssignedProfile()
     {

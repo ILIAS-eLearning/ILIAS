@@ -98,6 +98,7 @@ interface Standard extends Icon
     public const REPS = 'reps';	//Repository Settings
     public const CRSS = 'crss';	//Course Settings
     public const GRPS = 'grps';	//Group Settings
+    public const WBDV = 'wbdv';	//WebDAV Settings
     public const WBRS = 'wbrs';	//WebResource Settings
     public const PRTT = 'prtt';	//Portfolio Template Object
     public const ORGU = 'orgu';	//Organisational Unit
@@ -154,7 +155,8 @@ interface Standard extends Icon
     public const PESC = 'pesc';     //Page Editor Section
     public const PETMP = 'petmp';   //Page Editor Template
     public const PEUSR = 'peusr';   //Page Editor User
-    public const LSO = 'lso';   //Learning Sequence
+    public const LSO = 'lso';       //Learning Sequence
+    public const ADN = 'adn';       //Administrative Notification
 
     /**
      * Is this an outlined Icon?

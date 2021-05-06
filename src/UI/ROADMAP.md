@@ -233,6 +233,15 @@ keep the functionalities, which are coupled to the "class"-attribute of the elem
 The UI Inputs do not all have a rendering test.
 Add, where missing, and refine existing.
 
+### Make date/time input accessible (advanced)
+Date/Time pickers are currently implemented using a third party library. The solution suffers from accessibility issues. Even native pickers seem not always to be easy accessible. See https://mantis.ilias.de/view.php?id=29816#bugnotes. We should evaluate different solutions to tackle this.
+
+### Remove wrapping DIVs in Mainbar
+Top items in the mainbar are wrapped in a <div class="il-mainbar-triggers">;
+We should get rid of this wrapper and have <ol>/<li> only for "menu-items",
+directly under the <nav>-tag.
+
+
 ## Long Term
 
 ### All UI-Elements Step 2
@@ -341,7 +350,6 @@ to use Bootraps new set of variables together with a possible set of special
 variables should be designed, documented and implemented. The switch to Bootstrap 4
 needs to be coordinated with the components of ILIAS that currently do use features
 of Bootstrap but do not use the UI-Framework.
-
 
 ### Page-Layout and ilTemplate, CSS/JS Header
 

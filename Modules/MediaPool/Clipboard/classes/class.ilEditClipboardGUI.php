@@ -50,6 +50,10 @@ class ilEditClipboardGUI
      */
     protected $error;
 
+    protected string $requested_return_cmd = "";
+    protected int $requested_clip_item_id = 0;
+    protected string $requested_pcid = "";
+
     /**
     * Constructor
     * @access	public
@@ -71,7 +75,11 @@ class ilEditClipboardGUI
         
         $this->multiple = false;
         $this->page_back_title = $lng->txt("cont_back");
-        if ($_GET["returnCommand"] != "") {
+        $this->requested_return_cmd = $_GET["returnCommand"] ?? "";
+        $this->requested_clip_item_id = $_GET["clip_item_id"] ?? 0;
+        $this->requested_pcid = $_GET["pcid"] ?? "";
+
+        if ($this->requested_return_cmd != "") {
             $this->mode = "getObject";
         } else {
             $this->mode = "";
@@ -80,10 +88,10 @@ class ilEditClipboardGUI
         $ilCtrl->setParameter(
             $this,
             "returnCommand",
-            rawurlencode($_GET["returnCommand"])
+            rawurlencode($this->requested_return_cmd)
         );
 
-        $ilCtrl->saveParameter($this, array("clip_item_id"));
+        $ilCtrl->saveParameter($this, array("clip_item_id", "pcid"));
     }
 
     /**
@@ -107,7 +115,7 @@ class ilEditClipboardGUI
                     $lng->txt("back"),
                     $ilCtrl->getLinkTarget($this, "view")
                 );
-                $mob_gui = new ilObjMediaObjectGUI("", $_GET["clip_item_id"], false, false);
+                $mob_gui = new ilObjMediaObjectGUI("", $this->requested_clip_item_id, false, false);
                 $mob_gui->setTabs();
                 $ret = $ilCtrl->forwardCommand($mob_gui);
                 switch ($cmd) {
@@ -250,7 +258,11 @@ class ilEditClipboardGUI
         }
 
         $_SESSION["ilEditClipboard_mob_id"] = $_POST["id"];
-        ilUtil::redirect($_GET["returnCommand"]);
+        $return = $this->requested_return_cmd;
+        if ($this->requested_pcid !== "") {
+            $return .= "&pc_id=" . $this->requested_pcid;
+        }
+        ilUtil::redirect($return);
     }
     
     public static function _getSelectedIDs()

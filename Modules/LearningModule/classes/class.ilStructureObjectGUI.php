@@ -309,12 +309,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 continue;
             }
             $this->tpl->setCurrentBlock("table_row");
-            // color changing
-            $css_row = ilUtil::switchColor($cnt++, "tblrow1", "tblrow2");
 
             // checkbox
             $this->tpl->setVariable("CHECKBOX_ID", $child["obj_id"]);
-            $this->tpl->setVariable("CSS_ROW", $css_row);
             $this->tpl->setVariable("IMG_OBJ", ilUtil::getImagePath("icon_st.svg"));
 
             // type

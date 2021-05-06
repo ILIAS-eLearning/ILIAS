@@ -294,10 +294,11 @@ class ilMDKeyword extends ilMDBase
         }
                         
         $res = $ilDB->query($query);
+        $kws = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $kws[] = $row->keyword;
         }
-        return (array) $kws;
+        return $kws;
     }
     
     /**
@@ -317,6 +318,7 @@ class ilMDKeyword extends ilMDBase
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . ' ' .
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . ' ';
         $res = $ilDB->query($query);
+        $kws = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if (!$a_return_ids) {
                 if (strlen($row->keyword)) {
@@ -326,7 +328,7 @@ class ilMDKeyword extends ilMDBase
                 $kws[] = $row->meta_keyword_id;
             }
         }
-        return (array) $kws;
+        return $kws;
     }
     
     /**

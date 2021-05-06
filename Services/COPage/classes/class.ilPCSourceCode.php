@@ -38,7 +38,7 @@ class ilPCSourceCode extends ilPCParagraph
 
         $xpc = xpath_new_context($dom);
         $path = "//Paragraph"; //"[@Characteristic = 'Code']";
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $context_node = $res->nodeset[$i];
             $char = $context_node->get_attribute('Characteristic');

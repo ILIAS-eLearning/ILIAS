@@ -476,7 +476,7 @@ class ilObjectCopyGUI
         $objDefinition = $this->obj_definition;
     
         $this->tpl = $tpl;
-        $this->tpl->addBlockfile(
+        $this->tpl->addBlockFile(
             'ADM_CONTENT',
             'adm_content',
             'tpl.paste_into_multiple_objects.html',
@@ -1094,7 +1094,7 @@ class ilObjectCopyGUI
             }
             // return to last target
             $link = ilLink::_getLink($result['ref_id']);
-            $ilCtrl->redirectToUrl($link);
+            $ilCtrl->redirectToURL($link);
         } else {
             // show progress
             ilLoggerFactory::getLogger('obj')->debug('Object copy in progress.');

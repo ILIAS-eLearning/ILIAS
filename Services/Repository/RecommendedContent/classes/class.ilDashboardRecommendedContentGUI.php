@@ -67,7 +67,7 @@ class ilDashboardRecommendedContentGUI
 
         $this->lng->loadLanguageModule("rep");
 
-        $this->requested_item_ref_id = (int) $_GET["item_ref_id"];
+        $this->requested_item_ref_id = (int) ($_GET["item_ref_id"] ?? null);
 
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }
@@ -138,7 +138,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData($ref_id) : \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData($ref_id) : ?\ILIAS\UI\Component\Item\Item
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

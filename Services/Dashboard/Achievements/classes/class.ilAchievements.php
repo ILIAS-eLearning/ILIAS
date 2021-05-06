@@ -16,17 +16,18 @@ class ilAchievements
      * @var ilCertificateActiveValidator
      */
     private $validator;
+
     /**
      * @var ilLearningHistoryService
      */
     protected $learing_history;
 
     // all services being covered under the achievements menu item
-    const SERV_LEARNING_HISTORY = 1;
-    const SERV_COMPETENCES = 2;
-    const SERV_LEARNING_PROGRESS = 3;
-    const SERV_BADGES = 4;
-    const SERV_CERTIFICATES = 5;
+    public const SERV_LEARNING_HISTORY = 1;
+    public const SERV_COMPETENCES = 2;
+    public const SERV_LEARNING_PROGRESS = 3;
+    public const SERV_BADGES = 4;
+    public const SERV_CERTIFICATES = 5;
 
     // this also determines the order of tabs
     protected $services = [
@@ -38,18 +39,24 @@ class ilAchievements
     ];
 
     /**
-     * @var mixed
+     * @var ilSetting
      */
     protected $setting;
+
+    /**
+     * @var ilSetting
+     */
+    protected $skmg_setting;
 
     /**
      * Constructor
      */
     public function __construct()
     {
+        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        $this->setting = $DIC["ilSetting"];
+        $this->setting = $DIC->settings();
         $this->learing_history = $DIC->learningHistory();
         $this->skmg_setting = new ilSetting("skmg");
         $this->validator = new ilCertificateActiveValidator();
@@ -61,26 +68,26 @@ class ilAchievements
      * @param int service
      * @return bool
      */
-    public function isActive($service) : bool
+    public function isActive(int $service) : bool
     {
         switch ($service) {
             case self::SERV_LEARNING_HISTORY:
                 return (bool) $this->learing_history->isActive();
-                break;
+
             case self::SERV_COMPETENCES:
                 return (bool) $this->skmg_setting->get("enable_skmg");
-                break;
+
             case self::SERV_LEARNING_PROGRESS:
                 return (bool) (ilObjUserTracking::_enabledLearningProgress() &&
                     (ilObjUserTracking::_hasLearningProgressOtherUsers() ||
                         ilObjUserTracking::_hasLearningProgressLearner()));
-                break;
+
             case self::SERV_BADGES:
                 return (bool) ilBadgeHandler::getInstance()->isActive();
-                break;
+
             case self::SERV_CERTIFICATES:
                 return $this->validator->validate();
-                break;
+
         }
         return false;
     }

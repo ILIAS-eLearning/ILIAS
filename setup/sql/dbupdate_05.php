@@ -6447,3 +6447,110 @@ $query = 'update adv_mdf_enum set lang_code = ' . $ilDB->quote($default, ilDBCon
     'where lang_code = ' . $ilDB->quote('', ilDBConstants::T_TEXT);
 $ilDB->manipulate($query);
 ?>
+<#5780>
+<?php
+if (!$ilDB->tableColumnExists('ldap_server_settings', 'escape_dn')) {
+    $ilDB->addTableColumn(
+        'ldap_server_settings',
+        'escape_dn',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    );
+}
+?>
+<#5781>
+<?php
+if (!$ilDB->indexExistsByFields('exc_returned', array('filetitle'))) {
+    $ilDB->addIndex('exc_returned', array('filetitle'), 'i3');
+}
+?>
+<#5782>
+<?php
+if ($ilDB->uniqueConstraintExists('cmi_gobjective', array('user_id','objective_id','scope_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cmi_gobjective', array('user_id','objective_id','scope_id'));
+}
+$query = "show index from cmi_gobjective where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cmi_gobjective', array('user_id', 'scope_id', 'objective_id'));
+}
+?>
+<#5783>
+<?php
+if ($ilDB->uniqueConstraintExists('cp_suspend', array('user_id','obj_id'))) {
+    $ilDB->dropUniqueConstraintByFields('cp_suspend', array('user_id','obj_id'));
+}
+$query = "show index from cp_suspend where Key_name = 'PRIMARY'";
+$res = $ilDB->query($query);
+if (!$ilDB->numRows($res)) {
+    $ilDB->addPrimaryKey('cp_suspend', array('user_id', 'obj_id'));
+}
+?>
+<#5784>
+<?php
+$read_learning_progress = 0;
+$read_outcomes = 0;
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_learning_progress')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_learning_progress = $row->ops_id;
+}
+$res = $ilDB->queryF(
+    "SELECT ops_id FROM rbac_operations WHERE operation = %s",
+    array('text'),
+    array('read_outcomes')
+    );
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_outcomes = $row->ops_id;
+}
+if ($read_outcomes > 0 && $read_learning_progress > 0) {
+    $res = $ilDB->queryF(
+        "SELECT rol_id, parent, type FROM rbac_templates WHERE (type=%s OR type=%s) AND ops_id=%s",
+        array('text', 'text', 'integer'),
+        array('cmix', 'lti', $read_learning_progress)
+        );
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $resnum = $ilDB->queryF(
+            "SELECT rol_id FROM rbac_templates WHERE rol_id = %s AND type = %s AND ops_id = %s AND parent = %s",
+            array('integer', 'text', 'integer', 'integer'),
+            array($row->rol_id, $row->type, $read_outcomes, $row->parent)
+        );
+        if (!$ilDB->numRows($resnum)) {
+            $ilDB->insert('rbac_templates', array(
+                    'rol_id' => array('integer', $row->rol_id),
+                    'type' => array('text', $row->type),
+                    'ops_id' => array('integer', $read_outcomes),
+                    'parent' => array('integer', $row->parent)
+                ));
+        }
+    }
+}
+?>
+<#5785>
+<?php
+$ilDB->update("rbac_operations", [
+    "op_order" => ["integer", 3900]
+], [    // where
+        "operation" => ["text", "redact"]
+    ]
+);
+?>
+<#5786>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_from'))) {
+    $ilDB->addIndex('booking_reservation', array('date_from'), 'i3');
+}
+?>
+<#5787>
+<?php
+if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
+    $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
+}
+?>

@@ -462,7 +462,6 @@ class ilCronManagerGUI
             }
         }
 
-        include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
         
         if (sizeof($jobs) == 1) {

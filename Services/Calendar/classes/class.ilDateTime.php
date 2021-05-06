@@ -459,7 +459,7 @@ class ilDateTime
                     $a_date['mday'],
                     $a_date['hours'],
                     $a_date['minutes'],
-                    $a_date['seconds'],
+                    $a_date['seconds'] ?? "",
                     $this->getTimeZoneIdentifier()
                 );
                 break;
@@ -485,7 +485,7 @@ class ilDateTime
                     DateTime::ISO8601,
                     $a_date,
                     new DateTimeZone($this->getTimeZoneIdentifier())
-                    );
+                );
                 break;
         }
 

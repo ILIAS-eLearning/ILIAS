@@ -2,13 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesTable
-* @ilCtrl_Calls ilTablePropertiesStorage:
-*/
+ * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilTablePropertiesStorage: ilTablePropertiesStorage
+ */
 class ilTablePropertiesStorage
 {
     /**

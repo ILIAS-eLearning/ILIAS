@@ -20,6 +20,16 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
     protected $access;
 
     /**
+     * @var ilSkillTree
+     */
+    protected $tree;
+
+    /**
+     * @var ilSkillProfile
+     */
+    protected $profile;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_profile, $a_write_permission = false)
@@ -38,7 +48,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setData($this->profile->getSkillLevels());
-        $this->setTitle($lng->txt("skmg_skill_levels"));
+        $this->setTitle($lng->txt("skmg_target_levels"));
         
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("skmg_order"), "", "1px");

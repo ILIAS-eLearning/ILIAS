@@ -10,9 +10,39 @@
 class ilSkillSelfEvaluation
 {
     /**
-     * @var ilDB
+     * @var ilDBInterface
      */
     protected $db;
+
+    /**
+     * @var int
+     */
+    protected $id;
+
+    /**
+     * @var int
+     */
+    protected $user_id;
+
+    /**
+     * @var int
+     */
+    protected $top_skill_id;
+
+    /**
+     * @var string
+     */
+    protected $created;
+
+    /**
+     * @var string
+     */
+    protected $last_update;
+
+    /**
+     * @var array
+     */
+    protected $levels;
 
     /**
      * Constructor
@@ -33,7 +63,7 @@ class ilSkillSelfEvaluation
     /**
      * Set id
      *
-     * @param	integer	id
+     * @param	int	id
      */
     public function setId($a_val)
     {
@@ -43,7 +73,7 @@ class ilSkillSelfEvaluation
     /**
      * Get id
      *
-     * @return	integer	id
+     * @return	int	id
      */
     public function getId()
     {
@@ -53,7 +83,7 @@ class ilSkillSelfEvaluation
     /**
      * Set user id
      *
-     * @param	integer	user id
+     * @param	int	user id
      */
     public function setUserId($a_val)
     {
@@ -63,7 +93,7 @@ class ilSkillSelfEvaluation
     /**
      * Get user id
      *
-     * @return	integer	user id
+     * @return	int	user id
      */
     public function getUserId()
     {
@@ -73,7 +103,7 @@ class ilSkillSelfEvaluation
     /**
      * Set top skill id
      *
-     * @param	integer	top skill id
+     * @param	int	top skill id
      */
     public function setTopSkillId($a_val)
     {
@@ -83,7 +113,7 @@ class ilSkillSelfEvaluation
     /**
      * Get top skill id
      *
-     * @return	integer	top skill id
+     * @return	int	top skill id
      */
     public function getTopSkillId()
     {
@@ -93,7 +123,7 @@ class ilSkillSelfEvaluation
     /**
      * Set created at
      *
-     * @param	timestamp	created at
+     * @param	string	created at
      */
     public function setCreated($a_val)
     {
@@ -103,7 +133,7 @@ class ilSkillSelfEvaluation
     /**
      * Get created at
      *
-     * @return	timestamp	created at
+     * @return	string	created at
      */
     public function getCreated()
     {
@@ -113,7 +143,7 @@ class ilSkillSelfEvaluation
     /**
      * Set last update
      *
-     * @param	timestamp	last update
+     * @param	string	last update
      */
     public function setLastUpdate($a_val)
     {
@@ -123,7 +153,7 @@ class ilSkillSelfEvaluation
     /**
      * Get last update
      *
-     * @return	timestamp	last update
+     * @return	string	last update
      */
     public function getLastUpdate()
     {
@@ -139,11 +169,9 @@ class ilSkillSelfEvaluation
     {
         if (!$a_keep_existing) {
             $this->levels = $a_val;
-        } else {
-            if (is_array($a_val)) {
-                foreach ($a_val as $k => $v) {
-                    $this->levels[$k] = $v;
-                }
+        } elseif (is_array($a_val)) {
+            foreach ($a_val as $k => $v) {
+                $this->levels[$k] = $v;
             }
         }
     }
@@ -160,9 +188,6 @@ class ilSkillSelfEvaluation
 
     /**
      * Read
-     *
-     * @param
-     * @return
      */
     public function read()
     {
@@ -304,8 +329,9 @@ class ilSkillSelfEvaluation
     /**
      * Lookup property
      *
-     * @param	id		level id
-     * @return	mixed	property value
+     * @param int $a_id level id
+     * @param string $a_prop property
+     * @return mixed property value
      */
     protected static function lookupProperty($a_id, $a_prop)
     {
@@ -336,6 +362,8 @@ class ilSkillSelfEvaluation
         $lng->loadLanguageModule("skmg");
 
         $stree = new ilSkillTree();
+        $cnode = [];
+        $ls = [];
         $cnt = 0;
         $sum = 0;
         if ($stree->isInTree($a_top_skill_id)) {

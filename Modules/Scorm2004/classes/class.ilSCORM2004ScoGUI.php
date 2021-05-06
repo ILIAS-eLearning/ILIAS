@@ -572,13 +572,6 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $this->ctrl->redirect($this, "showExportList");
     }
 
-    public function exportISO()
-    {
-        $export = new ilScorm2004Export($this->node_object, 'ISO');
-        $export->buildExportFile();
-        $this->ctrl->redirect($this, "showExportList");
-    }
-    
     public function exportPDF()
     {
         $export = new ilScorm2004Export($this->node_object, 'PDF');
@@ -589,7 +582,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
     public function downloadExportFile()
     {
         $file = str_replace("..", "", $_GET['file']);
-        $export = new ilSCORM2004Export($this->node_object);
+        $export = new ilScorm2004Export($this->node_object);
         $export_dir = $export->getExportDirectoryForType($_GET['type']);
         ilUtil::deliverFile($export_dir . "/" . $file, $file);
     }
@@ -644,7 +637,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
     public function deleteExportFile()
     {
         $lng = $this->lng;
-        $export = new ilSCORM2004Export($this->node_object);
+        $export = new ilScorm2004Export($this->node_object);
         foreach ($_POST['file'] as $idx => $file) {
             $export_dir = $export->getExportDirectoryForType($_POST['type'][$idx]);
             $exp_file = $export_dir . "/" . $file;
@@ -682,7 +675,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
                         $this,
                         "resource",
                         rawurlencode(ilObjMediaObject::_lookupStandardItemPath($mob_id, false, false))
-                        );
+                    );
                     $export_files[$i]["link"] = $this->ctrl->getLinkTarget($this, "downloadResource");
                     $i++;
                 }

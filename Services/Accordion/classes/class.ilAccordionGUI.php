@@ -22,6 +22,14 @@ class ilAccordionGUI
     protected $allow_multi_opened = false;
     protected $show_all_element = null;
     protected $hide_all_element = null;
+    protected $contentwidth;
+    protected $contentheight;
+    protected $headerclass;
+    protected $contentclass;
+    protected $icontainerclass;
+    protected $containerclass;
+    protected $id;
+    protected $head_class_set;
     
     const VERTICAL = "vertical";
     const HORIZONTAL = "horizontal";

@@ -562,9 +562,9 @@ class ilCourseObjectiveQuestion
 
         $points = 0;
         foreach ($this->getQuestions() as $question) {
-            $tmp_test = &ilObjectFactory::getInstanceByRefId($question['ref_id']);
+            $tmp_test = ilObjectFactory::getInstanceByRefId($question['ref_id']);
 
-            $tmp_question = &ilObjTest::_instanciateQuestion($question['question_id']);
+            $tmp_question = ilObjTest::_instanciateQuestion($question['question_id']);
 
             $points += $tmp_question->getMaximumPoints();
 
@@ -578,11 +578,11 @@ class ilCourseObjectiveQuestion
     {
         $points = 0;
 
-        $tmp_test = &ilObjectFactory::getInstanceByRefId($a_test_ref_id);
+        $tmp_test = ilObjectFactory::getInstanceByRefId($a_test_ref_id);
 
         foreach ($this->getQuestions() as $question) {
             if ($question['ref_id'] == $a_test_ref_id) {
-                $tmp_question = &ilObjTest::_instanciateQuestion($question['question_id']);
+                $tmp_question = ilObjTest::_instanciateQuestion($question['question_id']);
 
                 $points += $tmp_question->getMaximumPoints();
 

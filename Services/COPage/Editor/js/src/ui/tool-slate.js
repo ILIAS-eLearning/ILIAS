@@ -31,6 +31,9 @@ export default class ToolSlate {
     // @todo hate to use jquery here, but only jquery evals the included script tags
     //document.querySelector("#copg-editor-slate-content").innerHTML = html;
     $("#copg-editor-slate-content").html(html);
+
+    // this fixes #30378
+    il.Form.registerFileUploadInputEventTrigger('#copg-editor-slate-content ');
   }
 
   /**

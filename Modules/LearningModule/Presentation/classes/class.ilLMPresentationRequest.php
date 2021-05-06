@@ -26,6 +26,7 @@ class ilLMPresentationRequest
         $this->requested_obj_type = (string) $query_params["obj_type"];
         $this->requested_mob_id = (int) $query_params["mob_id"];
         $this->requested_embed_mode = (int) $query_params["embed_mode"];
+        $this->requested_cmd = (string) $query_params["cmd"];
     }
 
     /**
@@ -122,5 +123,13 @@ class ilLMPresentationRequest
     public function getRequestedEmbedMode() : int
     {
         return $this->requested_embed_mode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestedCmd() : string
+    {
+        return $this->requested_cmd;
     }
 }

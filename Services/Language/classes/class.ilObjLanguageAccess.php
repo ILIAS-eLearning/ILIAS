@@ -51,9 +51,8 @@ class ilObjLanguageAccess
 
         if ($ilUser->getId()) {
             $ref_id = self::_lookupLangFolderRefId();
-            self::$cached_check_translate =  $rbacsystem->checkAccess("read,write", (int) $ref_id);
-        }
-        else {
+            self::$cached_check_translate = $rbacsystem->checkAccess("read,write", (int) $ref_id);
+        } else {
             self::$cached_check_translate = false;
         }
 
@@ -149,7 +148,8 @@ class ilObjLanguageAccess
      */
     public static function _isPageTranslation()
     {
-        return (strtolower($_GET['cmdClass'] == 'ilobjlanguageextgui') and $_GET['view_mode'] == "translate");
+        $cmdClass = $_GET['cmdClass'] ?? "";
+        return (strtolower($cmdClass == 'ilobjlanguageextgui') and $_GET['view_mode'] == "translate");
     }
 
 

@@ -241,7 +241,6 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
                 \ilLPStatusWrapper::_updateStatus($this->lm->getId(), $this->user->getId());
 
                 $this->lng->loadLanguageModule('trac');
-
                 $this->messages[] = $this->uiFactory->messageBox()->success(
                     $this->lng->txt('trac_updated_status')
                 );
@@ -267,7 +266,8 @@ class ilLearningModuleKioskModeView extends ilKioskModeView
         array $post = null
     ) : Component {
         $this->ctrl->setParameterByClass("illmpresentationgui", 'ref_id', $this->lm->getRefId());
-        $content = $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
+        $content = $this->uiRenderer->render($this->messages);
+        $content .= $this->ctrl->getHTML($this->lm_pres, ["cmd" => "layout"], ["illmpresentationgui"]);
         $content .= $this->uiRenderer->render($this->additional_content);
         return $factory->legacy($content);
     }

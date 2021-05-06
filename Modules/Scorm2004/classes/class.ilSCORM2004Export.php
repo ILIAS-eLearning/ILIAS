@@ -149,8 +149,6 @@ class ilScorm2004Export
                 return $this->buildExportFileHTML();
             case "HTMLOne":
                 return $this->buildExportFileHTMLOne();
-            case "ISO":
-                return $this->buildExportFileISO();
             case "PDF":
                 return $this->buildExportFilePDF();
         }
@@ -253,41 +251,7 @@ class ilScorm2004Export
 
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
-    
-    public function buildExportFileISO()
-    {
-        $result = "";
 
-        // init the mathjax rendering for HTML export
-        ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-        // create directories
-        $this->createExportDirectory();
-        ilUtil::makeDir($this->export_dir . "/" . $this->subdir);
-
-        // get Log File
-        $expDir = $this->export_dir;
-        $expLog = new ilLog($expDir, "export.log");
-        $expLog->delete();
-        $expLog->setLogFormat("");
-        $expLog->write(date("[y-m-d H:i:s] ") . "Start Export");
-
-        // get xml content
-        
-        $this->cont_obj->exportHTML($this->inst_id, $this->export_dir . "/" . $this->subdir, $expLog);
-
-        // zip the file
-        if (ilUtil::CreateIsoFromFolder($this->export_dir . "/" . $this->subdir, $this->export_dir . "/" . $this->subdir . ".iso")) {
-            $result = $this->export_dir . "/" . $this->subdir . ".iso";
-        }
-
-        ilUtil::delDir($this->export_dir . "/" . $this->subdir);
-        
-        $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
-
-        return $result;
-    }
-    
     public function buildExportFilePDF()
     {
 

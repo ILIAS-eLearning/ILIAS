@@ -1,5 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+// fau: toggleChatMessages  - note for the change at this place
+use ILIAS\Filesystem\Stream\Streams;
+
+// fau.
 
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
@@ -202,15 +206,75 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);
         $roomTpl->setVariable('MY_ID', $user_id);
-        $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
         $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
 
         $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('create_private_room_label'));
         $roomTpl->setVariable('LBL_USER', $this->ilLng->txt('user'));
         $roomTpl->setVariable('LBL_USER_TEXT', $this->ilLng->txt('invite_username'));
-        $roomTpl->setVariable('LBL_AUTO_SCROLL', $this->ilLng->txt('auto_scroll'));
+        $showAutoMessages = true;
+        if ($this->ilUser->getPref('chat_hide_automsg_' . $room->getRoomId())) {
+            $showAutoMessages = false;
+        }
+        
+        $roomTpl->setVariable(
+            'TOGGLE_SCROLLING_COMPONENT',
+            $this->uiRenderer->render(
+                $this->uiFactory->button()->toggle(
+                    $this->ilLng->txt('auto_scroll'),
+                    '#',
+                    '#',
+                    true
+                )
+                ->withAriaLabel($this->ilLng->txt('auto_scroll'))
+                ->withOnLoadCode(static function (string $id) : string {
+                    return '
+                        $("#' . $id . '")
+                            .on("click", function(e) {
+                                let t = $(this), msg = $("#chat_messages");
+                                if (t.hasClass("on")) {
+                                    msg.trigger("msg-scrolling:toggle", [true]);
+                                } else {
+                                    msg.trigger("msg-scrolling:toggle", [false]);
+                                }
+                            });
+                    ';
+                })
+            )
+        );
 
+        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, true);
+        $roomTpl->setVariable(
+            'TOGGLE_AUTO_MESSAGE_COMPONENT',
+            $this->uiRenderer->render(
+                $this->uiFactory->button()->toggle(
+                    $this->ilLng->txt('chat_show_auto_messages'),
+                    '#',
+                    '#',
+                    $showAutoMessages
+                )
+                ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
+                ->withOnLoadCode(static function (string $id) use ($toggleUrl) : string {
+                    return '
+                        $("#' . $id . '")
+                            .on("click", function(e) {
+                                let t = $(this), msg = $("#chat_messages");
+                                if (t.hasClass("on")) {
+                                    msg.trigger("auto-message:toggle", [true, "' . $toggleUrl . '"]);
+                                } else {
+                                    msg.trigger("auto-message:toggle", [false, "' . $toggleUrl . '"]);
+                                }
+                            });
+                    ';
+                })
+            )
+        );
+
+        $initial->state = new stdClass();
+        $initial->state->scrolling = true;
+        $initial->state->show_auto_msg = $showAutoMessages;
+
+        $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
         $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
 
         $this->renderFileUploadForm($roomTpl);
@@ -232,6 +296,30 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $this->mainTpl->setContent($roomTpl->get());
         $this->mainTpl->setRightContent($right_content_panel->getHTML());
+    }
+
+    public function toggleAutoMessageDisplayState() : void
+    {
+        global $DIC;
+
+        $this->redirectIfNoPermission('read');
+
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
+ 
+        $state = 0;
+        if (isset($DIC->http()->request()->getParsedBody()['state'])) {
+            $state = (int) $DIC->http()->request()->getParsedBody()['state'];
+        }
+        
+        ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
+
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody(Streams::ofString(json_encode(['success' => true])))
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
     }
 
     /**

@@ -246,19 +246,6 @@ export default class TableUI {
     const wrapper = this.tinyWrapper;
     let content_el = document.querySelector("[data-copg-ed-type='data-cell'][data-row='" + tableModel.getCurrentRow() + "'][data-column='" + tableModel.getCurrentColumn() + "']");
 
-    /*
-    this.log("table-ui.editCell" + row + " " + col);
-    let content_el = document.querySelector("[data-copg-ed-type='data-cell'][data-row='" + row + "'][data-column='" + col + "']");
-    console.log(content_el);
-    let pc_model = this.page_model.getPCModel(pcid);
-    const wrapper = this.tinyWrapper;
-    const nrow = parseInt(row);
-    const ncol = parseInt(col);
-    const tableModel = this.tableModel;
-    console.log(nrow);
-    console.log(ncol);
-    const content = pc_model.content[nrow][ncol];*/
-
     wrapper.stopEditing();
     wrapper.initEdit(content_el, "", "");
   }
@@ -268,7 +255,6 @@ export default class TableUI {
     const tableUI = this;
     const tableModel = this.tableModel;
     const pageModel = this.page_model;
-
     wrapper.addCallback(TINY_CB.SWITCH_LEFT, () => {
       if (pageModel.getCurrentPCName() === "Table") {
         tableUI.switchEditingCell(-1,0);
@@ -310,7 +296,7 @@ export default class TableUI {
       if (pageModel.getCurrentPCName() === "Table") {
         let pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
         let content = pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()];
-        tableUI.paragraphUI.showToolbar();
+        tableUI.paragraphUI.showToolbar(false, false);
         wrapper.initContent(content, "");
       }
     });
@@ -319,7 +305,15 @@ export default class TableUI {
   cellExists (col, row) {
     const pageModel = this.page_model;
     const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
-    return (pcModel.content[row] && pcModel.content[row][col]);
+    return (row in pcModel.content && col in pcModel.content[row]);
+  }
+
+  updateModelFromCell() {
+    const pageModel = this.page_model;
+    const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
+    const tableModel = this.tableModel;
+    const wrapper = this.tinyWrapper;
+    pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
   }
 
   switchEditingCell(colDiff, rowDiff) {
@@ -330,6 +324,8 @@ export default class TableUI {
     const tableModel = this.tableModel;
     let newCol = tableModel.getCurrentColumn() + colDiff;
     let newRow = tableModel.getCurrentRow() + rowDiff;
+
+    this.updateModelFromCell();
 
     // move to beginning of next row, if end of row is reached
     if (rowDiff === 0 && colDiff === 1) {

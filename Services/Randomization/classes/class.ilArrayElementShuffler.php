@@ -1,77 +1,34 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
- * @author		Björn Heyser <bheyser@databay.de>
- * @version		$Id$
- *
- * @package     Services/Randomization
+ * @author Björn Heyser <bheyser@databay.de>
+ * @author Michael Jansen <mjansen@databay.de>
+ * @package Services/Randomization
  */
-class ilArrayElementShuffler
+class ilArrayElementShuffler extends ilBaseRandomElementProvider implements ilRandomArrayElementProvider
 {
     /**
-     * @var integer
+     * @return bool
      */
-    protected $seed;
-
-    /**
-     */
-    public function __construct()
+    private function isMtRandomizerAvailable() : bool
     {
-        $this->setSeed($this->buildRandomSeed());
-    }
-    
-    /**
-     * @return integer
-     */
-    public function getSeed()
-    {
-        return $this->seed;
+        return function_exists('mt_srand') && function_exists('mt_rand');
     }
 
     /**
-     * @param integer $seed
+     * @return int
      */
-    public function setSeed($seed)
-    {
-        $this->seed = $seed;
-    }
-
-    /**
-     * @return integer
-     */
-    public function buildRandomSeed()
+    protected function getInitialSeed() : int
     {
         list($usec, $sec) = explode(' ', microtime());
         return (int) ($sec + ($usec * 100000));
     }
 
     /**
-     * @param string $string
-     * @return integer
+     * @param int $seed
      */
-    public function buildSeedFromString($string)
-    {
-        return hexdec(substr(md5($string), 0, 10));
-    }
-
-    /**
-     * @param array $array
-     * @return array
-     */
-    public function shuffle($array)
-    {
-        $this->initSeed($this->getSeed());
-        $array = $this->shuffleArray($array);
-        $this->initSeed($this->buildRandomSeed());
-        return $array;
-    }
-
-    /**
-     * @param integer $seed
-     */
-    private function initSeed($seed)
+    private function initSeed(int $seed) : void
     {
         $seed = (int) $seed; // (mt_)srand seems to not cast to integer itself (string seeds avoid randomizing) !!
 
@@ -86,7 +43,7 @@ class ilArrayElementShuffler
      * @param array $array
      * @return array
      */
-    private function shuffleArray($array)
+    private function shuffleArray(array $array) : array
     {
         if ($this->isMtRandomizerAvailable()) {
             return $this->mtShuffle($array);
@@ -100,24 +57,28 @@ class ilArrayElementShuffler
      * @param array $orderedArray
      * @return array
      */
-    private function mtShuffle($orderedArray)
+    private function mtShuffle(array $orderedArray) : array
     {
-        $shuffledArray = array();
-        
+        $shuffledArray = [];
+
         while (count($orderedArray) > 0) {
             $key = mt_rand(0, (count($orderedArray) - 1));
             $splice = array_splice($orderedArray, $key, 1);
             $shuffledArray[] = current($splice);
         }
-        
+
         return $shuffledArray;
     }
 
     /**
-     * @return bool
+     * @inheritDoc
      */
-    private function isMtRandomizerAvailable()
+    public function shuffle(array $array) : array
     {
-        return function_exists('mt_srand') && function_exists('mt_rand');
+        $this->initSeed($this->getSeed());
+        $array = $this->shuffleArray($array);
+        $this->initSeed($this->getInitialSeed());
+
+        return $array;
     }
 }

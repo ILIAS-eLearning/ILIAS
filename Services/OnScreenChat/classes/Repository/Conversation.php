@@ -63,17 +63,19 @@ class Conversation
             $conversation->setIsGroup((bool) $row['osc_']);
             $conversation->setSubscriberUsrIds($participantIds);
 
+            $inParticipants = $this->db->in(
+                'osc_messages.user_id',
+                $participantIds,
+                false,
+                'text'
+            );
+
             $this->db->setLimit(1, 0);
             $query = "
                 SELECT osc_messages.*
                 FROM osc_messages
                 WHERE osc_messages.conversation_id = %s
-                AND {$this->db->in(
-                'osc_messages.user_id',
-                $participantIds,
-                false,
-                'text'
-                )}
+                AND {$inParticipants}
                 ORDER BY osc_messages.timestamp DESC
             ";
             $msgRes = $this->db->queryF($query, ['text'], [$conversation->getId()]);

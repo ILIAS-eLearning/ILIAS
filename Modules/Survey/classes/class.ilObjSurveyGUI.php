@@ -169,10 +169,14 @@ class ilObjSurveyGUI extends ilObjectGUI
                 break;
             
             case "ilsurveyevaluationgui":
-                $ilTabs->activateTab("svy_results");
-                $this->addHeaderAction();
-                $eval_gui = new ilSurveyEvaluationGUI($this->object);
-                $this->ctrl->forwardCommand($eval_gui);
+
+                if ($this->checkRbacOrPositionPermission('read_results', 'access_results') ||
+                ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $this->user->getId())) {
+                    $ilTabs->activateTab("svy_results");
+                    $this->addHeaderAction();
+                    $eval_gui = new ilSurveyEvaluationGUI($this->object);
+                    $this->ctrl->forwardCommand($eval_gui);
+                }
                 break;
 
             case "ilsurveyexecutiongui":

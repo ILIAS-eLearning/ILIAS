@@ -2,6 +2,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\Data\Factory;
+use ILIAS\UI\Component\Modal\InterruptiveItem;
 
 /**
  * Class ilADNNotificationTableGUI
@@ -19,6 +20,14 @@ class ilADNNotificationTableGUI extends ilTable2GUI
      * @var \ILIAS\Data\Factory
      */
     protected $data_factory;
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+    /**
+     * @var ilObjAdministrativeNotificationAccess
+     */
+    protected $access;
 
     /**
      * ilADNNotificationTableGUI constructor.
@@ -34,6 +43,8 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->data_factory = new Factory();
+        $this->ui = $DIC->ui();
+        $this->access = new ilObjAdministrativeNotificationAccess();
 
         $this->setId('msg_msg_table');
         $this->setRowTemplate('Services/AdministrativeNotification/templates/default/tpl.row.html');
@@ -55,9 +66,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
 
     protected function initData()
     {
-        $ilADNNotificationList = ilADNNotification::getCollection();
-        $ilADNNotificationList->dateFormat();
-        $this->setData($ilADNNotificationList->getArray());
+        $this->setData(ilADNNotification::getArray());
     }
 
     protected function formatDate(DateTimeImmutable $timestamp) : string
@@ -82,19 +91,44 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DISPLAY_START', $this->formatDate($notification->getDisplayStart()));
             $this->tpl->setVariable('DISPLAY_END', $this->formatDate($notification->getDisplayEnd()));
         }
+        // Actions
+        if ($this->access->hasUserPermissionTo('write')) {
+            $items = [];
+            $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
 
-        $this->ctrl->setParameter($this->parent_obj, ilADNNotificationGUI::IDENTIFIER, $notification->getId());
-        $actions = new ilAdvancedSelectionListGUI();
-        $actions->setListTitle($this->lng->txt('common_actions'));
-        $actions->setId('msg_' . $notification->getId());
-        $actions->addItem($this->lng->txt('edit'), '',
-            $this->ctrl->getLinkTarget($this->parent_obj, ilADNNotificationGUI::CMD_EDIT));
-        $actions->addItem($this->lng->txt('delete'), '',
-            $this->ctrl->getLinkTarget($this->parent_obj, ilADNNotificationGUI::CMD_CONFIRM_DELETE));
-        if ($notification->getDismissable()) {
-            $actions->addItem($this->lng->txt('msg_reset_dismiss'), '',
-                $this->ctrl->getLinkTarget($this->parent_obj, ilADNNotificationGUI::CMD_CONFIRM_RESET));
+            $items[] = $this->ui->factory()->button()->shy(
+                $this->lng->txt('btn_' . ilADNNotificationGUI::CMD_EDIT),
+                $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, ilADNNotificationGUI::CMD_EDIT)
+            );
+
+            // Modals and actions
+
+            $ditem = $this->ui->factory()->modal()->interruptiveItem($notification->getId(), $notification->getTitle());
+            $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE, $items);
+            $reset_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_RESET, $items);
+
+            $actions = $this->ui->renderer()->render([$this->ui->factory()->dropdown()->standard($items)->withLabel($this->lng->txt('actions'))]);
+
+            $this->tpl->setVariable('ACTIONS', $actions . $delete_modal . $reset_modal);
+        } else {
+            $this->tpl->setVariable('ACTIONS', "");
         }
-        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+    }
+
+    protected function modal(InterruptiveItem $i, string $cmd, &$items) : string
+    {
+        $action = $this->ctrl->getLinkTargetByClass(ilADNNotificationGUI::class, $cmd);
+        $modal = $this->ui->factory()->modal()
+                          ->interruptive(
+                              $this->lng->txt('btn_' . $cmd),
+                              $this->lng->txt('btn_' . $cmd . '_confirm'),
+                              $action
+                          )
+                          ->withAffectedItems([$i])
+                          ->withActionButtonLabel($cmd);
+
+        $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . $cmd), "")
+                            ->withOnClick($modal->getShowSignal());
+        return $this->ui->renderer()->render([$modal]);
     }
 }

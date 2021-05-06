@@ -12,6 +12,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilObjectGUI
 {
+    public const ADMIN_MODE_NONE = "";
+    public const ADMIN_MODE_SETTINGS = "settings";
+    public const ADMIN_MODE_REPOSITORY = "respository";
+
+
     protected const UPLOAD_TYPE_LOCAL = 1;
     protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
 
@@ -147,6 +152,11 @@ class ilObjectGUI
     protected $request;
 
     /**
+     * @var int
+     */
+    protected $admin_mode = self::ADMIN_MODE_NONE;
+
+    /**
     * Constructor
     * @access	public
     * @param	array	??
@@ -241,6 +251,24 @@ class ilObjectGUI
         if ($a_prepare_output) {
             $this->prepareOutput();
         }
+    }
+
+    /**
+     * Set by administration
+     *
+     * @param string $mode
+     * @throws ilObjectException
+     */
+    public function setAdminMode(string $mode) : void
+    {
+        if (!in_array($mode, [
+            self::ADMIN_MODE_NONE,
+            self::ADMIN_MODE_REPOSITORY,
+            self::ADMIN_MODE_SETTINGS
+        ])) {
+            throw new ilObjectException("Unknown Admin Mode $mode.");
+        }
+        $this->admin_mode = $mode;
     }
     
     /**
@@ -437,7 +465,7 @@ class ilObjectGUI
             
             $dispatcher->setSubObject($a_sub_type, $a_sub_id);
             
-            ilObjectListGUI::prepareJSLinks(
+            ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
@@ -655,7 +683,7 @@ class ilObjectGUI
     {
         $ilLocator = $this->locator;
         
-        if ($_GET["admin_mode"] == "settings") {	// system settings
+        if ($this->admin_mode == self::ADMIN_MODE_SETTINGS) {	// system settings
             $this->ctrl->setParameterByClass(
                 "ilobjsystemfoldergui",
                 "ref_id",
@@ -756,7 +784,8 @@ class ilObjectGUI
             $forms = $this->initCreationForms($new_type);
             
             // copy form validation error: do not show other creation forms
-            if ($_GET["cpfl"] && isset($forms[self::CFORM_CLONE])) {
+            $cpfl = $_GET["cpfl"] ?? false;
+            if ($cpfl && isset($forms[self::CFORM_CLONE])) {
                 $forms = array(self::CFORM_CLONE => $forms[self::CFORM_CLONE]);
             }
             $tpl->setContent($this->getCreationFormsHTML($forms));
@@ -1018,20 +1047,12 @@ class ilObjectGUI
             
             // auto rating
             $this->handleAutoRating($newObj);
-            
-            // additional paramters are added to afterSave()
-            $args = func_get_args();
-            if ($args) {
-                $this->afterSave($newObj, $args);
-            } else {
-                $this->afterSave($newObj);
-            }
-            return;
+            $this->afterSave($newObj);
         }
 
         // display only this form to correct input
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
     
     /**
@@ -1042,7 +1063,7 @@ class ilObjectGUI
      */
     public function getDidacticTemplateVar($a_type)
     {
-        $tpl = $_POST["didactic_type"];
+        $tpl = $_POST["didactic_type"] ?? null;
         if ($tpl && substr($tpl, 0, strlen($a_type) + 1) == $a_type . "_") {
             return (int) substr($tpl, strlen($a_type) + 1);
         }
@@ -1241,7 +1262,7 @@ class ilObjectGUI
         // display form again to correct errors
         $ilTabs->activateTab("settings");
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
     
     /**
@@ -1408,7 +1429,7 @@ class ilObjectGUI
                 // display message and form again
                 ilUtil::sendFailure($this->lng->txt("obj_import_file_error") . " <br />" . $e->getMessage());
                 $form->setValuesByPost();
-                $tpl->setContent($form->getHtml());
+                $tpl->setContent($form->getHTML());
                 return;
             }
 
@@ -1437,7 +1458,7 @@ class ilObjectGUI
 
         // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
@@ -1519,7 +1540,7 @@ class ilObjectGUI
     */
     protected function getTargetFrame($a_cmd, $a_target_frame = "")
     {
-        if ($this->target_frame[$a_cmd] != "") {
+        if (isset($this->target_frame[$a_cmd]) && $this->target_frame[$a_cmd] != "") {
             return $this->target_frame[$a_cmd];
         } elseif (!empty($a_target_frame)) {
             return "target=\"" . $a_target_frame . "\"";
@@ -1550,7 +1571,7 @@ class ilObjectGUI
             if ($crs_id = $tree->checkForParentType($a_ref_id, 'crs')) {
                 if (!$this->checkPermissionBool("write", "", "", $crs_id)) {
                     // Show only activated courses
-                    $tmp_obj = &ilObjectFactory::getInstanceByRefId($crs_id, false);
+                    $tmp_obj = ilObjectFactory::getInstanceByRefId($crs_id, false);
     
                     if (!$tmp_obj->isActivated()) {
                         unset($tmp_obj);

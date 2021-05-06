@@ -308,9 +308,11 @@ class ilObjUserTracking extends ilObject
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
-        
-        $obj_id = array_pop(array_keys(ilObject::_getObjectsByType("trac")));
-        $ref_id = array_pop(ilObject::_getAllReferences($obj_id));
+
+        $obj_ids = array_keys(ilObject::_getObjectsByType("trac"));
+        $obj_id = array_pop($obj_ids);
+        $ref_ids = ilObject::_getAllReferences($obj_id);
+        $ref_id = array_pop($ref_ids);
         
         return $rbacsystem->checkAccess("lp_other_users", $ref_id);
     }

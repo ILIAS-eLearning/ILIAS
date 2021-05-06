@@ -70,7 +70,7 @@ class ilAccessControlExporter extends ilXmlExporter
         // @todo refactor rolf
         $writer->setRoles(array($a_id => $rolf));
         $writer->write();
-        return $writer->xmlDumpMem($format);
+        return $writer->xmlDumpMem(false);
     }
     
     /**

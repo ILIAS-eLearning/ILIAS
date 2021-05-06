@@ -34,7 +34,10 @@ class ilPCAMDPageList extends ilPageContent
         $this->lng = $DIC->language();
         $this->setType("amdpl");
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = 0;
+        if (isset($_GET["ref_id"])) {
+            $this->ref_id = (int) $_GET["ref_id"];
+        }
     }
     
     /**

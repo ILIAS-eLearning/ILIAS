@@ -350,6 +350,9 @@ class WikiHtmlExport
         $exp_dir =
             \ilExport::_getExportDirectory($this->wiki->getId(), $this->getMode(), "wiki");
         $this->log->debug("dir: " . $exp_dir);
+        if (!is_dir($exp_dir)) {
+            return "";
+        }
         foreach (new \DirectoryIterator($exp_dir) as $fileInfo) {
             $this->log->debug("file: " . $fileInfo->getFilename());
             if (pathinfo($fileInfo->getFilename(), PATHINFO_EXTENSION) == "zip") {

@@ -60,6 +60,8 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
      * @con_is_notnull true
      */
     protected $type;
+    
+    protected $overview;
 
 
     /**

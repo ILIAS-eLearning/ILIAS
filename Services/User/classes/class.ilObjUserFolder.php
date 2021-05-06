@@ -11,9 +11,10 @@
 * @extends ilObject
 */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
-define('USER_FOLDER_ID', 7);
+// TODO: move this to class.ilias.php
+if (!defined('USER_FOLDER_ID')) {
+    define('USER_FOLDER_ID', 7);
+}
 
 class ilObjUserFolder extends ilObject
 {

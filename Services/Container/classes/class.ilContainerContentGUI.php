@@ -848,14 +848,12 @@ abstract class ilContainerContentGUI
     /**
     * Get introduction.
     */
-    public function getIntroduction()
+    public function getIntroduction() : string
     {
-        $ilUser = $this->user;
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("rep");
-        
+
         $tpl = new ilTemplate("tpl.rep_intro.html", true, true, "Services/Repository");
         $tpl->setVariable("IMG_REP_LARGE", ilObject::_getIcon("", "big", "root"));
         $tpl->setVariable("TXT_WELCOME", $lng->txt("rep_intro"));
@@ -875,20 +873,20 @@ abstract class ilContainerContentGUI
      * @param
      * @return
      */
-    public function getItemGroupsHTML($a_pos = 0)
+    public function getItemGroupsHTML(int $a_pos = 0):int
     {
-        if (is_array($this->items["itgr"])) {
+        if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
             foreach ($this->items["itgr"] as $itgr) {
                 if (!$this->renderer->hasCustomBlock($itgr["child"])) {
                     $this->renderItemGroup($itgr);
-                                        
+
                     $this->renderer->setBlockPosition($itgr["ref_id"], ++$a_pos);
                 }
             }
         }
         return $a_pos;
     }
-    
+
     /**
      * Render item group
      *

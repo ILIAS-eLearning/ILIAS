@@ -350,7 +350,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
         $smiley = ilChatroomSmilies::_getSmiley((int) $_REQUEST['smiley_id']);
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
         $confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
@@ -470,7 +469,6 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirect($this->gui, 'smiley');
         }
 
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
         $confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));

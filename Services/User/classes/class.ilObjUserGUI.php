@@ -1293,7 +1293,6 @@ class ilObjUserGUI extends ilObjectGUI
                     $this->form_gui->addItem($inp);
                 } else {
                     // country selection
-                    include_once("./Services/Form/classes/class.ilCountrySelectInputGUI.php");
                     $cs = new ilCountrySelectInputGUI($lng->txt($field[0]), $field[0]);
                     $cs->setRequired(isset($settings["require_" . $field[0]]) &&
                         $settings["require_" . $field[0]]);

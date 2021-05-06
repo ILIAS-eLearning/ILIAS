@@ -76,6 +76,21 @@ class ilContSkillAdminGUI
     protected $params;
 
     /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var int
+     */
+    protected $requested_usr_id;
+
+    /**
+     * @var string
+     */
+    protected $requested_selected_skill;
+
+    /**
      * Constructor
      *
      * @param
@@ -90,6 +105,7 @@ class ilContSkillAdminGUI
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
+        $this->request = $DIC->http()->request();
 
         $this->container_gui = $a_container_gui;
         $this->container = $a_container_gui->object;
@@ -102,10 +118,12 @@ class ilContSkillAdminGUI
         $this->container_local_profiles = new ilContainerLocalProfiles($this->container->getId());
         $this->skmg_settings = new ilSkillManagementSettings();
 
-        $this->user_id = (int) $_GET["usr_id"];
-
         $this->ctrl->saveParameter($this, "profile_id");
         $this->params = $this->ctrl->getParameterArray($this);
+
+        $query_params = $this->request->getQueryParams();
+        $this->requested_usr_id = (int) ($params["usr_id"] ?? 0);
+        $this->requested_selected_skill = (string) ($params["selected_skill"] ?? "");
 
         $this->lng->loadLanguageModule("skmg");
         $this->lng->loadLanguageModule("error");
@@ -185,11 +203,11 @@ class ilContSkillAdminGUI
     {
         $form = new ilPropertyFormGUI();
 
-        $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->user_id);
+        $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
         $mem_levels = $mem_skills->getSkillLevels();
 
         // user name
-        $name = ilObjUser::_lookupName($this->user_id);
+        $name = ilObjUser::_lookupName($this->requested_usr_id);
         $ne = new ilNonEditableValueGUI($this->lng->txt("obj_user"), "");
         $ne->setValue($name["lastname"] . ", " . $name["firstname"] . " [" . $name["login"] . "]");
         $form->addItem($ne);
@@ -264,7 +282,7 @@ class ilContSkillAdminGUI
             }
         }
 
-        $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->user_id);
+        $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
         $mem_skills->saveLevelForSkills($levels);
 
         if (!ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", 0)) {
@@ -284,8 +302,8 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
 
         $user_ids = $_POST["usr_id"];
-        if (!is_array($_POST["usr_id"]) && $_GET["usr_id"] > 0) {
-            $user_ids[] = $_GET["usr_id"];
+        if (!is_array($_POST["usr_id"]) && $this->requested_usr_id > 0) {
+            $user_ids[] = $this->requested_usr_id;
         }
 
         $not_changed = array();
@@ -322,8 +340,8 @@ class ilContSkillAdminGUI
         $tabs->activateSubTab("members");
 
         $user_ids = $_POST["usr_id"];
-        if (!is_array($_POST["usr_id"]) && $_GET["usr_id"] > 0) {
-            $user_ids[] = $_GET["usr_id"];
+        if (!is_array($_POST["usr_id"]) && $this->requested_usr_id > 0) {
+            $user_ids[] = $this->requested_usr_id;
         }
 
         if (!is_array($user_ids) || count($user_ids) == 0) {
@@ -419,7 +437,7 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        $s = explode(":", ($_GET["selected_skill"]));
+        $s = explode(":", ($this->requested_selected_skill));
 
         $this->container_skills->addSkill((int) $s[0], (int) $s[1]);
         $this->container_skills->save();

@@ -71,7 +71,7 @@ class LightboxTest extends ModalBase
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">title</h4>
+				<span class="modal-title">title</span>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -135,7 +135,7 @@ EOT;
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">title</h4>
+				<span class="modal-title">title</span>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -210,7 +210,7 @@ EOT;
 		<div class="modal-content il-modal-lightbox-page">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">title</h4>
+				<span class="modal-title">title</span>
 			</div>
 			<div class="modal-body">
 				<div id="id_1_carousel" class="carousel slide" data-ride="carousel" data-interval="false">

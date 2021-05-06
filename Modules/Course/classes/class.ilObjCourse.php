@@ -1853,7 +1853,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_tutor_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -1866,7 +1866,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $local_roles = $this->__getLocalRoles();
 
         foreach ($local_roles as $role_id) {
-            if ($tmp_role = &ilObjectFactory::getInstanceByObjId($role_id, false)) {
+            if ($tmp_role = ilObjectFactory::getInstanceByObjId($role_id, false)) {
                 if (!strcmp($tmp_role->getTitle(), "il_crs_admin_" . $this->getRefId())) {
                     return $role_id;
                 }
@@ -1896,14 +1896,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      * @access public
      *
      */
-    public function MDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
-        global $DIC;
-
-        $ilLog = $DIC['ilLog'];
-
-        parent::MDUpdateListener($a_element);
-
         switch ($a_element) {
             case 'General':
                 // Update ecs content
@@ -1911,9 +1905,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 $ecs = new ilECSCourseSettings($this);
                 $ecs->handleContentUpdate();
                 break;
-                
-            default:
-                return true;
         }
     }
     

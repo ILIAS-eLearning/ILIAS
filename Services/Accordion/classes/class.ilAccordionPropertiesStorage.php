@@ -2,13 +2,11 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Saves (mostly asynchronously) user properties of accordions
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesAccordion
-* @ilCtrl_Calls ilAccordionPropertiesStorage:
-*/
+ * Saves (mostly asynchronously) user properties of accordions
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilAccordionPropertiesStorage: ilAccordionPropertiesStorage
+ */
 class ilAccordionPropertiesStorage
 {
     /**

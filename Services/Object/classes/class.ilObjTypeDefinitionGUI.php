@@ -105,9 +105,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     public function displayList()
     {
         // load template for table
-        $this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table.html");
         // load template for table content data
-        $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+        $this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
         $num = 0;
 
@@ -120,6 +120,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         // title & header columns
         $tbl->setTitle($this->lng->txt("obj_" . $this->object->getType()) . " '" . $this->object->getTitle() . "'");
 
+        $header_names = [];
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
@@ -147,10 +148,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             //table cell
             for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
-                $ctrl = $this->data["ctrl"][$i];
-
-                // color changing
-                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -182,7 +179,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 } //foreach
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
+                $this->tpl->setVariable("CSS_ROW", " ");
                 $this->tpl->parseCurrentBlock();
             } //for
         } //if is_array
@@ -252,6 +249,8 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
 
         $ops_valid = $rbacreview->getOperationsOnType($this->obj_id);
 
+        $a_order = "";
+        $a_direction = "";
         if ($ops_arr = ilRbacReview::_getOperationList('', $a_order, $a_direction)) {
             $options = array("e" => "enabled","d" => "disabled");
 
@@ -272,8 +271,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                             "operation" => $ops["operation"],
                             "description" => $ops["desc"],
                             "status" => $ops_status,
-                            "status_html" => $ops_options,
-                            "obj_id" => $val["ops_id"]
+                            "status_html" => $ops_options
                 );
             }
         } //if typedata
@@ -298,9 +296,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         // build table
 
         // load template for table
-        $this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
+        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.table.html");
         // load template for table content data
-        $this->tpl->addBlockfile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
+        $this->tpl->addBlockFile("TBL_CONTENT", "tbl_content", "tpl.obj_tbl_rows.html");
 
         $num = 0;
 
@@ -313,6 +311,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         // title & header columns
         $tbl->setTitle($this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'");
 
+        $header_names = [];
         foreach ($this->data["cols"] as $val) {
             $header_names[] = $this->lng->txt($val);
         }
@@ -344,10 +343,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
             //table cell
             for ($i = 0; $i < count($this->data["data"]); $i++) {
                 $data = $this->data["data"][$i];
-                $ctrl = $this->data["ctrl"][$i];
-
-                // color changing
-                $css_row = ilUtil::switchColor($i + 1, "tblrow1", "tblrow2");
 
                 $this->tpl->setCurrentBlock("table_cell");
                 $this->tpl->setVariable("CELLSTYLE", "tblrow1");
@@ -370,7 +365,6 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
                 $this->tpl->setVariable("BTN_VALUE", $this->lng->txt("save"));
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
                 $this->tpl->parseCurrentBlock();
             } //for
         } //if is_array
@@ -399,7 +393,7 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
     * @access	public
     * @param	object	tabs gui object
     */
-    public function getTabs()
+    protected function getTabs()
     {
         $rbacsystem = $this->rbacsystem;
 

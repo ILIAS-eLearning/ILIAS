@@ -82,6 +82,16 @@ class ilAdministrationGUI
     private $logger = null;
 
     /**
+     * @var string
+     */
+    protected $admin_mode = "";
+
+    /**
+     * @var bool
+     */
+    protected $creation_mode = false;
+
+    /**
     * Constructor
     * @access	public
     */
@@ -117,9 +127,10 @@ class ilAdministrationGUI
         $ilMainMenu->setActive("administration");
         
         $this->ctrl->saveParameter($this, array("ref_id", "admin_mode"));
-        
-        if ($_GET["admin_mode"] != "repository") {
-            $_GET["admin_mode"] = "settings";
+
+        $this->admin_mode = $_GET["admin_mode"] ?? "";
+        if ($this->admin_mode != ilObjectGUI::ADMIN_MODE_REPOSITORY) {
+            $this->admin_mode = ilObjectGUI::ADMIN_MODE_SETTINGS;
         }
         
         if (!ilUtil::isAPICall()) {
@@ -238,6 +249,7 @@ class ilAdministrationGUI
                         }
                         $this->gui_obj->setCreationMode($this->creation_mode);
                     }
+                    $this->gui_obj->setAdminMode($this->admin_mode);
                     $tabs_out = true;
                     $ilHelp->setScreenIdComponent(ilObject::_lookupType($this->cur_ref_id, true));
                     $this->showTree();
@@ -265,7 +277,7 @@ class ilAdministrationGUI
     {
         $ilErr = $this->error;
         
-        if ($_GET["admin_mode"] != "repository") {	// settings
+        if ($this->admin_mode != "repository") {	// settings
             if ($_GET["ref_id"] == USER_FOLDER_ID) {
                 $this->ctrl->setParameter($this, "ref_id", USER_FOLDER_ID);
                 $this->ctrl->setParameterByClass("iladministrationgui", "admin_mode", "settings");
@@ -315,7 +327,7 @@ class ilAdministrationGUI
     {
         global $DIC;
 
-        if ($_GET["admin_mode"] != "repository") {
+        if ($this->admin_mode != "repository") {
             return;
         }
 

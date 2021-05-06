@@ -38,10 +38,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $ilCtrl = $DIC['ilCtrl'];
         // TODO: move this to class.ilias.php
-        define(
-            'USER_FOLDER_ID',
-            7
-        );
+        if (!defined('USER_FOLDER_ID')) {
+            define('USER_FOLDER_ID', 7);
+        }
+
         $this->type = "usrf";
         parent::__construct(
             $a_data,
@@ -388,7 +388,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this,
                 "chooseLetter"
             );
-            $ai->setHighlighted($_GET["letter"]);
+            $ai->setHighlighted($_GET["letter"] ?? null);
             $ilToolbar->addInputItem(
                 $ai,
                 true
@@ -1024,7 +1024,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             return $utab->getUserIdsForFilter();
         } else {
             return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-                'read_user',
+                'read_users',
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,
                 (array) $_POST['id']
@@ -1217,7 +1217,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         if (!$rbacsystem->checkAccess('create_usr', $this->object->getRefId())) {
             $this->ilias->raiseError(
                 $this->lng->txt("permission_denied"),
-                $this->ilias->error_obj->MESSAGE);
+                $this->ilias->error_obj->MESSAGE
+            );
         }
         $this->initUserImportForm();
         $tpl->setContent($this->form->getHTML());
@@ -1633,6 +1634,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     } else {
                         $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
+
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }
@@ -3840,7 +3842,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
         $access = $DIC->access();
 
-        if (!$this->checkPermissionBool("read_user")) {
+        if (!$this->checkPermissionBool("read_users")) {
             $a_user_ids = $access->filterUserIdsByPositionOfCurrentUser(
                 \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
                 USER_FOLDER_ID,

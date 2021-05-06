@@ -14,15 +14,17 @@ class arLimitCollection extends arStatementCollection
     /**
      * @return string
      */
-    public function asSQLStatement()
+    public function asSQLStatement() : string
     {
         if ($this->hasStatements()) {
             /**
              * @var $last arLimit
              */
-            $last = end($this->getStatements());
+            $statements = $this->getStatements();
+            $last = end($statements);
 
             return $last->asSQLStatement($this->getAr());
         }
+        return '';
     }
 }

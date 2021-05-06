@@ -19,7 +19,6 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
-
 @bsbase: "../../node_modules/bootstrap/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -66,7 +65,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}responsive-embed.less";
 @import "@{bsbase}wells.less";
 @import "@{bsbase}close.less";
-
+@import "@{bsbase}breadcrumbs.less";
 
 // Components w/ JavaScript
 @import "@{bsbase}modals.less";
@@ -1582,7 +1581,7 @@ div.ilSideBarHead{
 	padding: 5px;
 }
 
-div.ilSideBarHead h3{
+div.ilSideBarHead h3, div.ilSideBarHead h1 {
 	font-size: 110%;
 	color: @il-text-color;
 	display: inline;
@@ -1938,6 +1937,25 @@ table.mceToolbar {
         margin: 0;
     }
 }
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row
+{
+	@media only screen and (max-width: @screen-md-min){
+		min-width: 250px;
+	}
+	@media only screen and (min-width: @screen-md-min) and (max-width: @screen-lg-min){
+		min-width: 500px;
+	}
+	@media only screen and (min-width: @screen-lg-min) {
+		min-width: 750px;
+	}
+}
+#ilAdvSelListAnchorText_asl + ul.dropdown-menu {
+	@media only screen and (max-width: @screen-sm-min) {
+		position: absolute;
+		background-color: @il-main-bg;
+	}
+}
+
 
 //Horizontal Scroll Bar for Code, see: #27132
 .code-container{

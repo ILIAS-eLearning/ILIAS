@@ -1,6 +1,5 @@
 <?php
 include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-include_once("Services/Utilities/classes/class.ilConfirmationTableGUI.php");
 
 
 /**

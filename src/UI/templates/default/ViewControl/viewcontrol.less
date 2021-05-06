@@ -1,9 +1,3 @@
-.il-viewcontrol-mode .ilSubmitInactive, .il-viewcontrol-mode .ilSubmitInactive:hover {
-  background-color:@il-vc-mode-btn-active;
-  color:@il-btn-standard-color;
-  border-color:transparent;
-}
-
 .il-viewcontrol-sortation .dropdown-toggle .caret {
 	&:before {
 		content: "\21f5";
@@ -26,3 +20,9 @@
 	padding: 3px 3px;
 }
 
+.il-viewcontrol-pagination, .il-viewcontrol-mode{
+	.engaged{
+		pointer-events: none;
+		cursor: default;
+	}
+}

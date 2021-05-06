@@ -45,7 +45,7 @@ class ilObjWebDAV extends ilObject
     /**
      * @inheritDoc
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->lng->txt("webdav");
     }
@@ -53,7 +53,7 @@ class ilObjWebDAV extends ilObject
     /**
      * @inheritDoc
      */
-    public function getLongDescription()
+    public function getLongDescription() : string
     {
         return $this->lng->txt("webdav_description");
     }

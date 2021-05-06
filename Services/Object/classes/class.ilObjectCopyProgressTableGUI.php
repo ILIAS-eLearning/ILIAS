@@ -64,7 +64,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
      * Fill row
      * @param type $set
      */
-    public function fillRow($set)
+    protected function fillRow($set)
     {
         global $DIC;
 

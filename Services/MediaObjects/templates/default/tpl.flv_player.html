@@ -1,5 +1,5 @@
 <!-- BEGIN mejs_video -->
-<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" role="link" aria-label="{TXT_PLAY}">
+<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" aria-label="{TXT_PLAY}">
 	<!-- BEGIN preview -->
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>
@@ -13,13 +13,7 @@
 	<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 	<div id="player_{PLAYER_NR}_vtwrap" {STYLE} class="{WRAP_CLASS}">
 		<div>
-			<video id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}">
-				<!-- BEGIN source --><source src="{FILE}" type="{MIME}" /><!-- END source -->
-				<object type="application/x-shockwave-flash" data="{SWF_FILE}">
-					<param name="movie" value="{SWF_FILE}" />
-					<param name="flashvars" value="controls=true&amp;file={FFILE}" />
-				</object>
-			</video>
+			<video src="{FILE}" id="player_{PLAYER_NR}" style="max-width: 100%;" controls="controls" preload="none" class="{CLASS}"></video>
 			<div style="padding-top: 10px; font-size: 80%; color: #808080;">
 				<a href="#" onclick="il.MediaObjects.processCloseIcon(); return false;" class="ilMediaLightboxClose">{CLOSE}</a>
 				<p>{TITLE}</p>
@@ -35,7 +29,7 @@
 	</script>
 <!-- END mejs_video -->
 <!-- BEGIN youtube -->
-<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" role="link" aria-label="{TXT_PLAY}">
+<div id="player_{PLAYER_NR}_wrapper" class="ilPlayerPreviewOverlayOuter" tabindex="0" aria-label="{TXT_PLAY}">
 	<!-- BEGIN ytpreview -->
 	<div class="ilPlayerPreviewOverlay">
 		<img src="{IMG_SRC}" alt="{IMG_ALT}"/>

@@ -16,15 +16,15 @@ class ilSkillAppEventListener implements ilAppEventListener
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent($a_component, $a_event, $a_params)
+    public static function handleEvent($a_component, $a_event, $a_parameter)
     {
         switch ($a_component) {
             case 'Services/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
-                        if ($a_params["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-                            $obj_id = $a_params["obj_id"];
-                            $usr_id = $a_params["usr_id"];
+                        if ($a_parameter["status"] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                            $obj_id = $a_parameter["obj_id"];
+                            $usr_id = $a_parameter["usr_id"];
                             foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
                                 foreach (ilSkillResources::getTriggerLevelsForRefId($ref_id) as $sk) {
                                     ilBasicSkill::writeUserSkillLevelStatus(
@@ -49,7 +49,7 @@ class ilSkillAppEventListener implements ilAppEventListener
             case "Services/Object":
                 switch ($a_event) {
                     case "beforeDeletion":
-                        $handler = new ilSkillObjDeletionHandler($a_params["object"]->getId(), $a_params["object"]->getType());
+                        $handler = new ilSkillObjDeletionHandler($a_parameter["object"]->getId(), $a_parameter["object"]->getType());
                         $handler->processDeletion();
                         break;
                 }

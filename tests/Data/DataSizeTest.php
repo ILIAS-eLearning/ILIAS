@@ -32,7 +32,7 @@ class DataSizeTest extends TestCase
         try {
             $ds = new DataSize(4533, 0);
             $this->assertFalse("This should not happen");
-        } catch (\Exception $e) {
+        } catch (Exception | DivisionByZeroError $e) {
             $this->assertTrue(true);
         }
     }

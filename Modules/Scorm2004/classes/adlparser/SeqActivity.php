@@ -55,7 +55,7 @@
    define("TIMING_ONCE", "once");
    define("TIMING_EACHNEW", "onEachNewAttempt");
    define("TER_EXITALL", "_EXITALL_");
-
+   define("TIMING_NEVER", "never");
 
 class SeqActivity
 {

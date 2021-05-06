@@ -166,7 +166,8 @@ class ilObjectServiceSettingsGUI
                 $form->addItem($news);
                 
                 if (in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp'))) {
-                    $ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+                    $refs = ilObject::_getAllReferences($a_obj_id);
+                    $ref_id = array_pop($refs);
                     
                     ilMembershipNotifications::addToSettingsForm($ref_id, null, $news);
                 }
@@ -372,7 +373,8 @@ class ilObjectServiceSettingsGUI
             ilContainer::_writeContainerSetting($a_obj_id, self::NEWS_VISIBILITY, (int) $form->getInput(self::NEWS_VISIBILITY));
             
             if (in_array(ilObject::_lookupType($a_obj_id), array('crs', 'grp'))) {
-                $ref_id = array_pop(ilObject::_getAllReferences($a_obj_id));
+                $refs = ilObject::_getAllReferences($a_obj_id);
+                $ref_id = array_pop($refs);
                     
                 ilMembershipNotifications::importFromForm($ref_id, $form);
             }

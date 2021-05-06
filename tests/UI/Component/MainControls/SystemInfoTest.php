@@ -192,7 +192,7 @@ EOT;
         );
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
+    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
     {
         return parent::getDefaultRenderer(new class implements \ILIAS\UI\Implementation\Render\JavaScriptBinding {
             public function createId()

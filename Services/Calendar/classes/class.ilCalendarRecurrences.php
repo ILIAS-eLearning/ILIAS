@@ -53,7 +53,7 @@ class ilCalendarRecurrences
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $recurrences[] = new ilCalendarRecurrence($row->rule_id);
         }
-        return $recurrences ? $recurrences : array();
+        return $recurrences ?? [];
     }
     
     /**

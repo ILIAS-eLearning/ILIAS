@@ -197,7 +197,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
     
     private function showConfirmation(ilPropertyFormGUI $form)
     {
-        require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirmation = new ilConfirmationGUI();
         
         $confirmation->setHeaderText($this->lng->txt('tst_trigger_result_refreshing'));

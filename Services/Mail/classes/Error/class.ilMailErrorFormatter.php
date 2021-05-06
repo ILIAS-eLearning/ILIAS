@@ -39,13 +39,13 @@ class ilMailErrorFormatter
             }
 
             if (
-                0 === count($error->getPlaceHolderValues()) ||
-                $translation === $error->getLanguageVariable()
+                $translation === $error->getLanguageVariable() ||
+                0 === count($error->getPlaceHolderValues())
             ) {
                 $errorsToDisplay[] = $translation;
             } else {
-                $escapedPlaceholderValues = array_map(function (string $address) {
-                    return \ilUtil::prepareFormOutput($address);
+                $escapedPlaceholderValues = array_map(static function (string $address) : string {
+                    return ilUtil::prepareFormOutput($address);
                 }, $error->getPlaceHolderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);

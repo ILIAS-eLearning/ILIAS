@@ -151,14 +151,36 @@ class UIWrapper
      * Send whole page as response
      * @return Response
      */
-    public function sendPage($page_gui) : Response
+    public function sendPage($page_gui, $updated) : Response
     {
-        $page_gui->setOutputMode(\ilPageObjectGUI::EDIT);
-        $page_data = $page_gui->showPage();
+        $error = null;
+        $rendered_content = null;
+        $last_change = null;
+
+        if ($updated !== true) {
+            if (is_array($updated)) {
+                $error = implode("<br />", $updated);
+            } elseif (is_string($updated)) {
+                $error = $updated;
+            } else {
+                $error = print_r($updated, true);
+            }
+        } else {
+            $page_gui->setOutputMode(\ilPageObjectGUI::EDIT);
+            $page_data = $page_gui->showPage();
+            $pc_model = $page_gui->getPageObject()->getPCModel();
+            $last_change = $page_gui->getPageObject()->getLastChange();
+        }
 
         $data = new \stdClass();
         $data->renderedContent = $page_data;
-        $data->pcModel = $page_gui->getPageObject()->getPCModel();
+        $data->pcModel = $pc_model;
+        $data->error = $error;
+        if ($last_change) {
+            $lu = new \ilDateTime($last_change, IL_CAL_DATETIME);
+            \ilDatePresentation::setUseRelativeDates(false);
+            $data->last_update = \ilDatePresentation::formatDate($lu, true);
+        }
         return new Response($data);
     }
 

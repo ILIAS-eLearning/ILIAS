@@ -117,14 +117,30 @@ class AvatarTest extends ILIAS_UI_TestBase
         }
     }
 
+    public function testAlternativeText() : void
+    {
+        $f = $this->getAvatarFactory();
+        $this->assertEquals("", $f->picture('', 'ro')->getAlternativeText());
+        $this->assertEquals("", $f->letter('', 'ro')->getAlternativeText());
+        $this->assertEquals("alternative", $f->picture('', 'ro')
+                                             ->withAlternativeText("alternative")
+                                             ->getAlternativeText());
+        $this->assertEquals("alternative", $f->letter('', 'ro')
+                                             ->withAlternativeText("alternative")
+                                             ->getAlternativeText());
+    }
+
     public function testRenderingLetter()
     {
         $f = $this->getAvatarFactory();
         $r = $this->getDefaultRenderer();
 
         $letter = $f->letter('ro');
-        $html = $this->normalizeHTML($r->render($letter));
-        $expected = '<div class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-1" aria-label="ro">	<span class="abbreviation">ro</span></div>';
+        $html = $this->brutallyTrimHTML($r->render($letter));
+        $expected = $this->brutallyTrimHTML('
+<div class="il-avatar il-avatar-letter il-avatar-size-large il-avatar-letter-color-1" aria-label="user_avatar">	
+    <span class="abbreviation">ro</span>
+</div>');
         $this->assertEquals($expected, $html);
     }
 
@@ -135,11 +151,28 @@ class AvatarTest extends ILIAS_UI_TestBase
 
         $str = '/path/to/picture.jpg';
         $letter = $f->picture($str, 'ro');
-        $html = $this->normalizeHTML($r->render($letter));
-        $expected = '<div class="il-avatar il-avatar-picture il-avatar-size-large" aria-label="ro">	<img src="/path/to/picture.jpg"/></div>';
+        $html = $this->brutallyTrimHTML($r->render($letter));
+        $expected = $this->brutallyTrimHTML('
+<div class="il-avatar il-avatar-picture il-avatar-size-large">	
+    <img src="/path/to/picture.jpg" alt="user_avatar"/>
+</div>');
         $this->assertEquals($expected, $html);
     }
 
+    public function testRenderingPictureWithSomeAlternativeText()
+    {
+        $f = $this->getAvatarFactory();
+        $r = $this->getDefaultRenderer();
+
+        $str = '/path/to/picture.jpg';
+        $letter = $f->picture($str, 'ro')->withAlternativeText("alternative");
+        $html = $this->brutallyTrimHTML($r->render($letter));
+        $expected = $this->brutallyTrimHTML('
+<div class="il-avatar il-avatar-picture il-avatar-size-large">	
+    <img src="/path/to/picture.jpg" alt="alternative"/>
+</div>');
+        $this->assertEquals($expected, $html);
+    }
     /**
      * @param int $color_variants
      * @param int $length

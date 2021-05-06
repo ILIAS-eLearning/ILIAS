@@ -485,7 +485,7 @@ class PageContentGUI
             $resp = $gui_class->getHTML(
                 "",
                 "template_show",
-                array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
+                array("tpl_id" => $this->tplIdentifier ?? "", "tpl_obj" => $this, "html" => $html)
             );
 
             if ($resp["mode"] != \ilUIHookPluginGUI::KEEP) {
@@ -629,7 +629,7 @@ class PageContentGUI
         if (count((array) $this->title_alerts)) {
             foreach ($this->title_alerts as $alert) {
                 $this->template_file->setCurrentBlock('header_alert');
-                if (!($alert['propertyNameVisible'] === false)) {
+                if (!(bool) ($alert['propertyNameVisible'] ?? false)) {
                     $this->template_file->setVariable('H_PROP', $alert['property'] . ':');
                 }
                 $this->template_file->setVariable('H_VALUE', $alert['value']);

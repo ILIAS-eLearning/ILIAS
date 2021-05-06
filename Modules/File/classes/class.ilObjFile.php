@@ -7,6 +7,7 @@ use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\ResourceStorage\Revision\Revision;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
+use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
 
 /**
  * Class ilObjFile
@@ -145,6 +146,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
+    /**
+     * @throws FileNamePolicyException
+     */
     public function appendStream(FileStream $stream, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
@@ -160,6 +164,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $revision->getVersionNumber();
     }
 
+    /**
+     * @throws FileNamePolicyException
+     */
     public function appendUpload(UploadResult $result, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
@@ -178,6 +185,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $revision->getVersionNumber();
     }
 
+    /**
+     * @throws FileNamePolicyException
+     */
     public function replaceWithStream(FileStream $stream, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
@@ -190,6 +200,9 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         return $revision->getVersionNumber();
     }
 
+    /**
+     * @throws FileNamePolicyException
+     */
     public function replaceWithUpload(UploadResult $result, string $title) : int
     {
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {

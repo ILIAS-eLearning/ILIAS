@@ -70,7 +70,14 @@ class Standard implements Page\Standard
      * @var    bool
      */
     private $ui_demo = false;
+    /**
+     * @var array
+     */
     protected $system_infos = [];
+    /**
+     * @var string
+     */
+    protected $text_direction = "ltr";
 
     /**
      * Standard constructor.
@@ -339,5 +346,24 @@ class Standard implements Page\Standard
     public function hasSystemInfos() : bool
     {
         return count($this->system_infos) > 0;
+    }
+
+
+    public function withTextDirection(string $text_direction) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $this->checkArgIsElement(
+            "Text Direction",
+            $text_direction,
+            [self::LTR,self::RTL],
+            implode('/', [self::LTR,self::RTL])
+        );
+        $clone = clone $this;
+        $clone->text_direction = $text_direction;
+        return $clone;
+    }
+
+    public function getTextDirection() : string
+    {
+        return $this->text_direction;
     }
 }

@@ -86,7 +86,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -106,7 +106,7 @@ class ilObjObjectFolderGUI extends ilObjectGUI
     * @access	public
     * @param	object	tabs gui object
     */
-    public function getTabs()
+    protected function getTabs()
     {
         $rbacsystem = $this->rbacsystem;
 

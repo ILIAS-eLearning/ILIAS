@@ -140,7 +140,6 @@ class ilDidacticTemplateGUI
         $ilTabs->clearTargets();
         $ilTabs->clearSubTabs();
 
-        include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($ilCtrl->getFormAction($this));
         $confirm->setHeaderText($this->lng->txt('didactic_confirm_apply_new_template'));

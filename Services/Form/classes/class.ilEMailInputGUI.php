@@ -91,7 +91,12 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
         
         $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()], !(bool) $this->allowRFC822);
-        $_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes($_POST[$this->getPostVar() . '_retype'], !(bool) $this->allowRFC822);
+        if (isset($_POST[$this->getPostVar() . '_retype'])) {
+            $_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes(
+                $_POST[$this->getPostVar() . '_retype'],
+                !(bool) $this->allowRFC822
+            );
+        }
         if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
 

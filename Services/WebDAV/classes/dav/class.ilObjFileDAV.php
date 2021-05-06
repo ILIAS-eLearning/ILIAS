@@ -94,8 +94,15 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     public function get()
     {
         if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
-            if ($this->getSize() > 0 &&
-                ($r_id = $this->obj->getResourceId()) &&
+            /**
+             * We need this to satisfy the create process on MacOS. MacOS first posts a 0 size file
+             * and then reads it again, before then going on to post the real file.
+             */
+            if ($this->getSize() === 0) {
+                return "";
+            }
+            
+            if (($r_id = $this->obj->getResourceId()) &&
                 ($identification = $this->resource_manager->find($r_id))) {
                 return $this->resource_consumer->stream($identification)->getStream()->getContents();
             }
@@ -197,21 +204,28 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 
         $upload = fopen($path_with_file, 'read');
         
+        /**
+         * Sadly we need this to avoid creating multiple versions on a single
+         * upload, because of the behaviour of some clients.
+         */
         if (fstat($upload)['size'] === 0) {
+            fclose($upload);
+            unlink($path_with_file);
+            rmdir($path);
             return null;
         }
         
         $stream = Streams::ofResource($upload);
+
         if ($a_file_action === 'replace') {
             $this->obj->replaceWithStream($stream, $this->obj->getTitle());
         } else {
             $this->obj->appendStream($stream, $this->obj->getTitle());
         }
         
+        $stream->close();
         unlink($path_with_file);
         rmdir($path);
-
-        // TODO filename is "input" and metadata etc.
 
         if ($this->obj->update()) {
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);

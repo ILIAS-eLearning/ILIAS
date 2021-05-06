@@ -128,55 +128,6 @@ class ilObjContentObject extends ilObject
     }
 
     /**
-    * get title of content object
-    *
-    * @return	string		title
-    */
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-    * set title of content object
-    */
-    public function setTitle($a_title)
-    {
-        parent::setTitle($a_title);
-        //		$this->meta_data->setTitle($a_title);
-    }
-
-    /**
-    * get description of content object
-    *
-    * @return	string		description
-    */
-    public function getDescription()
-    {
-        return parent::getDescription();
-    }
-
-    /**
-    * set description of content object
-    */
-    public function setDescription($a_description)
-    {
-        parent::setDescription($a_description);
-        //		$this->meta_data->setDescription($a_description);
-    }
-
-
-    public function getImportId()
-    {
-        return $this->import_id;
-    }
-
-    public function setImportId($a_id)
-    {
-        $this->import_id = $a_id;
-    }
-
-    /**
     * Set layout per page
     *
     * @param	boolean		layout per page
@@ -2787,10 +2738,8 @@ class ilObjContentObject extends ilObject
     }
     
     
-    public function MDUpdateListener($a_element)
+    protected function doMDUpdateListener(string $a_element) : void
     {
-        parent::MDUpdateListener($a_element);
-        
         switch ($a_element) {
             case 'Educational':
                 $obj_lp = ilObjectLP::getInstance($this->getId());
@@ -2807,7 +2756,7 @@ class ilObjContentObject extends ilObject
                 // Update Title and description
                 $md = new ilMD($this->getId(), 0, $this->getType());
                 if (!is_object($md_gen = $md->getGeneral())) {
-                    return false;
+                    return;
                 }
 
                 $ot = ilObjectTranslation::getInstance($this->getId());
@@ -2824,7 +2773,6 @@ class ilObjContentObject extends ilObject
                 break;
 
         }
-        return true;
     }
     
     /**

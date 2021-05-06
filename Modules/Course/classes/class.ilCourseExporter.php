@@ -113,7 +113,8 @@ class ilCourseExporter extends ilXmlExporter
      */
     public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
     {
-        $course_ref_id = end(ilObject::_getAllReferences($a_id));
+        $refs = ilObject::_getAllReferences($a_id);
+        $course_ref_id = end($refs);
         $course = ilObjectFactory::getInstanceByRefId($course_ref_id, false);
         
         // begin-patch optes_lok_export

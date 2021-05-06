@@ -15,6 +15,21 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected $ctrl;
 
     /**
+     * @var object|string
+     */
+    protected $select_gui;
+
+    /**
+     * @var string
+     */
+    protected $select_cmd;
+
+    /**
+     * @var string
+     */
+    protected $select_par;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "selected_skill")

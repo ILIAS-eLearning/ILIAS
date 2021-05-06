@@ -18,6 +18,7 @@ use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
 use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
+use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -208,7 +209,8 @@ class ilInitialisation
                 new ResourceARRepository(),
                 new InformationARRepository(),
                 new StakeholderARRepository(),
-                new LockHandlerilDB($c->database())
+                new LockHandlerilDB($c->database()),
+                new WhiteAndBlacklistedFileNamePolicy([], [])
             );
         };
     }
@@ -930,6 +932,7 @@ class ilInitialisation
      */
     protected static function goToLogin()
     {
+        $a_auth_stat = "";
         ilLoggerFactory::getLogger('init')->debug('Redirecting to login page.');
 
         if ($GLOBALS['DIC']['ilAuthSession']->isExpired()) {
@@ -939,7 +942,11 @@ class ilInitialisation
             ilSession::setClosingContext(ilSession::SESSION_CLOSE_LOGIN);
         }
 
-        $script = "login.php?target=" . $_GET["target"] . "&client_id=" . $_COOKIE["ilClientId"] .
+        $target = "";
+        if (isset($_GET["target"]) && is_string($_GET["target"]) && strlen($_GET["target"])) {
+            $target = "target=" . $_GET["target"] . "&";
+        }
+        $script = "login.php?" . $target . "client_id=" . $_COOKIE["ilClientId"] .
             "&auth_stat=" . $a_auth_stat;
 
         self::redirect(
@@ -1063,12 +1070,8 @@ class ilInitialisation
      */
     protected static function handleDevMode()
     {
-        if (defined(SHOWNOTICES) && SHOWNOTICES) {
-            // no further differentiating of php version regarding to 5.4 neccessary
-            // when the error reporting is set to E_ALL anyway
-
-            // add notices to error reporting
-            error_reporting(E_ALL);
+        if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
+            error_reporting(-1);
         }
 
         if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
@@ -1431,7 +1434,6 @@ class ilInitialisation
      */
     public static function initUIFramework(\ILIAS\DI\Container $c)
     {
-
         include_once "Services/Init/classes/Dependencies/InitUIFramework.php";
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
@@ -1564,7 +1566,9 @@ class ilInitialisation
     {
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
-            return array_shift(array_keys($cmd));
+            $keys = array_keys($cmd);
+
+            return array_shift($keys);
         } else {
             return $cmd;
         }
@@ -1774,7 +1778,7 @@ class ilInitialisation
 
         // for password change and incomplete profile
         // see ilDashboardGUI
-        if (!$_GET["target"]) {
+        if (!isset($_GET["target"])) {
             ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
             // Redirect here to switch back to http if desired
             include_once './Services/User/classes/class.ilUserUtil.php';

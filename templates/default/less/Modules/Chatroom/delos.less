@@ -28,6 +28,19 @@
 	background-color: @il-main-dark-bg;
 }
 
+#message-controls .msg-control {
+	label {
+		position: relative;
+		top: 5px;
+	}
+	display: inline-block;
+}
+@media only screen and (max-width: @grid-float-breakpoint) {
+	#message-controls .msg-control {
+		display: block;
+	}
+}
+
 #chat_users {
 	overflow: auto;
 	height: 100%;
@@ -103,6 +116,10 @@ td.chatroom {
 		position: static;
 		float: none;
 		.box-shadow(none);
+	}
+
+	.dropdown-backdrop {
+		position: static;
 	}
 
 	.media {

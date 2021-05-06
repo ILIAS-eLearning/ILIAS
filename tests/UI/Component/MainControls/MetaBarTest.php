@@ -119,6 +119,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
         $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
+        $html = str_replace('> <', '><', $html);
         return trim($html);
     }
 
@@ -134,37 +135,35 @@ class MetaBarTest extends ILIAS_UI_TestBase
 
         $html = $r->render($mb);
 
-        $expected = <<<EOT
-<div class="il-maincontrols-metabar" id="id_5" role="menubar" aria-label="metabar_aria_label">
-	<div class="il-metabar-entries" style="visibility: hidden">
-		<button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" >
-			<img class="icon custom small" src="" alt=""/>
-			<span class="bulky-label">TestEntry</span>
-		</button>
-		<button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" >
-			<img class="icon custom small" src="" alt=""/>
-			<span class="bulky-label">TestEntry</span>
-		</button>
-		<button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" >
-			<span class="glyph" aria-label="disclose">
-				<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-				<span class="il-counter">
-					<span class="badge badge-notify il-counter-status" style="display:none">0</span>
-				</span>
-				<span class="il-counter">
-					<span class="badge badge-notify il-counter-novelty" style="display:none">0</span>
-				</span>
-			</span>
-			<span class="bulky-label">more</span>
-		</button>
-	</div>
-	<div class="il-metabar-slates">
-		<div class="il-maincontrols-slate disengaged" id="id_4" role="menu">
-			<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
-		</div>
-	</div>
-</div>
-EOT;
+        $expected = '
+   <ul class="il-maincontrols-metabar" role="menubar" style="visibility: hidden" aria-label="metabar_aria_label" id="id_5" >
+      <li role="none">
+        <button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" >
+            <img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span>
+        </button>
+      </li>
+      <li role="none">
+        <button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" >
+            <img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span>
+        </button>
+      </li>
+      <li role="none">
+         <button class="btn btn-bulky" id="id_3" role="menuitem" aria-haspopup="true" >
+             <span class="glyph" aria-label="disclose">
+                <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+                <span class="il-counter"><span class="badge badge-notify il-counter-status" style="display:none">0</span></span>
+                <span class="il-counter"><span class="badge badge-notify il-counter-novelty" style="display:none">0</span></span>
+             </span>
+             <span class="bulky-label">more</span>
+         </button>
+         <div class="il-metabar-slates">
+            <div class="il-maincontrols-slate disengaged" id="id_4" role="menu">
+               <div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
+            </div>
+         </div>
+      </li>
+   </ul>
+';
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),

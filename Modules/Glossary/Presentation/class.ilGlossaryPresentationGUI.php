@@ -541,7 +541,8 @@ class ilGlossaryPresentationGUI
         }
 
         // tabs
-        if ($this->glossary->getPresentationMode() != "full_def") {
+        if ($this->glossary->getPresentationMode() != "full_def" &&
+            $a_page_mode != ilPageObjectGUI::PRINTING) {
             $this->showDefinitionTabs("term_content");
         }
 
@@ -897,9 +898,6 @@ class ilGlossaryPresentationGUI
             foreach ($export_files as $exp_file) {
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("TXT_FILENAME", $exp_file["file"]);
-
-                $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
 
                 $this->tpl->setVariable("TXT_SIZE", $exp_file["size"]);
                 $this->tpl->setVariable("TXT_FORMAT", strtoupper($exp_file["type"]));

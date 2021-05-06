@@ -30,7 +30,7 @@ class ilObjectDataSet extends ilDataSet
      * @param
      * @return
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace($a_entity, $a_schema_version)
     {
         return "http://www.ilias.de/xml/Services/Object/" . $a_entity;
     }

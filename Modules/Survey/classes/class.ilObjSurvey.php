@@ -253,13 +253,10 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-    * Create meta data entry
-    *
-    * @access public
+    * @inheritDoc
     */
-    public function createMetaData()
+    protected function doCreateMetaData() : void
     {
-        parent::createMetaData();
         $this->saveAuthorToMetadata();
     }
 

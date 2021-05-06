@@ -194,8 +194,10 @@ class ilPersonalSkill implements ilSkillUsageInfo
     /**
      * Remove material
      *
-     * @param
-     * @return
+     * @param int $a_user_id
+     * @param int $a_tref_id
+     * @param int $a_level_id
+     * @param int $a_wsp_id
      */
     public static function removeMaterial($a_user_id, $a_tref_id, $a_level_id, $a_wsp_id)
     {

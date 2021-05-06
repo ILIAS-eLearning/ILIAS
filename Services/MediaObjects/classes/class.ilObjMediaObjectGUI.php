@@ -418,8 +418,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $std_item->getLocation(),
                 $std_item->getFormat()
             )) {	// autostart
-                $auto = new ilCheckboxInputGUI($lng->txt("cont_autostart"), "standard_autostart");
-                $this->form_gui->addItem($auto);
+                /*$auto = new ilCheckboxInputGUI($lng->txt("cont_autostart"), "standard_autostart");
+                $this->form_gui->addItem($auto);*/
             } else {							// parameters
                 $par = new ilTextAreaInputGUI($lng->txt("cont_parameter"), "standard_parameters");
                 $par->setRows(5);
@@ -539,8 +539,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $full_item->getLocation(),
                 $full_item->getFormat()
             )) {
-                $auto = new ilCheckboxInputGUI($lng->txt("cont_autostart"), "full_autostart");
-                $this->form_gui->addItem($auto);
+                /*$auto = new ilCheckboxInputGUI($lng->txt("cont_autostart"), "full_autostart");
+                $this->form_gui->addItem($auto);*/
             } else {
                 $par = new ilTextAreaInputGUI($lng->txt("cont_parameter"), "full_parameters");
                 $par->setRows(5);
@@ -612,10 +612,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $std_item->getLocation(),
             $std_item->getFormat()
         )) {
-            $par = $std_item->getParameters();
+            /*$par = $std_item->getParameters();
             if ($par["autostart"]) {
                 $values["standard_autostart"] = true;
-            }
+            }*/
         } else {
             $values["standard_parameters"] = $std_item->getParameterString();
         }
@@ -650,10 +650,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $full_item->getLocation(),
                 $full_item->getFormat()
             )) {
-                $par = $full_item->getParameters();
+                /*$par = $full_item->getParameters();
                 if ($par["autostart"]) {
                     $values["full_autostart"] = true;
-                }
+                }*/
             } else {
                 $values["full_parameters"] = $full_item->getParameterString();
             }
@@ -1072,11 +1072,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $std_item->getLocation(),
                     $std_item->getFormat()
                 )) {
+                    /*
                     if ($_POST["standard_autostart"]) {	// save only autostart flag
                         $std_item->setParameters('autostart="true"');
                     } else {
                         $std_item->setParameters("");
-                    }
+                    }*/
                 } else {
                     $std_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["standard_parameters"])));
                 }
@@ -1199,11 +1200,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                         $std_item->getLocation(),
                         $std_item->getFormat()
                     )) {
+                        /*
                         if ($_POST["full_autostart"]) {	// save only autostart flag
                             $full_item->setParameters('autostart="true"');
                         } else {
                             $full_item->setParameters("");
-                        }
+                        }*/
                     } else {
                         $full_item->setParameters(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"])));
                     }
@@ -1357,9 +1359,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 }
 
                 $this->tpl->setCurrentBlock("tbl_content");
-                $css_row = ilUtil::switchColor($i++, "tblrow1", "tblrow2");
-                $this->tpl->setVariable("CSS_ROW", $css_row);
-
                 $this->tpl->setVariable("TXT_SIZE", $entry["size"]);
                 $this->tpl->setVariable("CHECKBOX_ID", $entry["entry"]);
                 $compare = (!empty($cur_subdir))

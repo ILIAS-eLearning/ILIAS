@@ -53,7 +53,7 @@ class ilAchievementsGUI
      * Execute command
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
         $main_tpl = $this->main_tpl;
@@ -117,7 +117,7 @@ class ilAchievementsGUI
     /**
      * Show (redirects to first active service)
      */
-    protected function show()
+    protected function show() : void
     {
         $ctrl = $this->ctrl;
 
@@ -131,7 +131,7 @@ class ilAchievementsGUI
     /**
      * Set tabs
      */
-    protected function setTabs($activate)
+    protected function setTabs($activate) : void
     {
         $tabs = $this->tabs;
         $links = $this->getLinks();
@@ -144,11 +144,9 @@ class ilAchievementsGUI
 
     /**
      * Get link
-     *
-     * @param
-     * @return
+     * @return array[]
      */
-    protected function getLinks()
+    protected function getLinks() : array
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -183,11 +181,9 @@ class ilAchievementsGUI
 
     /**
      * Get GUI class
-     *
-     * @param
-     * @return
+     * @return string[]
      */
-    protected function getGUIClasses()
+    protected function getGUIClasses() : array
     {
         $gui_classes = [
             ilAchievements::SERV_LEARNING_HISTORY => "ilLearningHistoryGUI",

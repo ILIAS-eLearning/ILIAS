@@ -67,7 +67,7 @@ class ilObjectDefinition // extends ilSaxParser
         $this->obj_data = array();
         $defIds = array();
         $global_cache = ilCachedComponentData::getInstance();
-        foreach ($global_cache->getIlobjectDef() as $rec) {
+        foreach ($global_cache->getIlObjectDef() as $rec) {
             $this->obj_data[$rec["id"]] = array(
                 "name" => $rec["id"],
                 "class_name" => $rec["class_name"],

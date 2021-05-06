@@ -1153,7 +1153,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
      * @param
      * @return
      */
-    public function getViewPageLink()
+    public function getViewPageLink() : string
     {
         global $DIC;
 
