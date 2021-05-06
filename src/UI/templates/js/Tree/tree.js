@@ -3,6 +3,7 @@ il.UI = il.UI || {};
 
 (function($, UI) {
 	UI.tree = (function($) {
+		var toogle_node_actions = [];
 
 		this.init = function (component_id, highlight_nodes) {
 			var tree_dom = document.querySelector('#' + component_id);
@@ -11,21 +12,13 @@ il.UI = il.UI || {};
 			tree.init();
 		}
 
-		this.registerFurtherNodeSignals = function (id, signals) {
-			$('#' + id + ' > span').click(
-				function(e){
-					var node = $('#' + id);
-					for (var i = 0; i < signals.length; i++) {
-						var s = signals[i];
-						node.trigger(s.signal_id, s);
-					}
-					return false;
-				}
-			);
+		this.registerToggleNodeAsyncAction = function (id, action, state_param) {
+			action += (action.indexOf("?") !== -1 ? "&" : "?") + encodeURIComponent(state_param) + "=";
+			toogle_node_actions[id] = action;
 		}
 
-		this.toggleNodeState = function (event, action, state_param, was_expanded) {
-			action += (action.indexOf("?") !== -1 ? "&" : "?") + encodeURIComponent(state_param) + "=" + (was_expanded ? 0 : 1);
+		this.toggleNodeState = function (id, was_expanded) {
+			var action = toogle_node_actions[id]+was_expanded;
 
 			$.ajax({
 				type: 'POST',
@@ -33,13 +26,13 @@ il.UI = il.UI || {};
 			});
 		}
 
-			/**
+		/**
 		 * Interface returned by this function for public use (see return statement bellow)
 		 * The contained functions are implemented bellow
 		 */
 		var public_interface = {
 			init: this.init,
-			registerFurtherNodeSignals: this.registerFurtherNodeSignals,
+			registerToggleNodeAsyncAction: this.registerToggleNodeAsyncAction,
 			toggleNodeState: this.toggleNodeState
 		}
 
@@ -207,6 +200,7 @@ il.UI = il.UI || {};
 				}else{
 					this.updateVisibleTreeitems();
 				}
+				il.UI.tree.toggleNodeState(currentItem.domNode.id,0);
 			}
 		};
 
@@ -253,6 +247,7 @@ il.UI = il.UI || {};
 				groupTreeitem.domNode.setAttribute('aria-expanded', false);
 				this.updateVisibleTreeitems();
 				this.setFocusToItem(groupTreeitem);
+				il.UI.tree.toggleNodeState(groupTreeitem.domNode.id,1);
 			}
 		};
 
@@ -529,7 +524,6 @@ il.UI = il.UI || {};
 				else {
 					this.tree.expandTreeitem(this);
 				}
-				event.stopPropagation();
 			}
 		};
 
