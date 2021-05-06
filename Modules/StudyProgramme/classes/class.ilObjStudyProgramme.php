@@ -640,14 +640,14 @@ class ilObjStudyProgramme extends ilContainer
                 function ($id) {
                     return new ilObjStudyProgrammeReference(
                         array_shift(
-                            ilObject::_getAllReferences($id)
+                            ilObject::_getAllReferences((int) $id)
                         )
                     );
                 },
-                ilContainerReference::_lookupSourceIds($prg->getId())
+                ilContainerReference::_lookupSourceIds((int) $prg->getId())
             ),
             function ($prg_ref) use ($tree) {
-                return !$tree->isDeleted($prg_ref->getRefId());
+                return !$tree->isDeleted((int) $prg_ref->getRefId());
             }
         );
     }
