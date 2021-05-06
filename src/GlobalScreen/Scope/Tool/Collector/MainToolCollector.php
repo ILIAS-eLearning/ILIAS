@@ -180,8 +180,8 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
      */
     private function getItemSorter() : Closure
     {
-        return static function (isToolItem &$a, isToolItem &$b) {
-            return $a->getPosition() > $b->getPosition();
+        return static function (isToolItem $a, isToolItem $b) {
+            return $a->getPosition() - $b->getPosition();
         };
     }
 }
