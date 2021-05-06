@@ -47,6 +47,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // language maintenance strings are defined in administration
         $lng->loadLanguageModule("administration");
         $lng->loadLanguageModule("meta");
+        $lng->loadLanguageModule("lng");
 
         //  view mode ('translate' or empty) determins available table filters
         $ilCtrl->saveParameter($this, "view_mode");
@@ -339,14 +340,14 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         }
         
         if ($changesSuccessBool) {
-            $messageBox = $DIC->ui()->factory()->messageBox()->success($this->lng->txt("lng_variables_saved"));
-            $this->toolbar->addComponent($messageBox);
+            $tpl->setVariable("MESSAGE", $this->getSuccessMessage());
+            //ilUtil::sendSuccess("function getSuccess Message was called", true);
         } 
 
         // render and show the table
         $table_gui->setData($data);
         $tpl->setContent($table_gui->getHTML() .
-            $this->buildMissingEntries($missing_entries));
+        $this->buildMissingEntries($missing_entries));
     }
     
     /**
@@ -1031,5 +1032,20 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         
         $form->setValuesByPost();
         $this->addNewEntryObject($form);
+    }
+        /**
+     * Get success message after variables were saved
+     */
+
+    protected function getSuccessMessage()
+    {
+	global $DIC;
+	$f = $DIC->ui()->factory();
+	$renderer = $DIC->ui()->renderer();
+        $lng = $this->lng;
+
+	return $renderer->render($f->messageBox()->success($this->lng->txt("lng_variables_saved")));
+        
+    //ilUtil::sendSuccess("function getSuccess Message was called", true);
     }
 } // END class.ilObjLanguageExtGUI
