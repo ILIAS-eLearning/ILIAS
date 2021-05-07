@@ -16,8 +16,14 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     const XML_SEPARATOR_TRANSLATIONS = "~|~";
     const XML_SEPARATOR_TRANSLATION = '~+~';
 
-    protected $max_length; // [int]
-    protected $multi; // [bool]
+    /**
+     * @var int
+     */
+    protected $max_length;
+    /**
+     * @var bool
+     */
+    protected $multi;
     
     
     //
@@ -271,37 +277,16 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         return false;
     }
 
-    //
-    // presentation
-    //
-    
-    public function prepareElementForEditor(ilADTFormBridge $group)
+    public function prepareElementForEditor(ilADTFormBridge $form)
     {
-        $translation = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
-
-        if (!$this->getADTDefinition() instanceof ilADTGroupDefinition) {
+        if (!$form instanceof ilADTLocalizedTextFormBridge) {
+            $this->logger->warning('Passed ' . get_class($form));
             return;
         }
-        if (!$group instanceof ilADTGroupFormBridge) {
-            return;
-        }
-
-        $group->setTitle('');
-        $group->setInfo('');
-        foreach ($group->getElements() as $name => $text) {
-            list($field_id, $language) = explode('_', $name);
-            if (!$language) {
-                $text->setTitle($this->getTitle());
-            } else {
-                $text->setTitle($translation->getTitleForLanguage($field_id, $language));
-            }
-        }
+        $form->setMulti($this->isMulti());
     }
     
     
-    //
-    // search
-    //
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search)
     {
         return $a_adt_search->getADT()->getText();
