@@ -33,6 +33,10 @@ console.log(sorted.gt(list, 4)) // returns -1
 Insert a new value into the list sorted.
 Optionally you can use a custom compare function that returns, `compare(a, b)` that returns 1 if `a > b`, 0 if `a === b` and -1 if `a < b`.
 
+#### `sorted.addFromFront(list, value, [compare])`
+
+Inserts a new value (same result as `sorted.add()`) optimized for prepend.
+
 #### `var bool = sorted.remove(list, value, [compare])`
 
 Remove a value. Returns true if the value was in the list.

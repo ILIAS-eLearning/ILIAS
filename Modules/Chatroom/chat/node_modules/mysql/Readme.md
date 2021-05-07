@@ -16,28 +16,33 @@
 - [Community](#community)
 - [Establishing connections](#establishing-connections)
 - [Connection options](#connection-options)
-- [SSL options](#ssl-options)
+  - [SSL options](#ssl-options)
+  - [Connection flags](#connection-flags)
 - [Terminating connections](#terminating-connections)
 - [Pooling connections](#pooling-connections)
 - [Pool options](#pool-options)
 - [Pool events](#pool-events)
+  - [acquire](#acquire)
+  - [connection](#connection)
+  - [enqueue](#enqueue)
+  - [release](#release)
 - [Closing all the connections in a pool](#closing-all-the-connections-in-a-pool)
 - [PoolCluster](#poolcluster)
-- [PoolCluster options](#poolcluster-options)
+  - [PoolCluster options](#poolcluster-options)
 - [Switching users and altering connection state](#switching-users-and-altering-connection-state)
 - [Server disconnects](#server-disconnects)
 - [Performing queries](#performing-queries)
 - [Escaping query values](#escaping-query-values)
 - [Escaping query identifiers](#escaping-query-identifiers)
-- [Preparing Queries](#preparing-queries)
-- [Custom format](#custom-format)
+  - [Preparing Queries](#preparing-queries)
+  - [Custom format](#custom-format)
 - [Getting the id of an inserted row](#getting-the-id-of-an-inserted-row)
 - [Getting the number of affected rows](#getting-the-number-of-affected-rows)
 - [Getting the number of changed rows](#getting-the-number-of-changed-rows)
 - [Getting the connection ID](#getting-the-connection-id)
 - [Executing queries in parallel](#executing-queries-in-parallel)
 - [Streaming query rows](#streaming-query-rows)
-- [Piping results with Streams](#piping-results-with-streams)
+  - [Piping results with Streams](#piping-results-with-streams)
 - [Multiple statement queries](#multiple-statement-queries)
 - [Stored procedures](#stored-procedures)
 - [Joins with overlapping column names](#joins-with-overlapping-column-names)
@@ -47,11 +52,17 @@
 - [Error handling](#error-handling)
 - [Exception Safety](#exception-safety)
 - [Type casting](#type-casting)
-- [Connection Flags](#connection-flags)
+  - [Number](#number)
+  - [Date](#date)
+  - [Buffer](#buffer)
+  - [String](#string)
+  - [Custom type casting](#custom-type-casting)
 - [Debugging and reporting problems](#debugging-and-reporting-problems)
 - [Security issues](#security-issues)
 - [Contributing](#contributing)
 - [Running tests](#running-tests)
+  - [Running unit tests](#running-unit-tests)
+  - [Running integration tests](#running-integration-tests)
 - [Todo](#todo)
 
 ## Install
@@ -229,6 +240,7 @@ issue [#501](https://github.com/mysqljs/mysql/issues/501). (Default: `false`)
 * `trace`: Generates stack traces on `Error` to include call site of library
    entrance ("long stack traces"). Slight performance penalty for most calls.
    (Default: `true`)
+* `localInfile`: Allow `LOAD DATA INFILE` to use the `LOCAL` modifier. (Default: `true`)
 * `multipleStatements`: Allow multiple mysql statements per query. Be careful
   with this, it could increase the scope of SQL injection attacks. (Default: `false`)
 * `flags`: List of connection flags to use other than the default ones. It is
@@ -283,6 +295,63 @@ var connection = mysql.createConnection({
   }
 });
 ```
+
+### Connection flags
+
+If, for any reason, you would like to change the default connection flags, you
+can use the connection option `flags`. Pass a string with a comma separated list
+of items to add to the default flags. If you don't want a default flag to be used
+prepend the flag with a minus sign. To add a flag that is not in the default list,
+just write the flag name, or prefix it with a plus (case insensitive).
+
+```js
+var connection = mysql.createConnection({
+  // disable FOUND_ROWS flag, enable IGNORE_SPACE flag
+  flags: '-FOUND_ROWS,IGNORE_SPACE'
+});
+```
+
+The following flags are available:
+
+- `COMPRESS` - Enable protocol compression. This feature is not currently supported
+  by the Node.js implementation so cannot be turned on. (Default off)
+- `CONNECT_WITH_DB` - Ability to specify the database on connection. (Default on)
+- `FOUND_ROWS` - Send the found rows instead of the affected rows as `affectedRows`.
+  (Default on)
+- `IGNORE_SIGPIPE` - Don't issue SIGPIPE if network failures. This flag has no effect
+  on this Node.js implementation. (Default on)
+- `IGNORE_SPACE` - Let the parser ignore spaces before the `(` in queries. (Default on)
+- `INTERACTIVE` - Indicates to the MySQL server this is an "interactive" client. This
+  will use the interactive timeouts on the MySQL server and report as interactive in
+  the process list. (Default off)
+- `LOCAL_FILES` - Can use `LOAD DATA LOCAL`. This flag is controlled by the connection
+  option `localInfile`. (Default on)
+- `LONG_FLAG` - Longer flags in Protocol::ColumnDefinition320. (Default on)
+- `LONG_PASSWORD` - Use the improved version of Old Password Authentication.
+  (Default on)
+- `MULTI_RESULTS` - Can handle multiple resultsets for queries. (Default on)
+- `MULTI_STATEMENTS` - The client may send multiple statement per query or
+  statement prepare (separated by `;`). This flag is controlled by the connection
+  option `multipleStatements`. (Default off)
+- `NO_SCHEMA`
+- `ODBC` Special handling of ODBC behaviour. This flag has no effect on this Node.js
+  implementation. (Default on)
+- `PLUGIN_AUTH` - Uses the plugin authentication mechanism when connecting to the
+  MySQL server. This feature is not currently supported by the Node.js implementation
+  so cannot be turned on. (Default off)
+- `PROTOCOL_41` - Uses the 4.1 protocol. (Default on)
+- `PS_MULTI_RESULTS` - Can handle multiple resultsets for execute. (Default on)
+- `REMEMBER_OPTIONS` - This is specific to the C client, and has no effect on this
+  Node.js implementation. (Default off)
+- `RESERVED` - Old flag for the 4.1 protocol. (Default on)
+- `SECURE_CONNECTION` - Support native 4.1 authentication. (Default on)
+- `SSL` - Use SSL after handshake to encrypt data in transport. This feature is
+  controlled though the `ssl` connection option, so the flag has no effect.
+  (Default off)
+- `SSL_VERIFY_SERVER_CERT` - Verify the server certificate during SSL set up. This
+  feature is controlled though the `ssl.rejectUnauthorized` connection option, so
+  the flag has no effect. (Default off)
+- `TRANSACTIONS` - Asks for the transaction status flags. (Default on)
 
 ## Terminating connections
 
@@ -580,6 +649,13 @@ terminated, an existing connection object cannot be re-connected by design.
 
 With Pool, disconnected connections will be removed from the pool freeing up
 space for a new connection to be created on the next getConnection call.
+
+With PoolCluster, disconnected connections will count as errors against the
+related node, incrementing the error code for that node. Once there are more than
+`removeNodeErrorCount` errors on a given node, it is removed from the cluster.
+When this occurs, the PoolCluster may emit a `POOL_NONEONLINE` error if there are
+no longer any matching nodes for the pattern. The `restoreNodeTimeout` config can
+be set to restore offline nodes after a given timeout.
 
 ## Performing queries
 
@@ -1329,7 +1405,7 @@ need to be parsed. The following are some of the properties on a `Field` object:
   * `length` - a number of the field length, as given by the database.
 
 The `next` argument is a `function` that, when called, will return the default
-type conversaion for the given field.
+type conversion for the given field.
 
 When getting the field data, the following helper methods are present on the
 `field` object:
@@ -1360,63 +1436,6 @@ connection = mysql.createConnection({
 
 __WARNING: YOU MUST INVOKE the parser using one of these three field functions
 in your custom typeCast callback. They can only be called once.__
-
-## Connection Flags
-
-If, for any reason, you would like to change the default connection flags, you
-can use the connection option `flags`. Pass a string with a comma separated list
-of items to add to the default flags. If you don't want a default flag to be used
-prepend the flag with a minus sign. To add a flag that is not in the default list,
-just write the flag name, or prefix it with a plus (case insensitive).
-
-**Please note that some available flags that are not supported (e.g.: Compression),
-are still not allowed to be specified.**
-
-### Example
-
-The next example blacklists FOUND_ROWS flag from default connection flags.
-
-```js
-var connection = mysql.createConnection("mysql://localhost/test?flags=-FOUND_ROWS");
-```
-
-### Default Flags
-
-The following flags are sent by default on a new connection:
-
-- `CONNECT_WITH_DB` - Ability to specify the database on connection.
-- `FOUND_ROWS` - Send the found rows instead of the affected rows as `affectedRows`.
-- `IGNORE_SIGPIPE` - Old; no effect.
-- `IGNORE_SPACE` - Let the parser ignore spaces before the `(` in queries.
-- `LOCAL_FILES` - Can use `LOAD DATA LOCAL`.
-- `LONG_FLAG`
-- `LONG_PASSWORD` - Use the improved version of Old Password Authentication.
-- `MULTI_RESULTS` - Can handle multiple resultsets for COM_QUERY.
-- `ODBC` Old; no effect.
-- `PROTOCOL_41` - Uses the 4.1 protocol.
-- `PS_MULTI_RESULTS` - Can handle multiple resultsets for COM_STMT_EXECUTE.
-- `RESERVED` - Old flag for the 4.1 protocol.
-- `SECURE_CONNECTION` - Support native 4.1 authentication.
-- `TRANSACTIONS` - Asks for the transaction status flags.
-
-In addition, the following flag will be sent if the option `multipleStatements`
-is set to `true`:
-
-- `MULTI_STATEMENTS` - The client may send multiple statement per query or
-  statement prepare.
-
-### Other Available Flags
-
-There are other flags available. They may or may not function, but are still
-available to specify.
-
-- `COMPRESS`
-- `INTERACTIVE`
-- `NO_SCHEMA`
-- `PLUGIN_AUTH`
-- `REMEMBER_OPTIONS`
-- `SSL`
-- `SSL_VERIFY_SERVER_CERT`
 
 ## Debugging and reporting problems
 
