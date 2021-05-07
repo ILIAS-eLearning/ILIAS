@@ -20,6 +20,11 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     protected $options = [];
 
     /**
+     * @var bool
+     */
+    private $complex = true;
+
+    /**
      * @param DataFactory $data_factory
      * @param \ILIAS\Refinery\Factory $refinery
      * @param string $label
@@ -102,5 +107,13 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
 			";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex() : bool
+    {
+        return $this->complex;
     }
 }
