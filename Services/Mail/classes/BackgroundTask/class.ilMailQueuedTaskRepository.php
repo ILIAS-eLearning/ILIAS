@@ -30,7 +30,7 @@ class ilMailQueuedTaskRepository
 
         $this->db->insert(self::TABLE_NAME, [
             'queue_item_id' => ['text', $uuid->toString()],
-            'actor_usr_id' => ['integer', $mailTask],
+            'actor_usr_id' => ['integer', $mailTask->getActorUsrId()],
             'rcp_to' => ['clob', $mailTask->getRecipients()],
             'rcp_cc' => ['clob', $mailTask->getRecipientsCC()],
             'rcp_bcc' => ['clob', $mailTask->getRecipientsBCC()],
