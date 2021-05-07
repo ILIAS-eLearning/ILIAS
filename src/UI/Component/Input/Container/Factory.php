@@ -53,10 +53,8 @@ interface Factory
      *      If the Filter is collapsed, the labels and values of the applied Input Fields are visible as non-editable
      *      text in the Filter Content Area. The texts of the Input Fields have a reduced size and are rendered close
      *      together to save space in the Filter Content Area when the Filter is collapsed. If the Filter is deactivated
-     *      at the same time, the applied Input Fields are grayed out. Only the Input Fields, for which a value has been
-     *      entered and applied, are displayed in this area. Input Fields for which no value has been entered, are not
-     *      visible in this area. If there is not applied a value for at least one Input Field, the Filter Content Area
-     *      is not displayed at all and the user only sees the Filter Bar.
+     *      at the same time, the applied Input Fields are grayed out. If there is not applied a value for at least one
+     *      Input Field, the Filter Content Area is not displayed at all and the user only sees the Filter Bar.
      *   effect: >
      *      The Filter has two statuses: deactivated and activated. The status of the Filter indicates whether the
      *      item collection is filtered or not. The status of the Filter is signalized by the Toggle Button. When the
@@ -82,7 +80,7 @@ interface Factory
      *      In the Filter Content Area, the Apply Button and Reset Button can be used. Clicking on the Apply Button
      *      has multiple effects: The appearance of the Input Fields, i.e. if an Input Field is shown or hidden in the
      *      Filter Content Area, will be saved. The values, which are entered into the Input Fields, are applied. The
-     *      content of the item colletion is reloaded immediately according to the Filter settings. The status of the
+     *      content of the item collection is reloaded immediately according to the Filter settings. The status of the
      *      Filter changes to activated if it was deactivated before. Clicking on the Reset Button brings the Filter
      *      back to its default settings, which were definded by the consuming developer: The appearance of the Input
      *      Fields, i.e. if an Input Field is shown or hidden in the Filter Content Area, will be reset to its default.
