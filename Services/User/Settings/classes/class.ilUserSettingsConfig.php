@@ -42,7 +42,7 @@ class ilUserSettingsConfig
      */
     public function isVisible(string $field) : bool
     {
-        return (!(isset($this->setting[self::HIDE_PREFIX . $field]) &&
+        return ((isset($this->setting[self::HIDE_PREFIX . $field]) &&
             $this->setting[self::HIDE_PREFIX . $field] == 1));
     }
 
