@@ -1259,18 +1259,33 @@ class ilMail
         $bucket = new BasicBucket();
         $bucket->setUserId($this->user_id);
 
-        $task = $taskFactory->createTask(ilMailDeliveryJob::class, [
-            (int) $this->user_id,
+        $mailObject = new ilMailValueObject(
+            '',
             (string) $rcp_to,
             (string) $rcp_cc,
             (string) $rcp_bcc,
             (string) $a_m_subject,
             (string) $a_m_message,
-            serialize($a_attachment),
+            $a_attachment,
             (bool) $a_use_placeholders,
-            $this->getSaveInSentbox(),
-            (string) $this->contextId,
-            serialize($this->contextParameters)
+            $this->getSaveInSentbox()
+        );
+        $mailObject = $mailObject->withActorUsrId((int) $this->user_id);
+    
+        if ($this->contextId) {
+            $mailObject = $mailObject
+                ->withTemplateContextId((string) $this->contextId)
+                ->withTemplateContextParams($this->contextParameters);
+        }
+
+        $queuedTaskRepo = new ilMailQueuedTaskRepository(
+            $DIC->database(),
+            new ILIAS\Data\UUID\Factory()
+        );
+        $uuid = $queuedTaskRepo->save($mailObject);
+
+        $task = $taskFactory->createTask(ilMailDeliveryQueueJob::class, [
+            $uuid->toString()
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,

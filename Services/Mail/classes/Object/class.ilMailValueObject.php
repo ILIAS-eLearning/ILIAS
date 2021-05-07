@@ -32,6 +32,15 @@ class ilMailValueObject
 
     /** @var string */
     private $from;
+    
+    /** @var null|int */
+    private $actorUsrId;
+
+    /** @var null|string */
+    private $templateContextId;
+
+    /** @var null|array */
+    private $templateContextParams;
 
     /**
      * @param string $from
@@ -136,5 +145,50 @@ class ilMailValueObject
     public function getFrom() : string
     {
         return $this->from;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getActorUsrId() : ?int
+    {
+        return $this->actorUsrId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTemplateContextId() : ?string
+    {
+        return $this->templateContextId;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getTemplateContextParams() : ?array
+    {
+        return $this->templateContextParams;
+    }
+
+    public function withActorUsrId(?int $id) : self
+    {
+        $clone = clone $this;
+        $clone->actorUsrId = $id;
+        return $clone;
+    }
+
+    public function withTemplateContextId(?string $id) : self
+    {
+        $clone = clone $this;
+        $clone->templateContextId = $id;
+        return $clone;
+    }
+
+    public function withTemplateContextParams(?array $params) : self
+    {
+        $clone = clone $this;
+        $clone->templateContextParams = $params;
+        return $clone;
     }
 }
