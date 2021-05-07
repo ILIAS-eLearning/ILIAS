@@ -14,7 +14,7 @@ use ILIAS\UI\Implementation\Component\Input\Field\FormInputInternal;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface Tag extends FilterInput, FormInputInternal
+interface Tag extends FormInput, FormInputInternal
 {
 
     /**
