@@ -19,6 +19,11 @@ class Text extends Input implements C\Input\Field\Text
     private $max_length = null;
 
     /**
+     * @var bool
+     */
+    private $complex = false;
+
+    /**
      * @inheritdoc
      */
     public function __construct(
@@ -59,13 +64,12 @@ class Text extends Input implements C\Input\Field\Text
      */
     protected function isClientSideValueOk($value) : bool
     {
-        if (! is_string($value)) {
+        if (!is_string($value)) {
             return false;
         }
 
         if ($this->max_length !== null &&
-            strlen($value) > $this->max_length)
-        {
+            strlen($value) > $this->max_length) {
             return false;
         }
 
@@ -93,5 +97,13 @@ class Text extends Input implements C\Input\Field\Text
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
             return $code;
         };
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isComplex() : bool
+    {
+        return $this->complex;
     }
 }

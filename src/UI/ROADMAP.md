@@ -333,6 +333,10 @@ We need patterns or even a framework for client-side code that gives clear
 guidelines how interactive components should be build for the UI-framework and
 that integrates with the mechanism we use on the server-side to compose GUIs.
 
+### Introduce Redux-JS-Pattern from Mainbar into more UI Components
+We suspect the Redux-Pattern used in the mainbar to be of value for multiple UI Components. One such suspect
+is the keyboard navigation in the Tree Component. We aim to make a broader use of in upcoming developments.
+
 ### Page-Layout and ilTemplate, CSS/JS Header
 
 When rendering the whole page, all needed resources like CSS and JS must be included.

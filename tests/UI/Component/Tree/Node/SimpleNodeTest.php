@@ -141,6 +141,7 @@ EOT;
 				<span class="node-line">
 					<span class="node-label">simple</span>
 				</span>
+				<ul role="group"></ul>
 			</li>
 EOT;
 
