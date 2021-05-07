@@ -61,7 +61,7 @@ interface Tree extends Component
     public function isSubTree() : bool;
 
     /**
-     * Set this tree to be a part of a tre. Needed if parts are loaded async.
+     * Set this tree to be a part of a tree. Needed if parts are loaded async.
      */
     public function withIsSubTree(bool $is_sub) : Tree;
 }
