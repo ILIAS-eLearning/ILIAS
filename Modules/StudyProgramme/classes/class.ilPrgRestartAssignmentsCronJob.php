@@ -115,15 +115,17 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
     {
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_OK);
+
         foreach ($this->user_assignments_db->getDueToRestartInstances() as $assignment) {
             try {
                 $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-                $restarted = $prg->assignUser($this->getUserId(), $this->getUserId());
-                $restarted = $restarted->setRestartedAssignmentId(
-                    $restarted->getId()
-                );
+                $restarted = $prg->assignUser($assignment->getUserId());
 
-                $this->assignment_repository->update($restarted);
+                //the old assingment is marked with the id of the new/resulting assignment.
+                //read: assignment X (old) caused Y (new).
+                $assignment = $assignment->withRestartedAssignmentId($restarted->getId());
+                $this->assignment_repository->update($assignment);
+
                 $this->events->userReAssigned($restarted);
             } catch (ilException $e) {
                 $this->log->write('an error occured: ' . $e->getMessage());

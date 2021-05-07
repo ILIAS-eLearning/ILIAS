@@ -136,16 +136,7 @@ class ilStudyProgrammeAssignment
     {
         return $this->restarted_asssignment_id;
     }
-    
-    /**
-     * @deprecated //TODO: why? what is the restarted-setting good for?
-    public function setRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
-    {
-        $this->restarted_asssignment_id = $id;
-        return $this;
-    }
-     */
-    
+
     public function withRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
     {
         $clone = clone $this;

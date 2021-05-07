@@ -4,6 +4,10 @@
 
 declare(strict_types=1);
 
+
+/**
+ This will set progresses to FAILED, if they are passed the deadline (and nit successfull)
+ */
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
     const ID = 'prg_update_progress';
