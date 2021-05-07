@@ -16,6 +16,21 @@ tape('add', function (t) {
   t.end()
 })
 
+tape('addFromFront', function (t) {
+  var list = []
+
+  sorted.addFromFront(list, 3)
+  sorted.addFromFront(list, 4)
+  sorted.addFromFront(list, 3)
+  sorted.addFromFront(list, 9)
+  sorted.addFromFront(list, 0)
+  sorted.addFromFront(list, 5)
+  sorted.addFromFront(list, 8)
+
+  t.same(list, [0, 3, 3, 4, 5, 8, 9])
+  t.end()
+})
+
 tape('remove', function (t) {
   var list = []
 
