@@ -4,7 +4,10 @@
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 declare(strict_types=1);
-
+/**
+ Re-assign users (according to restart-date).
+ This will result in a new/additional assignment
+ */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
     /**
@@ -107,8 +110,6 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
     }
         
     /**
-     * Run job
-     *
      * @return ilCronJobResult
      */
     public function run()

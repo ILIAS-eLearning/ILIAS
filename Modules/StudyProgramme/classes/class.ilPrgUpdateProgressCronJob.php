@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 
 /**
- This will set progresses to FAILED, if they are passed the deadline (and nit successfull)
+ This will set progresses to FAILED,  if they are past the deadline (and not successful, yet)
  */
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
