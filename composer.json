@@ -403,9 +403,6 @@
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "./libs/composer/patches/simplesamlphp.patch"
 			},
-			"zendframework/zend-httphandlerrunner": {
-				"ILIAS HttpHandlerRunner Patches": "./libs/composer/patches/zend-httphandlerrunner.patch"
-			},
 			"imsglobal/lti": {
 				"ILIAS LTI Patches": "./libs/composer/patches/lti.patch"
 			}

@@ -48,10 +48,12 @@ interface Factory
      *     Further levels (sub-Nodes) are indicated by an Expand Glyph
      *     for the closed state of the Node and respectively by a Collapse Glyph
      *     for the expanded state.
-     *     If there are no sub-Nodes, no Glyph will be shown at all.
+     *     If there are no sub-Nodes, no Glyph will be shown at all. It is possible
+     *     to only render a part of a tree and load further parts on demand.
      *   effect: >
      *     When clicking a Node, it will expand or collapse, thus showing or hiding
      *     its sub-Nodes.
+     *
      * rules:
      *   usage:
      *     1: >
@@ -70,6 +72,10 @@ interface Factory
      *        precisely as possible. "Tree" MUST NOT be set as label, labels like
      *        "Forum Posts" or "Mail Folders" are much more helpful.
      *        (Note that "Tree" is already set by the ARIA role attribute.)
+     *     5: >
+     *        Every Node in der Tree MUST be accessible by keyboard. Note they this does not imply, that all Nodes
+     *        are tabbable.
+     *     6: At least Node in the tree MUST be tabbable.
      * ---
      * @param string $label
      * @param TreeRecursion $recursion
