@@ -57,7 +57,7 @@ class ilTinyMCE extends ilRTE
             'code',
             'charmap'
         );
-        $this->contextMenuItems= array('cut','copy','paste', 'link','unlink','ilimgupload','imagetools','table');
+        $this->contextMenuItems = array('cut','copy','paste', 'link','unlink','ilimgupload','imagetools','table');
 
         $this->setStyleSelect(false);
         $this->addInternalTinyMCEImageManager();
@@ -211,7 +211,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
             $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
 
-            $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
+            $tpl->setVariable('CONTEXT_MENU_ITEMS', join(" ", $this->contextMenuItems));
             
             $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
             include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -295,7 +295,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
         $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
         
-        $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
+        $tpl->setVariable('CONTEXT_MENU_ITEMS', join(" ", $this->contextMenuItems));
 
         $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
         include_once "./Services/Utilities/classes/class.ilUtil.php";
