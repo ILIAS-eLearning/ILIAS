@@ -35,8 +35,7 @@ class ilTinyMCE extends ilRTE
      */
     public function __construct($a_version = '')
     {
-        
-        parent::__construct($a_version);  
+        parent::__construct($a_version);
 
         $this->plugins = array(
             'link',
@@ -58,7 +57,7 @@ class ilTinyMCE extends ilRTE
             'code',
             'charmap'
         );
-        $this->contextMenuItems= array('cut','copy','paste', 'link','unlink','ilimgupload','imagetools','table');
+        $this->contextMenuItems = array('cut','copy','paste', 'link','unlink','ilimgupload','imagetools','table');
 
         $this->setStyleSelect(false);
         $this->addInternalTinyMCEImageManager();
@@ -212,7 +211,7 @@ class ilTinyMCE extends ilRTE
             $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
             $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
 
-            $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
+            $tpl->setVariable('CONTEXT_MENU_ITEMS', join(" ", $this->contextMenuItems));
             
             $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
             include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -296,7 +295,7 @@ class ilTinyMCE extends ilRTE
         $tpl->setVariable('BUTTONS_2', self::removeRedundantSeparators($buttons_2));
         $tpl->setVariable('BUTTONS_3', self::removeRedundantSeparators($buttons_3));
         
-        $tpl->setVariable('CONTEXT_MENU_ITEMS',join(" ", $this->contextMenuItems));
+        $tpl->setVariable('CONTEXT_MENU_ITEMS', join(" ", $this->contextMenuItems));
 
         $tpl->setVariable("ADDITIONAL_PLUGINS", join(" ", $this->plugins));
         include_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -671,11 +670,11 @@ class ilTinyMCE extends ilRTE
         $lang = $this->user->getLanguage();
         $langtiny = $lang;
         //Language files in tinymce and ILIAS have different nomenclatures: adjust the differences
-        switch($lang) {
+        switch ($lang) {
             case "hu":
                 $langtiny = "hu_HU";
                 break;
-            case "zh": 
+            case "zh":
                 $langtiny = "zh_CN";
                 break;
             case "he":
@@ -1178,11 +1177,11 @@ class ilTinyMCE extends ilRTE
             $a_string = substr($a_string, 0, strlen($a_string) - 1);
         }
         //image uploader button keeps appearing twice: remove the duplicates
-        if (strlen($a_string) && substr_count($a_string,'ilimgupload')>1) {
-            $arr = explode('ilimgupload', $a_string,2);
+        if (strlen($a_string) && substr_count($a_string, 'ilimgupload') > 1) {
+            $arr = explode('ilimgupload', $a_string, 2);
             $a_string = $arr[0];
-            if (count($arr)>1) {
-                $a_string = $a_string . ' ilimgupload ' .str_replace('ilimgupload', '', $arr[1]);
+            if (count($arr) > 1) {
+                $a_string = $a_string . ' ilimgupload ' . str_replace('ilimgupload', '', $arr[1]);
             }
         }
         
