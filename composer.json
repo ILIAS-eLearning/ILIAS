@@ -336,10 +336,10 @@
 		},
 		"jumbojett/openid-connect-php" : {
 			"source": "https://github.com/jumbojett/OpenID-Connect-PHP",
-			"used_version": "v0.7.0",
+			"used_version": "v0.9.2",
 			"added_by": "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"wrapped_by": null,
-			"last_update": "2018-10-20",
+			"last_update": "2021-05-10",
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de",
 			"approved_by": "Jour Fixe",
 			"approved-date": "2018-02-26"
