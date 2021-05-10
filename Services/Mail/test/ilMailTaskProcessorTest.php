@@ -12,6 +12,8 @@ use ILIAS\DI\Container;
  */
 class ilMailTaskProcessorTest extends ilMailBaseTest
 {
+    private const ACTOR_USR_ID = 4711;
+
     /** @var ilLanguage */
     private $languageMock;
 
@@ -83,7 +85,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObject = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebody@iliase.de',
             '',
             '',
@@ -155,7 +157,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebody@iliase.de',
             '',
             '',
@@ -165,7 +167,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebodyelse@iliase.de',
             '',
             '',
@@ -233,7 +235,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebody@iliase.de',
             '',
             '',
@@ -243,7 +245,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebodyelse@iliase.de',
             '',
             '',
@@ -253,7 +255,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebody@iliase.de',
             '',
             '',
@@ -324,7 +326,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebody@iliase.de',
             '',
             '',
@@ -334,7 +336,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
+            self::ACTOR_USR_ID,
             'somebodyelse@iliase.de',
             '',
             '',

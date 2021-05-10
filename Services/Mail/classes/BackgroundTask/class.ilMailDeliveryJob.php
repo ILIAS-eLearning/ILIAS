@@ -11,6 +11,7 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 /**
  * Class ilMailDeliveryJob
  * @author Michael Jansen <mjansen@databay.de>
+ * @deprecated
  */
 class ilMailDeliveryJob extends AbstractJob
 {

@@ -1,11 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailValueObject
 {
+    /** @var int */
+    private $actorUsrId;
+
     /** @var string */
     private $recipients;
 
@@ -30,11 +34,14 @@ class ilMailValueObject
     /** @var bool */
     private $saveInSentBox;
 
-    /** @var string */
-    private $from;
+    /** @var null|string */
+    private $templateContextId;
+
+    /** @var null|array */
+    private $templateContextParams;
 
     /**
-     * @param string $from
+     * @param int $actorUsrId
      * @param string $recipients
      * @param string $recipientsCC
      * @param string $recipientsBCC
@@ -45,7 +52,7 @@ class ilMailValueObject
      * @param bool $saveInSentBox
      */
     public function __construct(
-        string $from,
+        int $actorUsrId,
         string $recipients,
         string $recipientsCC,
         string $recipientsBCC,
@@ -55,7 +62,7 @@ class ilMailValueObject
         bool $usePlaceholders = false,
         bool $saveInSentBox = false
     ) {
-        $this->from = $from;
+        $this->actorUsrId = $actorUsrId;
         $this->recipients = $recipients;
         $this->recipientsCC = $recipientsCC;
         $this->recipientsBCC = $recipientsBCC;
@@ -66,41 +73,31 @@ class ilMailValueObject
         $this->saveInSentBox = $saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
+    public function getActorUsrId() : int
+    {
+        return $this->actorUsrId;
+    }
+
     public function getRecipients() : string
     {
         return $this->recipients;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsCC() : string
     {
         return $this->recipientsCC;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsBCC() : string
     {
         return $this->recipientsBCC;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    /**
-     * @return string
-     */
     public function getBody() : string
     {
         return $this->body;
@@ -114,27 +111,37 @@ class ilMailValueObject
         return $this->attachments;
     }
 
-    /**
-     * @return bool
-     */
     public function isUsingPlaceholders() : bool
     {
         return $this->usePlaceholders;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldSaveInSentBox() : bool
     {
         return $this->saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
-    public function getFrom() : string
+    public function getTemplateContextId() : ?string
     {
-        return $this->from;
+        return $this->templateContextId;
+    }
+
+    public function getTemplateContextParams() : ?array
+    {
+        return $this->templateContextParams;
+    }
+
+    public function withTemplateContextId(?string $id) : self
+    {
+        $clone = clone $this;
+        $clone->templateContextId = $id;
+        return $clone;
+    }
+
+    public function withTemplateContextParams(?array $params) : self
+    {
+        $clone = clone $this;
+        $clone->templateContextParams = $params;
+        return $clone;
     }
 }

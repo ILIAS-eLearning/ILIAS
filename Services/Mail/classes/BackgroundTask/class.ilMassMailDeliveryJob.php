@@ -49,9 +49,12 @@ class ilMassMailDeliveryJob extends AbstractJob
 
             $mail->setSaveInSentbox((bool) $mailValueObject->shouldSaveInSentBox());
             $contextId = $input[2]->getValue();
-            $mail = $mail
-                ->withContextId((string) $contextId)
-                ->withContextParameters((array) unserialize($input[3]->getValue()));
+            
+            if ($contextId) {
+                $mail = $mail
+                    ->withContextId((string) $contextId)
+                    ->withContextParameters((array) unserialize($input[3]->getValue()));
+            }
 
             $recipients = (string) $mailValueObject->getRecipients();
             $recipientsCC = (string) $mailValueObject->getRecipientsCC();

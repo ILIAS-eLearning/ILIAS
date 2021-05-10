@@ -6554,3 +6554,85 @@ if (!$ilDB->indexExistsByFields('booking_reservation', array('date_to'))) {
     $ilDB->addIndex('booking_reservation', array('date_to'), 'i4');
 }
 ?>
+<#5788>
+<?php
+if (!$ilDB->tableExists('mail_task_queue')) {
+    $ilDB->createTable(
+        'mail_task_queue',
+        [
+            'queue_item_id' => [
+                'type' => 'text',
+                'length' => 100,
+                'notnull' => true
+            ],
+            'actor_usr_id' => [
+                'type' => 'integer',
+                'length' => 8,
+                'notnull' => true,
+                'default' => 0
+            ],
+            'rcp_to' => [
+                'type' => 'clob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'rcp_cc' => [
+                'type' => 'clob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'rcp_bcc' => [
+                'type' => 'clob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'mail_subject' => [
+                'type' => 'text',
+                'length' => 255,
+                'notnull' => false,
+                'default' => null
+            ],
+            'mail_body' => [
+                'type' => 'clob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'attachments' => [
+                'type' => 'blob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'use_placeholders' => [
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
+            ],
+            'save_in_sentbox' => [
+                'type' => 'integer',
+                'length' => 1,
+                'notnull' => true,
+                'default' => 0
+            ],
+            'tpl_ctx_id' => [
+                'type' => 'text',
+                'length' => 100,
+                'notnull' => false,
+                'default' => null
+            ],
+            'tpl_ctx_params' => [
+                'type' => 'blob',
+                'notnull' => false,
+                'default' => null
+            ],
+            'created_ts' => [
+                'type' => 'integer',
+                'length' => 8,
+                'notnull' => true,
+                'default' => 0
+            ]
+        ]
+    );
+    $ilDB->addPrimaryKey('mail_task_queue', ['queue_item_id']);
+}
+?>

@@ -417,7 +417,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $bodyText .= $attachmentText;
 
         $mailObject = new ilMailValueObject(
-            '',
+            (int) ANONYMOUS_USER_ID,
             ilObjUser::_lookupLogin($recipientUserId),
             '',
             '',
@@ -459,7 +459,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         );
 
         $mailObject = new ilMailValueObject(
-            '',
+            (int) ANONYMOUS_USER_ID,
             ilObjUser::_lookupLogin($recipientUserId),
             '',
             '',
