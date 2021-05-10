@@ -8,7 +8,7 @@
 class ilMailQueuedTaskRepository
 {
     private const TABLE_NAME = 'mail_task_queue';
-    
+
     /** @var ilDBInterface */
     private $db;
     /** @var \ILIAS\Data\UUID\Factory */
