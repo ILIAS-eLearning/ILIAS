@@ -1260,7 +1260,6 @@ class ilMail
         $bucket->setUserId($this->user_id);
 
         $mailObject = new ilMailValueObject(
-            '',
             (string) $rcp_to,
             (string) $rcp_cc,
             (string) $rcp_bcc,

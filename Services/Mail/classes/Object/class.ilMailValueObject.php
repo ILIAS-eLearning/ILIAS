@@ -30,9 +30,6 @@ class ilMailValueObject
     /** @var bool */
     private $saveInSentBox;
 
-    /** @var string */
-    private $from;
-    
     /** @var null|int */
     private $actorUsrId;
 
@@ -43,7 +40,6 @@ class ilMailValueObject
     private $templateContextParams;
 
     /**
-     * @param string $from
      * @param string $recipients
      * @param string $recipientsCC
      * @param string $recipientsBCC
@@ -54,7 +50,6 @@ class ilMailValueObject
      * @param bool $saveInSentBox
      */
     public function __construct(
-        string $from,
         string $recipients,
         string $recipientsCC,
         string $recipientsBCC,
@@ -64,7 +59,6 @@ class ilMailValueObject
         bool $usePlaceholders = false,
         bool $saveInSentBox = false
     ) {
-        $this->from = $from;
         $this->recipients = $recipients;
         $this->recipientsCC = $recipientsCC;
         $this->recipientsBCC = $recipientsBCC;
@@ -75,41 +69,26 @@ class ilMailValueObject
         $this->saveInSentBox = $saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipients() : string
     {
         return $this->recipients;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsCC() : string
     {
         return $this->recipientsCC;
     }
 
-    /**
-     * @return string
-     */
     public function getRecipientsBCC() : string
     {
         return $this->recipientsBCC;
     }
 
-    /**
-     * @return string
-     */
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    /**
-     * @return string
-     */
     public function getBody() : string
     {
         return $this->body;
@@ -123,49 +102,31 @@ class ilMailValueObject
         return $this->attachments;
     }
 
-    /**
-     * @return bool
-     */
     public function isUsingPlaceholders() : bool
     {
         return $this->usePlaceholders;
     }
 
-    /**
-     * @return bool
-     */
     public function shouldSaveInSentBox() : bool
     {
         return $this->saveInSentBox;
     }
 
-    /**
-     * @return string
-     */
     public function getFrom() : string
     {
         return $this->from;
     }
 
-    /**
-     * @return int|null
-     */
     public function getActorUsrId() : ?int
     {
         return $this->actorUsrId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTemplateContextId() : ?string
     {
         return $this->templateContextId;
     }
 
-    /**
-     * @return array|null
-     */
     public function getTemplateContextParams() : ?array
     {
         return $this->templateContextParams;

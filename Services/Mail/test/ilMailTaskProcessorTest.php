@@ -83,7 +83,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObject = new ilMailValueObject(
-            'ilias@server.com',
             'somebody@iliase.de',
             '',
             '',
@@ -155,7 +154,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebody@iliase.de',
             '',
             '',
@@ -165,7 +163,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebodyelse@iliase.de',
             '',
             '',
@@ -233,7 +230,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebody@iliase.de',
             '',
             '',
@@ -243,7 +239,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebodyelse@iliase.de',
             '',
             '',
@@ -253,7 +248,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebody@iliase.de',
             '',
             '',
@@ -324,7 +318,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         $mailValueObjects = [];
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebody@iliase.de',
             '',
             '',
@@ -334,7 +327,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects[] = new ilMailValueObject(
-            'ilias@server.com',
             'somebodyelse@iliase.de',
             '',
             '',

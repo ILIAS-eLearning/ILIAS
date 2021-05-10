@@ -70,7 +70,6 @@ class ilMailQueuedTaskRepository
         $row = $this->db->fetchAssoc($result);
 
         $mailObject = new ilMailValueObject(
-            '',
             (string) $row['rcp_to'],
             (string) $row['rcp_cc'],
             (string) $row['rcp_bcc'],

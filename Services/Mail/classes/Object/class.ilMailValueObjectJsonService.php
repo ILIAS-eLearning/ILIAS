@@ -11,13 +11,12 @@ class ilMailValueObjectJsonService
      * @param ilMailValueObject[] $mailValueObjects
      * @return string
      */
-    public function convertToJson(array $mailValueObjects)
+    public function convertToJson(array $mailValueObjects) : string
     {
-        $mailArray = array();
+        $mailArray = [];
         foreach ($mailValueObjects as $mailValueObject) {
-            $array = array();
+            $array = [];
 
-            $array['from'] = $mailValueObject->getFrom();
             $array['recipients'] = $mailValueObject->getRecipients();
             $array['recipients_cc'] = $mailValueObject->getRecipientsCC();
             $array['recipients_bcc'] = $mailValueObject->getRecipientsBCC();
@@ -37,14 +36,13 @@ class ilMailValueObjectJsonService
      * @param string $json
      * @return ilMailValueObject[]
      */
-    public function convertFromJson(string $json)
+    public function convertFromJson(string $json) : array
     {
-        $result = array();
+        $result = [];
         $array = json_decode($json, true);
 
         foreach ($array as $objectValues) {
             $result[] = new ilMailValueObject(
-                $objectValues['from'],
                 $objectValues['recipients'],
                 $objectValues['recipients_cc'],
                 $objectValues['recipients_bcc'],
