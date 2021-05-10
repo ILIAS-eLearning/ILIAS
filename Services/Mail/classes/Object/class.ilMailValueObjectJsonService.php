@@ -17,6 +17,7 @@ class ilMailValueObjectJsonService
         foreach ($mailValueObjects as $mailValueObject) {
             $array = [];
 
+            $array['actor_usr_id'] = $mailValueObject->getActorUsrId();
             $array['recipients'] = $mailValueObject->getRecipients();
             $array['recipients_cc'] = $mailValueObject->getRecipientsCC();
             $array['recipients_bcc'] = $mailValueObject->getRecipientsBCC();
@@ -42,7 +43,13 @@ class ilMailValueObjectJsonService
         $array = json_decode($json, true);
 
         foreach ($array as $objectValues) {
+            $actorId = 0;
+            if (isset($objectValues['actor_usr_id'])) {
+                $actorId = (int) $objectValues['actor_usr_id'];
+            }
+
             $result[] = new ilMailValueObject(
+                $actorId,
                 $objectValues['recipients'],
                 $objectValues['recipients_cc'],
                 $objectValues['recipients_bcc'],

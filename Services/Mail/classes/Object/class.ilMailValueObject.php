@@ -1,11 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
+ * @author Niels Theen <ntheen@databay.de>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilMailValueObject
 {
+    /** @var int */
+    private $actorUsrId;
+
     /** @var string */
     private $recipients;
 
@@ -30,9 +34,6 @@ class ilMailValueObject
     /** @var bool */
     private $saveInSentBox;
 
-    /** @var null|int */
-    private $actorUsrId;
-
     /** @var null|string */
     private $templateContextId;
 
@@ -40,6 +41,7 @@ class ilMailValueObject
     private $templateContextParams;
 
     /**
+     * @param int $actorUsrId
      * @param string $recipients
      * @param string $recipientsCC
      * @param string $recipientsBCC
@@ -50,6 +52,7 @@ class ilMailValueObject
      * @param bool $saveInSentBox
      */
     public function __construct(
+        int $actorUsrId,
         string $recipients,
         string $recipientsCC,
         string $recipientsBCC,
@@ -59,6 +62,7 @@ class ilMailValueObject
         bool $usePlaceholders = false,
         bool $saveInSentBox = false
     ) {
+        $this->actorUsrId = $actorUsrId;
         $this->recipients = $recipients;
         $this->recipientsCC = $recipientsCC;
         $this->recipientsBCC = $recipientsBCC;
@@ -67,6 +71,11 @@ class ilMailValueObject
         $this->attachments = array_filter(array_map('trim', $attachments));
         $this->usePlaceholders = $usePlaceholders;
         $this->saveInSentBox = $saveInSentBox;
+    }
+
+    public function getActorUsrId() : int
+    {
+        return $this->actorUsrId;
     }
 
     public function getRecipients() : string
@@ -112,16 +121,6 @@ class ilMailValueObject
         return $this->saveInSentBox;
     }
 
-    public function getFrom() : string
-    {
-        return $this->from;
-    }
-
-    public function getActorUsrId() : ?int
-    {
-        return $this->actorUsrId;
-    }
-
     public function getTemplateContextId() : ?string
     {
         return $this->templateContextId;
@@ -130,13 +129,6 @@ class ilMailValueObject
     public function getTemplateContextParams() : ?array
     {
         return $this->templateContextParams;
-    }
-
-    public function withActorUsrId(?int $id) : self
-    {
-        $clone = clone $this;
-        $clone->actorUsrId = $id;
-        return $clone;
     }
 
     public function withTemplateContextId(?string $id) : self

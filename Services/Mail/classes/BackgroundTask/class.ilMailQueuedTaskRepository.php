@@ -70,6 +70,7 @@ class ilMailQueuedTaskRepository
         $row = $this->db->fetchAssoc($result);
 
         $mailObject = new ilMailValueObject(
+            (int) $row['actor_usr_id'],
             (string) $row['rcp_to'],
             (string) $row['rcp_cc'],
             (string) $row['rcp_bcc'],
@@ -82,20 +83,15 @@ class ilMailQueuedTaskRepository
             (bool) $row['use_placeholders'],
             (bool) $row['save_in_sentbox'],
         );
-        
-        if ($row['actor_usr_id']) {
-            $mailObject = $mailObject->withActorUsrId((int) $row['actor_usr_id']);
-        }
 
         if ($row['tpl_ctx_id']) {
             $mailObject = $mailObject->withTemplateContextId((string) $row['tpl_ctx_id']);
-        }
-
-        if ($row['tpl_ctx_params']) {
-            $mailObject = $mailObject->withTemplateContextParams((array) unserialize(
-                $row['tpl_ctx_params'],
-                ['allowed_classes' => false]
-            ));
+            if ($row['tpl_ctx_params']) {
+                $mailObject = $mailObject->withTemplateContextParams((array) unserialize(
+                    $row['tpl_ctx_params'],
+                    ['allowed_classes' => false]
+                ));
+            }
         }
 
         return $mailObject;
