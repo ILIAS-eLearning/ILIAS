@@ -34,17 +34,12 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                                                              ->withIsOutlined(true);
 
         return [
-            $this->mainmenu->complex($this->if->identifier('mm_pd_mail'))
+            $this->mainmenu->link($this->if->identifier('mm_pd_mail'))
                 ->withTitle($title)
-                ->withContentWrapper(function () {
-                    $exp = new \ilMailExplorer(new \ilMailGUI(), $this->dic->user()->getId());
-
-                    return $this->dic->ui()->factory()->legacy($exp->getHTML(true));
-                })
+                ->withAction("ilias.php?baseClass=ilMailGUI")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
                 ->withSymbol($icon)
-                ->withSupportsAsynchronousLoading(true)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {
