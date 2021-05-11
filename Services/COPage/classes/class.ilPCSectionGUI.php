@@ -42,6 +42,8 @@ class ilPCSectionGUI extends ilPageContentGUI
      */
     public function getHTML(array $params)
     {
+        $this->getCharacteristicsOfCurrentStyle("section");
+
         if ($params["form"] == true) {
             $insert = (bool) !($this->content_obj);
             $form = $this->initForm($insert);
@@ -118,7 +120,7 @@ class ilPCSectionGUI extends ilPageContentGUI
     public function executeCommand()
     {
         $this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
-        
+
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
 
