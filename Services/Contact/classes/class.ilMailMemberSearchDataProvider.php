@@ -58,7 +58,7 @@ class ilMailMemberSearchDataProvider
         $this->collectTableData();
     }
 
-    private function collectTableData() : void
+    private function collectTableData()
     {
         $participants = $this->objParticipants->getParticipants();
         if ($this->type === 'crs' || $this->type === 'grp') {
