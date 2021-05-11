@@ -238,10 +238,11 @@ export default class TinyWrapper {
 
     // see #23696, since tinymce4 it seems not possible to disable link conversion (even if <a> tags are not valid elements)
     // so we paste http string "on our own" and reset the paste content
+    /* ILIAS7: this does not seem to be necessary anymore with current tiny
     if (o.content.substring(0, 4) === "http") {
       par_ui.addBBCode(o.content, '', true);
       o.content = '';
-    }
+    }*/
 
     if (o.wordContent) {
       o.content = html.removeLineFeeds(o.content);
