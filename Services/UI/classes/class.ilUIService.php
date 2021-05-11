@@ -23,6 +23,7 @@ class ilUIService
      * Constructor
      *
      * @param ServerRequestInterface $request
+     * @param UIServices $ui
      */
     public function __construct(ServerRequestInterface $request, UIServices $ui)
     {
