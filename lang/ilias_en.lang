@@ -8022,7 +8022,7 @@ common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be 
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
 common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
 common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only inactive users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
@@ -8030,7 +8030,7 @@ common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will 
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
 common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
 common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only inactivated users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -14747,7 +14747,7 @@ content#:#cont_sc_name_setting_first_name#:#First name
 content#:#cont_sc_name_setting_no_name#:#no name
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
 common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
-common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
+common#:#cron_users_without_login_del_role_whitelist_info#:#Only users with one of the selected global roles will be deleted. Does a user have a role that is not selected, the user account remains.
 common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
 common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
 common#:#user_never_logged_in#:#Delete user accounts without login

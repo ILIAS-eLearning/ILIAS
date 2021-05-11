@@ -2853,7 +2853,7 @@ common#:#delete_existing_file#:#Bestehende Datei löschen
 common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Nur inaktive Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
 common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
@@ -2861,7 +2861,7 @@ common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern d
 common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
 common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Nur inaktivierte Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
 common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
@@ -14755,8 +14755,8 @@ content#:#cont_sc_name_setting_salutation_lastname#:#Anrede und Nachname
 content#:#cont_sc_name_setting_first_name#:#Vorname
 content#:#cont_sc_name_setting_no_name#:#Kein Name
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
-common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rolle
-common#:#cron_users_without_login_del_role_whitelist_info#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#cron_users_without_login_del_role_whitelist#:#Berücksichtigte Rollen
+common#:#cron_users_without_login_del_role_whitelist_info#:#Nur Benutzer mit einer der ausgewählten globalen Rollen werden gelöscht. Hat ein Benutzer eine der nicht ausgewählten Rollen inne, bleibt das Benutzerkonto weiter bestehen.
 common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
