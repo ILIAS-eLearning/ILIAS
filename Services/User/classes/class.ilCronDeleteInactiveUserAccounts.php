@@ -208,7 +208,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
 
         if (array_key_exists('schedule_type', $cron_timing[0])) {
-            if ((array_key_exists('schedule_type', $cron_timing[0]) && $cron_timing[0]['schedule_value'] != null)) {
+            if ($cron_timing[0]['schedule_value'] != null) {
                 $multiplier = $cron_timing[0]['schedule_value'];
             }
             $time_difference = $this->getTimeDifferenceBySchedule($cron_timing[0]['schedule_type'], $multiplier);
@@ -227,14 +227,8 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $lng->loadLanguageModule("user");
             
         $schedule = $a_form->getItemByPostVar('type');
-        $schedule->setTitle(
-            $lng->txt('delete_inactive_user_accounts_frequency'),
-            'delete_inactive_user_accounts_frequency'
-        );
-        $schedule->setInfo(
-            $lng->txt('delete_inactive_user_accounts_frequency_desc'),
-            'delete_inactive_user_accounts_frequency_desc'
-        );
+        $schedule->setTitle($lng->txt('delete_inactive_user_accounts_frequency'));
+        $schedule->setInfo($lng->txt('delete_inactive_user_accounts_frequency_desc'));
 
         include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
         $sub_mlist = new ilMultiSelectInputGUI(
@@ -257,7 +251,6 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
         $sub_mlist->setValue($setting);
         $sub_mlist->setWidth(300);
-        #$sub_mlist->setHeight(100);
         $a_form->addItem($sub_mlist);
 
         $default_setting = self::DEFAULT_INACTIVITY_PERIOD;
@@ -284,14 +277,6 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $sub_period->setRequired(false);
         $sub_period->setMinValue(0);
         $a_form->addItem($sub_period);
-        /*
-        $default_setting = ilCronDeleteInactiveUserAccounts::DEFAULT_SETTING_INCLUDE_ADMINS;
-        $sub_cb = new ilCheckboxInputGUI($lng->txt('delete_inactive_user_accounts_include_admins'),'cron_inactive_user_delete_include_admins');
-        $sub_cb->setChecked($ilSetting->get("cron_inactive_user_delete_include_admins", $default_setting) ? 1 : 0 );
-        //$sub_cb->setOptionTitle($lng->txt('delete_inactive_user_accounts_include_admins'));
-        $sub_cb->setInfo($lng->txt('delete_inactive_user_accounts_include_admins_desc'));
-        $a_form->addItem($sub_cb);
-        */
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form)
@@ -314,15 +299,15 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
 
         if ($this->isDecimal($delete_period)) {
             $valid = false;
-            $a_form->getItemByPostVar('cron_inactive_user_delete_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'), 'send_mail_to_inactive_users_numbers_only');
+            $a_form->getItemByPostVar('cron_inactive_user_delete_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'));
         }
         if ($this->isDecimal($reminder_period)) {
             $valid = false;
-            $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'), 'send_mail_to_inactive_users_numbers_only');
+            $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_numbers_only'));
         }
         if ($reminder_period >= $delete_period) {
             $valid = false;
-            $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_must_be_smaller_than'), 'send_mail_to_inactive_users_must_be_smaller_than');
+            $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_to_inactive_users_must_be_smaller_than'));
         }
         if ($cron_period >= ilCronJob::SCHEDULE_TYPE_IN_DAYS && $cron_period <= ilCronJob::SCHEDULE_TYPE_YEARLY && $reminder_period > 0) {
             $logic = true;
@@ -350,7 +335,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
             }
             if (!$logic) {
                 $valid = false;
-                $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_reminder_window_too_small'), 'send_mail_reminder_window_too_small');
+                $a_form->getItemByPostVar('cron_inactive_user_reminder_period')->setAlert($lng->txt('send_mail_reminder_window_too_small'));
             }
         }
         if ($_POST['cron_inactive_user_delete_period']) {
