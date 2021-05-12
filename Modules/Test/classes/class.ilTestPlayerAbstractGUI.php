@@ -585,17 +585,16 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function autosaveCmd()
     {
         $canSaveResult = $this->canSaveResult();
-        $authorizedSolution = !$canSaveResult;
         
         $result = "";
         if (is_array($_POST) && count($_POST) > 0) {
-            if ($this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
-                $result = '-IGNORE-';
+            if (!$canSaveResult || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
+                $result = $this->lng->txt("autosave_failed");
             } else {
                 // fau: testNav - delete intermediate solution if answer is unchanged
                 // answer is changed, so save the change as intermediate solution
                 if ($this->getAnswerChangedParameter()) {
-                    $res = $this->saveQuestionSolution($authorizedSolution, true);
+                    $res = $this->saveQuestionSolution(false, true);
                 }
                 // answer is not changed, so delete an intermediate solution
                 else {
