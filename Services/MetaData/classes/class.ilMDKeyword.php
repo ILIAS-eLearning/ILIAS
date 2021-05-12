@@ -41,7 +41,7 @@ class ilMDKeyword extends ilMDBase
     {
         return $this->keyword;
     }
-    public function setKeywordLanguage(&$lng_obj)
+    public function setKeywordLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->keyword_language = $lng_obj;

@@ -89,6 +89,8 @@ class ilLMContentRendererGUI
      */
     protected $linker;
 
+    protected string $requested_frame;
+
     /**
      * Constructor
      */
@@ -125,6 +127,7 @@ class ilLMContentRendererGUI
         $this->search_string = $service->getPresentationStatus()->getSearchString();
         $this->requested_obj_id = $requested_obj_id;
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
+        $this->requested_frame = $service->getRequest()->getRequestedFrame();
     }
 
     /**
@@ -238,6 +241,8 @@ class ilLMContentRendererGUI
     {
         $ilUser = $this->user;
 
+        $head = $focus_mess = $foot = "";
+
         $this->initHelp();
 
         switch ($this->determineStatus()) {
@@ -296,7 +301,7 @@ class ilLMContentRendererGUI
         $lm_pg_obj->setLMId($this->lm->getId());
 
         // determine target frames for internal links
-        $page_object_gui->setLinkFrame($_GET["frame"]);
+        $page_object_gui->setLinkFrame($this->requested_frame);
 
         // page title and tracking (not for header or footer page)
         if ($page_id == 0 || ($page_id != $this->lm->getHeaderPage() &&
@@ -605,7 +610,7 @@ class ilLMContentRendererGUI
         }
         if ($succ_node != "") {
             $link = "<br /><a href=\"" .
-                $this->linker->getLink("layout", $succ_node["obj_id"], $_GET["frame"]) .
+                $this->linker->getLink("layout", $succ_node["obj_id"], $this->requested_frame) .
                 "\">" . $this->lng->txt("cont_skip_chapter") . "</a>";
             $ptpl->setVariable("LINK_SKIP_CHAPTER", $link);
         }

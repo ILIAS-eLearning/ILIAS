@@ -61,6 +61,11 @@ abstract class ilExplorerBaseGUI
     /** @var string  */
     protected $parent_cmd = '';
 
+    protected string $requested_exp_cmd = "";
+    protected string $requested_exp_cont = "";
+    protected string $requested_searchterm = "";
+    protected string $requested_node_id = "";
+
     /**
      * Constructor
      */
@@ -82,7 +87,11 @@ abstract class ilExplorerBaseGUI
             $this->open_nodes = array();
         }
 
-        $this->requested_node_id = ($_GET["node_id"] ?? 0);
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_node_id = ($params["node_id"] ?? "");
+        $this->requested_exp_cmd = ($params["exp_cmd"] ?? "");
+        $this->requested_exp_cont = ($params["exp_cont"] ?? "");
+        $this->requested_searchterm = ($params["searchterm"] ?? "");
 
         $this->nodeOnclickEnabled = true;
         ilYuiUtil::initConnection();
@@ -528,9 +537,9 @@ abstract class ilExplorerBaseGUI
      */
     public function handleCommand()
     {
-        if ($_GET["exp_cmd"] != "" &&
-            $_GET["exp_cont"] == $this->getContainerId()) {
-            $cmd = $_GET["exp_cmd"];
+        if ($this->requested_exp_cmd != "" &&
+            $this->requested_exp_cont == $this->getContainerId()) {
+            $cmd = $this->requested_exp_cmd;
             if (in_array($cmd, array("openNode", "closeNode", "getNodeAsync"))) {
                 $this->$cmd();
             }
@@ -558,7 +567,7 @@ abstract class ilExplorerBaseGUI
     {
         $ilLog = $this->log;
         
-        $id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
+        $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
         if (!in_array($id, $this->open_nodes)) {
             $this->open_nodes[] = $id;
         }
@@ -573,7 +582,7 @@ abstract class ilExplorerBaseGUI
     {
         $ilLog = $this->log;
         
-        $id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
+        $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
         if (in_array($id, $this->open_nodes)) {
             $k = array_search($id, $this->open_nodes);
             unset($this->open_nodes[$k]);
@@ -596,9 +605,9 @@ abstract class ilExplorerBaseGUI
             $this->open_nodes[] = $root;
         }
 
-        if ($_GET["node_id"] != "") {
-            $id = $this->getNodeIdForDomNodeId($_GET["node_id"]);
-            $this->setSearchTerm(ilUtil::stripSlashes($_GET["searchterm"]));
+        if ($this->requested_node_id != "") {
+            $id = $this->getNodeIdForDomNodeId($this->requested_node_id);
+            $this->setSearchTerm(ilUtil::stripSlashes($this->requested_searchterm));
             $this->renderChilds($id, $etpl);
         } else {
             $id = $this->getNodeId($this->getRootNode());

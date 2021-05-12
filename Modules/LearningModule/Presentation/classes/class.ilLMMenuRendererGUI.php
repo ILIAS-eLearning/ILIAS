@@ -136,8 +136,10 @@ class ilLMMenuRendererGUI
         $this->lm = $lm;
         $this->offline = $offline;
 
-        $this->requested_obj_id = (int) $_GET["obj_id"];
-        $this->requested_ref_id = (int) $_GET["ref_id"];
+        $request = $lm_pres_service->getRequest();
+
+        $this->requested_obj_id = $request->getRequestedObjId();
+        $this->requested_ref_id = $request->getRequestedRefId();
     }
 
     /**

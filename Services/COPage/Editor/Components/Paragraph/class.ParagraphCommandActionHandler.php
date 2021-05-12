@@ -217,7 +217,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             \ilUtil::stripSlashes($body["data"]["characteristic"]),
             \ilUtil::stripSlashes($pcid),
             $insert_id,
-            $body["data"]["fromPlaceholder"]
+            $body["data"]["fromPlaceholder"] ?? false
         );
         $current_after_id = $body["data"]["pcid"];
         $all_pc_ids[] = $current_after_id;

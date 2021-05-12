@@ -12,6 +12,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
     protected $cust_attr = array();
     protected $options = array();
     protected $value;
+    protected bool $hide_sub = false;
     
     /**
     * Constructor

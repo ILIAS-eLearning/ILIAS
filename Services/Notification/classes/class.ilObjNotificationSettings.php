@@ -92,7 +92,7 @@ class ilObjNotificationSettings
             " WHERE obj_id = " . $db->quote($this->obj_id, "integer")
         );
         $rec = $db->fetchAssoc($set);
-        $this->setMode((int) $rec["noti_mode"]);
+        $this->setMode((int) ($rec["noti_mode"] ?? 0));
     }
 
 

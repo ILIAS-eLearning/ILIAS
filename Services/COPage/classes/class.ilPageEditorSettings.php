@@ -78,6 +78,7 @@ class ilPageEditorSettings
     */
     public static function lookupSettingByParentType($a_par_type, $a_name, $a_default = false)
     {
+        $grp = "";
         foreach (self::$option_groups as $g => $types) {
             if (in_array($a_par_type, $types)) {
                 $grp = $g;

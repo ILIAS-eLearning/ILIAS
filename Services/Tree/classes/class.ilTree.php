@@ -734,6 +734,8 @@ class ilTree
             $order_clause;
         
         $res = $ilDB->query($query);
+
+        $childs = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $childs[] = $this->fetchNodeData($row);
         }

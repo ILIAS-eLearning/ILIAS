@@ -46,7 +46,6 @@ class ilTable2GUI extends ilTableGUI
 
     protected $mi_sel_buttons = [];
     protected $disable_filter_hiding = false;
-    protected $selected_filter = false;
     protected $top_commands = true;
     protected $selectable_columns = array();
     protected $selected_column = array();
@@ -132,6 +131,26 @@ class ilTable2GUI extends ilTableGUI
     protected string $defaultorderfield = "";
     protected string $defaultorderdirection = "";
 
+    protected array $column = [];
+    protected bool $datatable = false;
+    protected bool $num_info = false;
+    protected bool $form_multipart = false;
+    protected array $row_data = [];
+    protected string $order_field = "";
+    protected array $selected_filter = [];
+    protected string $form_action = "";
+    protected string $formname = "";
+    protected string $sort_order = "";
+    protected array $buttons = [];
+    protected array $multi = [];
+    protected array $hidden_inputs = [];
+    protected array $header_commands = [];
+    protected string $row_template = "";
+    protected string $row_template_dir = "";
+    protected string $filter_cmd_txt = "";
+    protected string $custom_prev = "";
+    protected string $custom_next = "";
+
     /**
      * ilTable2GUI constructor.
      *
@@ -147,7 +166,7 @@ class ilTable2GUI extends ilTableGUI
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        parent::__construct(0, false);
+        parent::__construct([], false);
         $this->unique_id = md5(uniqid());
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;

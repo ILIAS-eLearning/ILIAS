@@ -322,7 +322,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . ($t["Frame"] ?? "") . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
         $link_info .= "</LinkTargets>";
         return $link_info;

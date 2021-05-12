@@ -74,6 +74,9 @@ class ilLMEditorGUI
      */
     protected $obj_id;
 
+    protected int $requested_active_node = 0;
+    protected bool $to_page = false;
+
     /**
     * Constructor
     * @access	public
@@ -97,8 +100,11 @@ class ilLMEditorGUI
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("lm");
 
+        $this->ref_id = (int) ($_GET["ref_id"] ?? 0);
+        $this->obj_id = (int) ($_GET["obj_id"] ?? 0);
+
         // check write permission
-        if (!$rbacsystem->checkAccess("write", $_GET["ref_id"])) {
+        if (!$rbacsystem->checkAccess("write", $this->ref_id)) {
             $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
         }
 
@@ -111,8 +117,6 @@ class ilLMEditorGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->objDefinition = $objDefinition;
-        $this->ref_id = $_GET["ref_id"];
-        $this->obj_id = $_GET["obj_id"];
 
         $this->lm_obj = ilObjectFactory::getInstanceByRefId($this->ref_id);
         $this->tree = new ilTree($this->lm_obj->getId());
@@ -121,10 +125,13 @@ class ilLMEditorGUI
 
 
         $ilNavigationHistory->addItem(
-            $_GET["ref_id"],
-            "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $_GET["ref_id"],
+            $this->ref_id,
+            "ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->ref_id,
             "lm"
         );
+
+        $this->requested_active_node = (int) ($_REQUEST["active_node"] ?? 0);
+        $this->to_page = (bool) ($_GET["to_page"] ?? false);
 
         $this->checkRequestParameters();
     }
@@ -141,7 +148,7 @@ class ilLMEditorGUI
         if (!$forwards_to_role && $this->obj_id > 0 && ilLMObject::_lookupContObjID($this->obj_id) != $this->lm_obj->getId()) {
             throw new ilException("Object ID does not match learning module.");
         }
-        if ($_REQUEST["active_node"] > 0 && ilLMObject::_lookupContObjID((int) $_REQUEST["active_node"]) != $this->lm_obj->getId()) {
+        if ($this->requested_active_node > 0 && ilLMObject::_lookupContObjID($this->requested_active_node) != $this->lm_obj->getId()) {
             throw new ilException("Active node does not match learning module.");
         }
     }
@@ -157,12 +164,14 @@ class ilLMEditorGUI
 
         $this->tool_context->claim()->repository();
 
+        $cmd = "";
+
         /** @var ilLocatorGUI $loc */
         $loc = $DIC["ilLocator"];
-        $loc->addRepositoryItems((int) $_GET["ref_id"]);
+        $loc->addRepositoryItems($this->ref_id);
 
-        if ($_GET["to_page"] == 1) {
-            $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $_GET["obj_id"]);
+        if ($this->to_page) {
+            $this->ctrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
             $this->ctrl->redirectByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
         }
         
@@ -183,13 +192,10 @@ class ilLMEditorGUI
         switch ($next_class) {
             case "ilobjlearningmodulegui":
                 $this->main_header($this->lm_obj->getType());
-                $lm_gui = new ilObjLearningModuleGUI("", $_GET["ref_id"], true, false);
+                $lm_gui = new ilObjLearningModuleGUI("", $this->ref_id, true, false);
 
                 $ret = $this->ctrl->forwardCommand($lm_gui);
                 if (strcmp($cmd, "explorer") != 0) {
-                    // don't call the locator in the explorer frame
-                    // this prevents a lot of log errors
-                    // Helmut Schottmüller, 2006-07-21
                     $this->displayLocator();
                 }
                 // (horrible) workaround for preventing template engine

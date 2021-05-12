@@ -240,7 +240,7 @@ class ilHelpGUI
 
         if ($oh_lm_id > 0) {
             $acc = new ilAccordionGUI();
-            $acc->setId("oh_acc_" . $h_id);
+            $acc->setId("oh_acc");
             $acc->setUseSessionStorage(true);
             $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 

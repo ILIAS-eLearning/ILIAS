@@ -207,6 +207,7 @@ class ilStructureObject extends ilLMObject
 
         $tree = ilLMTree::getInstance($a_lm_id);
 
+        $nr = "";
         if ($a_include_numbers) {
             // this is optimized, since isInTree is cached
             if ($tree->isInTree($a_st_id)) {

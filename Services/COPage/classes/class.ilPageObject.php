@@ -586,10 +586,12 @@ abstract class ilPageObject
                 array($a_id, $a_parent_type, $a_lang)
             );
             $rec = $db->fetchAssoc($set);
+            if (!$rec) {
+                return true;
+            }
         }
 
         $rec["n"] = ilUtil::now();
-
         if (!$rec["active"] && $a_check_scheduled_activation) {
             if ($rec["n"] >= $rec["activation_start"] &&
                 $rec["n"] <= $rec["activation_end"]) {
@@ -1264,7 +1266,7 @@ abstract class ilPageObject
             return $this->dom->dump_mem(0, $this->encoding);
         } else {
             // append multimedia object elements
-            if ($a_append_mobs || $a_append_bib || $a_append_link_info) {
+            if ($a_append_mobs || $a_append_bib) {
                 $mobs = "";
                 $bibs = "";
                 if ($a_append_mobs) {
@@ -1661,10 +1663,10 @@ abstract class ilPageObject
         $this->stripHierIDs();
 
         // possible fix for #14820
-        libxml_disable_entity_loader(false);
+        //libxml_disable_entity_loader(false);
 
-        @$this->dom->validate($error);
-        //var_dump($this->dom); exit;
+        $error = null;
+        $this->dom->validate($error);
         return $error;
     }
 

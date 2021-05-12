@@ -231,6 +231,8 @@ class ilObjectListGUI
     protected $default_command_params = [];
     protected $header_icons;
 
+    protected ?object $container_obj = null;
+
     /**
     * constructor
     *
@@ -2578,7 +2580,7 @@ class ilObjectListGUI
                         $this->lng->txt($command["lang_var"]),
                         $command["frame"],
                         "",
-                        $command["cmd"],
+                        $command["cmd"] ?? "",
                         $command["onclick"]
                     );
                 }
@@ -2959,7 +2961,7 @@ class ilObjectListGUI
                 );
             }
 
-            if ($comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0) {
+            if ($comments_enabled && isset($cnt[$this->obj_id][IL_NOTE_PUBLIC]) && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0) {
                 $lng->loadLanguageModule("notes");
                 
                 /*$this->addHeaderIcon("comments",
@@ -3014,7 +3016,7 @@ class ilObjectListGUI
                 $id = "headp_" . $id;
                 
                 if (is_array($attr)) {
-                    if ($attr["glyph"]) {
+                    if (isset($attr["glyph"]) && $attr["glyph"]) {
                         if ($attr["onclick"]) {
                             $htpl->setCurrentBlock("prop_glyph_oc");
                             $htpl->setVariable("GLYPH_ONCLICK", $attr["onclick"]);
