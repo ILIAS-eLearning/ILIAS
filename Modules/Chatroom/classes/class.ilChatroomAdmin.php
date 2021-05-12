@@ -180,11 +180,11 @@ class ilChatroomAdmin
         if (($row = $DIC->database()->fetchAssoc($DIC->database()->query($query))) && $row['server_settings']) {
             $settings = json_decode($row['server_settings'], true);
 
-            if (!$settings['protocol']) {
+            if (!isset($settings['protocol'])) {
                 $settings['protocol'] = 'http';
             }
 
-            if (!$settings['log_level']) {
+            if (!isset($settings['log_level'])) {
                 $settings['log_level'] = 'info';
             }
 
