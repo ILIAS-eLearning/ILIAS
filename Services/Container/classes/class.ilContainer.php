@@ -884,7 +884,7 @@ class ilContainer extends ilObject
     */
     public function gotItems()
     {
-        if (is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
+        if (isset($this->items["_all"]) && is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
             return true;
         }
         return false;

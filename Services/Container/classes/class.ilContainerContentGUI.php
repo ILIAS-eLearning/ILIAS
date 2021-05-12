@@ -313,7 +313,7 @@ abstract class ilContainerContentGUI
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
         
         $this->renderer = new ilContainerRenderer(
-            ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]),
+            ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
             $this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
             ,
@@ -556,7 +556,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableIcon(true);
         }
         
-        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
+        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
@@ -873,7 +873,7 @@ abstract class ilContainerContentGUI
      * @param
      * @return
      */
-    public function getItemGroupsHTML(int $a_pos = 0):int
+    public function getItemGroupsHTML(int $a_pos = 0) : int
     {
         if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
             foreach ($this->items["itgr"] as $itgr) {

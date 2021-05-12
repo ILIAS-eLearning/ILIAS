@@ -728,24 +728,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     )
                 );
             }
-            //			}
-            /*else
-            {
-
-                if ($this->isMultiDownloadEnabled())
-                {
-                    $toolbar->addSeparator();
-                    $toolbar->addFormButton(
-                        $this->lng->txt('download_selected_items'),
-                        'download'
-                    );
-                }
-            }*/
 
             $main_tpl->addAdminPanelToolbar(
                 $toolbar,
-                ($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false,
-                ($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false
+                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false,
+                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false
             );
 
             // form action needed, see http://www.ilias.de/mantis/view.php?id=9630
@@ -2525,7 +2512,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $sorting = ilContainerSorting::_getInstance($this->object->getId());
 
         // Allow comma
-        $positions = str_replace(',', '.', $_POST['position']);
+        $positions = $_POST['position'];
 
         $sorting->savePost($positions);
         ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);
