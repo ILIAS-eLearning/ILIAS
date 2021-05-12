@@ -156,6 +156,8 @@ class ilObjectGUI
      */
     protected $admin_mode = self::ADMIN_MODE_NONE;
 
+    protected int $requested_ref_id = 0;
+
     /**
     * Constructor
     * @access	public
@@ -227,6 +229,7 @@ class ilObjectGUI
         $this->prepare_output = $a_prepare_output;
         $this->creation_mode = false;
 
+        $this->requested_ref_id = (int) ($_GET["ref_id"] ?? 0);
         $this->ref_id = (int) ($this->call_by_reference ? $this->id : ($_GET["ref_id"] ?? 0));
         $this->obj_id = (int) ($this->call_by_reference ? ($_GET["obj_id"] ?? 0) : $this->id);
 

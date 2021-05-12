@@ -37,10 +37,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
-        // TODO: move this to class.ilias.php
-        if (!defined('USER_FOLDER_ID')) {
-            define('USER_FOLDER_ID', 7);
-        }
 
         $this->type = "usrf";
         parent::__construct(
@@ -1634,7 +1630,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
                     } else {
                         $selectable_roles = array();
                         foreach ($l_roles as $local_role_id => $value) {
-
                             if ($local_role_id !== "ignore") {
                                 $selectable_roles[$role_id . "-" . $local_role_id] = $value;
                             }

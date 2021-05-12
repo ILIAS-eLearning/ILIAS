@@ -1073,7 +1073,7 @@ class ilTable2GUI extends ilTableGUI
     * @param	string		filter command
     * @param	string		filter caption
     */
-    public function setFilterCommand($a_val, $a_caption = null)
+    public function setFilterCommand($a_val, $a_caption = "")
     {
         $this->filter_cmd = $a_val;
         $this->filter_cmd_txt = $a_caption;
@@ -1558,7 +1558,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (isset($_POST[$this->getNavParameter() . "1"]) && $_POST[$this->getNavParameter() . "1"] != "") {
-            if ($_POST[$this->getNavParameter() . "1"] != $_POST[$this->getNavParameter()]) {
+            if ($_POST[$this->getNavParameter() . "1"] != ($_POST[$this->getNavParameter()] ?? "")) {
                 $this->nav_value = $_POST[$this->getNavParameter() . "1"];
             } elseif (
                 isset($_POST[$this->getNavParameter() . "2"]) &&

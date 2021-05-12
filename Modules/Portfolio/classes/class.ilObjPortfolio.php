@@ -157,7 +157,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
             " WHERE od.owner = " . $ilDB->quote($a_user_id, "integer") .
             " AND up.is_default = " . $ilDB->quote(1, "integer"));
         $res = $ilDB->fetchAssoc($set);
-        if ($res["id"]) {
+        if ($res && $res["id"]) {
             return $res["id"];
         }
     }
