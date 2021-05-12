@@ -11,6 +11,9 @@ use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
+    public const LABEL_ON = "ON";
+    public const LABEL_OFF = "OFF";
+
     /**
      * @inheritdoc
      */
@@ -213,6 +216,12 @@ class Renderer extends AbstractComponentRenderer
         if ($aria_label != null) {
             $tpl->setCurrentBlock("with_aria_label");
             $tpl->setVariable("ARIA_LABEL", $aria_label);
+            $tpl->parseCurrentBlock();
+        }
+        if ($component->isActive() && $component->hasOnOffLabel()) {
+            $tpl->setCurrentBlock("with_on_off_label");
+            $tpl->setVariable("ON_LABEL", self::LABEL_ON);
+            $tpl->setVariable("OFF_LABEL", self::LABEL_OFF);
             $tpl->parseCurrentBlock();
         }
         $this->maybeRenderId($component, $tpl);
