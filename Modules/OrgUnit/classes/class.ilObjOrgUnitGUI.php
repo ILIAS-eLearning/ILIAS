@@ -733,7 +733,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         global $DIC;
         if (count($_POST['id']) > 0) {
             foreach ($_POST['id'] as $ref_id) {
-                $il_obj_orgunit = new ilObjOrgUnit($ref_id);
+                $il_obj_orgunit = ilObjectFactory::getInstanceByRefId($ref_id);
                 $il_obj_orgunit->delete();
             }
             ilUtil::sendSuccess($DIC->language()->txt("info_deleted"), true);
