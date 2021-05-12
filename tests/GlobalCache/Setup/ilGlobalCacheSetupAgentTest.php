@@ -107,7 +107,6 @@ class ilGlobalCacheSetupAgentTest extends TestCase
 
         $services = [
             "static",
-            "xcache",
             "memcached",
             "apc"
         ];
