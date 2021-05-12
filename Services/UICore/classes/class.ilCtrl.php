@@ -105,6 +105,8 @@ class ilCtrl
      */
     protected $verified_cmd = '';
 
+    protected string $cmdMode = "";
+
     /**
      * control class constructor
      */
@@ -116,6 +118,8 @@ class ilCtrl
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
+
+        $this->cmdMode = ($_GET["cmdMode"] ?? "");
     }
     
     /**
@@ -1345,7 +1349,7 @@ class ilCtrl
      */
     public function isAsynch()
     {
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if ($this->cmdMode == "asynch") {
             return true;
         } else {
             return false;
@@ -1455,7 +1459,7 @@ class ilCtrl
         );
         $script = ilUtil::appendUrlParameterString(
             $script,
-            "cmdMode=" . $_GET["cmdMode"]
+            "cmdMode=" . $this->cmdMode
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;

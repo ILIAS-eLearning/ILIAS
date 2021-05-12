@@ -157,6 +157,8 @@ class ilObjectGUI
     protected $admin_mode = self::ADMIN_MODE_NONE;
 
     protected int $requested_ref_id = 0;
+    protected int $requested_crtptrefid = 0;
+    protected int $requested_crtcb = 0;
 
     /**
     * Constructor
@@ -233,6 +235,11 @@ class ilObjectGUI
         $this->ref_id = (int) ($this->call_by_reference ? $this->id : ($_GET["ref_id"] ?? 0));
         $this->obj_id = (int) ($this->call_by_reference ? ($_GET["obj_id"] ?? 0) : $this->id);
 
+        // callback after creation
+        $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
+        $this->requested_crtcb = (int) ($_REQUEST["crtcb"] ?? 0);
+
+
         if ($this->id != 0) {
             $this->link_params = "ref_id=" . $this->ref_id;
         }
@@ -242,7 +249,7 @@ class ilObjectGUI
         
         // set context
         if (is_object($this->object)) {
-            if ($this->call_by_reference && $this->ref_id == $_GET["ref_id"]) {
+            if ($this->call_by_reference && $this->ref_id == $this->requested_ref_id) {
                 $this->ctrl->setContext(
                     $this->object->getId(),
                     $this->object->getType()
@@ -386,14 +393,14 @@ class ilObjectGUI
             // repository vs. workspace
             if ($this->call_by_reference) {
                 // get gui class of parent and call their title and description method
-                $obj_type = ilObject::_lookupType($_GET["ref_id"], true);
+                $obj_type = ilObject::_lookupType($this->requested_ref_id, true);
                 $class_name = $this->objDefinition->getClassName($obj_type);
                 $class = strtolower("ilObj" . $class_name . "GUI");
                 $class_path = $this->ctrl->lookupClassPath($class);
                 include_once($class_path);
                 $class_name = $this->ctrl->getClassForClasspath($class_path);
                 //echo "<br>instantiating parent for title and description";
-                $this->parent_gui_obj = new $class_name("", $_GET["ref_id"], true, false);
+                $this->parent_gui_obj = new $class_name("", $this->requested_ref_id, true, false);
                 // the next line prevents the header action menu being shown
                 $this->parent_gui_obj->setCreationMode(true);
                 $this->parent_gui_obj->setTitleAndDescription();
@@ -421,8 +428,8 @@ class ilObjectGUI
     protected function setTitleAndDescription()
     {
         if (!is_object($this->object)) {
-            if ((int) $_REQUEST["crtptrefid"] > 0) {
-                $cr_obj_id = ilObject::_lookupObjId((int) $_REQUEST["crtcb"]);
+            if ($this->requested_crtptrefid > 0) {
+                $cr_obj_id = ilObject::_lookupObjId($this->requested_crtcb);
                 $this->tpl->setTitle(ilObject::_lookupTitle($cr_obj_id));
                 $this->tpl->setTitleIcon(ilObject::_getIcon($cr_obj_id));
             }
@@ -650,8 +657,8 @@ class ilObjectGUI
             // todo: admin workaround
             // in the future, objectgui classes should not be called in
             // admin section anymore (rbac/trash handling in own classes)
-            $ref_id = ($_GET["ref_id"] != "")
-                ? $_GET["ref_id"]
+            $ref_id = ($this->requested_ref_id > 0)
+                ? $this->requested_ref_id
                 : $this->object->getRefId();
             $ilLocator->addRepositoryItems($ref_id);
         }
@@ -732,7 +739,7 @@ class ilObjectGUI
         }
         
         $ru = new ilRepUtilGUI($this);
-        $ru->deleteObjects($_GET["ref_id"], ilSession::get("saved_post"));
+        $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post"));
         ilSession::clear("saved_post");
         $this->ctrl->returnToParent($this);
     }
@@ -930,7 +937,7 @@ class ilObjectGUI
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
-                if ($template->isEffective($_GET["ref_id"])) {
+                if ($template->isEffective($this->requested_ref_id)) {
                     $options["dtpl_" . $template->getId()] = array(
                         $template->getPresentationTitle(),
                         $template->getPresentationDescription()
@@ -1086,12 +1093,12 @@ class ilObjectGUI
         $objDefinition = $this->objDefinition;
 
         if (!$a_parent_node_id) {
-            $a_parent_node_id = $_GET["ref_id"];
+            $a_parent_node_id = $this->requested_ref_id;
         }
         
         // add new object to custom parent container
-        if ((int) $_REQUEST["crtptrefid"]) {
-            $a_parent_node_id = (int) $_REQUEST["crtptrefid"];
+        if ($this->requested_crtptrefid > 0) {
+            $a_parent_node_id = $this->requested_crtptrefid;
         }
 
         $a_obj->createReference();
@@ -1111,16 +1118,16 @@ class ilObjectGUI
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $this->ref_id, $rbac_log);
         
         // use forced callback after object creation
-        if ($_REQUEST["crtcb"]) {
-            $callback_type = ilObject::_lookupType((int) $_REQUEST["crtcb"], true);
+        if ($this->requested_crtcb > 0) {
+            $callback_type = ilObject::_lookupType($this->requested_crtcb, true);
             $class_name = "ilObj" . $objDefinition->getClassName($callback_type) . "GUI";
             $location = $objDefinition->getLocation($callback_type);
             include_once($location . "/class." . $class_name . ".php");
             if (in_array(strtolower($class_name), array("ilobjitemgroupgui"))) {
-                $callback_obj = new $class_name((int) $_REQUEST["crtcb"]);
+                $callback_obj = new $class_name($this->requested_crtcb);
             } else {
                 // #10368
-                $callback_obj = new $class_name(null, (int) $_REQUEST["crtcb"], true, false);
+                $callback_obj = new $class_name(null, $this->requested_crtcb, true, false);
             }
             $callback_obj->afterSaveCallback($a_obj);
         }
@@ -1378,7 +1385,7 @@ class ilObjectGUI
         $ilErr = $this->ilErr;
 
         if (!$parent_id) {
-            $parent_id = $_GET["ref_id"];
+            $parent_id = $this->requested_ref_id;
         }
         $new_type = $_REQUEST["new_type"];
         $upload_type = $this->request->getParsedBody()['upload_type'] ?? self::UPLOAD_TYPE_LOCAL;
@@ -1616,7 +1623,7 @@ class ilObjectGUI
         $itab = new ilAdminSubItemsTableGUI(
             $this,
             "view",
-            $_GET["ref_id"],
+            $this->requested_ref_id,
             $this->checkPermissionBool('write')
         );
         
@@ -1959,7 +1966,7 @@ class ilObjectGUI
                 // create: redirect to parent
                 if ($a_perm == "create") {
                     if (!$a_ref_id) {
-                        $a_ref_id = $_GET["ref_id"];
+                        $a_ref_id = $this->requested_ref_id;
                     }
                     $type = ilObject::_lookupType($a_ref_id, true);
                 } else {
@@ -2004,7 +2011,7 @@ class ilObjectGUI
 
         if ($a_perm == "create") {
             if (!$a_ref_id) {
-                $a_ref_id = $_GET["ref_id"];
+                $a_ref_id = $this->requested_ref_id;
             }
             return $ilAccess->checkAccess($a_perm . "_" . $a_type, $a_cmd, $a_ref_id);
         } else {
@@ -2032,14 +2039,12 @@ class ilObjectGUI
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
+        $ctrl = $DIC->ctrl();
         
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-            $_GET["cmd"] = "frameset";
-            $_GET["target"] = "";
-            $_GET["ref_id"] = ROOT_FOLDER_ID;
-            $_GET["baseClass"] = "ilRepositoryGUI";
-            include("ilias.php");
-            exit;
+            //$_GET["cmd"] = "frameset";
+            $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", ROOT_FOLDER_ID);
+            $ctrl->redirectByClass("ilRepositoryGUI");
         }
 
         if ($a_raise_error) {
@@ -2057,15 +2062,9 @@ class ilObjectGUI
     {
         global $DIC;
 
-        $ilAccess = $DIC->access();
-        $ilErr = $DIC["ilErr"];
-
-        $_GET["cmd"] = $a_cmd;
-        $_GET["target"] = "";
-        $_GET["ref_id"] = $a_ref_id;
-        $_GET["baseClass"] = "ilRepositoryGUI";
-        include("ilias.php");
-        exit;
+        $ctrl = $DIC->ctrl();
+        $ctrl->setParameterByClass("ilRepositoryGUI", "ref_id", ROOT_FOLDER_ID);
+        $ctrl->redirectByClass("ilRepositoryGUI", $a_cmd);
     }
     
     /**
@@ -2156,7 +2155,7 @@ class ilObjectGUI
         $this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
         $lng->loadLanguageModule("rep");
         ilUtil::sendSuccess($lng->txt("rep_added_to_favourites"), true);
-        $ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));
+        $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 
     /**
@@ -2170,6 +2169,6 @@ class ilObjectGUI
         $lng->loadLanguageModule("rep");
         $this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
         ilUtil::sendSuccess($lng->txt("rep_removed_from_favourites"), true);
-        $ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));
+        $ctrl->redirectToURL(ilLink::_getLink($this->requested_ref_id));
     }
 }

@@ -116,6 +116,20 @@ abstract class ilPageObject
      */
     protected $page_config;
 
+    protected string $rendermd5 = "";
+    protected string $renderedcontent = "";
+    protected string $renderedtime = "";
+    protected string $lastchange = "";
+    protected int $last_change_user = 0;
+    protected bool $contains_question = false;
+    protected array $hier_ids = [];
+    protected array $first_row_ids = [];
+    protected array $first_col_ids = [];
+    protected array $list_item_ids = [];
+    protected array $file_item_ids = [];
+    protected $activationstart;
+    protected $activationend;
+
     /**
      * Constructor
      * @access    public
@@ -366,10 +380,10 @@ abstract class ilPageObject
         $this->setParentId($this->page_record["parent_id"]);
         $this->last_change_user = $this->page_record["last_change_user"];
         $this->create_user = $this->page_record["create_user"];
-        $this->setRenderedContent($this->page_record["rendered_content"]);
-        $this->setRenderMd5($this->page_record["render_md5"]);
-        $this->setRenderedTime($this->page_record["rendered_time"]);
-        $this->setLastChange($this->page_record["last_change"]);
+        $this->setRenderedContent((string) $this->page_record["rendered_content"]);
+        $this->setRenderMd5((string) $this->page_record["render_md5"]);
+        $this->setRenderedTime((string) $this->page_record["rendered_time"]);
+        $this->setLastChange((string) $this->page_record["last_change"]);
     }
 
     /**

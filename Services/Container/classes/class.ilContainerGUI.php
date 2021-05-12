@@ -121,6 +121,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     /** @var bool */
     protected $adminCommands = false;
 
+    protected string $requested_redirectSource = "";
+
     /**
      * Constructor
      * @access public
@@ -163,6 +165,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->container_filter_service = new ilContainerFilterService();
         $this->initFilter();
+
+        $this->requested_redirectSource = (string) ($_GET["redirectSource"] ?? "");
     }
 
     /**
@@ -179,7 +183,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         switch ($next_class) {
             // page editing
             case "ilcontainerpagegui":
-                if ($_GET["redirectSource"] != "ilinternallinkgui") {
+                if ($this->requested_redirectSource != "ilinternallinkgui") {
                     $ret = $this->forwardToPageObject();
                     $tpl->setContent($ret);
                 } else {
@@ -290,7 +294,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $ilTabs->clearTargets();
 
-        if ($_GET["redirectSource"] == "ilinternallinkgui") {
+        if ($this->requested_redirectSource == "ilinternallinkgui") {
             exit;
         }
 

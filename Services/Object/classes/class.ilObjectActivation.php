@@ -540,8 +540,8 @@ class ilObjectActivation
                     $ilDB->quote($a_item["suggestion_end"], 'integer') . "," .
                     $ilDB->quote($a_item["changeable"], 'integer') . "," .
                     $ilDB->quote($a_item["visible"], 'integer') . ", " .
-                    $ilDB->quote($a_item["suggestion_start_rel"], 'integer') . "," .
-                    $ilDB->quote($a_item['suggestion_end_rel'], 'integer') . ", " .
+                    $ilDB->quote(($a_item["suggestion_start_rel"] ?? 0), 'integer') . "," .
+                    $ilDB->quote(($a_item['suggestion_end_rel'] ?? 0), 'integer') . ", " .
                     $ilDB->quote(0, 'integer') . ")";
                 $ilDB->manipulate($query);
             }

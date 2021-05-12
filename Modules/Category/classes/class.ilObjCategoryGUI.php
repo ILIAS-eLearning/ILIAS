@@ -393,14 +393,10 @@ class ilObjCategoryGUI extends ilContainerGUI
         if ($this->ctrl->getCmd() == "editPageContent") {
             return;
         }
-        #$this->ctrl->setParameter($this,"ref_id",$this->ref_id);
 
         $ilHelp->setScreenIdComponent("cat");
         
         if ($rbacsystem->checkAccess('read', $this->ref_id)) {
-            $force_active = ($_GET["cmd"] == "" || $_GET["cmd"] == "render")
-                ? true
-                : false;
             $this->tabs_gui->addTab(
                 "view_content",
                 $lng->txt("content"),
@@ -429,9 +425,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         }
         
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-            $force_active = ($_GET["cmd"] == "edit")
-                ? true
-                : false;
+            $force_active = ($this->ctrl->getCmd() == "edit");
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "edit"),
