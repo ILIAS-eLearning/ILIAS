@@ -15145,3 +15145,6 @@ form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:#
 common#:#label_search_options#:#Search Area###26 03 2021 new variable
 rbac#:#edit_in_online_editor#:#Open in online editor###26 03 2021 new variable
 rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###26 03 2021 new variable
+ldap#:#ldap_escapedn#:#Escape DN###14 05 2021 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###14 05 2021 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###14 05 2021 new variable
