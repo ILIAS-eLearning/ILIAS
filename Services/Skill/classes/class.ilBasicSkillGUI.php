@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Basic skill GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilBasicSkillGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  * @ilCtrl_Calls ilBasicSkillGUI: ilCertificateGUI
  */
 class ilBasicSkillGUI extends ilSkillTreeNodeGUI
@@ -52,7 +54,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0)
     {
         global $DIC;
 
@@ -68,7 +70,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
         $this->base_skill_id = $a_node_id;
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
     
     /**
@@ -137,16 +139,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $tree = new ilSkillTree();
-
         $it = new ilBasicSkill();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $it->setStatus($this->form->getInput("status"));
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
         $this->node_object = $it;
     }
 
@@ -542,15 +541,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $tpl->setTitle($lng->txt("skmg_skill_level"));
         }
 
-        $tree = new ilSkillTree();
-        $path = $tree->getPathFull($this->node_object->getId());
-        $desc = "";
-        foreach ($path as $p) {
-            if (in_array($p["type"], array("scat", "skll"))) {
-                $desc .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $desc = $this->skill_tree_node_manager->getWrittenPath($this->node_object->getId());
         $tpl->setDescription($desc);
     }
 

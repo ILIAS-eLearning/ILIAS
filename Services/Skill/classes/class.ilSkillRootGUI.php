@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill root GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillRootGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillRootGUI extends ilSkillTreeNodeGUI
 {
@@ -39,7 +41,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0)
     {
         global $DIC;
 
@@ -52,7 +54,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "obj_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     /**

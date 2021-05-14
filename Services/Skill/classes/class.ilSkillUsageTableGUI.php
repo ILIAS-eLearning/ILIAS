@@ -31,9 +31,6 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
 
         $id_parts = explode(":", $a_cskill_id);
         $this->skill_id = $id_parts[0];
@@ -48,7 +45,7 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->setData($data);
         $this->setTitle(ilSkillTreeNode::_lookupTitle($this->skill_id, $this->tref_id));
 
-        $tree = new ilSkillTree();
+        $tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($this->skill_id);
         $path = $tree->getSkillTreePathAsString($this->skill_id, $this->tref_id);
         $this->setDescription($path);
 

@@ -25,7 +25,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * Constructor
      */
-    public function __construct($a_id, $a_parent_obj, $a_parent_cmd)
+    public function __construct($a_id, $a_parent_obj, $a_parent_cmd, int $tree_id)
     {
         global $DIC;
 
@@ -33,7 +33,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $this->ctrl = $DIC->ctrl();
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 
-        $this->vtree = new ilVirtualSkillTree();
+        $this->vtree = new ilVirtualSkillTree($tree_id);
         
         $this->setSkipRootNode(false);
         $this->setAjax(false);

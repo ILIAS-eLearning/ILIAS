@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Basic skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilBasicSkillTemplateGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilBasicSkillTemplateGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 {
@@ -44,7 +46,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0, $a_tref_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0, $a_tref_id = 0)
     {
         global $DIC;
 
@@ -60,7 +62,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         
         $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     /**
@@ -94,19 +96,6 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
         $ta->setRows(5);
         $this->form->addItem($ta);
-        
-        // order nr
-        $ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
-        $ni->setInfo($lng->txt("skmg_order_nr_info"));
-        $ni->setMaxLength(6);
-        $ni->setSize(6);
-        $ni->setRequired(true);
-        if ($a_mode == "create") {
-            $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
-            $ni->setValue($max + 10);
-        }
-        $this->form->addItem($ni);
 
         // save and cancel commands
         if ($this->checkPermissionBool("write")) {
@@ -175,15 +164,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             $tpl->setTitle($lng->txt("skmg_skill_level"));
         }
 
-        $tree = new ilSkillTree();
-        $path = $tree->getPathFull($this->node_object->getId());
-        $desc = "";
-        foreach ($path as $p) {
-            if (in_array($p["type"], array("scat", "skll"))) {
-                $desc .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $desc = $this->skill_tree_node_manager->getWrittenPath($this->node_object->getId());
         $tpl->setDescription($desc);
         
         $tpl->setTitleIcon(
@@ -278,9 +259,8 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $it = new ilBasicSkillTemplate();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
         $this->node_object = $it;
     }
     

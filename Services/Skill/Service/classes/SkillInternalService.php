@@ -11,10 +11,22 @@ namespace ILIAS\Skill\Service;
 class SkillInternalService
 {
     /**
+     * @var int ref id of skill management administration node
+     */
+    protected $skmg_ref_id;
+
+    /**
+     * @var \ilTree
+     */
+    protected $repository_tree;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(int $skmg_ref_id, \ilTree $repository_tree)
     {
+        $this->skmg_ref_id = $skmg_ref_id;
+        $this->repository_tree = $repository_tree;
     }
 
     /**
@@ -23,11 +35,25 @@ class SkillInternalService
      */
     public function repo()
     {
-        return new SkillInternalRepoService();
+        return new SkillInternalRepoService($this->factory());
     }
 
     public function manager()
     {
-        return new SkillInternalManagerService();
+        return new SkillInternalManagerService(
+            $this->skmg_ref_id,
+            $this->repository_tree,
+            $this->factory()->tree()
+        );
     }
+
+    /**
+     * Skill service repos
+     * @return SkillInternalFactoryService
+     */
+    public function factory()
+    {
+        return new SkillInternalFactoryService();
+    }
+
 }

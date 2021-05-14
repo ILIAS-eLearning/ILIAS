@@ -2,11 +2,13 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill template category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillTemplateCategoryGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -39,7 +41,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0, $a_tref_id)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0, $a_tref_id = 0)
     {
         global $DIC;
 
@@ -52,8 +54,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "obj_id");
         $this->tref_id = $a_tref_id;
-        
-        parent::__construct($a_node_id);
+
+        parent::__construct($node_manager, $a_node_id);
     }
 
     /**
@@ -154,12 +156,6 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
     public function initForm($a_mode = "edit")
     {
         $r = parent::initForm($a_mode);
-        if ($a_mode == "create") {
-            $ni = $this->form->getItemByPostVar("order_nr");
-            $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr((int) $_GET["obj_id"], true);
-            $ni->setValue($max + 10);
-        }
         return $r;
     }
 
@@ -279,9 +275,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $it = new ilSkillTemplateCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
     }
 
     /**

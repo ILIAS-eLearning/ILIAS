@@ -2,12 +2,14 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill template reference GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_isCalledBy ilSkillTemplateReferenceGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateReferenceGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 {
@@ -15,7 +17,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
     /**
      * Constructor
      */
-    public function __construct($a_tref_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_tref_id = 0)
     {
         global $DIC;
 
@@ -29,7 +31,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $ilCtrl->saveParameter($this, "obj_id");
         $ilCtrl->saveParameter($this, "tref_id");
         
-        parent::__construct($a_tref_id);
+        parent::__construct($node_manager, $a_tref_id);
         
         $this->tref_id = $a_tref_id;
         if (is_object($this->node_object)) {
@@ -182,7 +184,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->form = new ilPropertyFormGUI();
 
         // select skill template
-        $tmplts = ilSkillTreeNode::getTopTemplates();
+        $tmplts = $this->skill_tree_node_manager->getTopTemplates();
         
         // title
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
@@ -263,17 +265,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
             return;
         }
 
-        $tree = new ilSkillTree();
-
         $sktr = new ilSkillTemplateReference();
         $sktr->setTitle($_POST["title"]);
         $sktr->setDescription($_POST["description"]);
         $sktr->setSkillTemplateId($_POST["skill_template_id"]);
         $sktr->setSelfEvaluation($_POST["selectable"]);
-        $sktr->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $sktr->setStatus($_POST["status"]);
         $sktr->create();
-        ilSkillTreeNode::putInTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($sktr, (int) $_GET["obj_id"], IL_LAST_NODE);
         $this->node_object = $sktr;
     }
 

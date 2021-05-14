@@ -508,7 +508,6 @@ class ilObjectDefinition // extends ilSaxParser
         $ilSetting = $this->settings;
         
         $subs = array();
-
         if ($subobjects = $this->obj_data[$a_obj_type]["subobjects"]) {
             // Filter some objects e.g chat object are creatable if chat is active
             if ($a_filter) {
@@ -527,7 +526,6 @@ class ilObjectDefinition // extends ilSaxParser
                     }
                 }
             }
-
             $subs2 = ilUtil::sortArray($subs, "pos", 'ASC', true, true);
 
             return $subs2;
@@ -658,7 +656,6 @@ class ilObjectDefinition // extends ilSaxParser
     public function getCreatableSubObjects($a_obj_type, $a_context = self::MODE_REPOSITORY, $a_parent_ref_id = null)
     {
         $subobjects = $this->getSubObjects($a_obj_type);
-
         // remove role folder object from list
         unset($subobjects["rolf"]);
         
@@ -679,7 +676,6 @@ class ilObjectDefinition // extends ilSaxParser
                 unset($subobjects[$type]);
             }
         }
-        
         if ($a_obj_type == "prg") {
             // ask study program which objects are allowed to create on the concrete node.
             require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");

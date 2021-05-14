@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+
 /**
  * Personal skills GUI class
  *
@@ -14,7 +16,6 @@ class ilPersonalSkillsGUI
     const LIST_PROFILES = "profiles";
 
     protected $offline_mode;
-    protected $skill_tree;
     public static $skill_tt_cnt = 1;
     protected $actual_levels = array();
     protected $gap_self_eval_levels = array();
@@ -97,6 +98,16 @@ class ilPersonalSkillsGUI
     protected $list_mode = self::LIST_SELECTED;
 
     /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var Tree\SkillTreeFactory
+     */
+    protected $tree_factory;
+
+    /**
      * Contructor
      *
      * @access public
@@ -137,13 +148,14 @@ class ilPersonalSkillsGUI
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
         $this->cont_profiles = array();
 
-        $this->skill_tree = new ilSkillTree();
-        
         $this->use_materials = !$ilSetting->get("disable_personal_workspace");
 
         $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->filter = new ilPersonalSkillsFilterGUI();
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
     }
 
     /**
@@ -428,8 +440,6 @@ class ilPersonalSkillsGUI
 
         $this->setTabs("list_skills");
 
-        $stree = new ilSkillTree();
-        
         // skill selection / add new personal skill
         $ilToolbar->addFormButton(
             $lng->txt("skmg_add_skill"),
@@ -444,6 +454,8 @@ class ilPersonalSkillsGUI
         $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
         $html = "";
         foreach ($skills as $s) {
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($s["skill_node_id"]);
+            $stree = $this->tree_factory->getById($tree_id);
             $path = $stree->getSkillTreePath($s["skill_node_id"]);
 
             // check draft
@@ -532,8 +544,6 @@ class ilPersonalSkillsGUI
 
         $tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 
-        $stree = new ilSkillTree();
-
         $vtree = new ilVirtualSkillTree();
         $tref_id = $a_tref_id;
         $skill_id = $a_top_skill_id;
@@ -546,6 +556,9 @@ class ilPersonalSkillsGUI
         foreach ($b_skills as $bs) {
             $bs["id"] = $bs["skill_id"];
             $bs["tref"] = $bs["tref_id"];
+
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($bs["id"]);
+            $stree = $this->tree_factory->getById($tree_id);
 
             $path = $stree->getSkillTreePath($bs["id"], $bs["tref"]);
 
@@ -1454,7 +1467,6 @@ class ilPersonalSkillsGUI
             $all_chart_html = $pan->getHTML();
         }
 
-        $stree = new ilSkillTree();
         $html = "";
 
         if (!$this->getProfileId() > 0) {
@@ -1463,6 +1475,7 @@ class ilPersonalSkillsGUI
             $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
         }
         foreach ($skills as $s) {
+            $stree = $this->tree_repo->getTreeForNodeId($s["base_skill_id"]);
             $path = $stree->getSkillTreePath($s["base_skill_id"]);
 
             // check draft

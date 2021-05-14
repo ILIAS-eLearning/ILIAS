@@ -26,12 +26,12 @@ class ilVirtualSkillTree
     /**
      * Constructor
      */
-    public function __construct()
+    public function __construct($tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tree = new ilSkillTree();
+        $this->tree = $DIC->skills()->internal()->factory()->tree()->getById($tree_id);
     }
     
     /**

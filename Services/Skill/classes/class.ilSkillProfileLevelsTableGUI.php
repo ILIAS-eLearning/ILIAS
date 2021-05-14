@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Tree;
+
 /**
  * TableGUI class for skill profile levels
  *
@@ -20,6 +22,16 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
     protected $access;
 
     /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    /**
+     * @var \ILIAS\Skill\Service\SkillInternalManagerService
+     */
+    protected $skill_manager;
+
+    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_profile, $a_write_permission = false)
@@ -32,7 +44,8 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
-        $this->tree = new ilSkillTree();
+        $this->skill_manager = $DIC->skills()->internal()->manager();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         
         $this->profile = $a_profile;
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -61,19 +74,14 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
      */
     protected function fillRow($a_set)
     {
-        $path = $this->tree->getSkillTreePath(
-            $a_set["base_skill_id"],
-            $a_set["tref_id"]
-        );
-        $path_items = array();
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $path_items[] = $p["title"];
-            }
-        }
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill_id"]);
+        $node_manager = $this->skill_manager->getTreeNodeManager($tree_id);
         $this->tpl->setVariable(
             "SKILL_TITLE",
-            implode(" > ", $path_items)
+            $node_manager->getWrittenPath(
+                $a_set["base_skill_id"],
+                $a_set["tref_id"]
+            )
         );
         
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));

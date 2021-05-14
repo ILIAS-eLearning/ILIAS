@@ -6,7 +6,7 @@
  * Skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {
@@ -92,18 +92,5 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         $tpl->setTitle(
             $lng->txt("skmg_skill_template") . ": " . $this->node_object->getTitle()
         );
-    }
-
-
-    /**
-     * Perform drag and drop action
-     */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        //		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
     }
 }

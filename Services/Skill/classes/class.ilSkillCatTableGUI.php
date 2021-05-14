@@ -46,7 +46,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
         
         $this->mode = $a_mode;
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_obj_id);
         $this->obj_id = $a_obj_id;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);

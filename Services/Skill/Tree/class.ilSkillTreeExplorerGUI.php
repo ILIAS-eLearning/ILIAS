@@ -22,13 +22,13 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, $a_parent_cmd, $tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
+        parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree_id);
 
         // node should be hidden #26849 (not not hidden, see discussion in #26813 and JF 6 Jan 2020)
         $this->setSkipRootNode(false);

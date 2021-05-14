@@ -156,10 +156,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillLevelDBRepository($ilDB);
-
+        $repository = $DIC->skills()->internal()->repo()->getLevelRepo();
         return $repository->lookupLevelTitle($a_id);
     }
 
@@ -167,10 +164,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillLevelDBRepository($ilDB);
-
+        $repository = $DIC->skills()->internal()->repo()->getLevelRepo();
         return $repository->lookupLevelDescription($a_id);
     }
 
@@ -178,10 +172,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillLevelDBRepository($ilDB);
-
+        $repository = $DIC->skills()->internal()->repo()->getLevelRepo();
         return $repository->lookupLevelSkillId($a_id);
     }
 
@@ -189,9 +180,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillLevelDBRepository($ilDB);
+        $repository = $DIC->skills()->internal()->repo()->getLevelRepo();
         $repository->writeLevelTitle($a_id, $a_title);
     }
 
@@ -199,9 +188,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillLevelDBRepository($ilDB);
+        $repository = $DIC->skills()->internal()->repo()->getLevelRepo();
         $repository->writeLevelDescription($a_id, $a_description);
     }
 
@@ -555,16 +542,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     ) : array {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $tree = new ilSkillTree();
-
         if ($a_source_inst_id == 0) {
             return array();
         }
 
-        $repository = new ilBasicSkillTreeDBRepository($ilDB);
-        return $repository->getCommonSkillIdForImportId($tree, $a_source_inst_id, $a_skill_import_id,
+        $repository = $DIC->skills()->internal()->repo()->getTreeRepo();
+        return $repository->getCommonSkillIdForImportId($a_source_inst_id, $a_skill_import_id,
             $a_tref_import_id);
     }
 
@@ -572,10 +555,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     {
         global $DIC;
 
-        $ilDB = $DIC->database();
-
-        $repository = new ilBasicSkillTreeDBRepository($ilDB);
-
+        $repository = $DIC->skills()->internal()->repo()->getTreeRepo();
         return $repository->getLevelIdForImportId($a_source_inst_id, $a_level_import_id);
     }
 

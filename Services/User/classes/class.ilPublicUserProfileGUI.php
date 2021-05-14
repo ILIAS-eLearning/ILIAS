@@ -918,14 +918,6 @@ class ilPublicUserProfileGUI
                 $result[$cnt]->label = $item;
                 $cnt++;
             }
-            
-            // :TODO: search in skill data
-            foreach (ilSkillTreeNode::findSkills($a_term) as $skill) {
-                $result[$cnt] = new stdClass();
-                $result[$cnt]->value = $skill;
-                $result[$cnt]->label = $skill;
-                $cnt++;
-            }
         }
         
         return $result;

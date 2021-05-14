@@ -2,12 +2,14 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill category GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillCategoryGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 {
@@ -40,7 +42,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     /**
      * Constructor
      */
-    public function __construct($a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, $a_node_id = 0)
     {
         global $DIC;
 
@@ -53,7 +55,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "obj_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     /**
@@ -154,18 +156,6 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     }
 
     /**
-     * Perform drag and drop action
-     */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        //		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
-    }
-
-    /**
      * Edit
      */
     public function edit()
@@ -234,16 +224,13 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $tree = new ilSkillTree();
-
         $it = new ilSkillCategory();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getDescription("description"));
-        $it->setOrderNr($tree->getMaxOrderNr((int) $_GET["obj_id"]) + 10);
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->setStatus($_POST["status"]);
         $it->create();
-        ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
     }
 
     /**

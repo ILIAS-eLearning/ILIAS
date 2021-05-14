@@ -25,13 +25,13 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      * @param object $a_parent_obj parent gui object
      * @param string $a_parent_cmd parent command
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, $a_parent_cmd, int $tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $tree = new ilSkillTree();
+        $tree = $DIC->skills()->internal()->factory()->tree()->getById($tree_id);
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));

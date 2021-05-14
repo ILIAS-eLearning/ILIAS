@@ -1,15 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
- * Skill management main application class
+ * Skill tree object in skill management
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjSkillManagement extends ilObject
+class ilObjSkillTree extends ilObject
 {
-    
     /**
      * Constructor
      * @access	public
@@ -21,30 +20,30 @@ class ilObjSkillManagement extends ilObject
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->type = "skmg";
+        $this->type = "skee";
         parent::__construct($a_id, $a_call_by_reference);
     }
 
     /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
+     * update object data
+     *
+     * @access	public
+     * @return	boolean
+     */
     public function update()
     {
         $ilDB = $this->db;
-        
+
         if (!parent::update()) {
             return false;
         }
 
         return true;
     }
-    
+
     /**
-    * read style folder data
-    */
+     * read style folder data
+     */
     public function read()
     {
         $ilDB = $this->db;
@@ -53,20 +52,20 @@ class ilObjSkillManagement extends ilObject
     }
 
     /**
-    * delete object and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
+     * delete object and all related data
+     *
+     * @access	public
+     * @return	boolean	true if all object data were removed; false if only a references were removed
+     */
     public function delete()
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
             return false;
         }
-        
+
         //put here your module specific stuff
-        
+
         return true;
     }
 
