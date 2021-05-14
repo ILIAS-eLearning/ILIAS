@@ -31,7 +31,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
             }
         }
 
-        if (!isset($config['cost']) && static::class == self::class) {
+        if (!isset($config['cost']) && static::class === self::class) {
             // Determine the costs only if they are not passed in constructor
             $this->setCosts((string) $this->benchmarkCost());
         }
@@ -39,9 +39,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         $this->init();
     }
 
-    /**
-     *
-     */
     protected function init() : void
     {
     }
