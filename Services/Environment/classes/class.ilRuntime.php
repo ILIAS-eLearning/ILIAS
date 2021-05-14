@@ -64,16 +64,13 @@ final class ilRuntime
         return $this->getName() . ' ' . $this->getVersion();
     }
 
-    /**
-     * @return int
-     */
-    public function getReportedErrorLevels()
+    public function getReportedErrorLevels() : int
     {
         if ($this->isHHVM()) {
-            return ini_get('hhvm.log.runtime_error_reporting_level');
+            return (int) ini_get('hhvm.log.runtime_error_reporting_level');
         }
 
-        return ini_get('error_reporting');
+        return (int) ini_get('error_reporting');
     }
 
     public function shouldLogErrors() : bool
