@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Jumbojett\OpenIDConnectClient;
+use JuliusPC\OpenIDConnectClient;
 
 /**
  * Class ilAuthProviderOpenIdConnect
@@ -37,14 +37,14 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             return false;
         }
 
-        $auth_token = ilSession::get('oidc_auth_token');
-        $this->getLogger()->debug('Using token: ' . $auth_token);
+        $idtoken = ilSession::get('oidc_auth_idtoken');
+        $this->getLogger()->debug('Using token: ' . $idtoken);
 
-        if (strlen($auth_token)) {
-            ilSession::set('oidc_auth_token', '');
+        if (strlen($idtoken)) {
+            ilSession::set('oidc_auth_idtoken', '');
             $oidc = $this->initClient();
             $oidc->signOut(
-                $auth_token,
+                $idtoken,
                 ILIAS_HTTP_PATH . '/logout.php'
             );
         }
@@ -95,8 +95,7 @@ class ilAuthProviderOpenIdConnect extends ilAuthProvider implements ilAuthProvid
             $_GET['target'] = (string) $this->getCredentials()->getRedirectionTarget();
 
             if ($this->settings->getLogoutScope() == ilOpenIdConnectSettings::LOGOUT_SCOPE_GLOBAL) {
-                $token = $oidc->requestClientCredentialsToken();
-                ilSession::set('oidc_auth_token', $token->access_token);
+                ilSession::set('oidc_auth_idtoken', $oidc->getIdToken());
             }
             return true;
         } catch (Exception $e) {

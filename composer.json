@@ -44,7 +44,6 @@
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.9.0",
-		"jumbojett/openid-connect-php": "^0.9.2",
 		"sabre/dav": "~3.2.2",
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
@@ -52,7 +51,8 @@
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
 		"zendframework/zend-httphandlerrunner": "^1.1.0",
-		"simplesamlphp/simplesamlphp": "^1.18"
+		"simplesamlphp/simplesamlphp": "^1.18",
+		"juliuspc/openid-connect-php": "^1.1"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
