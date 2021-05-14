@@ -104,12 +104,11 @@ class ilGlobalCacheSetupAgentTest extends TestCase
     public function testGetArrayToConfigTransformationWithDataServices() : void
     {
         $fnc = $this->obj->getArrayToConfigTransformation();
-
+    
         $services = [
-            "static",
-            "xcache",
-            "memcached",
-            "apc"
+            \ilGlobalCache::TYPE_STATIC => "static",
+            \ilGlobalCache::TYPE_MEMCACHED => "memcached",
+            \ilGlobalCache::TYPE_APC => "apc"
         ];
 
         $node = [
