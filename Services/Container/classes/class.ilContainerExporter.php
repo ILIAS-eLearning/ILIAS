@@ -115,7 +115,8 @@ class ilContainerExporter extends ilXmlExporter
         $log = $DIC->logger()->root();
         if ($a_entity == 'struct') {
             $log->debug(__METHOD__ . ': Received id = ' . $a_id);
-            $writer = new ilContainerXmlWriter(end(ilObject::_getAllReferences($a_id)));
+            $ref_ids = ilObject::_getAllReferences($a_id);
+            $writer = new ilContainerXmlWriter(end($ref_ids));
             $writer->write();
             return $writer->xmlDumpMem(false);
         }

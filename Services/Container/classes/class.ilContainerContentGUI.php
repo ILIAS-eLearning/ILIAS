@@ -219,6 +219,7 @@ abstract class ilContainerContentGUI
     protected function getRightColumnHTML()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         $ilCtrl->saveParameterByClass("ilcolumngui", "col_return");
 
@@ -329,6 +330,7 @@ abstract class ilContainerContentGUI
     private function __forwardToColumnGUI()
     {
         $ilCtrl = $this->ctrl;
+        $html = "";
 
         // this gets us the subitems we need in setColumnSettings()
         // todo: this should be done in ilCourseGUI->getSubItems

@@ -786,7 +786,8 @@ class ilContainer extends ilObject
 
         $found = false;
         $all_ref_ids = array();
-        
+
+        $preloader = null;
         if (!self::$data_preloaded) {
             $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_REPOSITORY);
         }
@@ -1205,6 +1206,7 @@ class ilContainer extends ilObject
             return [];
         }
 
+        $result = null;
 
         $obj_ids = array_map(function ($i) {
             return $i["obj_id"];
@@ -1384,6 +1386,7 @@ class ilContainer extends ilObject
             $lobj_ids = array_map(function ($i) {
                 return $i["obj_id"];
             }, $lobjects);
+            $status = [];
             switch ($type) {
                 case "glo":
                     $status = ilObjGlossaryAccess::_lookupOnlineStatus($lobj_ids);
