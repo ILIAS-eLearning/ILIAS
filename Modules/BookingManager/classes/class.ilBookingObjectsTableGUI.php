@@ -376,7 +376,8 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             // note: this call is currently super expensive
             // see #26388, it has been performed even for users without edit permissions before
             // now the call has been moved here, but still this needs improvement
-            if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
+            // EDIT: deactivated for now due to performance reasons
+            // if (!empty(ilBookingParticipant::getAssignableParticipants($a_set["booking_object_id"]))) {
                 if (is_object($this->filter['period']['from'])) {
                     $ilCtrl->setParameter(
                         $this->parent_obj,
@@ -391,7 +392,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 );
 
                 $ilCtrl->setParameter($this->parent_obj, 'sseed', '');
-            }
+            //}
         }
 
         if ($a_set['info_file']) {
