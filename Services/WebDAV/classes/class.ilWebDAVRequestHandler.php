@@ -39,7 +39,7 @@ class ilWebDAVRequestHandler
     {
         $server = new Sabre\DAV\Server($this->getRootDir());
         $this->setPlugins($server);
-        $server->exec();
+        $server->start();
     }
     
     
