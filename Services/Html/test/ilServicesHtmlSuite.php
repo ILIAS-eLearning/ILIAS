@@ -24,6 +24,9 @@ class ilServicesHtmlSuite extends TestSuite
         require_once 'ilHtmlPurifierCompositeTest.php';
         $suite->addTestSuite(ilHtmlPurifierCompositeTest::class);
 
+        require_once 'ilHtmlPurifierLibWrapperTest.php';
+        $suite->addTestSuite(ilHtmlPurifierLibWrapperTest::class);
+
         return $suite;
     }
 }
