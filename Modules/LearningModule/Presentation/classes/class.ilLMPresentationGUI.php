@@ -246,7 +246,9 @@ class ilLMPresentationGUI
         if (!$ilCtrl->isAsynch()) {
             // moved this into the if due to #0027200
             if (!$embed_mode) {
-                $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL, true);
+                if ($this->service->getPresentationStatus()->isTocNecessary()) {
+                    $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL, true);
+                }
             }
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_LINK_SLATES, true);
         }
