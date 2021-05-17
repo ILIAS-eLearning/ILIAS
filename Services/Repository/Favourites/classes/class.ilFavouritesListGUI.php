@@ -63,7 +63,7 @@ class ilFavouritesListGUI
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group($group->getLabel(), $items);
+                $item_groups[] = $f->item()->group((string) $group->getLabel(), $items);
             }
         }
         if (count($item_groups) > 0) {
