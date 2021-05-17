@@ -893,6 +893,7 @@ class ilTable2GUI extends ilTableGUI
 
         $old_sel = $this->loadProperty("selfilters");
         $stored = false;
+        $sel_filters = null;
         if ($old_sel != "") {
             $sel_filters =
                 @unserialize($old_sel);
