@@ -65,10 +65,10 @@ class ilExGradesTableGUI extends ilTable2GUI
         foreach ($mems as $d) {
             $data[$d] = ilObjUser::_lookupName($d);
             $data[$d]["user_id"] = $d;
+            $data[$d]["name"] = $data[$d]["lastname"] . ", " .$data[$d]["firstname"];
         }
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        
         $this->setData($data);
         $this->ass_data = ilExAssignment::getInstancesByExercise($this->exc_id);
         
@@ -78,7 +78,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         //$this->setLimit(9999);
         
         //		$this->addColumn("", "", "1", true);
-        $this->addColumn($this->lng->txt("name"), "lastname");
+        $this->addColumn($this->lng->txt("name"), "name");
         $cnt = 1;
         foreach ($this->ass_data as $ass) {
             $ilCtrl->setParameter($this->parent_obj, "ass_id", $ass->getId());
@@ -100,7 +100,7 @@ class ilExGradesTableGUI extends ilTable2GUI
         //		$this->addColumn($this->lng->txt("exc_grading"), "solved_time");
         //		$this->addColumn($this->lng->txt("mail"), "feedback_time");
         
-        $this->setDefaultOrderField("lastname");
+        $this->setDefaultOrderField("name");
         $this->setDefaultOrderDirection("asc");
         
         $this->setEnableHeader(true);

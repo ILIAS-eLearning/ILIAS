@@ -5,7 +5,7 @@ namespace OrgUnit\Positions\UserAssignment;
 use ilException;
 use ilObjOrgUnitTree;
 use ilOrgUnitUserAssignment;
-use OrgUnit\Positions\ilOrgUnitPosition;
+use ilOrgUnitPosition;
 
 class ilOrgUnitUserAssignmentRepository
 {
