@@ -2751,7 +2751,7 @@
 		<xsl:when test = "substring-before($data,'.flv') != '' or $type = 'video/mp4' or $type = 'video/webm'">
 			<!-- info on video preload attribute: http://www.stevesouders.com/blog/2013/04/12/html5-video-preload/ -->
 			<!-- see #bug12622 -->
-			<video class="ilPageVideo" controls="controls" preload="none">
+			<video class="ilPageVideo" controls="controls" preload="metadata">
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
 				</xsl:if>
