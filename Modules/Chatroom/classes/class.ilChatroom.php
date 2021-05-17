@@ -660,11 +660,11 @@ class ilChatroom
 
         $filter = array();
 
-        if ($from != null) {
+        if ($from !== null) {
             $filter[] = 'timestamp >= ' . $DIC->database()->quote($from->getUnixTime(), 'integer');
         }
 
-        if ($to != null) {
+        if ($to !== null) {
             $filter[] = 'timestamp <= ' . $DIC->database()->quote($to->getUnixTime(), 'integer');
         }
 
@@ -686,6 +686,7 @@ class ilChatroom
             $row['message']->timestamp = $row['timestamp'];
             if (
                 $respect_target &&
+                property_exists($row['message'], 'target') &&
                 $row['message']->target !== null &&
                 !$row['message']->target->public &&
                 !in_array($DIC->user()->getId(), explode(',', $row['recipients']))
@@ -1400,7 +1401,10 @@ class ilChatroom
         $results = array();
         while (($row = $DIC->database()->fetchAssoc($rset)) && $result_count < $number) {
             $tmp = json_decode($row['message']);
-            if ($chatuser !== null && $tmp->target != null && $tmp->target->public == 0) {
+            if (
+                $chatuser !== null &&
+                property_exists($tmp, 'target') && $tmp->target !== null && $tmp->target->public == 0
+            ) {
                 if ($chatuser->getUserId() == $tmp->target->id || $chatuser->getUserId() == $tmp->from->id) {
                     $results[] = $tmp;
                     ++$result_count;

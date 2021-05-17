@@ -119,11 +119,12 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         $messagesShown = 0;
         $lastDateTime = null;
         foreach ($messages as $message) {
-            //$message['message']->content = json_decode($message['message']->content);
-
             switch ($message['message']->type) {
                 case 'message':
-                    if (($_REQUEST['scope'] && $message['message']->subRoomId == $_REQUEST['scope']) || (!$_REQUEST['scope'] && !$message['message']->subRoomId)) {
+                    if (
+                        (isset($_REQUEST['scope']) && $message['message']->subRoomId == $_REQUEST['scope']) ||
+                        !$message['message']->subRoomId
+                    ) {
                         $date = new ilDate($message['timestamp'], IL_CAL_UNIX);
                         $dateTime = new ilDateTime($message['timestamp'], IL_CAL_UNIX);
                         $currentDate = ilDatePresentation::formatDate($dateTime);
@@ -173,7 +174,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         }
 
         if (!$messagesShown) {
-            //$roomTpl->touchBlock('NO_MESSAGES');
             $roomTpl->setVariable('LBL_NO_MESSAGES', $this->ilLng->txt('no_messages'));
         }
 
@@ -193,7 +193,6 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         }
 
         $room = ilChatroom::byObjectId($this->gui->object->getId());
-        //if ($room->getSetting('private_rooms_enabled')) {
 
         $prevUseRelDates = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
@@ -212,17 +211,26 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             }
             ilDatePresentation::setUseRelativeDates($prevUseRelDates);
 
-            $isPrivateRoom = (boolean) ((int) $_REQUEST['scope']);
+            $isPrivateRoom = (bool) ((int) ($_REQUEST['scope'] ?? 0));
             if ($isPrivateRoom) {
-                $roomTpl->setVariable('ROOM_TITLE', sprintf($this->ilLng->txt('history_title_private_room'), $scopes[(int) $_REQUEST['scope']]) . ' (' . $date_sub . ')');
+                $roomTpl->setVariable(
+                    'ROOM_TITLE',
+                    sprintf(
+                        $this->ilLng->txt('history_title_private_room'),
+                        $scopes[(int) $_REQUEST['scope']]
+                    ) . ' (' . $date_sub . ')'
+                );
             } else {
-                $roomTpl->setVariable('ROOM_TITLE', sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')');
+                $roomTpl->setVariable(
+                    'ROOM_TITLE',
+                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')'
+                );
             }
         }
 
         if ($export) {
             header("Content-Type: text/html");
-            header("Content-Disposition: attachment; filename=\"" . urlencode($scopes[(int) $_REQUEST['scope']] . '.html') . "\"");
+            header("Content-Disposition: attachment; filename=\"" . urlencode($scopes[(int) ($_REQUEST['scope'] ?? 0)] . '.html') . "\"");
             echo $roomTpl->get();
             exit;
         }
