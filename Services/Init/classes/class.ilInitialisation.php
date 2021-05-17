@@ -528,10 +528,12 @@ class ilInitialisation
         global $ilClientIniFile;
 
         if (!$ilClientIniFile->readVariable("client", "access")) {
-            $mess = array("en" => "The server is not available due to maintenance." .
+            $mess = array(
+                "en" => "The server is not available due to maintenance." .
                     " We apologise for any inconvenience.",
                 "de" => "Der Server ist aufgrund von Wartungsarbeiten nicht verfügbar." .
-                    " Wir bitten um Verständnis.");
+                    " Wir bitten um Verständnis."
+            );
             $mess_id = "init_error_maintenance";
 
             if (ilContext::hasHTML() && is_file("./maintenance.html")) {
@@ -1945,8 +1947,7 @@ class ilInitialisation
             }
             $message = $a_message_static[$lang];
         }
-
-        return utf8_decode($message);
+        return $message;
     }
 
     /**
