@@ -2009,11 +2009,12 @@ class ilTree
             0,
             $a_parent_id));
 
+        $saved = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $saved[] = $this->fetchNodeData($row);
         }
 
-        return $saved ? $saved : array();
+        return $saved;
     }
     
     /**
