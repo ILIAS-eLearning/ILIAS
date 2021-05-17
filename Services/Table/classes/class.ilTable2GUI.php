@@ -913,7 +913,11 @@ class ilTable2GUI extends ilTableGUI
 
             if (isset($_POST["tblfsf" . $this->getId()])) {
                 $set = true;
-                if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
+                if (
+                    isset($_POST["tblff" . $this->getId()]) &&
+                    is_array($_POST["tblff" . $this->getId()]) &&
+                    in_array($k, $_POST["tblff" . $this->getId()])
+                ) {
                     $this->selected_filter[$k] = true;
                 } else {
                     $item->setValue(null);
