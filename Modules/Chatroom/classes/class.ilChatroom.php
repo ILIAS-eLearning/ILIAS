@@ -349,18 +349,19 @@ class ilChatroom
     {
         global $DIC;
 
-        $localSettings = array();
+        $localSettings = [];
 
         foreach ($this->availableSettings as $setting => $type) {
             if (isset($settings[$setting])) {
-                if ($type == 'boolean') {
-                    $settings[$setting] = (boolean) $settings[$setting];
+                if ($type === 'boolean') {
+                    $settings[$setting] = (bool) $settings[$setting];
                 }
-                $localSettings[$setting] = array($this->phpTypeToMDBType($type), $settings[$setting]);
+                $localSettings[$setting] = [$this->phpTypeToMDBType($type), $settings[$setting]];
             }
         }
 
-        if (!$localSettings['room_type'][1]) {
+        if (!isset($localSettings['room_type']) || !$localSettings['room_type'][1]) {
+            $localSettings['room_type'][0] = 'text';
             $localSettings['room_type'][1] = 'repository';
         }
 
@@ -368,14 +369,14 @@ class ilChatroom
             $DIC->database()->update(
                 self::$settingsTable,
                 $localSettings,
-                array('room_id' => array('integer', $this->roomId))
+                ['room_id' => ['integer', $this->roomId]]
             );
         } else {
             $this->roomId = $DIC->database()->nextId(self::$settingsTable);
 
-            $localSettings['room_id'] = array(
+            $localSettings['room_id'] = [
                 $this->availableSettings['room_id'], $this->roomId
-            );
+            ];
 
             $DIC->database()->insert(self::$settingsTable, $localSettings);
         }
