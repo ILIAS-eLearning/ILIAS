@@ -911,7 +911,7 @@ class ilTable2GUI extends ilTableGUI
 
             $this->selected_filter[$k] = false;
 
-            if ($_POST["tblfsf" . $this->getId()]) {
+            if (isset($_POST["tblfsf" . $this->getId()])) {
                 $set = true;
                 if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
                     $this->selected_filter[$k] = true;
