@@ -97,7 +97,10 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TITLE", $title);
         $this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
         $this->tpl->setVariable("POINTS_REQUIRED", $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], $a_set["points_required"]));
-        $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect($a_set["progress_id"], $a_set["status"]));
+        $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect(
+            $a_set["progress_id"],
+            $a_set["status"]
+        ));
         $this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
         $this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
         $this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
@@ -196,30 +199,28 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
     protected function getManualStatusSelect($a_progress_id, $a_status)
     {
         $parent = $this->getParentObject();
-        $status_title = $parent->getManualStatusPostVarTitle();
-        if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-            $inv_select = new ilNonEditableValueGUI("", $status_title . "[$a_progress_id]");
-            $inv_select->setValue($this->lng->txt('no_manual_status'));
-            return $inv_select->render();
-        }
+        $options = [
+            $parent::MANUAL_STATUS_NONE => '-',
+            ilStudyProgrammeProgress::STATUS_IN_PROGRESS => $this->lng->txt("prg_status_in_progress"),
+            //ilStudyProgrammeProgress::STATUS_COMPLETED => $this->lng->txt("prg_status_completed"),
+            ilStudyProgrammeProgress::STATUS_ACCREDITED => $this->lng->txt("prg_status_accredited"),
+            ilStudyProgrammeProgress::STATUS_NOT_RELEVANT => $this->lng->txt("prg_status_not_relevant"),
+            //ilStudyProgrammeProgress::STATUS_FAILED => $this->lng->txt("prg_status_failed")
+        ];
 
+        $allowed = ilStudyProgrammeProgress::getAllowedTargetStatusFor($a_status);
 
+        $options = array_filter(
+            $options,
+            function ($o) use ($allowed, $parent) {
+                return in_array($o, $allowed) || $o === $parent::MANUAL_STATUS_NONE;
+            },
+            ARRAY_FILTER_USE_KEY
+        );
 
-        $manual_status_none = $parent->getManualStatusNone();
-        $manual_status_not_relevant = $parent->getManualStatusNotRelevant();
-        $manual_status_accredited = $parent->getManualStatusAccredited();
-
-        require_once("Services/Form/classes/class.ilSelectInputGUI.php");
-        $select = new ilSelectInputGUI("", $status_title . "[$a_progress_id]");
-        $select->setOptions(array( $manual_status_none => "-"
-            , $manual_status_accredited => $this->lng->txt("prg_status_accredited")
-            , $manual_status_not_relevant => $this->lng->txt("prg_status_not_relevant")
-            ));
-        if ($a_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-            $select->setValue($manual_status_not_relevant);
-        } elseif ($a_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-            $select->setValue($manual_status_accredited);
-        }
+        $select = new ilSelectInputGUI("", $parent::POST_VAR_STATUS . "[$a_progress_id]");
+        $select->setOptions($options);
+        $select->setValue($parent::MANUAL_STATUS_NONE);
 
         return $select->render();
     }
@@ -230,10 +231,8 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
             return $a_points_required;
         }
 
-        $required_points_title = $this->getParentObject()->getRequiredPointsPostVarTitle();
-
-        require_once("Services/Form/classes/class.ilNumberInputGUI.php");
-        $input = new ilNumberInputGUI("", $required_points_title . "[$a_progress_id]");
+        $parent = $this->getParentObject();
+        $input = new ilNumberInputGUI("", $parent::POST_VAR_REQUIRED_POINTS . "[$a_progress_id]");
         $input->setValue($a_points_required);
         $input->setSize(5);
         return $input->render();
@@ -241,12 +240,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function getDeadlineInput($a_progress_id, $deadline)
     {
-        require_once("Services/Form/classes/class.ilDateTimeInputGUI.php");
-
-        $deadline_title = $this->getParentObject()->getDeadlinePostVarTitle();
-        $gui = new ilDateTimeInputGUI("", $deadline_title . "[$a_progress_id]");
+        $parent = $this->getParentObject();
+        $gui = new ilDateTimeInputGUI("", $parent::POST_VAR_DEADLINE . "[$a_progress_id]");
         $gui->setDate($deadline ? new ilDateTime($deadline->format('Y-m-d H:i:s'), IL_CAL_DATETIME) : null);
-
         return $gui->render();
     }
 }

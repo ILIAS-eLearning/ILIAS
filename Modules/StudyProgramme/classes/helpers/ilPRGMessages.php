@@ -35,7 +35,7 @@ class ilPRGMessages
                 $this->lng->txt($msg->getDescription()),
                 count($msg->getSuccess())
             );
-            ilUtil::sendSuccess($out, true);
+            \ilUtil::sendSuccess($out, true);
         }
 
         if ($msg->hasErrors()) {

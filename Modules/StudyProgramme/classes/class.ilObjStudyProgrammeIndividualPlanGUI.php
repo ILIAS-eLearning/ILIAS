@@ -11,6 +11,11 @@
 
 class ilObjStudyProgrammeIndividualPlanGUI
 {
+    const POST_VAR_STATUS = "status";
+    const POST_VAR_REQUIRED_POINTS = "required_points";
+    const POST_VAR_DEADLINE = "deadline";
+    const MANUAL_STATUS_NONE = -1;
+
     /**
      * @var ilCtrl
      */
@@ -137,7 +142,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             && !in_array($progress->getUserId(), $this->parent_gui->viewIndividualPlan())
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
-                "may not access individua plan of user"
+                "may not access individual plan of user"
             );
         }
         $gui = new ilStudyProgrammeIndividualPlanProgressListGUI($progress);
@@ -151,14 +156,13 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
     protected function manage()
     {
-        require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php");
         $ass = $this->getAssignmentObject();
         if (
             $this->parent_gui->getStudyProgramme()->getAccessControlByOrguPositionsGlobal()
             && !in_array($ass->getUserId(), $this->parent_gui->editIndividualPlan())
         ) {
             throw new ilStudyProgrammePositionBasedAccessViolationException(
-                "may not access individua plan of user"
+                "may not access individual plan of user"
             );
         }
         $this->ctrl->setParameter($this, "ass_id", $ass->getId());
@@ -192,176 +196,126 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->ctrl->redirect($this, "manage");
     }
 
+    protected function digestInput(array $post) : array
+    {
+        $params = [
+            self::POST_VAR_STATUS,
+            self::POST_VAR_DEADLINE,
+            self::POST_VAR_REQUIRED_POINTS
+        ];
+
+        $ret = [];
+        foreach ($params as $postvar) {
+            $ret[$postvar] = [];
+            if (array_key_exists($postvar, $post)) {
+                $ret[$postvar] = $post[$postvar];
+                krsort($ret[$postvar], SORT_NUMERIC);
+            }
+        }
+        return $ret;
+    }
+    
     protected function updateFromInput()
     {
-        $changed = false;
-        $changed = $this->updateStatus();
+        $values = $this->digestInput($_POST);
+        $msgs = $this->messages->getMessageCollection('msg_update_individual_plan');
+        $this->updateStatus($values[self::POST_VAR_STATUS], $msgs);
+        $this->updateDeadlines($values[self::POST_VAR_DEADLINE], $msgs);
+        $this->updateRequiredPoints($values[self::POST_VAR_REQUIRED_POINTS], $msgs);
+
+        if ($msgs->hasAnyMessages()) {
+            $this->messages->showMessages($msgs);
+        }
 
         $this->ctrl->setParameter($this, "ass_id", $this->getAssignmentId());
-        if ($changed) {
-            $this->showSuccessMessage("update_successful");
-        }
         $this->ctrl->redirect($this, "manage");
     }
 
-    protected function updateStatus()
+
+    protected function updateStatus(array $progress_updates, ilPRGMessageCollector $msgs)
     {
-        $status_updates = $this->getManualStatusUpdates();
-        $changed = false;
-        foreach ($status_updates as $prgrs_id => $status) {
-            $progress = $this->sp_user_progress_db->read($prgrs_id);
-            $cur_status = $progress->getStatus();
-            $programme = $this->parent_gui->getStudyProgramme();
-            if (
-                $programme->getAccessControlByOrguPositionsGlobal()
-                && !in_array($progress->getUserId(), $this->parent_gui->editIndividualPlan())
-            ) {
+        $programme = $this->parent_gui->getStudyProgramme();
+        $acting_user_id = (int) $this->user->getId();
+
+        foreach ($progress_updates as $progress_id => $target_status) {
+            switch ($target_status) {
+                case ilStudyProgrammeProgress::STATUS_IN_PROGRESS:
+
+                    $progress = $this->sp_user_progress_db->read($progress_id);
+                    $cur_status = $progress->getStatus();
+
+                    if ($cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+                        $programme->unmarkAccredited($progress_id, $acting_user_id, $msgs);
+                    }
+                    if ($cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+                        $programme->markRelevant($progress_id, $acting_user_id, $msgs);
+                    }
+                    break;
+
+                case ilStudyProgrammeProgress::STATUS_ACCREDITED:
+                    $programme->markAccredited($progress_id, $acting_user_id, $msgs);
+                    break;
+                
+                case ilStudyProgrammeProgress::STATUS_NOT_RELEVANT:
+                    $programme->markNotRelevant($progress_id, $acting_user_id, $msgs);
+                    break;
+
+                case self::MANUAL_STATUS_NONE:
+                    break;
+
+                default:
+                    $msgs->add(false, 'msg_impossible_target_status', $progress_id);
+            }
+        }
+    }
+
+    protected function updateDeadlines(array $deadlines, ilPRGMessageCollector $msgs)
+    {
+        $programme = $this->parent_gui->getStudyProgramme();
+        $acting_user_id = (int) $this->user->getId();
+
+        foreach ($deadlines as $progress_id => $deadline) {
+            if (trim($deadline) === '') {
+                $deadline = null;
+            } else {
+                $deadline = DateTimeImmutable::createFromFormat('d.m.Y', $deadline);
+            }
+            
+            $progress = $this->sp_user_progress_db->read($progress_id);
+            $cur_deadline = $progress->getDeadline();
+
+            if ($deadline != $cur_deadline) {
+                $programme->changeProgressDeadline($progress_id, $acting_user_id, $msgs, $deadline);
+            }
+        }
+    }
+
+    protected function updateRequiredPoints(array $required_points, ilPRGMessageCollector $msgs)
+    {
+        $programme = $this->parent_gui->getStudyProgramme();
+        $acting_user_id = (int) $this->user->getId();
+
+        foreach ($required_points as $progress_id => $points) {
+            $points = (int) $points;
+            
+            if ($points < 0) {
+                $msgs->add(false, 'msg_points_must_be_positive', $progress_id);
                 continue;
             }
-            if ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-                $msgs = $this->messages->getMessageCollection('msg_unmark_accredited');
-                $programme->unmarkAccredited($progress->getId(), (int) $this->user->getId(), $msgs);
-                $changed = true;
-            } elseif ($status == self::MANUAL_STATUS_NONE && $cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                $msgs = $this->messages->getMessageCollection('msg_mark_relevant');
-                $programme->markRelevant($progress->getId(), (int) $this->user->getId(), $msgs);
-                $changed = true;
-            } elseif ($status == self::MANUAL_STATUS_NOT_RELEVANT && $cur_status != ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-                $msgs = $this->messages->getMessageCollection('msg_mark_not_relevant');
-                $programme->markNotRelevant($progress->getId(), (int) $this->user->getId(), $msgs);
-                $changed = true;
-            } elseif ($status == self::MANUAL_STATUS_ACCREDITED && $cur_status != ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-                $msgs = $this->messages->getMessageCollection('msg_mark_accredited');
-                $programme->markAccredited($progress->getId(), (int) $this->user->getId(), $msgs);
-                $changed = true;
-            }
 
-            $deadline = null;
-            if ($this->postContainDeadline()) {
-                $deadline = $this->updateDeadline($progress);
-            }
+            $progress = $this->sp_user_progress_db->read($progress_id);
+            $cur_points = $progress->getAmountOfPoints();
 
-            if ($cur_status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-                $changed = $this->updateRequiredPoints($prgrs_id) || $changed;
-
-                if ($deadline !== null && $deadline->format('Y-m-d') < date("Y-m-d")) {
-                    $programme->markFailed($progress->getId(), (int) $this->user->getId());
-                }
-            } elseif ($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
-                if ($deadline === null || $deadline->format('Y-m-d') > date("Y-m-d")) {
-                    $programme->markNotFailed($progress->getId(), (int) $this->user->getId());
-                }
+            if ($points != $cur_points) {
+                $programme->changeAmountOfPoints($progress_id, $acting_user_id, $msgs, $points);
             }
         }
-        return $changed;
-    }
-
-    protected function updateDeadline(ilStudyProgrammeProgress $progress) : ?DateTimeImmutable
-    {
-        $deadline = $this->getDeadlineFromForm($progress->getId());
-        
-        if ($deadline) {
-            $deadline = DateTimeImmutable::createFromMutable($deadline);
-        }
-
-        $progress = $progress
-            ->withDeadline($deadline)
-            ->withLastChangeBy($this->user->getId())
-        ;
-        $this->sp_user_progress_db->update($progress);
-        return $deadline;
-    }
-
-    protected function updateRequiredPoints($prgrs_id)
-    {
-        $required_points = $this->getRequiredPointsUpdates($prgrs_id);
-        $changed = false;
-
-        $progress = $this->sp_user_progress_db->read($prgrs_id);
-        $cur_status = $progress->getStatus();
-        if ($cur_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-            return false;
-        }
-
-        if ($required_points < 0) {
-            $required_points = 0;
-        }
-
-        if ($required_points == $progress->getAmountOfPoints()) {
-            return false;
-        }
-
-
-        return false;
-        //TODO: withRequiredAmountOfPoints is broken since 5.4 and earlier!
-        $progress = $progress->withRequiredAmountOfPoints($required_points, $this->user->getId());
-        $progress = $this->sp_user_progress_db->update($progress);
-        return true;
-    }
-
-    /**
-     * Get the deadline from form
-     *
-     * @param int 	$prgrs_id
-     *
-     * @return DateTime
-     */
-    protected function getDeadlineFromForm($prgrs_id)
-    {
-        $post_var = $this->getDeadlinePostVarTitle();
-        if (!$this->postContainDeadline()) {
-            throw new ilException("Expected array $post_var in POST");
-        }
-
-        $post_value = $_POST[$post_var];
-        $deadline = $post_value[$prgrs_id];
-
-        if ($deadline == "") {
-            return null;
-        }
-        return DateTime::createFromFormat('d.m.Y', $deadline);
-    }
-
-    /**
-     * Checks whether $_POST contains deadline
-     *
-     * @return bool
-     */
-    protected function postContainDeadline()
-    {
-        $post_var = $this->getDeadlinePostVarTitle();
-        if (array_key_exists($post_var, $_POST)) {
-            return true;
-        }
-        return false;
     }
 
     protected function showSuccessMessage($a_lng_var)
     {
-        require_once("Services/Utilities/classes/class.ilUtil.php");
         ilUtil::sendSuccess($this->lng->txt("prg_$a_lng_var"), true);
     }
-
-    protected function getManualStatusUpdates()
-    {
-        $post_var = $this->getManualStatusPostVarTitle();
-        if (!array_key_exists($post_var, $_POST)) {
-            throw new ilException("Expected array $post_var in POST");
-        }
-        return $_POST[$post_var];
-    }
-
-    protected function getRequiredPointsUpdates($prgrs_id)
-    {
-        $post_var = $this->getRequiredPointsPostVarTitle();
-        if (!array_key_exists($post_var, $_POST)) {
-            throw new ilException("Expected array $post_var in POST");
-        }
-
-        $post_value = $_POST[$post_var];
-        return (int) $post_value[$prgrs_id];
-    }
-
 
     protected function buildFrame($tab, $content)
     {
@@ -412,43 +366,6 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $a_table->setFormAction($this->ctrl->getFormAction($this));
         $a_table->addCommandButton("updateFromCurrentPlan", $this->lng->txt("prg_update_from_current_plan"));
         $a_table->addCommandButton("updateFromInput", $this->lng->txt("save"));
-    }
-
-    const POST_VAR_STATUS = "status";
-    const POST_VAR_REQUIRED_POINTS = "required_points";
-    const POST_VAR_DEADLINE = "deadline";
-    const MANUAL_STATUS_NONE = 0;
-    const MANUAL_STATUS_NOT_RELEVANT = 1;
-    const MANUAL_STATUS_ACCREDITED = 2;
-
-    public function getManualStatusPostVarTitle()
-    {
-        return self::POST_VAR_STATUS;
-    }
-
-    public function getRequiredPointsPostVarTitle()
-    {
-        return self::POST_VAR_REQUIRED_POINTS;
-    }
-
-    public function getDeadlinePostVarTitle()
-    {
-        return self::POST_VAR_DEADLINE;
-    }
-
-    public function getManualStatusNone()
-    {
-        return self::MANUAL_STATUS_NONE;
-    }
-
-    public function getManualStatusNotRelevant()
-    {
-        return self::MANUAL_STATUS_NOT_RELEVANT;
-    }
-
-    public function getManualStatusAccredited()
-    {
-        return self::MANUAL_STATUS_ACCREDITED;
     }
 
     public function getLinkTargetView($a_ass_id)

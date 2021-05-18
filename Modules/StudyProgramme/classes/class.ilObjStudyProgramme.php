@@ -2555,6 +2555,38 @@ class ilObjStudyProgramme extends ilContainer
 //        $this->updateParentProgress($progress);
     }
 
+    public function changeAmountOfPoints(
+        int $progress_id,
+        int $acting_usr_id,
+        ilPRGMessageCollector $err_collection,
+        ?int $points
+    ) : void {
+        $progress = $this->getProgressRepository()->read($progress_id);
+        
+        if (!$progress->isRelevant()) {
+            $err_collection->add(false, 'will_not_modify_irrelevant_progress', $this->getProgressIdString($progress));
+            return;
+        }
+        if ($progress->isSuccessful()) {
+            $err_collection->add(false, 'will_not_modify_successful_progress', $this->getProgressIdString($progress));
+            return;
+        }
+        
+        $progress = $progress
+            ->withAmountOfPoints($points)
+            ->withLastChangeBy($acting_usr_id)
+            ->withLastChange($this->getNow())
+            ->withIndividualModifications(true);
+
+        $this->getProgressRepository()->update($progress);
+        $err_collection->add(true, 'required_points_updated', $this->getProgressIdString($progress));
+//        TODO: recalc success upwards?
+//        $this->refreshLPStatus($progress->getUserId());
+//        $this->updateParentProgress($progress);
+    }
+
+
+
     public function updateProgressFromSettings(
         int $progress_id,
         int $acting_usr_id,

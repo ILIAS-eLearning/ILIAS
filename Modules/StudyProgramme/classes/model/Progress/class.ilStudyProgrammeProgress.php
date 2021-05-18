@@ -309,43 +309,41 @@ class ilStudyProgrammeProgress
     
     public function isTransitionAllowedTo(int $new_status) : bool
     {
-        if (is_null($this->status) ||
-            $this->status == $new_status
-        ) {
-            return true;
-        }
+        return is_null($this->status) ||
+            $this->status == $new_status ||
+            in_array($new_status, self::getAllowedTargetStatusFor($this->status));
+    }
 
-        switch ($this->status) {
+    public static function getAllowedTargetStatusFor(int $status_from) : array
+    {
+        switch ($status_from) {
             case self::STATUS_IN_PROGRESS:
-                $allowed = [
+                return [
                     self::STATUS_ACCREDITED,
                     self::STATUS_COMPLETED,
                     self::STATUS_FAILED,
                     self::STATUS_NOT_RELEVANT
                 ];
-                break;
             case self::STATUS_ACCREDITED:
-                $allowed = [
+                return [
                     self::STATUS_IN_PROGRESS,
                     self::STATUS_COMPLETED,
                     self::STATUS_FAILED,
                     self::STATUS_NOT_RELEVANT
                 ];
-                break;
             case self::STATUS_COMPLETED:
             case self::STATUS_FAILED:
-                $allowed = [
+                return [
                     self::STATUS_IN_PROGRESS,
                     self::STATUS_NOT_RELEVANT
                 ];
-                break;
             case self::STATUS_NOT_RELEVANT:
-                $allowed = [
+                return[
                     self::STATUS_IN_PROGRESS
                 ];
-                break;
         }
-        return in_array($new_status, $allowed);
+
+        return [];
     }
 
 
@@ -459,7 +457,6 @@ class ilStudyProgrammeProgress
         $clone->vq_date = $date;
         return $clone;
     }
-
 
     public function hasIndividualModifications() : bool
     {
