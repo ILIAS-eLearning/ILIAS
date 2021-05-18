@@ -79,6 +79,8 @@ abstract class ilContainerContentGUI
     public $container_gui;
     public $container_obj;
 
+    public $adminCommands = false;
+
     /**
      * @var ilLogger
      */
