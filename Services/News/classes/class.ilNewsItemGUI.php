@@ -330,7 +330,6 @@ class ilNewsItemGUI
         $text_area->setInfo("");
         $text_area->setRequired(false);
         $text_area->setRows("4");
-        $text_area->setUseRte(true);
         $form->addItem($text_area);
 
         // Property Visibility
@@ -351,18 +350,7 @@ class ilNewsItemGUI
         $media->setALlowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
-
-        // Property ContentLong
-        /*
-        $text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content_long"), "news_content_long");
-        $text_area->setInfo($lng->txt("news_news_item_content_long_info"));
-        $text_area->setRequired(false);
-        $text_area->setCols("40");
-        $text_area->setRows("8");
-        $text_area->setUseRte(true);
-        $form->addItem($text_area);*/
-
-
+        
         // save and cancel commands
         if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE))) {
             $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
@@ -502,7 +490,8 @@ class ilNewsItemGUI
             $old_mob_id = 0;
 
             // delete old media object
-            if ($media["name"] != "" || $_POST["media_delete"] != "") {
+            $media_delete = $_POST["media_delete"] ?? "";
+            if ($media["name"] != "" || $media_delete != "") {
                 if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) == "mob") {
                     $old_mob_id = $this->news_item->getMobId();
                 }
