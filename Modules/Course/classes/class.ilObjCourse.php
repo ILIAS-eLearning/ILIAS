@@ -1937,6 +1937,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         switch ($a_mode) {
             case 'create':
             case 'update':
+                $apps = [];
                 if (!$this->getActivationUnlimitedStatus() and !$this->getOfflineStatus()) {
                     $app = new ilCalendarAppointmentTemplate(self::CAL_ACTIVATION_START);
                     $app->setTitle($this->getTitle());
@@ -2017,7 +2018,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                         }
                     }
                 }
-                return $apps ? $apps : array();
+                return $apps;
                 
             case 'delete':
                 // Nothing to do: The category and all assigned appointments will be deleted.

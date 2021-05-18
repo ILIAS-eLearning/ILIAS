@@ -101,7 +101,7 @@ class ilMDGeneral extends ilMDBase
 
         return $lan;
     }
-    public function &getDescriptionIds()
+    public function getDescriptionIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDDescription.php';
 

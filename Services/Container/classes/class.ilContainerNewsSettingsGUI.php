@@ -247,7 +247,7 @@ class ilContainerNewsSettingsGUI
             if ($this->setting->get('block_activated_news')) {
                 //save contextblock settings
                 $context_block_settings = array(
-                    "public_feed" => $_POST["notifications_public_feed"],
+                    "public_feed" => $_POST["notifications_public_feed"] ?? "",
                     "default_visibility" => $_POST["default_visibility"],
                     "hide_news_per_date" => $_POST["hide_news_per_date"],
                     "hide_news_date" => $_POST["hide_news_date"]

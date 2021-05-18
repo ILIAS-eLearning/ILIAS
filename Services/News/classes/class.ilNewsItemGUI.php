@@ -52,6 +52,9 @@ class ilNewsItemGUI
     protected $context_sub_obj_type;
     protected $form_edit_mode;
 
+    protected int $requested_ref_id;
+    protected int $requested_news_item_id;
+    protected string $add_mode;
 
     /**
      * Constructor
@@ -69,9 +72,14 @@ class ilNewsItemGUI
         
         $this->ctrl = $ilCtrl;
 
+        $params = $DIC->http()->request()->getQueryParams();
+        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
+        $this->requested_news_item_id = (int) ($params["news_item_id"] ?? 0);
+        $this->add_mode = (string) ($params["add_mode"] ?? "");
+
         include_once("Services/News/classes/class.ilNewsItem.php");
-        if ($_GET["news_item_id"] > 0) {
-            $this->news_item = new ilNewsItem($_GET["news_item_id"]);
+        if ($this->requested_news_item_id > 0) {
+            $this->news_item = new ilNewsItem($this->requested_news_item_id);
         }
 
         $this->ctrl->saveParameter($this, array("news_item_id"));
@@ -114,7 +122,7 @@ class ilNewsItemGUI
         $ilCtrl = $this->ctrl;
 
         // check, if news item id belongs to context
-        if (is_object($this->news_item) && $this->news_item->getId() > 0
+        if (isset($this->news_item) && $this->news_item->getId() > 0
             && ilNewsItem::_lookupContextObjId($this->news_item->getId()) != $this->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
@@ -286,7 +294,7 @@ class ilNewsItemGUI
         $ilTabs = $this->tabs;
 
         $ilTabs->clearTargets();
-        $form = self::getEditForm($a_mode, (int) $_GET["ref_id"]);
+        $form = self::getEditForm($a_mode, $this->requested_ref_id);
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
@@ -462,7 +470,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["add_mode"] == "block") {
+        if ($this->add_mode == "block") {
             $ilCtrl->returnToParent($this);
         } else {
             $ilCtrl->redirect($this, "editNews");
@@ -547,7 +555,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($_GET["add_mode"] == "block") {
+        if ($this->add_mode == "block") {
             $ilCtrl->returnToParent($this);
         } else {
             return $this->editNews();
@@ -695,7 +703,7 @@ class ilNewsItemGUI
         $perm_ref_id = 0;
         if (in_array($this->getContextObjType(), array("cat", "grp", "crs", "root"))) {
             $data = $news_item->getNewsForRefId(
-                $_GET["ref_id"],
+                $this->requested_ref_id,
                 false,
                 false,
                 0,
@@ -705,7 +713,7 @@ class ilNewsItemGUI
                 true
             );
         } else {
-            $perm_ref_id = $_GET["ref_id"];
+            $perm_ref_id = $this->requested_ref_id;
             if ($this->getContextSubObjId() > 0) {
                 $data = $news_item->queryNewsForContext(
                     false,

@@ -94,7 +94,9 @@ class ilNewsItem
 
     private static $privFeedId = false;
     private $limitation;
-    
+
+    protected bool $content_text_is_lang_var = false;
+
     /**
     * Constructor.
     *
@@ -1088,6 +1090,7 @@ class ilNewsItem
     {
         $to_del = array();
         $forums = array();
+        $last_aggregation_forum = 0;
         
         // aggregate
         foreach ($news as $k => $v) {
