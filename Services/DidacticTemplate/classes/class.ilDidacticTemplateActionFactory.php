@@ -38,7 +38,7 @@ class ilDidacticTemplateActionFactory
      * Get instance by id and type
      * @param int $a_action_id
      * @param int $a_actions_type
-     * @return ilDidacticTemplateLocalPolicyAction
+     * @return ilDidacticTemplateAction
      */
     public static function factoryByTypeAndId($a_action_id, $a_action_type)
     {

@@ -12,7 +12,6 @@ class ilDidacticTemplateObjSettings
 
     /**
      * Lookup template id
-     * @global ilDB $ilDB
      * @param int $a_ref_id
      * @return int
      */
@@ -34,7 +33,6 @@ class ilDidacticTemplateObjSettings
 
     /**
      * Delete by obj id
-     * @global ilDB $ilDB
      * @param int $a_obj_id
      * @return bool
      */
@@ -52,7 +50,6 @@ class ilDidacticTemplateObjSettings
 
     /**
      * Delete by template id
-     * @global ilDB $ilDB
      * @param int $a_tpl_id
      * @return bool
      */
@@ -70,7 +67,6 @@ class ilDidacticTemplateObjSettings
 
     /**
      * Delete by ref_id
-     * @global ilDB $ilDB
      * @param int $a_ref_id
      */
     public static function deleteByRefId($a_ref_id)
@@ -86,7 +82,6 @@ class ilDidacticTemplateObjSettings
 
     /**
      * Assign template to object
-     * @global ilDB $ilDB
      * @param int $a_obj_id
      * @param int $a_tpl_id
      * @return bool
@@ -110,7 +105,6 @@ class ilDidacticTemplateObjSettings
     }
     /**
      * Lookup template id
-     * @global ilDB $ilDB
      * @param int $a_tpl_id
      * @return array[]
      */
