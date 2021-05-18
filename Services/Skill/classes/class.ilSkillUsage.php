@@ -34,7 +34,20 @@ class ilSkillUsage implements ilSkillUsageInfo
     /*protected $classes = array("ilBasicSkill", "ilPersonalSkill",
         "ilSkillSelfEvaluation", "ilSkillProfile", "ilSkillResources", "ilSkillUsage");*/
     protected $classes = array("ilBasicSkill", "ilPersonalSkill", "ilSkillProfile",  "ilSkillResources", "ilSkillUsage");
-    
+
+    /**
+     * @var ilBasicSkillTreeRepository
+     */
+    protected $tree_repo;
+
+    function __construct ()
+    {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+    }
+
     /**
      * Set usage
      *
@@ -184,7 +197,7 @@ class ilSkillUsage implements ilSkillUsageInfo
     public function getAllUsagesInfoOfSubtree($a_skill_id, $a_tref_id = 0)
     {
         // get nodes
-        $vtree = new ilVirtualSkillTree();
+        $vtree = new ilVirtualSkillTree($this->tree_repo->getTreeIdForNodeId($a_skill_id));
         $nodes = $vtree->getSubTreeForCSkillId($a_skill_id . ":" . $a_tref_id);
 
         return $this->getAllUsagesInfo($nodes);
@@ -199,9 +212,10 @@ class ilSkillUsage implements ilSkillUsageInfo
     public function getAllUsagesInfoOfSubtrees($a_cskill_ids)
     {
         // get nodes
-        $vtree = new ilVirtualSkillTree();
+
         $allnodes = array();
         foreach ($a_cskill_ids as $s) {
+            $vtree = new ilVirtualSkillTree($this->tree_repo->getTreeIdForNodeId($s["skill_id"]));
             $nodes = $vtree->getSubTreeForCSkillId($s["skill_id"] . ":" . $s["tref_id"]);
             foreach ($nodes as $n) {
                 $allnodes[] = $n;

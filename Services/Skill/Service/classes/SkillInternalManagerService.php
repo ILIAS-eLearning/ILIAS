@@ -60,7 +60,8 @@ class SkillInternalManagerService
     {
         return new Tree\SkillTreeManager(
             $this->skmg_ref_id,
-            $this->repository_tree
+            $this->repository_tree,
+            $this->skill_tree_factory
         );
     }
 

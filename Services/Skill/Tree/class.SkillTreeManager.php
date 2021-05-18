@@ -21,15 +21,21 @@ class SkillTreeManager
     protected $repository_tree;
 
     /**
+     * @var SkillTreeFactory
+     */
+    protected $tree_factory;
+
+    /**
      * Constructor
      * @param int     $skmg_ref_id
      * @param \ilTree $repository_tree
      */
     public function __construct(
-        int $skmg_ref_id, \ilTree $repository_tree)
+        int $skmg_ref_id, \ilTree $repository_tree, SkillTreeFactory $tree_factory)
     {
         $this->skmg_ref_id = $skmg_ref_id;
         $this->repository_tree = $repository_tree;
+        $this->tree_factory = $tree_factory;
     }
 
     /**
@@ -46,6 +52,12 @@ class SkillTreeManager
         $tree_obj->createReference();
         $tree_obj->putInTree($this->skmg_ref_id);
         $tree_obj->setPermissions($this->skmg_ref_id);
+
+        $tree = $this->tree_factory->getById($tree_obj->getId());
+        $root_node = new \ilSkillRoot();
+        $root_node->setTitle("Skill Tree Root Node");
+        $root_node->create();
+        $tree->addTree($tree_obj->getId(), $root_node->getId());
     }
 
     /**

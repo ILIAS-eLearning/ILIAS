@@ -107,6 +107,14 @@ class SkillTreeNodeManager
     }
 
     /**
+     * @return int
+     */
+    public function getRootId() : int
+    {
+        return (int) $this->tree->getRootId();
+    }
+
+    /**
      * Cut and copy a set of skills/skill categories into the clipboard
      */
     public function clipboardCut(array $a_ids) : void
