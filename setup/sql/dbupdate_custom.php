@@ -51,7 +51,8 @@ if (!$skill_tree_type_id) {
         8530
     );
 
-    ilDBUpdateNewObjectType::addRBACOperations($skill_tree_type_id, $opsId);
+    // addRBACOperations only accepts standard not custom ops, fix see step 2/3
+    //ilDBUpdateNewObjectType::addRBACOperations($skill_tree_type_id, $opsId);
 
     // common rbac operations
     $rbacOperations = array(
@@ -102,6 +103,7 @@ ilDBUpdateNewObjectType::addRBACOperation($skill_tree_type_id, $ops_id);
 <#4>
 <?php
 
+// get skill managemenet object id
 $set = $ilDB->queryF("SELECT * FROM object_data " .
     " WHERE type = %s ",
     ["text"],
@@ -109,6 +111,7 @@ $set = $ilDB->queryF("SELECT * FROM object_data " .
 );
 $rec = $ilDB->fetchAssoc($set);
 
+// get skill management ref id
 $set = $ilDB->queryF("SELECT * FROM object_reference " .
     " WHERE obj_id = %s ",
     ["integer"],
@@ -117,6 +120,7 @@ $set = $ilDB->queryF("SELECT * FROM object_reference " .
 $rec = $ilDB->fetchAssoc($set);
 $skmg_ref_id = $rec["ref_id"];
 
+// create default tree object entry
 $obj_id = $ilDB->nextId('object_data');
 $ilDB->manipulate("INSERT INTO object_data " .
     "(obj_id, type, title, description, owner, create_date, last_update) VALUES (" .
@@ -129,6 +133,7 @@ $ilDB->manipulate("INSERT INTO object_data " .
     $ilDB->now() .
     ")");
 
+// get ref id for default tree object
 $ref_id = $ilDB->nextId('object_reference');
 $ilDB->manipulate("INSERT INTO object_reference " .
     "(obj_id, ref_id) VALUES (" .
