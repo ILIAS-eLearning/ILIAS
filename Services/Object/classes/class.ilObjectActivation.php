@@ -428,7 +428,7 @@ class ilObjectActivation
 
             // #11987
             $a_item['masked_start'] = $a_item['start'];
-            $a_item['masked_end'] = $a_item['end'];
+            $a_item['masked_end'] = $a_item['end'] ?? "";
             $a_item['start'] = $info['start'];
             $a_item['end'] = $info['end'];
         }

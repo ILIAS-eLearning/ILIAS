@@ -115,6 +115,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
      */
     private $target_group = '';
 
+    protected $activation_start;
+    protected $activation_end;
+    protected $activation_visibility;
+
 
     /**
     * Constructor
@@ -510,7 +514,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         \ilContainerUserFilter $container_user_filter = null
     ) {
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
+        if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
 

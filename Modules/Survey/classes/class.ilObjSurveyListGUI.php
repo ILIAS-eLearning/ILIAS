@@ -11,9 +11,9 @@
 class ilObjSurveyListGUI extends ilObjectListGUI
 {
     /**
-     * @var ilRbacSystem
+     * @var \ilRbacSystem
      */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     /**
     * constructor
@@ -48,31 +48,6 @@ class ilObjSurveyListGUI extends ilObjectListGUI
         // general commands array
         $this->commands = ilObjSurveyAccess::_getCommands();
     }
-
-
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame($a_cmd)
-    {
-        switch ($a_cmd) {
-            case "":
-            case "infoScreen":
-            case "evaluation":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            default:
-        }
-
-        return $frame;
-    }
-
 
 
     /**

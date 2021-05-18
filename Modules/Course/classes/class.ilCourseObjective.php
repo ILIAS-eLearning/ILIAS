@@ -548,11 +548,12 @@ class ilCourseObjective
         }
 
         $res = $ilDB->query($query);
+        $ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $ids[] = $row->objective_id;
         }
 
-        return $ids ? $ids : array();
+        return $ids;
     }
     // end-patch lok
 
