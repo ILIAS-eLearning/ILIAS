@@ -105,14 +105,12 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
         $sess_data = ilObjSession::lookupSession($obj_id);
         $sess_app = ilSessionAppointment::_lookupAppointment($obj_id);
 
+
         switch ($placeholder_id) {
             case 'sess_title':
                 return $ilObjDataCache->lookupTitle($obj_id);
             case 'sess_appointment':
-                return ilDatePresentation::formatPeriod(
-                    new ilDateTime($sess_app['start'], IL_CAL_UNIX),
-                    new ilDateTime($sess_app['end'], IL_CAL_UNIX)
-                );
+                return ilSessionAppointment::_appointmentToString($sess_app['start'], $sess_app['end'], $sess_app['fullday']);
             case 'sess_location':
                 return $sess_data['location'];
             case 'sess_details':
