@@ -2203,7 +2203,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $online_access = true;
                     }
                 }
-
+                /*
                 if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
                     if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id)) {
                         $testSession = $this->testSessionFactory->getSession();
@@ -2212,7 +2212,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
                         $executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = true);
-                        
+
                         if ($executable["executable"]) {
                             if ($testSession->getActiveId() > 0) {
                                 // resume test
@@ -2236,6 +2236,7 @@ class ilObjTestGUI extends ilObjectGUI
                         }
                     }
                 }
+                */
             }
         }
 
