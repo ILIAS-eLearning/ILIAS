@@ -79,10 +79,10 @@ function sendRequest (url, data, callback, user, password, headers) {
 	function useSendBeacon() {
 		if (navigator.userAgent.indexOf("Chrom") > -1) {
             var winev = null;
-            if (typeof(window.sahs_content.event) != "undefined") winev = window.sahs_content.event.type;
+            if (window.sahs_content && typeof(window.sahs_content.event) != "undefined") winev = window.sahs_content.event.type;
             else if (typeof(window.event) != "undefined") winev = window.event.type;
-            else if (typeof(window.parent.event) != "undefined") winev = window.parent.event.type;
-            else if (typeof(window.parent.parent.event) != "undefined") winev = window.parent.parent.event.type;
+            else if (window.parent && typeof(window.parent.event) != "undefined") winev = window.parent.event.type;
+            else if (window.parent.parent && typeof(window.parent.parent.event) != "undefined") winev = window.parent.parent.event.type;
             //contentstart
             try{winev = document.getElementsByTagName("frame")[0].contentWindow.document.getElementsByTagName("frame")[1].contentWindow.event.type;} catch(e){}
             //Articulate Rise
