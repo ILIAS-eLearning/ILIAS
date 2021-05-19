@@ -94,18 +94,23 @@ class ilSessionMailTemplateParticipantContext extends ilMailTemplateContext
      */
     public function resolveSpecificPlaceholder($placeholder_id, array $context_parameters, ilObjUser $recipient = null, $html_markup = false)
     {
-        /**
-         * @var $ilObjDataCache ilObjectDataCache
-         */
         global $DIC;
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
+        $obj_id = $ilObjDataCache->lookupObjId($context_parameters['ref_id']);
+        $sess_data = ilObjSession::lookupSession($obj_id);
+        $sess_app = ilSessionAppointment::_lookupAppointment($obj_id);
 
-        if ('crs_title' == $placeholder_id) {
-            return $ilObjDataCache->lookupTitle($ilObjDataCache->lookupObjId($context_parameters['ref_id']));
-        } elseif ('crs_link' == $placeholder_id) {
-            require_once './Services/Link/classes/class.ilLink.php';
-            return ilLink::_getLink($context_parameters['ref_id'], 'crs');
+
+        switch ($placeholder_id) {
+            case 'sess_title':
+                return $ilObjDataCache->lookupTitle($obj_id);
+            case 'sess_appointment':
+                return ilSessionAppointment::_appointmentToString($sess_app['start'], $sess_app['end'], $sess_app['fullday']);
+            case 'sess_location':
+                return $sess_data['location'];
+            case 'sess_details':
+                return $sess_data['details'];
         }
 
         return '';
