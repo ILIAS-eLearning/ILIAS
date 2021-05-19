@@ -339,7 +339,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
 
     /**
-    * get number of atttempts for a certain user and package
+    * get number of attempts for a certain user and package
     */
     public function getAttemptsForUser($a_user_id)
     {
@@ -348,7 +348,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $val_set = $ilDB->queryF(
             'SELECT package_attempts FROM sahs_user WHERE obj_id = %s AND user_id = %s',
             array('integer','integer'),
-            array($this->getId(),$a_user_id,0)
+            array($this->getId(),$a_user_id)
         );
 
         $val_rec = $ilDB->fetchAssoc($val_set);
