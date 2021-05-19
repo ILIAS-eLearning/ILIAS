@@ -2185,7 +2185,7 @@ class ilObjTestGUI extends ilObjectGUI
                     
                     $this->populateQuestionBrowserToolbarButtons($ilToolbar, ilTestQuestionBrowserTableGUI::CONTEXT_LIST_VIEW);
                 }
-
+                /*
                 $ilToolbar->addSeparator();
                 $ilToolbar->addButton($this->lng->txt("random_selection"), $this->ctrl->getLinkTarget($this, "randomselect"));
 
@@ -2203,7 +2203,7 @@ class ilObjTestGUI extends ilObjectGUI
                         $online_access = true;
                     }
                 }
-                /*
+
                 if (!$this->object->getOfflineStatus() && $this->object->isComplete($this->testQuestionSetConfigFactory->getQuestionSetConfig())) {
                     if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id)) {
                         $testSession = $this->testSessionFactory->getSession();
