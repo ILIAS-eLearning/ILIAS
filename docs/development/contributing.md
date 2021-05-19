@@ -69,7 +69,7 @@ code please make sure:
 * that your commit follows the [ILIAS coding
   guidelines](http://www.ilias.de/docu/goto_docu_pg_202_42.html) - this is a
   bare minimun of style we want to maintain for new code
-* you don't introduce new code violations which could have been easyly found by
+* you don't introduce new code violations which could have been easily found by
   importing and running our
   [PhpStorm PHP Inspection Profile](./inspection-configs/php-storm-php-inspections.xml)
 * that your are approachable for questions of reviewers
