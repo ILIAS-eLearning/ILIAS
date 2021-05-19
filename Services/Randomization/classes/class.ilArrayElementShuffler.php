@@ -8,30 +8,20 @@
  */
 class ilArrayElementShuffler extends ilBaseRandomElementProvider implements ilRandomArrayElementProvider
 {
-    /**
-     * @return bool
-     */
     private function isMtRandomizerAvailable() : bool
     {
         return function_exists('mt_srand') && function_exists('mt_rand');
     }
 
-    /**
-     * @return int
-     */
     protected function getInitialSeed() : int
     {
-        list($usec, $sec) = explode(' ', microtime());
+        [$usec, $sec] = explode(' ', microtime());
+
         return (int) ($sec + ($usec * 100000));
     }
 
-    /**
-     * @param int $seed
-     */
     private function initSeed(int $seed) : void
     {
-        $seed = (int) $seed; // (mt_)srand seems to not cast to integer itself (string seeds avoid randomizing) !!
-
         if ($this->isMtRandomizerAvailable()) {
             mt_srand($seed);
         } else {
@@ -39,10 +29,6 @@ class ilArrayElementShuffler extends ilBaseRandomElementProvider implements ilRa
         }
     }
 
-    /**
-     * @param array $array
-     * @return array
-     */
     private function shuffleArray(array $array) : array
     {
         if ($this->isMtRandomizerAvailable()) {
@@ -50,13 +36,10 @@ class ilArrayElementShuffler extends ilBaseRandomElementProvider implements ilRa
         }
 
         shuffle($array);
+
         return $array;
     }
 
-    /**
-     * @param array $orderedArray
-     * @return array
-     */
     private function mtShuffle(array $orderedArray) : array
     {
         $shuffledArray = [];
@@ -70,9 +53,6 @@ class ilArrayElementShuffler extends ilBaseRandomElementProvider implements ilRa
         return $shuffledArray;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function shuffle(array $array) : array
     {
         $this->initSeed($this->getSeed());
