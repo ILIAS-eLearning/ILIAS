@@ -128,7 +128,6 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilTabs = $this->tabs;
-
         $skmg_set = new ilSetting("skmg");
         $enable_skmg = $skmg_set->get("enable_skmg");
         if (!$enable_skmg) {
@@ -145,7 +144,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
-            (int) $_GET["obj_id"],
+            $this->requested_obj_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         

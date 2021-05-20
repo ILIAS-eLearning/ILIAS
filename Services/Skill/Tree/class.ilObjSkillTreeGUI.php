@@ -94,6 +94,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $this->skill_tree = $DIC->skills()->internal()->factory()->tree()->getById($this->object->getId());
 
         $ilCtrl->saveParameter($this, "obj_id");
+        $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
     }
@@ -137,7 +138,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
             case 'ilskillrootgui':
                 $skrt_gui = new ilSkillRootGUI(
                     $this->skill_tree_node_manager,
-                    (int) $_GET["obj_id"]
+                    (int) $this->requested_obj_id
                 );
                 $skrt_gui->setParentGUI($this);
                 $ret = $this->ctrl->forwardCommand($skrt_gui);
@@ -147,7 +148,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $this->tabs_gui->activateTab("skills");
                 $scat_gui = new ilSkillCategoryGUI(
                     $this->skill_tree_node_manager,
-                    (int) $_GET["obj_id"]
+                    (int) $this->requested_obj_id
                 );
                 $scat_gui->setParentGUI($this);
                 $this->showTree(false, $scat_gui, "listItems");
@@ -158,7 +159,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $this->tabs_gui->activateTab("skills");
                 $skill_gui = new ilBasicSkillGUI(
                     $this->skill_tree_node_manager,
-                    (int) $_GET["obj_id"]
+                    (int) $this->requested_obj_id
                 );
                 $skill_gui->setParentGUI($this);
                 $this->showTree(false, $skill_gui, "edit");
@@ -169,7 +170,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $this->tabs_gui->activateTab("skill_templates");
                 $sctp_gui = new ilSkillTemplateCategoryGUI(
                     $this->skill_tree_node_manager,
-                    (int) $_GET["obj_id"],
+                    (int) $this->requested_obj_id,
                     (int) $_GET["tref_id"]
                 );
                 $sctp_gui->setParentGUI($this);
@@ -181,7 +182,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $this->tabs_gui->activateTab("skill_templates");
                 $sktp_gui = new ilBasicSkillTemplateGUI(
                     $this->skill_tree_node_manager,
-                    (int) $_GET["obj_id"],
+                    (int) $this->requested_obj_id,
                     (int) $_GET["tref_id"]
                 );
                 $sktp_gui->setParentGUI($this);
@@ -474,7 +475,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         $ilTabs->activateTab("skills");
 
-        $ilCtrl->setParameterByClass("ilobjskilltreegui", "obj_id", $this->skill_tree->getRootId());
+        $ilCtrl->setParameterByClass("ilobjskilltreegui", "obj_id", $this->skill_tree->readRootId());
         $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
     }
 
@@ -532,8 +533,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     public function expandAll($a_redirect = true)
     {
         $_GET["skexpand"] = "";
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
+        $n_id = ($this->requested_obj_id != "")
+            ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
         $stree = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($n_id));
         $n_arr = array();
@@ -550,8 +551,8 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     public function collapseAll($a_redirect = true)
     {
         $_GET["skexpand"] = "";
-        $n_id = ($_GET["obj_id"] > 0)
-            ? $_GET["obj_id"]
+        $n_id = ($this->requested_obj_id != "")
+            ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
         $stree = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($n_id));
         $old = $_SESSION["skexpand"];
@@ -963,7 +964,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $ilTabs->activateTab("skill_templates");
-        $ilCtrl->setParameterByClass("ilobjskilltreegui", "obj_id", $this->skill_tree->getRootId());
+        $ilCtrl->setParameterByClass("ilobjskilltreegui", "obj_id", $this->skill_tree->readRootId());
         $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 
@@ -982,12 +983,12 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $lng = $this->lng;
 
         if ($a_templates) {
-            if ($_GET["obj_id"] == "" || $_GET["obj_id"] == 1) {
+            if ($this->requested_obj_id == "" || $this->requested_obj_id == $this->skill_tree->readRootId()) {
                 return;
             }
 
-            if ($_GET["obj_id"] > 1) {
-                $path = $this->skill_tree->getPathId($_GET["obj_id"]);
+            if ($this->requested_obj_id != $this->skill_tree->readRootId()) {
+                $path = $this->skill_tree->getPathId($this->requested_obj_id);
                 if (ilSkillTreeNode::_lookupType($path[1]) == "sktp") {
                     return;
                 }

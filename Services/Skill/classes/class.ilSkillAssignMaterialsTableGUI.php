@@ -38,7 +38,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilUser = $DIC->user();
 
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
-        if (!$this->ws_tree->getRootId()) {
+        if (!$this->ws_tree->readRootId()) {
             $this->ws_tree->createTreeForUser($ilUser->getId());
         }
         $this->ws_access = new ilWorkspaceAccessHandler();

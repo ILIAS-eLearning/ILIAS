@@ -145,9 +145,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it->setStatus($this->form->getInput("status"));
         $it->setSelfEvaluation($_POST["self_eval"]);
         $it->create();
-        $this->skill_tree_node_manager->putIntoTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
+        $this->skill_tree_node_manager->putIntoTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
     }
+
+
 
     /**
      * After saving
@@ -251,7 +253,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
     
@@ -597,7 +599,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
                 "obj_id",
-                $_GET["obj_id"]
+                $this->requested_obj_id
             );
             
             $ilTabs->activateTab($a_tab);
@@ -719,11 +721,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
+        $t = ilSkillTreeNode::_lookupType((int) $this->requested_obj_id);
 
         switch ($t) {
             case "skrt":
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $this->requested_obj_id);
                 $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
                 break;
         }

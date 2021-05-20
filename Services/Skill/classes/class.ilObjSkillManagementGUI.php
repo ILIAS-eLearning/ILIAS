@@ -832,7 +832,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $ilTabs->activateTab("skill_templates");
-        $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->getRootId());
+        $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "obj_id", $this->skill_tree->readRootId());
         $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
     }
 

@@ -50,11 +50,10 @@ class SkillTreeNodeManager
         $tree = $this->tree;
         $node->setOrderNr($tree->getMaxOrderNr((int) $parent_node_id) + 10);
         $node->update();
-
         // determine parent
-        $parent_id = ($parent_node_id != "")
+        $parent_id = ($parent_node_id <= 0)
             ? $parent_node_id
-            : $tree->getRootId();
+            : $tree->readRootId();
 
         // make a check, whether the type of object is allowed under
         // the parent
@@ -82,9 +81,11 @@ class SkillTreeNodeManager
             }
         }
 
+
         if ($tree->isInTree($parent_id) && !$tree->isInTree($node->getId())) {
             $tree->insertNode($node->getId(), $parent_id, $target);
         }
+
     }
 
     /**
@@ -111,7 +112,7 @@ class SkillTreeNodeManager
      */
     public function getRootId() : int
     {
-        return (int) $this->tree->getRootId();
+        return (int) $this->tree->readRootId();
     }
 
     /**
@@ -380,7 +381,7 @@ class SkillTreeNodeManager
     public function getTopTemplates() : array
     {
         return $this->tree->getChildsByTypeFilter(
-            $this->tree->getRootId(),
+            $this->tree->readRootId(),
             array("sktp", "sctp")
         );
     }

@@ -53,6 +53,8 @@ class ilSkillTreeNodeGUI
      */
     protected $skill_tree_node_manager;
 
+    protected $requested_obj_id;
+
     /**
     * constructor
     *
@@ -74,6 +76,7 @@ class ilSkillTreeNodeGUI
         $this->access = $ilAccess;
         $this->ref_id = (int) $_GET["ref_id"];
         $this->skill_tree_node_manager = $node_manager;
+        $this->requested_obj_id = (string) ($_GET["obj_id"] ?? "");
 
         if ($a_node_id > 0 &&
             $this->getType() == ilSkillTreeNode::_lookupType($a_node_id)) {
@@ -200,7 +203,7 @@ class ilSkillTreeNodeGUI
         ilUtil::sendInfo($lng->txt("skmg_selected_items_have_been_cut"), true);
         
         $this->skill_tree_node_manager->saveChildsOrder(
-            (int) $_GET["obj_id"],
+            (int) $this->requested_obj_id,
             array(),
             $_GET["tmpmode"]
         );
@@ -264,7 +267,7 @@ class ilSkillTreeNodeGUI
 
         $this->getParentGUI()->confirmedDelete(false);
         $this->skill_tree_node_manager->saveChildsOrder(
-            (int) $_GET["obj_id"],
+            (int) $this->requested_obj_id,
             array(),
             $_GET["tmpmode"]
         );
@@ -286,9 +289,9 @@ class ilSkillTreeNodeGUI
         $ilLocator->addRepositoryItems($_GET["ref_id"]);
         $this->getParentGUI()->addLocatorItems();
         
-        if ($_GET["obj_id"] > 0) {
+        if ($this->requested_obj_id > 0) {
             $tree = new ilSkillTree();
-            $path = $tree->getPathFull($_GET["obj_id"]);
+            $path = $tree->getPathFull($this->requested_obj_id);
             for ($i = 1; $i < count($path); $i++) {
                 switch ($path[$i]["type"]) {
                     case "scat":
@@ -332,7 +335,7 @@ class ilSkillTreeNodeGUI
                 }
             }
         }
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         
         $tpl->setLocator();
         */
@@ -428,7 +431,7 @@ class ilSkillTreeNodeGUI
             $this->saveItem();
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $this->skill_tree_node_manager->saveChildsOrder(
-                (int) $_GET["obj_id"],
+                (int) $this->requested_obj_id,
                 array(),
                 in_array($this->getType(), array("sktp", "sctp"))
             );
@@ -519,7 +522,7 @@ class ilSkillTreeNodeGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
+        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -548,11 +551,11 @@ class ilSkillTreeNodeGUI
             $a_tmp_mode = true;
         }
         
-        $t = ilSkillTreeNode::_lookupType((int) $_GET["obj_id"]);
+        $t = ilSkillTreeNode::_lookupType($this->requested_obj_id);
 
         switch ($t) {
             case "skrt":
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", (int) $this->requested_obj_id);
                 if ($a_tmp_mode) {
                     $ilCtrl->redirectByClass("ilskillrootgui", "listTemplates");
                 } else {
@@ -561,12 +564,12 @@ class ilSkillTreeNodeGUI
                 break;
 
             case "sctp":
-                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", (int) $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", (int) $this->requested_obj_id);
                 $ilCtrl->redirectByClass("ilskilltemplatecategorygui", "listItems");
                 break;
 
             case "scat":
-                $ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", (int) $_GET["obj_id"]);
+                $ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", (int) $this->requested_obj_id);
                 $ilCtrl->redirectByClass("ilskillcategorygui", "listItems");
                 break;
         }
@@ -584,7 +587,7 @@ class ilSkillTreeNodeGUI
         }
 
         $this->skill_tree_node_manager->saveChildsOrder(
-            (int) $_GET["obj_id"],
+            (int) $this->requested_obj_id,
             $_POST["order"],
             (int) $_GET["tmpmode"]
         );
@@ -597,7 +600,7 @@ class ilSkillTreeNodeGUI
      */
     public function insertBasicSkillClip()
     {
-        $this->skill_tree_node_manager->insertItemsFromClip("skll", (int) $_GET["obj_id"]);
+        $this->skill_tree_node_manager->insertItemsFromClip("skll", (int) $this->requested_obj_id);
         $this->redirectToParent();
     }
 
@@ -606,7 +609,7 @@ class ilSkillTreeNodeGUI
      */
     public function insertSkillCategoryClip()
     {
-        $this->skill_tree_node_manager->insertItemsFromClip("scat", (int) $_GET["obj_id"]);
+        $this->skill_tree_node_manager->insertItemsFromClip("scat", (int) $this->requested_obj_id);
         $this->redirectToParent();
     }
     
@@ -615,7 +618,7 @@ class ilSkillTreeNodeGUI
      */
     public function insertTemplateReferenceClip()
     {
-        $this->skill_tree_node_manager->insertItemsFromClip("sktr", (int) $_GET["obj_id"]);
+        $this->skill_tree_node_manager->insertItemsFromClip("sktr", (int) $this->requested_obj_id);
         $this->redirectToParent();
     }
     
@@ -624,7 +627,7 @@ class ilSkillTreeNodeGUI
      */
     public function insertSkillTemplateClip()
     {
-        $this->skill_tree_node_manager->insertItemsFromClip("sktp", (int) $_GET["obj_id"]);
+        $this->skill_tree_node_manager->insertItemsFromClip("sktp", (int) $this->requested_obj_id);
         $this->redirectToParent();
     }
 
@@ -633,7 +636,7 @@ class ilSkillTreeNodeGUI
      */
     public function insertTemplateCategoryClip()
     {
-        $this->skill_tree_node_manager->insertItemsFromClip("sctp", (int) $_GET["obj_id"]);
+        $this->skill_tree_node_manager->insertItemsFromClip("sctp", (int) $this->requested_obj_id);
         $this->redirectToParent();
     }
     
