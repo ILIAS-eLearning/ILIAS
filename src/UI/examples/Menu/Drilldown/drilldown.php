@@ -1,6 +1,22 @@
 <?php
 function drilldown()
 {
+
+    /**
+        0 Tier des Jahres
+        1    Schweiz
+        1.1        Bachflohkrebs
+        1.1.1        Bachflohkrebs
+        1.2        Wildkatze
+        1.2.1            gewöhnliche Wildkatze
+        1.2.2            große Wildkatze
+        2    Deutschland
+        2.1        Fischotter
+        2.2        Maulwurf
+        2.3        Reh
+    */
+
+
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
@@ -15,30 +31,30 @@ function drilldown()
     $button = $f->button()->bulky($ico->withAbbreviation('>'), 'Modal', '')
         ->withOnClick($modal->getShowSignal());
 
-    $label = $f->button()->bulky($ico->withAbbreviation('0'), 'root', '');
+    $label = $f->button()->bulky($ico->withAbbreviation('0'), 'Tier des Jahres (0)', '');
 
     $uri = new \ILIAS\Data\URI('https://ilias.de');
-    $link = $f->link()->bulky($ico->withAbbreviation('>>'), 'link', $uri);
+    $link = $f->link()->bulky($ico->withAbbreviation('>'), 'Link', $uri);
 
     $items = [
-        $f->menu()->sub(toBulky('1'), [
+        $f->menu()->sub(toBulky('Schweiz (1)'), [
             $f->menu()->sub(
-                toBulky('1.1'),
+                toBulky('Bachflohkrebs (1.1)'),
                 [$button, $link]
             )
                 ->withInitiallyActive(),
-            $f->menu()->sub(toBulky('1.2'), [
-                $f->menu()->sub('1.2.1', [$button]),
-                $f->menu()->sub('1.2.2', [$button])
+            $f->menu()->sub(toBulky('Wildkatze (1.2)'), [
+                $f->menu()->sub('gewöhnliche Wildkatze (1.2.1)', [$button]),
+                $f->menu()->sub('große Wildkatze (1.2.2)', [$button])
             ]),
             $button
         ]),
 
-        $f->menu()->sub(toBulky('2'), [
-            $f->menu()->sub('2.1', [$button]),
-            $f->menu()->sub('2.2', [$button]),
+        $f->menu()->sub(toBulky('Deutschland (2)'), [
+            $f->menu()->sub('Fischotter (2.1)', [$button]),
+            $f->menu()->sub('Maulwurf (2.2)', [$button]),
             $f->divider()->horizontal(),
-            $f->menu()->sub('2.3', [$button])
+            $f->menu()->sub('Reh (2.3)', [$button])
         ])
     ];
 
