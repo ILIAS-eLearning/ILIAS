@@ -18,7 +18,7 @@ class ilCalendarAppointmentGUI
     protected $app = null;
     protected $rec = null;
     protected $timezone = null;
-    
+
     protected $tpl;
     protected $lng;
     protected $ctrl;
@@ -39,13 +39,10 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        $this->lng = $lng;
-        $lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
-        
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule('dateplaner');
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->logger = $GLOBALS['DIC']->logger()->cal();
 
         $this->initTimeZone();
@@ -54,13 +51,6 @@ class ilCalendarAppointmentGUI
         $this->initAppointment($a_appointment_id);
     }
     
-    /**
-     * Execute command
-     *
-     * @access public
-     * @param
-     *
-     */
     public function executeCommand()
     {
         global $DIC;
@@ -86,7 +76,7 @@ class ilCalendarAppointmentGUI
                 $this->$cmd();
                 break;
         }
-        return true;
+
     }
     
     /**
@@ -344,8 +334,7 @@ class ilCalendarAppointmentGUI
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $ilHelp = $DIC['ilHelp'];
+        $ilHelp = $DIC->help();
 
         $ilHelp->setScreenIdComponent("cal");
         $ilHelp->setScreenId("app");
@@ -354,7 +343,7 @@ class ilCalendarAppointmentGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $this->initForm('create');
         }
-        $tpl->setContent($this->form->getHTML());
+        $this->tpl->setContent($this->form->getHTML());
     }
     
     /**
