@@ -16558,3 +16558,5 @@ lti#:#toplist_your_result#:#Eigener Rang
 rep#:#rep_no_last_visited_mess#:#Sie haben noch keine Lernobjekte besucht.
 common#:#eyeopened#:#Eye Open - Click to reveal the input's contents###30 04 2021 new variable
 content#:#cont_could_not_save_duplicate_pc_ids#:#Die Seite konnte leider nicht gespeichert werden. (Doppelte PC IDs)
+dateplaner#:#cal_delete_recurrence_rule#:#Terminserie löschen
+dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie einzelne Termine oder aber die gesamte Terminserie löschen möchten.
