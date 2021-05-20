@@ -269,7 +269,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         //disable first option if required.
         $tpl->setCurrentBlock("options");
         if (!$value) {
-            $tpl->setVariable("SELECTED", "selected");
+            $tpl->setVariable("SELECTED", 'selected="selected"');
         }
         if ($input->isRequired()) {
             $tpl->setVariable("DISABLED_OPTION", "disabled");
@@ -282,7 +282,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         foreach ($input->getOptions() as $option_key => $option_value) {
             $tpl->setCurrentBlock("options");
             if ($value == $option_key) {
-                $tpl->setVariable("SELECTED", "selected");
+                $tpl->setVariable("SELECTED", 'selected="selected"');
             }
             $tpl->setVariable("VALUE", $option_key);
             $tpl->setVariable("VALUE_STR", $option_value);
