@@ -204,8 +204,10 @@ abstract class ilContainerContentGUI
         );
         // END ChangeEvent: record read event.
         
-
-        $tpl->setContent($this->getCenterColumnHTML());
+        $html = $this->getCenterColumnHTML();
+        if (strlen($html)) {
+            $tpl->setContent($html);
+        }
 
         // see above, all other cases (this was the old position of setRightContent,
         // maybe the position above is ok and all ifs can be removed)
