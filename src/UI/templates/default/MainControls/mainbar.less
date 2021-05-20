@@ -2,7 +2,7 @@
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
 	.btn-bulky,
-	.link-bulky {
+	.il-link.link-bulky {
 		font-size: @il-mainbar-btn-label-size;
 		line-height: @il-mainbar-btn-label-size * @line-height-large;
 		&:focus,
@@ -19,7 +19,7 @@
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
-	.btn {
+	.btn,a {
 	  &:active {
 		  outline: 0;
 		  outline-offset: 0;
@@ -83,6 +83,7 @@
 			white-space: normal;
 			word-break: break-word;
     		padding: 0 2px;
+			text-align: center;
 			overflow: hidden;
 			-webkit-line-clamp: 2;
 		    -webkit-box-orient: vertical;
