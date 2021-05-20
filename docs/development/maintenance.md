@@ -47,8 +47,10 @@ by the [Issue-Tracker](https://mantis.ilias.de).
 
 Applications for maintainerships can be handed in to the product manager. The product manager together with the 
 technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
-addition the company the maintainer is working for can be listed, too. In this second case the company can suggest 
-a new maintainer to the product manager, if the employee leaves the company.
+addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
+propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
+for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
+substantially in the general condition of the component and the proposed maintainer meets the criteria.
 
 ## Current Maintainerships
 
