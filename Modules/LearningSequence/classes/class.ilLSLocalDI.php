@@ -60,12 +60,10 @@ class ilLSLocalDI extends Container
         };
 
         $this["gui.learner"] = function ($c) use ($dic, $lsdic, $object) : ilObjLearningSequenceLearnerGUI {
-            $has_items = count($c["learneritems"]->getItems()) > 0;
             $first_access = $c["learneritems"]->getFirstAccess();
 
             return new ilObjLearningSequenceLearnerGUI(
                 $c["obj.ref_id"],
-                $has_items,
                 $first_access,
                 $c["usr.id"],
                 $dic["ilAccess"],
@@ -128,7 +126,7 @@ class ilLSLocalDI extends Container
                 $c["player.urlbuilder"],
                 $dic["lng"],
                 $c["globalsetttings"]
-             );
+            );
         };
 
         $this["player.kioskrenderer"] = function ($c) use ($dic) : ilKioskPageRenderer {
@@ -172,7 +170,6 @@ class ilLSLocalDI extends Container
                 $c["player.kioskrenderer"],
                 $dic["ui.factory"],
                 $lsdic["gs.current_context"]
-
             );
         };
 

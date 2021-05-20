@@ -19,11 +19,13 @@ class ilLSPlayer
     const LSO_CMD_SUSPEND = 'lsosuspend';
     const LSO_CMD_FINISH = 'lsofinish';
 
-
     const GS_DATA_LS_KIOSK_MODE = 'ls_kiosk_mode';
     const GS_DATA_LS_CONTENT = 'ls_content';
     const GS_DATA_LS_MAINBARCONTROLS = 'ls_mainbar_controls';
     const GS_DATA_LS_METABARCONTROLS = 'ls_metabar_controls';
+
+    const RET_EXIT = 'EXIT::';
+    const RET_NOITEMS = 'NOITEMS';
 
     public function __construct(
         string $lso_title,
@@ -51,11 +53,14 @@ class ilLSPlayer
     {
         //init state and current item
         $items = $this->ls_items->getItems();
+        if (count($items) === 0) {
+            return self::RET_NOITEMS;
+        }
         $current_item = $this->getCurrentItem($items);
 
-        while($current_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+        while ($current_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
             $prev_item = $this->getNextItem($items, $current_item, -1);
-            if($prev_item === $current_item) {
+            if ($prev_item === $current_item) {
                 throw new \Exception("Cannot view first LSO-item", 1);
             }
             $current_item = $prev_item;
@@ -79,7 +84,7 @@ class ilLSPlayer
                 return 'EXIT::' . $command;
             case self::LSO_CMD_NEXT:
                 $next_item = $this->getNextItem($items, $current_item, $param);
-                if($next_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
+                if ($next_item->getAvailability() !== \ILIAS\UI\Component\Listing\Workflow\Step::AVAILABLE) {
                     $next_item = $current_item;
                 }
                 break;
@@ -168,12 +173,12 @@ class ilLSPlayer
         $current_item_ref_id = $this->ls_items->getCurrentItemRefId();
         if ($current_item_ref_id !== 0) {
             $valid_ref_ids = array_map(
-                function($item) {
+                function ($item) {
                     return $item->getRefId();
                 },
                 array_values($this->ls_items->getItems())
             );
-            if(in_array($current_item_ref_id, $valid_ref_ids)) {
+            if (in_array($current_item_ref_id, $valid_ref_ids)) {
                 list($position, $current_item) = $this->findItemByRefId($items, $current_item_ref_id);
             }
         }
