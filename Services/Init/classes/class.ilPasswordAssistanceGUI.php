@@ -141,6 +141,7 @@ class ilPasswordAssistanceGUI
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
 
+        $form->setTitle($this->lng->txt('password_assistance'));
         $form->setFormAction($this->ctrl->getFormAction($this, 'submitAssistanceForm'));
         $form->setTarget('_parent');
 
