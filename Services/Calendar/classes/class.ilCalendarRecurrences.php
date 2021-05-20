@@ -38,7 +38,7 @@ class ilCalendarRecurrences
      *
      * @access public
      * @param int cal_id
-     * @return array array of ilCalendarRecurrence
+     * @return ilCalendarRecurrence[]
      * @static
      */
     public static function _getRecurrences($a_cal_id)
@@ -50,10 +50,11 @@ class ilCalendarRecurrences
         $query = "SELECT rule_id FROM cal_recurrence_rules " .
             "WHERE cal_id = " . $ilDB->quote($a_cal_id, 'integer') . " ";
         $res = $ilDB->query($query);
+        $recurrences = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $recurrences[] = new ilCalendarRecurrence($row->rule_id);
         }
-        return $recurrences ? $recurrences : array();
+        return $recurrences;
     }
     
     /**
