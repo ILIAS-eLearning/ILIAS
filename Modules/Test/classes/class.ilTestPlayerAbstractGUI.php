@@ -544,6 +544,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
     }
 
+    /**
+     * Redirect the user after an automatic save when the time limit is reached
+     * @throws ilTestException
+     */
     public function redirectAfterAutosaveCmd()
     {
         $active_id = $this->testSession->getActiveId();
@@ -582,27 +586,26 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     abstract protected function getCurrentQuestionId();
 
+    /**
+     * Automatically save a user answer while working on the test
+     * (called repeatedly by asynchronous posts in configured autosave interval)
+     */
     public function autosaveCmd()
     {
-        $canSaveResult = $this->canSaveResult();
-        $authorizedSolution = !$canSaveResult;
-        
         $result = "";
         if (is_array($_POST) && count($_POST) > 0) {
-            if ($this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
+            if (!$this->canSaveResult() || $this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
                 $result = '-IGNORE-';
             } else {
-                // fau: testNav - delete intermediate solution if answer is unchanged
-                // answer is changed, so save the change as intermediate solution
+                // answer is changed from authorized solution, so save the change as intermediate solution
                 if ($this->getAnswerChangedParameter()) {
-                    $res = $this->saveQuestionSolution($authorizedSolution, true);
+                    $res = $this->saveQuestionSolution(false, true);
                 }
-                // answer is not changed, so delete an intermediate solution
+                // answer is not changed from authorized solution, so delete an intermediate solution
                 else {
                     $db_res = $this->removeIntermediateSolution();
                     $res = is_int($db_res);
                 }
-                // fau.
                 if ($res) {
                     $result = $this->lng->txt("autosave_success");
                 } else {
@@ -610,18 +613,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 }
             }
         }
-        // fau: testNav - simplify the redirection if time is reached
-        if (!$canSaveResult && !$this->ctrl->isAsynch()) {
-            // this was the last action in the test, saving is no longer allowed
-            // form was directly submitted in saveOnTimeReached()
-            // instead of ajax with autoSave()
-            $this->ctrl->redirect($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT);
-        }
-        // fau.
         echo $result;
         exit;
     }
-    
+
+    /**
+     * Automatically save a user answer when the limited duration of a test run is reached
+     * (called by synchronous form submit when the remaining time count down reaches zero)
+     */
+    public function autosaveOnTimeLimitCmd()
+    {
+        if (!$this->isParticipantsAnswerFixed($this->getCurrentQuestionId())) {
+            // time limit saves the user solution as authorized
+            $this->saveQuestionSolution(true, true);
+        }
+        $this->ctrl->redirect($this, ilTestPlayerCommands::REDIRECT_ON_TIME_LIMIT);
+    }
+
+
     // fau: testNav - new function detectChangesCmd()
     /**
      * Detect changes sent in the background to the server
@@ -2838,7 +2847,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         // set  url to which the for should be submitted when the working time is over
         // don't use asynch url because the form is submitted directly
         // but use simple '&' because url is copied by javascript into the form action
-        $config['saveOnTimeReachedUrl'] = str_replace('&amp;', '&', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AUTO_SAVE));
+        $config['saveOnTimeReachedUrl'] = str_replace('&amp;', '&', $this->ctrl->getFormAction($this, ilTestPlayerCommands::AUTO_SAVE_ON_TIME_LIMIT));
 
         // enable the auto saving function
         // the autosave url is asynch because it will be used by an ajax request

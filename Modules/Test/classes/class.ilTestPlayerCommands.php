@@ -52,6 +52,7 @@ class ilTestPlayerCommands
     const UNFREEZE_ANSWERS = 'unfreezeCheckedQuestionsAnswers';
     
     const AUTO_SAVE = 'autosave';
+    const AUTO_SAVE_ON_TIME_LIMIT = 'autosaveOnTimeLimit';
     const REDIRECT_ON_TIME_LIMIT = 'redirectAfterAutosave';
 
     const SUSPEND_TEST = 'suspendTest';
@@ -69,7 +70,7 @@ class ilTestPlayerCommands
 // fau: testNav - declare DETECT_CHANGES as non execution command
         self::DETECT_CHANGES,
 // fau.
-        self::AUTO_SAVE, self::REDIRECT_ON_TIME_LIMIT,
+        self::AUTO_SAVE, self::AUTO_SAVE_ON_TIME_LIMIT, self::REDIRECT_ON_TIME_LIMIT,
         self::AFTER_TEST_PASS_FINISHED, self::SHOW_FINAL_STATMENT
     );
 
