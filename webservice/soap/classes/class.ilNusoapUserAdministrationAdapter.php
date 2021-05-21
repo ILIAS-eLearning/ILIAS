@@ -33,6 +33,7 @@
 require_once('./libs/composer/vendor/autoload.php');
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnitByExternalId;
 use ILIAS\OrgUnit\Webservices\SOAP\Base;
 use ILIAS\OrgUnit\Webservices\SOAP\EmployeePositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\ImportOrgUnitTree;
@@ -40,6 +41,7 @@ use ILIAS\OrgUnit\Webservices\SOAP\OrgUnitTree;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionIds;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionTitle;
 use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnitByExternalId;
 use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
@@ -1589,12 +1591,14 @@ class ilNusoapUserAdministrationAdapter
          */
         $f = [
             new AddUserIdToPositionInOrgUnit(),
+            new AddUserIdToPositionInOrgUnitByExternalId(),
             new EmployeePositionId(),
             new ImportOrgUnitTree(),
             new OrgUnitTree(),
             new PositionIds(),
             new PositionTitle(),
             new RemoveUserIdFromPositionInOrgUnit(),
+            new RemoveUserIdFromPositionInOrgUnitByExternalId(),
             new SuperiorPositionId(),
             new UserIdsOfPosition(),
             new UserIdsOfPositionAndOrgUnit()
