@@ -796,19 +796,14 @@ Check how your project complies with our semantic structures:
 8. Regardless of the visual presentation the DOM order must be presented in a meaningful and usable sequence. When in doubt make the DOM order match the visual order (1.3.2). The screen reader will read the DOM aloud: When the source order matches the visual order, everyone will read the content and interact with it in the same correct order. 
 ## Headings, Labels, and Language Attributes
 9. Our headings and labels have to be clear and descriptive (2.4.6). This does not necessarily concern developers and can be handled by language maintainer or the editorial team. 
-$$ 10. Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
-	* Provide text instructions describing the necessary input in a by-line to the field.
-	* Use aria-describedby property to provide information about a user interface element. 
-15. Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
+10. Provide clear and descriptive labels for any form field. If a specific input format is required, users get specific instructions. (3.3.2)
+11. Use the language attribute on the HTML element, if the language of the element does not match the language of the parent element. Screen readers change pronunciation accordingly. (3.1.1)
 ## Colour and Contrast
 Please check your project for colour and contrast issues: 
-
-16.	Use of colour as a visual cue is only ok if it is accompanied by text or shape with alt-text (1.4.1.)
-17.	Ensure contrast requirements are met. Use Wave or Lighthouse to verify. 
+12. Use of colour as a visual cue is only ok if its message is additionally communicated by other means, too. (1.4.1.)
+13. Ensure contrast requirements are met. Use for example Wave or Lighthouse to verify. 
 ## Alt-Texts and aria labels
 Please check if your project labels the GUI for all target groups:
-
-18.	Non-text elements like icons, images, graphs and the like must have alt-texts (1.1.1). 
-19.	Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
-20.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
-21. Ensure labeling requirements are met. Use Wave or Lighthouse to verify. 
+14. Non-text elements like icons, images, graphs and the like must have alt-texts (1.1.1). 
+15. Glyphs are done in spans which cannot bear alt-texts but carry a link-tag, which must have an aria-label.  
+16. Ensure labeling requirements are met. Use for example Wave or Lighthouse to verify. 
