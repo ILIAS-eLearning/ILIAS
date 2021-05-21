@@ -328,7 +328,6 @@ class assFormulaQuestionResult
                         $frac_value = ilMath::_div($exp_val[0], $exp_val[1], $this->getPrecision());
                     } catch (ilMathDivisionByZeroException $ex) {
                         $frac_value = 0;
-                        ilUtil::sendFailure($ex->getMessage(), true);
                     }
                     $frac_value = str_replace(',', '.', $frac_value);
 

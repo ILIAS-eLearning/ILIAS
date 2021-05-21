@@ -1266,7 +1266,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     $user_solution[$result->getResult()]["value"] = ilMath::_div($resVal, $unit_factor, 55);
                 } catch (ilMathDivisionByZeroException $ex) {
                     $user_solution[$result->getResult()]["value"] = 0;
-                    ilUtil::sendFailure( $ex->getMessage(), true );
                 }
             }
             if ($result->getResultType() == assFormulaQuestionResult::RESULT_CO_FRAC
