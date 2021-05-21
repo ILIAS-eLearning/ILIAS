@@ -1,12 +1,14 @@
 <?php
 
 use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnitByExternalId;
 use ILIAS\OrgUnit\Webservices\SOAP\EmployeePositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\ImportOrgUnitTree;
 use ILIAS\OrgUnit\Webservices\SOAP\OrgUnitTree;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionIds;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionTitle;
 use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnitByExternalId;
 use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
@@ -1109,6 +1111,14 @@ class ilSoapFunctions
     }
 
 
+    public static function addUserToPositionInOrgUnitByExternalId(...$params)
+    {
+        $h = new AddUserIdToPositionInOrgUnitByExternalId();
+
+        return $h->execute($params);
+    }
+
+
     public static function getEmployeePositionId(...$params)
     {
         $h = new EmployeePositionId();
@@ -1152,6 +1162,14 @@ class ilSoapFunctions
     public static function removeUserFromPositionInOrgUnit(...$params)
     {
         $h = new RemoveUserIdFromPositionInOrgUnit();
+
+        return $h->execute($params);
+    }
+
+
+    public static function removeUserFromPositionInOrgUnitByExternalId(...$params)
+    {
+        $h = new RemoveUserIdFromPositionInOrgUnitByExternalId();
 
         return $h->execute($params);
     }

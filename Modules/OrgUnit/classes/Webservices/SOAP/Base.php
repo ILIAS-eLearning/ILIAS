@@ -27,6 +27,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     const TYPE_DOUBLE_ARRAY = 'tns:doubleArray';
     const SID = 'sid';
     const ORGU_REF_ID = 'orgu_ref_id';
+    const ORGU_EXTERNAL_ID = 'orgu_external_id';
     const POSITION_ID = 'position_id';
     const USR_IDS = 'usr_ids';
     const USR_ID = 'usr_id';
