@@ -59,6 +59,6 @@ The assignment types should be collect by using the artefact reader and defined 
 
 ### Replace Accordion view by KS Listing Panels
 
-The accordions should be replaced by KS elements. Most probably a Listing Panel with Items that links to specialised assignment type specific views (e.g. Panels) in a second UI level.
+The accordions should be replaced by KS elements. Most probably a Listing Panel with Items that links to specialised assignment type specific views (e.g. Panels) in a second UI level instead of the legacy InfoScreenGUI.
 
 ## Long Term
