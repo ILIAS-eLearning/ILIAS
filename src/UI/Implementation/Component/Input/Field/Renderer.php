@@ -97,6 +97,9 @@ class Renderer extends AbstractComponentRenderer
             case ($component instanceof F\File):
                 return $this->renderFileField($component, $default_renderer);
 
+            case ($component instanceof F\RealText):
+                return $this->renderRealTextField($component, $default_renderer);
+
             default:
                 throw new \LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -197,6 +200,15 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    protected function renderRealTextField(F\RealText $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.realtext.html", true, true);
+        $this->applyName($component, $tpl);
         $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);

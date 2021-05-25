@@ -157,6 +157,14 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
+    public function realText($label, $byline = null)
+    {
+        return new RealText($this->data_factory, $this->refinery, $label, $byline);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function multiSelect($label, array $options, $byline = null)
     {
         return new MultiSelect($this->data_factory, $this->refinery, $label, $options, $byline);
