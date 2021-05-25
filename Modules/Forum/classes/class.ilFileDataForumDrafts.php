@@ -325,10 +325,9 @@ class ilFileDataForumDrafts extends ilFileData
     /**
      * check if directory is writable
      * overwritten method from base class
-     * @access	private
      * @return bool
      */
-    public function checkReadWrite()
+    private function checkReadWrite()
     {
         if (is_writable($this->getDraftsPath() . '/' . $this->getDraftId()) && is_readable($this->getDraftsPath() . '/' . $this->getDraftId())) {
             return true;
@@ -339,10 +338,9 @@ class ilFileDataForumDrafts extends ilFileData
     /**
      * init directory
      * overwritten method
-     * @access	public
      * @return string path
      */
-    public function initDirectory()
+    private function initDirectory()
     {
         if (is_writable($this->getPath())) {
             if (ilUtil::makeDirParents($this->getDraftsPath() . "/" . $this->getDraftId())) {
@@ -357,10 +355,9 @@ class ilFileDataForumDrafts extends ilFileData
      * rotate files with same name
      * recursive method
      * @param string filename
-     * @access	private
      * @return bool
      */
-    public function rotateFiles($a_path)
+    private function rotateFiles($a_path)
     {
         if (file_exists($a_path)) {
             $this->rotateFiles($a_path . ".old");

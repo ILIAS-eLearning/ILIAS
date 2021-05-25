@@ -367,7 +367,7 @@ class ilFileDataForum extends ilFileData
     * @access	private
     * @return bool
     */
-    public function checkReadWrite()
+    private function checkReadWrite()
     {
         if (is_writable($this->forum_path) && is_readable($this->forum_path)) {
             return true;
@@ -378,10 +378,9 @@ class ilFileDataForum extends ilFileData
     /**
     * init directory
     * overwritten method
-    * @access	public
     * @return string path
     */
-    public function initDirectory()
+    private function initDirectory()
     {
         if (is_writable($this->getPath())) {
             if (mkdir($this->getPath() . '/' . FORUM_PATH)) {
@@ -397,10 +396,9 @@ class ilFileDataForum extends ilFileData
     * rotate files with same name
     * recursive method
     * @param string filename
-    * @access	private
     * @return bool
     */
-    public function rotateFiles($a_path)
+    private function rotateFiles($a_path)
     {
         if (file_exists($a_path)) {
             $this->rotateFiles($a_path . ".old");

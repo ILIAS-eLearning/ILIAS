@@ -1922,7 +1922,7 @@ class ilForum
         return $text;
     }
 
-    public function deletePostFiles($a_ids)
+    private function deletePostFiles($a_ids)
     {
         if (!is_array($a_ids)) {
             return false;
