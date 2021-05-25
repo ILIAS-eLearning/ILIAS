@@ -100,7 +100,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
         $renderer = $this->getDefaultRenderer(
             new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding(
-                $this->getTemplateFactory()->getTemplate(false, false, false)
+                $this->getTemplateFactory()->getTemplate("tpl.main.html", false, false)
             )
         );
         $html = $renderer->renderAsync($c1);
@@ -111,7 +111,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
     {
         $c1 = new \ILIAS\UI\Component\Test\JSTestComponent("foo");
         $renderer = $this->getDefaultRenderer(
-            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false, false, false))
+            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate("tpl.main.html", false, false))
         );
         $html = $renderer->renderAsync($c1);
         $this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>', $html);
@@ -122,7 +122,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
         $c2 = new \ILIAS\UI\Component\Test\JSTestComponent("foo");
         $renderer = $this->getDefaultRenderer(
-            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false, false, false))
+            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate("tpl.main.html", false, false))
         );
         $html = $renderer->renderAsync($c2);
         $this->assertEquals('foo<script data-replace-marker="script">id:foo.id content:foo</script>', $html);
@@ -137,7 +137,7 @@ class DefaultRendererTest extends ILIAS_UI_TestBase
         $c1 = new \ILIAS\UI\Component\Test\TestComponent("foo");
 
         $renderer = $this->getDefaultRenderer(
-            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate(false, false, false))
+            new \ILIAS\UI\Implementation\Render\ilJavaScriptBinding($this->getTemplateFactory()->getTemplate("tpl.main.html", false, false))
         );
         $html = $renderer->renderAsync([$c1,$c1]);
         $this->assertEquals('foofoo', $html);

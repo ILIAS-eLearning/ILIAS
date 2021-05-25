@@ -7,7 +7,7 @@
  *
  * Paragraph of ilPageObject
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCParagraph extends ilPageContent
 {
@@ -145,14 +145,20 @@ class ilPCParagraph extends ilPageContent
     * @param	object	$a_pg_obj		Page Object
     * @param	string	$a_hier_id		Hierarchical ID
     */
-    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "")
+    public function create(&$a_pg_obj, $a_hier_id, $a_pc_id = "", $from_placeholder = false)
     {
         //echo "-$a_pc_id-";
         //echo "<br>-".htmlentities($a_pg_obj->getXMLFromDom())."-<br><br>"; mk();
         $this->node = $this->dom->create_element("PageContent");
 
         // this next line kicks out placeholders, if something is inserted
-        $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
+        $a_pg_obj->insertContent(
+            $this,
+            $a_hier_id,
+            IL_INSERT_AFTER,
+            $a_pc_id,
+            $from_placeholder
+        );
 
         $this->par_node = $this->dom->create_element("Paragraph");
         $this->par_node = $this->node->append_child($this->par_node);
@@ -193,8 +199,9 @@ class ilPCParagraph extends ilPageContent
 
         // remove all childs
         if (empty($error)) {
+            $t = $text[0]["text"] ?? "";
             $temp_dom = domxml_open_mem(
-                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[0]["text"] . '</Paragraph>',
+                '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $t . '</Paragraph>',
                 DOMXML_LOAD_PARSING,
                 $error
             );
@@ -224,7 +231,7 @@ class ilPCParagraph extends ilPageContent
                 if ((count($text) > 1) && (substr($orig_characteristic, 0, 8) == "Headline")) {
                     $orig_characteristic = "";
                 }
-                if ($text[0]["level"] > 0) {
+                if (isset($text[0]["level"]) && $text[0]["level"] > 0) {
                     $this->par_node->set_attribute("Characteristic", 'Headline' . $text[0]["level"]);
                 }
             }
@@ -1168,7 +1175,7 @@ class ilPCParagraph extends ilPageContent
 
         $chunks = array();
         $c_text = $a_text;
-        //echo "0";
+        $head = "";
         while ($c_text != "") {
             //var_dump($c_text); flush();
             //echo "1";
@@ -1220,13 +1227,10 @@ class ilPCParagraph extends ilPageContent
                         }
                     }
                 } else {	// possible level one header
-                    //echo "C";
                     $n = strpos($c_text, "<br />", $s1 + 1);
                     if ($n > ($s1 + 7) && substr($c_text, $n - 1, 7) == "=<br />") {
-                        //echo "D";
                         // found level one header
                         if ($s1 > 0 || $head != "") {
-                            //echo "E";
                             $chunks[] = array("level" => 0,
                                 "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s1)));
                             $head = "";
@@ -1320,8 +1324,14 @@ class ilPCParagraph extends ilPageContent
      * @param
      * @return
      */
-    public function saveJS($a_pg_obj, $a_content, $a_char, $a_pc_id, $a_insert_at = "")
-    {
+    public function saveJS(
+        $a_pg_obj,
+        $a_content,
+        $a_char,
+        $a_pc_id,
+        $a_insert_at = "",
+        $from_placeholder = false
+    ) {
         $ilUser = $this->user;
 
         $a_content = str_replace("<br>", "<br />", $a_content);
@@ -1344,7 +1354,7 @@ class ilPCParagraph extends ilPageContent
         // insert new paragraph
         if ($a_insert_at != "") {
             $par = new ilPCParagraph($this->getPage());
-            $par->create($a_pg_obj, $insert_at[0], $insert_at[1]);
+            $par->create($a_pg_obj, $insert_at[0], $insert_at[1], $from_placeholder);
             $par->writePCId($pc_id[1]);
         } else {
             $par = $a_pg_obj->getContentObject($pc_id[0], $pc_id[1]);

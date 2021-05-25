@@ -187,10 +187,14 @@ abstract class ilObject2GUI extends ilObjectGUI
                     $this->tabs_gui->activateTab("id_permissions");
                     $wspacc = new ilWorkspaceAccessGUI($this->node_id, $this->getAccessHandler());
                     $this->ctrl->forwardCommand($wspacc);
-                    break;
+                } else {
+                    if (!$cmd) {
+                        $cmd = "render";
+                    }
+                    return $this->$cmd();
                 }
-            
-                // no break
+                break;
+
             default:
                 if (!$cmd) {
                     $cmd = "render";
@@ -259,7 +263,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 $ilLocator->addRepositoryItems($ref_id);
                 
                 // not so nice workaround: todo: handle $ilLocator as tabs in ilTemplate
-                if ($_GET["admin_mode"] == "" &&
+                if ($this->admin_mode == self::ADMIN_MODE_NONE &&
                     strtolower($this->ctrl->getCmdClass()) == "ilobjrolegui") {
                     $this->ctrl->setParameterByClass(
                         "ilobjrolegui",
@@ -706,7 +710,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         }
         
         // add new object to custom parent container
-        if ((int) $_REQUEST["crtptrefid"]) {
+        if (isset($_REQUEST["crtptrefid"])) {
             $a_parent_node_id = (int) $_REQUEST["crtptrefid"];
         }
 
@@ -747,9 +751,9 @@ abstract class ilObject2GUI extends ilObjectGUI
         // BEGIN ChangeEvent: Record save object.
         ilChangeEvent::_recordWriteEvent($this->object_id, $ilUser->getId(), 'create');
         // END ChangeEvent: Record save object.
-            
+        
         // use forced callback after object creation
-        self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"]);
+        self::handleAfterSaveCallback($a_obj, $_REQUEST["crtcb"] ?? null);
     }
     
     /**
@@ -840,7 +844,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 
                 $dispatcher->setSubObject($a_sub_type, $a_sub_id);
                 
-                ilObjectListGUI::prepareJSLinks(
+                ilObjectListGUI::prepareJsLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                     $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)

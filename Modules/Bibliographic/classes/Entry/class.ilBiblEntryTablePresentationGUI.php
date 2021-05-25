@@ -2,13 +2,12 @@
 
 /**
  * Class ilBiblEntryTablePresentationGUI
- *
  * @author     Fabian Schmid <fs@studer-raimann.ch>
  * @version    1.0.0
  */
 class ilBiblEntryTablePresentationGUI
 {
-
+    
     /**
      * @var \ilBiblEntry
      */
@@ -21,11 +20,9 @@ class ilBiblEntryTablePresentationGUI
      * @var ilBiblFactoryFacadeInterface
      */
     protected $facade;
-
-
+    
     /**
      * ilBiblEntryTablePresentationGUI constructor.
-     *
      * @param \ilBiblEntry $entry
      */
     public function __construct(ilBiblEntry $entry, ilBiblFactoryFacadeInterface $facade)
@@ -34,12 +31,10 @@ class ilBiblEntryTablePresentationGUI
         $this->facade = $facade;
         $this->render();
     }
-
-
+    
     /**
      * @return mixed|string
      * @deprecated Has to be refactored. Active records verwenden statt array
-     *
      */
     protected function render()
     {
@@ -50,7 +45,7 @@ class ilBiblEntryTablePresentationGUI
         //get design for specific entry type or get filetypes default design if type is not specified
         $entryType = $this->getEntry()->getType();
         //if there is no model for the specific entrytype (book, article, ....) the entry overview will be structured by the default entrytype from the given filetype (ris, bib, ...)
-        if (!$overviewModels[$this->facade->typeFactory()->getDataTypeIdentifierByInstance($this->facade->entryFactory()->getFileType())][$entryType]) {
+        if (!($overviewModels[$this->facade->typeFactory()->getDataTypeIdentifierByInstance($this->facade->entryFactory()->getFileType())][$entryType] ?? false)) {
             $entryType = 'default';
         }
         $single_entry = $overviewModels[$entryType];
@@ -61,12 +56,12 @@ class ilBiblEntryTablePresentationGUI
             //cut a moedel attribute like |bib_default_title|. in three pieces while $cuts[1] is the attribute key for the actual value and $cuts[0] is what comes before respectively $cuts[2] is what comes after the value if it is not empty.
             $cuts = explode('|', $placeholder);
             //if attribute key does not exist, because it comes from the default entry (e.g. ris_default_u2), we replace 'default' with the entrys type (e.g. ris_book_u2)
-            if (!$attributes[$cuts[1]]) {
+            if (!($attributes[$cuts[1]] ?? false)) {
                 $attribute_elements = explode('_', $cuts[1]);
                 $attribute_elements[1] = strtolower($this->getEntry()->getType());
                 $cuts[1] = implode('_', $attribute_elements);
             }
-            if ($attributes[$cuts[1]]) {
+            if (($attributes[$cuts[1]] ?? false)) {
                 //if the attribute for the attribute key exists, replace one attribute in the overview text line of a single entry with its actual value and the text before and after the value given by the model
                 $single_entry = str_replace($placeholders[0][$key], $cuts[0] . $attributes[$cuts[1]]
                     . $cuts[2], $single_entry);
@@ -81,7 +76,8 @@ class ilBiblEntryTablePresentationGUI
                     if ($last_sign_after_end_emph_tag) {
                         $italic_text = substr($single_entry, $first_sign_after_begin_emph_tag, $italic_text_length);
                         //parse
-                        $it_tpl = new ilTemplate("tpl.bibliographic_italicizer.html", true, true, "Modules/Bibliographic");
+                        $it_tpl = new ilTemplate("tpl.bibliographic_italicizer.html", true, true,
+                            "Modules/Bibliographic");
                         $it_tpl->setCurrentBlock("italic_section");
                         $it_tpl->setVariable('ITALIC_STRING', $italic_text);
                         $it_tpl->parseCurrentBlock();
@@ -101,8 +97,7 @@ class ilBiblEntryTablePresentationGUI
         }
         $this->setHtml($single_entry);
     }
-
-
+    
     /**
      * @return string
      */
@@ -110,8 +105,7 @@ class ilBiblEntryTablePresentationGUI
     {
         return $this->html;
     }
-
-
+    
     /**
      * @param string $html
      */
@@ -119,8 +113,7 @@ class ilBiblEntryTablePresentationGUI
     {
         $this->html = $html;
     }
-
-
+    
     /**
      * @return ilBiblEntry
      */
@@ -128,8 +121,7 @@ class ilBiblEntryTablePresentationGUI
     {
         return $this->entry;
     }
-
-
+    
     /**
      * @param ilBiblEntry $entry
      */

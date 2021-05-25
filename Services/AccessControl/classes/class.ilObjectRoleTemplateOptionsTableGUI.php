@@ -33,12 +33,11 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
         $rbacreview = $DIC['rbacreview'];
         $tpl = $DIC['tpl'];
 
-        $this->tpl_type = $a_type;
         $this->show_admin_permissions = $a_show_admin_permissions;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
-        $this->setId('role_options_' . $a_ref_id . '_' . $a_role_id);
+        $this->setId('role_options_' . $a_obj_ref_id . '_' . $a_role_id);
         
         $this->lng->loadLanguageModule('rbac');
         

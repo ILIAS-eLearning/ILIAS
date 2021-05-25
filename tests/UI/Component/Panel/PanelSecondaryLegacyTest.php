@@ -257,10 +257,10 @@ EOT;
 				</a>
 			</span>
 			<button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-			<button class="btn btn-link" data-action="http://ilias.de?page=1" disabled="true">2</button>
-			<button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
-			<button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
-			<button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
+			<button class="btn btn-link engaged" aria-pressed="true" data-action="http://ilias.de?page=1" id="id_2">2</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_3">3</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_4">4</button>
+			<button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_5">5</button>
 			<span class="browse next">
 				<a class="glyph" href="http://ilias.de?page=2" aria-label="next">
 					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>

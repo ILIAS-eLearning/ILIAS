@@ -74,7 +74,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         foreach ($this->getOptions() as $option) {
             foreach ($option->getSubItems() as $item) {
                 $item->setValueByArray($a_values);
@@ -90,10 +90,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
     public function checkInput()
     {
         $lng = $this->lng;
-        
-        $_POST[$this->getPostVar()] =
-            ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-        if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
+
+        if (isset($_POST[$this->getPostVar()])) {
+            $_POST[$this->getPostVar()] =
+                ilUtil::stripSlashes($_POST[$this->getPostVar()]);
+        }
+        if ($this->getRequired() && (!isset($_POST[$this->getPostVar()]) || trim($_POST[$this->getPostVar()]) == "")) {
             $this->setAlert($lng->txt("msg_input_is_required"));
 
             return false;

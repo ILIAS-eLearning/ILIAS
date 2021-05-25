@@ -224,10 +224,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     public function setUseRte($a_usert, $version = '')
     {
         $this->usert = $a_usert;
-
-        if (strlen($version)) {
-            $this->rteSupport['version'] = $version;
-        }
+        $this->rteSupport['version'] = $version;
     }
 
     /**
@@ -403,7 +400,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
             $_POST[$this->getPostVar()] = $this->getPurifier()->purify($_POST[$this->getPostVar()]);
         } else {
             $allowed = $this->getRteTagString();
-            if ($this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
+            if (isset($this->plugins["latex"]) && $this->plugins["latex"] == "latex" && !is_int(strpos($allowed, "<span>"))) {
                 $allowed .= "<span>";
             }
             $_POST[$this->getPostVar()] = ($this->getUseRte() || !$this->getUseTagsForRteOnly())

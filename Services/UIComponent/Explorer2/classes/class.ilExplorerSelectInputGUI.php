@@ -9,6 +9,8 @@
  */
 abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterItem
 {
+    protected $value;
+
     /**
      * Constructor
      *

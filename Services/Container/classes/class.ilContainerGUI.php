@@ -121,6 +121,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     /** @var bool */
     protected $adminCommands = false;
 
+    protected string $requested_redirectSource = "";
+
     /**
      * Constructor
      * @access public
@@ -163,6 +165,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->container_filter_service = new ilContainerFilterService();
         $this->initFilter();
+
+        $this->requested_redirectSource = (string) ($_GET["redirectSource"] ?? "");
     }
 
     /**
@@ -179,7 +183,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         switch ($next_class) {
             // page editing
             case "ilcontainerpagegui":
-                if ($_GET["redirectSource"] != "ilinternallinkgui") {
+                if ($this->requested_redirectSource != "ilinternallinkgui") {
                     $ret = $this->forwardToPageObject();
                     $tpl->setContent($ret);
                 } else {
@@ -290,7 +294,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $ilTabs->clearTargets();
 
-        if ($_GET["redirectSource"] == "ilinternallinkgui") {
+        if ($this->requested_redirectSource == "ilinternallinkgui") {
             exit;
         }
 
@@ -598,10 +602,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->rbacsystem->checkAccess("write", $this->object->getRefId())
             ) {
                 if ($ilSetting->get("enable_cat_page_edit")) {
-                    $toolbar->addButton(
-                        $lng->txt("cntr_text_media_editor"),
-                        $ilCtrl->getLinkTarget($this, "editPageFrame")
-                    );
+                    if (!$this->isActiveAdministrationPanel() &&
+                        !$this->isActiveOrdering()) {
+                        $toolbar->addButton(
+                            $lng->txt("cntr_text_media_editor"),
+                            $ilCtrl->getLinkTarget($this, "editPageFrame")
+                        );
+                    }
                 }
             }
         }
@@ -721,24 +728,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     )
                 );
             }
-            //			}
-            /*else
-            {
-
-                if ($this->isMultiDownloadEnabled())
-                {
-                    $toolbar->addSeparator();
-                    $toolbar->addFormButton(
-                        $this->lng->txt('download_selected_items'),
-                        'download'
-                    );
-                }
-            }*/
 
             $main_tpl->addAdminPanelToolbar(
                 $toolbar,
-                ($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false,
-                ($this->object->gotItems() && !$_SESSION["clipboard"]) ? true : false
+                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false,
+                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false
             );
 
             // form action needed, see http://www.ilias.de/mantis/view.php?id=9630
@@ -870,6 +864,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $lng = $this->lng;
         $tree = $this->tree;
 
+        $cnt = [];
+
         $tpl = new ilGlobalTemplate(
             "tpl.container_link_help.html",
             true,
@@ -909,7 +905,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $tpl->setVariable("TXT_HELP_HEADER", $lng->txt("help"));
         foreach ($type_ordering as $type) {
             $tpl->setCurrentBlock("row");
-            $tpl->setVariable("ROWCOL", "tblrow" . ((($i++) % 2) + 1));
             if ($type != "lres") {
                 $tpl->setVariable(
                     "TYPE",
@@ -1580,7 +1575,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilUser = $this->user;
         $ilErr = $this->error;
         $lng = $this->lng;
-        $ctrl = $this->ctrl;
         $ui = $this->ui;
 
         $exists = [];
@@ -1673,6 +1667,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         ////////////////////////////
         // process checking results
+        $error = "";
         if (count($exists) && $command != "copy") {
             $error .= implode('<br />', $exists);
         }
@@ -1795,6 +1790,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // process LINK command
         if ($command == 'link') {
+            $subnodes = [];
             $linked_to_folders = array();
 
             $rbac_log_active = ilRbacLog::isActive();
@@ -2164,6 +2160,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         } // END CUT
 
         // process LINK command
+        $ref_id = 0;
         if ($_SESSION["clipboard"]["cmd"] == "link") {
             foreach ($ref_ids as $ref_id) {
                 // get node data
@@ -2518,7 +2515,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $sorting = ilContainerSorting::_getInstance($this->object->getId());
 
         // Allow comma
-        $positions = str_replace(',', '.', $_POST['position']);
+        $positions = $_POST['position'];
 
         $sorting->savePost($positions);
         ilUtil::sendSuccess($this->lng->txt('cntr_saved_sorting'), true);

@@ -135,6 +135,7 @@ class ilObjForumAccess extends ilObjectAccess
      */
     public static function prepareMessageForLists($text)
     {
+        $text = str_replace('<br />', ' ', $text);
         $text = strip_tags($text);
         $text = preg_replace('/\[(\/)?quote\]/', '', $text);
         if (ilStr::strLen($text) > 40) {

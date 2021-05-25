@@ -144,8 +144,8 @@ class ilMail
             $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
         }
         if ($usrIdByLoginCallable === null) {
-            $usrIdByLoginCallable = function (string $login) {
-                return ilObjUser::_lookupId($login);
+            $usrIdByLoginCallable = static function (string $login) : int {
+                return (int) ilObjUser::_lookupId($login);
             };
         }
 
@@ -229,7 +229,7 @@ class ilMail
      */
     public function setSaveInSentbox(bool $saveInSentbox) : void
     {
-        $this->save_in_sentbox = (bool) $saveInSentbox;
+        $this->save_in_sentbox = $saveInSentbox;
     }
 
     /**
@@ -237,7 +237,7 @@ class ilMail
      */
     public function getSaveInSentbox() : bool
     {
-        return (bool) $this->save_in_sentbox;
+        return $this->save_in_sentbox;
     }
 
     /**
@@ -245,7 +245,7 @@ class ilMail
      */
     protected function readMailObjectReferenceId() : void
     {
-        $this->mail_obj_ref_id = (int) ilMailGlobalServices::getMailObjectRefId();
+        $this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
     }
 
     /**
@@ -515,8 +515,12 @@ class ilMail
             return null;
         }
 
-        $row['attachments'] = unserialize(stripslashes($row['attachments']));
-        
+        if (isset($row['attachments'])) {
+            $row['attachments'] = unserialize(stripslashes($row['attachments']));
+        } else {
+            $row['attachments'] = [];
+        }
+
         if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
             $decoded = json_decode($row['tpl_ctx_params'], true);
             $row['tpl_ctx_params'] = (array) ($decoded ?? []);
@@ -944,7 +948,7 @@ class ilMail
                 '',
                 $subject,
                 $this->formatLinebreakMessage($message),
-                (array) $attachments
+                $attachments
             );
         } elseif (count($usrIdToExternalEmailAddressesMap) > 1) {
             if ($usePlaceholders) {
@@ -959,7 +963,7 @@ class ilMail
                         '',
                         $subject,
                         $this->formatLinebreakMessage($usrIdToMessageMap[$usrId]),
-                        (array) $attachments
+                        $attachments
                     );
                 }
             } else {
@@ -985,7 +989,7 @@ class ilMail
                             $remainingAddresses,
                             $subject,
                             $this->formatLinebreakMessage($message),
-                            (array) $attachments
+                            $attachments
                         );
 
                         $remainingAddresses = '';
@@ -1002,7 +1006,7 @@ class ilMail
                         $remainingAddresses,
                         $subject,
                         $this->formatLinebreakMessage($message),
-                        (array) $attachments
+                        $attachments
                     );
                 }
             }
@@ -1266,11 +1270,11 @@ class ilMail
             (string) $rcp_bcc,
             (string) $a_m_subject,
             (string) $a_m_message,
-            (string) serialize($a_attachment),
+            serialize($a_attachment),
             (bool) $a_use_placeholders,
-            (bool) $this->getSaveInSentbox(),
+            $this->getSaveInSentbox(),
             (string) $this->contextId,
-            (string) serialize($this->contextParameters)
+            serialize($this->contextParameters)
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,
@@ -1505,7 +1509,7 @@ class ilMail
         if (strlen($addresses) > 0) {
             $this->logger->debug(sprintf(
                 "Parsed addresses: %s",
-                implode(',', array_map(function (ilMailAddress $address) {
+                implode(',', array_map(static function (ilMailAddress $address) : string {
                     return (string) $address;
                 }, $parsedAddresses))
             ));
@@ -1565,7 +1569,7 @@ class ilMail
             $this->usrIdByLoginCallable
         );
 
-        $emailRecipients = array_map(function (ilMailAddress $address) {
+        $emailRecipients = array_map(static function (ilMailAddress $address) : string {
             return (string) $address;
         }, $addresses->value());
 

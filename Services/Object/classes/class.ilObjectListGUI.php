@@ -229,6 +229,9 @@ class ilObjectListGUI
      * @var array
      */
     protected $default_command_params = [];
+    protected $header_icons;
+
+    protected ?object $container_obj = null;
 
     /**
     * constructor
@@ -2577,7 +2580,7 @@ class ilObjectListGUI
                         $this->lng->txt($command["lang_var"]),
                         $command["frame"],
                         "",
-                        $command["cmd"],
+                        $command["cmd"] ?? "",
                         $command["onclick"]
                     );
                 }
@@ -2948,7 +2951,7 @@ class ilObjectListGUI
                 : $this->sub_obj_type;
             $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
 
-            if ($this->notes_enabled && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
+            if ($this->notes_enabled && isset($cnt[$this->obj_id][IL_NOTE_PRIVATE]) && $cnt[$this->obj_id][IL_NOTE_PRIVATE] > 0) {
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "notes",
@@ -2958,7 +2961,7 @@ class ilObjectListGUI
                 );
             }
 
-            if ($comments_enabled && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0) {
+            if ($comments_enabled && isset($cnt[$this->obj_id][IL_NOTE_PUBLIC]) && $cnt[$this->obj_id][IL_NOTE_PUBLIC] > 0) {
                 $lng->loadLanguageModule("notes");
                 
                 /*$this->addHeaderIcon("comments",
@@ -2999,7 +3002,7 @@ class ilObjectListGUI
             $main_tpl->addOnLoadCode("il.Object.setRatingUrl('" . $ajax_url . "');");
             $this->addHeaderIconHTML(
                 "rating",
-                $rating_gui->getHtml(
+                $rating_gui->getHTML(
                     true,
                     $this->checkCommandAccess("read", "", $this->ref_id, $this->type),
                     "il.Object.saveRating(%rating%);"
@@ -3013,7 +3016,7 @@ class ilObjectListGUI
                 $id = "headp_" . $id;
                 
                 if (is_array($attr)) {
-                    if ($attr["glyph"]) {
+                    if (isset($attr["glyph"]) && $attr["glyph"]) {
                         if ($attr["onclick"]) {
                             $htpl->setCurrentBlock("prop_glyph_oc");
                             $htpl->setVariable("GLYPH_ONCLICK", $attr["onclick"]);

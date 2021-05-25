@@ -1297,7 +1297,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 
         $this->initBasicSettingsForm();
         if ($this->form->checkInput()) {
-            $ilSetting->set("short_inst_name", $_POST["short_inst_name"]);
+            $ilSetting->set("short_inst_name", $this->form->getInput("short_inst_name"));
             
             $public_section = ilPublicSectionSettings::getInstance();
             $public_section->setEnabled($this->form->getInput('pub_section'));
@@ -1311,13 +1311,13 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $public_section->setDomains($domains);
             $public_section->save();
             
-            $global_profiles = ($_POST["pub_section"])
-                ? (int) $_POST['enable_global_profiles']
+            $global_profiles = ($this->form->getInput("pub_section"))
+                ? (int) $this->form->getInput('enable_global_profiles')
                 : 0;
             $ilSetting->set('enable_global_profiles', $global_profiles);
                                 
-            $ilSetting->set("open_google", $_POST["open_google"]);
-            $ilSetting->set("locale", $_POST["locale"]);
+            $ilSetting->set("open_google", $this->form->getInput("open_google"));
+            $ilSetting->set("locale", $this->form->getInput("locale"));
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showBasicSettings");
@@ -1345,15 +1345,16 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         if ($a_get_post_values) {
             $vals = array();
             foreach ($_POST["title"] as $k => $v) {
+                $def = $_POST["default"] ?? "";
                 $vals[] = array("title" => $v,
-                    "desc" => $_POST["desc"][$k],
-                    "lang" => $_POST["lang"][$k],
-                    "default" => ($_POST["default"] == $k));
+                    "desc" => ($_POST["desc"][$k] ?? ""),
+                    "lang" => ($_POST["lang"][$k] ?? ""),
+                    "default" => ($def == $k));
             }
             $table->setData($vals);
         } else {
             $data = $this->object->getHeaderTitleTranslations();
-            if (is_array($data["Fobject"])) {
+            if (isset($data["Fobject"]) && is_array($data["Fobject"])) {
                 foreach ($data["Fobject"] as $k => $v) {
                     if ($k == $data["default_language"]) {
                         $data["Fobject"][$k]["default"] = true;
@@ -1406,9 +1407,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         // save the stuff
         $this->object->removeHeaderTitleTranslations();
         foreach ($_POST["title"] as $k => $v) {
+            $desc = $_POST["desc"][$k] ?? "";
             $this->object->addHeaderTitleTranslation(
                 ilUtil::stripSlashes($v),
-                ilUtil::stripSlashes($_POST["desc"][$k]),
+                ilUtil::stripSlashes($desc),
                 ilUtil::stripSlashes($_POST["lang"][$k]),
                 ($_POST["default"] == $k)
             );
@@ -1423,14 +1425,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     */
     public function addHeaderTitleObject()
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $k => $v) {
-            }
+        $k = 1;
+        if (isset($_POST["title"]) && is_array($_POST["title"])) {
+            $k = count($_POST["title"]) + 1;
         }
-        $k++;
         $_POST["title"][$k] = "";
         $this->showHeaderTitleObject(true);
     }
@@ -1591,7 +1589,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $this->form->addItem($ti);
         
         // email
-        $ti = new ilEmailInputGUI($this->lng->txt("email"), "admin_email");
+        $ti = new ilEMailInputGUI($this->lng->txt("email"), "admin_email");
         $ti->setMaxLength(64);
         $ti->setSize(40);
         $ti->setRequired(true);

@@ -192,6 +192,11 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     $link = $this->ctrl->getLinkTargetByClass(self::TARGET_GUI, "fullscreen", "", false, false);
                     break;
 
+                case "sourcecodeDownload":
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", $a_obj_id);
+                    $link = $this->ctrl->getLinkTargetByClass([self::TARGET_GUI, "ilLMPageGUI"], "", "", false, false);
+                    break;
+
                 default:
 
                     if ($back_pg != "") {
@@ -317,7 +322,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
-            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
+            $link_info .= "<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . ($t["Frame"] ?? "") . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
         $link_info .= "</LinkTargets>";
         return $link_info;

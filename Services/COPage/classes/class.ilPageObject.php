@@ -31,7 +31,7 @@ define("IL_INSERT_CHILD", 2);
 /**
  * Class ilPageObject
  * Handles PageObjects of ILIAS Learning Modules (see ILIAS DTD)
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilPageObject
 {
@@ -115,6 +115,20 @@ abstract class ilPageObject
      * @var ilPageConfig
      */
     protected $page_config;
+
+    protected string $rendermd5 = "";
+    protected string $renderedcontent = "";
+    protected string $renderedtime = "";
+    protected string $lastchange = "";
+    protected int $last_change_user = 0;
+    protected bool $contains_question = false;
+    protected array $hier_ids = [];
+    protected array $first_row_ids = [];
+    protected array $first_col_ids = [];
+    protected array $list_item_ids = [];
+    protected array $file_item_ids = [];
+    protected $activationstart;
+    protected $activationend;
 
     /**
      * Constructor
@@ -366,10 +380,10 @@ abstract class ilPageObject
         $this->setParentId($this->page_record["parent_id"]);
         $this->last_change_user = $this->page_record["last_change_user"];
         $this->create_user = $this->page_record["create_user"];
-        $this->setRenderedContent($this->page_record["rendered_content"]);
-        $this->setRenderMd5($this->page_record["render_md5"]);
-        $this->setRenderedTime($this->page_record["rendered_time"]);
-        $this->setLastChange($this->page_record["last_change"]);
+        $this->setRenderedContent((string) $this->page_record["rendered_content"]);
+        $this->setRenderMd5((string) $this->page_record["render_md5"]);
+        $this->setRenderedTime((string) $this->page_record["rendered_time"]);
+        $this->setLastChange((string) $this->page_record["last_change"]);
     }
 
     /**
@@ -586,10 +600,12 @@ abstract class ilPageObject
                 array($a_id, $a_parent_type, $a_lang)
             );
             $rec = $db->fetchAssoc($set);
+            if (!$rec) {
+                return true;
+            }
         }
 
         $rec["n"] = ilUtil::now();
-
         if (!$rec["active"] && $a_check_scheduled_activation) {
             if ($rec["n"] >= $rec["activation_start"] &&
                 $rec["n"] <= $rec["activation_end"]) {
@@ -1121,7 +1137,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//InteractiveImage/MediaAlias";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1152,7 +1168,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//MediaObject/MediaAlias";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1184,7 +1200,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -1224,7 +1240,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($temp_dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $parent_node = $res->nodeset[$i]->parent_node();
             $parent_node->unlink_node($parent_node);
@@ -1244,7 +1260,7 @@ abstract class ilPageObject
         $this->buildDom();
         $path = "//PageContent";
         $xpc = xpath_new_context($this->dom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         return count($res->nodeset);
     }
 
@@ -1264,7 +1280,7 @@ abstract class ilPageObject
             return $this->dom->dump_mem(0, $this->encoding);
         } else {
             // append multimedia object elements
-            if ($a_append_mobs || $a_append_bib || $a_append_link_info) {
+            if ($a_append_mobs || $a_append_bib) {
                 $mobs = "";
                 $bibs = "";
                 if ($a_append_mobs) {
@@ -1661,10 +1677,10 @@ abstract class ilPageObject
         $this->stripHierIDs();
 
         // possible fix for #14820
-        libxml_disable_entity_loader(false);
+        //libxml_disable_entity_loader(false);
 
-        @$this->dom->validate($error);
-        //var_dump($this->dom); exit;
+        $error = null;
+        $this->dom->validate($error);
         return $error;
     }
 
@@ -2408,10 +2424,24 @@ abstract class ilPageObject
             }
 
             // get parameters
-            $par = array();
-            foreach (explode("&", $url["query"]) as $p) {
-                $p = explode("=", $p);
-                $par[$p[0]] = $p[1];
+            $par = [];
+            if (substr($href, strlen($href) - 5) === ".html") {
+                $parts = explode(
+                    "_",
+                    basename(
+                        substr($url["path"], 0, strlen($url["path"]) - 5)
+                    )
+                );
+                if (array_shift($parts) !== "goto") {
+                    continue;
+                }
+                $par["client_id"] = array_shift($parts);
+                $par["target"] = implode("_", $parts);
+            } else {
+                foreach (explode("&", $url["query"]) as $p) {
+                    $p = explode("=", $p);
+                    $par[$p[0]] = $p[1];
+                }
             }
 
             $target_client_id = $par["client_id"];
@@ -2421,26 +2451,24 @@ abstract class ilPageObject
 
             // get ref id
             $ref_id = 0;
-            if (is_int(strpos($href, "goto.php"))) {
+            if (is_int(strpos($href, "ilias.php"))) {
+                $ref_id = (int) $par["ref_id"];
+            } elseif ($par["target"] !== "") {
                 $t = explode("_", $par["target"]);
                 if ($objDefinition->isRBACObject($t[0])) {
                     $ref_id = (int) $t[1];
                     $type = $t[0];
                 }
-            } elseif (is_int(strpos($href, "ilias.php"))) {
-                $ref_id = (int) $par["ref_id"];
             }
-
             if ($ref_id > 0) {
                 if (isset($a_mapping[$ref_id])) {
                     $new_ref_id = $a_mapping[$ref_id];
-                    $new_href = "";
                     // we have a mapping -> replace the ID
-                    if (is_int(strpos($href, "goto.php"))) {
-                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
-                        $new_href = str_replace("target=" . $par["target"], "target=" . $nt, $href);
-                    } elseif (is_int(strpos($href, "ilias.php"))) {
+                    if (is_int(strpos($href, "ilias.php"))) {
                         $new_href = str_replace("ref_id=" . $par["ref_id"], "ref_id=" . $new_ref_id, $href);
+                    } else {
+                        $nt = str_replace($type . "_" . $ref_id, $type . "_" . $new_ref_id, $par["target"]);
+                        $new_href = str_replace($par["target"], $nt, $href);
                     }
                     if ($new_href != "") {
                         $this->log->debug("... ext link replace " . $href . " with " . $new_href . ".");
@@ -2626,6 +2654,11 @@ abstract class ilPageObject
                                    $this->lng->txt("content_until") . ": " .
                                    ilDatePresentation::formatDate(new ilDateTime($lock["edit_lock_until"], IL_CAL_UNIX))
             );
+        }
+
+        // check for duplicate pc ids
+        if ($this->hasDuplicatePCIds()) {
+            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids");
         }
 
         if (!empty($errors)) {
@@ -3133,7 +3166,7 @@ abstract class ilPageObject
     public function deleteContents($a_hids, $a_update = true, $a_self_ass = false)
     {
         if (!is_array($a_hids)) {
-            return;
+            return true;
         }
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
@@ -3155,6 +3188,7 @@ abstract class ilPageObject
         if ($a_update) {
             return $this->update();
         }
+        return true;
     }
 
     /**
@@ -3265,8 +3299,7 @@ abstract class ilPageObject
                 //var_dump($error);
             }
         }
-        $e = $this->update();
-        //var_dump($e);
+        return $this->update();
     }
 
     /**
@@ -3275,9 +3308,8 @@ abstract class ilPageObject
     public function switchEnableMultiple($a_hids, $a_update = true, $a_self_ass = false)
     {
         if (!is_array($a_hids)) {
-            return;
+            return true;
         }
-        $obj = &$this->content_obj;
 
         foreach ($a_hids as $a_hid) {
             $a_hid = explode(":", $a_hid);
@@ -3300,6 +3332,7 @@ abstract class ilPageObject
         if ($a_update) {
             return $this->update();
         }
+        return true;
     }
 
     /**
@@ -3409,9 +3442,8 @@ abstract class ilPageObject
     /**
      * insert a content node before/after a sibling or as first child of a parent
      */
-    public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "")
+    public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "", bool $remove_placeholder = true)
     {
-        //echo "-".$a_pos."-".$a_pcid."-";
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
@@ -3490,7 +3522,7 @@ abstract class ilPageObject
         }
 
         //check for PlaceHolder to remove in EditMode-keep in Layout Mode
-        if (!$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
+        if ($remove_placeholder && !$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
             $sub_nodes = $curr_node->child_nodes();
             foreach ($sub_nodes as $sub_node) {
                 if ($sub_node->node_name() == "PlaceHolder") {
@@ -3752,7 +3784,7 @@ abstract class ilPageObject
         }
 
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         if (count($res->nodeset) > 0) {
             return false;
@@ -3780,13 +3812,48 @@ abstract class ilPageObject
 
         // get existing ids
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $node = $res->nodeset[$i];
             $pcids[] = $node->get_attribute("PCID");
         }
         return $pcids;
+    }
+
+    /**
+     * Get all pc ids
+     * @param
+     * @return
+     */
+    public function hasDuplicatePCIds() : bool
+    {
+        $this->builddom();
+        $mydom = $this->dom;
+
+        $pcids = array();
+
+        $sep = $path = "";
+        foreach ($this->id_elements as $el) {
+            $path .= $sep . "//" . $el . "[@PCID]";
+            $sep = " | ";
+        }
+
+        // get existing ids
+        $xpc = xpath_new_context($mydom);
+        $res = xpath_eval($xpc, $path);
+
+        for ($i = 0; $i < count($res->nodeset); $i++) {
+            $node = $res->nodeset[$i];
+            $pc_id = $node->get_attribute("PCID");
+            if ($pc_id != "") {
+                if (isset($pcids[$pc_id])) {
+                    return true;
+                }
+                $pcids[$pc_id] = $pc_id;
+            }
+        }
+        return false;
     }
 
     /**
@@ -3809,7 +3876,7 @@ abstract class ilPageObject
 
         // get existing ids
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
         return (count($res->nodeset) > 0);
     }
 
@@ -3846,7 +3913,7 @@ abstract class ilPageObject
             $sep = " | ";
         }
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $node = $res->nodeset[$i];
@@ -3869,7 +3936,7 @@ abstract class ilPageObject
         // get existing ids
         $path = "//PageContent";
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $hashes = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -3915,7 +3982,7 @@ abstract class ilPageObject
         // Get question IDs
         $path = "//Question";
         $xpc = xpath_new_context($mydom);
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
@@ -3941,12 +4008,9 @@ abstract class ilPageObject
         $mydom = $this->dom;
 
         $xpc = xpath_new_context($mydom);
-
-        //$path = "//PageContent[position () = $par_id]/Paragraph";
-        //$path = "//Paragraph[$par_id]";
         $path = "/descendant::Paragraph[position() = $par_id]";
 
-        $res = &xpath_eval($xpc, $path);
+        $res = xpath_eval($xpc, $path);
 
         if (count($res->nodeset) != 1) {
             die("Should not happen");

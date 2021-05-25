@@ -218,14 +218,16 @@ class ilContainerRenderer
         unset($this->hidden_items[$a_id]);
         
         foreach (array_keys($this->items) as $item_id) {
-            if (array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id) {
+            $parts = explode(self::UNIQUE_SEPARATOR, $item_id);
+            if (array_pop($parts) == $a_id) {
                 unset($this->items[$item_id]);
             }
         }
 
         foreach ($this->block_items as $block_id => $items) {
             foreach ($items as $idx => $item_id) {
-                if (array_pop(explode(self::UNIQUE_SEPARATOR, $item_id)) == $a_id) {
+                $parts = explode(self::UNIQUE_SEPARATOR, $item_id);
+                if (array_pop($parts) == $a_id) {
                     unset($this->block_items[$block_id][$idx]);
                     if (!sizeof($this->block_items[$block_id])) {
                         unset($this->block_items[$block_id]);

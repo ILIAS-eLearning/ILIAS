@@ -73,7 +73,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
             $auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
         }
 
-        if (($_REQUEST['fetchall'])) {
+        if (isset($_REQUEST['fetchall'])) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
         $auto->setMoreLinkAvailable(true);

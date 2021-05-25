@@ -154,7 +154,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
         $this->type = "grp";
         parent::__construct($a_id, $a_call_by_reference);
-        $this->setRegisterMode(true); // ???
     }
     
     /**

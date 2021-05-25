@@ -169,8 +169,9 @@ abstract class ilMathBaseAdapterTest extends TestCase
     public function mulData()
     {
         return [
-            ['1', '2', '2', self::DEFAULT_SCALE],
-            ['1', '', '0', self::DEFAULT_SCALE]
+            'Multiplication with integer operands' => ['1', '2', '2', self::DEFAULT_SCALE],
+            'Multiplication with empty string operand' => ['1', '', '0', self::DEFAULT_SCALE],
+            'Multiplication with decimal operands' => ['1.5', '2.5', '3.75', self::DEFAULT_SCALE]
         ];
     }
 
@@ -180,8 +181,9 @@ abstract class ilMathBaseAdapterTest extends TestCase
     public function divData()
     {
         return [
-            ['1', '2', '0.5', self::DEFAULT_SCALE],
-            ['', '2', '0', self::DEFAULT_SCALE],
+            'Division with integer operands' => ['1', '2', '0.5', self::DEFAULT_SCALE],
+            'Division with empty string operand' => ['', '2', '0', self::DEFAULT_SCALE],
+            'Division with decimal operands' => ['3.75', '2.5', '1.5', self::DEFAULT_SCALE],
         ];
     }
 

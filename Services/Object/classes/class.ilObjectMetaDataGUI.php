@@ -84,7 +84,7 @@ class ilObjectMetaDataGUI
         
         $this->logger = $GLOBALS['DIC']->logger()->obj();
 
-        $this->in_workspace = (bool) $_REQUEST["wsp_id"];
+        $this->in_workspace = (bool) ($_REQUEST["wsp_id"] ?? false);
 
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
@@ -186,7 +186,7 @@ class ilObjectMetaDataGUI
      *
      * @param string $a_link link traget
      */
-    public function setTaxonomySettings(closure $a_form_manipulator, closure $a_form_saver)
+    public function setTaxonomySettings(Closure $a_form_manipulator, Closure $a_form_saver)
     {
         $this->taxonomy_settings_form_manipulator = $a_form_manipulator;
         $this->taxonomy_settings_form_saver = $a_form_saver;
@@ -635,7 +635,7 @@ class ilObjectMetaDataGUI
             $this->ctrl->redirect($this, "editTaxonomySettings");
         } else {
             $form->setValuesByPost();
-            $this->tpl->setContent($form->getHtml());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 }

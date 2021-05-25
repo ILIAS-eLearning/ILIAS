@@ -69,7 +69,9 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $tree = $this->tree;
                 
         $data = array();
-        
+
+        $is_admin = false;
+        $a_type = "";
         if (is_array($a_data) && sizeof($a_data)) {
             if (!$this->user_id) {
                 $is_admin = $ilAccess->checkAccess("visible", "", SYSTEM_FOLDER_ID);

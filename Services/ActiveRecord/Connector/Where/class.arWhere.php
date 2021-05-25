@@ -3,7 +3,6 @@ require_once(dirname(__FILE__) . '/../Statement/class.arStatement.php');
 
 /**
  * Class arWhere
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -36,18 +35,15 @@ class arWhere extends arStatement
      */
     protected $link = 'AND';
 
-
     /**
      * @description Build WHERE Statement
-     *
      * @param ActiveRecord $ar
-     *
-     * @throws arException
      * @return string
+     * @throws arException
      */
-    public function asSQLStatement(ActiveRecord $ar)
+    public function asSQLStatement(ActiveRecord $ar) : string
     {
-        if ($this->getType() == self::TYPE_REGULAR) {
+        if ($this->getType() === self::TYPE_REGULAR) {
             $arField = $ar->getArFieldList()->getFieldByName($this->getFieldname());
             if ($arField instanceof arField) {
                 $type = $arField->getFieldType();
@@ -57,7 +53,7 @@ class arWhere extends arStatement
             }
 
             if (is_array($this->getValue())) {
-                if (in_array($this->getOperator(), array( 'IN', 'NOT IN', 'NOTIN' ))) {
+                if (in_array($this->getOperator(), array('IN', 'NOT IN', 'NOTIN'))) {
                     $statement .= ' ' . $this->getOperator() . ' (';
                 } else {
                     $statement .= ' IN (';
@@ -85,51 +81,45 @@ class arWhere extends arStatement
         return $this->getStatement();
     }
 
-
     /**
      * @param string $fieldname
      */
-    public function setFieldname($fieldname)
+    public function setFieldname(string $fieldname) : void
     {
         $this->fieldname = $fieldname;
     }
 
-
     /**
      * @return string
      */
-    public function getFieldname()
+    public function getFieldname() : string
     {
         return $this->fieldname;
     }
 
-
     /**
      * @param string $operator
      */
-    public function setOperator($operator)
+    public function setOperator(string $operator) : void
     {
         $this->operator = $operator;
     }
 
-
     /**
      * @return string
      */
-    public function getOperator()
+    public function getOperator() : string
     {
         return $this->operator;
     }
 
-
     /**
      * @param mixed $value
      */
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->value = $value;
     }
-
 
     /**
      * @return mixed
@@ -139,56 +129,50 @@ class arWhere extends arStatement
         return $this->value;
     }
 
-
     /**
      * @param int $type
      */
-    public function setType($type)
+    public function setType(int $type) : void
     {
         $this->type = $type;
     }
 
-
     /**
      * @return int
      */
-    public function getType()
+    public function getType() : int
     {
         return $this->type;
     }
 
-
     /**
      * @param string $statement
      */
-    public function setStatement($statement)
+    public function setStatement(string $statement) : void
     {
         $this->statement = $statement;
     }
 
-
     /**
      * @return string
      */
-    public function getStatement()
+    public function getStatement() : string
     {
         return $this->statement;
     }
 
-
     /**
      * @param string $link
      */
-    public function setLink($link)
+    public function setLink(string $link) : void
     {
         $this->link = $link;
     }
 
-
     /**
      * @return string
      */
-    public function getLink()
+    public function getLink() : string
     {
         return $this->link;
     }

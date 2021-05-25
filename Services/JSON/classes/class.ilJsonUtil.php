@@ -6,34 +6,16 @@
  * for PHP version < 5.2
  *
  * @author  Jan Posselt <jposselt@databay.de>
- * @version $Id$
- *
- * @deprecated use PHP native functions
+ * @deprecated Use PHP native functions
  */
 class ilJsonUtil
 {
-
-    /**
-     * @param $mixed
-     * @param bool $suppress_native
-     * @return string
-     *
-     * @deprecated use json_encode instead
-     */
-    public static function encode($mixed, $suppress_native = false)
+    public static function encode($mixed) : string
     {
         return json_encode($mixed);
     }
 
-
-    /**
-     * @param $json_notated_string
-     * @param bool $suppress_native
-     * @return mixed
-     *
-     * @deprecated use json_decode instead
-     */
-    public static function decode($json_notated_string, $suppress_native = false)
+    public static function decode(string $json_notated_string)
     {
         return json_decode($json_notated_string);
     }

@@ -16,7 +16,6 @@ use ILIAS\UI\Implementation\Render\Template;
 
 /**
  * Class Renderer
- *
  * @package ILIAS\UI\Implementation\Component\Input
  */
 class Renderer extends AbstractComponentRenderer
@@ -103,17 +102,21 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-
     protected function wrapInFormContext(
         FI\FormInput $component,
         string $input_html,
-        string $id,
+        string $id_pointing_to_input = '',
         string $dependant_group_html = ''
     ) : string {
         $tpl = $this->getTemplate("tpl.context_form.html", true, true);
 
         $tpl->setVariable("INPUT", $input_html);
-        $tpl->setVariable("ID", $id);
+
+        if ($id_pointing_to_input) {
+            $tpl->setCurrentBlock('for');
+            $tpl->setVariable("ID", $id_pointing_to_input);
+            $tpl->parseCurrentBlock();
+        }
 
         $label = $component->getLabel();
         $tpl->setVariable("LABEL", $label);
@@ -243,7 +246,7 @@ class Renderer extends AbstractComponentRenderer
         $dependant_group_html = $default_renderer->render($component->getInputs());
 
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id, $dependant_group_html);
+        return $this->wrapInFormContext($component, $tpl->get(), "", $dependant_group_html);
     }
 
     protected function renderSwitchableGroup(F\SwitchableGroup $component, RendererInterface $default_renderer) : string
@@ -283,7 +286,7 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 
     protected function renderTagField(F\Tag $component) : string
@@ -308,7 +311,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("VALUE_COMMA_SEPARATED", implode(",", $value));
             foreach ($value as $tag) {
                 $tpl->setCurrentBlock('existing_tags');
-                $tpl->setVariable("FIELD_ID", $id);
                 $tpl->setVariable("FIELD_NAME", $component->getName());
                 $tpl->setVariable("TAG_NAME", $tag);
                 $tpl->parseCurrentBlock();
@@ -319,7 +321,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("DISABLED", 'disabled');
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 
     protected function renderPasswordField(F\Password $component, RendererInterface $default_renderer) : string
@@ -340,15 +342,14 @@ class Renderer extends AbstractComponentRenderer
                     "$(document).on('{$sig_mask}', function() {
                         $('#{$id}').removeClass('revealed');
                         $('#{$id}')[0].getElementsByTagName('input')[0].type='password';
-                    });"
-                    ;
+                    });";
             });
 
             $f = $this->getUIFactory();
             $glyph_reveal = $f->symbol()->glyph()->eyeopen("#")
-                ->withOnClick($sig_reveal);
+                              ->withOnClick($sig_reveal);
             $glyph_mask = $f->symbol()->glyph()->eyeclosed("#")
-                ->withOnClick($sig_mask);
+                            ->withOnClick($sig_mask);
 
             $tpl->setVariable('PASSWORD_REVEAL', $default_renderer->render($glyph_reveal));
             $tpl->setVariable('PASSWORD_MASK', $default_renderer->render($glyph_mask));
@@ -357,7 +358,7 @@ class Renderer extends AbstractComponentRenderer
 
         $this->applyValue($component, $tpl, $this->escapeSpecialChars());
         $this->maybeDisable($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 
     public function renderSelectField(F\Select $component) : string
@@ -460,7 +461,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 
     protected function renderMultiSelectField(F\MultiSelect $component) : string
@@ -477,7 +478,6 @@ class Renderer extends AbstractComponentRenderer
         foreach ($component->getOptions() as $opt_value => $opt_label) {
             $tpl->setCurrentBlock("option");
             $tpl->setVariable("NAME", $name);
-            $tpl->setVariable("CHECKBOX_ID", $id . "_" . $name);
             $tpl->setVariable("VALUE", $opt_value);
             $tpl->setVariable("LABEL", $opt_label);
 
@@ -492,7 +492,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $this->wrapInFormContext($component, $tpl->get());
     }
 
     protected function renderDateTimeField(F\DateTime $component, RendererInterface $default_renderer) : string
@@ -581,7 +581,7 @@ class Renderer extends AbstractComponentRenderer
         $input = array_shift($inputs); //from
         $input_html .= $default_renderer->render($input);
         $input = array_shift($inputs)->withAdditionalPickerconfig([ //until
-            'useCurrent' => false
+                                                                    'useCurrent' => false
         ]);
         $input_html .= $default_renderer->render($input);
         $tpl->setVariable('DURATION', $input_html);
@@ -631,7 +631,6 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-
     protected function renderSection(F\Section $section, RendererInterface $default_renderer) : string
     {
         $section_tpl = $this->getTemplate("tpl.section.html", true, true);
@@ -658,7 +657,6 @@ class Renderer extends AbstractComponentRenderer
         return $section_tpl->get();
     }
 
-
     /**
      * @inheritdoc
      */
@@ -680,7 +678,6 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
     }
-
 
     /**
      * @param Input $input
@@ -715,10 +712,9 @@ class Renderer extends AbstractComponentRenderer
     /**
      * Return the datetime format in a form fit for the JS-component of this input.
      * Currently, this means transforming the elements of DateFormat to momentjs.
-     *
      * http://eonasdan.github.io/bootstrap-datetimepicker/Options/#format
      * http://momentjs.com/docs/#/displaying/format/
-    */
+     */
     protected function getTransformedDateFormat(
         DateFormat\DateFormat $origin,
         array $mapping

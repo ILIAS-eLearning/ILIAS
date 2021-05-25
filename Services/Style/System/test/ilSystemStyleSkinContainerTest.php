@@ -52,7 +52,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         if (!defined('PATH_TO_LESSC')) {
             if (file_exists("ilias.ini.php")) {
                 $ini = parse_ini_file("ilias.ini.php", true);
-                define('PATH_TO_LESSC', $ini['tools']['lessc']);
+                define('PATH_TO_LESSC', $ini['tools']['lessc'] ?? "");
             } else {
                 define('PATH_TO_LESSC', "");
             }

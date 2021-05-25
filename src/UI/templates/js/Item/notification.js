@@ -501,7 +501,7 @@ il.UI.item = il.UI.item || {};
 			var getNotificationsTriggererIfAny = function(){
 				var $meta_bar = getMetaBarOfItemIfIsInOne();
 				if($meta_bar.length){
-					var $notification_glyph = $meta_bar.find('.il-metabar-entries > .btn-bulky .glyphicon-bell');
+					var $notification_glyph = $meta_bar.find('.il-maincontrols-metabar > .btn-bulky .glyphicon-bell');
 					return $notification_glyph.parents('.btn-bulky');
 				}
 			}

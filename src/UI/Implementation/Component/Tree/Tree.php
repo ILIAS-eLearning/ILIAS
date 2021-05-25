@@ -40,6 +40,11 @@ abstract class Tree implements ITree\Tree
      */
     protected $highlight_nodes_on_click = false;
 
+    /**
+     * @var bool
+     */
+    protected $is_sub = false;
+
 
     public function __construct(string $label, ITree\TreeRecursion $recursion)
     {
@@ -116,5 +121,23 @@ abstract class Tree implements ITree\Tree
     public function getHighlightOnNodeClick() : bool
     {
         return $this->highlight_nodes_on_click;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isSubTree() : bool
+    {
+        return $this->is_sub;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withIsSubTree(bool $is_sub) : ITree\Tree
+    {
+        $clone = clone $this;
+        $clone->is_sub = $is_sub;
+        return $clone;
     }
 }

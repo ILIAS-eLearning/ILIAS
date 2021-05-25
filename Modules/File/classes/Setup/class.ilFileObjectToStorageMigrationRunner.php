@@ -14,6 +14,8 @@ use ILIAS\ResourceStorage\Consumer\ConsumerFactory;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Filesystem;
+use ILIAS\ResourceStorage\Policy\FileNamePolicyException;
+use ILIAS\ResourceStorage\Policy\NoneFileNamePolicy;
 
 class ilFileObjectToStorageMigrationRunner
 {
@@ -120,12 +122,18 @@ class ilFileObjectToStorageMigrationRunner
             );
         }
 
-        $this->resource_builder->store($resource);
-        $this->database->manipulateF(
-            'UPDATE file_data SET rid = %s WHERE file_id = %s',
-            ['text', 'integer'],
-            [$resource->getIdentification()->serialize(), $object_id]
-        );
+        $resource->addStakeholder($this->stakeholder);
+        try {
+            $this->resource_builder->store($resource);
+            $this->database->manipulateF(
+                'UPDATE file_data SET rid = %s WHERE file_id = %s',
+                ['text', 'integer'],
+                [$resource->getIdentification()->serialize(), $object_id]
+            );
+        } catch (FileNamePolicyException $e) {
+            // continue
+        }
+
         if (null === $this->getMigrateToNewObjectId()) {
             $item->tearDown();
         }

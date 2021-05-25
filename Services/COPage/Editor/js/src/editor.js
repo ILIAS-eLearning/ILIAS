@@ -25,8 +25,9 @@ export default (function ($, il) {
   /**
    * @param {string} endpoint
    * @param {string} form_action
+   * @param {string} openPlaceHolderPcId
    */
-  function init(endpoint, form_action) {
+  function init(endpoint, form_action, openPlaceHolderPcId) {
 
     // action factory (used to invoke actions from the ui)
     const actionFactory = new ActionFactory();
@@ -60,7 +61,16 @@ export default (function ($, il) {
 
     // main controller
     controller = new Controller(ui);
-    controller.init();
+    controller.init(() => {
+      // initial placeholder
+      if (openPlaceHolderPcId !== "") {
+        dispatcher.dispatch(actionFactory.page().editor().componentEdit(
+            "PlaceHolder",
+            openPlaceHolderPcId,
+            ""));
+      }
+    });
+
   }
 
   /**

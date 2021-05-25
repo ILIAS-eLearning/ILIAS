@@ -21,7 +21,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
      * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
      */
     protected $autocomplete_disabled = true;
-    
+    protected $retypevalue;
+
     /**
     * Constructor
     *
@@ -135,8 +136,8 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
     */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
-        $this->setRetypeValue($a_values[$this->getPostVar() . "_retype"]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setRetypeValue($a_values[$this->getPostVar() . "_retype"] ?? "");
     }
 
     /**
@@ -260,7 +261,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
         
         if ($this->getUseStripSlashes()) {
             $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()]);
-            $_POST[$this->getPostVar() . "_retype"] = ilUtil::stripSlashes($_POST[$this->getPostVar() . "_retype"]);
+            $_POST[$this->getPostVar() . "_retype"] = ilUtil::stripSlashes(isset($_POST[$this->getPostVar() . "_retype"])?$_POST[$this->getPostVar() . "_retype"]:'');
         }
         if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));

@@ -28,7 +28,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI
         $DIC->language()->loadLanguageModule('chatroom_adm');
 
         if ($a_data == null) {
-            if ($_GET['serverInquiry']) {
+            if (isset($_GET['serverInquiry'])) {
                 require_once dirname(__FILE__) . '/class.ilChatroomServerHandler.php';
                 new ilChatroomServerHandler();
                 return;

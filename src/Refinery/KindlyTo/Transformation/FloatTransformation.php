@@ -46,14 +46,14 @@ class FloatTransformation implements Transformation
             }
 
             throw new ConstraintViolationException(
-                sprintf('The value "%s" could not be transformed into an float', $from),
+                sprintf('The value "%s" could not be transformed into an float', var_export($from, true)),
                 'not_float',
                 $from
             );
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into an float', $from),
+            sprintf('The value "%s" could not be transformed into an float', var_export($from, true)),
             'not_float',
             $from
         );

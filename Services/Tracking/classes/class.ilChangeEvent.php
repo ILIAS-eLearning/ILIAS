@@ -172,7 +172,7 @@ class ilChangeEvent
                     $read_count_diff = 0;
                 }
             }
-            $time_diff = $time - (int) $row->spent_seconds;
+            $time_diff = $time - (int) ($row->spent_seconds ?? 0);
             
             // Update
             $query = sprintf(
@@ -197,7 +197,7 @@ class ilChangeEvent
                 $time = 0;
             }
 
-            $time_diff = $time - (int) $row->spent_seconds;
+            $time_diff = $time - (int) ($row->spent_seconds ?? 0);
             
             /*
             $query = sprintf('INSERT INTO read_event (obj_id,usr_id,last_access,read_count,spent_seconds,first_access) '.
@@ -524,7 +524,7 @@ class ilChangeEvent
             ),
             array(
                 "ts" => array("timestamp", $ts))
-            );
+        );
     }
 
     /**
@@ -809,7 +809,7 @@ class ilChangeEvent
             "SELECT usr_id FROM read_event WHERE " .
             "obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
             "usr_id = " . $ilDB->quote($a_usr_id, "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return self::$has_accessed[$a_obj_id][$a_usr_id] = true;
         }

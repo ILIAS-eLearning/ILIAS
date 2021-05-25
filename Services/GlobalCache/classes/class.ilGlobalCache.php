@@ -1,6 +1,5 @@
 <?php
 require_once('./Services/GlobalCache/classes/Memcache/class.ilMemcache.php');
-require_once('./Services/GlobalCache/classes/Xcache/class.ilXcache.php');
 require_once('./Services/GlobalCache/classes/Apc/class.ilApc.php');
 require_once('./Services/GlobalCache/classes/Static/class.ilStaticCache.php');
 require_once('Settings/class.ilGlobalCacheSettings.php');
@@ -15,7 +14,6 @@ class ilGlobalCache
     const MSG = 'Global Cache not active, can not access cache';
     const ACTIVE = true;
     const TYPE_STATIC = 0;
-    const TYPE_XCACHE = 1;
     const TYPE_MEMCACHED = 2;
     const TYPE_APC = 3;
     const TYPE_FALLBACK = self::TYPE_STATIC;
@@ -35,7 +33,6 @@ class ilGlobalCache
      */
     protected static $types = array(
         self::TYPE_MEMCACHED,
-        self::TYPE_XCACHE,
         self::TYPE_APC,
         self::TYPE_STATIC,
     );
@@ -44,7 +41,6 @@ class ilGlobalCache
      */
     protected static $available_types = array(
         self::TYPE_MEMCACHED,
-        self::TYPE_XCACHE,
         self::TYPE_APC,
         self::TYPE_STATIC,
     );
@@ -253,9 +249,6 @@ class ilGlobalCache
                 break;
             case self::TYPE_MEMCACHED:
                 return 'ilMemcache';
-                break;
-            case self::TYPE_XCACHE:
-                return 'ilXcache';
                 break;
             default:
                 return 'ilStaticCache';

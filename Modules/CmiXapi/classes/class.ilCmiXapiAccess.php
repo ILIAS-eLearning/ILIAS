@@ -92,8 +92,7 @@ class ilCmiXapiAccess
         if ($outcomesAccess) {
             return true;
         }
-        
-        return $this->hasWriteAccess();
+        return false;
     }
     
     /**

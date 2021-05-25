@@ -391,7 +391,7 @@ class ilSCORM2004OrganizationHFormGUI extends ilHierarchyFormGUI
     * @param	array		item array
     * @return	array		array of arrays("text", "link")
     */
-    public function getChildCommands($a_item)
+    public function getChildCommands($a_item) : array
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

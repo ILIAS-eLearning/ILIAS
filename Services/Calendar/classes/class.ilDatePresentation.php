@@ -143,7 +143,8 @@ class ilDatePresentation
         } else {
             $date_info = $date->get(IL_CAL_FKT_GETDATE, '', 'UTC');
         }
-        
+
+        $date_str = null;
         if (!$a_skip_day) {
             $sep = ", ";
             if (self::isToday($date) and self::useRelativeDates()) {

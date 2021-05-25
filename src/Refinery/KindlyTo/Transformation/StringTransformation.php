@@ -48,7 +48,7 @@ class StringTransformation implements Transformation
         }
 
         throw new ConstraintViolationException(
-            sprintf('The value "%s" could not be transformed into a string', $from),
+            sprintf('The value "%s" could not be transformed into a string', var_export($from, true)),
             'not_string',
             $from
         );

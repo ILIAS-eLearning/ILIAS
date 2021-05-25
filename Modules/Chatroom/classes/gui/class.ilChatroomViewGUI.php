@@ -1,5 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+// fau: toggleChatMessages  - note for the change at this place
+use ILIAS\Filesystem\Stream\Streams;
+
+// fau.
 
 require_once 'Modules/Chatroom/classes/class.ilChatroom.php';
 require_once 'Modules/Chatroom/classes/class.ilChatroomUser.php';
@@ -26,18 +30,20 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->setupTemplate();
         $room = ilChatroom::byObjectId($this->gui->object->getId());
         $chat_user = new ilChatroomUser($this->ilUser, $room);
-        $failure = false;
+        $failure = true;
         $username = '';
 
-        if ($_REQUEST['custom_username_radio'] == 'custom_username') {
-            $username = $_REQUEST['custom_username_text'];
-        } elseif (method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio'])) {
-            $username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
-        } else {
-            $failure = true;
+        if (isset($_REQUEST['custom_username_radio'])) {
+            if (isset($_REQUEST['custom_username_text']) && $_REQUEST['custom_username_radio'] === 'custom_username') {
+                $username = $_REQUEST['custom_username_text'];
+                $failure = false;
+            } elseif (method_exists($chat_user, 'build' . $_REQUEST['custom_username_radio'])) {
+                $username = $chat_user->{'build' . $_REQUEST['custom_username_radio']}();
+                $failure = false;
+            }
         }
 
-        if (!$failure && trim($username) != '') {
+        if (!$failure && trim($username) !== '') {
             if (!$room->isSubscribed($chat_user->getUserId())) {
                 $chat_user->setUsername($chat_user->buildUniqueUsername($username));
             }
@@ -130,11 +136,11 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
                 $new_keys = array();
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
-                    if ($key == 'smiley_keywords') {
+                    if ($key === 'smiley_keywords') {
                         $new_keys = explode("\n", $value);
                     }
 
-                    if ($key == 'smiley_fullpath') {
+                    if ($key === 'smiley_fullpath') {
                         $new_val = $value;
                     }
                 }
@@ -197,20 +203,80 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         }
 
         $roomTpl = new ilTemplate('tpl.chatroom.html', true, true, 'Modules/Chatroom');
-        $roomTpl->setVariable('SESSION_ID', $connection_info->{'session-id'});
+        $roomTpl->setVariable('SESSION_ID', (string) ($connection_info->{'session-id'} ?? ''));
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);
         $roomTpl->setVariable('MY_ID', $user_id);
-        $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
         $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
 
         $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('create_private_room_label'));
         $roomTpl->setVariable('LBL_USER', $this->ilLng->txt('user'));
         $roomTpl->setVariable('LBL_USER_TEXT', $this->ilLng->txt('invite_username'));
-        $roomTpl->setVariable('LBL_AUTO_SCROLL', $this->ilLng->txt('auto_scroll'));
+        $showAutoMessages = true;
+        if ($this->ilUser->getPref('chat_hide_automsg_' . $room->getRoomId())) {
+            $showAutoMessages = false;
+        }
+        
+        $roomTpl->setVariable(
+            'TOGGLE_SCROLLING_COMPONENT',
+            $this->uiRenderer->render(
+                $this->uiFactory->button()->toggle(
+                    $this->ilLng->txt('auto_scroll'),
+                    '#',
+                    '#',
+                    true
+                )
+                ->withAriaLabel($this->ilLng->txt('auto_scroll'))
+                ->withOnLoadCode(static function (string $id) : string {
+                    return '
+                        $("#' . $id . '")
+                            .on("click", function(e) {
+                                let t = $(this), msg = $("#chat_messages");
+                                if (t.hasClass("on")) {
+                                    msg.trigger("msg-scrolling:toggle", [true]);
+                                } else {
+                                    msg.trigger("msg-scrolling:toggle", [false]);
+                                }
+                            });
+                    ';
+                })
+            )
+        );
 
+        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, true);
+        $roomTpl->setVariable(
+            'TOGGLE_AUTO_MESSAGE_COMPONENT',
+            $this->uiRenderer->render(
+                $this->uiFactory->button()->toggle(
+                    $this->ilLng->txt('chat_show_auto_messages'),
+                    '#',
+                    '#',
+                    $showAutoMessages
+                )
+                ->withAriaLabel($this->ilLng->txt('chat_show_auto_messages'))
+                ->withOnLoadCode(static function (string $id) use ($toggleUrl) : string {
+                    return '
+                        $("#' . $id . '")
+                            .on("click", function(e) {
+                                let t = $(this), msg = $("#chat_messages");
+                                if (t.hasClass("on")) {
+                                    msg.trigger("auto-message:toggle", [true, "' . $toggleUrl . '"]);
+                                } else {
+                                    msg.trigger("auto-message:toggle", [false, "' . $toggleUrl . '"]);
+                                }
+                            });
+                    ';
+                })
+            )
+        );
+
+        $initial->state = new stdClass();
+        $initial->state->scrolling = true;
+        $initial->state->show_auto_msg = $showAutoMessages;
+
+        $roomTpl->setVariable('INITIAL_DATA', json_encode($initial));
         $roomTpl->setVariable('INITIAL_USERS', json_encode($room->getConnectedUsers()));
 
         $this->renderFileUploadForm($roomTpl);
@@ -232,6 +298,30 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $this->mainTpl->setContent($roomTpl->get());
         $this->mainTpl->setRightContent($right_content_panel->getHTML());
+    }
+
+    public function toggleAutoMessageDisplayState() : void
+    {
+        global $DIC;
+
+        $this->redirectIfNoPermission('read');
+
+        $room = ilChatroom::byObjectId($this->gui->object->getId());
+ 
+        $state = 0;
+        if (isset($DIC->http()->request()->getParsedBody()['state'])) {
+            $state = (int) $DIC->http()->request()->getParsedBody()['state'];
+        }
+        
+        ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
+
+        $DIC->http()->saveResponse(
+            $DIC->http()->response()
+                ->withHeader('Content-Type', 'application/json')
+                ->withBody(Streams::ofString(json_encode(['success' => true])))
+        );
+        $DIC->http()->sendResponse();
+        $DIC->http()->close();
     }
 
     /**

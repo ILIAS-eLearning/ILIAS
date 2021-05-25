@@ -75,7 +75,14 @@ export default class ParagraphUIActionHandler {
           break;
 
         case PAGE_ACTIONS.COMPONENT_EDIT:
-          this.ui.editParagraph(page_model.getCurrentPCId());
+          const pcModel = page_model.getPCModel(page_model.getCurrentPCId());
+          if (pcModel.characteristic !== "Code") {
+            this.ui.editParagraph(page_model.getCurrentPCId());
+          } else {
+            client.sendForm(actionFactory.page().command().editLegacy("SourceCode", params.pcid,
+                params.hierid));
+            form_sent = true;
+          }
           break;
 
         case PAGE_ACTIONS.COMPONENT_CANCEL:
@@ -263,14 +270,15 @@ export default class ParagraphUIActionHandler {
   sendInsertCommand(pcid, target_pcid, pcmodel, page_model) {
     const af = this.actionFactory;
     const insert_action = af.paragraph().command().insert(
-      target_pcid,
-      pcid,
-      pcmodel.text,
-      pcmodel.characteristic
+        target_pcid,
+        pcid,
+        pcmodel.text,
+        pcmodel.characteristic,
+        page_model.getInsertFromPlaceholder()
     );
     this.client.sendCommand(insert_action).then(result => {
       const pl = result.getPayload();
-      this.handleSaveResponse(pcid, pl);
+      this.handleSaveResponse(pcid, pl, page_model);
     });
   }
 
@@ -278,10 +286,11 @@ export default class ParagraphUIActionHandler {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
     const insert_action = af.paragraph().command().autoInsert(
-      target_pcid,
-      pcid,
-      pcmodel.text,
-      pcmodel.characteristic
+        target_pcid,
+        pcid,
+        pcmodel.text,
+        pcmodel.characteristic,
+        page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
     this.client.sendCommand(insert_action).then(result => {
@@ -340,12 +349,13 @@ export default class ParagraphUIActionHandler {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
     const insert_action = af.paragraph().command().split(
-      insertMode,
-      after_pcid,
-      pcid,
-      text,
-      characteristic,
-      newParagraphs
+        insertMode,
+        after_pcid,
+        pcid,
+        text,
+        characteristic,
+        newParagraphs,
+        page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
     this.client.sendCommand(insert_action).then(result => {
@@ -439,7 +449,9 @@ export default class ParagraphUIActionHandler {
     const pcModel = page_model.getPCModel(page_model.getCurrentPCId());
     //console.log("send Cancel " + page_model.getCurrentPCId());
 
+
     if (page_model.getAddedSection()) {
+
       const cancel_action = af.paragraph().command().cancel(
         page_model.getCurrentPCId(),
         pcModel.text,
@@ -449,10 +461,39 @@ export default class ParagraphUIActionHandler {
       //this.ui.autoSaveStarted();
       this.client.sendCommand(cancel_action).then(result => {
         const pl = result.getPayload();
-
         this.ui.pageModifier.handlePageReloadResponse(result);
       });
+    } else if (page_model.getComponentState() === page_model.STATE_COMPONENT_INSERT) {
+
+      this.ui.pageModifier.removeInsertedComponent(page_model.getCurrentPCId());
+
+    } else {
+
+      if (page_model.getAutoSavedPCId() === page_model.getCurrentPCId()) {
+        // the element has been inserted, autosaved but now canceled
+        // we need to save the "undo" state back, if autosave made changes
+        this.sendDeleteCommand(page_model.getCurrentPCId());
+
+      } else {
+        // we need to save the "undo" state back, if autosave made changes
+        this.sendUpdateCommand(page_model.getCurrentPCId(),
+          page_model.getPCModel(page_model.getCurrentPCId()),
+          page_model
+        );
+      }
     }
   }
+
+  sendDeleteCommand(pcid) {
+    const af = this.actionFactory;
+    const delete_action = af.paragraph().command().delete(
+      pcid
+    );
+    this.client.sendCommand(delete_action).then(result => {
+      const pl = result.getPayload();
+      this.ui.pageModifier.handlePageReloadResponse(result);
+    });
+  }
+
 
 }

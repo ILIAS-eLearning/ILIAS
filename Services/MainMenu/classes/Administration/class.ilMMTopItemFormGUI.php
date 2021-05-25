@@ -171,7 +171,7 @@ class ilMMTopItemFormGUI
             return false;
         }
 
-        $this->item_facade->setAction((string) $data[0]['action']);
+        $this->item_facade->setAction((string) ($data[0]['action'] ?? ''));
         $this->item_facade->setDefaultTitle((string) $data[0][self::F_TITLE]);
         $this->item_facade->setActiveStatus((bool) $data[0][self::F_ACTIVE]);
         if ($this->item_facade->supportsRoleBasedVisibility()) {
@@ -190,7 +190,7 @@ class ilMMTopItemFormGUI
         }
 
         if ($this->item_facade->supportsCustomIcon()) {
-            $icon = (string) $data[0][self::F_ICON][0];
+            $icon = (string) ($data[0][self::F_ICON][0] ?? '');
             $this->item_facade->setIconID($icon);
         }
 

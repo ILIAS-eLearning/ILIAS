@@ -116,25 +116,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     }
 
     /**
-    * get description of glossary object
-    *
-    * @return	string		description
-    */
-    public function getDescription()
-    {
-        return parent::getDescription();
-    }
-
-    /**
-    * set description of glossary object
-    */
-    public function setDescription($a_description)
-    {
-        parent::setDescription($a_description);
-    }
-
-    
-    /**
     * set glossary type (virtual: fixed/level/subtree, normal:none)
     */
     public function setVirtualMode($a_mode)
@@ -168,25 +149,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
     public function isVirtual()
     {
         return $this->virtual;
-    }
-
-    /**
-    * get title of glossary object
-    *
-    * @return	string		title
-    */
-    public function getTitle()
-    {
-        return parent::getTitle();
-    }
-
-    /**
-    * set title of glossary object
-    */
-    public function setTitle($a_title)
-    {
-        parent::setTitle($a_title);
-        //		$this->meta_data->setTitle($a_title);
     }
 
     /**

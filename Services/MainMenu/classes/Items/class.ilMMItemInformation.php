@@ -145,8 +145,10 @@ class ilMMItemInformation implements ItemInformation
             }
 
             $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
-            if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
+            if ($old_symbol instanceof Glyph) {
                 $aria_label = $old_symbol->getAriaLabel();
+            } elseif ($old_symbol instanceof Icon) {
+                $aria_label = $old_symbol->getLabel();
             } elseif ($item instanceof hasTitle) {
                 $aria_label = $item->getTitle();
             } else {

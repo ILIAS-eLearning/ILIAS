@@ -128,7 +128,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     /**
      * @param string|null $client_salt
      */
-    public function setClientSalt(?string $client_salt)
+    public function setClientSalt(?string $client_salt) : void
     {
         $this->client_salt = $client_salt;
     }
@@ -269,7 +269,7 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
     {
         if (is_file($this->getClientSaltLocation()) && is_readable($this->getClientSaltLocation())) {
             $contents = file_get_contents($this->getClientSaltLocation());
-            if (strlen(trim($contents))) {
+            if ($contents !== false && trim($contents) !== '') {
                 $this->setClientSalt($contents);
             }
         } else {
@@ -278,9 +278,6 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
         }
     }
 
-    /**
-     *
-     */
     private function generateClientSalt() : void
     {
         $this->setClientSalt(
@@ -293,12 +290,27 @@ class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
      */
     private function storeClientSalt() : void
     {
-        $result = @file_put_contents($this->getClientSaltLocation(), $this->getClientSalt());
-        if (!$result) {
+        $location = $this->getClientSaltLocation();
+
+        set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
+            throw new ErrorException($message, $severity, $severity, $file, $line);
+        });
+
+        try {
+            $result = file_put_contents($location, $this->getClientSalt());
+            if (!$result) {
+                throw new ilPasswordException(sprintf(
+                    'Could not store the client salt in: %s. Please contact an administrator.',
+                    $location
+                ));
+            }
+        } catch (Exception $e) {
             throw new ilPasswordException(sprintf(
                 'Could not store the client salt in: %s. Please contact an administrator.',
-                $this->getClientSaltLocation()
+                $location
             ));
+        } finally {
+            restore_error_handler();
         }
     }
 }

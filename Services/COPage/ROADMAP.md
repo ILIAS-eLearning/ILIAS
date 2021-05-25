@@ -15,6 +15,11 @@ https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 
 ## Mid Term
 
+### Performance
+
+Large pages, especially with a high number of elements, e.g. data tables with lots of cells decrease the performance. This is mainly due to the way the model is retrieved in the "all" command ($o->pcModel = $this->getPCModel()). An alternative would be to use an xml -> xslt -> json approach at least for paragraphs and to "bulk-query" them.
+See https://mantis.ilias.de/view.php?id=29680
+
 ### Lower Cyclomatic Complexity (should also be done with ILIAS 7)
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.

@@ -1,10 +1,7 @@
 <?php
-require_once(dirname(__FILE__) . '/../Statement/class.arStatementCollection.php');
-require_once('class.arOrder.php');
 
 /**
  * Class arOrderCollection
- *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
@@ -14,14 +11,15 @@ class arOrderCollection extends arStatementCollection
     /**
      * @return string
      */
-    public function asSQLStatement()
+    public function asSQLStatement() : string
     {
         $return = '';
         if ($this->hasStatements()) {
             $return .= ' ORDER BY ';
-            foreach ($this->getOrders() as $order) {
+            $orders = $this->getOrders();
+            foreach ($orders as $order) {
                 $return .= $order->asSQLStatement($this->getAr());
-                if ($order != end($this->getOrders())) {
+                if ($order !== end($orders)) {
                     $return .= ', ';
                 }
             }
@@ -30,11 +28,10 @@ class arOrderCollection extends arStatementCollection
         return $return;
     }
 
-
     /**
      * @return arOrder[]
      */
-    public function getOrders()
+    public function getOrders() : array
     {
         return $this->statements;
     }

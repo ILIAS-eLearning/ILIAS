@@ -695,7 +695,7 @@ class ilRbacReview
             ilLoggerFactory::getLogger('ac')->logStack();
             $this->ilErr->raiseError($message, $this->ilErr->WARNING);
         }
-        
+        $and = '';
         if ($a_nonassignable === false) {
             $and = " AND assign='y'";
         }
@@ -978,11 +978,12 @@ class ilRbacReview
             "AND ref_id = " . $ilDB->quote($a_ref_id, 'integer') . " ";
 
         $res = $ilDB->query($query);
+        $ops = [];
         while ($row = $ilDB->fetchObject($res)) {
             $ops = unserialize($row->ops_id);
         }
-
-        return $ops ? $ops : array();
+    
+        return $ops;
     }
 
     /**

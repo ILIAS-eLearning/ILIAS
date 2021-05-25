@@ -77,7 +77,7 @@ class ilHistory
                 "info_params" => array("text", $a_info_params),
                 "user_comment" => array("clob", $a_user_comment)
                 ));
-                
+
         /*$query = "INSERT INTO history (id, obj_id, obj_type, action, hdate, usr_id, info_params, user_comment) VALUES ".
             "(".
             $ilDB->quote($id).", ".
@@ -103,7 +103,7 @@ class ilHistory
                 $uc_str.
                 " WHERE id = ".$ilDB->quote($last_entry["id"]);
             $ilDB->query($query);*/
-            
+
             $fields = array(
                 "hdate" => array("timestamp", ilUtil::now())
                 );
@@ -134,14 +134,12 @@ class ilHistory
         if ($a_obj_type == "") {
             $a_obj_type = ilObject::_lookupType($a_obj_id);
         }
-        
         $query = "SELECT * FROM history WHERE obj_id = " .
             $ilDB->quote($a_obj_id, "integer") . " AND " .
             "obj_type = " . $ilDB->quote($a_obj_type, "text") .
             " ORDER BY hdate DESC";
 
         $hist_set = $ilDB->query($query);
-
         $hist_items = array();
         while ($hist_rec = $ilDB->fetchAssoc($hist_set)) {
             $hist_items[] = array("date" => $hist_rec["hdate"],
@@ -151,8 +149,7 @@ class ilHistory
                 "action" => $hist_rec["action"],
                 "info_params" => $hist_rec["info_params"],
                 "user_comment" => $hist_rec["user_comment"],
-                "hist_entry_id" => $hist_rec["id"],
-                "title" => $hist_rec["title"]);
+                "hist_entry_id" => $hist_rec["id"]);
         }
 
         if ($a_obj_type == "lm") {

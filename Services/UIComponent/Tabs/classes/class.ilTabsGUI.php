@@ -526,7 +526,7 @@ class ilTabsGUI
                 }
 
                 if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
-                    (in_array($cmd, $target["cmd"]) || ($target["cmd"][0] == "" && count($target["cmd"]) == 1)) &&
+                    (in_array($cmd, $target["cmd"]) || (!isset($target["cmd"][0]) && count($target["cmd"]) == 1)) &&
                     (in_array($cmdClass, $target["cmdClass"]) || !$target["cmdClass"])) {
                     $tabtype = $pre . "tabactive";
                 } else {

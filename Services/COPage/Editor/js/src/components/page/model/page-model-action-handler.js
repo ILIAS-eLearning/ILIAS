@@ -115,6 +115,7 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_COMPONENT);
         this.model.setComponentState(this.model.STATE_COMPONENT_INSERT);
         this.model.setCurrentInsertPCId(params.pcid);   // insert after...
+        this.model.setInsertFromPlaceholder(params.fromPlaceholder);
         const pcid = this.model.getNewPCId();
         this.model.setCurrentPageComponent(params.cname, pcid, '');
         break;

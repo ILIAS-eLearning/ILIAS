@@ -43,7 +43,7 @@ class ilBiblTexFileReader extends ilBiblFileReaderBase implements ilBiblFileRead
             } else {
                 // Citation
                 preg_match("/^{(?<cite>.*),\\n/um", $object, $cite_matches);
-                if ($cite_matches['cite']) {
+                if ($cite_matches['cite'] ?? false) {
                     $entry['cite'] = $cite_matches['cite'];
                 }
 

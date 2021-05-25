@@ -1161,7 +1161,7 @@ class ilPCTableGUI extends ilPageContentGUI
 
                     $dtpl->setCurrentBlock("cell");
 
-                    if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
+                    if (isset($_POST["cmd"]) && is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
                         $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
                     } else {
                         $s_text = ilPCParagraph::xml2output(

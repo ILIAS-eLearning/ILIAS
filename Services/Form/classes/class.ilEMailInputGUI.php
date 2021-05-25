@@ -66,8 +66,8 @@ class ilEMailInputGUI extends ilFormPropertyGUI
      */
     public function setValueByArray($a_values)
     {
-        $this->setValue($a_values[$this->getPostVar()]);
-        $this->setRetypeValue($a_values[$this->getPostVar() . '_retype']);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setRetypeValue($a_values[$this->getPostVar() . '_retype'] ?? "");
     }
     
     /**
@@ -91,7 +91,12 @@ class ilEMailInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
         
         $_POST[$this->getPostVar()] = ilUtil::stripSlashes($_POST[$this->getPostVar()], !(bool) $this->allowRFC822);
-        $_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes($_POST[$this->getPostVar() . '_retype'], !(bool) $this->allowRFC822);
+        if (isset($_POST[$this->getPostVar() . '_retype'])) {
+            $_POST[$this->getPostVar() . '_retype'] = ilUtil::stripSlashes(
+                $_POST[$this->getPostVar() . '_retype'],
+                !(bool) $this->allowRFC822
+            );
+        }
         if ($this->getRequired() && trim($_POST[$this->getPostVar()]) == "") {
             $this->setAlert($lng->txt("msg_input_is_required"));
 

@@ -208,9 +208,10 @@ export default class PageUI {
             li.querySelector("a").addEventListener("click", (event) => {
               event.isDropDownSelectionEvent = true;
               dispatch.dispatch(action.page().editor().componentInsert(cname,
-                area.dataset.pcid,
-                hier_id,
-                pluginName));
+                  area.dataset.pcid,
+                  hier_id,
+                  pluginName,
+                  false));
             });
             ul.appendChild(li);
           }
@@ -278,24 +279,30 @@ export default class PageUI {
         } else if (this.model.getState() === this.model.STATE_COMPONENT) {
 
           // Invoke switch action, if click is on other component of same type
+          // (and currently type must be Paragraph)
           if (this.model.getCurrentPCName() === area.dataset.cname &&
-            this.model.getCurrentPCId() !== area.dataset.pcid) {
+              this.model.getCurrentPCId() !== area.dataset.pcid &&
+              this.model.getCurrentPCName() === "Paragraph") {
 
-            let compPara = {};
-            if (this.componentUI.has(area.dataset.cname)) {
-              const componentUI = this.componentUI.get(area.dataset.cname);
-              if (typeof componentUI.getSwitchParameters === 'function') {
-                compPara = componentUI.getSwitchParameters();
+            const pcModel = this.model.getPCModel(area.dataset.pcid);
+            if (pcModel.characteristic !== "Code") {
+
+              let compPara = {};
+              if (this.componentUI.has(area.dataset.cname)) {
+                const componentUI = this.componentUI.get(area.dataset.cname);
+                if (typeof componentUI.getSwitchParameters === 'function') {
+                  compPara = componentUI.getSwitchParameters();
+                }
               }
-            }
 
-            dispatch.dispatch(action.page().editor().componentSwitch(
-              area.dataset.cname,
-              this.model.getComponentState(),
-              this.model.getCurrentPCId(),
-              compPara,
-              area.dataset.pcid,
-              area.dataset.hierid));
+              dispatch.dispatch(action.page().editor().componentSwitch(
+                  area.dataset.cname,
+                  this.model.getComponentState(),
+                  this.model.getCurrentPCId(),
+                  compPara,
+                  area.dataset.pcid,
+                  area.dataset.hierid));
+            }
           }
         }
       });

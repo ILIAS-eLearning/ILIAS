@@ -1,5 +1,4 @@
 <?php
-
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 /**
@@ -9,6 +8,11 @@
  */
 class ilContainerObjectiveGUI extends ilContainerContentGUI
 {
+    /**
+     * @var \ilLogger |null
+     */
+    private $logger = null;
+
     /**
      * @var ilTabsGUI
      */
@@ -20,7 +24,11 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     protected $toolbar;
 
     protected $force_details = 0;
-    protected $loc_settings; // [ilLOSettings]
+
+    /**
+     * @var \ilLOSettings
+     */
+    protected $loc_settings;
     
     const MATERIALS_TESTS = 1;
     const MATERIALS_OTHER = 2;
@@ -47,6 +55,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $this->ctrl = $DIC->ctrl();
         $this->toolbar = $DIC->toolbar();
         $lng = $DIC->language();
+        $this->logger = $DIC->logger()->crs();
         
         $this->lng = $lng;
         parent::__construct($a_container_gui);
@@ -65,7 +74,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     }
     
     /**
-     * @return ilLOSettings
+     * @return \ilLOSettings
      */
     public function getSettings()
     {
@@ -1027,9 +1036,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
         
         if ($a_next_step) {
-            $tpl->setCurrentBlock("nstep_bl");
+            #$tpl->setCurrentBlock("nstep_bl");
             $tpl->setVariable("TXT_NEXT_STEP", $a_next_step);
-            $tpl->parseCurrentBlock();
+            #$tpl->parseCurrentBlock();
         }
         
         if ($a_tt_id &&
@@ -1050,7 +1059,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
      *
      * @param int $a_perc_result
      * @param int $a_perc_limit
-     * @param string $a_css
+     * @param int $a_compare_value
      * @param string $a_caption
      * @param string $a_url
      * @param string $a_tt_id
@@ -1065,7 +1074,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
     public static function renderProgressMeter(
         $a_perc_result = null,
         $a_perc_limit = null,
-        $a_css = null,
+        $a_compare_value = null,
         $a_caption = null,
         $a_url = null,
         $a_tt_id = null,
@@ -1089,16 +1098,17 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $uiFactory = $DIC->ui()->factory();
             $uiRenderer = $DIC->ui()->renderer();
 
-            $pMeter = $uiFactory->chart()->progressMeter()->fixedSize(
+            $pMeter = $uiFactory->chart()->progressMeter()->standard(
                 100,
                 (int) $a_perc_result,
-                (int) $a_perc_limit
+                (int) $a_perc_limit,
+                (int) $a_compare_value
             );
             if (strlen($a_main_text)) {
-                $pMeter = $pMeter->withMainText($a_main_text);
+                #$pMeter = $pMeter->withMainText($a_main_text);
             }
             if (strlen($a_required_text)) {
-                $pMeter = $pMeter->withRequiredText($a_required_text);
+                #$pMeter = $pMeter->withRequiredText($a_required_text);
             }
             $tpl->setVariable('PROGRESS_METER', $uiRenderer->render($pMeter));
         }
@@ -1120,9 +1130,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         }
 
         if ($a_next_step) {
-            $tpl->setCurrentBlock("nstep_bl");
+            //$tpl->setCurrentBlock("nstep_bl");
             $tpl->setVariable("TXT_NEXT_STEP", $a_next_step);
-            $tpl->parseCurrentBlock();
+            //$tpl->parseCurrentBlock();
         }
 
         if ($a_tt_id &&
@@ -1137,6 +1147,57 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
 
         return $tpl->get();
     }
+
+    /**
+     * Get objective result summary
+     * @param bool
+     * @param int
+     * @param array
+     * @todo refactor to presentation class
+     */
+    public static function getObjectiveResultSummary($a_has_initial_test, $a_objective_id, $a_lo_result)
+    {
+        global $DIC;
+
+        $lng = $DIC->language();
+        $lng->loadLanguageModule('crs');
+
+        $is_qualified         =
+            ($a_lo_result["type"] == ilLOUserResults::TYPE_QUALIFIED);
+        $is_qualified_initial =
+            (
+                $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
+                ilLOSettings::getInstanceByObjId($a_lo_result['course_id'])->isInitialTestQualifying()
+            );
+        $has_completed        =
+            ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
+
+        $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
+
+        if (
+            $is_qualified ||
+            $is_qualified_initial) {
+            if ($has_completed) {
+                $next_step = $lng->txt("crs_loc_progress_objective_complete");
+            } else {
+                $next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
+            }
+        } // initial test
+        else {
+            if ($a_lo_result["status"]) {
+                $next_step =
+                    $has_completed ?
+                        $lng->txt("crs_loc_progress_do_qualifying") :
+                        $lng->txt("crs_loc_suggested");
+            } else {
+                $next_step = (bool) $a_has_initial_test ?
+                    $lng->txt("crs_loc_progress_no_result_do_initial") :
+                    $lng->txt("crs_loc_progress_no_result_no_initial");
+            }
+        }
+        return $next_step;
+    }
+
     /**
      * Render progressbar(s) for given objective and result data
      *
@@ -1175,6 +1236,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         $has_completed = ($a_lo_result["status"] == ilLOUserResults::STATUS_COMPLETED);
             
         $next_step = $progress_txt = $bar_color = $test_url = $initial_sub = null;
+        $compare_value = null;
             
         if ($is_qualified ||
             $is_qualified_initial) {
@@ -1192,7 +1254,8 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                     $a_lo_result["initial"]["itest"] = $a_lo_result["itest"];
                     
                     // force list mode to get rid of next step
-                    $initial_sub = self::buildObjectiveProgressBar(true, $a_objective_id, $a_lo_result["initial"], true, true, $a_tt_suffix);
+                    #$initial_sub = self::buildObjectiveProgressBar(true, $a_objective_id, $a_lo_result["initial"], true, true, $a_tt_suffix);
+                    $compare_value = $a_lo_result['initial']['result_perc'];
                 }
             } else {
                 $next_step = $lng->txt("crs_loc_progress_do_qualifying_again");
@@ -1236,7 +1299,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         return self::renderProgressMeter(
             $a_lo_result["result_perc"],
             $a_lo_result["limit_perc"],
-            $bar_color,
+            $compare_value,
             $progress_txt,
             $test_url,
             $tooltip_id,
@@ -1253,8 +1316,19 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
         );
     }
     
+    /**
+     * @param \ilCourseObjective $a_objective
+     * @param array|null         $a_lo_result
+     * @return string
+     * @throws \ilTemplateException
+     */
     protected function buildAccordionTitle(ilCourseObjective $a_objective, array $a_lo_result = null)
     {
+        global $DIC;
+
+        $renderer   = $DIC->ui()->renderer();
+        $ui_factory = $DIC->ui()->factory();
+
         $tpl = new ilTemplate("tpl.objective_accordion_title.html", true, true, "Services/Container");
             
         if ($a_lo_result) {
@@ -1268,11 +1342,112 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             );
         }
         
-        // $tpl->setVariable("ICON_SRC", ilObject::_getIcon($a_objective->getObjectiveId(), "small", "lobj"));
-        // $tpl->setVariable("ICON_TXT", $this->lng->txt("icon")." ".$this->lng->txt("crs_objectives"));
         $tpl->setVariable("TITLE", $this->lng->txt("crs_loc_learning_objective") . ": " . trim($a_objective->getTitle()));
         $tpl->setVariable("DESCRIPTION", nl2br(trim($a_objective->getDescription())));
         
+        $initial_res = null;
+        $initial_lim = null;
+        if ($this->loc_settings->worksWithInitialTest()) {
+            if (array_key_exists('initial', $a_lo_result)) {
+                $initial_res = (int) $a_lo_result['initial']['result_perc'];
+                $initial_lim = (int) $a_lo_result['initial']['limit_perc'];
+            }
+            if (
+                $a_lo_result['type'] == ilLOUserResults::TYPE_INITIAL &&
+                isset($a_lo_result['result_perc'])
+            ) {
+                $initial_res = (int) $a_lo_result['result_perc'];
+                $initial_lim = (int) $a_lo_result['limit_perc'];
+            }
+        }
+
+        if ($initial_res !== null) {
+
+            $link = \ilLOUtils::getTestResultLinkForUser(
+                $a_lo_result["itest"],
+                $a_lo_result["user_id"]
+            );
+
+            if (strlen($link)) {
+                $tpl->setCurrentBlock('i_with_link');
+                $tpl->setVariable(
+                    'IBTN',
+                    $renderer->render(
+                        $ui_factory->button()->shy(
+                            $this->lng->txt('crs_objective_result_details'),
+                            $link
+                        )
+                    )
+                );
+                $tpl->parseCurrentBlock();
+            }
+
+            $tpl->setCurrentBlock('res_initial');
+            $tpl->setVariable(
+                'IRESULT',
+                sprintf(
+                    $this->lng->txt('crs_objective_result_summary_initial'),
+                    (int) $initial_res . '%',
+                    (int) $initial_lim . '%'
+                )
+            );
+            $tpl->parseCurrentBlock();
+        }
+
+        $qual_res = null;
+        $qual_lim = null;
+
+        if ($a_lo_result['type'] == ilLOUserResults::TYPE_QUALIFIED) {
+
+            $qual_res = (int) $a_lo_result['result_perc'];
+            $qual_lim = (int) $a_lo_result['limit_perc'];
+        }
+
+        if ($qual_res !== null) {
+
+            $link = \ilLOUtils::getTestResultLinkForUser(
+                $a_lo_result["qtest"],
+                $a_lo_result["user_id"]
+            );
+
+            if (strlen($link)) {
+                $tpl->setCurrentBlock('q_with_link');
+                $tpl->setVariable(
+                    'QBTN',
+                    $renderer->render(
+                        $ui_factory->button()->shy(
+                            $this->lng->txt('crs_objective_result_details'),
+                            $link
+                        )
+                    )
+                );
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock('res_qualifying');
+            $tpl->setVariable(
+                'QRESULT',
+                sprintf(
+                    $this->lng->txt('crs_objective_result_summary_qualifying'),
+                    (int) $qual_res . '%',
+                    (int) $qual_lim . '%'
+                )
+            );
+            $tpl->parseCurrentBlock();
+        }
+
+        $this->logger->dump($a_lo_result);
+
+        $summary = self::getObjectiveResultSummary(
+            (bool) $this->loc_settings->worksWithInitialTest(),
+            $a_objective->getObjectiveId(),
+            $a_lo_result
+        );
+        if (strlen($summary)) {
+            $tpl->setCurrentBlock('objective_summary');
+            $tpl->setVariable('SUMMARY_TXT', $summary);
+            $tpl->parseCurrentBlock();
+        }
+
         // #15510
         $tpl->setVariable("ANCHOR_ID", "objtv_acc_" . $a_objective->getObjectiveId());
                 

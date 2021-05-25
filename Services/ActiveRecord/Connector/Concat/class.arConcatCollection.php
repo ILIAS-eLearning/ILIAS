@@ -14,14 +14,15 @@ class arConcatCollection extends arStatementCollection
     /**
      * @return string
      */
-    public function asSQLStatement()
+    public function asSQLStatement() : string
     {
         $return = '';
         if ($this->hasStatements()) {
             $return = ', ';
-            foreach ($this->getConcats() as $concat) {
+            $concats = $this->getConcats();
+            foreach ($concats as $concat) {
                 $return .= $concat->asSQLStatement($this->getAr());
-                if ($concat != end($this->getConcats())) {
+                if ($concat !== end($concats)) {
                     $return .= ', ';
                 }
             }

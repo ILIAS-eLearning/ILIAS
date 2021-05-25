@@ -103,11 +103,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns()
     {
-        $optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
+        $optionalColumns = array_filter($this->getColumnDefinition(), static function ($column) : bool {
             return isset($column['optional']) && $column['optional'];
         });
 
-        $columns = array();
+        $columns = [];
         foreach ($optionalColumns as $index => $column) {
             $columns[$column['field']] = $column;
         }
@@ -533,7 +533,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
             if ($this->isDraftFolder() || $this->isSentFolder()) {
                 $mail['rcp_to'] = $mail['mail_login'] = ilUtil::htmlencodePlainString(
-                    $this->_parentObject->umail->formatNamesForOutput($mail['rcp_to']),
+                    $this->_parentObject->umail->formatNamesForOutput((string) $mail['rcp_to']),
                     false
                 );
             } elseif ($mail['sender_id'] == ANONYMOUS_USER_ID) {
@@ -576,7 +576,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                         $search_result[] = $content[1];
                     }
                 }
-                $mail['msr_data'] = implode('', array_map(function ($value) {
+                $mail['msr_data'] = implode('', array_map(static function ($value) : string {
                     return '<p>' . $value . '</p>';
                 }, $search_result));
 

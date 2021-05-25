@@ -201,7 +201,10 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
         // get params via additional_data, set query params
-        $params = $additional_data->get(self::LM_QUERY_PARAMS);
+        $params = null;
+        if ($additional_data->exists(self::LM_QUERY_PARAMS)) {
+            $params = $additional_data->get(self::LM_QUERY_PARAMS);
+        }
         $offline = $additional_data->is(self::LM_OFFLINE, true);
 
         if (!is_array($params)) {

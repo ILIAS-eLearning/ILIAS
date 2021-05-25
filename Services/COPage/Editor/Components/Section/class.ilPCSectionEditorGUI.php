@@ -32,8 +32,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
      */
     public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
     {
-        $form = $this->getCreationForm($page_gui, $ui_wrapper);
-
+        $form = $this->getCreationForm($page_gui, $ui_wrapper, $style_id);
         return [
             "creation_form" => $form,
             "icon" => $ui_wrapper->getRenderedIcon("pesc")
@@ -45,12 +44,13 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
      * @param
      * @return
      */
-    protected function getCreationForm(ilPageObjectGUI $page_gui, $ui_wrapper)
+    protected function getCreationForm(ilPageObjectGUI $page_gui, $ui_wrapper, $style_id)
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
         $sec_gui = new ilPCSectionGUI($page_gui->getPageObject(), null, "", "");
+        $sec_gui->setStyleId($style_id);
         $sec_gui->setPageConfig($page_gui->getPageConfig());
 
         $html = $ctrl->getHTML(
@@ -84,6 +84,7 @@ class ilPCSectionEditorGUI implements \ILIAS\COPage\Editor\Components\PageCompon
 
 
         $sec_gui = new ilPCSectionGUI($page_gui->getPageObject(), $sec, $hier_id, $pcid);
+        $sec_gui->setStyleId($style_id);
         $sec_gui->setPageConfig($page_gui->getPageConfig());
 
         $html = $ctrl->getHTML(

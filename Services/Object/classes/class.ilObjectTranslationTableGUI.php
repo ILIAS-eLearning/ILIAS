@@ -62,7 +62,7 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
     /**
     * Prepare output
     */
-    public function prepareOutput()
+    protected function prepareOutput()
     {
         $lng = $this->lng;
 

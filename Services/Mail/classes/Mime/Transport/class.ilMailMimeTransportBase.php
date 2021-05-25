@@ -146,7 +146,7 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
 
         $this->getMailer()->CharSet = 'utf-8';
 
-        $this->mailer->Debugoutput = function ($message, $level) {
+        $this->mailer->Debugoutput = static function (string $message, $level) : void {
             if (
                 strpos($message, 'Invalid address') !== false ||
                 strpos($message, 'Message body empty') !== false

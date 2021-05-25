@@ -33,6 +33,16 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
      */
     final public function purifyArray(array $htmlCollection) : array
     {
+        foreach ($htmlCollection as $key => $html) {
+            if (!is_string($html)) {
+                throw new InvalidArgumentException(sprintf(
+                    'The element on index %s is not of type string: %s',
+                    $key,
+                    print_r($html, true)
+                ));
+            }
+        }
+
         return $this->purifier->purifyArray($htmlCollection);
     }
 

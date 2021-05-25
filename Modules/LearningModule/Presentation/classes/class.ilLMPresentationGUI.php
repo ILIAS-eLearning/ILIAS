@@ -182,6 +182,13 @@ class ilLMPresentationGUI
      */
     protected $additional_content = [];
 
+    protected string $requested_cmd = "";
+    protected int $requested_pg_id = 0;
+    protected string $requested_pg_type = "";
+    protected int $requested_mob_id = 0;
+    protected int $requested_notification_switch = 0;
+    protected bool $abstract = false;
+
     public function __construct(
         $a_export_format = "",
         $a_all_languages = false,
@@ -246,7 +253,9 @@ class ilLMPresentationGUI
         if (!$ilCtrl->isAsynch()) {
             // moved this into the if due to #0027200
             if (!$embed_mode) {
-                $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL, true);
+                if ($this->service->getPresentationStatus()->isTocNecessary()) {
+                    $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_TOC_TOOL, true);
+                }
             }
             $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilLMGSToolProvider::SHOW_LINK_SLATES, true);
         }
@@ -293,6 +302,10 @@ class ilLMPresentationGUI
         $this->requested_search_string = $request->getRequestedSearchString();
         $this->requested_focus_return = $request->getRequestedFocusReturn();
         $this->requested_mob_id = $request->getRequestedMobId();
+        $this->requested_cmd = $request->getRequestedCmd();
+        $this->requested_pg_id = $request->getRequestedPgId();
+        $this->requested_pg_type = $request->getRequestedPgType();
+        $this->requested_notification_switch = $request->getRequestedNotificationSwitch();
 
         $this->lm_set = $this->service->getSettings();
         $this->lm_gui = $this->service->getLearningModuleGUI();
@@ -413,8 +426,8 @@ class ilLMPresentationGUI
                 break;
 
             default:
-                if ($_GET["ntf"]) {
-                    switch ($_GET["ntf"]) {
+                if ($this->requested_notification_switch > 0) {
+                    switch ($this->requested_notification_switch) {
                         case 1:
                             ilNotification::setNotification(ilNotification::TYPE_LM, $this->user->getId(), $this->lm->getId(), false);
                             break;
@@ -1080,7 +1093,20 @@ class ilLMPresentationGUI
             }
             $this->ctrl->setParameter($this, "ntf", "");
         }
-        
+
+        if (!$this->offline) {
+            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
+                if ($this->getCurrentPageId() <= 0) {
+                    $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
+                } else {
+                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->getCurrentPageId() . "&to_page=1";
+                }
+                $lg->addCustomCommand($link, "edit_page");
+            }
+        }
+
+
         if (!$a_redraw) {
             return $lg->getHeaderAction($this->tpl);
         } else {
@@ -1243,13 +1269,6 @@ class ilLMPresentationGUI
                 $frame_target
             );
         }
-
-        if (DEBUG) {
-            $debug = "DEBUG: <font color=\"red\">" . $this->type . "::" . $this->id . "::" . $_GET["cmd"] . "</font><br/>";
-        }
-
-        //$prop_name = $this->objDefinition->getPropertyName($_GET["cmd"],$this->type);
-
 
         $this->tpl->setLocator();
     }
@@ -1576,6 +1595,10 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
         }
         $a_page_gui->setFileDownloadLink($this->linker->getLink("downloadFile"));
+        $a_page_gui->setSourcecodeDownloadScript($this->linker->getLink(
+            "sourcecodeDownload",
+            $this->getCurrentPageId()
+        ));
         if (!$this->offlineMode()) {
             $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
         }
@@ -1625,8 +1648,8 @@ class ilLMPresentationGUI
         $link_xml = $this->linker->getLinkXML($med_links);
 
         $media_obj = new ilObjMediaObject($this->requested_mob_id);
-        if (!empty($_GET["pg_id"])) {
-            $pg_obj = $this->getLMPage($_GET["pg_id"], $_GET["pg_type"]);
+        if (!empty($this->requested_pg_id)) {
+            $pg_obj = $this->getLMPage($this->requested_pg_id, $this->requested_pg_type);
             $pg_obj->buildDom();
 
             $xml = "<dummy>";
@@ -1657,7 +1680,7 @@ class ilLMPresentationGUI
             $wb_path = "";
         }
 
-        $mode = ($_GET["cmd"] == "fullscreen")
+        $mode = ($this->requested_cmd == "fullscreen")
             ? "fullscreen"
             : "media";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output", $this->offlineMode());

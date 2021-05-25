@@ -628,7 +628,7 @@ export default class ParagraphUI {
     this.log("paragraph-ui.insertParagraph");
     this.pageModifier.insertComponentAfter(after_pcid, pcid, "Paragraph", content, "Paragraph");
     let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
-    this.showToolbar();
+    this.showToolbar(true, true);
     this.tinyWrapper.initInsert(content_el, () => {
       this.tinyWrapper.setContent(content, characteristic);
       this.setParagraphClass(characteristic);
@@ -671,8 +671,8 @@ export default class ParagraphUI {
     console.log("paragraph-ui switchToPrevious");
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-
-    const cpcid = this.page_model.getCurrentPCId();
+    const page_model = this.page_model;
+    const cpcid = page_model.getCurrentPCId();
     let found = false;
     let previousPcid = null;
     let previousHierId = null;
@@ -681,12 +681,15 @@ export default class ParagraphUI {
       const hierid = el.dataset.hierid;
       const cname = el.dataset.cname;
       if (cname === "Paragraph") {
-        if (!found && cpcid === pcid) {
-          found = true;
-        }
-        if (!found) {
-          previousPcid = pcid;
-          previousHierId = hierid;
+        const pcModel = page_model.getPCModel(pcid);
+        if (pcModel.characteristic !== "Code") {
+          if (!found && cpcid === pcid) {
+            found = true;
+          }
+          if (!found) {
+            previousPcid = pcid;
+            previousHierId = hierid;
+          }
         }
       }
     });
@@ -706,8 +709,8 @@ export default class ParagraphUI {
     this.log("paragraph-ui switchToNext");
     const dispatch = this.dispatcher;
     const action = this.actionFactory;
-
-    const cpcid = this.page_model.getCurrentPCId();
+    const page_model = this.page_model;
+    const cpcid = page_model.getCurrentPCId();
     let found = false;
     let nextPcid = null;
     let nextHierId = null;
@@ -716,12 +719,15 @@ export default class ParagraphUI {
       const hierid = el.dataset.hierid;
       const cname = el.dataset.cname;
       if (cname === "Paragraph") {
-        if (found && !nextPcid) {
-          nextPcid = pcid;
-          nextHierId = hierid;
-        }
-        if (!found && cpcid === pcid) {
-          found = true;
+        const pcModel = page_model.getPCModel(pcid);
+        if (pcModel.characteristic !== "Code") {
+          if (found && !nextPcid) {
+            nextPcid = pcid;
+            nextHierId = hierid;
+          }
+          if (!found && cpcid === pcid) {
+            found = true;
+          }
         }
       }
     });
@@ -774,7 +780,7 @@ export default class ParagraphUI {
         if (pcModel) {
           wrapper.initContent(pcModel.text, pcModel.characteristic);
         }
-        parUI.showToolbar();
+        parUI.showToolbar(true, true);
         if (pcModel) {
           parUI.setParagraphClass(pcModel.characteristic);
           parUI.setSectionClassSelector(parUI.getSectionClass(pcId));
@@ -864,7 +870,7 @@ export default class ParagraphUI {
   //
 
   // copied from TinyMCE editor_template_src.js
-  showToolbar() {
+  showToolbar(showParagraphClass, showSectionFormat) {
     let obj;
     const tiny = this.tinyWrapper;
     const dispatch = this.dispatcher;
@@ -952,6 +958,13 @@ export default class ParagraphUI {
           break;
       }
     });
+
+    if (!showParagraphClass) {
+      document.querySelector(".ilTinyParagraphClassSelector").remove();
+    }
+    if (!showSectionFormat) {
+      document.querySelector(".ilSectionClassSelector").remove();
+    }
   }
 
 

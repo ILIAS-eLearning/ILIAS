@@ -350,7 +350,7 @@ class ilObjRoleGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         
         if (!$rbacsystem->checkAccess('create_role', $this->obj_ref_id)) {
-            $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
+            $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
         
         $this->initFormRoleProperties(self::MODE_GLOBAL_CREATE);

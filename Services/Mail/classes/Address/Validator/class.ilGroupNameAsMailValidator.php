@@ -23,7 +23,7 @@ class ilGroupNameAsMailValidator
         $this->host = $host;
 
         if (null === $groupNameCheckCallable) {
-            $groupNameCheckCallable = function (string $groupName) {
+            $groupNameCheckCallable = static function (string $groupName) : bool {
                 return ilUtil::groupNameExists($groupName);
             };
         }

@@ -126,7 +126,7 @@ class ilObjectActivationGUI
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilconditionhandlergui':
                 // preconditions for single course items
-                $this->ctrl->saveParameter($this, 'item_id', $_GET['item_id']);
+                $this->ctrl->saveParameter($this, 'item_id');
                 $new_gui = new ilConditionHandlerGUI($this, (int) $_GET['item_id']);
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('preconditions');

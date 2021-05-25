@@ -16,4 +16,10 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface FilterInput extends FormInput
 {
+    /**
+     * Is this input complex and must be rendered in a Popover when using it in a Filter?
+     *
+     * @return bool
+     */
+    public function isComplex();
 }

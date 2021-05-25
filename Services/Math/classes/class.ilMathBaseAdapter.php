@@ -65,7 +65,7 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
             return $number;
         }
 
-        $number = str_replace(' ', '', $number);
+        $number = str_replace(' ', '', (string) $number);
         $number = $this->exp2dec($number);
         $locale_info = localeconv();
 

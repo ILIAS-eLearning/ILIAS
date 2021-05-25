@@ -9,7 +9,7 @@
  **/
 class ilMailMemberSearchDataProvider
 {
-    /** @var \ilAccessHandler */
+    /** @var ilAccessHandler */
     protected $access;
 
     /** @var int */
@@ -19,12 +19,12 @@ class ilMailMemberSearchDataProvider
     protected $type = 'crs';
 
     /** @var array */
-    protected $data = array();
+    protected $data = [];
 
     /** @var null */
     protected $objParticipants = null;
 
-    /** @var \ilObjectDataCache */
+    /** @var ilObjectDataCache */
     protected $dataCache;
 
     /** @var array */
@@ -36,11 +36,11 @@ class ilMailMemberSearchDataProvider
         'il_grp_m' => 8,
     ];
 
-    /** @var \ilLanguage */
+    /** @var ilLanguage */
     protected $lng;
 
     /**
-     * @param \ilParticipants $objParticipants
+     * @param ilParticipants $objParticipants
      * @param int $a_ref_id
      */
     public function __construct($objParticipants, $a_ref_id)
@@ -58,13 +58,10 @@ class ilMailMemberSearchDataProvider
         $this->collectTableData();
     }
 
-    /**
-     *
-     */
-    private function collectTableData()
+    private function collectTableData() : void
     {
         $participants = $this->objParticipants->getParticipants();
-        if ($this->type == 'crs' || $this->type == 'grp') {
+        if ($this->type === 'crs' || $this->type === 'grp') {
             $participants = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read',
                 'manage_members',
@@ -73,13 +70,22 @@ class ilMailMemberSearchDataProvider
             );
         }
 
+        $preloadedRoleIds = [];
         foreach ($participants as $user_id) {
-            $name = ilObjUser::_lookupName($user_id);
-            $login = ilObjUser::_lookupLogin($user_id);
+            $user = ilObjectFactory::getInstanceByObjId($user_id, false);
+            if (!$user || !($user instanceof ilObjUser)) {
+                continue;
+            }
+
+            if (!$user->getActive()) {
+                continue;
+            }
+
+            $login = $user->getLogin();
 
             $publicName = '';
-            if (in_array(ilObjUser::_lookupPref($user_id, 'public_profile'), array('g', 'y'))) {
-                $publicName = $name['lastname'] . ', ' . $name['firstname'];
+            if (in_array($user->getPref('public_profile'), ['g', 'y'])) {
+                $publicName = $user->getLastname() . ', ' . $user->getFirstname();
             }
 
             $this->data[$user_id]['user_id'] = $user_id;
@@ -87,16 +93,19 @@ class ilMailMemberSearchDataProvider
             $this->data[$user_id]['name'] = $publicName;
 
             $assignedRoles = $this->objParticipants->getAssignedRoles($user_id);
-            $this->dataCache->preloadObjectCache($assignedRoles);
+            $rolesToPreload = array_diff($assignedRoles, $preloadedRoleIds);
+            $this->dataCache->preloadObjectCache($rolesToPreload);
+
             $roleTitles = [];
             foreach ($assignedRoles as $roleId) {
+                $preloadedRoleIds[$roleId] = $roleId;
                 $title = $this->dataCache->lookupTitle($roleId);
                 $roleTitles[] = $title;
             }
 
             $roleTitles = $this->sortRoles($roleTitles);
 
-            $roleTitles = array_map(function ($roleTitle) {
+            $roleTitles = array_map(function (string $roleTitle) : string {
                 return $this->buildRoleTitle($roleTitle);
             }, $roleTitles);
 
@@ -110,26 +119,19 @@ class ilMailMemberSearchDataProvider
      */
     private function sortRoles(array $roleTitles) : array
     {
-        usort($roleTitles, function ($a, $b) {
+        usort($roleTitles, function (string $a, string $b) : int {
             $leftPrefixTitle = substr($a, 0, 8);
             $rightPrefixTitle = substr($b, 0, 8);
 
-            $leftRating = 0;
-            if (isset($this->roleSortWeightMap[$leftPrefixTitle])) {
-                $leftRating = $this->roleSortWeightMap[$leftPrefixTitle];
-            }
-
-            $rightRating = 0;
-            if (isset($this->roleSortWeightMap[$rightPrefixTitle])) {
-                $rightRating = $this->roleSortWeightMap[$rightPrefixTitle];
-            }
+            $leftRating = $this->roleSortWeightMap[$leftPrefixTitle] ?? 0;
+            $rightRating = $this->roleSortWeightMap[$rightPrefixTitle] ?? 0;
 
             if ($leftRating > 0 || $rightRating > 0) {
                 if ($leftRating !== $rightRating) {
                     return $rightRating - $leftRating > 0 ? 1 : -1;
-                } else {
-                    return 0;
                 }
+
+                return 0;
             }
 
             return strcmp($a, $b);
@@ -138,19 +140,12 @@ class ilMailMemberSearchDataProvider
         return $roleTitles;
     }
 
-    /**
-     * @param string $role
-     * @return string
-     */
     private function buildRoleTitle(string $role) : string
     {
-        return \ilObjRole::_getTranslation($role);
+        return ilObjRole::_getTranslation($role);
     }
 
-    /**
-     * @return array
-     */
-    public function getData()
+    public function getData() : array
     {
         return $this->data;
     }

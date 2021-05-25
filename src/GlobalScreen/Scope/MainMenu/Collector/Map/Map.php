@@ -65,9 +65,12 @@ class Map implements Filterable, Walkable
      */
     public function getSingleItemFromRaw(IdentificationInterface $identification) : isItem
     {
-        $item = $this->raw->offsetGet($identification->serialize());
+        if($this->raw->offsetExists($identification->serialize())) {
+            $item = $this->raw->offsetGet($identification->serialize());
 
-        return $item ?? $this->getLostItem($identification);
+            return $item ?? $this->getLostItem($identification);
+        }
+        return $this->getLostItem($identification);
     }
 
     /**

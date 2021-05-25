@@ -105,6 +105,8 @@ class ilCtrl
      */
     protected $verified_cmd = '';
 
+    protected string $cmdMode = "";
+
     /**
      * control class constructor
      */
@@ -116,6 +118,8 @@ class ilCtrl
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
+
+        $this->cmdMode = ($_GET["cmdMode"] ?? "");
     }
     
     /**
@@ -936,7 +940,7 @@ class ilCtrl
             if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
                 reset($_POST["cmd"]);
             }
-            $cmd = @key($_POST["cmd"]);
+            $cmd = isset($_POST["cmd"]) && is_array($_POST["cmd"]) ? key($_POST["cmd"]) : '';
 
             // verify command
             if ($this->verified_cmd != "") {
@@ -950,7 +954,7 @@ class ilCtrl
             
             $this->verified_cmd = $cmd;
             if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
-                $cmd = @key($_POST["table_top_cmd"]);
+                $cmd = key($_POST["table_top_cmd"]);
                 $this->verified_cmd = $cmd;
                 $_POST[$_POST["cmd_sv"][$cmd]] = $_POST[$_POST["cmd_sv"][$cmd] . "_2"];
             }
@@ -1345,7 +1349,7 @@ class ilCtrl
      */
     public function isAsynch()
     {
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if ($this->cmdMode == "asynch") {
             return true;
         } else {
             return false;
@@ -1455,7 +1459,7 @@ class ilCtrl
         );
         $script = ilUtil::appendUrlParameterString(
             $script,
-            "cmdMode=" . $_GET["cmdMode"]
+            "cmdMode=" . $this->cmdMode
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
@@ -1520,7 +1524,7 @@ class ilCtrl
         $node = $node["node_id"];
         $n_arr = explode(":", $node);
         for ($i = count($n_arr) - 2; $i >= 0; $i--) {
-            if ($this->return[$this->getClassForCid($n_arr[$i])] != "") {
+            if (isset($this->return[$this->getClassForCid($n_arr[$i])])) {
                 return $this->getClassForCid($n_arr[$i]);
             }
         }
@@ -1535,7 +1539,7 @@ class ilCtrl
      */
     public function getRedirectSource()
     {
-        return $_GET["redirectSource"];
+        return $_GET["redirectSource"] ?? "";
     }
 
     /**
@@ -1582,7 +1586,7 @@ class ilCtrl
             return array();
         }
 
-        $current_base_class = $_GET["baseClass"];
+        $current_base_class = $_GET["baseClass"] ?? "";
         if ($this->use_current_to_determine_next && $this->inner_base_class != "") {
             $current_base_class = $this->inner_base_class;
         }
@@ -1672,7 +1676,7 @@ class ilCtrl
 
     private function cidClassUnknown($a_cid)
     {
-        return $this->cid_class[$a_cid] == "";
+        return (!isset($this->cid_class[$a_cid]) || $this->cid_class[$a_cid] == "");
     }
 
 
@@ -1757,7 +1761,9 @@ class ilCtrl
             $this->updateClassCidMap($a_class, $class_info['cid']);
         }
         $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        
+        if (!isset($this->class_cid[$a_class])) {
+            return false;
+        }
         $this->info_read_class[$a_class] = true;
         $this->info_read_cid[$this->class_cid[$a_class]] = true;
     }

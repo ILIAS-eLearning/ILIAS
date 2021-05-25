@@ -41,7 +41,7 @@ class ilMDDescription extends ilMDBase
     {
         return $this->description;
     }
-    public function setDescriptionLanguage(&$lng_obj)
+    public function setDescriptionLanguage($lng_obj)
     {
         if (is_object($lng_obj)) {
             $this->description_language = $lng_obj;

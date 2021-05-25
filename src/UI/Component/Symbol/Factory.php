@@ -138,7 +138,18 @@ interface Factory
      *     1: Avatars MUST be used to represent a specific user.
      *     2: Avatars MUST be used in combination with the represented username.
      *   accessibility:
-     *     1: Avatars MUST bear an aria-label with the username.
+     *     1:  >
+     *       Avatars MUST bear an aria-label or contain an image with an alt tag with some alternative text. Note,
+     *       that it MUST NOT contain both, a aria-label and an image with a non-empty alt tag.
+     *     2:  >
+     *       If the Avatar is accompanied by the name of the user shown in the image
+     *       (e.g. in the Members Gallery), the alternative text attribute MUST be "User Avatar".
+     *     3:  >
+     *       If the Avatar is not or might not (due to some setting) be accompaniedby the
+     *       name of the user shown in the image, the alternative text MUST be "User Avatar of NameOfUser".
+     *     4:  >
+     *       Avatars that show the currently logged in user outside some list with other users,
+     *       the alternative text MUST be "Your user avatar".
      *   responsiveness:
      *     1: the avatar MUST adjust it's size to the parent container.
      * ---

@@ -320,12 +320,11 @@ class ilMailSearchCoursesGUI
 
                     foreach ($crs_members as $key => $member) {
                         $tmp_usr = new ilObjUser($member);
-                        if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
+                        if (!$tmp_usr->getActive()) {
                             unset($crs_members[$key]);
                         }
                     }
-                    unset($tmp_usr);
-                    
+
                     $hiddenMembers = false;
                     if ((int) $oTmpCrs->getShowMembers() == $oTmpCrs->SHOW_MEMBERS_DISABLED) {
                         ++$num_courses_hidden_members;
@@ -458,12 +457,10 @@ class ilMailSearchCoursesGUI
 
                 foreach ($course_members as $member) {
                     $tmp_usr = new ilObjUser($member);
-                    if ($tmp_usr->checkTimeLimit() == false || $tmp_usr->getActive() == false) {
-                        unset($tmp_usr);
+                    if (!$tmp_usr->getActive()) {
                         continue;
                     }
-                    unset($tmp_usr);
-                    
+
                     $name = ilObjUser::_lookupName($member);
                     $login = ilObjUser::_lookupLogin($member);
     
@@ -515,6 +512,9 @@ class ilMailSearchCoursesGUI
     {
         if ($_GET["view"] == "mycourses") {
             $ids = $_REQUEST["search_crs"];
+            if (!is_array($ids) && $ids !== "") {
+                $ids = [$ids];
+            }
             if (is_array($ids) && sizeof($ids)) {
                 $this->addPermission($ids);
             } else {

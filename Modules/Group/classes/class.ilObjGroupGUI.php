@@ -466,7 +466,7 @@ class ilObjGroupGUI extends ilContainerGUI
      * After object creation
      * @param \ilObject $new_object
      */
-    public function afterSave(\ilObject $new_object, $a_redirect = true)
+    public function afterSave(\ilObject $new_object)
     {
         global $DIC;
 
@@ -500,10 +500,9 @@ class ilObjGroupGUI extends ilContainerGUI
         $members_obj->updateContact($ilUser->getId(), true);
         
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
-        if ($a_redirect) {
-            $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
-            $this->ctrl->redirect($this, 'edit');
-        }
+
+        $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
+        $this->ctrl->redirect($this, 'edit');
     }
     
     /**
@@ -907,7 +906,7 @@ class ilObjGroupGUI extends ilContainerGUI
             (
                 ilObjUserTracking::_enabledLearningProgress() and
             ilObjUserTracking::_enabledUserRelatedData()
-        );
+            );
         if ($this->show_tracking) {
             include_once('./Services/Object/classes/class.ilObjectLP.php');
             $olp = ilObjectLP::getInstance($this->object->getId());
@@ -1107,7 +1106,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->ctrl->getLinkTargetByClass(
                     array("ilobjgroupgui", "ilinfoscreengui"),
                     "showSummary"
-                                 ),
+                ),
                 "infoScreen",
                 "",
                 "",
@@ -1371,7 +1370,7 @@ class ilObjGroupGUI extends ilContainerGUI
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
                         $reg_info['reg_info_free_places']
-                     );
+                    );
                 }
             }
             
@@ -1391,7 +1390,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 ilDatePresentation::formatPeriod(
                     $this->object->getStart(),
                     $this->object->getEnd()
-            )
+                )
             );
         }
 
@@ -1808,7 +1807,7 @@ class ilObjGroupGUI extends ilContainerGUI
                         ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS,
                         ilObjectServiceSettingsGUI::EXTERNAL_MAIL_PREFIX
                     )
-                );
+            );
 
 
             $mem = new ilCheckboxInputGUI($this->lng->txt('grp_show_members'), 'show_members');

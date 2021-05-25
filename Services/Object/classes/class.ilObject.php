@@ -91,9 +91,22 @@ class ilObject
     public $desc;
     public $long_desc;
     public $owner;
+
+    /**
+     * @var string
+     */
     public $create_date;
+
+    /**
+     * @var string
+     */
     public $last_update;
-    public $import_id;
+
+    /**
+     * @var string
+     */
+    public $import_id = "";
+
     public $register = false;		// registering required for object? set to true to implement a subscription interface
 
     /**
@@ -183,7 +196,7 @@ class ilObject
     /**
     * determines wehter objects are referenced or not (got ref ids or not)
     */
-    public function withReferences()
+    final public function withReferences() : bool
     {
         // both vars could differ. this method should always return true if one of them is true without changing their status
         return ($this->call_by_reference) ? true : $this->referenced;
@@ -335,28 +348,26 @@ class ilObject
     * @access	public
     * @param	integer	$a_id		reference id
     */
-    public function setRefId($a_id)
+    final public function setRefId(int $a_id)
     {
         $this->ref_id = $a_id;
         $this->referenced = true;
     }
 
     /**
-    * get reference id
-    * @access	public
-    * @return	integer	reference id
-    */
-    public function getRefId()
+     * get reference id
+     * @return int
+     */
+    final public function getRefId() : int
     {
-        return $this->ref_id;
+        return $this->ref_id ?? 0;
     }
 
     /**
-    * get object type
-    * @access	public
-    * @return	string		object type
-    */
-    public function getType()
+     * get object type
+     * @return string
+     */
+    public function getType() : string
     {
         return $this->type;
     }
@@ -366,7 +377,7 @@ class ilObject
     * @access	public
     * @param	integer	$a_type		object type
     */
-    public function setType($a_type)
+    final public function setType(string $a_type)
     {
         $this->type = $a_type;
     }
@@ -376,11 +387,9 @@ class ilObject
      * Normally same as title
      * Overwritten for sessions
      *
-     * @access public
-     * @param
-     * @return
+     * @return string
      */
-    public function getPresentationTitle()
+    public function getPresentationTitle() : string
     {
         return $this->getTitle();
     }
@@ -391,97 +400,90 @@ class ilObject
     * @access	public
     * @return	string		object title
     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
-    // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+
     /**
-    * get untranslated object title
-    * @access	public
-    * @return	string		object title
-    */
-    public function getUntranslatedTitle()
+     * Get untranslated object title
+     * WebDAV needs to access the untranslated title of an object
+     * @return string
+     */
+    final public function getUntranslatedTitle() : string
     {
         return $this->untranslatedTitle;
     }
-    // END WebDAV: WebDAV needs to access the untranslated title of an object
 
     /**
-    * set object title
-    *
-    * @access	public
-    * @param	string		$a_title		object title
-    */
-    public function setTitle($a_title)
+     * set object title
+     * @param string $a_title
+     */
+    final public function setTitle(string $a_title)
     {
         $this->title = ilUtil::shortenText($a_title, $this->max_title, $this->add_dots);
-        // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
+        // WebDAV needs to access the untranslated title of an object
         $this->untranslatedTitle = $this->title;
-        // END WebDAV: WebDAV needs to access the untranslated title of an object
     }
 
     /**
-    * get object description
-    *
-    * @access	public
-    * @return	string		object description
-    */
-    public function getDescription()
+     * get object description
+     * @return string
+     */
+    final public function getDescription() : string
     {
         return $this->desc;
     }
 
     /**
-    * set object description
-    *
-    * @access	public
-    * @param	string		$a_desc		object description
-    */
-    public function setDescription($a_desc)
+     * set object description
+     * @param string $a_desc
+     */
+    final public function setDescription(string $a_desc)
     {
         // Shortened form is storted in object_data. Long form is stored in object_description
         $this->desc = ilUtil::shortenText($a_desc, $this->max_desc, $this->add_dots);
-
         $this->long_desc = $a_desc;
-
-        return true;
     }
 
     /**
-    * get object long description (stored in object_description)
-    *
-    * @access	public
-    * @return	string		object description
-    */
-    public function getLongDescription()
+     * get object long description (stored in object_description)
+     * @return string
+     */
+    public function getLongDescription() : string
     {
-        return strlen($this->long_desc) ? $this->long_desc : $this->desc;
+        if (is_string($this->long_desc) && strlen($this->long_desc)) {
+            return $this->long_desc;
+        } elseif (is_string($this->desc) && strlen($this->desc)) {
+            return $this->desc;
+        }
+        return "";
     }
 
     /**
-    * get import id
-    *
-    * @access	public
-    * @return	string	import id
-    */
-    public function getImportId()
+     * get import id
+     * @return string
+     */
+    final public function getImportId() : string
     {
-        return $this->import_id;
+        return (string) $this->import_id;
     }
 
     /**
-    * set import id
-    *
-    * @access	public
-    * @param	string		$a_import_id		import id
-    */
-    public function setImportId($a_import_id)
+     * set import id
+     * @param string $a_import_id
+     */
+    final public function setImportId(string $a_import_id)
     {
         $this->import_id = $a_import_id;
     }
 
-    public static function _lookupObjIdByImportId($a_import_id)
+    /**
+     * Get (latest) object id for an import id
+     * @param string $a_import_id
+     * @return int
+     */
+    final public static function _lookupObjIdByImportId(string $a_import_id) : int
     {
         global $DIC;
 
@@ -543,31 +545,29 @@ class ilObject
     }
 
     /**
-    * get object owner
-    *
-    * @access	public
-    * @return	integer	owner id
-    */
-    public function getOwner()
+     * get object owner
+     * @return int
+     */
+    final public function getOwner() : int
     {
-        return $this->owner;
+        return (int) $this->owner;
     }
 
-    /*
-    * get full name of object owner
-    *
-    * @access	public
-    * @return	string	owner name or unknown
-    */
-    public function getOwnerName()
+    /**
+     * get full name of object owner
+     * @return string
+     */
+    final public function getOwnerName() : string
     {
         return ilObject::_lookupOwnerName($this->getOwner());
     }
 
     /**
-    * lookup owner name for owner id
-    */
-    public static function _lookupOwnerName($a_owner_id)
+     * Lookup owner name for owner id
+     * @param int $a_owner_id
+     * @return string
+     */
+    final public static function _lookupOwnerName(int $a_owner_id) : string
     {
         global $DIC;
 
@@ -589,34 +589,28 @@ class ilObject
     }
 
     /**
-    * set object owner
-    *
-    * @access	public
-    * @param	integer	$a_owner	owner id
-    */
-    public function setOwner($a_owner)
+     * set object owner
+     * @param int $a_owner user ID
+     */
+    final public function setOwner(int $a_owner)
     {
         $this->owner = $a_owner;
     }
 
-
-
     /**
-    * get create date
-    * @access	public
-    * @return	string		creation date
-    */
-    public function getCreateDate()
+     * Get create date in YYYY-MM-DD HH-MM-SS format
+     * @return string
+     */
+    final public function getCreateDate() : string
     {
         return $this->create_date;
     }
 
     /**
-    * get last update date
-    * @access	public
-    * @return	string		date of last update
-    */
-    public function getLastUpdateDate()
+     * Get last update date in YYYY-MM-DD HH-MM-SS format
+     * @return string
+     */
+    final public function getLastUpdateDate() : string
     {
         return $this->last_update;
     }
@@ -643,9 +637,8 @@ class ilObject
     *
     * note: title, description and type should be set when this function is called
     *
-    * @access	public
-    * @return	integer		object id
-    */
+     * @return int
+     */
     public function create()
     {
         global $DIC;
@@ -794,118 +787,161 @@ class ilObject
     }
 
     /**
-    * Meta data update listener
-    *
-    * Important note: Do never call create() or update()
-    * method of ilObject here. It would result in an
-    * endless loop: update object -> update meta -> update
-    * object -> ...
-    * Use static _writeTitle() ... methods instead.
-    *
-    * @param	string		$a_element
-    */
-    public function MDUpdateListener($a_element)
+     * Meta data update listener
+     *
+     * Important note: Do never call create() or update()
+     * method of ilObject here. It would result in an
+     * endless loop: update object -> update meta -> update
+     * object -> ...
+     * Use static _writeTitle() ... methods instead.
+     *
+     * @param string $a_element
+     */
+    final public function MDUpdateListener(string $a_element) : void
     {
         global $DIC;
 
-        $app_event = $DIC->event();
+        if ($this->beforeMDUpdateListener($a_element)) {
+            $app_event = $DIC->event();
+            $app_event->raise(
+                'Services/Object',
+                'update',
+                array('obj_id' => $this->getId(),
+                      'obj_type' => $this->getType(),
+                      'ref_id' => $this->getRefId()
+                )
+            );
 
-        $app_event->raise(
-            'Services/Object',
-            'update',
-            array('obj_id' => $this->getId(),
-                'obj_type' => $this->getType(),
-                'ref_id' => $this->getRefId())
-        );
+            switch ($a_element) {
+                case 'General':
 
-        switch ($a_element) {
-            case 'General':
+                    // Update Title and description
+                    $md = new ilMD($this->getId(), 0, $this->getType());
+                    if (!is_object($md_gen = $md->getGeneral())) {
+                        return;
+                    }
+                    $this->setTitle($md_gen->getTitle());
 
-                // Update Title and description
-                $md = new ilMD($this->getId(), 0, $this->getType());
-                if (!is_object($md_gen = $md->getGeneral())) {
-                    return false;
-                }
-                $this->setTitle($md_gen->getTitle());
-
-                foreach ($md_gen->getDescriptionIds() as $id) {
-                    $md_des = $md_gen->getDescription($id);
-                    $this->setDescription($md_des->getDescription());
+                    foreach ($md_gen->getDescriptionIds() as $id) {
+                        $md_des = $md_gen->getDescription($id);
+                        $this->setDescription($md_des->getDescription());
+                        break;
+                    }
+                    $this->update();
                     break;
-                }
-                $this->update();
-                break;
-
-            default:
+            }
+            $this->doMDUpdateListener($a_element);
+            //return true;
         }
-        
+        //return false;     // unclear how this is used
+    }
+
+    protected function doMDUpdateListener(string $a_element) : void
+    {
+    }
+
+    protected function beforeMDUpdateListener(string $a_element) : bool
+    {
         return true;
     }
 
+
     /**
-    * create meta data entry
-    */
-    public function createMetaData()
+     * create meta data entry
+     */
+    final public function createMetaData() : void
     {
         global $DIC;
 
-        $ilUser = $DIC["ilUser"];
+        if ($this->beforeCreateMetaData()) {
+            $ilUser = $DIC["ilUser"];
 
-        $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
-        $md_creator->setTitle($this->getTitle());
-        $md_creator->setTitleLanguage($ilUser->getPref('language'));
-        $md_creator->setDescription($this->getLongDescription());
-        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
-        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
-        $md_creator->setLanguage($ilUser->getPref('language'));
-        $md_creator->create();
+            $md_creator = new ilMDCreator($this->getId(), 0, $this->getType());
+            $md_creator->setTitle($this->getTitle());
+            $md_creator->setTitleLanguage($ilUser->getPref('language'));
+            $md_creator->setDescription($this->getLongDescription());
+            $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+            $md_creator->setKeywordLanguage($ilUser->getPref('language'));
+            $md_creator->setLanguage($ilUser->getPref('language'));
+            $md_creator->create();
+            $this->doCreateMetaData();
+        }
+    }
 
+    protected function doCreateMetaData() : void
+    {
+    }
+
+    protected function beforeCreateMetaData() : bool
+    {
         return true;
     }
 
     /**
     * update meta data entry
     */
-    public function updateMetaData()
+    final public function updateMetaData() : void
     {
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_gen = $md->getGeneral();
-        // BEGIN WebDAV: meta data can be missing sometimes.
-        if (!$md_gen instanceof ilMDGeneral) {
-            $this->createMetaData();
+        if ($this->beforeUpdateMetaData()) {
             $md = new ilMD($this->getId(), 0, $this->getType());
             $md_gen = $md->getGeneral();
-        }
-        // END WebDAV: meta data can be missing sometimes.
-        $md_gen->setTitle($this->getTitle());
+            // BEGIN WebDAV: meta data can be missing sometimes.
+            if (!$md_gen instanceof ilMDGeneral) {
+                $this->createMetaData();
+                $md = new ilMD($this->getId(), 0, $this->getType());
+                $md_gen = $md->getGeneral();
+            }
+            // END WebDAV: meta data can be missing sometimes.
+            $md_gen->setTitle($this->getTitle());
 
-        // sets first description (maybe not appropriate)
-        $md_des_ids = $md_gen->getDescriptionIds();
-        if (count($md_des_ids) > 0) {
-            $md_des = $md_gen->getDescription($md_des_ids[0]);
-            $md_des->setDescription($this->getLongDescription());
-            $md_des->update();
+            // sets first description (maybe not appropriate)
+            $md_des_ids = $md_gen->getDescriptionIds();
+            if (count($md_des_ids) > 0) {
+                $md_des = $md_gen->getDescription($md_des_ids[0]);
+                $md_des->setDescription($this->getLongDescription());
+                $md_des->update();
+            }
+            $md_gen->update();
+            $this->doUpdateMetaData();
         }
-        $md_gen->update();
     }
+
+    protected function doUpdateMetaData() : void
+    {
+    }
+
+    protected function beforeUpdateMetaData() : bool
+    {
+        return true;
+    }
+
 
     /**
     * delete meta data entry
     */
-    public function deleteMetaData()
+    final public function deleteMetaData() : void
     {
-        // Delete meta data
-        $md = new ilMD($this->getId(), 0, $this->getType());
-        $md->deleteAll();
+        if ($this->beforeDeleteMetaData()) {
+            // Delete meta data
+            $md = new ilMD($this->getId(), 0, $this->getType());
+            $md->deleteAll();
+            $this->doDeleteMetaData();
+        }
+    }
+
+    protected function doDeleteMetaData() : void
+    {
+    }
+
+    protected function beforeDeleteMetaData() : bool
+    {
+        return true;
     }
 
     /**
      * update owner of object in db
-     *
-     * @access   public
-     * @return   boolean true on success
      */
-    public function updateOwner()
+    final public function updateOwner() : void
     {
         $ilDB = $this->db;
         
@@ -921,18 +957,14 @@ class ilObject
         $obj_set = $ilDB->query($q);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
         $this->last_update = $obj_rec["last_update"];
-
-        return true;
     }
 
     /**
-    * get current object id for import id (static)
-    *
-    * @param	int		$a_import_id		import id
-    *
-    * @return	int		id
-    */
-    public static function _getIdForImportId($a_import_id)
+     * get current object id for import id
+     * @param string $a_import_id
+     * @return int
+     */
+    final public static function _getIdForImportId(string $a_import_id) : int
     {
         global $DIC;
 
@@ -944,18 +976,18 @@ class ilObject
         $obj_set = $ilDB->query($q);
 
         if ($obj_rec = $ilDB->fetchAssoc($obj_set)) {
-            return $obj_rec["obj_id"];
+            return (int) $obj_rec["obj_id"];
         } else {
             return 0;
         }
     }
 
     /**
-    * get all reference ids of object
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _getAllReferences($a_id)
+     * get all reference ids for object ID
+     * @param int $a_id
+     * @return array
+     */
+    final public static function _getAllReferences(int $a_id) : array
     {
         global $DIC;
 
@@ -974,19 +1006,18 @@ class ilObject
     }
 
     /**
-    * lookup object title
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupTitle($a_id)
+     * lookup object title for object ID
+     * @param int $a_id
+     * @return string
+     */
+    public static function _lookupTitle(int $a_id) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         $tit = $ilObjDataCache->lookupTitle($a_id);
-        //echo "<br>LOOKING-$a_id-:$tit";
-        return $tit;
+
+        return (string) $tit;
     }
     
     /**
@@ -1006,21 +1037,28 @@ class ilObject
 
     
     /**
-    * lookup object owner
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupOwner($a_id)
+     * Lookup owner user ID for object ID
+     *
+     * @param int $a_id
+     * @return int
+     */
+    final public static function _lookupOwner(int $a_id) : int
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         $owner = $ilObjDataCache->lookupOwner($a_id);
-        return $owner;
+
+        return (int) $owner;
     }
 
-    public static function _getIdsForTitle($title, $type = '', $partialmatch = false)
+    /**
+     * @param string $title
+     * @param string $type
+     * @param bool   $partialmatch
+     * @return int[]
+     */
+    final public static function _getIdsForTitle(string $title, string $type = '', bool $partialmatch = false) : array
     {
         global $DIC;
 
@@ -1035,12 +1073,12 @@ class ilObject
         
         $result = $ilDB->query($query);
         
-        $object_ids = array();
+        $object_ids = [];
         while ($row = $ilDB->fetchAssoc($result)) {
             $object_ids[] = $row['obj_id'];
         }
         
-        return is_array($object_ids) ? $object_ids : array();
+        return $object_ids;
     }
 
     /**
@@ -1048,39 +1086,40 @@ class ilObject
     *
     * @param	int		$a_id		object id
     */
-    public static function _lookupDescription($a_id)
+    final public static function _lookupDescription(int $a_id) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
-        return $ilObjDataCache->lookupDescription($a_id);
+        return (string) $ilObjDataCache->lookupDescription($a_id);
     }
 
     /**
-    * lookup last update
-    *
-    * @param	int		$a_id		object id
-    */
-    public static function _lookupLastUpdate($a_id, $a_as_string = false)
+     * lookup last update
+     * @param int  $a_id
+     * @param bool $formatted
+     * @return string
+     * @throws ilDateTimeException
+     */
+    final public static function _lookupLastUpdate(int $a_id, bool $formatted = false) : string
     {
         global $DIC;
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
         
-        if ($a_as_string) {
+        if ($formatted) {
             return ilDatePresentation::formatDate(new ilDateTime($ilObjDataCache->lookupLastUpdate($a_id), IL_CAL_DATETIME));
         } else {
-            return $ilObjDataCache->lookupLastUpdate($a_id);
+            return (string) $ilObjDataCache->lookupLastUpdate($a_id);
         }
     }
 
     /**
-    * Get last update for a set of media objects.
-    *
-    * @param	array
-    */
-    public static function _getLastUpdateOfObjects($a_objs)
+     * Get last update for a set of media objects.
+     * @param array $a_objs
+     * @return string
+     */
+    final public static function _getLastUpdateOfObjects(array $a_objs) : string
     {
         global $DIC;
 
@@ -1089,28 +1128,30 @@ class ilObject
         if (!is_array($a_objs)) {
             $a_objs = array($a_objs);
         }
-        $types = array();
         $set = $ilDB->query("SELECT max(last_update) as last_update FROM object_data " .
             "WHERE " . $ilDB->in("obj_id", $a_objs, false, "integer") . " ");
         $rec = $ilDB->fetchAssoc($set);
         
-        return ($rec["last_update"]);
+        return (string) $rec["last_update"];
     }
 
-    public static function _lookupObjId($a_id)
+    /**
+     * Lookup object if for a ref id
+     * @param int $a_id
+     * @return int
+     */
+    final public static function _lookupObjId($a_id) : int
     {
         global $DIC;
-
         $ilObjDataCache = $DIC["ilObjDataCache"];
-
         return (int) $ilObjDataCache->lookupObjId($a_id);
     }
-    
+
     /**
-     * @param $a_ref_id
+     * @param int $a_ref_id
      * @param int $a_deleted_by
      */
-    public static function _setDeletedDate($a_ref_id, $a_deleted_by)
+    final public static function _setDeletedDate(int $a_ref_id, int $a_deleted_by) : void
     {
         global $DIC;
 
@@ -1119,16 +1160,16 @@ class ilObject
             'deleted = ' . $ilDB->now() . ', ' .
             'deleted_by = ' . $ilDB->quote($a_deleted_by, \ilDBConstants::T_INTEGER) . ' ' .
             "WHERE ref_id = " . $ilDB->quote($a_ref_id, 'integer');
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
     }
-    
+
     /**
      * Set deleted date
      * @param int[] $a_ref_ids
      * @param int $a_user_id
      * @return void
      */
-    public static function setDeletedDates($a_ref_ids, $a_user_id)
+    public static function setDeletedDates(array $a_ref_ids, int $a_user_id) : void
     {
         global $DIC;
 
@@ -1139,13 +1180,12 @@ class ilObject
             'deleted_by = ' . $ilDB->quote($a_user_id, ilDBConstants::T_INTEGER) . ' ' .
             'WHERE ' . $ilDB->in('ref_id', (array) $a_ref_ids, false, ilDBConstants::T_INTEGER);
         $ilDB->manipulate($query);
-        return;
     }
 
     /**
     * only called in ilObjectGUI::insertSavedNodes
     */
-    public static function _resetDeletedDate($a_ref_id)
+    final public static function _resetDeletedDate(int $a_ref_id) : void
     {
         global $DIC;
 
@@ -1160,7 +1200,7 @@ class ilObject
     /**
     * only called in ilObjectGUI::insertSavedNodes
     */
-    public static function _lookupDeletedDate($a_ref_id)
+    final public static function _lookupDeletedDate($a_ref_id)
     {
         global $DIC;
 
@@ -1182,7 +1222,7 @@ class ilObject
     * @param	string	$a_title		title
     * @access	public
     */
-    public static function _writeTitle($a_obj_id, $a_title)
+    final public static function _writeTitle($a_obj_id, $a_title)
     {
         global $DIC;
 
@@ -1204,7 +1244,7 @@ class ilObject
     * @param	string	$a_desc			description
     * @access	public
     */
-    public static function _writeDescription($a_obj_id, $a_desc)
+    final public static function _writeDescription($a_obj_id, $a_desc)
     {
         global $DIC;
 
@@ -1248,7 +1288,7 @@ class ilObject
     * @param	string	$a_import_id		import id
     * @access	public
     */
-    public static function _writeImportId($a_obj_id, $a_import_id)
+    final public static function _writeImportId($a_obj_id, $a_import_id)
     {
         global $DIC;
 
@@ -1268,7 +1308,7 @@ class ilObject
     *
     * @param	int		$a_id		object id
     */
-    public static function _lookupType($a_id, $a_reference = false)
+    final public static function _lookupType($a_id, $a_reference = false)
     {
         global $DIC;
 
@@ -1283,7 +1323,7 @@ class ilObject
     /**
     * checks wether object is in trash
     */
-    public static function _isInTrash($a_ref_id)
+    final public static function _isInTrash($a_ref_id)
     {
         global $DIC;
 
@@ -1295,7 +1335,7 @@ class ilObject
     /**
     * checks wether an object has at least one reference that is not in trash
     */
-    public static function _hasUntrashedReference($a_obj_id)
+    final public static function _hasUntrashedReference($a_obj_id)
     {
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
@@ -1312,7 +1352,7 @@ class ilObject
     * @static
     * @param	int		$a_id		object id
     */
-    public static function _lookupObjectId($a_ref_id)
+    final public static function _lookupObjectId($a_ref_id)
     {
         global $DIC;
 
@@ -1331,7 +1371,7 @@ class ilObject
     * @return	array		array of object data arrays ("id", "title", "type",
     *						"description")
     */
-    public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
+    final public static function _getObjectsDataForType($a_type, $a_omit_trash = false)
     {
         global $DIC;
 
@@ -1453,12 +1493,10 @@ class ilObject
 
 
     /**
-    * count references of object
-    *
-    * @access	public
-    * @return	integer		number of references for this object
-    */
-    public function countReferences()
+     * count references of object
+     * @return int
+     */
+    final public function countReferences() : int
     {
         $ilDB = $this->db;
         $ilErr = $this->error;
@@ -1473,7 +1511,7 @@ class ilObject
         $res = $ilDB->query($query);
         $row = $ilDB->fetchObject($res);
 
-        return $row->num;
+        return (int) $row->num;
     }
 
 
@@ -1664,25 +1702,6 @@ class ilObject
         return $ilDB->numRows($r) ? true : false;
     }
         
-    // toggle subscription interface
-    public function setRegisterMode($a_bool)
-    {
-        $this->register = (bool) $a_bool;
-    }
-    
-    // check register status of current user
-    // abstract method; overwrite in object type class
-    public function isUserRegistered($a_user_id = 0)
-    {
-        return false;
-    }
-
-    public function requireRegistration()
-    {
-        return $this->register;
-    }
-
-
     public function getXMLZip()
     {
         return false;
@@ -1693,9 +1712,12 @@ class ilObject
     }
 
     /**
-    * Get objects by type
-    */
-    public static function _getObjectsByType($a_obj_type = "", $a_owner = "")
+     * Get objects by type
+     * @param string   $a_obj_type
+     * @param int|null $a_owner
+     * @return array
+     */
+    final public static function _getObjectsByType(string $a_obj_type = "", int $a_owner = null) : array
     {
         global $DIC;
 
@@ -1708,7 +1730,7 @@ class ilObject
             $where_clause = "WHERE type = " .
                 $ilDB->quote($a_obj_type, "text");
                 
-            if ($a_owner != "") {
+            if (!is_null($a_owner)) {
                 $where_clause .= " AND owner = " . $ilDB->quote($a_owner, "integer");
             }
         }
@@ -1739,7 +1761,7 @@ class ilObject
      * @param bool $show_path
      * @return array
      */
-    public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
+    final public static function _prepareCloneSelection($a_ref_ids, $new_type, $show_path = true)
     {
         global $DIC;
 
@@ -1877,7 +1899,7 @@ class ilObject
      * @param int copy_id
      *
      */
-    public function appendCopyInfo($a_target_id, $a_copy_id)
+    final public function appendCopyInfo($a_target_id, $a_copy_id)
     {
         $tree = $this->tree;
         
@@ -2031,7 +2053,7 @@ class ilObject
      * @param    string        object type
      * @param    boolean        true: offline, false: online
      */
-    public static function _getIcon(
+    final public static function _getIcon(
         $a_obj_id = "",
         $a_size = "big",
         $a_type = "",
@@ -2049,10 +2071,13 @@ class ilObject
     /**
      * Collect deletion dependencies. E.g.
      *
-     * @param
-     * @return
+     * @param array  $deps
+     * @param int    $a_ref_id
+     * @param int    $a_obj_id
+     * @param string $a_type
+     * @param int    $a_depth
      */
-    public static function collectDeletionDependencies(&$deps, $a_ref_id, $a_obj_id, $a_type, $a_depth = 0)
+    public static function collectDeletionDependencies(array &$deps, int $a_ref_id, int $a_obj_id, string $a_type, int $a_depth = 0) : void
     {
         global $DIC;
 

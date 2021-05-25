@@ -407,9 +407,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
             $month_day = $day;
 
-            $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), 'seed', $date->get(IL_CAL_DATE));
+            $path = $this->getTargetGUIClassPath();
+            $last_gui = end($path);
+            $ilCtrl->setParameterByClass($last_gui, 'seed', $date->get(IL_CAL_DATE));
             if ($agenda_view_type = (int) $this->requested_cal_agenda_per) {
-                $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "cal_agenda_per", $agenda_view_type);
+                $ilCtrl->setParameterByClass($last_gui, "cal_agenda_per", $agenda_view_type);
             }
             $a_tpl->setVariable('OPEN_DAY_VIEW', $ilCtrl->getLinkTargetByClass($this->getTargetGUIClassPath(), ''));
 
@@ -577,7 +579,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
                         //$ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $user_id);
 
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", $user_id);
+                        $path = $this->getTargetGUIClassPath();
+                        $ilCtrl->setParameterByClass(end($path), "ch_user_id", $user_id);
 
                         if ($next_app) {
                             // this does not work correctly
@@ -594,9 +597,11 @@ class ilCalendarBlockGUI extends ilBlockGUI
                                 'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id), $lng->txt("cal_consultation_hours_for_user"))
                             );
                         }
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "ch_user_id", "");
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "bkid", $_GET["bkid"]);
-                        $ilCtrl->setParameterByClass(end($this->getTargetGUIClassPath()), "seed", $_GET["seed"]);
+                        $path = $this->getTargetGUIClassPath();
+                        $last_gui = end($path);
+                        $ilCtrl->setParameterByClass($last_gui, "ch_user_id", "");
+                        $ilCtrl->setParameterByClass($last_gui, "bkid", $_GET["bkid"] ?? "");
+                        $ilCtrl->setParameterByClass($last_gui, "seed", $_GET["seed"] ?? "");
                     }
                 }
                 $ilCtrl->setParameter($this, "bkid", "");
@@ -1038,10 +1043,10 @@ class ilCalendarBlockGUI extends ilBlockGUI
                 $link['txt'],
                 $link['link']
             );
-            $panel_template->setCurrentBlock('consultation_hour_buttons');
             if ($counter) {
                 $panel_template->touchBlock('consultation_hour_buttons_multi');
             }
+            $panel_template->setCurrentBlock('consultation_hour_buttons');
             $panel_template->setVariable('SHY_BUTTON', $ui_renderer->render([$link_button]));
             $panel_template->parseCurrentBlock();
             $counter++;
