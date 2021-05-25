@@ -45,7 +45,7 @@ class ilFileDataForum extends ilFileData
         $this->forum_path = parent::getPath() . "/" . FORUM_PATH;
         
         // IF DIRECTORY ISN'T CREATED CREATE IT
-        if (!$this->__checkPath()) {
+        if (!$this->checkForumPath()) {
             $this->initDirectory();
         }
         $this->obj_id = $a_obj_id;
@@ -348,8 +348,11 @@ class ilFileDataForum extends ilFileData
         return true;
     }
 
-    // PRIVATE METHODS
-    public function __checkPath()
+    /**
+     * Checks if the forum path exists and is writeable
+     * @return bool
+     */
+    private function checkForumPath() : bool
     {
         if (!@file_exists($this->getForumPath())) {
             return false;

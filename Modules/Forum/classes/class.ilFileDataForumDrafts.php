@@ -30,7 +30,7 @@ class ilFileDataForumDrafts extends ilFileData
         $this->drafts_path = parent::getPath() . "/" . FORUM_DRAFTS_PATH;
         
         // IF DIRECTORY ISN'T CREATED CREATE IT
-        if (!$this->__checkPath()) {
+        if (!$this->checkForumDraftsPath()) {
             $this->initDirectory();
         }
     }
@@ -308,15 +308,18 @@ class ilFileDataForumDrafts extends ilFileData
         }
         return true;
     }
-    
-    // PRIVATE METHODS
-    public function __checkPath()
+
+    /**
+     * Checks if the forum drafts path exists and is writable
+     * @return bool
+     */
+    public function checkForumDraftsPath() : bool
     {
         if (!@file_exists($this->getDraftsPath() . '/' . $this->getDraftId())) {
             return false;
         }
         $this->checkReadWrite();
-        
+
         return true;
     }
     /**
