@@ -46,7 +46,7 @@ class ilFileDataForum extends ilFileData
         
         // IF DIRECTORY ISN'T CREATED CREATE IT
         if (!$this->__checkPath()) {
-            $this->__initDirectory();
+            $this->initDirectory();
         }
         $this->obj_id = $a_obj_id;
         $this->pos_id = $a_pos_id;
@@ -216,7 +216,7 @@ class ilFileDataForum extends ilFileData
                 if (strlen($filename) && strlen($temp_name) && $error == 0) {
                     $path = $this->getForumPath() . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $filename;
                     
-                    $this->__rotateFiles($path);
+                    $this->rotateFiles($path);
                     ilUtil::moveUploadedFile($temp_name, $filename, $path);
                 }
             }
@@ -231,7 +231,7 @@ class ilFileDataForum extends ilFileData
             
             $path = $this->getForumPath() . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $filename;
             
-            $this->__rotateFiles($path);
+            $this->rotateFiles($path);
             ilUtil::moveUploadedFile($temp_name, $filename, $path);
             
             return true;
@@ -354,7 +354,7 @@ class ilFileDataForum extends ilFileData
         if (!@file_exists($this->getForumPath())) {
             return false;
         }
-        $this->__checkReadWrite();
+        $this->checkReadWrite();
 
         return true;
     }
@@ -364,7 +364,7 @@ class ilFileDataForum extends ilFileData
     * @access	private
     * @return bool
     */
-    public function __checkReadWrite()
+    public function checkReadWrite()
     {
         if (is_writable($this->forum_path) && is_readable($this->forum_path)) {
             return true;
@@ -378,7 +378,7 @@ class ilFileDataForum extends ilFileData
     * @access	public
     * @return string path
     */
-    public function __initDirectory()
+    public function initDirectory()
     {
         if (is_writable($this->getPath())) {
             if (mkdir($this->getPath() . '/' . FORUM_PATH)) {
@@ -397,10 +397,10 @@ class ilFileDataForum extends ilFileData
     * @access	private
     * @return bool
     */
-    public function __rotateFiles($a_path)
+    public function rotateFiles($a_path)
     {
         if (file_exists($a_path)) {
-            $this->__rotateFiles($a_path . ".old");
+            $this->rotateFiles($a_path . ".old");
             return \ilFileUtils::rename($a_path, $a_path . '.old');
         }
         return true;

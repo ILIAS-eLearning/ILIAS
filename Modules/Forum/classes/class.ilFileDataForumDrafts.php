@@ -31,7 +31,7 @@ class ilFileDataForumDrafts extends ilFileData
         
         // IF DIRECTORY ISN'T CREATED CREATE IT
         if (!$this->__checkPath()) {
-            $this->__initDirectory();
+            $this->initDirectory();
         }
     }
     
@@ -176,7 +176,7 @@ class ilFileDataForumDrafts extends ilFileData
                 if (strlen($filename) && strlen($temp_name) && $error == 0) {
                     $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;
                     
-                    $this->__rotateFiles($path);
+                    $this->rotateFiles($path);
                     ilUtil::moveUploadedFile($temp_name, $filename, $path);
                 }
             }
@@ -192,7 +192,7 @@ class ilFileDataForumDrafts extends ilFileData
             
             $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;
             
-            $this->__rotateFiles($path);
+            $this->rotateFiles($path);
             ilUtil::moveUploadedFile($temp_name, $filename, $path);
             
             return true;
@@ -315,7 +315,7 @@ class ilFileDataForumDrafts extends ilFileData
         if (!@file_exists($this->getDraftsPath() . '/' . $this->getDraftId())) {
             return false;
         }
-        $this->__checkReadWrite();
+        $this->checkReadWrite();
         
         return true;
     }
@@ -325,7 +325,7 @@ class ilFileDataForumDrafts extends ilFileData
      * @access	private
      * @return bool
      */
-    public function __checkReadWrite()
+    public function checkReadWrite()
     {
         if (is_writable($this->getDraftsPath() . '/' . $this->getDraftId()) && is_readable($this->getDraftsPath() . '/' . $this->getDraftId())) {
             return true;
@@ -339,7 +339,7 @@ class ilFileDataForumDrafts extends ilFileData
      * @access	public
      * @return string path
      */
-    public function __initDirectory()
+    public function initDirectory()
     {
         if (is_writable($this->getPath())) {
             if (ilUtil::makeDirParents($this->getDraftsPath() . "/" . $this->getDraftId())) {
@@ -357,10 +357,10 @@ class ilFileDataForumDrafts extends ilFileData
      * @access	private
      * @return bool
      */
-    public function __rotateFiles($a_path)
+    public function rotateFiles($a_path)
     {
         if (file_exists($a_path)) {
-            $this->__rotateFiles($a_path . ".old");
+            $this->rotateFiles($a_path . ".old");
             return \ilFileUtils::rename($a_path, $a_path . '.old');
         }
         return true;
